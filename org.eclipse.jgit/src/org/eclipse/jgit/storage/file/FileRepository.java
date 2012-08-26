@@ -64,6 +64,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.AbstractRepository;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.file.FileObjectDatabase.AlternateHandle;
 import org.eclipse.jgit.storage.file.FileObjectDatabase.AlternateRepository;
@@ -95,7 +96,7 @@ import org.eclipse.jgit.util.SystemReader;
  * This implementation only handles a subtly undocumented subset of git features.
  *
  */
-public class FileRepository extends Repository {
+public class FileRepository extends AbstractRepository {
 	private final FileBasedConfig systemConfig;
 
 	private final FileBasedConfig userConfig;

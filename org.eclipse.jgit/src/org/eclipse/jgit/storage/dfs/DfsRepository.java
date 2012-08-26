@@ -49,12 +49,12 @@ import java.text.MessageFormat;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.RefUpdate;
-import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.AbstractRepository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.storage.file.ReflogReader;
 
 /** A Git repository on a DFS. */
-public abstract class DfsRepository extends Repository {
+public abstract class DfsRepository extends AbstractRepository {
 	private final DfsConfig config;
 
 	private final DfsRepositoryDescription description;
