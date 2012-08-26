@@ -723,6 +723,9 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			// these operations are only possible while in a rebasing state
 			switch (repo.getRepositoryState()) {
 			case REBASING_INTERACTIVE:
+			case REBASING:
+			case REBASING_REBASING:
+			case REBASING_MERGE:
 				break;
 			default:
 				throw new WrongRepositoryStateException(MessageFormat.format(
