@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//6Zo\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-08-26T23:20:47Z",
+      "side": 1,
+      "message": "then we should try if setPosixFilePermissions in Java 7 [1] does a better job\n\n[1] http://docs.oracle.com/javase/7/docs/api/java/nio/file/Files.html#setPosixFilePermissions(java.nio.file.Path, java.util.Set)",
+      "revId": "cdff5f649e10e79a9b362b04cfbc6e5887096453",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
