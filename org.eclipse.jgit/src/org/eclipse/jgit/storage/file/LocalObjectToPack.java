@@ -43,7 +43,7 @@
 
 package org.eclipse.jgit.storage.file;
 
-import org.eclipse.jgit.revwalk.RevObject;
+import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.storage.pack.ObjectToPack;
 import org.eclipse.jgit.storage.pack.StoredObjectRepresentation;
 
@@ -58,8 +58,8 @@ class LocalObjectToPack extends ObjectToPack {
 	/** Length of the data section of the object. */
 	long length;
 
-	LocalObjectToPack(RevObject obj) {
-		super(obj);
+	LocalObjectToPack(AnyObjectId src, final int type) {
+		super(src, type);
 	}
 
 	@Override
