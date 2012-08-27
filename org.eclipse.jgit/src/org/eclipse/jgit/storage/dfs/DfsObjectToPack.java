@@ -43,7 +43,7 @@
 
 package org.eclipse.jgit.storage.dfs;
 
-import org.eclipse.jgit.revwalk.RevObject;
+import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.storage.pack.ObjectToPack;
 import org.eclipse.jgit.storage.pack.StoredObjectRepresentation;
 
@@ -61,8 +61,8 @@ class DfsObjectToPack extends ObjectToPack {
 	/** Length of the data section of the object. */
 	long length;
 
-	DfsObjectToPack(RevObject obj) {
-		super(obj);
+	DfsObjectToPack(AnyObjectId src, final int type) {
+		super(src, type);
 	}
 
 	@Override
