@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2007, Dave Watson <dwatson@mimvista.com>
  * Copyright (C) 2008-2010, Google Inc.
- * Copyright (C) 2006-2012, Robin Rosenberg <robin.rosenberg@dewire.com>
+ * Copyright (C) 2012, Robin Rosenberg <robin.rosenberg@dewire.com>
  * Copyright (C) 2006-2012, Shawn O. Pearce <spearce@spearce.org>
  * and other copyright owners as documented in the project's IP log.
  *
@@ -43,7 +43,6 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 package org.eclipse.jgit.lib;
 
 import java.io.File;
@@ -75,7 +74,7 @@ import org.eclipse.jgit.util.FS;
  * <p>
  * Subclasses of this class <em>should be</em> thread-safe. This class is.
  */
-public abstract class Repository {
+public abstract class Repository implements Replacements {
 	static final ListenerList globalListeners = new ListenerList();
 
 	/** @return the global listener list observing all events in this JVM. */
@@ -136,6 +135,9 @@ public abstract class Repository {
 
 	/** @return the reference database which stores the reference namespace. */
 	public abstract RefDatabase getRefDatabase();
+
+	/** @return the grafts database which store the grafted parents */
+	public abstract GraftsDatabase getGraftsDatabase();
 
 	/**
 	 * @return the configuration of this repository
@@ -722,4 +724,15 @@ public abstract class Repository {
 	 */
 	public abstract void writeSquashCommitMsg(String msg) throws IOException;
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.jgit.lib.Replacements#getGrafts()
+	 */
+	public abstract Map<AnyObjectId, List<ObjectId>> getGrafts()
+			throws IOException;
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.jgit.lib.Replacements#getReplacements()
+	 */
+	public abstract Map<AnyObjectId, ObjectId> getReplacements()
+			throws IOException;
 }

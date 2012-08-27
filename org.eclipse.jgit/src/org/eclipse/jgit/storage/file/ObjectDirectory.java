@@ -70,7 +70,9 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectDatabase;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.lib.Replacements;
 import org.eclipse.jgit.lib.RepositoryCache;
+import org.eclipse.jgit.lib.RepositoryDelegator;
 import org.eclipse.jgit.lib.RepositoryCache.FileKey;
 import org.eclipse.jgit.storage.pack.CachedPack;
 import org.eclipse.jgit.storage.pack.ObjectToPack;
@@ -127,6 +129,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 
 	private final UnpackedObjectCache unpackedObjectCache;
 
+	private Replacements replacements;
+
 	/**
 	 * Initialize a reference to an on-disk object directory.
 	 *
@@ -139,13 +143,17 @@ public class ObjectDirectory extends FileObjectDatabase {
 	 * @param fs
 	 *            the file system abstraction which will be necessary to perform
 	 *            certain file system operations.
+	 * @param replacements
+	 *            rules for replacements of objects
 	 * @throws IOException
 	 *             an alternate object cannot be opened.
 	 */
 	public ObjectDirectory(final Config cfg, final File dir,
-			File[] alternatePaths, FS fs) throws IOException {
+			File[] alternatePaths, FS fs, Replacements replacements)
+			throws IOException {
 		config = cfg;
 		objects = dir;
+		this.replacements = replacements;
 		infoDirectory = new File(objects, "info");
 		packDirectory = new File(objects, "pack");
 		alternatesFile = new File(infoDirectory, "alternates");
@@ -821,15 +829,29 @@ public class ObjectDirectory extends FileObjectDatabase {
 		return openAlternate(objdir);
 	}
 
+	static Replacements NULLREPLACEMENTS = new Replacements() {
+
+		public Map<AnyObjectId, List<ObjectId>> getGrafts() throws IOException {
+			return Collections.<AnyObjectId, List<ObjectId>> emptyMap();
+		}
+
+		public Map<AnyObjectId, ObjectId> getReplacements() throws IOException {
+			return Collections.<AnyObjectId, ObjectId> emptyMap();
+		}
+	};
+
 	private AlternateHandle openAlternate(File objdir) throws IOException {
 		final File parent = objdir.getParentFile();
 		if (FileKey.isGitRepository(parent, fs)) {
 			FileKey key = FileKey.exact(parent, fs);
 			FileRepository db = (FileRepository) RepositoryCache.open(key);
-			return new AlternateRepository(db);
+			getReplacements().putAll(db.getReplacements());
+			getGrafts().putAll(db.getGrafts());
+			return new AlternateRepository(new RepositoryDelegator(db));
 		}
 
-		ObjectDirectory db = new ObjectDirectory(config, objdir, null, fs);
+		ObjectDirectory db = new ObjectDirectory(config, objdir, null, fs,
+				NULLREPLACEMENTS);
 		return new AlternateHandle(db);
 	}
 
@@ -873,5 +895,13 @@ public class ObjectDirectory extends FileObjectDatabase {
 
 	FileObjectDatabase newCachedFileObjectDatabase() {
 		return new CachedObjectDirectory(this);
+	}
+
+	public Map<AnyObjectId, List<ObjectId>> getGrafts() throws IOException {
+		return replacements.getGrafts();
+	}
+
+	public Map<AnyObjectId, ObjectId> getReplacements() throws IOException {
+		return replacements.getReplacements();
 	}
 }
