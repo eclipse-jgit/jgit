@@ -68,7 +68,6 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.ProgressMonitor;
-import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.storage.pack.CachedPack;
 import org.eclipse.jgit.storage.pack.ObjectReuseAsIs;
 import org.eclipse.jgit.storage.pack.ObjectToPack;
@@ -148,8 +147,8 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 		return sz;
 	}
 
-	public LocalObjectToPack newObjectToPack(RevObject obj) {
-		return new LocalObjectToPack(obj);
+	public LocalObjectToPack newObjectToPack(AnyObjectId objectId, int type) {
+		return new LocalObjectToPack(objectId, type);
 	}
 
 	public void selectObjectRepresentation(PackWriter packer,
