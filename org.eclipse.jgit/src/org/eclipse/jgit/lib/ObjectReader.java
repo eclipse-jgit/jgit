@@ -67,11 +67,16 @@ public abstract class ObjectReader {
 	public static final int OBJ_ANY = -1;
 
 	/**
+	 * @return the objects replacements to use for this reader
+	 */
+	protected abstract Replacements getReplacements();
+
+	/**
 	 * Construct a new reader from the same data.
 	 * <p>
 	 * Applications can use this method to build a new reader from the same data
 	 * source, but for an different thread.
-	 *
+	 * 
 	 * @return a brand new reader, using the same data source.
 	 */
 	public abstract ObjectReader newReader();

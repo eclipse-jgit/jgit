@@ -60,6 +60,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -1006,5 +1007,26 @@ public abstract class AbstractRepository extends Repository {
 		} else {
 			FileUtils.delete(headsFile, FileUtils.SKIP_MISSING);
 		}
+	}
+
+	public Map<AnyObjectId, List<ObjectId>> getGrafts() throws IOException {
+		return getGraftsDatabase().getGrafts();
+	}
+
+	public Map<AnyObjectId, ObjectId> getReplacements() {
+		Map<String, Ref> replaceRefs;
+		try {
+			replaceRefs = getRefDatabase().getRefs(
+					Constants.R_REPLACE);
+		} catch (IOException e1) {
+			throw new RuntimeException(e1); // FIXME
+		}
+		Map<AnyObjectId, ObjectId> replacements = new HashMap<AnyObjectId, ObjectId>(
+				replaceRefs.size());
+		for (Entry<String, Ref> e : replaceRefs.entrySet()) {
+			replacements.put(ObjectId.fromString(e.getKey()), e.getValue()
+					.getObjectId());
+		}
+		return replacements;
 	}
 }
