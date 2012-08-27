@@ -85,7 +85,7 @@
     <repository>
       <id>jetty</id>
       <layout>p2</layout>
-      <url>http://download.eclipse.org/jetty/updates/jetty-bundles-7.x/${jetty-version}/</url>
+      <url>http://archive.eclipse.org/jetty/updates/jetty-bundles-7.x/${jetty-version}/</url>
     </repository>
     <repository>
       <id>orbit</id>
