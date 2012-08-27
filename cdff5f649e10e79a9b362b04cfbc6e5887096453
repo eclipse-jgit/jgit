@@ -16,6 +16,24 @@
       "revId": "cdff5f649e10e79a9b362b04cfbc6e5887096453",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//6Rs\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-08-27T21:38:30Z",
+      "side": 1,
+      "message": "Seems that is the way to do it, unless we start using JNA as an easier way of doing JNI",
+      "parentUuid": "AABOIn//6Zo\u003d",
+      "revId": "cdff5f649e10e79a9b362b04cfbc6e5887096453",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
