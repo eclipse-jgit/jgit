@@ -34,6 +34,24 @@
       "revId": "cdff5f649e10e79a9b362b04cfbc6e5887096453",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//6RM\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-08-27T22:04:30Z",
+      "side": 1,
+      "message": "JNA is licensed under LGPL [1], doesn\u0027t look like a good fit to JGit\u0027s EDL license\n\n[1] https://github.com/twall/jna",
+      "parentUuid": "AABOIn//6Rs\u003d",
+      "revId": "cdff5f649e10e79a9b362b04cfbc6e5887096453",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
