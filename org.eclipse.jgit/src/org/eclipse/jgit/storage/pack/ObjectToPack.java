@@ -47,7 +47,6 @@ package org.eclipse.jgit.storage.pack;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.transport.PackedObjectInfo;
 
 /**
@@ -118,18 +117,6 @@ public class ObjectToPack extends PackedObjectInfo {
 	public ObjectToPack(AnyObjectId src, final int type) {
 		super(src);
 		flags = type << TYPE_SHIFT;
-	}
-
-	/**
-	 * Construct for the specified object.
-	 *
-	 * @param obj
-	 *            identity of the object that will be packed. The object's
-	 *            parsed status is undefined here. Implementers must not rely on
-	 *            the object being parsed.
-	 */
-	public ObjectToPack(RevObject obj) {
-		this(obj, obj.getType());
 	}
 
 	/**
