@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
+ * Copyright (C) 2012, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -43,72 +43,82 @@
 
 package org.eclipse.jgit.storage.file;
 
+import java.io.DataOutput;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import org.eclipse.jgit.transport.PackedObjectInfo;
 import org.eclipse.jgit.util.NB;
 
 /**
- * Creates the version 2 pack table of contents files.
- *
- * @see PackIndexWriter
- * @see PackIndexV2
+ * An implementation of {@link DataOutput} that only handles
+ * {@link #writeInt(int)} and {@link #writeLong(long)} using the Git conversion
+ * utilities for network byte order handling. This is needed to write
+ * {@link javaewah.EWAHCompressedBitmap}s.
  */
-class PackIndexWriterV2 extends PackIndexWriter {
-	private static final int MAX_OFFSET_32 = 0x7fffffff;
-	private static final int IS_OFFSET_64 = 0x80000000;
+class SimpleDataOutput implements DataOutput {
+	private final OutputStream fd;
 
-	PackIndexWriterV2(final OutputStream dst) {
-		super(dst);
+	private final byte[] buf = new byte[8];
+
+	SimpleDataOutput(OutputStream fd) {
+		this.fd = fd;
 	}
 
-	@Override
-	protected void writeImpl() throws IOException {
-		writeTOC(2);
-		writeV2Body();
-		writeChecksumFooter();
+	public void writeInt(int v) throws IOException {
+		NB.encodeInt32(buf, 0, v);
+		fd.write(buf, 0, 4);
 	}
 
-	protected void writeV2Body() throws IOException {
-		writeFanOutTable();
-		writeObjectNames();
-		writeCRCs();
-		writeOffset32();
-		writeOffset64();
+	public void writeLong(long v) throws IOException {
+		NB.encodeInt64(buf, 0, v);
+		fd.write(buf, 0, 8);
 	}
 
-	private void writeObjectNames() throws IOException {
-		for (final PackedObjectInfo oe : entries)
-			oe.copyRawTo(out);
+	public void write(int b) throws IOException {
+		throw new UnsupportedOperationException();
 	}
 
-	private void writeCRCs() throws IOException {
-		for (final PackedObjectInfo oe : entries) {
-			NB.encodeInt32(tmp, 0, oe.getCRC());
-			out.write(tmp, 0, 4);
-		}
+	public void write(byte[] b) throws IOException {
+		throw new UnsupportedOperationException();
 	}
 
-	private void writeOffset32() throws IOException {
-		int o64 = 0;
-		for (final PackedObjectInfo oe : entries) {
-			final long o = oe.getOffset();
-			if (o <= MAX_OFFSET_32)
-				NB.encodeInt32(tmp, 0, (int) o);
-			else
-				NB.encodeInt32(tmp, 0, IS_OFFSET_64 | o64++);
-			out.write(tmp, 0, 4);
-		}
+	public void write(byte[] b, int off, int len) throws IOException {
+		throw new UnsupportedOperationException();
 	}
 
-	private void writeOffset64() throws IOException {
-		for (final PackedObjectInfo oe : entries) {
-			final long o = oe.getOffset();
-			if (MAX_OFFSET_32 < o) {
-				NB.encodeInt64(tmp, 0, o);
-				out.write(tmp, 0, 8);
-			}
-		}
+	public void writeBoolean(boolean v) throws IOException {
+		throw new UnsupportedOperationException();
+	}
+
+	public void writeByte(int v) throws IOException {
+		throw new UnsupportedOperationException();
+	}
+
+	public void writeShort(int v) throws IOException {
+		throw new UnsupportedOperationException();
+	}
+
+	public void writeChar(int v) throws IOException {
+		throw new UnsupportedOperationException();
+	}
+
+	public void writeFloat(float v) throws IOException {
+		throw new UnsupportedOperationException();
+	}
+
+	public void writeDouble(double v) throws IOException {
+		throw new UnsupportedOperationException();
+	}
+
+	public void writeBytes(String s) throws IOException {
+		throw new UnsupportedOperationException();
+	}
+
+	public void writeChars(String s) throws IOException {
+		throw new UnsupportedOperationException();
+	}
+
+	public void writeUTF(String s) throws IOException {
+		throw new UnsupportedOperationException();
 	}
 }

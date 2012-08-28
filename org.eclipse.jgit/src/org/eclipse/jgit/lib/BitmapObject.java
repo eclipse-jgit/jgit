@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
+ * Copyright (C) 2012, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -41,74 +41,21 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.storage.file;
+package org.eclipse.jgit.lib;
 
-import java.io.IOException;
-import java.io.OutputStream;
+/** Base object type accessed during bitmap expansion. */
+public abstract class BitmapObject {
+	/**
+	 * Get Git object type. See {@link Constants}.
+	 *
+	 * @return object type
+	 */
+	public abstract int getType();
 
-import org.eclipse.jgit.transport.PackedObjectInfo;
-import org.eclipse.jgit.util.NB;
-
-/**
- * Creates the version 2 pack table of contents files.
- *
- * @see PackIndexWriter
- * @see PackIndexV2
- */
-class PackIndexWriterV2 extends PackIndexWriter {
-	private static final int MAX_OFFSET_32 = 0x7fffffff;
-	private static final int IS_OFFSET_64 = 0x80000000;
-
-	PackIndexWriterV2(final OutputStream dst) {
-		super(dst);
-	}
-
-	@Override
-	protected void writeImpl() throws IOException {
-		writeTOC(2);
-		writeV2Body();
-		writeChecksumFooter();
-	}
-
-	protected void writeV2Body() throws IOException {
-		writeFanOutTable();
-		writeObjectNames();
-		writeCRCs();
-		writeOffset32();
-		writeOffset64();
-	}
-
-	private void writeObjectNames() throws IOException {
-		for (final PackedObjectInfo oe : entries)
-			oe.copyRawTo(out);
-	}
-
-	private void writeCRCs() throws IOException {
-		for (final PackedObjectInfo oe : entries) {
-			NB.encodeInt32(tmp, 0, oe.getCRC());
-			out.write(tmp, 0, 4);
-		}
-	}
-
-	private void writeOffset32() throws IOException {
-		int o64 = 0;
-		for (final PackedObjectInfo oe : entries) {
-			final long o = oe.getOffset();
-			if (o <= MAX_OFFSET_32)
-				NB.encodeInt32(tmp, 0, (int) o);
-			else
-				NB.encodeInt32(tmp, 0, IS_OFFSET_64 | o64++);
-			out.write(tmp, 0, 4);
-		}
-	}
-
-	private void writeOffset64() throws IOException {
-		for (final PackedObjectInfo oe : entries) {
-			final long o = oe.getOffset();
-			if (MAX_OFFSET_32 < o) {
-				NB.encodeInt64(tmp, 0, o);
-				out.write(tmp, 0, 8);
-			}
-		}
-	}
+	/**
+	 * Get the name of this object.
+	 *
+	 * @return unique hash of this object.
+	 */
+	public abstract ObjectId getObjectId();
 }

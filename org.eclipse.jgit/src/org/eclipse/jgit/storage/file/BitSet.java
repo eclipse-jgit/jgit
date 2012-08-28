@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
+ * Copyright (C) 2012, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -43,72 +43,73 @@
 
 package org.eclipse.jgit.storage.file;
 
-import java.io.IOException;
-import java.io.OutputStream;
-
-import org.eclipse.jgit.transport.PackedObjectInfo;
-import org.eclipse.jgit.util.NB;
+import javaewah.EWAHCompressedBitmap;
 
 /**
- * Creates the version 2 pack table of contents files.
- *
- * @see PackIndexWriter
- * @see PackIndexV2
+ * A random access BitSet to supports efficient conversions to
+ * EWAHCompressedBitmap.
  */
-class PackIndexWriterV2 extends PackIndexWriter {
-	private static final int MAX_OFFSET_32 = 0x7fffffff;
-	private static final int IS_OFFSET_64 = 0x80000000;
+final class BitSet {
 
-	PackIndexWriterV2(final OutputStream dst) {
-		super(dst);
+	private long[] words;
+
+	BitSet(int initialCapacity) {
+		words = new long[block(initialCapacity) + 1];
 	}
 
-	@Override
-	protected void writeImpl() throws IOException {
-		writeTOC(2);
-		writeV2Body();
-		writeChecksumFooter();
-	}
-
-	protected void writeV2Body() throws IOException {
-		writeFanOutTable();
-		writeObjectNames();
-		writeCRCs();
-		writeOffset32();
-		writeOffset64();
-	}
-
-	private void writeObjectNames() throws IOException {
-		for (final PackedObjectInfo oe : entries)
-			oe.copyRawTo(out);
-	}
-
-	private void writeCRCs() throws IOException {
-		for (final PackedObjectInfo oe : entries) {
-			NB.encodeInt32(tmp, 0, oe.getCRC());
-			out.write(tmp, 0, 4);
+	final void set(int position) {
+		int block = block(position);
+		if (block >= words.length) {
+			long[] buf = new long[2 * block(position)];
+			System.arraycopy(words, 0, buf, 0, words.length);
+			words = buf;
 		}
+		words[block] |= mask(position);
 	}
 
-	private void writeOffset32() throws IOException {
-		int o64 = 0;
-		for (final PackedObjectInfo oe : entries) {
-			final long o = oe.getOffset();
-			if (o <= MAX_OFFSET_32)
-				NB.encodeInt32(tmp, 0, (int) o);
-			else
-				NB.encodeInt32(tmp, 0, IS_OFFSET_64 | o64++);
-			out.write(tmp, 0, 4);
-		}
+	final void clear(int position) {
+		int block = block(position);
+		if (block < words.length)
+			words[block] &= ~mask(position);
 	}
 
-	private void writeOffset64() throws IOException {
-		for (final PackedObjectInfo oe : entries) {
-			final long o = oe.getOffset();
-			if (MAX_OFFSET_32 < o) {
-				NB.encodeInt64(tmp, 0, o);
-				out.write(tmp, 0, 8);
+	final boolean get(int position) {
+		int block = block(position);
+		return block < words.length && (words[block] & mask(position)) != 0;
+	}
+
+	final EWAHCompressedBitmap toEWAHCompressedBitmap() {
+		EWAHCompressedBitmap compressed = new EWAHCompressedBitmap(
+				words.length);
+		int runningEmptyWords = 0;
+		long lastNonEmptyWord = 0;
+		for (long word : words) {
+			if (word == 0) {
+				runningEmptyWords++;
+				continue;
 			}
+
+			if (lastNonEmptyWord != 0)
+				compressed.add(lastNonEmptyWord);
+
+			if (runningEmptyWords > 0) {
+				compressed.addStreamOfEmptyWords(false, runningEmptyWords);
+				runningEmptyWords = 0;
+			}
+
+			lastNonEmptyWord = word;
 		}
+		int bitsThatMatter = 64 - Long.numberOfLeadingZeros(lastNonEmptyWord);
+		if (bitsThatMatter > 0)
+			compressed.add(lastNonEmptyWord, bitsThatMatter);
+		return compressed;
+	}
+
+	private static final int block(int position) {
+		return position >> 6;
+	}
+
+	private static final long mask(int position) {
+		return 1L << position;
 	}
 }

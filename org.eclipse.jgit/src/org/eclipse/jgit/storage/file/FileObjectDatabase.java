@@ -292,6 +292,8 @@ abstract class FileObjectDatabase extends ObjectDatabase {
 
 	abstract FileObjectDatabase newCachedFileObjectDatabase();
 
+	abstract Collection<PackFile> getPacks();
+
 	static class AlternateHandle {
 		final FileObjectDatabase db;
 

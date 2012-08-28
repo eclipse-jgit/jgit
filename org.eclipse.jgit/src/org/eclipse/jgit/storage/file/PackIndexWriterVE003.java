@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
+ * Copyright (C) 2012, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -43,72 +43,80 @@
 
 package org.eclipse.jgit.storage.file;
 
+import java.io.DataOutput;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.MessageFormat;
 
-import org.eclipse.jgit.transport.PackedObjectInfo;
-import org.eclipse.jgit.util.NB;
+import javaewah.EWAHCompressedBitmap;
+
+import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.storage.file.PackBitmapIndexBuilder.StoredEntry;
 
 /**
- * Creates the version 2 pack table of contents files.
+ * Creates the version E003 pack table of contents files.
  *
  * @see PackIndexWriter
- * @see PackIndexV2
+ * @see PackIndexVE003
  */
-class PackIndexWriterV2 extends PackIndexWriter {
-	private static final int MAX_OFFSET_32 = 0x7fffffff;
-	private static final int IS_OFFSET_64 = 0x80000000;
+class PackIndexWriterVE003 extends PackIndexWriterV2 {
+	private final DataOutput dataOutput;
 
-	PackIndexWriterV2(final OutputStream dst) {
+	PackIndexWriterVE003(final OutputStream dst) {
 		super(dst);
+		dataOutput = new SimpleDataOutput(out);
 	}
 
 	@Override
 	protected void writeImpl() throws IOException {
-		writeTOC(2);
+		if (bitmaps == null)
+			throw new IllegalStateException();
+
+		writeTOC(0xE003);
 		writeV2Body();
+		writeVE003Body();
 		writeChecksumFooter();
 	}
 
-	protected void writeV2Body() throws IOException {
-		writeFanOutTable();
-		writeObjectNames();
-		writeCRCs();
-		writeOffset32();
-		writeOffset64();
+	private void writeVE003Body() throws IOException {
+		writeOptions();
+		writeBitmap(bitmaps.getCommits());
+		writeBitmap(bitmaps.getTrees());
+		writeBitmap(bitmaps.getBlobs());
+		writeBitmap(bitmaps.getTags());
+		writeBitmaps();
 	}
 
-	private void writeObjectNames() throws IOException {
-		for (final PackedObjectInfo oe : entries)
-			oe.copyRawTo(out);
+	private void writeOptions() throws IOException {
+		out.write(bitmaps.getOptions());
 	}
 
-	private void writeCRCs() throws IOException {
-		for (final PackedObjectInfo oe : entries) {
-			NB.encodeInt32(tmp, 0, oe.getCRC());
-			out.write(tmp, 0, 4);
+	private void writeBitmap(EWAHCompressedBitmap bitmap) throws IOException {
+		bitmap.serialize(dataOutput);
+	}
+
+	private void writeBitmaps() throws IOException {
+		// Write number of entries
+		int expectedBitmapCount = bitmaps.getBitmapCount();
+		dataOutput.writeInt(expectedBitmapCount);
+
+		int bitmapCount = 0;
+		for (StoredEntry entry : bitmaps.getCompressedBitmaps()) {
+			writeBitmapEntry(entry);
+			bitmapCount++;
 		}
+
+		if (expectedBitmapCount != bitmapCount)
+			throw new IOException(MessageFormat.format(
+					JGitText.get().expectedGot,
+					String.valueOf(expectedBitmapCount),
+					String.valueOf(bitmapCount)));
 	}
 
-	private void writeOffset32() throws IOException {
-		int o64 = 0;
-		for (final PackedObjectInfo oe : entries) {
-			final long o = oe.getOffset();
-			if (o <= MAX_OFFSET_32)
-				NB.encodeInt32(tmp, 0, (int) o);
-			else
-				NB.encodeInt32(tmp, 0, IS_OFFSET_64 | o64++);
-			out.write(tmp, 0, 4);
-		}
-	}
-
-	private void writeOffset64() throws IOException {
-		for (final PackedObjectInfo oe : entries) {
-			final long o = oe.getOffset();
-			if (MAX_OFFSET_32 < o) {
-				NB.encodeInt64(tmp, 0, o);
-				out.write(tmp, 0, 8);
-			}
-		}
+	private void writeBitmapEntry(StoredEntry entry) throws IOException {
+		// Write object, xor offset, and bitmap
+		dataOutput.writeInt((int) entry.getObjectId());
+		out.write(entry.getXorOffset());
+		writeBitmap(entry.getBitmap());
 	}
 }
