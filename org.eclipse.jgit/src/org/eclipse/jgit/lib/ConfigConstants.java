@@ -75,6 +75,9 @@ public class ConfigConstants {
 	/** The "submodule" section */
 	public static final String CONFIG_SUBMODULE_SECTION = "submodule";
 
+	/** The "gc" section */
+	public static final String CONFIG_GC_SECTION = "gc";
+
 	/** The "pack" section */
 	public static final String CONFIG_PACK_SECTION = "pack";
 
@@ -178,4 +181,7 @@ public class ConfigConstants {
 
 	/** The "indexversion" key */
 	public static final String CONFIG_KEY_INDEXVERSION = "indexversion";
+
+	/** The "pruneexpire" key */
+	public static final String CONFIG_KEY_PRUNEEXPIRE = "pruneexpire";
 }
