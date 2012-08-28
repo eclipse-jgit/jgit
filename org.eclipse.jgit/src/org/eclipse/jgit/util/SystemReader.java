@@ -66,7 +66,7 @@ import org.eclipse.jgit.storage.file.FileBasedConfig;
  * </p>
  */
 public abstract class SystemReader {
-	private static SystemReader INSTANCE = new SystemReader() {
+	private static SystemReader DEFAULT = new SystemReader() {
 		private volatile String hostname;
 
 		public String getenv(String variable) {
@@ -126,6 +126,8 @@ public abstract class SystemReader {
 		}
 	};
 
+	private static SystemReader INSTANCE = DEFAULT;
+
 	/** @return the live instance to read system properties. */
 	public static SystemReader getInstance() {
 		return INSTANCE;
@@ -136,7 +138,10 @@ public abstract class SystemReader {
 	 *            the new instance to use when accessing properties.
 	 */
 	public static void setInstance(SystemReader newReader) {
-		INSTANCE = newReader;
+		if (newReader == null)
+			INSTANCE = DEFAULT;
+		else
+			INSTANCE = newReader;
 	}
 
 	/**
