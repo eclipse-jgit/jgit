@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013, Google Inc.
+ * Copyright (C) 2012, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -41,74 +41,66 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.storage.pack;
+package org.eclipse.jgit.storage.file;
 
-/** A pack file extension. */
-public class PackExt {
-	private static volatile PackExt[] VALUES = new PackExt[] {};
-	private static final Object lock = new Object();
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
-	/** A pack file extension. */
-	public static final PackExt PACK = newPackExt("pack"); //$NON-NLS-1$
+import javaewah.EWAHCompressedBitmap;
 
-	/** A pack index file extension. */
-	public static final PackExt INDEX = newPackExt("idx"); //$NON-NLS-1$
+import org.junit.Test;
 
-	/** A pack bitmap index file extension. */
-	public static final PackExt BITMAP_INDEX = newPackExt("bitmap"); //$NON-NLS-1$
+public class InflatingBitSetTest {
 
-	/** @return all of the PackExt values. */
-	public static PackExt[] values() {
-		return VALUES;
+	@Test
+	public void testMaybeContains() {
+		EWAHCompressedBitmap ecb = new EWAHCompressedBitmap();
+		ecb.set(63);
+		ecb.set(64);
+		ecb.set(128);
+
+		InflatingBitSet ibs = new InflatingBitSet(ecb);
+		assertTrue(ibs.maybeContains(0));
+		assertFalse(ibs.contains(0)); // Advance
+		assertFalse(ibs.maybeContains(0));
+		assertTrue(ibs.maybeContains(63));
+		assertTrue(ibs.maybeContains(64));
+		assertTrue(ibs.maybeContains(65));
+		assertFalse(ibs.maybeContains(129));
 	}
 
-	/**
-	 * Returns a PackExt for the file extension and registers it in the values
-	 * array.
-	 *
-	 * @param ext
-	 *            the file extension.
-	 * @return the PackExt for the ext
-	 */
-	public static PackExt newPackExt(String ext) {
-		synchronized (lock) {
-			PackExt[] dst = new PackExt[VALUES.length + 1];
-			for (int i = 0; i < VALUES.length; i++) {
-				PackExt packExt = VALUES[i];
-				if (packExt.getExtension().equals(ext))
-					return packExt;
-				dst[i] = packExt;
-			}
+	@Test
+	public void testContainsMany() {
+		EWAHCompressedBitmap ecb = new EWAHCompressedBitmap();
+		ecb.set(64);
+		ecb.set(65);
+		ecb.set(1024);
 
-			PackExt value = new PackExt(ext, VALUES.length);
-			dst[VALUES.length] = value;
-			VALUES = dst;
-			return value;
-		}
+		InflatingBitSet ibs = new InflatingBitSet(ecb);
+		assertFalse(ibs.contains(0));
+		assertTrue(ibs.contains(64));
+		assertTrue(ibs.contains(65));
+		assertFalse(ibs.contains(66));
+		assertTrue(ibs.contains(1024));
+		assertFalse(ibs.contains(1025));
 	}
 
-	private final String ext;
+	@Test
+	public void testContainsOne() {
+		EWAHCompressedBitmap ecb = new EWAHCompressedBitmap();
+		ecb.set(64);
 
-	private final int pos;
-
-	private PackExt(String ext, int pos) {
-		this.ext = ext;
-		this.pos = pos;
+		InflatingBitSet ibs = new InflatingBitSet(ecb);
+		assertTrue(ibs.contains(64));
+		assertTrue(ibs.contains(64));
+		assertFalse(ibs.contains(65));
+		assertFalse(ibs.contains(63));
 	}
 
-	/** @return the file extension. */
-	public String getExtension() {
-		return ext;
-	}
-
-	/** @return the position of the extension in the values array. */
-	public int getPosition() {
-		return pos;
-	}
-
-	@Override
-	public String toString() {
-		return String.format("PackExt[%s, bit=0x%s]", getExtension(), //$NON-NLS-1$
-				Integer.toHexString(1 << getPosition()));
+	@Test
+	public void testContainsEmpty() {
+		InflatingBitSet ibs = new InflatingBitSet(new EWAHCompressedBitmap());
+		assertFalse(ibs.maybeContains(0));
+		assertFalse(ibs.contains(0));
 	}
 }

@@ -241,6 +241,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 	 *         containing objects referenced by commits further back in the
 	 *         history of the repository.
 	 */
+	@Override
 	public Collection<PackFile> getPacks() {
 		PackList list = packList.get();
 		if (list == NO_PACKS)

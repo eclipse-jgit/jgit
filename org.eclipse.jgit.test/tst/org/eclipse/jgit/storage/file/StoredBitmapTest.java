@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013, Google Inc.
+ * Copyright (C) 2012, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -41,74 +41,54 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.storage.pack;
+package org.eclipse.jgit.storage.file;
 
-/** A pack file extension. */
-public class PackExt {
-	private static volatile PackExt[] VALUES = new PackExt[] {};
-	private static final Object lock = new Object();
+import static org.junit.Assert.*;
+import javaewah.EWAHCompressedBitmap;
+import javaewah.IntIterator;
 
-	/** A pack file extension. */
-	public static final PackExt PACK = newPackExt("pack"); //$NON-NLS-1$
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.storage.file.BasePackBitmapIndex.StoredBitmap;
+import org.junit.Test;
 
-	/** A pack index file extension. */
-	public static final PackExt INDEX = newPackExt("idx"); //$NON-NLS-1$
+public class StoredBitmapTest {
 
-	/** A pack bitmap index file extension. */
-	public static final PackExt BITMAP_INDEX = newPackExt("bitmap"); //$NON-NLS-1$
-
-	/** @return all of the PackExt values. */
-	public static PackExt[] values() {
-		return VALUES;
+	@Test
+	public void testGetBitmapWithoutXor() {
+		EWAHCompressedBitmap b = bitmapOf(100);
+		StoredBitmap sb = newStoredBitmap(bitmapOf(100));
+		assertEquals(b, sb.getBitmap());
 	}
 
-	/**
-	 * Returns a PackExt for the file extension and registers it in the values
-	 * array.
-	 *
-	 * @param ext
-	 *            the file extension.
-	 * @return the PackExt for the ext
-	 */
-	public static PackExt newPackExt(String ext) {
-		synchronized (lock) {
-			PackExt[] dst = new PackExt[VALUES.length + 1];
-			for (int i = 0; i < VALUES.length; i++) {
-				PackExt packExt = VALUES[i];
-				if (packExt.getExtension().equals(ext))
-					return packExt;
-				dst[i] = packExt;
-			}
-
-			PackExt value = new PackExt(ext, VALUES.length);
-			dst[VALUES.length] = value;
-			VALUES = dst;
-			return value;
-		}
+	@Test
+	public void testGetBitmapWithOneXor() {
+		StoredBitmap sb = newStoredBitmap(bitmapOf(100), bitmapOf(100, 101));
+		assertEquals(bitmapOf(101), sb.getBitmap());
 	}
 
-	private final String ext;
-
-	private final int pos;
-
-	private PackExt(String ext, int pos) {
-		this.ext = ext;
-		this.pos = pos;
+	@Test
+	public void testGetBitmapWithThreeXor() {
+		StoredBitmap sb = newStoredBitmap(
+				bitmapOf(100),
+				bitmapOf(90, 101),
+				bitmapOf(100, 101),
+				bitmapOf(50));
+		assertEquals(bitmapOf(50, 90), sb.getBitmap());
+		assertEquals(bitmapOf(50, 90), sb.getBitmap());
 	}
 
-	/** @return the file extension. */
-	public String getExtension() {
-		return ext;
+	private static final StoredBitmap newStoredBitmap(
+			EWAHCompressedBitmap... bitmaps) {
+		StoredBitmap sb = null;
+		for (EWAHCompressedBitmap bitmap : bitmaps)
+			sb = new StoredBitmap(ObjectId.zeroId(), bitmap, sb);
+		return sb;
 	}
 
-	/** @return the position of the extension in the values array. */
-	public int getPosition() {
-		return pos;
-	}
-
-	@Override
-	public String toString() {
-		return String.format("PackExt[%s, bit=0x%s]", getExtension(), //$NON-NLS-1$
-				Integer.toHexString(1 << getPosition()));
+	private static final EWAHCompressedBitmap bitmapOf(int... bits) {
+		EWAHCompressedBitmap b = new EWAHCompressedBitmap();
+		for (int bit : bits)
+			b.set(bit);
+		return b;
 	}
 }
