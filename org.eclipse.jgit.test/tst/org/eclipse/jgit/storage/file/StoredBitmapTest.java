@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
+ * Copyright (C) 2012, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -43,72 +43,52 @@
 
 package org.eclipse.jgit.storage.file;
 
-import java.io.IOException;
-import java.io.OutputStream;
+import static org.junit.Assert.*;
+import javaewah.EWAHCompressedBitmap;
+import javaewah.IntIterator;
 
-import org.eclipse.jgit.transport.PackedObjectInfo;
-import org.eclipse.jgit.util.NB;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.storage.file.BasePackBitmapIndex.StoredBitmap;
+import org.junit.Test;
 
-/**
- * Creates the version 2 pack table of contents files.
- *
- * @see PackIndexWriter
- * @see PackIndexV2
- */
-class PackIndexWriterV2 extends PackIndexWriter {
-	private static final int MAX_OFFSET_32 = 0x7fffffff;
-	private static final int IS_OFFSET_64 = 0x80000000;
+public class StoredBitmapTest {
 
-	PackIndexWriterV2(final OutputStream dst) {
-		super(dst);
+	@Test
+	public void testGetBitmapWithoutXor() {
+		EWAHCompressedBitmap b = bitmapOf(100);
+		StoredBitmap sb = newStoredBitmap(bitmapOf(100));
+		assertEquals(b, sb.getBitmap());
 	}
 
-	@Override
-	protected void writeImpl() throws IOException {
-		writeTOC(2);
-		writeV2Body();
-		writeChecksumFooter();
+	@Test
+	public void testGetBitmapWithOneXor() {
+		StoredBitmap sb = newStoredBitmap(bitmapOf(100), bitmapOf(100, 101));
+		assertEquals(bitmapOf(101), sb.getBitmap());
 	}
 
-	protected void writeV2Body() throws IOException {
-		writeFanOutTable();
-		writeObjectNames();
-		writeCRCs();
-		writeOffset32();
-		writeOffset64();
+	@Test
+	public void testGetBitmapWithThreeXor() {
+		StoredBitmap sb = newStoredBitmap(
+				bitmapOf(100),
+				bitmapOf(90, 101),
+				bitmapOf(100, 101),
+				bitmapOf(50));
+		assertEquals(bitmapOf(50, 90), sb.getBitmap());
+		assertEquals(bitmapOf(50, 90), sb.getBitmap());
 	}
 
-	private void writeObjectNames() throws IOException {
-		for (final PackedObjectInfo oe : entries)
-			oe.copyRawTo(out);
+	private static final StoredBitmap newStoredBitmap(
+			EWAHCompressedBitmap... bitmaps) {
+		StoredBitmap sb = null;
+		for (EWAHCompressedBitmap bitmap : bitmaps)
+			sb = new StoredBitmap(ObjectId.zeroId(), bitmap, sb);
+		return sb;
 	}
 
-	private void writeCRCs() throws IOException {
-		for (final PackedObjectInfo oe : entries) {
-			NB.encodeInt32(tmp, 0, oe.getCRC());
-			out.write(tmp, 0, 4);
-		}
-	}
-
-	private void writeOffset32() throws IOException {
-		int o64 = 0;
-		for (final PackedObjectInfo oe : entries) {
-			final long o = oe.getOffset();
-			if (o <= MAX_OFFSET_32)
-				NB.encodeInt32(tmp, 0, (int) o);
-			else
-				NB.encodeInt32(tmp, 0, IS_OFFSET_64 | o64++);
-			out.write(tmp, 0, 4);
-		}
-	}
-
-	private void writeOffset64() throws IOException {
-		for (final PackedObjectInfo oe : entries) {
-			final long o = oe.getOffset();
-			if (MAX_OFFSET_32 < o) {
-				NB.encodeInt64(tmp, 0, o);
-				out.write(tmp, 0, 8);
-			}
-		}
+	private static final EWAHCompressedBitmap bitmapOf(int... bits) {
+		EWAHCompressedBitmap b = new EWAHCompressedBitmap();
+		for (int bit : bits)
+			b.set(bit);
+		return b;
 	}
 }

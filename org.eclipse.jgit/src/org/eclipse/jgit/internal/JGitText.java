@@ -252,6 +252,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String expectedCharacterEncodingGuesses;
 	/***/ public String expectedEOFReceived;
 	/***/ public String expectedGot;
+	/***/ public String expectedLessThanGot;
 	/***/ public String expectedPktLineWithService;
 	/***/ public String expectedReceivedContentType;
 	/***/ public String expectedReportForRefNotReceived;
@@ -388,6 +389,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String objectAtPathDoesNotHaveId;
 	/***/ public String objectIsCorrupt;
 	/***/ public String objectIsNotA;
+	/***/ public String objectNotFound;
 	/***/ public String objectNotFoundIn;
 	/***/ public String obtainingCommitsForCherryPick;
 	/***/ public String offsetWrittenDeltaBaseForObjectNotFoundInAPack;
