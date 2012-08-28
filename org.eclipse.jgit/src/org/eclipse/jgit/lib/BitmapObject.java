@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013, Google Inc.
+ * Copyright (C) 2012, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -41,58 +41,21 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.storage.pack;
+package org.eclipse.jgit.lib;
 
-/** A pack file extension. */
-public class PackExt {
-
-	/** A pack file extension. */
-	public static final PackExt PACK = new PackExt("pack"); //$NON-NLS-1$
-
-	/** A pack index file extension. */
-	public static final PackExt INDEX = new PackExt("idx"); //$NON-NLS-1$
-
-	/** A pack bitmap index file extension. */
-	public static final PackExt BITMAP_INDEX = new PackExt("bitmap"); //$NON-NLS-1$
-
-	private static final PackExt[] VALUES = new PackExt[] {
-			PACK, INDEX, BITMAP_INDEX };
-
-	private final String ext;
+/** Base object type accessed during bitmap expansion. */
+public abstract class BitmapObject {
+	/**
+	 * Get Git object type. See {@link Constants}.
+	 *
+	 * @return object type
+	 */
+	public abstract int getType();
 
 	/**
-	 * @param ext
-	 *            the file extension.
+	 * Get the name of this object.
+	 *
+	 * @return unique hash of this object.
 	 */
-	public PackExt(String ext) {
-		this.ext = ext;
-	}
-
-	/** @return the file extension. */
-	public String getExtension() {
-		return ext;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (obj instanceof PackExt) {
-			return ((PackExt) obj).getExtension().equals(getExtension());
-		}
-		return false;
-	}
-
-	@Override
-	public int hashCode() {
-		return getExtension().hashCode();
-	}
-
-	@Override
-	public String toString() {
-		return String.format("PackExt[%s]", getExtension()); //$NON-NLS-1$
-	}
-
-	/** @return all of the PackExt values. */
-	public static PackExt[] values() {
-		return VALUES;
-	}
+	public abstract ObjectId getObjectId();
 }
