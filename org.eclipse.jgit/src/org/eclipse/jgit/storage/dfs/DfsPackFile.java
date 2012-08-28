@@ -67,6 +67,7 @@ import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.storage.file.PackBitmapIndex;
 import org.eclipse.jgit.storage.file.PackIndex;
 import org.eclipse.jgit.storage.file.PackReverseIndex;
 import org.eclipse.jgit.storage.pack.BinaryDelta;
@@ -193,6 +194,13 @@ public final class DfsPackFile {
 
 	PackIndex getPackIndex(DfsReader ctx) throws IOException {
 		return idx(ctx);
+	}
+
+	PackBitmapIndex getPackBitmapIndex(DfsReader ctx) throws IOException {
+		PackIndex packIndex = idx(ctx);
+		if (packIndex.hasBitmapIndex())
+			return packIndex.getBitmapIndex(getReverseIdx(ctx));
+		return null;
 	}
 
 	private PackIndex idx(DfsReader ctx) throws IOException {

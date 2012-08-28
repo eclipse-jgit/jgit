@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
+ * Copyright (C) 2012, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -43,72 +43,63 @@
 
 package org.eclipse.jgit.storage.file;
 
-import java.io.IOException;
-import java.io.OutputStream;
+import static org.junit.Assert.*;
 
-import org.eclipse.jgit.transport.PackedObjectInfo;
-import org.eclipse.jgit.util.NB;
+import javaewah.EWAHCompressedBitmap;
 
-/**
- * Creates the version 2 pack table of contents files.
- *
- * @see PackIndexWriter
- * @see PackIndexV2
- */
-class PackIndexWriterV2 extends PackIndexWriter {
-	private static final int MAX_OFFSET_32 = 0x7fffffff;
-	private static final int IS_OFFSET_64 = 0x80000000;
+import org.junit.Test;
 
-	PackIndexWriterV2(final OutputStream dst) {
-		super(dst);
+public class InflatingBitSetTest {
+
+	@Test
+	public void testMaybeContains() {
+		EWAHCompressedBitmap ecb = new EWAHCompressedBitmap();
+		ecb.set(63);
+		ecb.set(64);
+		ecb.set(128);
+
+		InflatingBitSet ibs = new InflatingBitSet(ecb);
+		assertTrue(ibs.maybeContains(0));
+		assertFalse(ibs.contains(0)); // Advance
+		assertFalse(ibs.maybeContains(0));
+		assertTrue(ibs.maybeContains(63));
+		assertTrue(ibs.maybeContains(64));
+		assertTrue(ibs.maybeContains(65));
+		assertFalse(ibs.maybeContains(129));
 	}
 
-	@Override
-	protected void writeImpl() throws IOException {
-		writeTOC(2);
-		writeV2Body();
-		writeChecksumFooter();
+	@Test
+	public void testContainsMany() {
+		EWAHCompressedBitmap ecb = new EWAHCompressedBitmap();
+		ecb.set(64);
+		ecb.set(65);
+		ecb.set(1024);
+
+		InflatingBitSet ibs = new InflatingBitSet(ecb);
+		assertFalse(ibs.contains(0));
+		assertTrue(ibs.contains(64));
+		assertTrue(ibs.contains(65));
+		assertFalse(ibs.contains(66));
+		assertTrue(ibs.contains(1024));
+		assertFalse(ibs.contains(1025));
 	}
 
-	protected void writeV2Body() throws IOException {
-		writeFanOutTable();
-		writeObjectNames();
-		writeCRCs();
-		writeOffset32();
-		writeOffset64();
+	@Test
+	public void testContainsOne() {
+		EWAHCompressedBitmap ecb = new EWAHCompressedBitmap();
+		ecb.set(64);
+
+		InflatingBitSet ibs = new InflatingBitSet(ecb);
+		assertTrue(ibs.contains(64));
+		assertTrue(ibs.contains(64));
+		assertFalse(ibs.contains(65));
+		assertFalse(ibs.contains(63));
 	}
 
-	private void writeObjectNames() throws IOException {
-		for (final PackedObjectInfo oe : entries)
-			oe.copyRawTo(out);
-	}
-
-	private void writeCRCs() throws IOException {
-		for (final PackedObjectInfo oe : entries) {
-			NB.encodeInt32(tmp, 0, oe.getCRC());
-			out.write(tmp, 0, 4);
-		}
-	}
-
-	private void writeOffset32() throws IOException {
-		int o64 = 0;
-		for (final PackedObjectInfo oe : entries) {
-			final long o = oe.getOffset();
-			if (o <= MAX_OFFSET_32)
-				NB.encodeInt32(tmp, 0, (int) o);
-			else
-				NB.encodeInt32(tmp, 0, IS_OFFSET_64 | o64++);
-			out.write(tmp, 0, 4);
-		}
-	}
-
-	private void writeOffset64() throws IOException {
-		for (final PackedObjectInfo oe : entries) {
-			final long o = oe.getOffset();
-			if (MAX_OFFSET_32 < o) {
-				NB.encodeInt64(tmp, 0, o);
-				out.write(tmp, 0, 8);
-			}
-		}
+	@Test
+	public void testContainsEmpty() {
+		InflatingBitSet ibs = new InflatingBitSet(new EWAHCompressedBitmap());
+		assertFalse(ibs.maybeContains(0));
+		assertFalse(ibs.contains(0));
 	}
 }
