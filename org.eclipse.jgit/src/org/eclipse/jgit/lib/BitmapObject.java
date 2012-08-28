@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013, Google Inc.
+ * Copyright (C) 2012, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -41,79 +41,21 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.storage.pack;
+package org.eclipse.jgit.lib;
 
-/** A pack file extension. */
-public class PackExt {
-	private static volatile PackExt[] VALUES = new PackExt[] {};
-	private static final Object lock = new Object();
-
-	/** A pack file extension. */
-	public static final PackExt PACK = newPackExt("pack"); //$NON-NLS-1$
-
-	/** A pack index file extension. */
-	public static final PackExt INDEX = newPackExt("idx"); //$NON-NLS-1$
-
-	/** A pack bitmap index file extension. */
-	public static final PackExt BITMAP_INDEX = newPackExt("bitmap"); //$NON-NLS-1$
-
-	/** @return all of the PackExt values. */
-	public static PackExt[] values() {
-		return VALUES;
-	}
+/** Base object type accessed during bitmap expansion. */
+public abstract class BitmapObject {
+	/**
+	 * Get Git object type. See {@link Constants}.
+	 *
+	 * @return object type
+	 */
+	public abstract int getType();
 
 	/**
-	 * Returns a PackExt for the file extension and registers it in the values
-	 * array.
+	 * Get the name of this object.
 	 *
-	 * @param ext
-	 *            the file extension.
-	 * @return the PackExt for the ext
+	 * @return unique hash of this object.
 	 */
-	public static PackExt newPackExt(String ext) {
-		synchronized (lock) {
-			PackExt[] dst = new PackExt[VALUES.length + 1];
-			for (int i = 0; i < VALUES.length; i++) {
-				PackExt packExt = VALUES[i];
-				if (packExt.getExtension().equals(ext))
-					return packExt;
-				dst[i] = packExt;
-			}
-
-			PackExt value = new PackExt(ext, VALUES.length);
-			dst[VALUES.length] = value;
-			VALUES = dst;
-			return value;
-		}
-	}
-
-	private final String ext;
-
-	private final int pos;
-
-	private PackExt(String ext, int pos) {
-		this.ext = ext;
-		this.pos = pos;
-	}
-
-	/** @return the file extension. */
-	public String getExtension() {
-		return ext;
-	}
-
-	/** @return the position of the extension in the values array. */
-	public int getPosition() {
-		return pos;
-	}
-
-	/** @return the bit mask of the extension e.g {@code 1 << getPosition()}. */
-	public int getBit() {
-		return 1 << getPosition();
-	}
-
-	@Override
-	public String toString() {
-		return String.format("PackExt[%s, bit=0x%s]", getExtension(), //$NON-NLS-1$
-				Integer.toHexString(getBit()));
-	}
+	public abstract ObjectId getObjectId();
 }

@@ -262,6 +262,11 @@ class CachedObjectDirectory extends FileObjectDatabase {
 		wrapped.selectObjectRepresentation(packer, otp, curs);
 	}
 
+	@Override
+	Collection<PackFile> getPacks() {
+		return wrapped.getPacks();
+	}
+
 	private static class UnpackedObjectId extends ObjectIdOwnerMap.Entry {
 		UnpackedObjectId(AnyObjectId id) {
 			super(id);
