@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013, Google Inc.
+ * Copyright (C) 2012, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -41,79 +41,81 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.storage.pack;
+package org.eclipse.jgit.storage.file;
 
-/** A pack file extension. */
-public class PackExt {
-	private static volatile PackExt[] VALUES = new PackExt[] {};
+import java.util.Arrays;
 
-	/** A pack file extension. */
-	public static final PackExt PACK = newPackExt("pack"); //$NON-NLS-1$
+import javaewah.EWAHCompressedBitmap;
 
-	/** A pack index file extension. */
-	public static final PackExt INDEX = newPackExt("idx"); //$NON-NLS-1$
+/**
+ * A random access BitSet to supports efficient conversions to
+ * EWAHCompressedBitmap.
+ */
+final class BitSet {
 
-	/** A pack bitmap index file extension. */
-	public static final PackExt BITMAP_INDEX = newPackExt("bitmap"); //$NON-NLS-1$
+	private long[] words;
 
-	/** @return all of the PackExt values. */
-	public static PackExt[] values() {
-		return VALUES;
+	BitSet(int initialCapacity) {
+		words = new long[block(initialCapacity) + 1];
 	}
 
-	/**
-	 * Returns a PackExt for the file extension and registers it in the values
-	 * array.
-	 *
-	 * @param ext
-	 *            the file extension.
-	 * @return the PackExt for the ext
-	 */
-	public synchronized static PackExt newPackExt(String ext) {
-		PackExt[] dst = new PackExt[VALUES.length + 1];
-		for (int i = 0; i < VALUES.length; i++) {
-			PackExt packExt = VALUES[i];
-			if (packExt.getExtension().equals(ext))
-				return packExt;
-			dst[i] = packExt;
+	final void clear() {
+		Arrays.fill(words, 0);
+	}
+
+	final void set(int position) {
+		int block = block(position);
+		if (block >= words.length) {
+			long[] buf = new long[2 * block(position)];
+			System.arraycopy(words, 0, buf, 0, words.length);
+			words = buf;
 		}
-		if (VALUES.length >= 32)
-			throw new IllegalStateException(
-					"maximum number of pack extensions exceeded"); //$NON-NLS-1$
-
-		PackExt value = new PackExt(ext, VALUES.length);
-		dst[VALUES.length] = value;
-		VALUES = dst;
-		return value;
+		words[block] |= mask(position);
 	}
 
-	private final String ext;
-
-	private final int pos;
-
-	private PackExt(String ext, int pos) {
-		this.ext = ext;
-		this.pos = pos;
+	final void clear(int position) {
+		int block = block(position);
+		if (block < words.length)
+			words[block] &= ~mask(position);
 	}
 
-	/** @return the file extension. */
-	public String getExtension() {
-		return ext;
+	final boolean get(int position) {
+		int block = block(position);
+		return block < words.length && (words[block] & mask(position)) != 0;
 	}
 
-	/** @return the position of the extension in the values array. */
-	public int getPosition() {
-		return pos;
+	final EWAHCompressedBitmap toEWAHCompressedBitmap() {
+		EWAHCompressedBitmap compressed = new EWAHCompressedBitmap(
+				words.length);
+		int runningEmptyWords = 0;
+		long lastNonEmptyWord = 0;
+		for (long word : words) {
+			if (word == 0) {
+				runningEmptyWords++;
+				continue;
+			}
+
+			if (lastNonEmptyWord != 0)
+				compressed.add(lastNonEmptyWord);
+
+			if (runningEmptyWords > 0) {
+				compressed.addStreamOfEmptyWords(false, runningEmptyWords);
+				runningEmptyWords = 0;
+			}
+
+			lastNonEmptyWord = word;
+		}
+		int bitsThatMatter = 64 - Long.numberOfLeadingZeros(lastNonEmptyWord);
+		if (bitsThatMatter > 0)
+			compressed.add(lastNonEmptyWord, bitsThatMatter);
+		return compressed;
 	}
 
-	/** @return the bit mask of the extension e.g {@code 1 << getPosition()}. */
-	public int getBit() {
-		return 1 << getPosition();
+	private static final int block(int position) {
+		return position >> 6;
 	}
 
-	@Override
-	public String toString() {
-		return String.format("PackExt[%s, bit=0x%s]", getExtension(), //$NON-NLS-1$
-				Integer.toHexString(getBit()));
+	private static final long mask(int position) {
+		return 1L << position;
 	}
 }
