@@ -1050,6 +1050,13 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 		return getReverseIdx().findNextOffset(startOffset, maxOffset);
 	}
 
+	PackBitmapIndex getBitmapIndex() throws IOException {
+		PackIndex idx = idx();
+		if (idx.hasBitmapIndex())
+			return idx.getBitmapIndex(getReverseIdx());
+		return null;
+	}
+
 	private synchronized PackReverseIndex getReverseIdx() throws IOException {
 		if (reverseIdx == null)
 			reverseIdx = new PackReverseIndex(idx());

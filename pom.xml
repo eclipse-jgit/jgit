@@ -171,6 +171,7 @@
 
     <jgit-last-release-version>2.0.0.201206130900-r</jgit-last-release-version>
     <jsch-version>0.1.44-1</jsch-version>
+    <javaewah-version>0.5.3</javaewah-version>
     <junit-version>4.5</junit-version>
     <args4j-version>2.0.12</args4j-version>
     <servlet-api-version>2.5</servlet-api-version>
@@ -395,6 +396,12 @@
         <groupId>com.jcraft</groupId>
         <artifactId>jsch</artifactId>
         <version>${jsch-version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.googlecode.javaewah</groupId>
+        <artifactId>JavaEWAH</artifactId>
+        <version>${javaewah-version}</version>
       </dependency>
 
       <dependency>

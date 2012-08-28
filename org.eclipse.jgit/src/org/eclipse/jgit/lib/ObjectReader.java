@@ -428,6 +428,17 @@ public abstract class ObjectReader {
 	}
 
 	/**
+	 * An index that can be used to speed up ObjectWalks.
+	 *
+	 * @return the index or null if one does not exist.
+	 * @throws IOException
+	 *             when the index fails to load
+	 */
+	public BitmapIndex getBitmapIndex() throws IOException {
+		return null;
+	}
+
+	/**
 	 * Release any resources used by this reader.
 	 * <p>
 	 * A reader that has been released can be used again, but may need to be
