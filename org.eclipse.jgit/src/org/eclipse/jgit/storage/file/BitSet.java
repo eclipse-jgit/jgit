@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013, Google Inc.
+ * Copyright (C) 2012, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -41,58 +41,75 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.storage.pack;
+package org.eclipse.jgit.storage.file;
 
-/** A pack file extension. */
-public class PackExt {
+import javaewah.EWAHCompressedBitmap;
 
-	/** A pack file extension. */
-	public static final PackExt PACK = new PackExt("pack"); //$NON-NLS-1$
+/**
+ * A random access BitSet to supports efficient conversions to
+ * EWAHCompressedBitmap.
+ */
+final class BitSet {
 
-	/** A pack index file extension. */
-	public static final PackExt INDEX = new PackExt("idx"); //$NON-NLS-1$
+	private long[] words;
 
-	/** A pack bitmap index file extension. */
-	public static final PackExt BITMAP_INDEX = new PackExt("bitmap"); //$NON-NLS-1$
-
-	private static final PackExt[] VALUES = new PackExt[] {
-			PACK, INDEX, BITMAP_INDEX };
-
-	private final String ext;
-
-	/**
-	 * @param ext
-	 *            the file extension.
-	 */
-	public PackExt(String ext) {
-		this.ext = ext;
+	BitSet(int initialCapacity) {
+		words = new long[block(initialCapacity) + 1];
 	}
 
-	/** @return the file extension. */
-	public String getExtension() {
-		return ext;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (obj instanceof PackExt) {
-			return ((PackExt) obj).getExtension().equals(getExtension());
+	final void set(int position) {
+		int block = block(position);
+		if (block >= words.length) {
+			long[] buf = new long[2 * block(position)];
+			System.arraycopy(words, 0, buf, 0, words.length);
+			words = buf;
 		}
-		return false;
+		words[block] |= mask(position);
 	}
 
-	@Override
-	public int hashCode() {
-		return getExtension().hashCode();
+	final void clear(int position) {
+		int block = block(position);
+		if (block < words.length)
+			words[block] &= ~mask(position);
 	}
 
-	@Override
-	public String toString() {
-		return String.format("PackExt[%s]", getExtension()); //$NON-NLS-1$
+	final boolean get(int position) {
+		int block = block(position);
+		return block < words.length && (words[block] & mask(position)) != 0;
 	}
 
-	/** @return all of the PackExt values. */
-	public static PackExt[] values() {
-		return VALUES;
+	final EWAHCompressedBitmap toEWAHCompressedBitmap() {
+		EWAHCompressedBitmap compressed = new EWAHCompressedBitmap(
+				words.length);
+		int runningEmptyWords = 0;
+		long lastNonEmptyWord = 0;
+		for (long word : words) {
+			if (word == 0) {
+				runningEmptyWords++;
+				continue;
+			}
+
+			if (lastNonEmptyWord != 0)
+				compressed.add(lastNonEmptyWord);
+
+			if (runningEmptyWords > 0) {
+				compressed.addStreamOfEmptyWords(false, runningEmptyWords);
+				runningEmptyWords = 0;
+			}
+
+			lastNonEmptyWord = word;
+		}
+		int bitsThatMatter = 64 - Long.numberOfLeadingZeros(lastNonEmptyWord);
+		if (bitsThatMatter > 0)
+			compressed.add(lastNonEmptyWord, bitsThatMatter);
+		return compressed;
+	}
+
+	private static final int block(int position) {
+		return position >> 6;
+	}
+
+	private static final long mask(int position) {
+		return 1L << position;
 	}
 }

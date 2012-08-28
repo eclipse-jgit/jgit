@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013, Google Inc.
+ * Copyright (C) 2012, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -41,58 +41,54 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.storage.pack;
+package org.eclipse.jgit.storage.file;
 
-/** A pack file extension. */
-public class PackExt {
+import static org.junit.Assert.*;
+import javaewah.EWAHCompressedBitmap;
+import javaewah.IntIterator;
 
-	/** A pack file extension. */
-	public static final PackExt PACK = new PackExt("pack"); //$NON-NLS-1$
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.storage.file.BasePackBitmapIndex.StoredBitmap;
+import org.junit.Test;
 
-	/** A pack index file extension. */
-	public static final PackExt INDEX = new PackExt("idx"); //$NON-NLS-1$
+public class StoredBitmapTest {
 
-	/** A pack bitmap index file extension. */
-	public static final PackExt BITMAP_INDEX = new PackExt("bitmap"); //$NON-NLS-1$
-
-	private static final PackExt[] VALUES = new PackExt[] {
-			PACK, INDEX, BITMAP_INDEX };
-
-	private final String ext;
-
-	/**
-	 * @param ext
-	 *            the file extension.
-	 */
-	public PackExt(String ext) {
-		this.ext = ext;
+	@Test
+	public void testGetBitmapWithoutXor() {
+		EWAHCompressedBitmap b = bitmapOf(100);
+		StoredBitmap sb = newStoredBitmap(bitmapOf(100));
+		assertEquals(b, sb.getBitmap());
 	}
 
-	/** @return the file extension. */
-	public String getExtension() {
-		return ext;
+	@Test
+	public void testGetBitmapWithOneXor() {
+		StoredBitmap sb = newStoredBitmap(bitmapOf(100), bitmapOf(100, 101));
+		assertEquals(bitmapOf(101), sb.getBitmap());
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (obj instanceof PackExt) {
-			return ((PackExt) obj).getExtension().equals(getExtension());
-		}
-		return false;
+	@Test
+	public void testGetBitmapWithThreeXor() {
+		StoredBitmap sb = newStoredBitmap(
+				bitmapOf(100),
+				bitmapOf(90, 101),
+				bitmapOf(100, 101),
+				bitmapOf(50));
+		assertEquals(bitmapOf(50, 90), sb.getBitmap());
+		assertEquals(bitmapOf(50, 90), sb.getBitmap());
 	}
 
-	@Override
-	public int hashCode() {
-		return getExtension().hashCode();
+	private static final StoredBitmap newStoredBitmap(
+			EWAHCompressedBitmap... bitmaps) {
+		StoredBitmap sb = null;
+		for (EWAHCompressedBitmap bitmap : bitmaps)
+			sb = new StoredBitmap(ObjectId.zeroId(), bitmap, sb);
+		return sb;
 	}
 
-	@Override
-	public String toString() {
-		return String.format("PackExt[%s]", getExtension()); //$NON-NLS-1$
-	}
-
-	/** @return all of the PackExt values. */
-	public static PackExt[] values() {
-		return VALUES;
+	private static final EWAHCompressedBitmap bitmapOf(int... bits) {
+		EWAHCompressedBitmap b = new EWAHCompressedBitmap();
+		for (int bit : bits)
+			b.set(bit);
+		return b;
 	}
 }
