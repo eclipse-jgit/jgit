@@ -45,6 +45,7 @@
 
 package org.eclipse.jgit.storage.dfs;
 
+import static org.eclipse.jgit.storage.pack.PackExt.BITMAP_INDEX;
 import static org.eclipse.jgit.storage.pack.PackExt.PACK;
 import static org.eclipse.jgit.storage.pack.PackExt.INDEX;
 
@@ -71,9 +72,11 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.storage.file.PackBitmapIndex;
 import org.eclipse.jgit.storage.file.PackIndex;
 import org.eclipse.jgit.storage.file.PackReverseIndex;
 import org.eclipse.jgit.storage.pack.BinaryDelta;
+import org.eclipse.jgit.storage.pack.PackExt;
 import org.eclipse.jgit.storage.pack.PackOutputStream;
 import org.eclipse.jgit.storage.pack.StoredObjectRepresentation;
 import org.eclipse.jgit.util.IO;
@@ -98,6 +101,9 @@ public final class DfsPackFile {
 
 	/** Offset used to cache {@link #reverseIndex}. See {@link #POS_INDEX}. */
 	private static final long POS_REVERSE_INDEX = -2;
+
+	/** Offset used to cache {@link #bitmapIndex}. See {@link #POS_INDEX}. */
+	private static final long POS_BITMAP_INDEX = -3;
 
 	/** Cache that owns this pack file and its data. */
 	private final DfsBlockCache cache;
@@ -140,6 +146,9 @@ public final class DfsPackFile {
 
 	/** Reverse version of {@link #index} mapping position to {@link ObjectId}. */
 	private volatile DfsBlockCache.Ref<PackReverseIndex> reverseIndex;
+
+	/** Index of compressed bitmap mapping entire object graph. */
+	private volatile DfsBlockCache.Ref<PackBitmapIndex> bitmapIndex;
 
 	/**
 	 * Objects we have tried to read, and discovered to be corrupt.
@@ -263,6 +272,64 @@ public final class DfsPackFile {
 			}
 
 			setPackIndex(idx);
+			return idx;
+		}
+	}
+
+	PackBitmapIndex getPackBitmapIndex(DfsReader ctx) throws IOException {
+		DfsBlockCache.Ref<PackBitmapIndex> idxref = bitmapIndex;
+		if (idxref != null) {
+			PackBitmapIndex idx = idxref.get();
+			if (idx != null)
+				return idx;
+		}
+
+		if (!packDesc.hasFileExt(PackExt.BITMAP_INDEX))
+			return null;
+
+		synchronized (initLock) {
+			idxref = bitmapIndex;
+			if (idxref != null) {
+				PackBitmapIndex idx = idxref.get();
+				if (idx != null)
+					return idx;
+			}
+
+			long size;
+			PackBitmapIndex idx;
+			try {
+				ReadableChannel rc = ctx.db.openFile(packDesc, BITMAP_INDEX);
+				try {
+					InputStream in = Channels.newInputStream(rc);
+					int wantSize = 8192;
+					int bs = rc.blockSize();
+					if (0 < bs && bs < wantSize)
+						bs = (wantSize / bs) * bs;
+					else if (bs <= 0)
+						bs = wantSize;
+					in = new BufferedInputStream(in, bs);
+					idx = PackBitmapIndex.read(
+							in, idx(ctx), getReverseIdx(ctx));
+				} finally {
+					size = rc.position();
+					rc.close();
+				}
+			} catch (EOFException e) {
+				IOException e2 = new IOException(MessageFormat.format(
+						DfsText.get().shortReadOfIndex,
+						packDesc.getFileName(BITMAP_INDEX)));
+				e2.initCause(e);
+				throw e2;
+			} catch (IOException e) {
+				IOException e2 = new IOException(MessageFormat.format(
+						DfsText.get().cannotReadIndex,
+						packDesc.getFileName(BITMAP_INDEX)));
+				e2.initCause(e);
+				throw e2;
+			}
+
+			bitmapIndex = cache.put(key, POS_BITMAP_INDEX,
+					(int) Math.min(size, Integer.MAX_VALUE), idx);
 			return idx;
 		}
 	}
