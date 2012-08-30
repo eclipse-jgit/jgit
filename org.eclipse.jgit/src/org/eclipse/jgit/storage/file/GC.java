@@ -74,6 +74,8 @@ import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Ref.Storage;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.revwalk.ObjectWalk;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -716,6 +718,26 @@ public class GC {
 		 * The number of objects stored as loose objects.
 		 */
 		public long numberOfLooseObjects;
+
+		/**
+		 * The sum of the sizes of all files persisting loose object.
+		 */
+		public long sizeOfLooseObjects;
+
+		/**
+		 * The sum of the sizes of all pack files.
+		 */
+		public long sizeOfPackedObjects;
+
+		/**
+		 * The sum of the sizes of all files persisting loose object.
+		 */
+		public long numberOfLooseRefs;
+
+		/**
+		 * The sum of the sizes of all files persisting loose object.
+		 */
+		public long numberOfPackedRefs;
 	}
 
 	/**
@@ -728,25 +750,38 @@ public class GC {
 	public RepoStatistics getStatistics() throws IOException {
 		RepoStatistics ret = new RepoStatistics();
 		Collection<PackFile> packs = repo.getObjectDatabase().getPacks();
-		for (PackFile f : packs)
+		for (PackFile f : packs) {
 			ret.numberOfPackedObjects += f.getIndex().getObjectCount();
-		ret.numberOfPackFiles = packs.size();
+			ret.numberOfPackFiles++;
+			ret.sizeOfPackedObjects += f.getPackFile().length();
+		}
 		File objDir = repo.getObjectsDirectory();
 		String[] fanout = objDir.list();
 		if (fanout != null && fanout.length > 0) {
 			for (String d : fanout) {
 				if (d.length() != 2)
 					continue;
-				String[] entries = new File(objDir, d).list();
+				File[] entries = new File(objDir, d).listFiles();
 				if (entries == null)
 					continue;
-				for (String e : entries) {
-					if (e.length() != Constants.OBJECT_ID_STRING_LENGTH - 2)
+				for (File f : entries) {
+					if (f.getName().length() != Constants.OBJECT_ID_STRING_LENGTH - 2)
 						continue;
 					ret.numberOfLooseObjects++;
+					ret.sizeOfLooseObjects += f.length();
 				}
 			}
 		}
+
+		RefDatabase refDb = repo.getRefDatabase();
+		for (Ref r : refDb.getRefs(RefDatabase.ALL).values()) {
+			Storage storage = r.getStorage();
+			if (storage == Storage.LOOSE || storage == Storage.LOOSE_PACKED)
+				ret.numberOfLooseRefs++;
+			if (storage == Storage.PACKED || storage == Storage.LOOSE_PACKED)
+				ret.numberOfPackedRefs++;
+		}
+
 		return ret;
 	}
 
