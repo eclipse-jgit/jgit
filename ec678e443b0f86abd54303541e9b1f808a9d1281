@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//6q0\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/io/AutoCRLFInputStreamTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-08-30T21:38:24Z",
+      "side": 1,
+      "message": "I think this block is unreachable since the for loop goes from i\u003d1 to 4",
+      "revId": "ec678e443b0f86abd54303541e9b1f808a9d1281",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//6qU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/AutoCRLFInputStream.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-08-30T21:38:24Z",
+      "side": 1,
+      "message": "style nit: no braces around single line block",
+      "revId": "ec678e443b0f86abd54303541e9b1f808a9d1281",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
