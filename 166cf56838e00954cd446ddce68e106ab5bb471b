@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//5nQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 723,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-08-31T14:16:53Z",
+      "side": 1,
+      "message": "\"files persisted as loose objects\" would also be wrong. I propose now: \"files used to  persist loose objects\"",
+      "parentUuid": "AABOIn//5sM\u003d",
+      "revId": "166cf56838e00954cd446ddce68e106ab5bb471b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//5sI\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//5nE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 733,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-08-31T14:16:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//5sI\u003d",
+      "revId": "166cf56838e00954cd446ddce68e106ab5bb471b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//5sE\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2012-08-30T22:01:03Z",
       "side": 1,
       "message": "wrong javadoc, instead use:\n\nThe number of refs stored in pack files",
+      "revId": "166cf56838e00954cd446ddce68e106ab5bb471b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//5nA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 738,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-08-31T14:16:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//5sE\u003d",
       "revId": "166cf56838e00954cd446ddce68e106ab5bb471b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
