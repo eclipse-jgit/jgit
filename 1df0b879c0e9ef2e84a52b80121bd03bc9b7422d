@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//5pA\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-08-31T13:11:28Z",
+      "side": 1,
+      "message": "Just a comment: Files are not marked as removed in the index. They just don\u0027t exist. If you say \u0027git rm --cached f.txt\u0027 then the entry for f.txt will simply be removed from the index and you have no trace anymore that it once existed in the index.",
+      "revId": "1df0b879c0e9ef2e84a52b80121bd03bc9b7422d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//5pI\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-08-31T13:11:28Z",
+      "side": 1,
+      "message": "Why do you keep the result for case \u00274\u0027 to be \u0027Update\u0027. In DirCacheCheckout you modfied the documentation to have \"Keep\" as result and in the tests you check that is is \"Conflict\". I think the sematicaly correct result for case 4 should be \"Conflict\". If you agree then please correct here and in the javadoc in DirCacheCheckout.",
+      "revId": "1df0b879c0e9ef2e84a52b80121bd03bc9b7422d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//5pE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-08-31T13:11:28Z",
+      "side": 1,
+      "message": "I am not sure about case 4. Shouldn\u0027t it be \"Conflict?\". Try this:\n\n git init\n mkdir d\n touch d/b\n git add d/b\n git commit -m \"adding d/b\"\n git checkout -b side\n echo foo \u003e d/b\n git commit -a -m \"modifying d/b\"\n git checkout master\n git rm d/b\n touch d\n git add d\n git checkout side",
+      "revId": "1df0b879c0e9ef2e84a52b80121bd03bc9b7422d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}

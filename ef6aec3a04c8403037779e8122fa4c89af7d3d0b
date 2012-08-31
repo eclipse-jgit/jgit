@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//5pU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 711,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-08-31T13:11:28Z",
+      "side": 0,
+      "message": "I think you found a severe typo in this javadoc comment. IIRC I wrote down this table first and then coded based on this table. And here, for case 3, it\u0027s wrong to say \"use M\". Your suggestion to \"keep\" or \"fail\" is correct. I am wondering how this has happened and checked jgit history and even the history of the native git documentation (maybe it was wrongly documented at that point in time) ... but I can\u0027t find a better explanation then \"typo\".\n\nThere is much more elaborated table which I used also during development which contains the right data for this case: https://docs.google.com/spreadsheet/ccc?key\u003d0Ask8nTwp7sXedElIQWg3bGlINENuNGtlN0lQYVZVSFE\u0026authkey\u003dCJn1mC4\n. But it seems I used the wrong javadoc comment for implementing.",
+      "revId": "ef6aec3a04c8403037779e8122fa4c89af7d3d0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
