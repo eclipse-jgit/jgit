@@ -16,6 +16,24 @@
       "revId": "ef6aec3a04c8403037779e8122fa4c89af7d3d0b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//5nY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 711,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-08-31T14:07:06Z",
+      "side": 0,
+      "message": "The Git documentation was \"clarified\" at some point. I think this change does the right thing.",
+      "parentUuid": "AABOIn//5pU\u003d",
+      "revId": "ef6aec3a04c8403037779e8122fa4c89af7d3d0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
