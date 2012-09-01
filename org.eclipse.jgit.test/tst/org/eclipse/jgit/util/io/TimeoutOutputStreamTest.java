@@ -43,6 +43,7 @@
 
 package org.eclipse.jgit.util.io;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -108,7 +109,7 @@ public class TimeoutOutputStreamTest {
 		os.write(exp[2]);
 		in.want(exp.length);
 		in.read(act);
-		assertTrue(Arrays.equals(exp, act));
+		assertArrayEquals(exp, act);
 	}
 
 	@Test
@@ -131,7 +132,7 @@ public class TimeoutOutputStreamTest {
 		os.write(exp);
 		in.want(exp.length);
 		in.read(act);
-		assertTrue(Arrays.equals(exp, act));
+		assertArrayEquals(exp, act);
 	}
 
 	@Test
