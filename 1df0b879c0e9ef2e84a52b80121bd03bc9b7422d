@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//5eo\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2012-09-01T11:34:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//5pA\u003d",
+      "revId": "1df0b879c0e9ef2e84a52b80121bd03bc9b7422d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//5pI\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutTest.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//5ek\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2012-09-01T11:34:02Z",
+      "side": 1,
+      "message": "Right, I was confused by the code for D/F. Changed both comments.",
+      "parentUuid": "AABOIn//5pI\u003d",
+      "revId": "1df0b879c0e9ef2e84a52b80121bd03bc9b7422d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//5pE\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2012-08-31T13:11:28Z",
       "side": 1,
       "message": "I am not sure about case 4. Shouldn\u0027t it be \"Conflict?\". Try this:\n\n git init\n mkdir d\n touch d/b\n git add d/b\n git commit -m \"adding d/b\"\n git checkout -b side\n echo foo \u003e d/b\n git commit -a -m \"modifying d/b\"\n git checkout master\n git rm d/b\n touch d\n git add d\n git checkout side",
+      "revId": "1df0b879c0e9ef2e84a52b80121bd03bc9b7422d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//5eg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2012-09-01T11:34:02Z",
+      "side": 1,
+      "message": "Yes, it should say conflict, corrected as part of addressing previous comment. Good catch.",
+      "parentUuid": "AABOIn//5pE\u003d",
       "revId": "1df0b879c0e9ef2e84a52b80121bd03bc9b7422d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
