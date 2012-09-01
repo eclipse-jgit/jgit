@@ -65,12 +65,12 @@ public class RevObjectTest extends RevWalkTestCase {
 		final RevCommit a1 = commit();
 		final RevCommit b1 = commit();
 
-		assertTrue(a1.equals(a1));
-		assertTrue(a1.equals((Object) a1));
+		assertEquals(a1, a1);
+		assertEquals(a1, a1);
 		assertFalse(a1.equals(b1));
 
-		assertTrue(a1.equals(a1));
-		assertTrue(a1.equals((Object) a1));
+		assertEquals(a1, a1);
+		assertEquals(a1, a1);
 		assertFalse(a1.equals(""));
 
 		final RevWalk rw2 = new RevWalk(db);
@@ -79,8 +79,8 @@ public class RevObjectTest extends RevWalkTestCase {
 		assertNotSame(a1, a2);
 		assertNotSame(b1, b2);
 
-		assertTrue(a1.equals(a2));
-		assertTrue(b1.equals(b2));
+		assertEquals(a2, a1);
+		assertEquals(b2, b1);
 
 		assertEquals(a1.hashCode(), a2.hashCode());
 		assertEquals(b1.hashCode(), b2.hashCode());
