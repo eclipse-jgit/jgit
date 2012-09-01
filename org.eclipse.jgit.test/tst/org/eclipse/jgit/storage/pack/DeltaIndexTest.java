@@ -43,14 +43,13 @@
 
 package org.eclipse.jgit.storage.pack;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.Arrays;
-
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.TestRng;
 import org.eclipse.jgit.lib.Constants;
@@ -246,6 +245,6 @@ public class DeltaIndexTest {
 		assertTrue("delta is not empty", actDelta.length > 0);
 		assertEquals(src.length, BinaryDelta.getBaseSize(actDelta));
 		assertEquals(dst.length, BinaryDelta.getResultSize(actDelta));
-		assertTrue(Arrays.equals(dst, BinaryDelta.apply(src, actDelta)));
+		assertArrayEquals(dst, BinaryDelta.apply(src, actDelta));
 	}
 }
