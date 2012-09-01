@@ -60,8 +60,8 @@ public class EditListTest {
 		assertTrue(l.isEmpty());
 		assertEquals("EditList[]", l.toString());
 
-		assertTrue(l.equals(l));
-		assertTrue(l.equals(new EditList()));
+		assertEquals(l, l);
+		assertEquals(new EditList(), l);
 		assertFalse(l.equals(""));
 		assertEquals(l.hashCode(), new EditList().hashCode());
 	}
@@ -76,13 +76,13 @@ public class EditListTest {
 		assertSame(e, l.get(0));
 		assertSame(e, l.iterator().next());
 
-		assertTrue(l.equals(l));
+		assertEquals(l, l);
 		assertFalse(l.equals(new EditList()));
 
 		final EditList l2 = new EditList();
 		l2.add(e);
-		assertTrue(l.equals(l2));
-		assertTrue(l2.equals(l));
+		assertEquals(l2, l);
+		assertEquals(l, l2);
 		assertEquals(l.hashCode(), l2.hashCode());
 	}
 
@@ -101,14 +101,14 @@ public class EditListTest {
 		assertSame(e1, i.next());
 		assertSame(e2, i.next());
 
-		assertTrue(l.equals(l));
+		assertEquals(l, l);
 		assertFalse(l.equals(new EditList()));
 
 		final EditList l2 = new EditList();
 		l2.add(e1);
 		l2.add(e2);
-		assertTrue(l.equals(l2));
-		assertTrue(l2.equals(l));
+		assertEquals(l2, l);
+		assertEquals(l, l2);
 		assertEquals(l.hashCode(), l2.hashCode());
 	}
 

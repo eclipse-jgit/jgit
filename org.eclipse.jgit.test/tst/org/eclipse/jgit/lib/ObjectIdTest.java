@@ -72,7 +72,7 @@ public class ObjectIdTest {
 		final ObjectId a = ObjectId.fromString(x);
 		final ObjectId b = ObjectId.fromString(x);
 		assertEquals(a.hashCode(), b.hashCode());
-		assertTrue("a and b are same", a.equals(b));
+		assertEquals("a and b are same", b, a);
 	}
 
 	@Test

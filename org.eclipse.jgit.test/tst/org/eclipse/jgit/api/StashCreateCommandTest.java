@@ -291,7 +291,7 @@ public class StashCreateCommandTest extends RepositoryTestCase {
 		assertEquals("content", read(committedFile));
 		validateStashedCommit(stashed);
 
-		assertTrue(stashed.getTree().equals(stashed.getParent(1).getTree()));
+		assertEquals(stashed.getParent(1).getTree(), stashed.getTree());
 
 		List<DiffEntry> workingDiffs = diffWorkingAgainstHead(stashed);
 		assertEquals(1, workingDiffs.size());
@@ -326,7 +326,7 @@ public class StashCreateCommandTest extends RepositoryTestCase {
 
 		validateStashedCommit(stashed);
 
-		assertTrue(stashed.getTree().equals(stashed.getParent(1).getTree()));
+		assertEquals(stashed.getParent(1).getTree(), stashed.getTree());
 
 		List<DiffEntry> workingDiffs = diffWorkingAgainstHead(stashed);
 		assertEquals(1, workingDiffs.size());
