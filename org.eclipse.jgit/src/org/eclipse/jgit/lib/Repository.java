@@ -571,6 +571,8 @@ public abstract class Repository {
 			case '@':
 				if (rev != null)
 					throw new RevisionSyntaxException(revstr);
+				if (i + 1 < revChars.length && revChars[i + 1] != '{')
+					continue;
 				int m;
 				String time = null;
 				for (m = i + 2; m < revChars.length; ++m) {
