@@ -46,7 +46,6 @@ package org.eclipse.jgit.transport;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.ByteArrayInputStream;
@@ -221,7 +220,7 @@ public class PacketLineInTest {
 
 		init("0008NAK\n");
 		assertSame(PacketLineIn.AckNackResult.NAK, in.readACK(actid));
-		assertTrue(actid.equals(expid));
+		assertEquals(expid, actid);
 		assertEOF();
 	}
 
@@ -233,7 +232,7 @@ public class PacketLineInTest {
 
 		init("0031ACK fcfcfb1fd94829c1a1704f894fc111d14770d34e\n");
 		assertSame(PacketLineIn.AckNackResult.ACK, in.readACK(actid));
-		assertTrue(actid.equals(expid));
+		assertEquals(expid, actid);
 		assertEOF();
 	}
 
@@ -245,7 +244,7 @@ public class PacketLineInTest {
 
 		init("003aACK fcfcfb1fd94829c1a1704f894fc111d14770d34e continue\n");
 		assertSame(PacketLineIn.AckNackResult.ACK_CONTINUE, in.readACK(actid));
-		assertTrue(actid.equals(expid));
+		assertEquals(expid, actid);
 		assertEOF();
 	}
 
@@ -257,7 +256,7 @@ public class PacketLineInTest {
 
 		init("0038ACK fcfcfb1fd94829c1a1704f894fc111d14770d34e common\n");
 		assertSame(PacketLineIn.AckNackResult.ACK_COMMON, in.readACK(actid));
-		assertTrue(actid.equals(expid));
+		assertEquals(expid, actid);
 		assertEOF();
 	}
 
@@ -269,7 +268,7 @@ public class PacketLineInTest {
 
 		init("0037ACK fcfcfb1fd94829c1a1704f894fc111d14770d34e ready\n");
 		assertSame(PacketLineIn.AckNackResult.ACK_READY, in.readACK(actid));
-		assertTrue(actid.equals(expid));
+		assertEquals(expid, actid);
 		assertEOF();
 	}
 

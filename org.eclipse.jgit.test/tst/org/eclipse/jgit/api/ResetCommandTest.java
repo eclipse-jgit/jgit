@@ -141,7 +141,7 @@ public class ResetCommandTest extends RepositoryTestCase {
 				.call();
 		// check if HEAD points to initial commit now
 		ObjectId head = db.resolve(Constants.HEAD);
-		assertTrue(head.equals(initialCommit));
+		assertEquals(initialCommit, head);
 		// check if files were removed
 		assertFalse(indexFile.exists());
 		assertTrue(untrackedFile.exists());
@@ -178,7 +178,7 @@ public class ResetCommandTest extends RepositoryTestCase {
 				.call();
 		// check if HEAD points to initial commit now
 		ObjectId head = db.resolve(Constants.HEAD);
-		assertTrue(head.equals(initialCommit));
+		assertEquals(initialCommit, head);
 		// check if files still exist
 		assertTrue(untrackedFile.exists());
 		assertTrue(indexFile.exists());
@@ -199,7 +199,7 @@ public class ResetCommandTest extends RepositoryTestCase {
 				.call();
 		// check if HEAD points to initial commit now
 		ObjectId head = db.resolve(Constants.HEAD);
-		assertTrue(head.equals(initialCommit));
+		assertEquals(initialCommit, head);
 		// check if files still exist
 		assertTrue(untrackedFile.exists());
 		assertTrue(indexFile.exists());
@@ -277,7 +277,7 @@ public class ResetCommandTest extends RepositoryTestCase {
 
 		// check that HEAD hasn't moved
 		ObjectId head = db.resolve(Constants.HEAD);
-		assertTrue(head.equals(secondCommit));
+		assertEquals(secondCommit, head);
 		// check if files still exist
 		assertTrue(untrackedFile.exists());
 		assertTrue(indexFile.exists());
@@ -306,7 +306,7 @@ public class ResetCommandTest extends RepositoryTestCase {
 
 		// check that HEAD hasn't moved
 		ObjectId head = db.resolve(Constants.HEAD);
-		assertTrue(head.equals(secondCommit));
+		assertEquals(secondCommit, head);
 		// check if files still exist
 		assertTrue(untrackedFile.exists());
 		assertTrue(inHead("dir/b.txt"));
@@ -332,7 +332,7 @@ public class ResetCommandTest extends RepositoryTestCase {
 
 		// check that HEAD hasn't moved
 		ObjectId head = db.resolve(Constants.HEAD);
-		assertTrue(head.equals(secondCommit));
+		assertEquals(secondCommit, head);
 		// check if files still exist
 		assertTrue(untrackedFile.exists());
 		assertTrue(indexFile.exists());
@@ -357,7 +357,7 @@ public class ResetCommandTest extends RepositoryTestCase {
 		git.reset().setRef(tagName).setMode(HARD).call();
 
 		ObjectId head = db.resolve(Constants.HEAD);
-		assertTrue(head.equals(secondCommit));
+		assertEquals(secondCommit, head);
 	}
 
 	@Test
