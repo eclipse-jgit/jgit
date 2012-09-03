@@ -131,7 +131,7 @@ public class ResolveMergerTest extends RepositoryTestCase {
 		git.rm().addFilepattern("d/1").call();
 		git.rm().addFilepattern("d").call();
 		MergeResult mergeRes = git.merge().include(masterCommit).call();
-		assertTrue(MergeStatus.CONFLICTING.equals(mergeRes.getMergeStatus()));
+		assertEquals(MergeStatus.CONFLICTING, mergeRes.getMergeStatus());
 		assertEquals(
 				"[d/1, mode:100644, stage:1, content:orig][d/1, mode:100644, stage:2, content:side][d/1, mode:100644, stage:3, content:master]",
 				indexState(CONTENT));
@@ -163,7 +163,7 @@ public class ResolveMergerTest extends RepositoryTestCase {
 		git.rm().addFilepattern("d/1").call();
 		git.rm().addFilepattern("d").call();
 		MergeResult mergeRes = git.merge().include(masterCommit).call();
-		assertTrue(MergeStatus.MERGED.equals(mergeRes.getMergeStatus()));
+		assertEquals(MergeStatus.MERGED, mergeRes.getMergeStatus());
 		assertEquals("[d/1, mode:100644, content:1master\n2\n3side\n]",
 				indexState(CONTENT));
 	}
@@ -194,7 +194,7 @@ public class ResolveMergerTest extends RepositoryTestCase {
 		git.rm().addFilepattern("d/1").call();
 		git.rm().addFilepattern("d").call();
 		MergeResult mergeRes = git.merge().include(masterCommit).call();
-		assertTrue(MergeStatus.MERGED.equals(mergeRes.getMergeStatus()));
+		assertEquals(MergeStatus.MERGED, mergeRes.getMergeStatus());
 		assertEquals("[d/1, mode:100644, content:modified]",
 				indexState(CONTENT));
 	}
@@ -260,7 +260,7 @@ public class ResolveMergerTest extends RepositoryTestCase {
 		git.rm().addFilepattern("d/1").call();
 		git.rm().addFilepattern("d").call();
 		MergeResult mergeRes = git.merge().include(masterCommit).call();
-		assertTrue(MergeStatus.MERGED.equals(mergeRes.getMergeStatus()));
+		assertEquals(MergeStatus.MERGED, mergeRes.getMergeStatus());
 		assertEquals(
 				"[2, mode:100644, content:orig][d/1, mode:100644, content:orig]",
 				indexState(CONTENT));
@@ -294,7 +294,7 @@ public class ResolveMergerTest extends RepositoryTestCase {
 		git.rm().addFilepattern("d/1").call();
 		git.rm().addFilepattern("d").call();
 		MergeResult mergeRes = git.merge().include(masterCommit).call();
-		assertTrue(MergeStatus.CONFLICTING.equals(mergeRes.getMergeStatus()));
+		assertEquals(MergeStatus.CONFLICTING, mergeRes.getMergeStatus());
 		assertEquals(
 				"[2, mode:100644, content:orig][d/1, mode:100644, stage:2, content:side][d/1, mode:100644, stage:3, content:master]",
 				indexState(CONTENT));
