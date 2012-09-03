@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//5XU\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevObjectTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-09-03T08:33:12Z",
+      "side": 1,
+      "message": "That was becuase the call is filtered via assertEquls, but perhpas its best to keep it in case someone adds an assertEquals specifically for AnyObjectId",
+      "parentUuid": "AABOIn//5Yk\u003d",
+      "revId": "a7621e90323adc166ff71ead1bdec2dbdea8fad6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//5Yg\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevObjectTest.java",
         "patchSetId": 1
