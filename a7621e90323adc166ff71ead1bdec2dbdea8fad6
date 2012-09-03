@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//5U0\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/ResolveMergerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-09-03T19:23:30Z",
+      "side": 1,
+      "message": "Done, here and below",
+      "parentUuid": "AABOIn//5Ys\u003d",
+      "revId": "a7621e90323adc166ff71ead1bdec2dbdea8fad6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//5Yk\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevObjectTest.java",
         "patchSetId": 1
@@ -48,6 +66,24 @@
       "side": 1,
       "message": "That was becuase the call is filtered via assertEquls, but perhpas its best to keep it in case someone adds an assertEquals specifically for AnyObjectId",
       "parentUuid": "AABOIn//5Yk\u003d",
+      "revId": "a7621e90323adc166ff71ead1bdec2dbdea8fad6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//5VE\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevObjectTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-09-03T19:23:30Z",
+      "side": 1,
+      "message": "I get an unnecessary cast (warning\u003eerror) if I try to cast here",
+      "parentUuid": "AABOIn//5XU\u003d",
       "revId": "a7621e90323adc166ff71ead1bdec2dbdea8fad6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
