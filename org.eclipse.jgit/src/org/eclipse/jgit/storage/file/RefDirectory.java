@@ -73,6 +73,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.eclipse.jgit.errors.InvalidObjectIdException;
 import org.eclipse.jgit.errors.LockFailedException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.ObjectWritingException;
@@ -260,10 +261,17 @@ public class RefDirectory extends RefDatabase {
 		final RefList<Ref> packed = getPackedRefs();
 		Ref ref = null;
 		for (String prefix : SEARCH_PATH) {
-			ref = readRef(prefix + needle, packed);
-			if (ref != null) {
-				ref = resolve(ref, 0, null, null, packed);
-				break;
+			try {
+				ref = readRef(prefix + needle, packed);
+				if (ref != null) {
+					ref = resolve(ref, 0, null, null, packed);
+					break;
+				}
+			} catch (IOException e) {
+				if (!(!needle.contains("/") && "".equals(prefix) && e
+						.getCause() instanceof InvalidObjectIdException)) {
+					throw e;
+				}
 			}
 		}
 		fireRefsChanged();
@@ -937,7 +945,11 @@ public class RefDirectory extends RefDatabase {
 			while (0 < n && Character.isWhitespace(buf[n - 1]))
 				n--;
 			String content = RawParseUtils.decode(buf, 0, n);
-			throw new IOException(MessageFormat.format(JGitText.get().notARef, name, content));
+
+			IOException ioException = new IOException(MessageFormat.format(JGitText.get().notARef,
+					name, content));
+			ioException.initCause(notRef);
+			throw ioException;
 		}
 		return new LooseUnpeeled(otherSnapshot, name, id);
 	}
