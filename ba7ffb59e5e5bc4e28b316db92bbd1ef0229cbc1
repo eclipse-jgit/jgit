@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABODX//+Do\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/errors/UnsafeCRLFException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-09-05T15:37:32Z",
+      "side": 1,
+      "message": "some word is missing after \"attempt to add a\"",
+      "revId": "ba7ffb59e5e5bc4e28b316db92bbd1ef0229cbc1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//5C8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-09-05T15:37:32Z",
+      "side": 1,
+      "message": "@since 2.1",
+      "revId": "ba7ffb59e5e5bc4e28b316db92bbd1ef0229cbc1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
