@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//5C0\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-09-05T15:42:03Z",
+      "side": 1,
+      "message": "s/interrogatd/interrogated/",
+      "revId": "932c1fdb3f2fca833fb22d663c9820f74e017647",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//5Cs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/AutoCRLFOutputStream.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-09-05T15:42:03Z",
+      "side": 1,
+      "message": "s/\u003c/emA\u003e/\u003c/em\u003e/",
+      "revId": "932c1fdb3f2fca833fb22d663c9820f74e017647",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//5Co\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/AutoCRLFOutputStream.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-09-05T15:42:03Z",
+      "side": 1,
+      "message": "s/\u003c/emA\u003e/\u003c/em\u003e/",
+      "revId": "932c1fdb3f2fca833fb22d663c9820f74e017647",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
