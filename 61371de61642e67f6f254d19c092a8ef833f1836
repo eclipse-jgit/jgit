@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//49w\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/TextBuiltin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2012-09-05T21:49:03Z",
+      "side": 1,
+      "message": "Should say \"outw\" here.",
+      "revId": "61371de61642e67f6f254d19c092a8ef833f1836",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
