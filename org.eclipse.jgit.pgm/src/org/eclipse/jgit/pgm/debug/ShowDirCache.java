@@ -68,17 +68,17 @@ class ShowDirCache extends TextBuiltin {
 			final Date mtime = new Date(ent.getLastModified());
 			final int stage = ent.getStage();
 
-			out.print(mode);
-			out.format(" %6d", len);
-			out.print(' ');
-			out.print(fmt.format(mtime));
-			out.print(' ');
-			out.print(ent.getObjectId().name());
-			out.print(' ');
-			out.print(stage);
-			out.print('\t');
-			out.print(ent.getPathString());
-			out.println();
+			outw.print(mode);
+			outw.format(" %6d", len);
+			outw.print(' ');
+			outw.print(fmt.format(mtime));
+			outw.print(' ');
+			outw.print(ent.getObjectId().name());
+			outw.print(' ');
+			outw.print(stage);
+			outw.print('\t');
+			outw.print(ent.getPathString());
+			outw.println();
 		}
 	}
 }

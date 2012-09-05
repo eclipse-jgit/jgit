@@ -103,7 +103,7 @@ class Config extends TextBuiltin {
 			Set<String> names = config.getNames(section);
 			for (String name : names) {
 				for (String value : config.getStringList(section, null, name))
-					out.println(section + "." + name + "=" + value);
+					outw.println(section + "." + name + "=" + value);
 			}
 			if (names.isEmpty()) {
 				for (String subsection : config.getSubsections(section)) {
@@ -111,7 +111,7 @@ class Config extends TextBuiltin {
 					for (String name : names) {
 						for (String value : config.getStringList(section,
 								subsection, name))
-							out.println(section + "." + subsection + "."
+							outw.println(section + "." + subsection + "."
 									+ name + "=" + value);
 					}
 				}
