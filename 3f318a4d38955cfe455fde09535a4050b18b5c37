@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//46c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/GarbageCollectCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-09-06T12:02:32Z",
+      "side": 1,
+      "message": "trailing whitespace!",
+      "revId": "3f318a4d38955cfe455fde09535a4050b18b5c37",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//46M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 631,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-09-06T12:02:32Z",
+      "side": 1,
+      "message": "I would vote for calling it gc(). To help people which search for commands they know from native git I would like to be as close to the native git naming as possible. For the same reason we called it \"rm()\" and not renamed it to \"remove()\" (or \"lsRemote()\" vs. \"listRemote()\"/\"remoteList()\")",
+      "revId": "3f318a4d38955cfe455fde09535a4050b18b5c37",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
