@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//4zU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-09-06T21:13:46Z",
+      "side": 0,
+      "message": "when trying to commit a file with mixed line endings I end up here and the exception gets wrapped as an internal exception EGit can\u0027t handle properly so the underlying UnsafeCrlfException shouldn\u0027t be masked and it should also identify the path of the file causing the trouble so that we can give meaningful feedback",
+      "revId": "11137b5ee9c7683286ba57f912700cc17ab82cc5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}

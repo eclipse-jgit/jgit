@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//4zg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/AddCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-09-06T21:13:46Z",
+      "side": 1,
+      "message": "when trying to stage a file with mixed line endings from the staging view I end up here and this throws  UnsafeCRLFException without mentioning the path of the offending file causing this exception, I think we always need the path of the file causing the exception in order to provide useful feedback to the user.",
+      "revId": "df57312b47f55dcea284a29b95fdf25a36bfb06d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
