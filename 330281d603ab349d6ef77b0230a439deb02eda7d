@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//43s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2012-09-06T15:12:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//46s\u003d",
+      "revId": "330281d603ab349d6ef77b0230a439deb02eda7d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//46o\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffEntry.java",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//43o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2012-09-06T15:12:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//46o\u003d",
+      "revId": "330281d603ab349d6ef77b0230a439deb02eda7d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//46k\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffEntry.java",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2012-09-06T11:09:10Z",
       "side": 1,
       "message": "please remove the trailing whitespace",
+      "revId": "330281d603ab349d6ef77b0230a439deb02eda7d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//43k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2012-09-06T15:12:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//46k\u003d",
       "revId": "330281d603ab349d6ef77b0230a439deb02eda7d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
