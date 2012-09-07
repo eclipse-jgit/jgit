@@ -55,6 +55,7 @@ import java.util.Map;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
 
 /**
  * Base helper class for implementing operations connections.
@@ -97,8 +98,21 @@ public abstract class BaseConnection implements Connection {
 	 *            the complete list of refs the remote has to offer. This map
 	 *            will be wrapped in an unmodifiable way to protect it, but it
 	 *            does not get copied.
+	 * @throws TransportException
+	 *             if invalid refs are encountered
 	 */
-	protected void available(final Map<String, Ref> all) {
+	protected void available(final Map<String, Ref> all)
+			throws TransportException {
+		for (Map.Entry<String, Ref> e : all.entrySet()) {
+			String name = e.getKey();
+			String check;
+			if (name.indexOf("/") >= 0)
+				check = name;
+			else
+				check = "x/" + name;
+			if (!Repository.isValidRefName(check))
+				throw new TransportException("Invalid ref name received");
+		}
 		advertisedRefs = Collections.unmodifiableMap(all);
 	}
 

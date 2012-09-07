@@ -250,4 +250,33 @@ public class FileUtils {
 			throw new IOException(MessageFormat.format(
 					JGitText.get().createNewFileFailed, f));
 	}
+
+	/**
+	 * Atomically rename a file.
+	 * <p>
+	 * If the rename fails an exception is thrown. This method is more strict
+	 * than the regular rename
+	 * <li>
+	 * <ul>
+	 * If the destination exists an exceptions is thrown, even when the
+	 * destination is a directory.
+	 * </ul>
+	 * </li>
+	 *
+	 * @param from
+	 *            old path
+	 * @param to
+	 *            new path, never an existing directory
+	 * @throws IOException
+	 *             if the rename fails
+	 */
+	public static void renameFile(File from, File to) throws IOException {
+		if (to.exists())
+			throw new IOException(MessageFormat.format(
+					JGitText.get().renameFileFailed, from, to));
+		if (!from.renameTo(to))
+			throw new IOException(MessageFormat.format(
+					JGitText.get().renameFileFailed, from, to));
+
+	}
 }

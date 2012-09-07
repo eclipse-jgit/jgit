@@ -419,7 +419,7 @@ public class PushProcessTest extends SampleDataRepositoryTestCase {
 
 	private class MockPushConnection extends BaseConnection implements
 			PushConnection {
-		MockPushConnection() {
+		MockPushConnection() throws TransportException {
 			final Map<String, Ref> refsMap = new HashMap<String, Ref>();
 			for (final Ref r : advertisedRefs)
 				refsMap.put(r.getName(), r);
