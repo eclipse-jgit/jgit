@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//4kA\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-09-07T22:16:50Z",
+      "side": 1,
+      "message": "Please reformat the commit message following [1].\n\n[1] http://wiki.eclipse.org/EGit/Contributor_Guide#Commit_message_guidelines",
+      "revId": "749444f6d1dea4bf0be076be7f20e47b1664700c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
