@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//4io\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CommitCommandTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-09-08T10:02:52Z",
+      "side": 1,
+      "message": "JGitInternalException means something broke really bad, usually in an unexpected way. How can you know it is the exception you expected and not, say a wrapped FileNotFoundException?\n\n- Don\u0027t use expected\u003d (ever), it\u0027s too prone to accept the wrong error\n\n- Make the error a GitAPIException",
+      "revId": "4a84227a6f72b36c2db19e1016a7194be67880e4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//4ik\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 657,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-09-08T10:02:52Z",
+      "side": 1,
+      "message": "nit; trailing whitespace",
+      "revId": "4a84227a6f72b36c2db19e1016a7194be67880e4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//4ic\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 658,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-09-08T10:02:52Z",
+      "side": 1,
+      "message": "The default is false.",
+      "revId": "4a84227a6f72b36c2db19e1016a7194be67880e4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//4ig\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 659,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-09-08T10:02:52Z",
+      "side": 1,
+      "message": "nit; trailing whitespace",
+      "revId": "4a84227a6f72b36c2db19e1016a7194be67880e4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
