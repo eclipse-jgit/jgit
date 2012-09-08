@@ -52,6 +52,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
+import org.eclipse.jgit.api.errors.InvalidRefNameException;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.lib.ObjectId;
@@ -419,11 +420,15 @@ public class PushProcessTest extends SampleDataRepositoryTestCase {
 
 	private class MockPushConnection extends BaseConnection implements
 			PushConnection {
-		MockPushConnection() {
+		MockPushConnection() throws TransportException {
 			final Map<String, Ref> refsMap = new HashMap<String, Ref>();
 			for (final Ref r : advertisedRefs)
 				refsMap.put(r.getName(), r);
-			available(refsMap);
+			try {
+				available(refsMap);
+			} catch (InvalidRefNameException e) {
+				throw new TransportException(e.getMessage(), e);
+			}
 		}
 
 		@Override

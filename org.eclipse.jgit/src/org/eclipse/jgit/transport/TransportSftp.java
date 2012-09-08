@@ -58,6 +58,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
+import org.eclipse.jgit.api.errors.InvalidRefNameException;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.JGitText;
@@ -134,7 +135,11 @@ public class TransportSftp extends SshTransport implements WalkTransport {
 	public FetchConnection openFetch() throws TransportException {
 		final SftpObjectDB c = new SftpObjectDB(uri.getPath());
 		final WalkFetchConnection r = new WalkFetchConnection(this, c);
-		r.available(c.readAdvertisedRefs());
+		try {
+			r.available(c.readAdvertisedRefs());
+		} catch (InvalidRefNameException e) {
+			throw new TransportException(uri, e.getMessage(), e);
+		}
 		return r;
 	}
 
@@ -142,7 +147,11 @@ public class TransportSftp extends SshTransport implements WalkTransport {
 	public PushConnection openPush() throws TransportException {
 		final SftpObjectDB c = new SftpObjectDB(uri.getPath());
 		final WalkPushConnection r = new WalkPushConnection(this, c);
-		r.available(c.readAdvertisedRefs());
+		try {
+			r.available(c.readAdvertisedRefs());
+		} catch (InvalidRefNameException e) {
+			throw new TransportException(uri, e.getMessage(), e);
+		}
 		return r;
 	}
 

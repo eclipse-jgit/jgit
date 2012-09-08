@@ -55,6 +55,7 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Set;
 
+import org.eclipse.jgit.api.errors.InvalidRefNameException;
 import org.eclipse.jgit.errors.NoRemoteRepositoryException;
 import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.errors.RemoteRepositoryException;
@@ -174,6 +175,9 @@ abstract class BasePackConnection extends BaseConnection {
 	protected void readAdvertisedRefs() throws TransportException {
 		try {
 			readAdvertisedRefsImpl();
+		} catch (InvalidRefNameException err) {
+			close();
+			throw new TransportException(err.getMessage(), err);
 		} catch (TransportException err) {
 			close();
 			throw err;
@@ -186,7 +190,8 @@ abstract class BasePackConnection extends BaseConnection {
 		}
 	}
 
-	private void readAdvertisedRefsImpl() throws IOException {
+	private void readAdvertisedRefsImpl() throws IOException,
+			InvalidRefNameException {
 		final LinkedHashMap<String, Ref> avail = new LinkedHashMap<String, Ref>();
 		for (;;) {
 			String line;

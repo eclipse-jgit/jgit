@@ -88,6 +88,7 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import org.eclipse.jgit.api.errors.InvalidRefNameException;
 import org.eclipse.jgit.errors.NoRemoteRepositoryException;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.PackProtocolException;
@@ -318,6 +319,8 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 			} finally {
 				in.close();
 			}
+		} catch (InvalidRefNameException e) {
+			throw new TransportException(uri, e.getMessage(), e);
 		} catch (NotSupportedException err) {
 			throw err;
 		} catch (TransportException err) {
@@ -328,7 +331,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	}
 
 	private FetchConnection newDumbConnection(InputStream in)
-			throws IOException, PackProtocolException {
+			throws IOException, PackProtocolException, InvalidRefNameException {
 		HttpObjectDB d = new HttpObjectDB(objectsUrl);
 		BufferedReader br = toBufferedReader(in);
 		Map<String, Ref> refs;

@@ -61,6 +61,7 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.TreeMap;
 
+import org.eclipse.jgit.api.errors.InvalidRefNameException;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.JGitText;
@@ -189,7 +190,11 @@ public class TransportAmazonS3 extends HttpTransport implements WalkTransport {
 	public FetchConnection openFetch() throws TransportException {
 		final DatabaseS3 c = new DatabaseS3(bucket, keyPrefix + "/objects");
 		final WalkFetchConnection r = new WalkFetchConnection(this, c);
-		r.available(c.readAdvertisedRefs());
+		try {
+			r.available(c.readAdvertisedRefs());
+		} catch (InvalidRefNameException e) {
+			throw new TransportException(uri, e.getMessage(), e);
+		}
 		return r;
 	}
 
@@ -197,7 +202,11 @@ public class TransportAmazonS3 extends HttpTransport implements WalkTransport {
 	public PushConnection openPush() throws TransportException {
 		final DatabaseS3 c = new DatabaseS3(bucket, keyPrefix + "/objects");
 		final WalkPushConnection r = new WalkPushConnection(this, c);
-		r.available(c.readAdvertisedRefs());
+		try {
+			r.available(c.readAdvertisedRefs());
+		} catch (InvalidRefNameException e) {
+			throw new TransportException(uri, e.getMessage(), e);
+		}
 		return r;
 	}
 

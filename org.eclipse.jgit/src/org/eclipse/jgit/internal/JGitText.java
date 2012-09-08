@@ -437,6 +437,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String receivingObjects;
 	/***/ public String refAlreadyExists;
 	/***/ public String reflogEntryNotFound;
+	/***/ public String refHasInvalidFormat;
 	/***/ public String refNotResolved;
 	/***/ public String refUpdateReturnCodeWas;
 	/***/ public String remoteConfigHasNoURIAssociated;
