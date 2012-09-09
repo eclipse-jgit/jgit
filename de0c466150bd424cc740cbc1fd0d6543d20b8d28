@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//4ek\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/TextBuiltin.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 507
+      },
+      "writtenOn": "2012-09-09T17:56:13Z",
+      "side": 1,
+      "message": "Actually, in what way does this change relate to adding a new status command? \nBecause this change affects all other CLI commands perhaps it deserve its own separate commit.\nAnyway, just making sure this change landed here voluntarily and not as a result of mingling with another context...",
+      "revId": "de0c466150bd424cc740cbc1fd0d6543d20b8d28",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
