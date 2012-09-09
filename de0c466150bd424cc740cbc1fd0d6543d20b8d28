@@ -16,6 +16,24 @@
       "revId": "de0c466150bd424cc740cbc1fd0d6543d20b8d28",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//4b0\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/TextBuiltin.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-09-09T19:17:27Z",
+      "side": 1,
+      "message": "Hmm, not sure...Done.",
+      "parentUuid": "AABOIn//4ek\u003d",
+      "revId": "de0c466150bd424cc740cbc1fd0d6543d20b8d28",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
