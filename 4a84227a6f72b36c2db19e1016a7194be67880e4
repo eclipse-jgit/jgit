@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//4e8\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CommitCommandTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-09-09T07:29:15Z",
+      "side": 1,
+      "message": "I\u0027m not sure about the need for a GitAPIException, but I stand firmly by the use of \"expected\u003d\".",
+      "parentUuid": "AABOIn//4io\u003d",
+      "revId": "4a84227a6f72b36c2db19e1016a7194be67880e4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//4ik\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
         "patchSetId": 5
