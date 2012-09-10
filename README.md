@@ -1,22 +1,26 @@
-            == Java GIT ==
+Java Git
+========
 
 This package is licensed under the EDL (Eclipse Distribution
 License).
 
-  org.eclipse.jgit/
+- org.eclipse.jgit/
 
     A pure Java library capable of being run standalone, with no
     additional support libraries.  Some JUnit tests are provided
     to exercise the library.  The library provides functions to
-    read and write a GIT formatted repository.
+    read and write a Git formatted repository.
 
     All portions of jgit are covered by the EDL. Absolutely no GPL,
     LGPL or EPL contributions are accepted within this package.
 
-  org.eclipse.jgit.test/
+- org.eclipse.jgit.test/
+
     Unit tests for org.eclipse.jgit and the same licensing rules.
 
-            == WARNINGS / CAVEATS              ==
+
+Warnings/Caveats
+----------------
 
 - Symbolic links are not supported because java does not support it.
   Such links could be damaged.
@@ -48,9 +52,11 @@ License).
 - We try to use the same notation of $HOME as C Git does. On Windows
   this is often not same value as the user.home system property.
 
-            == Package Features                ==
 
-  org.eclipse.jgit/
+Package Features
+----------------
+
+- org.eclipse.jgit/
 
     * Read loose and packed commits, trees, blobs, including
       deltafied objects.
@@ -85,12 +91,14 @@ License).
       Push via ssh, git and Amazon S3. JGit does not yet deltify
       the pushed packs so they may be a lot larger than C Git packs.
 
-  org.eclipse.jgit.pgm/
+- org.eclipse.jgit.pgm/
 
     * Assorted set of command line utilities. Mostly for ad-hoc testing of jgit
       log, glog, fetch etc.
 
-            == Missing Features                ==
+
+Missing Features
+----------------
 
 There are a lot of missing features. You need the real Git for this.
 For some operations it may just be the preferred solution also. There
@@ -114,18 +122,22 @@ partial files simple.
 - submodule support
   Submodules are not supported or even recognized.
 
-            == Support                         ==
+
+Support
+-------
 
   Post question, comments or patches to the git@vger.kernel.org mailing list.
 
 
-            == Contributing                    ==
+Contributing
+------------
 
   See SUBMITTING_PATCHES in this directory. However, feedback and bug reports
   are also contributions.
 
 
-            == About GIT                       ==
+About Git
+---------
 
 More information about GIT, its repository format, and the canonical
 C based implementation can be obtained from the GIT websites:
