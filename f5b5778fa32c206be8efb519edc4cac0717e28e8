@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//4Js\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseConnection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-09-11T00:45:33Z",
+      "side": 1,
+      "message": "indexOf(\u0027/\u0027) would be sufficient here.",
+      "revId": "f5b5778fa32c206be8efb519edc4cac0717e28e8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//4Jo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseConnection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-09-11T00:45:33Z",
+      "side": 1,
+      "message": "So for HEAD (which servers advertise) we check if x/HEAD is valid, and its not right? So this always causes HEAD to fail doesn\u0027t it?\n\nI\u0027m not convinced this is the right place to make this change. This method is about being told what the remote side gave us, and nothing more, nothing less. We should be filtering what is valid before we apply it to the local Repository, not when we are looking at the collection we parsed off the wire.\n\nThe other place to barf would be when parsing the wire format. We only parse the wire data in 2 places, and we abort there if the ObjectId isn\u0027t a valid SHA-1 in hex. We could also abort if the reference name isn\u0027t strictly a valid reference name. But I prefer to be lenient in what we read from the remote peer, and strict on what we apply to the local repository.",
+      "revId": "f5b5778fa32c206be8efb519edc4cac0717e28e8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//4Jk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-09-11T00:45:33Z",
+      "side": 1,
+      "message": "s/an exceptions/an exception/",
+      "revId": "f5b5778fa32c206be8efb519edc4cac0717e28e8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//4Jg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-09-11T00:45:33Z",
+      "side": 1,
+      "message": "This isn\u0027t strictly atomic. If to is created between the test and the rename, it gets replaced. :-)\n\nI think the name of this method is too easy to assume we should always use it for renames.",
+      "revId": "f5b5778fa32c206be8efb519edc4cac0717e28e8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
