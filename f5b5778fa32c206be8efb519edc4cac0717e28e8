@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//4JY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseConnection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-09-11T01:23:58Z",
+      "side": 1,
+      "message": "This is a common methods called by all transports, hence I felt it would be convenient to fix all protocols in one place.",
+      "parentUuid": "AABOIn//4Jo\u003d",
+      "revId": "f5b5778fa32c206be8efb519edc4cac0717e28e8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//4Jk\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
         "patchSetId": 2
