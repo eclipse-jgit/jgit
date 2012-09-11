@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//4J0\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-09-11T00:34:51Z",
+      "side": 1,
+      "message": "This is silly. Grafts really only impact RevWalk/ObjectWalk. replace impacts what ObjectReader can return, since it provides a different content.\n\nI would add new methods to RevWalk/ObjectWalk to disable the use of grafts. If a caller doesn\u0027t want grafts, they disable it on the walker before they begin walking with it.\n\nA walker that has grafts enabled could implement grafts quickly by loading each graft line into a new RevCommit structure that has PARSED flag set and defines the parent list manually from the graft file. You still need to fault in the commit to get its tree and fill in the RevTree line too, but I guess that is a small price to pay for a graft. In general there shouldn\u0027t be many grafts so this should be relatively cheap to perform when grafts are enabled.\n\nreplace can be a flag on the ObjectReader, whether or not that specific reader instance honors refs/replace. It would default to true, but callers can disable it on their ObjectReader before they start to do an operation that wants the real data rather than the replaced data. When replace is enabled, the ObjectReader would need to see if the requested ObjectId is one of the things that has been replaced, and if so redirect to the other content. This should be a fast operation with an ObjectIdSubclassMap.",
+      "revId": "8baebc673cc1ad86aaa8ecc28380dd21a88c1172",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//4KE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectReader.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-09-11T00:34:51Z",
+      "side": 1,
+      "message": "nit trailing space in javadoc, please use rebase --whitespace\u003dfix to avoid these or enable removing trailing space in eclipse.",
+      "revId": "8baebc673cc1ad86aaa8ecc28380dd21a88c1172",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//4KA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Replacements.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-09-11T00:34:51Z",
+      "side": 1,
+      "message": "I wouldn\u0027t even do this as a new interface; I would define this as new methods on ObjectDatabase that return empty collections by default, indicating the database doesn\u0027t support grafts or replace. Storage implementors can then override and provide support if they have it.",
+      "revId": "8baebc673cc1ad86aaa8ecc28380dd21a88c1172",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//4J8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Replacements.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-09-11T00:34:51Z",
+      "side": 1,
+      "message": "grafts in alternates aren\u0027t processed by git-core.",
+      "revId": "8baebc673cc1ad86aaa8ecc28380dd21a88c1172",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//4J4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Replacements.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-09-11T00:34:51Z",
+      "side": 1,
+      "message": "Map keys cannot be AnyObjectId. This would permit a MutableObjectId to be used as a Map key, which confuses the hell out of the Map when the value is modified.  :-)\n\nUse instead an ObjectIdSubclassMap\u003cObjectReplacement\u003e where ObjectReplacement is defined as something like:\n\n  class ObjectReplacement extends ObjectIdSubclassMap.Entry {\n    private final ObjectId replacementId;\n\n    public ObjectId replacement() {\n      return replacementId;\n    }\n  }\n\nand then the cost is lower for a single replacement. Its not a full Map.Entry, its closer to just the ObjectId pair.",
+      "revId": "8baebc673cc1ad86aaa8ecc28380dd21a88c1172",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
