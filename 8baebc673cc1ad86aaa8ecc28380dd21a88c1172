@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//4G4\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-09-11T14:27:42Z",
+      "side": 1,
+      "message": "ps4 is better than ps7. :-)",
+      "parentUuid": "AABOIn//4JI\u003d",
+      "revId": "8baebc673cc1ad86aaa8ecc28380dd21a88c1172",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//4KE\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectReader.java",
         "patchSetId": 7
