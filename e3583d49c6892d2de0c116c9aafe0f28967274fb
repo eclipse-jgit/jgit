@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//4KU\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-09-11T00:23:34Z",
+      "side": 1,
+      "message": "Why are we doing this? Its a rather large refactoring but you haven\u0027t explained the value of having Repository be more interface like than it already is.",
+      "revId": "e3583d49c6892d2de0c116c9aafe0f28967274fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//4LM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-09-11T00:23:34Z",
+      "side": 1,
+      "message": "nit: you added trailing whitespace inside of javadoc blocks.",
+      "revId": "e3583d49c6892d2de0c116c9aafe0f28967274fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
