@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//4JQ\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-09-11T01:32:15Z",
+      "side": 1,
+      "message": "The problem is that reader aren\u0027t created in one place, some of which are hard to get to in order to disable the replacement. That\u0027s which I attempted going into this direction just see if would work, but then I got overwhelmed.\n\nGrafts are easy, they can be fixed in the walker alone (see first ttempt). The replace mechanism is needed in more places and we have  hierarchy of readers and shared readers (e.g. WindowCursor), the ObjectDatabase and so on that are not always a per caller instance.\n\nI only need grafts, btw.",
+      "parentUuid": "AABOIn//4J0\u003d",
+      "revId": "8baebc673cc1ad86aaa8ecc28380dd21a88c1172",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//4KE\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectReader.java",
         "patchSetId": 7
