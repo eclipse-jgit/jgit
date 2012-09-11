@@ -25,6 +25,7 @@ org.eclipse.jgit.pgm.RevParse
 org.eclipse.jgit.pgm.Rm
 org.eclipse.jgit.pgm.Show
 org.eclipse.jgit.pgm.ShowRef
+org.eclipse.jgit.pgm.Status
 org.eclipse.jgit.pgm.Tag
 org.eclipse.jgit.pgm.UploadPack
 org.eclipse.jgit.pgm.Version
