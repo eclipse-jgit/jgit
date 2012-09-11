@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//4HM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseConnection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-09-11T14:23:33Z",
+      "side": 1,
+      "message": "Just because its a common method doesn\u0027t mean its always the right place to fix a common bug. :-)\n\nThe risk here is a writing a bad name to a local repository. The local repository name of a ref comes from a lot more sources than just the Map supplied by the remote peer. It could come from a bad reference specification supplied in .git/config or on the command line.\n\nWe should be catching and refusing these inside of the reference writing code path, and not relying on this little setter method to make sure data going to local disk is safe.",
+      "parentUuid": "AABOIn//4JY\u003d",
+      "revId": "f5b5778fa32c206be8efb519edc4cac0717e28e8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//4Jk\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
         "patchSetId": 2
