@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//4EM\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-09-11T21:20:11Z",
+      "side": 1,
+      "message": "Good, that will probably relieve me of some insanity.",
+      "parentUuid": "AABOIn//4G4\u003d",
+      "revId": "8baebc673cc1ad86aaa8ecc28380dd21a88c1172",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//4KE\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectReader.java",
         "patchSetId": 7
