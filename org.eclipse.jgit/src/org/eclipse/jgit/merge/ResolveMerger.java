@@ -533,6 +533,15 @@ public class ResolveMerger extends ThreeWayMerger {
 			// and do the content merge
 		}
 
+		// Don't attempt to resolve submodule link conflicts
+		if (isGitLink(modeO) || isGitLink(modeT)) {
+			add(tw.getRawPath(), base, DirCacheEntry.STAGE_1, 0, 0);
+			add(tw.getRawPath(), ours, DirCacheEntry.STAGE_2, 0, 0);
+			add(tw.getRawPath(), theirs, DirCacheEntry.STAGE_3, 0, 0);
+			unmergedPaths.add(tw.getPathString());
+			return true;
+		}
+
 		if (nonTree(modeO) && nonTree(modeT)) {
 			// Check worktree before modifying files
 			if (isWorktreeDirty(work))
@@ -768,6 +777,10 @@ public class ResolveMerger extends ThreeWayMerger {
 
 	private static boolean nonTree(final int mode) {
 		return mode != 0 && !FileMode.TREE.equals(mode);
+	}
+
+	private static boolean isGitLink(final int mode) {
+		return FileMode.GITLINK.equals(mode);
 	}
 
 	@Override
