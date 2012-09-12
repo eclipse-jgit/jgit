@@ -270,6 +270,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String flagNotFromThis;
 	/***/ public String flagsAlreadyCreated;
 	/***/ public String funnyRefname;
+	/***/ public String gcFailed;
 	/***/ public String gitmodulesNotFound;
 	/***/ public String headRequiredToStash;
 	/***/ public String hoursAgo;
@@ -568,6 +569,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String unsupportedCommand0;
 	/***/ public String unsupportedEncryptionAlgorithm;
 	/***/ public String unsupportedEncryptionVersion;
+	/***/ public String unsupportedGC;
 	/***/ public String unsupportedOperationNotAddAtEnd;
 	/***/ public String unsupportedPackIndexVersion;
 	/***/ public String unsupportedPackVersion;
