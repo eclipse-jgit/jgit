@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//398\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 543,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-09-12T09:43:14Z",
+      "side": 1,
+      "message": "I would move this block 5 lines down directly before the call to contentMerge(). This makes it clearer that the only thing you are preventing is the attempt to content merge submodules. At the current place it is not obvious that the next thing we would try is content-merge.",
+      "revId": "997d9f0b38583ea47fa1885a19bf7fb38b0f3db3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
