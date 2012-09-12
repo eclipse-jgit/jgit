@@ -16,6 +16,24 @@
       "revId": "997d9f0b38583ea47fa1885a19bf7fb38b0f3db3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//39s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 543,
+      "author": {
+        "id": 864
+      },
+      "writtenOn": "2012-09-12T10:23:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//398\u003d",
+      "revId": "997d9f0b38583ea47fa1885a19bf7fb38b0f3db3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
