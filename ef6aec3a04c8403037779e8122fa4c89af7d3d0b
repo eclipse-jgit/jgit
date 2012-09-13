@@ -16,6 +16,24 @@
       "revId": "ef6aec3a04c8403037779e8122fa4c89af7d3d0b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//3wU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1082,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-09-13T21:49:35Z",
+      "side": 0,
+      "message": "ok, with JDK 1.7u6 and 4.2 I also get a warning, why don\u0027t you close the stream in a finally block ?",
+      "parentUuid": "AABOIn//6Z0\u003d",
+      "revId": "ef6aec3a04c8403037779e8122fa4c89af7d3d0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
