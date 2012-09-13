@@ -215,18 +215,18 @@ class Branch extends TextBuiltin {
 
 	private void printHead(final ObjectReader reader, final String ref,
 			final boolean isCurrent, final Ref refObj) throws Exception {
-		out.print(isCurrent ? '*' : ' ');
-		out.print(' ');
-		out.print(ref);
+		outw.print(isCurrent ? '*' : ' ');
+		outw.print(' ');
+		outw.print(ref);
 		if (verbose) {
 			final int spaces = maxNameLength - ref.length() + 1;
-			out.format("%" + spaces + "s", "");
+			outw.format("%" + spaces + "s", "");
 			final ObjectId objectId = refObj.getObjectId();
-			out.print(reader.abbreviate(objectId).name());
-			out.print(' ');
-			out.print(rw.parseCommit(objectId).getShortMessage());
+			outw.print(reader.abbreviate(objectId).name());
+			outw.print(' ');
+			outw.print(rw.parseCommit(objectId).getShortMessage());
 		}
-		out.println();
+		outw.println();
 	}
 
 	private void delete(boolean force) throws IOException {
@@ -247,9 +247,9 @@ class Branch extends TextBuiltin {
 			} else if (result == Result.NEW)
 				throw die(MessageFormat.format(CLIText.get().branchNotFound, branch));
 			if (remote)
-				out.println(MessageFormat.format(CLIText.get().deletedRemoteBranch, branch));
+				outw.println(MessageFormat.format(CLIText.get().deletedRemoteBranch, branch));
 			else if (verbose)
-				out.println(MessageFormat.format(CLIText.get().deletedBranch, branch));
+				outw.println(MessageFormat.format(CLIText.get().deletedBranch, branch));
 		}
 	}
 }

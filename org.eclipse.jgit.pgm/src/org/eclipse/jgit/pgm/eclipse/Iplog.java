@@ -114,8 +114,8 @@ class Iplog extends TextBuiltin {
 				lf.unlock();
 			}
 		} else {
-			log.writeTo(System.out);
-			System.out.flush();
+			log.writeTo(outs);
+			outs.flush();
 		}
 	}
 }
