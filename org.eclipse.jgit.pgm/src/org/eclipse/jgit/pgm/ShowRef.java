@@ -45,6 +45,7 @@
 
 package org.eclipse.jgit.pgm;
 
+import java.io.IOException;
 import java.util.Map;
 import java.util.SortedMap;
 
@@ -71,10 +72,11 @@ class ShowRef extends TextBuiltin {
 		return RefComparator.sort(all.values());
 	}
 
-	private void show(final AnyObjectId id, final String name) {
-		out.print(id.name());
-		out.print('\t');
-		out.print(name);
-		out.println();
+	private void show(final AnyObjectId id, final String name)
+			throws IOException {
+		outw.print(id.name());
+		outw.print('\t');
+		outw.print(name);
+		outw.println();
 	}
 }

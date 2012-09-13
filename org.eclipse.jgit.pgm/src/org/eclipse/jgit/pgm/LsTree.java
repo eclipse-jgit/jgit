@@ -68,17 +68,17 @@ class LsTree extends TextBuiltin {
 		while (walk.next()) {
 			final FileMode mode = walk.getFileMode(0);
 			if (mode == FileMode.TREE)
-				out.print('0');
-			out.print(mode);
-			out.print(' ');
-			out.print(Constants.typeString(mode.getObjectType()));
+				outw.print('0');
+			outw.print(mode);
+			outw.print(' ');
+			outw.print(Constants.typeString(mode.getObjectType()));
 
-			out.print(' ');
-			out.print(walk.getObjectId(0).name());
+			outw.print(' ');
+			outw.print(walk.getObjectId(0).name());
 
-			out.print('\t');
-			out.print(walk.getPathString());
-			out.println();
+			outw.print('\t');
+			outw.print(walk.getPathString());
+			outw.println();
 		}
 	}
 }

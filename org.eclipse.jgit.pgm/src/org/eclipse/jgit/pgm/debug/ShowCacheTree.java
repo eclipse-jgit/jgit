@@ -44,6 +44,7 @@
 
 package org.eclipse.jgit.pgm.debug;
 
+import java.io.IOException;
 import java.text.MessageFormat;
 
 import org.eclipse.jgit.dircache.DirCache;
@@ -61,8 +62,8 @@ class ShowCacheTree extends TextBuiltin {
 		show(tree);
 	}
 
-	private void show(final DirCacheTree tree) {
-		out.println(MessageFormat.format(CLIText.get().cacheTreePathInfo
+	private void show(final DirCacheTree tree) throws IOException {
+		outw.println(MessageFormat.format(CLIText.get().cacheTreePathInfo
 				, tree.getPathString(), tree.getEntrySpan(), tree.getChildCount()));
 
 		for (int i = 0; i < tree.getChildCount(); i++)

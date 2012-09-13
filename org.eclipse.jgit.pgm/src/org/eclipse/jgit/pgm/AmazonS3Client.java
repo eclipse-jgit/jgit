@@ -86,21 +86,23 @@ class AmazonS3Client extends TextBuiltin {
 			int len = c.getContentLength();
 			final InputStream in = c.getInputStream();
 			try {
+				outw.flush();
 				final byte[] tmp = new byte[2048];
 				while (len > 0) {
 					final int n = in.read(tmp);
 					if (n < 0)
 						throw new EOFException(MessageFormat.format(CLIText.get().expectedNumberOfbytes, len));
-					System.out.write(tmp, 0, n);
+					outs.write(tmp, 0, n);
 					len -= n;
 				}
+				outs.flush();
 			} finally {
 				in.close();
 			}
 
 		} else if ("ls".equals(op) || "list".equals(op)) {
 			for (final String k : s3.list(bucket, key))
-				System.out.println(k);
+				outw.println(k);
 
 		} else if ("rm".equals(op) || "delete".equals(op)) {
 			s3.delete(bucket, key);
