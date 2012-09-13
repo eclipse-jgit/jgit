@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//3xk\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/JGitPrintWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-09-13T21:42:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//4Hw\u003d",
+      "revId": "f844b3cff98c4b8c64b970e1212c35c5f3834646",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//4HU\u003d",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/JGitPrintWriter.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2012-09-11T14:21:30Z",
       "side": 1,
       "message": "Make this public and make it available to any command type class. Actually I might just say put it in the main JAR under the io.util package.",
+      "revId": "f844b3cff98c4b8c64b970e1212c35c5f3834646",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//3xA\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/JGitPrintWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-09-13T21:42:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//4HU\u003d",
       "revId": "f844b3cff98c4b8c64b970e1212c35c5f3834646",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//3w8\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/JGitPrintWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-09-13T21:42:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//4Hk\u003d",
+      "revId": "f844b3cff98c4b8c64b970e1212c35c5f3834646",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//4HY\u003d",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/JGitPrintWriter.java",
         "patchSetId": 3
@@ -64,6 +118,24 @@
       "writtenOn": "2012-09-11T14:21:30Z",
       "side": 1,
       "message": "I probably would have used print(String.valueOf(value)) so that we only touch the real Writer in one place, print(String).",
+      "revId": "f844b3cff98c4b8c64b970e1212c35c5f3834646",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//3ww\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/JGitPrintWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-09-13T21:42:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//4HY\u003d",
       "revId": "f844b3cff98c4b8c64b970e1212c35c5f3834646",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//3w0\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/JGitPrintWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-09-13T21:42:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//4Hg\u003d",
+      "revId": "f844b3cff98c4b8c64b970e1212c35c5f3834646",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//4Hc\u003d",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/JGitPrintWriter.java",
         "patchSetId": 3
@@ -98,6 +188,24 @@
       "writtenOn": "2012-09-11T14:21:30Z",
       "side": 1,
       "message": "Does PrintWriter NPE when passed print(null), or does it use String.valueOf() which IIRC protects against null by writing \"null\"?",
+      "revId": "f844b3cff98c4b8c64b970e1212c35c5f3834646",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//3ws\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/JGitPrintWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-09-13T21:42:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//4Hc\u003d",
       "revId": "f844b3cff98c4b8c64b970e1212c35c5f3834646",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
