@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//3x0\u003d",
+        "filename": "org.eclipse.jgit.pgm.test/src/org/eclipse/jgit/lib/CLIRepositoryTestCase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-09-13T21:06:21Z",
+      "side": 1,
+      "message": "nit-style; trailing whitespace",
+      "revId": "bdfffefcda61d43afbbd23c9bda9a1b2a4cb148a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//3xw\u003d",
+        "filename": "org.eclipse.jgit.pgm.test/src/org/eclipse/jgit/lib/CLIRepositoryTestCase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-09-13T21:06:21Z",
+      "side": 1,
+      "message": "nit-style; trailing whitespace",
+      "revId": "bdfffefcda61d43afbbd23c9bda9a1b2a4cb148a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//3xs\u003d",
+        "filename": "org.eclipse.jgit.pgm.test/src/org/eclipse/jgit/lib/CLIRepositoryTestCase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-09-13T21:06:21Z",
+      "side": 1,
+      "message": "Use StringBuilder instead",
+      "revId": "bdfffefcda61d43afbbd23c9bda9a1b2a4cb148a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
