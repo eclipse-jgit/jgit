@@ -57,7 +57,7 @@ class ReadDirCache extends TextBuiltin {
 		for (int i = 0; i < cnt; i++)
 			db.readDirCache();
 		final long end = System.currentTimeMillis();
-		out.print(" ");
-		out.println(MessageFormat.format(CLIText.get().averageMSPerRead, (end - start) / cnt));
+		outw.print(" ");
+		outw.println(MessageFormat.format(CLIText.get().averageMSPerRead, (end - start) / cnt));
 	}
 }
