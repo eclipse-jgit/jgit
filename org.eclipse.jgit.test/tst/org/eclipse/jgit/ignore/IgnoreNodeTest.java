@@ -170,6 +170,7 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 		walk.addTree(new FileTreeIterator(db));
 	}
 
+	@SuppressWarnings("boxing")
 	private void assertEntry(FileMode type, boolean entryIgnored,
 			String pathName) throws IOException {
 		assertTrue("walk has entry", walk.next());

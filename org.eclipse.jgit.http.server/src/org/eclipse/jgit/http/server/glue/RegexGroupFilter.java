@@ -70,6 +70,7 @@ public class RegexGroupFilter implements Filter {
 	 * @param groupIdx
 	 *            capture group number, 1 through the number of groups.
 	 */
+	@SuppressWarnings("boxing")
 	public RegexGroupFilter(final int groupIdx) {
 		if (groupIdx < 1)
 			throw new IllegalArgumentException(MessageFormat.format(HttpServerText.get().invalidIndex, groupIdx));
@@ -84,6 +85,7 @@ public class RegexGroupFilter implements Filter {
 		// Do nothing.
 	}
 
+	@SuppressWarnings("boxing")
 	public void doFilter(final ServletRequest request,
 			final ServletResponse rsp, final FilterChain chain)
 			throws IOException, ServletException {
