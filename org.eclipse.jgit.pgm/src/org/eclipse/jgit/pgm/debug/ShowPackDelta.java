@@ -87,7 +87,7 @@ class ShowPackDelta extends TextBuiltin {
 			throw die("Object " + obj.name() + " is not a delta");
 		}
 
-		out.println(BinaryDelta.format(delta));
+		outw.println(BinaryDelta.format(delta));
 	}
 
 	private byte[] getDelta(ObjectReader reader, RevObject obj)
