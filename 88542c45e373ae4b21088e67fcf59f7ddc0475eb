@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//3qA\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Main.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-09-14T19:58:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//3qs\u003d",
+      "revId": "88542c45e373ae4b21088e67fcf59f7ddc0475eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//3qo\u003d",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Main.java",
         "patchSetId": 7
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//3qE\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Main.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-09-14T19:58:57Z",
+      "side": 1,
+      "message": "That\u0027s probably either disk full or the reader exited. I\u0027m not sure there is much point in making it different. C programs seems to return 141 if stdout or stderr is broken (same), but 1 if disk is full and we cannot tell whither error occurred.",
+      "parentUuid": "AABOIn//3qo\u003d",
+      "revId": "88542c45e373ae4b21088e67fcf59f7ddc0475eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//3qg\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/ThrowingPrintWriter.java",
         "patchSetId": 7
@@ -47,6 +83,24 @@
       "writtenOn": "2012-09-14T16:56:49Z",
       "side": 1,
       "message": "final",
+      "revId": "88542c45e373ae4b21088e67fcf59f7ddc0475eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//3pw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/ThrowingPrintWriter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-09-14T19:58:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//3qg\u003d",
       "revId": "88542c45e373ae4b21088e67fcf59f7ddc0475eb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
