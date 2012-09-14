@@ -137,6 +137,15 @@ public class Main {
 			err.printStackTrace();
 			System.exit(1);
 		}
+		if (System.out.checkError()) {
+			System.err.println(CLIText.get().unknownIoErrorStdout);
+			System.exit(1);
+		}
+		if (System.err.checkError()) {
+			// No idea how to present an error here, most likely disk full or
+			// broken pipe
+			System.exit(1);
+		}
 	}
 
 	private void execute(final String[] argv) throws Exception {
@@ -190,8 +199,8 @@ public class Main {
 		try {
 			cmd.execute(arguments.toArray(new String[arguments.size()]));
 		} finally {
-			if (cmd.out != null)
-				cmd.out.flush();
+			if (cmd.outw != null)
+				cmd.outw.flush();
 		}
 	}
 

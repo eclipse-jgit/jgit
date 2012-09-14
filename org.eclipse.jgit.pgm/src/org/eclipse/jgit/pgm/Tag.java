@@ -91,7 +91,7 @@ class Tag extends TextBuiltin {
 			ListTagCommand command = git.tagList();
 			List<Ref> list = command.call();
 			for (Ref ref : list) {
-				out.println(Repository.shortenRefName(ref.getName()));
+				outw.println(Repository.shortenRefName(ref.getName()));
 			}
 		}
 	}

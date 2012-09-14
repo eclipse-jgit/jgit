@@ -189,6 +189,7 @@ public class CLIText extends TranslationBundle {
 	/***/ public String taggerInfo;
 	/***/ public String timeInMilliSeconds;
 	/***/ public String tooManyRefsGiven;
+	/***/ public char[] unknownIoErrorStdout;
 	/***/ public String unknownMergeStrategy;
 	/***/ public String unsupportedOperation;
 	/***/ public String warningNoCommitGivenOnCommandLine;

@@ -127,7 +127,7 @@ class Daemon extends TextBuiltin {
 
 		final FileResolver<DaemonClient> resolver = new FileResolver<DaemonClient>();
 		for (final File f : directory) {
-			out.println(MessageFormat.format(CLIText.get().exporting, f.getAbsolutePath()));
+			outw.println(MessageFormat.format(CLIText.get().exporting, f.getAbsolutePath()));
 			resolver.exportDirectory(f);
 		}
 		resolver.setExportAll(exportAll);
@@ -152,7 +152,7 @@ class Daemon extends TextBuiltin {
 			service(d, n).setOverridable(false);
 
 		d.start();
-		out.println(MessageFormat.format(CLIText.get().listeningOn, d.getAddress()));
+		outw.println(MessageFormat.format(CLIText.get().listeningOn, d.getAddress()));
 	}
 
 	private DaemonService service(final org.eclipse.jgit.transport.Daemon d,
