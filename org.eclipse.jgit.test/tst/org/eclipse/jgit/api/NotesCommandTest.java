@@ -43,8 +43,6 @@
 package org.eclipse.jgit.api;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 import java.util.List;
 
 import org.eclipse.jgit.lib.RepositoryTestCase;
@@ -80,7 +78,7 @@ public class NotesCommandTest extends RepositoryTestCase {
 	@Test
 	public void testListNotes() throws Exception {
 		List<Note> notes = git.notesList().call();
-		assertTrue(notes.size() == 1);
+		assertEquals(1, notes.size());
 	}
 
 	@Test
@@ -94,7 +92,7 @@ public class NotesCommandTest extends RepositoryTestCase {
 		git.notesRemove().setObjectId(commit2).call();
 
 		List<Note> notes = git.notesList().call();
-		assertTrue(notes.size() == 1);
+		assertEquals(1, notes.size());
 	}
 
 }
