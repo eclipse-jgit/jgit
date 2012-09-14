@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//3pA\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CleanCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2012-09-14T20:20:18Z",
+      "side": 1,
+      "message": "Trailing whitespace before closing parenthesis. Also on other places.",
+      "revId": "d5b2edcea94d9ad67e307204b830f0af87acfb04",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
