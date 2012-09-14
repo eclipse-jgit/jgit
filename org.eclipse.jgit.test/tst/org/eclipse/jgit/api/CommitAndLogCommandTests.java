@@ -220,7 +220,7 @@ public class CommitAndLogCommandTests extends RepositoryTestCase {
 		RevCommit[] parents = commit.getParents();
 		assertEquals(parents[0], firstSide);
 		assertEquals(parents[1], second);
-		assertTrue(parents.length==2);
+		assertEquals(2, parents.length);
 	}
 
 	@Test

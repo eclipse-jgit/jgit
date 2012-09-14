@@ -86,7 +86,7 @@ public class RevFlagSetTest extends RevWalkTestCase {
 	public void testAddTwo() {
 		final RevFlag flag1 = rw.newFlag("flag_1");
 		final RevFlag flag2 = rw.newFlag("flag_2");
-		assertTrue((flag1.mask & flag2.mask) == 0);
+		assertEquals(0, (flag1.mask & flag2.mask));
 
 		final RevFlagSet set = new RevFlagSet();
 		assertTrue(set.add(flag1));
