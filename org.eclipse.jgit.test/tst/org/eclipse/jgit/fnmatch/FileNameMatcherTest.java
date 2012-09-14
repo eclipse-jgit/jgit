@@ -45,6 +45,7 @@
 package org.eclipse.jgit.fnmatch;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -829,22 +830,22 @@ public class FileNameMatcherTest {
 		final String pattern = "helloworld";
 		final FileNameMatcher matcher = new FileNameMatcher(pattern, null);
 		matcher.append("helloworld");
-		assertEquals(true, matcher.isMatch());
-		assertEquals(false, matcher.canAppendMatch());
+		assertTrue(matcher.isMatch());
+		assertFalse(matcher.canAppendMatch());
 		matcher.reset();
 		matcher.append("hello");
-		assertEquals(false, matcher.isMatch());
-		assertEquals(true, matcher.canAppendMatch());
+		assertFalse(matcher.isMatch());
+		assertTrue(matcher.canAppendMatch());
 		matcher.append("world");
-		assertEquals(true, matcher.isMatch());
-		assertEquals(false, matcher.canAppendMatch());
+		assertTrue(matcher.isMatch());
+		assertFalse(matcher.canAppendMatch());
 		matcher.append("to much");
-		assertEquals(false, matcher.isMatch());
-		assertEquals(false, matcher.canAppendMatch());
+		assertFalse(matcher.isMatch());
+		assertFalse(matcher.canAppendMatch());
 		matcher.reset();
 		matcher.append("helloworld");
-		assertEquals(true, matcher.isMatch());
-		assertEquals(false, matcher.canAppendMatch());
+		assertTrue(matcher.isMatch());
+		assertFalse(matcher.canAppendMatch());
 	}
 
 	@Test
@@ -853,30 +854,30 @@ public class FileNameMatcherTest {
 		final FileNameMatcher matcher = new FileNameMatcher(pattern, null);
 		matcher.append("hello");
 		final FileNameMatcher childMatcher = matcher.createMatcherForSuffix();
-		assertEquals(false, matcher.isMatch());
-		assertEquals(true, matcher.canAppendMatch());
-		assertEquals(false, childMatcher.isMatch());
-		assertEquals(true, childMatcher.canAppendMatch());
+		assertFalse(matcher.isMatch());
+		assertTrue(matcher.canAppendMatch());
+		assertFalse(childMatcher.isMatch());
+		assertTrue(childMatcher.canAppendMatch());
 		matcher.append("world");
-		assertEquals(true, matcher.isMatch());
-		assertEquals(false, matcher.canAppendMatch());
-		assertEquals(false, childMatcher.isMatch());
-		assertEquals(true, childMatcher.canAppendMatch());
+		assertTrue(matcher.isMatch());
+		assertFalse(matcher.canAppendMatch());
+		assertFalse(childMatcher.isMatch());
+		assertTrue(childMatcher.canAppendMatch());
 		childMatcher.append("world");
-		assertEquals(true, matcher.isMatch());
-		assertEquals(false, matcher.canAppendMatch());
-		assertEquals(true, childMatcher.isMatch());
-		assertEquals(false, childMatcher.canAppendMatch());
+		assertTrue(matcher.isMatch());
+		assertFalse(matcher.canAppendMatch());
+		assertTrue(childMatcher.isMatch());
+		assertFalse(childMatcher.canAppendMatch());
 		childMatcher.reset();
-		assertEquals(true, matcher.isMatch());
-		assertEquals(false, matcher.canAppendMatch());
-		assertEquals(false, childMatcher.isMatch());
-		assertEquals(true, childMatcher.canAppendMatch());
+		assertTrue(matcher.isMatch());
+		assertFalse(matcher.canAppendMatch());
+		assertFalse(childMatcher.isMatch());
+		assertTrue(childMatcher.canAppendMatch());
 		childMatcher.append("world");
-		assertEquals(true, matcher.isMatch());
-		assertEquals(false, matcher.canAppendMatch());
-		assertEquals(true, childMatcher.isMatch());
-		assertEquals(false, childMatcher.canAppendMatch());
+		assertTrue(matcher.isMatch());
+		assertFalse(matcher.canAppendMatch());
+		assertTrue(childMatcher.isMatch());
+		assertFalse(childMatcher.canAppendMatch());
 	}
 
 	@Test
@@ -885,29 +886,29 @@ public class FileNameMatcherTest {
 		final FileNameMatcher matcher = new FileNameMatcher(pattern, null);
 		matcher.append("hello");
 		final FileNameMatcher copy = new FileNameMatcher(matcher);
-		assertEquals(false, matcher.isMatch());
-		assertEquals(true, matcher.canAppendMatch());
-		assertEquals(false, copy.isMatch());
-		assertEquals(true, copy.canAppendMatch());
+		assertFalse(matcher.isMatch());
+		assertTrue(matcher.canAppendMatch());
+		assertFalse(copy.isMatch());
+		assertTrue(copy.canAppendMatch());
 		matcher.append("world");
-		assertEquals(true, matcher.isMatch());
-		assertEquals(false, matcher.canAppendMatch());
-		assertEquals(false, copy.isMatch());
-		assertEquals(true, copy.canAppendMatch());
+		assertTrue(matcher.isMatch());
+		assertFalse(matcher.canAppendMatch());
+		assertFalse(copy.isMatch());
+		assertTrue(copy.canAppendMatch());
 		copy.append("world");
-		assertEquals(true, matcher.isMatch());
-		assertEquals(false, matcher.canAppendMatch());
-		assertEquals(true, copy.isMatch());
-		assertEquals(false, copy.canAppendMatch());
+		assertTrue(matcher.isMatch());
+		assertFalse(matcher.canAppendMatch());
+		assertTrue(copy.isMatch());
+		assertFalse(copy.canAppendMatch());
 		copy.reset();
-		assertEquals(true, matcher.isMatch());
-		assertEquals(false, matcher.canAppendMatch());
-		assertEquals(false, copy.isMatch());
-		assertEquals(true, copy.canAppendMatch());
+		assertTrue(matcher.isMatch());
+		assertFalse(matcher.canAppendMatch());
+		assertFalse(copy.isMatch());
+		assertTrue(copy.canAppendMatch());
 		copy.append("helloworld");
-		assertEquals(true, matcher.isMatch());
-		assertEquals(false, matcher.canAppendMatch());
-		assertEquals(true, copy.isMatch());
-		assertEquals(false, copy.canAppendMatch());
+		assertTrue(matcher.isMatch());
+		assertFalse(matcher.canAppendMatch());
+		assertTrue(copy.isMatch());
+		assertFalse(copy.canAppendMatch());
 	}
 }
