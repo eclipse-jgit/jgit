@@ -246,6 +246,7 @@ class Push extends TextBuiltin {
 		}
 	}
 
+	@SuppressWarnings("boxing")
 	private void printUpdateLine(final char flag, final String summary,
 			final String srcRef, final String destRef, final String message) {
 		out.format(" %c %-17s", flag, summary);

@@ -155,6 +155,7 @@ class CQ {
 		return false;
 	}
 
+	@SuppressWarnings("boxing")
 	@Override
 	public String toString() {
 		return MessageFormat.format(IpLogText.get().CQString, getID());

@@ -48,6 +48,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 public class ValidRefNameTest {
+	@SuppressWarnings("boxing")
 	private static void assertValid(final boolean exp, final String name) {
 		assertEquals("\"" + name + "\"", exp, Repository.isValidRefName(name));
 	}

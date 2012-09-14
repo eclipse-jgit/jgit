@@ -56,6 +56,7 @@ import org.eclipse.jgit.treewalk.NameConflictTreeWalk;
 import org.eclipse.jgit.util.FileUtils;
 
 public class RacyGitTests extends RepositoryTestCase {
+	@SuppressWarnings("boxing")
 	public void testIterator() throws IllegalStateException, IOException,
 			InterruptedException {
 		TreeSet<Long> modTimes = new TreeSet<Long>();
@@ -115,6 +116,7 @@ public class RacyGitTests extends RepositoryTestCase {
 		}
 	}
 
+	@SuppressWarnings("boxing")
 	public void testRacyGitDetection() throws IOException,
 			IllegalStateException, InterruptedException {
 		TreeSet<Long> modTimes = new TreeSet<Long>();

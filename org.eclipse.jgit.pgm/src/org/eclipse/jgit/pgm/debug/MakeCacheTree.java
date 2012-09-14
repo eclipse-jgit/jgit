@@ -59,6 +59,7 @@ class MakeCacheTree extends TextBuiltin {
 		show(tree);
 	}
 
+	@SuppressWarnings("boxing")
 	private void show(final DirCacheTree tree) {
 		out.println(MessageFormat.format(CLIText.get().cacheTreePathInfo
 				, tree.getPathString(), tree.getEntrySpan(), tree.getChildCount()));

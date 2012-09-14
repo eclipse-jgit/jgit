@@ -218,6 +218,7 @@ public class DirCacheCGitCompatabilityTest extends LocalDiskRepositoryTestCase {
 		assertArrayEquals(expectedBytes, indexBytes);
 	}
 
+	@SuppressWarnings("boxing")
 	private static void assertV3TreeEntry(int indexPosition, String path,
 			boolean skipWorkTree, boolean intentToAdd, DirCache dc) {
 		final DirCacheEntry entry = dc.getEntry(indexPosition);
