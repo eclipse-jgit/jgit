@@ -34,6 +34,24 @@
       "revId": "3e65566d38239ba151c1eda38facf0fa259f9bfc",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//3rc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/JGitPrintWriter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2012-09-14T16:05:40Z",
+      "side": 1,
+      "message": "Same name different package is dangerous if it competes against something from java.io namespace. PrintWriter2 is non-descriptive. The Eclipse practice is for extending interfaces with new functionality in a backwards-compatible way. This doesn\u0027t extend PrintWriter with new functionality, it\u0027s an alternative.\n\nIMO, a longer descriptive name is better than a short non-descriptive one, especially for API.",
+      "parentUuid": "AABOIn//3sI\u003d",
+      "revId": "3e65566d38239ba151c1eda38facf0fa259f9bfc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
