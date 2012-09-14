@@ -74,6 +74,7 @@ public class CLIText extends TranslationBundle {
 
 	/***/ public String IPZillaPasswordPrompt;
 	/***/ public String alreadyOnBranch;
+	/***/ public String alreadyUpToDate;
 	/***/ public String authorInfo;
 	/***/ public String averageMSPerRead;
 	/***/ public String branchAlreadyExists;
