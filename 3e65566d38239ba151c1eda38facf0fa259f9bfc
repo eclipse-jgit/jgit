@@ -16,6 +16,24 @@
       "revId": "3e65566d38239ba151c1eda38facf0fa259f9bfc",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//3sI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/JGitPrintWriter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-09-14T15:39:13Z",
+      "side": 1,
+      "message": "Vote: \nPrintWriter (same name different package)\nPrintWriter2 (seems popular in Eclipse for fixing interfaces).\n\nthe other ones are too long.",
+      "parentUuid": "AABOIn//3sY\u003d",
+      "revId": "3e65566d38239ba151c1eda38facf0fa259f9bfc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
