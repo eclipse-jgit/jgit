@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//3qs\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Main.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-09-14T16:56:49Z",
+      "side": 1,
+      "message": "s/occurs/occurred/. But this should also be a translated string in CLIText.",
+      "revId": "88542c45e373ae4b21088e67fcf59f7ddc0475eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//3qo\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Main.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-09-14T16:56:49Z",
+      "side": 1,
+      "message": "exit(43)? At this point yea, you are stuck. You can\u0027t report anything. But we can try to use a special exit status that users who are really stuck and not getting error back can do \"echo $?\" after running the bad JGit command get back 43, which if we don\u0027t use anywhere else we can define to mean \"yea well that means your JRE\u0027s System.err is broken, try fixing that first!\".",
+      "revId": "88542c45e373ae4b21088e67fcf59f7ddc0475eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//3qg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/ThrowingPrintWriter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-09-14T16:56:49Z",
+      "side": 1,
+      "message": "final",
+      "revId": "88542c45e373ae4b21088e67fcf59f7ddc0475eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
