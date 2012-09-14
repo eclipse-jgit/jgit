@@ -77,6 +77,7 @@ class AmazonS3Client extends TextBuiltin {
 		return false;
 	}
 
+	@SuppressWarnings("boxing")
 	@Override
 	protected void run() throws Exception {
 		final AmazonS3 s3 = new AmazonS3(properties());

@@ -159,6 +159,7 @@ class DiffAlgorithms extends TextBuiltin {
 		}
 	}
 
+	@SuppressWarnings("boxing")
 	private void run(Repository db) throws Exception {
 		List<Test> all = init();
 

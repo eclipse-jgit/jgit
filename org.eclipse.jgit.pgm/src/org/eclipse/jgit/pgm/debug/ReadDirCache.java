@@ -50,6 +50,7 @@ import org.eclipse.jgit.pgm.CLIText;
 import org.eclipse.jgit.pgm.TextBuiltin;
 
 class ReadDirCache extends TextBuiltin {
+	@SuppressWarnings("boxing")
 	@Override
 	protected void run() throws Exception {
 		final int cnt = 100;

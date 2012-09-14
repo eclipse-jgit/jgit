@@ -63,6 +63,7 @@ abstract class AbstractFetchCommand extends TextBuiltin {
 	@Option(name = "--verbose", aliases = { "-v" }, usage = "usage_beMoreVerbose")
 	private boolean verbose;
 
+	@SuppressWarnings("boxing")
 	protected void showFetchResult(final FetchResult r) {
 		ObjectReader reader = db.newObjectReader();
 		try {

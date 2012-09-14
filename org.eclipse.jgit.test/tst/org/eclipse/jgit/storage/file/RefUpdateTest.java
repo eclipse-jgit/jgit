@@ -99,6 +99,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		delete(ref, expected, true, true);
 	}
 
+	@SuppressWarnings("boxing")
 	private void delete(final RefUpdate ref, final Result expected,
 			final boolean exists, final boolean removed) throws IOException {
 		assertEquals(exists, db.getAllRefs().containsKey(ref.getName()));
@@ -740,6 +741,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		}
 	}
 
+	@SuppressWarnings("boxing")
 	private void assertExists(boolean positive, String toName) {
 		assertEquals(toName + (positive ? " " : " does not ") + "exist",
 				positive, new File(db.getDirectory(), toName).exists());

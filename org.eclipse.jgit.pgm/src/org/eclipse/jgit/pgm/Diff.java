@@ -214,6 +214,7 @@ class Diff extends TextBuiltin {
 		}
 	}
 
+	@SuppressWarnings("boxing")
 	static void nameStatus(PrintWriter out, List<DiffEntry> files) {
 		for (DiffEntry ent : files) {
 			switch (ent.getChangeType()) {
