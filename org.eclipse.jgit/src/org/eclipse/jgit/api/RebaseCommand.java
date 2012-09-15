@@ -177,6 +177,8 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 
 	private final File rebaseDir;
 
+	private InteractiveHandler interactiveHandler;
+
 	/**
 	 * @param repo
 	 */
@@ -254,6 +256,30 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			ObjectReader or = repo.newObjectReader();
 
 			List<Step> steps = loadSteps();
+			if (isInteractive()) {
+				interactiveHandler.prepareSteps(steps);
+				BufferedWriter fw = new BufferedWriter(
+						new OutputStreamWriter(new FileOutputStream(new File(
+								rebaseDir, GIT_REBASE_TODO)),
+								Constants.CHARACTER_ENCODING));
+				fw.write("# Created by EGit: rebasing " + upstreamCommit.name());
+				fw.newLine();
+				try {
+					StringBuilder sb = new StringBuilder();
+					for (Step step : steps) {
+						sb.setLength(0);
+						sb.append(step.action.token);
+						sb.append(" ");
+						sb.append(step.commit.name());
+						sb.append(" ");
+						sb.append(new String(step.shortMessage).trim());
+						fw.write(sb.toString());
+						fw.newLine();
+					}
+				} finally {
+					fw.close();
+				}
+			}
 			for (Step step : steps) {
 				popSteps(1);
 				Collection<ObjectId> ids = or.resolve(step.commit);
@@ -294,6 +320,17 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 						case OK:
 							newHead = cherryPickResult.getNewHead();
 						}
+					}
+					switch (step.action) {
+					case PICK:
+						continue; // continue rebase process on pick command
+					case REWORD:
+						String oldMessage = commitToPick.getFullMessage();
+						String newMessage = interactiveHandler
+								.modifyCommitMessage(oldMessage);
+						newHead = new Git(repo).commit().setMessage(newMessage)
+								.setAmend(true).call();
+						continue;
 					}
 				} finally {
 					monitor.endTask();
@@ -564,9 +601,9 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		RevCommit headCommit = walk.lookupCommit(headId);
 		RevCommit upstream = walk.lookupCommit(upstreamCommit.getId());
 
-		if (walk.isMergedInto(upstream, headCommit))
+		if (!isInteractive() && walk.isMergedInto(upstream, headCommit))
 			return RebaseResult.UP_TO_DATE_RESULT;
-		else if (walk.isMergedInto(headCommit, upstream)) {
+		else if (!isInteractive() && walk.isMergedInto(headCommit, upstream)) {
 			// head is already merged into upstream, fast-foward
 			monitor.beginTask(MessageFormat.format(
 					JGitText.get().resettingHead,
@@ -645,6 +682,10 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		monitor.endTask();
 
 		return null;
+	}
+
+	private boolean isInteractive() {
+		return interactiveHandler != null;
 	}
 
 	/**
@@ -988,15 +1029,60 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		return this;
 	}
 
-	static enum Action {
-		PICK("pick"); // later add SQUASH, EDIT, etc.
+	/**
+	 * Enables interactive rebase
+	 *
+	 * @param handler
+	 * @return this
+	 */
+	public RebaseCommand runInteractliveley(InteractiveHandler handler) {
+		this.interactiveHandler = handler;
+		return this;
+	}
+
+	/**
+	 * Allows confibure rebase interactive process and modify commit message
+	 */
+	public interface InteractiveHandler {
+		/**
+		 * Given list of {@code steps} should be modified accordingly to user
+		 * rebase configuration
+		 *
+		 * @param steps
+		 *            initial configuration of rebase interactive
+		 */
+		void prepareSteps(List<Step> steps);
+
+		/**
+		 * Used for editing commit message on REWORD
+		 *
+		 * @param commit
+		 * @return new commit message
+		 */
+		String modifyCommitMessage(String commit);
+	}
+
+	/**
+	 * Describes rebase actions
+	 */
+	public static enum Action {
+		/** Use commit */
+		PICK("pick", "p"),
+		/** Use commit, but edit the commit message */
+		REWORD("reword", "r"); // later add SQUASH, EDIT, etc.
 
 		private final String token;
 
-		private Action(String token) {
+		private final String shortToken;
+
+		private Action(String token, String shortToken) {
 			this.token = token;
+			this.shortToken = shortToken;
 		}
 
+		/**
+		 * @return full action token name
+		 */
 		public String toToken() {
 			return this.token;
 		}
@@ -1007,15 +1093,20 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		}
 
 		static Action parse(String token) {
-			if (token.equals("pick") || token.equals("p"))
+			if (token.equals(PICK.token) || token.equals(PICK.shortToken))
 				return PICK;
+			if (token.equals(REWORD.token) || token.equals(REWORD.shortToken))
+				return REWORD;
 			throw new JGitInternalException(MessageFormat.format(
 					JGitText.get().unknownOrUnsupportedCommand, token,
 					PICK.toToken()));
 		}
 	}
 
-	static class Step {
+	/**
+	 * Describes single rebase step
+	 */
+	public static class Step {
 		Action action;
 
 		AbbreviatedObjectId commit;
@@ -1024,6 +1115,38 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 
 		Step(Action action) {
 			this.action = action;
+		}
+
+		/**
+		 * @return rebase action type
+		 */
+		public Action getAction() {
+			return action;
+		}
+
+		/**
+		 * Sect action to given one
+		 *
+		 * @param action
+		 */
+		public void setAction(Action action) {
+			this.action = action;
+		}
+
+		/**
+		 * @return abbreviated commit SHA-1 of commit that action will be
+		 *         performed on
+		 */
+		public AbbreviatedObjectId getCommit() {
+			return commit;
+		}
+
+		/**
+		 * @return short message commit of commit that action will be performed
+		 *         on
+		 */
+		public byte[] getShortMessage() {
+			return shortMessage;
 		}
 
 		@Override
