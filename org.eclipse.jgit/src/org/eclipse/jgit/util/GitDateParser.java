@@ -62,6 +62,9 @@ import org.eclipse.jgit.internal.JGitText;
  * understands.
  */
 public class GitDateParser {
+	/**	 */
+	public static final String NEVER = "never";
+
 	// Since SimpleDateFormat instances are expensive to instantiate they should
 	// be cached. Since they are also not threadsafe they are cached using
 	// ThreadLocal.
@@ -113,6 +116,7 @@ public class GitDateParser {
 	 * relative formats (e.g. "yesterday") the caller can specify the reference
 	 * date. These types of strings can be parsed:
 	 * <ul>
+	 * <li>"never"</li>
 	 * <li>"now"</li>
 	 * <li>"yesterday"</li>
 	 * <li>"(x) years|months|weeks|days|hours|minutes|seconds ago"<br>
@@ -138,7 +142,9 @@ public class GitDateParser {
 	 *            parser often but wants a consistent starting point for calls.<br>
 	 *            If set to <code>null</code> then the current time will be used
 	 *            instead.
-	 * @return the parsed {@link Date}
+	 * @return the parsed {@link Date} or <code>null</code> if no specific date
+	 *         could be returned. If <code>null</code> is returned the caller
+	 *         should check with
 	 * @throws ParseException
 	 *             if the given dateStr was not recognized
 	 */
@@ -146,6 +152,9 @@ public class GitDateParser {
 			throws ParseException {
 		dateStr = dateStr.trim();
 		Date ret;
+
+		if (isNever(dateStr))
+			return null;
 		ret = parse_relative(dateStr, now);
 		if (ret != null)
 			return ret;
@@ -172,6 +181,18 @@ public class GitDateParser {
 		SimpleDateFormat dateFormat = getDateFormat(f);
 		dateFormat.setLenient(false);
 		return dateFormat.parse(dateStr);
+	}
+
+	/**
+	 * Checks whether a string represents "never"
+	 *
+	 * @param dateStr
+	 *            the string to check
+	 * @return <code>true</code> if the dateStr represents "never",
+	 *         <code>false</code> otherwise
+	 */
+	public static boolean isNever(String dateStr) {
+		return ("never".equalsIgnoreCase(dateStr));
 	}
 
 	// tries to parse a string with a relative time specification
