@@ -115,6 +115,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String cannotMoveIndexTo;
 	/***/ public String cannotMovePackTo;
 	/***/ public String cannotOpenService;
+	/***/ public String cannotParseDate;
 	/***/ public String cannotParseGitURIish;
 	/***/ public String cannotPullOnARepoWithState;
 	/***/ public String cannotRead;

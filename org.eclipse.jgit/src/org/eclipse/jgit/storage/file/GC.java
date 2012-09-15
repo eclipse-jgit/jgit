@@ -50,6 +50,7 @@ import java.io.OutputStream;
 import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
 import java.text.MessageFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -143,8 +144,11 @@ public class GC {
 	 *
 	 * @return the collection of {@link PackFile}'s which are newly created
 	 * @throws IOException
+	 * @throws ParseException
+	 *             If the configuration parameter "gc.pruneexpire" couldn't be
+	 *             parsed
 	 */
-	public Collection<PackFile> gc() throws IOException {
+	public Collection<PackFile> gc() throws IOException, ParseException {
 		pm.start(6 /* tasks */);
 		packRefs();
 		// TODO: implement reflog_expire(pm, repo);
@@ -251,14 +255,17 @@ public class GC {
 	 * Like "git prune" this method tries to prune all loose objects which are
 	 * unreferenced. If certain objects can't be pruned (e.g. because the
 	 * filesystem delete operation fails) this is silently ignored.
-	 *
+	 * 
 	 * @param objectsToKeep
 	 *            a set of objects which should explicitly not be pruned
-	 *
+	 * 
 	 * @throws IOException
+	 * @throws ParseException
+	 *             If the configuration parameter "gc.pruneexpire" couldn't be
+	 *             parsed
 	 */
-	public void prune(Set<ObjectId> objectsToKeep)
-			throws IOException {
+	public void prune(Set<ObjectId> objectsToKeep) throws IOException,
+			ParseException {
 		long expireDate = Long.MAX_VALUE;
 
 		if (expire == null && expireAgeMillis == -1) {
