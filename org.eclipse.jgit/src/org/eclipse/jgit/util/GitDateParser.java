@@ -42,6 +42,7 @@
  */
 package org.eclipse.jgit.util;
 
+import java.text.MessageFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -49,6 +50,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.eclipse.jgit.internal.JGitText;
 
 /**
  * Parses strings with time and date specifications into {@link Date}.
@@ -135,32 +138,44 @@ public class GitDateParser {
 	 *            parser often but wants a consistent starting point for calls.<br>
 	 *            If set to <code>null</code> then the current time will be used
 	 *            instead.
-	 * @return the parsed {@link Date} or <code>null</code> if this string was
-	 *         not parseable.
+	 * @return the parsed {@link Date}
+	 * @throws ParseException
+	 *             if the given dateStr was not recognized
 	 */
-	public static Date parse(String dateStr, Calendar now) {
+	@SuppressWarnings("null")
+	public static Date parse(String dateStr, Calendar now)
+			throws ParseException {
 		dateStr = dateStr.trim();
 		Date ret;
+		StringBuilder allFormats = null;
 		ret = parse_relative(dateStr, now);
 		if (ret != null)
 			return ret;
 		for (ParseableSimpleDateFormat f : ParseableSimpleDateFormat.values()) {
-			ret = parse_simple(dateStr, f);
-			if (ret != null)
-				return ret;
+			try {
+				ret = parse_simple(dateStr, f);
+				if (ret != null)
+					return ret;
+			} catch (ParseException e) {
+				if (allFormats == null)
+					allFormats = new StringBuilder(f.formatStr);
+				else {
+					allFormats.append(", ");
+					allFormats.append(f.formatStr);
+				}
+			}
 		}
-		return null;
+		throw new ParseException(
+				MessageFormat.format(JGitText.get().cannotParseDate, dateStr,
+						allFormats.toString()), 0);
 	}
 
 	// tries to parse a string with the formats supported by SimpleDateFormat
-	private static Date parse_simple(String dateStr, ParseableSimpleDateFormat f) {
+	private static Date parse_simple(String dateStr, ParseableSimpleDateFormat f)
+			throws ParseException {
 		SimpleDateFormat dateFormat = getDateFormat(f);
-		try {
-			dateFormat.setLenient(false);
-			return dateFormat.parse(dateStr);
-		} catch (ParseException e) {
-			return null;
-		}
+		dateFormat.setLenient(false);
+		return dateFormat.parse(dateStr);
 	}
 
 	// tries to parse a string with a relative time specification
