@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//3kw\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-09-15T22:38:25Z",
+      "side": 1,
+      "message": "May first idea was also new Date(Long.MAX_VALUE). But after some thoughts, readings, discussions I believe it is better to express that we can\u0027t return a real date instead of returning fake dates. \"never\" is something different than a date in the far future (although I agree that a far future date would represent \"never\" quite good for a lot of use cases).\n\nMy example: Image you program against Jgit and want to sleep until you reach the point in time specified in some git configuration parameter. If we return Date(Long.MAX_VALUE) you sleep forever. If we return a NEVER constant or null to indicate that the parser can\u0027t return a date it\u0027s obvious that it doesn\u0027t make sense to sleep until you reach \"never\" :-)\n\nAnd you are mentioning an even better example: \"always\". There is really no chance we can return a good fake Date to represent always. That means: there is no chance that our parser will return a valid Date for every parseable date-strings. Every caller will have to check for null-values an react on them.\n\nMy suggestion: return null for never and always and have methods in the parser isNever or isAlways to allow callers to find out what to do if the parser returns a null date.",
+      "parentUuid": "AABOIn//3lo\u003d",
+      "revId": "ecebe7108036b3d2318a001778373b88a25eebfa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//3lk\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/GitDateParser.java",
         "patchSetId": 1
