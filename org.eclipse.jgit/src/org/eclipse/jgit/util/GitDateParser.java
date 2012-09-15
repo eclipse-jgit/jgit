@@ -62,6 +62,9 @@ import org.eclipse.jgit.internal.JGitText;
  * understands.
  */
 public class GitDateParser {
+	/**	 */
+	public static final String NEVER = "never";
+
 	// Since SimpleDateFormat instances are expensive to instantiate they should
 	// be cached. Since they are also not threadsafe they are cached using
 	// ThreadLocal.
@@ -113,6 +116,7 @@ public class GitDateParser {
 	 * relative formats (e.g. "yesterday") the caller can specify the reference
 	 * date. These types of strings can be parsed:
 	 * <ul>
+	 * <li>"never"</li>
 	 * <li>"now"</li>
 	 * <li>"yesterday"</li>
 	 * <li>"(x) years|months|weeks|days|hours|minutes|seconds ago"<br>
@@ -127,7 +131,7 @@ public class GitDateParser {
 	 * <li>"EEE MMM dd HH:mm:ss yyyy Z" (DEFAULT)</li>
 	 * <li>"EEE MMM dd HH:mm:ss yyyy" (LOCAL)</li>
 	 * </ul>
-	 *
+	 * 
 	 * @param dateStr
 	 *            the string to be parsed
 	 * @param now
@@ -138,7 +142,8 @@ public class GitDateParser {
 	 *            parser often but wants a consistent starting point for calls.<br>
 	 *            If set to <code>null</code> then the current time will be used
 	 *            instead.
-	 * @return the parsed {@link Date}
+	 * @return the parsed {@link Date} or <code>null</code> if "never" was
+	 *         specified.
 	 * @throws ParseException
 	 *             if the given dateStr was not recognized
 	 */
@@ -148,6 +153,9 @@ public class GitDateParser {
 		dateStr = dateStr.trim();
 		Date ret;
 		StringBuilder allFormats = null;
+
+		if (NEVER.equalsIgnoreCase(dateStr))
+			return null;
 		ret = parse_relative(dateStr, now);
 		if (ret != null)
 			return ret;

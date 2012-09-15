@@ -77,6 +77,17 @@ public class GitDateParserTest {
 	}
 
 	@Test
+	public void never() throws ParseException {
+		GregorianCalendar cal = new GregorianCalendar(SystemReader
+				.getInstance().getTimeZone(), SystemReader.getInstance()
+				.getLocale());
+		Date parse = GitDateParser.parse("never", cal);
+		Assert.assertNull(parse);
+		parse = GitDateParser.parse("never", null);
+		Assert.assertNull(parse);
+	}
+
+	@Test
 	public void now() throws ParseException {
 		String dateStr = "2007-02-21 15:35:00 +0100";
 		Date refDate = SystemReader.getInstance()
