@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//3lo\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-09-15T15:39:33Z",
+      "side": 1,
+      "message": "Why not Sun Aug 17 08:12:55 CET 292278994 ?\n\nThat\u0027s never for all practical purposes. Even Git may be obsolete by that time. Fewer callers need to adapt. \n\nThat\u0027s new Date(Long.MAX_VALUE) btw. One should perhaps create a constant Date instance in case one actually need to identify this as \"never\". If you subclass it toString() can return \"never\".\n\nThat would allow us to parser \"always\" as no date, i.e. null.",
+      "revId": "ecebe7108036b3d2318a001778373b88a25eebfa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//3lk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/GitDateParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-09-15T15:39:33Z",
+      "side": 1,
+      "message": "Strange characters here.",
+      "revId": "ecebe7108036b3d2318a001778373b88a25eebfa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
