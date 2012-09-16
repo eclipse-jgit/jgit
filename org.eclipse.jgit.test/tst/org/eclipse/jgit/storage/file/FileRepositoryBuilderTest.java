@@ -112,6 +112,7 @@ public class FileRepositoryBuilderTest extends LocalDiskRepositoryTestCase {
 		}
 	}
 
+	@SuppressWarnings("resource" /* java 7 */)
 	@Test
 	public void absoluteGitDirRef() throws Exception {
 		FileRepository repo1 = createWorkRepository();
@@ -129,6 +130,7 @@ public class FileRepositoryBuilderTest extends LocalDiskRepositoryTestCase {
 		assertEquals(dir, repo2.getWorkTree());
 	}
 
+	@SuppressWarnings("resource" /* java 7 */)
 	@Test
 	public void relativeGitDirRef() throws Exception {
 		FileRepository repo1 = createWorkRepository();
@@ -147,6 +149,7 @@ public class FileRepositoryBuilderTest extends LocalDiskRepositoryTestCase {
 		assertEquals(dir, repo2.getWorkTree());
 	}
 
+	@SuppressWarnings("resource" /* java 7 */)
 	@Test
 	public void scanWithGitDirRef() throws Exception {
 		FileRepository repo1 = createWorkRepository();

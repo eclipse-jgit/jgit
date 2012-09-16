@@ -297,6 +297,7 @@ public class GitSmartHttpTools {
 
 	private static void writeSideBand(OutputStream out, String textForGit)
 			throws IOException {
+		@SuppressWarnings("resource" /* java 7 */)
 		OutputStream msg = new SideBandOutputStream(CH_ERROR, SMALL_BUF, out);
 		msg.write(Constants.encode("error: " + textForGit));
 		msg.flush();

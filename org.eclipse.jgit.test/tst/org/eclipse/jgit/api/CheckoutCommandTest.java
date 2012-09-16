@@ -162,8 +162,9 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 		} catch (IOException e) {
 			// the test makes only sense if deletion of
 			// a file with open stream fails
+		} finally {
+			fis.close();
 		}
-		fis.close();
 		FileUtils.delete(testFile);
 		CheckoutCommand co = git.checkout();
 		// delete Test.txt in branch test
