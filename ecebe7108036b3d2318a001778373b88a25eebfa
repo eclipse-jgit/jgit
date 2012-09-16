@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//3j0\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-09-16T08:45:27Z",
+      "side": 1,
+      "message": "\"never\" i normal talk mean \"not now\" (e.g. until I change my mind). Unless you have a humungous number of sleeper there should no problem with sleeping and not really different from sleeping a few months or so. If they do they should already handle dates far into the future today, with or without \"never\". This forces people to change the code for no reason at all. I\u0027m not proposing that we introduce always now, but I think we can have that as an option.",
+      "parentUuid": "AABOIn//3kw\u003d",
+      "revId": "ecebe7108036b3d2318a001778373b88a25eebfa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//3lk\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/GitDateParser.java",
         "patchSetId": 1
