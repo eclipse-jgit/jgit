@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//3iM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseConnection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-09-16T18:15:17Z",
+      "side": 1,
+      "message": "I agree we should protect against an evil ref. But we should be doing it by protecting the local repository from writing an evil ref, not by blocking the protocol from seeing that the remote sent an evil ref.\n\nThis is the wrong place to be checking if a ref name is valid and throwing if it isn\u0027t.",
+      "parentUuid": "AABOIn//3kU\u003d",
+      "revId": "f5b5778fa32c206be8efb519edc4cac0717e28e8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//4Jk\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
         "patchSetId": 2
