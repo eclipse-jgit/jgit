@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//3kU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseConnection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-09-16T08:30:45Z",
+      "side": 1,
+      "message": "The only reason for doing this here is to protect against remote evil refs, e.g. remote exploits. I think everything should go through a common method and why not this method, even\nif that was not the original purpose.\n\nIf someone hacks your local .git/config or trick the user (e.g. telling him to type \"mvn install\" you are already toast, not much we can do there. What we can do is to prevent bad stuff entering from the outside without the user having an option to inspect the downloaded crap.",
+      "parentUuid": "AABOIn//4HM\u003d",
+      "revId": "f5b5778fa32c206be8efb519edc4cac0717e28e8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//4Jk\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
         "patchSetId": 2
