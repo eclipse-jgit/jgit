@@ -399,7 +399,7 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 		try {
 			assertEquals(0x78, xis.readUInt8());
 			assertEquals(0x9c, xis.readUInt8());
-			assertTrue(0x789c % 31 == 0);
+			assertEquals(0, 0x789c % 31);
 		} finally {
 			xis.close();
 		}

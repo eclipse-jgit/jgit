@@ -42,6 +42,8 @@
  */
 package org.eclipse.jgit.api;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Set;
@@ -88,7 +90,7 @@ public class CleanCommandTest extends RepositoryTestCase {
 		status = git.status().call();
 		files = status.getUntracked();
 
-		assertTrue(files.size() == 0);
+		assertEquals(0, files.size());
 		assertTrue(cleanedFiles.contains("File2.txt"));
 		assertTrue(cleanedFiles.contains("File3.txt"));
 	}
@@ -109,9 +111,9 @@ public class CleanCommandTest extends RepositoryTestCase {
 
 		status = git.status().call();
 		files = status.getUntracked();
-		assertTrue(files.size() == 1);
+		assertEquals(1, files.size());
 		assertTrue(cleanedFiles.contains("File3.txt"));
-		assertTrue(!cleanedFiles.contains("File2.txt"));
+		assertFalse(cleanedFiles.contains("File2.txt"));
 	}
 
 	@Test
@@ -129,7 +131,7 @@ public class CleanCommandTest extends RepositoryTestCase {
 		status = git.status().call();
 		files = status.getUntracked();
 
-		assertTrue(files.size() == 2);
+		assertEquals(2, files.size());
 		assertTrue(cleanedFiles.contains("File2.txt"));
 		assertTrue(cleanedFiles.contains("File3.txt"));
 	}

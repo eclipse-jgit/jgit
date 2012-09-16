@@ -461,7 +461,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 
 		assertEquals(null, result.getConflicts());
 
-		assertTrue(2 == result.getMergedCommits().length);
+		assertEquals(2, result.getMergedCommits().length);
 		assertEquals(thirdCommit, result.getMergedCommits()[0]);
 		assertEquals(secondCommit, result.getMergedCommits()[1]);
 
@@ -523,7 +523,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 
 		assertEquals(null, result.getConflicts());
 
-		assertTrue(2 == result.getMergedCommits().length);
+		assertEquals(2, result.getMergedCommits().length);
 		assertEquals(thirdCommit, result.getMergedCommits()[0]);
 		assertEquals(secondCommit, result.getMergedCommits()[1]);
 
