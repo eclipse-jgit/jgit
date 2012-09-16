@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//3iw\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/glue/RegexGroupFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-09-16T18:11:21Z",
+      "side": 1,
+      "message": "In most other places we suppress boxing warnings by manually boxing in the code with Integer.valueOf() around the expression. This is especially true in MessageFormat.format invocations, which are very common in our error paths.\n\nI think that is the general approach preferred within JGit.",
+      "revId": "197f1d66673a15ef0bca022f4ee8111daa000114",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
