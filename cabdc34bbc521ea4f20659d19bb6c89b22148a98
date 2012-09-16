@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//3hI\u003d",
+        "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/TestRepository.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 564,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-09-16T21:21:38Z",
+      "side": 1,
+      "message": "style nit: no braces here",
+      "revId": "cabdc34bbc521ea4f20659d19bb6c89b22148a98",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//3hE\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/storage/file/GCTest.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-09-16T21:21:38Z",
+      "side": 1,
+      "message": "typo: s/Exired/Expired/",
+      "revId": "cabdc34bbc521ea4f20659d19bb6c89b22148a98",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
