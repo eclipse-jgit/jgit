@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//3i0\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-09-16T19:49:43Z",
+      "side": 1,
+      "message": "Robin, we have currently no usage of the GItDateParser in the master branch. I am the only one I know of who uses it in an open changes. The number of \"people we force to change code\" is about one. Maybe you have an open change ... but that\u0027s it.\n\nI would like to have a parser API which is able to support \"never\" and \"always\". This will force users of the parser to do special handling for these special value - we will not be able to express this with instances of Date. I would vote for expressing clearly in our API that not always valid dates can be returned.\n\nImagine what would happen if we miss the opportunity now to fix the API and return a fake (far-future) date for never. More and more jgit programmers start using the parser ... and then you come and introduce \"always\" which is represented as null. Then you really force more people to change code and expect null values correctly.",
+      "parentUuid": "AABOIn//3j0\u003d",
+      "revId": "ecebe7108036b3d2318a001778373b88a25eebfa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//3lk\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/GitDateParser.java",
         "patchSetId": 1
