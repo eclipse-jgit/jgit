@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//3hw\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-09-16T18:32:14Z",
+      "side": 1,
+      "message": "s/allows us t /allows us to /",
+      "revId": "48436996b0efa6ba68a21d6d034e33b40199a724",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//3hs\u003d",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-09-16T18:32:14Z",
+      "side": 1,
+      "message": "To quote a string don\u0027t we need \u0027\u0027{0}\u0027\u0027 because of the way MessageFormat treats \u0027 as an escape preventing the variable {0} from being replaced?",
+      "revId": "48436996b0efa6ba68a21d6d034e33b40199a724",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//3hg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/GitDateParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-09-16T18:32:14Z",
+      "side": 1,
+      "message": "This isn\u0027t used unless all of the ParseableSimpleDateFormat values fail. Maybe instead of building this up in the loop as we try to parse and fail, build it only after all alternatives have failed and we know we are going to throw?",
+      "revId": "48436996b0efa6ba68a21d6d034e33b40199a724",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//3hk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/GitDateParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-09-16T18:32:14Z",
+      "side": 1,
+      "message": "parse_simple can\u0027t return null anymore. So this is useless. What about:\n\n  try {\n    return parse_simple(dateStr, f);\n\nand make the code shorter?",
+      "revId": "48436996b0efa6ba68a21d6d034e33b40199a724",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//3ho\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/GitDateParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-09-16T18:32:14Z",
+      "side": 1,
+      "message": "allFormats.append(\", \").append(f.formatStr) so we can avoid using {} on the else block?",
+      "revId": "48436996b0efa6ba68a21d6d034e33b40199a724",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
