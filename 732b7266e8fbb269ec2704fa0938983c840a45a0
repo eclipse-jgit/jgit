@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//3fE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1038,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2012-09-16T22:56:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//3fs\u003d",
+      "revId": "732b7266e8fbb269ec2704fa0938983c840a45a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//3fo\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2012-09-16T22:35:50Z",
       "side": 1,
       "message": "s/confibure/configure/",
+      "revId": "732b7266e8fbb269ec2704fa0938983c840a45a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//3fA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1044,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2012-09-16T22:56:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//3fo\u003d",
       "revId": "732b7266e8fbb269ec2704fa0938983c840a45a0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//3e8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1048,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2012-09-16T22:56:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//3fk\u003d",
+      "revId": "732b7266e8fbb269ec2704fa0938983c840a45a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//3fY\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2012-09-16T22:35:50Z",
       "side": 1,
       "message": "typo, I think this comment isn\u0027t adding any value, I would simply put\n\n /*\n  * @param action\n  */",
+      "revId": "732b7266e8fbb269ec2704fa0938983c840a45a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//3e4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1128,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2012-09-16T22:56:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//3fY\u003d",
       "revId": "732b7266e8fbb269ec2704fa0938983c840a45a0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
