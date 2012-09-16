@@ -70,6 +70,24 @@
       "revId": "9b86cf574b230a9b3a71d7cb53a4f6712bfa33eb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//3gI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1124,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-09-16T22:07:23Z",
+      "side": 1,
+      "message": "now I got it",
+      "parentUuid": "AABOIn//3hU\u003d",
+      "revId": "9b86cf574b230a9b3a71d7cb53a4f6712bfa33eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
