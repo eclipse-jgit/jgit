@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//3Wo\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-09-17T20:23:22Z",
+      "side": 1,
+      "message": "yeah, there shouldn\u0027t be a lot of users of GitDateParser yet.\n\nWhat\u0027s the use case to require \"always\" ? Do you want to run gc on \"every\" git operation ? Doesn\u0027t sound useful to me.",
+      "parentUuid": "AABOIn//3i0\u003d",
+      "revId": "ecebe7108036b3d2318a001778373b88a25eebfa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//3lk\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/GitDateParser.java",
         "patchSetId": 1
@@ -84,6 +102,24 @@
       "writtenOn": "2012-09-15T15:39:33Z",
       "side": 1,
       "message": "Strange characters here.",
+      "revId": "ecebe7108036b3d2318a001778373b88a25eebfa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//3Ws\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/GitDateParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-09-17T20:23:22Z",
+      "side": 1,
+      "message": "looks like a superfluous tab",
+      "parentUuid": "AABOIn//3lk\u003d",
       "revId": "ecebe7108036b3d2318a001778373b88a25eebfa",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
