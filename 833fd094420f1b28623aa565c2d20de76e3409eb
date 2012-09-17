@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//3bs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalkUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-09-17T14:30:53Z",
+      "side": 1,
+      "message": "Is it intentional that we don\u0027t allow to specify annotated Tags in the refs collection? I thought this method is like \u0027git branch --merged\u0027 and for a linux repo I can say \u0027git branch --merged refs/tags/v3.5\u0027. But in JGit maybehead would be a RevTag object and would be ignored. Or?",
+      "revId": "833fd094420f1b28623aa565c2d20de76e3409eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
