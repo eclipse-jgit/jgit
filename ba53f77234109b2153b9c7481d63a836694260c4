@@ -16,6 +16,24 @@
       "revId": "ba53f77234109b2153b9c7481d63a836694260c4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//3YA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-09-17T19:56:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//3iA\u003d",
+      "revId": "ba53f77234109b2153b9c7481d63a836694260c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
