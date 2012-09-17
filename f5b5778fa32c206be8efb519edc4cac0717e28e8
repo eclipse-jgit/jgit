@@ -108,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//3TM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseConnection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-09-17T22:37:53Z",
+      "side": 1,
+      "message": "It will see the error and no you won\u0027t be able to use the remote, but since it has been compromised, should you. It seem C Git has quite brutal handling of an attempt to use such a repo too.\n\nWould RefUpdate.updateImpl() be a better place? Can\u0027t return a message there, only REJECTED. Does it cover all cases?",
+      "parentUuid": "AABOIn//3iM\u003d",
+      "revId": "f5b5778fa32c206be8efb519edc4cac0717e28e8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//4Jk\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
         "patchSetId": 2
