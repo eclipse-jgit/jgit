@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//3bU\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-09-17T19:56:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//3hw\u003d",
+      "revId": "48436996b0efa6ba68a21d6d034e33b40199a724",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//3hs\u003d",
         "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2012-09-16T18:32:14Z",
       "side": 1,
       "message": "To quote a string don\u0027t we need \u0027\u0027{0}\u0027\u0027 because of the way MessageFormat treats \u0027 as an escape preventing the variable {0} from being replaced?",
+      "revId": "48436996b0efa6ba68a21d6d034e33b40199a724",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//3bM\u003d",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-09-17T19:56:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//3hs\u003d",
       "revId": "48436996b0efa6ba68a21d6d034e33b40199a724",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//3bA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/GitDateParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-09-17T19:56:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//3hg\u003d",
+      "revId": "48436996b0efa6ba68a21d6d034e33b40199a724",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//3hk\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/GitDateParser.java",
         "patchSetId": 2
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//3YY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/GitDateParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-09-17T19:56:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//3hk\u003d",
+      "revId": "48436996b0efa6ba68a21d6d034e33b40199a724",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//3ho\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/GitDateParser.java",
         "patchSetId": 2
@@ -81,6 +153,24 @@
       "writtenOn": "2012-09-16T18:32:14Z",
       "side": 1,
       "message": "allFormats.append(\", \").append(f.formatStr) so we can avoid using {} on the else block?",
+      "revId": "48436996b0efa6ba68a21d6d034e33b40199a724",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//3YU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/GitDateParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-09-17T19:56:30Z",
+      "side": 1,
+      "message": "Done. The construction of the string has moved into an own loop.",
+      "parentUuid": "AABOIn//3ho\u003d",
       "revId": "48436996b0efa6ba68a21d6d034e33b40199a724",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
