@@ -598,6 +598,9 @@ public abstract class RefUpdate {
 		RevObject newObj;
 		RevObject oldObj;
 
+		if (!Repository.isValidRefName("x/" + getName()))
+			return Result.REJECTED;
+
 		if (getRefDatabase().isNameConflicting(getName()))
 			return Result.LOCK_FAILURE;
 		try {
