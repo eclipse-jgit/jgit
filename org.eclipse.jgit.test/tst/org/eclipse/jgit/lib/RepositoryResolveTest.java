@@ -100,6 +100,15 @@ public class RepositoryResolveTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
+	public void testObjectId_objectid_invalid_explicit_parent() throws IOException {
+		assertEquals("42e4e7c5e507e113ebbb7801b16b52cf867b7ce1",db.resolve("6462e7d8024396b14d7651e2ec11e2bbf07a05c4^1").name());
+		assertNull(db.resolve("6462e7d8024396b14d7651e2ec11e2bbf07a05c4^2"));
+		assertEquals("42e4e7c5e507e113ebbb7801b16b52cf867b7ce1",db.resolve("42e4e7c5e507e113ebbb7801b16b52cf867b7ce1^0").name());
+		assertNull(db.resolve("42e4e7c5e507e113ebbb7801b16b52cf867b7ce1^1"));
+		assertNull(db.resolve("42e4e7c5e507e113ebbb7801b16b52cf867b7ce1^2"));
+	}
+
+	@Test
 	public void testRef_refname() throws IOException {
 		assertEquals("49322bb17d3acc9146f98c97d078513228bbf3c0",db.resolve("master^0").name());
 		assertEquals("6e1475206e57110fcef4b92320436c1e9872a322",db.resolve("master^").name());
@@ -118,6 +127,20 @@ public class RepositoryResolveTest extends SampleDataRepositoryTestCase {
 		assertEquals("bab66b48f836ed950c99134ef666436fb07a09a0",db.resolve("49322bb17d3acc9146f98c97d078513228bbf3c0~~~").name());
 		assertEquals("1203b03dc816ccbb67773f28b3c19318654b0bc8",db.resolve("49322bb17d3acc9146f98c97d078513228bbf3c0~~1").name());
 		assertEquals("1203b03dc816ccbb67773f28b3c19318654b0bc8",db.resolve("49322bb17d3acc9146f98c97d078513228bbf3c0~~~0").name());
+	}
+
+	@Test
+	public void testDistance_past_root() throws IOException {
+		assertEquals("42e4e7c5e507e113ebbb7801b16b52cf867b7ce1",db.resolve("6462e7d8024396b14d7651e2ec11e2bbf07a05c4~1").name());
+		assertNull(db.resolve("6462e7d8024396b14d7651e2ec11e2bbf07a05c4~~"));
+		assertNull(db.resolve("6462e7d8024396b14d7651e2ec11e2bbf07a05c4~2"));
+		assertNull(db.resolve("6462e7d8024396b14d7651e2ec11e2bbf07a05c4~99"));
+		assertNull(db.resolve("42e4e7c5e507e113ebbb7801b16b52cf867b7ce1~~"));
+		assertNull(db.resolve("42e4e7c5e507e113ebbb7801b16b52cf867b7ce1~2"));
+		assertNull(db.resolve("42e4e7c5e507e113ebbb7801b16b52cf867b7ce1~99"));
+		assertEquals("42e4e7c5e507e113ebbb7801b16b52cf867b7ce1",db.resolve("master~6").name());
+		assertNull(db.resolve("master~7"));
+		assertNull(db.resolve("master~6~"));
 	}
 
 	@Test
