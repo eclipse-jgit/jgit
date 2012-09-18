@@ -532,6 +532,7 @@ public abstract class Repository {
 					if (name == null)
 						name = new String(revChars, done, i);
 					rev = parseSimple(rw, name);
+					name = null;
 					if (rev == null)
 						return null;
 				}
@@ -588,6 +589,7 @@ public abstract class Repository {
 							// detached
 							name = Constants.HEAD;
 						Ref ref = getRef(name);
+						name = null;
 						if (ref == null)
 							return null;
 						if (ref.isSymbolic())
@@ -635,6 +637,7 @@ public abstract class Repository {
 						if (name.equals(""))
 							name = Constants.HEAD;
 						Ref ref = getRef(name);
+						name = null;
 						if (ref == null)
 							return null;
 						// @{n} means current branch, not HEAD@{1} unless
@@ -642,7 +645,6 @@ public abstract class Repository {
 						if (ref.isSymbolic())
 							ref = ref.getLeaf();
 						rev = resolveReflog(rw, ref, time);
-						name = null;
 					}
 					i = m;
 				} else
@@ -656,6 +658,7 @@ public abstract class Repository {
 					if (name.equals(""))
 						name = Constants.HEAD;
 					rev = parseSimple(rw, name);
+					name = null;
 				}
 				if (rev == null)
 					return null;
