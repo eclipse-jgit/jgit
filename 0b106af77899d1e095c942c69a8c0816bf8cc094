@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//3CA\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/storage/file/FileBasedConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-09-19T15:54:20Z",
+      "side": 1,
+      "message": "Usually we put test folders under the project\u0027s \"target\" folder which is ignored since it contains maven build output in order to ensure that the source folders aren\u0027t polluted in case deletion fails.",
+      "revId": "0b106af77899d1e095c942c69a8c0816bf8cc094",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
