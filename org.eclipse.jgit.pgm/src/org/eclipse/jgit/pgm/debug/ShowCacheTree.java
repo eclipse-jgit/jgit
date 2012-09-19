@@ -44,6 +44,8 @@
 
 package org.eclipse.jgit.pgm.debug;
 
+import static java.lang.Integer.valueOf;
+
 import java.text.MessageFormat;
 
 import org.eclipse.jgit.dircache.DirCache;
@@ -63,7 +65,9 @@ class ShowCacheTree extends TextBuiltin {
 
 	private void show(final DirCacheTree tree) {
 		out.println(MessageFormat.format(CLIText.get().cacheTreePathInfo
-				, tree.getPathString(), tree.getEntrySpan(), tree.getChildCount()));
+,
+				tree.getPathString(), valueOf(tree.getEntrySpan()),
+				valueOf(tree.getChildCount())));
 
 		for (int i = 0; i < tree.getChildCount(); i++)
 			show(tree.getChild(i));

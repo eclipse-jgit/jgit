@@ -43,6 +43,7 @@
 
 package org.eclipse.jgit.dircache;
 
+import static org.eclipse.jgit.junit.Assert.assertEquals;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;

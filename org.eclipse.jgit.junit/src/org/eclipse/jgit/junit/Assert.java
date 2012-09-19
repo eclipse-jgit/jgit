@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009-2010, Google Inc.
+ * Copyright (C) 2012, Robin Rosenberg
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -40,66 +40,19 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+package org.eclipse.jgit.junit;
 
-package org.eclipse.jgit.http.server.glue;
+import static java.lang.Boolean.valueOf;
 
-import java.io.IOException;
-import java.text.MessageFormat;
+public class Assert {
 
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-
-import static java.lang.Integer.valueOf;
-
-import org.eclipse.jgit.http.server.HttpServerText;
-
-/**
- * Switch servlet path and path info to use another regex match group.
- * <p>
- * This filter is meant to be installed in the middle of a pipeline created by
- * {@link MetaServlet#serveRegex(String)}. The passed request's servlet path is
- * updated to be all text up to the start of the designated capture group, and
- * the path info is changed to the contents of the capture group.
- **/
-public class RegexGroupFilter implements Filter {
-	private final int groupIdx;
-
-	/**
-	 * @param groupIdx
-	 *            capture group number, 1 through the number of groups.
-	 */
-	public RegexGroupFilter(final int groupIdx) {
-		if (groupIdx < 1)
-			throw new IllegalArgumentException(MessageFormat.format(
-					HttpServerText.get().invalidIndex, valueOf(groupIdx)));
-		this.groupIdx = groupIdx - 1;
+	public static void assertEquals(boolean expect, boolean actual) {
+		org.junit.Assert.assertEquals(valueOf(expect), valueOf(actual));
 	}
 
-	public void init(FilterConfig config) throws ServletException {
-		// Do nothing.
-	}
-
-	public void destroy() {
-		// Do nothing.
-	}
-
-	public void doFilter(final ServletRequest request,
-			final ServletResponse rsp, final FilterChain chain)
-			throws IOException, ServletException {
-		final WrappedRequest[] g = groupsFor(request);
-		if (groupIdx < g.length)
-			chain.doFilter(g[groupIdx], rsp);
-		else
-			throw new ServletException(MessageFormat.format(
-					HttpServerText.get().invalidRegexGroup,
-					valueOf(groupIdx + 1)));
-	}
-
-	private static WrappedRequest[] groupsFor(final ServletRequest r) {
-		return (WrappedRequest[]) r.getAttribute(MetaFilter.REGEX_GROUPS);
+	public static void assertEquals(String message, boolean expect,
+			boolean actual) {
+		org.junit.Assert
+				.assertEquals(message, valueOf(expect), valueOf(actual));
 	}
 }
