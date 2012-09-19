@@ -50,9 +50,11 @@ import java.io.OutputStream;
 import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
 import java.text.MessageFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -68,6 +70,7 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.NullProgressMonitor;
@@ -83,6 +86,7 @@ import org.eclipse.jgit.storage.pack.PackWriter;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.eclipse.jgit.util.FileUtils;
+import org.eclipse.jgit.util.GitDateParser;
 
 /**
  * A garbage collector for git {@link FileRepository}. Instances of this class
@@ -92,11 +96,15 @@ import org.eclipse.jgit.util.FileUtils;
  * adapted to FileRepositories.
  */
 public class GC {
+	private static final String PRUNE_EXPIRE_DEFAULT = "2.weeks.ago";
+
 	private final FileRepository repo;
 
 	private ProgressMonitor pm;
 
-	private long expireAgeMillis;
+	private long expireAgeMillis = -1;
+
+	private Date expire;
 
 	/**
 	 * the refs which existed during the last call to {@link #repack()}. This is
@@ -123,7 +131,6 @@ public class GC {
 	public GC(FileRepository repo) {
 		this.repo = repo;
 		this.pm = NullProgressMonitor.INSTANCE;
-		this.expireAgeMillis = 14 * 24 * 60 * 60 * 1000L;
 	}
 
 	/**
@@ -137,8 +144,11 @@ public class GC {
 	 *
 	 * @return the collection of {@link PackFile}'s which are newly created
 	 * @throws IOException
+	 * @throws ParseException
+	 *             If the configuration parameter "gc.pruneexpire" couldn't be
+	 *             parsed
 	 */
-	public Collection<PackFile> gc() throws IOException {
+	public Collection<PackFile> gc() throws IOException, ParseException {
 		pm.start(6 /* tasks */);
 		packRefs();
 		// TODO: implement reflog_expire(pm, repo);
@@ -250,11 +260,27 @@ public class GC {
 	 *            a set of objects which should explicitly not be pruned
 	 *
 	 * @throws IOException
+	 * @throws ParseException
+	 *             If the configuration parameter "gc.pruneexpire" couldn't be
+	 *             parsed
 	 */
-	public void prune(Set<ObjectId> objectsToKeep)
-			throws IOException {
-		long expireDate = (expireAgeMillis == 0) ? Long.MAX_VALUE : System
-				.currentTimeMillis() - expireAgeMillis;
+	public void prune(Set<ObjectId> objectsToKeep) throws IOException,
+			ParseException {
+		long expireDate = Long.MAX_VALUE;
+
+		if (expire == null && expireAgeMillis == -1) {
+			String pruneExpireStr = repo.getConfig().getString(
+					ConfigConstants.CONFIG_GC_SECTION, null,
+					ConfigConstants.CONFIG_KEY_PRUNEEXPIRE);
+			if (pruneExpireStr == null)
+				pruneExpireStr = PRUNE_EXPIRE_DEFAULT;
+			expire = GitDateParser.parse(pruneExpireStr, null);
+			expireAgeMillis = -1;
+		}
+		if (expire != null)
+			expireDate = expire.getTime();
+		if (expireAgeMillis != -1)
+			expireDate = System.currentTimeMillis() - expireAgeMillis;
 
 		// Collect all loose objects which are old enough, not referenced from
 		// the index and not in objectsToKeep
@@ -807,5 +833,21 @@ public class GC {
 	 */
 	public void setExpireAgeMillis(long expireAgeMillis) {
 		this.expireAgeMillis = expireAgeMillis;
+		expire = null;
 	}
+
+	/**
+	 * During gc() or prune() each unreferenced, loose object which has been
+	 * created or modified after <code>expire</code> will not be pruned. Only
+	 * older objects may be pruned. If set to null then every object is a
+	 * candidate for pruning.
+	 *
+	 * @param expire
+	 *            minimal age of objects to be pruned in milliseconds.
+	 */
+	public void setExpire(Date expire) {
+		this.expire = expire;
+		expireAgeMillis = -1;
+	}
+
 }
