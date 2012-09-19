@@ -156,6 +156,24 @@
       "revId": "8baebc673cc1ad86aaa8ecc28380dd21a88c1172",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//280\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Replacements.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-09-19T22:29:25Z",
+      "side": 1,
+      "message": "Hmm. Clever.. I think.",
+      "parentUuid": "AABOIn//4J4\u003d",
+      "revId": "8baebc673cc1ad86aaa8ecc28380dd21a88c1172",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
