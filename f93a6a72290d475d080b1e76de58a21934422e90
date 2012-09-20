@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//24w\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/SmartOutputStream.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-09-20T17:58:21Z",
+      "side": 1,
+      "message": "If out is already a GZIPOutputStream, looks like this double-compresses?",
+      "revId": "f93a6a72290d475d080b1e76de58a21934422e90",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
