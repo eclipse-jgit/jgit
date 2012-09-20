@@ -225,7 +225,7 @@ public class GitFilter extends MetaFilter {
 			refs = refs.through(new AsIsFileFilter(asIs));
 			refs.with(new InfoRefsServlet());
 		} else
-			refs.with(new ErrorServlet(HttpServletResponse.SC_FORBIDDEN));
+			refs.with(new ErrorServlet(HttpServletResponse.SC_NOT_ACCEPTABLE));
 
 		if (asIs != AsIsFileService.DISABLED) {
 			final IsLocalFilter mustBeLocal = new IsLocalFilter();
