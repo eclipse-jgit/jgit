@@ -16,6 +16,24 @@
       "revId": "f93a6a72290d475d080b1e76de58a21934422e90",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//24g\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/SmartOutputStream.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-09-20T18:03:35Z",
+      "side": 1,
+      "message": "That looks impossible. Above at line 105 out \u003d this. So here out \u003d this. This isn\u0027t a GZIPOutputStream... its a TemporaryBuffer. No caller wraps this in a GZIPOutputStream currently, so we don\u0027t perform double compression.\n\nIf we use the new block at line 90 we can\u0027t get into this block here because of the startedOutput member being flipped. So we definitely cannot have double compression.",
+      "parentUuid": "AABOIn//24w\u003d",
+      "revId": "f93a6a72290d475d080b1e76de58a21934422e90",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
