@@ -51,6 +51,7 @@ import java.io.File;
 import java.util.Collection;
 import java.io.IOException;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.Callable;
@@ -66,6 +67,7 @@ import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.junit.TestRepository.BranchBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.junit.TestRepository.CommitBuilder;
+import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.EmptyProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RepositoryTestCase;
@@ -291,12 +293,8 @@ public class GCTest extends LocalDiskRepositoryTestCase {
 
 	@Test
 	public void nonReferencedNonExpiredObject_notPruned() throws Exception {
-		long start = now();
-
-		fsTick();
 		RevBlob a = tr.blob("a");
-		long delta = now() - start;
-		gc.setExpireAgeMillis(delta);
+		gc.setExpire(new Date(lastModified(a)));
 		gc.prune(Collections.<ObjectId> emptySet());
 		assertTrue(repo.hasObject(a));
 	}
@@ -322,13 +320,11 @@ public class GCTest extends LocalDiskRepositoryTestCase {
 	@Test
 	public void nonReferencedObjects_onlyExpiredPruned() throws Exception {
 		RevBlob a = tr.blob("a");
-
-		fsTick();
-		long start = now();
+		gc.setExpire(new Date(lastModified(a) + 1));
 
 		fsTick();
 		RevBlob b = tr.blob("b");
-		gc.setExpireAgeMillis(now() - start);
+
 		gc.prune(Collections.<ObjectId> emptySet());
 		assertFalse(repo.hasObject(a));
 		assertTrue(repo.hasObject(b));
@@ -700,8 +696,8 @@ public class GCTest extends LocalDiskRepositoryTestCase {
 		return tip;
 	}
 
-	private static long now() {
-		return System.currentTimeMillis();
+	private long lastModified(AnyObjectId objectId) {
+		return repo.getObjectDatabase().fileFor(objectId).lastModified();
 	}
 
 	private static void fsTick() throws InterruptedException, IOException {
