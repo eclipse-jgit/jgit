@@ -34,6 +34,24 @@
       "revId": "f93a6a72290d475d080b1e76de58a21934422e90",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//24Y\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/SmartOutputStream.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-09-20T18:10:08Z",
+      "side": 1,
+      "message": "My mistake, I was looking at overflow(), which is unrelated to out.",
+      "parentUuid": "AABOIn//24g\u003d",
+      "revId": "f93a6a72290d475d080b1e76de58a21934422e90",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
