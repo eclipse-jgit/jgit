@@ -43,6 +43,9 @@
 
 package org.eclipse.jgit.pgm.debug;
 
+import static java.lang.Integer.valueOf;
+import static java.lang.Long.valueOf;
+
 import java.io.File;
 import java.lang.reflect.Field;
 import java.security.MessageDigest;
@@ -347,8 +350,8 @@ class TextHashFunctions extends TextBuiltin {
 			outw.println(name + ":");
 		}
 		outw.format("  %6d files; %5d avg. unique lines/file\n", //
-				fileCnt, //
-				lineCnt / fileCnt);
+				valueOf(fileCnt), //
+				valueOf(lineCnt / fileCnt));
 		outw.format("%-20s %-15s %9s\n", "Hash", "Fold", "Max Len");
 		outw.println("-----------------------------------------------");
 		String lastHashName = null;
@@ -359,7 +362,7 @@ class TextHashFunctions extends TextBuiltin {
 			outw.format("%-20s %-15s %9d\n", //
 					hashName, //
 					fun.fold.name, //
-					fun.maxChainLength);
+					valueOf(fun.maxChainLength));
 			lastHashName = fun.hash.name;
 		}
 		outw.println();

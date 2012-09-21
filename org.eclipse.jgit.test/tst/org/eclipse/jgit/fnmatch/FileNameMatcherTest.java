@@ -44,7 +44,7 @@
 
 package org.eclipse.jgit.fnmatch;
 
-import static org.junit.Assert.assertEquals;
+import static org.eclipse.jgit.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;

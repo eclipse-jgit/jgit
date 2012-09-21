@@ -1,8 +1,5 @@
 /*
- * Copyright (C) 2008, Google Inc.
- * Copyright (C) 2008, Jonas Fonseca <fonseca@diku.dk>
- * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
- * Copyright (C) 2011, Matthias Sohn <matthias.sohn@sap.com>
+ * Copyright (C) 2012, Robin Rosenberg
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -43,44 +40,19 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+package org.eclipse.jgit.junit;
 
-package org.eclipse.jgit.pgm.debug;
+import static java.lang.Boolean.valueOf;
 
-import static java.lang.Integer.valueOf;
+public class Assert {
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+	public static void assertEquals(boolean expect, boolean actual) {
+		org.junit.Assert.assertEquals(valueOf(expect), valueOf(actual));
+	}
 
-import org.eclipse.jgit.dircache.DirCache;
-import org.eclipse.jgit.dircache.DirCacheEntry;
-import org.eclipse.jgit.lib.FileMode;
-import org.eclipse.jgit.pgm.TextBuiltin;
-
-class ShowDirCache extends TextBuiltin {
-	@Override
-	protected void run() throws Exception {
-		final SimpleDateFormat fmt;
-		fmt = new SimpleDateFormat("yyyy-MM-dd,HH:mm:ss.SSS");
-
-		final DirCache cache = db.readDirCache();
-		for (int i = 0; i < cache.getEntryCount(); i++) {
-			final DirCacheEntry ent = cache.getEntry(i);
-			final FileMode mode = FileMode.fromBits(ent.getRawMode());
-			final int len = ent.getLength();
-			final Date mtime = new Date(ent.getLastModified());
-			final int stage = ent.getStage();
-
-			outw.print(mode);
-			outw.format(" %6d", valueOf(len));
-			outw.print(' ');
-			outw.print(fmt.format(mtime));
-			outw.print(' ');
-			outw.print(ent.getObjectId().name());
-			outw.print(' ');
-			outw.print(stage);
-			outw.print('\t');
-			outw.print(ent.getPathString());
-			outw.println();
-		}
+	public static void assertEquals(String message, boolean expect,
+			boolean actual) {
+		org.junit.Assert
+				.assertEquals(message, valueOf(expect), valueOf(actual));
 	}
 }

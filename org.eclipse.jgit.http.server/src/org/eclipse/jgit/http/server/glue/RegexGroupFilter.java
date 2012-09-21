@@ -53,6 +53,8 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
+import static java.lang.Integer.valueOf;
+
 import org.eclipse.jgit.http.server.HttpServerText;
 
 /**
@@ -72,7 +74,8 @@ public class RegexGroupFilter implements Filter {
 	 */
 	public RegexGroupFilter(final int groupIdx) {
 		if (groupIdx < 1)
-			throw new IllegalArgumentException(MessageFormat.format(HttpServerText.get().invalidIndex, groupIdx));
+			throw new IllegalArgumentException(MessageFormat.format(
+					HttpServerText.get().invalidIndex, valueOf(groupIdx)));
 		this.groupIdx = groupIdx - 1;
 	}
 
@@ -91,7 +94,9 @@ public class RegexGroupFilter implements Filter {
 		if (groupIdx < g.length)
 			chain.doFilter(g[groupIdx], rsp);
 		else
-			throw new ServletException(MessageFormat.format(HttpServerText.get().invalidRegexGroup, (groupIdx + 1)));
+			throw new ServletException(MessageFormat.format(
+					HttpServerText.get().invalidRegexGroup,
+					valueOf(groupIdx + 1)));
 	}
 
 	private static WrappedRequest[] groupsFor(final ServletRequest r) {

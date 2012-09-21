@@ -42,6 +42,7 @@
  */
 package org.eclipse.jgit.storage.file;
 
+import static java.lang.Integer.valueOf;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
@@ -134,9 +135,9 @@ public class GCTest extends LocalDiskRepositoryTestCase {
 				syncPoint.await();
 				try {
 					gc.packRefs();
-					return 0;
+					return valueOf(0);
 				} catch (IOException e) {
-					return 1;
+					return valueOf(1);
 				}
 			}
 		};
@@ -144,7 +145,7 @@ public class GCTest extends LocalDiskRepositoryTestCase {
 		try {
 			Future<Integer> p1 = pool.submit(packRefs);
 			Future<Integer> p2 = pool.submit(packRefs);
-			assertTrue(p1.get() + p2.get() == 1);
+			assertEquals(1, p1.get().intValue() + p2.get().intValue());
 		} finally {
 			pool.shutdown();
 			pool.awaitTermination(Long.MAX_VALUE, TimeUnit.SECONDS);
@@ -257,7 +258,7 @@ public class GCTest extends LocalDiskRepositoryTestCase {
 				try {
 					gc.setProgressMonitor(this);
 					gc.repack();
-					return 0;
+					return valueOf(0);
 				} catch (IOException e) {
 					// leave the syncPoint in broken state so any awaiting
 					// threads and any threads that call await in the future get
@@ -268,7 +269,7 @@ public class GCTest extends LocalDiskRepositoryTestCase {
 					} catch (InterruptedException ignored) {
 						//
 					}
-					return 1;
+					return valueOf(1);
 				}
 			}
 		}
@@ -282,7 +283,7 @@ public class GCTest extends LocalDiskRepositoryTestCase {
 			DoRepack repack2 = new DoRepack();
 			Future<Integer> result1 = pool.submit(repack1);
 			Future<Integer> result2 = pool.submit(repack2);
-			assertTrue(result1.get() + result2.get() == 0);
+			assertEquals(0, result1.get().intValue() + result2.get().intValue());
 		} finally {
 			pool.shutdown();
 			pool.awaitTermination(Long.MAX_VALUE, TimeUnit.SECONDS);

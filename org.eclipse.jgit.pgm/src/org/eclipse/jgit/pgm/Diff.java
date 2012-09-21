@@ -45,6 +45,7 @@
 
 package org.eclipse.jgit.pgm;
 
+import static java.lang.Integer.valueOf;
 import static org.eclipse.jgit.lib.Constants.HEAD;
 import static org.eclipse.jgit.lib.Constants.OBJECT_ID_STRING_LENGTH;
 
@@ -229,12 +230,12 @@ class Diff extends TextBuiltin {
 				out.println("M\t" + ent.getNewPath());
 				break;
 			case COPY:
-				out.format("C%1$03d\t%2$s\t%3$s", ent.getScore(), //
+				out.format("C%1$03d\t%2$s\t%3$s", valueOf(ent.getScore()), //
 						ent.getOldPath(), ent.getNewPath());
 				out.println();
 				break;
 			case RENAME:
-				out.format("R%1$03d\t%2$s\t%3$s", ent.getScore(), //
+				out.format("R%1$03d\t%2$s\t%3$s", valueOf(ent.getScore()), //
 						ent.getOldPath(), ent.getNewPath());
 				out.println();
 				break;

@@ -44,6 +44,8 @@
 
 package org.eclipse.jgit.lib;
 
+import static java.lang.Integer.valueOf;
+import static java.lang.Long.valueOf;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
@@ -69,7 +71,9 @@ public class ObjectCheckerTest {
 			fail("Did not throw CorruptObjectException");
 		} catch (CorruptObjectException e) {
 			final String m = e.getMessage();
-			assertEquals(MessageFormat.format(JGitText.get().corruptObjectInvalidType2, Constants.OBJ_BAD), m);
+			assertEquals(MessageFormat.format(
+					JGitText.get().corruptObjectInvalidType2,
+					valueOf(Constants.OBJ_BAD)), m);
 		}
 	}
 
