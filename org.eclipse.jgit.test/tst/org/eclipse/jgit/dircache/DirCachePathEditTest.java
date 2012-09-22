@@ -44,6 +44,9 @@ package org.eclipse.jgit.dircache;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.jgit.dircache.DirCacheEditor.PathEdit;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
@@ -64,6 +67,19 @@ public class DirCachePathEditTest {
 			ent.setObjectId(ObjectId.zeroId());
 		}
 
+	}
+
+	private static final class RecordingEdit extends PathEdit {
+		final List<DirCacheEntry> entries = new ArrayList<DirCacheEntry>();
+
+		public RecordingEdit(String entryPath) {
+			super(entryPath);
+		}
+
+		@Override
+		public void apply(DirCacheEntry ent) {
+			entries.add(ent);
+		}
 	}
 
 	@Test
@@ -113,5 +129,32 @@ public class DirCachePathEditTest {
 		assertEquals(2, dc.getEntryCount());
 		assertEquals("a.", dc.getEntry(0).getPathString());
 		assertEquals("ab", dc.getEntry(1).getPathString());
+	}
+
+	@Test
+	public void testPathEditShouldBeCalledForEachStage() throws Exception {
+		DirCache dc = DirCache.newInCore();
+		DirCacheBuilder builder = new DirCacheBuilder(dc, 3);
+		builder.add(createEntry("a", DirCacheEntry.STAGE_1));
+		builder.add(createEntry("a", DirCacheEntry.STAGE_2));
+		builder.add(createEntry("a", DirCacheEntry.STAGE_3));
+		builder.finish();
+
+		DirCacheEditor editor = dc.editor();
+		RecordingEdit recorder = new RecordingEdit("a");
+		editor.add(recorder);
+		editor.finish();
+
+		List<DirCacheEntry> entries = recorder.entries;
+		assertEquals(3, entries.size());
+		assertEquals(DirCacheEntry.STAGE_1, entries.get(0).getStage());
+		assertEquals(DirCacheEntry.STAGE_2, entries.get(1).getStage());
+		assertEquals(DirCacheEntry.STAGE_3, entries.get(2).getStage());
+	}
+
+	private static DirCacheEntry createEntry(String path, int stage) {
+		DirCacheEntry entry = new DirCacheEntry(path, stage);
+		entry.setFileMode(FileMode.REGULAR_FILE);
+		return entry;
 	}
 }
