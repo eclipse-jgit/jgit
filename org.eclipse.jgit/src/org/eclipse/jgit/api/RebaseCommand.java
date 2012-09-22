@@ -143,6 +143,8 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 
 	private static final String REBASE_HEAD = "head";
 
+	private static final String AMEND = "amend";
+
 	/**
 	 * The available operations
 	 */
@@ -240,7 +242,12 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			if (operation == Operation.CONTINUE) {
 				newHead = continueRebase();
 
-				if (newHead == null) {
+				File amendFile = new File(rebaseDir, AMEND);
+				boolean ammendExists = amendFile.exists();
+				if (ammendExists) {
+					FileUtils.delete(amendFile);
+				}
+				if (newHead == null && !ammendExists) {
 					// continueRebase() returns null only if no commit was
 					// neccessary. This means that no changes where left over
 					// after resolving all conflicts. In this case, cgit stops
@@ -331,6 +338,9 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 						newHead = new Git(repo).commit().setMessage(newMessage)
 								.setAmend(true).call();
 						continue;
+					case EDIT:
+						createFile(rebaseDir, AMEND, commitToPick.name());
+						return stop(commitToPick);
 					}
 				} finally {
 					monitor.endTask();
@@ -1047,7 +1057,6 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		/**
 		 * Given list of {@code steps} should be modified according to user
 		 * rebase configuration
-		 * 
 		 * @param steps
 		 *            initial configuration of rebase interactive
 		 */
@@ -1069,7 +1078,9 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		/** Use commit */
 		PICK("pick", "p"),
 		/** Use commit, but edit the commit message */
-		REWORD("reword", "r"); // later add SQUASH, EDIT, etc.
+		REWORD("reword", "r"),
+		/** Use commit, but stop for amending */
+		EDIT("edit", "e"); // later add SQUASH, FIXUP, etc.
 
 		private final String token;
 
@@ -1093,13 +1104,14 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		}
 
 		static Action parse(String token) {
-			if (token.equals(PICK.token) || token.equals(PICK.shortToken))
-				return PICK;
-			if (token.equals(REWORD.token) || token.equals(REWORD.shortToken))
-				return REWORD;
+			for (Action action : Action.values()) {
+				if (action.token.equals(token)
+						|| action.shortToken.equals(token))
+					return action;
+			}
 			throw new JGitInternalException(MessageFormat.format(
 					JGitText.get().unknownOrUnsupportedCommand, token,
-					PICK.toToken()));
+					Action.values()));
 		}
 	}
 
