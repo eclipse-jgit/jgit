@@ -152,6 +152,7 @@ public class ReflogResolveTest extends RepositoryTestCase {
 			db.resolve("@{-1}@{0}");
 			fail();
 		} catch (RevisionSyntaxException e) {
+			// good
 		}
 		assertEquals(c1.getName(), db.resolve("@{-2}@{0}").getName());
 
