@@ -56,6 +56,7 @@ import java.net.URL;
 
 import org.eclipse.jgit.storage.file.FileRepository;
 import org.eclipse.jgit.util.FileUtils;
+import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.junit.Assert;
 import org.junit.Test;
@@ -172,6 +173,27 @@ public abstract class JGitTestUtil {
 		} finally {
 			w.close();
 		}
+	}
+
+	/**
+	 * Fully read a UTF-8 file and return as a string.
+	 *
+	 * @param file
+	 *            file to read the content of.
+	 * @return UTF-8 decoded content of the file, empty string if the file
+	 *         exists but has no content.
+	 * @throws IOException
+	 *             the file does not exist, or could not be read.
+	 */
+	public static String read(final File file) throws IOException {
+		final byte[] body = IO.readFully(file);
+		return new String(body, 0, body.length, "UTF-8");
+	}
+
+	public static String read(final FileRepository db, final String name)
+			throws IOException {
+		File file = new File(db.getWorkTree(), name);
+		return read(file);
 	}
 
 	public static void deleteTrashFile(final FileRepository db,
