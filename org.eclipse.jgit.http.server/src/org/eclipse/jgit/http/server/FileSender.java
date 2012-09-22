@@ -220,7 +220,6 @@ final class FileSender {
 		return true;
 	}
 
-	@SuppressWarnings("unchecked")
 	private static Enumeration<String> getRange(final HttpServletRequest req) {
 		return req.getHeaders(HDR_RANGE);
 	}
