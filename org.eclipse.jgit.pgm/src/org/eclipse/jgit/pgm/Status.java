@@ -43,6 +43,7 @@
 
 package org.eclipse.jgit.pgm;
 
+import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -69,10 +70,10 @@ class Status extends TextBuiltin {
 		boolean firstHeader = true;
 		if (head != null && head.isSymbolic()) {
 			String branch = Repository.shortenRefName(head.getLeaf().getName());
-			out.println(CLIText.formatLine(
+			outw.println(CLIText.formatLine(
 					MessageFormat.format(CLIText.get().onBranch, branch)));
 		} else
-			out.println(CLIText.formatLine(CLIText.get().notOnAnyBranch));
+			outw.println(CLIText.formatLine(CLIText.get().notOnAnyBranch));
 		// List changes
 		org.eclipse.jgit.api.Status status = new Git(db).status().call();
 		Collection<String> added = status.getAdded();
@@ -122,22 +123,24 @@ class Status extends TextBuiltin {
 		}
 	}
 
-	protected void printSectionHeader(String pattern, Object... arguments) {
-		out.println(CLIText.formatLine(MessageFormat.format(pattern, arguments)));
+	protected void printSectionHeader(String pattern, Object... arguments)
+			throws IOException {
+		outw.println(CLIText.formatLine(MessageFormat
+				.format(pattern, arguments)));
 		if (!pattern.equals(""))
-			out.println(CLIText.formatLine(""));
-		out.flush();
+			outw.println(CLIText.formatLine(""));
+		outw.flush();
 	}
 
-	protected int printList(Collection<String> list) {
+	protected int printList(Collection<String> list) throws IOException {
 		if (!list.isEmpty()) {
 			List<String> sortedList = new ArrayList<String>(list);
 			java.util.Collections.sort(sortedList);
 			for (String filename : sortedList) {
-				out.println(CLIText.formatLine(String.format(
+				outw.println(CLIText.formatLine(String.format(
 						statusFileListFormat, filename)));
 			}
-			out.flush();
+			outw.flush();
 			return list.size();
 		} else
 			return 0;
@@ -146,7 +149,8 @@ class Status extends TextBuiltin {
 	protected int printList(String status1, String status2, String status3,
 			Collection<String> list, Collection<String> set1,
 			Collection<String> set2,
-			@SuppressWarnings("unused") Collection<String> set3) {
+			@SuppressWarnings("unused") Collection<String> set3)
+			throws IOException {
 		List<String> sortedList = new ArrayList<String>(list);
 		java.util.Collections.sort(sortedList);
 		for (String filename : sortedList) {
@@ -158,9 +162,9 @@ class Status extends TextBuiltin {
 			else
 				// if (set3.contains(filename))
 				prefix = status3;
-			out.println(CLIText.formatLine(String.format(
+			outw.println(CLIText.formatLine(String.format(
 					statusFileListFormatWithPrefix, prefix, filename)));
-			out.flush();
+			outw.flush();
 		}
 		return list.size();
 	}

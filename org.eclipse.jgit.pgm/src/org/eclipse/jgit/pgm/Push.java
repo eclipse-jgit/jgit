@@ -252,7 +252,7 @@ class Push extends TextBuiltin {
 	private void printUpdateLine(final char flag, final String summary,
 			final String srcRef, final String destRef, final String message)
 			throws IOException {
-		out.format(" %c %-17s", valueOf(flag), summary);
+		outw.format(" %c %-17s", valueOf(flag), summary);
 
 		if (srcRef != null)
 			outw.format(" %s ->", abbreviateRef(srcRef, true));
