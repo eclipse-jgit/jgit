@@ -102,6 +102,10 @@ public class CheckoutCommand extends GitCommand<Ref> {
 
 	private RevCommit startCommit;
 
+	private boolean ours = false;
+
+	private boolean theirs = false;
+
 	private CheckoutResult status;
 
 	private List<String> paths;
@@ -280,58 +284,97 @@ public class CheckoutCommand extends GitCommand<Ref> {
 		RevWalk revWalk = new RevWalk(repo);
 		DirCache dc = repo.lockDirCache();
 		try {
-			DirCacheEditor editor = dc.editor();
-			TreeWalk startWalk = new TreeWalk(revWalk.getObjectReader());
-			startWalk.setRecursive(true);
+			TreeWalk treeWalk = new TreeWalk(revWalk.getObjectReader());
+			treeWalk.setRecursive(true);
 			if (!checkoutAllPaths)
-				startWalk.setFilter(PathFilterGroup.createFromStrings(paths));
-			final boolean checkoutIndex = startCommit == null
-					&& startPoint == null;
-			if (!checkoutIndex)
-				startWalk.addTree(revWalk.parseCommit(getStartPoint())
-						.getTree());
-			else
-				startWalk.addTree(new DirCacheIterator(dc));
-
-			final File workTree = repo.getWorkTree();
-			final ObjectReader r = repo.getObjectDatabase().newReader();
+				treeWalk.setFilter(PathFilterGroup.createFromStrings(paths));
 			try {
-				while (startWalk.next()) {
-					final ObjectId blobId = startWalk.getObjectId(0);
-					final FileMode mode = startWalk.getFileMode(0);
-					editor.add(new PathEdit(startWalk.getPathString()) {
-						public void apply(DirCacheEntry ent) {
-							if (checkoutIndex
-									&& ent.getStage() > DirCacheEntry.STAGE_0) {
-								UnmergedPathException e = new UnmergedPathException(ent);
-								throw new JGitInternalException(e.getMessage(), e);
-							}
-							ent.setObjectId(blobId);
-							ent.setFileMode(mode);
-							File file = new File(workTree, ent.getPathString());
-							File parentDir = file.getParentFile();
-							try {
-								FileUtils.mkdirs(parentDir, true);
-								DirCacheCheckout.checkoutEntry(repo, file, ent, r);
-							} catch (IOException e) {
-								throw new JGitInternalException(
-										MessageFormat.format(
-												JGitText.get().checkoutConflictWithFile,
-												ent.getPathString()), e);
-							}
-						}
-					});
+				if (isCheckoutIndex())
+					checkoutPathsFromIndex(treeWalk, dc);
+				else {
+					RevCommit commit = revWalk.parseCommit(getStartPoint());
+					checkoutPathsFromCommit(treeWalk, dc, commit);
 				}
-				editor.commit();
 			} finally {
-				startWalk.release();
-				r.release();
+				treeWalk.release();
 			}
 		} finally {
 			dc.unlock();
 			revWalk.release();
 		}
 		return this;
+	}
+
+	private void checkoutPathsFromIndex(TreeWalk treeWalk, DirCache dc)
+			throws IOException {
+		DirCacheIterator dci = new DirCacheIterator(dc);
+		treeWalk.addTree(dci);
+
+		final ObjectReader r = treeWalk.getObjectReader();
+		DirCacheEditor editor = dc.editor();
+		while (treeWalk.next()) {
+			DirCacheEntry entry = dci.getDirCacheEntry();
+			// Only add one edit per path
+			if (entry != null && entry.getStage() > DirCacheEntry.STAGE_1)
+				continue;
+			editor.add(new PathEdit(treeWalk.getPathString()) {
+				public void apply(DirCacheEntry ent) {
+					int stage = ent.getStage();
+					if (stage > DirCacheEntry.STAGE_0) {
+						if (ours) {
+							if (stage == DirCacheEntry.STAGE_2)
+								checkoutPath(ent, r);
+						} else if (theirs) {
+							if (stage == DirCacheEntry.STAGE_3)
+								checkoutPath(ent, r);
+						} else {
+							UnmergedPathException e = new UnmergedPathException(
+									ent);
+							throw new JGitInternalException(e.getMessage(), e);
+						}
+					} else {
+						checkoutPath(ent, r);
+					}
+				}
+			});
+		}
+		editor.commit();
+	}
+
+	private void checkoutPathsFromCommit(TreeWalk treeWalk, DirCache dc,
+			RevCommit commit) throws IOException {
+		treeWalk.addTree(commit.getTree());
+		final ObjectReader r = treeWalk.getObjectReader();
+		DirCacheEditor editor = dc.editor();
+		while (treeWalk.next()) {
+			final ObjectId blobId = treeWalk.getObjectId(0);
+			final FileMode mode = treeWalk.getFileMode(0);
+			editor.add(new PathEdit(treeWalk.getPathString()) {
+				public void apply(DirCacheEntry ent) {
+					ent.setObjectId(blobId);
+					ent.setFileMode(mode);
+					checkoutPath(ent, r);
+				}
+			});
+		}
+		editor.commit();
+	}
+
+	private void checkoutPath(DirCacheEntry entry, ObjectReader reader) {
+		File file = new File(repo.getWorkTree(), entry.getPathString());
+		File parentDir = file.getParentFile();
+		try {
+			FileUtils.mkdirs(parentDir, true);
+			DirCacheCheckout.checkoutEntry(repo, file, entry, reader);
+		} catch (IOException e) {
+			throw new JGitInternalException(MessageFormat.format(
+					JGitText.get().checkoutConflictWithFile,
+					entry.getPathString()), e);
+		}
+	}
+
+	private boolean isCheckoutIndex() {
+		return startCommit == null && startPoint == null;
 	}
 
 	private ObjectId getStartPoint() throws AmbiguousObjectException,
@@ -407,6 +450,7 @@ public class CheckoutCommand extends GitCommand<Ref> {
 		checkCallable();
 		this.startPoint = startPoint;
 		this.startCommit = null;
+		checkOptions();
 		return this;
 	}
 
@@ -420,6 +464,7 @@ public class CheckoutCommand extends GitCommand<Ref> {
 		checkCallable();
 		this.startCommit = startCommit;
 		this.startPoint = null;
+		checkOptions();
 		return this;
 	}
 
@@ -437,11 +482,50 @@ public class CheckoutCommand extends GitCommand<Ref> {
 	}
 
 	/**
+	 * When checking out the index, check out ours (stage 2) for unmerged paths.
+	 *
+	 * @param ours
+	 *            true if ours should be checked out, false if not
+	 * @return this
+	 */
+	public CheckoutCommand setOurs(boolean ours) {
+		checkCallable();
+		this.ours = ours;
+		checkOptions();
+		return this;
+	}
+
+	/**
+	 * When checking out the index, check out theirs (stage 3) for unmerged
+	 * paths.
+	 *
+	 * @param theirs
+	 *            true if theirs should be checked out, false if not
+	 * @return this
+	 */
+	public CheckoutCommand setTheirs(boolean theirs) {
+		checkCallable();
+		this.theirs = theirs;
+		checkOptions();
+		return this;
+	}
+
+	/**
 	 * @return the result
 	 */
 	public CheckoutResult getResult() {
 		if (status == null)
 			return CheckoutResult.NOT_TRIED_RESULT;
 		return status;
+	}
+
+	private void checkOptions() {
+		if ((ours || theirs) && !isCheckoutIndex())
+			throw new IllegalStateException(
+					"Checking out ours/theirs is only possible when checking out index, "
+							+ "not when switching branches.");
+		if (ours && theirs)
+			throw new IllegalStateException(
+					"Can not check out 'ours' and 'theirs', only one of them.");
 	}
 }

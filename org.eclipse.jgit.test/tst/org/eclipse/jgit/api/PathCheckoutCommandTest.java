@@ -246,10 +246,51 @@ public class PathCheckoutCommandTest extends RepositoryTestCase {
 		assertEquals("a", read(test2));
 	}
 
+
 	@Test(expected = JGitInternalException.class)
 	public void testCheckoutOfConflictingFileShouldThrow()
 			throws Exception {
-		// Setup
+		setupConflictingState();
+
+		git.checkout().addPath(FILE1).call();
+	}
+
+	@Test
+	public void testCheckoutOurs() throws Exception {
+		setupConflictingState();
+
+		git.checkout().setOurs(true).addPath(FILE1).call();
+
+		assertEquals("3", read(FILE1));
+		assertStageOneToThree(FILE1);
+	}
+
+	@Test
+	public void testCheckoutTheirs() throws Exception {
+		setupConflictingState();
+
+		git.checkout().setTheirs(true).addPath(FILE1).call();
+
+		assertEquals("Conflicting", read(FILE1));
+		assertStageOneToThree(FILE1);
+	}
+
+	@Test(expected = IllegalStateException.class)
+	public void testOursNotPossibleWithBranch() throws Exception {
+		git.checkout().setOurs(true).setStartPoint("master").call();
+	}
+
+	@Test(expected = IllegalStateException.class)
+	public void testTheirsNotPossibleWithBranch() throws Exception {
+		git.checkout().setTheirs(true).setStartPoint("master").call();
+	}
+
+	@Test(expected = IllegalStateException.class)
+	public void testOursNotPossibleWithTheirs() throws Exception {
+		git.checkout().setOurs(true).setTheirs(true).call();
+	}
+
+	private void setupConflictingState() throws Exception {
 		git.checkout().setCreateBranch(true).setName("conflict")
 				.setStartPoint(initialCommit).call();
 		writeTrashFile(FILE1, "Conflicting");
@@ -260,8 +301,18 @@ public class PathCheckoutCommandTest extends RepositoryTestCase {
 
 		git.merge().include(conflict).call();
 		assertEquals(RepositoryState.MERGING, db.getRepositoryState());
+		assertStageOneToThree(FILE1);
+	}
 
-		// Now check out the conflicting path
-		git.checkout().addPath(FILE1).call();
+	private void assertStageOneToThree(String name) throws Exception {
+		DirCache cache = DirCache.read(db.getIndexFile(), db.getFS());
+		int i = cache.findEntry(name);
+		DirCacheEntry stage1 = cache.getEntry(i);
+		DirCacheEntry stage2 = cache.getEntry(i + 1);
+		DirCacheEntry stage3 = cache.getEntry(i + 2);
+
+		assertEquals(DirCacheEntry.STAGE_1, stage1.getStage());
+		assertEquals(DirCacheEntry.STAGE_2, stage2.getStage());
+		assertEquals(DirCacheEntry.STAGE_3, stage3.getStage());
 	}
 }
