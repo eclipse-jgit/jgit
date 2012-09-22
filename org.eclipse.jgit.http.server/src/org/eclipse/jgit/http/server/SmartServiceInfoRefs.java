@@ -122,7 +122,7 @@ abstract class SmartServiceInfoRefs implements Filter {
 			throws IOException {
 		final HttpServletRequest req = (HttpServletRequest) request;
 		final HttpServletResponse res = (HttpServletResponse) response;
-		final SmartOutputStream buf = new SmartOutputStream(req, res);
+		final SmartOutputStream buf = new SmartOutputStream(req, res, true);
 		try {
 			res.setContentType(infoRefsResultType(svc));
 

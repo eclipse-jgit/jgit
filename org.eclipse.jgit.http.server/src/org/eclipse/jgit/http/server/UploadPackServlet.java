@@ -172,7 +172,7 @@ class UploadPackServlet extends HttpServlet {
 			return;
 		}
 
-		SmartOutputStream out = new SmartOutputStream(req, rsp) {
+		SmartOutputStream out = new SmartOutputStream(req, rsp, false) {
 			@Override
 			public void flush() throws IOException {
 				doFlush();
