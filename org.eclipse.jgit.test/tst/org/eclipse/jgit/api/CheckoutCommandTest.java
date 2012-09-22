@@ -67,6 +67,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.RepositoryState;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -349,5 +350,24 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 		assertNotNull(entry);
 		assertEquals(size, entry.getLength());
 		assertEquals(mTime, entry.getLastModified());
+	}
+
+	@Test(expected = JGitInternalException.class)
+	public void testCheckoutIndexOfConflictingFileShouldThrow()
+			throws Exception {
+		// Setup
+		git.checkout().setCreateBranch(true).setName("conflict")
+				.setStartPoint("master").call();
+		writeTrashFile("Test.txt", "Conflicting");
+		RevCommit conflict = git.commit().setAll(true)
+				.setMessage("Conflicting change").call();
+
+		git.checkout().setName("test").call();
+
+		git.merge().include(conflict).call();
+		assertEquals(RepositoryState.MERGING, db.getRepositoryState());
+
+		// Now check out the conflicting path
+		git.checkout().addPath("Test.txt").call();
 	}
 }

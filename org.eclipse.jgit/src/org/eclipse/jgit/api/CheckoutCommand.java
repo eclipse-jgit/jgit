@@ -64,6 +64,7 @@ import org.eclipse.jgit.dircache.DirCacheEditor.PathEdit;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.errors.AmbiguousObjectException;
+import org.eclipse.jgit.errors.UnmergedPathException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
@@ -284,7 +285,8 @@ public class CheckoutCommand extends GitCommand<Ref> {
 			startWalk.setRecursive(true);
 			if (!checkoutAllPaths)
 				startWalk.setFilter(PathFilterGroup.createFromStrings(paths));
-			boolean checkoutIndex = startCommit == null && startPoint == null;
+			final boolean checkoutIndex = startCommit == null
+					&& startPoint == null;
 			if (!checkoutIndex)
 				startWalk.addTree(revWalk.parseCommit(getStartPoint())
 						.getTree());
@@ -299,6 +301,11 @@ public class CheckoutCommand extends GitCommand<Ref> {
 					final FileMode mode = startWalk.getFileMode(0);
 					editor.add(new PathEdit(startWalk.getPathString()) {
 						public void apply(DirCacheEntry ent) {
+							if (checkoutIndex
+									&& ent.getStage() > DirCacheEntry.STAGE_0) {
+								UnmergedPathException e = new UnmergedPathException(ent);
+								throw new JGitInternalException(e.getMessage(), e);
+							}
 							ent.setObjectId(blobId);
 							ent.setFileMode(mode);
 							File file = new File(workTree, ent.getPathString());
