@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//2qg\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/IndexDiffTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2012-09-23T21:21:03Z",
+      "side": 1,
+      "message": "\"d/f\" is also included in untracked here, see:\n\n\tassertEquals(1, diff.getUntracked().size());\n\tassertTrue(diff.getUntracked().contains(\"d/f\"));",
+      "revId": "b2e3b4654534a27f00bf7b79c19f552e1865bdab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//2qY\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/IndexDiffTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2012-09-23T21:21:03Z",
+      "side": 1,
+      "message": "DiffFormatter includes untracked files in general (try with a file \"g\" in the root). Is this also unexpected? I\u0027m confused.",
+      "revId": "b2e3b4654534a27f00bf7b79c19f552e1865bdab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
