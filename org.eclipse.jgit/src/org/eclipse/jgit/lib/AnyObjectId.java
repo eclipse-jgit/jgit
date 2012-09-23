@@ -510,8 +510,8 @@ public abstract class AnyObjectId implements Comparable<Object> {
 
 	/**
 	 * Return an abbreviation (prefix) of this object SHA-1.
-	 *
-	 * This implementation does not guaranteeing uniqueness. Callers should
+	 * <p>
+	 * This implementation does not guarantee uniqueness. Callers should
 	 * instead use {@link ObjectReader#abbreviate(AnyObjectId, int)} to obtain a
 	 * unique abbreviation within the scope of a particular object database.
 	 *
