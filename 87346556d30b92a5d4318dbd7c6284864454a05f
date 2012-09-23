@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//2tA\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/storage/file/GCTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2012-09-23T00:59:38Z",
+      "side": 1,
+      "message": "Sasa: The above assertion `assertTrue(repo.hasObject(b))` still sometimes fails for me. Does fsTick() not wait long enough?",
+      "revId": "87346556d30b92a5d4318dbd7c6284864454a05f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
