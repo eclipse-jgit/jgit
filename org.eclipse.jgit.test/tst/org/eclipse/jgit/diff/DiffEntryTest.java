@@ -98,7 +98,7 @@ public class DiffEntryTest extends RepositoryTestCase {
 	public void shouldListAddedFileBetweenTwoCommits() throws Exception {
 		// given
 		Git git = new Git(db);
-		RevCommit c1 = git.commit().setMessage("initial commit").call();
+		RevCommit c1 = git.commit().setAllowEmpty(true).setMessage("initial commit").call();
 		writeTrashFile("a.txt", "content");
 		git.add().addFilepattern("a.txt").call();
 		RevCommit c2 = git.commit().setMessage("second commit").call();

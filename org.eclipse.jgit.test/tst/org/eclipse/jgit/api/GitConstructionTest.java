@@ -65,7 +65,7 @@ public class GitConstructionTest extends RepositoryTestCase {
 	public void setUp() throws Exception {
 		super.setUp();
 		Git git = new Git(db);
-		git.commit().setMessage("initial commit").call();
+		git.commit().setMessage("initial commit").setAllowEmpty(true).call();
 		writeTrashFile("Test.txt", "Hello world");
 		git.add().addFilepattern("Test.txt").call();
 		git.commit().setMessage("Initial commit").call();
