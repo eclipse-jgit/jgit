@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//2fM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-09-24T21:34:35Z",
+      "side": 1,
+      "message": "instead of independent ours/theirs options which need to be checked in order to prevent meaningless option combinations I think it would be better to use a combined option setStage() accepting an enum with the possible stages you may want to checkout (ours, theirs, common base)",
+      "revId": "1b9e32fcc6f6b6396614088efc3174360fafc848",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
