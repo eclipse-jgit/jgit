@@ -47,11 +47,13 @@ import static org.junit.Assert.assertEquals;
 import java.io.File;
 import java.io.IOException;
 
+import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.RepositoryState;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -242,5 +244,24 @@ public class PathCheckoutCommandTest extends RepositoryTestCase {
 		co.setStartPoint("HEAD~2").setAllPaths(true).call();
 		assertEquals("1", read(test));
 		assertEquals("a", read(test2));
+	}
+
+	@Test(expected = JGitInternalException.class)
+	public void testCheckoutOfConflictingFileShouldThrow()
+			throws Exception {
+		// Setup
+		git.checkout().setCreateBranch(true).setName("conflict")
+				.setStartPoint(initialCommit).call();
+		writeTrashFile(FILE1, "Conflicting");
+		RevCommit conflict = git.commit().setAll(true)
+				.setMessage("Conflicting change").call();
+
+		git.checkout().setName("master").call();
+
+		git.merge().include(conflict).call();
+		assertEquals(RepositoryState.MERGING, db.getRepositoryState());
+
+		// Now check out the conflicting path
+		git.checkout().addPath(FILE1).call();
 	}
 }
