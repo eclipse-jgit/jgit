@@ -47,14 +47,18 @@
 package org.eclipse.jgit.lib;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
 
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.errors.AmbiguousObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.RevisionSyntaxException;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
 
@@ -133,9 +137,11 @@ public class RepositoryResolveTest extends SampleDataRepositoryTestCase {
 	public void testDistance_past_root() throws IOException {
 		assertEquals("42e4e7c5e507e113ebbb7801b16b52cf867b7ce1",db.resolve("6462e7d8024396b14d7651e2ec11e2bbf07a05c4~1").name());
 		assertNull(db.resolve("6462e7d8024396b14d7651e2ec11e2bbf07a05c4~~"));
+		assertNull(db.resolve("6462e7d8024396b14d7651e2ec11e2bbf07a05c4^^"));
 		assertNull(db.resolve("6462e7d8024396b14d7651e2ec11e2bbf07a05c4~2"));
 		assertNull(db.resolve("6462e7d8024396b14d7651e2ec11e2bbf07a05c4~99"));
 		assertNull(db.resolve("42e4e7c5e507e113ebbb7801b16b52cf867b7ce1~~"));
+		assertNull(db.resolve("42e4e7c5e507e113ebbb7801b16b52cf867b7ce1^^"));
 		assertNull(db.resolve("42e4e7c5e507e113ebbb7801b16b52cf867b7ce1~2"));
 		assertNull(db.resolve("42e4e7c5e507e113ebbb7801b16b52cf867b7ce1~99"));
 		assertEquals("42e4e7c5e507e113ebbb7801b16b52cf867b7ce1",db.resolve("master~6").name());
@@ -287,6 +293,53 @@ public class RepositoryResolveTest extends SampleDataRepositoryTestCase {
 		git.add().addFilepattern("file2.txt").call();
 		git.commit().setMessage("create file").call();
 		assertEquals("refs/remotes/origin/main", db.simplify("@{upstream}"));
+	}
+
+	@Test
+	public void invalidNames() throws AmbiguousObjectException, IOException {
+		assertTrue(Repository.isValidRefName("x/a"));
+		assertTrue(Repository.isValidRefName("x/a.b"));
+		assertTrue(Repository.isValidRefName("x/a@b"));
+		assertTrue(Repository.isValidRefName("x/a@b{x}"));
+		assertTrue(Repository.isValidRefName("x/a/b"));
+		assertTrue(Repository.isValidRefName("x/a]b")); // odd, yes..
+		assertTrue(Repository.isValidRefName("x/\u00a0")); // unicode is fine,
+															// even hard space
+		assertFalse(Repository.isValidRefName("x/.a"));
+		assertFalse(Repository.isValidRefName("x/a."));
+		assertFalse(Repository.isValidRefName("x/a..b"));
+		assertFalse(Repository.isValidRefName("x//a"));
+		assertFalse(Repository.isValidRefName("x/a/"));
+		assertFalse(Repository.isValidRefName("x/a//b"));
+		assertFalse(Repository.isValidRefName("x/a[b"));
+		assertFalse(Repository.isValidRefName("x/a^b"));
+		assertFalse(Repository.isValidRefName("x/a*b"));
+		assertFalse(Repository.isValidRefName("x/a?b"));
+		assertFalse(Repository.isValidRefName("x/a~1"));
+		assertFalse(Repository.isValidRefName("x/a\\b"));
+		assertFalse(Repository.isValidRefName("x/a\u0000"));
+
+		assertUnparseable(".");
+		assertUnparseable("x@{3");
+		assertUnparseable("x[b");
+		assertUnparseable("x y");
+		assertUnparseable("x.");
+		assertUnparseable(".x");
+		assertUnparseable("a..b");
+		assertUnparseable("x\\b");
+		assertUnparseable("a~b");
+		assertUnparseable("a^b");
+		assertUnparseable("a\u0000");
+	}
+
+	private void assertUnparseable(String s) throws AmbiguousObjectException,
+			IOException {
+		try {
+			db.resolve(s);
+			fail("'" + s + "' should be unparseable");
+		} catch (RevisionSyntaxException e) {
+			// good
+		}
 	}
 
 	private static ObjectId id(String name) {
