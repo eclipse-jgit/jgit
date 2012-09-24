@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//2oo\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/IndexDiffTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-09-24T05:52:20Z",
+      "side": 1,
+      "message": "But it should not and it appears that IndexDiff wasn\u0027t even supposed to report it, but still does, at least sometimes which is a huge performance loss in EGit. We should do things like C Git here and just report the untracked directory. Using gitignore is too complicated and in the general case will not help.",
+      "parentUuid": "AABOIn//2qg\u003d",
+      "revId": "b2e3b4654534a27f00bf7b79c19f552e1865bdab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//2qY\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/IndexDiffTest.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2012-09-23T21:21:03Z",
       "side": 1,
       "message": "DiffFormatter includes untracked files in general (try with a file \"g\" in the root). Is this also unexpected? I\u0027m confused.",
+      "revId": "b2e3b4654534a27f00bf7b79c19f552e1865bdab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//2os\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/IndexDiffTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-09-24T05:52:20Z",
+      "side": 1,
+      "message": "My main issue here is that we should not report untracked files. Diff is for tracked files.",
+      "parentUuid": "AABOIn//2qY\u003d",
       "revId": "b2e3b4654534a27f00bf7b79c19f552e1865bdab",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
