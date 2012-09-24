@@ -88,6 +88,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//2h8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-09-24T18:48:09Z",
+      "side": 1,
+      "message": "hmm, I may be inclined to agree, if you only want to reword (signed-off/change-id should be included?) then you save some work.\n\nWhat happens if the user changes his mind and realize that he need to do more research in order to do the rewording. It may  be as simple as the need to copy a small text from somehere else in the IDE. Can a cancel change the action into an edit? This often happens to me quite often, but I\u0027ve newer used the reword command.",
+      "parentUuid": "AABOIn//2nE\u003d",
+      "revId": "50bb992a3b4432f5031a9517b3a932f80e8ca5db",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//2pU\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
         "patchSetId": 2
