@@ -70,6 +70,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//2nE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2012-09-24T10:22:06Z",
+      "side": 1,
+      "message": "The \u0027reword\u0027 command will also block you on command line git, the regular behavior here is to show user editor with loaded commit message for edition. There is \u0027edit\u0027 command that will not block user and allow him to amend commit.",
+      "parentUuid": "AABOIn//2pQ\u003d",
+      "revId": "50bb992a3b4432f5031a9517b3a932f80e8ca5db",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//2pU\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
         "patchSetId": 2
