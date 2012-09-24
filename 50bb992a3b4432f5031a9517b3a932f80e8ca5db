@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//2hM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2012-09-24T20:25:50Z",
+      "side": 1,
+      "message": "Where did you find this UTF8FileWriter?",
+      "parentUuid": "AABOIn//2o8\u003d",
+      "revId": "50bb992a3b4432f5031a9517b3a932f80e8ca5db",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//2pg\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//2hI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2012-09-24T20:25:50Z",
+      "side": 1,
+      "message": "this line was moved/refactored from previous version of RebaseCommand. personally I would remove it, for me it is not important what application generates git-rebase-todo file",
+      "parentUuid": "AABOIn//2pg\u003d",
+      "revId": "50bb992a3b4432f5031a9517b3a932f80e8ca5db",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//2o4\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2012-09-24T05:55:51Z",
       "side": 1,
       "message": "Decode properly",
+      "revId": "50bb992a3b4432f5031a9517b3a932f80e8ca5db",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//2gs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2012-09-24T20:25:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//2o4\u003d",
       "revId": "50bb992a3b4432f5031a9517b3a932f80e8ca5db",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -106,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//2gg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2012-09-24T20:25:50Z",
+      "side": 1,
+      "message": "in command line git whole commit message is shown (including change-id etc.) and can be changed\n\nhe can cancel commit or leave it unchanged. in command line git you cannot cancel or change command during rebase and personally I would keep the same behavior in jgit/egit. if you change your mind during rebase you\u0027ll need to start it once again.",
+      "parentUuid": "AABOIn//2h8\u003d",
+      "revId": "50bb992a3b4432f5031a9517b3a932f80e8ca5db",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//2pU\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
         "patchSetId": 2
@@ -117,6 +189,24 @@
       "writtenOn": "2012-09-24T05:55:51Z",
       "side": 1,
       "message": "Perhaps we should err out if there is an unimplemented action. We could see to it that C git could resume.",
+      "revId": "50bb992a3b4432f5031a9517b3a932f80e8ca5db",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//2gc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2012-09-24T20:25:50Z",
+      "side": 1,
+      "message": "Unsupported commands will be handled in RebaseCommand.Action.parse from change #7881",
+      "parentUuid": "AABOIn//2pU\u003d",
       "revId": "50bb992a3b4432f5031a9517b3a932f80e8ca5db",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
