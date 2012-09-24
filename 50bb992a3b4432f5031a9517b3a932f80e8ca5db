@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//2o8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-09-24T05:55:51Z",
+      "side": 1,
+      "message": "Not required, but it seems we should create a UTF8FileWriter for this pattern.",
+      "revId": "50bb992a3b4432f5031a9517b3a932f80e8ca5db",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//2pg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-09-24T05:55:51Z",
+      "side": 1,
+      "message": "EGit/JGit?  We need a setting for this that then caller may call to manage the message. setCallerName(\"EGit\"), with \"JGit\" being the default",
+      "revId": "50bb992a3b4432f5031a9517b3a932f80e8ca5db",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//2o4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-09-24T05:55:51Z",
+      "side": 1,
+      "message": "Decode properly",
+      "revId": "50bb992a3b4432f5031a9517b3a932f80e8ca5db",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//2pQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-09-24T05:55:51Z",
+      "side": 1,
+      "message": "It\u0027s not that easy. It\u0027s not ok to block during rebase, other than pick actions. The user must be allowed to do other things in order to discover what to actually do, e.g. look at history, code etc, etc, i.e. the same situation as we have when resolving conflicts. It would be ok to bring up the amend dialog by default, but the user must not be forced to amend before doing anyting else.",
+      "revId": "50bb992a3b4432f5031a9517b3a932f80e8ca5db",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//2pU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-09-24T05:55:51Z",
+      "side": 1,
+      "message": "Perhaps we should err out if there is an unimplemented action. We could see to it that C git could resume.",
+      "revId": "50bb992a3b4432f5031a9517b3a932f80e8ca5db",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
