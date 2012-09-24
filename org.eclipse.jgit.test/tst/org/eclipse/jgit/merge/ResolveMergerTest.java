@@ -89,7 +89,7 @@ public class ResolveMergerTest extends RepositoryTestCase {
 		file = new File(db.getWorkTree(), "unrelated.txt");
 		write(file, "unrelated");
 
-		git.add().addFilepattern("unrelated").call();
+		git.add().addFilepattern("unrelated.txt").call();
 		RevCommit head = git.commit().setMessage("Adding another file").call();
 
 		// Untracked file to cause failing path for delete() of folder1
