@@ -16,6 +16,24 @@
       "revId": "87346556d30b92a5d4318dbd7c6284864454a05f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//2bo\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/storage/file/GCTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2012-09-25T11:13:37Z",
+      "side": 1,
+      "message": "Strange. fsTick is based on the last-modified attribute of a (temporary) file in the file system. It will create a temporary file,\nthen keep touch-ing it until its last-modified changes and then return. This ensures that b is newer than a wrt the last-modified.\n\nWe could try two things:\n\n- when this test fails on your machine please check the last-modified time for the blobs \u0027a\u0027 and \u0027b\u0027 in your test Git repository. You may need to comment out the tearDown method in order to prevent the deletion of the test repository\n\n- try the following change in the test code: remove the gc.setExpire from the line 232 and use the last-modified of the blob b as the expiration date. Means: add \n\n gc.setExpire(new Date(lastModified(b));\n\nafter the line 326. Let me know if this makes the test stable on your platform.",
+      "parentUuid": "AABOIn//2tA\u003d",
+      "revId": "87346556d30b92a5d4318dbd7c6284864454a05f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
