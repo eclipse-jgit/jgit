@@ -62,8 +62,8 @@ public class CommitAndLogTest extends CLIRepositoryTestCase {
 						"    first commit", //
 						"", //
 						"" //
-				}, execute("git commit -m 'first comit'", //
-						"git commit --amend -m 'first commit'", //
+				}, execute("git commit --allow-empty -m 'first comit'", //
+						"git commit --allow-empty --amend -m 'first commit'", //
 						"git log"));
 	}
 }
