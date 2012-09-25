@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//2bw\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CommitCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-09-25T11:11:40Z",
+      "side": 1,
+      "message": "We have the utility method fstick() to wait for a tick of the filesystem timer. So \n\n  write(file1, \"content4\");\n  fsTick();  // wait until you see the the filesystem timer jumps\n  write(file1, \"content4\");\n\nshould do the same. And the good think: on windows it runs much faster the your code.",
+      "revId": "54a258258b6e61235ce4018d4b892b849e196854",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
