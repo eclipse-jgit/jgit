@@ -68,7 +68,6 @@ import org.eclipse.jgit.storage.file.WindowCache;
 import org.eclipse.jgit.storage.file.WindowCacheConfig;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
-import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.SystemReader;
 import org.junit.After;
 import org.junit.Before;
@@ -435,19 +434,8 @@ public abstract class LocalDiskRepositoryTestCase {
 		JGitTestUtil.write(f, body);
 	}
 
-	/**
-	 * Fully read a UTF-8 file and return as a string.
-	 *
-	 * @param f
-	 *            file to read the content of.
-	 * @return UTF-8 decoded content of the file, empty string if the file
-	 *         exists but has no content.
-	 * @throws IOException
-	 *             the file does not exist, or could not be read.
-	 */
 	protected String read(final File f) throws IOException {
-		final byte[] body = IO.readFully(f);
-		return new String(body, 0, body.length, "UTF-8");
+		return JGitTestUtil.read(f);
 	}
 
 	private static String[] toEnvArray(final Map<String, String> env) {
