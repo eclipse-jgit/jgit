@@ -108,6 +108,8 @@ public class CommitCommand extends GitCommand<RevCommit> {
 
 	private boolean amend;
 
+	private boolean allowEmpty;
+
 	private boolean insertChangeId;
 
 	/**
@@ -157,8 +159,8 @@ public class CommitCommand extends GitCommand<RevCommit> {
 		processOptions(state);
 
 		try {
+			Git git = new Git(repo);
 			if (all && !repo.isBare() && repo.getWorkTree() != null) {
-				Git git = new Git(repo);
 				try {
 					git.add()
 							.addFilepattern(".")
@@ -173,6 +175,20 @@ public class CommitCommand extends GitCommand<RevCommit> {
 			if (head == null)
 				throw new NoHeadException(
 						JGitText.get().commitOnRepoWithoutHEADCurrentlyNotSupported);
+
+			// Check if there are any files to commit
+			if (!allowEmpty) {
+				// files could have been added to only list, in that case the
+				// commit is not empty
+				if (only.isEmpty()) {
+					Status status = git.status().call();
+					if ((status.getAdded().size() + status.getChanged().size() + status
+							.getRemoved().size()) == 0) {
+						throw new JGitInternalException(
+								JGitText.get().emptyCommit);
+					}
+				}
+			}
 
 			// determine the current HEAD and the commit it is referring to
 			ObjectId headId = repo.resolve(Constants.HEAD + "^{commit}");
@@ -639,6 +655,20 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	public CommitCommand setAmend(boolean amend) {
 		checkCallable();
 		this.amend = amend;
+		return this;
+	}
+
+	/**
+	 * Used to allow an empty commit, i.e. a commit without any changes added.
+	 * This is equivalent to --allow-empty on the command line.
+	 *
+	 * The default is false.
+	 *
+	 * @param allowEmpty
+	 * @return {@code this}
+	 */
+	public CommitCommand setAllowEmpty(boolean allowEmpty) {
+		this.allowEmpty = allowEmpty;
 		return this;
 	}
 

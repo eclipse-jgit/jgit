@@ -255,7 +255,8 @@ public class MergeCommand extends GitCommand<MergeResult> {
 					MergeStatus mergeStatus = null;
 					if (!squash) {
 						newHead = new Git(getRepository()).commit()
-							.setReflogComment(refLogMessage.toString()).call();
+							.setReflogComment(refLogMessage.toString())
+							.setAllowEmpty(true).call();
 						mergeStatus = MergeStatus.MERGED;
 					} else {
 						msg = JGitText.get().squashCommitNotUpdatingHEAD;
