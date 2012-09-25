@@ -16,6 +16,24 @@
       "revId": "54a258258b6e61235ce4018d4b892b849e196854",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//2aE\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CommitCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-09-25T16:44:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//2bw\u003d",
+      "revId": "54a258258b6e61235ce4018d4b892b849e196854",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
