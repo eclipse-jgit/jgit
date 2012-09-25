@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//2XQ\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CommitCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-09-25T20:40:19Z",
+      "side": 1,
+      "message": "You can delete now this line containing setLastModified(). fsTick()+write(file1, \"content4\") is a replacement for the original assertTrue(file1.setLastModified(...)).",
+      "revId": "92c2e486eaa86ca846c5c7b7e10d05fe66d6868d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
