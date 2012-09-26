@@ -866,7 +866,7 @@ public class PackWriter {
 	 * Create a bitmap index file to match the pack file just written.
 	 * <p>
 	 * This method can only be invoked after
-	 * {@link #prepareBitmapIndex(ProgressMonitor, Set)} has been invoked and
+	 * {@link #prepareBitmapIndex(ProgressMonitor)} has been invoked and
 	 * completed successfully. Writing a corresponding bitmap index is an
 	 * optional feature that not all pack users may require.
 	 *
@@ -2051,16 +2051,11 @@ public class PackWriter {
 	 *
 	 * @param pm
 	 *            progress monitor to report bitmap building work.
-	 * @param want
-	 *            collection of objects to be marked as interesting (start
-	 *            points of graph traversal).
 	 * @return whether a bitmap index may be written.
 	 * @throws IOException
 	 *             when some I/O problem occur during reading objects.
 	 */
-	public boolean prepareBitmapIndex(
-			ProgressMonitor pm, Set<? extends ObjectId> want)
-			throws IOException {
+	public boolean prepareBitmapIndex(ProgressMonitor pm) throws IOException {
 		if (!canBuildBitmaps || getObjectCount() > Integer.MAX_VALUE
 				|| !cachedPacks.isEmpty())
 			return false;
@@ -2069,8 +2064,8 @@ public class PackWriter {
 			pm = NullProgressMonitor.INSTANCE;
 
 		writeBitmaps = new PackBitmapIndexBuilder(sortByName());
-		PackWriterBitmapPreparer bitmapPreparer =
-				new PackWriterBitmapPreparer(reader, writeBitmaps, pm, want);
+		PackWriterBitmapPreparer bitmapPreparer = new PackWriterBitmapPreparer(
+				reader, writeBitmaps, pm, stats.interestingObjects);
 
 		int numCommits = objectsLists[Constants.OBJ_COMMIT].size();
 		Collection<PackWriterBitmapPreparer.BitmapCommit> selectedCommits =
