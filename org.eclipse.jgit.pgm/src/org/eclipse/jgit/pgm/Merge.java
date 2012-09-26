@@ -60,6 +60,9 @@ class Merge extends TextBuiltin {
 	@Option(name = "--strategy", aliases = { "-s" }, usage = "usage_mergeStrategy")
 	private String strategyName;
 
+	@Option(name = "--squash", usage = "usage_squash")
+	private boolean squash;
+
 	private MergeStrategy mergeStrategy = MergeStrategy.RESOLVE;
 
 	@Argument(required = true)
@@ -83,10 +86,12 @@ class Merge extends TextBuiltin {
 
 		Git git = new Git(db);
 		MergeResult result = git.merge().setStrategy(mergeStrategy)
-				.include(src).call();
+				.setSquash(squash).include(src).call();
 
 		switch (result.getMergeStatus()) {
 		case ALREADY_UP_TO_DATE:
+			if (squash)
+				outw.print(CLIText.get().nothingToSquash);
 			outw.println(CLIText.get().alreadyUpToDate);
 			break;
 		case FAST_FORWARD:
@@ -116,6 +121,9 @@ class Merge extends TextBuiltin {
 		case MERGED:
 			outw.println(MessageFormat.format(CLIText.get().mergeMadeBy,
 					mergeStrategy.getName()));
+			break;
+		case MERGED_SQUASHED:
+			outw.println(CLIText.get().mergedSquashed);
 			break;
 		case NOT_SUPPORTED:
 			outw.println(MessageFormat.format(

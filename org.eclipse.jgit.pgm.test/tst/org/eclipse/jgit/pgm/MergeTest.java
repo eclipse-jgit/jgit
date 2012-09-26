@@ -43,6 +43,7 @@
 package org.eclipse.jgit.pgm;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertArrayEquals;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.CLIRepositoryTestCase;
@@ -61,6 +62,12 @@ public class MergeTest extends CLIRepositoryTestCase {
 	@Test
 	public void testMergeSelf() throws Exception {
 		assertEquals("Already up-to-date.", execute("git merge master")[0]);
+	}
+
+	@Test
+	public void testSquashSelf() throws Exception {
+		assertEquals(" (nothing to squash)Already up-to-date.",
+				execute("git merge master --squash")[0]);
 	}
 
 	@Test
@@ -89,5 +96,27 @@ public class MergeTest extends CLIRepositoryTestCase {
 
 		assertEquals("Merge made by the '" + MergeStrategy.RESOLVE.getName()
 				+ "' strategy.", execute("git merge master")[0]);
+	}
+
+	@Test
+	public void testSquash() throws Exception {
+		new Git(db).commit().setMessage("initial commit").call();
+		new Git(db).branchCreate().setName("side").call();
+		writeTrashFile("file1", "content1");
+		new Git(db).add().addFilepattern("file1").call();
+		new Git(db).commit().setMessage("file1 commit").call();
+		writeTrashFile("file2", "content2");
+		new Git(db).add().addFilepattern("file2").call();
+		new Git(db).commit().setMessage("file2 commit").call();
+		new Git(db).checkout().setName("side").call();
+		writeTrashFile("side", "content");
+		new Git(db).add().addFilepattern("side").call();
+		new Git(db).commit().setMessage("side commit").call();
+
+		assertArrayEquals(
+				new String[] { "Squash commit -- not updating HEAD",
+						"Automatic merge went well; stopped before committing as requested",
+						"" },
+				execute("git merge master --squash"));
 	}
 }
