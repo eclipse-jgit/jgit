@@ -240,6 +240,7 @@ public class DfsInserter extends ObjectInserter {
 
 	PackIndex writePackIndex(DfsPackDescription pack, byte[] packHash,
 			List<PackedObjectInfo> list) throws IOException {
+		pack.setIndexVersion(INDEX_VERSION);
 		pack.setObjectCount(list.size());
 
 		// If there are less than 58,000 objects, the entire index fits in under

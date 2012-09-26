@@ -2051,16 +2051,11 @@ public class PackWriter {
 	 *
 	 * @param pm
 	 *            progress monitor to report bitmap building work.
-	 * @param want
-	 *            collection of objects to be marked as interesting (start
-	 *            points of graph traversal).
 	 * @return whether a bitmap index may be written.
 	 * @throws IOException
 	 *             when some I/O problem occur during reading objects.
 	 */
-	public boolean prepareIndexBitmaps(
-			ProgressMonitor pm, Set<? extends ObjectId> want)
-			throws IOException {
+	public boolean prepareIndexBitmaps(ProgressMonitor pm) throws IOException {
 		if (!canBuildBitmaps || getObjectCount() > Integer.MAX_VALUE
 				|| !cachedPacks.isEmpty())
 			return false;
@@ -2069,8 +2064,8 @@ public class PackWriter {
 			pm = NullProgressMonitor.INSTANCE;
 
 		writeBitmaps = new PackBitmapIndexBuilder(sortByName());
-		PackWriterBitmapPreparer bitmapPreparer =
-				new PackWriterBitmapPreparer(reader, writeBitmaps, pm, want);
+		PackWriterBitmapPreparer bitmapPreparer = new PackWriterBitmapPreparer(
+				reader, writeBitmaps, pm, stats.interestingObjects);
 
 		int numCommits = objectsLists[Constants.OBJ_COMMIT].size();
 		Collection<PackWriterBitmapPreparer.BitmapCommit> selectedCommits =
