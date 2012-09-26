@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//2Mk\u003d",
+        "filename": "org.eclipse.jgit.test/META-INF/MANIFEST.MF",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-09-26T19:32:51Z",
+      "side": 1,
+      "message": "We need to file a CQ to get permission to add javaewah to Orbit.",
+      "revId": "e5ba153ba42881f9512cfd5a1db70debe2e1f591",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//2Mo\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/storage/file/InflatingBitSetTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-09-26T19:32:51Z",
+      "side": 1,
+      "message": "We try to avoid importing *. Import what you need.",
+      "revId": "e5ba153ba42881f9512cfd5a1db70debe2e1f591",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//2Mc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/BitmapIndexImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-09-26T19:32:51Z",
+      "side": 1,
+      "message": "Please clean up trailing whitespace.",
+      "revId": "e5ba153ba42881f9512cfd5a1db70debe2e1f591",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
