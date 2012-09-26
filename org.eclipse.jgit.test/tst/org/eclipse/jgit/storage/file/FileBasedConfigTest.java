@@ -54,7 +54,6 @@ import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.IO;
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 public class FileBasedConfigTest {
