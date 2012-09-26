@@ -45,6 +45,7 @@ package org.eclipse.jgit.storage.dfs;
 
 import static org.eclipse.jgit.storage.dfs.DfsObjDatabase.PackSource.GC;
 import static org.eclipse.jgit.storage.dfs.DfsObjDatabase.PackSource.UNREACHABLE_GARBAGE;
+import static org.eclipse.jgit.storage.pack.PackExt.BITMAP_INDEX;
 import static org.eclipse.jgit.storage.pack.PackExt.PACK;
 import static org.eclipse.jgit.storage.pack.PackExt.INDEX;
 
@@ -329,8 +330,20 @@ public class DfsGarbageCollector {
 			CountingOutputStream cnt = new CountingOutputStream(out);
 			pw.writeIndex(cnt);
 			pack.setFileSize(INDEX, cnt.getCount());
+			pack.setIndexVersion(pw.getIndexVersion());
 		} finally {
 			out.close();
+		}
+
+		if (pw.prepareIndexBitmaps(pm)) {
+			out = objdb.writeFile(pack, BITMAP_INDEX);
+			try {
+				CountingOutputStream cnt = new CountingOutputStream(out);
+				pw.writeIndex(cnt);
+				pack.setFileSize(BITMAP_INDEX, cnt.getCount());
+			} finally {
+				out.close();
+			}
 		}
 
 		final ObjectIdOwnerMap<ObjectIdOwnerMap.Entry> packedObjs = pw
