@@ -303,6 +303,7 @@ public class DfsPackCompactor {
 			CountingOutputStream cnt = new CountingOutputStream(out);
 			pw.writeIndex(cnt);
 			pack.setFileSize(INDEX, cnt.getCount());
+			pack.setIndexVersion(pw.getIndexVersion());
 		} finally {
 			out.close();
 		}
