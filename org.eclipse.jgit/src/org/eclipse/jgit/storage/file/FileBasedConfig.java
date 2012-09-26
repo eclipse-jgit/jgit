@@ -192,7 +192,7 @@ public class FileBasedConfig extends StoredConfig {
 			bos.write(0xEF);
 			bos.write(0xBB);
 			bos.write(0xBF);
-			bos.write(text.getBytes(RawParseUtils.UTF8_CHARSET));
+			bos.write(text.getBytes("UTF-8"));
 			out = bos.toByteArray();
 		} else {
 			out = Constants.encode(text);
