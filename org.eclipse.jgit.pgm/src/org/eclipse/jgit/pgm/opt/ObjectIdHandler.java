@@ -86,15 +86,14 @@ public class ObjectIdHandler extends OptionHandler<ObjectId> {
 		try {
 			id = clp.getRepository().resolve(name);
 		} catch (IOException e) {
-			throw new CmdLineException(owner, e.getMessage());
+			throw new CmdLineException(e.getMessage());
 		}
 		if (id != null) {
 			setter.addValue(id);
 			return 1;
 		}
 
-		throw new CmdLineException(owner, MessageFormat.format(
-				CLIText.get().notAnObject, name));
+		throw new CmdLineException(MessageFormat.format(CLIText.get().notAnObject, name));
 	}
 
 	@Override

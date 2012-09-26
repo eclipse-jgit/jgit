@@ -89,24 +89,20 @@ public class RevTreeHandler extends OptionHandler<RevTree> {
 		try {
 			id = clp.getRepository().resolve(name);
 		} catch (IOException e) {
-			throw new CmdLineException(owner, e.getMessage());
+			throw new CmdLineException(e.getMessage());
 		}
 		if (id == null)
-			throw new CmdLineException(owner, MessageFormat.format(
-					CLIText.get().notATree, name));
+			throw new CmdLineException(MessageFormat.format(CLIText.get().notATree, name));
 
 		final RevTree c;
 		try {
 			c = clp.getRevWalk().parseTree(id);
 		} catch (MissingObjectException e) {
-			throw new CmdLineException(owner, MessageFormat.format(
-					CLIText.get().notATree, name));
+			throw new CmdLineException(MessageFormat.format(CLIText.get().notATree, name));
 		} catch (IncorrectObjectTypeException e) {
-			throw new CmdLineException(owner, MessageFormat.format(
-					CLIText.get().notATree, name));
+			throw new CmdLineException(MessageFormat.format(CLIText.get().notATree, name));
 		} catch (IOException e) {
-			throw new CmdLineException(owner, MessageFormat.format(
-					CLIText.get().cannotReadBecause, name, e.getMessage()));
+			throw new CmdLineException(MessageFormat.format(CLIText.get().cannotReadBecause, name, e.getMessage()));
 		}
 		setter.addValue(c);
 		return 1;

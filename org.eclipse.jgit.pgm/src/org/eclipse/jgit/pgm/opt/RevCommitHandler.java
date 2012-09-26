@@ -96,8 +96,7 @@ public class RevCommitHandler extends OptionHandler<RevCommit> {
 		final int dot2 = name.indexOf("..");
 		if (dot2 != -1) {
 			if (!option.isMultiValued())
-				throw new CmdLineException(owner, MessageFormat.format(
-						CLIText.get().onlyOneMetaVarExpectedIn
+				throw new CmdLineException(MessageFormat.format(CLIText.get().onlyOneMetaVarExpectedIn
 					, option.metaVar(), name));
 
 			final String left = name.substring(0, dot2);
@@ -117,24 +116,20 @@ public class RevCommitHandler extends OptionHandler<RevCommit> {
 		try {
 			id = clp.getRepository().resolve(name);
 		} catch (IOException e) {
-			throw new CmdLineException(owner, e.getMessage());
+			throw new CmdLineException(e.getMessage());
 		}
 		if (id == null)
-			throw new CmdLineException(owner, MessageFormat.format(
-					CLIText.get().notACommit, name));
+			throw new CmdLineException(MessageFormat.format(CLIText.get().notACommit, name));
 
 		final RevCommit c;
 		try {
 			c = clp.getRevWalk().parseCommit(id);
 		} catch (MissingObjectException e) {
-			throw new CmdLineException(owner, MessageFormat.format(
-					CLIText.get().notACommit, name));
+			throw new CmdLineException(MessageFormat.format(CLIText.get().notACommit, name));
 		} catch (IncorrectObjectTypeException e) {
-			throw new CmdLineException(owner, MessageFormat.format(
-					CLIText.get().notACommit, name));
+			throw new CmdLineException(MessageFormat.format(CLIText.get().notACommit, name));
 		} catch (IOException e) {
-			throw new CmdLineException(owner, MessageFormat.format(
-					CLIText.get().cannotReadBecause, name, e.getMessage()));
+			throw new CmdLineException(MessageFormat.format(CLIText.get().cannotReadBecause, name, e.getMessage()));
 		}
 
 		if (interesting)
