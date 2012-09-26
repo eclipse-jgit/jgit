@@ -673,6 +673,8 @@ public class GC {
 				channel.close();
 			}
 
+			pw.prepareIndexBitmaps(pm);
+
 			// write the packindex
 			@SuppressWarnings("resource")
 			FileChannel idxChannel = new FileOutputStream(tmpIdx).getChannel();

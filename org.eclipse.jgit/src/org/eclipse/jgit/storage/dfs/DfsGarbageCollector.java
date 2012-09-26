@@ -325,11 +325,14 @@ public class DfsGarbageCollector {
 			out.close();
 		}
 
+		pw.prepareIndexBitmaps(pm);
+
 		out = objdb.writePackIndex(pack);
 		try {
 			CountingOutputStream cnt = new CountingOutputStream(out);
 			pw.writeIndex(cnt);
 			pack.setIndexSize(cnt.getCount());
+			pack.setIndexVersion(pw.getIndexVersion());
 		} finally {
 			out.close();
 		}
