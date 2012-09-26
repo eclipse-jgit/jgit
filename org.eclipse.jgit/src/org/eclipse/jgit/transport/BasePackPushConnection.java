@@ -277,6 +277,7 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 			}
 
 			writer.setUseCachedPacks(true);
+			writer.setUseBitmaps(true);
 			writer.setThin(thinPack);
 			writer.setReuseValidatingObjects(false);
 			writer.setDeltaBaseAsOffset(capableOfsDelta);
