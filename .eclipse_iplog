@@ -8,7 +8,7 @@
 	url = http://egit.eclipse.org/r/r/
 
 [CQ "3454"]
-	description = args4j Version: 2.0.12
+	description = args4j Version: 2.0.16
 	license = BSD License
 	use = unmodified binary
 	state = approved

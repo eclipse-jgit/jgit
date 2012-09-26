@@ -61,7 +61,7 @@
   <properties>
     <tycho-version>0.15.0</tycho-version>
     <jetty-version>7.6.0.v20120127</jetty-version>
-    <args4j-version>2.0.12</args4j-version>
+    <args4j-version>2.0.16</args4j-version>
     <jsch-version>0.1.44-1</jsch-version>
     <eclipse-site>http://download.eclipse.org/releases/indigo</eclipse-site>
     <orbit-site>http://download.eclipse.org/tools/orbit/downloads/drops/R20120526062928/repository/</orbit-site>
