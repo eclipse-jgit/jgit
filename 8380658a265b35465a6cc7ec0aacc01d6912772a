@@ -16,6 +16,24 @@
       "revId": "8380658a265b35465a6cc7ec0aacc01d6912772a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//2FY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-09-27T13:34:19Z",
+      "side": 1,
+      "message": "See the block I just pointed you at in change Icdb0cdd66ff168917fb9ef17b96093990cc6a98d. This is a no-op on the non-head pack.",
+      "parentUuid": "AABOIn//2F4\u003d",
+      "revId": "8380658a265b35465a6cc7ec0aacc01d6912772a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
