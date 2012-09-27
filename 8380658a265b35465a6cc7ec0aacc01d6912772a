@@ -34,6 +34,24 @@
       "revId": "8380658a265b35465a6cc7ec0aacc01d6912772a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//2E4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-09-27T14:56:34Z",
+      "side": 1,
+      "message": "ok, got it. Then this is no problem. I was only confused by the commit message which says that the GC class will not even call prepareIndexBitmaps() on non-full-closure-packs.",
+      "parentUuid": "AABOIn//2FY\u003d",
+      "revId": "8380658a265b35465a6cc7ec0aacc01d6912772a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
