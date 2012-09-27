@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//2F4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-09-27T09:34:53Z",
+      "side": 1,
+      "message": "Are you aware that we are reaching this line also for Packs which don\u0027t contain the full closure of the object graph? This GC writes potententially two packs: one containing the objects reachable from heads and one for the remaining objects (e.g. reachable only through tags). At least the commit message makes me think that you only want it to be called on full-closure-packs.",
+      "revId": "8380658a265b35465a6cc7ec0aacc01d6912772a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
