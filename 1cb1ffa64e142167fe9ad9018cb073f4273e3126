@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//2Fg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1552,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-09-27T13:33:38Z",
+      "side": 1,
+      "message": "See this rule. The packer can\u0027t make bitmap data for the other non-head packs.",
+      "revId": "1cb1ffa64e142167fe9ad9018cb073f4273e3126",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
