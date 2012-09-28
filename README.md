@@ -1,20 +1,34 @@
 Java Git
 ========
 
+An implementation of the Git version control system in pure Java.
+
 This package is licensed under the EDL (Eclipse Distribution
 License).
 
-- org.eclipse.jgit/
+- org.eclipse.jgit
 
     A pure Java library capable of being run standalone, with no
-    additional support libraries.  Some JUnit tests are provided
-    to exercise the library.  The library provides functions to
-    read and write a Git formatted repository.
+    additional support libraries. It provides classes to read and
+    write a Git repository and operate on a working directory.
 
     All portions of jgit are covered by the EDL. Absolutely no GPL,
     LGPL or EPL contributions are accepted within this package.
 
-- org.eclipse.jgit.test/
+- org.eclipse.jgit.ant
+
+    Ant tasks based on JGit.
+
+- org.eclipse.jgit.http.server
+
+    Server for the smart and dumb Git HTTP protocol.
+
+- org.eclipse.jgit.pgm
+
+    Command-line interface Git commands implemented using JGit
+    ("pgm" stands for program).
+
+- org.eclipse.jgit.test
 
     Unit tests for org.eclipse.jgit and the same licensing rules.
 
@@ -100,49 +114,34 @@ Package Features
 Missing Features
 ----------------
 
-There are a lot of missing features. You need the real Git for this.
-For some operations it may just be the preferred solution also. There
-are not just a command line, there is e.g. git-gui that makes committing
-partial files simple.
-
-- Merging. 
-
-- Repacking.
-
-- Generate a GIT format patch.
-
-- Apply a GIT format patch.
-
-- Documentation. :-)
+There are some missing features:
 
 - gitattributes support
-  In particular CRLF conversion is not implemented. Files are treated
-  as byte sequences.
 
-- submodule support
-  Submodules are not supported or even recognized.
+- Recursive merge strategy
 
 
 Support
 -------
 
-  Post question, comments or patches to the git@vger.kernel.org mailing list.
+Post question, comments or patches to the jgit-dev@eclipse.org mailing list.
+You need to be subscribed to post, see here:
+
+https://dev.eclipse.org/mailman/listinfo/jgit-dev
 
 
 Contributing
 ------------
 
-  See SUBMITTING_PATCHES in this directory. However, feedback and bug reports
-  are also contributions.
+See the EGit Contributor Guide:
+
+http://wiki.eclipse.org/EGit/Contributor_Guide
 
 
 About Git
 ---------
 
-More information about GIT, its repository format, and the canonical
-C based implementation can be obtained from the GIT websites:
+More information about Git, its repository format, and the canonical
+C based implementation can be obtained from the Git website:
 
-  http://git.or.cz/
-  http://www.kernel.org/pub/software/scm/git/
-  http://www.kernel.org/pub/software/scm/git/docs/
-
+http://git-scm.com/
