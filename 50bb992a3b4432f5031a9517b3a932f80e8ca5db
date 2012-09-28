@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AABOIn//1/A\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RebaseCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1529,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2012-09-28T08:01:14Z",
+      "side": 1,
+      "message": "I find the method name misleading. I first thought you want to test the \"edit\" command of rebase.",
+      "revId": "50bb992a3b4432f5031a9517b3a932f80e8ca5db",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//2o8\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
         "patchSetId": 2
@@ -178,6 +195,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//1+8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2012-09-28T08:01:14Z",
+      "side": 1,
+      "message": "I agree with Dariusz. I think this change still leaves all the possibilities for the usage in egit. \n\nWe could e.g. bring up a non-modal dialog for editing the message. But on the other hand we would then have to handle the situations that the user does unwanted things like committing or resetting.",
+      "parentUuid": "AABOIn//2gg\u003d",
+      "revId": "50bb992a3b4432f5031a9517b3a932f80e8ca5db",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//2pU\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
         "patchSetId": 2
@@ -207,6 +242,23 @@
       "side": 1,
       "message": "Unsupported commands will be handled in RebaseCommand.Action.parse from change #7881",
       "parentUuid": "AABOIn//2pU\u003d",
+      "revId": "50bb992a3b4432f5031a9517b3a932f80e8ca5db",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//1/Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1109,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2012-09-28T08:01:14Z",
+      "side": 1,
+      "message": "Why do you make this class public?",
       "revId": "50bb992a3b4432f5031a9517b3a932f80e8ca5db",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
