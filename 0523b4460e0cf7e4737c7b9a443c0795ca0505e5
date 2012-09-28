@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//14A\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/storage/file/FileGraftsDataBaseTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-09-28T21:27:13Z",
+      "side": 1,
+      "message": "wrong timestamp, we have 2012\n\nhow is this new class related to this change ?",
+      "revId": "0523b4460e0cf7e4737c7b9a443c0795ca0505e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//138\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GraftsDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-09-28T21:27:13Z",
+      "side": 1,
+      "message": "wrong timestamp, we have 2012\n\nthis class seems unrelated to this change",
+      "revId": "0523b4460e0cf7e4737c7b9a443c0795ca0505e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
