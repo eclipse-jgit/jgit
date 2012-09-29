@@ -92,6 +92,14 @@
       <layout>p2</layout>
       <url>${orbit-site}</url>
     </repository>
+    <repository>
+      <!-- TODO replace this with an S- or better R-build as soon as a new one is available
+           we are using a private copy of an I-build since no S or R-build was available when
+           releasing jgit 2.2, see https://bugs.eclipse.org/bugs/show_bug.cgi?id=396199 -->
+      <id>temp-jgit-orbit</id>
+      <layout>p2</layout>
+      <url>http://download.eclipse.org/jgit/orbit/I20121212174845/repository/</url>
+    </repository>
   </repositories>
 
   <dependencies>

@@ -23,6 +23,23 @@
          JGit
       </description>
    </category-def>
+   <category-def name="jgit-orbit" label="Orbit bundles needed by JGit">
+      <description>
+         Orbit bundles needed by JGit
+      </description>
+   </category-def>
+   <iu id="org.kohsuke.args4j" version="0.0.0">
+     <category name="jgit-orbit" />
+   </iu>
+   <iu id="com.jcraft.jsch" version="0.0.0">
+     <category name="jgit-orbit" />
+   </iu>
+   <iu id="org.apache.commons.compress" version="0.0.0">
+     <category name="jgit-orbit" />
+   </iu>
+   <iu id="org.apache.log4j" version="0.0.0">
+     <category name="jgit-orbit" />
+   </iu>
 </site>
 
 
