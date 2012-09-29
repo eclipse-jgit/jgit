@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.eclipse.jgit"
+      id="org.eclipse.jgit.orbit"
       label="%featureName"
       version="2.2.0.qualifier"
       provider-name="%providerName">
@@ -22,16 +22,22 @@
       <discovery label="%updateSiteName" url="http://download.eclipse.org/egit/updates"/>
    </url>
 
-   <includes
-         id="org.eclipse.jgit.orbit"
-         version="0.0.0"/>
-
-   <requires>
-      <import plugin="com.jcraft.jsch"/>
-   </requires>
+   <plugin
+         id="com.jcraft.jsch"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
 
    <plugin
-         id="org.eclipse.jgit"
+         id="org.apache.commons.compress"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.kohsuke.args4j"
          download-size="0"
          install-size="0"
          version="0.0.0"
