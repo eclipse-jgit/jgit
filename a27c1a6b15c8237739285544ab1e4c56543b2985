@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//1pE\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CommitCommandTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-10-02T05:47:39Z",
+      "side": 0,
+      "message": "I have to retreat here. My attempts to improve this test by avoiding setting the lastModified of file1 to some date in the future don\u0027t work. Currently we are running with this test in situations where you create a new file (e.g. the new temporary index file caused by git.commit().*.setOnly(...)) and there are other files (like file1) which have a younger lastModified than that newly created file. I would like to avoid that.\n\nSince I am not able to fix that without rewriting this test too much I suggest to go back to changeset 1 of Robin to fix only his specific problem. I\u0027ll then propose a different version of this test later.",
+      "revId": "a27c1a6b15c8237739285544ab1e4c56543b2985",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
