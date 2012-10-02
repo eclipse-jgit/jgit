@@ -321,7 +321,7 @@ public class CommitCommandTest extends RepositoryTestCase {
 		db.getIndexFile().setLastModified(indexTime - 5000);
 
 		write(file1, "content4");
-		assertTrue(file1.setLastModified(file1.lastModified() + 1000));
+		assertTrue(file1.setLastModified(file1.lastModified() + 2500));
 		assertNotNull(git.commit().setMessage("edit file").setOnly("file1.txt")
 				.call());
 
