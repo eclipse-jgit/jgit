@@ -16,6 +16,24 @@
       "revId": "19a5bb24e4fafc394f257390768729b894dd968f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//1eM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/BasePackBitmapIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-10-03T15:40:01Z",
+      "side": 1,
+      "message": "That code was brain dead. I updated the code to access bitmapContainer once, so it should be correct now.",
+      "parentUuid": "AABOIn//1e0\u003d",
+      "revId": "19a5bb24e4fafc394f257390768729b894dd968f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
