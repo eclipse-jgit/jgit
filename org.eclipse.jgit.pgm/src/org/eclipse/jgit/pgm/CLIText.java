@@ -133,6 +133,7 @@ public class CLIText extends TranslationBundle {
 	/***/ public String mergeConflict;
 	/***/ public String mergeFailed;
 	/***/ public String mergeMadeBy;
+	/***/ public String mergeSquashFinished;
 	/***/ public String metaVar_KEY;
 	/***/ public String metaVar_arg;
 	/***/ public String metaVar_author;
