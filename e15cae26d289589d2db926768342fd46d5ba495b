@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//1dk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/BasePackBitmapIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-10-03T15:44:51Z",
+      "side": 1,
+      "message": "nit: jgit spells this for (;;)",
+      "revId": "e15cae26d289589d2db926768342fd46d5ba495b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
