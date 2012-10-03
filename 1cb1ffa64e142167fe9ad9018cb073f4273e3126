@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//1ds\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-10-03T15:40:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//1fw\u003d",
+      "revId": "1cb1ffa64e142167fe9ad9018cb073f4273e3126",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//2Fg\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackWriter.java",
         "patchSetId": 2
@@ -47,6 +65,24 @@
       "writtenOn": "2012-10-01T14:25:13Z",
       "side": 1,
       "message": "This causes long stalls for the client. The bulk of your latency is in findObjects here and 2 lines down building the wantBitmap. But you don\u0027t touch the ProgressMonitor until everything is computed and its virtually free to announce the count to the user.\n\nWhen bitmaps are not available the traversal looking for a cached pack match updates the ProgressMonitor for each commit traversed. This gives the user some indication that we are working on their request and not just sitting around idle. If the repository isn\u0027t hot in memory we may have lower object throughput while parts of the data are read from disk.",
+      "revId": "1cb1ffa64e142167fe9ad9018cb073f4273e3126",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//1eI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1791,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-10-03T15:40:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//1vE\u003d",
       "revId": "1cb1ffa64e142167fe9ad9018cb073f4273e3126",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
