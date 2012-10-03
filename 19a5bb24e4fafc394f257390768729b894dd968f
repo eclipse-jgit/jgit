@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//1e0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/BasePackBitmapIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-10-03T14:04:01Z",
+      "side": 1,
+      "message": "There is a race condition here that can cause this to go corrupt.\n\nIf one thread enters this method and sets out \u003d r.bitmap he now has an XOR compressed bitmap. This isn\u0027t a valid bitmap to return to the caller, but its type is correct.\n\nThat thread then goes to sleep immediately before executing the while test condition.\n\nAnother thread enters this method and also sees the bitmapContainer needs to be expanded. It does the full expansion process and stores bitmapContainer \u003d out, the full bitmap.\n\nThe first thread wakes up. When he calls this.xorBitmap() it returns null because the 2nd thread already set bitmapContainer to the expanded bitmap.\n\nThe first thread breaks from the loop immediately, overwrites the good expanded bitmap with the XOR version (which is now garbage!), and returns the XOR version to the caller.\n\nUntil the PackIndexVE003 is replaced with a new instance (e.g. due to GC or falling out of cache) that particular bitmap will be corrupt and contain inverted results. Any attempt to use such a bitmap will result in a pack being incomplete.",
+      "revId": "19a5bb24e4fafc394f257390768729b894dd968f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
