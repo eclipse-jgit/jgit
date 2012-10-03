@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AABOIn//1fw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-10-03T13:57:55Z",
+      "side": 1,
+      "message": "nit: the argument and the field are too close in name. Please prefix the field with \"this.\" or rename the argument.",
+      "revId": "1cb1ffa64e142167fe9ad9018cb073f4273e3126",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//2Fg\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackWriter.java",
         "patchSetId": 2
