@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//19g\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RebaseCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1529,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2012-10-03T07:59:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//1/A\u003d",
+      "revId": "50bb992a3b4432f5031a9517b3a932f80e8ca5db",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//2o8\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
         "patchSetId": 2
@@ -259,6 +277,24 @@
       "writtenOn": "2012-09-28T08:01:14Z",
       "side": 1,
       "message": "Why do you make this class public?",
+      "revId": "50bb992a3b4432f5031a9517b3a932f80e8ca5db",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//19k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1109,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2012-10-03T07:59:36Z",
+      "side": 1,
+      "message": "Because Step class is part of InteractiveHandler.prepareSteps method and should be accessed by API consumers",
+      "parentUuid": "AABOIn//1/Q\u003d",
       "revId": "50bb992a3b4432f5031a9517b3a932f80e8ca5db",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
