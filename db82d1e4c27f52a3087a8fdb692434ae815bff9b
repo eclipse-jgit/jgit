@@ -16,6 +16,24 @@
       "revId": "db82d1e4c27f52a3087a8fdb692434ae815bff9b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//1fo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2012-10-03T08:01:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//1+I\u003d",
+      "revId": "db82d1e4c27f52a3087a8fdb692434ae815bff9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
