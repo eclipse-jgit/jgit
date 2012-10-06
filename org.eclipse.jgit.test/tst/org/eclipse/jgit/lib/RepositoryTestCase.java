@@ -371,6 +371,8 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	public static long fsTick(File lastFile) throws InterruptedException,
 			IOException {
 		long sleepTime = 1;
+		if (lastFile != null && !lastFile.exists())
+			throw new FileNotFoundException(lastFile.getPath());
 		File tmp = File.createTempFile("FileTreeIteratorWithTimeControl", null);
 		try {
 			long startTime = (lastFile == null) ? tmp.lastModified() : lastFile
