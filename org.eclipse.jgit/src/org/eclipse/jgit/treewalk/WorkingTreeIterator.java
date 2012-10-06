@@ -243,6 +243,8 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 					return contentId = i.idBuffer();
 				}
 				contentIdOffset = 0;
+			} else {
+				contentIdOffset = 0;
 			}
 		}
 		switch (mode & FileMode.TYPE_MASK) {
