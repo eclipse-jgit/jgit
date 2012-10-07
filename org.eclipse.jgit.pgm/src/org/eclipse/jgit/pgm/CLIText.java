@@ -133,6 +133,7 @@ public class CLIText extends TranslationBundle {
 	/***/ public String mergeConflict;
 	/***/ public String mergeFailed;
 	/***/ public String mergeMadeBy;
+	/***/ public String mergedSquashed;
 	/***/ public String metaVar_KEY;
 	/***/ public String metaVar_arg;
 	/***/ public String metaVar_author;
@@ -189,6 +190,7 @@ public class CLIText extends TranslationBundle {
 	/***/ public String notFound;
 	/***/ public String notOnAnyBranch;
 	/***/ public String noteObjectTooLargeToPrint;
+	/***/ public String nothingToSquash;
 	/***/ public String onBranchToBeBorn;
 	/***/ public String onBranch;
 	/***/ public String onlyOneMetaVarExpectedIn;
