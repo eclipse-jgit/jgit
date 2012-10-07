@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//1Io\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-10-07T21:30:01Z",
+      "side": 1,
+      "message": "I think this should be a GitAPIException since it\u0027s not an internal error but an operation which is illegal in the current repository state (e.g. see NoHeadException thrown above), maybe WrongRepositoryStateException would fit here ?",
+      "revId": "24cd50f6cdf0821d90792ed0921b6f4fab706122",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
