@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//1II\u003d",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/MergeTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-10-07T21:45:15Z",
+      "side": 1,
+      "message": "Done. Applied the fix to other tests as well.",
+      "parentUuid": "AABOIn//1Iw\u003d",
+      "revId": "5686e4c6de2fef6bfd303252f9d68d1aa6bf3ea3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//1I4\u003d",
         "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/MergeTest.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//1IE\u003d",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/MergeTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-10-07T21:45:15Z",
+      "side": 1,
+      "message": "Done. Applied the fix to other tests as well.",
+      "parentUuid": "AABOIn//1I4\u003d",
+      "revId": "5686e4c6de2fef6bfd303252f9d68d1aa6bf3ea3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//1I0\u003d",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/CLIText.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2012-10-07T21:19:20Z",
       "side": 1,
       "message": "this formatting fix seems to be unrelated to this change",
+      "revId": "5686e4c6de2fef6bfd303252f9d68d1aa6bf3ea3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//1IQ\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/CLIText.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-10-07T21:45:15Z",
+      "side": 1,
+      "message": "Sorry, wanted to save an extra commit required to fix this. I tend to fix this kind of glitches even when work on something else.",
+      "parentUuid": "AABOIn//1I0\u003d",
       "revId": "5686e4c6de2fef6bfd303252f9d68d1aa6bf3ea3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
