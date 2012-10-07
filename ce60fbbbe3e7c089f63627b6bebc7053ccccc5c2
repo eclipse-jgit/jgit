@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//1KU\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/storage/file/FileRepositoryBuilderTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2012-10-07T14:35:54Z",
+      "side": 1,
+      "message": "The warning is legitimate here, no? Why not use write(dotGit, \"...\") here? Also applies to the following two and the next file.",
+      "revId": "ce60fbbbe3e7c089f63627b6bebc7053ccccc5c2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//1KQ\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/io/UnionInputStreamTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2012-10-07T14:35:54Z",
+      "side": 1,
+      "message": "I\u0027d rather close these at the end. Also applies to others.",
+      "revId": "ce60fbbbe3e7c089f63627b6bebc7053ccccc5c2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
