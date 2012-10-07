@@ -16,6 +16,24 @@
       "revId": "24cd50f6cdf0821d90792ed0921b6f4fab706122",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//1HE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2012-10-07T22:34:08Z",
+      "side": 1,
+      "message": "Good idea, done.",
+      "parentUuid": "AABOIn//1Io\u003d",
+      "revId": "24cd50f6cdf0821d90792ed0921b6f4fab706122",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
