@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//1Kw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/ContentSource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2012-10-07T12:58:43Z",
+      "side": 0,
+      "message": "What was the original reason for using FileSource here?",
+      "revId": "342de38e57e3052d3d2f12e93d629bdc63f123be",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
