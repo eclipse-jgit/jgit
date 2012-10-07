@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//1JY\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/storage/file/FileRepositoryBuilderTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-10-07T19:00:30Z",
+      "side": 1,
+      "message": "Good idea.\n\nThe warning here is bogus, it could be rewritten into multiple statements with try/catch but your suggestion is better.",
+      "parentUuid": "AABOIn//1KU\u003d",
+      "revId": "ce60fbbbe3e7c089f63627b6bebc7053ccccc5c2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//1KQ\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/io/UnionInputStreamTest.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2012-10-07T14:35:54Z",
       "side": 1,
       "message": "I\u0027d rather close these at the end. Also applies to others.",
+      "revId": "ce60fbbbe3e7c089f63627b6bebc7053ccccc5c2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//1Jc\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/io/UnionInputStreamTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-10-07T19:00:30Z",
+      "side": 1,
+      "message": "The GC handles that fine since these are in-memory only, adding code to close just adds bloat",
+      "parentUuid": "AABOIn//1KQ\u003d",
       "revId": "ce60fbbbe3e7c089f63627b6bebc7053ccccc5c2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
