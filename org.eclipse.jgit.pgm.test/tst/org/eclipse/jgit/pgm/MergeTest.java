@@ -43,6 +43,7 @@
 package org.eclipse.jgit.pgm;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertArrayEquals;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.CLIRepositoryTestCase;
@@ -51,11 +52,15 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class MergeTest extends CLIRepositoryTestCase {
+
+	private Git git;
+
 	@Override
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-		new Git(db).commit().setMessage("initial commit").call();
+		git = new Git(db);
+		git.commit().setMessage("initial commit").call();
 	}
 
 	@Test
@@ -64,30 +69,55 @@ public class MergeTest extends CLIRepositoryTestCase {
 	}
 
 	@Test
+	public void testSquashSelf() throws Exception {
+		assertEquals(" (nothing to squash)Already up-to-date.",
+				execute("git merge master --squash")[0]);
+	}
+
+	@Test
 	public void testFastForward() throws Exception {
-		new Git(db).commit().setMessage("initial commit").call();
-		new Git(db).branchCreate().setName("side").call();
+		git.branchCreate().setName("side").call();
 		writeTrashFile("file", "master");
-		new Git(db).add().addFilepattern("file").call();
-		new Git(db).commit().setMessage("commit").call();
-		new Git(db).checkout().setName("side").call();
+		git.add().addFilepattern("file").call();
+		git.commit().setMessage("commit").call();
+		git.checkout().setName("side").call();
 
 		assertEquals("Fast-forward", execute("git merge master")[0]);
 	}
 
 	@Test
 	public void testMerge() throws Exception {
-		new Git(db).commit().setMessage("initial commit").call();
-		new Git(db).branchCreate().setName("side").call();
+		git.branchCreate().setName("side").call();
 		writeTrashFile("master", "content");
-		new Git(db).add().addFilepattern("master").call();
-		new Git(db).commit().setMessage("master commit").call();
-		new Git(db).checkout().setName("side").call();
+		git.add().addFilepattern("master").call();
+		git.commit().setMessage("master commit").call();
+		git.checkout().setName("side").call();
 		writeTrashFile("side", "content");
-		new Git(db).add().addFilepattern("side").call();
-		new Git(db).commit().setMessage("side commit").call();
+		git.add().addFilepattern("side").call();
+		git.commit().setMessage("side commit").call();
 
 		assertEquals("Merge made by the '" + MergeStrategy.RESOLVE.getName()
 				+ "' strategy.", execute("git merge master")[0]);
+	}
+
+	@Test
+	public void testSquash() throws Exception {
+		git.branchCreate().setName("side").call();
+		writeTrashFile("file1", "content1");
+		git.add().addFilepattern("file1").call();
+		git.commit().setMessage("file1 commit").call();
+		writeTrashFile("file2", "content2");
+		git.add().addFilepattern("file2").call();
+		git.commit().setMessage("file2 commit").call();
+		git.checkout().setName("side").call();
+		writeTrashFile("side", "content");
+		git.add().addFilepattern("side").call();
+		git.commit().setMessage("side commit").call();
+
+		assertArrayEquals(
+				new String[] { "Squash commit -- not updating HEAD",
+						"Automatic merge went well; stopped before committing as requested",
+						"" },
+				execute("git merge master --squash"));
 	}
 }
