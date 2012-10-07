@@ -69,6 +69,24 @@
       "revId": "ce60fbbbe3e7c089f63627b6bebc7053ccccc5c2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//1G0\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/io/UnionInputStreamTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2012-10-07T22:41:26Z",
+      "side": 1,
+      "message": "Well, it\u0027s also 1 line as @SuppressWarnings, so the same amount of bloat :). I think in general it\u0027s good if test code shows best practice, even though it\u0027s \"just test code\".",
+      "parentUuid": "AABOIn//1Jc\u003d",
+      "revId": "ce60fbbbe3e7c089f63627b6bebc7053ccccc5c2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
