@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//1Go\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-10-08T03:48:40Z",
+      "side": 1,
+      "message": "The change is good, but the commit message doesn\u0027t mention it. I think it should be a separate commit.",
+      "revId": "79f33419ec073edf31a1db16ae9b11e69ee997a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
