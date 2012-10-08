@@ -16,6 +16,24 @@
       "revId": "79f33419ec073edf31a1db16ae9b11e69ee997a1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//1Eo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2012-10-08T09:31:57Z",
+      "side": 1,
+      "message": "That change is in I27b13510eb6756da21d0d359d76031da4a875e28, this change is based on it.",
+      "parentUuid": "AABOIn//1Go\u003d",
+      "revId": "79f33419ec073edf31a1db16ae9b11e69ee997a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
