@@ -87,6 +87,24 @@
       "revId": "ce60fbbbe3e7c089f63627b6bebc7053ccccc5c2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//1F0\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/io/UnionInputStreamTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-10-08T04:55:27Z",
+      "side": 1,
+      "message": "We need more than one line for best practice, i.e try/catch. Just a close produces a bad example.",
+      "parentUuid": "AABOIn//1G0\u003d",
+      "revId": "ce60fbbbe3e7c089f63627b6bebc7053ccccc5c2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
