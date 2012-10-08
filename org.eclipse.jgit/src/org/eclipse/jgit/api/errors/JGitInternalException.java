@@ -60,6 +60,8 @@ public class JGitInternalException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 
 	/**
+	 * Construct an exception for low-level internal exceptions
+	 *
 	 * @param message
 	 * @param cause
 	 */
@@ -68,6 +70,8 @@ public class JGitInternalException extends RuntimeException {
 	}
 
 	/**
+	 * Construct an exception for low-level internal exceptions
+	 *
 	 * @param message
 	 */
 	public JGitInternalException(String message) {
