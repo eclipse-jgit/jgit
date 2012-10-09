@@ -87,6 +87,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//0z4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/BitSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-10-09T22:36:50Z",
+      "side": 1,
+      "message": "I would prefer not to use Long.SIZE here. Not many people know SIZE is the number of bits in a long in Java. But a lot of people know that a long is 64 bits in Java. The line is \"64 - Long.\" I think its pretty damn clear as written. Using Long.SIZE to make someone happy about avoiding a magic number just obfuscates what we are trying to say.",
+      "parentUuid": "AABOIn//01s\u003d",
+      "revId": "e15cae26d289589d2db926768342fd46d5ba495b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//014\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/BitSet.java",
         "patchSetId": 3
@@ -98,6 +116,24 @@
       "writtenOn": "2012-10-09T22:25:25Z",
       "side": 1,
       "message": "I\u0027d call this wordmask because it doesn\u0027t mask the whole bitset",
+      "revId": "e15cae26d289589d2db926768342fd46d5ba495b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//0z0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/BitSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-10-09T22:36:50Z",
+      "side": 1,
+      "message": "Its not a wordmask either, its a mask for a single bit. I wouldn\u0027t name the method wordmask. mask is fine. Or singleBitMask.",
+      "parentUuid": "AABOIn//014\u003d",
       "revId": "e15cae26d289589d2db926768342fd46d5ba495b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
