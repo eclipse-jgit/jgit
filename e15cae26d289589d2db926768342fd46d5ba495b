@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AABOIn//00M\u003d",
+        "filename": "org.eclipse.jgit/META-INF/MANIFEST.MF",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-10-09T22:25:25Z",
+      "side": 1,
+      "message": "Gosh, our first non-jdk dependency in the core :)",
+      "revId": "e15cae26d289589d2db926768342fd46d5ba495b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//1dk\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/BasePackBitmapIndex.java",
         "patchSetId": 3
@@ -13,6 +30,108 @@
       "writtenOn": "2012-10-03T15:44:51Z",
       "side": 1,
       "message": "nit: jgit spells this for (;;)",
+      "revId": "e15cae26d289589d2db926768342fd46d5ba495b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//02I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/BasePackBitmapIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-10-09T22:25:25Z",
+      "side": 1,
+      "message": "Make this two statements",
+      "revId": "e15cae26d289589d2db926768342fd46d5ba495b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//018\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/BitSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-10-09T22:25:25Z",
+      "side": 1,
+      "message": "Amortized doubling is more traditional that doubling. Perhaps there is a reason for doubling here, but I can\u0027t see it.",
+      "revId": "e15cae26d289589d2db926768342fd46d5ba495b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//01s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/BitSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-10-09T22:25:25Z",
+      "side": 1,
+      "message": "Long.SIZE avoids one magic number",
+      "revId": "e15cae26d289589d2db926768342fd46d5ba495b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//014\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/BitSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-10-09T22:25:25Z",
+      "side": 1,
+      "message": "I\u0027d call this wordmask because it doesn\u0027t mask the whole bitset",
+      "revId": "e15cae26d289589d2db926768342fd46d5ba495b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//01o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/BitmapIndexImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-10-09T22:25:25Z",
+      "side": 1,
+      "message": "What are these for?",
+      "revId": "e15cae26d289589d2db926768342fd46d5ba495b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//01k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/InflatingBitSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-10-09T22:25:25Z",
+      "side": 1,
+      "message": "DId you measure whether this resizing is the best one?",
       "revId": "e15cae26d289589d2db926768342fd46d5ba495b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
