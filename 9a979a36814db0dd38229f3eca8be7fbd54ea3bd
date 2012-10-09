@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//7cc\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 831
+      },
+      "writtenOn": "2012-10-09T14:55:12Z",
+      "side": 1,
+      "message": "1. I have authored 100% of the content I\u0027m contributing\n2. I have the rights to donate the content to Eclipse\n3. I contribute the content under the EPL",
+      "revId": "9a979a36814db0dd38229f3eca8be7fbd54ea3bd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
