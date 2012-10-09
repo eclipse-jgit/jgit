@@ -16,6 +16,24 @@
       "revId": "f7614741e0ebd9cc385c493cb208f5e52d88c0de",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//0zs\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RepositoryTestCase.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-10-09T22:43:24Z",
+      "side": 1,
+      "message": "Gah, It\u0027s patchset 2 that should be it. Then I accidentally posted two old versions.",
+      "parentUuid": "AABOIn//048\u003d",
+      "revId": "f7614741e0ebd9cc385c493cb208f5e52d88c0de",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
