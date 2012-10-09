@@ -34,6 +34,24 @@
       "revId": "342de38e57e3052d3d2f12e93d629bdc63f123be",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//09c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/ContentSource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-10-09T06:27:18Z",
+      "side": 0,
+      "message": "Looks like FileSource was an attempt at optimizing access to the working tree when we think we know what we should be looking at. Getting a specific path from a WorkingTreeIterator is expensive, the iterator has to be reset and JGit parses the path string and digs down the directory tree doing an opendir/readdir/closedir for each level looking to see if that component exists. This is not nearly as efficient as passing off the entire path string to the OS via java.io.File API and letting the OS access the target in the working tree.\n\nThis of course predates any attempt to do autocrlf correctly. Now that we have autocrlf mostly working, and we need more information like say attributes to feed it, the WorkingTreeIterator\u0027s support at being correct is starting to be more important.\n\nBut yea, looking back at 59a262d5 where i added this code, its pretty clear to me I did as a performance optimization to avoid the negative effects of the WorkingTreeSource in the common case of comparing against the work tree.",
+      "parentUuid": "AABOIn//1JM\u003d",
+      "revId": "342de38e57e3052d3d2f12e93d629bdc63f123be",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
