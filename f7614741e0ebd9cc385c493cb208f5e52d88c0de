@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//048\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RepositoryTestCase.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-10-09T14:28:09Z",
+      "side": 1,
+      "message": "This method thas the undocumented feature the it supports null values for lastFile. See 3 lines below and also line 705 of GCTest.java. fsTick(null) will simply wait until it sees the Filesystem timer to advance. Your proposal will break GCTest. Either we change the if to \n\n  if (lastFile !\u003d null \u0026\u0026 !lastFile.exists())\n\nand add javadoc for what happens if lastFile is null. Or alternativly we could add a fsTick() (without parameters!) to make it very explicit that we can wait for ticks without specifying a file to compare against.",
+      "revId": "f7614741e0ebd9cc385c493cb208f5e52d88c0de",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
