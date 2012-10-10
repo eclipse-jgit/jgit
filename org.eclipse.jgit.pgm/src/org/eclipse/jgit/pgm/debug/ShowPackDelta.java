@@ -119,6 +119,7 @@ class ShowPackDelta extends TextBuiltin {
 			ptr++;
 		ptr++;
 
+		@SuppressWarnings("resource" /* java 7 */)
 		TemporaryBuffer.Heap raw = new TemporaryBuffer.Heap(bufArray.length);
 		InflaterInputStream inf = new InflaterInputStream(
 				new ByteArrayInputStream(bufArray, ptr, bufArray.length));

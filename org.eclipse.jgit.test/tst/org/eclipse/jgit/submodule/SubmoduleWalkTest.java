@@ -128,6 +128,7 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 		assertFalse(gen.next());
 	}
 
+	@SuppressWarnings("resource" /* java 7 */)
 	@Test
 	public void repositoryWithRootLevelSubmoduleAbsoluteRef()
 			throws IOException, ConfigInvalidException {
@@ -176,6 +177,7 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 		assertFalse(gen.next());
 	}
 
+	@SuppressWarnings("resource" /* java 7 */)
 	@Test
 	public void repositoryWithRootLevelSubmoduleRelativeRef()
 			throws IOException, ConfigInvalidException {

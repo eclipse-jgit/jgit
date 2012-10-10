@@ -69,6 +69,7 @@ public class UnionInputStreamTest {
 
 	@Test
 	public void testReadSingleBytes() throws IOException {
+		@SuppressWarnings("resource" /* java 7 */)
 		final UnionInputStream u = new UnionInputStream();
 
 		assertTrue(u.isEmpty());
@@ -101,6 +102,7 @@ public class UnionInputStreamTest {
 
 	@Test
 	public void testReadByteBlocks() throws IOException {
+		@SuppressWarnings("resource" /* java 7 */)
 		final UnionInputStream u = new UnionInputStream();
 		u.add(new ByteArrayInputStream(new byte[] { 1, 0, 2 }));
 		u.add(new ByteArrayInputStream(new byte[] { 3 }));
@@ -124,6 +126,7 @@ public class UnionInputStreamTest {
 
 	@Test
 	public void testArrayConstructor() throws IOException {
+		@SuppressWarnings("resource" /* java 7 */)
 		final UnionInputStream u = new UnionInputStream(
 				new ByteArrayInputStream(new byte[] { 1, 0, 2 }),
 				new ByteArrayInputStream(new byte[] { 3 }),
@@ -141,6 +144,7 @@ public class UnionInputStreamTest {
 
 	@Test
 	public void testMarkSupported() {
+		@SuppressWarnings("resource" /* java 7 */)
 		final UnionInputStream u = new UnionInputStream();
 		assertFalse(u.markSupported());
 		u.add(new ByteArrayInputStream(new byte[] { 1, 0, 2 }));
@@ -149,6 +153,7 @@ public class UnionInputStreamTest {
 
 	@Test
 	public void testSkip() throws IOException {
+		@SuppressWarnings("resource" /* java 7 */)
 		final UnionInputStream u = new UnionInputStream();
 		u.add(new ByteArrayInputStream(new byte[] { 1, 0, 2 }));
 		u.add(new ByteArrayInputStream(new byte[] { 3 }));
@@ -171,6 +176,7 @@ public class UnionInputStreamTest {
 
 	@Test
 	public void testAutoCloseDuringRead() throws IOException {
+		@SuppressWarnings("resource" /* java 7 */)
 		final UnionInputStream u = new UnionInputStream();
 		final boolean closed[] = new boolean[2];
 		u.add(new ByteArrayInputStream(new byte[] { 1 }) {
@@ -248,6 +254,7 @@ public class UnionInputStreamTest {
 				throw new IOException("Expected");
 			}
 		};
+		@SuppressWarnings("resource" /* java 7 */)
 		final UnionInputStream u = new UnionInputStream(
 				new ByteArrayInputStream(new byte[]{1,2,3}),
 				errorReadStream);
