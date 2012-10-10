@@ -216,6 +216,7 @@ public class IO {
 		if (last < 0)
 			return ByteBuffer.wrap(out, 0, pos);
 
+		@SuppressWarnings("resource" /* java 7 */)
 		TemporaryBuffer.Heap tmp = new TemporaryBuffer.Heap(Integer.MAX_VALUE);
 		tmp.write(out);
 		tmp.write(last);
