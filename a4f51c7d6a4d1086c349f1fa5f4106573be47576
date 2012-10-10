@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//0yg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-10-10T20:27:10Z",
+      "side": 1,
+      "message": "Two javadocs?",
+      "revId": "a4f51c7d6a4d1086c349f1fa5f4106573be47576",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//0yc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-10-10T20:27:10Z",
+      "side": 1,
+      "message": "missing asterisk",
+      "revId": "a4f51c7d6a4d1086c349f1fa5f4106573be47576",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//0q4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-10-10T20:27:10Z",
+      "side": 1,
+      "message": "If this is derivative work you may need to ask for permission to relicense the code from the authors of the original work",
+      "revId": "a4f51c7d6a4d1086c349f1fa5f4106573be47576",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//0q8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/StrategyRecursive.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-10-10T20:27:10Z",
+      "side": 1,
+      "message": "A contributors list is hard to maintain so we avoid it.\ngit blame /log is the mail tool for finding authorship",
+      "revId": "a4f51c7d6a4d1086c349f1fa5f4106573be47576",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
