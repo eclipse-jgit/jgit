@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//0jU\u003d",
+        "filename": "org.eclipse.jgit/META-INF/MANIFEST.MF",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-10-11T21:50:29Z",
+      "side": 1,
+      "message": "Yes. Just rev\u0027d it again since I optimized the implementation of int iterator.",
+      "parentUuid": "AABOIn//00M\u003d",
+      "revId": "e15cae26d289589d2db926768342fd46d5ba495b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//1dk\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/BasePackBitmapIndex.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2012-10-03T15:44:51Z",
       "side": 1,
       "message": "nit: jgit spells this for (;;)",
+      "revId": "e15cae26d289589d2db926768342fd46d5ba495b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//0k4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/BasePackBitmapIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-10-11T21:50:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//1dk\u003d",
       "revId": "e15cae26d289589d2db926768342fd46d5ba495b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//0k0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/BasePackBitmapIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-10-11T21:50:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//02I\u003d",
+      "revId": "e15cae26d289589d2db926768342fd46d5ba495b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//018\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/BitSet.java",
         "patchSetId": 3
@@ -64,6 +118,24 @@
       "writtenOn": "2012-10-09T22:25:25Z",
       "side": 1,
       "message": "Amortized doubling is more traditional that doubling. Perhaps there is a reason for doubling here, but I can\u0027t see it.",
+      "revId": "e15cae26d289589d2db926768342fd46d5ba495b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//0j4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/BitSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-10-11T21:50:29Z",
+      "side": 1,
+      "message": "what are you suggesting the resize function should be?\n\nMy goal here is to grow the bitset as quickly as possible, so memory copying/allocation is not a significant overhead. Keep in mind that these are fairly short lived and small. Even if we have a 3M bits, the bitset would only take up 375K.",
+      "parentUuid": "AABOIn//018\u003d",
       "revId": "e15cae26d289589d2db926768342fd46d5ba495b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -105,6 +177,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//0kI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/BitSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-10-11T21:50:29Z",
+      "side": 1,
+      "message": "left as is.",
+      "parentUuid": "AABOIn//0z4\u003d",
+      "revId": "e15cae26d289589d2db926768342fd46d5ba495b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//014\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/BitSet.java",
         "patchSetId": 3
@@ -140,6 +230,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//0kU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/BitSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-10-11T21:50:29Z",
+      "side": 1,
+      "message": "I\u0027ll leave it as is. mask() makes sense in context of actual code.",
+      "parentUuid": "AABOIn//0z0\u003d",
+      "revId": "e15cae26d289589d2db926768342fd46d5ba495b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//01o\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/BitmapIndexImpl.java",
         "patchSetId": 3
@@ -157,6 +265,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//0ko\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/BitmapIndexImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-10-11T21:50:29Z",
+      "side": 1,
+      "message": "These are used to account for objects that are not in the base pack i.e. the MutableBitmapIndex. We won\u0027t know about all of the IDs until we start the traversal, so this is an attempt to decrease the number of required mem allocations and copies.\n\nIt is a guess but it should be a non-zero number for most requests.",
+      "parentUuid": "AABOIn//01o\u003d",
+      "revId": "e15cae26d289589d2db926768342fd46d5ba495b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//01k\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/InflatingBitSet.java",
         "patchSetId": 3
@@ -168,6 +294,24 @@
       "writtenOn": "2012-10-09T22:25:25Z",
       "side": 1,
       "message": "DId you measure whether this resizing is the best one?",
+      "revId": "e15cae26d289589d2db926768342fd46d5ba495b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//0kk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/InflatingBitSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-10-11T21:50:29Z",
+      "side": 1,
+      "message": "No. It is difficult to say which is best because there is no representation workload.  I just took the approach that would work for all workloads at the expense of a little extra memory.",
+      "parentUuid": "AABOIn//01k\u003d",
       "revId": "e15cae26d289589d2db926768342fd46d5ba495b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
