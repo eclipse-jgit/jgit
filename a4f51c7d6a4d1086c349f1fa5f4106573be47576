@@ -107,6 +107,75 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//0iM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-10-11T22:05:07Z",
+      "side": 1,
+      "message": "With derivative work we mean something that is a translation of some kind of the original nontrivial code. Stealing the concepts and constants necessary for compatibility does not count (it could violate a patent but hopefully that is not the case). \n\nTo ask for permission to use the code you need to ask all the copyright holders. Basically you run git blame and git log on the code and extract the list of copyright holders. You can eliminate trivial changes, e.g. formatting. It\u0027s entirely possible to go that route if you ask nicely. Then that is only neccesary if we consider this derivative work.",
+      "parentUuid": "AABOIn//0qI\u003d",
+      "revId": "a4f51c7d6a4d1086c349f1fa5f4106573be47576",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//0h8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 563,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-10-11T22:05:07Z",
+      "side": 1,
+      "message": "re-format",
+      "revId": "a4f51c7d6a4d1086c349f1fa5f4106573be47576",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//0is\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 660,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-10-11T22:05:07Z",
+      "side": 1,
+      "message": "Removing anything but the last file from an arraylist is quite expensive for large lists. Though rare, we sometime have large changes and expect good performance. I haven\u0027t measured that here considering that we do IO here. On the other can using a LinkedList would remove the worries.",
+      "revId": "a4f51c7d6a4d1086c349f1fa5f4106573be47576",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//0iI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 896,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-10-11T22:05:07Z",
+      "side": 1,
+      "message": "Too much stuff is copied from the base class. Why should we review it again?",
+      "revId": "a4f51c7d6a4d1086c349f1fa5f4106573be47576",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//0q8\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/StrategyRecursive.java",
         "patchSetId": 1
