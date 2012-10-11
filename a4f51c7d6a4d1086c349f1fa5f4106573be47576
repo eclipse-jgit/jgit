@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//0qE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 504
+      },
+      "writtenOn": "2012-10-11T07:13:33Z",
+      "side": 1,
+      "message": "No. A mistake.",
+      "parentUuid": "AABOIn//0yg\u003d",
+      "revId": "a4f51c7d6a4d1086c349f1fa5f4106573be47576",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//0yc\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2012-10-10T20:27:10Z",
       "side": 1,
       "message": "missing asterisk",
+      "revId": "a4f51c7d6a4d1086c349f1fa5f4106573be47576",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//0qA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 504
+      },
+      "writtenOn": "2012-10-11T07:13:33Z",
+      "side": 1,
+      "message": "Nice. I need a better JavaDoc friendly comment inserter. Eclipse didn\u0027t complain. Staring at code too much. Starting to see stars where there are none :-(",
+      "parentUuid": "AABOIn//0yc\u003d",
       "revId": "a4f51c7d6a4d1086c349f1fa5f4106573be47576",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//0qI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 504
+      },
+      "writtenOn": "2012-10-11T07:13:33Z",
+      "side": 1,
+      "message": "I am not clear on what constitutes a derivation. I think strictly speaking, all of JGit would be derivative.\n\nThis implementation is not the native \u0027C\u0027 version transcribed to Java. The concepts of multiple bases, object trees, references and various types of merges have already been enumerated in JGit. The idea of recursively merging trees is re-used and implemented by adapting existing JGit code, largely the ThreeWay and Resolve mergers, so I suppose I *should* mention those original authors and thank them for all their hard work.\n\nThe native git code is licenced GPL v.2. Who \"owns\" the native version recursive strategy code? Do I call Linus?",
+      "parentUuid": "AABOIn//0q4\u003d",
+      "revId": "a4f51c7d6a4d1086c349f1fa5f4106573be47576",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//0q8\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/StrategyRecursive.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2012-10-10T20:27:10Z",
       "side": 1,
       "message": "A contributors list is hard to maintain so we avoid it.\ngit blame /log is the mail tool for finding authorship",
+      "revId": "a4f51c7d6a4d1086c349f1fa5f4106573be47576",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//0p8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/StrategyRecursive.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 504
+      },
+      "writtenOn": "2012-10-11T07:13:33Z",
+      "side": 1,
+      "message": "Sure. Should I convert me to author or remain anonymous?",
+      "parentUuid": "AABOIn//0q8\u003d",
       "revId": "a4f51c7d6a4d1086c349f1fa5f4106573be47576",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
