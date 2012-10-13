@@ -78,11 +78,7 @@ public class PersonIdent implements Serializable {
 	 * @param repo
 	 */
 	public PersonIdent(final Repository repo) {
-		final UserConfig config = repo.getConfig().get(UserConfig.KEY);
-		name = config.getCommitterName();
-		emailAddress = config.getCommitterEmail();
-		when = SystemReader.getInstance().getCurrentTime();
-		tzOffset = SystemReader.getInstance().getTimezone(when);
+		this(repo.getConfig().get(UserConfig.KEY));
 	}
 
 	/**
@@ -102,10 +98,7 @@ public class PersonIdent implements Serializable {
 	 * @param aEmailAddress
 	 */
 	public PersonIdent(final String aName, final String aEmailAddress) {
-		name = aName;
-		emailAddress = aEmailAddress;
-		when = SystemReader.getInstance().getCurrentTime();
-		tzOffset = SystemReader.getInstance().getTimezone(when);
+		this(aName, aEmailAddress, SystemReader.getInstance().getCurrentTime());
 	}
 
 	/**
@@ -131,10 +124,7 @@ public class PersonIdent implements Serializable {
 	 *            local time
 	 */
 	public PersonIdent(final PersonIdent pi, final Date aWhen) {
-		name = pi.getName();
-		emailAddress = pi.getEmailAddress();
-		when = aWhen.getTime();
-		tzOffset = pi.tzOffset;
+		this(pi.getName(), pi.getEmailAddress(), aWhen.getTime(), pi.tzOffset);
 	}
 
 	/**
@@ -149,10 +139,32 @@ public class PersonIdent implements Serializable {
 	 */
 	public PersonIdent(final String aName, final String aEmailAddress,
 			final Date aWhen, final TimeZone aTZ) {
-		name = aName;
-		emailAddress = aEmailAddress;
-		when = aWhen.getTime();
-		tzOffset = aTZ.getOffset(when) / (60 * 1000);
+		this(aName, aEmailAddress, aWhen.getTime(), aTZ.getOffset(aWhen
+				.getTime()) / (60 * 1000));
+	}
+
+	/**
+	 * Copy a PersonIdent, but alter the clone's time stamp
+	 *
+	 * @param pi
+	 *            original {@link PersonIdent}
+	 * @param aWhen
+	 *            local time stamp
+	 * @param aTZ
+	 *            time zone
+	 */
+	public PersonIdent(final PersonIdent pi, final long aWhen, final int aTZ) {
+		this(pi.getName(), pi.getEmailAddress(), aWhen, aTZ);
+	}
+
+	private PersonIdent(final String aName, final String aEmailAddress,
+			long when) {
+		this(aName, aEmailAddress, when, SystemReader.getInstance()
+				.getTimezone(when));
+	}
+
+	private PersonIdent(final UserConfig config) {
+		this(config.getCommitterName(), config.getCommitterEmail());
 	}
 
 	/**
@@ -167,25 +179,14 @@ public class PersonIdent implements Serializable {
 	 */
 	public PersonIdent(final String aName, final String aEmailAddress,
 			final long aWhen, final int aTZ) {
+		if (aName == null)
+			throw new IllegalArgumentException(
+					"Name of PersonIdent must not be null.");
+		if (aEmailAddress == null)
+			throw new IllegalArgumentException(
+					"E-mail address of PersonIdent must not be null.");
 		name = aName;
 		emailAddress = aEmailAddress;
-		when = aWhen;
-		tzOffset = aTZ;
-	}
-
-	/**
-	 * Copy a PersonIdent, but alter the clone's time stamp
-	 *
-	 * @param pi
-	 *            original {@link PersonIdent}
-	 * @param aWhen
-	 *            local time stamp
-	 * @param aTZ
-	 *            time zone
-	 */
-	public PersonIdent(final PersonIdent pi, final long aWhen, final int aTZ) {
-		name = pi.getName();
-		emailAddress = pi.getEmailAddress();
 		when = aWhen;
 		tzOffset = aTZ;
 	}

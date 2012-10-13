@@ -73,4 +73,14 @@ public class T0001_PersonIdentTest {
 		assertEquals("A U Thor <author@example.com> 1142878501 +0230",
 				p.toExternalString());
 	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void nullForNameShouldThrowIllegalArgumentException() {
+		new PersonIdent(null, "author@example.com");
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void nullForEmailShouldThrowIllegalArgumentException() {
+		new PersonIdent("A U Thor", null);
+	}
 }
