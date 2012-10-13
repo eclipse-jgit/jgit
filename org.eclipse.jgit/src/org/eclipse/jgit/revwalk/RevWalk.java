@@ -620,6 +620,9 @@ public class RevWalk implements Iterable<RevCommit> {
 	 * <p>
 	 * The commit may or may not exist in the repository. It is impossible to
 	 * tell from this method's return value.
+	 * <p>
+	 * See {@link #parseHeaders(RevObject)} and {@link #parseBody(RevObject)}
+	 * for loading contents.
 	 *
 	 * @param id
 	 *            name of the commit object.
