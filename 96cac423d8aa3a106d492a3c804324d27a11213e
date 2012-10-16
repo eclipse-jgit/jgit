@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//0Lk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeStrategy.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 504
+      },
+      "writtenOn": "2012-10-16T13:03:35Z",
+      "side": 1,
+      "message": "As with native Git, the default should be to try the simplest merge first. It was noted earlier, recusion can be expensive, especially with large chains of multi-based commit histories",
+      "parentUuid": "AABOIn//0Ms\u003d",
+      "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//0M0\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2012-10-16T09:38:05Z",
       "side": 1,
       "message": "This won\u0027t compile with jdk 1.5. The contributor guide to EGit/JGit still stays we have Java 5.0 and Eclipse 3.5 as minimum requirement and we should avoid references to newer Java versions.\n\nYou can get around it by writing your own copyOf() in this class. Here is how jdk 6 implements it\n\n\n    public static \u003cT\u003e T[] copyOf(T[] original, int newLength) {\n        return (T[]) copyOf(original, newLength, original.getClass());\n    }\n    public static \u003cT,U\u003e T[] copyOf(U[] original, int newLength, Class\u003c? extends T[]\u003e newType) {\n        T[] copy \u003d ((Object)newType \u003d\u003d (Object)Object[].class)\n            ? (T[]) new Object[newLength]\n            : (T[]) Array.newInstance(newType.getComponentType(), newLength);\n        System.arraycopy(original, 0, copy, 0,\n                         Math.min(original.length, newLength));\n        return copy;\n    }",
+      "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//0Lg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 504
+      },
+      "writtenOn": "2012-10-16T13:03:35Z",
+      "side": 1,
+      "message": "Time to change the guide :-)",
+      "parentUuid": "AABOIn//0M0\u003d",
       "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -98,6 +134,24 @@
       "writtenOn": "2012-10-16T09:38:05Z",
       "side": 1,
       "message": "I wouldn\u0027t put the try/catch block inside this method. Let this method throw the exceptions and let the caller handle the exceptions. Already now our two users of this method have different needs regarding exception handling. Therefore it\u0027s better to let the callers handle exceptions.",
+      "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//0Lc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 950,
+      "author": {
+        "id": 504
+      },
+      "writtenOn": "2012-10-16T13:03:35Z",
+      "side": 1,
+      "message": "So change the behaviour of the snippet I have refactored? The original code for the resolve merger had the try/catch but clients would rather do it? So I will be modifying all the clients too?",
+      "parentUuid": "AABOIn//0NQ\u003d",
       "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
