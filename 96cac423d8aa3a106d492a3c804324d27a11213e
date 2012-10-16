@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//0KQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeStrategy.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-10-16T16:07:25Z",
+      "side": 1,
+      "message": "I got that point. So you suggest to run simple algorithm first and if that don\u0027t succeeds then run the more expensive one and so on. I agree. \n\nBut the question is: where to put this loop over merge strategies? Somewhere we have to add this. Either in the RecursiveMerge or in the callers of the merge (Merge.java, MergeCommand.java) or even higher in the code using jgit.\n\nI think it should be like in native git: I can call \"git merge sideBranch\" even if I have no clue about which merge-strategies exist. Therefore I suggest to put this loop either in Merge.java,MergeCommand.java or in recursive merge itself. Where do you want to have it?",
+      "parentUuid": "AABOIn//0Lk\u003d",
+      "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//0M0\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
         "patchSetId": 2
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "Time to change the guide :-)",
       "parentUuid": "AABOIn//0M0\u003d",
+      "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//0KE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-10-16T16:07:25Z",
+      "side": 1,
+      "message": "Right, I would also like to use a better JDK. But that\u0027s not a topic which we should include in this proposal.",
+      "parentUuid": "AABOIn//0Lg\u003d",
       "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -106,6 +142,312 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//0I0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-10-16T16:07:25Z",
+      "side": 1,
+      "message": "The following method is unused. Please remove",
+      "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//0Iw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-10-16T16:07:25Z",
+      "side": 1,
+      "message": "The parameter cleanup is unused. Please remove",
+      "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//0Io\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-10-16T16:07:25Z",
+      "side": 1,
+      "message": "You are accessing here firstCommonAncestor.name(). Isn\u0027t that a potential NullPointerException? firstCommonAncestor may be null, or?",
+      "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//0KA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-10-16T16:07:25Z",
+      "side": 1,
+      "message": "you don\u0027t need tw. I would leave it private and also remove the comment.",
+      "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//0J8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-10-16T16:07:25Z",
+      "side": 1,
+      "message": "you don\u0027t need T_BASE. I would leave it private and also remove the comment.",
+      "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//0J4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-10-16T16:07:25Z",
+      "side": 1,
+      "message": "you don\u0027t need T_OURS. I would leave it private and also remove the comment.",
+      "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//0J0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-10-16T16:07:25Z",
+      "side": 1,
+      "message": "you don\u0027t need T_THEIRS. I would leave it private and also remove the comment.",
+      "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//0Jw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-10-16T16:07:25Z",
+      "side": 1,
+      "message": "you don\u0027t need T_INDEX. I would leave it private and also remove the comment.",
+      "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//0Js\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-10-16T16:07:25Z",
+      "side": 1,
+      "message": "you don\u0027t need T_FILE. I would leave it private and also remove the comment.",
+      "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//0Jo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-10-16T16:07:25Z",
+      "side": 1,
+      "message": "you don\u0027t need builder. I would leave it private and also remove the comment.",
+      "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//0Jk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-10-16T16:07:25Z",
+      "side": 1,
+      "message": "you don\u0027t need unmergedPaths. I would leave it private and also remove the comment.",
+      "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//0Jg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-10-16T16:07:25Z",
+      "side": 1,
+      "message": "you don\u0027t need modifiedFiles. I would leave it private and also remove the comment.",
+      "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//0Jc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-10-16T16:07:25Z",
+      "side": 1,
+      "message": "you don\u0027t need toBeCheckedOut. I would leave it private and also remove the comment.",
+      "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//0JU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-10-16T16:07:25Z",
+      "side": 1,
+      "message": "you don\u0027t need toBeDeleted. I would leave it private and also remove the comment.",
+      "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//0JQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-10-16T16:07:25Z",
+      "side": 1,
+      "message": "you don\u0027t need mergeResults. I would leave it private and also remove the comment.",
+      "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//0JM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-10-16T16:07:25Z",
+      "side": 1,
+      "message": "you don\u0027t need failingPaths. I would leave it private and also remove the comment.",
+      "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//0JI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-10-16T16:07:25Z",
+      "side": 1,
+      "message": "you don\u0027t need enterSubtree. I would leave it private and also remove the comment.",
+      "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//0JE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-10-16T16:07:25Z",
+      "side": 1,
+      "message": "you don\u0027t need workingTreeIterator. I would leave it private and also remove the comment.",
+      "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//0NI\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
         "patchSetId": 2
@@ -117,6 +459,23 @@
       "writtenOn": "2012-10-16T09:38:05Z",
       "side": 1,
       "message": "see my comments on mergeTrees() and change this accordingly.",
+      "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//0JA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-10-16T16:07:25Z",
+      "side": 1,
+      "message": "you don\u0027t need createDir(). I would leave it private and also remove the comment.\n\nThat is true for all the methods coming now which you changed from private to protected. You don\u0027t need them. So I would leave them as they are.",
       "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -152,6 +511,24 @@
       "side": 1,
       "message": "So change the behaviour of the snippet I have refactored? The original code for the resolve merger had the try/catch but clients would rather do it? So I will be modifying all the clients too?",
       "parentUuid": "AABOIn//0NQ\u003d",
+      "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//0KI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 950,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-10-16T16:07:25Z",
+      "side": 1,
+      "message": "No, I wanted a pure refactoring without modification of the sematics. But you changed sematics. In your proposal if in the next lines an IOException is thrown then \"dircache.unlock()\" will not be called anymore. In the original code it was called because it was in a finally clause. That\u0027s a severe bug.\n\nBut the solution is easy: Only refactor the lines inside the try block into a new method called mergeTrees. And leave it up to the callers of mergeTrees to handle exception cases. Here in ResolveMerger we would call \n\n  try { mergeTrees(...) } finally { dircache.unlock }\n\nand in RecursiveMerger (since you currently don\u0027t care about dircache unlocking) you can simply call\n\n  mergeTrees(...).",
+      "parentUuid": "AABOIn//0Lc\u003d",
       "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
