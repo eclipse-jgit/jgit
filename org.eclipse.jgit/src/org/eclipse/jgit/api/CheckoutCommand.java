@@ -83,7 +83,42 @@ import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
 import org.eclipse.jgit.util.FileUtils;
 
 /**
- * Checkout a branch to the working tree
+ * Checkout a branch to the working tree.
+ * <p>
+ * Examples (<code>git</code> is a {@link Git} instance):
+ * <p>
+ * Check out an existing branch:
+ *
+ * <pre>
+ * git.checkout().setName(&quot;feature&quot;).call();
+ * </pre>
+ * <p>
+ * Check out paths from the index:
+ *
+ * <pre>
+ * git.checkout().addPath(&quot;file1.txt&quot;).addPath(&quot;file2.txt&quot;).call();
+ * </pre>
+ * <p>
+ * Check out a path from a commit:
+ *
+ * <pre>
+ * git.checkout().setStartPoint(&quot;HEAD&circ;&quot;).addPath(&quot;file1.txt&quot;).call();
+ * </pre>
+ *
+ * <p>
+ * Create a new branch and check it out:
+ *
+ * <pre>
+ * git.checkout().setCreateBranch(true).setName(&quot;newbranch&quot;).call();
+ * </pre>
+ * <p>
+ * Create a new tracking branch for a remote branch and check it out:
+ *
+ * <pre>
+ * git.checkout().setCreateBranch(true).setName(&quot;stable&quot;)
+ * 		.setUpstreamMode(SetupUpstreamMode.SET_UPSTREAM)
+ * 		.setStartPoint(&quot;origin/stable&quot;).call();
+ * </pre>
  *
  * @see <a
  *      href="http://www.kernel.org/pub/software/scm/git/docs/git-checkout.html"
@@ -241,8 +276,15 @@ public class CheckoutCommand extends GitCommand<Ref> {
 	}
 
 	/**
+	 * Add a single path to the list of paths to check out. To check out all
+	 * paths, use {@link #setAllPaths(boolean)}.
+	 * <p>
+	 * If this option is set, neither the {@link #setCreateBranch(boolean)} nor
+	 * {@link #setName(String)} option is considered. In other words, these
+	 * options are exclusive.
+	 *
 	 * @param path
-	 *            Path to update in the working tree and index.
+	 *            path to update in the working tree and index
 	 * @return {@code this}
 	 */
 	public CheckoutCommand addPath(String path) {
@@ -252,14 +294,19 @@ public class CheckoutCommand extends GitCommand<Ref> {
 	}
 
 	/**
-	 * Set whether to checkout all paths
+	 * Set whether to checkout all paths.
 	 * <p>
 	 * This options should be used when you want to do a path checkout on the
 	 * entire repository and so calling {@link #addPath(String)} is not possible
 	 * since empty paths are not allowed.
+	 * <p>
+	 * If this option is set, neither the {@link #setCreateBranch(boolean)} nor
+	 * {@link #setName(String)} option is considered. In other words, these
+	 * options are exclusive.
 	 *
 	 * @param all
-	 *            true to checkout all paths, false otherwise
+	 *            <code>true</code> to checkout all paths, <code>false</code>
+	 *            otherwise
 	 * @return {@code this}
 	 * @since 2.0
 	 */
@@ -361,8 +408,20 @@ public class CheckoutCommand extends GitCommand<Ref> {
 	}
 
 	/**
+	 * Specify the name of the branch or commit to check out, or the new branch
+	 * name.
+	 * <p>
+	 * When only checking out paths and not switching branches, use
+	 * {@link #setStartPoint(String)} or {@link #setStartPoint(RevCommit)} to
+	 * specify from which branch or commit to check out files.
+	 * <p>
+	 * When {@link #setCreateBranch(boolean)} is set to <code>true</code>, use
+	 * this method to set the name of the new branch to create and
+	 * {@link #setStartPoint(String)} or {@link #setStartPoint(RevCommit)} to
+	 * specify the start point of the branch.
+	 *
 	 * @param name
-	 *            the name of the new branch
+	 *            the name of the branch or commit
 	 * @return this instance
 	 */
 	public CheckoutCommand setName(String name) {
@@ -372,6 +431,14 @@ public class CheckoutCommand extends GitCommand<Ref> {
 	}
 
 	/**
+	 * Specify whether to create a new branch.
+	 * <p>
+	 * If <code>true</code> is used, the name of the new branch must be set
+	 * using {@link #setName(String)}. The commit at which to start the new
+	 * branch can be set using {@link #setStartPoint(String)} or
+	 * {@link #setStartPoint(RevCommit)}; if not specified, HEAD is used. Also
+	 * see {@link #setUpstreamMode} for setting up branch tracking.
+	 *
 	 * @param createBranch
 	 *            if <code>true</code> a branch will be created as part of the
 	 *            checkout and set to the specified start point
@@ -384,6 +451,8 @@ public class CheckoutCommand extends GitCommand<Ref> {
 	}
 
 	/**
+	 * Specify to force the ref update in case of a branch switch.
+	 *
 	 * @param force
 	 *            if <code>true</code> and the branch with the given name
 	 *            already exists, the start-point of an existing branch will be
@@ -398,9 +467,16 @@ public class CheckoutCommand extends GitCommand<Ref> {
 	}
 
 	/**
+	 * Set the name of the commit that should be checked out.
+	 * <p>
+	 * When checking out files and this is not specified or <code>null</code>,
+	 * the index is used.
+	 * <p>
+	 * When creating a new branch, this will be used as the start point. If not
+	 * specified or <code>null</code>, the current HEAD is used.
+	 *
 	 * @param startPoint
-	 *            corresponds to the start-point option; if <code>null</code>,
-	 *            the current HEAD will be used
+	 *            commit name to check out
 	 * @return this instance
 	 */
 	public CheckoutCommand setStartPoint(String startPoint) {
@@ -411,9 +487,16 @@ public class CheckoutCommand extends GitCommand<Ref> {
 	}
 
 	/**
+	 * Set the commit that should be checked out.
+	 * <p>
+	 * When creating a new branch, this will be used as the start point. If not
+	 * specified or <code>null</code>, the current HEAD is used.
+	 * <p>
+	 * When checking out files and this is not specified or <code>null</code>,
+	 * the index is used.
+	 *
 	 * @param startCommit
-	 *            corresponds to the start-point option; if <code>null</code>,
-	 *            the current HEAD will be used
+	 *            commit to check out
 	 * @return this instance
 	 */
 	public CheckoutCommand setStartPoint(RevCommit startCommit) {
@@ -424,6 +507,9 @@ public class CheckoutCommand extends GitCommand<Ref> {
 	}
 
 	/**
+	 * When creating a branch with {@link #setCreateBranch(boolean)}, this can
+	 * be used to configure branch tracking.
+	 *
 	 * @param mode
 	 *            corresponds to the --track/--no-track options; may be
 	 *            <code>null</code>
@@ -437,7 +523,7 @@ public class CheckoutCommand extends GitCommand<Ref> {
 	}
 
 	/**
-	 * @return the result
+	 * @return the result, never <code>null</code>
 	 */
 	public CheckoutResult getResult() {
 		if (status == null)
