@@ -960,6 +960,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//0GM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 950,
+      "author": {
+        "id": 504
+      },
+      "writtenOn": "2012-10-17T21:23:28Z",
+      "side": 1,
+      "message": "Context switch brain derailment. Yes I did know that. Thanks.",
+      "parentUuid": "AABOIn//0KI\u003d",
+      "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//0Dk\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
         "patchSetId": 2
