@@ -45,7 +45,7 @@ package org.eclipse.jgit.diff;
 
 /**
  * Wrap another comparator for use with {@link Subsequence}.
- *
+ * <p>
  * This comparator acts as a proxy for the real comparator, translating element
  * indexes on the fly by adding the subsequence's begin offset to them.
  * Comparators of this type must be used with a {@link Subsequence}.

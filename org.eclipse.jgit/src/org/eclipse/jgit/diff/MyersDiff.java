@@ -51,56 +51,60 @@ import org.eclipse.jgit.util.IntList;
 import org.eclipse.jgit.util.LongList;
 
 /**
- * Diff algorithm, based on "An O(ND) Difference Algorithm and its
- * Variations", by Eugene Myers.
- *
+ * Diff algorithm, based on "An O(ND) Difference Algorithm and its Variations",
+ * by Eugene Myers.
+ * <p>
  * The basic idea is to put the line numbers of text A as columns ("x") and the
- * lines of text B as rows ("y").  Now you try to find the shortest "edit path"
- * from the upper left corner to the lower right corner, where you can
- * always go horizontally or vertically, but diagonally from (x,y) to
- * (x+1,y+1) only if line x in text A is identical to line y in text B.
- *
- * Myers' fundamental concept is the "furthest reaching D-path on diagonal k":
- * a D-path is an edit path starting at the upper left corner and containing
- * exactly D non-diagonal elements ("differences").  The furthest reaching
- * D-path on diagonal k is the one that contains the most (diagonal) elements
- * which ends on diagonal k (where k = y - x).
- *
+ * lines of text B as rows ("y"). Now you try to find the shortest "edit path"
+ * from the upper left corner to the lower right corner, where you can always go
+ * horizontally or vertically, but diagonally from (x,y) to (x+1,y+1) only if
+ * line x in text A is identical to line y in text B.
+ * <p>
+ * Myers' fundamental concept is the "furthest reaching D-path on diagonal k": a
+ * D-path is an edit path starting at the upper left corner and containing
+ * exactly D non-diagonal elements ("differences"). The furthest reaching D-path
+ * on diagonal k is the one that contains the most (diagonal) elements which
+ * ends on diagonal k (where k = y - x).
+ * <p>
  * Example:
  *
+ * <pre>
  *    H E L L O   W O R L D
  *    ____
  *  L     \___
  *  O         \___
  *  W             \________
- *
- * Since every D-path has exactly D horizontal or vertical elements, it can
- * only end on the diagonals -D, -D+2, ..., D-2, D.
- *
- * Since every furthest reaching D-path contains at least one furthest
- * reaching (D-1)-path (except for D=0), we can construct them recursively.
- *
+ * </pre>
+ * <p>
+ * Since every D-path has exactly D horizontal or vertical elements, it can only
+ * end on the diagonals -D, -D+2, ..., D-2, D.
+ * <p>
+ * Since every furthest reaching D-path contains at least one furthest reaching
+ * (D-1)-path (except for D=0), we can construct them recursively.
+ * <p>
  * Since we are really interested in the shortest edit path, we can start
  * looking for a 0-path, then a 1-path, and so on, until we find a path that
  * ends in the lower right corner.
- *
+ * <p>
  * To save space, we do not need to store all paths (which has quadratic space
- * requirements), but generate the D-paths simultaneously from both sides.
- * When the ends meet, we will have found "the middle" of the path.  From the
- * end points of that diagonal part, we can generate the rest recursively.
- *
+ * requirements), but generate the D-paths simultaneously from both sides. When
+ * the ends meet, we will have found "the middle" of the path. From the end
+ * points of that diagonal part, we can generate the rest recursively.
+ * <p>
  * This only requires linear space.
+ * <p>
+ * The overall (runtime) complexity is:
  *
- * The overall (runtime) complexity is
- *
- *	O(N * D^2 + 2 * N/2 * (D/2)^2 + 4 * N/4 * (D/4)^2 + ...)
- *	= O(N * D^2 * 5 / 4) = O(N * D^2),
- *
- * (With each step, we have to find the middle parts of twice as many regions
- * as before, but the regions (as well as the D) are halved.)
- *
- * So the overall runtime complexity stays the same with linear space,
- * albeit with a larger constant factor.
+ * <pre>
+ *     O(N * D^2 + 2 * N/2 * (D/2)^2 + 4 * N/4 * (D/4)^2 + ...)
+ *     = O(N * D^2 * 5 / 4) = O(N * D^2),
+ * </pre>
+ * <p>
+ * (With each step, we have to find the middle parts of twice as many regions as
+ * before, but the regions (as well as the D) are halved.)
+ * <p>
+ * So the overall runtime complexity stays the same with linear space, albeit
+ * with a larger constant factor.
  *
  * @param <S>
  *            type of sequence.

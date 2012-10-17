@@ -46,15 +46,15 @@ package org.eclipse.jgit.diff;
 
 /**
  * Arbitrary sequence of elements.
- *
+ * <p>
  * A sequence of elements is defined to contain elements in the index range
  * <code>[0, {@link #size()})</code>, like a standard Java List implementation.
  * Unlike a List, the members of the sequence are not directly obtainable.
- *
+ * <p>
  * Implementations of Sequence are primarily intended for use in content
  * difference detection algorithms, to produce an {@link EditList} of
  * {@link Edit} instances describing how two Sequence instances differ.
- *
+ * <p>
  * To be compared against another Sequence of the same type, a supporting
  * {@link SequenceComparator} must also be supplied.
  */

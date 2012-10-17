@@ -45,11 +45,11 @@ package org.eclipse.jgit.diff;
 
 /**
  * Wrap another comparator for use with {@link HashedSequence}.
- *
+ * <p>
  * This comparator acts as a proxy for the real comparator, evaluating the
  * cached hash code before testing the underlying comparator's equality.
  * Comparators of this type must be used with a {@link HashedSequence}.
- *
+ * <p>
  * To construct an instance of this type use {@link HashedSequencePair}.
  *
  * @param <S>
