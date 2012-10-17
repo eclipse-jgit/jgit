@@ -438,6 +438,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String receivePackObjectTooLarge2;
 	/***/ public String receivingObjects;
 	/***/ public String refAlreadyExists;
+	/***/ public String refAlreadyExists1;
 	/***/ public String reflogEntryNotFound;
 	/***/ public String refNotResolved;
 	/***/ public String refUpdateReturnCodeWas;
