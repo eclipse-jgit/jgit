@@ -42,6 +42,11 @@ of every file was formatted using the Eclipse code formatter
 using the project specific settings (Properties->Java Code
 Style->Formatter->"Java Conventions [built-in]").
 
+Note from the Contributor Guide:
+Both in JGit and EGit, the preferred coding style is to leave 
+off braces around statements with one line, e.g.: 
+    if (condition)
+        doSomething();
 
 (2) Generate your patch using git tools out of your commits.
 
