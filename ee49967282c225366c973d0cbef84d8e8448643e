@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//z4c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2012-10-18T12:09:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//z5Q\u003d",
+      "revId": "ee49967282c225366c973d0cbef84d8e8448643e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//z5M\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutCommand.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2012-10-18T11:01:31Z",
       "side": 1,
       "message": "see above",
+      "revId": "ee49967282c225366c973d0cbef84d8e8448643e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//z4Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2012-10-18T12:09:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//z5M\u003d",
       "revId": "ee49967282c225366c973d0cbef84d8e8448643e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
