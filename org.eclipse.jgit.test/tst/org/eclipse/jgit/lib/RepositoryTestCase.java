@@ -58,6 +58,8 @@ import java.io.Reader;
 import java.util.Map;
 import java.util.TreeSet;
 
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheCheckout;
@@ -436,4 +438,37 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 					}
 				return f;
 			}
+
+	/**
+	 * Commit a file with the specified contents on the specified branch,
+	 * creating the branch if it didn't exist before.
+	 * <p>
+	 * It switches back to the original branch after the commit if there was
+	 * one.
+	 *
+	 * @param filename
+	 * @param contents
+	 * @param branch
+	 * @return the created commit
+	 */
+	protected RevCommit commitFile(String filename, String contents, String branch) {
+		try {
+			Git git = new Git(db);
+			String originalBranch = git.getRepository().getBranch();
+			if (git.getRepository().getRef(branch) == null)
+				git.branchCreate().setName(branch).call();
+			git.checkout().setName(branch).call();
+			writeTrashFile(filename, contents);
+			git.add().addFilepattern(filename).call();
+			RevCommit commit = git.commit()
+					.setMessage(branch + ": " + filename).call();
+			if (originalBranch != null)
+				git.checkout().setName(originalBranch).call();
+			return commit;
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		} catch (GitAPIException e) {
+			throw new RuntimeException(e);
+		}
+	}
 }
