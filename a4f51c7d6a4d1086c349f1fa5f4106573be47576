@@ -125,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//z2Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 504
+      },
+      "writtenOn": "2012-10-18T14:11:18Z",
+      "side": 1,
+      "message": "The original where I found the idea is GPL v2.2. Do I copy the GPL collateral in here too with the permissions?",
+      "parentUuid": "AABOIn//0iM\u003d",
+      "revId": "a4f51c7d6a4d1086c349f1fa5f4106573be47576",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//0h8\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
         "patchSetId": 1
@@ -136,6 +154,24 @@
       "writtenOn": "2012-10-11T22:05:07Z",
       "side": 1,
       "message": "re-format",
+      "revId": "a4f51c7d6a4d1086c349f1fa5f4106573be47576",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//z2M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 563,
+      "author": {
+        "id": 504
+      },
+      "writtenOn": "2012-10-18T14:11:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//0h8\u003d",
       "revId": "a4f51c7d6a4d1086c349f1fa5f4106573be47576",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -159,6 +195,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//z2I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 660,
+      "author": {
+        "id": 504
+      },
+      "writtenOn": "2012-10-18T14:11:18Z",
+      "side": 1,
+      "message": "this copy is removed. Original in ResolveMerger would be subject to review, buut not repairable by me.",
+      "parentUuid": "AABOIn//0is\u003d",
+      "revId": "a4f51c7d6a4d1086c349f1fa5f4106573be47576",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//0iI\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
         "patchSetId": 1
@@ -170,6 +224,24 @@
       "writtenOn": "2012-10-11T22:05:07Z",
       "side": 1,
       "message": "Too much stuff is copied from the base class. Why should we review it again?",
+      "revId": "a4f51c7d6a4d1086c349f1fa5f4106573be47576",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//z2E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 896,
+      "author": {
+        "id": 504
+      },
+      "writtenOn": "2012-10-18T14:11:18Z",
+      "side": 1,
+      "message": "removed. Original re-used",
+      "parentUuid": "AABOIn//0iI\u003d",
       "revId": "a4f51c7d6a4d1086c349f1fa5f4106573be47576",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
