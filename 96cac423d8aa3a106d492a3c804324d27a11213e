@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//z1M\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 504
+      },
+      "writtenOn": "2012-10-18T14:11:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//0DU\u003d",
+      "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//0Dg\u003d",
         "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
         "patchSetId": 2
@@ -106,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//z2A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 504
+      },
+      "writtenOn": "2012-10-18T14:11:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//0FY\u003d",
+      "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//0FU\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
         "patchSetId": 2
@@ -117,6 +153,24 @@
       "writtenOn": "2012-10-16T23:25:11Z",
       "side": 1,
       "message": "in javadoc rather explain what functionality this class provides instead of explaining how you created it",
+      "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//z18\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 504
+      },
+      "writtenOn": "2012-10-18T14:11:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//0FU\u003d",
       "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -140,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//z14\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 504
+      },
+      "writtenOn": "2012-10-18T14:11:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//0FQ\u003d",
+      "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//0FM\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
         "patchSetId": 2
@@ -151,6 +223,24 @@
       "writtenOn": "2012-10-16T23:25:11Z",
       "side": 1,
       "message": "though we need support for file-system based index",
+      "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//z10\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 504
+      },
+      "writtenOn": "2012-10-18T14:11:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//0FM\u003d",
       "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -174,6 +264,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//z1w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 504
+      },
+      "writtenOn": "2012-10-18T14:11:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//0FI\u003d",
+      "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//0FE\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
         "patchSetId": 2
@@ -185,6 +293,24 @@
       "writtenOn": "2012-10-16T23:25:11Z",
       "side": 1,
       "message": "I don\u0027t understand this",
+      "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//z1o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 504
+      },
+      "writtenOn": "2012-10-18T14:11:33Z",
+      "side": 1,
+      "message": "LOOP enum not used, removed",
+      "parentUuid": "AABOIn//0FE\u003d",
       "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -208,6 +334,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//z1k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 504
+      },
+      "writtenOn": "2012-10-18T14:11:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//0Ew\u003d",
+      "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//0FA\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
         "patchSetId": 2
@@ -219,6 +363,24 @@
       "writtenOn": "2012-10-16T23:25:11Z",
       "side": 1,
       "message": "style nit: we don\u0027t use curly braces around single line blocks",
+      "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//z1Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 504
+      },
+      "writtenOn": "2012-10-18T14:11:33Z",
+      "side": 1,
+      "message": "Sure. The \"SUBMITTING_PATCHES\" file indicates using Eclipse built-in which does not complain about this. I\u0027ll also augment that file. This nit is fixed.",
+      "parentUuid": "AABOIn//0FA\u003d",
       "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -242,6 +404,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//z1c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 504
+      },
+      "writtenOn": "2012-10-18T14:11:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//0E8\u003d",
+      "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//0E4\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
         "patchSetId": 2
@@ -253,6 +433,24 @@
       "writtenOn": "2012-10-16T23:25:11Z",
       "side": 1,
       "message": "message should be externalized",
+      "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//z3M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 504
+      },
+      "writtenOn": "2012-10-18T14:11:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//0E4\u003d",
       "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -276,6 +474,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//z3Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 504
+      },
+      "writtenOn": "2012-10-18T14:11:33Z",
+      "side": 1,
+      "message": "Like the Merge.getBaseCommit method does when there are multiplMergeBasesFor",
+      "parentUuid": "AABOIn//0Eo\u003d",
+      "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//0Eg\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
         "patchSetId": 2
@@ -287,6 +503,24 @@
       "writtenOn": "2012-10-16T23:25:11Z",
       "side": 1,
       "message": "typo: s/the the/the/",
+      "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//z3I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 504
+      },
+      "writtenOn": "2012-10-18T14:11:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//0Eg\u003d",
       "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -310,6 +544,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//z3E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 504
+      },
+      "writtenOn": "2012-10-18T14:11:33Z",
+      "side": 1,
+      "message": "see above",
+      "parentUuid": "AABOIn//0Ec\u003d",
+      "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//0EY\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
         "patchSetId": 2
@@ -321,6 +573,24 @@
       "writtenOn": "2012-10-16T23:25:11Z",
       "side": 1,
       "message": "remove dead code",
+      "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//z1U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 504
+      },
+      "writtenOn": "2012-10-18T14:11:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//0EY\u003d",
       "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -380,6 +650,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//z2U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 504
+      },
+      "writtenOn": "2012-10-18T14:11:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//0KE\u003d",
+      "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//0NE\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
         "patchSetId": 2
@@ -391,6 +679,24 @@
       "writtenOn": "2012-10-16T09:38:05Z",
       "side": 1,
       "message": "see above",
+      "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//z2Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 504
+      },
+      "writtenOn": "2012-10-18T14:11:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//0NE\u003d",
       "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -414,6 +720,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//z2c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 504
+      },
+      "writtenOn": "2012-10-18T14:11:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//0NA\u003d",
+      "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//0I0\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
         "patchSetId": 2
@@ -425,6 +749,24 @@
       "writtenOn": "2012-10-16T16:07:25Z",
       "side": 1,
       "message": "The following method is unused. Please remove",
+      "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//z28\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 504
+      },
+      "writtenOn": "2012-10-18T14:11:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//0I0\u003d",
       "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -448,6 +790,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//z24\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 504
+      },
+      "writtenOn": "2012-10-18T14:11:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//0Iw\u003d",
+      "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//0EU\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
         "patchSetId": 2
@@ -459,6 +819,24 @@
       "writtenOn": "2012-10-16T23:25:11Z",
       "side": 1,
       "message": "why is a null argument an incorrect object type ?",
+      "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//z20\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 504
+      },
+      "writtenOn": "2012-10-18T14:11:33Z",
+      "side": 1,
+      "message": "like Merger.getBaseCommit ...",
+      "parentUuid": "AABOIn//0EU\u003d",
       "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -482,6 +860,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//z2w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 504
+      },
+      "writtenOn": "2012-10-18T14:11:33Z",
+      "side": 1,
+      "message": "above",
+      "parentUuid": "AABOIn//0EQ\u003d",
+      "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//0EM\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
         "patchSetId": 2
@@ -493,6 +889,24 @@
       "writtenOn": "2012-10-16T23:25:11Z",
       "side": 1,
       "message": "style nit: remove unnecessary blank line",
+      "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//z2k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 504
+      },
+      "writtenOn": "2012-10-18T14:11:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//0EM\u003d",
       "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -516,6 +930,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//z2g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 504
+      },
+      "writtenOn": "2012-10-18T14:11:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//0EA\u003d",
+      "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//0Io\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
         "patchSetId": 2
@@ -533,6 +965,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//z2s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 504
+      },
+      "writtenOn": "2012-10-18T14:11:33Z",
+      "side": 1,
+      "message": "protective code added and explained",
+      "parentUuid": "AABOIn//0Io\u003d",
+      "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//0D8\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
         "patchSetId": 2
@@ -544,6 +994,24 @@
       "writtenOn": "2012-10-16T23:25:11Z",
       "side": 1,
       "message": "please find a less cryptic name",
+      "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//z2o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 504
+      },
+      "writtenOn": "2012-10-18T14:11:33Z",
+      "side": 1,
+      "message": "not needed, removed",
+      "parentUuid": "AABOIn//0D8\u003d",
       "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
