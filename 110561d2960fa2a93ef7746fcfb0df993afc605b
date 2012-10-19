@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//zkM\u003d",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 4
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-10-19T22:32:44Z",
+      "side": 1,
+      "message": "s/Headone/Head one/\n\ns/Headtwo/Head two/",
+      "revId": "110561d2960fa2a93ef7746fcfb0df993afc605b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//zlQ\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeStrategy.java",
         "patchSetId": 4
@@ -87,6 +104,23 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//zj8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-10-19T22:32:44Z",
+      "side": 1,
+      "message": "what is this text \"TOO_MANY_BASES\" good for ?",
+      "revId": "110561d2960fa2a93ef7746fcfb0df993afc605b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//zk0\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
         "patchSetId": 4
@@ -115,6 +149,23 @@
       "writtenOn": "2012-10-19T21:15:50Z",
       "side": 1,
       "message": "Syntax error. missing words.\nLine breaks missing.",
+      "revId": "110561d2960fa2a93ef7746fcfb0df993afc605b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//zj4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-10-19T22:32:44Z",
+      "side": 1,
+      "message": "nit: use // for one line comments",
       "revId": "110561d2960fa2a93ef7746fcfb0df993afc605b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
