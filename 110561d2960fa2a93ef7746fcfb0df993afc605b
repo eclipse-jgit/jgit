@@ -1,0 +1,208 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//zt0\u003d",
+        "filename": "SUBMITTING_PATCHES",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-10-19T21:15:50Z",
+      "side": 1,
+      "message": "Good, note, but belongs in another commit\nnit-pick: trailing spaces",
+      "revId": "110561d2960fa2a93ef7746fcfb0df993afc605b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//zlQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeStrategy.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-10-19T21:15:50Z",
+      "side": 1,
+      "message": "Indent",
+      "revId": "110561d2960fa2a93ef7746fcfb0df993afc605b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//zlM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-10-19T21:15:50Z",
+      "side": 1,
+      "message": "No quotes here",
+      "revId": "110561d2960fa2a93ef7746fcfb0df993afc605b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//zk8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-10-19T21:15:50Z",
+      "side": 1,
+      "message": "I think you can leave out the speculations here.\nAs I understand it recursive strategy with multiple tips is NOT an octopus, but rather a repeated sequence of merges. Octopus is its own strategy.",
+      "revId": "110561d2960fa2a93ef7746fcfb0df993afc605b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//zk4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-10-19T21:15:50Z",
+      "side": 1,
+      "message": "\"too many bases\" repeated and not translated",
+      "revId": "110561d2960fa2a93ef7746fcfb0df993afc605b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//zk0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-10-19T21:15:50Z",
+      "side": 1,
+      "message": "repated, too many bases",
+      "revId": "110561d2960fa2a93ef7746fcfb0df993afc605b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//zks\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-10-19T21:15:50Z",
+      "side": 1,
+      "message": "Syntax error. missing words.\nLine breaks missing.",
+      "revId": "110561d2960fa2a93ef7746fcfb0df993afc605b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//zko\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-10-19T21:15:50Z",
+      "side": 1,
+      "message": "nit: no try/finally but you can keep a oneline (//) comment on the\ncleanup if you want to",
+      "revId": "110561d2960fa2a93ef7746fcfb0df993afc605b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//zkk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-10-19T21:15:50Z",
+      "side": 1,
+      "message": "nit: extra empty line",
+      "revId": "110561d2960fa2a93ef7746fcfb0df993afc605b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//zkg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 610,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-10-19T21:15:50Z",
+      "side": 1,
+      "message": "nit: extra empty line",
+      "revId": "110561d2960fa2a93ef7746fcfb0df993afc605b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//zkc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 899,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-10-19T21:15:50Z",
+      "side": 1,
+      "message": "whitespace error",
+      "revId": "110561d2960fa2a93ef7746fcfb0df993afc605b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//zkY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 910,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-10-19T21:15:50Z",
+      "side": 1,
+      "message": "only indent one tab",
+      "revId": "110561d2960fa2a93ef7746fcfb0df993afc605b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}

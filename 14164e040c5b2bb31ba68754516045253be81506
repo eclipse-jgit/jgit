@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//zqE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-10-19T21:15:50Z",
+      "side": 0,
+      "message": "It seems these two paths could be one",
+      "revId": "14164e040c5b2bb31ba68754516045253be81506",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
