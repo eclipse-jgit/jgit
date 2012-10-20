@@ -55,6 +55,8 @@ import java.util.TimeZone;
 import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.dircache.DirCache;
+import org.eclipse.jgit.dircache.DirCacheBuilder;
+import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
@@ -470,5 +472,57 @@ public class CommitCommandTest extends RepositoryTestCase {
 		PersonIdent amendedAuthor = amended.getAuthorIdent();
 		assertEquals("New Author", amendedAuthor.getName());
 		assertEquals("newauthor@example.org", amendedAuthor.getEmailAddress());
+	}
+
+	@Test
+	public void commitOnlyShouldCommitUnmergedPathAndNotAffectOthers()
+			throws Exception {
+		DirCache index = db.lockDirCache();
+		DirCacheBuilder builder = index.builder();
+		addUnmergedEntry("unmerged1", builder);
+		addUnmergedEntry("unmerged2", builder);
+		DirCacheEntry other = new DirCacheEntry("other");
+		other.setFileMode(FileMode.REGULAR_FILE);
+		builder.add(other);
+		builder.commit();
+
+		writeTrashFile("unmerged1", "unmerged1 data");
+		writeTrashFile("unmerged2", "unmerged2 data");
+		writeTrashFile("other", "other data");
+
+		assertEquals("[other, mode:100644]"
+				+ "[unmerged1, mode:100644, stage:1]"
+				+ "[unmerged1, mode:100644, stage:2]"
+				+ "[unmerged1, mode:100644, stage:3]"
+				+ "[unmerged2, mode:100644, stage:1]"
+				+ "[unmerged2, mode:100644, stage:2]"
+				+ "[unmerged2, mode:100644, stage:3]",
+				indexState(0));
+
+		Git git = new Git(db);
+		RevCommit commit = git.commit().setOnly("unmerged1")
+				.setMessage("Only one file").call();
+
+		assertEquals("[other, mode:100644]" + "[unmerged1, mode:100644]"
+				+ "[unmerged2, mode:100644, stage:1]"
+				+ "[unmerged2, mode:100644, stage:2]"
+				+ "[unmerged2, mode:100644, stage:3]",
+				indexState(0));
+
+		TreeWalk walk = TreeWalk.forPath(db, "unmerged1", commit.getTree());
+		assertEquals(FileMode.REGULAR_FILE, walk.getFileMode(0));
+		walk.release();
+	}
+
+	private static void addUnmergedEntry(String file, DirCacheBuilder builder) {
+		DirCacheEntry stage1 = new DirCacheEntry(file, DirCacheEntry.STAGE_1);
+		DirCacheEntry stage2 = new DirCacheEntry(file, DirCacheEntry.STAGE_2);
+		DirCacheEntry stage3 = new DirCacheEntry(file, DirCacheEntry.STAGE_3);
+		stage1.setFileMode(FileMode.REGULAR_FILE);
+		stage2.setFileMode(FileMode.REGULAR_FILE);
+		stage3.setFileMode(FileMode.REGULAR_FILE);
+		builder.add(stage1);
+		builder.add(stage2);
+		builder.add(stage3);
 	}
 }
