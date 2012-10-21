@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//zfs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeStrategy.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-10-21T22:35:43Z",
+      "side": 1,
+      "message": "This comment is still unanswered. Somewhere we have to put some code which decides whether to use RecursiveMerge or ResolveMerge in cases where the higher layers have not explicitly set the strategy to use. Also native git\u0027s merge.c is trying the different strategies ... we should do similar (probably in MergeCommand.java)",
+      "parentUuid": "AABOIn//0KQ\u003d",
+      "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//0FY\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
         "patchSetId": 2
@@ -241,6 +259,24 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "AABOIn//0FM\u003d",
+      "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//ze0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-10-21T22:35:43Z",
+      "side": 1,
+      "message": "Really, does this now work with a filesystem based index. Great - then we can get a lot of tests for free by parametrizing ResolveMergeTest to run the tests once with ResolveMerge and once with a subclass of ResolveMerge: RecursiveMerge. My first attempts to run all ResolveMergeTests against RecursiveMerge look promising.",
+      "parentUuid": "AABOIn//z10\u003d",
       "revId": "96cac423d8aa3a106d492a3c804324d27a11213e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
