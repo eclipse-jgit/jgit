@@ -36,6 +36,23 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//zfw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-10-21T22:35:16Z",
+      "side": 1,
+      "message": "This complete change is not needed. You do exactly the same thing in both sides of if-clause.I would simply remove the change to this file.",
+      "revId": "110561d2960fa2a93ef7746fcfb0df993afc605b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//zlQ\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeStrategy.java",
         "patchSetId": 4
@@ -189,6 +206,108 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//zfo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-10-21T22:35:16Z",
+      "side": 1,
+      "message": "You don\u0027t need to change this method signature. I would leave it to be a private method.",
+      "revId": "110561d2960fa2a93ef7746fcfb0df993afc605b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//zfk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-10-21T22:35:16Z",
+      "side": 1,
+      "message": "You don\u0027t need to change this method signature. I would leave this method private.",
+      "revId": "110561d2960fa2a93ef7746fcfb0df993afc605b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//zfg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-10-21T22:35:16Z",
+      "side": 1,
+      "message": "You don\u0027t need to change this method signature. I would leave this method private",
+      "revId": "110561d2960fa2a93ef7746fcfb0df993afc605b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//zfc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-10-21T22:35:16Z",
+      "side": 1,
+      "message": "You don\u0027t need to change this method signature. I would leave this method private",
+      "revId": "110561d2960fa2a93ef7746fcfb0df993afc605b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//zfY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-10-21T22:35:16Z",
+      "side": 1,
+      "message": "You don\u0027t need to change this method signature. I would leave this method private",
+      "revId": "110561d2960fa2a93ef7746fcfb0df993afc605b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//zfU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-10-21T22:35:16Z",
+      "side": 1,
+      "message": "You don\u0027t need to change this method signature. I would leave this method private",
+      "revId": "110561d2960fa2a93ef7746fcfb0df993afc605b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//zkk\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
         "patchSetId": 4
@@ -206,6 +325,23 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//zfQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 596,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-10-21T22:35:16Z",
+      "side": 1,
+      "message": "You don\u0027t need to change this method signature. I would leave this method private. If you remove the javadoc for a private method then you handle Robins comment.",
+      "revId": "110561d2960fa2a93ef7746fcfb0df993afc605b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//zkg\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
         "patchSetId": 4
@@ -217,6 +353,108 @@
       "writtenOn": "2012-10-19T21:15:50Z",
       "side": 1,
       "message": "nit: extra empty line",
+      "revId": "110561d2960fa2a93ef7746fcfb0df993afc605b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//zfM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 614,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-10-21T22:35:16Z",
+      "side": 1,
+      "message": "You don\u0027t need to change this method signature. I would leave this method private. If you remove the javadoc for a private method then you handle Robins comment.",
+      "revId": "110561d2960fa2a93ef7746fcfb0df993afc605b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//ze4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 646,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-10-21T22:35:16Z",
+      "side": 1,
+      "message": "You don\u0027t need to change this method signature. I would leave this method private.",
+      "revId": "110561d2960fa2a93ef7746fcfb0df993afc605b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//zfI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 694,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-10-21T22:35:16Z",
+      "side": 1,
+      "message": "You don\u0027t need to change this method signature. I would leave this method private.",
+      "revId": "110561d2960fa2a93ef7746fcfb0df993afc605b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//zfE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 748,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-10-21T22:35:16Z",
+      "side": 1,
+      "message": "You don\u0027t need to change this method signature. I would leave this method private.",
+      "revId": "110561d2960fa2a93ef7746fcfb0df993afc605b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//zfA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 767,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-10-21T22:35:16Z",
+      "side": 1,
+      "message": "You don\u0027t need to change this method signature. I would leave this method private. Then you can also remove the javadoc.",
+      "revId": "110561d2960fa2a93ef7746fcfb0df993afc605b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//ze8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 779,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-10-21T22:35:16Z",
+      "side": 1,
+      "message": "You don\u0027t need to change this method signature. I would leave this method private. Then you can also remove the javadoc.",
       "revId": "110561d2960fa2a93ef7746fcfb0df993afc605b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
