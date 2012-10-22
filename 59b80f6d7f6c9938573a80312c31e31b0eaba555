@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//zcc\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RepositoryTestCase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-10-22T07:02:27Z",
+      "side": 1,
+      "message": "I would use getFullBranch() here. The method you use, getBranch(), will additionally shorten the refName which is a feature you don\u0027t need here. Additionally this shortening of ref names can lead to problems if you have two refs .git/xyz and .git/refs/heads/xyz and you have checked out .git/refs/heads/xyz.",
+      "revId": "59b80f6d7f6c9938573a80312c31e31b0eaba555",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
