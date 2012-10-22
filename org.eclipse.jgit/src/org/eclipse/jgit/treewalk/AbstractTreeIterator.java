@@ -671,4 +671,9 @@ public abstract class AbstractTreeIterator {
 	public void getName(byte[] buffer, int offset) {
 		System.arraycopy(path, pathOffset, buffer, offset, pathLen - pathOffset);
 	}
+
+	@Override
+	public String toString() {
+		return getClass().getSimpleName() + "[" + getEntryPathString() + "]";
+	}
 }
