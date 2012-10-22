@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//zcM\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/IndexDiffTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-10-22T08:04:40Z",
+      "side": 1,
+      "message": "I agree, here is potential for performance enhancements. The file \"d/f\" is a untracked file and native gits \"git status -u\" will also report it. But of course we would report smaller sets back to the caller if we can skip processing subtrees in case neither index nor the trees contain something below this path. Maybe we need some lookahead here while iterating over the trees. I\u0027ll make a proposal.\n\nWe should be aware that we may have to adapt some users of IndexDiff for that. I can imagine that e.g. a decorators which is called to decorate \"d/f\" currently expects that he gets a status for \"d/f\" and is not aware that he has to look whether any of the superfolders is reported to be untracked.",
+      "parentUuid": "AABOIn//2oo\u003d",
+      "revId": "b2e3b4654534a27f00bf7b79c19f552e1865bdab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//2qY\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/IndexDiffTest.java",
         "patchSetId": 1
