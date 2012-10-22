@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//zag\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/IndexDiffTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2012-10-22T11:40:21Z",
+      "side": 1,
+      "message": "The Staging view would also need to be adapted, it currently only works on files. After this, the directory \"d\" would be reported as untracked and could be added as a whole.",
+      "parentUuid": "AABOIn//zcM\u003d",
+      "revId": "b2e3b4654534a27f00bf7b79c19f552e1865bdab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//2qY\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/IndexDiffTest.java",
         "patchSetId": 1
