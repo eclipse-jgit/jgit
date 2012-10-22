@@ -230,12 +230,12 @@ public class MergeCommand extends GitCommand<MergeResult> {
 				List<String> unmergedPaths = null;
 				if (merger instanceof ResolveMerger) {
 					ResolveMerger resolveMerger = (ResolveMerger) merger;
-					resolveMerger.setCommitNames(new String[] {
-							"BASE", "HEAD", ref.getName() });
-					resolveMerger.setWorkingTreeIterator(new FileTreeIterator(repo));
+					resolveMerger.setCommitNames(new String[] { "BASE", "HEAD",
+							ref.getName() });
+					resolveMerger.setWorkingTreeIterator(new FileTreeIterator(
+							repo));
 					noProblems = merger.merge(headCommit, srcCommit);
-					lowLevelResults = resolveMerger
-							.getMergeResults();
+					lowLevelResults = resolveMerger.getMergeResults();
 					failingPaths = resolveMerger.getFailingPaths();
 					unmergedPaths = resolveMerger.getUnmergedPaths();
 				} else

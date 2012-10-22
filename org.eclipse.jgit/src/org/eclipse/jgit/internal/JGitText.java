@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2010, Sasa Zivkov <sasa.zivkov@sap.com>
+ * Copyright (c) 2012, Research In Motion Limited
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -344,6 +345,8 @@ public class JGitText extends TranslationBundle {
 	/***/ public String mergeStrategyAlreadyExistsAsDefault;
 	/***/ public String mergeStrategyDoesNotSupportHeads;
 	/***/ public String mergeUsingStrategyResultedInDescription;
+	/***/ public String mergeRecursiveReturnedNoCommit;
+	/***/ public String mergeRecursiveTooManyMergeBasesFor;
 	/***/ public String minutesAgo;
 	/***/ public String missingAccesskey;
 	/***/ public String missingConfigurationForKey;
