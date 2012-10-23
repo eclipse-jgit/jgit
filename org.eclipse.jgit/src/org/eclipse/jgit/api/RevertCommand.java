@@ -155,6 +155,11 @@ public class RevertCommand extends GitCommand<RevCommit> {
 				merger.setWorkingTreeIterator(new FileTreeIterator(repo));
 				merger.setBase(srcCommit.getTree());
 
+				String shortMessage = "Revert \"" + srcCommit.getShortMessage()
+						+ "\"";
+				String newMessage = shortMessage + "\n\n"
+						+ "This reverts commit " + srcCommit.getId().getName()
+						+ ".\n";
 				if (merger.merge(headCommit, srcParent)) {
 					if (AnyObjectId.equals(headCommit.getTree().getId(), merger
 							.getResultTreeId()))
@@ -164,10 +169,6 @@ public class RevertCommand extends GitCommand<RevCommit> {
 							merger.getResultTreeId());
 					dco.setFailOnConflict(true);
 					dco.checkout();
-					String shortMessage = "Revert \"" + srcCommit.getShortMessage() + "\"";
-					String newMessage = shortMessage + "\n\n"
-							+ "This reverts commit "
-							+ srcCommit.getId().getName() + ".\n";
 					newHead = new Git(getRepository()).commit()
 							.setMessage(newMessage)
 							.setReflogComment("revert: " + shortMessage).call();
@@ -183,6 +184,8 @@ public class RevertCommand extends GitCommand<RevCommit> {
 										srcParent.getId() },
 								MergeStatus.FAILED, MergeStrategy.RESOLVE,
 								merger.getMergeResults(), failingPaths, null);
+					repo.writeRevertHead(srcCommit.getId());
+					repo.writeMergeCommitMsg(newMessage);
 					return null;
 				}
 			}

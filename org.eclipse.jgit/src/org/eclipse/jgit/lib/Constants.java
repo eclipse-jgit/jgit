@@ -556,6 +556,9 @@ public final class Constants {
 	/** name of the file containing the commit msg for a squash commit */
 	public static final String SQUASH_MSG = "SQUASH_MSG";
 
+	/** name of the file containing the ID of a revert commit in case of conflicts */
+	public static final String REVERT_HEAD = "REVERT_HEAD";
+
 	/**
 	 * name of the ref ORIG_HEAD used by certain commands to store the original
 	 * value of HEAD
