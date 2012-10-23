@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//zHo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 504
+      },
+      "writtenOn": "2012-10-23T19:20:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//zMs\u003d",
+      "revId": "1aeae5aaab6a26663f0f2ca724a870ddbdc52c1e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//zNE\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2012-10-23T09:16:02Z",
       "side": 1,
       "message": "you\u0027ll forget the unlock the dircache if mergeRecursive exists with an IOException. I would use a try/finally block to make sure that things you locked are getting unlocked in the end. Like in ResolveMerger.mergeImpl().",
+      "revId": "1aeae5aaab6a26663f0f2ca724a870ddbdc52c1e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//zHk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 504
+      },
+      "writtenOn": "2012-10-23T19:20:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//zNE\u003d",
       "revId": "1aeae5aaab6a26663f0f2ca724a870ddbdc52c1e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//zHI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 504
+      },
+      "writtenOn": "2012-10-23T19:20:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//zMo\u003d",
+      "revId": "1aeae5aaab6a26663f0f2ca724a870ddbdc52c1e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//zMw\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
         "patchSetId": 5
@@ -64,6 +118,24 @@
       "writtenOn": "2012-10-23T09:16:02Z",
       "side": 1,
       "message": "you don\u0027t need mergedCommonAncestors. Just remove this variable and their usages.",
+      "revId": "1aeae5aaab6a26663f0f2ca724a870ddbdc52c1e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//zHE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 504
+      },
+      "writtenOn": "2012-10-23T19:20:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//zMw\u003d",
       "revId": "1aeae5aaab6a26663f0f2ca724a870ddbdc52c1e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//zHA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 504
+      },
+      "writtenOn": "2012-10-23T19:20:39Z",
+      "side": 1,
+      "message": "for testing. git-core does this, but with pointers so it is needed there, not here.\n\nCan I re-use ResolveMerger tests?",
+      "parentUuid": "AABOIn//zNQ\u003d",
+      "revId": "1aeae5aaab6a26663f0f2ca724a870ddbdc52c1e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//zNI\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
         "patchSetId": 5
@@ -98,6 +188,24 @@
       "writtenOn": "2012-10-23T09:16:02Z",
       "side": 1,
       "message": "Regarding your handling of callDepth. Instead of this\n\n  f(int callDepth) {\n    ...\n    callDepth++\n    f(callDepth)\n    ....\n    callDepth--\n  }\n\nI would use\n\n  f(int callDepth) {\n    ...\n    f(callDepth+1)\n    ....\n  }\n\ncallDepth will be properly decremented when you return from f().",
+      "revId": "1aeae5aaab6a26663f0f2ca724a870ddbdc52c1e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//zG8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 504
+      },
+      "writtenOn": "2012-10-23T19:20:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//zNI\u003d",
       "revId": "1aeae5aaab6a26663f0f2ca724a870ddbdc52c1e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//zG4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 504
+      },
+      "writtenOn": "2012-10-23T19:20:39Z",
+      "side": 1,
+      "message": "no actually. Now using the refactored mergeTrees in ResolveMerger automatically calls cleanUp like the big boys (tm)",
+      "parentUuid": "AABOIn//zM0\u003d",
+      "revId": "1aeae5aaab6a26663f0f2ca724a870ddbdc52c1e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//zMk\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
         "patchSetId": 5
@@ -132,6 +258,24 @@
       "writtenOn": "2012-10-23T09:16:02Z",
       "side": 1,
       "message": "I am asking myself whether we need a logic regarding protecting our working tree. If you call mergeRecursive(callDepth\u003d0, ...) then you want that this merge will also update the working tree files with the merge result. But when you call mergeRecursive(callDepth\u003e0, ...) then you are in some intermediate merge which is only done to create a good temporary tree which can serve as a merge base. In the end we maybe don\u0027t want to persist this tree. And what we definitely not want is that we update the working tree while creating the temporary tree. So, whenever we call mergeRecursive with callDepth\u003e0 we should make sure that we don\u0027t persist anything to filesystem/objectdatabase.",
+      "revId": "1aeae5aaab6a26663f0f2ca724a870ddbdc52c1e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//zG0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 504
+      },
+      "writtenOn": "2012-10-23T19:20:39Z",
+      "side": 1,
+      "message": "see previous comment.",
+      "parentUuid": "AABOIn//zMk\u003d",
       "revId": "1aeae5aaab6a26663f0f2ca724a870ddbdc52c1e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
