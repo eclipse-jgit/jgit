@@ -45,12 +45,16 @@
 
 package org.eclipse.jgit.revwalk;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.text.MessageFormat;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.*;
 import org.eclipse.jgit.revwalk.filter.AndRevFilter;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
@@ -66,8 +70,11 @@ import org.eclipse.jgit.treewalk.filter.TreeFilter;
 class StartGenerator extends Generator {
 	private final RevWalk walker;
 
-	StartGenerator(final RevWalk w) {
+	private boolean initializeShallowCommits;
+
+	StartGenerator(final RevWalk w, boolean initializeShallowCommits) {
 		walker = w;
+		this.initializeShallowCommits = initializeShallowCommits;
 	}
 
 	@Override
@@ -84,6 +91,11 @@ class StartGenerator extends Generator {
 		RevFilter rf = w.getRevFilter();
 		final TreeFilter tf = w.getTreeFilter();
 		AbstractRevQueue q = walker.queue;
+
+		if (initializeShallowCommits) {
+			initializeShallowCommits();
+			initializeShallowCommits = false;
+		}
 
 		w.reader.walkAdviceBeginCommits(w, w.roots);
 
@@ -179,5 +191,31 @@ class StartGenerator extends Generator {
 
 		w.pending = g;
 		return g.next();
+	}
+
+	private void initializeShallowCommits() throws IOException {
+		if (walker.repository == null)
+			return;
+
+		final File gitDir = walker.repository.getDirectory();
+		if (gitDir == null)
+			return;
+
+		final File shallow = new File(gitDir, Constants.SHALLOW);
+		if (!shallow.isFile())
+			return;
+
+		final BufferedReader reader = new BufferedReader(
+				new FileReader(shallow));
+		try {
+			String line;
+			while ((line = reader.readLine()) != null) {
+				final ObjectId id = ObjectId.fromString(line);
+				final RevCommit commit = walker.lookupCommit(id);
+				commit.parents = new RevCommit[0];
+			}
+		} finally {
+			reader.close();
+		}
 	}
 }
