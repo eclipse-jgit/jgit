@@ -173,6 +173,46 @@ public enum RepositoryState {
 		public String getDescription() { return JGitText.get().repositoryState_merged; }
 	},
 
+	/** An unfinished revert. Must resolve or reset before continuing normally
+	 */
+	REVERTING {
+		@Override
+		public boolean canCheckout() { return false; }
+
+		@Override
+		public boolean canResetHead() { return true; }
+
+		@Override
+		public boolean canCommit() { return false; }
+
+		@Override
+		public boolean canAmend() { return false; }
+
+		@Override
+		public String getDescription() { return JGitText.get().repositoryState_conflicts; }
+	},
+
+	/**
+	 * A revert where all conflicts have been resolved. The index does not
+	 * contain any unmerged paths.
+	 */
+	REVERTING_RESOLVED {
+		@Override
+		public boolean canCheckout() { return true; }
+
+		@Override
+		public boolean canResetHead() { return true; }
+
+		@Override
+		public boolean canCommit() { return true; }
+
+		@Override
+		public boolean canAmend() { return false; }
+
+		@Override
+		public String getDescription() { return JGitText.get().repositoryState_merged; }
+	},
+
 	/**
 	 * An unfinished rebase or am. Must resolve, skip or abort before normal work can take place
 	 */
