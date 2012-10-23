@@ -223,11 +223,26 @@ public class RevWalk implements Iterable<RevCommit> {
 		objects = new ObjectIdOwnerMap<RevObject>();
 		roots = new ArrayList<RevCommit>();
 		queue = new DateRevQueue();
-		pending = new StartGenerator(this);
+		pending = new StartGenerator(this, true);
 		sorting = EnumSet.of(RevSort.NONE);
 		filter = RevFilter.ALL;
 		treeFilter = TreeFilter.ALL;
 		retainBody = true;
+	}
+
+	/**
+	 * Forces the initialization of the shallow commits.
+	 * 
+	 * This method should be called if the RevWalk won't be used for iteration
+	 * with {@link #next()}, but for example just to parse commits.
+	 *
+	 * This method must only be called before starting the RevWalk.
+	 * 
+	 * @throws IOException
+	 */
+	public void initializeShallowCommits() throws IOException {
+		assertNotStarted();
+		((StartGenerator) pending).initializeShallowCommits();
 	}
 
 	/** @return the reader this walker is using to load objects. */
@@ -1188,7 +1203,7 @@ public class RevWalk implements Iterable<RevCommit> {
 
 		roots.clear();
 		queue = new DateRevQueue();
-		pending = new StartGenerator(this);
+		pending = new StartGenerator(this, true);
 	}
 
 	/**
@@ -1208,7 +1223,7 @@ public class RevWalk implements Iterable<RevCommit> {
 		reader.release();
 		roots.clear();
 		queue = new DateRevQueue();
-		pending = new StartGenerator(this);
+		pending = new StartGenerator(this, false);
 	}
 
 	/**
