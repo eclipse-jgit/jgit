@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//zMs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-10-23T09:16:02Z",
+      "side": 1,
+      "message": "You don\u0027t need callDepth and clean. I would remove these variable and later simply call \"return mergeRecursive(0, ...\"",
+      "revId": "1aeae5aaab6a26663f0f2ca724a870ddbdc52c1e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//zNE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-10-23T09:16:02Z",
+      "side": 1,
+      "message": "you\u0027ll forget the unlock the dircache if mergeRecursive exists with an IOException. I would use a try/finally block to make sure that things you locked are getting unlocked in the end. Like in ResolveMerger.mergeImpl().",
+      "revId": "1aeae5aaab6a26663f0f2ca724a870ddbdc52c1e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//zMo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-10-23T09:16:02Z",
+      "side": 1,
+      "message": "You don\u0027t need clean. I would remove this variable and in the end simply call \"return mergeTrees(...\"",
+      "revId": "1aeae5aaab6a26663f0f2ca724a870ddbdc52c1e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//zMw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-10-23T09:16:02Z",
+      "side": 1,
+      "message": "you don\u0027t need mergedCommonAncestors. Just remove this variable and their usages.",
+      "revId": "1aeae5aaab6a26663f0f2ca724a870ddbdc52c1e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//zNQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-10-23T09:16:02Z",
+      "side": 1,
+      "message": "Finally we come reviews on real coding :-)\n\nGeorge, I don\u0027t understand your handling of the parameters h1, h2. They are method parameters and they are never changed in the method. So why do you have to save them here to saved_b1, saved_b2 and restore them later???\n\nI would simply remove the variables saved_b1, saved_b2 and all their usages.\n\nWe really need tests now so we can ensure such statements are correct.",
+      "revId": "1aeae5aaab6a26663f0f2ca724a870ddbdc52c1e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//zNI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-10-23T09:16:02Z",
+      "side": 1,
+      "message": "Regarding your handling of callDepth. Instead of this\n\n  f(int callDepth) {\n    ...\n    callDepth++\n    f(callDepth)\n    ....\n    callDepth--\n  }\n\nI would use\n\n  f(int callDepth) {\n    ...\n    f(callDepth+1)\n    ....\n  }\n\ncallDepth will be properly decremented when you return from f().",
+      "revId": "1aeae5aaab6a26663f0f2ca724a870ddbdc52c1e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//zM0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-10-23T09:16:02Z",
+      "side": 1,
+      "message": "Do we really have to clear the index? Why can\u0027t we just use the existing one. Or use a temporary index? Imagine in the end your recursive merge succeeds and finally we have to update only 5 files in a repo of 200000 files. Because you have thrown away the index (which for example stores the lastmodification times of each of the 200000 files) we don\u0027t know anymore which of the 200000 files is dirty. We have to read them again to populate a new index.",
+      "revId": "1aeae5aaab6a26663f0f2ca724a870ddbdc52c1e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//zMk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-10-23T09:16:02Z",
+      "side": 1,
+      "message": "I am asking myself whether we need a logic regarding protecting our working tree. If you call mergeRecursive(callDepth\u003d0, ...) then you want that this merge will also update the working tree files with the merge result. But when you call mergeRecursive(callDepth\u003e0, ...) then you are in some intermediate merge which is only done to create a good temporary tree which can serve as a merge base. In the end we maybe don\u0027t want to persist this tree. And what we definitely not want is that we update the working tree while creating the temporary tree. So, whenever we call mergeRecursive with callDepth\u003e0 we should make sure that we don\u0027t persist anything to filesystem/objectdatabase.",
+      "revId": "1aeae5aaab6a26663f0f2ca724a870ddbdc52c1e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
