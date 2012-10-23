@@ -149,12 +149,20 @@ public class RevertCommand extends GitCommand<RevCommit> {
 				}
 				RevCommit srcParent = srcCommit.getParent(0);
 				revWalk.parseHeaders(srcParent);
+				String revertName = srcCommit.getId().abbreviate(7).name()
+						+ " " + srcCommit.getShortMessage(); //$NON-NLS-1$
 
 				ResolveMerger merger = (ResolveMerger) MergeStrategy.RESOLVE
 						.newMerger(repo);
 				merger.setWorkingTreeIterator(new FileTreeIterator(repo));
 				merger.setBase(srcCommit.getTree());
+				merger.setCommitNames(new String[] { "BASE", "HEAD", revertName }); //$NON-NLS-1$ //$NON-NLS-2$
 
+				String shortMessage = "Revert \"" + srcCommit.getShortMessage() //$NON-NLS-1$
+						+ "\""; //$NON-NLS-1$
+				String newMessage = shortMessage + "\n\n"
+						+ "This reverts commit " + srcCommit.getId().getName() //$NON-NLS-1$
+						+ ".\n"; //$NON-NLS-1$
 				if (merger.merge(headCommit, srcParent)) {
 					if (AnyObjectId.equals(headCommit.getTree().getId(), merger
 							.getResultTreeId()))
@@ -164,10 +172,6 @@ public class RevertCommand extends GitCommand<RevCommit> {
 							merger.getResultTreeId());
 					dco.setFailOnConflict(true);
 					dco.checkout();
-					String shortMessage = "Revert \"" + srcCommit.getShortMessage() + "\""; //$NON-NLS-2$
-					String newMessage = shortMessage + "\n\n" //$NON-NLS-1$
-							+ "This reverts commit " //$NON-NLS-1$
-							+ srcCommit.getId().getName() + ".\n"; //$NON-NLS-1$
 					newHead = new Git(getRepository()).commit()
 							.setMessage(newMessage)
 							.setReflogComment("revert: " + shortMessage).call(); //$NON-NLS-1$
@@ -183,6 +187,17 @@ public class RevertCommand extends GitCommand<RevCommit> {
 										srcParent.getId() },
 								MergeStatus.FAILED, MergeStrategy.RESOLVE,
 								merger.getMergeResults(), failingPaths, null);
+					else
+						failingResult = new MergeResult(null,
+								merger.getBaseCommit(0, 1),
+								new ObjectId[] { headCommit.getId(),
+										srcParent.getId() },
+								MergeStatus.CONFLICTING, MergeStrategy.RESOLVE,
+								merger.getMergeResults(), failingPaths, null);
+					if (!merger.failed() && !unmergedPaths.isEmpty()) {
+						repo.writeRevertHead(srcCommit.getId());
+						repo.writeMergeCommitMsg(newMessage);
+					}
 					return null;
 				}
 			}

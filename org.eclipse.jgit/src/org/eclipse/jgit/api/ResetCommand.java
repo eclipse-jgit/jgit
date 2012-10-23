@@ -149,6 +149,8 @@ public class ResetCommand extends GitCommand<Ref> {
 			final boolean cherryPicking = state
 					.equals(RepositoryState.CHERRY_PICKING)
 					|| state.equals(RepositoryState.CHERRY_PICKING_RESOLVED);
+			final boolean reverting = state.equals(RepositoryState.REVERTING)
+					|| state.equals(RepositoryState.REVERTING_RESOLVED);
 
 			// resolve the ref to a commit
 			final ObjectId commitId;
@@ -219,6 +221,8 @@ public class ResetCommand extends GitCommand<Ref> {
 					resetMerge();
 				else if (cherryPicking)
 					resetCherryPick();
+				else if (reverting)
+					resetRevert();
 				else if (repo.readSquashCommitMsg() != null)
 					repo.writeSquashCommitMsg(null /* delete */);
 			}
@@ -373,6 +377,11 @@ public class ResetCommand extends GitCommand<Ref> {
 
 	private void resetCherryPick() throws IOException {
 		repo.writeCherryPickHead(null);
+		repo.writeMergeCommitMsg(null);
+	}
+
+	private void resetRevert() throws IOException {
+		repo.writeRevertHead(null);
 		repo.writeMergeCommitMsg(null);
 	}
 
