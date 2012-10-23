@@ -249,6 +249,9 @@ public class CommitCommand extends GitCommand<RevCommit> {
 							} else if (state == RepositoryState.CHERRY_PICKING_RESOLVED) {
 								repo.writeMergeCommitMsg(null);
 								repo.writeCherryPickHead(null);
+							} else if (state == RepositoryState.REVERTING_RESOLVED) {
+								repo.writeMergeCommitMsg(null);
+								repo.writeRevertHead(null);
 							}
 							return revCommit;
 						}
