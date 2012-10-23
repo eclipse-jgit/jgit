@@ -1116,6 +1116,20 @@ public abstract class Repository {
 			return RepositoryState.CHERRY_PICKING;
 		}
 
+		if (new File(getDirectory(), Constants.REVERT_HEAD).exists()) {
+			try {
+				if (!readDirCache().hasUnmergedPaths()) {
+					// no unmerged paths
+					return RepositoryState.REVERTING_RESOLVED;
+				}
+			} catch (IOException e) {
+				// fall through to REVERTING
+				e.printStackTrace();
+			}
+
+			return RepositoryState.REVERTING;
+		}
+
 		return RepositoryState.SAFE;
 	}
 
@@ -1509,6 +1523,62 @@ public abstract class Repository {
 			}
 		} else {
 			FileUtils.delete(headsFile, FileUtils.SKIP_MISSING);
+		}
+	}
+
+	/**
+	 * Return the information stored in the file $GIT_DIR/REVERT_HEAD.
+	 *
+	 * @return object id from REVERT_HEAD file or {@code null} if this file
+	 *         doesn't exist. Also if the file exists but is empty {@code null}
+	 *         will be returned
+	 * @throws IOException
+	 * @throws NoWorkTreeException
+	 *             if this is bare, which implies it has no working directory.
+	 *             See {@link #isBare()}.
+	 */
+	public ObjectId readRevertHead() throws IOException,
+			NoWorkTreeException {
+		if (isBare() || getDirectory() == null)
+			throw new NoWorkTreeException();
+
+		File mergeHeadFile = new File(getDirectory(),
+				Constants.REVERT_HEAD);
+		byte[] raw;
+		try {
+			raw = IO.readFully(mergeHeadFile);
+		} catch (FileNotFoundException notFound) {
+			return null;
+		}
+
+		if (raw.length == 0)
+			return null;
+
+		return ObjectId.fromString(raw, 0);
+	}
+
+	/**
+	 * Write revert commit into $GIT_DIR/REVERT_HEAD. This is used in
+	 * case of conflicts to store the revert which was tried to be picked.
+	 *
+	 * @param head
+	 *            an object id of the revert commit or <code>null</code> to
+	 *            delete the file
+	 * @throws IOException
+	 */
+	public void writeRevertHead(ObjectId head) throws IOException {
+		File revertHeadFile = new File(gitDir, Constants.REVERT_HEAD);
+		if (head != null) {
+			BufferedOutputStream bos = new BufferedOutputStream(
+					new FileOutputStream(revertHeadFile));
+			try {
+				head.copyTo(bos);
+				bos.write('\n');
+			} finally {
+				bos.close();
+			}
+		} else {
+			FileUtils.delete(revertHeadFile, FileUtils.SKIP_MISSING);
 		}
 	}
 }
