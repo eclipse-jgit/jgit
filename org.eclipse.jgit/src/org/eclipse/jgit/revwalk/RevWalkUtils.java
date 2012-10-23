@@ -43,6 +43,9 @@
 
 package org.eclipse.jgit.revwalk;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -200,4 +203,34 @@ public final class RevWalkUtils {
 		return result;
 	}
 
+	/**
+	 * Process .git/shallow and mark these commits as shallow (no parents) for
+	 * the specified RevWalk.
+	 * <p>
+	 * This is necessary for shallow clones to avoid MissingObjectException when
+	 * performing the RevWalk.
+	 *
+	 * @param revWalk
+	 *            The RevWalk to be used.
+	 * @throws IOException
+	 */
+	public static void initializeShallowCommits(RevWalk revWalk) throws IOException {
+		final File shallow = new File(revWalk.repository.getDirectory(),
+				"shallow");
+		if (!shallow.isFile())
+			return;
+
+		final BufferedReader reader = new BufferedReader(
+				new FileReader(shallow));
+		try {
+			String line;
+			while ((line = reader.readLine()) != null) {
+				final ObjectId id = ObjectId.fromString(line);
+				final RevCommit commit = revWalk.lookupCommit(id);
+				commit.parents = new RevCommit[0];
+			}
+		} finally {
+			reader.close();
+		}
+	}
 }
