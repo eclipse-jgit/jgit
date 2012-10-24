@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//y5s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1127,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-10-24T18:40:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//zAM\u003d",
+      "revId": "c71f1a446dd7898aa2f723082c7c3cfcfb4676a3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//y/4\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 2
@@ -30,6 +48,41 @@
       "writtenOn": "2012-10-24T09:12:05Z",
       "side": 1,
       "message": "s/mergeHeadFile/revertHeadFile/ ?",
+      "revId": "c71f1a446dd7898aa2f723082c7c3cfcfb4676a3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//y5g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1545,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-10-24T18:40:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//y/4\u003d",
+      "revId": "c71f1a446dd7898aa2f723082c7c3cfcfb4676a3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//y5c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1569,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-10-24T18:40:56Z",
+      "side": 1,
+      "message": "This is from an old copy of the revert code. Updating and pairing with cherry-picking code.",
       "revId": "c71f1a446dd7898aa2f723082c7c3cfcfb4676a3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
