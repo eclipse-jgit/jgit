@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//zAM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1127,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-10-24T09:12:05Z",
+      "side": 1,
+      "message": "do you really want to print a stack trace here ?",
+      "revId": "c71f1a446dd7898aa2f723082c7c3cfcfb4676a3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//y/4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1545,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-10-24T09:12:05Z",
+      "side": 1,
+      "message": "s/mergeHeadFile/revertHeadFile/ ?",
+      "revId": "c71f1a446dd7898aa2f723082c7c3cfcfb4676a3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
