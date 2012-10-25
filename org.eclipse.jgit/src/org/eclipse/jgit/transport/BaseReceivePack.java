@@ -55,7 +55,6 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -1055,8 +1054,8 @@ public abstract class BaseReceivePack {
 					// A well behaved client shouldn't have sent us a
 					// create command for a ref we advertised to it.
 					//
-					cmd.setResult(Result.REJECTED_OTHER_REASON, MessageFormat
-							.format(JGitText.get().refAlreadyExists, ref));
+					cmd.setResult(Result.REJECTED_OTHER_REASON,
+							JGitText.get().refAlreadyExists);
 					continue;
 				}
 			}
