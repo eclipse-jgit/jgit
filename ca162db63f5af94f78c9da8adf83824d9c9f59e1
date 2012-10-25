@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//ypc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-10-25T22:08:36Z",
+      "side": 1,
+      "message": "Do we need to perform a working tree diff here? We can more quickly determine the new commit is about to be empty by comparing the tree of the new commit with the tree of its ancestor. If they are equal and the new commit is not a merge, or the new commit has no parents and the new commit tree matches the empty tree SHA-1 then we can say its an empty commit and shouldn\u0027t happen.",
+      "revId": "ca162db63f5af94f78c9da8adf83824d9c9f59e1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
