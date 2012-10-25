@@ -61,12 +61,20 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.util.FileUtils;
 import org.junit.Assert;
-import org.junit.Test;
+import org.junit.experimental.theories.DataPoint;
+import org.junit.experimental.theories.Theories;
+import org.junit.experimental.theories.Theory;
+import org.junit.runner.RunWith;
 
+@RunWith(Theories.class)
 public class ResolveMergerTest extends RepositoryTestCase {
 
-	@Test
-	public void failingPathsShouldNotResultInOKReturnValue() throws Exception {
+	@DataPoint
+	public static MergeStrategy resolve = MergeStrategy.RESOLVE;
+
+	@Theory
+	public void failingPathsShouldNotResultInOKReturnValue(
+			MergeStrategy strategy) throws Exception {
 		File folder1 = new File(db.getWorkTree(), "folder1");
 		FileUtils.mkdir(folder1);
 		File file = new File(folder1, "file1.txt");
@@ -96,7 +104,7 @@ public class ResolveMergerTest extends RepositoryTestCase {
 		file = new File(folder1, "file3.txt");
 		write(file, "folder1--file3.txt");
 
-		ResolveMerger merger = new ResolveMerger(db, false);
+		ResolveMerger merger = (ResolveMerger) strategy.newMerger(db, false);
 		merger.setCommitNames(new String[] { "BASE", "HEAD", "other" });
 		merger.setWorkingTreeIterator(new FileTreeIterator(db));
 		boolean ok = merger.merge(head.getId(), other.getId());
@@ -109,10 +117,12 @@ public class ResolveMergerTest extends RepositoryTestCase {
 	 * Merging two conflicting subtrees when the index does not contain any file
 	 * in that subtree should lead to a conflicting state.
 	 *
+	 * @param strategy
 	 * @throws Exception
 	 */
-	@Test
-	public void checkMergeConflictingTreesWithoutIndex() throws Exception {
+	@Theory
+	public void checkMergeConflictingTreesWithoutIndex(MergeStrategy strategy)
+			throws Exception {
 		Git git = Git.wrap(db);
 
 		writeTrashFile("d/1", "orig");
@@ -130,7 +140,8 @@ public class ResolveMergerTest extends RepositoryTestCase {
 
 		git.rm().addFilepattern("d/1").call();
 		git.rm().addFilepattern("d").call();
-		MergeResult mergeRes = git.merge().include(masterCommit).call();
+		MergeResult mergeRes = git.merge().setStrategy(strategy)
+				.include(masterCommit).call();
 		assertEquals(MergeStatus.CONFLICTING, mergeRes.getMergeStatus());
 		assertEquals(
 				"[d/1, mode:100644, stage:1, content:orig][d/1, mode:100644, stage:2, content:side][d/1, mode:100644, stage:3, content:master]",
@@ -141,10 +152,12 @@ public class ResolveMergerTest extends RepositoryTestCase {
 	 * Merging two different but mergeable subtrees when the index does not
 	 * contain any file in that subtree should lead to a merged state.
 	 *
+	 * @param strategy
 	 * @throws Exception
 	 */
-	@Test
-	public void checkMergeMergeableTreesWithoutIndex() throws Exception {
+	@Theory
+	public void checkMergeMergeableTreesWithoutIndex(MergeStrategy strategy)
+			throws Exception {
 		Git git = Git.wrap(db);
 
 		writeTrashFile("d/1", "1\n2\n3");
@@ -162,7 +175,8 @@ public class ResolveMergerTest extends RepositoryTestCase {
 
 		git.rm().addFilepattern("d/1").call();
 		git.rm().addFilepattern("d").call();
-		MergeResult mergeRes = git.merge().include(masterCommit).call();
+		MergeResult mergeRes = git.merge().setStrategy(strategy)
+				.include(masterCommit).call();
 		assertEquals(MergeStatus.MERGED, mergeRes.getMergeStatus());
 		assertEquals("[d/1, mode:100644, content:1master\n2\n3side\n]",
 				indexState(CONTENT));
@@ -172,10 +186,12 @@ public class ResolveMergerTest extends RepositoryTestCase {
 	 * Merging two equal subtrees when the index does not contain any file in
 	 * that subtree should lead to a merged state.
 	 *
+	 * @param strategy
 	 * @throws Exception
 	 */
-	@Test
-	public void checkMergeEqualTreesWithoutIndex() throws Exception {
+	@Theory
+	public void checkMergeEqualTreesWithoutIndex(MergeStrategy strategy)
+			throws Exception {
 		Git git = Git.wrap(db);
 
 		writeTrashFile("d/1", "orig");
@@ -193,7 +209,8 @@ public class ResolveMergerTest extends RepositoryTestCase {
 
 		git.rm().addFilepattern("d/1").call();
 		git.rm().addFilepattern("d").call();
-		MergeResult mergeRes = git.merge().include(masterCommit).call();
+		MergeResult mergeRes = git.merge().setStrategy(strategy)
+				.include(masterCommit).call();
 		assertEquals(MergeStatus.MERGED, mergeRes.getMergeStatus());
 		assertEquals("[d/1, mode:100644, content:modified]",
 				indexState(CONTENT));
@@ -203,10 +220,12 @@ public class ResolveMergerTest extends RepositoryTestCase {
 	 * Merging two equal subtrees with an incore merger should lead to a merged
 	 * state (The 'Gerrit' use case).
 	 *
+	 * @param strategy
 	 * @throws Exception
 	 */
-	@Test
-	public void checkMergeEqualTreesInCore() throws Exception {
+	@Theory
+	public void checkMergeEqualTreesInCore(MergeStrategy strategy)
+			throws Exception {
 		Git git = Git.wrap(db);
 
 		writeTrashFile("d/1", "orig");
@@ -226,8 +245,8 @@ public class ResolveMergerTest extends RepositoryTestCase {
 		git.rm().addFilepattern("d/1").call();
 		git.rm().addFilepattern("d").call();
 
-		ThreeWayMerger resolveMerger = MergeStrategy.RESOLVE
-				.newMerger(db, true);
+		ThreeWayMerger resolveMerger = (ThreeWayMerger) strategy.newMerger(db,
+				true);
 		boolean noProblems = resolveMerger.merge(masterCommit, sideCommit);
 		assertTrue(noProblems);
 	}
@@ -236,10 +255,12 @@ public class ResolveMergerTest extends RepositoryTestCase {
 	 * Merging two equal subtrees when the index and HEAD does not contain any
 	 * file in that subtree should lead to a merged state.
 	 *
+	 * @param strategy
 	 * @throws Exception
 	 */
-	@Test
-	public void checkMergeEqualNewTrees() throws Exception {
+	@Theory
+	public void checkMergeEqualNewTrees(MergeStrategy strategy)
+			throws Exception {
 		Git git = Git.wrap(db);
 
 		writeTrashFile("2", "orig");
@@ -259,7 +280,8 @@ public class ResolveMergerTest extends RepositoryTestCase {
 
 		git.rm().addFilepattern("d/1").call();
 		git.rm().addFilepattern("d").call();
-		MergeResult mergeRes = git.merge().include(masterCommit).call();
+		MergeResult mergeRes = git.merge().setStrategy(strategy)
+				.include(masterCommit).call();
 		assertEquals(MergeStatus.MERGED, mergeRes.getMergeStatus());
 		assertEquals(
 				"[2, mode:100644, content:orig][d/1, mode:100644, content:orig]",
@@ -270,10 +292,12 @@ public class ResolveMergerTest extends RepositoryTestCase {
 	 * Merging two conflicting subtrees when the index and HEAD does not contain
 	 * any file in that subtree should lead to a conflicting state.
 	 *
+	 * @param strategy
 	 * @throws Exception
 	 */
-	@Test
-	public void checkMergeConflictingNewTrees() throws Exception {
+	@Theory
+	public void checkMergeConflictingNewTrees(MergeStrategy strategy)
+			throws Exception {
 		Git git = Git.wrap(db);
 
 		writeTrashFile("2", "orig");
@@ -293,7 +317,8 @@ public class ResolveMergerTest extends RepositoryTestCase {
 
 		git.rm().addFilepattern("d/1").call();
 		git.rm().addFilepattern("d").call();
-		MergeResult mergeRes = git.merge().include(masterCommit).call();
+		MergeResult mergeRes = git.merge().setStrategy(strategy)
+				.include(masterCommit).call();
 		assertEquals(MergeStatus.CONFLICTING, mergeRes.getMergeStatus());
 		assertEquals(
 				"[2, mode:100644, content:orig][d/1, mode:100644, stage:2, content:side][d/1, mode:100644, stage:3, content:master]",
@@ -304,10 +329,12 @@ public class ResolveMergerTest extends RepositoryTestCase {
 	 * Merging two conflicting files when the index contains a tree for that
 	 * path should lead to a failed state.
 	 *
+	 * @param strategy
 	 * @throws Exception
 	 */
-	@Test
-	public void checkMergeConflictingFilesWithTreeInIndex() throws Exception {
+	@Theory
+	public void checkMergeConflictingFilesWithTreeInIndex(MergeStrategy strategy)
+			throws Exception {
 		Git git = Git.wrap(db);
 
 		writeTrashFile("0", "orig");
@@ -326,7 +353,8 @@ public class ResolveMergerTest extends RepositoryTestCase {
 		git.rm().addFilepattern("0").call();
 		writeTrashFile("0/0", "side");
 		git.add().addFilepattern("0/0").call();
-		MergeResult mergeRes = git.merge().include(masterCommit).call();
+		MergeResult mergeRes = git.merge().setStrategy(strategy)
+				.include(masterCommit).call();
 		assertEquals(MergeStatus.FAILED, mergeRes.getMergeStatus());
 	}
 
@@ -334,10 +362,12 @@ public class ResolveMergerTest extends RepositoryTestCase {
 	 * Merging two equal files when the index contains a tree for that path
 	 * should lead to a failed state.
 	 *
+	 * @param strategy
 	 * @throws Exception
 	 */
-	@Test
-	public void checkMergeMergeableFilesWithTreeInIndex() throws Exception {
+	@Theory
+	public void checkMergeMergeableFilesWithTreeInIndex(MergeStrategy strategy)
+			throws Exception {
 		Git git = Git.wrap(db);
 
 		writeTrashFile("0", "orig");
@@ -358,7 +388,7 @@ public class ResolveMergerTest extends RepositoryTestCase {
 		writeTrashFile("0/0", "modified");
 		git.add().addFilepattern("0/0").call();
 		try {
-			git.merge().include(masterCommit).call();
+			git.merge().setStrategy(strategy).include(masterCommit).call();
 			Assert.fail("Didn't get the expected exception");
 		} catch (CheckoutConflictException e) {
 			assertEquals(1, e.getConflictingPaths().size());
@@ -366,8 +396,9 @@ public class ResolveMergerTest extends RepositoryTestCase {
 		}
 	}
 
-	@Test
-	public void checkLockedFilesToBeDeleted() throws Exception {
+	@Theory
+	public void checkLockedFilesToBeDeleted(MergeStrategy strategy)
+			throws Exception {
 		Git git = Git.wrap(db);
 
 		writeTrashFile("a.txt", "orig");
@@ -392,7 +423,8 @@ public class ResolveMergerTest extends RepositoryTestCase {
 		// Get a handle to the the file so on windows it can't be deleted.
 		FileInputStream fis = new FileInputStream(new File(db.getWorkTree(),
 				"b.txt"));
-		MergeResult mergeRes = git.merge().include(masterCommit).call();
+		MergeResult mergeRes = git.merge().setStrategy(strategy)
+				.include(masterCommit).call();
 		if (mergeRes.getMergeStatus().equals(MergeStatus.FAILED)) {
 			// probably windows
 			assertEquals(1, mergeRes.getFailingPaths().size());
@@ -404,8 +436,8 @@ public class ResolveMergerTest extends RepositoryTestCase {
 		fis.close();
 	}
 
-	@Test
-	public void checkForCorrectIndex() throws Exception {
+	@Theory
+	public void checkForCorrectIndex(MergeStrategy strategy) throws Exception {
 		File f;
 		long lastTs4, lastTsIndex;
 		Git git = Git.wrap(db);
@@ -484,7 +516,7 @@ public class ResolveMergerTest extends RepositoryTestCase {
 
 		// merge master and side. Should only touch "0," "2" and "3"
 		fsTick(indexFile);
-		git.merge().include(masterCommit).call();
+		git.merge().setStrategy(strategy).include(masterCommit).call();
 		checkConsistentLastModified("0", "1", "2", "4");
 		checkModificationTimeStampOrder("4", "*" + lastTs4, "<1", "<*"
 				+ lastTsIndex, "<0", "2", "3", ".git/index");
