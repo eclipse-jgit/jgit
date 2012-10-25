@@ -548,9 +548,8 @@ public class CommitCommand extends GitCommand<RevCommit> {
 
 	/**
 	 * Sets the committer for this {@code commit}. If no committer is explicitly
-	 * specified because this method is never called or called with {@code null}
-	 * value then the committer will be deduced from config info in repository,
-	 * with current time.
+	 * specified because this method is never called then the committer will be
+	 * deduced from config info in repository, with current time.
 	 *
 	 * @param name
 	 *            the name of the committer used for the {@code commit}
@@ -591,9 +590,8 @@ public class CommitCommand extends GitCommand<RevCommit> {
 
 	/**
 	 * Sets the author for this {@code commit}. If no author is explicitly
-	 * specified because this method is never called or called with {@code null}
-	 * value then the author will be set to the committer or to the original
-	 * author when amending.
+	 * specified because this method is never called then the author will be set
+	 * to the committer or to the original author when amending.
 	 *
 	 * @param name
 	 *            the name of the author used for the {@code commit}
