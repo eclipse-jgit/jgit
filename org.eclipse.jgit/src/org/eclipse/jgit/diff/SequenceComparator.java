@@ -45,11 +45,11 @@ package org.eclipse.jgit.diff;
 
 /**
  * Equivalence function for a {@link Sequence} compared by difference algorithm.
- *
+ * <p>
  * Difference algorithms can use a comparator to compare portions of two
  * sequences and discover the minimal edits required to transform from one
  * sequence to the other sequence.
- *
+ * <p>
  * Indexes within a sequence are zero-based.
  *
  * @param <S>

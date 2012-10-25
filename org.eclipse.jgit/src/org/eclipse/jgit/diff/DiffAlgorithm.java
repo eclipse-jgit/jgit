@@ -45,7 +45,7 @@ package org.eclipse.jgit.diff;
 
 /**
  * Compares two {@link Sequence}s to create an {@link EditList} of changes.
- *
+ * <p>
  * An algorithm's {@code diff} method must be callable from concurrent threads
  * without data collisions. This permits some algorithms to use a singleton
  * pattern, with concurrent invocations using the same singleton. Other
