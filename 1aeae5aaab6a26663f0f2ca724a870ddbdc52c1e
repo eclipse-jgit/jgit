@@ -177,6 +177,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//yxQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-10-25T16:00:47Z",
+      "side": 1,
+      "message": "I proposed change 8372 which makes ResolveMergerTest beeing capable to run the tests agains multiple strategies. I would rebase your proposal now on top 8372. Then you can add to ResolveMergerTest a line \n\n  @DataPoint public static MergeStrategy recursive MergeStrategy.RECURSIVE;\n\nand we run all those tests against both strategies. \n\nAdditionally we need tests which tests the specifiic features of RecursiveMerger. I would create new class RecursiveMergerTest where you only create test which test your specifics. To create the new tests I would simply copy\u0026paste  code fragments from RecursiveMergerTest.\n\nMake sure to test the edges: Multiple merge bases, no merge-bases at all, conflicts occur when producing the merge base.",
+      "parentUuid": "AABOIn//zHA\u003d",
+      "revId": "1aeae5aaab6a26663f0f2ca724a870ddbdc52c1e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//zNI\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
         "patchSetId": 5
