@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//ylQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 941,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-10-26T18:25:31Z",
+      "side": 1,
+      "message": "The problem is you have added this new method call, field load and conditional test into the critical code path used during iteration. So its going to slow every commit down slightly to check if we have initialized this object. Which we most certainly have done if we are already returning results to the caller.",
+      "parentUuid": "AABOIn//ylY\u003d",
+      "revId": "116a3e8bad1e6f17f742a8d7ab9bad00ee29db36",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//yl8\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileObjectDatabase.java",
         "patchSetId": 5
