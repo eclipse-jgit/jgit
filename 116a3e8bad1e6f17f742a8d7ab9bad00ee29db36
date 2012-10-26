@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//ylI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 941,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2012-10-26T18:37:13Z",
+      "side": 1,
+      "message": "I tend to disagree: everyone using RevWalk is possibly affected by introducing IOException in constructor (definitely many occurrences in jgit). On the other hand, the overhead compared to the remaining functionality is minimal:\n\n\t\tfinal long start \u003d System.currentTimeMillis();\n\t\tfor (int index \u003d 0; index \u003c 1000000; index++) {\n\t\t\tinitializeShallowCommits();\n\t\t}\n\t\tfinal long stop \u003d System.currentTimeMillis();\n\t\tSystem.out.println((stop - start) + \"ms.\");\n\noutputs \"3ms\" and \"4ms\" on my average powered laptop.",
+      "parentUuid": "AABOIn//ylQ\u003d",
+      "revId": "116a3e8bad1e6f17f742a8d7ab9bad00ee29db36",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//yl8\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileObjectDatabase.java",
         "patchSetId": 5
