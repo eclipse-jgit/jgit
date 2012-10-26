@@ -61,6 +61,7 @@ import org.eclipse.jgit.storage.pack.PackWriter;
 import org.eclipse.jgit.util.FS;
 
 abstract class FileObjectDatabase extends ObjectDatabase {
+
 	static enum InsertLooseObjectResult {
 		INSERTED, EXISTS_PACKED, EXISTS_LOOSE, FAILURE;
 	}
@@ -136,6 +137,8 @@ abstract class FileObjectDatabase extends ObjectDatabase {
 	abstract Config getConfig();
 
 	abstract FS getFS();
+
+	abstract Set<ObjectId> getShallowCommits() throws IOException;
 
 	/**
 	 * Open an object from this database.

@@ -61,6 +61,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
@@ -190,6 +191,11 @@ public final class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 		if (typeHint == OBJ_ANY)
 			throw new MissingObjectException(objectId.copy(), "unknown");
 		throw new MissingObjectException(objectId.copy(), typeHint);
+	}
+
+	@Override
+	public Set<ObjectId> getShallowCommits() {
+		return Collections.emptySet();
 	}
 
 	private static final Comparator<FoundObject<?>> FOUND_OBJECT_SORT = new Comparator<FoundObject<?>>() {

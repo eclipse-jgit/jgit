@@ -192,6 +192,8 @@ public class RevWalk implements Iterable<RevCommit> {
 
 	private boolean retainBody;
 
+	private boolean shallowCommitsInitialized;
+
 	/**
 	 * Create a new revision walker for a given repository.
 	 *
@@ -385,6 +387,8 @@ public class RevWalk implements Iterable<RevCommit> {
 	public boolean isMergedInto(final RevCommit base, final RevCommit tip)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
+		initializeShallowCommits();
+
 		final RevFilter oldRF = filter;
 		final TreeFilter oldTF = treeFilter;
 		try {
@@ -417,6 +421,7 @@ public class RevWalk implements Iterable<RevCommit> {
 	 */
 	public RevCommit next() throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
+		initializeShallowCommits();
 		return pending.next();
 	}
 
@@ -725,6 +730,8 @@ public class RevWalk implements Iterable<RevCommit> {
 	public RevCommit parseCommit(final AnyObjectId id)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
+		initializeShallowCommits();
+
 		RevObject c = peel(parseAny(id));
 		if (!(c instanceof RevCommit))
 			throw new IncorrectObjectTypeException(id.toObjectId(),
@@ -825,6 +832,8 @@ public class RevWalk implements Iterable<RevCommit> {
 		int type = ldr.getType();
 		switch (type) {
 		case Constants.OBJ_COMMIT: {
+			initializeShallowCommits();
+
 			final RevCommit c = createCommit(id);
 			c.parseCanonical(this, getCachedBytes(c, ldr));
 			r = c;
@@ -929,6 +938,8 @@ public class RevWalk implements Iterable<RevCommit> {
 				if (r == null)
 					r = parseNew(id, ldr);
 				else if (r instanceof RevCommit) {
+					initializeShallowCommits();
+
 					byte[] raw = ldr.getCachedBytes();
 					((RevCommit) r).parseCanonical(RevWalk.this, raw);
 				} else if (r instanceof RevTag) {
@@ -1209,6 +1220,7 @@ public class RevWalk implements Iterable<RevCommit> {
 		roots.clear();
 		queue = new DateRevQueue();
 		pending = new StartGenerator(this);
+		shallowCommitsInitialized = false;
 	}
 
 	/**
@@ -1311,5 +1323,17 @@ public class RevWalk implements Iterable<RevCommit> {
 		final int carry = c.flags & carryFlags;
 		if (carry != 0)
 			RevCommit.carryFlags(c, carry);
+	}
+
+	private void initializeShallowCommits() throws IOException {
+		if (shallowCommitsInitialized)
+			return;
+
+		shallowCommitsInitialized = true;
+
+		for (ObjectId id : reader.getShallowCommits()) {
+			final RevCommit commit = lookupCommit(id);
+			commit.parents = new RevCommit[0];
+		}
 	}
 }

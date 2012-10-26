@@ -52,6 +52,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
 
@@ -128,6 +129,11 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 		if (typeHint != OBJ_ANY && ldr.getType() != typeHint)
 			throw new IncorrectObjectTypeException(objectId.copy(), typeHint);
 		return ldr;
+	}
+
+	@Override
+	public Set<ObjectId> getShallowCommits() throws IOException {
+		return db.getShallowCommits();
 	}
 
 	public long getObjectSize(AnyObjectId objectId, int typeHint)

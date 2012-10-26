@@ -142,6 +142,11 @@ class CachedObjectDirectory extends FileObjectDatabase {
 	}
 
 	@Override
+	Set<ObjectId> getShallowCommits() throws IOException {
+		return wrapped.getShallowCommits();
+	}
+
+	@Override
 	Collection<? extends CachedPack> getCachedPacks() throws IOException {
 		return wrapped.getCachedPacks();
 	}
