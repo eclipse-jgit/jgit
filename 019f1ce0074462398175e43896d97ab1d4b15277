@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//ynE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-10-26T14:56:04Z",
+      "side": 1,
+      "message": "We can\u0027t make all callers call this before parseCommit() if the repository is shallow. That needs to be hidden within RevWalk. I think we should be always using the shallow data unless the caller has set a flag on the ObjectReader that says \"DO NOT use shallow data\".",
+      "revId": "019f1ce0074462398175e43896d97ab1d4b15277",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//ynA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/StartGenerator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-10-26T14:56:04Z",
+      "side": 1,
+      "message": "When the repository is null we were built from an ObjectReader. There is still a Repository instance around and it may have shallow data. We shouldn\u0027t ignore it just because of the way the caller chose to build the RevWalk to reuse an existing ObjectReader.\n\nYou really need to get the shallow edge data from the ObjectReader and hide the fact that its read from $GIT_DIR/shallow within the ObjectReader implementation.",
+      "revId": "019f1ce0074462398175e43896d97ab1d4b15277",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
