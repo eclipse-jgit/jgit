@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//ylY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 941,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2012-10-26T18:22:53Z",
+      "side": 1,
+      "message": "This would require to add IOException to the constructor, what I wanted to avoid. So let\u0027s stay with this solution?",
+      "parentUuid": "AABOIn//yl4\u003d",
+      "revId": "116a3e8bad1e6f17f742a8d7ab9bad00ee29db36",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//yl8\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileObjectDatabase.java",
         "patchSetId": 5
