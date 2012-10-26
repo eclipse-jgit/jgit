@@ -2,6 +2,74 @@
   "comments": [
     {
       "key": {
+        "uuid": "AABOIn//yk8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-10-26T19:01:07Z",
+      "side": 1,
+      "message": "Not necessary here.",
+      "revId": "116a3e8bad1e6f17f742a8d7ab9bad00ee29db36",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//yk4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-10-26T19:01:07Z",
+      "side": 1,
+      "message": "Not necessary here.",
+      "revId": "116a3e8bad1e6f17f742a8d7ab9bad00ee29db36",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//ykw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 733,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-10-26T19:01:07Z",
+      "side": 1,
+      "message": "Not necessary here. Its handled within parseAny.",
+      "revId": "116a3e8bad1e6f17f742a8d7ab9bad00ee29db36",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//yks\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 835,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-10-26T19:01:07Z",
+      "side": 1,
+      "message": "This needs to be rewritten. The init may have created the RevCommit, so you can\u0027t create it again. Instead say:\n\n  RevCommit c;\n  if (initShallow) {\n    c \u003d createCommit(id);\n  } else {\n    initShallow();\n    c \u003d lookupCommit(id);\n  }",
+      "revId": "116a3e8bad1e6f17f742a8d7ab9bad00ee29db36",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//yl4\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
         "patchSetId": 5
@@ -67,6 +135,75 @@
       "side": 1,
       "message": "I tend to disagree: everyone using RevWalk is possibly affected by introducing IOException in constructor (definitely many occurrences in jgit). On the other hand, the overhead compared to the remaining functionality is minimal:\n\n\t\tfinal long start \u003d System.currentTimeMillis();\n\t\tfor (int index \u003d 0; index \u003c 1000000; index++) {\n\t\t\tinitializeShallowCommits();\n\t\t}\n\t\tfinal long stop \u003d System.currentTimeMillis();\n\t\tSystem.out.println((stop - start) + \"ms.\");\n\noutputs \"3ms\" and \"4ms\" on my average powered laptop.",
       "parentUuid": "AABOIn//ylQ\u003d",
+      "revId": "116a3e8bad1e6f17f742a8d7ab9bad00ee29db36",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//ylA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 941,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-10-26T19:01:07Z",
+      "side": 1,
+      "message": "Arrrrrgh. You are right, we don\u0027t have a good way to get the shallow file loaded in by the constructor without risking the exception being tossed or forced into a RuntimeException. Robin was running into a similar problem with grafts.\n\nI disagree with your method invocation sites. The initializeShallowCommits needs to be before we probe the objects map with objects.get() as it inserts commit objects for us. The commit it inserts might be the one we are trying to create.\n\nThis particular line isn\u0027t necessary. The init was handled by parseNew on the first commit being parsed.",
+      "parentUuid": "AABOIn//ylI\u003d",
+      "revId": "116a3e8bad1e6f17f742a8d7ab9bad00ee29db36",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//ykk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 979,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-10-26T19:01:07Z",
+      "side": 1,
+      "message": "We may need a check here:\n\n  if ((obj.flags \u0026 PARSED) \u003d\u003d 0) {\n    if (obj instanceof RevCommit \u0026\u0026 !initShallow)\n      initShallow();\n    obj.parseHeaders(this);\n  }\n\nThis catches cases where the application did lookupCommit() and then later calls parseAny or parseHeaders on them.",
+      "revId": "116a3e8bad1e6f17f742a8d7ab9bad00ee29db36",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//ykg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 997,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-10-26T19:01:07Z",
+      "side": 1,
+      "message": "Same problem as parseHeaders.",
+      "revId": "116a3e8bad1e6f17f742a8d7ab9bad00ee29db36",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//yko\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1335,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-10-26T19:01:07Z",
+      "side": 1,
+      "message": "This could be shorter:\n\n  for (ObjectId id : reader.getShallowCommits())\n    lookupCommit(id).parents \u003d RevCommit.NO_PARENTS;\n\nUsing the static array we already have will a tiny amount of memory, as we aren\u0027t making new instances on every shallow commit.",
       "revId": "116a3e8bad1e6f17f742a8d7ab9bad00ee29db36",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
