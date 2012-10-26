@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//yl4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 941,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-10-26T18:05:32Z",
+      "side": 1,
+      "message": "I would suggest just doing this in the constructor, and in dispose, rather than before each commit is processed.",
+      "revId": "116a3e8bad1e6f17f742a8d7ab9bad00ee29db36",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//yl8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileObjectDatabase.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-10-26T18:05:32Z",
+      "side": 1,
+      "message": "Unnecessary blank line",
+      "revId": "116a3e8bad1e6f17f742a8d7ab9bad00ee29db36",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//ymA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/ObjectDirectory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 633,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-10-26T18:05:32Z",
+      "side": 1,
+      "message": "This is a bit shorter:\n\n  while ((line \u003d reader.readLine()) !\u003d null)\n    ids.add(ObjectId.fromString(line));\n  return ids;",
+      "revId": "116a3e8bad1e6f17f742a8d7ab9bad00ee29db36",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
