@@ -72,6 +72,9 @@ public class ResolveMergerTest extends RepositoryTestCase {
 	@DataPoint
 	public static MergeStrategy resolve = MergeStrategy.RESOLVE;
 
+	@DataPoint
+	public static MergeStrategy recursive = MergeStrategy.RECURSIVE;
+
 	@Theory
 	public void failingPathsShouldNotResultInOKReturnValue(
 			MergeStrategy strategy) throws Exception {
