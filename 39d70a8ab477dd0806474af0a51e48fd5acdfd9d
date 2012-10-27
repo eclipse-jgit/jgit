@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//yj0\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/ResolveMergerTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 504
+      },
+      "writtenOn": "2012-10-27T05:17:21Z",
+      "side": 1,
+      "message": "Christian made this too easy. Thanks!",
+      "revId": "39d70a8ab477dd0806474af0a51e48fd5acdfd9d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
