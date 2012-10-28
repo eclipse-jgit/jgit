@@ -58,9 +58,11 @@ import org.eclipse.jgit.api.ResetCommand.ResetType;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.dircache.DirCache;
+import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.errors.AmbiguousObjectException;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -339,6 +341,36 @@ public class ResetCommandTest extends RepositoryTestCase {
 		assertTrue(inHead(indexFile.getName()));
 		assertFalse(inIndex(indexFile.getName()));
 		assertFalse(inIndex(untrackedFile.getName()));
+	}
+
+	@Test
+	public void testPathsResetWithUnmerged() throws Exception {
+		setupRepository();
+
+		String file = "a.txt";
+		writeTrashFile(file, "data");
+
+		git.add().addFilepattern(file).call();
+		git.commit().setMessage("commit").call();
+
+		DirCache index = db.lockDirCache();
+		DirCacheBuilder builder = index.builder();
+		builder.add(createEntry(file, FileMode.REGULAR_FILE, 1, ""));
+		builder.add(createEntry(file, FileMode.REGULAR_FILE, 2, ""));
+		builder.add(createEntry(file, FileMode.REGULAR_FILE, 3, ""));
+		builder.add(createEntry("b.txt", FileMode.REGULAR_FILE));
+		assertTrue(builder.commit());
+
+		assertEquals("[a.txt, mode:100644, stage:1]"
+				+ "[a.txt, mode:100644, stage:2]"
+				+ "[a.txt, mode:100644, stage:3]"
+				+ "[b.txt, mode:100644]",
+				indexState(0));
+
+		git.reset().addPath(file).call();
+
+		assertEquals("[a.txt, mode:100644]" + "[b.txt, mode:100644]",
+				indexState(0));
 	}
 
 	@Test
