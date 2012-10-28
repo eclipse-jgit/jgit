@@ -49,11 +49,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
-import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.dircache.DirCacheIterator;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
-import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.junit.Test;
 
@@ -76,10 +73,10 @@ public class NameConflictTreeWalkTest extends RepositoryTestCase {
 			final DirCacheBuilder b0 = tree0.builder();
 			final DirCacheBuilder b1 = tree1.builder();
 
-			b0.add(makeEntry("a", REGULAR_FILE));
-			b0.add(makeEntry("a.b", EXECUTABLE_FILE));
-			b1.add(makeEntry("a/b", REGULAR_FILE));
-			b0.add(makeEntry("a0b", SYMLINK));
+			b0.add(createEntry("a", REGULAR_FILE));
+			b0.add(createEntry("a.b", EXECUTABLE_FILE));
+			b1.add(createEntry("a/b", REGULAR_FILE));
+			b0.add(createEntry("a0b", SYMLINK));
 
 			b0.finish();
 			b1.finish();
@@ -107,10 +104,10 @@ public class NameConflictTreeWalkTest extends RepositoryTestCase {
 			final DirCacheBuilder b0 = tree0.builder();
 			final DirCacheBuilder b1 = tree1.builder();
 
-			b0.add(makeEntry("a", REGULAR_FILE));
-			b0.add(makeEntry("a.b", EXECUTABLE_FILE));
-			b1.add(makeEntry("a/b", REGULAR_FILE));
-			b0.add(makeEntry("a0b", SYMLINK));
+			b0.add(createEntry("a", REGULAR_FILE));
+			b0.add(createEntry("a.b", EXECUTABLE_FILE));
+			b1.add(createEntry("a/b", REGULAR_FILE));
+			b0.add(createEntry("a0b", SYMLINK));
 
 			b0.finish();
 			b1.finish();
@@ -142,11 +139,11 @@ public class NameConflictTreeWalkTest extends RepositoryTestCase {
 			final DirCacheBuilder b0 = tree0.builder();
 			final DirCacheBuilder b1 = tree1.builder();
 
-			b0.add(makeEntry("a", REGULAR_FILE));
-			b0.add(makeEntry("a.b", EXECUTABLE_FILE));
-			b1.add(makeEntry("a.b", EXECUTABLE_FILE));
-			b1.add(makeEntry("a/b", REGULAR_FILE));
-			b0.add(makeEntry("a0b", SYMLINK));
+			b0.add(createEntry("a", REGULAR_FILE));
+			b0.add(createEntry("a.b", EXECUTABLE_FILE));
+			b1.add(createEntry("a.b", EXECUTABLE_FILE));
+			b1.add(createEntry("a/b", REGULAR_FILE));
+			b0.add(createEntry("a0b", SYMLINK));
 
 			b0.finish();
 			b1.finish();
@@ -178,11 +175,11 @@ public class NameConflictTreeWalkTest extends RepositoryTestCase {
 			final DirCacheBuilder b0 = tree0.builder();
 			final DirCacheBuilder b1 = tree1.builder();
 
-			b0.add(makeEntry("a", REGULAR_FILE));
-			b1.add(makeEntry("a.b", EXECUTABLE_FILE));
-			b1.add(makeEntry("a/b", REGULAR_FILE));
-			b0.add(makeEntry("a0b", SYMLINK));
-			b1.add(makeEntry("a0b", SYMLINK));
+			b0.add(createEntry("a", REGULAR_FILE));
+			b1.add(createEntry("a.b", EXECUTABLE_FILE));
+			b1.add(createEntry("a/b", REGULAR_FILE));
+			b0.add(createEntry("a0b", SYMLINK));
+			b1.add(createEntry("a0b", SYMLINK));
 
 			b0.finish();
 			b1.finish();
@@ -214,12 +211,12 @@ public class NameConflictTreeWalkTest extends RepositoryTestCase {
 			final DirCacheBuilder b0 = tree0.builder();
 			final DirCacheBuilder b1 = tree1.builder();
 
-			b0.add(makeEntry("0", REGULAR_FILE));
-			b0.add(makeEntry("a", REGULAR_FILE));
-			b1.add(makeEntry("0", REGULAR_FILE));
-			b1.add(makeEntry("a.b", REGULAR_FILE));
-			b1.add(makeEntry("a/b", REGULAR_FILE));
-			b1.add(makeEntry("a/c/e", REGULAR_FILE));
+			b0.add(createEntry("0", REGULAR_FILE));
+			b0.add(createEntry("a", REGULAR_FILE));
+			b1.add(createEntry("0", REGULAR_FILE));
+			b1.add(createEntry("a.b", REGULAR_FILE));
+			b1.add(createEntry("a/b", REGULAR_FILE));
+			b1.add(createEntry("a/c/e", REGULAR_FILE));
 
 			b0.finish();
 			b1.finish();
@@ -247,15 +244,6 @@ public class NameConflictTreeWalkTest extends RepositoryTestCase {
 
 		assertModes("a.b", MISSING, REGULAR_FILE, tw);
 		assertFalse(tw.isDirectoryFileConflict());
-	}
-
-	private DirCacheEntry makeEntry(final String path, final FileMode mode)
-			throws Exception {
-		final DirCacheEntry ent = new DirCacheEntry(path);
-		ent.setFileMode(mode);
-		ent.setObjectId(new ObjectInserter.Formatter().idFor(
-				Constants.OBJ_BLOB, Constants.encode(path)));
-		return ent;
 	}
 
 	private static void assertModes(final String path, final FileMode mode0,

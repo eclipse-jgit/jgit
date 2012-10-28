@@ -44,16 +44,13 @@
 
 package org.eclipse.jgit.merge;
 
-import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
-import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.lib.CommitBuilder;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -81,16 +78,16 @@ public class CherryPickTest extends RepositoryTestCase {
 			final DirCacheBuilder p = treeP.builder();
 			final DirCacheBuilder t = treeT.builder();
 
-			b.add(makeEntry("a", FileMode.REGULAR_FILE));
+			b.add(createEntry("a", FileMode.REGULAR_FILE));
 
-			o.add(makeEntry("a", FileMode.REGULAR_FILE));
-			o.add(makeEntry("o", FileMode.REGULAR_FILE));
+			o.add(createEntry("a", FileMode.REGULAR_FILE));
+			o.add(createEntry("o", FileMode.REGULAR_FILE));
 
-			p.add(makeEntry("a", FileMode.REGULAR_FILE, "q"));
-			p.add(makeEntry("p-fail", FileMode.REGULAR_FILE));
+			p.add(createEntry("a", FileMode.REGULAR_FILE, "q"));
+			p.add(createEntry("p-fail", FileMode.REGULAR_FILE));
 
-			t.add(makeEntry("a", FileMode.REGULAR_FILE));
-			t.add(makeEntry("t", FileMode.REGULAR_FILE));
+			t.add(createEntry("a", FileMode.REGULAR_FILE));
+			t.add(createEntry("t", FileMode.REGULAR_FILE));
 
 			b.finish();
 			o.finish();
@@ -147,14 +144,14 @@ public class CherryPickTest extends RepositoryTestCase {
 			final DirCacheBuilder p = treeP.builder();
 			final DirCacheBuilder t = treeT.builder();
 
-			b.add(makeEntry("a", FileMode.REGULAR_FILE));
+			b.add(createEntry("a", FileMode.REGULAR_FILE));
 
-			p.add(makeEntry("a", FileMode.REGULAR_FILE, "q"));
-			p.add(makeEntry("p-fail", FileMode.REGULAR_FILE));
+			p.add(createEntry("a", FileMode.REGULAR_FILE, "q"));
+			p.add(createEntry("p-fail", FileMode.REGULAR_FILE));
 
-			t.add(makeEntry("a", FileMode.REGULAR_FILE, "q"));
-			t.add(makeEntry("p-fail", FileMode.REGULAR_FILE));
-			t.add(makeEntry("t", FileMode.REGULAR_FILE));
+			t.add(createEntry("a", FileMode.REGULAR_FILE, "q"));
+			t.add(createEntry("p-fail", FileMode.REGULAR_FILE));
+			t.add(createEntry("t", FileMode.REGULAR_FILE));
 
 			b.finish();
 			p.finish();
@@ -202,19 +199,5 @@ public class CherryPickTest extends RepositoryTestCase {
 		ObjectId id = odi.insert(c);
 		odi.flush();
 		return id;
-	}
-
-	private DirCacheEntry makeEntry(final String path, final FileMode mode)
-			throws Exception {
-		return makeEntry(path, mode, path);
-	}
-
-	private DirCacheEntry makeEntry(final String path, final FileMode mode,
-			final String content) throws Exception {
-		final DirCacheEntry ent = new DirCacheEntry(path);
-		ent.setFileMode(mode);
-		ent.setObjectId(new ObjectInserter.Formatter().idFor(OBJ_BLOB,
-				Constants.encode(content)));
-		return ent;
 	}
 }

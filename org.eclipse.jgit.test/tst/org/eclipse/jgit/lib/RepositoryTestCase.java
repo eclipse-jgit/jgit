@@ -473,4 +473,22 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 			throw new RuntimeException(e);
 		}
 	}
+
+	protected DirCacheEntry createEntry(final String path, final FileMode mode) {
+		return createEntry(path, mode, DirCacheEntry.STAGE_0, path);
+	}
+
+	protected DirCacheEntry createEntry(final String path, final FileMode mode,
+			final String content) {
+		return createEntry(path, mode, DirCacheEntry.STAGE_0, content);
+	}
+
+	protected DirCacheEntry createEntry(final String path, final FileMode mode,
+			final int stage, final String content) {
+		final DirCacheEntry entry = new DirCacheEntry(path, stage);
+		entry.setFileMode(mode);
+		entry.setObjectId(new ObjectInserter.Formatter().idFor(
+				Constants.OBJ_BLOB, Constants.encode(content)));
+		return entry;
+	}
 }

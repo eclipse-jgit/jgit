@@ -53,9 +53,7 @@ import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.dircache.DirCacheIterator;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
-import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.junit.Test;
 
@@ -183,11 +181,7 @@ public class PostOrderTreeWalkTest extends RepositoryTestCase {
 	}
 
 	private DirCacheEntry makeFile(final String path) throws Exception {
-		final DirCacheEntry ent = new DirCacheEntry(path);
-		ent.setFileMode(REGULAR_FILE);
-		ent.setObjectId(new ObjectInserter.Formatter().idFor(
-				Constants.OBJ_BLOB, Constants.encode(path)));
-		return ent;
+		return createEntry(path, REGULAR_FILE);
 	}
 
 	private static void assertModes(final String path, final FileMode mode0,
