@@ -54,9 +54,6 @@ import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuildIterator;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheCheckout;
-import org.eclipse.jgit.dircache.DirCacheEditor;
-import org.eclipse.jgit.dircache.DirCacheEditor.DeletePath;
-import org.eclipse.jgit.dircache.DirCacheEditor.PathEdit;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.internal.JGitText;
@@ -313,7 +310,7 @@ public class ResetCommand extends GitCommand<Ref> {
 		DirCache dc = repo.lockDirCache();
 		TreeWalk walk = null;
 		try {
-			DirCacheEditor editor = dc.editor();
+			DirCacheBuilder builder = dc.builder();
 
 			walk = new TreeWalk(repo);
 			walk.addTree(commit.getTree());
@@ -324,7 +321,7 @@ public class ResetCommand extends GitCommand<Ref> {
 				AbstractTreeIterator cIter = walk.getTree(0,
 						AbstractTreeIterator.class);
 				if (cIter == null) {
-					editor.add(new DeletePath(walk.getPathString()));
+					// Not in commit, don't add to new index
 					continue;
 				}
 
@@ -340,16 +337,10 @@ public class ResetCommand extends GitCommand<Ref> {
 					entry.setLength(indexEntry.getLength());
 				}
 
-				editor.add(new PathEdit(entry) {
-
-					@Override
-					public void apply(DirCacheEntry ent) {
-						ent.copyMetaData(entry);
-					}
-				});
+				builder.add(entry);
 			}
 
-			editor.commit();
+			builder.commit();
 		} finally {
 			dc.unlock();
 			if (walk != null)

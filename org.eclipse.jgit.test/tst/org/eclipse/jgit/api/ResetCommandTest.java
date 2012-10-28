@@ -257,6 +257,36 @@ public class ResetCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testMixedResetWithUnmerged() throws Exception {
+		git = new Git(db);
+
+		String file = "a.txt";
+		writeTrashFile(file, "data");
+		String file2 = "b.txt";
+		writeTrashFile(file2, "data");
+
+		git.add().addFilepattern(file).addFilepattern(file2).call();
+		git.commit().setMessage("commit").call();
+
+		DirCache index = db.lockDirCache();
+		DirCacheBuilder builder = index.builder();
+		builder.add(createEntry(file, FileMode.REGULAR_FILE, 1, ""));
+		builder.add(createEntry(file, FileMode.REGULAR_FILE, 2, ""));
+		builder.add(createEntry(file, FileMode.REGULAR_FILE, 3, ""));
+		assertTrue(builder.commit());
+
+		assertEquals("[a.txt, mode:100644, stage:1]"
+				+ "[a.txt, mode:100644, stage:2]"
+				+ "[a.txt, mode:100644, stage:3]",
+				indexState(0));
+
+		git.reset().setMode(ResetType.MIXED).call();
+
+		assertEquals("[a.txt, mode:100644]" + "[b.txt, mode:100644]",
+				indexState(0));
+	}
+
+	@Test
 	public void testPathsReset() throws Exception {
 		setupRepository();
 
