@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//yd0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2012-10-29T15:39:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//yk8\u003d",
+      "revId": "116a3e8bad1e6f17f742a8d7ab9bad00ee29db36",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//yk4\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2012-10-26T19:01:07Z",
       "side": 1,
       "message": "Not necessary here.",
+      "revId": "116a3e8bad1e6f17f742a8d7ab9bad00ee29db36",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//ydw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2012-10-29T15:39:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//yk4\u003d",
       "revId": "116a3e8bad1e6f17f742a8d7ab9bad00ee29db36",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//yds\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 733,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2012-10-29T15:39:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//ykw\u003d",
+      "revId": "116a3e8bad1e6f17f742a8d7ab9bad00ee29db36",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//yks\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
         "patchSetId": 5
@@ -64,6 +118,24 @@
       "writtenOn": "2012-10-26T19:01:07Z",
       "side": 1,
       "message": "This needs to be rewritten. The init may have created the RevCommit, so you can\u0027t create it again. Instead say:\n\n  RevCommit c;\n  if (initShallow) {\n    c \u003d createCommit(id);\n  } else {\n    initShallow();\n    c \u003d lookupCommit(id);\n  }",
+      "revId": "116a3e8bad1e6f17f742a8d7ab9bad00ee29db36",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//ydc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 835,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2012-10-29T15:39:04Z",
+      "side": 1,
+      "message": "Not necessary anymore",
+      "parentUuid": "AABOIn//yks\u003d",
       "revId": "116a3e8bad1e6f17f742a8d7ab9bad00ee29db36",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -159,6 +231,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//ydY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 941,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2012-10-29T15:39:04Z",
+      "side": 1,
+      "message": "When trying with your suggested invocation sites, RevWalkShallowTest were failing as initializeShallowCommits was never called. I\u0027ve moved this invocation now to the RevCommit.parseCanonical as this is the only site where RevCommit.parents of new commits are assigned (AFAIU the other sites where RevCommit.parents are assigned can\u0027t be affected by shallow commits). It\u0027s a less error-prone construction than having multiple calls and the overhead of:\n\nif (!walk.shallowCommitsInitialized)\n\nshould be acceptable.",
+      "parentUuid": "AABOIn//ylA\u003d",
+      "revId": "116a3e8bad1e6f17f742a8d7ab9bad00ee29db36",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//ykk\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
         "patchSetId": 5
@@ -170,6 +260,24 @@
       "writtenOn": "2012-10-26T19:01:07Z",
       "side": 1,
       "message": "We may need a check here:\n\n  if ((obj.flags \u0026 PARSED) \u003d\u003d 0) {\n    if (obj instanceof RevCommit \u0026\u0026 !initShallow)\n      initShallow();\n    obj.parseHeaders(this);\n  }\n\nThis catches cases where the application did lookupCommit() and then later calls parseAny or parseHeaders on them.",
+      "revId": "116a3e8bad1e6f17f742a8d7ab9bad00ee29db36",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//ydU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 979,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2012-10-29T15:39:04Z",
+      "side": 1,
+      "message": "Not necessary anymore",
+      "parentUuid": "AABOIn//ykk\u003d",
       "revId": "116a3e8bad1e6f17f742a8d7ab9bad00ee29db36",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -193,6 +301,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//ydI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 997,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2012-10-29T15:39:04Z",
+      "side": 1,
+      "message": "Not necessary anymore",
+      "parentUuid": "AABOIn//ykg\u003d",
+      "revId": "116a3e8bad1e6f17f742a8d7ab9bad00ee29db36",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//yko\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
         "patchSetId": 5
@@ -204,6 +330,24 @@
       "writtenOn": "2012-10-26T19:01:07Z",
       "side": 1,
       "message": "This could be shorter:\n\n  for (ObjectId id : reader.getShallowCommits())\n    lookupCommit(id).parents \u003d RevCommit.NO_PARENTS;\n\nUsing the static array we already have will a tiny amount of memory, as we aren\u0027t making new instances on every shallow commit.",
+      "revId": "116a3e8bad1e6f17f742a8d7ab9bad00ee29db36",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//ydE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1335,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2012-10-29T15:39:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//yko\u003d",
       "revId": "116a3e8bad1e6f17f742a8d7ab9bad00ee29db36",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -227,6 +371,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//yc8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileObjectDatabase.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2012-10-29T15:39:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//yl8\u003d",
+      "revId": "116a3e8bad1e6f17f742a8d7ab9bad00ee29db36",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//ymA\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/ObjectDirectory.java",
         "patchSetId": 5
@@ -238,6 +400,24 @@
       "writtenOn": "2012-10-26T18:05:32Z",
       "side": 1,
       "message": "This is a bit shorter:\n\n  while ((line \u003d reader.readLine()) !\u003d null)\n    ids.add(ObjectId.fromString(line));\n  return ids;",
+      "revId": "116a3e8bad1e6f17f742a8d7ab9bad00ee29db36",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//yc4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/ObjectDirectory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 633,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2012-10-29T15:39:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//ymA\u003d",
       "revId": "116a3e8bad1e6f17f742a8d7ab9bad00ee29db36",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
