@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//ybc\u003d",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/MergeTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-10-29T15:25:48Z",
+      "side": 1,
+      "message": "check reflog",
+      "revId": "95ddffc1d93c429e0aa777bc590c7e8a062cdeac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//ybk\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/MergeCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1333,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-10-29T15:25:48Z",
+      "side": 1,
+      "message": "add guts or remove the test",
+      "revId": "95ddffc1d93c429e0aa777bc590c7e8a062cdeac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
