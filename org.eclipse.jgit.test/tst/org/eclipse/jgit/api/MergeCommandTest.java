@@ -1328,6 +1328,11 @@ public class MergeCommandTest extends RepositoryTestCase {
 		assertEquals(StatusCommandTest.set("file2"), stat.getConflicting());
 	}
 
+	@Test
+	public void testSquashNoFastForward() throws Exception {
+
+	}
+
 	private void setExecutable(Git git, String path, boolean executable) {
 		FS.DETECTED.setExecute(
 				new File(git.getRepository().getWorkTree(), path), executable);

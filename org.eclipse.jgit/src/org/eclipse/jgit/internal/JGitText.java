@@ -91,6 +91,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String cachedPacksPreventsIndexCreation;
 	/***/ public String cannotBeCombined;
 	/***/ public String cannotBeRecursiveWhenTreesAreIncluded;
+	/***/ public String cannotCombineSquashWithNoff;
 	/***/ public String cannotCombineTreeFilterWithRevFilter;
 	/***/ public String cannotCommitOnARepoWithState;
 	/***/ public String cannotCommitWriteTo;
