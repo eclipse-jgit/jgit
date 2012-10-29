@@ -48,6 +48,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -249,6 +250,14 @@ public abstract class ObjectReader {
 	public abstract ObjectLoader open(AnyObjectId objectId, int typeHint)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException;
+
+	/**
+	 * Returns IDs for those commits which should be considered as shallow.
+	 *
+	 * @return IDs of shallow commits
+	 * @throws IOException
+	 */
+	public abstract Set<ObjectId> getShallowCommits() throws IOException;
 
 	/**
 	 * Asynchronous object opening.

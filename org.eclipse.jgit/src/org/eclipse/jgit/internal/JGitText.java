@@ -483,6 +483,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String serviceNotEnabledNoName;
 	/***/ public String serviceNotPermitted;
 	/***/ public String serviceNotPermittedNoName;
+	/***/ public String shallowCommitsAlreadyInitialized;
 	/***/ public String shortCompressedStreamAt;
 	/***/ public String shortReadOfBlock;
 	/***/ public String shortReadOfOptionalDIRCExtensionExpectedAnotherBytes;

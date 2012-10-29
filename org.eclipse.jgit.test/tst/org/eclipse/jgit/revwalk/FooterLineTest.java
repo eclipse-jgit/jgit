@@ -48,7 +48,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-
+import java.io.IOException;
 import java.util.List;
 
 import org.eclipse.jgit.lib.Constants;
@@ -58,7 +58,7 @@ import org.junit.Test;
 
 public class FooterLineTest extends RepositoryTestCase {
 	@Test
-	public void testNoFooters_EmptyBody() {
+	public void testNoFooters_EmptyBody() throws IOException {
 		final RevCommit commit = parse("");
 		final List<FooterLine> footers = commit.getFooterLines();
 		assertNotNull(footers);
@@ -66,7 +66,7 @@ public class FooterLineTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testNoFooters_NewlineOnlyBody1() {
+	public void testNoFooters_NewlineOnlyBody1() throws IOException {
 		final RevCommit commit = parse("\n");
 		final List<FooterLine> footers = commit.getFooterLines();
 		assertNotNull(footers);
@@ -74,7 +74,7 @@ public class FooterLineTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testNoFooters_NewlineOnlyBody5() {
+	public void testNoFooters_NewlineOnlyBody5() throws IOException {
 		final RevCommit commit = parse("\n\n\n\n\n");
 		final List<FooterLine> footers = commit.getFooterLines();
 		assertNotNull(footers);
@@ -82,7 +82,7 @@ public class FooterLineTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testNoFooters_OneLineBodyNoLF() {
+	public void testNoFooters_OneLineBodyNoLF() throws IOException {
 		final RevCommit commit = parse("this is a commit");
 		final List<FooterLine> footers = commit.getFooterLines();
 		assertNotNull(footers);
@@ -90,7 +90,7 @@ public class FooterLineTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testNoFooters_OneLineBodyWithLF() {
+	public void testNoFooters_OneLineBodyWithLF() throws IOException {
 		final RevCommit commit = parse("this is a commit\n");
 		final List<FooterLine> footers = commit.getFooterLines();
 		assertNotNull(footers);
@@ -98,7 +98,7 @@ public class FooterLineTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testNoFooters_ShortBodyNoLF() {
+	public void testNoFooters_ShortBodyNoLF() throws IOException {
 		final RevCommit commit = parse("subject\n\nbody of commit");
 		final List<FooterLine> footers = commit.getFooterLines();
 		assertNotNull(footers);
@@ -106,7 +106,7 @@ public class FooterLineTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testNoFooters_ShortBodyWithLF() {
+	public void testNoFooters_ShortBodyWithLF() throws IOException {
 		final RevCommit commit = parse("subject\n\nbody of commit\n");
 		final List<FooterLine> footers = commit.getFooterLines();
 		assertNotNull(footers);
@@ -114,7 +114,7 @@ public class FooterLineTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testSignedOffBy_OneUserNoLF() {
+	public void testSignedOffBy_OneUserNoLF() throws IOException {
 		final RevCommit commit = parse("subject\n\nbody of commit\n" + "\n"
 				+ "Signed-off-by: A. U. Thor <a@example.com>");
 		final List<FooterLine> footers = commit.getFooterLines();
@@ -130,7 +130,7 @@ public class FooterLineTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testSignedOffBy_OneUserWithLF() {
+	public void testSignedOffBy_OneUserWithLF() throws IOException {
 		final RevCommit commit = parse("subject\n\nbody of commit\n" + "\n"
 				+ "Signed-off-by: A. U. Thor <a@example.com>\n");
 		final List<FooterLine> footers = commit.getFooterLines();
@@ -146,7 +146,7 @@ public class FooterLineTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testSignedOffBy_IgnoreWhitespace() {
+	public void testSignedOffBy_IgnoreWhitespace() throws IOException {
 		// We only ignore leading whitespace on the value, trailing
 		// is assumed part of the value.
 		//
@@ -165,7 +165,7 @@ public class FooterLineTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testEmptyValueNoLF() {
+	public void testEmptyValueNoLF() throws IOException {
 		final RevCommit commit = parse("subject\n\nbody of commit\n" + "\n"
 				+ "Signed-off-by:");
 		final List<FooterLine> footers = commit.getFooterLines();
@@ -181,7 +181,7 @@ public class FooterLineTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testEmptyValueWithLF() {
+	public void testEmptyValueWithLF() throws IOException {
 		final RevCommit commit = parse("subject\n\nbody of commit\n" + "\n"
 				+ "Signed-off-by:\n");
 		final List<FooterLine> footers = commit.getFooterLines();
@@ -197,7 +197,7 @@ public class FooterLineTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testShortKey() {
+	public void testShortKey() throws IOException {
 		final RevCommit commit = parse("subject\n\nbody of commit\n" + "\n"
 				+ "K:V\n");
 		final List<FooterLine> footers = commit.getFooterLines();
@@ -213,7 +213,7 @@ public class FooterLineTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testNonDelimtedEmail() {
+	public void testNonDelimtedEmail() throws IOException {
 		final RevCommit commit = parse("subject\n\nbody of commit\n" + "\n"
 				+ "Acked-by: re@example.com\n");
 		final List<FooterLine> footers = commit.getFooterLines();
@@ -229,7 +229,7 @@ public class FooterLineTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testNotEmail() {
+	public void testNotEmail() throws IOException {
 		final RevCommit commit = parse("subject\n\nbody of commit\n" + "\n"
 				+ "Acked-by: Main Tain Er\n");
 		final List<FooterLine> footers = commit.getFooterLines();
@@ -245,7 +245,7 @@ public class FooterLineTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testSignedOffBy_ManyUsers() {
+	public void testSignedOffBy_ManyUsers() throws IOException {
 		final RevCommit commit = parse("subject\n\nbody of commit\n"
 				+ "Not-A-Footer-Line: this line must not be read as a footer\n"
 				+ "\n" // paragraph break, now footers appear in final block
@@ -281,7 +281,7 @@ public class FooterLineTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testSignedOffBy_SkipNonFooter() {
+	public void testSignedOffBy_SkipNonFooter() throws IOException {
 		final RevCommit commit = parse("subject\n\nbody of commit\n"
 				+ "Not-A-Footer-Line: this line must not be read as a footer\n"
 				+ "\n" // paragraph break, now footers appear in final block
@@ -314,7 +314,7 @@ public class FooterLineTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testFilterFootersIgnoreCase() {
+	public void testFilterFootersIgnoreCase() throws IOException {
 		final RevCommit commit = parse("subject\n\nbody of commit\n"
 				+ "Not-A-Footer-Line: this line must not be read as a footer\n"
 				+ "\n" // paragraph break, now footers appear in final block
@@ -332,7 +332,7 @@ public class FooterLineTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testMatchesBugId() {
+	public void testMatchesBugId() throws IOException {
 		final RevCommit commit = parse("this is a commit subject for test\n"
 				+ "\n" // paragraph break, now footers appear in final block
 				+ "Simple-Bug-Id: 42\n");
@@ -352,7 +352,7 @@ public class FooterLineTest extends RepositoryTestCase {
 		assertFalse("not CC", line.matches(FooterKey.CC));
 	}
 
-	private RevCommit parse(final String msg) {
+	private RevCommit parse(final String msg) throws IOException {
 		final StringBuilder buf = new StringBuilder();
 		buf.append("tree " + ObjectId.zeroId().name() + "\n");
 		buf.append("author A. U. Thor <a@example.com> 1 +0000\n");

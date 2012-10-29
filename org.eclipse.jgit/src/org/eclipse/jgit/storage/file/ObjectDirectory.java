@@ -127,6 +127,12 @@ public class ObjectDirectory extends FileObjectDatabase {
 
 	private final UnpackedObjectCache unpackedObjectCache;
 
+	private final File shallowFile;
+
+	private FileSnapshot shallowFileSnapshot = FileSnapshot.DIRTY;
+
+	private Set<ObjectId> shallowCommitsIds;
+
 	/**
 	 * Initialize a reference to an on-disk object directory.
 	 *
@@ -139,11 +145,14 @@ public class ObjectDirectory extends FileObjectDatabase {
 	 * @param fs
 	 *            the file system abstraction which will be necessary to perform
 	 *            certain file system operations.
+	 * @param shallowFile
+	 *            file which contains IDs of shallow commits, null if shallow
+	 *            commits handling should be turned off
 	 * @throws IOException
 	 *             an alternate object cannot be opened.
 	 */
 	public ObjectDirectory(final Config cfg, final File dir,
-			File[] alternatePaths, FS fs) throws IOException {
+			File[] alternatePaths, FS fs, File shallowFile) throws IOException {
 		config = cfg;
 		objects = dir;
 		infoDirectory = new File(objects, "info");
@@ -154,6 +163,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 		cachedPacks = new AtomicReference<CachedPackList>();
 		unpackedObjectCache = new UnpackedObjectCache();
 		this.fs = fs;
+		this.shallowFile = shallowFile;
 
 		alternates = new AtomicReference<AlternateHandle[]>();
 		if (alternatePaths != null) {
@@ -614,6 +624,30 @@ public class ObjectDirectory extends FileObjectDatabase {
 		return fs;
 	}
 
+	@Override
+	Set<ObjectId> getShallowCommits() throws IOException {
+		if (shallowFile == null || !shallowFile.isFile())
+			return Collections.emptySet();
+
+		if (shallowFileSnapshot == null
+				|| shallowFileSnapshot.isModified(shallowFile)) {
+			shallowCommitsIds = new HashSet<ObjectId>();
+
+			final BufferedReader reader = open(shallowFile);
+			try {
+				String line;
+				while ((line = reader.readLine()) != null)
+					shallowCommitsIds.add(ObjectId.fromString(line));
+			} finally {
+				reader.close();
+			}
+
+			shallowFileSnapshot = FileSnapshot.save(shallowFile);
+		}
+
+		return shallowCommitsIds;
+	}
+
 	private void insertPack(final PackFile pf) {
 		PackList o, n;
 		do {
@@ -829,7 +863,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 			return new AlternateRepository(db);
 		}
 
-		ObjectDirectory db = new ObjectDirectory(config, objdir, null, fs);
+		ObjectDirectory db = new ObjectDirectory(config, objdir, null, fs, null);
 		return new AlternateHandle(db);
 	}
 
