@@ -1,0 +1,9 @@
+Code-Review+2: Shawn Pearce <sop@google.com>
+IP-Clean+1: Shawn Pearce <sop@google.com>
+Code-Review+1: Dani Megert <Daniel_Megert@ch.ibm.com>
+Verified+1: Hudson CI
+Submitted-by: Shawn Pearce <sop@google.com>
+Submitted-at: Thu, 01 Nov 2012 12:48:23 -0400
+Reviewed-on: https://git.eclipse.org/r/8402
+Project: jgit/jgit
+Branch: refs/heads/master
