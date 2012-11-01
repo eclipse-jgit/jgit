@@ -380,7 +380,7 @@ class Candidate {
 
 		@Override
 		PersonIdent getAuthor() {
-			return new PersonIdent(description, null);
+			return new PersonIdent(description, "");
 		}
 	}
 }
