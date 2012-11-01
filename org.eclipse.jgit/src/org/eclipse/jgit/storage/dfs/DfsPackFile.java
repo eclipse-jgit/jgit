@@ -171,6 +171,12 @@ public final class DfsPackFile {
 		return packDesc;
 	}
 
+	/** @return whether the pack index file is loaded and cached in memory. */
+	public boolean isIndexLoaded() {
+		DfsBlockCache.Ref<PackIndex> idxref = index;
+		return idxref != null && idxref.get() != null;
+	}
+
 	/** @return bytes cached in memory for this pack, excluding the index. */
 	public long getCachedSize() {
 		return key.cachedSize.get();
