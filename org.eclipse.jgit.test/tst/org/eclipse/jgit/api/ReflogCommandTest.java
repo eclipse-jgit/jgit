@@ -93,6 +93,8 @@ public class ReflogCommandTest extends RepositoryTestCase {
 		assertEquals(reflogs[2].getComment(), "commit: Initial commit");
 		assertEquals(reflogs[2].getNewId(), commit1.getId());
 		assertEquals(reflogs[2].getOldId(), ObjectId.zeroId());
+		assertEquals(reflogs[1].getComment(),
+				"checkout: moving from master to b1");
 		assertEquals(reflogs[1].getNewId(), commit1.getId());
 		assertEquals(reflogs[1].getOldId(), commit1.getId());
 		assertEquals(reflogs[0].getComment(), "commit: Removed file");
@@ -115,7 +117,37 @@ public class ReflogCommandTest extends RepositoryTestCase {
 		assertEquals(reflogs[0].getComment(), "commit: Removed file");
 		assertEquals(reflogs[0].getNewId(), commit2.getId());
 		assertEquals(reflogs[0].getOldId(), commit1.getId());
+		assertEquals(reflogs[1].getComment(),
+				"branch: Created from commit Initial commit");
 		assertEquals(reflogs[1].getNewId(), commit1.getId());
 		assertEquals(reflogs[1].getOldId(), ObjectId.zeroId());
+	}
+
+	/**
+	 * Test getting the reflog for an amend commit
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testAmendReflog() throws Exception {
+		RevCommit commit2a = git.commit().setAmend(true)
+				.setMessage("Deleted file").call();
+		Collection<ReflogEntry> reflog = git.reflog().call();
+		assertNotNull(reflog);
+		assertEquals(4, reflog.size());
+		ReflogEntry[] reflogs = reflog.toArray(new ReflogEntry[reflog.size()]);
+		assertEquals(reflogs[3].getComment(), "commit: Initial commit");
+		assertEquals(reflogs[3].getNewId(), commit1.getId());
+		assertEquals(reflogs[3].getOldId(), ObjectId.zeroId());
+		assertEquals(reflogs[2].getComment(),
+				"checkout: moving from master to b1");
+		assertEquals(reflogs[2].getNewId(), commit1.getId());
+		assertEquals(reflogs[2].getOldId(), commit1.getId());
+		assertEquals(reflogs[1].getComment(), "commit: Removed file");
+		assertEquals(reflogs[1].getNewId(), commit2.getId());
+		assertEquals(reflogs[1].getOldId(), commit1.getId());
+		assertEquals(reflogs[0].getComment(), "commit (amend): Deleted file");
+		assertEquals(reflogs[0].getNewId(), commit2a.getId());
+		assertEquals(reflogs[0].getOldId(), commit2.getId());
 	}
 }
