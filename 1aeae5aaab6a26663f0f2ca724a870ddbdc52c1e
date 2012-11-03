@@ -195,6 +195,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//ykE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 504
+      },
+      "writtenOn": "2012-11-03T17:56:22Z",
+      "side": 1,
+      "message": "Like the new \"Theory\" test mechanism. Will be awhile before I can find the edge examples that you mention which should have been part of existing tests which result in expected failure. The only difference with Recursive would be that a non-conflicting multiple base would now resolve.",
+      "parentUuid": "AABOIn//yxQ\u003d",
+      "revId": "1aeae5aaab6a26663f0f2ca724a870ddbdc52c1e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//zNI\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
         "patchSetId": 5
