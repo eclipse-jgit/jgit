@@ -36,3 +36,7 @@ Export-Package: org.eclipse.jgit.api;version="2.2.0",
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Require-Bundle: com.jcraft.jsch;bundle-version="[0.1.37,0.2.0)"
+Import-Package: javax.crypto,
+ javax.net.ssl,
+ org.xml.sax,
+ org.xml.sax.helpers
