@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//xN8\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Merge.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-11-04T17:04:47Z",
+      "side": 1,
+      "message": "Maybe a different name",
+      "revId": "95ddffc1d93c429e0aa777bc590c7e8a062cdeac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//ybk\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/MergeCommandTest.java",
         "patchSetId": 1
