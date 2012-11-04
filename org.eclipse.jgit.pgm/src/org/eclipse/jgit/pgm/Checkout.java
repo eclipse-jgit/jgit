@@ -83,6 +83,8 @@ class Checkout extends TextBuiltin {
 		try {
 			String oldBranch = db.getBranch();
 			Ref ref = command.call();
+			if (ref == null)
+				return;
 			if (Repository.shortenRefName(ref.getName()).equals(oldBranch)) {
 				outw.println(MessageFormat.format(
 						CLIText.get().alreadyOnBranch,
