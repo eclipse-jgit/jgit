@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012, IBM Corporation and others.
+ * Copyright (C) 2012, IBM Corporation
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -93,9 +93,26 @@ public class CheckoutTest extends CLIRepositoryTestCase {
 				execute("git checkout -b side"));
 	}
 
+	@Test
+	public void testCheckoutUnresolvedHead() throws Exception {
+		assertEquals(
+				"error: pathspec 'HEAD' did not match any file(s) known to git.",
+				execute("git checkout HEAD"));
+	}
+
+	@Test
+	public void testCheckoutHead() throws Exception {
+		new Git(db).commit().setMessage("initial commit").call();
+
+		assertEquals("", execute("git checkout HEAD"));
+	}
+
 	static private void assertEquals(String expected, String[] actual) {
-		Assert.assertEquals(actual[actual.length - 1].equals("") ? 2 : 1,
-				actual.length); // ignore last line if empty
+		// if there is more than one line, ignore last one if empty
+		Assert.assertEquals(
+				1,
+				actual.length > 1 && actual[actual.length - 1].equals("") ? actual.length - 1
+						: actual.length);
 		Assert.assertEquals(expected, actual[0]);
 	}
 }
