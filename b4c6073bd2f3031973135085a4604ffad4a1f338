@@ -1,0 +1,208 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//xG8\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/FooterLineTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-11-05T16:16:07Z",
+      "side": 1,
+      "message": "Do not import *",
+      "revId": "b4c6073bd2f3031973135085a4604ffad4a1f338",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//xHE\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/FooterLineTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-11-05T16:16:07Z",
+      "side": 1,
+      "message": "Cuddle catch with the closing curly on the prior line",
+      "revId": "b4c6073bd2f3031973135085a4604ffad4a1f338",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//xHA\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/FooterLineTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-11-05T16:16:07Z",
+      "side": 1,
+      "message": "In a test just declare the test to throw IOException if the exception is not expected from a passing test.",
+      "revId": "b4c6073bd2f3031973135085a4604ffad4a1f338",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//xHQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-11-05T16:16:07Z",
+      "side": 1,
+      "message": "cuddle catch with the closing curly on the prior line",
+      "revId": "b4c6073bd2f3031973135085a4604ffad4a1f338",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//xHY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-11-05T16:16:07Z",
+      "side": 1,
+      "message": "Trailing space was added here.",
+      "revId": "b4c6073bd2f3031973135085a4604ffad4a1f338",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//xHU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-11-05T16:16:07Z",
+      "side": 1,
+      "message": "Trailing space was added here.",
+      "revId": "b4c6073bd2f3031973135085a4604ffad4a1f338",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//xHM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-11-05T16:16:07Z",
+      "side": 1,
+      "message": "This is a much simpler way to inject the logic. Thanks for finding it.",
+      "revId": "b4c6073bd2f3031973135085a4604ffad4a1f338",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//xHI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1321,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-11-05T16:16:07Z",
+      "side": 1,
+      "message": "Don\u0027t you mean shallowCommitsAlreadyInitialized?",
+      "revId": "b4c6073bd2f3031973135085a4604ffad4a1f338",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//xHc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileRepository.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-11-05T16:16:07Z",
+      "side": 1,
+      "message": "Wrap this onto the next line.",
+      "revId": "b4c6073bd2f3031973135085a4604ffad4a1f338",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//xHk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/ObjectDirectory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 623,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-11-05T16:16:07Z",
+      "side": 1,
+      "message": "This is accessed somewhat often, and unlike alternates it can change between calls. I wonder if there is a noticeable performance difference between reading the file every time and using the snapshot code. I suspect there is, especially on Windows or if the repository is on NFS.\n\nWe use snapshots in the reference handling to avoid reading loose reference files that haven\u0027t updated since they were last read. It probably would be a good idea to use that here too.",
+      "revId": "b4c6073bd2f3031973135085a4604ffad4a1f338",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//xHo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/ObjectDirectory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 629,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-11-05T16:16:07Z",
+      "side": 1,
+      "message": "Use the open(File) helper method that is declared in this class.",
+      "revId": "b4c6073bd2f3031973135085a4604ffad4a1f338",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//xHg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/ObjectDirectory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 856,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-11-05T16:16:07Z",
+      "side": 1,
+      "message": "The alternate shouldn\u0027t have this repository\u0027s shallow file. Define the alternate to have a shallow file of null and handle this case in getShallowCommits() where shallowFile \u003d\u003d null means use the empty set.",
+      "revId": "b4c6073bd2f3031973135085a4604ffad4a1f338",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
