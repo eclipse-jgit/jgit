@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//xGs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-11-05T18:02:44Z",
+      "side": 1,
+      "message": "We don\u0027t add a copyright line for what is ostensibly less than 1 line of code added to the class. If we did that I think we would have a longer copyright notice than executable code.",
+      "revId": "a917eaafe6f8908e0a358dac0fcfb8d4c84c24f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
