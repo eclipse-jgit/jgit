@@ -53,6 +53,23 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//w/Y\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkShallowTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-11-06T10:08:00Z",
+      "side": 1,
+      "message": "PrintWriter is terrible at errorhandling, avoid at any cost. Use JGItTestUtil.write for writing simple files.",
+      "revId": "b4c6073bd2f3031973135085a4604ffad4a1f338",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//xHQ\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
         "patchSetId": 7
