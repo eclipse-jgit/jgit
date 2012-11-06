@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//w+4\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/FooterLineTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2012-11-06T12:12:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//xG8\u003d",
+      "revId": "b4c6073bd2f3031973135085a4604ffad4a1f338",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//xHE\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/FooterLineTest.java",
         "patchSetId": 7
@@ -30,6 +48,24 @@
       "writtenOn": "2012-11-05T16:16:07Z",
       "side": 1,
       "message": "Cuddle catch with the closing curly on the prior line",
+      "revId": "b4c6073bd2f3031973135085a4604ffad4a1f338",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//w+0\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/FooterLineTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2012-11-06T12:12:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//xHE\u003d",
       "revId": "b4c6073bd2f3031973135085a4604ffad4a1f338",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//w9w\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/FooterLineTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2012-11-06T12:12:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//xHA\u003d",
+      "revId": "b4c6073bd2f3031973135085a4604ffad4a1f338",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//w/Y\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkShallowTest.java",
         "patchSetId": 7
@@ -64,6 +118,24 @@
       "writtenOn": "2012-11-06T10:08:00Z",
       "side": 1,
       "message": "PrintWriter is terrible at errorhandling, avoid at any cost. Use JGItTestUtil.write for writing simple files.",
+      "revId": "b4c6073bd2f3031973135085a4604ffad4a1f338",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//w+w\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkShallowTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2012-11-06T12:12:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//w/Y\u003d",
       "revId": "b4c6073bd2f3031973135085a4604ffad4a1f338",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//w+A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2012-11-06T12:12:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//xHQ\u003d",
+      "revId": "b4c6073bd2f3031973135085a4604ffad4a1f338",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//xHY\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
         "patchSetId": 7
@@ -98,6 +188,24 @@
       "writtenOn": "2012-11-05T16:16:07Z",
       "side": 1,
       "message": "Trailing space was added here.",
+      "revId": "b4c6073bd2f3031973135085a4604ffad4a1f338",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//w98\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2012-11-06T12:12:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//xHY\u003d",
       "revId": "b4c6073bd2f3031973135085a4604ffad4a1f338",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//w94\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2012-11-06T12:12:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//xHU\u003d",
+      "revId": "b4c6073bd2f3031973135085a4604ffad4a1f338",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//xHM\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
         "patchSetId": 7
@@ -132,6 +258,24 @@
       "writtenOn": "2012-11-05T16:16:07Z",
       "side": 1,
       "message": "This is a much simpler way to inject the logic. Thanks for finding it.",
+      "revId": "b4c6073bd2f3031973135085a4604ffad4a1f338",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//w90\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2012-11-06T12:12:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//xHM\u003d",
       "revId": "b4c6073bd2f3031973135085a4604ffad4a1f338",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//w+E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1321,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2012-11-06T12:12:34Z",
+      "side": 1,
+      "message": "Oops, yes.",
+      "parentUuid": "AABOIn//xHI\u003d",
+      "revId": "b4c6073bd2f3031973135085a4604ffad4a1f338",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//xHc\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileRepository.java",
         "patchSetId": 7
@@ -166,6 +328,24 @@
       "writtenOn": "2012-11-05T16:16:07Z",
       "side": 1,
       "message": "Wrap this onto the next line.",
+      "revId": "b4c6073bd2f3031973135085a4604ffad4a1f338",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//w+I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileRepository.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2012-11-06T12:12:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//xHc\u003d",
       "revId": "b4c6073bd2f3031973135085a4604ffad4a1f338",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//w+k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/ObjectDirectory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 623,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2012-11-06T12:12:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//xHk\u003d",
+      "revId": "b4c6073bd2f3031973135085a4604ffad4a1f338",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//xHo\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/ObjectDirectory.java",
         "patchSetId": 7
@@ -206,6 +404,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//w+o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/ObjectDirectory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 629,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2012-11-06T12:12:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//xHo\u003d",
+      "revId": "b4c6073bd2f3031973135085a4604ffad4a1f338",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//xHg\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/ObjectDirectory.java",
         "patchSetId": 7
@@ -217,6 +433,24 @@
       "writtenOn": "2012-11-05T16:16:07Z",
       "side": 1,
       "message": "The alternate shouldn\u0027t have this repository\u0027s shallow file. Define the alternate to have a shallow file of null and handle this case in getShallowCommits() where shallowFile \u003d\u003d null means use the empty set.",
+      "revId": "b4c6073bd2f3031973135085a4604ffad4a1f338",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//w+s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/ObjectDirectory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 856,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2012-11-06T12:12:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//xHg\u003d",
       "revId": "b4c6073bd2f3031973135085a4604ffad4a1f338",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
