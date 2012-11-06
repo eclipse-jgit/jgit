@@ -16,6 +16,24 @@
       "revId": "a917eaafe6f8908e0a358dac0fcfb8d4c84c24f0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//xAc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 315
+      },
+      "writtenOn": "2012-11-06T08:33:54Z",
+      "side": 1,
+      "message": "This is mandatory unless the copyright statement says something like,\nCopyright (C) date, some guy/company and others.\n\nThe important part here being \"others\". If my copyright is not added then the statement is legally incorrect.\n\nIn the top-level Eclipse project we keep the copyright short, e.g.\nCopyright (C) 2008-2012, Google Inc. and others.\n\nAnd then list the contributors of real/bigger contributions along with what they fixed (bug number) in the \"Contributors:\" section.\n\nFor details see also\nhttp://www.eclipse.org/legal/copyrightandlicensenotice.php",
+      "parentUuid": "AABOIn//xGs\u003d",
+      "revId": "a917eaafe6f8908e0a358dac0fcfb8d4c84c24f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
