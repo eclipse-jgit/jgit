@@ -135,6 +135,8 @@ public abstract class Repository {
 		fs = options.getFS();
 		workTree = options.getWorkTree();
 		indexFile = options.getIndexFile();
+
+		IndexChangedEvent.setInitialIndex(this);
 	}
 
 	/** @return listeners observing only events on this repository. */
