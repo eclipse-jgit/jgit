@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//wyk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/events/IndexChangedEvent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-11-07T00:47:58Z",
+      "side": 1,
+      "message": "why is this synchronized twice (on method getModifiedPaths() and on this block) ?",
+      "revId": "a7e19821348686329174bc72fb4601a0b5a7a704",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//wyQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/events/IndexChangedEvent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-11-07T00:47:58Z",
+      "side": 1,
+      "message": "error text needs to be externalized",
+      "revId": "a7e19821348686329174bc72fb4601a0b5a7a704",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//wyM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/events/IndexChangedEvent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-11-07T00:47:58Z",
+      "side": 1,
+      "message": "probably we shouldn\u0027t do this for bare repositories ?",
+      "revId": "a7e19821348686329174bc72fb4601a0b5a7a704",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//wyg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/events/IndexChangedEvent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-11-07T00:47:58Z",
+      "side": 1,
+      "message": "why does this method need to be synchronized",
+      "revId": "a7e19821348686329174bc72fb4601a0b5a7a704",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}

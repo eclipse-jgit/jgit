@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//wyc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/events/IndexChangedEvent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-11-07T00:47:58Z",
+      "side": 0,
+      "message": "date range for copyright notice needs an update",
+      "revId": "f3a8d7413c423966ea474e132b0d2c908d67ed2e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
