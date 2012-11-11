@@ -1,10 +1,5 @@
 /*
- * Copyright (C) 2010, Chris Aniszczyk <caniszczyk@gmail.com>
- * Copyright (C) 2009, Google Inc.
- * Copyright (C) 2008, Charles O'Farrell <charleso@charleso.org>
- * Copyright (C) 2008, Robin Rosenberg <robin.rosenberg.lists@dewire.com>
- * Copyright (C) 2008, Robin Rosenberg <robin.rosenberg@dewire.com>
- * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
+ * Copyright (C) 2012, Tomasz Zarna <tomasz.zarna@tasktop.com> and others.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -45,60 +40,34 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 package org.eclipse.jgit.pgm;
 
-import java.text.MessageFormat;
-import java.util.List;
+import static org.junit.Assert.assertEquals;
 
 import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.api.ListTagCommand;
-import org.eclipse.jgit.api.TagCommand;
-import org.eclipse.jgit.api.errors.RefAlreadyExistsException;
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevWalk;
-import org.kohsuke.args4j.Argument;
-import org.kohsuke.args4j.Option;
+import org.eclipse.jgit.lib.CLIRepositoryTestCase;
+import org.junit.Before;
+import org.junit.Test;
 
-@Command(common = true, usage = "usage_CreateATag")
-class Tag extends TextBuiltin {
-	@Option(name = "-f", usage = "usage_forceReplacingAnExistingTag")
-	private boolean force;
-
-	@Option(name = "-m", metaVar = "metaVar_message", usage = "usage_tagMessage")
-	private String message = "";
-
-	@Argument(index = 0, metaVar = "metaVar_name")
-	private String tagName;
-
-	@Argument(index = 1, metaVar = "metaVar_object")
-	private ObjectId object;
+public class TagTest extends CLIRepositoryTestCase {
+	private Git git;
 
 	@Override
-	protected void run() throws Exception {
-		Git git = new Git(db);
-		if (tagName != null) {
-			TagCommand command = git.tag().setForceUpdate(force)
-					.setMessage(message).setName(tagName);
+	@Before
+	public void setUp() throws Exception {
+		super.setUp();
+		git = new Git(db);
+		git.commit().setMessage("initial commit").call();
+	}
 
-			if (object != null) {
-				RevWalk walk = new RevWalk(db);
-				command.setObjectId(walk.parseAny(object));
-			}
-			try {
-				command.call();
-			} catch (RefAlreadyExistsException e) {
-				throw die(MessageFormat.format(CLIText.get().tagAlreadyExists,
-						tagName));
-			}
-		} else {
-			ListTagCommand command = git.tagList();
-			List<Ref> list = command.call();
-			for (Ref ref : list) {
-				outw.println(Repository.shortenRefName(ref.getName()));
-			}
-		}
+	@Test
+	public void testTagTwice() throws Exception {
+		git.tag().setName("test").call();
+		writeTrashFile("file", "content");
+		git.add().addFilepattern("file").call();
+		git.commit().setMessage("commit").call();
+
+		assertEquals("fatal: tag 'test' already exists",
+				execute("git tag test")[0]);
 	}
 }
