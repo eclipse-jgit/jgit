@@ -65,7 +65,7 @@ public class BranchTest extends CLIRepositoryTestCase {
 
 	@Test
 	public void testExistingBranch() throws Exception {
-		assertEquals("A branch named 'master' already exists.",
+		assertEquals("fatal: A branch named 'master' already exists.",
 				execute("git branch master")[0]);
 	}
 }

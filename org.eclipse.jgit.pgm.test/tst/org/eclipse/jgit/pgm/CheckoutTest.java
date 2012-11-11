@@ -83,13 +83,13 @@ public class CheckoutTest extends CLIRepositoryTestCase {
 	public void testCheckoutNewBranchThatAlreadyExists() throws Exception {
 		new Git(db).commit().setMessage("initial commit").call();
 
-		assertEquals("A branch named 'master' already exists.",
+		assertEquals("fatal: A branch named 'master' already exists.",
 				execute("git checkout -b master"));
 	}
 
 	@Test
 	public void testCheckoutNewBranchOnBranchToBeBorn() throws Exception {
-		assertEquals("You are on a branch yet to be born",
+		assertEquals("fatal: You are on a branch yet to be born",
 				execute("git checkout -b side"));
 	}
 
