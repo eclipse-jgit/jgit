@@ -16,6 +16,24 @@
       "revId": "4f42c33a487238e8f74233d46c64545d606ce76f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJH///cU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2012-11-12T21:56:10Z",
+      "side": 1,
+      "message": "Base: The reason was that `git checkout` also doesn\u0027t offer it (only --ours, --theirs). Numeric value: Ok.",
+      "parentUuid": "AABOJH///uY\u003d",
+      "revId": "4f42c33a487238e8f74233d46c64545d606ce76f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
