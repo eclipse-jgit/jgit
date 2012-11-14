@@ -53,6 +53,7 @@ public class DfsText extends TranslationBundle {
 		return NLS.getBundleFor(DfsText.class);
 	}
 
+	// @formatter:off
 	/***/ public String cannotReadIndex;
 	/***/ public String shortReadOfBlock;
 	/***/ public String shortReadOfIndex;

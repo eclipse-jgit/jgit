@@ -58,6 +58,7 @@ public class ConsoleText extends TranslationBundle {
 		return NLS.getBundleFor(ConsoleText.class);
 	}
 
+	// @formatter:off
 	/***/ public String answerNo;
 	/***/ public String answerYes;
 	/***/ public String noSystemConsoleAvailable;

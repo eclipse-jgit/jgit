@@ -73,6 +73,7 @@ public class CLIText extends TranslationBundle {
 		return MessageFormat.format(get().lineFormat, line);
 	}
 
+	// @formatter:off
 	/***/ public String IPZillaPasswordPrompt;
 	/***/ public String alreadyOnBranch;
 	/***/ public String alreadyUpToDate;

@@ -58,6 +58,7 @@ public class JGitText extends TranslationBundle {
 		return NLS.getBundleFor(JGitText.class);
 	}
 
+	// @formatter:off
 	/***/ public String abbreviationLengthMustBeNonNegative;
 	/***/ public String abortingRebase;
 	/***/ public String abortingRebaseFailed;
