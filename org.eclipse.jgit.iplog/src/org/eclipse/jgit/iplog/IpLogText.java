@@ -58,6 +58,7 @@ public class IpLogText extends TranslationBundle {
 		return NLS.getBundleFor(IpLogText.class);
 	}
 
+	// @formatter:off
 	/***/ public String CQString;
 	/***/ public String CSVParsingError;
 	/***/ public String cannotLock;
