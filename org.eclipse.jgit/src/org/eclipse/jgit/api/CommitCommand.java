@@ -58,10 +58,8 @@ import org.eclipse.jgit.api.errors.NoMessageException;
 import org.eclipse.jgit.api.errors.UnmergedPathsException;
 import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 import org.eclipse.jgit.dircache.DirCache;
+import org.eclipse.jgit.dircache.DirCacheBuildIterator;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
-import org.eclipse.jgit.dircache.DirCacheEditor;
-import org.eclipse.jgit.dircache.DirCacheEditor.DeletePath;
-import org.eclipse.jgit.dircache.DirCacheEditor.PathEdit;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.errors.UnmergedPathException;
@@ -298,25 +296,26 @@ public class CommitCommand extends GitCommand<RevCommit> {
 			throws IOException {
 		ObjectInserter inserter = null;
 
-		// get DirCacheEditor to modify the index if required
-		DirCacheEditor dcEditor = index.editor();
+		// get DirCacheBuilder for existing index
+		DirCacheBuilder existingBuilder = index.builder();
 
 		// get DirCacheBuilder for newly created in-core index to build a
 		// temporary index for this commit
 		DirCache inCoreIndex = DirCache.newInCore();
-		DirCacheBuilder dcBuilder = inCoreIndex.builder();
+		DirCacheBuilder tempBuilder = inCoreIndex.builder();
 
 		onlyProcessed = new boolean[only.size()];
 		boolean emptyCommit = true;
 
 		TreeWalk treeWalk = new TreeWalk(repo);
-		int dcIdx = treeWalk.addTree(new DirCacheIterator(index));
+		int dcIdx = treeWalk.addTree(new DirCacheBuildIterator(existingBuilder));
 		int fIdx = treeWalk.addTree(new FileTreeIterator(repo));
 		int hIdx = -1;
 		if (headId != null)
 			hIdx = treeWalk.addTree(new RevWalk(repo).parseTree(headId));
 		treeWalk.setRecursive(true);
 
+		String lastAddedFile = null;
 		while (treeWalk.next()) {
 			String path = treeWalk.getPathString();
 			// check if current entry's path matches a specified path
@@ -326,11 +325,12 @@ public class CommitCommand extends GitCommand<RevCommit> {
 			if (hIdx != -1)
 				hTree = treeWalk.getTree(hIdx, CanonicalTreeParser.class);
 
+			DirCacheIterator dcTree = treeWalk.getTree(dcIdx,
+					DirCacheIterator.class);
+
 			if (pos >= 0) {
 				// include entry in commit
 
-				DirCacheIterator dcTree = treeWalk.getTree(dcIdx,
-						DirCacheIterator.class);
 				FileTreeIterator fTree = treeWalk.getTree(fIdx,
 						FileTreeIterator.class);
 
@@ -338,6 +338,13 @@ public class CommitCommand extends GitCommand<RevCommit> {
 				boolean tracked = dcTree != null || hTree != null;
 				if (!tracked)
 					break;
+
+				// for an unmerged path, DirCacheBuildIterator will yield 3
+				// entries, we only want to add one
+				if (path.equals(lastAddedFile))
+					continue;
+
+				lastAddedFile = path;
 
 				if (fTree != null) {
 					// create a new DirCacheEntry with data retrieved from disk
@@ -371,15 +378,10 @@ public class CommitCommand extends GitCommand<RevCommit> {
 						}
 					}
 
-					// update index
-					dcEditor.add(new PathEdit(path) {
-						@Override
-						public void apply(DirCacheEntry ent) {
-							ent.copyMetaData(dcEntry);
-						}
-					});
+					// add to existing index
+					existingBuilder.add(dcEntry);
 					// add to temporary in-core index
-					dcBuilder.add(dcEntry);
+					tempBuilder.add(dcEntry);
 
 					if (emptyCommit
 							&& (hTree == null || !hTree.idEqual(fTree) || hTree
@@ -388,9 +390,8 @@ public class CommitCommand extends GitCommand<RevCommit> {
 						// this is a change
 						emptyCommit = false;
 				} else {
-					// if no file exists on disk, remove entry from index and
-					// don't add it to temporary in-core index
-					dcEditor.add(new DeletePath(path));
+					// if no file exists on disk, neither add it to
+					// index nor to temporary in-core index
 
 					if (emptyCommit && hTree != null)
 						// this is a change
@@ -408,8 +409,12 @@ public class CommitCommand extends GitCommand<RevCommit> {
 					dcEntry.setFileMode(hTree.getEntryFileMode());
 
 					// add to temporary in-core index
-					dcBuilder.add(dcEntry);
+					tempBuilder.add(dcEntry);
 				}
+
+				// preserve existing entry in index
+				if (dcTree != null)
+					existingBuilder.add(dcTree.getDirCacheEntry());
 			}
 		}
 
@@ -425,9 +430,9 @@ public class CommitCommand extends GitCommand<RevCommit> {
 			throw new JGitInternalException(JGitText.get().emptyCommit);
 
 		// update index
-		dcEditor.commit();
+		existingBuilder.commit();
 		// finish temporary in-core index used for this commit
-		dcBuilder.finish();
+		tempBuilder.finish();
 		return inCoreIndex;
 	}
 
