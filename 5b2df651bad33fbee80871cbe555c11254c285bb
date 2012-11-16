@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOJX///e0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeResult.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-11-16T01:15:28Z",
+      "side": 1,
+      "message": "add @since 2.2 to mark it as new API",
+      "revId": "5b2df651bad33fbee80871cbe555c11254c285bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
