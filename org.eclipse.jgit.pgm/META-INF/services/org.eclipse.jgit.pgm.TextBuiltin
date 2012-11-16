@@ -1,5 +1,6 @@
 org.eclipse.jgit.pgm.Add
 org.eclipse.jgit.pgm.AmazonS3Client
+org.eclipse.jgit.pgm.Archive
 org.eclipse.jgit.pgm.Blame
 org.eclipse.jgit.pgm.Branch
 org.eclipse.jgit.pgm.Checkout
