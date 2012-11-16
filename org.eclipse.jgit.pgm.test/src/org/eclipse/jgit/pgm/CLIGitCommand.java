@@ -69,6 +69,15 @@ public class CLIGitCommand {
 
 	public static List<String> execute(String str, Repository db)
 			throws Exception {
+		try {
+			return IO.readLines(new String(rawExecute(str, db)));
+		} catch (Die e) {
+			return IO.readLines(e.getMessage());
+		}
+	}
+
+	public static byte[] rawExecute(String str, Repository db)
+			throws Exception {
 		String[] args = split(str);
 		if (!args[0].equalsIgnoreCase("git") || args.length < 2)
 			throw new IllegalArgumentException(
@@ -90,13 +99,11 @@ public class CLIGitCommand {
 		try {
 			cmd.execute(bean.getArguments().toArray(
 					new String[bean.getArguments().size()]));
-		} catch (Die e) {
-			return IO.readLines(e.getMessage());
 		} finally {
 			if (cmd.outw != null)
 				cmd.outw.flush();
 		}
-		return IO.readLines(baos.toString());
+		return baos.toByteArray();
 	}
 
 	/**
