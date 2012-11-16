@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOJX///ds\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Archive.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-11-16T06:21:14Z",
+      "side": 1,
+      "message": "nit: We tend to prefer to call this idbuf. buf in Java is often a temporary ByteArrayOutputStream or a StringBuilder. idbuf in JGit is usually a MutableObjectId.",
+      "revId": "1b8738ceafe10cf504d9c8d8553198d95ef9a922",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJX///d4\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Archive.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-11-16T06:21:14Z",
+      "side": 1,
+      "message": "This isn\u0027t possible.",
+      "revId": "1b8738ceafe10cf504d9c8d8553198d95ef9a922",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJX///d0\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Archive.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-11-16T06:21:14Z",
+      "side": 1,
+      "message": "IIRC when in recursive mode the TreeWalk does not actually giv you the TREE entries. So this should never hit.",
+      "revId": "1b8738ceafe10cf504d9c8d8553198d95ef9a922",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
