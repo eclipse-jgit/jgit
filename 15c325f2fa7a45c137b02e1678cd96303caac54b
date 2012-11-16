@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOJX///dY\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/CLIText.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-11-16T08:29:09Z",
+      "side": 1,
+      "message": "I\u0027d rather move this class to an internal package. I do hope nobody considered this a public API.",
+      "revId": "15c325f2fa7a45c137b02e1678cd96303caac54b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
