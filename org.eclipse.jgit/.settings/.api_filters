@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<component id="org.eclipse.jgit" version="2">
+    <resource path="META-INF/MANIFEST.MF">
+        <filter id="923795461">
+            <message_arguments>
+                <message_argument value="2.2.0"/>
+                <message_argument value="2.1.0"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/lib/ObjectStream.java" type="org.eclipse.jgit.lib.ObjectStream">
+        <filter id="337682486">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.ObjectStream"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/lib/ObjectStream.java" type="org.eclipse.jgit.lib.ObjectStream$Filter">
+        <filter id="337682486">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.ObjectStream.Filter"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/lib/ObjectStream.java" type="org.eclipse.jgit.lib.ObjectStream$SmallStream">
+        <filter id="337682486">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.ObjectStream.SmallStream"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/storage/dfs/BeforeDfsPackIndexLoadedEvent.java" type="org.eclipse.jgit.storage.dfs.BeforeDfsPackIndexLoadedEvent">
+        <filter id="1110441988">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.storage.dfs.BeforeDfsPackIndexLoadedEvent"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/storage/dfs/DfsOutputStream.java" type="org.eclipse.jgit.storage.dfs.DfsOutputStream">
+        <filter id="337682486">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.storage.dfs.DfsOutputStream"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/storage/dfs/ReadableChannel.java" type="org.eclipse.jgit.storage.dfs.ReadableChannel">
+        <filter id="404791350">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.storage.dfs.ReadableChannel"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/storage/pack/DeltaStream.java" type="org.eclipse.jgit.storage.pack.DeltaStream">
+        <filter id="337682486">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.storage.pack.DeltaStream"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/storage/pack/PackOutputStream.java" type="org.eclipse.jgit.storage.pack.PackOutputStream">
+        <filter id="337682486">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.storage.pack.PackOutputStream"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/transport/SideBandOutputStream.java" type="org.eclipse.jgit.transport.SideBandOutputStream">
+        <filter id="337682486">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.transport.SideBandOutputStream"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/util/TemporaryBuffer.java" type="org.eclipse.jgit.util.TemporaryBuffer">
+        <filter id="337682486">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.util.TemporaryBuffer"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/util/TemporaryBuffer.java" type="org.eclipse.jgit.util.TemporaryBuffer$Heap">
+        <filter id="337682486">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.util.TemporaryBuffer.Heap"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/util/TemporaryBuffer.java" type="org.eclipse.jgit.util.TemporaryBuffer$LocalFile">
+        <filter id="337682486">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.util.TemporaryBuffer.LocalFile"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/util/io/AutoCRLFInputStream.java" type="org.eclipse.jgit.util.io.AutoCRLFInputStream">
+        <filter id="337682486">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.util.io.AutoCRLFInputStream"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/util/io/AutoCRLFOutputStream.java" type="org.eclipse.jgit.util.io.AutoCRLFOutputStream">
+        <filter id="337682486">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.util.io.AutoCRLFOutputStream"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/util/io/CountingOutputStream.java" type="org.eclipse.jgit.util.io.CountingOutputStream">
+        <filter id="337682486">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.util.io.CountingOutputStream"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/util/io/DisabledOutputStream.java" type="org.eclipse.jgit.util.io.DisabledOutputStream">
+        <filter id="337682486">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.util.io.DisabledOutputStream"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/util/io/EolCanonicalizingInputStream.java" type="org.eclipse.jgit.util.io.EolCanonicalizingInputStream">
+        <filter id="337682486">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.util.io.EolCanonicalizingInputStream"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/util/io/MessageWriter.java" type="org.eclipse.jgit.util.io.MessageWriter">
+        <filter id="337682486">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.util.io.MessageWriter"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/util/io/NullOutputStream.java" type="org.eclipse.jgit.util.io.NullOutputStream">
+        <filter id="337682486">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.util.io.NullOutputStream"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/util/io/SafeBufferedOutputStream.java" type="org.eclipse.jgit.util.io.SafeBufferedOutputStream">
+        <filter id="337682486">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.util.io.SafeBufferedOutputStream"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/util/io/TeeInputStream.java" type="org.eclipse.jgit.util.io.TeeInputStream">
+        <filter id="337682486">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.util.io.TeeInputStream"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/util/io/TimeoutInputStream.java" type="org.eclipse.jgit.util.io.TimeoutInputStream">
+        <filter id="337682486">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.util.io.TimeoutInputStream"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/util/io/TimeoutOutputStream.java" type="org.eclipse.jgit.util.io.TimeoutOutputStream">
+        <filter id="337682486">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.util.io.TimeoutOutputStream"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/util/io/UnionInputStream.java" type="org.eclipse.jgit.util.io.UnionInputStream">
+        <filter id="337682486">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.util.io.UnionInputStream"/>
+            </message_arguments>
+        </filter>
+    </resource>
+</component>
