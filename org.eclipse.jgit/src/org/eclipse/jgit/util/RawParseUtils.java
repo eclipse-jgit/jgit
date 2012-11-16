@@ -67,6 +67,8 @@ import org.eclipse.jgit.lib.PersonIdent;
 public final class RawParseUtils {
 	/**
 	 * UTF-8 charset constant.
+	 *
+	 * @since 2.2
 	 */
 	public static final Charset UTF8_CHARSET = Charset.forName("UTF-8");
 

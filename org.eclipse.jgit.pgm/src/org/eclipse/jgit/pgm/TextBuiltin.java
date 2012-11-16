@@ -83,10 +83,18 @@ public abstract class TextBuiltin {
 	@Option(name = "--help", usage = "usage_displayThisHelpText", aliases = { "-h" })
 	private boolean help;
 
-	/** Writer to output to, typically this is standard output. */
+	/**
+	 * Writer to output to, typically this is standard output.
+	 *
+	 * @since 2.2
+	 */
 	protected ThrowingPrintWriter outw;
 
-	/** Stream to output to, typically this is standard output. */
+	/**
+	 * Stream to output to, typically this is standard output.
+	 *
+	 * @since 2.2
+	 */
 	protected OutputStream outs;
 
 	/**
