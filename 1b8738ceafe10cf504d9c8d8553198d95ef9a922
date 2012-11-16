@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOJX///Zo\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Archive.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2012-11-16T16:42:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOJX///ds\u003d",
+      "revId": "1b8738ceafe10cf504d9c8d8553198d95ef9a922",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOJX///d4\u003d",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Archive.java",
         "patchSetId": 1
@@ -36,6 +54,23 @@
     },
     {
       "key": {
+        "uuid": "AABOJX///Zs\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Archive.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2012-11-16T16:42:51Z",
+      "side": 1,
+      "message": "I\u0027ll drop the defensive assert.\n\nFor future reference, what\u0027s the idiom in jgit for checking invariants when they matter?",
+      "revId": "1b8738ceafe10cf504d9c8d8553198d95ef9a922",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOJX///d0\u003d",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Archive.java",
         "patchSetId": 1
@@ -47,6 +82,24 @@
       "writtenOn": "2012-11-16T06:21:14Z",
       "side": 1,
       "message": "IIRC when in recursive mode the TreeWalk does not actually giv you the TREE entries. So this should never hit.",
+      "revId": "1b8738ceafe10cf504d9c8d8553198d95ef9a922",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJX///Zw\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Archive.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2012-11-16T16:42:51Z",
+      "side": 1,
+      "message": "Hm, when I tried it it did give the tree entries.\n\nBut git does not track empty directories so there\u0027s no point in including the directories in the ZIP output (and \"git archive\" doesn\u0027t include them there). I\u0027ll change the \"if\" body to \"continue;\" and the \"if\" below to expect REGULAR_FILE, which should make this easier to read.",
+      "parentUuid": "AABOJX///d0\u003d",
       "revId": "1b8738ceafe10cf504d9c8d8553198d95ef9a922",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
