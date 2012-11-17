@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOJX///OA\u003d",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/ArchiveTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2012-11-17T00:26:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOJX///Ow\u003d",
+      "revId": "ebc6b4f5036c509bc7b5b54dd241710ec64f5eb5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOJX///Os\u003d",
         "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/ArchiveTest.java",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AABOJX///N8\u003d",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/ArchiveTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2012-11-17T00:26:08Z",
+      "side": 1,
+      "message": "Yep, Hudson caught this too.",
+      "parentUuid": "AABOJX///Os\u003d",
+      "revId": "ebc6b4f5036c509bc7b5b54dd241710ec64f5eb5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOJX///O0\u003d",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Archive.java",
         "patchSetId": 3
@@ -47,6 +83,24 @@
       "writtenOn": "2012-11-17T00:07:02Z",
       "side": 1,
       "message": "We don\u0027t need to copy the id of trees if we are about to skip them. id copying is more expensive in JGit than a memcpy() in C so we try to defer/delay it until absolutely required.",
+      "revId": "ebc6b4f5036c509bc7b5b54dd241710ec64f5eb5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJX///OE\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Archive.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2012-11-17T00:26:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOJX///O0\u003d",
       "revId": "ebc6b4f5036c509bc7b5b54dd241710ec64f5eb5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
