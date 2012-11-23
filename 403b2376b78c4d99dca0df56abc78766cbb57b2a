@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOJX//+nE\u003d",
+        "filename": "org.eclipse.jgit/.settings/.api_filters",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-11-23T00:13:09Z",
+      "side": 1,
+      "message": "So does this mean that we will never see API warnings on this type again?",
+      "revId": "403b2376b78c4d99dca0df56abc78766cbb57b2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
