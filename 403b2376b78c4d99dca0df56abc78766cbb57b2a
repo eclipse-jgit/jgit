@@ -16,6 +16,24 @@
       "revId": "403b2376b78c4d99dca0df56abc78766cbb57b2a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJn///uU\u003d",
+        "filename": "org.eclipse.jgit/.settings/.api_filters",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-11-25T22:36:02Z",
+      "side": 1,
+      "message": "I tried to do another incompatible change on top of this filter and it seems PDE is still able to detect new API changes (I tried to change the return type of ObjectStream.getType()), though I am not sure if this is always the case.",
+      "parentUuid": "AABOJX//+nE\u003d",
+      "revId": "403b2376b78c4d99dca0df56abc78766cbb57b2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
