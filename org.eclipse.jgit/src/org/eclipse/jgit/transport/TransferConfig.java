@@ -60,7 +60,7 @@ public class TransferConfig {
 	private final boolean fsckObjects;
 
 	private TransferConfig(final Config rc) {
-		fsckObjects = rc.getBoolean("receive", "fsckobjects", false);
+		fsckObjects = rc.getBoolean("receive", "fsckobjects", false); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	/**

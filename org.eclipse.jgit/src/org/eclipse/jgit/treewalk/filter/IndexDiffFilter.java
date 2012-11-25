@@ -226,7 +226,7 @@ public class IndexDiffFilter extends TreeFilter {
 		String pathToBeSaved = null;
 		while (!untrackedParentFolders.isEmpty()
 				&& !currentPath.startsWith(untrackedParentFolders.getFirst()
-						+ "/"))
+						+ "/")) //$NON-NLS-1$
 			pathToBeSaved = untrackedParentFolders.removeFirst();
 		if (pathToBeSaved != null) {
 			while (!untrackedFolders.isEmpty()
@@ -254,7 +254,7 @@ public class IndexDiffFilter extends TreeFilter {
 
 	@Override
 	public String toString() {
-		return "INDEX_DIFF_FILTER";
+		return "INDEX_DIFF_FILTER"; //$NON-NLS-1$
 	}
 
 	/**

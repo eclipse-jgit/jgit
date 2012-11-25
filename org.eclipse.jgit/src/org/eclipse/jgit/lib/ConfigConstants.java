@@ -47,6 +47,7 @@ package org.eclipse.jgit.lib;
  * Constants for use with the Configuration classes: section names,
  * configuration keys
  */
+@SuppressWarnings("nls")
 public class ConfigConstants {
 	/** The "core" section */
 	public static final String CONFIG_CORE_SECTION = "core";

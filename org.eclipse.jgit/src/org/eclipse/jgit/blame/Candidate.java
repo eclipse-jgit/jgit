@@ -275,6 +275,7 @@ class Candidate {
 		return r;
 	}
 
+	@SuppressWarnings("nls")
 	@Override
 	public String toString() {
 		StringBuilder r = new StringBuilder();
@@ -324,7 +325,7 @@ class Candidate {
 
 		@Override
 		public String toString() {
-			return "Reverse" + super.toString();
+			return "Reverse" + super.toString(); //$NON-NLS-1$
 		}
 	}
 
@@ -380,7 +381,7 @@ class Candidate {
 
 		@Override
 		PersonIdent getAuthor() {
-			return new PersonIdent(description, "");
+			return new PersonIdent(description, ""); //$NON-NLS-1$
 		}
 	}
 }

@@ -112,6 +112,7 @@ public class PullResult {
 		return true;
 	}
 
+	@SuppressWarnings("nls")
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();

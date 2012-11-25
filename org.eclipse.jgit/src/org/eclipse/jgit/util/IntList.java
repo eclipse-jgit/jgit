@@ -143,7 +143,7 @@ public class IntList {
 		r.append('[');
 		for (int i = 0; i < count; i++) {
 			if (i > 0)
-				r.append(", ");
+				r.append(", "); //$NON-NLS-1$
 			r.append(entries[i]);
 		}
 		r.append(']');

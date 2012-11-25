@@ -51,9 +51,9 @@ import static org.eclipse.jgit.util.RawParseUtils.parseBase10;
 
 /** Part of a "GIT binary patch" to describe the pre-image or post-image */
 public class BinaryHunk {
-	private static final byte[] LITERAL = encodeASCII("literal ");
+	private static final byte[] LITERAL = encodeASCII("literal "); //$NON-NLS-1$
 
-	private static final byte[] DELTA = encodeASCII("delta ");
+	private static final byte[] DELTA = encodeASCII("delta "); //$NON-NLS-1$
 
 	/** Type of information stored in a binary hunk. */
 	public static enum Type {

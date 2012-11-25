@@ -106,7 +106,7 @@ public class JschSession implements RemoteSession {
 	 *             on problems getting the channel.
 	 */
 	public Channel getSftpChannel() throws JSchException {
-		return sock.openChannel("sftp");
+		return sock.openChannel("sftp"); //$NON-NLS-1$
 	}
 
 	/**
@@ -144,7 +144,7 @@ public class JschSession implements RemoteSession {
 				throws TransportException, IOException {
 			timeout = tms;
 			try {
-				channel = (ChannelExec) sock.openChannel("exec");
+				channel = (ChannelExec) sock.openChannel("exec"); //$NON-NLS-1$
 				channel.setCommand(commandName);
 				setupStreams();
 				channel.connect(timeout > 0 ? timeout * 1000 : 0);

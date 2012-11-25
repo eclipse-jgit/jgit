@@ -174,7 +174,7 @@ public abstract class RefAdvertiser {
 			}
 
 			if (ref.getPeeledObjectId() != null)
-				advertiseAny(ref.getPeeledObjectId(), ref.getName() + "^{}");
+				advertiseAny(ref.getPeeledObjectId(), ref.getName() + "^{}"); //$NON-NLS-1$
 		}
 		return sent;
 	}
@@ -201,7 +201,7 @@ public abstract class RefAdvertiser {
 	 *             advertisement record.
 	 */
 	public void advertiseHave(AnyObjectId id) throws IOException {
-		advertiseAnyOnce(id, ".have");
+		advertiseAnyOnce(id, ".have"); //$NON-NLS-1$
 	}
 
 	/** @return true if no advertisements have been sent yet. */

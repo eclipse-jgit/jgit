@@ -222,7 +222,7 @@ public class FileResolver<C> implements RepositoryResolver<C> {
 		if (isExportAll())
 			return true;
 		else if (db.getDirectory() != null)
-			return new File(db.getDirectory(), "git-daemon-export-ok").exists();
+			return new File(db.getDirectory(), "git-daemon-export-ok").exists(); //$NON-NLS-1$
 		else
 			return false;
 	}
@@ -242,13 +242,13 @@ public class FileResolver<C> implements RepositoryResolver<C> {
 		if (new File(name).isAbsolute())
 			return true; // no absolute paths
 
-		if (name.startsWith("../"))
-			return true; // no "l../etc/passwd"
-		if (name.contains("/../"))
-			return true; // no "foo/../etc/passwd"
-		if (name.contains("/./"))
-			return true; // "foo/./foo" is insane to ask
-		if (name.contains("//"))
+		if (name.startsWith("../")) //$NON-NLS-1$
+			return true; // no "l../etc/passwd" 
+		if (name.contains("/../")) //$NON-NLS-1$
+			return true; // no "foo/../etc/passwd" 
+		if (name.contains("/./")) //$NON-NLS-1$
+			return true; // "foo/./foo" is insane to ask 
+		if (name.contains("//")) //$NON-NLS-1$
 			return true; // double slashes is sloppy, don't use it
 
 		return false; // is a reasonable name

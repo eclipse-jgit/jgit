@@ -208,15 +208,15 @@ public final class StringUtils {
 		if (stringValue == null)
 			return null;
 
-		if (equalsIgnoreCase("yes", stringValue)
-				|| equalsIgnoreCase("true", stringValue)
-				|| equalsIgnoreCase("1", stringValue)
-				|| equalsIgnoreCase("on", stringValue))
+		if (equalsIgnoreCase("yes", stringValue) //$NON-NLS-1$
+				|| equalsIgnoreCase("true", stringValue) //$NON-NLS-1$
+				|| equalsIgnoreCase("1", stringValue) //$NON-NLS-1$
+				|| equalsIgnoreCase("on", stringValue)) //$NON-NLS-1$
 			return Boolean.TRUE;
-		else if (equalsIgnoreCase("no", stringValue)
-				|| equalsIgnoreCase("false", stringValue)
-				|| equalsIgnoreCase("0", stringValue)
-				|| equalsIgnoreCase("off", stringValue))
+		else if (equalsIgnoreCase("no", stringValue) //$NON-NLS-1$
+				|| equalsIgnoreCase("false", stringValue) //$NON-NLS-1$
+				|| equalsIgnoreCase("0", stringValue) //$NON-NLS-1$
+				|| equalsIgnoreCase("off", stringValue)) //$NON-NLS-1$
 			return Boolean.FALSE;
 		else
 			return null;

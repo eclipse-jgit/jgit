@@ -227,7 +227,7 @@ public class IndexDiff {
 	 * @throws IOException
 	 */
 	public boolean diff() throws IOException {
-		return diff(null, 0, 0, "");
+		return diff(null, 0, 0, ""); //$NON-NLS-1$
 	}
 
 	/**

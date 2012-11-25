@@ -94,6 +94,6 @@ public class NotTreeFilter extends TreeFilter {
 
 	@Override
 	public String toString() {
-		return "NOT " + a.toString();
+		return "NOT " + a.toString(); //$NON-NLS-1$
 	}
 }

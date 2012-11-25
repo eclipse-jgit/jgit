@@ -332,7 +332,7 @@ public class ReceiveCommand {
 				ru.setForceUpdate(rp.isAllowNonFastForwards());
 				ru.setExpectedOldObjectId(getOldId());
 				ru.setNewObjectId(getNewId());
-				ru.setRefLogMessage("push", true);
+				ru.setRefLogMessage("push", true); //$NON-NLS-1$
 				setResult(ru.update(rp.getRevWalk()));
 				break;
 			}
@@ -397,6 +397,7 @@ public class ReceiveCommand {
 				JGitText.get().lockError, err.getMessage()));
 	}
 
+	@SuppressWarnings("nls")
 	@Override
 	public String toString() {
 		return getType().name() + ": " + getOldId().name() + " "

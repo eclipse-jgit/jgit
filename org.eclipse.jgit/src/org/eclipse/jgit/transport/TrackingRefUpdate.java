@@ -194,6 +194,7 @@ public class TrackingRefUpdate {
 		}
 	}
 
+	@SuppressWarnings("nls")
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();

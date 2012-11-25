@@ -82,28 +82,28 @@ public class IgnoreRule {
 	private void setup() {
 		int startIndex = 0;
 		int endIndex = pattern.length();
-		if (pattern.startsWith("!")) {
+		if (pattern.startsWith("!")) { //$NON-NLS-1$
 			startIndex++;
 			negation = true;
 		}
 
-		if (pattern.endsWith("/")) {
+		if (pattern.endsWith("/")) { //$NON-NLS-1$
 			endIndex --;
 			dirOnly = true;
 		}
 
 		pattern = pattern.substring(startIndex, endIndex);
-		boolean hasSlash = pattern.contains("/");
+		boolean hasSlash = pattern.contains("/"); //$NON-NLS-1$
 
 		if (!hasSlash)
 			nameOnly = true;
-		else if (!pattern.startsWith("/")) {
+		else if (!pattern.startsWith("/")) { //$NON-NLS-1$
 			//Contains "/" but does not start with one
 			//Adding / to the start should not interfere with matching
-			pattern = "/" + pattern;
+			pattern = "/" + pattern; //$NON-NLS-1$
 		}
 
-		if (pattern.contains("*") || pattern.contains("?") || pattern.contains("[")) {
+		if (pattern.contains("*") || pattern.contains("?") || pattern.contains("[")) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			try {
 				matcher = new FileNameMatcher(pattern, Character.valueOf('/'));
 			} catch (InvalidPatternException e) {
@@ -164,8 +164,8 @@ public class IgnoreRule {
 	 * 			  the target is ignored. Call {@link IgnoreRule#getResult() getResult()} for the result.
 	 */
 	public boolean isMatch(String target, boolean isDirectory) {
-		if (!target.startsWith("/"))
-			target = "/" + target;
+		if (!target.startsWith("/")) //$NON-NLS-1$
+			target = "/" + target; //$NON-NLS-1$
 
 		if (matcher == null) {
 			if (target.equals(pattern)) {
@@ -183,12 +183,12 @@ public class IgnoreRule {
 			 * "/src/new" to /src/newfile" but allows "/src/new" to match
 			 * "/src/new/newfile", as is the git standard
 			 */
-			if ((target).startsWith(pattern + "/"))
+			if ((target).startsWith(pattern + "/")) //$NON-NLS-1$
 				return true;
 
 			if (nameOnly) {
 				//Iterate through each sub-name
-				final String[] segments = target.split("/");
+				final String[] segments = target.split("/"); //$NON-NLS-1$
 				for (int idx = 0; idx < segments.length; idx++) {
 					final String segmentName = segments[idx];
 					if (segmentName.equals(pattern) &&
@@ -202,7 +202,7 @@ public class IgnoreRule {
 			if (matcher.isMatch())
 				return true;
 
-			final String[] segments = target.split("/");
+			final String[] segments = target.split("/"); //$NON-NLS-1$
 			if (nameOnly) {
 				for (int idx = 0; idx < segments.length; idx++) {
 					final String segmentName = segments[idx];
@@ -220,7 +220,7 @@ public class IgnoreRule {
 				for (int idx = 0; idx < segments.length; idx++) {
 					final String segmentName = segments[idx];
 					if (segmentName.length() > 0) {
-						matcher.append("/" + segmentName);
+						matcher.append("/" + segmentName); //$NON-NLS-1$
 					}
 
 					if (matcher.isMatch() &&

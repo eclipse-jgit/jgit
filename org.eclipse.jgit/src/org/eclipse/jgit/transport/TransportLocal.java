@@ -150,7 +150,7 @@ class TransportLocal extends Transport implements PackTransport {
 	@Override
 	public FetchConnection openFetch() throws TransportException {
 		final String up = getOptionUploadPack();
-		if ("git-upload-pack".equals(up) || "git upload-pack".equals(up))
+		if ("git-upload-pack".equals(up) || "git upload-pack".equals(up)) //$NON-NLS-1$ //$NON-NLS-2$
 			return new InternalLocalFetchConnection();
 		return new ForkLocalFetchConnection();
 	}
@@ -159,7 +159,7 @@ class TransportLocal extends Transport implements PackTransport {
 	public PushConnection openPush() throws NotSupportedException,
 			TransportException {
 		final String rp = getOptionReceivePack();
-		if ("git-receive-pack".equals(rp) || "git receive-pack".equals(rp))
+		if ("git-receive-pack".equals(rp) || "git receive-pack".equals(rp)) //$NON-NLS-1$ //$NON-NLS-2$
 			return new InternalLocalPushConnection();
 		return new ForkLocalPushConnection();
 	}
@@ -172,20 +172,20 @@ class TransportLocal extends Transport implements PackTransport {
 	protected Process spawn(final String cmd)
 			throws TransportException {
 		try {
-			String[] args = { "." };
+			String[] args = { "." }; //$NON-NLS-1$
 			ProcessBuilder proc = local.getFS().runInShell(cmd, args);
 			proc.directory(remoteGitDir);
 
 			// Remove the same variables CGit does.
 			Map<String, String> env = proc.environment();
-			env.remove("GIT_ALTERNATE_OBJECT_DIRECTORIES");
-			env.remove("GIT_CONFIG");
-			env.remove("GIT_CONFIG_PARAMETERS");
-			env.remove("GIT_DIR");
-			env.remove("GIT_WORK_TREE");
-			env.remove("GIT_GRAFT_FILE");
-			env.remove("GIT_INDEX_FILE");
-			env.remove("GIT_NO_REPLACE_OBJECTS");
+			env.remove("GIT_ALTERNATE_OBJECT_DIRECTORIES"); //$NON-NLS-1$
+			env.remove("GIT_CONFIG"); //$NON-NLS-1$
+			env.remove("GIT_CONFIG_PARAMETERS"); //$NON-NLS-1$
+			env.remove("GIT_DIR"); //$NON-NLS-1$
+			env.remove("GIT_WORK_TREE"); //$NON-NLS-1$
+			env.remove("GIT_GRAFT_FILE"); //$NON-NLS-1$
+			env.remove("GIT_INDEX_FILE"); //$NON-NLS-1$
+			env.remove("GIT_NO_REPLACE_OBJECTS"); //$NON-NLS-1$
 
 			return proc.start();
 		} catch (IOException err) {
@@ -230,7 +230,7 @@ class TransportLocal extends Transport implements PackTransport {
 				throw new TransportException(uri, JGitText.get().cannotConnectPipes, err);
 			}
 
-			worker = new Thread("JGit-Upload-Pack") {
+			worker = new Thread("JGit-Upload-Pack") { //$NON-NLS-1$
 				public void run() {
 					try {
 						final UploadPack rp = createUploadPack(dst);
@@ -362,7 +362,7 @@ class TransportLocal extends Transport implements PackTransport {
 				throw new TransportException(uri, JGitText.get().cannotConnectPipes, err);
 			}
 
-			worker = new Thread("JGit-Receive-Pack") {
+			worker = new Thread("JGit-Receive-Pack") { //$NON-NLS-1$
 				public void run() {
 					try {
 						final ReceivePack rp = createReceivePack(dst);

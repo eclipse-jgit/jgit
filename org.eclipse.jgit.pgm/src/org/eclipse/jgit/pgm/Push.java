@@ -194,7 +194,7 @@ class Push extends TextBuiltin {
 					final char flag = fastForward ? ' ' : '+';
 					final String summary = safeAbbreviate(reader, oldRef
 							.getObjectId())
-							+ (fastForward ? ".." : "...")
+							+ (fastForward ? ".." : "...") //$NON-NLS-1$ //$NON-NLS-2$
 							+ safeAbbreviate(reader, rru.getNewObjectId());
 					final String message = fastForward ? null : CLIText.get().forcedUpdate;
 					printUpdateLine(flag, summary, srcRef, remoteName, message);
@@ -252,14 +252,14 @@ class Push extends TextBuiltin {
 	private void printUpdateLine(final char flag, final String summary,
 			final String srcRef, final String destRef, final String message)
 			throws IOException {
-		outw.format(" %c %-17s", valueOf(flag), summary);
+		outw.format(" %c %-17s", valueOf(flag), summary); //$NON-NLS-1$
 
 		if (srcRef != null)
-			outw.format(" %s ->", abbreviateRef(srcRef, true));
-		outw.format(" %s", abbreviateRef(destRef, true));
+			outw.format(" %s ->", abbreviateRef(srcRef, true)); //$NON-NLS-1$
+		outw.format(" %s", abbreviateRef(destRef, true)); //$NON-NLS-1$
 
 		if (message != null)
-			outw.format(" (%s)", message);
+			outw.format(" (%s)", message); //$NON-NLS-1$
 
 		outw.println();
 	}

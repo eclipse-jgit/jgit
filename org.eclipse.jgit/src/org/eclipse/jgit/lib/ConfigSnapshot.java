@@ -98,7 +98,7 @@ class ConfigSnapshot {
 
 	Set<String> getNames(String section, String subsection) {
 		List<ConfigLine> s = sorted();
-		int idx = find(s, section, subsection, "");
+		int idx = find(s, section, subsection, ""); //$NON-NLS-1$
 		if (idx < 0)
 			idx = -(idx + 1);
 

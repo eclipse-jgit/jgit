@@ -104,7 +104,7 @@ class Glog extends RevWalkTextBuiltin {
 		graphPane.getCommitList().source(walk);
 		graphPane.getCommitList().fillTo(Integer.MAX_VALUE);
 
-		frame.setTitle("[" + repoName() + "]");
+		frame.setTitle("[" + repoName() + "]"); //$NON-NLS-1$ //$NON-NLS-2$
 		frame.pack();
 		frame.setVisible(true);
 		return graphPane.getCommitList().size();

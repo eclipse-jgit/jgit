@@ -82,7 +82,7 @@ public abstract class BaseConnection implements Connection {
 	}
 
 	public String getMessages() {
-		return messageWriter != null ? messageWriter.toString() : "";
+		return messageWriter != null ? messageWriter.toString() : ""; //$NON-NLS-1$
 	}
 
 	public abstract void close();

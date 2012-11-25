@@ -487,7 +487,7 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 	 */
 	public B findGitDir() {
 		if (getGitDir() == null)
-			findGitDir(new File("").getAbsoluteFile());
+			findGitDir(new File("").getAbsoluteFile()); //$NON-NLS-1$
 		return self();
 	}
 
@@ -628,7 +628,7 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 			if (getGitDir() == null)
 				setGitDir(getWorkTree().getParentFile());
 			if (getIndexFile() == null)
-				setIndexFile(new File(getGitDir(), "index"));
+				setIndexFile(new File(getGitDir(), "index")); //$NON-NLS-1$
 		}
 	}
 
@@ -640,7 +640,7 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 	 */
 	protected void setupInternals() throws IOException {
 		if (getObjectDirectory() == null && getGitDir() != null)
-			setObjectDirectory(safeFS().resolve(getGitDir(), "objects"));
+			setObjectDirectory(safeFS().resolve(getGitDir(), "objects")); //$NON-NLS-1$
 	}
 
 	/**

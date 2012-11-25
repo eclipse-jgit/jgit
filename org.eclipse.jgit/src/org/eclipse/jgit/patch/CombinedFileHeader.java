@@ -63,7 +63,7 @@ import org.eclipse.jgit.lib.FileMode;
  * merge which introduces changes not in any ancestor.
  */
 public class CombinedFileHeader extends FileHeader {
-	private static final byte[] MODE = encodeASCII("mode ");
+	private static final byte[] MODE = encodeASCII("mode "); //$NON-NLS-1$
 
 	private AbbreviatedObjectId[] oldIds;
 

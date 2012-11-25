@@ -491,16 +491,16 @@ public abstract class Repository {
 						}
 						i = k;
 						if (item != null)
-							if (item.equals("tree")) {
+							if (item.equals("tree")) { //$NON-NLS-1$
 								rev = rw.parseTree(rev);
-							} else if (item.equals("commit")) {
+							} else if (item.equals("commit")) { //$NON-NLS-1$
 								rev = rw.parseCommit(rev);
-							} else if (item.equals("blob")) {
+							} else if (item.equals("blob")) { //$NON-NLS-1$
 								rev = rw.peel(rev);
 								if (!(rev instanceof RevBlob))
 									throw new IncorrectObjectTypeException(rev,
 											Constants.TYPE_BLOB);
-							} else if (item.equals("")) {
+							} else if (item.equals("")) { //$NON-NLS-1$
 								rev = rw.peel(rev);
 							} else
 								throw new RevisionSyntaxException(revstr);
@@ -596,14 +596,14 @@ public abstract class Repository {
 					}
 				}
 				if (time != null) {
-					if (time.equals("upstream")) {
+					if (time.equals("upstream")) { //$NON-NLS-1$
 						if (name == null)
 							name = new String(revChars, done, i);
-						if (name.equals(""))
+						if (name.equals("")) //$NON-NLS-1$
 							// Currently checked out branch, HEAD if
 							// detached
 							name = Constants.HEAD;
-						if (!Repository.isValidRefName("x/" + name))
+						if (!Repository.isValidRefName("x/" + name)) //$NON-NLS-1$
 							throw new RevisionSyntaxException(revstr);
 						Ref ref = getRef(name);
 						name = null;
@@ -616,7 +616,7 @@ public abstract class Repository {
 						RemoteConfig remoteConfig;
 						try {
 							remoteConfig = new RemoteConfig(getConfig(),
-									"origin");
+									"origin"); //$NON-NLS-1$
 						} catch (URISyntaxException e) {
 							throw new RevisionSyntaxException(revstr);
 						}
@@ -637,7 +637,7 @@ public abstract class Repository {
 						}
 						if (name == null)
 							throw new RevisionSyntaxException(revstr);
-					} else if (time.matches("^-\\d+$")) {
+					} else if (time.matches("^-\\d+$")) { //$NON-NLS-1$
 						if (name != null)
 							throw new RevisionSyntaxException(revstr);
 						else {
@@ -651,9 +651,9 @@ public abstract class Repository {
 					} else {
 						if (name == null)
 							name = new String(revChars, done, i);
-						if (name.equals(""))
+						if (name.equals("")) //$NON-NLS-1$
 							name = Constants.HEAD;
-						if (!Repository.isValidRefName("x/" + name))
+						if (!Repository.isValidRefName("x/" + name)) //$NON-NLS-1$
 							throw new RevisionSyntaxException(revstr);
 						Ref ref = getRef(name);
 						name = null;
@@ -674,7 +674,7 @@ public abstract class Repository {
 				if (rev == null) {
 					if (name == null)
 						name = new String(revChars, done, i);
-					if (name.equals(""))
+					if (name.equals("")) //$NON-NLS-1$
 						name = Constants.HEAD;
 					rev = parseSimple(rw, name);
 					name = null;
@@ -702,7 +702,7 @@ public abstract class Repository {
 		if (done == revstr.length())
 			return null;
 		name = revstr.substring(done);
-		if (!Repository.isValidRefName("x/" + name))
+		if (!Repository.isValidRefName("x/" + name)) //$NON-NLS-1$
 			throw new RevisionSyntaxException(revstr);
 		if (getRef(name) != null)
 			return name;
@@ -732,7 +732,7 @@ public abstract class Repository {
 		if (ObjectId.isId(revstr))
 			return ObjectId.fromString(revstr);
 
-		if (Repository.isValidRefName("x/" + revstr)) {
+		if (Repository.isValidRefName("x/" + revstr)) { //$NON-NLS-1$
 			Ref r = getRefDatabase().getRef(revstr);
 			if (r != null)
 				return r.getObjectId();
@@ -741,7 +741,7 @@ public abstract class Repository {
 		if (AbbreviatedObjectId.isId(revstr))
 			return resolveAbbreviation(revstr);
 
-		int dashg = revstr.indexOf("-g");
+		int dashg = revstr.indexOf("-g"); //$NON-NLS-1$
 		if ((dashg + 5) < revstr.length() && 0 <= dashg
 				&& isHex(revstr.charAt(dashg + 2))
 				&& isHex(revstr.charAt(dashg + 3))
@@ -827,14 +827,15 @@ public abstract class Repository {
 		getRefDatabase().close();
 	}
 
+	@SuppressWarnings("nls")
 	public String toString() {
 		String desc;
 		if (getDirectory() != null)
 			desc = getDirectory().getPath();
 		else
-			desc = getClass().getSimpleName() + "-"
+			desc = getClass().getSimpleName() + "-" //$NON-NLS-1$
 					+ System.identityHashCode(this);
-		return "Repository[" + desc + "]";
+		return "Repository[" + desc + "]"; //$NON-NLS-1$
 	}
 
 	/**
@@ -1068,22 +1069,22 @@ public abstract class Repository {
 			return RepositoryState.BARE;
 
 		// Pre Git-1.6 logic
-		if (new File(getWorkTree(), ".dotest").exists())
+		if (new File(getWorkTree(), ".dotest").exists()) //$NON-NLS-1$
 			return RepositoryState.REBASING;
-		if (new File(getDirectory(), ".dotest-merge").exists())
+		if (new File(getDirectory(), ".dotest-merge").exists()) //$NON-NLS-1$
 			return RepositoryState.REBASING_INTERACTIVE;
 
 		// From 1.6 onwards
-		if (new File(getDirectory(),"rebase-apply/rebasing").exists())
+		if (new File(getDirectory(),"rebase-apply/rebasing").exists()) //$NON-NLS-1$
 			return RepositoryState.REBASING_REBASING;
-		if (new File(getDirectory(),"rebase-apply/applying").exists())
+		if (new File(getDirectory(),"rebase-apply/applying").exists()) //$NON-NLS-1$
 			return RepositoryState.APPLY;
-		if (new File(getDirectory(),"rebase-apply").exists())
+		if (new File(getDirectory(),"rebase-apply").exists()) //$NON-NLS-1$
 			return RepositoryState.REBASING;
 
-		if (new File(getDirectory(),"rebase-merge/interactive").exists())
+		if (new File(getDirectory(),"rebase-merge/interactive").exists()) //$NON-NLS-1$
 			return RepositoryState.REBASING_INTERACTIVE;
-		if (new File(getDirectory(),"rebase-merge").exists())
+		if (new File(getDirectory(),"rebase-merge").exists()) //$NON-NLS-1$
 			return RepositoryState.REBASING_MERGE;
 
 		// Both versions
@@ -1102,7 +1103,7 @@ public abstract class Repository {
 			return RepositoryState.MERGING;
 		}
 
-		if (new File(getDirectory(), "BISECT_LOG").exists())
+		if (new File(getDirectory(), "BISECT_LOG").exists()) //$NON-NLS-1$
 			return RepositoryState.BISECTING;
 
 		if (new File(getDirectory(), Constants.CHERRY_PICK_HEAD).exists()) {
@@ -1136,7 +1137,7 @@ public abstract class Repository {
 		final int len = refName.length();
 		if (len == 0)
 			return false;
-		if (refName.endsWith(".lock"))
+		if (refName.endsWith(".lock")) //$NON-NLS-1$
 			return false;
 
 		int components = 1;
@@ -1194,7 +1195,7 @@ public abstract class Repository {
 			File absWd = workDir.isAbsolute() ? workDir : workDir.getAbsoluteFile();
 			File absFile = file.isAbsolute() ? file : file.getAbsoluteFile();
 			if (absWd == workDir && absFile == file)
-				return "";
+				return ""; //$NON-NLS-1$
 			return stripWorkDir(absWd, absFile);
 		}
 

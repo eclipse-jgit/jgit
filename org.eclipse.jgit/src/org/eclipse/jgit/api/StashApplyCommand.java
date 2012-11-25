@@ -84,7 +84,7 @@ import org.eclipse.jgit.util.FileUtils;
  */
 public class StashApplyCommand extends GitCommand<ObjectId> {
 
-	private static final String DEFAULT_REF = Constants.STASH + "@{0}";
+	private static final String DEFAULT_REF = Constants.STASH + "@{0}"; //$NON-NLS-1$
 
 	/**
 	 * Stash diff filter that looks for differences in the first three trees
@@ -115,7 +115,7 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 
 		@Override
 		public String toString() {
-			return "STASH_DIFF";
+			return "STASH_DIFF"; //$NON-NLS-1$
 		}
 	}
 
@@ -192,7 +192,7 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 	private ObjectId getHeadTree() throws GitAPIException {
 		final ObjectId headTree;
 		try {
-			headTree = repo.resolve(Constants.HEAD + "^{tree}");
+			headTree = repo.resolve(Constants.HEAD + "^{tree}"); //$NON-NLS-1$
 		} catch (IOException e) {
 			throw new JGitInternalException(JGitText.get().cannotReadTree, e);
 		}

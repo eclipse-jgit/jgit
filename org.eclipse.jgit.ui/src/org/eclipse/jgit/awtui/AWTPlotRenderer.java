@@ -176,7 +176,7 @@ final class AWTPlotRenderer extends AbstractPlotRenderer<SwingLane, Color>
 			g.setBackground(new Color(colorComponents[0],colorComponents[1],colorComponents[2]));
 		}
 		if (txt.length() > 12)
-			txt = txt.substring(0,11) + "\u2026"; // ellipsis "…" (in UTF-8)
+			txt = txt.substring(0,11) + "\u2026"; // ellipsis "…" (in UTF-8) //$NON-NLS-1$
 
 		final int texth = g.getFontMetrics().getHeight();
 		int textw = g.getFontMetrics().stringWidth(txt);

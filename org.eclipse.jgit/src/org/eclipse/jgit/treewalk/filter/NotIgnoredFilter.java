@@ -83,6 +83,7 @@ public class NotIgnoredFilter extends TreeFilter {
 		return this;
 	}
 
+	@SuppressWarnings("nls")
 	@Override
 	public String toString() {
 		return "NotIgnored(" + index + ")";

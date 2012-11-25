@@ -389,7 +389,7 @@ public class NoteMap implements Iterable<Note> {
 
 	private void load(ObjectId rootTree) throws MissingObjectException,
 			IncorrectObjectTypeException, CorruptObjectException, IOException {
-		AbbreviatedObjectId none = AbbreviatedObjectId.fromString("");
+		AbbreviatedObjectId none = AbbreviatedObjectId.fromString(""); //$NON-NLS-1$
 		root = NoteParser.parse(none, rootTree, reader);
 	}
 }

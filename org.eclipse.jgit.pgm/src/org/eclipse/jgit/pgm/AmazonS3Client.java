@@ -83,7 +83,7 @@ class AmazonS3Client extends TextBuiltin {
 	protected void run() throws Exception {
 		final AmazonS3 s3 = new AmazonS3(properties());
 
-		if ("get".equals(op)) {
+		if ("get".equals(op)) { //$NON-NLS-1$
 			final URLConnection c = s3.get(bucket, key);
 			int len = c.getContentLength();
 			final InputStream in = c.getInputStream();
@@ -104,14 +104,14 @@ class AmazonS3Client extends TextBuiltin {
 				in.close();
 			}
 
-		} else if ("ls".equals(op) || "list".equals(op)) {
+		} else if ("ls".equals(op) || "list".equals(op)) { //$NON-NLS-1$//$NON-NLS-2$
 			for (final String k : s3.list(bucket, key))
 				outw.println(k);
 
-		} else if ("rm".equals(op) || "delete".equals(op)) {
+		} else if ("rm".equals(op) || "delete".equals(op)) { //$NON-NLS-1$ //$NON-NLS-2$
 			s3.delete(bucket, key);
 
-		} else if ("put".equals(op)) {
+		} else if ("put".equals(op)) { //$NON-NLS-1$
 			final OutputStream os = s3.beginPut(bucket, key, null, null);
 			final byte[] tmp = new byte[2048];
 			int n;

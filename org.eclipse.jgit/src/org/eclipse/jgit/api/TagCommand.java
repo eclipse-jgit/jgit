@@ -120,7 +120,7 @@ public class TagCommand extends GitCommand<Ref> {
 
 			// if no id is set, we should attempt to use HEAD
 			if (id == null) {
-				ObjectId objectId = repo.resolve(Constants.HEAD + "^{commit}");
+				ObjectId objectId = repo.resolve(Constants.HEAD + "^{commit}"); //$NON-NLS-1$
 				if (objectId == null)
 					throw new NoHeadException(
 							JGitText.get().tagOnRepoWithoutHEADCurrentlyNotSupported);
@@ -142,7 +142,7 @@ public class TagCommand extends GitCommand<Ref> {
 					RefUpdate tagRef = repo.updateRef(refName);
 					tagRef.setNewObjectId(tagId);
 					tagRef.setForceUpdate(forceUpdate);
-					tagRef.setRefLogMessage("tagged " + name, false);
+					tagRef.setRefLogMessage("tagged " + name, false); //$NON-NLS-1$
 					Result updateResult = tagRef.update(revWalk);
 					switch (updateResult) {
 					case NEW:

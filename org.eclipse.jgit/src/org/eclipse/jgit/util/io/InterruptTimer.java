@@ -90,7 +90,7 @@ public final class InterruptTimer {
 
 	/** Create a new timer with a default thread name. */
 	public InterruptTimer() {
-		this("JGit-InterruptTimer");
+		this("JGit-InterruptTimer"); //$NON-NLS-1$
 	}
 
 	/**
