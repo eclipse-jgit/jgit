@@ -375,8 +375,9 @@ public final class AbbreviatedObjectId implements Serializable {
 		return new String(b, 0, nibbles);
 	}
 
+	@SuppressWarnings("nls")
 	@Override
 	public String toString() {
-		return "AbbreviatedObjectId[" + name() + "]";
+		return "AbbreviatedObjectId[" + name() + "]"; //$NON-NLS-1$
 	}
 }

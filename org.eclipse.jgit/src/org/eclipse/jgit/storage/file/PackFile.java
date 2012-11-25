@@ -192,10 +192,10 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 		String name = packName;
 		if (name == null) {
 			name = getPackFile().getName();
-			if (name.startsWith("pack-"))
-				name = name.substring("pack-".length());
-			if (name.endsWith(".pack"))
-				name = name.substring(0, name.length() - ".pack".length());
+			if (name.startsWith("pack-")) //$NON-NLS-1$
+				name = name.substring("pack-".length()); //$NON-NLS-1$
+			if (name.endsWith(".pack")) //$NON-NLS-1$
+				name = name.substring(0, name.length() - ".pack".length()); //$NON-NLS-1$
 			packName = name;
 		}
 		return name;
@@ -226,7 +226,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	 */
 	public boolean shouldBeKept() {
 		if (keepFile == null)
-			keepFile = new File(packFile.getPath() + ".keep");
+			keepFile = new File(packFile.getPath() + ".keep"); //$NON-NLS-1$
 		return keepFile.exists();
 	}
 
@@ -589,7 +589,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 			if (invalid)
 				throw new PackInvalidException(packFile);
 			synchronized (readLock) {
-				fd = new RandomAccessFile(packFile, "r");
+				fd = new RandomAccessFile(packFile, "r"); //$NON-NLS-1$
 				length = fd.length();
 				onOpenPack();
 			}

@@ -63,7 +63,7 @@ public class DiffEntry {
 			.fromObjectId(ObjectId.zeroId());
 
 	/** Magical file name used for file adds or deletes. */
-	public static final String DEV_NULL = "/dev/null";
+	public static final String DEV_NULL = "/dev/null"; //$NON-NLS-1$
 
 	/** General type of change a single file-level patch describes. */
 	public static enum ChangeType {
@@ -407,6 +407,7 @@ public class DiffEntry {
 		return side == Side.OLD ? getOldId() : getNewId();
 	}
 
+	@SuppressWarnings("nls")
 	@Override
 	public String toString() {
 		StringBuilder buf = new StringBuilder();

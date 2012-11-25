@@ -132,7 +132,7 @@ public class CommandCatalog {
 
 	private Enumeration<URL> catalogs() {
 		try {
-			final String pfx = "META-INF/services/";
+			final String pfx = "META-INF/services/"; //$NON-NLS-1$
 			return ldr.getResources(pfx + TextBuiltin.class.getName());
 		} catch (IOException err) {
 			return new Vector<URL>().elements();
@@ -143,7 +143,7 @@ public class CommandCatalog {
 		final BufferedReader cIn;
 		try {
 			final InputStream in = cUrl.openStream();
-			cIn = new BufferedReader(new InputStreamReader(in, "UTF-8"));
+			cIn = new BufferedReader(new InputStreamReader(in, "UTF-8")); //$NON-NLS-1$
 		} catch (IOException err) {
 			// If we cannot read from the service list, go to the next.
 			//
@@ -153,7 +153,7 @@ public class CommandCatalog {
 		try {
 			String line;
 			while ((line = cIn.readLine()) != null) {
-				if (line.length() > 0 && !line.startsWith("#"))
+				if (line.length() > 0 && !line.startsWith("#")) //$NON-NLS-1$
 					load(line);
 			}
 		} catch (IOException err) {

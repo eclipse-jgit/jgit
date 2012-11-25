@@ -69,8 +69,8 @@ public class TranslationStringMissingException extends TranslationBundleExceptio
 	 *            {@link ResourceBundle#getString(String)} method.
 	 */
 	public TranslationStringMissingException(Class bundleClass, Locale locale, String key, Exception cause) {
-		super("Translation missing for [" + bundleClass.getName() + ", "
-				+ locale.toString() + ", " + key + "]", bundleClass, locale,
+		super("Translation missing for [" + bundleClass.getName() + ", " //$NON-NLS-1$ //$NON-NLS-2$
+				+ locale.toString() + ", " + key + "]", bundleClass, locale, //$NON-NLS-1$ //$NON-NLS-2$
 				cause);
 		this.key = key;
 	}

@@ -158,7 +158,8 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 				+ config.getName();
 		RefSpec refSpec = new RefSpec();
 		refSpec = refSpec.setForceUpdate(true);
-		refSpec = refSpec.setSourceDestination(Constants.R_HEADS + "*", dst + "/*"); //$NON-NLS-1$ //$NON-NLS-2$
+		refSpec = refSpec.setSourceDestination(
+				Constants.R_HEADS + "*", dst + "/*"); //$NON-NLS-1$ //$NON-NLS-2$
 
 		config.addFetchRefSpec(refSpec);
 		config.update(clonedRepo.getConfig());

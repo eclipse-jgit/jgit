@@ -130,7 +130,7 @@ public class AddCommand extends GitCommand<DirCache> {
 		checkCallable();
 		DirCache dc = null;
 		boolean addAll = false;
-		if (filepatterns.contains("."))
+		if (filepatterns.contains(".")) //$NON-NLS-1$
 			addAll = true;
 
 		ObjectInserter inserter = repo.newObjectInserter();

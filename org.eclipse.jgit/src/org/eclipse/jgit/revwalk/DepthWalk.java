@@ -101,8 +101,8 @@ public interface DepthWalk {
 			super(repo);
 
 			this.depth = depth;
-			this.UNSHALLOW = newFlag("UNSHALLOW");
-			this.REINTERESTING = newFlag("REINTERESTING");
+			this.UNSHALLOW = newFlag("UNSHALLOW"); //$NON-NLS-1$
+			this.REINTERESTING = newFlag("REINTERESTING"); //$NON-NLS-1$
 		}
 
 		/**
@@ -113,8 +113,8 @@ public interface DepthWalk {
 			super(or);
 
 			this.depth = depth;
-			this.UNSHALLOW = newFlag("UNSHALLOW");
-			this.REINTERESTING = newFlag("REINTERESTING");
+			this.UNSHALLOW = newFlag("UNSHALLOW"); //$NON-NLS-1$
+			this.REINTERESTING = newFlag("REINTERESTING"); //$NON-NLS-1$
 		}
 
 		/**
@@ -167,8 +167,8 @@ public interface DepthWalk {
 			super(repo);
 
 			this.depth = depth;
-			this.UNSHALLOW = newFlag("UNSHALLOW");
-			this.REINTERESTING = newFlag("REINTERESTING");
+			this.UNSHALLOW = newFlag("UNSHALLOW"); //$NON-NLS-1$
+			this.REINTERESTING = newFlag("REINTERESTING"); //$NON-NLS-1$
 		}
 
 		/**
@@ -179,8 +179,8 @@ public interface DepthWalk {
 			super(or);
 
 			this.depth = depth;
-			this.UNSHALLOW = newFlag("UNSHALLOW");
-			this.REINTERESTING = newFlag("REINTERESTING");
+			this.UNSHALLOW = newFlag("UNSHALLOW"); //$NON-NLS-1$
+			this.REINTERESTING = newFlag("REINTERESTING"); //$NON-NLS-1$
 		}
 
 		/**

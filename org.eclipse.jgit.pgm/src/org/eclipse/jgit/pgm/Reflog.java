@@ -73,14 +73,14 @@ class Reflog extends TextBuiltin {
 	private String toString(ReflogEntry entry, int i) {
 		final StringBuilder s = new StringBuilder();
 		s.append(entry.getNewId().abbreviate(7).name());
-		s.append(" ");
+		s.append(" "); //$NON-NLS-1$
 		s.append(ref == null ? Constants.HEAD : Repository.shortenRefName(ref));
-		s.append("@{" + i + "}:");
-		s.append(" ");
+		s.append("@{" + i + "}:"); //$NON-NLS-1$ //$NON-NLS-2$
+		s.append(" "); //$NON-NLS-1$
 		// temporary workaround for bug 393463
 		if (entry.getOldId().equals(ObjectId.zeroId()))
-			s.append(entry.getComment().replaceFirst("^commit:",
-					"commit (initial):"));
+			s.append(entry.getComment().replaceFirst("^commit:", //$NON-NLS-1$
+					"commit (initial):")); //$NON-NLS-1$
 		else
 			s.append(entry.getComment());
 		return s.toString();

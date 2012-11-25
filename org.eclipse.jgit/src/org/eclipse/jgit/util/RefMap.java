@@ -111,7 +111,7 @@ public class RefMap extends AbstractMap<String, Ref> {
 
 	/** Construct an empty map with a small initial capacity. */
 	public RefMap() {
-		prefix = "";
+		prefix = ""; //$NON-NLS-1$
 		packed = RefList.emptyList();
 		loose = RefList.emptyList();
 		resolved = RefList.emptyList();
@@ -267,7 +267,7 @@ public class RefMap extends AbstractMap<String, Ref> {
 			if (first)
 				first = false;
 			else
-				r.append(", ");
+				r.append(", "); //$NON-NLS-1$
 			r.append(ref);
 		}
 		r.append(']');

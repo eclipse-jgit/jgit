@@ -225,6 +225,7 @@ public class FileBasedConfig extends StoredConfig {
 		return ObjectId.fromRaw(Constants.newMessageDigest().digest(rawText));
 	}
 
+	@SuppressWarnings("nls")
 	@Override
 	public String toString() {
 		return getClass().getSimpleName() + "[" + getFile().getPath() + "]";

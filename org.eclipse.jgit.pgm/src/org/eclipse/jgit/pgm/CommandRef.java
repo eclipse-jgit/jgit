@@ -76,13 +76,13 @@ public class CommandRef {
 	private CommandRef(final Class<? extends TextBuiltin> clazz, final String cn) {
 		impl = clazz;
 		name = cn;
-		usage = "";
+		usage = ""; //$NON-NLS-1$
 	}
 
 	private static String guessName(final Class<? extends TextBuiltin> clazz) {
 		final StringBuilder s = new StringBuilder();
-		if (clazz.getName().startsWith("org.eclipse.jgit.pgm.debug."))
-			s.append("debug-");
+		if (clazz.getName().startsWith("org.eclipse.jgit.pgm.debug.")) //$NON-NLS-1$
+			s.append("debug-"); //$NON-NLS-1$
 
 		boolean lastWasDash = true;
 		for (final char c : clazz.getSimpleName().toCharArray()) {

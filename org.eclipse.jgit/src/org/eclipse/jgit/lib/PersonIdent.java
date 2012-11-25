@@ -217,7 +217,7 @@ public class PersonIdent implements Serializable {
 	 */
 	public TimeZone getTimeZone() {
 		StringBuilder tzId = new StringBuilder(8);
-		tzId.append("GMT");
+		tzId.append("GMT"); //$NON-NLS-1$
 		appendTimezone(tzId);
 		return TimeZone.getTimeZone(tzId.toString());
 	}
@@ -255,9 +255,9 @@ public class PersonIdent implements Serializable {
 	public String toExternalString() {
 		final StringBuilder r = new StringBuilder();
 		r.append(getName());
-		r.append(" <");
+		r.append(" <"); //$NON-NLS-1$
 		r.append(getEmailAddress());
-		r.append("> ");
+		r.append("> "); //$NON-NLS-1$
 		r.append(when / 1000);
 		r.append(' ');
 		appendTimezone(r);
@@ -291,6 +291,7 @@ public class PersonIdent implements Serializable {
 		r.append(offsetMins);
 	}
 
+	@SuppressWarnings("nls")
 	public String toString() {
 		final StringBuilder r = new StringBuilder();
 		final SimpleDateFormat dtfmt;

@@ -64,7 +64,7 @@ class SideBandProgressMonitor extends BatchingProgressMonitor {
 	protected void onUpdate(String taskName, int workCurr) {
 		StringBuilder s = new StringBuilder();
 		format(s, taskName, workCurr);
-		s.append("   \r");
+		s.append("   \r"); //$NON-NLS-1$
 		send(s);
 	}
 
@@ -72,13 +72,13 @@ class SideBandProgressMonitor extends BatchingProgressMonitor {
 	protected void onEndTask(String taskName, int workCurr) {
 		StringBuilder s = new StringBuilder();
 		format(s, taskName, workCurr);
-		s.append(", done\n");
+		s.append(", done\n"); //$NON-NLS-1$
 		send(s);
 	}
 
 	private void format(StringBuilder s, String taskName, int workCurr) {
 		s.append(taskName);
-		s.append(": ");
+		s.append(": "); //$NON-NLS-1$
 		s.append(workCurr);
 	}
 
@@ -86,7 +86,7 @@ class SideBandProgressMonitor extends BatchingProgressMonitor {
 	protected void onUpdate(String taskName, int cmp, int totalWork, int pcnt) {
 		StringBuilder s = new StringBuilder();
 		format(s, taskName, cmp, totalWork, pcnt);
-		s.append("   \r");
+		s.append("   \r"); //$NON-NLS-1$
 		send(s);
 	}
 
@@ -94,24 +94,24 @@ class SideBandProgressMonitor extends BatchingProgressMonitor {
 	protected void onEndTask(String taskName, int cmp, int totalWork, int pcnt) {
 		StringBuilder s = new StringBuilder();
 		format(s, taskName, cmp, totalWork, pcnt);
-		s.append("\n");
+		s.append("\n"); //$NON-NLS-1$
 		send(s);
 	}
 
 	private void format(StringBuilder s, String taskName, int cmp,
 			int totalWork, int pcnt) {
 		s.append(taskName);
-		s.append(": ");
+		s.append(": "); //$NON-NLS-1$
 		if (pcnt < 100)
 			s.append(' ');
 		if (pcnt < 10)
 			s.append(' ');
 		s.append(pcnt);
-		s.append("% (");
+		s.append("% ("); //$NON-NLS-1$
 		s.append(cmp);
-		s.append("/");
+		s.append("/"); //$NON-NLS-1$
 		s.append(totalWork);
-		s.append(")");
+		s.append(")"); //$NON-NLS-1$
 	}
 
 	private void send(StringBuilder s) {

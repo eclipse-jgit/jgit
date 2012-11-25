@@ -71,35 +71,35 @@ import org.eclipse.jgit.util.TemporaryBuffer;
 
 /** Patch header describing an action for a single file path. */
 public class FileHeader extends DiffEntry {
-	private static final byte[] OLD_MODE = encodeASCII("old mode ");
+	private static final byte[] OLD_MODE = encodeASCII("old mode "); //$NON-NLS-1$
 
-	private static final byte[] NEW_MODE = encodeASCII("new mode ");
+	private static final byte[] NEW_MODE = encodeASCII("new mode "); //$NON-NLS-1$
 
-	static final byte[] DELETED_FILE_MODE = encodeASCII("deleted file mode ");
+	static final byte[] DELETED_FILE_MODE = encodeASCII("deleted file mode "); //$NON-NLS-1$
 
-	static final byte[] NEW_FILE_MODE = encodeASCII("new file mode ");
+	static final byte[] NEW_FILE_MODE = encodeASCII("new file mode "); //$NON-NLS-1$
 
-	private static final byte[] COPY_FROM = encodeASCII("copy from ");
+	private static final byte[] COPY_FROM = encodeASCII("copy from "); //$NON-NLS-1$
 
-	private static final byte[] COPY_TO = encodeASCII("copy to ");
+	private static final byte[] COPY_TO = encodeASCII("copy to "); //$NON-NLS-1$
 
-	private static final byte[] RENAME_OLD = encodeASCII("rename old ");
+	private static final byte[] RENAME_OLD = encodeASCII("rename old "); //$NON-NLS-1$
 
-	private static final byte[] RENAME_NEW = encodeASCII("rename new ");
+	private static final byte[] RENAME_NEW = encodeASCII("rename new "); //$NON-NLS-1$
 
-	private static final byte[] RENAME_FROM = encodeASCII("rename from ");
+	private static final byte[] RENAME_FROM = encodeASCII("rename from "); //$NON-NLS-1$
 
-	private static final byte[] RENAME_TO = encodeASCII("rename to ");
+	private static final byte[] RENAME_TO = encodeASCII("rename to "); //$NON-NLS-1$
 
-	private static final byte[] SIMILARITY_INDEX = encodeASCII("similarity index ");
+	private static final byte[] SIMILARITY_INDEX = encodeASCII("similarity index "); //$NON-NLS-1$
 
-	private static final byte[] DISSIMILARITY_INDEX = encodeASCII("dissimilarity index ");
+	private static final byte[] DISSIMILARITY_INDEX = encodeASCII("dissimilarity index "); //$NON-NLS-1$
 
-	static final byte[] INDEX = encodeASCII("index ");
+	static final byte[] INDEX = encodeASCII("index "); //$NON-NLS-1$
 
-	static final byte[] OLD_NAME = encodeASCII("--- ");
+	static final byte[] OLD_NAME = encodeASCII("--- "); //$NON-NLS-1$
 
-	static final byte[] NEW_NAME = encodeASCII("+++ ");
+	static final byte[] NEW_NAME = encodeASCII("+++ "); //$NON-NLS-1$
 
 	/** Type of patch used by this file. */
 	public static enum PatchType {

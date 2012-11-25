@@ -187,14 +187,14 @@ public abstract class QuotedString {
 	public static class BourneUserPathStyle extends BourneStyle {
 		@Override
 		public String quote(final String in) {
-			if (in.matches("^~[A-Za-z0-9_-]+$")) {
+			if (in.matches("^~[A-Za-z0-9_-]+$")) { //$NON-NLS-1$
 				// If the string is just "~user" we can assume they
 				// mean "~user/".
 				//
-				return in + "/";
+				return in + "/"; //$NON-NLS-1$
 			}
 
-			if (in.matches("^~[A-Za-z0-9_-]*/.*$")) {
+			if (in.matches("^~[A-Za-z0-9_-]*/.*$")) { //$NON-NLS-1$
 				// If the string is of "~/path" or "~user/path"
 				// we must not escape ~/ or ~user/ from the shell.
 				//
@@ -255,7 +255,7 @@ public abstract class QuotedString {
 		@Override
 		public String quote(final String instr) {
 			if (instr.length() == 0)
-				return "\"\"";
+				return "\"\""; //$NON-NLS-1$
 			boolean reuse = true;
 			final byte[] in = Constants.encode(instr);
 			final StringBuilder r = new StringBuilder(2 + in.length);

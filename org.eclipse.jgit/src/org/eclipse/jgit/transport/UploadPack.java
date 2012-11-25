@@ -133,9 +133,9 @@ public class UploadPack {
 			if (line.length() > 45) {
 				final HashSet<String> opts = new HashSet<String>();
 				String opt = line.substring(45);
-				if (opt.startsWith(" "))
+				if (opt.startsWith(" ")) //$NON-NLS-1$
 					opt = opt.substring(1);
-				for (String c : opt.split(" "))
+				for (String c : opt.split(" ")) //$NON-NLS-1$
 					opts.add(c);
 				this.line = line.substring(0, 45);
 				this.options = Collections.unmodifiableSet(opts);
@@ -271,10 +271,10 @@ public class UploadPack {
 		walk = new RevWalk(db);
 		walk.setRetainBody(false);
 
-		WANT = walk.newFlag("WANT");
-		PEER_HAS = walk.newFlag("PEER_HAS");
-		COMMON = walk.newFlag("COMMON");
-		SATISFIED = walk.newFlag("SATISFIED");
+		WANT = walk.newFlag("WANT"); //$NON-NLS-1$
+		PEER_HAS = walk.newFlag("PEER_HAS"); //$NON-NLS-1$
+		COMMON = walk.newFlag("COMMON"); //$NON-NLS-1$
+		SATISFIED = walk.newFlag("SATISFIED"); //$NON-NLS-1$
 		walk.carry(PEER_HAS);
 
 		SAVE = new RevFlagSet();
@@ -507,7 +507,7 @@ public class UploadPack {
 
 			if (timeout > 0) {
 				final Thread caller = Thread.currentThread();
-				timer = new InterruptTimer(caller.getName() + "-Timer");
+				timer = new InterruptTimer(caller.getName() + "-Timer"); //$NON-NLS-1$
 				TimeoutInputStream i = new TimeoutInputStream(rawIn, timer);
 				TimeoutOutputStream o = new TimeoutOutputStream(rawOut, timer);
 				i.setTimeout(timeout * 1000);
@@ -588,7 +588,7 @@ public class UploadPack {
 		} catch (ServiceMayNotContinueException err) {
 			if (!err.isOutput() && err.getMessage() != null) {
 				try {
-					pckOut.writeString("ERR " + err.getMessage() + "\n");
+					pckOut.writeString("ERR " + err.getMessage() + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
 					err.setOutput();
 				} catch (Throwable err2) {
 					// Ignore this secondary failure (and not mark output).
@@ -613,7 +613,7 @@ public class UploadPack {
 
 	private void reportErrorDuringNegotiate(String msg) {
 		try {
-			pckOut.writeString("ERR " + msg + "\n");
+			pckOut.writeString("ERR " + msg + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
 		} catch (Throwable err) {
 			// Ignore this secondary failure.
 		}
@@ -639,13 +639,13 @@ public class UploadPack {
 			// Commits at the boundary which aren't already shallow in
 			// the client need to be marked as such
 			if (c.getDepth() == depth && !clientShallowCommits.contains(c))
-				pckOut.writeString("shallow " + o.name());
+				pckOut.writeString("shallow " + o.name()); //$NON-NLS-1$
 
 			// Commits not on the boundary which are shallow in the client
 			// need to become unshallowed
 			if (c.getDepth() < depth && clientShallowCommits.contains(c)) {
 				unshallowCommits.add(c.copy());
-				pckOut.writeString("unshallow " + c.name());
+				pckOut.writeString("unshallow " + c.name()); //$NON-NLS-1$
 			}
 		}
 
@@ -668,7 +668,7 @@ public class UploadPack {
 			advertiseRefsHook.advertiseRefs(this);
 		} catch (ServiceMayNotContinueException fail) {
 			if (fail.getMessage() != null) {
-				adv.writeOne("ERR " + fail.getMessage());
+				adv.writeOne("ERR " + fail.getMessage()); //$NON-NLS-1$
 				fail.setOutput();
 			}
 			throw fail;
@@ -706,18 +706,18 @@ public class UploadPack {
 			if (line == PacketLineIn.END)
 				break;
 
-			if (line.startsWith("deepen ")) {
+			if (line.startsWith("deepen ")) { //$NON-NLS-1$
 				depth = Integer.parseInt(line.substring(7));
 				continue;
 			}
 
-			if (line.startsWith("shallow ")) {
+			if (line.startsWith("shallow ")) { //$NON-NLS-1$
 				clientShallowCommits.add(ObjectId.fromString(line.substring(8)));
 				continue;
 			}
 
-			if (!line.startsWith("want ") || line.length() < 45)
-				throw new PackProtocolException(MessageFormat.format(JGitText.get().expectedGot, "want", line));
+			if (!line.startsWith("want ") || line.length() < 45) //$NON-NLS-1$
+				throw new PackProtocolException(MessageFormat.format(JGitText.get().expectedGot, "want", line)); //$NON-NLS-1$
 
 			if (isFirst && line.length() > 45) {
 				final FirstLine firstLine = new FirstLine(line);
@@ -753,31 +753,31 @@ public class UploadPack {
 			if (line == PacketLineIn.END) {
 				last = processHaveLines(peerHas, last);
 				if (commonBase.isEmpty() || multiAck != MultiAck.OFF)
-					pckOut.writeString("NAK\n");
+					pckOut.writeString("NAK\n"); //$NON-NLS-1$
 				if (noDone && sentReady) {
-					pckOut.writeString("ACK " + last.name() + "\n");
+					pckOut.writeString("ACK " + last.name() + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
 					return true;
 				}
 				if (!biDirectionalPipe)
 					return false;
 				pckOut.flush();
 
-			} else if (line.startsWith("have ") && line.length() == 45) {
+			} else if (line.startsWith("have ") && line.length() == 45) { //$NON-NLS-1$
 				peerHas.add(ObjectId.fromString(line.substring(5)));
 
-			} else if (line.equals("done")) {
+			} else if (line.equals("done")) { //$NON-NLS-1$
 				last = processHaveLines(peerHas, last);
 
 				if (commonBase.isEmpty())
-					pckOut.writeString("NAK\n");
+					pckOut.writeString("NAK\n"); //$NON-NLS-1$
 
 				else if (multiAck != MultiAck.OFF)
-					pckOut.writeString("ACK " + last.name() + "\n");
+					pckOut.writeString("ACK " + last.name() + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
 
 				return true;
 
 			} else {
-				throw new PackProtocolException(MessageFormat.format(JGitText.get().expectedGot, "have", line));
+				throw new PackProtocolException(MessageFormat.format(JGitText.get().expectedGot, "have", line)); //$NON-NLS-1$
 			}
 		}
 	}
@@ -877,13 +877,13 @@ public class UploadPack {
 				switch (multiAck) {
 				case OFF:
 					if (commonBase.size() == 1)
-						pckOut.writeString("ACK " + obj.name() + "\n");
+						pckOut.writeString("ACK " + obj.name() + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
 					break;
 				case CONTINUE:
-					pckOut.writeString("ACK " + obj.name() + " continue\n");
+					pckOut.writeString("ACK " + obj.name() + " continue\n"); //$NON-NLS-1$ //$NON-NLS-2$
 					break;
 				case DETAILED:
-					pckOut.writeString("ACK " + obj.name() + " common\n");
+					pckOut.writeString("ACK " + obj.name() + " common\n"); //$NON-NLS-1$ //$NON-NLS-2$
 					break;
 				}
 			}
@@ -927,10 +927,10 @@ public class UploadPack {
 						case OFF:
 							break;
 						case CONTINUE:
-							pckOut.writeString("ACK " + id.name() + " continue\n");
+							pckOut.writeString("ACK " + id.name() + " continue\n"); //$NON-NLS-1$ //$NON-NLS-2$
 							break;
 						case DETAILED:
-							pckOut.writeString("ACK " + id.name() + " ready\n");
+							pckOut.writeString("ACK " + id.name() + " ready\n"); //$NON-NLS-1$ //$NON-NLS-2$
 							sentReady = true;
 							break;
 						}
@@ -943,7 +943,7 @@ public class UploadPack {
 		if (multiAck == MultiAck.DETAILED && !didOkToGiveUp && okToGiveUp()) {
 			ObjectId id = peerHas.get(peerHas.size() - 1);
 			sentReady = true;
-			pckOut.writeString("ACK " + id.name() + " ready\n");
+			pckOut.writeString("ACK " + id.name() + " ready\n"); //$NON-NLS-1$ //$NON-NLS-2$
 			sentReady = true;
 		}
 
@@ -1047,7 +1047,7 @@ public class UploadPack {
 			if (0 <= eof)
 				throw new CorruptObjectException(MessageFormat.format(
 						JGitText.get().expectedEOFReceived,
-						"\\x" + Integer.toHexString(eof)));
+						"\\x" + Integer.toHexString(eof))); //$NON-NLS-1$
 		}
 
 		if (sideband) {

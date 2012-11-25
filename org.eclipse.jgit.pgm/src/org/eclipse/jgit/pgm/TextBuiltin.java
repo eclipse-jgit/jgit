@@ -134,8 +134,7 @@ public abstract class TextBuiltin {
 	protected void init(final Repository repository, final String gitDir) {
 		try {
 			final String outputEncoding = repository != null ? repository
-					.getConfig()
-					.getString("i18n", null, "logOutputEncoding") : null;
+					.getConfig().getString("i18n", null, "logOutputEncoding") : null; //$NON-NLS-1$ //$NON-NLS-2$
 			if (outs == null)
 				outs = new FileOutputStream(FileDescriptor.out);
 			BufferedWriter bufw;
@@ -208,7 +207,7 @@ public abstract class TextBuiltin {
 	 * @param clp
 	 */
 	public void printUsageAndExit(final CmdLineParser clp) {
-		printUsageAndExit("", clp);
+		printUsageAndExit("", clp); //$NON-NLS-1$
 	}
 
 	/**
@@ -220,7 +219,7 @@ public abstract class TextBuiltin {
 	public void printUsageAndExit(final String message, final CmdLineParser clp) {
 		PrintWriter writer = new PrintWriter(System.err);
 		writer.println(message);
-		writer.print("jgit ");
+		writer.print("jgit "); //$NON-NLS-1$
 		writer.print(commandName);
 		clp.printSingleLineUsage(writer, getResourceBundle());
 		writer.println();

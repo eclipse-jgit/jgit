@@ -70,7 +70,7 @@ public class ThrowingPrintWriter extends Writer {
 		this.out = out;
 		LF = AccessController.doPrivileged(new PrivilegedAction<String>() {
 			public String run() {
-				return SystemReader.getInstance().getProperty("line.separator");
+				return SystemReader.getInstance().getProperty("line.separator"); //$NON-NLS-1$
 			}
 		});
 	}

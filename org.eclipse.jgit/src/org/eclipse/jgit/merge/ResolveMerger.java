@@ -728,7 +728,7 @@ public class ResolveMerger extends ThreeWayMerger {
 		} else if (!result.containsConflicts()) {
 			// When working inCore, only trivial merges can be handled,
 			// so we generate objects only in conflict free cases
-			of = File.createTempFile("merge_", "_temp", null);
+			of = File.createTempFile("merge_", "_temp", null); //$NON-NLS-1$ //$NON-NLS-2$
 			fos = new FileOutputStream(of);
 			try {
 				fmt.formatMerge(fos, result, Arrays.asList(commitNames),

@@ -58,9 +58,9 @@ public class CompoundException extends Exception {
 		final StringBuilder msg = new StringBuilder();
 		msg.append(JGitText.get().failureDueToOneOfTheFollowing);
 		for (final Throwable c : causes) {
-			msg.append("  ");
+			msg.append("  "); //$NON-NLS-1$
 			msg.append(c.getMessage());
-			msg.append("\n");
+			msg.append("\n"); //$NON-NLS-1$
 		}
 		return msg.toString();
 	}

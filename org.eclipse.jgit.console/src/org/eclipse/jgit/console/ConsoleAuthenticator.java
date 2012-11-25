@@ -66,11 +66,11 @@ public class ConsoleAuthenticator extends CachedAuthenticator {
 	@Override
 	protected PasswordAuthentication promptPasswordAuthentication() {
 		final String realm = formatRealm();
-		String username = cons.readLine(MessageFormat.format(ConsoleText.get().usernameFor + " ", realm));
+		String username = cons.readLine(MessageFormat.format(ConsoleText.get().usernameFor + " ", realm)); //$NON-NLS-1$
 		if (username == null || username.isEmpty()) {
 			return null;
 		}
-		char[] password = cons.readPassword(ConsoleText.get().password + " ");
+		char[] password = cons.readPassword(ConsoleText.get().password + " "); //$NON-NLS-1$
 		if (password == null) {
 			password = new char[0];
 		}
@@ -81,10 +81,10 @@ public class ConsoleAuthenticator extends CachedAuthenticator {
 		final StringBuilder realm = new StringBuilder();
 		if (getRequestorType() == RequestorType.PROXY) {
 			realm.append(getRequestorType());
-			realm.append(" ");
+			realm.append(" "); //$NON-NLS-1$
 			realm.append(getRequestingHost());
 			if (getRequestingPort() > 0) {
-				realm.append(":");
+				realm.append(":"); //$NON-NLS-1$
 				realm.append(getRequestingPort());
 			}
 		} else {

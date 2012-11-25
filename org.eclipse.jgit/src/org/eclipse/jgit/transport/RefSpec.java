@@ -63,7 +63,7 @@ public class RefSpec implements Serializable {
 	 * Suffix for wildcard ref spec component, that indicate matching all refs
 	 * with specified prefix.
 	 */
-	public static final String WILDCARD_SUFFIX = "/*";
+	public static final String WILDCARD_SUFFIX = "/*"; //$NON-NLS-1$
 
 	/**
 	 * Check whether provided string is a wildcard ref spec component.
@@ -122,7 +122,7 @@ public class RefSpec implements Serializable {
 	 */
 	public RefSpec(final String spec) {
 		String s = spec;
-		if (s.startsWith("+")) {
+		if (s.startsWith("+")) { //$NON-NLS-1$
 			force = true;
 			s = s.substring(1);
 		}

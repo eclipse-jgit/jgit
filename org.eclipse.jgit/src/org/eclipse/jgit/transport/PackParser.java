@@ -846,13 +846,13 @@ public abstract class PackParser {
 		if (bAvail != 0 && !expectDataAfterPackFooter)
 			throw new CorruptObjectException(MessageFormat.format(
 					JGitText.get().expectedEOFReceived,
-					"\\x" + Integer.toHexString(buf[bOffset] & 0xff)));
+					"\\x" + Integer.toHexString(buf[bOffset] & 0xff))); //$NON-NLS-1$
 		if (isCheckEofAfterPackFooter()) {
 			int eof = in.read();
 			if (0 <= eof)
 				throw new CorruptObjectException(MessageFormat.format(
 						JGitText.get().expectedEOFReceived,
-						"\\x" + Integer.toHexString(eof)));
+						"\\x" + Integer.toHexString(eof))); //$NON-NLS-1$
 		} else if (bAvail > 0 && expectDataAfterPackFooter) {
 			in.reset();
 			IO.skipFully(in, bOffset);

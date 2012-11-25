@@ -209,7 +209,7 @@ public class ReceivePack extends BaseReceivePack {
 				if (echoCommandFailures && msgOut != null) {
 					sendStatusReport(false, unpackError, new Reporter() {
 						void sendString(final String s) throws IOException {
-							msgOut.write(Constants.encode(s + "\n"));
+							msgOut.write(Constants.encode(s + "\n")); //$NON-NLS-1$
 						}
 					});
 					msgOut.flush();
@@ -221,14 +221,14 @@ public class ReceivePack extends BaseReceivePack {
 				}
 				sendStatusReport(true, unpackError, new Reporter() {
 					void sendString(final String s) throws IOException {
-						pckOut.writeString(s + "\n");
+						pckOut.writeString(s + "\n"); //$NON-NLS-1$
 					}
 				});
 				pckOut.end();
 			} else if (msgOut != null) {
 				sendStatusReport(false, unpackError, new Reporter() {
 					void sendString(final String s) throws IOException {
-						msgOut.write(Constants.encode(s + "\n"));
+						msgOut.write(Constants.encode(s + "\n")); //$NON-NLS-1$
 					}
 				});
 			}
@@ -242,6 +242,6 @@ public class ReceivePack extends BaseReceivePack {
 
 	@Override
 	protected String getLockMessageProcessName() {
-		return "jgit receive-pack";
+		return "jgit receive-pack"; //$NON-NLS-1$
 	}
 }

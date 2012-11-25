@@ -347,19 +347,19 @@ class TextHashFunctions extends TextBuiltin {
 			File parent = db.getDirectory().getParentFile();
 			if (name.equals(Constants.DOT_GIT) && parent != null)
 				name = parent.getName();
-			outw.println(name + ":");
+			outw.println(name + ":"); //$NON-NLS-1$
 		}
 		outw.format("  %6d files; %5d avg. unique lines/file\n", //
 				valueOf(fileCnt), //
 				valueOf(lineCnt / fileCnt));
 		outw.format("%-20s %-15s %9s\n", "Hash", "Fold", "Max Len");
-		outw.println("-----------------------------------------------");
+		outw.println("-----------------------------------------------"); //$NON-NLS-1$
 		String lastHashName = null;
 		for (Function fun : all) {
 			String hashName = fun.hash.name;
 			if (hashName.equals(lastHashName))
-				hashName = "";
-			outw.format("%-20s %-15s %9d\n", //
+				hashName = ""; //$NON-NLS-1$
+			outw.format("%-20s %-15s %9d\n", // //$NON-NLS-1$
 					hashName, //
 					fun.fold.name, //
 					valueOf(fun.maxChainLength));

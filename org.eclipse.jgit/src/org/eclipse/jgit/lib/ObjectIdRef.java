@@ -178,7 +178,7 @@ public abstract class ObjectIdRef implements Ref {
 	@Override
 	public String toString() {
 		StringBuilder r = new StringBuilder();
-		r.append("Ref[");
+		r.append("Ref["); //$NON-NLS-1$
 		r.append(getName());
 		r.append('=');
 		r.append(ObjectId.toString(getObjectId()));

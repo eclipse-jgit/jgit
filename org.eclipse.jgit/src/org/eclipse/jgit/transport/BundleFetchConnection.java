@@ -217,8 +217,8 @@ class BundleFetchConnection extends BaseFetchConnection {
 
 		final RevWalk rw = new RevWalk(transport.local);
 		try {
-			final RevFlag PREREQ = rw.newFlag("PREREQ");
-			final RevFlag SEEN = rw.newFlag("SEEN");
+			final RevFlag PREREQ = rw.newFlag("PREREQ"); //$NON-NLS-1$
+			final RevFlag SEEN = rw.newFlag("SEEN"); //$NON-NLS-1$
 
 			final Map<ObjectId, String> missing = new HashMap<ObjectId, String>();
 			final List<RevObject> commits = new ArrayList<RevObject>();

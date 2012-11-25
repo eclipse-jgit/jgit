@@ -555,7 +555,7 @@ public class DirCache {
 
 	private static String formatExtensionName(final byte[] hdr)
 			throws UnsupportedEncodingException {
-		return "'" + new String(hdr, 0, 4, "ISO-8859-1") + "'";
+		return "'" + new String(hdr, 0, 4, "ISO-8859-1") + "'"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	}
 
 	private static boolean is_DIRC(final byte[] hdr) {
@@ -855,8 +855,8 @@ public class DirCache {
 			System.arraycopy(sortedEntries, 0, r, 0, sortedEntries.length);
 			return r;
 		}
-		if (!path.endsWith("/"))
-			path += "/";
+		if (!path.endsWith("/")) //$NON-NLS-1$
+			path += "/"; //$NON-NLS-1$
 		final byte[] p = Constants.encode(path);
 		final int pLen = p.length;
 
