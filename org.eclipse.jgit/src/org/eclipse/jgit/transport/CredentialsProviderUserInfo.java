@@ -78,7 +78,7 @@ public class CredentialsProviderUserInfo implements UserInfo,
 
 	private static URIish createURI(Session session) {
 		URIish uri = new URIish();
-		uri = uri.setScheme("ssh");
+		uri = uri.setScheme("ssh"); //$NON-NLS-1$
 		uri = uri.setUser(session.getUserName());
 		uri = uri.setHost(session.getHost());
 		uri = uri.setPort(session.getPort());

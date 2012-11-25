@@ -538,6 +538,7 @@ public class LockFile {
 		}
 	}
 
+	@SuppressWarnings("nls")
 	@Override
 	public String toString() {
 		return "LockFile[" + lck + ", haveLck=" + haveLck + "]";

@@ -66,7 +66,7 @@ public class PackLock {
 	public PackLock(final File packFile, final FS fs) {
 		final File p = packFile.getParentFile();
 		final String n = packFile.getName();
-		keepFile = new File(p, n.substring(0, n.length() - 5) + ".keep");
+		keepFile = new File(p, n.substring(0, n.length() - 5) + ".keep"); //$NON-NLS-1$
 		this.fs = fs;
 	}
 
@@ -82,8 +82,8 @@ public class PackLock {
 	public boolean lock(String msg) throws IOException {
 		if (msg == null)
 			return false;
-		if (!msg.endsWith("\n"))
-			msg += "\n";
+		if (!msg.endsWith("\n")) //$NON-NLS-1$
+			msg += "\n"; //$NON-NLS-1$
 		final LockFile lf = new LockFile(keepFile, fs);
 		if (!lf.lock())
 			return false;

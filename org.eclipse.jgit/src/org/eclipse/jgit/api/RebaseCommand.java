@@ -110,40 +110,40 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	/**
 	 * The name of the "rebase-merge" folder
 	 */
-	public static final String REBASE_MERGE = "rebase-merge";
+	public static final String REBASE_MERGE = "rebase-merge"; //$NON-NLS-1$
 
 	/**
 	 * The name of the "stopped-sha" file
 	 */
-	public static final String STOPPED_SHA = "stopped-sha";
+	public static final String STOPPED_SHA = "stopped-sha"; //$NON-NLS-1$
 
-	private static final String AUTHOR_SCRIPT = "author-script";
+	private static final String AUTHOR_SCRIPT = "author-script"; //$NON-NLS-1$
 
-	private static final String DONE = "done";
+	private static final String DONE = "done"; //$NON-NLS-1$
 
-	private static final String GIT_AUTHOR_DATE = "GIT_AUTHOR_DATE";
+	private static final String GIT_AUTHOR_DATE = "GIT_AUTHOR_DATE"; //$NON-NLS-1$
 
-	private static final String GIT_AUTHOR_EMAIL = "GIT_AUTHOR_EMAIL";
+	private static final String GIT_AUTHOR_EMAIL = "GIT_AUTHOR_EMAIL"; //$NON-NLS-1$
 
-	private static final String GIT_AUTHOR_NAME = "GIT_AUTHOR_NAME";
+	private static final String GIT_AUTHOR_NAME = "GIT_AUTHOR_NAME"; //$NON-NLS-1$
 
-	private static final String GIT_REBASE_TODO = "git-rebase-todo";
+	private static final String GIT_REBASE_TODO = "git-rebase-todo"; //$NON-NLS-1$
 
-	private static final String HEAD_NAME = "head-name";
+	private static final String HEAD_NAME = "head-name"; //$NON-NLS-1$
 
-	private static final String INTERACTIVE = "interactive";
+	private static final String INTERACTIVE = "interactive"; //$NON-NLS-1$
 
-	private static final String MESSAGE = "message";
+	private static final String MESSAGE = "message"; //$NON-NLS-1$
 
-	private static final String ONTO = "onto";
+	private static final String ONTO = "onto"; //$NON-NLS-1$
 
-	private static final String ONTO_NAME = "onto-name";
+	private static final String ONTO_NAME = "onto-name"; //$NON-NLS-1$
 
-	private static final String PATCH = "patch";
+	private static final String PATCH = "patch"; //$NON-NLS-1$
 
-	private static final String REBASE_HEAD = "head";
+	private static final String REBASE_HEAD = "head"; //$NON-NLS-1$
 
-	private static final String AMEND = "amend";
+	private static final String AMEND = "amend"; //$NON-NLS-1$
 
 	/**
 	 * The available operations
@@ -275,9 +275,9 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 					for (Step step : steps) {
 						sb.setLength(0);
 						sb.append(step.action.token);
-						sb.append(" ");
+						sb.append(" "); //$NON-NLS-1$
 						sb.append(step.commit.name());
-						sb.append(" ");
+						sb.append(" "); //$NON-NLS-1$
 						sb.append(RawParseUtils.decode(step.shortMessage)
 								.trim());
 						fw.write(sb.toString());
@@ -398,7 +398,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	}
 
 	private RevCommit checkoutCurrentHead() throws IOException, NoHeadException {
-		ObjectId headTree = repo.resolve(Constants.HEAD + "^{tree}");
+		ObjectId headTree = repo.resolve(Constants.HEAD + "^{tree}"); //$NON-NLS-1$
 		if (headTree == null)
 			throw new NoHeadException(
 					JGitText.get().cannotRebaseWithoutCurrentHead);
@@ -442,7 +442,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		treeWalk.reset();
 		treeWalk.setRecursive(true);
 		treeWalk.addTree(new DirCacheIterator(dc));
-		ObjectId id = repo.resolve(Constants.HEAD + "^{tree}");
+		ObjectId id = repo.resolve(Constants.HEAD + "^{tree}"); //$NON-NLS-1$
 		if (id == null)
 			throw new NoHeadException(
 					JGitText.get().cannotRebaseWithoutCurrentHead);
@@ -496,23 +496,23 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	String toAuthorScript(PersonIdent author) {
 		StringBuilder sb = new StringBuilder(100);
 		sb.append(GIT_AUTHOR_NAME);
-		sb.append("='");
+		sb.append("='"); //$NON-NLS-1$
 		sb.append(author.getName());
-		sb.append("'\n");
+		sb.append("'\n"); //$NON-NLS-1$
 		sb.append(GIT_AUTHOR_EMAIL);
-		sb.append("='");
+		sb.append("='"); //$NON-NLS-1$
 		sb.append(author.getEmailAddress());
-		sb.append("'\n");
+		sb.append("'\n"); //$NON-NLS-1$
 		// the command line uses the "external String"
 		// representation for date and timezone
 		sb.append(GIT_AUTHOR_DATE);
-		sb.append("='");
-		sb.append("@"); // @ for time in seconds since 1970
+		sb.append("='"); //$NON-NLS-1$
+		sb.append("@"); // @ for time in seconds since 1970 //$NON-NLS-1$
 		String externalString = author.toExternalString();
 		sb
 				.append(externalString.substring(externalString
 						.lastIndexOf('>') + 2));
-		sb.append("'\n");
+		sb.append("'\n"); //$NON-NLS-1$
 		return sb.toString();
 	}
 
@@ -655,7 +655,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		createFile(rebaseDir, HEAD_NAME, headName);
 		createFile(rebaseDir, ONTO, upstreamCommit.name());
 		createFile(rebaseDir, ONTO_NAME, upstreamCommitName);
-		createFile(rebaseDir, INTERACTIVE, "");
+		createFile(rebaseDir, INTERACTIVE, ""); //$NON-NLS-1$
 		BufferedWriter fw = new BufferedWriter(new OutputStreamWriter(
 				new FileOutputStream(new File(rebaseDir, GIT_REBASE_TODO)),
 				Constants.CHARACTER_ENCODING));
@@ -668,9 +668,9 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			for (RevCommit commit : cherryPickList) {
 				sb.setLength(0);
 				sb.append(Action.PICK.toToken());
-				sb.append(" ");
+				sb.append(" "); //$NON-NLS-1$
 				sb.append(reader.abbreviate(commit).name());
-				sb.append(" ");
+				sb.append(" "); //$NON-NLS-1$
 				sb.append(commit.getShortMessage());
 				fw.write(sb.toString());
 				fw.newLine();
@@ -747,8 +747,8 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 				RefUpdate rup = repo.updateRef(headName);
 				rup.setExpectedOldObjectId(oldCommit);
 				rup.setNewObjectId(newCommit);
-				rup.setRefLogMessage("Fast-foward from " + oldCommit.name()
-						+ " to " + newCommit.name(), false);
+				rup.setRefLogMessage("Fast-foward from " + oldCommit.name() //$NON-NLS-1$
+						+ " to " + newCommit.name(), false); //$NON-NLS-1$
 				Result res = rup.update(walk);
 				switch (res) {
 				case FAST_FORWARD:
@@ -756,7 +756,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 				case FORCED:
 					break;
 				default:
-					throw new IOException("Could not fast-forward");
+					throw new IOException("Could not fast-forward"); //$NON-NLS-1$
 				}
 			}
 			return newCommit;
@@ -1082,11 +1082,11 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	 */
 	public static enum Action {
 		/** Use commit */
-		PICK("pick", "p"),
+		PICK("pick", "p"), //$NON-NLS-1$ //$NON-NLS-2$
 		/** Use commit, but edit the commit message */
-		REWORD("reword", "r"),
+		REWORD("reword", "r"), //$NON-NLS-1$ //$NON-NLS-2$
 		/** Use commit, but stop for amending */
-		EDIT("edit", "e"); // later add SQUASH, FIXUP, etc.
+		EDIT("edit", "e"); // later add SQUASH, FIXUP, etc. //$NON-NLS-1$ //$NON-NLS-2$
 
 		private final String token;
 
@@ -1104,6 +1104,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			return this.token;
 		}
 
+		@SuppressWarnings("nls")
 		@Override
 		public String toString() {
 			return "Action[" + token + "]";
@@ -1165,9 +1166,12 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			return shortMessage;
 		}
 
+		@SuppressWarnings("nls")
 		@Override
 		public String toString() {
-			return "Step[" + action + ", "
+			return "Step["
+					+ action
+					+ ", "
 					+ ((commit == null) ? "null" : commit)
 					+ ", "
 					+ ((shortMessage == null) ? "null" : new String(
@@ -1199,7 +1203,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 
 		// the time is saved as <seconds since 1970> <timezone offset>
 		int timeStart = 0;
-		if (time.startsWith("@"))
+		if (time.startsWith("@")) //$NON-NLS-1$
 			timeStart = 1;
 		else
 			timeStart = 0;

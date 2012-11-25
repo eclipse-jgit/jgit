@@ -138,7 +138,7 @@ public class DeleteBranchCommand extends GitCommand<List<String>> {
 											JGitText.get().cannotDeleteCheckedOutBranch,
 											branchName));
 				RefUpdate update = repo.updateRef(fullName);
-				update.setRefLogMessage("branch deleted", false);
+				update.setRefLogMessage("branch deleted", false); //$NON-NLS-1$
 				update.setForceUpdate(true);
 				Result deleteResult = update.delete();
 

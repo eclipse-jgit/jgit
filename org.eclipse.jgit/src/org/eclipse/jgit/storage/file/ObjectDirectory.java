@@ -155,10 +155,10 @@ public class ObjectDirectory extends FileObjectDatabase {
 			File[] alternatePaths, FS fs, File shallowFile) throws IOException {
 		config = cfg;
 		objects = dir;
-		infoDirectory = new File(objects, "info");
-		packDirectory = new File(objects, "pack");
-		alternatesFile = new File(infoDirectory, "alternates");
-		cachedPacksFile = new File(infoDirectory, "cached-packs");
+		infoDirectory = new File(objects, "info"); //$NON-NLS-1$
+		packDirectory = new File(objects, "pack"); //$NON-NLS-1$
+		alternatesFile = new File(infoDirectory, "alternates"); //$NON-NLS-1$
+		cachedPacksFile = new File(infoDirectory, "cached-packs"); //$NON-NLS-1$
 		packList = new AtomicReference<PackList>(NO_PACKS);
 		cachedPacks = new AtomicReference<CachedPackList>();
 		unpackedObjectCache = new UnpackedObjectCache();
@@ -339,10 +339,10 @@ public class ObjectDirectory extends FileObjectDatabase {
 		final String p = pack.getName();
 		final String i = idx.getName();
 
-		if (p.length() != 50 || !p.startsWith("pack-") || !p.endsWith(".pack"))
+		if (p.length() != 50 || !p.startsWith("pack-") || !p.endsWith(".pack")) //$NON-NLS-1$
 			throw new IOException(MessageFormat.format(JGitText.get().notAValidPack, pack));
 
-		if (i.length() != 49 || !i.startsWith("pack-") || !i.endsWith(".idx"))
+		if (i.length() != 49 || !i.startsWith("pack-") || !i.endsWith(".idx")) //$NON-NLS-1$
 			throw new IOException(MessageFormat.format(JGitText.get().notAValidPack, idx));
 
 		if (!p.substring(0, 45).equals(i.substring(0, 45)))
@@ -355,7 +355,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 
 	@Override
 	public String toString() {
-		return "ObjectDirectory[" + getDirectory() + "]";
+		return "ObjectDirectory[" + getDirectory() + "]"; //$NON-NLS-1$
 	}
 
 	boolean hasObject1(final AnyObjectId objectId) {
@@ -727,11 +727,11 @@ public class ObjectDirectory extends FileObjectDatabase {
 		for (final String indexName : names) {
 			// Must match "pack-[0-9a-f]{40}.idx" to be an index.
 			//
-			if (indexName.length() != 49 || !indexName.endsWith(".idx"))
+			if (indexName.length() != 49 || !indexName.endsWith(".idx")) //$NON-NLS-1$
 				continue;
 
 			final String base = indexName.substring(0, indexName.length() - 4);
-			final String packName = base + ".pack";
+			final String packName = base + ".pack"; //$NON-NLS-1$
 			if (!names.contains(packName)) {
 				// Sometimes C Git's HTTP fetch transport leaves a
 				// .idx file behind and does not download the .pack.
@@ -806,7 +806,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 			return Collections.emptySet();
 		final Set<String> nameSet = new HashSet<String>(nameList.length << 1);
 		for (final String name : nameList) {
-			if (name.startsWith("pack-"))
+			if (name.startsWith("pack-")) //$NON-NLS-1$
 				nameSet.add(name);
 		}
 		return nameSet;

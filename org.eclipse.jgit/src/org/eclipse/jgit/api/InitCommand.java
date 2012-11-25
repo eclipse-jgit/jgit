@@ -80,7 +80,7 @@ public class InitCommand implements Callable<Git> {
 					d = new File(d, Constants.DOT_GIT);
 				builder.setGitDir(d);
 			} else if (builder.getGitDir() == null) {
-				File d = new File(".");
+				File d = new File("."); //$NON-NLS-1$
 				if (d.getParentFile() != null)
 					d = d.getParentFile();
 				if (!bare)

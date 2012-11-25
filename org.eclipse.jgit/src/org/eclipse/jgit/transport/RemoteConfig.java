@@ -67,37 +67,37 @@ import org.eclipse.jgit.lib.Config;
 public class RemoteConfig implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private static final String SECTION = "remote";
+	private static final String SECTION = "remote"; //$NON-NLS-1$
 
-	private static final String KEY_URL = "url";
+	private static final String KEY_URL = "url"; //$NON-NLS-1$
 
-	private static final String KEY_PUSHURL = "pushurl";
+	private static final String KEY_PUSHURL = "pushurl"; //$NON-NLS-1$
 
-	private static final String KEY_FETCH = "fetch";
+	private static final String KEY_FETCH = "fetch"; //$NON-NLS-1$
 
-	private static final String KEY_PUSH = "push";
+	private static final String KEY_PUSH = "push"; //$NON-NLS-1$
 
-	private static final String KEY_UPLOADPACK = "uploadpack";
+	private static final String KEY_UPLOADPACK = "uploadpack"; //$NON-NLS-1$
 
-	private static final String KEY_RECEIVEPACK = "receivepack";
+	private static final String KEY_RECEIVEPACK = "receivepack"; //$NON-NLS-1$
 
-	private static final String KEY_TAGOPT = "tagopt";
+	private static final String KEY_TAGOPT = "tagopt"; //$NON-NLS-1$
 
-	private static final String KEY_MIRROR = "mirror";
+	private static final String KEY_MIRROR = "mirror"; //$NON-NLS-1$
 
-	private static final String KEY_TIMEOUT = "timeout";
+	private static final String KEY_TIMEOUT = "timeout"; //$NON-NLS-1$
 
-	private static final String KEY_INSTEADOF = "insteadof";
+	private static final String KEY_INSTEADOF = "insteadof"; //$NON-NLS-1$
 
-	private static final String KEY_PUSHINSTEADOF = "pushinsteadof";
+	private static final String KEY_PUSHINSTEADOF = "pushinsteadof"; //$NON-NLS-1$
 
 	private static final boolean DEFAULT_MIRROR = false;
 
 	/** Default value for {@link #getUploadPack()} if not specified. */
-	public static final String DEFAULT_UPLOAD_PACK = "git-upload-pack";
+	public static final String DEFAULT_UPLOAD_PACK = "git-upload-pack"; //$NON-NLS-1$
 
 	/** Default value for {@link #getReceivePack()} if not specified. */
-	public static final String DEFAULT_RECEIVE_PACK = "git-receive-pack";
+	public static final String DEFAULT_RECEIVE_PACK = "git-receive-pack"; //$NON-NLS-1$
 
 	/**
 	 * Parse all remote blocks in an existing configuration file, looking for

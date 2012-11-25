@@ -76,13 +76,13 @@ import org.eclipse.jgit.util.IO;
  * independent {@link WalkFetchConnection}.
  */
 abstract class WalkRemoteObjectDatabase {
-	static final String ROOT_DIR = "../";
+	static final String ROOT_DIR = "../"; //$NON-NLS-1$
 
-	static final String INFO_PACKS = "info/packs";
+	static final String INFO_PACKS = "info/packs"; //$NON-NLS-1$
 
-	static final String INFO_ALTERNATES = "info/alternates";
+	static final String INFO_ALTERNATES = "info/alternates"; //$NON-NLS-1$
 
-	static final String INFO_HTTP_ALTERNATES = "info/http-alternates";
+	static final String INFO_HTTP_ALTERNATES = "info/http-alternates"; //$NON-NLS-1$
 
 	static final String INFO_REFS = ROOT_DIR + Constants.INFO_REFS;
 
@@ -292,7 +292,7 @@ abstract class WalkRemoteObjectDatabase {
 	 *             deletion is not supported, or deletion failed.
 	 */
 	void deleteRefLog(final String name) throws IOException {
-		deleteFile(ROOT_DIR + Constants.LOGS + "/" + name);
+		deleteFile(ROOT_DIR + Constants.LOGS + "/" + name); //$NON-NLS-1$
 	}
 
 	/**
@@ -336,7 +336,7 @@ abstract class WalkRemoteObjectDatabase {
 	void writeInfoPacks(final Collection<String> packNames) throws IOException {
 		final StringBuilder w = new StringBuilder();
 		for (final String n : packNames) {
-			w.append("P ");
+			w.append("P "); //$NON-NLS-1$
 			w.append(n);
 			w.append('\n');
 		}
@@ -398,8 +398,8 @@ abstract class WalkRemoteObjectDatabase {
 				String line = br.readLine();
 				if (line == null)
 					break;
-				if (!line.endsWith("/"))
-					line += "/";
+				if (!line.endsWith("/")) //$NON-NLS-1$
+					line += "/"; //$NON-NLS-1$
 				alts.add(openAlternate(line));
 			}
 			return alts;

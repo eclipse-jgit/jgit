@@ -59,7 +59,7 @@ import org.kohsuke.args4j.Option;
 @Command(name = "eclipse-ipzilla", common = false, usage = "usage_synchronizeIPZillaData")
 class Ipzilla extends TextBuiltin {
 	@Option(name = "--url", metaVar = "metaVar_url", usage = "usage_IPZillaURL")
-	private String url = "https://dev.eclipse.org/ipzilla/";
+	private String url = "https://dev.eclipse.org/ipzilla/"; //$NON-NLS-1$
 
 	@Option(name = "--username", metaVar = "metaVar_user", usage = "usage_IPZillaUsername")
 	private String username;

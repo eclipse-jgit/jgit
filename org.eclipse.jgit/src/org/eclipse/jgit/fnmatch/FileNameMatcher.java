@@ -86,7 +86,7 @@ public class FileNameMatcher {
 	static final List<Head> EMPTY_HEAD_LIST = Collections.emptyList();
 
 	private static final Pattern characterClassStartPattern = Pattern
-			.compile("\\[[.:=]");
+			.compile("\\[[.:=]"); //$NON-NLS-1$
 
 	private List<Head> headsStartValue;
 
@@ -185,7 +185,7 @@ public class FileNameMatcher {
 		int firstValidEndBracketIndex = indexOfStartBracket + 2;
 
 		if (indexOfStartBracket + 1 >= pattern.length())
-			throw new NoClosingBracketException(indexOfStartBracket, "[", "]",
+			throw new NoClosingBracketException(indexOfStartBracket, "[", "]", //$NON-NLS-1$ //$NON-NLS-2$
 					pattern);
 
 		if (pattern.charAt(firstValidCharClassIndex) == '!') {
@@ -202,8 +202,8 @@ public class FileNameMatcher {
 			final int possibleGroupEnd = pattern.indexOf(']',
 					firstValidEndBracketIndex);
 			if (possibleGroupEnd == -1)
-				throw new NoClosingBracketException(indexOfStartBracket, "[",
-						"]", pattern);
+				throw new NoClosingBracketException(indexOfStartBracket, "[", //$NON-NLS-1$
+						"]", pattern); //$NON-NLS-1$
 
 			final boolean foundCharClass = charClassStartMatcher
 					.find(firstValidCharClassIndex);
@@ -212,7 +212,7 @@ public class FileNameMatcher {
 					&& charClassStartMatcher.start() < possibleGroupEnd) {
 
 				final String classStart = charClassStartMatcher.group(0);
-				final String classEnd = classStart.charAt(1) + "]";
+				final String classEnd = classStart.charAt(1) + "]"; //$NON-NLS-1$
 
 				final int classStartIndex = charClassStartMatcher.start();
 				final int classEndIndex = pattern.indexOf(classEnd,

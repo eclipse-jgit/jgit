@@ -114,7 +114,7 @@ public class DfsPackDescription implements Comparable<DfsPackDescription> {
 		int dot = name.lastIndexOf('.');
 		if (dot < 0)
 			dot = name.length();
-		return name.substring(0, dot) + ".idx";
+		return name.substring(0, dot) + ".idx"; //$NON-NLS-1$
 	}
 
 	/** @return the source of the pack. */

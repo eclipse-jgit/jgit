@@ -354,15 +354,15 @@ public class RepositoryCache {
 		 *         Git directory.
 		 */
 		public static boolean isGitRepository(final File dir, FS fs) {
-			return fs.resolve(dir, "objects").exists()
-					&& fs.resolve(dir, "refs").exists()
+			return fs.resolve(dir, "objects").exists() //$NON-NLS-1$
+					&& fs.resolve(dir, "refs").exists() //$NON-NLS-1$
 					&& isValidHead(new File(dir, Constants.HEAD));
 		}
 
 		private static boolean isValidHead(final File head) {
 			final String ref = readFirstLine(head);
 			return ref != null
-					&& (ref.startsWith("ref: refs/") || ObjectId.isId(ref));
+					&& (ref.startsWith("ref: refs/") || ObjectId.isId(ref)); //$NON-NLS-1$
 		}
 
 		private static String readFirstLine(final File head) {

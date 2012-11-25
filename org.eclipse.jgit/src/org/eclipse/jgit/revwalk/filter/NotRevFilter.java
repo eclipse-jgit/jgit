@@ -93,6 +93,6 @@ public class NotRevFilter extends RevFilter {
 
 	@Override
 	public String toString() {
-		return "NOT " + a.toString();
+		return "NOT " + a.toString(); //$NON-NLS-1$
 	}
 }

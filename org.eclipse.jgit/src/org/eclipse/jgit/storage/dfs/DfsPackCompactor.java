@@ -238,7 +238,7 @@ public class DfsPackCompactor {
 		});
 
 		RevWalk rw = new RevWalk(ctx);
-		RevFlag added = rw.newFlag("ADDED");
+		RevFlag added = rw.newFlag("ADDED"); //$NON-NLS-1$
 
 		pm.beginTask(JGitText.get().countingObjects, ProgressMonitor.UNKNOWN);
 		for (DfsPackFile src : srcPacks) {

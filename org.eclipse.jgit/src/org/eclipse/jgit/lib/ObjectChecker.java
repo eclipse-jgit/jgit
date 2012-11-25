@@ -67,31 +67,31 @@ import org.eclipse.jgit.util.MutableInteger;
  */
 public class ObjectChecker {
 	/** Header "tree " */
-	public static final byte[] tree = Constants.encodeASCII("tree ");
+	public static final byte[] tree = Constants.encodeASCII("tree "); //$NON-NLS-1$
 
 	/** Header "parent " */
-	public static final byte[] parent = Constants.encodeASCII("parent ");
+	public static final byte[] parent = Constants.encodeASCII("parent "); //$NON-NLS-1$
 
 	/** Header "author " */
-	public static final byte[] author = Constants.encodeASCII("author ");
+	public static final byte[] author = Constants.encodeASCII("author "); //$NON-NLS-1$
 
 	/** Header "committer " */
-	public static final byte[] committer = Constants.encodeASCII("committer ");
+	public static final byte[] committer = Constants.encodeASCII("committer "); //$NON-NLS-1$
 
 	/** Header "encoding " */
-	public static final byte[] encoding = Constants.encodeASCII("encoding ");
+	public static final byte[] encoding = Constants.encodeASCII("encoding "); //$NON-NLS-1$
 
 	/** Header "object " */
-	public static final byte[] object = Constants.encodeASCII("object ");
+	public static final byte[] object = Constants.encodeASCII("object "); //$NON-NLS-1$
 
 	/** Header "type " */
-	public static final byte[] type = Constants.encodeASCII("type ");
+	public static final byte[] type = Constants.encodeASCII("type "); //$NON-NLS-1$
 
 	/** Header "tag " */
-	public static final byte[] tag = Constants.encodeASCII("tag ");
+	public static final byte[] tag = Constants.encodeASCII("tag "); //$NON-NLS-1$
 
 	/** Header "tagger " */
-	public static final byte[] tagger = Constants.encodeASCII("tagger ");
+	public static final byte[] tagger = Constants.encodeASCII("tagger "); //$NON-NLS-1$
 
 	private final MutableObjectId tempId = new MutableObjectId();
 

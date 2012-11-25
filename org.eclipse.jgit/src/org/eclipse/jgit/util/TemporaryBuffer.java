@@ -408,7 +408,7 @@ public abstract class TemporaryBuffer extends OutputStream {
 		}
 
 		protected OutputStream overflow() throws IOException {
-			onDiskFile = File.createTempFile("jgit_", ".buf", directory);
+			onDiskFile = File.createTempFile("jgit_", ".buf", directory); //$NON-NLS-1$ //$NON-NLS-2$
 			return new FileOutputStream(onDiskFile);
 		}
 

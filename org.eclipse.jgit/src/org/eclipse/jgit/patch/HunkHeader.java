@@ -311,8 +311,8 @@ public class HunkHeader {
 
 		} else if (nContext + old.nDeleted > old.lineCount
 				|| nContext + old.nAdded > newLineCount) {
-			final String oldcnt = old.lineCount + ":" + newLineCount;
-			final String newcnt = (nContext + old.nDeleted) + ":"
+			final String oldcnt = old.lineCount + ":" + newLineCount; //$NON-NLS-1$
+			final String newcnt = (nContext + old.nDeleted) + ":" //$NON-NLS-1$
 					+ (nContext + old.nAdded);
 			script.warn(buf, startOffset, MessageFormat.format(
 					JGitText.get().hunkHeaderDoesNotMatchBodyLineCountOf, oldcnt, newcnt));
@@ -404,6 +404,7 @@ public class HunkHeader {
 		offsets[fileIdx] = end < 0 ? s.length() : end + 1;
 	}
 
+	@SuppressWarnings("nls")
 	@Override
 	public String toString() {
 		StringBuilder buf = new StringBuilder();

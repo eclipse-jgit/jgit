@@ -63,7 +63,7 @@ public abstract class DaemonService {
 	private boolean overridable;
 
 	DaemonService(final String cmdName, final String cfgName) {
-		command = cmdName.startsWith("git-") ? cmdName : "git-" + cmdName;
+		command = cmdName.startsWith("git-") ? cmdName : "git-" + cmdName; //$NON-NLS-1$ //$NON-NLS-2$
 		configKey = new SectionParser<ServiceConfig>() {
 			public ServiceConfig parse(final Config cfg) {
 				return new ServiceConfig(DaemonService.this, cfg, cfgName);
@@ -77,7 +77,7 @@ public abstract class DaemonService {
 
 		ServiceConfig(final DaemonService service, final Config cfg,
 				final String name) {
-			enabled = cfg.getBoolean("daemon", name, service.isEnabled());
+			enabled = cfg.getBoolean("daemon", name, service.isEnabled()); //$NON-NLS-1$
 		}
 	}
 
@@ -137,7 +137,7 @@ public abstract class DaemonService {
 			// An error when opening the repo means the client is expecting a ref
 			// advertisement, so use that style of error.
 			PacketLineOut pktOut = new PacketLineOut(client.getOutputStream());
-			pktOut.writeString("ERR " + e.getMessage() + "\n");
+			pktOut.writeString("ERR " + e.getMessage() + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
 			db = null;
 		}
 		if (db == null)

@@ -64,6 +64,7 @@ public class ListenerHandle {
 		parent.remove(this);
 	}
 
+	@SuppressWarnings("nls")
 	@Override
 	public String toString() {
 		return type.getSimpleName() + "[" + listener + "]";

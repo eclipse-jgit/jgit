@@ -58,5 +58,5 @@ public interface TransportBundle extends PackTransport {
 	/**
 	 * Bundle signature
 	 */
-	public static final String V2_BUNDLE_SIGNATURE = "# v2 git bundle";
+	public static final String V2_BUNDLE_SIGNATURE = "# v2 git bundle"; //$NON-NLS-1$
 }

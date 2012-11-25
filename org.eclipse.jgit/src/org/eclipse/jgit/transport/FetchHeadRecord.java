@@ -67,29 +67,29 @@ class FetchHeadRecord {
 		final String type;
 		final String name;
 		if (sourceName.startsWith(R_HEADS)) {
-			type = "branch";
+			type = "branch"; //$NON-NLS-1$
 			name = sourceName.substring(R_HEADS.length());
 		} else if (sourceName.startsWith(R_TAGS)) {
-			type = "tag";
+			type = "tag"; //$NON-NLS-1$
 			name = sourceName.substring(R_TAGS.length());
 		} else if (sourceName.startsWith(R_REMOTES)) {
-			type = "remote branch";
+			type = "remote branch"; //$NON-NLS-1$
 			name = sourceName.substring(R_REMOTES.length());
 		} else {
-			type = "";
+			type = ""; //$NON-NLS-1$
 			name = sourceName;
 		}
 
 		pw.write(newValue.name());
 		pw.write('\t');
 		if (notForMerge)
-			pw.write("not-for-merge");
+			pw.write("not-for-merge"); //$NON-NLS-1$
 		pw.write('\t');
 		pw.write(type);
-		pw.write(" '");
+		pw.write(" '"); //$NON-NLS-1$
 		pw.write(name);
-		pw.write("' of ");
+		pw.write("' of "); //$NON-NLS-1$
 		pw.write(sourceURI.toString());
-		pw.write("\n");
+		pw.write("\n"); //$NON-NLS-1$
 	}
 }

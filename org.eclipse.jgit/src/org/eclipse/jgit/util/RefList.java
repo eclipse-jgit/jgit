@@ -306,7 +306,7 @@ public class RefList<T extends Ref> implements Iterable<Ref> {
 		if (cnt > 0) {
 			r.append(list[0]);
 			for (int i = 1; i < cnt; i++) {
-				r.append(", ");
+				r.append(", "); //$NON-NLS-1$
 				r.append(list[i]);
 			}
 		}

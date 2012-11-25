@@ -103,7 +103,7 @@ class ShowCommands extends TextBuiltin {
 				final ClassLoader ldr = c.getImplementationClassLoader();
 
 				String cn = c.getImplementationClassName();
-				cn = cn.replace('.', '/') + ".class";
+				cn = cn.replace('.', '/') + ".class"; //$NON-NLS-1$
 
 				final URL url = ldr.getResource(cn);
 				if (url == null) {

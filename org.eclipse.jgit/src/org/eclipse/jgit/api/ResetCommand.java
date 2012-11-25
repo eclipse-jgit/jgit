@@ -153,7 +153,7 @@ public class ResetCommand extends GitCommand<Ref> {
 			// resolve the ref to a commit
 			final ObjectId commitId;
 			try {
-				commitId = repo.resolve(ref + "^{commit}");
+				commitId = repo.resolve(ref + "^{commit}"); //$NON-NLS-1$
 				if (commitId == null) {
 					// @TODO throw an InvalidRefNameException. We can't do that
 					// now because this would break the API
@@ -253,7 +253,7 @@ public class ResetCommand extends GitCommand<Ref> {
 		if (!filepaths.isEmpty())
 			throw new JGitInternalException(MessageFormat.format(
 					JGitText.get().illegalCombinationOfArguments,
-					"[--mixed | --soft | --hard]", "<paths>..."));
+					"[--mixed | --soft | --hard]", "<paths>...")); //$NON-NLS-1$
 		this.mode = mode;
 		return this;
 	}
@@ -267,7 +267,7 @@ public class ResetCommand extends GitCommand<Ref> {
 		if (mode != null)
 			throw new JGitInternalException(MessageFormat.format(
 					JGitText.get().illegalCombinationOfArguments, "<paths>...",
-					"[--mixed | --soft | --hard]"));
+					"[--mixed | --soft | --hard]")); //$NON-NLS-1$
 		filepaths.add(file);
 		return this;
 	}

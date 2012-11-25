@@ -67,9 +67,9 @@ import org.eclipse.jgit.internal.JGitText;
 abstract class WalkEncryption {
 	static final WalkEncryption NONE = new NoEncryption();
 
-	static final String JETS3T_CRYPTO_VER = "jets3t-crypto-ver";
+	static final String JETS3T_CRYPTO_VER = "jets3t-crypto-ver"; //$NON-NLS-1$
 
-	static final String JETS3T_CRYPTO_ALG = "jets3t-crypto-alg";
+	static final String JETS3T_CRYPTO_ALG = "jets3t-crypto-alg"; //$NON-NLS-1$
 
 	abstract OutputStream encrypt(OutputStream os) throws IOException;
 
@@ -85,13 +85,13 @@ abstract class WalkEncryption {
 
 		v = u.getHeaderField(p + JETS3T_CRYPTO_VER);
 		if (v == null)
-			v = "";
+			v = ""; //$NON-NLS-1$
 		if (!version.equals(v))
 			throw new IOException(MessageFormat.format(JGitText.get().unsupportedEncryptionVersion, v));
 
 		v = u.getHeaderField(p + JETS3T_CRYPTO_ALG);
 		if (v == null)
-			v = "";
+			v = ""; //$NON-NLS-1$
 		if (!name.equals(v))
 			throw new IOException(JGitText.get().unsupportedEncryptionAlgorithm + v);
 	}
@@ -112,7 +112,7 @@ abstract class WalkEncryption {
 		@Override
 		void validate(final HttpURLConnection u, final String p)
 				throws IOException {
-			validateImpl(u, p, "", "");
+			validateImpl(u, p, "", ""); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
 		@Override
@@ -150,14 +150,14 @@ abstract class WalkEncryption {
 
 		@Override
 		void request(final HttpURLConnection u, final String prefix) {
-			u.setRequestProperty(prefix + JETS3T_CRYPTO_VER, "2");
+			u.setRequestProperty(prefix + JETS3T_CRYPTO_VER, "2"); //$NON-NLS-1$
 			u.setRequestProperty(prefix + JETS3T_CRYPTO_ALG, algorithmName);
 		}
 
 		@Override
 		void validate(final HttpURLConnection u, final String p)
 				throws IOException {
-			validateImpl(u, p, "2", algorithmName);
+			validateImpl(u, p, "2", algorithmName); //$NON-NLS-1$
 		}
 
 		@Override

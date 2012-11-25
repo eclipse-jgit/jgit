@@ -115,6 +115,7 @@ public class FollowFilter extends TreeFilter {
 		return new FollowFilter(path.clone());
 	}
 
+	@SuppressWarnings("nls")
 	@Override
 	public String toString() {
 		return "(FOLLOW(" + path.toString() + ")" //

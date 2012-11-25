@@ -78,10 +78,10 @@ public class DiffConfig {
 	private final int renameLimit;
 
 	private DiffConfig(final Config rc) {
-		noPrefix = rc.getBoolean("diff", "noprefix", false);
-		renameDetectionType = parseRenameDetectionType(rc.getString("diff",
-				null, "renames"));
-		renameLimit = rc.getInt("diff", "renamelimit", 200);
+		noPrefix = rc.getBoolean("diff", "noprefix", false); //$NON-NLS-1$ //$NON-NLS-2$
+		renameDetectionType = parseRenameDetectionType(rc.getString("diff", //$NON-NLS-1$
+				null, "renames")); //$NON-NLS-1$
+		renameLimit = rc.getInt("diff", "renamelimit", 200); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	/** @return true if the prefix "a/" and "b/" should be suppressed. */
@@ -108,16 +108,16 @@ public class DiffConfig {
 			final String renameString) {
 		if (renameString == null)
 			return RenameDetectionType.FALSE;
-		else if (StringUtils.equalsIgnoreCase("copy", renameString)
-				|| StringUtils.equalsIgnoreCase("copies", renameString))
+		else if (StringUtils.equalsIgnoreCase("copy", renameString) //$NON-NLS-1$
+				|| StringUtils.equalsIgnoreCase("copies", renameString)) //$NON-NLS-1$
 			return RenameDetectionType.COPY;
 		else {
 			final Boolean renameBoolean = StringUtils
 					.toBooleanOrNull(renameString);
 			if (renameBoolean == null)
 				throw new IllegalArgumentException(MessageFormat.format(
-						JGitText.get().enumValueNotSupported2, "diff",
-						"renames", renameString));
+						JGitText.get().enumValueNotSupported2, "diff", //$NON-NLS-1$
+						"renames", renameString)); //$NON-NLS-1$
 			else if (renameBoolean.booleanValue())
 				return RenameDetectionType.TRUE;
 			else

@@ -172,7 +172,7 @@ public class PathFilterGroup {
 		}
 
 		public String toString() {
-			return "FAST_" + path.toString();
+			return "FAST_" + path.toString(); //$NON-NLS-1$
 		}
 	}
 
@@ -221,13 +221,13 @@ public class PathFilterGroup {
 
 		public String toString() {
 			final StringBuilder r = new StringBuilder();
-			r.append("FAST(");
+			r.append("FAST("); //$NON-NLS-1$
 			for (int i = 0; i < paths.length; i++) {
 				if (i > 0)
-					r.append(" OR ");
+					r.append(" OR "); //$NON-NLS-1$
 				r.append(paths[i].toString());
 			}
-			r.append(")");
+			r.append(")"); //$NON-NLS-1$
 			return r.toString();
 		}
 	}

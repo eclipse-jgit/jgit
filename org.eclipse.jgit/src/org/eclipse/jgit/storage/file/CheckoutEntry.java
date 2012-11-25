@@ -47,7 +47,7 @@ package org.eclipse.jgit.storage.file;
  * Parsed information about a checkout.
  */
 public class CheckoutEntry {
-	static final String CHECKOUT_MOVING_FROM = "checkout: moving from ";
+	static final String CHECKOUT_MOVING_FROM = "checkout: moving from "; //$NON-NLS-1$
 
 	private String from;
 
@@ -56,10 +56,10 @@ public class CheckoutEntry {
 	CheckoutEntry(ReflogEntry reflogEntry) {
 		String comment = reflogEntry.getComment();
 		int p1 = CHECKOUT_MOVING_FROM.length();
-		int p2 = comment.indexOf(" to ", p1);
+		int p2 = comment.indexOf(" to ", p1); //$NON-NLS-1$
 		int p3 = comment.length();
 		from = comment.substring(p1,p2);
-		to = comment.substring(p2 + " to ".length(), p3);
+		to = comment.substring(p2 + " to ".length(), p3); //$NON-NLS-1$
 	}
 
 	/**

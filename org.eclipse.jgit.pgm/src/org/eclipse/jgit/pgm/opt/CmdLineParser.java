@@ -127,13 +127,13 @@ public class CmdLineParser extends org.kohsuke.args4j.CmdLineParser {
 		final ArrayList<String> tmp = new ArrayList<String>(args.length);
 		for (int argi = 0; argi < args.length; argi++) {
 			final String str = args[argi];
-			if (str.equals("--")) {
+			if (str.equals("--")) { //$NON-NLS-1$
 				while (argi < args.length)
 					tmp.add(args[argi++]);
 				break;
 			}
 
-			if (str.startsWith("--")) {
+			if (str.startsWith("--")) { //$NON-NLS-1$
 				final int eq = str.indexOf('=');
 				if (eq > 0) {
 					tmp.add(str.substring(0, eq));

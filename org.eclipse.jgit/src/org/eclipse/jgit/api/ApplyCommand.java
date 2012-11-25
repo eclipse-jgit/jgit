@@ -227,14 +227,14 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 			}
 		}
 		if (!isNoNewlineAtEndOfFile(fh))
-			newLines.add("");
+			newLines.add(""); //$NON-NLS-1$
 		if (!rt.isMissingNewlineAtEnd())
-			oldLines.add("");
+			oldLines.add(""); //$NON-NLS-1$
 		if (!isChanged(oldLines, newLines))
 			return; // don't touch the file
 		StringBuilder sb = new StringBuilder();
 		final String eol = rt.size() == 0
-				|| (rt.size() == 1 && rt.isMissingNewlineAtEnd()) ? "\n" : rt
+				|| (rt.size() == 1 && rt.isMissingNewlineAtEnd()) ? "\n" : rt //$NON-NLS-1$
 				.getLineDelimiter();
 		for (String l : newLines) {
 			sb.append(l);

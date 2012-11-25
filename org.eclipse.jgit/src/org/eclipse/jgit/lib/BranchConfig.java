@@ -81,7 +81,7 @@ public class BranchConfig {
 		if (remote == null || mergeRef == null)
 			return null;
 
-		if (remote.equals("."))
+		if (remote.equals(".")) //$NON-NLS-1$
 			return mergeRef;
 
 		return findRemoteTrackingBranch(remote, mergeRef);

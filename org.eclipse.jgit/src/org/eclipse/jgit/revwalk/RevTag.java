@@ -204,7 +204,7 @@ public class RevTag extends RevObject {
 		final byte[] raw = buffer;
 		final int msgB = RawParseUtils.tagMessage(raw, 0);
 		if (msgB < 0)
-			return "";
+			return ""; //$NON-NLS-1$
 		final Charset enc = RawParseUtils.parseEncoding(raw);
 		return RawParseUtils.decode(enc, raw, msgB, raw.length);
 	}
@@ -228,7 +228,7 @@ public class RevTag extends RevObject {
 		final byte[] raw = buffer;
 		final int msgB = RawParseUtils.tagMessage(raw, 0);
 		if (msgB < 0)
-			return "";
+			return ""; //$NON-NLS-1$
 
 		final Charset enc = RawParseUtils.parseEncoding(raw);
 		final int msgE = RawParseUtils.endOfParagraph(raw, msgB);

@@ -321,7 +321,7 @@ public class BlameResult {
 	@Override
 	public String toString() {
 		StringBuilder r = new StringBuilder();
-		r.append("BlameResult: ");
+		r.append("BlameResult: "); //$NON-NLS-1$
 		r.append(getResultPath());
 		return r.toString();
 	}

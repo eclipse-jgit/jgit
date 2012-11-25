@@ -95,7 +95,7 @@ import org.kohsuke.args4j.Option;
  * <p>
  */
 class RebuildCommitGraph extends TextBuiltin {
-	private static final String REALLY = "--destroy-this-repository";
+	private static final String REALLY = "--destroy-this-repository"; //$NON-NLS-1$
 
 	@Option(name = REALLY, usage = "usage_approveDestructionOfRepository")
 	boolean really;
@@ -138,7 +138,7 @@ class RebuildCommitGraph extends TextBuiltin {
 		try {
 			String line;
 			while ((line = br.readLine()) != null) {
-				final String[] parts = line.split("[ \t]{1,}");
+				final String[] parts = line.split("[ \t]{1,}"); //$NON-NLS-1$
 				final ObjectId oldId = ObjectId.fromString(parts[0]);
 				try {
 					rw.parseCommit(oldId);
@@ -165,8 +165,8 @@ class RebuildCommitGraph extends TextBuiltin {
 		pm.beginTask("Rewriting commits", queue.size());
 		final ObjectInserter oi = db.newObjectInserter();
 		final ObjectId emptyTree = oi.insert(Constants.OBJ_TREE, new byte[] {});
-		final PersonIdent me = new PersonIdent("jgit rebuild-commitgraph",
-				"rebuild-commitgraph@localhost");
+		final PersonIdent me = new PersonIdent("jgit rebuild-commitgraph", //$NON-NLS-1$
+				"rebuild-commitgraph@localhost"); //$NON-NLS-1$
 		while (!queue.isEmpty()) {
 			final ListIterator<ToRewrite> itr = queue
 					.listIterator(queue.size());
@@ -196,7 +196,7 @@ class RebuildCommitGraph extends TextBuiltin {
 				newc.setAuthor(new PersonIdent(me, new Date(t.commitTime)));
 				newc.setCommitter(newc.getAuthor());
 				newc.setParentIds(newParents);
-				newc.setMessage("ORIGINAL " + t.oldId.name() + "\n");
+				newc.setMessage("ORIGINAL " + t.oldId.name() + "\n"); //$NON-NLS-2$
 				t.newId = oi.insert(newc);
 				rewrites.put(t.oldId, t.newId);
 				pm.update(1);
@@ -277,7 +277,7 @@ class RebuildCommitGraph extends TextBuiltin {
 		try {
 			String line;
 			while ((line = br.readLine()) != null) {
-				final String[] parts = line.split("[ \t]{1,}");
+				final String[] parts = line.split("[ \t]{1,}"); //$NON-NLS-1$
 				final ObjectId origId = ObjectId.fromString(parts[0]);
 				final String type = parts[1];
 				final String name = parts[2];

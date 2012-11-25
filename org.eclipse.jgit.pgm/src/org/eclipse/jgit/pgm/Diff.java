@@ -161,8 +161,8 @@ class Diff extends TextBuiltin {
 
 	@Option(name = "--no-prefix", usage = "usage_noPrefix")
 	void noPrefix(@SuppressWarnings("unused") boolean on) {
-		diffFmt.setOldPrefix("");
-		diffFmt.setNewPrefix("");
+		diffFmt.setOldPrefix(""); //$NON-NLS-1$
+		diffFmt.setNewPrefix(""); //$NON-NLS-1$
 	}
 
 	// END -- Options shared with Log
@@ -179,7 +179,7 @@ class Diff extends TextBuiltin {
 		try {
 			if (cached) {
 				if (oldTree == null) {
-					ObjectId head = db.resolve(HEAD + "^{tree}");
+					ObjectId head = db.resolve(HEAD + "^{tree}"); //$NON-NLS-1$
 					if (head == null)
 						die(MessageFormat.format(CLIText.get().notATree, HEAD));
 					CanonicalTreeParser p = new CanonicalTreeParser();
@@ -227,21 +227,21 @@ class Diff extends TextBuiltin {
 		for (DiffEntry ent : files) {
 			switch (ent.getChangeType()) {
 			case ADD:
-				out.println("A\t" + ent.getNewPath());
+				out.println("A\t" + ent.getNewPath()); //$NON-NLS-1$
 				break;
 			case DELETE:
-				out.println("D\t" + ent.getOldPath());
+				out.println("D\t" + ent.getOldPath()); //$NON-NLS-1$
 				break;
 			case MODIFY:
-				out.println("M\t" + ent.getNewPath());
+				out.println("M\t" + ent.getNewPath()); //$NON-NLS-1$
 				break;
 			case COPY:
-				out.format("C%1$03d\t%2$s\t%3$s", valueOf(ent.getScore()), //
+				out.format("C%1$03d\t%2$s\t%3$s", valueOf(ent.getScore()), // //$NON-NLS-1$
 						ent.getOldPath(), ent.getNewPath());
 				out.println();
 				break;
 			case RENAME:
-				out.format("R%1$03d\t%2$s\t%3$s", valueOf(ent.getScore()), //
+				out.format("R%1$03d\t%2$s\t%3$s", valueOf(ent.getScore()), // //$NON-NLS-1$
 						ent.getOldPath(), ent.getNewPath());
 				out.println();
 				break;
