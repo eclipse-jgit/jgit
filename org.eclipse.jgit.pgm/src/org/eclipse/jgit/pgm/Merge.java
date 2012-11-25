@@ -161,6 +161,7 @@ class Merge extends TextBuiltin {
 			outw.println(MessageFormat.format(CLIText.get().mergeMadeBy, name));
 			break;
 		case MERGED_SQUASHED:
+		case FAST_FORWARD_SQUASHED:
 			outw.println(CLIText.get().mergedSquashed);
 			break;
 		case ABORTED:
