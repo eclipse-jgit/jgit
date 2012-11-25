@@ -249,8 +249,8 @@ public class FileRepository extends Repository {
 		refs.create();
 		objectDatabase.create();
 
-		FileUtils.mkdir(new File(getDirectory(), "branches"));
-		FileUtils.mkdir(new File(getDirectory(), "hooks"));
+		FileUtils.mkdir(new File(getDirectory(), "branches")); //$NON-NLS-1$
+		FileUtils.mkdir(new File(getDirectory(), "hooks")); //$NON-NLS-1$
 
 		RefUpdate head = updateRef(Constants.HEAD);
 		head.disableRefLog();
@@ -258,7 +258,7 @@ public class FileRepository extends Repository {
 
 		final boolean fileMode;
 		if (getFS().supportsExecute()) {
-			File tmp = File.createTempFile("try", "execute", getDirectory());
+			File tmp = File.createTempFile("try", "execute", getDirectory()); //$NON-NLS-1$
 
 			getFS().setExecute(tmp, true);
 			final boolean on = getFS().canExecute(tmp);

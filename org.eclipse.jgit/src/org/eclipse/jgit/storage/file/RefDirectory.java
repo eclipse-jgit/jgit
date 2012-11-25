@@ -268,7 +268,7 @@ public class RefDirectory extends RefDatabase {
 					break;
 				}
 			} catch (IOException e) {
-				if (!(!needle.contains("/") && "".equals(prefix) && e
+				if (!(!needle.contains("/") && "".equals(prefix) && e //$NON-NLS-1$
 						.getCause() instanceof InvalidObjectIdException)) {
 					throw e;
 				}
@@ -980,7 +980,7 @@ public class RefDirectory extends RefDatabase {
 	 *             a temporary name cannot be allocated.
 	 */
 	RefDirectoryUpdate newTemporaryUpdate() throws IOException {
-		File tmp = File.createTempFile("renamed_", "_ref", refsDir);
+		File tmp = File.createTempFile("renamed_", "_ref", refsDir); //$NON-NLS-1$
 		String name = Constants.R_REFS + tmp.getName();
 		Ref ref = new ObjectIdRef.Unpeeled(NEW, name, null);
 		return new RefDirectoryUpdate(this, ref);

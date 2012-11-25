@@ -86,13 +86,13 @@ public class MergeFormatter {
 			if (lastConflictingName != null
 					&& chunk.getConflictState() != ConflictState.NEXT_CONFLICTING_RANGE) {
 				// found the end of an conflict
-				out.write((">>>>>>> " + lastConflictingName + "\n").getBytes(charsetName));
+				out.write((">>>>>>> " + lastConflictingName + "\n").getBytes(charsetName)); //$NON-NLS-1$
 				lastConflictingName = null;
 			}
 			if (chunk.getConflictState() == ConflictState.FIRST_CONFLICTING_RANGE) {
 				// found the start of an conflict
-				out.write(("<<<<<<< " + seqName.get(chunk.getSequenceIndex()) +
-						"\n").getBytes(charsetName));
+				out.write(("<<<<<<< " + seqName.get(chunk.getSequenceIndex()) + //$NON-NLS-1$
+						"\n").getBytes(charsetName)); //$NON-NLS-1$
 				lastConflictingName = seqName.get(chunk.getSequenceIndex());
 			} else if (chunk.getConflictState() == ConflictState.NEXT_CONFLICTING_RANGE) {
 				// found another conflicting chunk
@@ -105,8 +105,8 @@ public class MergeFormatter {
 				 * present non-three-way merges - feel free to correct here.
 				 */
 				lastConflictingName = seqName.get(chunk.getSequenceIndex());
-				out.write((threeWayMerge ? "=======\n" : "======= "
-						+ lastConflictingName + "\n").getBytes(charsetName));
+				out.write((threeWayMerge ? "=======\n" : "======= " //$NON-NLS-1$
+						+ lastConflictingName + "\n").getBytes(charsetName)); //$NON-NLS-1$
 			}
 			// the lines with conflict-metadata are written. Now write the chunk
 			for (int i = chunk.getBegin(); i < chunk.getEnd(); i++) {
@@ -117,7 +117,7 @@ public class MergeFormatter {
 		// one possible leftover: if the merge result ended with a conflict we
 		// have to close the last conflict here
 		if (lastConflictingName != null) {
-			out.write((">>>>>>> " + lastConflictingName + "\n").getBytes(charsetName));
+			out.write((">>>>>>> " + lastConflictingName + "\n").getBytes(charsetName)); //$NON-NLS-1$
 		}
 	}
 

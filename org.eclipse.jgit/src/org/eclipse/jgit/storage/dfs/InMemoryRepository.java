@@ -77,7 +77,7 @@ public class InMemoryRepository extends DfsRepository {
 		protected DfsPackDescription newPack(PackSource source) {
 			int id = packId.incrementAndGet();
 			DfsPackDescription desc = new MemPack(
-					"pack-" + id + "-" + source.name(),
+					"pack-" + id + "-" + source.name(), //$NON-NLS-1$
 					getRepository().getDescription());
 			return desc.setPackSource(source);
 		}

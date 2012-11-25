@@ -146,7 +146,7 @@ public abstract class OrRevFilter extends RevFilter {
 
 		@Override
 		public String toString() {
-			return "(" + a.toString() + " OR " + b.toString() + ")";
+			return "(" + a.toString() + " OR " + b.toString() + ")"; //$NON-NLS-1$
 		}
 	}
 
@@ -191,13 +191,13 @@ public abstract class OrRevFilter extends RevFilter {
 		@Override
 		public String toString() {
 			final StringBuilder r = new StringBuilder();
-			r.append("(");
+			r.append("("); //$NON-NLS-1$
 			for (int i = 0; i < subfilters.length; i++) {
 				if (i > 0)
-					r.append(" OR ");
+					r.append(" OR "); //$NON-NLS-1$
 				r.append(subfilters[i].toString());
 			}
-			r.append(")");
+			r.append(")"); //$NON-NLS-1$
 			return r.toString();
 		}
 	}

@@ -1379,7 +1379,7 @@ public class PackWriter {
 					// Object writing already started, we cannot recover.
 					//
 					CorruptObjectException coe;
-					coe = new CorruptObjectException(otp, "");
+					coe = new CorruptObjectException(otp, ""); //$NON-NLS-1$
 					coe.initCause(gone);
 					throw coe;
 				}
@@ -1504,9 +1504,9 @@ public class PackWriter {
 		all.addAll(have);
 
 		final Map<ObjectId, CachedPack> tipToPack = new HashMap<ObjectId, CachedPack>();
-		final RevFlag inCachedPack = walker.newFlag("inCachedPack");
-		final RevFlag include = walker.newFlag("include");
-		final RevFlag added = walker.newFlag("added");
+		final RevFlag inCachedPack = walker.newFlag("inCachedPack"); //$NON-NLS-1$
+		final RevFlag include = walker.newFlag("include"); //$NON-NLS-1$
+		final RevFlag added = walker.newFlag("added"); //$NON-NLS-1$
 
 		final RevFlagSet keepOnRestart = new RevFlagSet();
 		keepOnRestart.add(inCachedPack);
@@ -2281,7 +2281,7 @@ public class PackWriter {
 
 		@Override
 		public String toString() {
-			return "PackWriter.State[" + phase + ", memory=" + bytesUsed + "]";
+			return "PackWriter.State[" + phase + ", memory=" + bytesUsed + "]"; //$NON-NLS-1$
 		}
 	}
 }

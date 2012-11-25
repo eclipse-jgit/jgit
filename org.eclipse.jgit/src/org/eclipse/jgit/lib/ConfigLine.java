@@ -112,6 +112,7 @@ class ConfigLine {
 		return a.equals(b);
 	}
 
+	@SuppressWarnings("nls")
 	@Override
 	public String toString() {
 		if (section == null)

@@ -69,7 +69,7 @@ public abstract class BatchingProgressMonitor implements ProgressMonitor {
 
 					public Thread newThread(Runnable taskBody) {
 						Thread thr = baseFactory.newThread(taskBody);
-						thr.setName("JGit-AlarmQueue");
+						thr.setName("JGit-AlarmQueue"); //$NON-NLS-1$
 						thr.setDaemon(true);
 						return thr;
 					}

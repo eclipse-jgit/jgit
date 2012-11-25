@@ -80,6 +80,6 @@ public class EditList extends ArrayList<Edit> {
 
 	@Override
 	public String toString() {
-		return "EditList" + super.toString();
+		return "EditList" + super.toString(); //$NON-NLS-1$
 	}
 }

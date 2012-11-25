@@ -86,10 +86,10 @@ class SideBandInputStream extends InputStream {
 	static final int CH_ERROR = 3;
 
 	private static Pattern P_UNBOUNDED = Pattern
-			.compile("^([\\w ]+): +(\\d+)(?:, done\\.)? *[\r\n]$");
+			.compile("^([\\w ]+): +(\\d+)(?:, done\\.)? *[\r\n]$"); //$NON-NLS-1$
 
 	private static Pattern P_BOUNDED = Pattern
-			.compile("^([\\w ]+): +\\d+% +\\( *(\\d+)/ *(\\d+)\\)(?:, done\\.)? *[\r\n]$");
+			.compile("^([\\w ]+): +\\d+% +\\( *(\\d+)/ *(\\d+)\\)(?:, done\\.)? *[\r\n]$"); //$NON-NLS-1$
 
 	private final InputStream rawIn;
 
@@ -99,7 +99,7 @@ class SideBandInputStream extends InputStream {
 
 	private final Writer messages;
 
-	private String progressBuffer = "";
+	private String progressBuffer = ""; //$NON-NLS-1$
 
 	private String currentTask;
 
@@ -117,7 +117,7 @@ class SideBandInputStream extends InputStream {
 		pckIn = new PacketLineIn(rawIn);
 		monitor = progress;
 		messages = messageStream;
-		currentTask = "";
+		currentTask = ""; //$NON-NLS-1$
 	}
 
 	@Override

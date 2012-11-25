@@ -60,7 +60,7 @@ class ShowRef extends TextBuiltin {
 		for (final Ref r : getSortedRefs()) {
 			show(r.getObjectId(), r.getName());
 			if (r.getPeeledObjectId() != null)
-				show(r.getPeeledObjectId(), r.getName() + "^{}");
+				show(r.getPeeledObjectId(), r.getName() + "^{}"); //$NON-NLS-1$
 		}
 	}
 

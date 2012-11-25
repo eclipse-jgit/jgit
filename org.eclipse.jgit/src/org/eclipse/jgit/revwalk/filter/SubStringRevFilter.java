@@ -125,6 +125,6 @@ public abstract class SubStringRevFilter extends RevFilter {
 
 	@Override
 	public String toString() {
-		return super.toString() + "(\"" + pattern.pattern() + "\")";
+		return super.toString() + "(\"" + pattern.pattern() + "\")"; //$NON-NLS-1$
 	}
 }

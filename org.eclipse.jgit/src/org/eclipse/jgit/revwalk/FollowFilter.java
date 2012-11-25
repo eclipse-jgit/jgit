@@ -117,9 +117,9 @@ public class FollowFilter extends TreeFilter {
 
 	@Override
 	public String toString() {
-		return "(FOLLOW(" + path.toString() + ")" //
-				+ " AND " //
-				+ ANY_DIFF.toString() + ")";
+		return "(FOLLOW(" + path.toString() + ")" // //$NON-NLS-1$
+				+ " AND " // //$NON-NLS-1$
+				+ ANY_DIFF.toString() + ")"; //$NON-NLS-1$
 	}
 
 	/**

@@ -86,7 +86,7 @@ public class FileNameMatcher {
 	static final List<Head> EMPTY_HEAD_LIST = Collections.emptyList();
 
 	private static final Pattern characterClassStartPattern = Pattern
-			.compile("\\[[.:=]");
+			.compile("\\[[.:=]"); //$NON-NLS-1$
 
 	private List<Head> headsStartValue;
 
@@ -212,7 +212,7 @@ public class FileNameMatcher {
 					&& charClassStartMatcher.start() < possibleGroupEnd) {
 
 				final String classStart = charClassStartMatcher.group(0);
-				final String classEnd = classStart.charAt(1) + "]";
+				final String classEnd = classStart.charAt(1) + "]"; //$NON-NLS-1$
 
 				final int classStartIndex = charClassStartMatcher.start();
 				final int classEndIndex = pattern.indexOf(classEnd,

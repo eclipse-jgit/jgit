@@ -417,7 +417,7 @@ public class DirCacheCheckout {
 			builder.finish();
 
 			File file = null;
-			String last = "";
+			String last = ""; //$NON-NLS-1$
 			// when deleting files process them in the opposite order as they have
 			// been reported. This ensures the files are deleted before we delete
 			// their parent folders
@@ -965,7 +965,7 @@ public class DirCacheCheckout {
 		ObjectLoader ol = or.open(entry.getObjectId());
 		File parentDir = f.getParentFile();
 		parentDir.mkdirs();
-		File tmpFile = File.createTempFile("._" + f.getName(), null, parentDir);
+		File tmpFile = File.createTempFile("._" + f.getName(), null, parentDir); //$NON-NLS-1$
 		WorkingTreeOptions opt = repo.getConfig().get(WorkingTreeOptions.KEY);
 		FileOutputStream rawChannel = new FileOutputStream(tmpFile);
 		OutputStream channel;
@@ -1007,10 +1007,10 @@ public class DirCacheCheckout {
 
 	private static byte[][] forbidden;
 	static {
-		String[] list = new String[] { "AUX", "COM1", "COM2", "COM3", "COM4",
-				"COM5", "COM6", "COM7", "COM8", "COM9", "CON", "LPT1", "LPT2",
-				"LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9", "NUL",
-				"PRN" };
+		String[] list = new String[] { "AUX", "COM1", "COM2", "COM3", "COM4", //$NON-NLS-1$
+				"COM5", "COM6", "COM7", "COM8", "COM9", "CON", "LPT1", "LPT2", //$NON-NLS-1$
+				"LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9", "NUL", //$NON-NLS-1$
+				"PRN" }; //$NON-NLS-1$
 		forbidden = new byte[list.length][];
 		for (int i = 0; i < list.length; ++i)
 			forbidden[i] = Constants.encodeASCII(list[i]);

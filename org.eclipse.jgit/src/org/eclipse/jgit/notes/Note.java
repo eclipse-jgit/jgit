@@ -74,6 +74,6 @@ public class Note extends ObjectId {
 
 	@Override
 	public String toString() {
-		return "Note[" + name() + " -> " + data.name() + "]";
+		return "Note[" + name() + " -> " + data.name() + "]"; //$NON-NLS-1$
 	}
 }

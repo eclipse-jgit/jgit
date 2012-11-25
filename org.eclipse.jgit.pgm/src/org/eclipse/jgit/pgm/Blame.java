@@ -143,16 +143,16 @@ class Blame extends TextBuiltin {
 		}
 
 		if (abbrev == 0)
-			abbrev = db.getConfig().getInt("core", "abbrev", 7);
+			abbrev = db.getConfig().getInt("core", "abbrev", 7); //$NON-NLS-1$ //$NON-NLS-2$
 		if (!showBlankBoundary)
-			root = db.getConfig().getBoolean("blame", "blankboundary", false);
+			root = db.getConfig().getBoolean("blame", "blankboundary", false); //$NON-NLS-1$ //$NON-NLS-2$
 		if (!root)
-			root = db.getConfig().getBoolean("blame", "showroot", false);
+			root = db.getConfig().getBoolean("blame", "showroot", false); //$NON-NLS-1$ //$NON-NLS-2$
 
 		if (showRawTimestamp)
-			dateFmt = new SimpleDateFormat("ZZZZ");
+			dateFmt = new SimpleDateFormat("ZZZZ"); //$NON-NLS-1$
 		else
-			dateFmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ZZZZ");
+			dateFmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ZZZZ"); //$NON-NLS-1$
 
 		BlameGenerator generator = new BlameGenerator(db, file);
 		reader = db.newObjectReader();
@@ -170,7 +170,7 @@ class Blame extends TextBuiltin {
 				}
 				generator.reverse(rangeStart, rangeEnd);
 			} else if (revision != null) {
-				generator.push(null, db.resolve(revision + "^{commit}"));
+				generator.push(null, db.resolve(revision + "^{commit}")); //$NON-NLS-1$
 			} else {
 				generator.push(null, db.resolve(Constants.HEAD));
 				if (!db.isBare()) {
@@ -203,12 +203,12 @@ class Blame extends TextBuiltin {
 				maxSourceLine = Math.max(maxSourceLine, blame.getSourceLine(line));
 			}
 
-			String pathFmt = MessageFormat.format(" %{0}s", valueOf(pathWidth));
-			String numFmt = MessageFormat.format(" %{0}d",
+			String pathFmt = MessageFormat.format(" %{0}s", valueOf(pathWidth)); //$NON-NLS-1$
+			String numFmt = MessageFormat.format(" %{0}d", //$NON-NLS-1$
 					valueOf(1 + (int) Math.log10(maxSourceLine + 1)));
-			String lineFmt = MessageFormat.format(" %{0}d) ",
+			String lineFmt = MessageFormat.format(" %{0}d) ", //$NON-NLS-1$
 					valueOf(1 + (int) Math.log10(end + 1)));
-			String authorFmt = MessageFormat.format(" (%-{0}s %{1}s",
+			String authorFmt = MessageFormat.format(" (%-{0}s %{1}s", //$NON-NLS-1$
 					valueOf(authorWidth), valueOf(dateWidth));
 
 			for (int line = begin; line < end; line++) {
@@ -233,8 +233,8 @@ class Blame extends TextBuiltin {
 
 	private void parseLineRangeOption() {
 		String beginStr, endStr;
-		if (rangeString.startsWith("/")) {
-			int c = rangeString.indexOf("/,", 1);
+		if (rangeString.startsWith("/")) { //$NON-NLS-1$
+			int c = rangeString.indexOf("/,", 1); //$NON-NLS-1$
 			if (c < 0) {
 				beginStr = rangeString;
 				endStr = String.valueOf(end);
@@ -249,7 +249,7 @@ class Blame extends TextBuiltin {
 				beginStr = rangeString;
 				endStr = String.valueOf(end);
 			} else if (c == 0) {
-				beginStr = "0";
+				beginStr = "0"; //$NON-NLS-1$
 				endStr = rangeString.substring(1);
 			} else {
 				beginStr = rangeString.substring(0, c);
@@ -257,20 +257,20 @@ class Blame extends TextBuiltin {
 			}
 		}
 
-		if (beginStr.equals(""))
+		if (beginStr.equals("")) //$NON-NLS-1$
 			begin = 0;
-		else if (beginStr.startsWith("/"))
+		else if (beginStr.startsWith("/")) //$NON-NLS-1$
 			begin = findLine(0, beginStr);
 		else
 			begin = Math.max(0, Integer.parseInt(beginStr) - 1);
 
-		if (endStr.equals(""))
+		if (endStr.equals("")) //$NON-NLS-1$
 			end = blame.getResultContents().size();
-		else if (endStr.startsWith("/"))
+		else if (endStr.startsWith("/")) //$NON-NLS-1$
 			end = findLine(begin, endStr);
-		else if (endStr.startsWith("-"))
+		else if (endStr.startsWith("-")) //$NON-NLS-1$
 			end = begin + Integer.parseInt(endStr);
-		else if (endStr.startsWith("+"))
+		else if (endStr.startsWith("+")) //$NON-NLS-1$
 			end = begin + Integer.parseInt(endStr.substring(1));
 		else
 			end = Math.max(0, Integer.parseInt(endStr) - 1);
@@ -278,10 +278,10 @@ class Blame extends TextBuiltin {
 
 	private int findLine(int b, String regex) {
 		String re = regex.substring(1, regex.length() - 1);
-		if (!re.startsWith("^"))
-			re = ".*" + re;
-		if (!re.endsWith("$"))
-			re = re + ".*";
+		if (!re.startsWith("^")) //$NON-NLS-1$
+			re = ".*" + re; //$NON-NLS-1$
+		if (!re.endsWith("$")) //$NON-NLS-1$
+			re = re + ".*"; //$NON-NLS-1$
 		Pattern p = Pattern.compile(re);
 		RawText text = blame.getResultContents();
 		for (int line = b; line < text.size(); line++) {
@@ -293,30 +293,30 @@ class Blame extends TextBuiltin {
 
 	private String path(int line) {
 		String p = blame.getSourcePath(line);
-		return p != null ? p : "";
+		return p != null ? p : ""; //$NON-NLS-1$
 	}
 
 	private String author(int line) {
 		PersonIdent author = blame.getSourceAuthor(line);
 		if (author == null)
-			return "";
+			return ""; //$NON-NLS-1$
 		String name = showAuthorEmail ? author.getEmailAddress() : author
 				.getName();
-		return name != null ? name : "";
+		return name != null ? name : ""; //$NON-NLS-1$
 	}
 
 	private String date(int line) {
 		if (blame.getSourceCommit(line) == null)
-			return "";
+			return ""; //$NON-NLS-1$
 
 		PersonIdent author = blame.getSourceAuthor(line);
 		if (author == null)
-			return "";
+			return ""; //$NON-NLS-1$
 
 		dateFmt.setTimeZone(author.getTimeZone());
 		if (!showRawTimestamp)
 			return dateFmt.format(author.getWhen());
-		return String.format("%d %s",
+		return String.format("%d %s", //$NON-NLS-1$
 				valueOf(author.getWhen().getTime() / 1000L),
 				dateFmt.format(author.getWhen()));
 	}
@@ -338,9 +338,9 @@ class Blame extends TextBuiltin {
 
 		} else if (!root && commit.getParentCount() == 0) {
 			if (showLongRevision)
-				r = "^" + commit.name().substring(0, OBJECT_ID_STRING_LENGTH - 1);
+				r = "^" + commit.name().substring(0, OBJECT_ID_STRING_LENGTH - 1); //$NON-NLS-1$
 			else
-				r = "^" + reader.abbreviate(commit, abbrev).name();
+				r = "^" + reader.abbreviate(commit, abbrev).name(); //$NON-NLS-1$
 		} else {
 			if (showLongRevision)
 				r = commit.name();

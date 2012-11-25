@@ -131,33 +131,33 @@ public class Config {
 			switch (c) {
 			case '\n':
 				if (inquote) {
-					r.append('"');
+					r.append('"'); //$NON-NLS-1$
 					inquote = false;
 				}
-				r.append("\\n\\\n");
+				r.append("\\n\\\n"); //$NON-NLS-1$
 				lineStart = r.length();
 				break;
 
 			case '\t':
-				r.append("\\t");
+				r.append("\\t"); //$NON-NLS-1$
 				break;
 
 			case '\b':
-				r.append("\\b");
+				r.append("\\b"); //$NON-NLS-1$
 				break;
 
 			case '\\':
-				r.append("\\\\");
+				r.append("\\\\"); //$NON-NLS-1$
 				break;
 
-			case '"':
-				r.append("\\\"");
+			case '"': //$NON-NLS-1$
+				r.append("\\\""); //$NON-NLS-1$
 				break;
 
 			case ';':
 			case '#':
 				if (!inquote) {
-					r.insert(lineStart, '"');
+					r.insert(lineStart, '"'); //$NON-NLS-1$
 					inquote = true;
 				}
 				r.append(c);
@@ -166,7 +166,7 @@ public class Config {
 			case ' ':
 				if (!inquote && r.length() > 0
 						&& r.charAt(r.length() - 1) == ' ') {
-					r.insert(lineStart, '"');
+					r.insert(lineStart, '"'); //$NON-NLS-1$
 					inquote = true;
 				}
 				r.append(' ');
@@ -178,7 +178,7 @@ public class Config {
 			}
 		}
 		if (inquote) {
-			r.append('"');
+			r.append('"'); //$NON-NLS-1$
 		}
 		return r.toString();
 	}
@@ -354,7 +354,7 @@ public class Config {
 	@SuppressWarnings("unchecked")
 	private static <T> T[] allValuesOf(final T value) {
 		try {
-			return (T[]) value.getClass().getMethod("values").invoke(null);
+			return (T[]) value.getClass().getMethod("values").invoke(null); //$NON-NLS-1$
 		} catch (Exception err) {
 			String typeName = value.getClass().getName();
 			String msg = MessageFormat.format(
@@ -393,9 +393,9 @@ public class Config {
 		for (T e : all) {
 			if (StringUtils.equalsIgnoreCase(e.name(), n))
 				return e;
-			else if (StringUtils.equalsIgnoreCase(e.name(), "TRUE"))
+			else if (StringUtils.equalsIgnoreCase(e.name(), "TRUE")) //$NON-NLS-1$
 				trueState = e;
-			else if (StringUtils.equalsIgnoreCase(e.name(), "FALSE"))
+			else if (StringUtils.equalsIgnoreCase(e.name(), "FALSE")) //$NON-NLS-1$
 				falseState = e;
 		}
 
@@ -664,11 +664,11 @@ public class Config {
 		final String s;
 
 		if (value >= GiB && (value % GiB) == 0)
-			s = String.valueOf(value / GiB) + " g";
+			s = String.valueOf(value / GiB) + " g"; //$NON-NLS-1$
 		else if (value >= MiB && (value % MiB) == 0)
-			s = String.valueOf(value / MiB) + " m";
+			s = String.valueOf(value / MiB) + " m"; //$NON-NLS-1$
 		else if (value >= KiB && (value % KiB) == 0)
-			s = String.valueOf(value / KiB) + " k";
+			s = String.valueOf(value / KiB) + " k"; //$NON-NLS-1$
 		else
 			s = String.valueOf(value);
 
@@ -695,7 +695,7 @@ public class Config {
 	 */
 	public void setBoolean(final String section, final String subsection,
 			final String name, final boolean value) {
-		setString(section, subsection, name, value ? "true" : "false");
+		setString(section, subsection, name, value ? "true" : "false"); //$NON-NLS-1$
 	}
 
 	/**
@@ -937,21 +937,21 @@ public class Config {
 					out.append(' ');
 					String escaped = escapeValue(e.subsection);
 					// make sure to avoid double quotes here
-					boolean quoted = escaped.startsWith("\"")
+					boolean quoted = escaped.startsWith("\"") //$NON-NLS-1$
 							&& escaped.endsWith("\"");
 					if (!quoted)
-						out.append('"');
+						out.append('"'); //$NON-NLS-1$
 					out.append(escaped);
 					if (!quoted)
-						out.append('"');
+						out.append('"'); //$NON-NLS-1$
 				}
 				out.append(']');
 			} else if (e.section != null && e.name != null) {
-				if (e.prefix == null || "".equals(e.prefix))
+				if (e.prefix == null || "".equals(e.prefix)) //$NON-NLS-1$
 					out.append('\t');
 				out.append(e.name);
 				if (MAGIC_EMPTY_VALUE != e.value) {
-					out.append(" =");
+					out.append(" ="); //$NON-NLS-1$
 					if (e.value != null) {
 						out.append(' ');
 						out.append(escapeValue(e.value));
@@ -1005,20 +1005,20 @@ public class Config {
 			} else if (e.section == null && Character.isWhitespace(c)) {
 				// Save the leading whitespace (if any).
 				if (e.prefix == null)
-					e.prefix = "";
+					e.prefix = ""; //$NON-NLS-1$
 				e.prefix += c;
 
 			} else if ('[' == c) {
 				// This is a section header.
 				e.section = readSectionName(in);
 				input = in.read();
-				if ('"' == input) {
-					e.subsection = readValue(in, true, '"');
+				if ('"' == input) { //$NON-NLS-1$
+					e.subsection = readValue(in, true, '"'); //$NON-NLS-1$
 					input = in.read();
 				}
 				if (']' != input)
 					throw new ConfigInvalidException(JGitText.get().badGroupHeader);
-				e.suffix = "";
+				e.suffix = ""; //$NON-NLS-1$
 
 			} else if (last != null) {
 				// Read a value.
@@ -1026,7 +1026,7 @@ public class Config {
 				e.subsection = last.subsection;
 				in.reset();
 				e.name = readKeyName(in);
-				if (e.name.endsWith("\n")) {
+				if (e.name.endsWith("\n")) { //$NON-NLS-1$
 					e.name = e.name.substring(0, e.name.length() - 1);
 					e.value = MAGIC_EMPTY_VALUE;
 				} else
@@ -1075,7 +1075,7 @@ public class Config {
 					if (c < 0)
 						throw new ConfigInvalidException(JGitText.get().unexpectedEndOfConfigFile);
 
-					if ('"' == c) {
+					if ('"' == c) { //$NON-NLS-1$
 						in.reset();
 						break;
 					}
@@ -1200,8 +1200,8 @@ public class Config {
 				case '\\':
 					value.append('\\');
 					continue;
-				case '"':
-					value.append('"');
+				case '"': //$NON-NLS-1$
+					value.append('"'); //$NON-NLS-1$
 					continue;
 				default:
 					throw new ConfigInvalidException(MessageFormat.format(
@@ -1210,7 +1210,7 @@ public class Config {
 				}
 			}
 
-			if ('"' == c) {
+			if ('"' == c) { //$NON-NLS-1$
 				quote = !quote;
 				continue;
 			}

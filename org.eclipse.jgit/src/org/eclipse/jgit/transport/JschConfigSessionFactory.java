@@ -153,11 +153,11 @@ public abstract class JschConfigSessionFactory extends SshSessionFactory {
 		final String strictHostKeyCheckingPolicy = hc
 				.getStrictHostKeyChecking();
 		if (strictHostKeyCheckingPolicy != null)
-			session.setConfig("StrictHostKeyChecking",
+			session.setConfig("StrictHostKeyChecking", //$NON-NLS-1$
 					strictHostKeyCheckingPolicy);
 		final String pauth = hc.getPreferredAuthentications();
 		if (pauth != null)
-			session.setConfig("PreferredAuthentications", pauth);
+			session.setConfig("PreferredAuthentications", pauth); //$NON-NLS-1$
 		if (credentialsProvider != null
 				&& (!hc.isBatchMode() || !credentialsProvider.isInteractive())) {
 			session.setUserInfo(new CredentialsProviderUserInfo(session,
@@ -255,7 +255,7 @@ public abstract class JschConfigSessionFactory extends SshSessionFactory {
 		final File home = fs.userHome();
 		if (home == null)
 			return;
-		final File known_hosts = new File(new File(home, ".ssh"), "known_hosts");
+		final File known_hosts = new File(new File(home, ".ssh"), "known_hosts"); //$NON-NLS-1$
 		try {
 			final FileInputStream in = new FileInputStream(known_hosts);
 			try {
@@ -274,11 +274,11 @@ public abstract class JschConfigSessionFactory extends SshSessionFactory {
 		final File home = fs.userHome();
 		if (home == null)
 			return;
-		final File sshdir = new File(home, ".ssh");
+		final File sshdir = new File(home, ".ssh"); //$NON-NLS-1$
 		if (sshdir.isDirectory()) {
-			loadIdentity(sch, new File(sshdir, "identity"));
-			loadIdentity(sch, new File(sshdir, "id_rsa"));
-			loadIdentity(sch, new File(sshdir, "id_dsa"));
+			loadIdentity(sch, new File(sshdir, "identity")); //$NON-NLS-1$
+			loadIdentity(sch, new File(sshdir, "id_rsa")); //$NON-NLS-1$
+			loadIdentity(sch, new File(sshdir, "id_dsa")); //$NON-NLS-1$
 		}
 	}
 

@@ -112,7 +112,7 @@ class RefDirectoryUpdate extends RefUpdate {
 				String strResult = toResultString(status);
 				if (strResult != null) {
 					if (msg.length() > 0)
-						msg = msg + ": " + strResult;
+						msg = msg + ": " + strResult; //$NON-NLS-1$
 					else
 						msg = strResult;
 				}

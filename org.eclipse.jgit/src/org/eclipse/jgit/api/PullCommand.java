@@ -76,7 +76,7 @@ import org.eclipse.jgit.transport.FetchResult;
  */
 public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 
-	private final static String DOT = ".";
+	private final static String DOT = "."; //$NON-NLS-1$
 
 	private ProgressMonitor monitor = NullProgressMonitor.INSTANCE;
 
@@ -218,7 +218,7 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 					JGitText.get().missingConfigurationForKey, missingKey));
 		}
 
-		final boolean isRemote = !remote.equals(".");
+		final boolean isRemote = !remote.equals("."); //$NON-NLS-1$
 		String remoteUri;
 		FetchResult fetchRes;
 		if (isRemote) {

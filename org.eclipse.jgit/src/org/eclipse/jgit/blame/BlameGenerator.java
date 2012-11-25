@@ -177,7 +177,7 @@ public class BlameGenerator {
 			revPool = new RevWalk(getRepository());
 
 		revPool.setRetainBody(true);
-		SEEN = revPool.newFlag("SEEN");
+		SEEN = revPool.newFlag("SEEN"); //$NON-NLS-1$
 		reader = revPool.getObjectReader();
 		treeWalk = new TreeWalk(reader);
 		treeWalk.setRecursive(true);

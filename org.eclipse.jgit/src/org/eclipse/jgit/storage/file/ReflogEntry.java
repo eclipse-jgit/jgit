@@ -81,10 +81,10 @@ public class ReflogEntry implements Serializable {
 		who = RawParseUtils.parsePersonIdentOnly(raw, pos);
 		int p0 = RawParseUtils.next(raw, pos, '\t');
 		if (p0 >= raw.length)
-			comment = ""; // personident has no \t, no comment present
+			comment = ""; // personident has no \t, no comment present //$NON-NLS-1$
 		else {
 			int p1 = RawParseUtils.nextLF(raw, p0);
-			comment = p1 > p0 ? RawParseUtils.decode(raw, p0, p1 - 1) : "";
+			comment = p1 > p0 ? RawParseUtils.decode(raw, p0, p1 - 1) : ""; //$NON-NLS-1$
 		}
 	}
 
@@ -118,8 +118,8 @@ public class ReflogEntry implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Entry[" + oldId.name() + ", " + newId.name() + ", " + getWho() + ", "
-				+ getComment() + "]";
+		return "Entry[" + oldId.name() + ", " + newId.name() + ", " + getWho() + ", " //$NON-NLS-1$
+				+ getComment() + "]"; //$NON-NLS-1$
 	}
 
 	/**

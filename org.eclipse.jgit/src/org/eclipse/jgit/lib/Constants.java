@@ -56,6 +56,7 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.util.MutableInteger;
 
 /** Misc. constants used throughout JGit. */
+@SuppressWarnings("nls")
 public final class Constants {
 	/** Hash function used natively by Git for all objects. */
 	private static final String HASH_FUNCTION = "SHA-1";

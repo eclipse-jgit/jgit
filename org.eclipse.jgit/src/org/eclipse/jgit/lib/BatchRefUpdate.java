@@ -168,7 +168,7 @@ public class BatchRefUpdate {
 		if (msg == null && !appendStatus)
 			disableRefLog();
 		else if (msg == null && appendStatus) {
-			refLogMessage = "";
+			refLogMessage = ""; //$NON-NLS-1$
 			refLogIncludeResult = true;
 		} else {
 			refLogMessage = msg;

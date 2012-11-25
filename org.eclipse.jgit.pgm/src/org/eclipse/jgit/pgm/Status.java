@@ -99,7 +99,7 @@ class Status extends TextBuiltin {
 		int nbNotStagedForCommit = notStagedForCommit.size();
 		if (nbNotStagedForCommit > 0) {
 			if (!firstHeader)
-				printSectionHeader("");
+				printSectionHeader(""); //$NON-NLS-1$
 			printSectionHeader(CLIText.get().changesNotStagedForCommit);
 			printList(CLIText.get().statusModified,
 					CLIText.get().statusRemoved, null, notStagedForCommit,
@@ -109,7 +109,7 @@ class Status extends TextBuiltin {
 		int nbUnmerged = unmerged.size();
 		if (nbUnmerged > 0) {
 			if (!firstHeader)
-				printSectionHeader("");
+				printSectionHeader(""); //$NON-NLS-1$
 			printSectionHeader(CLIText.get().unmergedPaths);
 			printList(unmerged);
 			firstHeader = false;
@@ -117,7 +117,7 @@ class Status extends TextBuiltin {
 		int nbUntracked = untracked.size();
 		if (nbUntracked > 0) {
 			if (!firstHeader)
-				printSectionHeader("");
+				printSectionHeader(""); //$NON-NLS-1$
 			printSectionHeader(CLIText.get().untrackedFiles);
 			printList(untracked);
 		}
@@ -127,8 +127,8 @@ class Status extends TextBuiltin {
 			throws IOException {
 		outw.println(CLIText.formatLine(MessageFormat
 				.format(pattern, arguments)));
-		if (!pattern.equals(""))
-			outw.println(CLIText.formatLine(""));
+		if (!pattern.equals("")) //$NON-NLS-1$
+			outw.println(CLIText.formatLine("")); //$NON-NLS-1$
 		outw.flush();
 	}
 

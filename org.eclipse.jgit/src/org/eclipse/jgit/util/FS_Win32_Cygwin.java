@@ -57,12 +57,12 @@ class FS_Win32_Cygwin extends FS_Win32 {
 		final String path = AccessController
 				.doPrivileged(new PrivilegedAction<String>() {
 					public String run() {
-						return System.getProperty("java.library.path");
+						return System.getProperty("java.library.path"); //$NON-NLS-1$
 					}
 				});
 		if (path == null)
 			return false;
-		File found = FS.searchPath(path, "cygpath.exe");
+		File found = FS.searchPath(path, "cygpath.exe"); //$NON-NLS-1$
 		if (found != null)
 			cygpath = found.getPath();
 		return cygpath != null;
@@ -81,11 +81,11 @@ class FS_Win32_Cygwin extends FS_Win32 {
 	}
 
 	public File resolve(final File dir, final String pn) {
-		String useCygPath = System.getProperty("jgit.usecygpath");
-		if (useCygPath != null && useCygPath.equals("true")) {
+		String useCygPath = System.getProperty("jgit.usecygpath"); //$NON-NLS-1$
+		if (useCygPath != null && useCygPath.equals("true")) { //$NON-NLS-1$
 			String w = readPipe(dir, //
-					new String[] { cygpath, "--windows", "--absolute", pn }, //
-					"UTF-8");
+					new String[] { cygpath, "--windows", "--absolute", pn }, // //$NON-NLS-1$
+					"UTF-8"); //$NON-NLS-1$
 			if (w != null)
 				return new File(w);
 		}
@@ -97,20 +97,20 @@ class FS_Win32_Cygwin extends FS_Win32 {
 		final String home = AccessController
 				.doPrivileged(new PrivilegedAction<String>() {
 					public String run() {
-						return System.getenv("HOME");
+						return System.getenv("HOME"); //$NON-NLS-1$
 					}
 				});
 		if (home == null || home.length() == 0)
 			return super.userHomeImpl();
-		return resolve(new File("."), home);
+		return resolve(new File("."), home); //$NON-NLS-1$
 	}
 
 	@Override
 	public ProcessBuilder runInShell(String cmd, String[] args) {
 		List<String> argv = new ArrayList<String>(4 + args.length);
-		argv.add("sh.exe");
-		argv.add("-c");
-		argv.add(cmd + " \"$@\"");
+		argv.add("sh.exe"); //$NON-NLS-1$
+		argv.add("-c"); //$NON-NLS-1$
+		argv.add(cmd + " \"$@\""); //$NON-NLS-1$
 		argv.add(cmd);
 		argv.addAll(Arrays.asList(args));
 		ProcessBuilder proc = new ProcessBuilder();

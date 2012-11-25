@@ -153,7 +153,7 @@ public abstract class CommitTimeRevFilter extends RevFilter {
 
 		@Override
 		public String toString() {
-			return super.toString() + "(" + new Date(when * 1000L) + ")";
+			return super.toString() + "(" + new Date(when * 1000L) + ")"; //$NON-NLS-1$
 		}
 	}
 
@@ -177,7 +177,7 @@ public abstract class CommitTimeRevFilter extends RevFilter {
 
 		@Override
 		public String toString() {
-			return super.toString() + "(" + new Date(when * 1000L) + ")";
+			return super.toString() + "(" + new Date(when * 1000L) + ")"; //$NON-NLS-1$
 		}
 	}
 
@@ -198,7 +198,7 @@ public abstract class CommitTimeRevFilter extends RevFilter {
 
 		@Override
 		public String toString() {
-			return super.toString() + "(" + new Date(when * 1000L) + " - " + new Date(until * 1000L) + ")";
+			return super.toString() + "(" + new Date(when * 1000L) + " - " + new Date(until * 1000L) + ")"; //$NON-NLS-1$
 		}
 
 	}

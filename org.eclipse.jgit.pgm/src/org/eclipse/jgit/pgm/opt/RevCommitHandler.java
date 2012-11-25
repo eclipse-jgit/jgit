@@ -88,12 +88,12 @@ public class RevCommitHandler extends OptionHandler<RevCommit> {
 		String name = params.getParameter(0);
 
 		boolean interesting = true;
-		if (name.startsWith("^")) {
+		if (name.startsWith("^")) { //$NON-NLS-1$
 			name = name.substring(1);
 			interesting = false;
 		}
 
-		final int dot2 = name.indexOf("..");
+		final int dot2 = name.indexOf(".."); //$NON-NLS-1$
 		if (dot2 != -1) {
 			if (!option.isMultiValued())
 				throw new CmdLineException(MessageFormat.format(CLIText.get().onlyOneMetaVarExpectedIn

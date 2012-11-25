@@ -73,7 +73,7 @@ public class URIish implements Serializable {
 	 * URI. Defines one capturing group containing the scheme without the
 	 * trailing colon and slashes
 	 */
-	private static final String SCHEME_P = "([a-z][a-z0-9+-]+)://";
+	private static final String SCHEME_P = "([a-z][a-z0-9+-]+)://"; //$NON-NLS-1$
 
 	/**
 	 * Part of a pattern which matches the optional user/password part (e.g.
@@ -81,44 +81,44 @@ public class URIish implements Serializable {
 	 * capturing groups: the first containing the user and the second containing
 	 * the password
 	 */
-	private static final String OPT_USER_PWD_P = "(?:([^/:@]+)(?::([^\\\\/]+))?@)?";
+	private static final String OPT_USER_PWD_P = "(?:([^/:@]+)(?::([^\\\\/]+))?@)?"; //$NON-NLS-1$
 
 	/**
 	 * Part of a pattern which matches the host part of URIs. Defines one
 	 * capturing group containing the host name.
 	 */
-	private static final String HOST_P = "([^\\\\/:]+)";
+	private static final String HOST_P = "([^\\\\/:]+)"; //$NON-NLS-1$
 
 	/**
 	 * Part of a pattern which matches the optional port part of URIs. Defines
 	 * one capturing group containing the port without the preceding colon.
 	 */
-	private static final String OPT_PORT_P = "(?::(\\d+))?";
+	private static final String OPT_PORT_P = "(?::(\\d+))?"; //$NON-NLS-1$
 
 	/**
 	 * Part of a pattern which matches the ~username part (e.g. /~root in
 	 * git://host.xyz/~root/a.git) of URIs. Defines no capturing group.
 	 */
-	private static final String USER_HOME_P = "(?:/~(?:[^\\\\/]+))";
+	private static final String USER_HOME_P = "(?:/~(?:[^\\\\/]+))"; //$NON-NLS-1$
 
 	/**
 	 * Part of a pattern which matches the optional drive letter in paths (e.g.
 	 * D: in file:///D:/a.txt). Defines no capturing group.
 	 */
-	private static final String OPT_DRIVE_LETTER_P = "(?:[A-Za-z]:)?";
+	private static final String OPT_DRIVE_LETTER_P = "(?:[A-Za-z]:)?"; //$NON-NLS-1$
 
 	/**
 	 * Part of a pattern which matches a relative path. Relative paths don't
 	 * start with slash or drive letters. Defines no capturing group.
 	 */
-	private static final String RELATIVE_PATH_P = "(?:(?:[^\\\\/]+[\\\\/])*[^\\\\/]+[\\\\/]?)";
+	private static final String RELATIVE_PATH_P = "(?:(?:[^\\\\/]+[\\\\/])*[^\\\\/]+[\\\\/]?)"; //$NON-NLS-1$
 
 	/**
 	 * Part of a pattern which matches a relative or absolute path. Defines no
 	 * capturing group.
 	 */
-	private static final String PATH_P = "(" + OPT_DRIVE_LETTER_P + "[\\\\/]?"
-			+ RELATIVE_PATH_P + ")";
+	private static final String PATH_P = "(" + OPT_DRIVE_LETTER_P + "[\\\\/]?" //$NON-NLS-1$
+			+ RELATIVE_PATH_P + ")"; //$NON-NLS-1$
 
 	private static final long serialVersionUID = 1L;
 
@@ -126,58 +126,58 @@ public class URIish implements Serializable {
 	 * A pattern matching standard URI: </br>
 	 * <code>scheme "://" user_password? hostname? portnumber? path</code>
 	 */
-	private static final Pattern FULL_URI = Pattern.compile("^" //
+	private static final Pattern FULL_URI = Pattern.compile("^" // //$NON-NLS-1$
 			+ SCHEME_P //
-			+ "(?:" // start a group containing hostname and all options only
+			+ "(?:" // start a group containing hostname and all options only //$NON-NLS-1$
 					// availabe when a hostname is there
 			+ OPT_USER_PWD_P //
 			+ HOST_P //
 			+ OPT_PORT_P //
-			+ "(" // open a catpuring group the the user-home-dir part
-			+ (USER_HOME_P + "?") //
-			+ "[\\\\/])" //
-			+ ")?" // close the optional group containing hostname
-			+ "(.+)?" //
-			+ "$");
+			+ "(" // open a catpuring group the the user-home-dir part //$NON-NLS-1$
+			+ (USER_HOME_P + "?") // //$NON-NLS-1$
+			+ "[\\\\/])" // //$NON-NLS-1$
+			+ ")?" // close the optional group containing hostname //$NON-NLS-1$
+			+ "(.+)?" // //$NON-NLS-1$
+			+ "$"); //$NON-NLS-1$
 
 	/**
 	 * A pattern matching the reference to a local file. This may be an absolute
 	 * path (maybe even containing windows drive-letters) or a relative path.
 	 */
-	private static final Pattern LOCAL_FILE = Pattern.compile("^" //
-			+ "([\\\\/]?" + PATH_P + ")" //
-			+ "$");
+	private static final Pattern LOCAL_FILE = Pattern.compile("^" // //$NON-NLS-1$
+			+ "([\\\\/]?" + PATH_P + ")" // //$NON-NLS-1$
+			+ "$"); //$NON-NLS-1$
 
 	/**
 	 * A pattern matching a URI for the scheme 'file' which has only ':/' as
 	 * separator between scheme and path. Standard file URIs have '://' as
 	 * separator, but java.io.File.toURI() constructs those URIs.
 	 */
-	private static final Pattern SINGLE_SLASH_FILE_URI = Pattern.compile("^" //
-			+ "(file):([\\\\/](?![\\\\/])" //
+	private static final Pattern SINGLE_SLASH_FILE_URI = Pattern.compile("^" // //$NON-NLS-1$
+			+ "(file):([\\\\/](?![\\\\/])" // //$NON-NLS-1$
 			+ PATH_P //
-			+ ")$");
+			+ ")$"); //$NON-NLS-1$
 
 	/**
 	 * A pattern matching a SCP URI's of the form user@host:path/to/repo.git
 	 */
-	private static final Pattern RELATIVE_SCP_URI = Pattern.compile("^" //
+	private static final Pattern RELATIVE_SCP_URI = Pattern.compile("^" // //$NON-NLS-1$
 			+ OPT_USER_PWD_P //
 			+ HOST_P //
-			+ ":(" //
-			+ ("(?:" + USER_HOME_P + "[\\\\/])?") //
+			+ ":(" // //$NON-NLS-1$
+			+ ("(?:" + USER_HOME_P + "[\\\\/])?") // //$NON-NLS-1$
 			+ RELATIVE_PATH_P //
-			+ ")$");
+			+ ")$"); //$NON-NLS-1$
 
 	/**
 	 * A pattern matching a SCP URI's of the form user@host:/path/to/repo.git
 	 */
-	private static final Pattern ABSOLUTE_SCP_URI = Pattern.compile("^" //
+	private static final Pattern ABSOLUTE_SCP_URI = Pattern.compile("^" // //$NON-NLS-1$
 			+ OPT_USER_PWD_P //
-			+ "([^\\\\/:]{2,})" //
-			+ ":(" //
-			+ "[\\\\/]" + RELATIVE_PATH_P //
-			+ ")$");
+			+ "([^\\\\/:]{2,})" // //$NON-NLS-1$
+			+ ":(" // //$NON-NLS-1$
+			+ "[\\\\/]" + RELATIVE_PATH_P // //$NON-NLS-1$
+			+ ")$"); //$NON-NLS-1$
 
 	private String scheme;
 
@@ -201,7 +201,7 @@ public class URIish implements Serializable {
 	 */
 	public URIish(String s) throws URISyntaxException {
 		if (StringUtils.isEmptyOrNull(s)) {
-			throw new URISyntaxException("The uri was empty or null",
+			throw new URISyntaxException("The uri was empty or null", //$NON-NLS-1$
 					JGitText.get().cannotParseGitURIish);
 		}
 		Matcher matcher = SINGLE_SLASH_FILE_URI.matcher(s);
@@ -284,7 +284,7 @@ public class URIish implements Serializable {
 	private static final BitSet reservedChars = new BitSet(127);
 
 	static {
-		for (byte b : Constants.encodeASCII("!*'();:@&=+$,/?#[]"))
+		for (byte b : Constants.encodeASCII("!*'();:@&=+$,/?#[]")) //$NON-NLS-1$
 			reservedChars.set(b);
 	}
 
@@ -315,7 +315,7 @@ public class URIish implements Serializable {
 			if (b <= 32 || (encodeNonAscii && b > 127) || b == '%'
 					|| (escapeReservedChars && reservedChars.get(b))) {
 				os.write('%');
-				byte[] tmp = Constants.encodeASCII(String.format("%02x",
+				byte[] tmp = Constants.encodeASCII(String.format("%02x", //$NON-NLS-1$
 						Integer.valueOf(b)));
 				os.write(tmp[0]);
 				os.write(tmp[1]);
@@ -329,7 +329,7 @@ public class URIish implements Serializable {
 
 	private String n2e(String s) {
 		if (s == null)
-			return "";
+			return ""; //$NON-NLS-1$
 		else
 			return s;
 	}
@@ -602,7 +602,7 @@ public class URIish implements Serializable {
 		final StringBuilder r = new StringBuilder();
 		if (getScheme() != null) {
 			r.append(getScheme());
-			r.append("://");
+			r.append("://"); //$NON-NLS-1$
 		}
 
 		if (getUser() != null) {
@@ -625,7 +625,7 @@ public class URIish implements Serializable {
 
 		if (getPath() != null) {
 			if (getScheme() != null) {
-				if (!getPath().startsWith("/"))
+				if (!getPath().startsWith("/")) //$NON-NLS-1$
 					r.append('/');
 			} else if (getHost() != null)
 				r.append(':');
@@ -691,14 +691,14 @@ public class URIish implements Serializable {
 	 * @see #getPath
 	 */
 	public String getHumanishName() throws IllegalArgumentException {
-		if ("".equals(getPath()) || getPath() == null)
+		if ("".equals(getPath()) || getPath() == null) //$NON-NLS-1$
 			throw new IllegalArgumentException();
 		String s = getPath();
 		String[] elements;
-		if ("file".equals(scheme) || LOCAL_FILE.matcher(s).matches())
-			elements = s.split("[\\" + File.separatorChar + "/]");
+		if ("file".equals(scheme) || LOCAL_FILE.matcher(s).matches()) //$NON-NLS-1$
+			elements = s.split("[\\" + File.separatorChar + "/]"); //$NON-NLS-1$
 		else
-			elements = s.split("/");
+			elements = s.split("/"); //$NON-NLS-1$
 		if (elements.length == 0)
 			throw new IllegalArgumentException();
 		String result = elements[elements.length - 1];

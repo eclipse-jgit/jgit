@@ -194,20 +194,21 @@ public class TrackingRefUpdate {
 		}
 	}
 
+	@SuppressWarnings("nls")
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("TrackingRefUpdate[");
+		sb.append("TrackingRefUpdate["); //$NON-NLS-1$
 		sb.append(remoteName);
-		sb.append(" -> ");
+		sb.append(" -> "); //$NON-NLS-1$
 		sb.append(localName);
 		if (forceUpdate)
-			sb.append(" (forced)");
-		sb.append(" ");
-		sb.append(oldObjectId == null ? "" : oldObjectId.abbreviate(7).name());
-		sb.append("..");
-		sb.append(newObjectId == null ? "" : newObjectId.abbreviate(7).name());
-		sb.append("]");
+			sb.append(" (forced)"); //$NON-NLS-1$
+		sb.append(" "); //$NON-NLS-1$
+		sb.append(oldObjectId == null ? "" : oldObjectId.abbreviate(7).name()); //$NON-NLS-1$
+		sb.append(".."); //$NON-NLS-1$
+		sb.append(newObjectId == null ? "" : newObjectId.abbreviate(7).name()); //$NON-NLS-1$
+		sb.append("]"); //$NON-NLS-1$
 		return sb.toString();
 	}
 }

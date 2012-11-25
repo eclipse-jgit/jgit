@@ -106,13 +106,13 @@ public abstract class PatternMatchRevFilter extends RevFilter {
 		patternText = pattern;
 
 		if (innerString) {
-			if (!pattern.startsWith("^") && !pattern.startsWith(".*"))
-				pattern = ".*" + pattern;
-			if (!pattern.endsWith("$") && !pattern.endsWith(".*"))
-				pattern = pattern + ".*";
+			if (!pattern.startsWith("^") && !pattern.startsWith(".*")) //$NON-NLS-1$
+				pattern = ".*" + pattern; //$NON-NLS-1$
+			if (!pattern.endsWith("$") && !pattern.endsWith(".*")) //$NON-NLS-1$
+				pattern = pattern + ".*"; //$NON-NLS-1$
 		}
 		final String p = rawEncoding ? forceToRaw(pattern) : pattern;
-		compiledPattern = Pattern.compile(p, flags).matcher("");
+		compiledPattern = Pattern.compile(p, flags).matcher(""); //$NON-NLS-1$
 	}
 
 	/**
@@ -147,6 +147,6 @@ public abstract class PatternMatchRevFilter extends RevFilter {
 
 	@Override
 	public String toString() {
-		return super.toString() + "(\"" + patternText + "\")";
+		return super.toString() + "(\"" + patternText + "\")"; //$NON-NLS-1$
 	}
 }

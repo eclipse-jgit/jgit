@@ -65,8 +65,8 @@ public class TranslationBundleLoadingException extends TranslationBundleExceptio
 	 *            {@link ResourceBundle#getBundle(String, Locale)} method.
 	 */
 	public TranslationBundleLoadingException(Class bundleClass, Locale locale, Exception cause) {
-		super("Loading of translation bundle failed for ["
-				+ bundleClass.getName() + ", " + locale.toString() + "]",
+		super("Loading of translation bundle failed for [" //$NON-NLS-1$
+				+ bundleClass.getName() + ", " + locale.toString() + "]", //$NON-NLS-1$
 				bundleClass, locale, cause);
 	}
 }

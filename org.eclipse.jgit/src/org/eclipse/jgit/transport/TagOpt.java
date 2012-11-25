@@ -59,7 +59,7 @@ public enum TagOpt {
 	 * prove that we already have (or will have when the fetch completes) the
 	 * object the annotated tag peels (dereferences) to.
 	 */
-	AUTO_FOLLOW(""),
+	AUTO_FOLLOW(""), //$NON-NLS-1$
 
 	/**
 	 * Never fetch tags, even if we have the thing it points at.
@@ -69,7 +69,7 @@ public enum TagOpt {
 	 * publishes annotated tags, but you are not interested in the tags and only
 	 * want their branches.
 	 */
-	NO_TAGS("--no-tags"),
+	NO_TAGS("--no-tags"), //$NON-NLS-1$
 
 	/**
 	 * Always fetch tags, even if we do not have the thing it points at.
@@ -78,7 +78,7 @@ public enum TagOpt {
 	 * hundreds of megabytes of objects to be fetched if the receiving
 	 * repository does not yet have the necessary dependencies.
 	 */
-	FETCH_TAGS("--tags");
+	FETCH_TAGS("--tags"); //$NON-NLS-1$
 
 	private final String option;
 

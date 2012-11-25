@@ -305,7 +305,7 @@ public class RemoteRefUpdate {
 		if (localName != null && localDb != null) {
 			localUpdate = localDb.updateRef(localName);
 			localUpdate.setForceUpdate(true);
-			localUpdate.setRefLogMessage("push", true);
+			localUpdate.setRefLogMessage("push", true); //$NON-NLS-1$
 			localUpdate.setNewObjectId(newObjectId);
 			trackingRefUpdate = new TrackingRefUpdate(
 					true,
@@ -467,13 +467,20 @@ public class RemoteRefUpdate {
 			trackingRefUpdate.setResult(localUpdate.update(walk));
 	}
 
+	@SuppressWarnings("nls")
 	@Override
 	public String toString() {
-		return "RemoteRefUpdate[remoteName=" + remoteName + ", " + status
-				+ ", " + (expectedOldObjectId!=null ? expectedOldObjectId.name() : "(null)")
-				+ "..." + (newObjectId != null ? newObjectId.name() : "(null)")
+		return "RemoteRefUpdate[remoteName="
+				+ remoteName
+				+ ", "
+				+ status
+				+ ", "
+				+ (expectedOldObjectId != null ? expectedOldObjectId.name()
+						: "(null)") + "..."
+				+ (newObjectId != null ? newObjectId.name() : "(null)")
 				+ (fastForward ? ", fastForward" : "")
-				+ ", srcRef=" + srcRef + (forceUpdate ? ", forceUpdate" : "") + ", message=" + (message != null ? "\""
-				+ message + "\"" : "null") + "]";
+ + ", srcRef=" + srcRef
+				+ (forceUpdate ? ", forceUpdate" : "") + ", message="
+				+ (message != null ? "\"" + message + "\"" : "null") + "]";
 	}
 }

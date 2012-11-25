@@ -212,9 +212,9 @@ class WalkFetchConnection extends BaseFetchConnection {
 		revWalk = new RevWalk(reader);
 		revWalk.setRetainBody(false);
 		treeWalk = new TreeWalk(reader);
-		COMPLETE = revWalk.newFlag("COMPLETE");
-		IN_WORK_QUEUE = revWalk.newFlag("IN_WORK_QUEUE");
-		LOCALLY_SEEN = revWalk.newFlag("LOCALLY_SEEN");
+		COMPLETE = revWalk.newFlag("COMPLETE"); //$NON-NLS-1$
+		IN_WORK_QUEUE = revWalk.newFlag("IN_WORK_QUEUE"); //$NON-NLS-1$
+		LOCALLY_SEEN = revWalk.newFlag("LOCALLY_SEEN"); //$NON-NLS-1$
 
 		localCommitQueue = new DateRevQueue();
 		workQueue = new LinkedList<ObjectId>();
@@ -406,7 +406,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 			final String idStr = id.name();
 			final String subdir = idStr.substring(0, 2);
 			final String file = idStr.substring(2);
-			final String looseName = subdir + "/" + file;
+			final String looseName = subdir + "/" + file; //$NON-NLS-1$
 
 			for (int i = lastRemoteIdx; i < remotes.size(); i++) {
 				if (downloadLooseObject(id, looseName, remotes.get(i))) {
@@ -791,17 +791,17 @@ class WalkFetchConnection extends BaseFetchConnection {
 		RemotePack(final WalkRemoteObjectDatabase c, final String pn) {
 			connection = c;
 			packName = pn;
-			idxName = packName.substring(0, packName.length() - 5) + ".idx";
+			idxName = packName.substring(0, packName.length() - 5) + ".idx"; //$NON-NLS-1$
 
 			String tn = idxName;
-			if (tn.startsWith("pack-"))
+			if (tn.startsWith("pack-")) //$NON-NLS-1$
 				tn = tn.substring(5);
-			if (tn.endsWith(".idx"))
+			if (tn.endsWith(".idx")) //$NON-NLS-1$
 				tn = tn.substring(0, tn.length() - 4);
 
 			if (local.getObjectDatabase() instanceof ObjectDirectory) {
 				tmpIdx = new File(((ObjectDirectory) local.getObjectDatabase())
-						.getDirectory(), "walk-" + tn + ".walkidx");
+						.getDirectory(), "walk-" + tn + ".walkidx"); //$NON-NLS-1$
 			}
 		}
 
@@ -809,7 +809,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 			if (index != null)
 				return;
 			if (tmpIdx == null)
-				tmpIdx = File.createTempFile("jgit-walk-", ".idx");
+				tmpIdx = File.createTempFile("jgit-walk-", ".idx"); //$NON-NLS-1$
 			else if (tmpIdx.isFile()) {
 				try {
 					index = PackIndex.open(tmpIdx);
@@ -820,8 +820,8 @@ class WalkFetchConnection extends BaseFetchConnection {
 			}
 
 			final WalkRemoteObjectDatabase.FileStream s;
-			s = connection.open("pack/" + idxName);
-			pm.beginTask("Get " + idxName.substring(0, 12) + "..idx",
+			s = connection.open("pack/" + idxName); //$NON-NLS-1$
+			pm.beginTask("Get " + idxName.substring(0, 12) + "..idx", //$NON-NLS-1$
 					s.length < 0 ? ProgressMonitor.UNKNOWN
 							: (int) (s.length / 1024));
 			try {
@@ -858,7 +858,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 		}
 
 		void downloadPack(final ProgressMonitor monitor) throws IOException {
-			String name = "pack/" + packName;
+			String name = "pack/" + packName; //$NON-NLS-1$
 			WalkRemoteObjectDatabase.FileStream s = connection.open(name);
 			PackParser parser = inserter.newPackParser(s.in);
 			parser.setAllowThin(false);

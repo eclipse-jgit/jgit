@@ -233,6 +233,7 @@ public class Edit {
 		return false;
 	}
 
+	@SuppressWarnings("nls")
 	@Override
 	public String toString() {
 		final Type t = getType();

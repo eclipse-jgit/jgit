@@ -189,14 +189,14 @@ public class WindowCacheConfig {
 	 * @param rc configuration to read properties from.
 	 */
 	public void fromConfig(final Config rc) {
-		setPackedGitOpenFiles(rc.getInt("core", null, "packedgitopenfiles", getPackedGitOpenFiles()));
-		setPackedGitLimit(rc.getLong("core", null, "packedgitlimit", getPackedGitLimit()));
-		setPackedGitWindowSize(rc.getInt("core", null, "packedgitwindowsize", getPackedGitWindowSize()));
-		setPackedGitMMAP(rc.getBoolean("core", null, "packedgitmmap", isPackedGitMMAP()));
-		setDeltaBaseCacheLimit(rc.getInt("core", null, "deltabasecachelimit", getDeltaBaseCacheLimit()));
+		setPackedGitOpenFiles(rc.getInt("core", null, "packedgitopenfiles", getPackedGitOpenFiles())); //$NON-NLS-1$
+		setPackedGitLimit(rc.getLong("core", null, "packedgitlimit", getPackedGitLimit())); //$NON-NLS-1$
+		setPackedGitWindowSize(rc.getInt("core", null, "packedgitwindowsize", getPackedGitWindowSize())); //$NON-NLS-1$
+		setPackedGitMMAP(rc.getBoolean("core", null, "packedgitmmap", isPackedGitMMAP())); //$NON-NLS-1$
+		setDeltaBaseCacheLimit(rc.getInt("core", null, "deltabasecachelimit", getDeltaBaseCacheLimit())); //$NON-NLS-1$
 
 		long maxMem = Runtime.getRuntime().maxMemory();
-		long sft = rc.getLong("core", null, "streamfilethreshold", getStreamFileThreshold());
+		long sft = rc.getLong("core", null, "streamfilethreshold", getStreamFileThreshold()); //$NON-NLS-1$
 		sft = Math.min(sft, maxMem / 4); // don't use more than 1/4 of the heap
 		sft = Math.min(sft, Integer.MAX_VALUE); // cannot exceed array length
 		setStreamFileThreshold((int) sft);

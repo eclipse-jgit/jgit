@@ -101,7 +101,7 @@ public class RenameBranchCommand extends GitCommand<Ref> {
 
 		if (newName == null)
 			throw new InvalidRefNameException(MessageFormat.format(JGitText
-					.get().branchNameInvalid, "<null>"));
+					.get().branchNameInvalid, "<null>")); //$NON-NLS-1$
 
 		try {
 			String fullOldName;

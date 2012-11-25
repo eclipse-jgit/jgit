@@ -106,7 +106,7 @@ public abstract class TreeFilter {
 
 		@Override
 		public String toString() {
-			return "ALL";
+			return "ALL"; //$NON-NLS-1$
 		}
 	}
 
@@ -156,7 +156,7 @@ public abstract class TreeFilter {
 
 		@Override
 		public String toString() {
-			return "ANY_DIFF";
+			return "ANY_DIFF"; //$NON-NLS-1$
 		}
 	}
 

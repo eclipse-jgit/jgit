@@ -393,6 +393,7 @@ public class ObjectToPack extends PackedObjectInfo {
 		// Empty by default.
 	}
 
+	@SuppressWarnings("nls")
 	@Override
 	public String toString() {
 		StringBuilder buf = new StringBuilder();

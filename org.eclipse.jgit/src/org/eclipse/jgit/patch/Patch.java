@@ -60,20 +60,20 @@ import org.eclipse.jgit.util.TemporaryBuffer;
 
 /** A parsed collection of {@link FileHeader}s from a unified diff patch file */
 public class Patch {
-	static final byte[] DIFF_GIT = encodeASCII("diff --git ");
+	static final byte[] DIFF_GIT = encodeASCII("diff --git "); //$NON-NLS-1$
 
-	private static final byte[] DIFF_CC = encodeASCII("diff --cc ");
+	private static final byte[] DIFF_CC = encodeASCII("diff --cc "); //$NON-NLS-1$
 
-	private static final byte[] DIFF_COMBINED = encodeASCII("diff --combined ");
+	private static final byte[] DIFF_COMBINED = encodeASCII("diff --combined "); //$NON-NLS-1$
 
 	private static final byte[][] BIN_HEADERS = new byte[][] {
-			encodeASCII("Binary files "), encodeASCII("Files "), };
+			encodeASCII("Binary files "), encodeASCII("Files "), }; //$NON-NLS-1$
 
-	private static final byte[] BIN_TRAILER = encodeASCII(" differ\n");
+	private static final byte[] BIN_TRAILER = encodeASCII(" differ\n"); //$NON-NLS-1$
 
-	private static final byte[] GIT_BINARY = encodeASCII("GIT binary patch\n");
+	private static final byte[] GIT_BINARY = encodeASCII("GIT binary patch\n"); //$NON-NLS-1$
 
-	static final byte[] SIG_FOOTER = encodeASCII("-- \n");
+	static final byte[] SIG_FOOTER = encodeASCII("-- \n"); //$NON-NLS-1$
 
 	/** The files, in the order they were parsed out of the input. */
 	private final List<FileHeader> files;

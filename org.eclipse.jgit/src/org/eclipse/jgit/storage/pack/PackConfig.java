@@ -624,21 +624,21 @@ public class PackConfig {
 	 *            configuration to read properties from.
 	 */
 	public void fromConfig(final Config rc) {
-		setMaxDeltaDepth(rc.getInt("pack", "depth", getMaxDeltaDepth()));
-		setDeltaSearchWindowSize(rc.getInt("pack", "window", getDeltaSearchWindowSize()));
-		setDeltaSearchMemoryLimit(rc.getLong("pack", "windowmemory", getDeltaSearchMemoryLimit()));
-		setDeltaCacheSize(rc.getLong("pack", "deltacachesize", getDeltaCacheSize()));
-		setDeltaCacheLimit(rc.getInt("pack", "deltacachelimit", getDeltaCacheLimit()));
-		setCompressionLevel(rc.getInt("pack", "compression",
-				rc.getInt("core", "compression", getCompressionLevel())));
-		setIndexVersion(rc.getInt("pack", "indexversion", getIndexVersion()));
-		setBigFileThreshold(rc.getInt("core", "bigfilethreshold", getBigFileThreshold()));
-		setThreads(rc.getInt("pack", "threads", getThreads()));
+		setMaxDeltaDepth(rc.getInt("pack", "depth", getMaxDeltaDepth())); //$NON-NLS-1$
+		setDeltaSearchWindowSize(rc.getInt("pack", "window", getDeltaSearchWindowSize())); //$NON-NLS-1$
+		setDeltaSearchMemoryLimit(rc.getLong("pack", "windowmemory", getDeltaSearchMemoryLimit())); //$NON-NLS-1$
+		setDeltaCacheSize(rc.getLong("pack", "deltacachesize", getDeltaCacheSize())); //$NON-NLS-1$
+		setDeltaCacheLimit(rc.getInt("pack", "deltacachelimit", getDeltaCacheLimit())); //$NON-NLS-1$
+		setCompressionLevel(rc.getInt("pack", "compression", //$NON-NLS-1$
+				rc.getInt("core", "compression", getCompressionLevel()))); //$NON-NLS-1$
+		setIndexVersion(rc.getInt("pack", "indexversion", getIndexVersion())); //$NON-NLS-1$
+		setBigFileThreshold(rc.getInt("core", "bigfilethreshold", getBigFileThreshold())); //$NON-NLS-1$
+		setThreads(rc.getInt("pack", "threads", getThreads())); //$NON-NLS-1$
 
 		// These variables aren't standardized
 		//
-		setReuseDeltas(rc.getBoolean("pack", "reusedeltas", isReuseDeltas()));
-		setReuseObjects(rc.getBoolean("pack", "reuseobjects", isReuseObjects()));
-		setDeltaCompress(rc.getBoolean("pack", "deltacompression", isDeltaCompress()));
+		setReuseDeltas(rc.getBoolean("pack", "reusedeltas", isReuseDeltas())); //$NON-NLS-1$
+		setReuseObjects(rc.getBoolean("pack", "reuseobjects", isReuseObjects())); //$NON-NLS-1$
+		setDeltaCompress(rc.getBoolean("pack", "deltacompression", isDeltaCompress())); //$NON-NLS-1$
 	}
 }

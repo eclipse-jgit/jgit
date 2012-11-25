@@ -70,7 +70,7 @@ public final class RawParseUtils {
 	 *
 	 * @since 2.2
 	 */
-	public static final Charset UTF8_CHARSET = Charset.forName("UTF-8");
+	public static final Charset UTF8_CHARSET = Charset.forName("UTF-8"); //$NON-NLS-1$
 
 	private static final byte[] digits10;
 
@@ -82,7 +82,7 @@ public final class RawParseUtils {
 
 	static {
 		encodingAliases = new HashMap<String, Charset>();
-		encodingAliases.put("latin-1", Charset.forName("ISO-8859-1"));
+		encodingAliases.put("latin-1", Charset.forName("ISO-8859-1")); //$NON-NLS-1$
 
 		digits10 = new byte['9' + 1];
 		Arrays.fill(digits10, (byte) -1);
@@ -566,7 +566,7 @@ public final class RawParseUtils {
 	public static final int author(final byte[] b, int ptr) {
 		final int sz = b.length;
 		if (ptr == 0)
-			ptr += 46; // skip the "tree ..." line.
+			ptr += 46; // skip the "tree ..." line. //$NON-NLS-1$
 		while (ptr < sz && b[ptr] == 'p')
 			ptr += 48; // skip this parent.
 		return match(b, ptr, author);
@@ -588,7 +588,7 @@ public final class RawParseUtils {
 	public static final int committer(final byte[] b, int ptr) {
 		final int sz = b.length;
 		if (ptr == 0)
-			ptr += 46; // skip the "tree ..." line.
+			ptr += 46; // skip the "tree ..." line. //$NON-NLS-1$
 		while (ptr < sz && b[ptr] == 'p')
 			ptr += 48; // skip this parent.
 		if (ptr < sz && b[ptr] == 'a')
@@ -612,7 +612,7 @@ public final class RawParseUtils {
 	public static final int tagger(final byte[] b, int ptr) {
 		final int sz = b.length;
 		if (ptr == 0)
-			ptr += 48; // skip the "object ..." line.
+			ptr += 48; // skip the "object ..." line. //$NON-NLS-1$
 		while (ptr < sz) {
 			if (b[ptr] == '\n')
 				return -1;
@@ -779,7 +779,7 @@ public final class RawParseUtils {
 		if (emailE < stop) {
 			email = decode(raw, emailB, emailE - 1);
 		} else {
-			email = "invalid";
+			email = "invalid"; //$NON-NLS-1$
 		}
 		if (emailB < stop)
 			name = decode(raw, nameB, emailB - 2);
@@ -1023,7 +1023,7 @@ public final class RawParseUtils {
 	public static final int commitMessage(final byte[] b, int ptr) {
 		final int sz = b.length;
 		if (ptr == 0)
-			ptr += 46; // skip the "tree ..." line.
+			ptr += 46; // skip the "tree ..." line. //$NON-NLS-1$
 		while (ptr < sz && b[ptr] == 'p')
 			ptr += 48; // skip this parent.
 
@@ -1047,7 +1047,7 @@ public final class RawParseUtils {
 	public static final int tagMessage(final byte[] b, int ptr) {
 		final int sz = b.length;
 		if (ptr == 0)
-			ptr += 48; // skip the "object ..." line.
+			ptr += 48; // skip the "object ..." line. //$NON-NLS-1$
 		while (ptr < sz && b[ptr] != '\n')
 			ptr = nextLF(b, ptr);
 		if (ptr < sz && b[ptr] == '\n')

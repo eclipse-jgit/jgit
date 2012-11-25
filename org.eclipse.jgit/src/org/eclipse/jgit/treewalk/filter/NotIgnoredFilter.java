@@ -85,6 +85,6 @@ public class NotIgnoredFilter extends TreeFilter {
 
 	@Override
 	public String toString() {
-		return "NotIgnored(" + index + ")";
+		return "NotIgnored(" + index + ")"; //$NON-NLS-1$
 	}
 }

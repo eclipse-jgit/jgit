@@ -256,7 +256,7 @@ public class BinaryDelta {
 		} while ((c & 0x80) != 0);
 
 		if (includeHeader)
-			r.append("DELTA( BASE=" + baseLen + " RESULT=" + resLen + " )\n");
+			r.append("DELTA( BASE=" + baseLen + " RESULT=" + resLen + " )\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
 		while (deltaPtr < delta.length) {
 			final int cmd = delta[deltaPtr++] & 0xff;
@@ -285,16 +285,16 @@ public class BinaryDelta {
 				if (copySize == 0)
 					copySize = 0x10000;
 
-				r.append("  COPY  (" + copyOffset + ", " + copySize + ")\n");
+				r.append("  COPY  (" + copyOffset + ", " + copySize + ")\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
 			} else if (cmd != 0) {
 				// Anything else the data is literal within the delta
 				// itself.
 				//
-				r.append("  INSERT(");
+				r.append("  INSERT("); //$NON-NLS-1$
 				r.append(QuotedString.GIT_PATH.quote(RawParseUtils.decode(
 						delta, deltaPtr, deltaPtr + cmd)));
-				r.append(")\n");
+				r.append(")\n"); //$NON-NLS-1$
 				deltaPtr += cmd;
 			} else {
 				// cmd == 0 has been reserved for future encoding but

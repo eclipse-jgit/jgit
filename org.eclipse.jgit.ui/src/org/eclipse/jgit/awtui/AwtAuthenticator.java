@@ -75,13 +75,13 @@ public class AwtAuthenticator extends CachedAuthenticator {
 
 		final StringBuilder instruction = new StringBuilder();
 		instruction.append(UIText.get().enterUsernameAndPasswordFor);
-		instruction.append(" ");
+		instruction.append(" "); //$NON-NLS-1$
 		if (getRequestorType() == RequestorType.PROXY) {
 			instruction.append(getRequestorType());
-			instruction.append(" ");
+			instruction.append(" "); //$NON-NLS-1$
 			instruction.append(getRequestingHost());
 			if (getRequestingPort() > 0) {
-				instruction.append(":");
+				instruction.append(":"); //$NON-NLS-1$
 				instruction.append(getRequestingPort());
 			}
 		} else {

@@ -79,6 +79,6 @@ public class RevisionSyntaxException extends IllegalArgumentException {
 
 	@Override
 	public String toString() {
-		return super.toString() + ":" + revstr;
+		return super.toString() + ":" + revstr; //$NON-NLS-1$
 	}
 }

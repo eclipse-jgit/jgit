@@ -93,14 +93,14 @@ public abstract class SystemReader {
 					}
 				};
 			}
-			File etc = fs.resolve(prefix, "etc");
-			File config = fs.resolve(etc, "gitconfig");
+			File etc = fs.resolve(prefix, "etc"); //$NON-NLS-1$
+			File config = fs.resolve(etc, "gitconfig"); //$NON-NLS-1$
 			return new FileBasedConfig(parent, config, fs);
 		}
 
 		public FileBasedConfig openUserConfig(Config parent, FS fs) {
 			final File home = fs.userHome();
-			return new FileBasedConfig(parent, new File(home, ".gitconfig"), fs);
+			return new FileBasedConfig(parent, new File(home, ".gitconfig"), fs); //$NON-NLS-1$
 		}
 
 		public String getHostname() {
@@ -110,7 +110,7 @@ public abstract class SystemReader {
 					hostname = localMachine.getCanonicalHostName();
 				} catch (UnknownHostException e) {
 					// we do nothing
-					hostname = "localhost";
+					hostname = "localhost"; //$NON-NLS-1$
 				}
 				assert hostname != null;
 			}
@@ -251,10 +251,10 @@ public abstract class SystemReader {
 		String osDotName = AccessController
 				.doPrivileged(new PrivilegedAction<String>() {
 					public String run() {
-						return getProperty("os.name");
+						return getProperty("os.name"); //$NON-NLS-1$
 					}
 				});
-		return osDotName.startsWith("Windows");
+		return osDotName.startsWith("Windows"); //$NON-NLS-1$
 	}
 
 	/**
@@ -264,10 +264,10 @@ public abstract class SystemReader {
 		String osDotName = AccessController
 				.doPrivileged(new PrivilegedAction<String>() {
 					public String run() {
-						return getProperty("os.name");
+						return getProperty("os.name"); //$NON-NLS-1$
 					}
 				});
-		return "Mac OS X".equals(osDotName) || "Darwin".equals(osDotName);
+		return "Mac OS X".equals(osDotName) || "Darwin".equals(osDotName); //$NON-NLS-1$
 	}
 
 }

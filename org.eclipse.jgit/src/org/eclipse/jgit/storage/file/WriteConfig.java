@@ -63,8 +63,8 @@ class WriteConfig {
 
 	private WriteConfig(final Config rc) {
 		compression = rc.get(CoreConfig.KEY).getCompression();
-		fsyncObjectFiles = rc.getBoolean("core", "fsyncobjectfiles", false);
-		fsyncRefFiles = rc.getBoolean("core", "fsyncreffiles", false);
+		fsyncObjectFiles = rc.getBoolean("core", "fsyncobjectfiles", false); //$NON-NLS-1$
+		fsyncRefFiles = rc.getBoolean("core", "fsyncreffiles", false); //$NON-NLS-1$
 	}
 
 	int getCompression() {

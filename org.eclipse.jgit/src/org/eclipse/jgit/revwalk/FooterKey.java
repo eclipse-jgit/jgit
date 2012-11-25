@@ -48,13 +48,13 @@ import org.eclipse.jgit.lib.Constants;
 /** Case insensitive key for a {@link FooterLine}. */
 public final class FooterKey {
 	/** Standard {@code Signed-off-by} */
-	public static final FooterKey SIGNED_OFF_BY = new FooterKey("Signed-off-by");
+	public static final FooterKey SIGNED_OFF_BY = new FooterKey("Signed-off-by"); //$NON-NLS-1$
 
 	/** Standard {@code Acked-by} */
-	public static final FooterKey ACKED_BY = new FooterKey("Acked-by");
+	public static final FooterKey ACKED_BY = new FooterKey("Acked-by"); //$NON-NLS-1$
 
 	/** Standard {@code CC} */
-	public static final FooterKey CC = new FooterKey("CC");
+	public static final FooterKey CC = new FooterKey("CC"); //$NON-NLS-1$
 
 	private final String name;
 
@@ -78,6 +78,6 @@ public final class FooterKey {
 
 	@Override
 	public String toString() {
-		return "FooterKey[" + name + "]";
+		return "FooterKey[" + name + "]"; //$NON-NLS-1$
 	}
 }

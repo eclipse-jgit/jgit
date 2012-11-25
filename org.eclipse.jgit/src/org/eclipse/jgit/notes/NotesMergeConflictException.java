@@ -101,10 +101,10 @@ public class NotesMergeConflictException extends IOException {
 	private static String noteData(Note n) {
 		if (n != null)
 			return n.getData().name();
-		return "";
+		return ""; //$NON-NLS-1$
 	}
 
 	private static String name(NonNoteEntry e) {
-		return e != null ? e.name() : "";
+		return e != null ? e.name() : ""; //$NON-NLS-1$
 	}
 }

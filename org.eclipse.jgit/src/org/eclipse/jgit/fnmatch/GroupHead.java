@@ -57,7 +57,7 @@ final class GroupHead extends AbstractHead {
 	private final List<CharacterPattern> characterClasses;
 
 	private static final Pattern REGEX_PATTERN = Pattern
-			.compile("([^-][-][^-]|\\[[.:=].*?[.:=]\\])");
+			.compile("([^-][-][^-]|\\[[.:=].*?[.:=]\\])"); //$NON-NLS-1$
 
 	private final boolean inverse;
 
@@ -65,7 +65,7 @@ final class GroupHead extends AbstractHead {
 			throws InvalidPatternException {
 		super(false);
 		this.characterClasses = new ArrayList<CharacterPattern>();
-		this.inverse = pattern.startsWith("!");
+		this.inverse = pattern.startsWith("!"); //$NON-NLS-1$
 		if (inverse) {
 			pattern = pattern.substring(1);
 		}
@@ -120,7 +120,7 @@ final class GroupHead extends AbstractHead {
 				throw new InvalidPatternException(message, wholePattern);
 			}
 
-			pattern = matcher.replaceFirst("");
+			pattern = matcher.replaceFirst(""); //$NON-NLS-1$
 			matcher.reset(pattern);
 		}
 		// pattern contains now no ranges
@@ -219,7 +219,7 @@ final class GroupHead extends AbstractHead {
 	private static final class PunctPattern implements CharacterPattern {
 		static final GroupHead.PunctPattern INSTANCE = new PunctPattern();
 
-		private static String punctCharacters = "-!\"#$%&'()*+,./:;<=>?@[\\]_`{|}~";
+		private static String punctCharacters = "-!\"#$%&'()*+,./:;<=>?@[\\]_`{|}~"; //$NON-NLS-1$
 
 		public boolean matches(char c) {
 			return punctCharacters.indexOf(c) != -1;

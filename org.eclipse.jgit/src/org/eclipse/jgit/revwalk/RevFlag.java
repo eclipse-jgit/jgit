@@ -64,7 +64,7 @@ public class RevFlag {
 	 * This is a static flag. Its RevWalk is not available.
 	 */
 	public static final RevFlag UNINTERESTING = new StaticRevFlag(
-			"UNINTERESTING", RevWalk.UNINTERESTING);
+			"UNINTERESTING", RevWalk.UNINTERESTING); //$NON-NLS-1$
 
 	final RevWalk walker;
 

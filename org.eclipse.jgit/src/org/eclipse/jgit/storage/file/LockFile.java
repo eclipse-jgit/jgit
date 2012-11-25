@@ -540,6 +540,6 @@ public class LockFile {
 
 	@Override
 	public String toString() {
-		return "LockFile[" + lck + ", haveLck=" + haveLck + "]";
+		return "LockFile[" + lck + ", haveLck=" + haveLck + "]"; //$NON-NLS-1$
 	}
 }

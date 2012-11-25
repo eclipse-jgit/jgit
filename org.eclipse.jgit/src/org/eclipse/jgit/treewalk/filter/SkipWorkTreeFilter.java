@@ -91,6 +91,6 @@ public class SkipWorkTreeFilter extends TreeFilter {
 
 	@Override
 	public String toString() {
-		return "SkipWorkTree(" + treeIdx + ")";
+		return "SkipWorkTree(" + treeIdx + ")"; //$NON-NLS-1$
 	}
 }

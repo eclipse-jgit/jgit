@@ -40,7 +40,7 @@ public class Base64 {
 	private final static byte INVALID_DEC = -3;
 
 	/** Preferred encoding. */
-	private final static String UTF_8 = "UTF-8";
+	private final static String UTF_8 = "UTF-8"; //$NON-NLS-1$
 
 	/** The 64 valid Base64 values. */
 	private final static byte[] ENC;
@@ -54,10 +54,10 @@ public class Base64 {
 
 	static {
 		try {
-			ENC = ("ABCDEFGHIJKLMNOPQRSTUVWXYZ" //
-					+ "abcdefghijklmnopqrstuvwxyz" //
-					+ "0123456789" //
-					+ "+/" //
+			ENC = ("ABCDEFGHIJKLMNOPQRSTUVWXYZ" // //$NON-NLS-1$
+					+ "abcdefghijklmnopqrstuvwxyz" // //$NON-NLS-1$
+					+ "0123456789" // //$NON-NLS-1$
+					+ "+/" // //$NON-NLS-1$
 			).getBytes(UTF_8);
 		} catch (UnsupportedEncodingException uee) {
 			throw new RuntimeException(uee.getMessage(), uee);

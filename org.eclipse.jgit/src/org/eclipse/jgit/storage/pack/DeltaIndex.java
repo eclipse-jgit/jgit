@@ -422,7 +422,7 @@ public class DeltaIndex {
 	}
 
 	public String toString() {
-		String[] units = { "bytes", "KiB", "MiB", "GiB" };
+		String[] units = { "bytes", "KiB", "MiB", "GiB" }; //$NON-NLS-1$
 		long sz = getIndexSize();
 		int u = 0;
 		while (1024 <= sz && u < units.length - 1) {
@@ -432,7 +432,7 @@ public class DeltaIndex {
 				sz++;
 			u++;
 		}
-		return "DeltaIndex[" + sz + " " + units[u] + "]";
+		return "DeltaIndex[" + sz + " " + units[u] + "]"; //$NON-NLS-1$
 	}
 
 	static int hashBlock(byte[] raw, int ptr) {

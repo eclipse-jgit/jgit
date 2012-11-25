@@ -65,7 +65,7 @@ public class TransportException extends IOException {
 	 *            message
 	 */
 	public TransportException(final URIish uri, final String s) {
-		super(uri.setPass(null) + ": " + s);
+		super(uri.setPass(null) + ": " + s); //$NON-NLS-1$
 	}
 
 	/**
@@ -81,7 +81,7 @@ public class TransportException extends IOException {
 	 */
 	public TransportException(final URIish uri, final String s,
 			final Throwable cause) {
-		this(uri.setPass(null) + ": " + s, cause);
+		this(uri.setPass(null) + ": " + s, cause); //$NON-NLS-1$
 	}
 
 	/**

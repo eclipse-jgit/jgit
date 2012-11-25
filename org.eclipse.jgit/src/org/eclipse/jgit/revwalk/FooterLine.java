@@ -146,6 +146,6 @@ public final class FooterLine {
 
 	@Override
 	public String toString() {
-		return getKey() + ": " + getValue();
+		return getKey() + ": " + getValue(); //$NON-NLS-1$
 	}
 }
