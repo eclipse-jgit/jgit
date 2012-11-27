@@ -483,8 +483,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		DiffFormatter df = new DiffFormatter(bos);
 		df.setRepository(repo);
 		df.format(commitToPick.getParent(0), commitToPick);
-		createFile(rebaseDir, PATCH, new String(bos.toByteArray(),
-				Constants.CHARACTER_ENCODING));
+		createFile(rebaseDir, PATCH, RawParseUtils.decode(bos.toByteArray()));
 		createFile(rebaseDir, STOPPED_SHA, repo.newObjectReader().abbreviate(
 				commitToPick).name());
 		// Remove cherry pick state file created by CherryPickCommand, it's not
