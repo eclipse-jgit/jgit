@@ -152,6 +152,7 @@ public class CLIText extends TranslationBundle {
 	/***/ public String metaVar_diffAlg;
 	/***/ public String metaVar_directory;
 	/***/ public String metaVar_file;
+	/***/ public String metaVar_filepattern;
 	/***/ public String metaVar_gitDir;
 	/***/ public String metaVar_hostName;
 	/***/ public String metaVar_linesOfContext;

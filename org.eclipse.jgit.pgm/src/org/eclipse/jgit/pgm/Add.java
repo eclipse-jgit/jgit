@@ -57,7 +57,7 @@ class Add extends TextBuiltin {
 	@Option(name = "--update", aliases = { "-u" }, usage = "usage_onlyMatchAgainstAlreadyTrackedFiles")
 	private boolean update = false;
 
-	@Argument(required = true, metaVar = "metavar_filepattern", usage = "usage_filesToAddContentFrom")
+	@Argument(required = true, metaVar = "metaVar_filepattern", usage = "usage_filesToAddContentFrom")
 	private List<String> filepatterns = new ArrayList<String>();
 
 	@Override
