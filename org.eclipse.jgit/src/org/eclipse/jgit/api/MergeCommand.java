@@ -121,6 +121,11 @@ public class MergeCommand extends GitCommand<MergeResult> {
 		 * forward).
 		 */
 		FF_ONLY;
+
+		@Override
+		public String toString() {
+			return "--" + name().toLowerCase().replace('_', '-'); //$NON-NLS-1$
+		}
 	}
 
 	/**
