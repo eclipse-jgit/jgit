@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOJ3///D4\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-12-03T20:34:35Z",
+      "side": 1,
+      "message": "Can you give motivation for this change?",
+      "revId": "ac98e2a77f97accf5108ae203e4f30c9cdcadb2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJ3///D8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-12-03T20:34:35Z",
+      "side": 1,
+      "message": "During parsing we replace \u0027 \u0027 with \u0027_\u0027 to match the toString() format, but during output we don\u0027t convert \u0027_\u0027 in toString() output to \u0027 \u0027. Shouldn\u0027t these be identity transforms?",
+      "revId": "ac98e2a77f97accf5108ae203e4f30c9cdcadb2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJ3///EA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 726,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-12-03T20:34:35Z",
+      "side": 1,
+      "message": "Why not:\n\n  if (value.names().equals(value.toString())\n    n \u003d value.name().toLowerCase().replace(\u0027_\u0027, \u0027 \u0027);\n  else\n    n \u003d value.toString();",
+      "revId": "ac98e2a77f97accf5108ae203e4f30c9cdcadb2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
