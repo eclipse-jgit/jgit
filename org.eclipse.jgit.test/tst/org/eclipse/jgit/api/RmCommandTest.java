@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010, Chris Aniszczyk <caniszczyk@gmail.com>
+ * Copyright (C) 2010, 2012 Chris Aniszczyk <caniszczyk@gmail.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -43,7 +43,9 @@
 package org.eclipse.jgit.api;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
+import java.io.File;
 import java.io.IOException;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -80,4 +82,16 @@ public class RmCommandTest extends RepositoryTestCase {
 		assertEquals("", indexState(CONTENT));
 	}
 
+	@Test
+	public void testRemoveCached() throws Exception {
+		File newFile = writeTrashFile("new.txt", "new");
+		git.add().addFilepattern(newFile.getName()).call();
+		assertEquals("[new.txt, mode:100644][test.txt, mode:100644]",
+				indexState(0));
+
+		git.rm().setCached(true).addFilepattern(newFile.getName()).call();
+
+		assertEquals("[test.txt, mode:100644]", indexState(0));
+		assertTrue("File should not have been removed.", newFile.exists());
+	}
 }
