@@ -49,12 +49,15 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import org.apache.shiro.util.SoftHashMap;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.MutableObjectId;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -118,6 +121,8 @@ public class RevCommit extends RevObject {
 
 	private RevTree tree;
 
+	private static final Map<ObjectId, byte[]> commitCache = new SoftHashMap<ObjectId, byte[]>();
+
 	RevCommit[] parents;
 
 	int commitTime; // An int here for performance, overflows in 2038
@@ -139,7 +144,15 @@ public class RevCommit extends RevObject {
 	@Override
 	void parseHeaders(final RevWalk walk) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
-		parseCanonical(walk, walk.getCachedBytes(this));
+		ObjectId sha1 = this.toObjectId();
+
+		byte[] raw = commitCache.get(sha1);
+		if (raw == null) {
+			raw = walk.getCachedBytes(this);
+			commitCache.put(sha1, raw);
+		}
+
+		parseCanonical(walk, raw);
 	}
 
 	@Override
