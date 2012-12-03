@@ -16,6 +16,24 @@
       "revId": "4213a91c97c68d7a4ee1450210f55ebeab401654",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJ3///Dc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/DeltaWindow.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-12-03T20:47:25Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "AABOJ3///Ds\u003d",
+      "revId": "4213a91c97c68d7a4ee1450210f55ebeab401654",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
