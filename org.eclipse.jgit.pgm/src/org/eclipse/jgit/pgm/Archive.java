@@ -45,6 +45,7 @@ package org.eclipse.jgit.pgm;
 
 import java.lang.String;
 import java.lang.System;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.util.EnumMap;
 import java.util.Map;
@@ -54,6 +55,9 @@ import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.ArchiveException;
 import org.apache.commons.compress.archivers.ArchiveOutputStream;
 import org.apache.commons.compress.archivers.ArchiveStreamFactory;
+import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
+import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;
+import org.apache.commons.compress.archivers.tar.TarConstants;
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipArchiveOutputStream;
 import org.eclipse.jgit.lib.FileMode;
@@ -99,13 +103,7 @@ class Archive extends TextBuiltin {
 				continue;
 
 			walk.getObjectId(idBuf, 0);
-			final ObjectLoader loader = reader.open(idBuf);
-			final ArchiveEntry entry = fmt.createArchiveEntry( //
-					name, mode, loader.getSize());
-
-			out.putArchiveEntry(entry);
-			loader.copyTo(out);
-			out.closeArchiveEntry();
+			fmt.putEntry(name, mode, reader.open(idBuf), out);
 		}
 
 		out.close();
@@ -118,11 +116,14 @@ class Archive extends TextBuiltin {
 	}
 
 	public enum Format {
-		ZIP
+		ZIP,
+		TAR
 	};
 	private static interface Archiver {
 		ArchiveOutputStream createArchiveOutputStream(OutputStream s);
-		ArchiveEntry createArchiveEntry(String path, FileMode mode, long size);
+		void putEntry(String path, FileMode mode, //
+				ObjectLoader loader, ArchiveOutputStream out) //
+				throws IOException;
 	}
 	private static final Map<Format, Archiver> formats;
 	static {
@@ -140,7 +141,9 @@ class Archive extends TextBuiltin {
 			}
 
 			@Override
-			public ArchiveEntry createArchiveEntry(String path, FileMode mode, long size) {
+			public void putEntry(String path, FileMode mode, //
+					ObjectLoader loader, ArchiveOutputStream out) //
+					throws IOException {
 				final ZipArchiveEntry entry = new ZipArchiveEntry(path);
 
 				if (mode == FileMode.REGULAR_FILE)
@@ -150,8 +153,48 @@ class Archive extends TextBuiltin {
 					entry.setUnixMode(mode.getBits());
 				else
 					warnArchiveEntryModeIgnored(path);
-				entry.setSize(size);
-				return entry;
+				entry.setSize(loader.getSize());
+				out.putArchiveEntry(entry);
+				loader.copyTo(out);
+				out.closeArchiveEntry();
+			}
+		});
+		fmts.put(Format.TAR, new Archiver() {
+			@Override
+			public ArchiveOutputStream createArchiveOutputStream(OutputStream s) {
+				ArchiveStreamFactory factory = new ArchiveStreamFactory();
+				try {
+					return factory.createArchiveOutputStream( //
+							ArchiveStreamFactory.TAR, s);
+				} catch (ArchiveException e) {
+					throw die("this can't happen: missing tar support");
+				}
+			}
+
+			@Override
+			public void putEntry(String path, FileMode mode, //
+					ObjectLoader loader, ArchiveOutputStream out) //
+					throws IOException {
+				if (mode == FileMode.SYMLINK) {
+					final TarArchiveEntry entry = new TarArchiveEntry( //
+							path, TarConstants.LF_SYMLINK);
+					entry.setLinkName(new String( //
+						loader.getCachedBytes(100), "UTF-8"));
+					out.putArchiveEntry(entry);
+					out.closeArchiveEntry();
+					return;
+				}
+
+				final TarArchiveEntry entry = new TarArchiveEntry(path);
+				if (mode == FileMode.REGULAR_FILE ||
+				    mode == FileMode.EXECUTABLE_FILE)
+					entry.setMode(mode.getBits());
+				else
+					warnArchiveEntryModeIgnored(path);
+				entry.setSize(loader.getSize());
+				out.putArchiveEntry(entry);
+				loader.copyTo(out);
+				out.closeArchiveEntry();
 			}
 		});
 		formats = fmts;
