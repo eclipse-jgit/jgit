@@ -43,11 +43,16 @@
 package org.eclipse.jgit.pgm;
 
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.fail;
+import static org.junit.Assume.assumeNoException;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.IOException;
+import java.io.OutputStream;
 
 import java.lang.String;
 import java.util.ArrayList;
@@ -57,7 +62,9 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.lib.CLIRepositoryTestCase;
+import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.pgm.CLIGitCommand;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -126,6 +133,32 @@ public class ArchiveTest extends CLIRepositoryTestCase {
 	}
 
 	@Test
+	public void testArchivePreservesMode() throws Exception {
+		writeTrashFile("plain", "a file with content");
+		writeTrashFile("executable", "an executable file");
+		writeTrashFile("symlink", "plain");
+		git.add().addFilepattern("plain").call();
+		git.add().addFilepattern("executable").call();
+		git.add().addFilepattern("symlink").call();
+
+		DirCache cache = db.lockDirCache();
+		cache.getEntry("executable").setFileMode(FileMode.EXECUTABLE_FILE);
+		cache.getEntry("symlink").setFileMode(FileMode.SYMLINK);
+		cache.write();
+		cache.commit();
+		cache.unlock();
+
+		git.commit().setMessage("three files with different modes").call();
+
+		final byte[] zipData = CLIGitCommand.rawExecute( //
+				"git archive master", db);
+		writeRaw("zip-with-modes.zip", zipData);
+		assertContainsEntryWithMode("zip-with-modes.zip", "-rw-", "plain");
+		assertContainsEntryWithMode("zip-with-modes.zip", "-rwx", "executable");
+		assertContainsEntryWithMode("zip-with-modes.zip", "l", "symlink");
+	}
+
+	@Test
 	public void testArchivePreservesContent() throws Exception {
 		final String payload = "“The quick brown fox jumps over the lazy dog!”";
 		writeTrashFile("xyzzy", payload);
@@ -136,6 +169,47 @@ public class ArchiveTest extends CLIRepositoryTestCase {
 				"git archive HEAD", db);
 		assertArrayEquals(new String[] { payload }, //
 				zipEntryContent(result, "xyzzy"));
+	}
+
+	private void assertContainsEntryWithMode(String zipFilename, String mode, String name) //
+			throws Exception {
+		final File cwd = db.getWorkTree();
+		final ProcessBuilder procBuilder = new ProcessBuilder("zipinfo", zipFilename) //
+				.directory(cwd) //
+				.redirectErrorStream(true);
+		Process proc = null;
+		try {
+			proc = procBuilder.start();
+		} catch (IOException e) {
+			// On machines without a "zipinfo" command, let the test pass.
+			assumeNoException(e);
+		}
+
+		proc.getOutputStream().close();
+		final BufferedReader reader = new BufferedReader( //
+				new InputStreamReader(proc.getInputStream(), "UTF-8"));
+		try {
+			String line;
+			while ((line = reader.readLine()) != null)
+				if (line.startsWith(mode) && line.endsWith(name))
+					// found it!
+					return;
+			fail("expected entry " + name + " with mode " + mode + " but found none");
+		} finally {
+			proc.getOutputStream().close();
+			proc.destroy();
+		}
+	}
+
+	private void writeRaw(String filename, byte[] data) //
+			throws IOException {
+		final File path = new File(db.getWorkTree(), filename);
+		final OutputStream out = new FileOutputStream(path);
+		try {
+			out.write(data);
+		} finally {
+			out.close();
+		}
 	}
 
 	private static String[] listZipEntries(byte[] zipData) throws IOException {
