@@ -822,7 +822,11 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 					ProgressMonitor.UNKNOWN);
 
 			DirCacheCheckout dco;
-			RevCommit commit = walk.parseCommit(repo.resolve(commitId));
+			if (commitId == null)
+				throw new JGitInternalException(
+						JGitText.get().abortingRebaseFailedNoOrigHead);
+			ObjectId id = repo.resolve(commitId);
+			RevCommit commit = walk.parseCommit(id);
 			if (result.getStatus().equals(Status.FAILED)) {
 				RevCommit head = walk.parseCommit(repo.resolve(Constants.HEAD));
 				dco = new DirCacheCheckout(repo, head.getTree(),
