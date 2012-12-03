@@ -167,7 +167,7 @@ class DeltaWindow {
 	private void clear(DeltaWindowEntry ent) {
 		if (ent.index != null)
 			loaded -= ent.index.getIndexSize();
-		else if (res.buffer != null)
+		else if (ent.buffer != null)
 			loaded -= ent.buffer.length;
 		ent.set(null);
 	}
