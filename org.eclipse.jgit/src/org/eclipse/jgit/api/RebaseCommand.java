@@ -278,8 +278,8 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 						sb.append(" ");
 						sb.append(step.commit.name());
 						sb.append(" ");
-						sb.append(new String(step.shortMessage,
-								Constants.CHARACTER_ENCODING).trim());
+						sb.append(RawParseUtils.decode(step.shortMessage)
+								.trim());
 						fw.write(sb.toString());
 						fw.newLine();
 					}
