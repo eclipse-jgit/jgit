@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOJ3//+68\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-12-04T09:41:49Z",
+      "side": 1,
+      "message": "The reason for the change is to fix I22471ee4c8be0ad094976137aa01c263e17f841d. In order to do that I looked for a way to control the way enums are (de)serialized. However, given Matthias\u0027 comment on I9739679710e731901d0a50895c981bccc5c3f7a3 I guess I will need to find a better way to do it.",
+      "parentUuid": "AABOJ3///D4\u003d",
+      "revId": "ac98e2a77f97accf5108ae203e4f30c9cdcadb2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOJ3///D8\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AABOJ3//+64\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-12-04T09:41:49Z",
+      "side": 1,
+      "message": "Right, missed that as I don\u0027t have \u0027 \u0027 in my toString() in I9739679710e731901d0a50895c981bccc5c3f7a3.",
+      "parentUuid": "AABOJ3///D8\u003d",
+      "revId": "ac98e2a77f97accf5108ae203e4f30c9cdcadb2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOJ3///EA\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2012-12-03T20:34:35Z",
       "side": 1,
       "message": "Why not:\n\n  if (value.names().equals(value.toString())\n    n \u003d value.name().toLowerCase().replace(\u0027_\u0027, \u0027 \u0027);\n  else\n    n \u003d value.toString();",
+      "revId": "ac98e2a77f97accf5108ae203e4f30c9cdcadb2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJ3//+60\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 726,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-12-04T09:41:49Z",
+      "side": 1,
+      "message": "Agreed.",
+      "parentUuid": "AABOJ3///EA\u003d",
       "revId": "ac98e2a77f97accf5108ae203e4f30c9cdcadb2a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
