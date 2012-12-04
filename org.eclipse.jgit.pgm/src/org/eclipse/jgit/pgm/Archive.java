@@ -45,8 +45,16 @@ package org.eclipse.jgit.pgm;
 
 import java.lang.String;
 import java.lang.System;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.EnumMap;
+import java.util.Map;
 import java.text.MessageFormat;
 
+import org.apache.commons.compress.archivers.ArchiveEntry;
+import org.apache.commons.compress.archivers.ArchiveException;
+import org.apache.commons.compress.archivers.ArchiveOutputStream;
+import org.apache.commons.compress.archivers.ArchiveStreamFactory;
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipArchiveOutputStream;
 import org.eclipse.jgit.lib.FileMode;
@@ -58,18 +66,23 @@ import org.eclipse.jgit.pgm.TextBuiltin;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.kohsuke.args4j.Argument;
+import org.kohsuke.args4j.Option;
 
 @Command(common = true, usage = "usage_archive")
 class Archive extends TextBuiltin {
 	@Argument(index = 0, metaVar = "metaVar_treeish")
 	private AbstractTreeIterator tree;
 
+	@Option(name = "--format", metaVar = "metaVar_archiveFormat", usage = "usage_archiveFormat")
+	private Format format = Format.ZIP;
+
 	@Override
 	protected void run() throws Exception {
 		final TreeWalk walk = new TreeWalk(db);
 		final ObjectReader reader = walk.getObjectReader();
 		final MutableObjectId idBuf = new MutableObjectId();
-		final ZipArchiveOutputStream out = new ZipArchiveOutputStream(outs);
+		final Archiver fmt = formats.get(format);
+		final ArchiveOutputStream out = fmt.createArchiveOutputStream(outs);
 
 		if (tree == null)
 			throw die(CLIText.get().treeIsRequired);
@@ -87,25 +100,61 @@ class Archive extends TextBuiltin {
 				continue;
 
 			walk.getObjectId(idBuf, 0);
-			final ZipArchiveEntry entry = new ZipArchiveEntry(name);
-			final ObjectLoader loader = reader.open(idBuf);
-			entry.setSize(loader.getSize());
-
-			if (mode == FileMode.REGULAR_FILE)
-				; // ok
-			else if (mode == FileMode.EXECUTABLE_FILE ||
-				 mode == FileMode.SYMLINK)
-				entry.setUnixMode(mode.getBits());
-			else
-				System.err.println(MessageFormat.format( //
-						CLIText.get().archiveEntryModeIgnored, //
-						name));
-
-			out.putArchiveEntry(entry);
-			loader.copyTo(out);
-			out.closeArchiveEntry();
+			fmt.putEntry(name, mode, reader.open(idBuf), out);
 		}
 
 		out.close();
+	}
+
+	static private void warnArchiveEntryModeIgnored(String name) {
+		System.err.println(MessageFormat.format( //
+				CLIText.get().archiveEntryModeIgnored, //
+				name));
+	}
+
+	public enum Format {
+		ZIP
+	};
+	private static interface Archiver {
+		ArchiveOutputStream createArchiveOutputStream(OutputStream s);
+		void putEntry(String path, FileMode mode, //
+				ObjectLoader loader, ArchiveOutputStream out) //
+				throws IOException;
+	}
+	private static final Map<Format, Archiver> formats;
+	static {
+		Map<Format, Archiver> fmts = new EnumMap<Format, Archiver>(Format.class);
+		fmts.put(Format.ZIP, new Archiver() {
+			@Override
+			public ArchiveOutputStream createArchiveOutputStream(OutputStream s) {
+				ArchiveStreamFactory factory = new ArchiveStreamFactory();
+				try {
+					return factory.createArchiveOutputStream( //
+							ArchiveStreamFactory.ZIP, s);
+				} catch (ArchiveException e) {
+					throw die("this can't happen: missing zip support");
+				}
+			}
+
+			@Override
+			public void putEntry(String path, FileMode mode, //
+					ObjectLoader loader, ArchiveOutputStream out) //
+					throws IOException {
+				final ZipArchiveEntry entry = new ZipArchiveEntry(path);
+
+				if (mode == FileMode.REGULAR_FILE)
+					; // ok
+				else if (mode == FileMode.EXECUTABLE_FILE ||
+					 mode == FileMode.SYMLINK)
+					entry.setUnixMode(mode.getBits());
+				else
+					warnArchiveEntryModeIgnored(path);
+				entry.setSize(loader.getSize());
+				out.putArchiveEntry(entry);
+				loader.copyTo(out);
+				out.closeArchiveEntry();
+			}
+		});
+		formats = fmts;
 	}
 }
