@@ -46,9 +46,9 @@ package org.eclipse.jgit.pgm;
 import java.lang.String;
 import java.lang.System;
 import java.text.MessageFormat;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
+import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
+import org.apache.commons.compress.archivers.zip.ZipArchiveOutputStream;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
@@ -69,7 +69,7 @@ class Archive extends TextBuiltin {
 		final TreeWalk walk = new TreeWalk(db);
 		final ObjectReader reader = walk.getObjectReader();
 		final MutableObjectId idBuf = new MutableObjectId();
-		final ZipOutputStream out = new ZipOutputStream(outs);
+		final ZipArchiveOutputStream out = new ZipArchiveOutputStream(outs);
 
 		if (tree == null)
 			throw die(CLIText.get().treeIsRequired);
@@ -87,11 +87,12 @@ class Archive extends TextBuiltin {
 				continue;
 
 			walk.getObjectId(idBuf, 0);
-			final ZipEntry entry = new ZipEntry(name);
+			final ZipArchiveEntry entry = new ZipArchiveEntry(name);
 			final ObjectLoader loader = reader.open(idBuf);
 			entry.setSize(loader.getSize());
-			out.putNextEntry(entry);
+			out.putArchiveEntry(entry);
 			loader.copyTo(out);
+			out.closeArchiveEntry();
 
 			if (mode != FileMode.REGULAR_FILE)
 				System.err.println(MessageFormat.format( //
