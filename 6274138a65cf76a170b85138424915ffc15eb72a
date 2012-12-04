@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOJ3//+8I\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Archive.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2012-12-04T00:52:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOJ3//+8c\u003d",
+      "revId": "6274138a65cf76a170b85138424915ffc15eb72a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOJ3//+8Y\u003d",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Archive.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2012-12-04T00:41:16Z",
       "side": 1,
       "message": "So we need a factory for the factory to make things? I guess this is Java so it must be right.",
+      "revId": "6274138a65cf76a170b85138424915ffc15eb72a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJ3//+8M\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Archive.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2012-12-04T00:52:03Z",
+      "side": 1,
+      "message": "Oh, yes, that is silly. Good catch. Fixed locally now.",
+      "parentUuid": "AABOJ3//+8Y\u003d",
       "revId": "6274138a65cf76a170b85138424915ffc15eb72a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
