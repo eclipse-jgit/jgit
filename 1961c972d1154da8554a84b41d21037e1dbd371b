@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOJ3//+sY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 504
+      },
+      "writtenOn": "2012-12-05T14:29:51Z",
+      "side": 1,
+      "message": "While I agree that a failed merge using Recursive should not cause an IO Exception because multiple bases remain for the MergeResult to find, is the real problem that \"merge\" is tailored to single base merges? Where else are the multiple bases  going to cause a problem, or does this one method override suffice?",
+      "revId": "1961c972d1154da8554a84b41d21037e1dbd371b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
