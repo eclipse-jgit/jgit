@@ -53,6 +53,9 @@ import java.text.MessageFormat;
 
 import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.ArchiveOutputStream;
+import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
+import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;
+import org.apache.commons.compress.archivers.tar.TarConstants;
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipArchiveOutputStream;
 import org.eclipse.jgit.lib.FileMode;
@@ -111,7 +114,8 @@ class Archive extends TextBuiltin {
 	}
 
 	public enum Format {
-		ZIP
+		ZIP,
+		TAR
 	};
 
 	private static interface Archiver {
@@ -141,6 +145,38 @@ class Archive extends TextBuiltin {
 				else if (mode == FileMode.EXECUTABLE_FILE ||
 					 mode == FileMode.SYMLINK)
 					entry.setUnixMode(mode.getBits());
+				else
+					warnArchiveEntryModeIgnored(path);
+				entry.setSize(loader.getSize());
+				out.putArchiveEntry(entry);
+				loader.copyTo(out);
+				out.closeArchiveEntry();
+			}
+		});
+		fmts.put(Format.TAR, new Archiver() {
+			@Override
+			public ArchiveOutputStream createArchiveOutputStream(OutputStream s) {
+				return new TarArchiveOutputStream(s);
+			}
+
+			@Override
+			public void putEntry(String path, FileMode mode, //
+					ObjectLoader loader, ArchiveOutputStream out) //
+					throws IOException {
+				if (mode == FileMode.SYMLINK) {
+					final TarArchiveEntry entry = new TarArchiveEntry( //
+							path, TarConstants.LF_SYMLINK);
+					entry.setLinkName(new String( //
+						loader.getCachedBytes(100), "UTF-8"));
+					out.putArchiveEntry(entry);
+					out.closeArchiveEntry();
+					return;
+				}
+
+				final TarArchiveEntry entry = new TarArchiveEntry(path);
+				if (mode == FileMode.REGULAR_FILE ||
+				    mode == FileMode.EXECUTABLE_FILE)
+					entry.setMode(mode.getBits());
 				else
 					warnArchiveEntryModeIgnored(path);
 				entry.setSize(loader.getSize());
