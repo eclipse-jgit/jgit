@@ -387,7 +387,7 @@ public class Config {
 		if (value == null)
 			return defaultValue;
 
-		String n = value.replace(' ', '_');
+		String n = value.replace('-', '_');
 		T trueState = null;
 		T falseState = null;
 		for (T e : all) {
@@ -720,7 +720,7 @@ public class Config {
 	 */
 	public <T extends Enum<?>> void setEnum(final String section,
 			final String subsection, final String name, final T value) {
-		String n = value.name().toLowerCase().replace('_', ' ');
+		String n = value.name().toLowerCase().replace('_', '-');
 		setString(section, subsection, name, n);
 	}
 
