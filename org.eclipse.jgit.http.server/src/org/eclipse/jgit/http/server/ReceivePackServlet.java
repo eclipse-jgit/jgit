@@ -171,7 +171,7 @@ class ReceivePackServlet extends HttpServlet {
 			return;
 		}
 
-		SmartOutputStream out = new SmartOutputStream(req, rsp, true) {
+		SmartOutputStream out = new SmartOutputStream(req, rsp, false) {
 			@Override
 			public void flush() throws IOException {
 				doFlush();
