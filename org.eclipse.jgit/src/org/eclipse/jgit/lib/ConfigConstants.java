@@ -190,4 +190,7 @@ public class ConfigConstants {
 
 	/** The "mergeoptions" key */
 	public static final String CONFIG_KEY_MERGEOPTIONS = "mergeoptions";
+
+	/** The "ff" key */
+	public static final String CONFIG_KEY_FF = "ff";
 }

@@ -63,6 +63,7 @@ import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 import org.eclipse.jgit.dircache.DirCacheCheckout;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
@@ -121,6 +122,86 @@ public class MergeCommand extends GitCommand<MergeResult> {
 		 * forward).
 		 */
 		FF_ONLY;
+
+		/**
+		 * Get string value.
+		 *
+		 * @param section
+		 *            section the option is grouped within.
+		 * @param subsection
+		 *            subsection name, such a branch name, can be
+		 *            <code>null</code>.
+		 * @param name
+		 *            name of the option to get.
+		 * @return a String value from git config.
+		 */
+		public String toString(String section, String subsection, String name) {
+			if (ConfigConstants.CONFIG_BRANCH_SECTION.equals(section)
+					&& subsection != null
+					&& ConfigConstants.CONFIG_KEY_MERGEOPTIONS.equals(name)) {
+					return "--" + name().replace('_', '-').toLowerCase(); //$NON-NLS-1$
+			} else if (ConfigConstants.CONFIG_KEY_MERGE.equals(section)
+					&& subsection == null
+					&& ConfigConstants.CONFIG_KEY_FF.equals(name)) {
+					switch (this) {
+					case NO_FF:
+						return "false"; //$NON-NLS-1$
+					case FF_ONLY:
+						return "only"; //$NON-NLS-1$
+					default:
+						return "true"; //$NON-NLS-1$
+					}
+				}
+			if (subsection != null)
+				throw new IllegalArgumentException(MessageFormat.format(
+						JGitText.get().enumValueNotSupported3, section,
+						subsection, name, name()));
+			else
+				throw new IllegalArgumentException(MessageFormat.format(
+						JGitText.get().enumValueNotSupported2, section, name,
+						name()));
+		}
+
+		/**
+		 * Parse FastForwardMode from the configuration.
+		 *
+		 * @param section
+		 *            section the option is grouped within.
+		 * @param subsection
+		 *            subsection name, such a branch name, can be
+		 *            <code>null</code>.
+		 * @param name
+		 *            name of the option.
+		 * @param value
+		 *            option value
+		 * @return the parsed enumeration value
+		 */
+		public static FastForwardMode valueOf(String section,
+				String subsection, String name, String value) {
+			if (ConfigConstants.CONFIG_BRANCH_SECTION.equals(section)
+					&& subsection != null
+					&& ConfigConstants.CONFIG_KEY_MERGEOPTIONS.equals(name)) {
+				return valueOf(value.substring(2).replace('-', '_')
+						.toUpperCase());
+			} else if (ConfigConstants.CONFIG_KEY_MERGE.equals(section)
+					&& subsection == null
+					&& ConfigConstants.CONFIG_KEY_FF.equals(name)) {
+				if ("true".equals(value)) //$NON-NLS-1$
+					return FastForwardMode.FF;
+				else if ("false".equals(value)) //$NON-NLS-1$
+					return FastForwardMode.NO_FF;
+				else if ("only".equals(value)) //$NON-NLS-1$
+					return FastForwardMode.FF_ONLY;
+			}
+			if (subsection != null)
+				throw new IllegalArgumentException(MessageFormat.format(
+						JGitText.get().enumValueNotSupported3, section,
+						subsection, name, value));
+			else
+				throw new IllegalArgumentException(MessageFormat.format(
+						JGitText.get().enumValueNotSupported2, section, name,
+						value));
+		}
 	}
 
 	/**
