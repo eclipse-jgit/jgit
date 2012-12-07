@@ -387,11 +387,13 @@ public class Config {
 		if (value == null)
 			return defaultValue;
 
-		String n = value.replace(' ', '_');
+		String n = value.replace('-', '_');
 		T trueState = null;
 		T falseState = null;
 		for (T e : all) {
 			if (StringUtils.equalsIgnoreCase(e.name(), n))
+				return e;
+			else if (StringUtils.equalsIgnoreCase(e.toString(), n))
 				return e;
 			else if (StringUtils.equalsIgnoreCase(e.name(), "TRUE"))
 				trueState = e;
@@ -413,7 +415,7 @@ public class Config {
 
 		if (subsection != null)
 			throw new IllegalArgumentException(MessageFormat.format(JGitText
-					.get().enumValueNotSupported3, section, name, value));
+					.get().enumValueNotSupported3, section, subsection, name, value));
 		else
 			throw new IllegalArgumentException(MessageFormat.format(JGitText
 					.get().enumValueNotSupported2, section, name, value));
@@ -720,7 +722,7 @@ public class Config {
 	 */
 	public <T extends Enum<?>> void setEnum(final String section,
 			final String subsection, final String name, final T value) {
-		String n = value.name().toLowerCase().replace('_', ' ');
+		String n = value.name().toLowerCase().replace('_', '-');
 		setString(section, subsection, name, n);
 	}
 
