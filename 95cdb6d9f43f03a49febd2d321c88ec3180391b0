@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOJ3//90c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-12-09T23:50:27Z",
+      "side": 1,
+      "message": "It\u0027s a leftover from the previous patch set. Should be removed.",
+      "revId": "95cdb6d9f43f03a49febd2d321c88ec3180391b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJ3//90Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-12-09T23:50:27Z",
+      "side": 1,
+      "message": "This is a bug I found while working on this issue. Should be fixed in a separate change.",
+      "revId": "95cdb6d9f43f03a49febd2d321c88ec3180391b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
