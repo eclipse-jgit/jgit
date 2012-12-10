@@ -293,6 +293,25 @@ public class ConfigTest {
 	}
 
 	@Test
+	public void testGetInvalidEnum() throws ConfigInvalidException {
+		Config c = parse("[a]\n\tb = invalid\n");
+		try {
+			c.getEnum("a", null, "b", TestEnum.ONE_TWO);
+			fail();
+		} catch (IllegalArgumentException e) {
+			assertEquals("Invalid value: a.b=invalid", e.getMessage());
+		}
+
+		c = parse("[a \"b\"]\n\tc = invalid\n");
+		try {
+			c.getEnum("a", "b", "c", TestEnum.ONE_TWO);
+			fail();
+		} catch (IllegalArgumentException e) {
+			assertEquals("Invalid value: a.b.c=invalid", e.getMessage());
+		}
+	}
+
+	@Test
 	public void testSetEnum() {
 		final Config c = new Config();
 		c.setEnum("s", "b", "c", TestEnum.ONE_TWO);
