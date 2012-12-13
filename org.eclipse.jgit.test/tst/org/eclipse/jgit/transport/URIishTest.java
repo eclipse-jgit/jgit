@@ -822,7 +822,7 @@ public class URIishTest {
 		String[] users = new String[] { "me", "l usr\\example.com",
 				"lusr\\example" };
 		String[] passes = new String[] { "wtf", };
-		String[] hosts = new String[] { "example.com", "1.2.3.4" };
+		String[] hosts = new String[] { "example.com", "1.2.3.4", "[::1]" };
 		String[] ports = new String[] { "1234", "80" };
 		String[] paths = new String[] { "/", "/abc", "D:/x", "D:\\x" };
 		for (String[] test : tests) {
