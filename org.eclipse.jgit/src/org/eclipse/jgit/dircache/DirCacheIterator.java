@@ -169,6 +169,9 @@ public class DirCacheIterator extends AbstractTreeIterator {
 	public void reset() {
 		if (!first()) {
 			ptr = treeStart;
+			nextSubtreePos = 0;
+			currentEntry = null;
+			currentSubtree = null;
 			if (!eof())
 				parseEntry();
 		}
@@ -203,16 +206,29 @@ public class DirCacheIterator extends AbstractTreeIterator {
 			if (currentSubtree != null)
 				nextSubtreePos--;
 			ptr--;
-			parseEntry();
+			parseEntry(false);
 			if (currentSubtree != null)
 				ptr -= currentSubtree.getEntrySpan() - 1;
 		}
 	}
 
 	private void parseEntry() {
+		parseEntry(true);
+	}
+
+	private void parseEntry(boolean forward) {
 		currentEntry = cache.getEntry(ptr);
 		final byte[] cep = currentEntry.path;
 
+		if (!forward) {
+			if (nextSubtreePos > 0) {
+				final DirCacheTree p = tree.getChild(nextSubtreePos - 1);
+				if (p.contains(cep, pathOffset, cep.length)) {
+					nextSubtreePos--;
+					currentSubtree = p;
+				}
+			}
+		}
 		if (nextSubtreePos != tree.getChildCount()) {
 			final DirCacheTree s = tree.getChild(nextSubtreePos);
 			if (s.contains(cep, pathOffset, cep.length)) {
