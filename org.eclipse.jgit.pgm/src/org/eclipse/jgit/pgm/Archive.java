@@ -116,7 +116,7 @@ class Archive extends TextBuiltin {
 	public enum Format {
 		ZIP,
 		TAR
-	};
+	}
 
 	private static interface Archiver {
 		ArchiveOutputStream createArchiveOutputStream(OutputStream s);
