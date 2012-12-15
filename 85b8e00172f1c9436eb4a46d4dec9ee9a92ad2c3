@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOJ3//8ps\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/dircache/DirCacheIteratorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-12-15T01:55:53Z",
+      "side": 1,
+      "message": "Did you mean to have a bug number here?",
+      "revId": "85b8e00172f1c9436eb4a46d4dec9ee9a92ad2c3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
