@@ -54,6 +54,7 @@ import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.patch.FileHeader;
 import org.eclipse.jgit.patch.HunkHeader;
@@ -79,13 +80,13 @@ public class DiffFormatterTest extends RepositoryTestCase {
 
 	private DiffFormatter df;
 
-	private TestRepository testDb;
+	private TestRepository<Repository> testDb;
 
 	@Override
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-		testDb = new TestRepository(db);
+		testDb = new TestRepository<Repository>(db);
 		df = new DiffFormatter(DisabledOutputStream.INSTANCE);
 		df.setRepository(db);
 		df.setAbbreviationLength(8);
