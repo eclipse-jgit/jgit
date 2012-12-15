@@ -51,7 +51,6 @@ import java.util.EnumMap;
 import java.util.Map;
 import java.text.MessageFormat;
 
-import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.ArchiveOutputStream;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;
@@ -129,12 +128,10 @@ class Archive extends TextBuiltin {
 	static {
 		Map<Format, Archiver> fmts = new EnumMap<Format, Archiver>(Format.class);
 		fmts.put(Format.ZIP, new Archiver() {
-			@Override
 			public ArchiveOutputStream createArchiveOutputStream(OutputStream s) {
 				return new ZipArchiveOutputStream(s);
 			}
 
-			@Override
 			public void putEntry(String path, FileMode mode, //
 					ObjectLoader loader, ArchiveOutputStream out) //
 					throws IOException {
@@ -154,12 +151,10 @@ class Archive extends TextBuiltin {
 			}
 		});
 		fmts.put(Format.TAR, new Archiver() {
-			@Override
 			public ArchiveOutputStream createArchiveOutputStream(OutputStream s) {
 				return new TarArchiveOutputStream(s);
 			}
 
-			@Override
 			public void putEntry(String path, FileMode mode, //
 					ObjectLoader loader, ArchiveOutputStream out) //
 					throws IOException {
