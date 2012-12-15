@@ -72,7 +72,7 @@ public class WrappedRequest extends HttpServletRequestWrapper {
 	@Override
 	public String getPathTranslated() {
 		final String p = getPathInfo();
-		return p != null ? getRealPath(p) : null;
+		return p != null ? getServletContext().getRealPath(p) : null;
 	}
 
 	@Override
