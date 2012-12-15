@@ -58,6 +58,7 @@ import org.eclipse.jgit.lib.Tree;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.junit.Test;
 
+@SuppressWarnings("deprecation")
 public class TreeWalkBasicDiffTest extends RepositoryTestCase {
 	@Test
 	public void testMissingSubtree_DetectFileAdded_FileModified()

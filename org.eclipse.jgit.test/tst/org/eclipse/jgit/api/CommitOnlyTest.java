@@ -1267,7 +1267,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 		}
 	}
 
-	private String expected_f3_head(final int state) {
+	private static String expected_f3_head(final int state) {
 		switch (state) {
 		case 0:
 		case 1:
@@ -1280,7 +1280,7 @@ public class CommitOnlyTest extends RepositoryTestCase {
 		return null;
 	}
 
-	private String expected_f3_idx(final int state) {
+	private static String expected_f3_idx(final int state) {
 		switch (state) {
 		case 0:
 		case 3:
@@ -1294,7 +1294,8 @@ public class CommitOnlyTest extends RepositoryTestCase {
 		return null;
 	}
 
-	private String getHead(final Git git, final String path) throws Exception {
+	static private String getHead(final Git git, final String path)
+			throws Exception {
 		try {
 			final Repository repo = git.getRepository();
 			final ObjectId headId = repo.resolve(Constants.HEAD + "^{commit}");

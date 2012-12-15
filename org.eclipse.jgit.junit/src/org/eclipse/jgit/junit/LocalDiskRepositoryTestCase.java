@@ -162,7 +162,7 @@ public abstract class LocalDiskRepositoryTestCase {
 		mockSystemReader.setProperty(Constants.GIT_CEILING_DIRECTORIES_KEY, makePath(ceilings));
 	}
 
-	private String makePath(List<?> objects) {
+	private static String makePath(List<?> objects) {
 		final StringBuilder stringBuilder = new StringBuilder();
 		for (Object object : objects) {
 			if (stringBuilder.length() > 0)
@@ -303,7 +303,7 @@ public abstract class LocalDiskRepositoryTestCase {
 		toClose.add(r);
 	}
 
-	private String createUniqueTestFolderPrefix() {
+	private static String createUniqueTestFolderPrefix() {
 		return "test" + (System.currentTimeMillis() + "_" + (testCount++));
 	}
 

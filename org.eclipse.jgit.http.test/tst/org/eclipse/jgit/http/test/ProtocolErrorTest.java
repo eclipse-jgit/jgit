@@ -176,7 +176,7 @@ public class ProtocolErrorTest extends HttpTestCase {
 		}
 	}
 
-	private void packHeader(ByteArrayOutputStream tinyPack, int cnt)
+	private static void packHeader(ByteArrayOutputStream tinyPack, int cnt)
 			throws IOException {
 		final byte[] hdr = new byte[8];
 		NB.encodeInt32(hdr, 0, 2);

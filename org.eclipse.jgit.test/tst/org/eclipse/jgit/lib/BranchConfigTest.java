@@ -144,7 +144,7 @@ public class BranchConfigTest {
 				branchConfig.getTrackingBranch());
 	}
 
-	private Config parse(final String content) {
+	private static Config parse(final String content) {
 		final Config c = new Config(null);
 		try {
 			c.fromText(content);

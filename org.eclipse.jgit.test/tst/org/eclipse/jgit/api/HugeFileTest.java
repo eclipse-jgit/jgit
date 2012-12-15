@@ -228,7 +228,7 @@ public class HugeFileTest extends RepositoryTestCase {
 		assertEquals(0, status.getUntracked().size());
 	}
 
-	private void assertCollectionEquals(Collection<?> asList,
+	private static void assertCollectionEquals(Collection<?> asList,
 			Collection<?> added) {
 		assertEquals(asList.toString(), added.toString());
 	}

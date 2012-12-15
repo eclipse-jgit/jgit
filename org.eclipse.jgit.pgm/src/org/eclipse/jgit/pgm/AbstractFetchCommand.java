@@ -128,7 +128,8 @@ abstract class AbstractFetchCommand extends TextBuiltin {
 		writer.flush();
 	}
 
-	private String longTypeOf(ObjectReader reader, final TrackingRefUpdate u) {
+	private static String longTypeOf(ObjectReader reader,
+			final TrackingRefUpdate u) {
 		final RefUpdate.Result r = u.getResult();
 		if (r == RefUpdate.Result.LOCK_FAILURE)
 			return "[lock fail]";
@@ -164,7 +165,7 @@ abstract class AbstractFetchCommand extends TextBuiltin {
 		return "[" + r.name() + "]"; //$NON-NLS-1$//$NON-NLS-2$
 	}
 
-	private String safeAbbreviate(ObjectReader reader, ObjectId id) {
+	private static String safeAbbreviate(ObjectReader reader, ObjectId id) {
 		try {
 			return reader.abbreviate(id).name();
 		} catch (IOException cannotAbbreviate) {

@@ -450,7 +450,7 @@ public class RefListTest {
 		assertSame(REF_B, two.get(0));
 	}
 
-	private RefList<Ref> toList(Ref... refs) {
+	private static RefList<Ref> toList(Ref... refs) {
 		RefList.Builder<Ref> b = new RefList.Builder<Ref>(refs.length);
 		b.addAll(refs, 0, refs.length);
 		return b.toRefList();

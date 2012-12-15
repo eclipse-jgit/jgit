@@ -378,7 +378,7 @@ public class IgnoreMatcherTest {
 	 * @return
 	 * 			  Result of {@link IgnoreRule#isMatch(String, boolean)}
 	 */
-	private boolean match(String pattern, String target) {
+	private static boolean match(String pattern, String target) {
 		IgnoreRule r = new IgnoreRule(pattern);
 		//If speed of this test is ever an issue, we can use a presetRule field
 		//to avoid recompiling a pattern each time.
