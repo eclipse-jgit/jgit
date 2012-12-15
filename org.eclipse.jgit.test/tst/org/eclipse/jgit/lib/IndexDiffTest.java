@@ -70,6 +70,7 @@ import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.util.IO;
 import org.junit.Test;
 
+@SuppressWarnings("deprecation")
 public class IndexDiffTest extends RepositoryTestCase {
 
 	static PathEdit add(final Repository db, final File workdir,

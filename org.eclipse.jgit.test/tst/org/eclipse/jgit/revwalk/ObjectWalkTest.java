@@ -54,6 +54,7 @@ import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Tree;
 import org.junit.Test;
 
+@SuppressWarnings("deprecation")
 public class ObjectWalkTest extends RevWalkTestCase {
 	protected ObjectWalk objw;
 
