@@ -84,6 +84,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.FileUtils;
 import org.junit.Test;
 
+@SuppressWarnings("deprecation")
 public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 
 	@Test
