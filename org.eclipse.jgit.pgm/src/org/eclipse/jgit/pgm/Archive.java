@@ -82,7 +82,7 @@ class Archive extends TextBuiltin {
 		final ObjectReader reader = walk.getObjectReader();
 		final MutableObjectId idBuf = new MutableObjectId();
 		final Archiver fmt = formats.get(format);
-		final ArchiveOutputStream out = fmt.createArchiveOutputStream(outs);
+		final ArchiveOutputStream outa = fmt.createArchiveOutputStream(outs);
 
 		if (tree == null)
 			throw die(CLIText.get().treeIsRequired);
@@ -100,10 +100,10 @@ class Archive extends TextBuiltin {
 				continue;
 
 			walk.getObjectId(idBuf, 0);
-			fmt.putEntry(name, mode, reader.open(idBuf), out);
+			fmt.putEntry(name, mode, reader.open(idBuf), outa);
 		}
 
-		out.close();
+		outa.close();
 	}
 
 	static private void warnArchiveEntryModeIgnored(String name) {
