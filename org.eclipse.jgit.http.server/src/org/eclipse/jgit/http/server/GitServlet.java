@@ -182,7 +182,7 @@ public class GitServlet extends MetaServlet {
 				return config.getInitParameter(name);
 			}
 
-			public Enumeration getInitParameterNames() {
+			public Enumeration<String> getInitParameterNames() {
 				return config.getInitParameterNames();
 			}
 

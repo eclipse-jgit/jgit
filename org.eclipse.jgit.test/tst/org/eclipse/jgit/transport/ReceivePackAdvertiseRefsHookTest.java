@@ -108,7 +108,7 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 
 		// Fill dst with a some common history.
 		//
-		TestRepository d = new TestRepository(dst);
+		TestRepository<Repository> d = new TestRepository<Repository>(dst);
 		a = d.blob("a");
 		A = d.commit(d.tree(d.file("a", a)));
 		B = d.commit().parent(A).create();
@@ -201,7 +201,7 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 
 		// Now use b but in a different commit than what is hidden.
 		//
-		TestRepository s = new TestRepository(src);
+		TestRepository<Repository> s = new TestRepository<Repository>(src);
 		RevCommit N = s.commit().parent(B).add("q", b).create();
 		s.update(R_MASTER, N);
 

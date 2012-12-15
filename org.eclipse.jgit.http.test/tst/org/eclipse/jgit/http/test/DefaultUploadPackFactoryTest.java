@@ -49,6 +49,7 @@ import static org.junit.Assert.fail;
 
 import java.io.IOException;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
 import org.eclipse.jetty.server.Request;
@@ -66,7 +67,7 @@ import org.junit.Test;
 public class DefaultUploadPackFactoryTest extends LocalDiskRepositoryTestCase {
 	private Repository db;
 
-	private UploadPackFactory factory;
+	private UploadPackFactory<HttpServletRequest> factory;
 
 	@Before
 	public void setUp() throws Exception {
@@ -78,7 +79,7 @@ public class DefaultUploadPackFactoryTest extends LocalDiskRepositoryTestCase {
 
 	@Test
 	public void testDisabledSingleton() throws ServiceNotAuthorizedException {
-		factory = UploadPackFactory.DISABLED;
+		factory = (UploadPackFactory<HttpServletRequest>) UploadPackFactory.DISABLED;
 
 		try {
 			factory.create(new R(null, "localhost"), db);
