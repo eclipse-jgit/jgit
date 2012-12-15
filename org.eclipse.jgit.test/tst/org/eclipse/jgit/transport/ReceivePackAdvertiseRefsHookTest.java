@@ -283,7 +283,7 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 		assertSame(PacketLineIn.END, r.readString());
 	}
 
-	private void receive(final ReceivePack rp,
+	private static void receive(final ReceivePack rp,
 			final TemporaryBuffer.Heap inBuf, final TemporaryBuffer.Heap outBuf)
 			throws IOException {
 		rp.receive(new ByteArrayInputStream(inBuf.toByteArray()), outBuf, null);
@@ -490,7 +490,7 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 		assertSame(PacketLineIn.END, r.readString());
 	}
 
-	private void packHeader(TemporaryBuffer.Heap tinyPack, int cnt)
+	private static void packHeader(TemporaryBuffer.Heap tinyPack, int cnt)
 			throws IOException {
 		final byte[] hdr = new byte[8];
 		NB.encodeInt32(hdr, 0, 2);
@@ -500,7 +500,7 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 		tinyPack.write(hdr, 0, 8);
 	}
 
-	private void copy(TemporaryBuffer.Heap tinyPack, ObjectLoader ldr)
+	private static void copy(TemporaryBuffer.Heap tinyPack, ObjectLoader ldr)
 			throws IOException {
 		final byte[] buf = new byte[64];
 		final byte[] content = ldr.getCachedBytes();
@@ -519,7 +519,8 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 		deflate(tinyPack, content);
 	}
 
-	private void deflate(TemporaryBuffer.Heap tinyPack, final byte[] content)
+	private static void deflate(TemporaryBuffer.Heap tinyPack,
+			final byte[] content)
 			throws IOException {
 		final Deflater deflater = new Deflater();
 		final byte[] buf = new byte[128];
@@ -532,7 +533,7 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 		} while (!deflater.finished());
 	}
 
-	private void digest(TemporaryBuffer.Heap buf) throws IOException {
+	private static void digest(TemporaryBuffer.Heap buf) throws IOException {
 		MessageDigest md = Constants.newMessageDigest();
 		md.update(buf.toByteArray());
 		buf.write(md.digest());

@@ -68,7 +68,7 @@ public class FileSnapshotTest {
 		FileUtils.delete(trash, FileUtils.RECURSIVE | FileUtils.SKIP_MISSING);
 	}
 
-	private void waitNextSec(File f) {
+	private static void waitNextSec(File f) {
 		long initialLastModified = f.lastModified();
 		do {
 			f.setLastModified(System.currentTimeMillis());
@@ -144,7 +144,7 @@ public class FileSnapshotTest {
 		return f;
 	}
 
-	private void append(File f, byte b) throws IOException {
+	private static void append(File f, byte b) throws IOException {
 		FileOutputStream os = new FileOutputStream(f, true);
 		try {
 			os.write(b);

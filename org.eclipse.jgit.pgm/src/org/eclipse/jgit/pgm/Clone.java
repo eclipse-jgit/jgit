@@ -150,7 +150,7 @@ class Clone extends AbstractFetchCommand {
 		return r;
 	}
 
-	private Ref guessHEAD(final FetchResult result) {
+	private static Ref guessHEAD(final FetchResult result) {
 		final Ref idHEAD = result.getAdvertisedRef(Constants.HEAD);
 		final List<Ref> availableRefs = new ArrayList<Ref>();
 		Ref head = null;

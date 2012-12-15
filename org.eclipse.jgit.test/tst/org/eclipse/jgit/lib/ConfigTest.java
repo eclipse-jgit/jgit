@@ -465,17 +465,18 @@ public class ConfigTest {
 		assertEquals(result, config.toText());
 	}
 
-	private void assertReadLong(long exp) throws ConfigInvalidException {
+	private static void assertReadLong(long exp) throws ConfigInvalidException {
 		assertReadLong(exp, String.valueOf(exp));
 	}
 
-	private void assertReadLong(long exp, String act)
+	private static void assertReadLong(long exp, String act)
 			throws ConfigInvalidException {
 		final Config c = parse("[s]\na = " + act + "\n");
 		assertEquals(exp, c.getLong("s", null, "a", 0L));
 	}
 
-	private Config parse(final String content) throws ConfigInvalidException {
+	private static Config parse(final String content)
+			throws ConfigInvalidException {
 		final Config c = new Config(null);
 		c.fromText(content);
 		return c;

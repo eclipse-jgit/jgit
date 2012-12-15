@@ -137,7 +137,7 @@ public class RawParseUtils_ParsePersonIdentTest {
 		assertPersonIdent("Me <me@example.com 1234567890 -0700", null);
 	}
 
-	private void assertPersonIdent(String line, PersonIdent expected) {
+	private static void assertPersonIdent(String line, PersonIdent expected) {
 		PersonIdent actual = RawParseUtils.parsePersonIdent(line);
 		assertEquals(expected, actual);
 	}

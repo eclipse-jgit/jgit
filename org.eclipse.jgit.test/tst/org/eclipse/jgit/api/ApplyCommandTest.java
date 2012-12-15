@@ -178,7 +178,7 @@ public class ApplyCommandTest extends RepositoryTestCase {
 				b.getString(0, b.size(), false));
 	}
 
-	private byte[] readFile(final String patchFile) throws IOException {
+	private static byte[] readFile(final String patchFile) throws IOException {
 		final InputStream in = DiffFormatterReflowTest.class
 				.getResourceAsStream(patchFile);
 		if (in == null) {

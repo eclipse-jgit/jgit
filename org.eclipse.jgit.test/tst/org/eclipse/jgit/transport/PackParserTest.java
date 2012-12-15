@@ -452,7 +452,7 @@ public class PackParserTest extends RepositoryTestCase {
 		assertEquals(0x7e, in.read());
 	}
 
-	private void packHeader(TemporaryBuffer.Heap tinyPack, int cnt)
+	private static void packHeader(TemporaryBuffer.Heap tinyPack, int cnt)
 			throws IOException {
 		final byte[] hdr = new byte[8];
 		NB.encodeInt32(hdr, 0, 2);
@@ -462,7 +462,8 @@ public class PackParserTest extends RepositoryTestCase {
 		tinyPack.write(hdr, 0, 8);
 	}
 
-	private void deflate(TemporaryBuffer.Heap tinyPack, final byte[] content)
+	private static void deflate(TemporaryBuffer.Heap tinyPack,
+			final byte[] content)
 			throws IOException {
 		final Deflater deflater = new Deflater();
 		final byte[] buf = new byte[128];
@@ -475,7 +476,7 @@ public class PackParserTest extends RepositoryTestCase {
 		} while (!deflater.finished());
 	}
 
-	private void digest(TemporaryBuffer.Heap buf) throws IOException {
+	private static void digest(TemporaryBuffer.Heap buf) throws IOException {
 		MessageDigest md = Constants.newMessageDigest();
 		md.update(buf.toByteArray());
 		buf.write(md.digest());

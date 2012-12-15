@@ -340,7 +340,8 @@ public class PullCommandWithRebaseTest extends RepositoryTestCase {
 		assertFileContentsEqual(targetFile, "Hello world");
 	}
 
-	private void writeToFile(File actFile, String string) throws IOException {
+	private static void writeToFile(File actFile, String string)
+			throws IOException {
 		FileOutputStream fos = null;
 		try {
 			fos = new FileOutputStream(actFile);
@@ -352,7 +353,7 @@ public class PullCommandWithRebaseTest extends RepositoryTestCase {
 		}
 	}
 
-	private void assertFileContentsEqual(File actFile, String string)
+	private static void assertFileContentsEqual(File actFile, String string)
 			throws IOException {
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		FileInputStream fis = null;

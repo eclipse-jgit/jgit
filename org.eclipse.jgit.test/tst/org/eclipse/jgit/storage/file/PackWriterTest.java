@@ -479,7 +479,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 						contentB.getId()));
 	}
 
-	private void assertContent(PackIndex pi, List<ObjectId> expected) {
+	private static void assertContent(PackIndex pi, List<ObjectId> expected) {
 		assertEquals("Pack index has wrong size.", expected.size(),
 				pi.getObjectCount());
 		for (int i = 0; i < pi.getObjectCount(); i++)
@@ -489,7 +489,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 					expected.contains(pi.getObjectId(i)));
 	}
 
-	private PackIndex writePack(FileRepository repo,
+	private static PackIndex writePack(FileRepository repo,
 			Set<? extends ObjectId> want, Set<PackIndex> excludeObjects)
 			throws IOException {
 		PackWriter pw = new PackWriter(repo);

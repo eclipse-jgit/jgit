@@ -673,7 +673,7 @@ public class TestRepository<R extends Repository> {
 		}
 	}
 
-	private void prunePacked(ObjectDirectory odb) throws IOException {
+	private static void prunePacked(ObjectDirectory odb) throws IOException {
 		for (PackFile p : odb.getPacks()) {
 			for (MutableEntry e : p)
 				FileUtils.delete(odb.fileFor(e.toObjectId()));

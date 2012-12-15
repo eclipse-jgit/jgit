@@ -619,7 +619,7 @@ public class IndexDiffFilterTest extends RepositoryTestCase {
 		return treeWalk;
 	}
 
-	private void assertPaths(TreeWalk treeWalk, String... paths)
+	private static void assertPaths(TreeWalk treeWalk, String... paths)
 			throws Exception {
 		for (int i = 0; i < paths.length; i++) {
 			assertTrue(treeWalk.next());
@@ -628,7 +628,7 @@ public class IndexDiffFilterTest extends RepositoryTestCase {
 		assertFalse(treeWalk.next());
 	}
 
-	private void assertPath(String path, String... paths) {
+	private static void assertPath(String path, String... paths) {
 		for (String p : paths)
 			if (p.equals(path))
 				return;
