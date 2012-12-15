@@ -227,11 +227,11 @@ public class DirCacheCGitCompatabilityTest extends LocalDiskRepositoryTestCase {
 		assertEquals(intentToAdd, entry.isIntentToAdd());
 	}
 
-	private File pathOf(final String name) {
+	private static File pathOf(final String name) {
 		return JGitTestUtil.getTestResourceFile(name);
 	}
 
-	private Map<String, CGitIndexRecord> readLsFiles() throws Exception {
+	private static Map<String, CGitIndexRecord> readLsFiles() throws Exception {
 		final LinkedHashMap<String, CGitIndexRecord> r = new LinkedHashMap<String, CGitIndexRecord>();
 		final BufferedReader br = new BufferedReader(new InputStreamReader(
 				new FileInputStream(pathOf("gitgit.lsfiles")), "UTF-8"));
@@ -247,7 +247,7 @@ public class DirCacheCGitCompatabilityTest extends LocalDiskRepositoryTestCase {
 		return r;
 	}
 
-	private Map<String, CGitLsTreeRecord> readLsTree() throws Exception {
+	private static Map<String, CGitLsTreeRecord> readLsTree() throws Exception {
 		final LinkedHashMap<String, CGitLsTreeRecord> r = new LinkedHashMap<String, CGitLsTreeRecord>();
 		final BufferedReader br = new BufferedReader(new InputStreamReader(
 				new FileInputStream(pathOf("gitgit.lstree")), "UTF-8"));

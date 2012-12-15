@@ -157,7 +157,7 @@ public class QuotedStringGitPathStyleTest {
 		}
 	}
 
-	private String octalEscape(int i) {
+	private static String octalEscape(int i) {
 		String s = Integer.toOctalString(i);
 		while (s.length() < 3) {
 			s = "0" + s;

@@ -373,12 +373,13 @@ public class SimpleMergeTest extends SampleDataRepositoryTestCase {
 		assertFalse(merge);
 	}
 
-	private void assertCorrectId(final DirCache treeT, final TreeWalk tw) {
+	private static void assertCorrectId(final DirCache treeT, final TreeWalk tw) {
 		assertEquals(treeT.getEntry(tw.getPathString()).getObjectId(), tw
 				.getObjectId(0));
 	}
 
-	private ObjectId commit(final ObjectInserter odi, final DirCache treeB,
+	private static ObjectId commit(final ObjectInserter odi,
+			final DirCache treeB,
 			final ObjectId[] parentIds) throws Exception {
 		final CommitBuilder c = new CommitBuilder();
 		c.setTreeId(treeB.writeTree(odi));

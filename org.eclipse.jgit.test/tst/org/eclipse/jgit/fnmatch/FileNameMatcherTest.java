@@ -54,7 +54,7 @@ import org.junit.Test;
 
 public class FileNameMatcherTest {
 
-	private void assertMatch(final String pattern, final String input,
+	private static void assertMatch(final String pattern, final String input,
 			final boolean matchExpected, final boolean appendCanMatchExpected)
 			throws InvalidPatternException {
 		final FileNameMatcher matcher = new FileNameMatcher(pattern, null);
@@ -63,7 +63,8 @@ public class FileNameMatcherTest {
 		assertEquals(appendCanMatchExpected, matcher.canAppendMatch());
 	}
 
-	private void assertFileNameMatch(final String pattern, final String input,
+	private static void assertFileNameMatch(final String pattern,
+			final String input,
 			final char excludedCharacter, final boolean matchExpected,
 			final boolean appendCanMatchExpected)
 			throws InvalidPatternException {

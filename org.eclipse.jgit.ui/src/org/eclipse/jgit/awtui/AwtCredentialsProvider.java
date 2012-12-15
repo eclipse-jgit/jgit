@@ -135,7 +135,7 @@ public class AwtCredentialsProvider extends CredentialsProvider {
 		}
 	}
 
-	private boolean interactive(URIish uri, CredentialItem[] items) {
+	private static boolean interactive(URIish uri, CredentialItem[] items) {
 		final GridBagConstraints gbc = new GridBagConstraints(0, 0, 1, 1, 1, 1,
 				GridBagConstraints.NORTHWEST, GridBagConstraints.NONE,
 				new Insets(0, 0, 0, 0), 0, 0);

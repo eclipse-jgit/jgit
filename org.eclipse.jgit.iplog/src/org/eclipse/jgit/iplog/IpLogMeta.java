@@ -142,7 +142,7 @@ public class IpLogMeta {
 		reviewUrl = cfg.getString(S_REVIEW, null, K_URL);
 	}
 
-	private List<Project> parseProjects(final Config cfg,
+	private static List<Project> parseProjects(final Config cfg,
 			final String sectionName) {
 		final List<Project> dst = new ArrayList<Project>();
 		for (String id : cfg.getSubsections(sectionName)) {

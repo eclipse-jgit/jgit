@@ -61,7 +61,8 @@ public class T0002_TreeTest extends SampleDataRepositoryTestCase {
 	private static final ObjectId SOME_FAKE_ID = ObjectId.fromString(
 			"0123456789abcdef0123456789abcdef01234567");
 
-	private int compareNamesUsingSpecialCompare(String a,String b) throws UnsupportedEncodingException {
+	private static int compareNamesUsingSpecialCompare(String a, String b)
+			throws UnsupportedEncodingException {
 		char lasta = '\0';
 		byte[] abytes;
 		if (a.length() > 0 && a.charAt(a.length()-1) == '/') {

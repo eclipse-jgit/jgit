@@ -273,7 +273,7 @@ public class IpLogGenerator {
 		}
 	}
 
-	private Date parseDate(SimpleDateFormat dt, String value)
+	private static Date parseDate(SimpleDateFormat dt, String value)
 			throws IOException {
 		if ("NULL".equals(value) || "".equals(value) || value == null)
 			return null;
@@ -524,7 +524,7 @@ public class IpLogGenerator {
 		return project;
 	}
 
-	private void populateProjectType(Project p, Element project) {
+	private static void populateProjectType(Project p, Element project) {
 		required(project, "id", p.getID());
 		required(project, "name", p.getName());
 		optional(project, "comments", p.getComments());
@@ -557,7 +557,7 @@ public class IpLogGenerator {
 		return r;
 	}
 
-	private String mapCQState(String state) {
+	private static String mapCQState(String state) {
 		// "approved" CQs shall be listed as "active" in the iplog
 		if (state.equals("approved"))
 			return "active";
@@ -602,13 +602,13 @@ public class IpLogGenerator {
 		return doc.createElementNS(IPLOG_NS, IPLOG_PFX + name);
 	}
 
-	private void required(Element r, String name, String value) {
+	private static void required(Element r, String name, String value) {
 		if (value == null)
 			value = "";
 		r.setAttribute(name, value);
 	}
 
-	private void optional(Element r, String name, String value) {
+	private static void optional(Element r, String name, String value) {
 		if (value != null && value.length() > 0)
 			r.setAttribute(name, value);
 	}

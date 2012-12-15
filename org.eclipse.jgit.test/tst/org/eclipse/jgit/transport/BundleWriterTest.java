@@ -140,7 +140,7 @@ public class BundleWriterTest extends SampleDataRepositoryTestCase {
 		}
 	}
 
-	private FetchResult fetchFromBundle(final Repository newRepo,
+	private static FetchResult fetchFromBundle(final Repository newRepo,
 			final byte[] bundle) throws URISyntaxException,
 			NotSupportedException, TransportException {
 		final URIish uri = new URIish("in-memory://");

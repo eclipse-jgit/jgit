@@ -697,7 +697,7 @@ public class AddCommandTest extends RepositoryTestCase {
 		assertEquals(FileMode.EXECUTABLE_FILE, walk.getFileMode(0));
 	}
 
-	private DirCacheEntry addEntryToBuilder(String path, File file,
+	private static DirCacheEntry addEntryToBuilder(String path, File file,
 			ObjectInserter newObjectInserter, DirCacheBuilder builder, int stage)
 			throws IOException {
 		FileInputStream inputStream = new FileInputStream(file);
