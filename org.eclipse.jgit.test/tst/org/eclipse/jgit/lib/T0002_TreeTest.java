@@ -57,6 +57,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+@SuppressWarnings("deprecation")
 public class T0002_TreeTest extends SampleDataRepositoryTestCase {
 	private static final ObjectId SOME_FAKE_ID = ObjectId.fromString(
 			"0123456789abcdef0123456789abcdef01234567");
