@@ -63,7 +63,7 @@ public class RelativeDateFormatterTest {
 		SystemReader.setInstance(new MockSystemReader());
 	}
 
-	private void assertFormat(long ageFromNow, long timeUnit,
+	private static void assertFormat(long ageFromNow, long timeUnit,
 			String expectedFormat) {
 		Date d = new Date(SystemReader.getInstance().getCurrentTime()
 				- ageFromNow * timeUnit);

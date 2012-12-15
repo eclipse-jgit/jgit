@@ -520,14 +520,14 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 		}
 	}
 
-	private byte[] compressStandardFormat(int type, byte[] data)
+	private static byte[] compressStandardFormat(int type, byte[] data)
 			throws IOException {
 		String typeString = Constants.typeString(type);
 		String length = String.valueOf(data.length);
 		return compressStandardFormat(typeString, length, data);
 	}
 
-	private byte[] compressStandardFormat(String type, String length,
+	private static byte[] compressStandardFormat(String type, String length,
 			byte[] data) throws IOException {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		DeflaterOutputStream d = new DeflaterOutputStream(out);
@@ -540,7 +540,8 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 		return out.toByteArray();
 	}
 
-	private byte[] compressPackFormat(int type, byte[] data) throws IOException {
+	private static byte[] compressPackFormat(int type, byte[] data)
+			throws IOException {
 		byte[] hdr = new byte[64];
 		int rawLength = data.length;
 		int nextLength = rawLength >>> 4;

@@ -90,7 +90,7 @@ class ShowPackDelta extends TextBuiltin {
 		outw.println(BinaryDelta.format(delta));
 	}
 
-	private byte[] getDelta(ObjectReader reader, RevObject obj)
+	private static byte[] getDelta(ObjectReader reader, RevObject obj)
 			throws IOException, MissingObjectException,
 			StoredObjectRepresentationNotAvailableException {
 		ObjectReuseAsIs asis = (ObjectReuseAsIs) reader;

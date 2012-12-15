@@ -112,7 +112,7 @@ public class SimpleCookieManager extends CookieHandler {
 		}
 	}
 
-	private String hostOf(URI uri) {
+	private static String hostOf(URI uri) {
 		StringBuilder key = new StringBuilder();
 		key.append(uri.getScheme());
 		key.append(':');

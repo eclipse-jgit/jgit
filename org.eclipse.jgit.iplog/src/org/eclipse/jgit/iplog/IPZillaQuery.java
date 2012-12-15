@@ -156,7 +156,7 @@ class IPZillaQuery {
 		}
 	}
 
-	private BufferedReader reader(HttpURLConnection conn)
+	private static BufferedReader reader(HttpURLConnection conn)
 			throws UnsupportedEncodingException, IOException {
 		String encoding = conn.getContentEncoding();
 		InputStream in = conn.getInputStream();
@@ -206,7 +206,7 @@ class IPZillaQuery {
 		}
 	}
 
-	private String readFully(HttpURLConnection c) throws IOException {
+	private static String readFully(HttpURLConnection c) throws IOException {
 		String enc = c.getContentEncoding();
 		Reader reader;
 		if (enc != null) {
@@ -240,7 +240,7 @@ class IPZillaQuery {
 		return c;
 	}
 
-	private void setCookie(URL url, String name, String value)
+	private static void setCookie(URL url, String name, String value)
 			throws IOException {
 		Map<String, List<String>> cols = new HashMap<String, List<String>>();
 		cols.put("Set-Cookie", Collections.singletonList(name + "=" + value));
@@ -253,7 +253,7 @@ class IPZillaQuery {
 		}
 	}
 
-	private CQ parseOneCQ(Map<String, String> row) {
+	private static CQ parseOneCQ(Map<String, String> row) {
 		long id = Long.parseLong(row.get("bug_id"));
 		String state = row.get("bug_severity");
 		String bug_status = row.get("bug_status");

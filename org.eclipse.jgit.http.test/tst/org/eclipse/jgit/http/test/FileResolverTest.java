@@ -81,7 +81,7 @@ public class FileResolverTest extends LocalDiskRepositoryTestCase {
 			assertUnreasonable("C:/windows");
 	}
 
-	private void assertUnreasonable(String name)
+	private static void assertUnreasonable(String name)
 			throws ServiceNotEnabledException {
 		FileResolver<RepositoryResolver> r = new FileResolver<RepositoryResolver>(
 				new File("."), false);
