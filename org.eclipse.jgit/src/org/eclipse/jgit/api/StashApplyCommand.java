@@ -45,6 +45,7 @@ package org.eclipse.jgit.api;
 import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.Collections;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRefNameException;
@@ -58,7 +59,7 @@ import org.eclipse.jgit.dircache.DirCacheEditor.DeletePath;
 import org.eclipse.jgit.dircache.DirCacheEditor.PathEdit;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.dircache.DirCacheIterator;
-import org.eclipse.jgit.errors.CheckoutConflictException;
+import org.eclipse.jgit.api.errors.CheckoutConflictException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -216,7 +217,8 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 		return stashId;
 	}
 
-	private void scanForConflicts(TreeWalk treeWalk) throws IOException {
+	private void scanForConflicts(TreeWalk treeWalk) throws IOException,
+			CheckoutConflictException {
 		File workingTree = repo.getWorkTree();
 		while (treeWalk.next()) {
 			// State of the stashed index and working directory
@@ -237,7 +239,10 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 					indexIter, workingIter)) {
 				String path = treeWalk.getPathString();
 				File file = new File(workingTree, path);
-				throw new CheckoutConflictException(file.getAbsolutePath());
+				throw new CheckoutConflictException(MessageFormat.format(
+						JGitText.get().checkoutConflictWithFile,
+						file.getAbsoluteFile()), Collections.singletonList(file
+						.getAbsolutePath()));
 			}
 		}
 	}
@@ -296,10 +301,11 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 	 * Apply the changes in a stashed commit to the working directory and index
 	 *
 	 * @return id of stashed commit that was applied
+	 * @throws CheckoutConflictException
 	 * @throws GitAPIException
 	 * @throws WrongRepositoryStateException
 	 */
-	public ObjectId call() throws GitAPIException,
+	public ObjectId call() throws GitAPIException, CheckoutConflictException,
 			WrongRepositoryStateException {
 		checkCallable();
 

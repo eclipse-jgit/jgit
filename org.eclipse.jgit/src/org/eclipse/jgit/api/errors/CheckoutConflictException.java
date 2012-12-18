@@ -68,16 +68,34 @@ public class CheckoutConflictException extends GitAPIException {
 		super(message, cause);
 	}
 
-	CheckoutConflictException(String message, List<String> conflictingPaths, Throwable cause) {
+	/**
+	 * Construct a CheckoutConflictException
+	 *
+	 * @param message
+	 * @param conflictingPaths
+	 * @param cause
+	 */
+	public CheckoutConflictException(String message,
+			List<String> conflictingPaths, Throwable cause) {
 		super(message, cause);
 		this.conflictingPaths = conflictingPaths;
 	}
 
-	CheckoutConflictException(String message) {
+	/**
+	 * Construct a CheckoutConflictException
+	 *
+	 * @param message
+	 */
+	public CheckoutConflictException(String message) {
 		super(message);
 	}
 
-	CheckoutConflictException(String message, List<String> conflictingPaths) {
+	/**
+	 * @param message
+	 * @param conflictingPaths
+	 */
+	public CheckoutConflictException(String message,
+			List<String> conflictingPaths) {
 		super(message);
 		this.conflictingPaths = conflictingPaths;
 	}
@@ -93,7 +111,7 @@ public class CheckoutConflictException extends GitAPIException {
 	 * @param conflictingPath
 	 * @return {@code this}
 	 */
-	CheckoutConflictException addConflictingPath(String conflictingPath) {
+	public CheckoutConflictException addConflictingPath(String conflictingPath) {
 		if (conflictingPaths == null)
 			conflictingPaths = new LinkedList<String>();
 		conflictingPaths.add(conflictingPath);
