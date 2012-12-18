@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOJ3//8Fw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-12-18T20:12:58Z",
+      "side": 1,
+      "message": "This allows --no_ff, which is, I think, not legal. If we don\u0027t have any such options, which I think,. anywhere then it\u0027s a simple fix.",
+      "revId": "2281cf882b3ce00b5307ec9a0c1c48c9863bc15d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
