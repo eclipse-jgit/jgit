@@ -118,6 +118,6 @@ public abstract class ThreeWayMerger extends Merger {
 	protected AbstractTreeIterator mergeBase() throws IOException {
 		if (baseTree != null)
 			return openTree(baseTree);
-		return mergeBase(0, 1);
+		return mergeBase(sourceCommits[0], sourceCommits[1]);
 	}
 }

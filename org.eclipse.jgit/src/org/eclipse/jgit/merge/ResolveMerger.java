@@ -80,6 +80,8 @@ import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevTree;
+import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.treewalk.NameConflictTreeWalk;
 import org.eclipse.jgit.treewalk.WorkingTreeIterator;
@@ -104,7 +106,10 @@ public class ResolveMerger extends ThreeWayMerger {
 
 	private NameConflictTreeWalk tw;
 
-	private String commitNames[];
+	/**
+	 * string versions of a list of commit SHA1s
+	 */
+	protected String commitNames[];
 
 	private static final int T_BASE = 0;
 
@@ -118,7 +123,10 @@ public class ResolveMerger extends ThreeWayMerger {
 
 	private DirCacheBuilder builder;
 
-	private ObjectId resultTree;
+	/**
+	 * merge result as tree
+	 */
+	protected ObjectId resultTree;
 
 	private List<String> unmergedPaths = new ArrayList<String>();
 
@@ -134,13 +142,33 @@ public class ResolveMerger extends ThreeWayMerger {
 
 	private boolean enterSubtree;
 
-	private boolean inCore;
+	/**
+	 * Set to true if this merge should work in-memory. The repos dircache and
+	 * workingtree are not touched by this method. Eventually needed files are
+	 * created as temporary files and a new empty, in-memory dircache will be
+	 * used instead the repo's one. Often used for bare repos where the repo
+	 * doesn't even have a workingtree and dircache.
+	 */
+	protected boolean inCore;
 
-	private DirCache dircache;
+	/**
+	 * Set to true if this repo doesn't have a dircache and an empty in-memory
+	 * dircache was created in the constructor of this class. Differs from
+	 * inCore where we also don't have a worktree.
+	 */
+	protected boolean implicitDirCache = false;
+
+	/**
+	 * Directory cache
+	 */
+	protected DirCache dircache;
 
 	private WorkingTreeIterator workingTreeIterator;
 
-	private MergeAlgorithm mergeAlgorithm;
+	/**
+	 * our merge algorithm
+	 */
+	protected MergeAlgorithm mergeAlgorithm;
 
 	/**
 	 * @param local
@@ -157,6 +185,7 @@ public class ResolveMerger extends ThreeWayMerger {
 		this.inCore = inCore;
 
 		if (inCore) {
+			implicitDirCache = true;
 			dircache = DirCache.newInCore();
 		}
 	}
@@ -170,67 +199,14 @@ public class ResolveMerger extends ThreeWayMerger {
 
 	@Override
 	protected boolean mergeImpl() throws IOException {
-		boolean implicitDirCache = false;
-
 		if (dircache == null) {
 			dircache = getRepository().lockDirCache();
 			implicitDirCache = true;
 		}
 
 		try {
-			builder = dircache.builder();
-			DirCacheBuildIterator buildIt = new DirCacheBuildIterator(builder);
-
-			tw = new NameConflictTreeWalk(db);
-			tw.addTree(mergeBase());
-			tw.addTree(sourceTrees[0]);
-			tw.addTree(sourceTrees[1]);
-			tw.addTree(buildIt);
-			if (workingTreeIterator != null)
-				tw.addTree(workingTreeIterator);
-
-			while (tw.next()) {
-				if (!processEntry(
-						tw.getTree(T_BASE, CanonicalTreeParser.class),
-						tw.getTree(T_OURS, CanonicalTreeParser.class),
-						tw.getTree(T_THEIRS, CanonicalTreeParser.class),
-						tw.getTree(T_INDEX, DirCacheBuildIterator.class),
-						(workingTreeIterator == null) ? null : tw.getTree(T_FILE, WorkingTreeIterator.class))) {
-					cleanUp();
-					return false;
-				}
-				if (tw.isSubtree() && enterSubtree)
-					tw.enterSubtree();
-			}
-
-			if (!inCore) {
-				// No problem found. The only thing left to be done is to
-				// checkout all files from "theirs" which have been selected to
-				// go into the new index.
-				checkout();
-
-				// All content-merges are successfully done. If we can now write the
-				// new index we are on quite safe ground. Even if the checkout of
-				// files coming from "theirs" fails the user can work around such
-				// failures by checking out the index again.
-				if (!builder.commit()) {
-					cleanUp();
-					throw new IndexWriteException();
-				}
-				builder = null;
-
-			} else {
-				builder.finish();
-				builder = null;
-			}
-
-			if (getUnmergedPaths().isEmpty() && !failed()) {
-				resultTree = dircache.writeTree(getObjectInserter());
-				return true;
-			} else {
-				resultTree = null;
-				return false;
-			}
+			return mergeTrees(mergeBase(), sourceTrees[0],
+					sourceTrees[1]);
 		} finally {
 			if (implicitDirCache)
 				dircache.unlock();
@@ -286,7 +262,8 @@ public class ResolveMerger extends ThreeWayMerger {
 	 * @throws CorruptObjectException
 	 * @throws NoWorkTreeException
 	 */
-	private void cleanUp() throws NoWorkTreeException, CorruptObjectException, IOException {
+	private void cleanUp() throws NoWorkTreeException, CorruptObjectException,
+			IOException {
 		if (inCore) {
 			modifiedFiles.clear();
 			return;
@@ -405,7 +382,7 @@ public class ResolveMerger extends ThreeWayMerger {
 			// File is either untracked or new, staged but uncommitted
 			return true;
 
-		if (isIndexDirty())
+		if (!implicitDirCache && isIndexDirty())
 			return false;
 
 		DirCacheEntry ourDce = null;
@@ -890,5 +867,74 @@ public class ResolveMerger extends ThreeWayMerger {
 	 */
 	public void setWorkingTreeIterator(WorkingTreeIterator workingTreeIterator) {
 		this.workingTreeIterator = workingTreeIterator;
+	}
+
+
+	/**
+	 * The resolve conflict way of three way merging
+	 *
+	 * @param baseTree
+	 * @param headTree
+	 * @param mergeTree
+	 * @return whether the trees merged cleanly
+	 * @throws IOException
+	 */
+	protected boolean mergeTrees(AbstractTreeIterator baseTree,
+			RevTree headTree, RevTree mergeTree) throws IOException {
+
+		builder = dircache.builder();
+		DirCacheBuildIterator buildIt = new DirCacheBuildIterator(builder);
+
+		tw = new NameConflictTreeWalk(db);
+		tw.addTree(baseTree);
+		tw.addTree(headTree);
+		tw.addTree(mergeTree);
+		tw.addTree(buildIt);
+		if (workingTreeIterator != null)
+			tw.addTree(workingTreeIterator);
+
+		while (tw.next()) {
+			if (!processEntry(
+					tw.getTree(T_BASE, CanonicalTreeParser.class),
+					tw.getTree(T_OURS, CanonicalTreeParser.class),
+					tw.getTree(T_THEIRS, CanonicalTreeParser.class),
+					tw.getTree(T_INDEX, DirCacheBuildIterator.class),
+					(workingTreeIterator == null) ? null : tw.getTree(T_FILE,
+							WorkingTreeIterator.class))) {
+				cleanUp();
+				return false;
+			}
+			if (tw.isSubtree() && enterSubtree)
+				tw.enterSubtree();
+		}
+
+		if (!inCore) {
+			// No problem found. The only thing left to be done is to
+			// checkout all files from "theirs" which have been selected to
+			// go into the new index.
+			checkout();
+
+			// All content-merges are successfully done. If we can now write the
+			// new index we are on quite safe ground. Even if the checkout of
+			// files coming from "theirs" fails the user can work around such
+			// failures by checking out the index again.
+			if (!builder.commit()) {
+				cleanUp();
+				throw new IndexWriteException();
+			}
+			builder = null;
+
+		} else {
+			builder.finish();
+			builder = null;
+		}
+
+		if (getUnmergedPaths().isEmpty() && !failed()) {
+			resultTree = dircache.writeTree(getObjectInserter());
+			return true;
+		} else {
+			resultTree = null;
+			return false;
+		}
 	}
 }
