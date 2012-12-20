@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOJ3//7vM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-12-20T22:41:29Z",
+      "side": 1,
+      "message": "Well, matching between a String with config value and enum is based the enum\u0027s name i.e. \"StringUtils.equalsIgnoreCase(e.name(), n))\", where n is \"__no_ff\" in this case. I could change that (in Config.getEnum(T[], String, String, String, T) ) but to be honest I\u0027m find these names.",
+      "parentUuid": "AABOJ3//8Fc\u003d",
+      "revId": "2281cf882b3ce00b5307ec9a0c1c48c9863bc15d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOJ3//8Fw\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2012-12-18T20:12:58Z",
       "side": 1,
       "message": "This allows --no_ff, which is, I think, not legal. If we don\u0027t have any such options, which I think,. anywhere then it\u0027s a simple fix.",
+      "revId": "2281cf882b3ce00b5307ec9a0c1c48c9863bc15d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJ3//7vc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-12-20T22:41:29Z",
+      "side": 1,
+      "message": "Good point, but I think it\u0027s valid for any kind of enum which has multiple \"-\" and \"_\" in its name. If this is ok with you I would open a separate bugzilla for this.",
+      "parentUuid": "AABOJ3//8Fw\u003d",
       "revId": "2281cf882b3ce00b5307ec9a0c1c48c9863bc15d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
