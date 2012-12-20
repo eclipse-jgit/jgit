@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.jgit.ant
-Bundle-Version: 2.2.0.201212191850-r
+Bundle-Version: 2.2.0.qualifier
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Import-Package: org.apache.tools.ant
 Bundle-Localization: plugin

@@ -3,6 +3,6 @@ Bundle-ManifestVersion: 2
 Bundle-Name: org.eclipse.jgit.pgm - Sources
 Bundle-SymbolicName: org.eclipse.jgit.pgm.source;singleton:=true
 Bundle-Vendor: Eclipse.org - JGit
-Bundle-Version: 2.2.0.201212191850-r
+Bundle-Version: 2.2.0.qualifier
 Eclipse-SourceBundle: org.eclipse.jgit.pgm;version="2.2.0";roots="."
 
