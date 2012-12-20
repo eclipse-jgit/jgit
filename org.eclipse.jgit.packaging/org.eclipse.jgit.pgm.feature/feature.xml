@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.jgit.pgm"
       label="%featureName"
-      version="2.2.0.qualifier"
+      version="2.3.0.qualifier"
       provider-name="%providerName">
 
    <description url="http://www.eclipse.org/jgit/">
@@ -24,7 +24,7 @@
 
    <requires>
       <import plugin="org.kohsuke.args4j" version="2.0.0" match="compatible"/>
-      <import feature="org.eclipse.jgit" version="2.2.0" match="equivalent"/>
+      <import feature="org.eclipse.jgit" version="2.3.0" match="equivalent"/>
    </requires>
 
    <plugin
