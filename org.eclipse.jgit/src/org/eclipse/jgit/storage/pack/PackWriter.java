@@ -1075,6 +1075,9 @@ public class PackWriter {
 
 				else
 					otp.setWeight((int) sz);
+
+				if (otp.isDeltaRepresentation() && !otp.isEdge())
+					setDeltaDepth(otp);
 				monitor.update(1);
 			}
 		} finally {
@@ -1135,6 +1138,26 @@ public class PackWriter {
 		for (int i = 0; i < cnt; i++)
 			if (!list[i].isEdge() && list[i].isDeltaRepresentation())
 				stats.deltasFound++;
+	}
+
+	private void setDeltaDepth(ObjectToPack otp) {
+		LinkedList<ObjectToPack> deltaChain = new LinkedList<ObjectToPack>();
+		int deltaDepth = 0;
+		for (ObjectToPack cur = otp;;) {
+			if (cur == null || !cur.isDeltaRepresentation() || cur.isEdge())
+				break;
+			int curDeltaDepth = cur.getDeltaDepth();
+			if (curDeltaDepth > 0) {
+				deltaDepth = curDeltaDepth;
+				break;
+			}
+
+			deltaChain.push(cur);
+			cur = objectsMap.get(cur.getDeltaBaseId());
+		}
+
+		while (!deltaChain.isEmpty())
+			deltaChain.pop().setDeltaDepth(++deltaDepth);
 	}
 
 	private int findObjectsNeedingDelta(ObjectToPack[] list, int cnt, int type) {
