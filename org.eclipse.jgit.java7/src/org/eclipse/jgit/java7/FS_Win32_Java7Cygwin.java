@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010, Robin Rosenberg
+ * Copyright (C) 2012, Robin Rosenberg <robin.rosenberg@dewire.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -40,85 +40,93 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.eclipse.jgit.util.internal;
+
+package org.eclipse.jgit.java7;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.nio.file.Files;
+import java.nio.file.LinkOption;
+import java.nio.file.Path;
 
 import org.eclipse.jgit.util.FS;
-import org.eclipse.jgit.util.SystemReader;
+import org.eclipse.jgit.util.internal.FS_Win32_Cygwin;
 
 /**
- * Base FS for POSIX based systems
+ * FS for Java7 on Windows with Cygwin
  */
-public abstract class FS_POSIX extends FS {
-	@Override
-	protected File discoverGitPrefix() {
-		String path = SystemReader.getInstance().getenv("PATH");
-		File gitExe = searchPath(path, "git");
-		if (gitExe != null)
-			return gitExe.getParentFile().getParentFile();
+public class FS_Win32_Java7Cygwin extends FS_Win32_Cygwin {
 
-		if (SystemReader.getInstance().isMacOS()) {
-			// On MacOSX, PATH is shorter when Eclipse is launched from the
-			// Finder than from a terminal. Therefore try to launch bash as a
-			// login shell and search using that.
-			//
-			String w = readPipe(userHome(), //
-					new String[] { "bash", "--login", "-c", "which git" }, //
-					Charset.defaultCharset().name());
-			if (w == null || w.length() == 0)
-				return null;
-			File parentFile = new File(w).getParentFile();
-			if (parentFile == null)
-				return null;
-			return parentFile.getParentFile();
-		}
-
-		return null;
-	}
-
-	/**
-	 * Default constructor
-	 */
-	protected FS_POSIX() {
-		super();
-	}
-
-	/**
-	 * Constructore
-	 *
-	 * @param src
-	 *            FS to copy some settings from
-	 */
-	protected FS_POSIX(FS src) {
+	FS_Win32_Java7Cygwin(FS src) {
 		super(src);
 	}
 
+	FS_Win32_Java7Cygwin() {
+	}
+
 	@Override
-	public boolean isCaseSensitive() {
-		return !SystemReader.getInstance().isMacOS();
+	public FS newInstance() {
+		return new FS_Win32_Java7Cygwin(this);
+	}
+
+	@Override
+	public boolean supportsSymlinks() {
+		return true;
+	}
+
+	@Override
+	public boolean isSymLink(File path) throws IOException {
+		return FileUtil.isSymlink(path);
+	}
+
+	@Override
+	public long lastModified(File path) throws IOException {
+		return FileUtil.lastModified(path);
+	}
+
+	@Override
+	public void setLastModified(File path, long time) throws IOException {
+		FileUtil.setLastModified(path, time);
+	}
+
+	@Override
+	public long length(File f) throws IOException {
+		return FileUtil.getLength(f);
+	}
+
+	@Override
+	public boolean exists(File path) {
+		return FileUtil.exists(path);
+	}
+
+	@Override
+	public boolean isDirectory(File path) {
+		return FileUtil.isDirectory(path);
+	}
+
+	@Override
+	public boolean isFile(File path) {
+		Path nioPath = path.toPath();
+		return Files.isRegularFile(nioPath, LinkOption.NOFOLLOW_LINKS);
+	}
+
+	@Override
+	public boolean isHidden(File path) throws IOException {
+		return FileUtil.isHidden(path);
 	}
 
 	@Override
 	public void setHidden(File path, boolean hidden) throws IOException {
-		// Do nothing
+		FileUtil.setHidden(path, hidden);
 	}
 
 	@Override
-	public ProcessBuilder runInShell(String cmd, String[] args) {
-		List<String> argv = new ArrayList<String>(4 + args.length);
-		argv.add("sh");
-		argv.add("-c");
-		argv.add(cmd + " \"$@\"");
-		argv.add(cmd);
-		argv.addAll(Arrays.asList(args));
-		ProcessBuilder proc = new ProcessBuilder();
-		proc.command(argv);
-		return proc;
+	public String readSymLink(File path) throws IOException {
+		return FileUtil.readSymlink(path);
+	}
+
+	@Override
+	public void createSymLink(File path, String target) throws IOException {
+		FileUtil.createSymLink(path, target);
 	}
 }
