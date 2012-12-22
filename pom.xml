@@ -440,7 +440,8 @@
   </distributionManagement>
 
   <profiles>
-    <!-- Set -Djgit.java6.skip=true to compile with only Java 5 -->
+    <!-- Set -Djgit.java6.skip=true to compile with only Java 7 -->
+    <!-- Set -Djgit.java6.skip=true -Djgit.java7.skip=true to compile with only Java 5 -->
     <profile>
       <id>jgit.java6</id>
       <activation>
@@ -450,6 +451,19 @@
       </activation>
       <modules>
         <module>org.eclipse.jgit.console</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>jgit.java7</id>
+      <activation>
+        <property>
+          <name>!jgit.java7.skip</name>
+        </property>
+      </activation>
+      <modules>
+        <module>org.eclipse.jgit.console</module>
+        <module>org.eclipse.jgit.java7</module>
+        <module>org.eclipse.jgit.java7.test</module>
       </modules>
     </profile>
     <profile>

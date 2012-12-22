@@ -70,6 +70,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.file.FileRepository;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
+import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.junit.Before;
 
@@ -371,18 +372,19 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	public static long fsTick(File lastFile) throws InterruptedException,
 			IOException {
 		long sleepTime = 1;
-		if (lastFile != null && !lastFile.exists())
+		FS fs = FS.DETECTED;
+		if (lastFile != null && !fs.exists(lastFile))
 			throw new FileNotFoundException(lastFile.getPath());
 		File tmp = File.createTempFile("FileTreeIteratorWithTimeControl", null);
 		try {
-			long startTime = (lastFile == null) ? tmp.lastModified() : lastFile
-					.lastModified();
-			long actTime = tmp.lastModified();
+			long startTime = (lastFile == null) ? fs.lastModified(tmp) : fs
+					.lastModified(lastFile);
+			long actTime = fs.lastModified(tmp);
 			while (actTime <= startTime) {
 				Thread.sleep(sleepTime);
 				sleepTime *= 5;
-				tmp.setLastModified(System.currentTimeMillis());
-				actTime = tmp.lastModified();
+				fs.setLastModified(tmp, System.currentTimeMillis());
+				actTime = fs.lastModified(tmp);
 			}
 			return actTime;
 		} finally {
