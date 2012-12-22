@@ -53,6 +53,11 @@ import java.security.PrivilegedAction;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.eclipse.jgit.util.internal.FS_POSIX_Java5;
+import org.eclipse.jgit.util.internal.FS_POSIX_Java6;
+import org.eclipse.jgit.util.internal.FS_Win32;
+import org.eclipse.jgit.util.internal.FS_Win32_Cygwin;
+
 /** Abstraction to support various file system operations not in Java. */
 public abstract class FS {
 	/** The auto-detected implementation selected for this operating system and JRE. */
@@ -261,7 +266,7 @@ public abstract class FS {
 	 *            Files to search for in the given path
 	 * @return the first match found, or null
 	 **/
-	static File searchPath(final String path, final String... lookFor) {
+	protected static File searchPath(final String path, final String... lookFor) {
 		if (path == null)
 			return null;
 

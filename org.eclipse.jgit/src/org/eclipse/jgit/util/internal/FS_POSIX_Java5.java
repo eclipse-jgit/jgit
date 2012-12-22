@@ -41,80 +41,52 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.util;
+package org.eclipse.jgit.util.internal;
 
 import java.io.File;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
-class FS_Win32_Cygwin extends FS_Win32 {
-	private static String cygpath;
+import org.eclipse.jgit.util.FS;
 
-	static boolean isCygwin() {
-		final String path = AccessController
-				.doPrivileged(new PrivilegedAction<String>() {
-					public String run() {
-						return System.getProperty("java.library.path");
-					}
-				});
-		if (path == null)
-			return false;
-		File found = FS.searchPath(path, "cygpath.exe");
-		if (found != null)
-			cygpath = found.getPath();
-		return cygpath != null;
-	}
-
-	FS_Win32_Cygwin() {
+/**
+ * FS implementaton for Java5
+ */
+public class FS_POSIX_Java5 extends FS_POSIX {
+	/**
+	 * Constructor
+	 */
+	public FS_POSIX_Java5() {
 		super();
 	}
 
-	FS_Win32_Cygwin(FS src) {
+	/**
+	 * Constructor
+	 *
+	 * @param src
+	 *            instance whose attributes to copy
+	 */
+	public FS_POSIX_Java5(FS src) {
 		super(src);
 	}
 
+	@Override
 	public FS newInstance() {
-		return new FS_Win32_Cygwin(this);
+		return new FS_POSIX_Java5(this);
 	}
 
-	public File resolve(final File dir, final String pn) {
-		String useCygPath = System.getProperty("jgit.usecygpath");
-		if (useCygPath != null && useCygPath.equals("true")) {
-			String w = readPipe(dir, //
-					new String[] { cygpath, "--windows", "--absolute", pn }, //
-					"UTF-8");
-			if (w != null)
-				return new File(w);
-		}
-		return super.resolve(dir, pn);
+	public boolean supportsExecute() {
+		return false;
 	}
 
-	@Override
-	protected File userHomeImpl() {
-		final String home = AccessController
-				.doPrivileged(new PrivilegedAction<String>() {
-					public String run() {
-						return System.getenv("HOME");
-					}
-				});
-		if (home == null || home.length() == 0)
-			return super.userHomeImpl();
-		return resolve(new File("."), home);
+	public boolean canExecute(final File f) {
+		return false;
+	}
+
+	public boolean setExecute(final File f, final boolean canExec) {
+		return false;
 	}
 
 	@Override
-	public ProcessBuilder runInShell(String cmd, String[] args) {
-		List<String> argv = new ArrayList<String>(4 + args.length);
-		argv.add("sh.exe");
-		argv.add("-c");
-		argv.add(cmd + " \"$@\"");
-		argv.add(cmd);
-		argv.addAll(Arrays.asList(args));
-		ProcessBuilder proc = new ProcessBuilder();
-		proc.command(argv);
-		return proc;
+	public boolean retryFailedLockFileCommit() {
+		return false;
 	}
 }

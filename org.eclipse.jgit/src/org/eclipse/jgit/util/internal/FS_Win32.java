@@ -42,7 +42,7 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.util;
+package org.eclipse.jgit.util.internal;
 
 import java.io.File;
 import java.nio.charset.Charset;
@@ -50,12 +50,27 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-class FS_Win32 extends FS {
-	FS_Win32() {
+import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.SystemReader;
+
+/**
+ * FS implementation for Windows
+ */
+public class FS_Win32 extends FS {
+	/**
+	 * Constructor
+	 */
+	public FS_Win32() {
 		super();
 	}
 
-	FS_Win32(FS src) {
+	/**
+	 * Constructor
+	 *
+	 * @param src
+	 *            instance whose attributes to copy
+	 */
+	protected FS_Win32(FS src) {
 		super(src);
 	}
 
