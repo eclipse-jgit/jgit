@@ -1,5 +1,4 @@
 /*
- * Copyright (C) 2009, Google Inc.
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
  * and other copyright owners as documented in the project's IP log.
  *
@@ -42,94 +41,93 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.util;
+package org.eclipse.jgit.util.internal;
 
 import java.io.File;
-import java.nio.charset.Charset;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-class FS_Win32 extends FS {
-	FS_Win32() {
+import org.eclipse.jgit.util.FS;
+
+/**
+ * FS implementation for Cygwin on Windows
+ */
+public class FS_Win32_Cygwin extends FS_Win32 {
+	private static String cygpath;
+
+	/**
+	 * @return true if cygwin is found
+	 */
+	public static boolean isCygwin() {
+		final String path = AccessController
+				.doPrivileged(new PrivilegedAction<String>() {
+					public String run() {
+						return System.getProperty("java.library.path"); //$NON-NLS-1$
+					}
+				});
+		if (path == null)
+			return false;
+		File found = FS.searchPath(path, "cygpath.exe"); //$NON-NLS-1$
+		if (found != null)
+			cygpath = found.getPath();
+		return cygpath != null;
+	}
+
+	/**
+	 * Constructor
+	 */
+	public FS_Win32_Cygwin() {
 		super();
 	}
 
-	FS_Win32(FS src) {
+	/**
+	 * Constructor
+	 *
+	 * @param src
+	 *            instance whose attributes to copy
+	 */
+	protected FS_Win32_Cygwin(FS src) {
 		super(src);
 	}
 
 	public FS newInstance() {
-		return new FS_Win32(this);
+		return new FS_Win32_Cygwin(this);
 	}
 
-	public boolean supportsExecute() {
-		return false;
-	}
-
-	public boolean canExecute(final File f) {
-		return false;
-	}
-
-	public boolean setExecute(final File f, final boolean canExec) {
-		return false;
-	}
-
-	@Override
-	public boolean isCaseSensitive() {
-		return false;
-	}
-
-	@Override
-	public boolean retryFailedLockFileCommit() {
-		return true;
-	}
-
-	@Override
-	protected File discoverGitPrefix() {
-		String path = SystemReader.getInstance().getenv("PATH"); //$NON-NLS-1$
-		File gitExe = searchPath(path, "git.exe", "git.cmd"); //$NON-NLS-1$ //$NON-NLS-2$
-		if (gitExe != null)
-			return gitExe.getParentFile().getParentFile();
-
-		// This isn't likely to work, if bash is in $PATH, git should
-		// also be in $PATH. But its worth trying.
-		//
-		String w = readPipe(userHome(), //
-				new String[] { "bash", "--login", "-c", "which git" }, // //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-				Charset.defaultCharset().name());
-		if (w != null) {
-			// The path may be in cygwin/msys notation so resolve it right away
-			gitExe = resolve(null, w);
-			if (gitExe != null)
-				return gitExe.getParentFile().getParentFile();
+	public File resolve(final File dir, final String pn) {
+		String useCygPath = System.getProperty("jgit.usecygpath"); //$NON-NLS-1$
+		if (useCygPath != null && useCygPath.equals("true")) { //$NON-NLS-1$
+			String w = readPipe(dir, //
+					new String[] { cygpath, "--windows", "--absolute", pn }, // //$NON-NLS-1$ //$NON-NLS-2$
+					"UTF-8"); //$NON-NLS-1$
+			if (w != null)
+				return new File(w);
 		}
-		return null;
+		return super.resolve(dir, pn);
 	}
 
 	@Override
 	protected File userHomeImpl() {
-		String home = SystemReader.getInstance().getenv("HOME"); //$NON-NLS-1$
-		if (home != null)
-			return resolve(null, home);
-		String homeDrive = SystemReader.getInstance().getenv("HOMEDRIVE"); //$NON-NLS-1$
-		if (homeDrive != null) {
-			String homePath = SystemReader.getInstance().getenv("HOMEPATH"); //$NON-NLS-1$
-			return new File(homeDrive, homePath);
-		}
-
-		String homeShare = SystemReader.getInstance().getenv("HOMESHARE"); //$NON-NLS-1$
-		if (homeShare != null)
-			return new File(homeShare);
-
-		return super.userHomeImpl();
+		final String home = AccessController
+				.doPrivileged(new PrivilegedAction<String>() {
+					public String run() {
+						return System.getenv("HOME"); //$NON-NLS-1$
+					}
+				});
+		if (home == null || home.length() == 0)
+			return super.userHomeImpl();
+		return resolve(new File("."), home); //$NON-NLS-1$
 	}
 
 	@Override
 	public ProcessBuilder runInShell(String cmd, String[] args) {
-		List<String> argv = new ArrayList<String>(3 + args.length);
-		argv.add("cmd.exe"); //$NON-NLS-1$
-		argv.add("/c"); //$NON-NLS-1$
+		List<String> argv = new ArrayList<String>(4 + args.length);
+		argv.add("sh.exe"); //$NON-NLS-1$
+		argv.add("-c"); //$NON-NLS-1$
+		argv.add(cmd + " \"$@\""); //$NON-NLS-1$
 		argv.add(cmd);
 		argv.addAll(Arrays.asList(args));
 		ProcessBuilder proc = new ProcessBuilder();
