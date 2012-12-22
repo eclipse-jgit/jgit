@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010, Robin Rosenberg
+ * Copyright (C) 2012, Robin Rosenberg <robin.rosenberg@dewire.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -40,85 +40,28 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.eclipse.jgit.util.internal;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+package org.eclipse.jgit.java7;
 
 import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.FS.FSFactory;
 import org.eclipse.jgit.util.SystemReader;
+import org.eclipse.jgit.util.internal.FS_Win32_Cygwin;
 
 /**
- * Base FS for POSIX based systems
+ * A factory for creating FS instances on Java7
  */
-public abstract class FS_POSIX extends FS {
+public class Java7FSFactory extends FSFactory {
 	@Override
-	protected File discoverGitPrefix() {
-		String path = SystemReader.getInstance().getenv("PATH");
-		File gitExe = searchPath(path, "git");
-		if (gitExe != null)
-			return gitExe.getParentFile().getParentFile();
-
-		if (SystemReader.getInstance().isMacOS()) {
-			// On MacOSX, PATH is shorter when Eclipse is launched from the
-			// Finder than from a terminal. Therefore try to launch bash as a
-			// login shell and search using that.
-			//
-			String w = readPipe(userHome(), //
-					new String[] { "bash", "--login", "-c", "which git" }, //
-					Charset.defaultCharset().name());
-			if (w == null || w.length() == 0)
-				return null;
-			File parentFile = new File(w).getParentFile();
-			if (parentFile == null)
-				return null;
-			return parentFile.getParentFile();
-		}
-
-		return null;
-	}
-
-	/**
-	 * Default constructor
-	 */
-	protected FS_POSIX() {
-		super();
-	}
-
-	/**
-	 * Constructore
-	 *
-	 * @param src
-	 *            FS to copy some settings from
-	 */
-	protected FS_POSIX(FS src) {
-		super(src);
-	}
-
-	@Override
-	public boolean isCaseSensitive() {
-		return !SystemReader.getInstance().isMacOS();
-	}
-
-	@Override
-	public void setHidden(File path, boolean hidden) throws IOException {
-		// Do nothing
-	}
-
-	@Override
-	public ProcessBuilder runInShell(String cmd, String[] args) {
-		List<String> argv = new ArrayList<String>(4 + args.length);
-		argv.add("sh");
-		argv.add("-c");
-		argv.add(cmd + " \"$@\"");
-		argv.add(cmd);
-		argv.addAll(Arrays.asList(args));
-		ProcessBuilder proc = new ProcessBuilder();
-		proc.command(argv);
-		return proc;
+	public FS detect(Boolean cygwinUsed) {
+		if (SystemReader.getInstance().isWindows()) {
+			if (cygwinUsed == null)
+				cygwinUsed = Boolean.valueOf(FS_Win32_Cygwin.isCygwin());
+			if (cygwinUsed.booleanValue())
+				return new FS_Win32_Java7Cygwin();
+			else
+				return new FS_Win32_Java7();
+		} else
+			return new FS_POSIX_Java7();
 	}
 }
