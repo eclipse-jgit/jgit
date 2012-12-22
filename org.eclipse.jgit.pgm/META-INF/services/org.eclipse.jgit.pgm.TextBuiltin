@@ -22,6 +22,7 @@ org.eclipse.jgit.pgm.MergeBase
 org.eclipse.jgit.pgm.Push
 org.eclipse.jgit.pgm.ReceivePack
 org.eclipse.jgit.pgm.Reflog
+org.eclipse.jgit.pgm.Reset
 org.eclipse.jgit.pgm.RevList
 org.eclipse.jgit.pgm.RevParse
 org.eclipse.jgit.pgm.Rm
