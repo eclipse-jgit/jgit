@@ -3,6 +3,7 @@
 	<name>org.eclipse.jgit.test</name>
 	<comment></comment>
 	<projects>
+		<project>org.eclipse.jgit.java7</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

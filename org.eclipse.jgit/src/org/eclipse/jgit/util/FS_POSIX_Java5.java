@@ -45,12 +45,25 @@ package org.eclipse.jgit.util;
 
 import java.io.File;
 
-class FS_POSIX_Java5 extends FS_POSIX {
-	FS_POSIX_Java5() {
+
+/**
+ * FS implementaton for Java5
+ */
+public class FS_POSIX_Java5 extends FS_POSIX {
+	/**
+	 * Constructor
+	 */
+	public FS_POSIX_Java5() {
 		super();
 	}
 
-	FS_POSIX_Java5(FS src) {
+	/**
+	 * Constructor
+	 *
+	 * @param src
+	 *            instance whose attributes to copy
+	 */
+	public FS_POSIX_Java5(FS src) {
 		super(src);
 	}
 
