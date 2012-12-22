@@ -58,6 +58,25 @@
 
   <name>JGit P2 Repository</name>
 
+  <profiles>
+    <profile>
+      <id>jgit.java7</id>
+      <activation>
+        <property>
+          <name>!jgit.java7.skip</name>
+        </property>
+      </activation>
+      <dependencies>
+        <dependency>
+          <groupId>org.eclipse.jgit</groupId>
+          <artifactId>org.eclipse.jgit.java7</artifactId>
+          <version>${project.version}</version>
+          <optional>true</optional>
+        </dependency>
+      </dependencies>
+    </profile>
+  </profiles>
+
   <dependencies>
     <dependency>
       <groupId>org.eclipse.jgit</groupId>
