@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-   Copyright (C) 2009-2010, Google Inc.
+   Copyright (C) 2012, Robin Rosenberg
    and other copyright owners as documented in the project's IP log.
 
    This program and the accompanying materials are made available
@@ -53,81 +53,25 @@
     <version>2.3.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>org.eclipse.jgit.pgm</artifactId>
-  <name>JGit - Command Line Interface</name>
+  <artifactId>org.eclipse.jgit.java7</artifactId>
+  <name>JGit - Core Java7 Support</name>
 
   <description>
-    Command line client tools built on top of JGit.
+    Java7 support for symbolic links etc
   </description>
 
-  <properties>
-    <translate-qualifier/>
-    <source-bundle-manifest>${project.build.directory}/META-INF/SOURCE-MANIFEST.MF</source-bundle-manifest>
-  </properties>
-
   <dependencies>
-    <dependency>
-      <groupId>args4j</groupId>
-      <artifactId>args4j</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-compress</artifactId>
-    </dependency>
-
     <dependency>
       <groupId>org.eclipse.jgit</groupId>
       <artifactId>org.eclipse.jgit</artifactId>
       <version>${project.version}</version>
     </dependency>
-
-    <dependency>
-      <groupId>org.eclipse.jgit</groupId>
-      <artifactId>org.eclipse.jgit.iplog</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.eclipse.jgit</groupId>
-      <artifactId>org.eclipse.jgit.ui</artifactId>
-      <version>${project.version}</version>
-    </dependency>
   </dependencies>
 
-  <profiles>
-    <profile>
-      <id>java6</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
-      <dependencies>
-        <dependency>
-          <groupId>org.eclipse.jgit</groupId>
-          <artifactId>org.eclipse.jgit.console</artifactId>
-          <version>${project.version}</version>
-        </dependency>
-      </dependencies>
-    </profile>
-    <profile>
-      <id>java7</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
-      <dependencies>
-        <dependency>
-          <groupId>org.eclipse.jgit</groupId>
-          <artifactId>org.eclipse.jgit.java7</artifactId>
-          <version>${project.version}</version>
-        </dependency>
-        <dependency>
-          <groupId>org.eclipse.jgit</groupId>
-          <artifactId>org.eclipse.jgit.console</artifactId>
-          <version>${project.version}</version>
-        </dependency>
-      </dependencies>
-    </profile>
-  </profiles>
+  <properties>
+    <translate-qualifier/>
+    <source-bundle-manifest>${project.build.directory}/META-INF/SOURCE-MANIFEST.MF</source-bundle-manifest>
+  </properties>
 
   <build>
     <sourceDirectory>src/</sourceDirectory>
@@ -137,8 +81,8 @@
         <directory>.</directory>
         <includes>
           <include>plugin.properties</include>
-          <include>META-INF/services/org.eclipse.jgit.pgm.TextBuiltin</include>
           <include>about.html</include>
+		  <include>META-INF/eclipse.inf</include>
         </includes>
       </resource>
       <resource>
@@ -148,60 +92,17 @@
 
     <plugins>
       <plugin>
-        <artifactId>maven-jar-plugin</artifactId>
+        <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
-          <archive>
-            <manifestFile>${bundle-manifest}</manifestFile>
-          </archive>
+          <source>7</source>
+          <target>7</target>
+          <encoding>UTF-8</encoding>
         </configuration>
       </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-shade-plugin</artifactId>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>shade</goal>
-            </goals>
-            <configuration>
-              <finalName>jgit-cli</finalName>
-              <createDependencyReducedPom>false</createDependencyReducedPom>
-              <transformers>
-                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
-                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                  <manifestEntries>
-                    <Main-Class>org.eclipse.jgit.pgm.Main</Main-Class>
-                    <Implementation-Title>JGit Command Line Interface</Implementation-Title>
-                  </manifestEntries>
-                </transformer>
-              </transformers>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-antrun-plugin</artifactId>
         <executions>
-          <execution>
-            <id>create_jgit</id>
-            <phase>package</phase>
-            <configuration>
-              <tasks>
-                <concat destfile="${basedir}/target/jgit" force="yes" binary="true">
-                  <fileset file="${basedir}/jgit.sh" />
-                  <fileset file="${basedir}/target/jgit-cli.jar" />
-                </concat>
-                <chmod file="${basedir}/target/jgit" perm="a+x"/>
-              </tasks>
-            </configuration>
-            <goals>
-              <goal>run</goal>
-            </goals>
-          </execution>
           <execution>
             <id>translate-source-qualifier</id>
             <phase>generate-resources</phase>
@@ -241,26 +142,64 @@
       </plugin>
 
       <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifestFile>${bundle-manifest}</manifestFile>
+          </archive>
+        </configuration>
+      </plugin>
+
+      <plugin>
         <groupId>org.codehaus.mojo</groupId>
-        <artifactId>build-helper-maven-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>attach_jgit</id>
-            <phase>package</phase>
-            <goals>
-              <goal>attach-artifact</goal>
-            </goals>
-            <configuration>
-              <artifacts>
-                <artifact>
-                  <file>${basedir}/target/jgit</file>
-                  <type>sh</type>
-                </artifact>
-              </artifacts>
-            </configuration>
-          </execution>
-        </executions>
+        <artifactId>clirr-maven-plugin</artifactId>
       </plugin>
     </plugins>
+
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-pmd-plugin</artifactId>
+          <version>2.7.1</version>
+          <configuration>
+            <sourceEncoding>utf-8</sourceEncoding>
+            <minimumTokens>100</minimumTokens>
+            <targetJdk>1.5</targetJdk>
+            <format>xml</format>
+            <failOnViolation>false</failOnViolation>
+          </configuration>
+          <executions>
+            <execution>
+              <goals>
+                <goal>cpd-check</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>findbugs-maven-plugin</artifactId>
+          <configuration>
+            <excludeFilterFile>findBugs/FindBugsExcludeFilter.xml</excludeFilterFile>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
   </build>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>clirr-maven-plugin</artifactId>
+        <version>${clirr-version}</version>
+        <configuration>
+          <comparisonVersion>${jgit-last-release-version}</comparisonVersion>
+          <minSeverity>info</minSeverity>
+        </configuration>
+      </plugin>
+    </plugins>
+  </reporting>
 </project>
