@@ -587,7 +587,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 		// directories are always lazily created. Note that we
 		// try the rename first as the directory likely does exist.
 		//
-		FileUtils.mkdir(dst.getParentFile());
+		FileUtils.mkdir(dst.getParentFile(), true);
 		if (tmp.renameTo(dst)) {
 			dst.setReadOnly();
 			unpackedObjectCache.add(id);
