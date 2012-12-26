@@ -61,6 +61,7 @@ import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.WorkingTreeIterator;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
+import org.eclipse.jgit.util.FS;
 
 /**
  * Supplies the content of a file for {@link DiffFormatter}.
@@ -95,7 +96,8 @@ public abstract class ContentSource {
 	public static ContentSource create(WorkingTreeIterator iterator) {
 		if (iterator instanceof FileTreeIterator) {
 			FileTreeIterator i = (FileTreeIterator) iterator;
-			return new FileSource(i.getDirectory());
+			return new FileSource(i.getDirectory(), iterator.getRepository()
+					.getFS());
 		}
 		return new WorkingTreeSource(iterator);
 	}
@@ -221,8 +223,11 @@ public abstract class ContentSource {
 	private static class FileSource extends ContentSource {
 		private final File root;
 
-		FileSource(File root) {
+		private FS fs;
+
+		FileSource(File root, FS fs) {
 			this.root = root;
+			this.fs = fs;
 		}
 
 		@Override
@@ -233,12 +238,16 @@ public abstract class ContentSource {
 		@Override
 		public ObjectLoader open(String path, ObjectId id) throws IOException {
 			final File p = new File(root, path);
-			if (!p.isFile())
+			if (!fs.isFile(p) && !fs.isSymLink(p))
 				throw new FileNotFoundException(path);
 			return new ObjectLoader() {
 				@Override
 				public long getSize() {
-					return p.length();
+					try {
+						return fs.length(p);
+					} catch (IOException e) {
+						return 0;
+					}
 				}
 
 				@Override
@@ -249,6 +258,10 @@ public abstract class ContentSource {
 				@Override
 				public ObjectStream openStream() throws MissingObjectException,
 						IOException {
+					if (fs.isSymLink(p))
+						return new ObjectStream.SmallStream(Constants.OBJ_BLOB,
+								fs.readSymLink(p).getBytes(
+										Constants.CHARACTER_ENCODING));
 					final FileInputStream in = new FileInputStream(p);
 					final long sz = in.getChannel().size();
 					final int type = getType();

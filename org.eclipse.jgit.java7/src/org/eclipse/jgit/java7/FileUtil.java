@@ -6,18 +6,30 @@ import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.attribute.FileTime;
+import java.text.Normalizer;
+import java.text.Normalizer.Form;
+
+import org.eclipse.jgit.util.SystemReader;
 
 class FileUtil {
 
 	static String readSymlink(File path) throws IOException {
 		Path nioPath = path.toPath();
 		Path target = Files.readSymbolicLink(nioPath);
-		return target.toString();
+		String targetString = target.toString();
+		if (SystemReader.getInstance().isWindows())
+			targetString = targetString.replace('\\', '/');
+		else if (SystemReader.getInstance().isMacOS()) {
+			targetString = Normalizer.normalize(targetString, Form.NFC);
+		}
+		return targetString;
 	}
 
 	public static void createSymLink(File path, String target)
 			throws IOException {
 		Path nioPath = path.toPath();
+		if (SystemReader.getInstance().isWindows())
+			target = target.replace('/', '\\');
 		Path nioTarget = new File(target).toPath();
 		Files.createSymbolicLink(nioPath, nioTarget);
 	}
