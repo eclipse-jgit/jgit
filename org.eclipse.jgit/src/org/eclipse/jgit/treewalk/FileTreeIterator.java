@@ -46,6 +46,7 @@
 
 package org.eclipse.jgit.treewalk;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -156,6 +157,8 @@ public class FileTreeIterator extends WorkingTreeIterator {
 
 		private long lastModified;
 
+		private FS fs;
+
 		/**
 		 * Create a new file entry.
 		 *
@@ -166,16 +169,26 @@ public class FileTreeIterator extends WorkingTreeIterator {
 		 */
 		public FileEntry(final File f, FS fs) {
 			file = f;
+			this.fs = fs;
 
-			if (f.isDirectory()) {
-				if (new File(f, Constants.DOT_GIT).exists())
-					mode = FileMode.GITLINK;
+			@SuppressWarnings("hiding")
+			FileMode mode = null;
+			try {
+				if (fs.isSymLink(f)) {
+					mode = FileMode.SYMLINK;
+				} else if (fs.isDirectory(f)) {
+					if (fs.exists(new File(f, Constants.DOT_GIT)))
+						mode = FileMode.GITLINK;
+					else
+						mode = FileMode.TREE;
+				} else if (fs.canExecute(file))
+					mode = FileMode.EXECUTABLE_FILE;
 				else
-					mode = FileMode.TREE;
-			} else if (fs.canExecute(file))
-				mode = FileMode.EXECUTABLE_FILE;
-			else
-				mode = FileMode.REGULAR_FILE;
+					mode = FileMode.REGULAR_FILE;
+			} catch (IOException e) {
+				mode = FileMode.MISSING;
+			}
+			this.mode = mode;
 		}
 
 		@Override
@@ -190,21 +203,35 @@ public class FileTreeIterator extends WorkingTreeIterator {
 
 		@Override
 		public long getLength() {
-			if (length < 0)
-				length = file.length();
+			if (length < 0) {
+				try {
+					length = fs.length(file);
+				} catch (IOException e) {
+					length = 0;
+				}
+			}
 			return length;
 		}
 
 		@Override
 		public long getLastModified() {
-			if (lastModified == 0)
-				lastModified = file.lastModified();
+			if (lastModified == 0) {
+				try {
+					lastModified = fs.lastModified(file);
+				} catch (IOException e) {
+					lastModified = 0;
+				}
+			}
 			return lastModified;
 		}
 
 		@Override
 		public InputStream openInputStream() throws IOException {
-			return new FileInputStream(file);
+			if (fs.isSymLink(file))
+				return new ByteArrayInputStream(fs.readSymLink(file).getBytes(
+						Constants.CHARACTER_ENCODING));
+			else
+				return new FileInputStream(file);
 		}
 
 		/**
