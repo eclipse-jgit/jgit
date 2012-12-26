@@ -411,7 +411,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 				List<String> fileList = dco.getToBeDeleted();
 				for (String filePath : fileList) {
 					File fileToDelete = new File(repo.getWorkTree(), filePath);
-					if (fileToDelete.exists())
+					if (repo.getFS().exists(fileToDelete))
 						FileUtils.delete(fileToDelete, FileUtils.RECURSIVE
 								| FileUtils.RETRY);
 				}
