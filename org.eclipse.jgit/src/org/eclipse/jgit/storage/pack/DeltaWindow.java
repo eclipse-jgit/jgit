@@ -460,6 +460,9 @@ class DeltaWindow {
 	}
 
 	private void checkLoadable(DeltaWindowEntry ent, long need) {
+		if (maxMemory <= 0)
+			return;
+
 		int tail = next(resSlot);
 		while (maxMemory < loaded + need) {
 			DeltaWindowEntry cur = window[tail];
