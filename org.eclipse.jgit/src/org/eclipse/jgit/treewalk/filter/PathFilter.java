@@ -44,6 +44,7 @@
 
 package org.eclipse.jgit.treewalk.filter;
 
+import org.eclipse.jgit.errors.StopWalkException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.treewalk.TreeWalk;
@@ -97,7 +98,10 @@ public class PathFilter extends TreeFilter {
 
 	@Override
 	public boolean include(final TreeWalk walker) {
-		return walker.isPathPrefix(pathRaw, pathRaw.length) == 0;
+		int cmp = walker.isPathPrefix(pathRaw, pathRaw.length);
+		if (cmp > 0)
+			throw StopWalkException.INSTANCE;
+		return cmp == 0;
 	}
 
 	@Override
