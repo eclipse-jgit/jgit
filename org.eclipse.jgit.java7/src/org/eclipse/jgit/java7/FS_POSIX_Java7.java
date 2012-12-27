@@ -108,6 +108,11 @@ public class FS_POSIX_Java7 extends FS_POSIX {
 	}
 
 	@Override
+	public void delete(File path) throws IOException {
+		FileUtil.delete(path);
+	}
+
+	@Override
 	public long length(File f) throws IOException {
 		return FileUtil.getLength(f);
 	}
