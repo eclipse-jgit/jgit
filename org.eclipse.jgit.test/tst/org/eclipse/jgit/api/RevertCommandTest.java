@@ -48,7 +48,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
 
-import org.eclipse.jgit.api.MergeResult.MergeStatus;
+import org.eclipse.jgit.api.CherryPickResult.CherryPickStatus;
 import org.eclipse.jgit.api.ResetCommand.ResetType;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
@@ -151,11 +151,10 @@ public class RevertCommandTest extends RepositoryTestCase {
 		Git git = new Git(db);
 		RevCommit sideCommit = prepareRevert(git);
 
-		RevertCommand revert = git.revert();
-		RevCommit newHead = revert.include(sideCommit.getId()).call();
-		assertNull(newHead);
-		MergeResult result = revert.getFailingResult();
-		assertEquals(MergeStatus.CONFLICTING, result.getMergeStatus());
+		CherryPickResult result = git.revert().include(sideCommit.getId())
+				.call();
+
+		assertEquals(CherryPickStatus.CONFLICTING, result.getStatus());
 		assertTrue(new File(db.getDirectory(), Constants.MERGE_MSG).exists());
 		assertEquals("Revert \"" + sideCommit.getShortMessage()
 				+ "\"\n\nThis reverts commit " + sideCommit.getId().getName()
@@ -184,12 +183,10 @@ public class RevertCommandTest extends RepositoryTestCase {
 
 		RevCommit sideCommit = prepareRevert(git);
 
-		RevertCommand revert = git.revert();
-		RevCommit newHead = revert.include(sideCommit.getId()).call();
-		assertNull(newHead);
-		MergeResult result = revert.getFailingResult();
+		CherryPickResult result = git.revert().include(sideCommit.getId())
+				.call();
 
-		assertEquals(MergeStatus.CONFLICTING, result.getMergeStatus());
+		assertEquals(CherryPickStatus.CONFLICTING, result.getStatus());
 		assertEquals(RepositoryState.REVERTING, db.getRepositoryState());
 		assertTrue(new File(db.getDirectory(), Constants.REVERT_HEAD)
 				.exists());
@@ -232,9 +229,9 @@ public class RevertCommandTest extends RepositoryTestCase {
 				.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
 						ConfigConstants.CONFIG_KEY_FILEMODE, false);
 
-		RevertCommand revert = git.revert();
-		RevCommit newHead = revert.include(commit2).call();
-		assertNotNull(newHead);
+		CherryPickResult result = git.revert().include(commit2).call();
+		assertNotNull(result);
+		assertEquals(CherryPickStatus.OK, result.getStatus());
 	}
 
 	@Test
@@ -242,12 +239,9 @@ public class RevertCommandTest extends RepositoryTestCase {
 		Git git = new Git(db);
 		RevCommit sideCommit = prepareRevert(git);
 
-		RevertCommand revert = git.revert();
-		RevCommit newHead = revert.include(sideCommit.getId())
+		CherryPickResult result = git.revert().include(sideCommit.getId())
 				.call();
-		assertNull(newHead);
-		MergeResult result = revert.getFailingResult();
-		assertEquals(MergeStatus.CONFLICTING, result.getMergeStatus());
+		assertEquals(CherryPickStatus.CONFLICTING, result.getStatus());
 
 		String expected = "<<<<<<< master\na(latest)\n=======\na\n>>>>>>> ca96c31 second master\n";
 		checkFile(new File(db.getWorkTree(), "a"), expected);
@@ -258,16 +252,15 @@ public class RevertCommandTest extends RepositoryTestCase {
 		Git git = new Git(db);
 		RevCommit sideCommit = prepareRevert(git);
 
-		RevertCommand revert = git.revert();
-		RevCommit newHead = revert.include(sideCommit.getId())
+		CherryPickResult result = git.revert().include(sideCommit.getId())
 				.setOurCommitName("custom name").call();
-		assertNull(newHead);
-		MergeResult result = revert.getFailingResult();
-		assertEquals(MergeStatus.CONFLICTING, result.getMergeStatus());
+		assertEquals(CherryPickStatus.CONFLICTING, result.getStatus());
 
 		String expected = "<<<<<<< custom name\na(latest)\n=======\na\n>>>>>>> ca96c31 second master\n";
 		checkFile(new File(db.getWorkTree(), "a"), expected);
 	}
+
+
 
 	private RevCommit prepareRevert(final Git git) throws Exception {
 		// create, add and commit file a
@@ -296,12 +289,10 @@ public class RevertCommandTest extends RepositoryTestCase {
 		// get current index state
 		String indexState = indexState(CONTENT);
 
-		// revert
-		RevertCommand revert = git.revert();
-		RevCommit resultCommit = revert.include(sideCommit.getId()).call();
-		assertNull(resultCommit);
-		MergeResult result = revert.getFailingResult();
-		assertEquals(MergeStatus.FAILED, result.getMergeStatus());
+		// cherry-pick
+		CherryPickResult result = git.revert().include(sideCommit.getId())
+				.call();
+		assertEquals(CherryPickStatus.FAILED, result.getStatus());
 		// staged file a causes DIRTY_INDEX
 		assertEquals(1, result.getFailingPaths().size());
 		assertEquals(reason, result.getFailingPaths().get("a"));

@@ -46,9 +46,7 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
-import org.eclipse.jgit.api.MergeResult.MergeStatus;
 import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
@@ -69,7 +67,6 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.merge.MergeMessageFormatter;
 import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.merge.ResolveMerger;
-import org.eclipse.jgit.merge.ResolveMerger.MergeFailureReason;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
@@ -84,16 +81,10 @@ import org.eclipse.jgit.treewalk.FileTreeIterator;
  *      href="http://www.kernel.org/pub/software/scm/git/docs/git-revert.html"
  *      >Git documentation about revert</a>
  */
-public class RevertCommand extends GitCommand<RevCommit> {
+public class RevertCommand extends GitCommand<CherryPickResult> {
 	private List<Ref> commits = new LinkedList<Ref>();
 
 	private String ourCommitName = null;
-
-	private List<Ref> revertedRefs = new LinkedList<Ref>();
-
-	private MergeResult failingResult;
-
-	private List<String> unmergedPaths;
 
 	/**
 	 * @param repo
@@ -103,25 +94,24 @@ public class RevertCommand extends GitCommand<RevCommit> {
 	}
 
 	/**
-	 * Executes the {@code revert} command with all the options and parameters
+	 * Executes the {@code Revert} command with all the options and parameters
 	 * collected by the setter methods (e.g. {@link #include(Ref)} of this
 	 * class. Each instance of this class should only be used for one invocation
 	 * of the command. Don't call this method twice on an instance.
 	 *
-	 * @return on success the {@link RevCommit} pointed to by the new HEAD is
-	 *         returned. If a failure occurred during revert <code>null</code>
-	 *         is returned. The list of successfully reverted {@link Ref}'s can
-	 *         be obtained by calling {@link #getRevertedRefs()}
+	 * @return the result of the revert command
 	 * @throws GitAPIException
 	 * @throws WrongRepositoryStateException
 	 * @throws ConcurrentRefUpdateException
 	 * @throws UnmergedPathsException
 	 * @throws NoMessageException
+	 * @throws NoHeadException
 	 */
-	public RevCommit call() throws NoMessageException, UnmergedPathsException,
-			ConcurrentRefUpdateException, WrongRepositoryStateException,
-			GitAPIException {
+	public CherryPickResult call() throws GitAPIException, NoMessageException,
+			UnmergedPathsException, ConcurrentRefUpdateException,
+			WrongRepositoryStateException, NoHeadException {
 		RevCommit newHead = null;
+		List<Ref> revertedRefs = new LinkedList<Ref>();
 		checkCallable();
 
 		RevWalk revWalk = new RevWalk(repo);
@@ -185,31 +175,19 @@ public class RevertCommand extends GitCommand<RevCommit> {
 							.setReflogComment("revert: " + shortMessage).call(); //$NON-NLS-1$
 					revertedRefs.add(src);
 				} else {
-					unmergedPaths = merger.getUnmergedPaths();
-					Map<String, MergeFailureReason> failingPaths = merger
-							.getFailingPaths();
-					if (failingPaths != null)
-						failingResult = new MergeResult(null,
-								merger.getBaseCommit(0, 1),
-								new ObjectId[] { headCommit.getId(),
-										srcParent.getId() },
-								MergeStatus.FAILED, MergeStrategy.RESOLVE,
-								merger.getMergeResults(), failingPaths, null);
-					else
-						failingResult = new MergeResult(null,
-								merger.getBaseCommit(0, 1),
-								new ObjectId[] { headCommit.getId(),
-										srcParent.getId() },
-								MergeStatus.CONFLICTING, MergeStrategy.RESOLVE,
-								merger.getMergeResults(), failingPaths, null);
-					if (!merger.failed() && !unmergedPaths.isEmpty()) {
-						String message = new MergeMessageFormatter()
-						.formatWithConflicts(newMessage,
-								merger.getUnmergedPaths());
-						repo.writeRevertHead(srcCommit.getId());
-						repo.writeMergeCommitMsg(message);
-					}
-					return null;
+					if (merger.failed())
+						return new CherryPickResult(merger.getFailingPaths());
+
+					// there are merge conflicts
+
+					String message = new MergeMessageFormatter()
+							.formatWithConflicts(newMessage,
+									merger.getUnmergedPaths());
+
+					repo.writeRevertHead(srcCommit.getId());
+					repo.writeMergeCommitMsg(message);
+
+					return CherryPickResult.CONFLICT;
 				}
 			}
 		} catch (IOException e) {
@@ -220,7 +198,7 @@ public class RevertCommand extends GitCommand<RevCommit> {
 		} finally {
 			revWalk.release();
 		}
-		return newHead;
+		return new CherryPickResult(newHead, revertedRefs);
 	}
 
 	/**
@@ -274,29 +252,5 @@ public class RevertCommand extends GitCommand<RevCommit> {
 		String targetRefName = headRef.getTarget().getName();
 		String headName = Repository.shortenRefName(targetRefName);
 		return headName;
-	}
-
-	/**
-	 * @return the list of successfully reverted {@link Ref}'s. Never
-	 *         <code>null</code> but maybe an empty list if no commit was
-	 *         successfully cherry-picked
-	 */
-	public List<Ref> getRevertedRefs() {
-		return revertedRefs;
-	}
-
-	/**
-	 * @return the result of the merge failure, <code>null</code> if no merge
-	 *         failure occurred during the revert
-	 */
-	public MergeResult getFailingResult() {
-		return failingResult;
-	}
-
-	/**
-	 * @return the unmerged paths, will be null if no merge conflicts
-	 */
-	public List<String> getUnmergedPaths() {
-		return unmergedPaths;
 	}
 }
