@@ -164,6 +164,14 @@ class DeltaWindow {
 		return DeltaIndex.estimateIndexSize(ent.getWeight());
 	}
 
+	private static long estimateIndexSize(DeltaWindowEntry ent) {
+		if (ent.buffer == null)
+			return estimateSize(ent.object);
+
+		int len = ent.buffer.length;
+		return DeltaIndex.estimateIndexSize(len) - len;
+	}
+
 	private void clear(DeltaWindowEntry ent) {
 		if (ent.index != null)
 			loaded -= ent.index.getIndexSize();
@@ -420,6 +428,8 @@ class DeltaWindow {
 			IOException, LargeObjectException {
 		DeltaIndex idx = ent.index;
 		if (idx == null) {
+			checkLoadable(ent, estimateIndexSize(ent));
+
 			try {
 				idx = new DeltaIndex(buffer(ent));
 			} catch (OutOfMemoryError noMemory) {
@@ -439,12 +449,30 @@ class DeltaWindow {
 			IncorrectObjectTypeException, IOException, LargeObjectException {
 		byte[] buf = ent.buffer;
 		if (buf == null) {
+			checkLoadable(ent, ent.size());
+
 			buf = PackWriter.buffer(config, reader, ent.object);
 			if (0 < maxMemory)
 				loaded += buf.length;
 			ent.buffer = buf;
 		}
 		return buf;
+	}
+
+	private void checkLoadable(DeltaWindowEntry ent, long need) {
+		int tail = next(resSlot);
+		while (maxMemory < loaded + need) {
+			DeltaWindowEntry cur = window[tail];
+			clear(cur);
+			if (cur == ent) {
+				LargeObjectException.ExceedsLimit e;
+				e = new LargeObjectException.ExceedsLimit(
+						maxMemory, loaded + need);
+				e.setObjectId(ent.object);
+				throw e;
+			}
+			tail = next(tail);
+		}
 	}
 
 	private Deflater deflater() {
