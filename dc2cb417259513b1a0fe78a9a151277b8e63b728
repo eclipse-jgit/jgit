@@ -1,0 +1,378 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOJ3//7Bc\u003d",
+        "filename": "org.eclipse.jgit.java7.test/.gitignore",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-12-29T01:57:44Z",
+      "side": 1,
+      "message": "it looks like directory trash is created under directory target so this isn\u0027t necessary",
+      "revId": "dc2cb417259513b1a0fe78a9a151277b8e63b728",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJ3//7CA\u003d",
+        "filename": "org.eclipse.jgit.java7.test/plugin.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-12-29T01:57:44Z",
+      "side": 1,
+      "message": "s/JGit Core Tests/JGit Core Java 7 Tests/",
+      "revId": "dc2cb417259513b1a0fe78a9a151277b8e63b728",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJ3//7Bw\u003d",
+        "filename": "org.eclipse.jgit.java7.test/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-12-29T01:57:44Z",
+      "side": 1,
+      "message": "Copyright should be yours, this was probably copied from somewhere else",
+      "revId": "dc2cb417259513b1a0fe78a9a151277b8e63b728",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJ3//7Bs\u003d",
+        "filename": "org.eclipse.jgit.java7.test/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-12-29T01:57:44Z",
+      "side": 1,
+      "message": "s/Core Tests/Core Java 7 Tests/",
+      "revId": "dc2cb417259513b1a0fe78a9a151277b8e63b728",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJ3//7Bo\u003d",
+        "filename": "org.eclipse.jgit.java7.test/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-12-29T01:57:44Z",
+      "side": 1,
+      "message": "instead we could use\n\n \u003cactivation\u003e\n      \u003cjdk\u003e1.7\u003c/jdk\u003e\n \u003c/activation\u003e",
+      "revId": "dc2cb417259513b1a0fe78a9a151277b8e63b728",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJ3//7Bg\u003d",
+        "filename": "org.eclipse.jgit.java7.test/src/org/eclipse/jgit/java7/FSTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-12-29T01:57:44Z",
+      "side": 1,
+      "message": "missing license header",
+      "revId": "dc2cb417259513b1a0fe78a9a151277b8e63b728",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJ3//7BY\u003d",
+        "filename": "org.eclipse.jgit.java7.test/src/org/eclipse/jgit/java7/FSTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-12-29T01:57:44Z",
+      "side": 1,
+      "message": "style nit: it looks like there is an extra blank between FS and fs",
+      "revId": "dc2cb417259513b1a0fe78a9a151277b8e63b728",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJ3//7BU\u003d",
+        "filename": "org.eclipse.jgit.java7/.settings/org.eclipse.jdt.core.prefs",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-12-29T01:57:44Z",
+      "side": 1,
+      "message": "s/1.5/1.7/",
+      "revId": "dc2cb417259513b1a0fe78a9a151277b8e63b728",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJ3//7BQ\u003d",
+        "filename": "org.eclipse.jgit.java7/.settings/org.eclipse.jdt.core.prefs",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-12-29T01:57:44Z",
+      "side": 1,
+      "message": "s/1.5/1.7/",
+      "revId": "dc2cb417259513b1a0fe78a9a151277b8e63b728",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJ3//7BM\u003d",
+        "filename": "org.eclipse.jgit.java7/.settings/org.eclipse.jdt.core.prefs",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-12-29T01:57:44Z",
+      "side": 1,
+      "message": "s/1.5/1.7/",
+      "revId": "dc2cb417259513b1a0fe78a9a151277b8e63b728",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJ3//7BI\u003d",
+        "filename": "org.eclipse.jgit.java7/META-INF/eclipse.inf",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-12-29T01:57:44Z",
+      "side": 1,
+      "message": "this file shouldn\u0027t be necessary, we excluded jgit from pack200 packing since pack200 hit errors when trying to pack jgit [1], but in general it should be used in order to reduce archive size\n\n[1] https://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d372845",
+      "revId": "dc2cb417259513b1a0fe78a9a151277b8e63b728",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJ3//7BE\u003d",
+        "filename": "org.eclipse.jgit.java7/src/org/eclipse/jgit/java7/FS_POSIX_Java7.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-12-29T01:57:44Z",
+      "side": 1,
+      "message": "missing license header",
+      "revId": "dc2cb417259513b1a0fe78a9a151277b8e63b728",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJ3//7BA\u003d",
+        "filename": "org.eclipse.jgit.java7/src/org/eclipse/jgit/java7/FS_Win32_Java7Cygwin.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-12-29T01:57:44Z",
+      "side": 1,
+      "message": "missing license header",
+      "revId": "dc2cb417259513b1a0fe78a9a151277b8e63b728",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJ3//7A8\u003d",
+        "filename": "org.eclipse.jgit.java7/src/org/eclipse/jgit/java7/FileUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-12-29T01:57:44Z",
+      "side": 1,
+      "message": "missing license header",
+      "revId": "dc2cb417259513b1a0fe78a9a151277b8e63b728",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJ3//7A4\u003d",
+        "filename": "org.eclipse.jgit.java7/src/org/eclipse/jgit/java7/Java7FSFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-12-29T01:57:44Z",
+      "side": 1,
+      "message": "missing license header",
+      "revId": "dc2cb417259513b1a0fe78a9a151277b8e63b728",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJ3//7A0\u003d",
+        "filename": "org.eclipse.jgit.pgm/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-12-29T01:57:44Z",
+      "side": 1,
+      "message": "instead we could make this dependent on available jdk version\n\n \u003cactivation\u003e\n      \u003cjdk\u003e1.7\u003c/jdk\u003e\n \u003c/activation\u003e",
+      "revId": "dc2cb417259513b1a0fe78a9a151277b8e63b728",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJ3//7Aw\u003d",
+        "filename": "org.eclipse.jgit.test/org.eclipse.jgit.core--All-Tests (Java 7).launch",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-12-29T01:57:44Z",
+      "side": 1,
+      "message": "s/JavaSE-1.6/JavaSE-1.7/",
+      "revId": "dc2cb417259513b1a0fe78a9a151277b8e63b728",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJ3//7As\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/FileUtilTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-12-29T01:57:44Z",
+      "side": 1,
+      "message": "did you want to remove the comments here ?",
+      "revId": "dc2cb417259513b1a0fe78a9a151277b8e63b728",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJ3//7Ao\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-12-29T01:57:44Z",
+      "side": 1,
+      "message": "does this work when JGit is used outside of an OSGi runtime ? Instead we could directly check if Java 7 is available by checking for some JDK method introduced with Java 7, e.g. (see FS_POSIX_Java6)\n\n boolean isJava7 \u003d needMethod(File.class, \"toPath\") !\u003d null;\n\nand then we could instantiate Java7FSFactory instead of FSFactory",
+      "revId": "dc2cb417259513b1a0fe78a9a151277b8e63b728",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJ3//7Ak\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-12-29T01:57:44Z",
+      "side": 1,
+      "message": "s/an file/a file/",
+      "revId": "dc2cb417259513b1a0fe78a9a151277b8e63b728",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJ3//7Ag\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-12-29T01:57:44Z",
+      "side": 1,
+      "message": "s/an file/a file/",
+      "revId": "dc2cb417259513b1a0fe78a9a151277b8e63b728",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJ3//7Ac\u003d",
+        "filename": "pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-12-29T01:57:44Z",
+      "side": 1,
+      "message": "this is getting ugly, I think we should invert this and define properties explicitly specifying the Java version to be used instead of the ones to be skipped or we drop all these properties, have a maven profile per Java version and select the one to be activated by default using\n\n \u003cprofile\u003e\n     \u003cid\u003ejgit.java6\u003c/id\u003e\n       \u003cactivation\u003e\n          \u003cjdk\u003e1.6\u003c/jdk\u003e\n       \u003c/activation\u003e\n       ...\n \u003c/profile\u003e\n \u003cprofile\u003e\n     \u003cid\u003ejgit.java7\u003c/id\u003e\n       \u003cactivation\u003e\n          \u003cjdk\u003e1.7\u003c/jdk\u003e\n       \u003c/activation\u003e\n      ...\n \u003c/profile\u003e",
+      "revId": "dc2cb417259513b1a0fe78a9a151277b8e63b728",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
