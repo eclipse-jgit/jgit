@@ -55,6 +55,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.jgit.junit.SampleDataRepositoryTestCase;
 import org.junit.Test;
 
 public class T0002_TreeTest extends SampleDataRepositoryTestCase {

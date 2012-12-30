@@ -51,8 +51,8 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 
 import org.eclipse.jgit.errors.CorruptObjectException;
+import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.FileMode;
-import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.junit.Test;
 
 public class DirCacheLargePathTest extends RepositoryTestCase {

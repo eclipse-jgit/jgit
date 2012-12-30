@@ -51,11 +51,11 @@ import static org.junit.Assert.assertSame;
 import java.io.ByteArrayOutputStream;
 
 import org.eclipse.jgit.errors.CorruptObjectException;
+import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.lib.TagBuilder;
 import org.junit.Test;
 
