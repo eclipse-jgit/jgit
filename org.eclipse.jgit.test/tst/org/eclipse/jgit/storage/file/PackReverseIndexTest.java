@@ -51,7 +51,7 @@ import static org.junit.Assert.fail;
 
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.junit.JGitTestUtil;
-import org.eclipse.jgit.lib.RepositoryTestCase;
+import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.storage.file.PackIndex.MutableEntry;
 import org.junit.Before;
 import org.junit.Test;

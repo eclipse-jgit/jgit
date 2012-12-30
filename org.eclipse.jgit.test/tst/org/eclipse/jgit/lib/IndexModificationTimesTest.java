@@ -42,6 +42,7 @@ import static org.junit.Assert.assertTrue;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheEntry;
+import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.junit.Test;
 
 public class IndexModificationTimesTest extends RepositoryTestCase {

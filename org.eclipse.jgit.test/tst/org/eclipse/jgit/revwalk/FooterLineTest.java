@@ -51,9 +51,9 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 import java.util.List;
 
+import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.junit.Test;
 
 public class FooterLineTest extends RepositoryTestCase {

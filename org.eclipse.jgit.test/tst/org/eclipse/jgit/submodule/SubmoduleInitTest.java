@@ -60,11 +60,11 @@ import org.eclipse.jgit.dircache.DirCacheEditor;
 import org.eclipse.jgit.dircache.DirCacheEditor.PathEdit;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.junit.Test;
 

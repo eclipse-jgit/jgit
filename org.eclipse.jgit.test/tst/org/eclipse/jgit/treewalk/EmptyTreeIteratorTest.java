@@ -49,9 +49,9 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
+import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
-import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.junit.Test;
 
 public class EmptyTreeIteratorTest extends RepositoryTestCase {

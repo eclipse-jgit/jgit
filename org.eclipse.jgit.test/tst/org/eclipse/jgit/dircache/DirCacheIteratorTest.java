@@ -53,8 +53,8 @@ import java.io.File;
 import java.util.Collections;
 
 import org.eclipse.jgit.junit.JGitTestUtil;
+import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.FileMode;
-import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.PathFilterGroup;

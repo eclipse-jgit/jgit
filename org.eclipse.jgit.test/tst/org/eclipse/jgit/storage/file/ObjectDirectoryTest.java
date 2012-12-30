@@ -42,13 +42,17 @@
 
 package org.eclipse.jgit.storage.file;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
+import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.junit.Test;
-
-import java.util.*;
-import java.util.concurrent.*;
 
 public class ObjectDirectoryTest extends RepositoryTestCase {
 
