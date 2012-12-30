@@ -53,10 +53,10 @@ import java.io.File;
 import java.io.IOException;
 
 import org.eclipse.jgit.junit.JGitTestUtil;
+import org.eclipse.jgit.junit.SampleDataRepositoryTestCase;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
-import org.eclipse.jgit.lib.SampleDataRepositoryTestCase;
 import org.junit.Test;
 
 public class T0004_PackReaderTest extends SampleDataRepositoryTestCase {
