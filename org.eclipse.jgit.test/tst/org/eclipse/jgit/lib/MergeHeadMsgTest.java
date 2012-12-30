@@ -51,6 +51,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 
+import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.junit.Test;
 
 public class MergeHeadMsgTest extends RepositoryTestCase {

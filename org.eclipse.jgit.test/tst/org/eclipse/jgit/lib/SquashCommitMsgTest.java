@@ -49,6 +49,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.junit.Test;
 
 public class SquashCommitMsgTest extends RepositoryTestCase {

@@ -47,7 +47,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.Date;
 import java.util.Properties;
 
-import org.eclipse.jgit.lib.RepositoryTestCase;
+import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.util.GitDateParser;
 import org.junit.Before;
 import org.junit.Test;
