@@ -50,9 +50,9 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 
+import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
-import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.junit.Test;
 
 public class DirCacheBasicTest extends RepositoryTestCase {

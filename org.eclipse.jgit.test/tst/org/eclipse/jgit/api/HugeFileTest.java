@@ -50,7 +50,7 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import org.eclipse.jgit.api.ResetCommand.ResetType;
-import org.eclipse.jgit.lib.RepositoryTestCase;
+import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.junit.Ignore;
 import org.junit.Test;
 

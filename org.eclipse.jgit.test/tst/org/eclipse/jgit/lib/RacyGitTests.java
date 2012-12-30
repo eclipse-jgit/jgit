@@ -51,6 +51,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.TreeSet;
 
+import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.FileTreeIteratorWithTimeControl;
 import org.eclipse.jgit.treewalk.NameConflictTreeWalk;

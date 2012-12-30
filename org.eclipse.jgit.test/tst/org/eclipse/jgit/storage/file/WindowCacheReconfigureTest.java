@@ -46,7 +46,7 @@ package org.eclipse.jgit.storage.file;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-import org.eclipse.jgit.lib.RepositoryTestCase;
+import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.junit.Test;
 
 public class WindowCacheReconfigureTest extends RepositoryTestCase {
