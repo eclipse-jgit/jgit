@@ -48,10 +48,10 @@ import static org.junit.Assert.assertNotNull;
 import java.io.File;
 import java.util.Collection;
 
+import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
-import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.junit.Test;
 
 public class LsRemoteCommandTest extends RepositoryTestCase {
