@@ -55,7 +55,7 @@ import org.eclipse.jgit.api.errors.PatchApplyException;
 import org.eclipse.jgit.api.errors.PatchFormatException;
 import org.eclipse.jgit.diff.DiffFormatterReflowTest;
 import org.eclipse.jgit.diff.RawText;
-import org.eclipse.jgit.lib.RepositoryTestCase;
+import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.junit.Test;
 
 public class ApplyCommandTest extends RepositoryTestCase {
