@@ -124,6 +124,18 @@ public class Main {
 				err.printStackTrace();
 			System.exit(128);
 		} catch (Exception err) {
+			// Try to detect errno == EPIPE and exit normally if that happens
+			// There may be issues with operating system versions and locale,
+			// but we can probably assume that these messages will not be thrown
+			// under other circumstances.
+			if (err.getClass() == IOException.class) {
+				// Linux, OS X
+				if (err.getMessage().equals("Broken pipe")) //$NON-NLS-1$
+					System.exit(0);
+				// Windows
+				if (err.getMessage().equals("The pipe is being closed")) //$NON-NLS-1$
+					System.exit(0);
+			}
 			if (!showStackTrace && err.getCause() != null
 					&& err instanceof TransportException)
 				System.err.println(MessageFormat.format(CLIText.get().fatalError, err.getCause().getMessage()));
