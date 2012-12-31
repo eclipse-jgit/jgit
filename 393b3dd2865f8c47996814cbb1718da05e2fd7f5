@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOJ3//66A\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-12-31T19:16:07Z",
+      "side": 1,
+      "message": "Please quantify this improvement. RevWalk is a critical part of JGit that is used for a lot of important algorithms. When making a change like this we prefer to see a/b performance results on workloads that matter, e.g. UploadPack/PackWriter and Log.\n\nPlease explain why this improvement is necessary. Are you just trying to boost PackWriter performance and found this helps? We already have bitmap support pending for PackWriter that is like 445x faster. There is no way a simple soft reference based map can get that sort of improvement.",
+      "revId": "393b3dd2865f8c47996814cbb1718da05e2fd7f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJ3//658\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-12-31T19:16:07Z",
+      "side": 1,
+      "message": "Soft references don\u0027t always work. WindowCache uses SoftReference to hold blocks from pack files. The Java GC tends to kill about 50% of the soft references on each full heap GC it performs. So this may help some but in practice we have found using strong references like DfsBlockCache does to be better for caching. Unfortunately we haven\u0027t yet back-ported this to WindowCache because using strong references steals heap space from the application JGit is embedded into. Big applications like Eclipse that JGit is trying to run inside of may not have the memory to give JGit a dedicated slice of the heap. Big applications like Gerrit or our own Git servers can do that, and using strong references there works better than soft references.\n\nSo I am somewhat skeptical that just adding yet another soft reference cache is the best thing.",
+      "revId": "393b3dd2865f8c47996814cbb1718da05e2fd7f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJ3//654\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-12-31T19:16:07Z",
+      "side": 1,
+      "message": "This should be avoided. You are allocating a new ObjectId on every parse operation because the map doesn\u0027t support our AnyObjectId lookup behavior? Don\u0027t do that.",
+      "revId": "393b3dd2865f8c47996814cbb1718da05e2fd7f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJ3//650\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-12-31T19:16:07Z",
+      "side": 1,
+      "message": "So actually what you are trying to do is avoiding parsing the commit headers?\n\nThis thread on the git mailing list is actually going in a more productive direction: http://thread.gmane.org/gmane.comp.version-control.git/210419/focus\u003d212329",
+      "revId": "393b3dd2865f8c47996814cbb1718da05e2fd7f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
