@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOJ3//62o\u003d",
+        "filename": "org.eclipse.jgit.junit/META-INF/MANIFEST.MF",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-01-01T23:18:32Z",
+      "side": 1,
+      "message": "s/2.3.0/[2.3.0,2,4,0)/\n\nsame below",
+      "revId": "aa5623640d28ced4b9cf75754134ab6d3d1b3db8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
