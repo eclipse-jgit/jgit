@@ -177,33 +177,69 @@ public class PathFilterGroup {
 	}
 
 	static class Group extends TreeFilter {
-		private static final Comparator<PathFilter> PATH_SORT = new Comparator<PathFilter>() {
-			public int compare(final PathFilter o1, final PathFilter o2) {
-				return o1.pathStr.compareTo(o2.pathStr);
+		private static int pathPrefixSortCompare(byte[] p1, byte[] p2,
+				boolean justMatch) {
+			int ci = 0;
+			while (ci < p1.length && ci < p2.length) {
+				int c1 = p1[ci];
+				int c2 = p2[ci];
+				if (c1 == '/')
+					c1 = 0;
+				if (c2 == '/')
+					c2 = 0;
+				int cmp = c1 - c2;
+				if (cmp != 0)
+					return cmp;
+				++ci;
 			}
+			if (ci < p1.length) {
+				int c1 = p1[ci];
+				if (c1 == '/')
+					if (justMatch)
+						return 0;
+				return 1;
+			}
+			if (ci < p2.length) {
+				int c2 = p2[ci];
+				if (c2 == '/')
+					return 0;
+				return -1;
+			}
+			return 0;
+		}
+
+		private static final Comparator<PathFilter> PATH_PREFIX_SORT = new Comparator<PathFilter>() {
+			public int compare(final PathFilter o1, final PathFilter o2) {
+				return pathPrefixSortCompare(o1.pathRaw, o2.pathRaw, false);
+			}
+
 		};
 
 		private final PathFilter[] paths;
 
 		private Group(final PathFilter[] p) {
 			paths = p;
-			Arrays.sort(paths, PATH_SORT);
+			Arrays.sort(paths, PATH_PREFIX_SORT);
 		}
 
 		@Override
 		public boolean include(final TreeWalk walker) {
-			final int n = paths.length;
-			for (int i = 0;;) {
-				final byte[] r = paths[i].pathRaw;
-				final int cmp = walker.isPathPrefix(r, r.length);
-				if (cmp == 0)
-					return true;
-				if (++i < n)
-					continue;
-				if (cmp > 0)
-					throw StopWalkException.INSTANCE;
-				return false;
-			}
+			final byte[] rawPath = walker.getRawPath();
+			Comparator comparator = new Comparator<Object>() {
+				public int compare(Object pf, Object raw) {
+					PathFilter pathFilter = (PathFilter) pf;
+					int ret = -pathPrefixSortCompare(walker.getRawPath(),
+							pathFilter.pathRaw, true);
+					return ret;
+				}
+			};
+
+			Object[] pathsObject = paths;
+			Object rawObject = rawPath;
+			@SuppressWarnings("unchecked")
+			int position = Arrays.binarySearch(pathsObject, rawObject,
+					comparator);
+			return position >= 0;
 		}
 
 		@Override
