@@ -16,6 +16,24 @@
       "revId": "75eb6a147ffa8089e48d409f0215a16c755305e7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJ3//64w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-01-01T17:22:57Z",
+      "side": 1,
+      "message": "Good catch Robin, this breaks an OrTreeFilter. That might be why this never threw the exception before.\n\nThe alternative implementation is PathFilterGroup. If you create a PathFilterGroup with exactly 1 entry it uses the implementation that Dave tried to add to PathFilter.\n\nI think we should revert this change and Dave should modify his calling code to use PathFilterGroup.create() with a single path.\n\nOne can argue that PathFilterGroup also breaks an OrTreeFilter, but its behavior has always been to throw and break an OrTreeFilter, and its always been documented to do that.",
+      "parentUuid": "AABOJ3//65s\u003d",
+      "revId": "75eb6a147ffa8089e48d409f0215a16c755305e7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
