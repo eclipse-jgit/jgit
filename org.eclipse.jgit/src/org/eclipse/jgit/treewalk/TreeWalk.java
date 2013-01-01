@@ -798,7 +798,11 @@ public class TreeWalk {
 			// If c[ci] == '/' then pattern matches the subtree.
 			// Otherwise we cannot be certain so we return -1.
 			//
-			return c[ci] == '/' ? 0 : -1;
+			if (c[ci] == '/')
+				return 0;
+			else
+				return (c[ci] & 0xFF) - '/';
+
 		}
 
 		if (ci < pLen) {
@@ -806,7 +810,10 @@ public class TreeWalk {
 			// If p[ci] == '/' then pattern matches this subtree,
 			// otherwise we cannot be certain so we return -1.
 			//
-			return p[ci] == '/' ? 0 : -1;
+			if (p[ci] == '/')
+				return 0;
+			else
+				return '/' - (p[ci] & 0xFF);
 		}
 
 		// Both strings are identical.
