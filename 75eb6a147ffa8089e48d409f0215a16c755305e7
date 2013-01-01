@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOJ3//65s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-01-01T09:48:40Z",
+      "side": 1,
+      "message": "How does this work together with an OrTreeFilter? \n\nJust because this filter has passed the end, doesn\u0027t mean an alternative filter could not match later treewalker entries.",
+      "revId": "75eb6a147ffa8089e48d409f0215a16c755305e7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
