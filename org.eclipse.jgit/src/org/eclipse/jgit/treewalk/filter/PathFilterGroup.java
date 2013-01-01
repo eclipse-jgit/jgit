@@ -192,18 +192,25 @@ public class PathFilterGroup {
 
 		@Override
 		public boolean include(final TreeWalk walker) {
-			final int n = paths.length;
-			for (int i = 0;;) {
-				final byte[] r = paths[i].pathRaw;
-				final int cmp = walker.isPathPrefix(r, r.length);
-				if (cmp == 0)
-					return true;
-				if (++i < n)
-					continue;
-				if (cmp > 0)
-					throw StopWalkException.INSTANCE;
-				return false;
-			}
+			final byte[] rawPath = walker.getRawPath();
+			Comparator comparator = new Comparator<Object>() {
+				public int compare(Object pf, Object raw) {
+					PathFilter pathFilter = (PathFilter) pf;
+					return -walker.isPathPrefix(pathFilter.pathRaw,
+							pathFilter.pathRaw.length);
+				}
+			};
+
+			Object[] pathsObject = paths;
+			Object rawObject = rawPath;
+			@SuppressWarnings("unchecked")
+			int position = Arrays.binarySearch(pathsObject, rawObject,
+					comparator);
+			if (position >= 0)
+				return true;
+			if (position == -paths.length - 1)
+				throw StopWalkException.INSTANCE;
+			return false;
 		}
 
 		@Override
