@@ -16,6 +16,24 @@
       "revId": "0a49beca5fb4761ff72e5d7329a4c5c63d0e1684",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJ3//64A\u003d",
+        "filename": "org.eclipse.jgit.java7/src/org/eclipse/jgit/java7/FS_POSIX_Java7.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-01-01T20:46:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOJ3//67c\u003d",
+      "revId": "0a49beca5fb4761ff72e5d7329a4c5c63d0e1684",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
