@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOJ3//6vc\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 974
+      },
+      "writtenOn": "2013-01-02T23:29:48Z",
+      "side": 1,
+      "message": "Thanks for the comments, I will rewrite the commit message. I\u0027m boosting \"git log\" performance 8x for the linux repository when the cache is warm (1.5x when the cache is cold).\n\nI saw the PackWriter improvement slides but my conclusion was that the PackWriter changes wouldn\u0027t help when searching in commit messages.",
+      "parentUuid": "AABOJ3//66A\u003d",
+      "revId": "393b3dd2865f8c47996814cbb1718da05e2fd7f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOJ3//658\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
         "patchSetId": 1
@@ -30,6 +48,23 @@
       "writtenOn": "2012-12-31T19:16:07Z",
       "side": 1,
       "message": "Soft references don\u0027t always work. WindowCache uses SoftReference to hold blocks from pack files. The Java GC tends to kill about 50% of the soft references on each full heap GC it performs. So this may help some but in practice we have found using strong references like DfsBlockCache does to be better for caching. Unfortunately we haven\u0027t yet back-ported this to WindowCache because using strong references steals heap space from the application JGit is embedded into. Big applications like Eclipse that JGit is trying to run inside of may not have the memory to give JGit a dedicated slice of the heap. Big applications like Gerrit or our own Git servers can do that, and using strong references there works better than soft references.\n\nSo I am somewhat skeptical that just adding yet another soft reference cache is the best thing.",
+      "revId": "393b3dd2865f8c47996814cbb1718da05e2fd7f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJ3//6vo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 974
+      },
+      "writtenOn": "2013-01-02T23:29:48Z",
+      "side": 1,
+      "message": "If the JVM is started in server mode soft references should stay in memory until the heap limit is reached but it do vary with JVM implementation. The cache keep 100 hard references (default value).\n\nIn my testing; less (not more) memory is needed for a traversal that is equivalent to \"git log\" for the linux repository. I have used HotSpot for 64-bit Linux version 1.6 and 1.7 and the only command line options to the JVM during memory testing has been \" -Xmx\".",
       "revId": "393b3dd2865f8c47996814cbb1718da05e2fd7f5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +88,24 @@
     },
     {
       "key": {
+        "uuid": "AABOJ3//6wU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 974
+      },
+      "writtenOn": "2013-01-02T23:29:48Z",
+      "side": 1,
+      "message": "True; there is however still a need to make a copy before adding the object as a key to the cache in order to avoid strong references from the outside, but the copy can wait until after the check.",
+      "parentUuid": "AABOJ3//654\u003d",
+      "revId": "393b3dd2865f8c47996814cbb1718da05e2fd7f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOJ3//650\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
         "patchSetId": 1
@@ -64,6 +117,24 @@
       "writtenOn": "2012-12-31T19:16:07Z",
       "side": 1,
       "message": "So actually what you are trying to do is avoiding parsing the commit headers?\n\nThis thread on the git mailing list is actually going in a more productive direction: http://thread.gmane.org/gmane.comp.version-control.git/210419/focus\u003d212329",
+      "revId": "393b3dd2865f8c47996814cbb1718da05e2fd7f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJ3//6wY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 974
+      },
+      "writtenOn": "2013-01-02T23:29:48Z",
+      "side": 1,
+      "message": "I don\u0027t understand what you mean with avoiding commit header parsing.\n\nThe point is to avoid \"org.eclipse.jgit.revwalk.RevWalk.getCachedBytes\" that takes about 80-90% of the execution time during a warm rev-walk in my testing.\nThe big gain is to avoid \"org.eclipse.jgit.storage.file.WindowCursor.inflate\".\n\nThe parse method is still called just as before.\n\nIf the performance problems get solved in another way then there is no need for this patch. We had  performance issues with a server application using JGit and this boosted the performance 10x with minimal code changes so I decided to send it in.",
+      "parentUuid": "AABOJ3//650\u003d",
       "revId": "393b3dd2865f8c47996814cbb1718da05e2fd7f5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
