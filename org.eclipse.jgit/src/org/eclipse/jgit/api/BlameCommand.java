@@ -215,7 +215,7 @@ public class BlameCommand extends GitCommand<BlameResult> {
 						gen.push(null, dc.getEntry(entry).getObjectId());
 
 					File inTree = new File(repo.getWorkTree(), path);
-					if (inTree.isFile())
+					if (repo.getFS().isFile(inTree))
 						gen.push(null, new RawText(inTree));
 				}
 			}
