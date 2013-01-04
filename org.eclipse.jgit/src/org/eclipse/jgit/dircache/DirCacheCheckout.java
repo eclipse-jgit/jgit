@@ -60,6 +60,7 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.CoreConfig.AutoCRLF;
+import org.eclipse.jgit.lib.CoreConfig.SymLinks;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
@@ -398,7 +399,6 @@ public class DirCacheCheckout {
 			MissingObjectException, IncorrectObjectTypeException,
 			CheckoutConflictException, IndexWriteException {
 		toBeDeleted.clear();
-
 		ObjectReader objectReader = repo.getObjectDatabase().newReader();
 		try {
 			if (headCommitTree != null)
@@ -424,13 +424,13 @@ public class DirCacheCheckout {
 			for (int i = removed.size() - 1; i >= 0; i--) {
 				String r = removed.get(i);
 				file = new File(repo.getWorkTree(), r);
-				if (!file.delete() && file.exists()) {
+				if (!file.delete() && repo.getFS().exists(file)) {
 					// The list of stuff to delete comes from the index
 					// which will only contain a directory if it is
 					// a submodule, in which case we shall not attempt
 					// to delete it. A submodule is not empty, so it
 					// is safe to check this after a failed delete.
-					if (!file.isDirectory())
+					if (!repo.getFS().isDirectory(file))
 						toBeDeleted.add(r);
 				} else {
 					if (last != null && !isSamePrefix(r, last))
@@ -582,9 +582,8 @@ public class DirCacheCheckout {
 		// represents the state for the merge iterator, the second last the
 		// state for the index iterator and the third last represents the state
 		// for the head iterator. The hexadecimal constant "F" stands for
-		// "file",
-		// an "D" stands for "directory" (tree), and a "0" stands for
-		// non-existing
+		// "file", a "D" stands for "directory" (tree), and a "0" stands for
+		// non-existing. Symbolic links and git links are treated as File here.
 		//
 		// Examples:
 		// ffMask == 0xFFD -> Head=File, Index=File, Merge=Tree
@@ -1109,35 +1108,45 @@ public class DirCacheCheckout {
 		ObjectLoader ol = or.open(entry.getObjectId());
 		File parentDir = f.getParentFile();
 		parentDir.mkdirs();
-		File tmpFile = File.createTempFile("._" + f.getName(), null, parentDir); //$NON-NLS-1$
-		WorkingTreeOptions opt = repo.getConfig().get(WorkingTreeOptions.KEY);
-		FileOutputStream rawChannel = new FileOutputStream(tmpFile);
-		OutputStream channel;
-		if (opt.getAutoCRLF() == AutoCRLF.TRUE)
-			channel = new AutoCRLFOutputStream(rawChannel);
-		else
-			channel = rawChannel;
-		try {
-			ol.copyTo(channel);
-		} finally {
-			channel.close();
-		}
 		FS fs = repo.getFS();
-		if (opt.isFileMode() && fs.supportsExecute()) {
-			if (FileMode.EXECUTABLE_FILE.equals(entry.getRawMode())) {
-				if (!fs.canExecute(tmpFile))
-					fs.setExecute(tmpFile, true);
-			} else {
-				if (fs.canExecute(tmpFile))
-					fs.setExecute(tmpFile, false);
+		WorkingTreeOptions opt = repo.getConfig().get(WorkingTreeOptions.KEY);
+		if (entry.getFileMode() == FileMode.SYMLINK
+				&& opt.getSymLinks() == SymLinks.TRUE) {
+			byte[] bytes = ol.getBytes();
+			String target = RawParseUtils.decode(bytes);
+			fs.createSymLink(f, target);
+			entry.setLength(bytes.length);
+			entry.setLastModified(fs.lastModified(f));
+		} else {
+			File tmpFile = File.createTempFile(
+					"._" + f.getName(), null, parentDir); //$NON-NLS-1$
+			FileOutputStream rawChannel = new FileOutputStream(tmpFile);
+			OutputStream channel;
+			if (opt.getAutoCRLF() == AutoCRLF.TRUE)
+				channel = new AutoCRLFOutputStream(rawChannel);
+			else
+				channel = rawChannel;
+			try {
+				ol.copyTo(channel);
+			} finally {
+				channel.close();
 			}
-		}
-		try {
-			FileUtils.rename(tmpFile, f);
-		} catch (IOException e) {
-			throw new IOException(MessageFormat.format(
-					JGitText.get().couldNotWriteFile, tmpFile.getPath(),
-					f.getPath()));
+			if (opt.isFileMode() && fs.supportsExecute()) {
+				if (FileMode.EXECUTABLE_FILE.equals(entry.getRawMode())) {
+					if (!fs.canExecute(tmpFile))
+						fs.setExecute(tmpFile, true);
+				} else {
+					if (fs.canExecute(tmpFile))
+						fs.setExecute(tmpFile, false);
+				}
+			}
+			try {
+				FileUtils.rename(tmpFile, f);
+			} catch (IOException e) {
+				throw new IOException(MessageFormat.format(
+						JGitText.get().couldNotWriteFile, tmpFile.getPath(),
+						f.getPath()));
+			}
 		}
 		entry.setLastModified(f.lastModified());
 		if (opt.getAutoCRLF() != AutoCRLF.FALSE)
