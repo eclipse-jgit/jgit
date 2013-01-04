@@ -74,6 +74,7 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.CoreConfig;
 import org.eclipse.jgit.lib.CoreConfig.CheckStat;
+import org.eclipse.jgit.lib.CoreConfig.SymLinks;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
@@ -203,6 +204,15 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	}
 
 	/**
+	 * @return the repository this iterator works with
+	 *
+	 * @since 3.3
+	 */
+	public Repository getRepository() {
+		return repository;
+	}
+
+	/**
 	 * Define the matching {@link DirCacheIterator}, to optimize ObjectIds.
 	 *
 	 * Once the DirCacheIterator has been set this iterator must only be
@@ -252,14 +262,10 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 			}
 		}
 		switch (mode & FileMode.TYPE_MASK) {
+		case FileMode.TYPE_SYMLINK:
 		case FileMode.TYPE_FILE:
 			contentIdFromPtr = ptr;
 			return contentId = idBufferBlob(entries[ptr]);
-		case FileMode.TYPE_SYMLINK:
-			// Java does not support symbolic links, so we should not
-			// have reached this particular part of the walk code.
-			//
-			return zeroid;
 		case FileMode.TYPE_GITLINK:
 			contentIdFromPtr = ptr;
 			return contentId = idSubmodule(entries[ptr]);
@@ -723,8 +729,9 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 			return false;
 
 		// Do not rely on filemode differences in case of symbolic links
-		if (FileMode.SYMLINK.equals(rawMode))
-			return false;
+		if (getOptions().getSymLinks() == SymLinks.FALSE)
+			if (FileMode.SYMLINK.equals(rawMode))
+				return false;
 
 		// Ignore the executable file bits if WorkingTreeOptions tell me to
 		// do so. Ignoring is done by setting the bits representing a
