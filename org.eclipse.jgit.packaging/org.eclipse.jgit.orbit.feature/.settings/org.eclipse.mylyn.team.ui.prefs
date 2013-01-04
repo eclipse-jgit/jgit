@@ -1,3 +1,0 @@
-#Tue Jul 19 20:11:28 CEST 2011
-commit.comment.template=${task.description} \n\nBug\: ${task.key}
-eclipse.preferences.version=1

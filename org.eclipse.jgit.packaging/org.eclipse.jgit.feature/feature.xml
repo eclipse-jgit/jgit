@@ -22,16 +22,15 @@
       <discovery label="%updateSiteName" url="http://download.eclipse.org/egit/updates"/>
    </url>
 
-   <includes
-         id="org.eclipse.jgit.orbit"
-         version="0.0.0"/>
-
-   <requires>
-      <import plugin="com.jcraft.jsch"/>
-   </requires>
-
    <plugin
          id="org.eclipse.jgit"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="com.jcraft.jsch"
          download-size="0"
          install-size="0"
          version="0.0.0"
