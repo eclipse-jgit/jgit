@@ -101,6 +101,18 @@ public class CoreConfig {
 
 	private final String excludesfile;
 
+	/**
+	 * Options for symlink handling
+	 *
+	 * @since 3.3
+	 */
+	public static enum SymLinks {
+		/** Checkout symbolic links as plain files */
+		FALSE,
+		/** Checkout symbolic links as links */
+		TRUE
+	}
+
 	private CoreConfig(final Config rc) {
 		compression = rc.getInt(ConfigConstants.CONFIG_CORE_SECTION,
 				ConfigConstants.CONFIG_KEY_COMPRESSION, DEFAULT_COMPRESSION);
