@@ -23,7 +23,6 @@
    </url>
 
    <requires>
-      <import plugin="org.kohsuke.args4j" version="2.0.0" match="compatible"/>
       <import feature="org.eclipse.jgit" version="2.3.0" match="equivalent"/>
    </requires>
 
@@ -48,4 +47,17 @@
          version="0.0.0"
          unpack="false"/>
 
+   <plugin
+         id="org.apache.commons.compress"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.kohsuke.args4j"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
 </feature>
