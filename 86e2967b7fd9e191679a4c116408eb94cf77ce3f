@@ -16,6 +16,24 @@
       "revId": "86e2967b7fd9e191679a4c116408eb94cf77ce3f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOK3///+o\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Main.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-01-07T00:04:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOJ3//62I\u003d",
+      "revId": "86e2967b7fd9e191679a4c116408eb94cf77ce3f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
