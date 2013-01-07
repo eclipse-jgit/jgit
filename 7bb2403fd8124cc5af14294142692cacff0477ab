@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOLH///zg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-01-07T22:39:51Z",
+      "side": 1,
+      "message": "Extend MergeFailureReason instead of adding a new enum..\nWhere is TOO_MANY_BASES used?\nDrop this enum completely",
+      "revId": "7bb2403fd8124cc5af14294142692cacff0477ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOLH///zc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-01-07T22:39:51Z",
+      "side": 1,
+      "message": "to ...?",
+      "revId": "7bb2403fd8124cc5af14294142692cacff0477ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
