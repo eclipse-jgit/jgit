@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOLH////c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/InterIndexDiffFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-01-07T09:40:44Z",
+      "side": 1,
+      "message": "wouldn\u0027t\n  \n  if (baseDci.isAssumeValid())\n\nbe sufficient in the previous line? We know already baseDci.isAssumeValid() is equal to newDci.isAssumeValid(). No need to check both values.",
+      "revId": "21fbae69446e8d0b73640f50877cee3e1036ea4f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
