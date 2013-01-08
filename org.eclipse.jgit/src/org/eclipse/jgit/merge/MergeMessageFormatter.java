@@ -44,6 +44,7 @@ package org.eclipse.jgit.merge;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
@@ -56,6 +57,9 @@ import org.eclipse.jgit.util.StringUtils;
  * The format should be the same as C Git does it, for compatibility.
  */
 public class MergeMessageFormatter {
+	private static final Pattern footerPattern = Pattern
+			.compile("(^[a-zA-Z0-9-]+:(?!//).*$)"); //$NON-NLS-1$
+
 	/**
 	 * Construct the merge commit message.
 	 *
@@ -133,14 +137,30 @@ public class MergeMessageFormatter {
 	 */
 	public String formatWithConflicts(String message,
 			List<String> conflictingPaths) {
-		StringBuilder sb = new StringBuilder(message);
-		if (!message.endsWith("\n") && message.length() != 0) //$NON-NLS-1$
-			sb.append("\n"); //$NON-NLS-1$
-		sb.append("\n"); //$NON-NLS-1$
+		StringBuilder sb = new StringBuilder();
+		String[] lines = message.split("\n"); //$NON-NLS-1$
+		boolean hasFooter = false;
+		for (int i = 0; i < lines.length; i++) {
+			if (footerPattern.matcher(lines[i]).matches()) {
+				hasFooter = true;
+				addConflictsMessage(conflictingPaths, sb);
+				sb.append("\n"); //$NON-NLS-1$
+			}
+			sb.append(lines[i]).append("\n"); //$NON-NLS-1$
+		}
+		if (!hasFooter) {
+			if (!message.endsWith("\n") && message.length() != 0) //$NON-NLS-1$
+				sb.append("\n"); //$NON-NLS-1$
+			addConflictsMessage(conflictingPaths, sb);
+		}
+		return sb.toString();
+	}
+
+	private void addConflictsMessage(List<String> conflictingPaths,
+			StringBuilder sb) {
 		sb.append("Conflicts:\n");
 		for (String conflictingPath : conflictingPaths)
 			sb.append('\t').append(conflictingPath).append('\n');
-		return sb.toString();
 	}
 
 	private static String joinNames(List<String> names, String singular,
