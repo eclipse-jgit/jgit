@@ -759,7 +759,10 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		long fileLastModified = getEntryLastModified();
 		if (cacheLastModified % 1000 == 0)
 			fileLastModified = fileLastModified - fileLastModified % 1000;
-
+		// Some Java version on Linux return whole seconds only even when
+		// the file systems supports more precision.
+		else if (fileLastModified % 1000 == 0)
+			cacheLastModified = cacheLastModified - cacheLastModified % 1000;
 		if (fileLastModified != cacheLastModified)
 			return MetadataDiff.DIFFER_BY_TIMESTAMP;
 		else if (!entry.isSmudged())
