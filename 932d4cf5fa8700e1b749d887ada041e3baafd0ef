@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOLX///3k\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2013-01-08T16:17:37Z",
+      "side": 1,
+      "message": "s/CherryPickComamnd/CherryPickCommand/",
+      "revId": "932d4cf5fa8700e1b749d887ada041e3baafd0ef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
