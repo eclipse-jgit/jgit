@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOLn////0\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/MergeMessageFormatterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2013-01-09T08:20:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOLX///wU\u003d",
+      "revId": "988f72d427e11773e176d3db6c8ab25590513f41",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOLX///wg\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeMessageFormatter.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-01-09T00:03:44Z",
       "side": 1,
       "message": "I think instead of using this regex we should better use jgit\u0027s RevCommit.getFooterLines() method to parse the commit message for footer lines. This implementation will also correctly differentiate between \"key: value\" pairs in the commit message footer from similar patterns in other paragraphs of the commit message which aren\u0027t footers.",
+      "revId": "988f72d427e11773e176d3db6c8ab25590513f41",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOLn////4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeMessageFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2013-01-09T08:20:47Z",
+      "side": 1,
+      "message": "RevCommit.getFooterLines() would have to be refactored heavily to fit the needs here. I would have to extract a method which takes a byte array. Furthermore I am not interested in the FooterLines themselves.\n\nI would rather reuse the logic in ChangeIdUtil.",
+      "parentUuid": "AABOLX///wg\u003d",
       "revId": "988f72d427e11773e176d3db6c8ab25590513f41",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
