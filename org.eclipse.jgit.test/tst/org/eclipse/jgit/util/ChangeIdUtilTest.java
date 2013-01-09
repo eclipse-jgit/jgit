@@ -123,15 +123,15 @@ public class ChangeIdUtilTest {
 	@Test
 	public void testHasChangeid() throws Exception {
 		assertEquals(
-				"has changeid\n\nBug: 33\nmore text\nSigned-off-by: me@you.too\nChange-Id: I0123456789012345678901234567890123456789\nAnd then some\n",
-				call("has changeid\n\nBug: 33\nmore text\nSigned-off-by: me@you.too\nChange-Id: I0123456789012345678901234567890123456789\nAnd then some\n"));
+				"has changeid\n\nBug: 33\nmore text\nSigned-off-by: me@you.too\n\nChange-Id: I0123456789012345678901234567890123456789\n",
+				call("has changeid\n\nBug: 33\nmore text\nSigned-off-by: me@you.too\n\nChange-Id: I0123456789012345678901234567890123456789\n"));
 	}
 
 	@Test
 	public void testHasChangeidWithReplacement() throws Exception {
 		assertEquals(
-				"has changeid\n\nBug: 33\nmore text\nSigned-off-by: me@you.too\nChange-Id: I988d2d7a6f2c0578fccabd4ebd3cec0768bc7f9f\nAnd then some\n",
-				call("has changeid\n\nBug: 33\nmore text\nSigned-off-by: me@you.too\nChange-Id: I0123456789012345678901234567890123456789\nAnd then some\n",
+				"has changeid\n\nBug: 33\nmore text\nSigned-off-by: me@you.too\n\nChange-Id: Ibd4de0fdf30dd670b53d123ec1f7036a97fd2687\n",
+				call("has changeid\n\nBug: 33\nmore text\nSigned-off-by: me@you.too\n\nChange-Id: I0123456789012345678901234567890123456789\n",
 						true));
 	}
 
