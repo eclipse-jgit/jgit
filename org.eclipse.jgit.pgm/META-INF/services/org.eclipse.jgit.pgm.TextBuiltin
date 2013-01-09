@@ -45,5 +45,3 @@ org.eclipse.jgit.pgm.debug.ShowPackDelta
 org.eclipse.jgit.pgm.debug.TextHashFunctions
 org.eclipse.jgit.pgm.debug.WriteDirCache
 
-org.eclipse.jgit.pgm.eclipse.Iplog
-org.eclipse.jgit.pgm.eclipse.Ipzilla
