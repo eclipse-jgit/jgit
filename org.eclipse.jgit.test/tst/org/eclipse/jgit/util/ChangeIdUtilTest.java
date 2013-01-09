@@ -123,15 +123,65 @@ public class ChangeIdUtilTest {
 	@Test
 	public void testHasChangeid() throws Exception {
 		assertEquals(
-				"has changeid\n\nBug: 33\nmore text\nSigned-off-by: me@you.too\nChange-Id: I0123456789012345678901234567890123456789\nAnd then some\n",
-				call("has changeid\n\nBug: 33\nmore text\nSigned-off-by: me@you.too\nChange-Id: I0123456789012345678901234567890123456789\nAnd then some\n"));
+				"has changeid\nmore text\n\nBug: 33\nSigned-off-by: me@you.too\n"
+						+ "Change-Id: I0123456789012345678901234567890123456789\n",
+				call("has changeid\nmore text\n\nBug: 33\nSigned-off-by: me@you.too\n"
+						+ "Change-Id: I0123456789012345678901234567890123456789\n"));
 	}
 
 	@Test
 	public void testHasChangeidWithReplacement() throws Exception {
 		assertEquals(
-				"has changeid\n\nBug: 33\nmore text\nSigned-off-by: me@you.too\nChange-Id: I988d2d7a6f2c0578fccabd4ebd3cec0768bc7f9f\nAnd then some\n",
-				call("has changeid\n\nBug: 33\nmore text\nSigned-off-by: me@you.too\nChange-Id: I0123456789012345678901234567890123456789\nAnd then some\n",
+				"has changeid\nmore text\n\nSigned-off-by: me@you.too\n"
+						+ "Change-Id: I2178563fada5edb2c99a8d8c0d619471b050ec24\nBug: 33\n",
+				call("has changeid\nmore text\n\nSigned-off-by: me@you.too\n"
+						+ "Change-Id: I0123456789012345678901234567890123456789\nBug: 33\n",
+						true));
+	}
+
+	@Test
+	public void testHasChangeidWithReplacementInLastLine() throws Exception {
+		assertEquals(
+				"has changeid\nmore text\n\nBug: 33\nSigned-off-by: me@you.too\n"
+						+ "Change-Id: I1d6578f4c96e3db4dd707705fe3d17bf658c4758\n",
+				call("has changeid\nmore text\n\nBug: 33\nSigned-off-by: me@you.too\n"
+						+ "Change-Id: I0123456789012345678901234567890123456789\n",
+						true));
+	}
+
+	@Test
+	public void testHasChangeidWithReplacementInLastLineNoLineBreak()
+			throws Exception {
+		assertEquals(
+				"has changeid\nmore text\n\nBug: 33\nSigned-off-by: me@you.too\n"
+						+ "Change-Id: I1d6578f4c96e3db4dd707705fe3d17bf658c4758",
+				call("has changeid\nmore text\n\nBug: 33\nSigned-off-by: me@you.too\n"
+						+ "Change-Id: I0123456789012345678901234567890123456789",
+						true));
+	}
+
+	@Test
+	public void testHasChangeidWithSpacesBeforeId() throws Exception {
+		assertEquals(
+				"has changeid\nmore text\n\nBug: 33\nSigned-off-by: me@you.too\n"
+						+ "Change-Id: Ie7575eaf450fdd0002df2e642426faf251de3ad9\n",
+				call("has changeid\nmore text\n\nBug: 33\nSigned-off-by: me@you.too\n"
+						+ "Change-Id:    I0123456789012345678901234567890123456789\n",
+						true));
+	}
+
+	@Test
+	public void testHasChangeidWithReplacementWithChangeIdInCommitMessage()
+			throws Exception {
+		assertEquals(
+				"has changeid\nmore text\n"
+						+ "Change-Id: I0123456789012345678901234567890123456789\n\n"
+						+ "Bug: 33\nSigned-off-by: me@you.too\n"
+						+ "Change-Id: Ie48d10d59ef67995ca89688ac0171b88f10dd520\n",
+				call("has changeid\nmore text\n"
+						+ "Change-Id: I0123456789012345678901234567890123456789\n\n"
+						+ "Bug: 33\nSigned-off-by: me@you.too\n"
+						+ "Change-Id: I0123456789012345678901234567890123456789\n",
 						true));
 	}
 
@@ -585,6 +635,34 @@ public class ChangeIdUtilTest {
 				call("a\n" + //
 						"\n" + //
 						"git://example.com/ fixes this\n"));
+	}
+
+	@Test
+	public void testIndexOfChangeId() {
+		assertEquals(3, ChangeIdUtil.indexOfChangeId("x\n" + "\n"
+				+ "Change-Id: I3b7e4e16b503ce00f07ba6ad01d97a356dad7701\n",
+				"\n"));
+		assertEquals(5, ChangeIdUtil.indexOfChangeId("x\r\n" + "\r\n"
+				+ "Change-Id: I3b7e4e16b503ce00f07ba6ad01d97a356dad7701\r\n",
+				"\r\n"));
+		assertEquals(3, ChangeIdUtil.indexOfChangeId("x\r" + "\r"
+				+ "Change-Id: I3b7e4e16b503ce00f07ba6ad01d97a356dad7701\r",
+				"\r"));
+		assertEquals(8, ChangeIdUtil.indexOfChangeId("x\ny\n\nz\n" + "\n"
+				+ "Change-Id: I3b7e4e16b503ce00f07ba6ad01d97a356dad7701\n",
+				"\n"));
+	}
+
+	@Test
+	public void testIndexOfFirstFooterLine() {
+		assertEquals(
+				2,
+				ChangeIdUtil.indexOfFirstFooterLine(new String[] { "a", "",
+						"Bug: 42", "Signed-Off-By: j.developer@a.com" }));
+		assertEquals(
+				3,
+				ChangeIdUtil.indexOfFirstFooterLine(new String[] { "a",
+						"Bug: 42", "", "Signed-Off-By: j.developer@a.com" }));
 	}
 
 	private void hookDoesNotModify(final String in) throws Exception {
