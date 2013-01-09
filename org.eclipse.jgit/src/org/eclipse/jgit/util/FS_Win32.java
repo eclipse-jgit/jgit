@@ -101,8 +101,11 @@ class FS_Win32 extends FS {
 		if (w != null) {
 			// The path may be in cygwin/msys notation so resolve it right away
 			gitExe = resolve(null, w);
-			if (gitExe != null)
-				return gitExe.getParentFile().getParentFile();
+			if (gitExe != null) {
+				File parentFile = gitExe.getParentFile();
+				if(parentFile != null)
+					return parentFile.getParentFile();
+			}
 		}
 		return null;
 	}
