@@ -46,7 +46,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -148,7 +147,6 @@ public class CommitCommand extends GitCommand<RevCommit> {
 			ConcurrentRefUpdateException,
 			WrongRepositoryStateException {
 		checkCallable();
-		Collections.sort(only);
 
 		RepositoryState state = repo.getRepositoryState();
 		if (!state.canCommit())
@@ -454,15 +452,18 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	 * @return the item's index in <code>only</code>; -1 if no item matches
 	 */
 	private int lookupOnly(String pathString) {
-		String p = pathString;
-		while (true) {
-			int position = Collections.binarySearch(only, p);
-			if (position >= 0)
-				return position;
-			int l = p.lastIndexOf("/"); //$NON-NLS-1$
-			if (l < 1)
-				break;
-			p = p.substring(0, l);
+		int i = 0;
+		for (String o : only) {
+			String p = pathString;
+			while (true) {
+				if (p.equals(o))
+					return i;
+				int l = p.lastIndexOf("/"); //$NON-NLS-1$
+				if (l < 1)
+					break;
+				p = p.substring(0, l);
+			}
+			i++;
 		}
 		return -1;
 	}
