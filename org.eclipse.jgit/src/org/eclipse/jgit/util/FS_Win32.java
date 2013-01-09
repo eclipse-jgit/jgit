@@ -90,7 +90,7 @@ class FS_Win32 extends FS {
 		String path = SystemReader.getInstance().getenv("PATH"); //$NON-NLS-1$
 		File gitExe = searchPath(path, "git.exe", "git.cmd"); //$NON-NLS-1$ //$NON-NLS-2$
 		if (gitExe != null)
-			return gitExe.getParentFile().getParentFile();
+			return resolveGrandparentFile(gitExe);
 
 		// This isn't likely to work, if bash is in $PATH, git should
 		// also be in $PATH. But its worth trying.
@@ -102,7 +102,16 @@ class FS_Win32 extends FS {
 			// The path may be in cygwin/msys notation so resolve it right away
 			gitExe = resolve(null, w);
 			if (gitExe != null)
-				return gitExe.getParentFile().getParentFile();
+				return resolveGrandparentFile(gitExe);
+		}
+		return null;
+	}
+
+	private static File resolveGrandparentFile(File grandchild) {
+		if (grandchild != null) {
+			File parent = grandchild.getParentFile();
+			if (parent != null)
+				return parent.getParentFile();
 		}
 		return null;
 	}
@@ -115,7 +124,8 @@ class FS_Win32 extends FS {
 		String homeDrive = SystemReader.getInstance().getenv("HOMEDRIVE"); //$NON-NLS-1$
 		if (homeDrive != null) {
 			String homePath = SystemReader.getInstance().getenv("HOMEPATH"); //$NON-NLS-1$
-			return new File(homeDrive, homePath);
+			if (homePath != null)
+				return new File(homeDrive, homePath);
 		}
 
 		String homeShare = SystemReader.getInstance().getenv("HOMESHARE"); //$NON-NLS-1$
