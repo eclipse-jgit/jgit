@@ -45,6 +45,8 @@
 
 package org.eclipse.jgit.storage.dfs;
 
+import static org.eclipse.jgit.storage.dfs.DfsObjDatabase.PACK_INDEX_EXT;
+
 import java.io.BufferedInputStream;
 import java.io.EOFException;
 import java.io.IOException;
@@ -187,7 +189,7 @@ public final class DfsPackFile {
 	}
 
 	private String getPackName() {
-		return packDesc.getPackName();
+		return packDesc.getFileName(DfsObjDatabase.PACK_EXT);
 	}
 
 	void setBlockSize(int newSize) {
@@ -229,7 +231,7 @@ public final class DfsPackFile {
 
 			PackIndex idx;
 			try {
-				ReadableChannel rc = ctx.db.openPackIndex(packDesc);
+				ReadableChannel rc = ctx.db.openFile(packDesc, PACK_INDEX_EXT);
 				try {
 					InputStream in = Channels.newInputStream(rc);
 					int wantSize = 8192;
@@ -246,13 +248,15 @@ public final class DfsPackFile {
 			} catch (EOFException e) {
 				invalid = true;
 				IOException e2 = new IOException(MessageFormat.format(
-						DfsText.get().shortReadOfIndex, packDesc.getIndexName()));
+						DfsText.get().shortReadOfIndex,
+						packDesc.getFileName(PACK_INDEX_EXT)));
 				e2.initCause(e);
 				throw e2;
 			} catch (IOException e) {
 				invalid = true;
 				IOException e2 = new IOException(MessageFormat.format(
-						DfsText.get().cannotReadIndex, packDesc.getIndexName()));
+						DfsText.get().cannotReadIndex,
+						packDesc.getFileName(PACK_INDEX_EXT)));
 				e2.initCause(e);
 				throw e2;
 			}
@@ -616,7 +620,7 @@ public final class DfsPackFile {
 			throw new PackInvalidException(getPackName());
 
 		boolean close = true;
-		ReadableChannel rc = ctx.db.openPackFile(packDesc);
+		ReadableChannel rc = ctx.db.openFile(packDesc, DfsObjDatabase.PACK_EXT);
 		try {
 			// If the block alignment is not yet known, discover it. Prefer the
 			// larger size from either the cache or the file itself.

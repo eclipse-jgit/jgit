@@ -61,6 +61,16 @@ import org.eclipse.jgit.lib.ObjectReader;
 public abstract class DfsObjDatabase extends ObjectDatabase {
 	private static final PackList NO_PACKS = new PackList(new DfsPackFile[0]);
 
+	/**
+	 * A pack file extension.
+	 */
+	public static final String PACK_EXT = "pack";
+
+	/**
+	 * A pack index file extension.
+	 */
+	public static final String PACK_INDEX_EXT = "idx";
+
 	/** Sources for a pack file. */
 	public static enum PackSource {
 		/** The pack is created by ObjectInserter due to local activity. */
@@ -264,62 +274,40 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	protected abstract List<DfsPackDescription> listPacks() throws IOException;
 
 	/**
-	 * Open a pack file for reading.
+	 * Open a pack, pack index, or other related file for reading.
 	 *
 	 * @param desc
-	 *            description of pack to read. This is an instance previously
-	 *            obtained from {@link #listPacks()}, but not necessarily from
-	 *            the same DfsObjDatabase instance.
-	 * @return channel to read the pack file.
+	 *            description of pack related to the data that will be read.
+	 *            This is an instance previously obtained from
+	 *            {@link #listPacks()}, but not necessarily from the same
+	 *            DfsObjDatabase instance.
+	 * @param ext
+	 *            file extension that will be read i.e "pack" or "idx".
+	 * @return channel to read the file.
 	 * @throws FileNotFoundException
 	 *             the file does not exist.
 	 * @throws IOException
 	 *             the file cannot be opened.
 	 */
-	protected abstract ReadableChannel openPackFile(DfsPackDescription desc)
+	protected abstract ReadableChannel openFile(
+			DfsPackDescription desc, String ext)
 			throws FileNotFoundException, IOException;
 
 	/**
-	 * Open a pack index for reading.
+	 * Open a pack, pack index, or other related file for writing.
 	 *
 	 * @param desc
-	 *            description of index to read. This is an instance previously
-	 *            obtained from {@link #listPacks()}, but not necessarily from
-	 *            the same DfsObjDatabase instance.
-	 * @return channel to read the pack file.
-	 * @throws FileNotFoundException
-	 *             the file does not exist.
+	 *            description of pack related to the data that will be written.
+	 *            This is an instance previously obtained from
+	 *            {@link #newPack(PackSource)}.
+	 * @param ext
+	 *            file extension that will be written i.e "pack" or "idx".
+	 * @return channel to write the file.
 	 * @throws IOException
 	 *             the file cannot be opened.
 	 */
-	protected abstract ReadableChannel openPackIndex(DfsPackDescription desc)
-			throws FileNotFoundException, IOException;
-
-	/**
-	 * Open a pack file for writing.
-	 *
-	 * @param desc
-	 *            description of pack to write. This is an instance previously
-	 *            obtained from {@link #newPack(PackSource)}.
-	 * @return channel to write the pack file.
-	 * @throws IOException
-	 *             the file cannot be opened.
-	 */
-	protected abstract DfsOutputStream writePackFile(DfsPackDescription desc)
-			throws IOException;
-
-	/**
-	 * Open a pack index for writing.
-	 *
-	 * @param desc
-	 *            description of index to write. This is an instance previously
-	 *            obtained from {@link #newPack(PackSource)}.
-	 * @return channel to write the index file.
-	 * @throws IOException
-	 *             the file cannot be opened.
-	 */
-	protected abstract DfsOutputStream writePackIndex(DfsPackDescription desc)
-			throws IOException;
+	protected abstract DfsOutputStream writeFile(
+			DfsPackDescription desc, String ext) throws IOException;
 
 	void addPack(DfsPackFile newPack) throws IOException {
 		PackList o, n;

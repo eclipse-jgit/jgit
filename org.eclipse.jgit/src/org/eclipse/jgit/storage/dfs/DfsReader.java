@@ -661,7 +661,7 @@ public final class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 				pack.setInvalid();
 				throw new IOException(MessageFormat.format(
 						JGitText.get().packfileCorruptionDetected,
-						pack.getPackDescription().getPackName()));
+						pack.getPackDescription()));
 			}
 		}
 	}

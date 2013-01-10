@@ -205,7 +205,7 @@ public class DfsPackParser extends PackParser {
 		packDsc = objdb.newPack(DfsObjDatabase.PackSource.RECEIVE);
 		packKey = new DfsPackKey();
 
-		out = objdb.writePackFile(packDsc);
+		out = objdb.writeFile(packDsc, DfsObjDatabase.PACK_EXT);
 		int size = out.blockSize();
 		if (size <= 0)
 			size = blockCache.getBlockSize();
