@@ -298,7 +298,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 		copyFile(JGitTestUtil.getTestResourceFile(
 				"pack-34be9032ac282b11fa9babdc2b2a93ca996c9c2f.idxV2"),
 				crc32Idx);
-		db.openPack(crc32Pack, crc32Idx);
+		db.openPack(crc32Pack);
 
 		writeVerifyPack2(true);
 	}
