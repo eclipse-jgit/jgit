@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOL3///8s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeMessageFormatter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2013-01-10T15:31:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOLn///zo\u003d",
+      "revId": "0233b6a61d3589ebfa72525bd24db065d3a345c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOLn///zY\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeMessageFormatter.java",
         "patchSetId": 4
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AABOL3///8o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeMessageFormatter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2013-01-10T15:31:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOLn///zY\u003d",
+      "revId": "0233b6a61d3589ebfa72525bd24db065d3a345c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOLn///zk\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeMessageFormatter.java",
         "patchSetId": 4
@@ -47,6 +83,24 @@
       "writtenOn": "2013-01-09T22:54:32Z",
       "side": 1,
       "message": "style nit: no braces here",
+      "revId": "0233b6a61d3589ebfa72525bd24db065d3a345c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOL3///8k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeMessageFormatter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2013-01-10T15:31:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOLn///zk\u003d",
       "revId": "0233b6a61d3589ebfa72525bd24db065d3a345c4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
