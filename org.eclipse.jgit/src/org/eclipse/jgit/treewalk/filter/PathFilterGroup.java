@@ -44,9 +44,9 @@
 
 package org.eclipse.jgit.treewalk.filter;
 
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.eclipse.jgit.errors.StopWalkException;
 import org.eclipse.jgit.internal.JGitText;
@@ -83,7 +83,8 @@ public class PathFilterGroup {
 	 */
 	public static TreeFilter createFromStrings(final Collection<String> paths) {
 		if (paths.isEmpty())
-			throw new IllegalArgumentException(JGitText.get().atLeastOnePathIsRequired);
+			throw new IllegalArgumentException(
+					JGitText.get().atLeastOnePathIsRequired);
 		final PathFilter[] p = new PathFilter[paths.size()];
 		int i = 0;
 		for (final String s : paths)
@@ -131,7 +132,8 @@ public class PathFilterGroup {
 	 */
 	public static TreeFilter create(final Collection<PathFilter> paths) {
 		if (paths.isEmpty())
-			throw new IllegalArgumentException(JGitText.get().atLeastOnePathIsRequired);
+			throw new IllegalArgumentException(
+					JGitText.get().atLeastOnePathIsRequired);
 		final PathFilter[] p = new PathFilter[paths.size()];
 		paths.toArray(p);
 		return create(p);
@@ -177,41 +179,60 @@ public class PathFilterGroup {
 	}
 
 	static class Group extends TreeFilter {
-		private static final Comparator<PathFilter> PATH_SORT = new Comparator<PathFilter>() {
-			public int compare(final PathFilter o1, final PathFilter o2) {
-				return o1.pathStr.compareTo(o2.pathStr);
-			}
-		};
 
-		private final PathFilter[] paths;
+		private Set<String> fullpaths;
+
+		private Set<String> prefixes;
+
+		private PathFilter max;
+
+		private boolean shouldBeRecursive;
 
 		private Group(final PathFilter[] p) {
-			paths = p;
-			Arrays.sort(paths, PATH_SORT);
+			fullpaths = new HashSet<String>(p.length);
+			prefixes = new HashSet<String>(p.length / 5);
+			// 5 is an empiric ratio of #aths/#prefixes from:
+			// egit/jgit: 8
+			// git: 5
+			// linux kernel: 13
+			// eclipse.platform.ui: 7
+			for (PathFilter pf : p) {
+				fullpaths.add(pf.getPath());
+				if (max == null || max.getPath().compareTo(pf.getPath()) < 0)
+					max = pf;
+				for (int i = pf.getPath().indexOf('/'); i > 0; i = pf.getPath()
+						.indexOf('/', i + 1)) {
+					prefixes.add(pf.getPath().substring(0, i));
+					shouldBeRecursive = true;
+				}
+			}
 		}
 
 		@Override
 		public boolean include(final TreeWalk walker) {
-			final int n = paths.length;
-			for (int i = 0;;) {
-				final byte[] r = paths[i].pathRaw;
-				final int cmp = walker.isPathPrefix(r, r.length);
-				if (cmp == 0)
+
+			String walkString = walker.getPathString();
+			if (fullpaths.contains(walkString))
+				return true;
+			if (prefixes.contains(walkString))
+				return true;
+			for (int i = walkString.indexOf('/'); i > 0; i = walkString
+					.indexOf('/', i + 1)) {
+				String prefix = walkString.substring(0, i);
+				if (fullpaths.contains(prefix))
 					return true;
-				if (++i < n)
-					continue;
-				if (cmp > 0)
-					throw StopWalkException.INSTANCE;
-				return false;
 			}
+			byte[] r = max.pathRaw;
+			final int cmp = walker.isPathPrefix(r, r.length);
+			if (cmp > 0)
+				throw StopWalkException.INSTANCE;
+
+			return false;
 		}
 
 		@Override
 		public boolean shouldBeRecursive() {
-			for (final PathFilter p : paths)
-				if (p.shouldBeRecursive())
-					return true;
-			return false;
+			return shouldBeRecursive;
 		}
 
 		@Override
@@ -222,10 +243,13 @@ public class PathFilterGroup {
 		public String toString() {
 			final StringBuilder r = new StringBuilder();
 			r.append("FAST("); //$NON-NLS-1$
-			for (int i = 0; i < paths.length; i++) {
-				if (i > 0)
+			boolean first = true;
+			for (String p : fullpaths) {
+				if (!first) {
 					r.append(" OR "); //$NON-NLS-1$
-				r.append(paths[i].toString());
+					first = false;
+				}
+				r.append(p.toString());
 			}
 			r.append(")"); //$NON-NLS-1$
 			return r.toString();
