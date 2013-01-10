@@ -667,7 +667,7 @@ public class TestRepository<R extends Repository> {
 				pw.release();
 			}
 
-			odb.openPack(pack, idx);
+			odb.openPack(pack);
 			updateServerInfo();
 			prunePacked(odb);
 		}

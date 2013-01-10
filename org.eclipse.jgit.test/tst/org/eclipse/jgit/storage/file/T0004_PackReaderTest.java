@@ -62,7 +62,6 @@ import org.junit.Test;
 public class T0004_PackReaderTest extends SampleDataRepositoryTestCase {
 	private static final String PACK_NAME = "pack-34be9032ac282b11fa9babdc2b2a93ca996c9c2f";
 	private static final File TEST_PACK = JGitTestUtil.getTestResourceFile(PACK_NAME + ".pack");
-	private static final File TEST_IDX = JGitTestUtil.getTestResourceFile(PACK_NAME + ".idx");
 
 	@Test
 	public void test003_lookupCompressedObject() throws IOException {
@@ -71,7 +70,7 @@ public class T0004_PackReaderTest extends SampleDataRepositoryTestCase {
 		final ObjectLoader or;
 
 		id = ObjectId.fromString("902d5476fa249b7abc9d84c611577a81381f0327");
-		pr = new PackFile(TEST_IDX, TEST_PACK);
+		pr = new PackFile(TEST_PACK);
 		or = pr.get(new WindowCursor(null), id);
 		assertNotNull(or);
 		assertEquals(Constants.OBJ_TREE, or.getType());
