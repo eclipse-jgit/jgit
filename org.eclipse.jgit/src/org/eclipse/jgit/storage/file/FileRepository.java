@@ -369,14 +369,12 @@ public class FileRepository extends Repository {
 	 *
 	 * @param pack
 	 *            path of the pack file to open.
-	 * @param idx
-	 *            path of the corresponding index file.
 	 * @throws IOException
 	 *             index file could not be opened, read, or is not recognized as
 	 *             a Git pack file index.
 	 */
-	public void openPack(final File pack, final File idx) throws IOException {
-		objectDatabase.openPack(pack, idx);
+	public void openPack(final File pack) throws IOException {
+		objectDatabase.openPack(pack);
 	}
 
 	@Override

@@ -1,8 +1,5 @@
 /*
- * Copyright (C) 2008-2009, Google Inc.
- * Copyright (C) 2008, Imran M Yousuf <imyousuf@smartitengineering.com>
- * Copyright (C) 2007, Robin Rosenberg <robin.rosenberg@dewire.com>
- * Copyright (C) 2006-2008, Shawn O. Pearce <spearce@spearce.org>
+ * Copyright (C) 2013, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -44,49 +41,17 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.storage.file;
+package org.eclipse.jgit.storage.pack;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+/** Misc. constants used with pack files. */
+public class PackConstants {
 
-import java.io.File;
-import java.io.IOException;
+	/** A pack file extension. */
+	public static final String PACK_EXT = "pack"; //$NON-NLS-1$
 
-import org.eclipse.jgit.junit.JGitTestUtil;
-import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectLoader;
-import org.eclipse.jgit.lib.SampleDataRepositoryTestCase;
-import org.junit.Test;
+	/** A pack index file extension. */
+	public static final String PACK_INDEX_EXT = "idx"; //$NON-NLS-1$
 
-public class T0004_PackReaderTest extends SampleDataRepositoryTestCase {
-	private static final String PACK_NAME = "pack-34be9032ac282b11fa9babdc2b2a93ca996c9c2f";
-	private static final File TEST_PACK = JGitTestUtil.getTestResourceFile(PACK_NAME + ".pack");
-
-	@Test
-	public void test003_lookupCompressedObject() throws IOException {
-		final PackFile pr;
-		final ObjectId id;
-		final ObjectLoader or;
-
-		id = ObjectId.fromString("902d5476fa249b7abc9d84c611577a81381f0327");
-		pr = new PackFile(TEST_PACK);
-		or = pr.get(new WindowCursor(null), id);
-		assertNotNull(or);
-		assertEquals(Constants.OBJ_TREE, or.getType());
-		assertEquals(35, or.getSize());
-		pr.close();
-	}
-
-	@Test
-	public void test004_lookupDeltifiedObject() throws IOException {
-		final ObjectId id;
-		final ObjectLoader or;
-
-		id = ObjectId.fromString("5b6e7c66c276e7610d4a73c70ec1a1f7c1003259");
-		or = db.open(id);
-		assertNotNull(or);
-		assertEquals(Constants.OBJ_BLOB, or.getType());
-		assertEquals(18009, or.getSize());
+	private PackConstants() {
 	}
 }
