@@ -58,6 +58,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.storage.file.PackIndex;
 import org.eclipse.jgit.storage.file.PackLock;
+import org.eclipse.jgit.storage.pack.PackConstants;
 import org.eclipse.jgit.transport.PackParser;
 import org.eclipse.jgit.transport.PackedObjectInfo;
 
@@ -205,7 +206,7 @@ public class DfsPackParser extends PackParser {
 		packDsc = objdb.newPack(DfsObjDatabase.PackSource.RECEIVE);
 		packKey = new DfsPackKey();
 
-		out = objdb.writePackFile(packDsc);
+		out = objdb.writeFile(packDsc, PackConstants.PACK_EXT);
 		int size = out.blockSize();
 		if (size <= 0)
 			size = blockCache.getBlockSize();
