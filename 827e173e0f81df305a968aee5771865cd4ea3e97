@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOL3///3Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/dfs/DfsInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2013-01-10T18:56:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOL3///4s\u003d",
+      "revId": "827e173e0f81df305a968aee5771865cd4ea3e97",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOL3///4o\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/dfs/DfsInserter.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-01-10T18:19:31Z",
       "side": 1,
       "message": "static import?",
+      "revId": "827e173e0f81df305a968aee5771865cd4ea3e97",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOL3///3M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/dfs/DfsInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2013-01-10T18:56:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOL3///4o\u003d",
       "revId": "827e173e0f81df305a968aee5771865cd4ea3e97",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AABOL3///3I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/dfs/DfsObjDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2013-01-10T18:56:31Z",
+      "side": 1,
+      "message": "Done\n\nAlso, I moved these to a new utility class called PackConstants.",
+      "parentUuid": "AABOL3///40\u003d",
+      "revId": "827e173e0f81df305a968aee5771865cd4ea3e97",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOL3///4w\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/dfs/DfsPackCompactor.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2013-01-10T18:19:31Z",
       "side": 1,
       "message": "Nit: Use static import to avoid such long lines.",
+      "revId": "827e173e0f81df305a968aee5771865cd4ea3e97",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOL3///3E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/dfs/DfsPackCompactor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2013-01-10T18:56:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOL3///4w\u003d",
       "revId": "827e173e0f81df305a968aee5771865cd4ea3e97",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AABOL3///3A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/dfs/DfsPackFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2013-01-10T18:56:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOL3///4U\u003d",
+      "revId": "827e173e0f81df305a968aee5771865cd4ea3e97",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOL3///4Q\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/dfs/DfsReader.java",
         "patchSetId": 1
@@ -98,6 +188,24 @@
       "writtenOn": "2013-01-10T18:19:31Z",
       "side": 1,
       "message": "don\u0027t rely on toString(). toString() is for debugging and may contain nasty data that isn\u0027t useful in an exception. use getFile(\".pack\") or whatever to get a clean name for messages.",
+      "revId": "827e173e0f81df305a968aee5771865cd4ea3e97",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOL3///28\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/dfs/DfsReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 664,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2013-01-10T18:56:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOL3///4Q\u003d",
       "revId": "827e173e0f81df305a968aee5771865cd4ea3e97",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
