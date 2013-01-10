@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOL3///9c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/ChangeIdUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2013-01-10T15:31:23Z",
+      "side": 1,
+      "message": "The delimiter is needed to find the footer which is separated by an empty line from the rest. EGit may use windows line delimiters.",
+      "parentUuid": "AABOLn///zA\u003d",
+      "revId": "d011ea681b36061db30f3f002654651943959a50",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOLn///zI\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/ChangeIdUtil.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AABOL3////c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/ChangeIdUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2013-01-10T15:31:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOLn///zI\u003d",
+      "revId": "d011ea681b36061db30f3f002654651943959a50",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOLn///zE\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/ChangeIdUtil.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2013-01-09T23:00:47Z",
       "side": 1,
       "message": "style nit: no braces here",
+      "revId": "d011ea681b36061db30f3f002654651943959a50",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOL3////U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/ChangeIdUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2013-01-10T15:31:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOLn///zE\u003d",
       "revId": "d011ea681b36061db30f3f002654651943959a50",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
