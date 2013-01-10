@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOL3///zo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/dfs/DfsOutputStream.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-01-10T20:49:42Z",
+      "side": 1,
+      "message": "Trailing space",
+      "revId": "c4cd51c463929fcbaa574d500fcd03eb4173474f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOL3///zk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/dfs/InMemoryRepository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-01-10T20:49:42Z",
+      "side": 1,
+      "message": "final",
+      "revId": "c4cd51c463929fcbaa574d500fcd03eb4173474f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
