@@ -387,7 +387,7 @@ public class Config {
 		if (value == null)
 			return defaultValue;
 
-		String n = value.replace('-', '_');
+		String n = value.replace('-', '_').replace(' ', '_');
 		T trueState = null;
 		T falseState = null;
 		for (T e : all) {
