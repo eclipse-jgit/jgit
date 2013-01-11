@@ -70,6 +70,24 @@
       "revId": "c98abc9c0586c73ef7df4172644b7dd21c979e9d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOMH///sk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 723,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-01-11T22:09:50Z",
+      "side": 1,
+      "message": "I am trying to fix this in https://git.eclipse.org/r/9632",
+      "parentUuid": "AABOMH///s8\u003d",
+      "revId": "c98abc9c0586c73ef7df4172644b7dd21c979e9d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
