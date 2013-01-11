@@ -34,6 +34,24 @@
       "revId": "c98abc9c0586c73ef7df4172644b7dd21c979e9d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOMH///zY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 723,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-01-11T18:52:23Z",
+      "side": 1,
+      "message": "Already fixed in Gerrit. But I want to be clear this did change behavior, so other applications may also report problems if they pick up this version of JGit and use enums. :-)",
+      "parentUuid": "AABOMH////I\u003d",
+      "revId": "c98abc9c0586c73ef7df4172644b7dd21c979e9d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
