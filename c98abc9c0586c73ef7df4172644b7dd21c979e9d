@@ -52,6 +52,24 @@
       "revId": "c98abc9c0586c73ef7df4172644b7dd21c979e9d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOMH///s8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 723,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-01-11T22:00:50Z",
+      "side": 1,
+      "message": "I think we have even more breakages upstream in Gerrit than I expected. This particular change has caused Gerrit to misunderstand every project.config.\n\nAt least this is only a behavior change that has real-world impact. We don\u0027t have to bump to JGit 3.0 since the API remained consistent.",
+      "parentUuid": "AABOMH///zY\u003d",
+      "revId": "c98abc9c0586c73ef7df4172644b7dd21c979e9d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
