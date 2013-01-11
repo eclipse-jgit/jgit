@@ -290,7 +290,7 @@ public class ConfigTest {
 		c = parse("[s \"b\"]\n\tc = one two\n");
 		assertSame(TestEnum.ONE_TWO, c.getEnum("s", "b", "c", TestEnum.ONE_TWO));
 
-		c = parse("[s \"b\"]\n\tc = one two\n");
+		c = parse("[s \"b\"]\n\tc = one-two\n");
 		assertSame(TestEnum.ONE_TWO, c.getEnum("s", "b", "c", TestEnum.ONE_TWO));
 	}
 

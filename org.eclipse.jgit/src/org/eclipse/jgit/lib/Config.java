@@ -388,6 +388,12 @@ public class Config {
 			return defaultValue;
 
 		String n = value.replace(' ', '_');
+
+		// Because of c98abc9c0586c73ef7df4172644b7dd21c979e9d being used in
+		// the real world before its breakage was fully understood, we must
+		// also accept '-' as though it were ' '.
+		n = n.replace('-', '_');
+
 		T trueState = null;
 		T falseState = null;
 		for (T e : all) {
