@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOMH///ps\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/RecursiveMergerTest.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-01-12T01:23:59Z",
+      "side": 1,
+      "message": "We prefere static imports for Assert",
+      "revId": "4095b375ba9146d7328fb624fe2f2d6703c26c8b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOMH///p0\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/RecursiveMergerTest.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-01-12T01:23:59Z",
+      "side": 1,
+      "message": "should are?",
+      "revId": "4095b375ba9146d7328fb624fe2f2d6703c26c8b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOMH///po\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/ResolveMergerTest.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-01-12T01:23:59Z",
+      "side": 1,
+      "message": "Can you make this exception-test more specific. JGitInternalException is mostly a wrapper for checked exceptions that we have no idea what they are. We should\u0027t throw this type to begin for the know merge failure causes",
+      "revId": "4095b375ba9146d7328fb624fe2f2d6703c26c8b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
