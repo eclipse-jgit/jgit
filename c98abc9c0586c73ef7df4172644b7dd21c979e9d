@@ -88,6 +88,24 @@
       "revId": "c98abc9c0586c73ef7df4172644b7dd21c979e9d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOMH///pM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 723,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-01-12T02:44:56Z",
+      "side": 1,
+      "message": "There are a couple of ways to retry this change.\n\n1)  Define a new interface that enums will extend like:\n\n  interface ConfigEnum {\n    String toConfigValue();\n    boolean matchConfigValue(String in);\n  }\n\nIn setEnum() if the passed in T implements ConfigEnum, downcast and call toConfigValue() instead of using the existing logic. In getEnum() if the passed in enum type implements ConfigEnum, call matchConfigValue on each member of the enum in ordinal order and select the one that returned true.\n\n2)  Overload getEnum/setEnum with another version that takes a Map\u003cEnum, String\u003e. The caller sets up this map to define the translation of enum value to config file string. In setEnum its a trivial lookup of the enum in the map and store the string. In getEnum you reverse the map and lookup by String.\n\n3)  Define a new algorithm interface like:\n\n  interface ConfigEnumFormatter\u003cT\u003e {\n    String toConfig(T enumValue);\n    T fromConfig(String e, T[] values);\n  }\n\nOverload getEnum and setEnum to accept this ConfigEnumFormatter. The existing implementations can call the new forms passing in a DEFAULT version that does the current logic. You can then write a new one called OPTION or something that prefixes values with \"--\" and does the _-\u003e- translation that you want.\n\nI am open to a change that provides option 1 or 3 before trying to redo this change. I think 2 isn\u0027t a good choice, but is at least worth mentioning.",
+      "parentUuid": "AABOMH///sk\u003d",
+      "revId": "c98abc9c0586c73ef7df4172644b7dd21c979e9d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
