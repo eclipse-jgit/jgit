@@ -50,6 +50,23 @@
       "revId": "4095b375ba9146d7328fb624fe2f2d6703c26c8b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOMH///ow\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 504
+      },
+      "writtenOn": "2013-01-12T03:09:47Z",
+      "side": 1,
+      "message": "Are these commits  written to the filesystem or just kept as a reference to an intermediate merged tree? We wouldn\u0027t want a bunch of orphaned objects causing clutter :-)",
+      "revId": "4095b375ba9146d7328fb624fe2f2d6703c26c8b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
