@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010, Google Inc.
+ * Copyright (C) 2010, 2013 Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -44,6 +44,9 @@
 package org.eclipse.jgit.lib;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -111,8 +114,44 @@ public abstract class RefDatabase {
 	 *         using this name right now would be safe.
 	 * @throws IOException
 	 *             the database could not be read to check for conflicts.
+	 * @see #getConflictingNames(String)
 	 */
 	public abstract boolean isNameConflicting(String name) throws IOException;
+
+	/**
+	 * Determine if a proposed reference cannot coexist with existing ones. If
+	 * the passed name already exists, it's not considered a conflict.
+	 *
+	 * @param name
+	 *            proposed name to check for conflicts against
+	 * @return a collection of full names of existing refs which would conflict
+	 *         with the passed ref name; empty collection when there are no
+	 *         conflicts
+	 * @throws IOException
+	 * @since 2.3
+	 * @see #isNameConflicting(String)
+	 */
+	public Collection<String> getConflictingNames(String name)
+			throws IOException {
+		Map<String, Ref> allRefs = getRefs(ALL);
+		// Cannot be nested within an existing reference.
+		int lastSlash = name.lastIndexOf('/');
+		while (0 < lastSlash) {
+			String needle = name.substring(0, lastSlash);
+			if (allRefs.containsKey(needle))
+				return Collections.singletonList(needle);
+			lastSlash = name.lastIndexOf('/', lastSlash - 1);
+		}
+
+		List<String> conflicting = new ArrayList<String>();
+		// Cannot be the container of an existing reference.
+		String prefix = name + '/';
+		for (String existing : allRefs.keySet())
+			if (existing.startsWith(prefix))
+				conflicting.add(existing);
+
+		return conflicting;
+	}
 
 	/**
 	 * Create a new update command to create, modify or delete a reference.
