@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOMn///+E\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/RecursiveMergerTest.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-01-13T22:48:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOMH///ps\u003d",
+      "revId": "4095b375ba9146d7328fb624fe2f2d6703c26c8b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOMH///p0\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/RecursiveMergerTest.java",
         "patchSetId": 16
@@ -30,6 +48,24 @@
       "writtenOn": "2013-01-12T01:23:59Z",
       "side": 1,
       "message": "should are?",
+      "revId": "4095b375ba9146d7328fb624fe2f2d6703c26c8b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOMn///98\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/RecursiveMergerTest.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-01-13T22:48:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOMH///p0\u003d",
       "revId": "4095b375ba9146d7328fb624fe2f2d6703c26c8b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AABOMn///94\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/ResolveMergerTest.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-01-13T22:48:05Z",
+      "side": 1,
+      "message": "I agree. I decided to introduce a NoMergeBaseException and an enum describing why a merge base couldn\u0027t be determined.",
+      "parentUuid": "AABOMH///po\u003d",
+      "revId": "4095b375ba9146d7328fb624fe2f2d6703c26c8b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOMH///ow\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
         "patchSetId": 16
@@ -64,6 +118,24 @@
       "writtenOn": "2013-01-12T03:09:47Z",
       "side": 1,
       "message": "Are these commits  written to the filesystem or just kept as a reference to an intermediate merged tree? We wouldn\u0027t want a bunch of orphaned objects causing clutter :-)",
+      "revId": "4095b375ba9146d7328fb624fe2f2d6703c26c8b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOMn///90\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-01-13T22:48:05Z",
+      "side": 1,
+      "message": "Currently they are written to the filesystem :-( I just didn\u0027t know how to make sure that these commits are always found in merges done deeper in the recursion. They are not referenced - so they will nevery be transported and a GC will delete them ... but especially in the server environments (Gerrit) that\u0027s a flaw of this proposal.",
+      "parentUuid": "AABOMH///ow\u003d",
       "revId": "4095b375ba9146d7328fb624fe2f2d6703c26c8b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
