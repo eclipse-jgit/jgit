@@ -54,7 +54,10 @@ import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.MergeResult;
 import org.eclipse.jgit.api.MergeResult.MergeStatus;
 import org.eclipse.jgit.api.errors.CheckoutConflictException;
+import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.dircache.DirCache;
+import org.eclipse.jgit.errors.NoMergeBaseException;
+import org.eclipse.jgit.errors.NoMergeBaseException.MergeBaseFailureReason;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.merge.ResolveMerger.MergeFailureReason;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -71,6 +74,9 @@ public class ResolveMergerTest extends RepositoryTestCase {
 
 	@DataPoint
 	public static MergeStrategy resolve = MergeStrategy.RESOLVE;
+
+	@DataPoint
+	public static MergeStrategy recursive = MergeStrategy.RECURSIVE;
 
 	@Theory
 	public void failingPathsShouldNotResultInOKReturnValue(
@@ -393,6 +399,66 @@ public class ResolveMergerTest extends RepositoryTestCase {
 		} catch (CheckoutConflictException e) {
 			assertEquals(1, e.getConflictingPaths().size());
 			assertEquals("0/0", e.getConflictingPaths().get(0));
+		}
+	}
+
+	/**
+	 * Merging after criss-cross merges. In this case we merge together two
+	 * commits which have two equally good common ancestors
+	 *
+	 * @param strategy
+	 * @throws Exception
+	 */
+	@Theory
+	public void checkMergeCrissCross(MergeStrategy strategy) throws Exception {
+		Git git = Git.wrap(db);
+
+		writeTrashFile("1", "1\n2\n3");
+		git.add().addFilepattern("1").call();
+		RevCommit first = git.commit().setMessage("added 1").call();
+
+		writeTrashFile("1", "1master\n2\n3");
+		RevCommit masterCommit = git.commit().setAll(true)
+				.setMessage("modified 1 on master").call();
+
+		writeTrashFile("1", "1master2\n2\n3");
+		git.commit().setAll(true)
+				.setMessage("modified 1 on master again").call();
+
+		git.checkout().setCreateBranch(true).setStartPoint(first)
+				.setName("side").call();
+		writeTrashFile("1", "1\n2\na\nb\nc\n3side");
+		RevCommit sideCommit = git.commit().setAll(true)
+				.setMessage("modified 1 on side").call();
+
+		writeTrashFile("1", "1\n2\n3side2");
+		git.commit().setAll(true)
+				.setMessage("modified 1 on side again").call();
+
+		MergeResult result = git.merge().setStrategy(strategy)
+				.include(masterCommit).call();
+		assertEquals(MergeStatus.MERGED, result.getMergeStatus());
+		result.getNewHead();
+		git.checkout().setName("master").call();
+		result = git.merge().setStrategy(strategy).include(sideCommit).call();
+		assertEquals(MergeStatus.MERGED, result.getMergeStatus());
+
+		// we have two branches which are criss-cross merged. Try to merge the
+		// tips. This should succeed with RecursiveMerge and fail with
+		// ResolveMerge
+		try {
+			MergeResult mergeResult = git.merge().setStrategy(strategy)
+					.include(git.getRepository().getRef("refs/heads/side"))
+					.call();
+			assertEquals(MergeStrategy.RECURSIVE, strategy);
+			assertEquals(MergeResult.MergeStatus.MERGED,
+					mergeResult.getMergeStatus());
+			assertEquals("1master2\n2\n3side2\n", read("1"));
+		} catch (JGitInternalException e) {
+			assertEquals(MergeStrategy.RESOLVE, strategy);
+			assertTrue(e.getCause() instanceof NoMergeBaseException);
+			assertEquals(((NoMergeBaseException) e.getCause()).getReason(),
+					MergeBaseFailureReason.MULTIPLE_MERGE_BASES_NOT_SUPPORTED);
 		}
 	}
 
