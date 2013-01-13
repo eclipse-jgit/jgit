@@ -16,6 +16,24 @@
       "revId": "21fbae69446e8d0b73640f50877cee3e1036ea4f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOLH///24\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/InterIndexDiffFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-01-13T11:12:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOLH////c\u003d",
+      "revId": "21fbae69446e8d0b73640f50877cee3e1036ea4f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
