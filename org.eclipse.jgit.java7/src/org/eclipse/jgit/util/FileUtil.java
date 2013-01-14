@@ -47,14 +47,48 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.attribute.FileTime;
+import java.nio.file.attribute.PosixFileAttributeView;
+import java.nio.file.attribute.PosixFileAttributes;
+import java.nio.file.attribute.PosixFilePermission;
 import java.text.Normalizer;
 import java.text.Normalizer.Form;
 
-import org.eclipse.jgit.util.SystemReader;
+import org.eclipse.jgit.util.FS.Attributes;
 
 class FileUtil {
+
+	static class Java7PosixAttributes extends Attributes {
+
+		private Path path;
+
+		Java7PosixAttributes(FS fs, File fPath,
+				Path pPath,
+				boolean exists,
+				boolean isDirectory,
+				boolean isExecutable,
+				boolean isSymbolicLink, boolean isRegularFile,
+				long creationTime, long lastModifiedTime) {
+			super(fs, fPath, exists, isDirectory, isExecutable, isSymbolicLink,
+					isRegularFile,
+					creationTime, lastModifiedTime);
+			this.path = pPath;
+		}
+
+		@Override
+		public long getLength() {
+			if (length == -1) {
+				try {
+					length = Files.size(path);
+				} catch (IOException e) {
+					length = 0;
+				}
+			}
+			return length;
+		}
+	}
 
 	static String readSymlink(File path) throws IOException {
 		Path nioPath = path.toPath();
@@ -143,6 +177,32 @@ class FileUtil {
 	public static void delete(File path) throws IOException {
 		Path nioPath = path.toPath();
 		Files.delete(nioPath);
+	}
+
+	static Attributes getFileAttributes(FS fs, File path) {
+		try {
+			Path nioPath = path.toPath();
+			PosixFileAttributes readAttributes = nioPath
+					.getFileSystem()
+					.provider()
+					.getFileAttributeView(nioPath,
+							PosixFileAttributeView.class,
+							LinkOption.NOFOLLOW_LINKS).readAttributes();
+			Attributes attributes = new FileUtil.Java7PosixAttributes(fs, path,
+					nioPath, true, readAttributes.isDirectory(), readAttributes
+							.permissions().contains(
+									PosixFilePermission.OWNER_EXECUTE),
+					readAttributes.isSymbolicLink(),
+					readAttributes.isRegularFile(), readAttributes
+							.creationTime().toMillis(), readAttributes
+							.lastModifiedTime().toMillis());
+			return attributes;
+		} catch (NoSuchFileException e) {
+			return new FileUtil.Java7PosixAttributes(fs, path, null, false, false,
+					false, false, false, 0L, 0L);
+		} catch (IOException e) {
+			return new Attributes(path, fs);
+		}
 	}
 
 }
