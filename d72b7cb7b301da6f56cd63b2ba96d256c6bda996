@@ -87,6 +87,24 @@
       "revId": "d72b7cb7b301da6f56cd63b2ba96d256c6bda996",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOM3///2E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-01-14T23:45:16Z",
+      "side": 1,
+      "message": "Ok, removed sorting and changed to Collection.",
+      "parentUuid": "AABOM3///4o\u003d",
+      "revId": "d72b7cb7b301da6f56cd63b2ba96d256c6bda996",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
