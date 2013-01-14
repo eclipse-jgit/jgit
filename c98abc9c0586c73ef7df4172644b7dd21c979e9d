@@ -106,6 +106,24 @@
       "revId": "c98abc9c0586c73ef7df4172644b7dd21c979e9d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOM3///6k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 723,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2013-01-14T16:07:51Z",
+      "side": 1,
+      "message": "Shawn, I\u0027m sorry to hear the change caused trouble. I\u0027m going to look at it later this week. Thanks for the tips!",
+      "parentUuid": "AABOMH///pM\u003d",
+      "revId": "c98abc9c0586c73ef7df4172644b7dd21c979e9d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
