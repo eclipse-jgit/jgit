@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOM3///98\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-01-14T10:40:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOMX///9U\u003d",
+      "revId": "d72b7cb7b301da6f56cd63b2ba96d256c6bda996",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOMX///9Q\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-01-12T20:30:56Z",
       "side": 1,
       "message": "It is common to let the user sort the list, if that is needed, usually for performance reason which I doubt we have here.",
+      "revId": "d72b7cb7b301da6f56cd63b2ba96d256c6bda996",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOM3///+A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-01-14T10:40:40Z",
+      "side": 1,
+      "message": "So, should I change it? I would change it to a Set so that it\u0027s clear that it has no particular order, right?",
+      "parentUuid": "AABOMX///9Q\u003d",
       "revId": "d72b7cb7b301da6f56cd63b2ba96d256c6bda996",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
