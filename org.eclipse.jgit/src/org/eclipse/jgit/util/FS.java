@@ -282,7 +282,7 @@ public abstract class FS {
 
 	/**
 	 * Delete a file. Throws an exception if delete fails.
-	 * 
+	 *
 	 * @param f
 	 * @throws IOException
 	 *             , this may be a Java7 subclass with detailed information
@@ -630,6 +630,138 @@ public abstract class FS {
 
 		Holder(V value) {
 			this.value = value;
+		}
+	}
+
+	/**
+	 * File attributes we typically care for.
+	 */
+	public static class Attributes {
+
+		/**
+		 * @return true if this is the attributes of an executable file
+		 */
+		public boolean isDirectory() {
+			return isDirectory;
+		}
+
+		/**
+		 * @return true if this is the attributes of an executable file
+		 */
+		public boolean isExecutable() {
+			return isExecutable;
+		}
+
+		/**
+		 * @return true if this is the attributes of a symbolic link
+		 */
+		public boolean isSymbolicLink() {
+			return isSymbolicLink;
+		}
+
+		/**
+		 * @return true if this is the attributes of a regular file
+		 */
+		public boolean isRegularFile() {
+			return isRegularFile;
+		}
+
+		/**
+		 * @return the time when the file was created
+		 */
+		public long getCreationTime() {
+			return creationTime;
+		}
+
+		/**
+		 * @return the time (milliseconds since 1900-01-01) when this object was
+		 *         last modified
+		 */
+		public long getLastModifiedTime() {
+			return lastModifiedTime;
+		}
+
+		private boolean isDirectory;
+
+		private boolean isSymbolicLink;
+
+		private boolean isRegularFile;
+
+		private long creationTime;
+
+		private long lastModifiedTime;
+
+		private boolean isExecutable;
+
+		private File file;
+
+		/**
+		 * file length
+		 */
+		protected long length = -1;
+
+		FS fs;
+
+		Attributes(FS fs, File file, boolean isDirectory, boolean isExecutable,
+				boolean isSymbolicLink, boolean isRegularFile,
+				long creationTime, long lastModifiedTime) {
+			this.fs = fs;
+			this.file = file;
+			this.isDirectory = isDirectory;
+			this.isExecutable = isExecutable;
+			this.isSymbolicLink = isSymbolicLink;
+			this.isRegularFile = isRegularFile;
+			this.creationTime = creationTime;
+			this.lastModifiedTime = lastModifiedTime;
+		}
+
+		/**
+		 * Constructor when there are issues with reading
+		 *
+		 * @param fs
+		 * @param path
+		 */
+		public Attributes(File path, FS fs) {
+			this.file = path;
+			this.fs = fs;
+		}
+
+		/**
+		 * @return length of this file object
+		 */
+		public long getLength() {
+			if (length == -1)
+				return length = file.length();
+			return length;
+		}
+
+		/**
+		 * @return the filename
+		 */
+		public String getName() {
+			return file.getName();
+		}
+
+		/**
+		 * @return the file the attributes apply to
+		 */
+		public File getFile() {
+			return file;
+		}
+
+	}
+
+	/**
+	 * @param path
+	 * @return the file attributes we care for
+	 */
+	public Attributes getAttributes(File path) {
+		try {
+			return new Attributes(this, path, isDirectory(path),
+					canExecute(path), isSymLink(path), path.isFile(), 0L,
+					path.lastModified());
+		} catch (IOException e) {
+			return new Attributes(path, this);
 		}
 	}
 }

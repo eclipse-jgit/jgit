@@ -47,6 +47,12 @@ import java.io.File;
 import java.io.IOException;
 
 import org.eclipse.jgit.util.FS;
+import java.nio.file.Files;
+import java.nio.file.LinkOption;
+import java.nio.file.Path;
+import java.nio.file.attribute.PosixFileAttributeView;
+import java.nio.file.attribute.PosixFileAttributes;
+import java.nio.file.attribute.PosixFilePermission;
 
 /**
  * FS implementation for Java7 on unix like systems
@@ -149,5 +155,64 @@ public class FS_POSIX_Java7 extends FS_POSIX {
 	@Override
 	public void createSymLink(File path, String target) throws IOException {
 		FileUtil.createSymLink(path, target);
+	}
+
+	static class Java7PosixAttributes extends Attributes {
+
+		private Path path;
+
+		public Java7PosixAttributes(FS fs, File fPath, Path pPath,
+				boolean isDirectory,
+				boolean isExecutable,
+				boolean isSymbolicLink, boolean isRegularFile,
+				long creationTime, long lastModifiedTime) {
+			super(fs, fPath, isDirectory, isExecutable, isSymbolicLink,
+					isRegularFile,
+					creationTime, lastModifiedTime);
+			this.path = pPath;
+		}
+
+		@Override
+		public long getLength() {
+			if (length == -1) {
+				try {
+					length = Files.size(path);
+				} catch (IOException e) {
+					length = 0;
+				}
+			}
+			return length;
+		}
+
+			try {
+				return Files.size(path);
+			} catch (IOException e) {
+				return 0;
+			}
+		}
+	}
+
+	@Override
+	public Attributes getAttributes(File path) {
+		try {
+			Path nioPath = path.toPath();
+			PosixFileAttributes readAttributes = nioPath
+					.getFileSystem()
+					.provider()
+					.getFileAttributeView(nioPath,
+							PosixFileAttributeView.class,
+							LinkOption.NOFOLLOW_LINKS).readAttributes();
+			Attributes attributes = new Java7PosixAttributes(this, path,
+					nioPath, readAttributes.isDirectory(), readAttributes
+							.permissions().contains(
+									PosixFilePermission.OWNER_EXECUTE),
+					readAttributes.isSymbolicLink(),
+					readAttributes.isRegularFile(), readAttributes
+							.creationTime().toMillis(), readAttributes
+							.lastModifiedTime().toMillis());
+			return attributes;
+		} catch (IOException e) {
+			return new Attributes(path, this);
+		}
 	}
 }
