@@ -43,6 +43,8 @@
 
 package org.eclipse.jgit.storage.dfs;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.jgit.lib.ObjectId;
@@ -67,9 +69,7 @@ public class DfsPackDescription implements Comparable<DfsPackDescription> {
 
 	private long lastModified;
 
-	private long packSize;
-
-	private long indexSize;
+	private Map<String, Long> sizeMap;
 
 	private long objectCount;
 
@@ -98,6 +98,7 @@ public class DfsPackDescription implements Comparable<DfsPackDescription> {
 		this.repoDesc = repoDesc;
 		int dot = name.lastIndexOf('.');
 		this.packName = (dot < 0) ? name : name.substring(0, dot);
+		this.sizeMap = new HashMap<String, Long>();
 	}
 
 	/** @return description of the repository. */
@@ -144,39 +145,27 @@ public class DfsPackDescription implements Comparable<DfsPackDescription> {
 		return this;
 	}
 
-	/** @return size of the pack, in bytes. If 0 the pack size is not yet known. */
-	public long getPackSize() {
-		return packSize;
-	}
-
 	/**
+	 * @param ext
+	 *            the file extension.
 	 * @param bytes
-	 *            size of the pack in bytes. If 0 the size is not known and will
+	 *            size of the file in bytes. If 0 the file is not known and will
 	 *            be determined on first read.
 	 * @return {@code this}
 	 */
-	public DfsPackDescription setPackSize(long bytes) {
-		packSize = Math.max(0, bytes);
+	public DfsPackDescription setFileSize(String ext, long bytes) {
+		sizeMap.put(ext, Long.valueOf(Math.max(0, bytes)));
 		return this;
 	}
 
 	/**
-	 * @return size of the index, in bytes. If 0 the index size is not yet
-	 *         known.
+	 * @param ext
+	 *            the file extension.
+	 * @return size of the file, in bytes. If 0 the file size is not yet known.
 	 */
-	public long getIndexSize() {
-		return indexSize;
-	}
-
-	/**
-	 * @param bytes
-	 *            size of the index in bytes. If 0 the size is not known and
-	 *            will be determined on first read.
-	 * @return {@code this}
-	 */
-	public DfsPackDescription setIndexSize(long bytes) {
-		indexSize = Math.max(0, bytes);
-		return this;
+	public long getFileSize(String ext) {
+		Long size = sizeMap.get(ext);
+		return (size == null) ? 0 : size.longValue();
 	}
 
 	/**
@@ -265,8 +254,8 @@ public class DfsPackDescription implements Comparable<DfsPackDescription> {
 	public boolean equals(Object b) {
 		if (b instanceof DfsPackDescription) {
 			DfsPackDescription desc = (DfsPackDescription) b;
-			return packName.equals(desc.packName) &&
-					getRepositoryDescription().equals(desc.getRepositoryDescription());
+			return packName.equals(desc.packName) && getRepositoryDescription()
+					.equals(desc.getRepositoryDescription());
 		}
 		return false;
 	}
