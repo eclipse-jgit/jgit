@@ -153,7 +153,7 @@ public class DfsInserter extends ObjectInserter {
 			throw new IOException();
 
 		byte[] packHash = packOut.writePackFooter();
-		packDsc.setPackSize(packOut.getCount());
+		packDsc.setFileSize(PACK_EXT, packOut.getCount());
 		packOut.close();
 		packOut = null;
 
@@ -260,7 +260,7 @@ public class DfsInserter extends ObjectInserter {
 				buf.writeTo(cnt, null);
 			else
 				index(cnt, packHash, list);
-			pack.setIndexSize(cnt.getCount());
+			pack.setFileSize(PACK_INDEX_EXT, cnt.getCount());
 		} finally {
 			os.close();
 		}

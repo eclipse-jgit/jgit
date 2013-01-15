@@ -139,7 +139,7 @@ public class DfsPackCompactor {
 		DfsObjDatabase objdb = repo.getObjectDatabase();
 		for (DfsPackFile pack : objdb.getPacks()) {
 			DfsPackDescription d = pack.getPackDescription();
-			if (d.getPackSize() < autoAddSize)
+			if (d.getFileSize(PACK_EXT) < autoAddSize)
 				add(pack);
 		}
 		return this;
@@ -290,7 +290,7 @@ public class DfsPackCompactor {
 			CountingOutputStream cnt = new CountingOutputStream(out);
 			pw.writePack(pm, pm, cnt);
 			pack.setObjectCount(pw.getObjectCount());
-			pack.setPackSize(cnt.getCount());
+			pack.setFileSize(PACK_EXT, cnt.getCount());
 		} finally {
 			out.close();
 		}
@@ -302,7 +302,7 @@ public class DfsPackCompactor {
 		try {
 			CountingOutputStream cnt = new CountingOutputStream(out);
 			pw.writeIndex(cnt);
-			pack.setIndexSize(cnt.getCount());
+			pack.setFileSize(PACK_INDEX_EXT, cnt.getCount());
 		} finally {
 			out.close();
 		}

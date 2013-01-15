@@ -45,6 +45,8 @@ package org.eclipse.jgit.storage.dfs;
 
 import static org.eclipse.jgit.storage.dfs.DfsObjDatabase.PackSource.GC;
 import static org.eclipse.jgit.storage.dfs.DfsObjDatabase.PackSource.UNREACHABLE_GARBAGE;
+import static org.eclipse.jgit.storage.pack.PackConstants.PACK_EXT;
+import static org.eclipse.jgit.storage.pack.PackConstants.PACK_INDEX_EXT;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -65,7 +67,6 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.dfs.DfsObjDatabase.PackSource;
 import org.eclipse.jgit.storage.file.PackIndex;
 import org.eclipse.jgit.storage.pack.PackConfig;
-import org.eclipse.jgit.storage.pack.PackConstants;
 import org.eclipse.jgit.storage.pack.PackWriter;
 import org.eclipse.jgit.util.io.CountingOutputStream;
 
@@ -319,25 +320,25 @@ public class DfsGarbageCollector {
 		DfsPackDescription pack = repo.getObjectDatabase().newPack(source);
 		newPackDesc.add(pack);
 
-		out = objdb.writeFile(pack, PackConstants.PACK_EXT);
+		out = objdb.writeFile(pack, PACK_EXT);
 		try {
 			pw.writePack(pm, pm, out);
 		} finally {
 			out.close();
 		}
 
-		out = objdb.writeFile(pack, PackConstants.PACK_INDEX_EXT);
+		out = objdb.writeFile(pack, PACK_INDEX_EXT);
 		try {
 			CountingOutputStream cnt = new CountingOutputStream(out);
 			pw.writeIndex(cnt);
-			pack.setIndexSize(cnt.getCount());
+			pack.setFileSize(PACK_INDEX_EXT, cnt.getCount());
 		} finally {
 			out.close();
 		}
 
 		PackWriter.Statistics stats = pw.getStatistics();
 		pack.setPackStats(stats);
-		pack.setPackSize(stats.getTotalBytes());
+		pack.setFileSize(PACK_EXT, stats.getTotalBytes());
 		pack.setObjectCount(stats.getTotalObjects());
 		pack.setDeltaCount(stats.getTotalDeltas());
 		objectsPacked += stats.getTotalObjects();
