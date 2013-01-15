@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABONH///yc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/dfs/DfsPackDescription.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2013-01-15T23:16:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABONH///y4\u003d",
+      "revId": "d3015c24dfbc9cdadd778450870282c12787940e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABONH///y0\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/dfs/DfsPackDescription.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AABONH///yY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/dfs/DfsPackDescription.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2013-01-15T23:16:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABONH///y0\u003d",
+      "revId": "d3015c24dfbc9cdadd778450870282c12787940e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABONH///yw\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/dfs/DfsPackDescription.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2013-01-15T23:05:59Z",
       "side": 1,
       "message": "unexpected formatting change, please revert.",
+      "revId": "d3015c24dfbc9cdadd778450870282c12787940e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABONH///yU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/dfs/DfsPackDescription.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2013-01-15T23:16:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABONH///yw\u003d",
       "revId": "d3015c24dfbc9cdadd778450870282c12787940e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
