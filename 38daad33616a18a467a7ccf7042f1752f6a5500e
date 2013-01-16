@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABONX///qo\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-01-16T23:49:34Z",
+      "side": 1,
+      "message": "maybe you should mention that you also expose the new public methods indexOfChangeId and indexOfFirstFooterLine in order to enable reuse of these methods introduced for the fix",
+      "revId": "38daad33616a18a467a7ccf7042f1752f6a5500e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABONX///qw\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/ChangeIdUtilTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-01-16T23:49:34Z",
+      "side": 1,
+      "message": "why does this test need to change ?",
+      "revId": "38daad33616a18a467a7ccf7042f1752f6a5500e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABONX///qs\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/ChangeIdUtilTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-01-16T23:49:34Z",
+      "side": 1,
+      "message": "why does this test need to change ?",
+      "revId": "38daad33616a18a467a7ccf7042f1752f6a5500e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABONX///q8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/ChangeIdUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-01-16T23:49:34Z",
+      "side": 1,
+      "message": "this index is counting characters whereas the index in indexOfFirstFooterLine counts lines, this isn\u0027t clear neither from method names nor from javadoc",
+      "revId": "38daad33616a18a467a7ccf7042f1752f6a5500e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABONX///rE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/ChangeIdUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-01-16T23:49:34Z",
+      "side": 1,
+      "message": "style nit: no braces around single line blocks",
+      "revId": "38daad33616a18a467a7ccf7042f1752f6a5500e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
