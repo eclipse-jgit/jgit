@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABONH///uQ\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-01-16T01:37:08Z",
+      "side": 1,
+      "message": "s/largs/large/",
+      "revId": "ce55bae7a7ca410c64ded3a19685b6bc7fa8ab24",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABONH///uw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathFilterGroup.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-01-16T01:37:08Z",
+      "side": 1,
+      "message": "unnecessary delta caused by the formatter line breaking.",
+      "revId": "ce55bae7a7ca410c64ded3a19685b6bc7fa8ab24",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABONH///us\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathFilterGroup.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-01-16T01:37:08Z",
+      "side": 1,
+      "message": "unnecessary delta",
+      "revId": "ce55bae7a7ca410c64ded3a19685b6bc7fa8ab24",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABONH///uo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathFilterGroup.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-01-16T01:37:08Z",
+      "side": 1,
+      "message": "#paths instead of #aths?",
+      "revId": "ce55bae7a7ca410c64ded3a19685b6bc7fa8ab24",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABONH///uk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathFilterGroup.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-01-16T01:37:08Z",
+      "side": 1,
+      "message": "p.length can\u0027t be 0. so you can avoid the max\u003d\u003dnull test below if you perform max \u003d p[0] before the loop starts.",
+      "revId": "ce55bae7a7ca410c64ded3a19685b6bc7fa8ab24",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABONH///uc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathFilterGroup.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-01-16T01:37:08Z",
+      "side": 1,
+      "message": "hoist pf.getPath() into a local variable. This code is a mess otherwise. I would suggest renaming the input array from p to be \"inputPaths\" as its used less often. Then use \"p\" as the pf.getPath() inside of the loop.",
+      "revId": "ce55bae7a7ca410c64ded3a19685b6bc7fa8ab24",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABONH///uY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathFilterGroup.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-01-16T01:37:08Z",
+      "side": 1,
+      "message": "Ouch. getPathString is not fast. There isn\u0027t a good way to implement this using the byte[] form?\n\nFor example imagine we compute a hash across the raw path buffer of the TreeWalk. Each time we reach a \u0027/\u0027 the hashing stops and probes a private hash table implementation to see if any PathFilter matches the current hash code. If it does we test isPathPrefix on that subset of PathFilter nodes.\n\nSimilar implementation to what you have here, but avoiding the hideously slow byte[]-\u003eString conversion required to perform the 2 hash table lookups you do before you split the path on \u0027/\u0027 and look at each level individually... with more hash table lookups.",
+      "revId": "ce55bae7a7ca410c64ded3a19685b6bc7fa8ab24",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABONH///uU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathFilterGroup.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-01-16T01:37:08Z",
+      "side": 1,
+      "message": "inline cmp there is no point in this variable",
+      "revId": "ce55bae7a7ca410c64ded3a19685b6bc7fa8ab24",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABONH///ug\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathFilterGroup.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-01-16T01:37:08Z",
+      "side": 1,
+      "message": "You can drop this boolean and use !prefixes.isEmpty(). If we have prefixes, we need to look deeper than the root.",
+      "revId": "ce55bae7a7ca410c64ded3a19685b6bc7fa8ab24",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
