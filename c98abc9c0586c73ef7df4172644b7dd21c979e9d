@@ -160,6 +160,24 @@
       "revId": "c98abc9c0586c73ef7df4172644b7dd21c979e9d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABONn///yY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 723,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2013-01-17T20:41:01Z",
+      "side": 1,
+      "message": "It\u0027s https://git.eclipse.org/r/#/c/9743/.",
+      "parentUuid": "AABONn///28\u003d",
+      "revId": "c98abc9c0586c73ef7df4172644b7dd21c979e9d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
