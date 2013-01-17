@@ -45,6 +45,7 @@
 
 package org.eclipse.jgit.transport;
 
+import java.io.OutputStream;
 import java.util.Collection;
 import java.util.Set;
 
@@ -66,6 +67,12 @@ abstract class BaseFetchConnection extends BaseConnection implements
 	public final void fetch(final ProgressMonitor monitor,
 			final Collection<Ref> want, final Set<ObjectId> have)
 			throws TransportException {
+		fetch(monitor, want, have, null);
+	}
+
+	public final void fetch(final ProgressMonitor monitor,
+			final Collection<Ref> want, final Set<ObjectId> have,
+			OutputStream out) throws TransportException {
 		markStartedOperation();
 		doFetch(monitor, want, have);
 	}

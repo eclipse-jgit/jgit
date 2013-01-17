@@ -44,6 +44,7 @@
 package org.eclipse.jgit.transport;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.HashMap;
@@ -64,7 +65,7 @@ import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
 /**
  * Class performing push operation on remote repository.
  *
- * @see Transport#push(ProgressMonitor, Collection)
+ * @see Transport#push(ProgressMonitor, Collection, OutputStream)
  */
 class PushProcess {
 	/** Task name for {@link ProgressMonitor} used during opening connection. */
@@ -82,6 +83,9 @@ class PushProcess {
 	/** Revision walker for checking some updates properties. */
 	private final RevWalk walker;
 
+	/** an outputstream to write messages to */
+	private final OutputStream out;
+
 	/**
 	 * Create process for specified transport and refs updates specification.
 	 *
@@ -90,13 +94,35 @@ class PushProcess {
 	 *            connection.
 	 * @param toPush
 	 *            specification of refs updates (and local tracking branches).
+	 *
 	 * @throws TransportException
 	 */
 	PushProcess(final Transport transport,
 			final Collection<RemoteRefUpdate> toPush) throws TransportException {
+		this(transport, toPush, null);
+	}
+
+	/**
+	 * Create process for specified transport and refs updates specification.
+	 * 
+	 * @param transport
+	 *            transport between remote and local repository, used to create
+	 *            connection.
+	 * @param toPush
+	 *            specification of refs updates (and local tracking branches).
+	 * 
+	 * @param out
+	 *            OutputStream to write messages to
+	 * 
+	 * @throws TransportException
+	 */
+	PushProcess(final Transport transport,
+			final Collection<RemoteRefUpdate> toPush, OutputStream out)
+			throws TransportException {
 		this.walker = new RevWalk(transport.local);
 		this.transport = transport;
 		this.toPush = new HashMap<String, RemoteRefUpdate>();
+		this.out = out;
 		for (final RemoteRefUpdate rru : toPush) {
 			if (this.toPush.put(rru.getRemoteName(), rru) != null)
 				throw new TransportException(MessageFormat.format(
@@ -138,7 +164,7 @@ class PushProcess {
 				if (transport.isDryRun())
 					modifyUpdatesForDryRun();
 				else if (!preprocessed.isEmpty())
-					connection.push(monitor, preprocessed);
+					connection.push(monitor, preprocessed, out);
 			} finally {
 				connection.close();
 				res.addMessages(connection.getMessages());
