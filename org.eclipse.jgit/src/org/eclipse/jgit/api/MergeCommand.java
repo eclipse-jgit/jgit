@@ -63,6 +63,7 @@ import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 import org.eclipse.jgit.dircache.DirCacheCheckout;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.ConfigEnum;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
@@ -103,9 +104,9 @@ public class MergeCommand extends GitCommand<MergeResult> {
 
 	/**
 	 * The modes available for fast forward merges (corresponding to the --ff,
-	 * --no-ff and --ff-only options).
+	 * --no-ff and --ff-only options under branch.<name>.branch).
 	 */
-	public enum FastForwardMode {
+	public enum FastForwardMode implements ConfigEnum {
 		/**
 		 * Corresponds to the default --ff option (for a fast forward update the
 		 * branch pointer only).
@@ -121,6 +122,74 @@ public class MergeCommand extends GitCommand<MergeResult> {
 		 * forward).
 		 */
 		FF_ONLY;
+
+		public String toConfigValue() {
+			return "--" + name().toLowerCase().replace('_', '-');
+		}
+
+		public boolean matchConfigValue(String in) {
+			if (name().toLowerCase().replace('_', '-')
+					.equals(in.substring("--".length())))
+				return true;
+			return false;
+		}
+
+		/**
+		 * The modes available for fast forward merges corresponding to the
+		 * options under merge.ff config option.
+		 */
+		public enum Merge {
+			/**
+			 * {@link FastForwardMode#FF}.
+			 */
+			TRUE,
+			/**
+			 * {@link FastForwardMode#NO_FF}.
+			 */
+			FALSE,
+			/**
+			 * {@link FastForwardMode#FF_ONLY}.
+			 */
+			ONLY;
+
+			/**
+			 * Map from <code>FastForwardMode</code> to
+			 * <code>FastForwardMode.Merge</code>.
+			 *
+			 * @param ffMode
+			 *            the <code>FastForwardMode</code> value to be mapped
+			 * @return the mapped code>FastForwardMode.Merge</code> value
+			 */
+			public static Merge valueOf(FastForwardMode ffMode) {
+				switch (ffMode) {
+				case NO_FF:
+					return FALSE;
+				case FF_ONLY:
+					return ONLY;
+				default:
+					return TRUE;
+				}
+			}
+		}
+
+		/**
+		 * Map from <code>FastForwardMode.Merge</code> to
+		 * <code>FastForwardMode</code>.
+		 *
+		 * @param ffMode
+		 *            the <code>FastForwardMode.Merge</code> value to be mapped
+		 * @return the mapped code>FastForwardMode</code> value
+		 */
+		public static FastForwardMode valueOf(FastForwardMode.Merge ffMode) {
+			switch (ffMode) {
+			case FALSE:
+				return NO_FF;
+			case ONLY:
+				return FF_ONLY;
+			default:
+				return FF;
+			}
+		}
 	}
 
 	/**
