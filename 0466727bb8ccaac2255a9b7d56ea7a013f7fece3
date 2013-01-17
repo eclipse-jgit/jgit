@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABONn///ws\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/ChangeIdUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-01-17T22:43:17Z",
+      "side": 1,
+      "message": "style nit: trailing whitespace",
+      "revId": "0466727bb8ccaac2255a9b7d56ea7a013f7fece3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
