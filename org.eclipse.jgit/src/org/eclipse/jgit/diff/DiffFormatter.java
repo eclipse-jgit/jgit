@@ -299,7 +299,7 @@ public class DiffFormatter {
 
 	/**
 	 * Get the prefix applied in front of new file paths.
-	 * 
+	 *
 	 * @return the prefix
 	 * @since 2.0
 	 */
@@ -1008,6 +1008,34 @@ public class DiffFormatter {
 		return false;
 	}
 
+	/**
+	 * Output the headline
+	 * 
+	 * @param o
+	 *            The ByteArrayOutputStream to write to
+	 * 
+	 * @param type
+	 *            The {@link ChangeType}
+	 * @param oldPath
+	 *            old path to the file
+	 * @param newPath
+	 *            new path to the file
+	 * 
+	 * @throws IOException
+	 *             the stream threw an exception while writing to it.
+	 */
+	protected void writeHeadLine(ByteArrayOutputStream o,
+			final ChangeType type, final String oldPath,
+			final String newPath) throws IOException {
+		o.write(encodeASCII("diff --git ")); //$NON-NLS-1$
+		o.write(encode(quotePath(oldPrefix
+				+ (type == ADD ? newPath : oldPath))));
+		o.write(' ');
+		o.write(encode(quotePath(newPrefix
+				+ (type == DELETE ? oldPath : newPath))));
+		o.write('\n');
+	}
+
 	private void formatHeader(ByteArrayOutputStream o, DiffEntry ent)
 			throws IOException {
 		final ChangeType type = ent.getChangeType();
@@ -1016,11 +1044,7 @@ public class DiffFormatter {
 		final FileMode oldMode = ent.getOldMode();
 		final FileMode newMode = ent.getNewMode();
 
-		o.write(encodeASCII("diff --git ")); //$NON-NLS-1$
-		o.write(encode(quotePath(oldPrefix + (type == ADD ? newp : oldp))));
-		o.write(' ');
-		o.write(encode(quotePath(newPrefix + (type == DELETE ? oldp : newp))));
-		o.write('\n');
+		writeHeadLine(o, type, oldp, newp);
 
 		switch (type) {
 		case ADD:
