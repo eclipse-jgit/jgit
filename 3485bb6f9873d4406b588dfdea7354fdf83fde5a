@@ -16,6 +16,24 @@
       "revId": "3485bb6f9873d4406b588dfdea7354fdf83fde5a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABONn///uE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackExt.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2013-01-17T23:08:36Z",
+      "side": 1,
+      "message": "What do you want?\n\nString.format(\"PackExt[%s]\", getExtension())\n\nor just\n\ngetExtension()",
+      "parentUuid": "AABONn///ug\u003d",
+      "revId": "3485bb6f9873d4406b588dfdea7354fdf83fde5a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
