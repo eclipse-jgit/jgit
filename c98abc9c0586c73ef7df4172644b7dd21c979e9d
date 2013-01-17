@@ -124,6 +124,24 @@
       "revId": "c98abc9c0586c73ef7df4172644b7dd21c979e9d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABONn///+E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 723,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2013-01-17T11:35:40Z",
+      "side": 1,
+      "message": "Should I push a new patch set here or create a new change for it?",
+      "parentUuid": "AABOM3///6k\u003d",
+      "revId": "c98abc9c0586c73ef7df4172644b7dd21c979e9d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
