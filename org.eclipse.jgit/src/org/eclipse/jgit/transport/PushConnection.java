@@ -44,6 +44,7 @@
 
 package org.eclipse.jgit.transport;
 
+import java.io.OutputStream;
 import java.util.Map;
 
 import org.eclipse.jgit.errors.TransportException;
@@ -111,4 +112,49 @@ public interface PushConnection extends Connection {
 	public void push(final ProgressMonitor monitor,
 			final Map<String, RemoteRefUpdate> refUpdates)
 			throws TransportException;
+
+	/**
+	 * Pushes to the remote repository basing on provided specification. This
+	 * possibly result in update/creation/deletion of refs on remote repository
+	 * and sending objects that remote repository need to have a consistent
+	 * objects graph from new refs.
+	 * <p>
+	 * <p>
+	 * Only one call per connection is allowed. Subsequent calls will result in
+	 * {@link TransportException}.
+	 * </p>
+	 * <p>
+	 * Implementation may use local repository to send a minimum set of objects
+	 * needed by remote repository in efficient way.
+	 * {@link Transport#isPushThin()} should be honored if applicable.
+	 * refUpdates should be filled with information about status of each update.
+	 * </p>
+	 * 
+	 * @param monitor
+	 *            progress monitor to update the end-user about the amount of
+	 *            work completed, or to indicate cancellation. Implementors
+	 *            should poll the monitor at regular intervals to look for
+	 *            cancellation requests from the user.
+	 * @param refUpdates
+	 *            map of remote refnames to remote refs update
+	 *            specifications/statuses. Can't be empty. This indicate what
+	 *            refs caller want to update on remote side. Only refs updates
+	 *            with {@link Status#NOT_ATTEMPTED} should passed.
+	 *            Implementation must ensure that and appropriate status with
+	 *            optional message should be set during call. No refUpdate with
+	 *            {@link Status#AWAITING_REPORT} or {@link Status#NOT_ATTEMPTED}
+	 *            can be leaved by implementation after return from this call.
+	 * @param out
+	 *
+	 * @throws TransportException
+	 *             objects could not be copied due to a network failure,
+	 *             critical protocol error, or error on remote side, or
+	 *             connection was already used for push - new connection must be
+	 *             created. Non-critical errors concerning only isolated refs
+	 *             should be placed in refUpdates.
+	 */
+	public void push(final ProgressMonitor monitor,
+			final Map<String, RemoteRefUpdate> refUpdates, OutputStream out)
+			throws TransportException;
+
 }
