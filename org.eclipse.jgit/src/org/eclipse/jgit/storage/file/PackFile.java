@@ -45,7 +45,7 @@
 
 package org.eclipse.jgit.storage.file;
 
-import static org.eclipse.jgit.storage.pack.PackConstants.PACK_INDEX_EXT;
+import static org.eclipse.jgit.storage.pack.PackExt.INDEX;
 
 import java.io.EOFException;
 import java.io.File;
@@ -76,6 +76,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.storage.pack.BinaryDelta;
 import org.eclipse.jgit.storage.pack.ObjectToPack;
+import org.eclipse.jgit.storage.pack.PackExt;
 import org.eclipse.jgit.storage.pack.PackOutputStream;
 import org.eclipse.jgit.util.LongList;
 import org.eclipse.jgit.util.NB;
@@ -155,7 +156,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 				throw new PackInvalidException(packFile);
 
 			try {
-				final PackIndex idx = PackIndex.open(extFile(PACK_INDEX_EXT));
+				final PackIndex idx = PackIndex.open(extFile(INDEX));
 
 				if (packChecksum == null)
 					packChecksum = idx.packChecksum;
@@ -1078,10 +1079,10 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 		}
 	}
 
-	private File extFile(String ext) {
+	private File extFile(PackExt ext) {
 		String p = packFile.getName();
 		int dot = p.lastIndexOf('.');
 		String b = (dot < 0) ? p : p.substring(0, dot);
-		return new File(packFile.getParentFile(), b + '.' + ext);
+		return new File(packFile.getParentFile(), b + '.' + ext.getExtension());
 	}
 }
