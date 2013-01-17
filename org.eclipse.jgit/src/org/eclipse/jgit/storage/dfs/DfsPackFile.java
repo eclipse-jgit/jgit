@@ -45,8 +45,8 @@
 
 package org.eclipse.jgit.storage.dfs;
 
-import static org.eclipse.jgit.storage.pack.PackConstants.PACK_EXT;
-import static org.eclipse.jgit.storage.pack.PackConstants.PACK_INDEX_EXT;
+import static org.eclipse.jgit.storage.pack.PackExt.PACK;
+import static org.eclipse.jgit.storage.pack.PackExt.INDEX;
 
 import java.io.BufferedInputStream;
 import java.io.EOFException;
@@ -165,7 +165,7 @@ public final class DfsPackFile {
 		this.packDesc = desc;
 		this.key = key;
 
-		length = desc.getFileSize(PACK_EXT);
+		length = desc.getFileSize(PACK);
 		if (length <= 0)
 			length = -1;
 	}
@@ -190,7 +190,7 @@ public final class DfsPackFile {
 	}
 
 	private String getPackName() {
-		return packDesc.getFileName(PACK_EXT);
+		return packDesc.getFileName(PACK);
 	}
 
 	void setBlockSize(int newSize) {
@@ -232,7 +232,7 @@ public final class DfsPackFile {
 
 			PackIndex idx;
 			try {
-				ReadableChannel rc = ctx.db.openFile(packDesc, PACK_INDEX_EXT);
+				ReadableChannel rc = ctx.db.openFile(packDesc, INDEX);
 				try {
 					InputStream in = Channels.newInputStream(rc);
 					int wantSize = 8192;
@@ -250,14 +250,14 @@ public final class DfsPackFile {
 				invalid = true;
 				IOException e2 = new IOException(MessageFormat.format(
 						DfsText.get().shortReadOfIndex,
-						packDesc.getFileName(PACK_INDEX_EXT)));
+						packDesc.getFileName(INDEX)));
 				e2.initCause(e);
 				throw e2;
 			} catch (IOException e) {
 				invalid = true;
 				IOException e2 = new IOException(MessageFormat.format(
 						DfsText.get().cannotReadIndex,
-						packDesc.getFileName(PACK_INDEX_EXT)));
+						packDesc.getFileName(INDEX)));
 				e2.initCause(e);
 				throw e2;
 			}
@@ -623,7 +623,7 @@ public final class DfsPackFile {
 			throw new PackInvalidException(getPackName());
 
 		boolean close = true;
-		ReadableChannel rc = ctx.db.openFile(packDesc, PACK_EXT);
+		ReadableChannel rc = ctx.db.openFile(packDesc, PACK);
 		try {
 			// If the block alignment is not yet known, discover it. Prefer the
 			// larger size from either the cache or the file itself.

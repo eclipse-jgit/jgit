@@ -56,6 +56,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.eclipse.jgit.lib.ObjectDatabase;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.storage.pack.PackExt;
 
 /** Manages objects stored in {@link DfsPackFile} on a storage system. */
 public abstract class DfsObjDatabase extends ObjectDatabase {
@@ -280,7 +281,7 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	 *             the file cannot be opened.
 	 */
 	protected abstract ReadableChannel openFile(
-			DfsPackDescription desc, String ext)
+			DfsPackDescription desc, PackExt ext)
 			throws FileNotFoundException, IOException;
 
 	/**
@@ -297,7 +298,7 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	 *             the file cannot be opened.
 	 */
 	protected abstract DfsOutputStream writeFile(
-			DfsPackDescription desc, String ext) throws IOException;
+			DfsPackDescription desc, PackExt ext) throws IOException;
 
 	void addPack(DfsPackFile newPack) throws IOException {
 		PackList o, n;

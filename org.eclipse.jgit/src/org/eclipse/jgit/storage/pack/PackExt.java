@@ -43,15 +43,40 @@
 
 package org.eclipse.jgit.storage.pack;
 
-/** Misc. constants used with pack files. */
-public class PackConstants {
+/** A pack file extension. */
+public class PackExt {
 
 	/** A pack file extension. */
-	public static final String PACK_EXT = "pack"; //$NON-NLS-1$
+	public static final PackExt PACK = new PackExt("pack"); //$NON-NLS-1$
 
 	/** A pack index file extension. */
-	public static final String PACK_INDEX_EXT = "idx"; //$NON-NLS-1$
+	public static final PackExt INDEX = new PackExt("idx"); //$NON-NLS-1$
 
-	private PackConstants() {
+	private final String ext;
+
+	/**
+	 * @param ext
+	 *            the file extension.
+	 */
+	public PackExt(String ext) {
+		this.ext = ext;
+	}
+
+	/** @return the file extension. */
+	public String getExtension() {
+		return ext;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof PackExt) {
+			return ((PackExt) obj).getExtension().equals(getExtension());
+		}
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		return getExtension().hashCode();
 	}
 }

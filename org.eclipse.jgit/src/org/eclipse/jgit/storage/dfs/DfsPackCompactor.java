@@ -44,8 +44,8 @@
 package org.eclipse.jgit.storage.dfs;
 
 import static org.eclipse.jgit.storage.dfs.DfsObjDatabase.PackSource.COMPACT;
-import static org.eclipse.jgit.storage.pack.PackConstants.PACK_EXT;
-import static org.eclipse.jgit.storage.pack.PackConstants.PACK_INDEX_EXT;
+import static org.eclipse.jgit.storage.pack.PackExt.PACK;
+import static org.eclipse.jgit.storage.pack.PackExt.INDEX;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -139,7 +139,7 @@ public class DfsPackCompactor {
 		DfsObjDatabase objdb = repo.getObjectDatabase();
 		for (DfsPackFile pack : objdb.getPacks()) {
 			DfsPackDescription d = pack.getPackDescription();
-			if (d.getFileSize(PACK_EXT) < autoAddSize)
+			if (d.getFileSize(PACK) < autoAddSize)
 				add(pack);
 		}
 		return this;
@@ -285,12 +285,12 @@ public class DfsPackCompactor {
 
 	private void writePack(DfsObjDatabase objdb, DfsPackDescription pack,
 			PackWriter pw, ProgressMonitor pm) throws IOException {
-		DfsOutputStream out = objdb.writeFile(pack, PACK_EXT);
+		DfsOutputStream out = objdb.writeFile(pack, PACK);
 		try {
 			CountingOutputStream cnt = new CountingOutputStream(out);
 			pw.writePack(pm, pm, cnt);
 			pack.setObjectCount(pw.getObjectCount());
-			pack.setFileSize(PACK_EXT, cnt.getCount());
+			pack.setFileSize(PACK, cnt.getCount());
 		} finally {
 			out.close();
 		}
@@ -298,11 +298,11 @@ public class DfsPackCompactor {
 
 	private void writeIndex(DfsObjDatabase objdb, DfsPackDescription pack,
 			PackWriter pw) throws IOException {
-		DfsOutputStream out = objdb.writeFile(pack, PACK_INDEX_EXT);
+		DfsOutputStream out = objdb.writeFile(pack, INDEX);
 		try {
 			CountingOutputStream cnt = new CountingOutputStream(out);
 			pw.writeIndex(cnt);
-			pack.setFileSize(PACK_INDEX_EXT, cnt.getCount());
+			pack.setFileSize(INDEX, cnt.getCount());
 		} finally {
 			out.close();
 		}
