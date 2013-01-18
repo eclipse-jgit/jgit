@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABONn///rw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-01-18T01:14:18Z",
+      "side": 1,
+      "message": "Maybe this is better:\n\n  if (!in.startsWith(\"--\"))\n    return false;\n  in \u003d in.substring(2).replace(\u0027-\u0027, \u0027_\u0027);\n  return name().equalsIgnoreCase(in);",
+      "revId": "1560c55fe9df5d09ba34a034eaed6c2e777590f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABONn///sA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-01-18T01:14:18Z",
+      "side": 1,
+      "message": "or t[0] would also be acceptable. Ist possible defaultValue is null, but t[0] can\u0027t be.",
+      "revId": "1560c55fe9df5d09ba34a034eaed6c2e777590f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABONn///r4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 738,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-01-18T01:14:18Z",
+      "side": 1,
+      "message": "Do not assign to n. Let the compiler verify we set n in both branches below.",
+      "revId": "1560c55fe9df5d09ba34a034eaed6c2e777590f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABONn///rs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 741,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-01-18T01:14:18Z",
+      "side": 1,
+      "message": "don\u0027t use curly braces on single statement if or if-else blocks.",
+      "revId": "1560c55fe9df5d09ba34a034eaed6c2e777590f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABONn///sM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigEnum.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-01-18T01:14:18Z",
+      "side": 1,
+      "message": "JGit is under the EDL. Please either use the EDL header, or do not contribute to JGit.",
+      "revId": "1560c55fe9df5d09ba34a034eaed6c2e777590f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABONn///sI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigEnum.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-01-18T01:14:18Z",
+      "side": 1,
+      "message": "Please format all source code in UNIX style line endings.",
+      "revId": "1560c55fe9df5d09ba34a034eaed6c2e777590f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABONn///sE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigEnum.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-01-18T01:14:18Z",
+      "side": 1,
+      "message": "FYI, Javadoc is required before we submit a change.",
+      "revId": "1560c55fe9df5d09ba34a034eaed6c2e777590f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
