@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABON3///+Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2013-01-18T11:05:24Z",
+      "side": 1,
+      "message": "Definitely.",
+      "parentUuid": "AABONn///rw\u003d",
+      "revId": "1560c55fe9df5d09ba34a034eaed6c2e777590f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABONn///sA\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-01-18T01:14:18Z",
       "side": 1,
       "message": "or t[0] would also be acceptable. Ist possible defaultValue is null, but t[0] can\u0027t be.",
+      "revId": "1560c55fe9df5d09ba34a034eaed6c2e777590f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABON3///+A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2013-01-18T11:05:24Z",
+      "side": 1,
+      "message": "I guess you meant all[0]. Done.",
+      "parentUuid": "AABONn///sA\u003d",
       "revId": "1560c55fe9df5d09ba34a034eaed6c2e777590f1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AABON3///98\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 738,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2013-01-18T11:05:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABONn///r4\u003d",
+      "revId": "1560c55fe9df5d09ba34a034eaed6c2e777590f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABONn///rs\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2013-01-18T01:14:18Z",
       "side": 1,
       "message": "don\u0027t use curly braces on single statement if or if-else blocks.",
+      "revId": "1560c55fe9df5d09ba34a034eaed6c2e777590f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABON3///94\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 741,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2013-01-18T11:05:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABONn///rs\u003d",
       "revId": "1560c55fe9df5d09ba34a034eaed6c2e777590f1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AABON3///9c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigEnum.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2013-01-18T11:05:24Z",
+      "side": 1,
+      "message": "Sorry, copied it from a contribution to EGit. My bad.",
+      "parentUuid": "AABONn///sM\u003d",
+      "revId": "1560c55fe9df5d09ba34a034eaed6c2e777590f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABONn///sI\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigEnum.java",
         "patchSetId": 1
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "AABON3///9g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigEnum.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2013-01-18T11:05:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABONn///sI\u003d",
+      "revId": "1560c55fe9df5d09ba34a034eaed6c2e777590f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABONn///sE\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigEnum.java",
         "patchSetId": 1
@@ -115,6 +223,24 @@
       "writtenOn": "2013-01-18T01:14:18Z",
       "side": 1,
       "message": "FYI, Javadoc is required before we submit a change.",
+      "revId": "1560c55fe9df5d09ba34a034eaed6c2e777590f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABON3///9k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigEnum.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2013-01-18T11:05:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABONn///sE\u003d",
       "revId": "1560c55fe9df5d09ba34a034eaed6c2e777590f1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
