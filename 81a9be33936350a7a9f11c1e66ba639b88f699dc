@@ -16,6 +16,24 @@
       "revId": "81a9be33936350a7a9f11c1e66ba639b88f699dc",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABON3///8w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffEntry.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-01-18T12:15:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABONX///vU\u003d",
+      "revId": "81a9be33936350a7a9f11c1e66ba639b88f699dc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
