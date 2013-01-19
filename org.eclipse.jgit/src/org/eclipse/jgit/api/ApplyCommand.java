@@ -238,13 +238,10 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 		if (!isChanged(oldLines, newLines))
 			return; // don't touch the file
 		StringBuilder sb = new StringBuilder();
-		final String eol = rt.size() == 0
-				|| (rt.size() == 1 && rt.isMissingNewlineAtEnd()) ? "\n" : rt //$NON-NLS-1$
-				.getLineDelimiter();
 		for (String l : newLines) {
-			sb.append(l);
-			if (eol != null)
-				sb.append(eol);
+			// don't bother handling line endings - if it was windows, the \r is
+			// still there!
+			sb.append(l).append('\n');
 		}
 		sb.deleteCharAt(sb.length() - 1);
 		FileWriter fw = new FileWriter(f);
@@ -252,7 +249,7 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 		fw.close();
 	}
 
-	private boolean isChanged(List<String> ol, List<String> nl) {
+	private static boolean isChanged(List<String> ol, List<String> nl) {
 		if (ol.size() != nl.size())
 			return true;
 		for (int i = 0; i < ol.size(); i++)

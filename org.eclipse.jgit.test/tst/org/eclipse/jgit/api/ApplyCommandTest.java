@@ -178,6 +178,16 @@ public class ApplyCommandTest extends RepositoryTestCase {
 				b.getString(0, b.size(), false));
 	}
 
+	@Test
+	public void testModifyNL1() throws Exception {
+		ApplyResult result = init("NL1");
+		assertEquals(1, result.getUpdatedFiles().size());
+		assertEquals(new File(db.getWorkTree(), "NL1"), result
+				.getUpdatedFiles().get(0));
+		checkFile(new File(db.getWorkTree(), "NL1"),
+				b.getString(0, b.size(), false));
+	}
+
 	private static byte[] readFile(final String patchFile) throws IOException {
 		final InputStream in = DiffFormatterReflowTest.class
 				.getResourceAsStream(patchFile);
