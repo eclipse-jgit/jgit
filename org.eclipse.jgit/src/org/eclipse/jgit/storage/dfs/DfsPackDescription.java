@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011, Google Inc.
+ * Copyright (C) 2011, 2013 Google Inc., and others.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -84,7 +84,7 @@ public class DfsPackDescription implements Comparable<DfsPackDescription> {
 	 * <p>
 	 * The corresponding index file is assumed to exist. If this is not true
 	 * implementors must extend the class and override
-	 * {@link #getFileName(String)}.
+	 * {@link #getFileName(PackExt)}.
 	 * <p>
 	 * Callers should also try to fill in other fields if they are reasonably
 	 * free to access at the time this instance is being initialized.
