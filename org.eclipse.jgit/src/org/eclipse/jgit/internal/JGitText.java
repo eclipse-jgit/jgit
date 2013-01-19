@@ -91,6 +91,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String blobNotFoundForPath;
 	/***/ public String branchNameInvalid;
 	/***/ public String cachedPacksPreventsIndexCreation;
+	/***/ public String cachedPacksPreventsListingObjects;
 	/***/ public String cannotBeCombined;
 	/***/ public String cannotBeRecursiveWhenTreesAreIncluded;
 	/***/ public String cannotCombineSquashWithNoff;
