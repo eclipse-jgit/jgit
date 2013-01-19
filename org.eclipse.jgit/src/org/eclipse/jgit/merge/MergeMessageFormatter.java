@@ -48,6 +48,7 @@ import java.util.List;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.util.ChangeIdUtil;
 import org.eclipse.jgit.util.StringUtils;
 
 /**
@@ -133,14 +134,26 @@ public class MergeMessageFormatter {
 	 */
 	public String formatWithConflicts(String message,
 			List<String> conflictingPaths) {
-		StringBuilder sb = new StringBuilder(message);
-		if (!message.endsWith("\n") && message.length() != 0) //$NON-NLS-1$
-			sb.append("\n"); //$NON-NLS-1$
-		sb.append("\n"); //$NON-NLS-1$
-		sb.append("Conflicts:\n");
+		StringBuilder sb = new StringBuilder();
+		String[] lines = message.split("\n"); //$NON-NLS-1$
+		int firstFooterLine = ChangeIdUtil.indexOfFirstFooterLine(lines);
+		for (int i = 0; i < firstFooterLine; i++)
+			sb.append(lines[i]).append('\n');
+		if (firstFooterLine == lines.length && message.length() != 0)
+			sb.append('\n');
+		addConflictsMessage(conflictingPaths, sb);
+		if (firstFooterLine < lines.length)
+			sb.append('\n');
+		for (int i = firstFooterLine; i < lines.length; i++)
+			sb.append(lines[i]).append('\n');
+		return sb.toString();
+	}
+
+	private static void addConflictsMessage(List<String> conflictingPaths,
+			StringBuilder sb) {
+		sb.append("Conflicts:\n"); //$NON-NLS-1$
 		for (String conflictingPath : conflictingPaths)
 			sb.append('\t').append(conflictingPath).append('\n');
-		return sb.toString();
 	}
 
 	private static String joinNames(List<String> names, String singular,
