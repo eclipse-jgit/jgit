@@ -82,7 +82,7 @@ public class DfsGarbageCollector {
 
 	private final List<PackWriter.Statistics> newPackStats;
 
-	private final List<DfsPackFile> newPackList;
+	private final List<PackWriter.ObjectIdSet> newPackObj;
 
 	private DfsReader ctx;
 
@@ -116,7 +116,7 @@ public class DfsGarbageCollector {
 		objdb = repo.getObjectDatabase();
 		newPackDesc = new ArrayList<DfsPackDescription>(4);
 		newPackStats = new ArrayList<PackWriter.Statistics>(4);
-		newPackList = new ArrayList<DfsPackFile>(4);
+		newPackObj = new ArrayList<PackWriter.ObjectIdSet>(4);
 
 		packConfig = new PackConfig(repo);
 		packConfig.setIndexVersion(2);
@@ -244,8 +244,8 @@ public class DfsGarbageCollector {
 
 		PackWriter pw = newPackWriter();
 		try {
-			for (DfsPackFile pack : newPackList)
-				pw.excludeObjects(pack.getPackIndex(ctx));
+			for (PackWriter.ObjectIdSet packedObjs : newPackObj)
+				pw.excludeObjects(packedObjs);
 			pw.preparePack(pm, nonHeads, allHeads);
 			if (0 < pw.getObjectCount())
 				writePack(GC, pw, pm);
@@ -259,10 +259,6 @@ public class DfsGarbageCollector {
 			return;
 
 		// TODO(sop) This is ugly. The garbage pack needs to be deleted.
-		List<PackIndex> newIdx = new ArrayList<PackIndex>(newPackList.size());
-		for (DfsPackFile pack : newPackList)
-			newIdx.add(pack.getPackIndex(ctx));
-
 		PackWriter pw = newPackWriter();
 		try {
 			RevWalk pool = new RevWalk(ctx);
@@ -272,7 +268,7 @@ public class DfsGarbageCollector {
 				for (PackIndex.MutableEntry ent : oldIdx) {
 					pm.update(1);
 					ObjectId id = ent.toObjectId();
-					if (pool.lookupOrNull(id) != null || anyIndexHas(newIdx, id))
+					if (pool.lookupOrNull(id) != null || anyPackHas(id))
 						continue;
 
 					int type = oldPack.getObjectType(ctx, ent.getOffset());
@@ -287,9 +283,9 @@ public class DfsGarbageCollector {
 		}
 	}
 
-	private static boolean anyIndexHas(List<PackIndex> list, AnyObjectId id) {
-		for (PackIndex idx : list)
-			if (idx.hasObject(id))
+	private boolean anyPackHas(AnyObjectId id) {
+		for (PackWriter.ObjectIdSet packedObjs : newPackObj)
+			if (packedObjs.contains(id))
 				return true;
 		return false;
 	}
@@ -336,6 +332,13 @@ public class DfsGarbageCollector {
 			out.close();
 		}
 
+		final List<ObjectId> packedObjs = pw.getObjectList();
+		newPackObj.add(new PackWriter.ObjectIdSet() {
+			public boolean contains(AnyObjectId objectId) {
+				return 0 <= Collections.binarySearch(packedObjs, objectId);
+			}
+		});
+
 		PackWriter.Statistics stats = pw.getStatistics();
 		pack.setPackStats(stats);
 		pack.setFileSize(PACK, stats.getTotalBytes());
@@ -343,7 +346,8 @@ public class DfsGarbageCollector {
 		pack.setDeltaCount(stats.getTotalDeltas());
 		objectsPacked += stats.getTotalObjects();
 		newPackStats.add(stats);
-		newPackList.add(DfsBlockCache.getInstance().getOrCreate(pack, null));
+
+		DfsBlockCache.getInstance().getOrCreate(pack, null);
 		return pack;
 	}
 }
