@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOOH///9c\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/filter/PathFilterGroupTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-01-19T17:00:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABONH///u8\u003d",
+      "revId": "4a7bf69744c682c3596ca82551e0893d4960b6d7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABONH///u4\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/filter/PathFilterGroupTest.java",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2013-01-16T01:10:35Z",
       "side": 1,
       "message": "I would have deferred allocating this until after the dc was ready. Logically the TreeWalk is not required to fill the DirCache with one entry.",
+      "revId": "4a7bf69744c682c3596ca82551e0893d4960b6d7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOOH///9Y\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/filter/PathFilterGroupTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-01-19T17:00:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABONH///u4\u003d",
       "revId": "4a7bf69744c682c3596ca82551e0893d4960b6d7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
