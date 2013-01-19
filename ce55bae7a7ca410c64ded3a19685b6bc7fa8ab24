@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "AABOOH///9E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathFilterGroup.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-01-19T17:55:52Z",
+      "side": 1,
+      "message": "The formatting rules in Eclipse insists.",
+      "parentUuid": "AABONH///us\u003d",
+      "revId": "ce55bae7a7ca410c64ded3a19685b6bc7fa8ab24",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABONH///uo\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathFilterGroup.java",
         "patchSetId": 5
@@ -64,6 +82,24 @@
       "writtenOn": "2013-01-16T01:37:08Z",
       "side": 1,
       "message": "#paths instead of #aths?",
+      "revId": "ce55bae7a7ca410c64ded3a19685b6bc7fa8ab24",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOOH///80\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathFilterGroup.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-01-19T17:55:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABONH///uo\u003d",
       "revId": "ce55bae7a7ca410c64ded3a19685b6bc7fa8ab24",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +123,24 @@
     },
     {
       "key": {
+        "uuid": "AABOOH///88\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathFilterGroup.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-01-19T17:55:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABONH///uk\u003d",
+      "revId": "ce55bae7a7ca410c64ded3a19685b6bc7fa8ab24",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABONH///uc\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathFilterGroup.java",
         "patchSetId": 5
@@ -104,6 +158,24 @@
     },
     {
       "key": {
+        "uuid": "AABOOH///84\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathFilterGroup.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-01-19T17:55:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABONH///uc\u003d",
+      "revId": "ce55bae7a7ca410c64ded3a19685b6bc7fa8ab24",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABONH///uY\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathFilterGroup.java",
         "patchSetId": 5
@@ -115,6 +187,24 @@
       "writtenOn": "2013-01-16T01:37:08Z",
       "side": 1,
       "message": "Ouch. getPathString is not fast. There isn\u0027t a good way to implement this using the byte[] form?\n\nFor example imagine we compute a hash across the raw path buffer of the TreeWalk. Each time we reach a \u0027/\u0027 the hashing stops and probes a private hash table implementation to see if any PathFilter matches the current hash code. If it does we test isPathPrefix on that subset of PathFilter nodes.\n\nSimilar implementation to what you have here, but avoiding the hideously slow byte[]-\u003eString conversion required to perform the 2 hash table lookups you do before you split the path on \u0027/\u0027 and look at each level individually... with more hash table lookups.",
+      "revId": "ce55bae7a7ca410c64ded3a19685b6bc7fa8ab24",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOOH///8w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathFilterGroup.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-01-19T17:55:52Z",
+      "side": 1,
+      "message": "Well, HashMap does not understand byte[] as a string. Can\u0027t understand why it doesn\u0027t have a setHashFunction().\nI tried to measure this in with only one path and did not find any difference. I think it drows in the noise.\n Somehow I suspected you might have performance considerations",
+      "parentUuid": "AABONH///uY\u003d",
       "revId": "ce55bae7a7ca410c64ded3a19685b6bc7fa8ab24",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -149,6 +239,24 @@
       "writtenOn": "2013-01-16T01:37:08Z",
       "side": 1,
       "message": "You can drop this boolean and use !prefixes.isEmpty(). If we have prefixes, we need to look deeper than the root.",
+      "revId": "ce55bae7a7ca410c64ded3a19685b6bc7fa8ab24",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOOH///8s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathFilterGroup.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-01-19T17:55:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABONH///ug\u003d",
       "revId": "ce55bae7a7ca410c64ded3a19685b6bc7fa8ab24",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
