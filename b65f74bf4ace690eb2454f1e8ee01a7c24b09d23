@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOOX///84\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-01-20T22:49:24Z",
+      "side": 1,
+      "message": "s/largs/large/",
+      "revId": "b65f74bf4ace690eb2454f1e8ee01a7c24b09d23",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOOX///80\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-01-20T22:49:24Z",
+      "side": 1,
+      "message": "s/is distorted/is a distorted/",
+      "revId": "b65f74bf4ace690eb2454f1e8ee01a7c24b09d23",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOOX///8w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/ByteArraySet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-01-20T22:49:24Z",
+      "side": 1,
+      "message": "javadoc says it\u0027s a map but class name looks like a set ...",
+      "revId": "b65f74bf4ace690eb2454f1e8ee01a7c24b09d23",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOOX///8s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/ByteArraySet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-01-20T22:49:24Z",
+      "side": 1,
+      "message": "map or set ?",
+      "revId": "b65f74bf4ace690eb2454f1e8ee01a7c24b09d23",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOOX///8o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/ByteArraySet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-01-20T22:49:24Z",
+      "side": 1,
+      "message": "which object identifier ?",
+      "revId": "b65f74bf4ace690eb2454f1e8ee01a7c24b09d23",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOOX///8k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/ByteArraySet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-01-20T22:49:24Z",
+      "side": 1,
+      "message": "obj looks like a bad name for a byte[]",
+      "revId": "b65f74bf4ace690eb2454f1e8ee01a7c24b09d23",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOOX///8g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/ByteArraySet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-01-20T22:49:24Z",
+      "side": 1,
+      "message": "s/object/byte array/ ?",
+      "revId": "b65f74bf4ace690eb2454f1e8ee01a7c24b09d23",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOOX///8c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/ByteArraySet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-01-20T22:49:24Z",
+      "side": 1,
+      "message": "s/object/byte array/ ?",
+      "revId": "b65f74bf4ace690eb2454f1e8ee01a7c24b09d23",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOOX///8U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/ByteArraySet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-01-20T22:49:24Z",
+      "side": 1,
+      "message": "did you mean hasNext ?",
+      "revId": "b65f74bf4ace690eb2454f1e8ee01a7c24b09d23",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOOX///8Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/ByteArraySet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-01-20T22:49:24Z",
+      "side": 1,
+      "message": "no curly braces here",
+      "revId": "b65f74bf4ace690eb2454f1e8ee01a7c24b09d23",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
