@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOOn///4M\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/DiffEntryTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-01-21T17:10:17Z",
+      "side": 1,
+      "message": "Eclipse guidelines say it should be \"2011, 2013\", according to the {DATE} section here: http://www.eclipse.org/legal/copyrightandlicensenotice.php",
+      "parentUuid": "AABOOX///7E\u003d",
+      "revId": "e2b7fb77032e71ce1c1e4a2d1f61c4afc4151b87",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOOX///7I\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffEntry.java",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2013-01-21T06:50:23Z",
       "side": 1,
       "message": "s/2008-2012/2008-2013/",
+      "revId": "e2b7fb77032e71ce1c1e4a2d1f61c4afc4151b87",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOOn///4A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffEntry.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-01-21T17:10:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOOX///7I\u003d",
       "revId": "e2b7fb77032e71ce1c1e4a2d1f61c4afc4151b87",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AABOOn///4E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffEntry.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-01-21T17:10:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOOn////0\u003d",
+      "revId": "e2b7fb77032e71ce1c1e4a2d1f61c4afc4151b87",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOOn////w\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilterMarker.java",
         "patchSetId": 6
@@ -64,6 +118,24 @@
       "writtenOn": "2013-01-21T06:50:23Z",
       "side": 1,
       "message": "s/must not be/must not have/",
+      "revId": "e2b7fb77032e71ce1c1e4a2d1f61c4afc4151b87",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOOn///4I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilterMarker.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-01-21T17:10:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOOn////w\u003d",
       "revId": "e2b7fb77032e71ce1c1e4a2d1f61c4afc4151b87",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
