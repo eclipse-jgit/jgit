@@ -52,6 +52,7 @@ import static org.junit.Assert.fail;
 import java.io.File;
 import java.util.Iterator;
 
+import org.eclipse.jgit.api.MergeCommand.FastForwardMode;
 import org.eclipse.jgit.api.MergeResult.MergeStatus;
 import org.eclipse.jgit.api.errors.InvalidMergeHeadsException;
 import org.eclipse.jgit.lib.Constants;
@@ -201,6 +202,28 @@ public class MergeCommandTest extends RepositoryTestCase {
 		} catch (InvalidMergeHeadsException e) {
 			// expected this exception
 		}
+	}
+
+	@Test
+	public void testMergeCannotDoRequiredFastForward() throws Exception {
+		Git git = new Git(db);
+
+		RevCommit first = git.commit().setMessage("first").call();
+		createBranch(first, "refs/heads/side");
+
+		writeTrashFile("a", "a");
+		git.add().addFilepattern("a").call();
+		git.commit().setMessage("second").call();
+
+		checkoutBranch("refs/heads/side");
+		writeTrashFile("b", "b");
+		git.add().addFilepattern("b").call();
+		git.commit().setMessage("third").call();
+
+		MergeResult result = git.merge().include(db.getRef(Constants.MASTER))
+				.setFastForward(FastForwardMode.NO_FF)
+				.call();
+		assertEquals(MergeStatus.ABORTED, result.getMergeStatus());
 	}
 
 	@Theory
@@ -1328,6 +1351,22 @@ public class MergeCommandTest extends RepositoryTestCase {
 		assertEquals(StatusCommandTest.set("file2"), stat.getConflicting());
 	}
 
+	@Test
+	public void testFastForwardOnly() throws Exception {
+		Git git = new Git(db);
+		RevCommit initialCommit = git.commit().setMessage("initial commit")
+				.call();
+		createBranch(initialCommit, "refs/heads/branch1");
+		git.commit().setMessage("second commit").call();
+		checkoutBranch("refs/heads/branch1");
+
+		MergeCommand merge = git.merge();
+		merge.setFastForward(FastForwardMode.FF_ONLY);
+		merge.include(db.getRef(Constants.MASTER));
+		MergeResult result = merge.call();
+
+		assertEquals(MergeStatus.FAST_FORWARD, result.getMergeStatus());
+	}
 	private static void setExecutable(Git git, String path, boolean executable) {
 		FS.DETECTED.setExecute(
 				new File(git.getRepository().getWorkTree(), path), executable);
