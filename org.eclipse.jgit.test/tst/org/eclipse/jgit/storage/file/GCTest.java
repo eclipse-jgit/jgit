@@ -304,6 +304,7 @@ public class GCTest extends LocalDiskRepositoryTestCase {
 	public void nonReferencedExpiredObject_pruned() throws Exception {
 		RevBlob a = tr.blob("a");
 		gc.setExpireAgeMillis(0);
+		fsTick();
 		gc.prune(Collections.<ObjectId> emptySet());
 		assertFalse(repo.hasObject(a));
 	}
@@ -313,6 +314,7 @@ public class GCTest extends LocalDiskRepositoryTestCase {
 		RevBlob a = tr.blob("a");
 		RevTree t = tr.tree(tr.file("a", a));
 		gc.setExpireAgeMillis(0);
+		fsTick();
 		gc.prune(Collections.<ObjectId> emptySet());
 		assertFalse(repo.hasObject(t));
 		assertFalse(repo.hasObject(a));
@@ -336,6 +338,7 @@ public class GCTest extends LocalDiskRepositoryTestCase {
 		RevBlob a = tr.blob("a");
 		tr.lightweightTag("t", a);
 		gc.setExpireAgeMillis(0);
+		fsTick();
 		gc.prune(Collections.<ObjectId> emptySet());
 		assertTrue(repo.hasObject(a));
 	}
@@ -347,6 +350,7 @@ public class GCTest extends LocalDiskRepositoryTestCase {
 		tr.lightweightTag("t", t);
 
 		gc.setExpireAgeMillis(0);
+		fsTick();
 		gc.prune(Collections.<ObjectId> emptySet());
 		assertTrue(repo.hasObject(t));
 		assertTrue(repo.hasObject(a));
@@ -357,6 +361,7 @@ public class GCTest extends LocalDiskRepositoryTestCase {
 		RevCommit tip = commitChain(10);
 		tr.branch("b").update(tip);
 		gc.setExpireAgeMillis(0);
+		fsTick();
 		gc.prune(Collections.<ObjectId> emptySet());
 		do {
 			assertTrue(repo.hasObject(tip));
@@ -376,6 +381,7 @@ public class GCTest extends LocalDiskRepositoryTestCase {
 		update.setForceUpdate(true);
 		update.delete();
 		gc.setExpireAgeMillis(0);
+		fsTick();
 		gc.prune(Collections.<ObjectId> emptySet());
 		assertTrue(gc.getStatistics().numberOfLooseObjects == 0);
 	}
@@ -404,6 +410,7 @@ public class GCTest extends LocalDiskRepositoryTestCase {
 		update.delete();
 
 		gc.setExpireAgeMillis(0);
+		fsTick();
 		gc.prune(Collections.<ObjectId> emptySet());
 		assertTrue(repo.hasObject(b2Tip));
 	}
@@ -532,6 +539,7 @@ public class GCTest extends LocalDiskRepositoryTestCase {
 		assertEquals(0, stats.numberOfPackedObjects);
 
 		gc.setExpireAgeMillis(0);
+		fsTick();
 		gc.gc();
 		stats = gc.getStatistics();
 		assertEquals(0, stats.numberOfLooseObjects);
@@ -581,6 +589,7 @@ public class GCTest extends LocalDiskRepositoryTestCase {
 		assertEquals(8, stats.numberOfLooseObjects);
 		assertEquals(0, stats.numberOfPackedObjects);
 		gc.setExpireAgeMillis(0);
+		fsTick();
 		gc.gc();
 		stats = gc.getStatistics();
 		assertEquals(0, stats.numberOfLooseObjects);
@@ -640,6 +649,7 @@ public class GCTest extends LocalDiskRepositoryTestCase {
 		assertEquals(9, stats.numberOfLooseObjects);
 		assertEquals(0, stats.numberOfPackedObjects);
 		gc.setExpireAgeMillis(0);
+		fsTick();
 		gc.gc();
 		stats = gc.getStatistics();
 		assertEquals(0, stats.numberOfLooseObjects);
@@ -657,6 +667,7 @@ public class GCTest extends LocalDiskRepositoryTestCase {
 		stats = gc.getStatistics();
 		assertEquals(8, stats.numberOfLooseObjects);
 		gc.setExpireAgeMillis(0);
+		fsTick();
 		gc.prune(Collections.<ObjectId> emptySet());
 		stats = gc.getStatistics();
 		assertEquals(8, stats.numberOfLooseObjects);
