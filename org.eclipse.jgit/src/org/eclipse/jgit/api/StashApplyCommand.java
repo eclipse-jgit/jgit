@@ -42,7 +42,6 @@
  */
 package org.eclipse.jgit.api;
 
-import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
 
@@ -50,76 +49,46 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRefNameException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.NoHeadException;
+import org.eclipse.jgit.api.errors.StashApplyFailureException;
 import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 import org.eclipse.jgit.dircache.DirCache;
+import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheCheckout;
-import org.eclipse.jgit.dircache.DirCacheEditor;
-import org.eclipse.jgit.dircache.DirCacheEditor.DeletePath;
-import org.eclipse.jgit.dircache.DirCacheEditor.PathEdit;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.dircache.DirCacheIterator;
-import org.eclipse.jgit.errors.CheckoutConflictException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryState;
+import org.eclipse.jgit.merge.MergeStrategy;
+import org.eclipse.jgit.merge.ResolveMerger;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
-import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
-import org.eclipse.jgit.treewalk.filter.TreeFilter;
-import org.eclipse.jgit.util.FileUtils;
 
 /**
  * Command class to apply a stashed commit.
  *
+ * This class behaves like <em>git stash apply --index</em>, i.e. it tries to
+ * recover the stashed index state in addition to the working tree state.
+ *
  * @see <a href="http://www.kernel.org/pub/software/scm/git/docs/git-stash.html"
  *      >Git documentation about Stash</a>
+ *
  * @since 2.0
  */
 public class StashApplyCommand extends GitCommand<ObjectId> {
 
 	private static final String DEFAULT_REF = Constants.STASH + "@{0}"; //$NON-NLS-1$
 
-	/**
-	 * Stash diff filter that looks for differences in the first three trees
-	 * which must be the stash head tree, stash index tree, and stash working
-	 * directory tree in any order.
-	 */
-	private static class StashDiffFilter extends TreeFilter {
-
-		@Override
-		public boolean include(final TreeWalk walker) {
-			final int m = walker.getRawMode(0);
-			if (walker.getRawMode(1) != m || !walker.idEqual(1, 0))
-				return true;
-			if (walker.getRawMode(2) != m || !walker.idEqual(2, 0))
-				return true;
-			return false;
-		}
-
-		@Override
-		public boolean shouldBeRecursive() {
-			return false;
-		}
-
-		@Override
-		public TreeFilter clone() {
-			return this;
-		}
-
-		@Override
-		public String toString() {
-			return "STASH_DIFF"; //$NON-NLS-1$
-		}
-	}
-
 	private String stashRef;
+
+	private boolean applyIndex = true;
 
 	/**
 	 * Create command to apply the changes of a stashed commit
@@ -144,63 +113,6 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 		return this;
 	}
 
-	private boolean isEqualEntry(AbstractTreeIterator iter1,
-			AbstractTreeIterator iter2) {
-		if (!iter1.getEntryFileMode().equals(iter2.getEntryFileMode()))
-			return false;
-		ObjectId id1 = iter1.getEntryObjectId();
-		ObjectId id2 = iter2.getEntryObjectId();
-		return id1 != null ? id1.equals(id2) : id2 == null;
-	}
-
-	/**
-	 * Would unstashing overwrite local changes?
-	 *
-	 * @param stashIndexIter
-	 * @param stashWorkingTreeIter
-	 * @param headIter
-	 * @param indexIter
-	 * @param workingTreeIter
-	 * @return true if unstash conflict, false otherwise
-	 */
-	private boolean isConflict(AbstractTreeIterator stashIndexIter,
-			AbstractTreeIterator stashWorkingTreeIter,
-			AbstractTreeIterator headIter, AbstractTreeIterator indexIter,
-			AbstractTreeIterator workingTreeIter) {
-		// Is the current index dirty?
-		boolean indexDirty = indexIter != null
-				&& (headIter == null || !isEqualEntry(indexIter, headIter));
-
-		// Is the current working tree dirty?
-		boolean workingTreeDirty = workingTreeIter != null
-				&& (headIter == null || !isEqualEntry(workingTreeIter, headIter));
-
-		// Would unstashing overwrite existing index changes?
-		if (indexDirty && stashIndexIter != null && indexIter != null
-				&& !isEqualEntry(stashIndexIter, indexIter))
-			return true;
-
-		// Would unstashing overwrite existing working tree changes?
-		if (workingTreeDirty && stashWorkingTreeIter != null
-				&& workingTreeIter != null
-				&& !isEqualEntry(stashWorkingTreeIter, workingTreeIter))
-			return true;
-
-		return false;
-	}
-
-	private ObjectId getHeadTree() throws GitAPIException {
-		final ObjectId headTree;
-		try {
-			headTree = repo.resolve(Constants.HEAD + "^{tree}"); //$NON-NLS-1$
-		} catch (IOException e) {
-			throw new JGitInternalException(JGitText.get().cannotReadTree, e);
-		}
-		if (headTree == null)
-			throw new NoHeadException(JGitText.get().cannotReadTree);
-		return headTree;
-	}
-
 	private ObjectId getStashId() throws GitAPIException {
 		final String revision = stashRef != null ? stashRef : DEFAULT_REF;
 		final ObjectId stashId;
@@ -216,91 +128,19 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 		return stashId;
 	}
 
-	private void scanForConflicts(TreeWalk treeWalk) throws IOException {
-		File workingTree = repo.getWorkTree();
-		while (treeWalk.next()) {
-			// State of the stashed index and working directory
-			AbstractTreeIterator stashIndexIter = treeWalk.getTree(1,
-					AbstractTreeIterator.class);
-			AbstractTreeIterator stashWorkingIter = treeWalk.getTree(2,
-					AbstractTreeIterator.class);
-
-			// State of the current HEAD, index, and working directory
-			AbstractTreeIterator headIter = treeWalk.getTree(3,
-					AbstractTreeIterator.class);
-			AbstractTreeIterator indexIter = treeWalk.getTree(4,
-					AbstractTreeIterator.class);
-			AbstractTreeIterator workingIter = treeWalk.getTree(5,
-					AbstractTreeIterator.class);
-
-			if (isConflict(stashIndexIter, stashWorkingIter, headIter,
-					indexIter, workingIter)) {
-				String path = treeWalk.getPathString();
-				File file = new File(workingTree, path);
-				throw new CheckoutConflictException(file.getAbsolutePath());
-			}
-		}
-	}
-
-	private void applyChanges(TreeWalk treeWalk, DirCache cache,
-			DirCacheEditor editor) throws IOException {
-		File workingTree = repo.getWorkTree();
-		while (treeWalk.next()) {
-			String path = treeWalk.getPathString();
-			File file = new File(workingTree, path);
-
-			// State of the stashed HEAD, index, and working directory
-			AbstractTreeIterator stashHeadIter = treeWalk.getTree(0,
-					AbstractTreeIterator.class);
-			AbstractTreeIterator stashIndexIter = treeWalk.getTree(1,
-					AbstractTreeIterator.class);
-			AbstractTreeIterator stashWorkingIter = treeWalk.getTree(2,
-					AbstractTreeIterator.class);
-
-			if (stashWorkingIter != null && stashIndexIter != null) {
-				// Checkout index change
-				DirCacheEntry entry = cache.getEntry(path);
-				if (entry == null)
-					entry = new DirCacheEntry(treeWalk.getRawPath());
-				entry.setFileMode(stashIndexIter.getEntryFileMode());
-				entry.setObjectId(stashIndexIter.getEntryObjectId());
-				DirCacheCheckout.checkoutEntry(repo, file, entry,
-						treeWalk.getObjectReader());
-				final DirCacheEntry updatedEntry = entry;
-				editor.add(new PathEdit(path) {
-
-					public void apply(DirCacheEntry ent) {
-						ent.copyMetaData(updatedEntry);
-					}
-				});
-
-				// Checkout working directory change
-				if (!stashWorkingIter.idEqual(stashIndexIter)) {
-					entry = new DirCacheEntry(treeWalk.getRawPath());
-					entry.setObjectId(stashWorkingIter.getEntryObjectId());
-					DirCacheCheckout.checkoutEntry(repo, file, entry,
-							treeWalk.getObjectReader());
-				}
-			} else {
-				if (stashIndexIter == null
-						|| (stashHeadIter != null && !stashIndexIter
-								.idEqual(stashHeadIter)))
-					editor.add(new DeletePath(path));
-				FileUtils
-						.delete(file, FileUtils.RETRY | FileUtils.SKIP_MISSING);
-			}
-		}
-	}
-
 	/**
 	 * Apply the changes in a stashed commit to the working directory and index
 	 *
-	 * @return id of stashed commit that was applied
+	 * @return id of stashed commit that was applied TODO: Does anyone depend on
+	 *         this, or could we make it more like Merge/CherryPick/Revert?
 	 * @throws GitAPIException
 	 * @throws WrongRepositoryStateException
+	 * @throws NoHeadException
+	 * @throws StashApplyFailureException
 	 */
 	public ObjectId call() throws GitAPIException,
-			WrongRepositoryStateException {
+			WrongRepositoryStateException, NoHeadException,
+			StashApplyFailureException {
 		checkCallable();
 
 		if (repo.getRepositoryState() != RepositoryState.SAFE)
@@ -308,66 +148,58 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 					JGitText.get().stashApplyOnUnsafeRepository,
 					repo.getRepositoryState()));
 
-		final ObjectId headTree = getHeadTree();
-		final ObjectId stashId = getStashId();
-
 		ObjectReader reader = repo.newObjectReader();
 		try {
 			RevWalk revWalk = new RevWalk(reader);
+
+			ObjectId headCommit = repo.resolve(Constants.HEAD);
+			if (headCommit == null)
+				throw new NoHeadException(JGitText.get().stashApplyWithoutHead);
+
+			final ObjectId stashId = getStashId();
 			RevCommit stashCommit = revWalk.parseCommit(stashId);
 			if (stashCommit.getParentCount() != 2)
 				throw new JGitInternalException(MessageFormat.format(
 						JGitText.get().stashCommitMissingTwoParents,
 						stashId.name()));
 
-			RevTree stashWorkingTree = stashCommit.getTree();
-			RevTree stashIndexTree = revWalk.parseCommit(
-					stashCommit.getParent(1)).getTree();
-			RevTree stashHeadTree = revWalk.parseCommit(
-					stashCommit.getParent(0)).getTree();
+			ObjectId headTree = repo.resolve(Constants.HEAD + "^{tree}");
+			ObjectId stashIndexCommit = revWalk.parseCommit(stashCommit
+					.getParent(1));
+			ObjectId stashHeadCommit = stashCommit.getParent(0);
 
-			CanonicalTreeParser stashWorkingIter = new CanonicalTreeParser();
-			stashWorkingIter.reset(reader, stashWorkingTree);
-			CanonicalTreeParser stashIndexIter = new CanonicalTreeParser();
-			stashIndexIter.reset(reader, stashIndexTree);
-			CanonicalTreeParser stashHeadIter = new CanonicalTreeParser();
-			stashHeadIter.reset(reader, stashHeadTree);
-			CanonicalTreeParser headIter = new CanonicalTreeParser();
-			headIter.reset(reader, headTree);
-
-			DirCache cache = repo.lockDirCache();
-			DirCacheEditor editor = cache.editor();
-			try {
-				DirCacheIterator indexIter = new DirCacheIterator(cache);
-				FileTreeIterator workingIter = new FileTreeIterator(repo);
-
-				TreeWalk treeWalk = new TreeWalk(reader);
-				treeWalk.setRecursive(true);
-				treeWalk.setFilter(new StashDiffFilter());
-
-				treeWalk.addTree(stashHeadIter);
-				treeWalk.addTree(stashIndexIter);
-				treeWalk.addTree(stashWorkingIter);
-				treeWalk.addTree(headIter);
-				treeWalk.addTree(indexIter);
-				treeWalk.addTree(workingIter);
-
-				scanForConflicts(treeWalk);
-
-				// Reset trees and walk
-				treeWalk.reset();
-				stashWorkingIter.reset(reader, stashWorkingTree);
-				stashIndexIter.reset(reader, stashIndexTree);
-				stashHeadIter.reset(reader, stashHeadTree);
-				treeWalk.addTree(stashHeadIter);
-				treeWalk.addTree(stashIndexIter);
-				treeWalk.addTree(stashWorkingIter);
-
-				applyChanges(treeWalk, cache, editor);
-			} finally {
-				editor.commit();
-				cache.unlock();
+			ResolveMerger merger = (ResolveMerger) MergeStrategy.RESOLVE
+					.newMerger(repo);
+			merger.setCommitNames(new String[] { "stashed HEAD", "HEAD",
+					"stash" });
+			merger.setBase(stashHeadCommit);
+			merger.setWorkingTreeIterator(new FileTreeIterator(repo));
+			if (merger.merge(headCommit, stashCommit)) {
+				DirCache dc = repo.lockDirCache();
+				DirCacheCheckout dco = new DirCacheCheckout(repo, headTree,
+						dc, merger.getResultTreeId());
+				dco.setFailOnConflict(true);
+				dco.checkout(); // Ignoring failed deletes....
+				if (applyIndex) {
+					ResolveMerger ixMerger = (ResolveMerger) MergeStrategy.RESOLVE
+							.newMerger(repo, true);
+					ixMerger.setCommitNames(new String[] { "stashed HEAD",
+							"HEAD", "stashed index" });
+					boolean ok = ixMerger.merge(headCommit, stashIndexCommit);
+					if (ok) {
+						resetIndex(revWalk
+								.parseTree(ixMerger.getResultTreeId()));
+					} else {
+						throw new StashApplyFailureException(
+								JGitText.get().stashApplyConflict);
+					}
+				}
+			} else {
+				throw new StashApplyFailureException(
+						JGitText.get().stashApplyConflict);
 			}
+			return stashId;
+
 		} catch (JGitInternalException e) {
 			throw e;
 		} catch (IOException e) {
@@ -375,6 +207,55 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 		} finally {
 			reader.release();
 		}
-		return stashId;
+	}
+
+	/**
+	 * @param applyIndex
+	 *            true (default) if the command should restore the index state
+	 */
+	public void setApplyIndex(boolean applyIndex) {
+		this.applyIndex = applyIndex;
+	}
+
+	private void resetIndex(RevTree tree) throws IOException {
+		DirCache dc = repo.lockDirCache();
+		TreeWalk walk = null;
+		try {
+			DirCacheBuilder builder = dc.builder();
+
+			walk = new TreeWalk(repo);
+			walk.addTree(tree);
+			walk.addTree(new DirCacheIterator(dc));
+			walk.setRecursive(true);
+
+			while (walk.next()) {
+				AbstractTreeIterator cIter = walk.getTree(0,
+						AbstractTreeIterator.class);
+				if (cIter == null) {
+					// Not in commit, don't add to new index
+					continue;
+				}
+
+				final DirCacheEntry entry = new DirCacheEntry(walk.getRawPath());
+				entry.setFileMode(cIter.getEntryFileMode());
+				entry.setObjectIdFromRaw(cIter.idBuffer(), cIter.idOffset());
+
+				DirCacheIterator dcIter = walk.getTree(1,
+						DirCacheIterator.class);
+				if (dcIter != null && dcIter.idEqual(cIter)) {
+					DirCacheEntry indexEntry = dcIter.getDirCacheEntry();
+					entry.setLastModified(indexEntry.getLastModified());
+					entry.setLength(indexEntry.getLength());
+				}
+
+				builder.add(entry);
+			}
+
+			builder.commit();
+		} finally {
+			dc.unlock();
+			if (walk != null)
+				walk.release();
+		}
 	}
 }
