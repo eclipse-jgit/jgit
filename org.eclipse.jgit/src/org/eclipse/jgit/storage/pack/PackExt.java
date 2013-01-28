@@ -52,6 +52,8 @@ public class PackExt {
 	/** A pack index file extension. */
 	public static final PackExt INDEX = new PackExt("idx"); //$NON-NLS-1$
 
+	private static final PackExt[] VALUES = new PackExt[] { PACK, INDEX };
+
 	private final String ext;
 
 	/**
@@ -83,5 +85,10 @@ public class PackExt {
 	@Override
 	public String toString() {
 		return String.format("PackExt[%s]", getExtension()); //$NON-NLS-1$
+	}
+
+	/** @return all of the PackExt values. */
+	public static PackExt[] values() {
+		return VALUES;
 	}
 }
