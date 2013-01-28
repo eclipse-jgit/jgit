@@ -46,6 +46,8 @@
 
 package org.eclipse.jgit.storage.file;
 
+import static org.eclipse.jgit.storage.pack.PackExt.INDEX;
+import static org.eclipse.jgit.storage.pack.PackExt.PACK;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -70,7 +72,7 @@ public class T0004_PackReaderTest extends SampleDataRepositoryTestCase {
 		final ObjectLoader or;
 
 		id = ObjectId.fromString("902d5476fa249b7abc9d84c611577a81381f0327");
-		pr = new PackFile(TEST_PACK);
+		pr = new PackFile(TEST_PACK, PACK.getBit() | INDEX.getBit());
 		or = pr.get(new WindowCursor(null), id);
 		assertNotNull(or);
 		assertEquals(Constants.OBJ_TREE, or.getType());
