@@ -16,6 +16,24 @@
       "revId": "530deca86fef9894d1f11e490ce6769d867503f7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPH///Bg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-01-28T23:48:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOO3///2g\u003d",
+      "revId": "530deca86fef9894d1f11e490ce6769d867503f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
