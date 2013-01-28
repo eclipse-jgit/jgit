@@ -60,10 +60,6 @@
   <name>JGit Command Line Interface Feature</name>
 
   <dependencies>
-    <dependency>
-      <groupId>args4j</groupId>
-      <artifactId>args4j</artifactId>
-    </dependency>
 
     <dependency>
       <groupId>org.eclipse.jgit</groupId>

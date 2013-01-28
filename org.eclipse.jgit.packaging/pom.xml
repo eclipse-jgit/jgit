@@ -61,10 +61,10 @@
   <properties>
     <tycho-version>0.16.0</tycho-version>
     <jetty-version>7.6.0.v20120127</jetty-version>
-    <args4j-version>2.0.12</args4j-version>
-    <jsch-version>0.1.46</jsch-version>
-    <eclipse-site>http://download.eclipse.org/releases/indigo</eclipse-site>
-    <orbit-site>http://download.eclipse.org/tools/orbit/downloads/drops/R20120526062928/repository/</orbit-site>
+    <args4j-version>2.0.21.v201301150030</args4j-version>
+    <jsch-version>0.1.46.v201205102330</jsch-version>
+    <eclipse-site>http://download.eclipse.org/releases/juno</eclipse-site>
+    <orbit-site>http://download.eclipse.org/tools/orbit/downloads/drops/R20130118183705/repository/</orbit-site>
   </properties>
 
   <modules>
@@ -91,14 +91,6 @@
       <id>orbit</id>
       <layout>p2</layout>
       <url>${orbit-site}</url>
-    </repository>
-    <repository>
-      <!-- TODO replace this with an S- or better R-build as soon as a new one is available
-           we are using a private copy of an I-build since no S or R-build was available when
-           releasing jgit 2.2, see https://bugs.eclipse.org/bugs/show_bug.cgi?id=396199 -->
-      <id>temp-jgit-orbit</id>
-      <layout>p2</layout>
-      <url>http://download.eclipse.org/jgit/orbit/I20121212174845/repository/</url>
     </repository>
   </repositories>
 
@@ -192,19 +184,6 @@
       </plugins>
     </pluginManagement>
   </build>
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>com.jcraft</groupId>
-        <artifactId>jsch</artifactId>
-        <version>${jsch-version}</version>
-      </dependency>
-      <dependency>
-        <groupId>args4j</groupId>
-        <artifactId>args4j</artifactId>
-        <version>${args4j-version}</version>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
+
 </project>
 
