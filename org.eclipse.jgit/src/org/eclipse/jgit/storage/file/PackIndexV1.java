@@ -93,9 +93,6 @@ class PackIndexV1 extends PackIndex {
 			}
 		}
 		objectCnt = idxHeader[255];
-
-		packChecksum = new byte[20];
-		IO.readFully(fd, packChecksum, 0, packChecksum.length);
 	}
 
 	@Override
