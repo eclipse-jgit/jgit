@@ -128,6 +128,13 @@ public abstract class PackIndex implements Iterable<PackIndex.MutableEntry> {
 	 */
 	public static PackIndex read(InputStream fd) throws IOException,
 			CorruptObjectException {
+		PackIndex index = readImpl(fd);
+		IO.readFully(fd, index.packChecksum, 0, index.packChecksum.length);
+		return index;
+	}
+
+	private static PackIndex readImpl(InputStream fd) throws IOException,
+			CorruptObjectException {
 		final byte[] hdr = new byte[8];
 		IO.readFully(fd, hdr, 0, hdr.length);
 		if (isTOC(hdr)) {
@@ -135,6 +142,8 @@ public abstract class PackIndex implements Iterable<PackIndex.MutableEntry> {
 			switch (v) {
 			case 2:
 				return new PackIndexV2(fd);
+			case 0xE003: // Experimental bitmap reachability index section
+				return new PackIndexVE003(fd);
 			default:
 				throw new IOException(MessageFormat.format(
 						JGitText.get().unsupportedPackIndexVersion,
@@ -153,7 +162,7 @@ public abstract class PackIndex implements Iterable<PackIndex.MutableEntry> {
 	}
 
 	/** Footer checksum applied on the bottom of the pack file. */
-	protected byte[] packChecksum;
+	protected final byte[] packChecksum = new byte[20];
 
 	/**
 	 * Determine if an object is contained within the pack file.
@@ -194,6 +203,22 @@ public abstract class PackIndex implements Iterable<PackIndex.MutableEntry> {
 	 *         object positioned after the 2 GB position within the file.
 	 */
 	public abstract long getOffset64Count();
+
+	/** @return whether bitmap indexes are supported by the pack. */
+	public boolean hasBitmapIndex() {
+		return false;
+	}
+
+	/**
+	 * Get the PackBitmapIndex which can be used to speed up ObjectWalks.
+	 *
+	 * @param reverseIndex
+	 *            the index entries ordered by offset.
+	 * @return the bitmap portion of the index, or null if unsupported.
+	 */
+	public PackBitmapIndex getBitmapIndex(PackReverseIndex reverseIndex) {
+		return null;
+	}
 
 	/**
 	 * Get ObjectId for the n-th object entry returned by {@link #iterator()}.
