@@ -155,9 +155,6 @@ class PackIndexV2 extends PackIndex {
 		} else {
 			offset64 = NO_BYTES;
 		}
-
-		packChecksum = new byte[20];
-		IO.readFully(fd, packChecksum, 0, packChecksum.length);
 	}
 
 	@Override
