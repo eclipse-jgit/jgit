@@ -97,6 +97,8 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 
 	private final File packFile;
 
+	private final int extensions;
+
 	private File keepFile;
 
 	private volatile String packName;
@@ -138,10 +140,16 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	 *
 	 * @param packFile
 	 *            path of the <code>.pack</code> file holding the data.
+	 * @param extensions
+	 *            additional pack file extensions with the same base as the pack
 	 */
-	public PackFile(final File packFile) {
+	public PackFile(final File packFile, Iterable<PackExt> extensions) {
 		this.packFile = packFile;
 		this.packLastModified = (int) (packFile.lastModified() >> 10);
+		int bits = 0;
+		for (PackExt ext : extensions)
+			bits |= 1 << ext.getPosition();
+		this.extensions = bits;
 
 		// Multiply by 31 here so we can more directly combine with another
 		// value in WindowCache.hash(), without doing the multiply there.
