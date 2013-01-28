@@ -45,21 +45,52 @@ package org.eclipse.jgit.storage.pack;
 
 /** A pack file extension. */
 public class PackExt {
+	private static volatile PackExt[] VALUES = new PackExt[] {};
+	private static final Object lock = new Object();
 
 	/** A pack file extension. */
-	public static final PackExt PACK = new PackExt("pack"); //$NON-NLS-1$
+	public static final PackExt PACK = newPackExt("pack"); //$NON-NLS-1$
 
 	/** A pack index file extension. */
-	public static final PackExt INDEX = new PackExt("idx"); //$NON-NLS-1$
+	public static final PackExt INDEX = newPackExt("idx"); //$NON-NLS-1$
+
+	/** @return all of the PackExt values. */
+	public static PackExt[] values() {
+		return VALUES;
+	}
+
+	/**
+	 * Returns a PackExt for the file extension and registers it in the values
+	 * array.
+	 *
+	 * @param ext
+	 *            the file extension.
+	 * @return the PackExt for the ext
+	 */
+	public static PackExt newPackExt(String ext) {
+		synchronized (lock) {
+			PackExt[] dst = new PackExt[VALUES.length + 1];
+			for (int i = 0; i < VALUES.length; i++) {
+				PackExt packExt = VALUES[i];
+				if (packExt.getExtension().equals(ext))
+					return packExt;
+				dst[i] = packExt;
+			}
+
+			PackExt value = new PackExt(ext, VALUES.length);
+			dst[VALUES.length] = value;
+			VALUES = dst;
+			return value;
+		}
+	}
 
 	private final String ext;
 
-	/**
-	 * @param ext
-	 *            the file extension.
-	 */
-	public PackExt(String ext) {
+	private final int pos;
+
+	private PackExt(String ext, int pos) {
 		this.ext = ext;
+		this.pos = pos;
 	}
 
 	/** @return the file extension. */
@@ -67,21 +98,19 @@ public class PackExt {
 		return ext;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (obj instanceof PackExt) {
-			return ((PackExt) obj).getExtension().equals(getExtension());
-		}
-		return false;
+	/** @return the position of the extension in the values array. */
+	public int getPosition() {
+		return pos;
 	}
 
-	@Override
-	public int hashCode() {
-		return getExtension().hashCode();
+	/** @return the bit mask of the extension e.g {@code 1 << getPosition()}. */
+	public int getBit() {
+		return 1 << getPosition();
 	}
 
 	@Override
 	public String toString() {
-		return String.format("PackExt[%s]", getExtension()); //$NON-NLS-1$
+		return String.format("PackExt[%s, bit=0x%s]", getExtension(), //$NON-NLS-1$
+				Integer.toHexString(getBit()));
 	}
 }
