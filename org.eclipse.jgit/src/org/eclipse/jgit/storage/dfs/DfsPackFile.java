@@ -284,6 +284,10 @@ public final class DfsPackFile {
 				return idx;
 		}
 
+		PackIndex packIndex = idx(ctx);
+		if (packIndex.hasBitmapIndex())
+			return packIndex.getBitmapIndex(getReverseIdx(ctx));
+
 		if (!packDesc.hasFileExt(PackExt.BITMAP_INDEX))
 			return null;
 
@@ -309,7 +313,7 @@ public final class DfsPackFile {
 						bs = wantSize;
 					in = new BufferedInputStream(in, bs);
 					idx = PackBitmapIndex.read(
-							in, idx(ctx), getReverseIdx(ctx));
+							in, packIndex, getReverseIdx(ctx));
 				} finally {
 					size = rc.position();
 					rc.close();
