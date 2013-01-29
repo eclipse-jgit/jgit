@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPH//+rk\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-01-29T22:42:22Z",
+      "side": 1,
+      "message": "add some \"context\"",
+      "revId": "57c5b9e1079fcd0927237544196f6a169c234172",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPH//+sI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1013,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-01-29T22:42:22Z",
+      "side": 1,
+      "message": "nit-pick; trailing whitespace x3",
+      "revId": "57c5b9e1079fcd0927237544196f6a169c234172",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPH//+r4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1027,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-01-29T22:42:22Z",
+      "side": 1,
+      "message": "I think this name is wrong, but I\u0027m not sure if there is a standard name, This the command that produced the diff.\n\nThe head lines are the two lines that follow this line.",
+      "revId": "57c5b9e1079fcd0927237544196f6a169c234172",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
