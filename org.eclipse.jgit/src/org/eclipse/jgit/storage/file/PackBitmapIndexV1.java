@@ -88,14 +88,14 @@ class PackBitmapIndexV1 extends BasePackBitmapIndex {
 		this.reverseIndex = reverseIndex;
 		this.bitmaps = getBitmaps();
 
-		final byte[] hdr = new byte[32];
-		IO.readFully(fd, hdr, 0, hdr.length);
+		final byte[] scratch = new byte[32];
+		IO.readFully(fd, scratch, 0, scratch.length);
 
 		// Check the magic bytes
 		for (int i = 0; i < MAGIC.length; i++) {
-			if (hdr[i] != MAGIC[i]) {
+			if (scratch[i] != MAGIC[i]) {
 				byte[] actual = new byte[MAGIC.length];
-				System.arraycopy(hdr, 0, actual, 0, MAGIC.length);
+				System.arraycopy(scratch, 0, actual, 0, MAGIC.length);
 				throw new IOException(MessageFormat.format(
 						JGitText.get().expectedGot, Arrays.toString(MAGIC),
 						Arrays.toString(actual)));
@@ -103,14 +103,14 @@ class PackBitmapIndexV1 extends BasePackBitmapIndex {
 		}
 
 		// Read the version (2 bytes)
-		final int version = NB.decodeUInt16(hdr, 4);
+		final int version = NB.decodeUInt16(scratch, 4);
 		if (version != 1)
 			throw new IOException(MessageFormat.format(
 					JGitText.get().unsupportedPackIndexVersion,
 					Integer.valueOf(version)));
 
 		// Read the options (2 bytes)
-		final int opts = NB.decodeUInt16(hdr, 6);
+		final int opts = NB.decodeUInt16(scratch, 6);
 		switch (opts) {
 		case OPT_FULL:
 			// Bitmaps are self contained within this file.
@@ -122,13 +122,13 @@ class PackBitmapIndexV1 extends BasePackBitmapIndex {
 		}
 
 		// Read the number of entries (1 int32)
-		long numEntries = NB.decodeUInt32(hdr, 8);
+		long numEntries = NB.decodeUInt32(scratch, 8);
 		if (numEntries > Integer.MAX_VALUE)
 			throw new IOException(JGitText.get().indexFileIsTooLargeForJgit);
 
 		// Checksum applied on the bottom of the corresponding pack file.
 		this.packChecksum = new byte[20];
-		System.arraycopy(hdr, 12, packChecksum, 0, packChecksum.length);
+		System.arraycopy(scratch, 12, packChecksum, 0, packChecksum.length);
 
 		// Read the bitmaps for the Git types
 		SimpleDataInput dataInput = new SimpleDataInput(fd);
@@ -137,13 +137,15 @@ class PackBitmapIndexV1 extends BasePackBitmapIndex {
 		this.blobs = readBitmap(dataInput);
 		this.tags = readBitmap(dataInput);
 
-		// An entry is object id, xor offset, and a length encoded bitmap.
-		// the object id is an int32 of the nth position sorted by name.
-		// the xor offset is a single byte offset back in the list of entries.
+		// An entry is object id, xor offset, flag byte, and a length encoded
+		// bitmap. The object id is an int32 of the nth position sorted by name.
+		// The xor offset is a single byte offset back in the list of entries.
 		StoredBitmap[] recentBitmaps = new StoredBitmap[MAX_XOR_OFFSET];
 		for (int i = 0; i < (int) numEntries; i++) {
-			int nthObjectId = dataInput.readInt();
-			int xorOffset = fd.read();
+			IO.readFully(fd, scratch, 0, 6);
+			int nthObjectId = NB.decodeInt32(scratch, 0);
+			int xorOffset = scratch[4];
+			int flags = scratch[5];
 			EWAHCompressedBitmap bitmap = readBitmap(dataInput);
 
 			if (nthObjectId < 0)
@@ -173,7 +175,8 @@ class PackBitmapIndexV1 extends BasePackBitmapIndex {
 							String.valueOf(xorOffset)));
 			}
 
-			StoredBitmap sb = new StoredBitmap(objectId, bitmap, xorBitmap);
+			StoredBitmap sb = new StoredBitmap(
+					objectId, bitmap, xorBitmap, flags);
 			bitmaps.add(sb);
 			recentBitmaps[i % recentBitmaps.length] = sb;
 		}
