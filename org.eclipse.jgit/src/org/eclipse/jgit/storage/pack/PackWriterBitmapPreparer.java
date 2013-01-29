@@ -43,6 +43,8 @@
 
 package org.eclipse.jgit.storage.pack;
 
+import static org.eclipse.jgit.storage.file.PackBitmapIndex.FLAG_REUSE;
+
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -50,13 +52,17 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+
+import javaewah.EWAHCompressedBitmap;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.BitmapIndex;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -67,7 +73,9 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.file.BitmapIndexImpl;
+import org.eclipse.jgit.storage.file.PackBitmapIndex;
 import org.eclipse.jgit.storage.file.PackBitmapIndexBuilder;
+import org.eclipse.jgit.storage.file.PackBitmapIndexRemapper;
 import org.eclipse.jgit.util.BlockList;
 
 /** Helper class for the PackWriter to select commits for pack index bitmaps. */
@@ -81,48 +89,50 @@ class PackWriterBitmapPreparer {
 	};
 
 	private final ObjectReader reader;
-
 	private final ProgressMonitor pm;
-
 	private final Set<? extends ObjectId> want;
-
 	private final PackBitmapIndexBuilder writeBitmaps;
-
+	private final BitmapIndexImpl commitBitmapIndex;
+	private final PackBitmapIndexRemapper bitmapRemapper;
 	private final BitmapIndexImpl bitmapIndex;
-
 	private final int minCommits = 100;
-
-	private final int maxCommits = 10000;
+	private final int maxCommits = 5000;
 
 	PackWriterBitmapPreparer(ObjectReader reader,
 			PackBitmapIndexBuilder writeBitmaps, ProgressMonitor pm,
-			Set<? extends ObjectId> want) {
+			Set<? extends ObjectId> want) throws IOException {
 		this.reader = reader;
 		this.writeBitmaps = writeBitmaps;
 		this.pm = pm;
 		this.want = want;
-		this.bitmapIndex = new BitmapIndexImpl(writeBitmaps);
+		this.commitBitmapIndex = new BitmapIndexImpl(writeBitmaps);
+		this.bitmapRemapper = PackBitmapIndexRemapper.newPackBitmapIndex(
+				reader.getBitmapIndex(), writeBitmaps);
+		this.bitmapIndex = new BitmapIndexImpl(bitmapRemapper);
 	}
 
 	Collection<BitmapCommit> doCommitSelection(int expectedNumCommits)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
-		pm.beginTask(JGitText.get().selectingCommits, expectedNumCommits);
+		pm.beginTask(JGitText.get().selectingCommits, ProgressMonitor.UNKNOWN);
 		RevWalk rw = new RevWalk(reader);
 		WalkResult result = findPaths(rw, expectedNumCommits);
 		pm.endTask();
 
-		int totalCommits = 0;
-		for (BitmapBuilder bitmapableCommits : result.paths)
-			totalCommits += bitmapableCommits.cardinality();
-
-		if (totalCommits == 0)
-			return Collections.emptyList();
-
-		pm.beginTask(JGitText.get().selectingCommits, totalCommits);
-
+		int totCommits = result.commitsByOldest.length - result.commitStartPos;
 		BlockList<BitmapCommit> selections = new BlockList<BitmapCommit>(
-				totalCommits / minCommits + 1);
+				totCommits / minCommits + 1);
+		for (BitmapCommit reuse : result.reuse)
+			selections.add(reuse);
+
+		if (totCommits == 0) {
+			for (AnyObjectId id : result.peeledWant)
+				selections.add(new BitmapCommit(id, false, 0));
+			return selections;
+		}
+
+		pm.beginTask(JGitText.get().selectingCommits, totCommits);
+
 		for (BitmapBuilder bitmapableCommits : result.paths) {
 			int cardinality = bitmapableCommits.cardinality();
 
@@ -133,7 +143,9 @@ class PackWriterBitmapPreparer {
 			// nextSelectionDistance() heuristic.
 			int index = -1;
 			int nextIn = nextSelectionDistance(0, cardinality);
-			for (RevCommit c : result.commitsByOldest) {
+			int nextFlg = nextIn == maxCommits ? PackBitmapIndex.FLAG_REUSE : 0;
+			boolean mustPick = nextIn == 0;
+			for (RevCommit c : result) {
 				if (!bitmapableCommits.contains(c))
 					continue;
 
@@ -142,17 +154,24 @@ class PackWriterBitmapPreparer {
 				pm.update(1);
 
 				// Always pick the items in want and prefer merge commits.
-				boolean mustPick = result.peeledWant.remove(c);
-				if (!mustPick && ((nextIn > 0)
-						|| (c.getParentCount() <= 1 && nextIn > -minCommits)))
+				if (result.peeledWant.remove(c)) {
+					if (nextIn > 0)
+						nextFlg = 0;
+				} else if (!mustPick && ((nextIn > 0)
+						|| (c.getParentCount() <= 1 && nextIn > -minCommits))) {
 					continue;
+				}
 
-
+				int flags = nextFlg;
 				nextIn = nextSelectionDistance(index, cardinality);
+				nextFlg = nextIn == maxCommits ? PackBitmapIndex.FLAG_REUSE : 0;
+				mustPick = nextIn == 0;
 
-				BitmapBuilder fullBitmap = bitmapIndex.newBitmapBuilder();
+				BitmapBuilder fullBitmap = commitBitmapIndex.newBitmapBuilder();
 				rw.reset();
 				rw.markStart(c);
+				for (AnyObjectId objectId : result.reuse)
+					rw.markUninteresting(rw.parseCommit(objectId));
 				rw.setRevFilter(
 						PackWriterBitmapWalker.newRevFilter(null, fullBitmap));
 
@@ -164,7 +183,7 @@ class PackWriterBitmapPreparer {
 						List<BitmapCommit>>();
 				for (List<BitmapCommit> list : running) {
 					BitmapCommit last = list.get(list.size() - 1);
-					if (fullBitmap.contains(last.getObjectId()))
+					if (fullBitmap.contains(last))
 						matches.add(list);
 				}
 
@@ -180,19 +199,18 @@ class PackWriterBitmapPreparer {
 							match = list;
 					}
 				}
-				match.add(new BitmapCommit(c, !match.isEmpty()));
-				writeBitmaps.addBitmap(c, fullBitmap);
+				match.add(new BitmapCommit(c, !match.isEmpty(), flags));
+				writeBitmaps.addBitmap(c, fullBitmap, 0);
 			}
 
 			for (List<BitmapCommit> list : running)
 				selections.addAll(list);
 		}
-
 		writeBitmaps.clearBitmaps(); // Remove the temporary commit bitmaps.
 
 		// Add the remaining peeledWant
 		for (AnyObjectId remainingWant : result.peeledWant)
-			selections.add(new BitmapCommit(remainingWant, false));
+			selections.add(new BitmapCommit(remainingWant, false, 0));
 
 		pm.endTask();
 		return selections;
@@ -200,18 +218,39 @@ class PackWriterBitmapPreparer {
 
 	private WalkResult findPaths(RevWalk rw, int expectedNumCommits)
 			throws MissingObjectException, IOException {
+		BitmapBuilder reuseBitmap = commitBitmapIndex.newBitmapBuilder();
+		List<BitmapCommit> reuse = new ArrayList<BitmapCommit>();
+		for (PackBitmapIndexRemapper.Entry entry : bitmapRemapper) {
+			if ((entry.getFlags() & FLAG_REUSE) != FLAG_REUSE)
+				continue;
+
+			RevObject ro = rw.peel(rw.parseAny(entry));
+			if (ro instanceof RevCommit) {
+				RevCommit rc = (RevCommit) ro;
+				reuse.add(new BitmapCommit(rc, false, entry.getFlags()));
+				rw.markUninteresting(rc);
+
+				EWAHCompressedBitmap bitmap = bitmapRemapper.ofObjectType(
+						bitmapRemapper.getBitmap(rc), Constants.OBJ_COMMIT);
+				writeBitmaps.addBitmap(rc, bitmap, 0);
+				reuseBitmap.add(rc, Constants.OBJ_COMMIT);
+			}
+		}
+		writeBitmaps.clearBitmaps(); // Remove temporary bitmaps
+
 		// Do a RevWalk by commit time descending. Keep track of all the paths
 		// from the wants.
 		List<BitmapBuilder> paths = new ArrayList<BitmapBuilder>(want.size());
 		Set<RevCommit> peeledWant = new HashSet<RevCommit>(want.size());
 		for (AnyObjectId objectId : want) {
 			RevObject ro = rw.peel(rw.parseAny(objectId));
-			if (ro instanceof RevCommit) {
+			if (ro instanceof RevCommit && !reuseBitmap.contains(ro)) {
 				RevCommit rc = (RevCommit) ro;
 				peeledWant.add(rc);
 				rw.markStart(rc);
 
-				BitmapBuilder bitmap = bitmapIndex.newBitmapBuilder();
+				BitmapBuilder bitmap = commitBitmapIndex.newBitmapBuilder();
+				bitmap.or(reuseBitmap);
 				bitmap.add(rc, Constants.OBJ_COMMIT);
 				paths.add(bitmap);
 			}
@@ -234,48 +273,43 @@ class PackWriterBitmapPreparer {
 			pm.update(1);
 		}
 
-		if (pos != 0)
-			throw new IllegalStateException(MessageFormat.format(
-					JGitText.get().expectedGot, 0, String.valueOf(pos)));
+		// Remove the reused bitmaps from the paths
+		if (!reuse.isEmpty())
+			for (BitmapBuilder bitmap : paths)
+				bitmap.andNot(reuseBitmap);
 
 		// Sort the paths
 		List<BitmapBuilder> distinctPaths = new ArrayList<BitmapBuilder>(paths.size());
 		while (!paths.isEmpty()) {
 			Collections.sort(paths, BUILDER_BY_CARDINALITY_DSC);
 			BitmapBuilder largest = paths.remove(0);
-			int minSize = 2 * minCommits;
-			if (largest.cardinality() < minSize)
-				break;
 			distinctPaths.add(largest);
 
 			// Update the remaining paths, by removing the objects from
 			// the path that was just added.
-			for (int i = paths.size() - 1; i >= 0; i--) {
-				if (paths.get(i).andNot(largest).cardinality() < minSize)
-					paths.remove(i);
-			}
+			for (int i = paths.size() - 1; i >= 0; i--)
+				paths.get(i).andNot(largest);
 		}
 
-		return new WalkResult(peeledWant, commits, distinctPaths);
+		return new WalkResult(peeledWant, commits, pos, distinctPaths, reuse);
 	}
-
 
 	private int nextSelectionDistance(int idx, int cardinality) {
 		if (idx > cardinality)
 			throw new IllegalArgumentException();
 		int idxFromStart = cardinality - idx;
-		int shift = 200 * minCommits;
-		// Commits more toward the start will have more bitmaps.
-		if (cardinality <= shift || idxFromStart <= shift)
-			return minCommits;
+		int mustRegionEnd = 100;
+		if (idxFromStart <= mustRegionEnd)
+			return 0;
 
-		// Later commits spacing grows linearly as we get closer to the end.
-		int shiftedCardinality = cardinality - shift;
-		long shiftedIdxFromStart = idxFromStart - shift;
-		long numerator = shiftedIdxFromStart * (maxCommits - minCommits);
-		int minDesired = (int) (numerator / shiftedCardinality + minCommits);
-		int minAllowed = Math.max(shiftedCardinality / 2, minCommits);
-		return Math.min(minDesired, minAllowed);
+		// Commits more toward the start will have more bitmaps.
+		int minRegionEnd = 20000;
+		if (idxFromStart <= minRegionEnd)
+			return Math.min(idxFromStart - mustRegionEnd, minCommits);
+
+		// Commits more toward the end will have fewer.
+		int next = Math.min(idxFromStart - minRegionEnd, maxCommits);
+		return Math.max(next, minCommits);
 	}
 
 	PackWriterBitmapWalker newBitmapWalker() {
@@ -283,37 +317,59 @@ class PackWriterBitmapPreparer {
 				new ObjectWalk(reader), bitmapIndex, null);
 	}
 
-	static final class BitmapCommit {
-		private final ObjectId objectId;
-
+	static final class BitmapCommit extends ObjectId {
 		private final boolean reuseWalker;
+		private final int flags;
 
-		private BitmapCommit(AnyObjectId objectId, boolean reuseWalker) {
-			this.objectId = objectId.toObjectId();
+		private BitmapCommit(
+				AnyObjectId objectId, boolean reuseWalker, int flags) {
+			super(objectId);
 			this.reuseWalker = reuseWalker;
-		}
-
-		ObjectId getObjectId() {
-			return objectId;
+			this.flags = flags;
 		}
 
 		boolean isReuseWalker() {
 			return reuseWalker;
 		}
+
+		int getFlags() {
+			return flags;
+		}
 	}
 
-	private static final class WalkResult {
-		private final RevCommit[] commitsByOldest;
-
-		private final List<BitmapBuilder> paths;
-
+	private static final class WalkResult implements Iterable<RevCommit> {
 		private final Set<? extends ObjectId> peeledWant;
+		private final RevCommit[] commitsByOldest;
+		private final int commitStartPos;
+		private final List<BitmapBuilder> paths;
+		private final Iterable<BitmapCommit> reuse;
 
 		private WalkResult(Set<? extends ObjectId> peeledWant,
-				RevCommit[] commitsByOldest, List<BitmapBuilder> paths) {
+				RevCommit[] commitsByOldest, int commitStartPos,
+				List<BitmapBuilder> paths, Iterable<BitmapCommit> reuse) {
 			this.peeledWant = peeledWant;
 			this.commitsByOldest = commitsByOldest;
+			this.commitStartPos = commitStartPos;
 			this.paths = paths;
+			this.reuse = reuse;
+		}
+
+		public Iterator<RevCommit> iterator() {
+			return new Iterator<RevCommit>() {
+				int pos = commitStartPos;
+
+				public boolean hasNext() {
+					return pos < commitsByOldest.length;
+				}
+
+				public RevCommit next() {
+					return commitsByOldest[pos++];
+				}
+
+				public void remove() {
+					throw new UnsupportedOperationException();
+				}
+			};
 		}
 	}
 }

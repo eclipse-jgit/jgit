@@ -146,6 +146,7 @@ public class PackBitmapIndexWriterV1 {
 		// Write object, xor offset, and bitmap
 		dataOutput.writeInt((int) entry.getObjectId());
 		out.write(entry.getXorOffset());
+		out.write(entry.getFlags());
 		writeBitmap(entry.getBitmap());
 	}
 

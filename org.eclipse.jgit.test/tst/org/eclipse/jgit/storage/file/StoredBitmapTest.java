@@ -81,7 +81,7 @@ public class StoredBitmapTest {
 			EWAHCompressedBitmap... bitmaps) {
 		StoredBitmap sb = null;
 		for (EWAHCompressedBitmap bitmap : bitmaps)
-			sb = new StoredBitmap(ObjectId.zeroId(), bitmap, sb);
+			sb = new StoredBitmap(ObjectId.zeroId(), bitmap, sb, 0);
 		return sb;
 	}
 
