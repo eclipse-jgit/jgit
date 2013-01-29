@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPH//+vU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attribute.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 17
+      },
+      "writtenOn": "2013-01-29T20:51:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALy3///ho\u003d",
+      "revId": "05f3ce1861fbf9896b1bcb7816ba78af35f3ad3d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALy3///hk\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attribute.java",
         "patchSetId": 1
@@ -64,6 +82,24 @@
       "writtenOn": "2010-09-20T21:09:46Z",
       "side": 1,
       "message": "I think the current state of the art is to do something like:\n\n  int hc \u003d key.hashCode();\n  hc *\u003d 31;\n  hc +\u003d value.hashCode();\n  return hc;\n\nBut actually for an attribute there aren\u0027t too many that can can be multi-valued, are there?  So just using the key\u0027s hashCode as our own hashCode might be sufficient here.",
+      "revId": "05f3ce1861fbf9896b1bcb7816ba78af35f3ad3d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPH//+vQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attribute.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 17
+      },
+      "writtenOn": "2013-01-29T20:51:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALy3///hk\u003d",
       "revId": "05f3ce1861fbf9896b1bcb7816ba78af35f3ad3d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +123,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPH//+vM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributeValue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 17
+      },
+      "writtenOn": "2013-01-29T20:51:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALy3///hg\u003d",
+      "revId": "05f3ce1861fbf9896b1bcb7816ba78af35f3ad3d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALy3///hc\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributeValue.java",
         "patchSetId": 1
@@ -98,6 +152,24 @@
       "writtenOn": "2010-09-20T21:09:46Z",
       "side": 1,
       "message": "What is the distinction between id and value?",
+      "revId": "05f3ce1861fbf9896b1bcb7816ba78af35f3ad3d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPH//+vI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributeValue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 17
+      },
+      "writtenOn": "2013-01-29T20:51:00Z",
+      "side": 1,
+      "message": "I\u0027m not sure. To me it looks like \u0027id\u0027 is more sort of an \u0027action\u0027 (i.e. SET/UNSET)",
+      "parentUuid": "AAALy3///hc\u003d",
       "revId": "05f3ce1861fbf9896b1bcb7816ba78af35f3ad3d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -155,6 +227,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPH//+u4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attributes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 17
+      },
+      "writtenOn": "2013-01-29T20:51:00Z",
+      "side": 1,
+      "message": "fromText/toText like in Config?",
+      "parentUuid": "AAALy3///hM\u003d",
+      "revId": "05f3ce1861fbf9896b1bcb7816ba78af35f3ad3d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALy3///gs\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attributes.java",
         "patchSetId": 1
@@ -166,6 +256,24 @@
       "writtenOn": "2010-09-20T21:09:46Z",
       "side": 1,
       "message": "Have you put any thought into editing an Attributes?  What might our edit API look like?  I can\u0027t say I\u0027m proud of the Config API for this, its a difficult thing to edit a human written file...",
+      "revId": "05f3ce1861fbf9896b1bcb7816ba78af35f3ad3d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPH//+u0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attributes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 17
+      },
+      "writtenOn": "2013-01-29T20:51:00Z",
+      "side": 1,
+      "message": "I think editing should be possible. However, I need to understand the code better before proposing something",
+      "parentUuid": "AAALy3///gs\u003d",
       "revId": "05f3ce1861fbf9896b1bcb7816ba78af35f3ad3d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -223,6 +331,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPH//+us\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attributes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 17
+      },
+      "writtenOn": "2013-01-29T20:51:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALy3///hA\u003d",
+      "revId": "05f3ce1861fbf9896b1bcb7816ba78af35f3ad3d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALy3///g4\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attributes.java",
         "patchSetId": 1
@@ -251,6 +377,24 @@
       "writtenOn": "2010-09-20T21:09:46Z",
       "side": 1,
       "message": "This expression can be hard to read.  I\u0027d rather break it out as:\n\n  if (\u00270\u0027 \u003c\u003d ch \u0026\u0026 ch \u003c\u003d \u00279\u0027)\n    continue;\n  if (\u0027a\u0027 \u003c\u003d ch \u0026\u0026 ch \u003c\u003d \u0027z\u0027)\n    continue;\n  if (\u0027A\u0027 \u003c\u003d ch \u0026\u0026 ch \u003c\u003d \u0027Z\u0027)\n    continue;\n  ...\n  return false;\n\nOr use a table to check the validity:\n\n  static boolean validChars[128];\n\n  static {\n    for (char c \u003d \u00270\u0027; c \u003c\u003d \u00279\u0027; c++)\n      validChars[c] \u003d true;\n    validChars[\u0027-\u0027] \u003d true;\n    ...\n  }\n\n  if (ch \u003e 127 || !vaildChars[ch])\n    return false;",
+      "revId": "05f3ce1861fbf9896b1bcb7816ba78af35f3ad3d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPH//+uw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attributes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 17
+      },
+      "writtenOn": "2013-01-29T20:51:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALy3///g8\u003d",
       "revId": "05f3ce1861fbf9896b1bcb7816ba78af35f3ad3d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
