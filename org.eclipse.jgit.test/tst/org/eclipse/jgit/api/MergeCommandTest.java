@@ -204,28 +204,6 @@ public class MergeCommandTest extends RepositoryTestCase {
 		}
 	}
 
-	@Test
-	public void testMergeCannotDoRequiredFastForward() throws Exception {
-		Git git = new Git(db);
-
-		RevCommit first = git.commit().setMessage("first").call();
-		createBranch(first, "refs/heads/side");
-
-		writeTrashFile("a", "a");
-		git.add().addFilepattern("a").call();
-		git.commit().setMessage("second").call();
-
-		checkoutBranch("refs/heads/side");
-		writeTrashFile("b", "b");
-		git.add().addFilepattern("b").call();
-		git.commit().setMessage("third").call();
-
-		MergeResult result = git.merge().include(db.getRef(Constants.MASTER))
-				.setFastForward(FastForwardMode.NO_FF)
-				.call();
-		assertEquals(MergeStatus.ABORTED, result.getMergeStatus());
-	}
-
 	@Theory
 	public void testMergeSuccessAllStrategies(MergeStrategy mergeStrategy)
 			throws Exception {
@@ -1366,6 +1344,41 @@ public class MergeCommandTest extends RepositoryTestCase {
 		MergeResult result = merge.call();
 
 		assertEquals(MergeStatus.FAST_FORWARD, result.getMergeStatus());
+	}
+	@Test
+	public void testNoFastForward() throws Exception {
+		Git git = new Git(db);
+		RevCommit initialCommit = git.commit().setMessage("initial commit")
+				.call();
+		createBranch(initialCommit, "refs/heads/branch1");
+		git.commit().setMessage("second commit").call();
+		checkoutBranch("refs/heads/branch1");
+
+		MergeCommand merge = git.merge();
+		merge.setFastForward(FastForwardMode.NO_FF);
+		merge.include(db.getRef(Constants.MASTER));
+		MergeResult result = merge.call();
+
+		assertEquals(MergeStatus.MERGED, result.getMergeStatus());
+	}
+
+	@Test
+	public void testFastForwardOnlyNotPossible() throws Exception {
+		Git git = new Git(db);
+		RevCommit initialCommit = git.commit().setMessage("initial commit")
+				.call();
+		createBranch(initialCommit, "refs/heads/branch1");
+		git.commit().setMessage("second commit").call();
+		checkoutBranch("refs/heads/branch1");
+		writeTrashFile("file1", "branch1");
+		git.add().addFilepattern("file").call();
+		git.commit().setMessage("second commit on branch1").call();
+		MergeCommand merge = git.merge();
+		merge.setFastForward(FastForwardMode.FF_ONLY);
+		merge.include(db.getRef(Constants.MASTER));
+		MergeResult result = merge.call();
+
+		assertEquals(MergeStatus.ABORTED, result.getMergeStatus());
 	}
 	private static void setExecutable(Git git, String path, boolean executable) {
 		FS.DETECTED.setExecute(
