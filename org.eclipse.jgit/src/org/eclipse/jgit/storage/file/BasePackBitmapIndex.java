@@ -73,13 +73,15 @@ abstract class BasePackBitmapIndex extends PackBitmapIndex {
 	 */
 	static final class StoredBitmap extends ObjectIdOwnerMap.Entry {
 		private volatile Object bitmapContainer;
+		private final int flags;
 
 		StoredBitmap(AnyObjectId objectId, EWAHCompressedBitmap bitmap,
-				StoredBitmap xorBitmap) {
+				StoredBitmap xorBitmap, int flags) {
 			super(objectId);
 			this.bitmapContainer = xorBitmap == null
 					? bitmap
 					: new XorCompressedBitmap(bitmap, xorBitmap);
+			this.flags = flags;
 		}
 
 		/**
@@ -106,6 +108,11 @@ abstract class BasePackBitmapIndex extends PackBitmapIndex {
 				xb = (XorCompressedBitmap) r;
 				out = out.xor(xb.bitmap);
 			}
+		}
+
+		/** @return the flags associated with the bitmap */
+		int getFlags() {
+			return flags;
 		}
 	}
 
