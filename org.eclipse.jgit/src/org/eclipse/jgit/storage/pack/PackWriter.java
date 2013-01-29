@@ -2082,14 +2082,14 @@ public class PackWriter {
 				walker = bitmapPreparer.newBitmapWalker();
 
 			BitmapBuilder bitmap = walker.findObjects(
-					Collections.singleton(cmit.getObjectId()), null);
+					Collections.singleton(cmit), null);
 
 			if (last != null && cmit.isReuseWalker() && !bitmap.contains(last))
 				throw new IllegalStateException(MessageFormat.format(
-						JGitText.get().bitmapMissingObject,
-						cmit.getObjectId().name(), last.name()));
-			last = cmit.getObjectId();
-			writeBitmaps.addBitmap(cmit.getObjectId(), bitmap.build());
+						JGitText.get().bitmapMissingObject, cmit.name(),
+						last.name()));
+			last = cmit;
+			writeBitmaps.addBitmap(cmit, bitmap.build(), cmit.getFlags());
 
 			pm.update(1);
 		}

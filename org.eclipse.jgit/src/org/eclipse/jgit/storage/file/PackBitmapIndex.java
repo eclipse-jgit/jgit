@@ -69,6 +69,8 @@ import org.eclipse.jgit.lib.ObjectId;
  * compatible with the encoded bitmaps available from the index.
  */
 public abstract class PackBitmapIndex {
+	public static final int FLAG_REUSE = 1;
+
 	/**
 	 * Read an existing pack bitmap index file from a buffered stream.
 	 * <p>
