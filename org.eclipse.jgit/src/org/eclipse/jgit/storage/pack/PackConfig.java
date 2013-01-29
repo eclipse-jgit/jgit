@@ -135,7 +135,7 @@ public class PackConfig {
 	 *
 	 * @see #setBuildBitmaps(boolean)
 	 */
-	public static final boolean DEFAULT_BUILD_BITMAPS = false;
+	public static final boolean DEFAULT_BUILD_BITMAPS = true;
 
 
 	private int compressionLevel = Deflater.DEFAULT_COMPRESSION;
