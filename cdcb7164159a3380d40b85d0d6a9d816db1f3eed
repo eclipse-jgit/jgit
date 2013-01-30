@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AABOPH//+l4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/ObjectDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 748,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-01-30T01:18:41Z",
+      "side": 1,
+      "message": "inline name here, its shorter",
+      "revId": "cdcb7164159a3380d40b85d0d6a9d816db1f3eed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPH//+rM\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/PackFile.java",
         "patchSetId": 2
@@ -19,6 +36,23 @@
     },
     {
       "key": {
+        "uuid": "AABOPH//+lw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/PackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-01-30T01:18:41Z",
+      "side": 1,
+      "message": "I thought we talked about making this a BitSet somehow. Have PackExt keep a static int that counts how many PackExts have been created and declared. Change its constructor to instead use a static factory method that automatically registers the PackExt into the VALUES array and assigns it a unique bit. Assume we only permit 32 PackExts for now.\n\nThen here we can have a simple int that is a bit set of the PackExts that are present.",
+      "revId": "cdcb7164159a3380d40b85d0d6a9d816db1f3eed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPH//+rQ\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/PackFile.java",
         "patchSetId": 2
@@ -30,6 +64,23 @@
       "writtenOn": "2013-01-29T22:47:53Z",
       "side": 1,
       "message": "nit-pick. no braces here",
+      "revId": "cdcb7164159a3380d40b85d0d6a9d816db1f3eed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPH//+l0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackExt.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-01-30T01:18:41Z",
+      "side": 1,
+      "message": "static methods should be before instance members. So move this just below the VALUES array.",
       "revId": "cdcb7164159a3380d40b85d0d6a9d816db1f3eed",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
