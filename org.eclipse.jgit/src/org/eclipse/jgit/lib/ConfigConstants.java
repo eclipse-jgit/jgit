@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2010, Mathias Kinzler <mathias.kinzler@sap.com>
  * Copyright (C) 2010, Chris Aniszczyk <caniszczyk@gmail.com>
+ * Copyright (C) 2012-2013, Robin Rosenberg
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -194,4 +195,7 @@ public class ConfigConstants {
 
 	/** The "ff" key */
 	public static final String CONFIG_KEY_FF = "ff";
+
+	/** The "checkstat" key */
+	public static final String CONFIG_KEY_CHECKSTAT = "checkstat";
 }
