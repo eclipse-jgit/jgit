@@ -2,6 +2,7 @@
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
  * Copyright (C) 2010, Christian Halstrick <christian.halstrick@sap.com>
  * Copyright (C) 2010, Matthias Sohn <matthias.sohn@sap.com>
+ * Copyright (C) 2012-2013, Robin Rosenberg
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -75,6 +76,7 @@ import org.eclipse.jgit.lib.CoreConfig;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.CoreConfig.CheckStat;
 import org.eclipse.jgit.submodule.SubmoduleWalk;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.IO;
@@ -754,14 +756,18 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 
 		// Git under windows only stores seconds so we round the timestamp
 		// Java gives us if it looks like the timestamp in index is seconds
-		// only. Otherwise we compare the timestamp at millisecond precision.
+		// only. Otherwise we compare the timestamp at millisecond precision,
+		// unless core.checkstat is set to "minimal", in which case we only
+		// compare the whole second part.
 		long cacheLastModified = entry.getLastModified();
 		long fileLastModified = getEntryLastModified();
-		if (cacheLastModified % 1000 == 0)
+		if (cacheLastModified % 1000 == 0
+				|| getOptions().getCheckStat() == CheckStat.MINIMAL)
 			fileLastModified = fileLastModified - fileLastModified % 1000;
 		// Some Java version on Linux return whole seconds only even when
 		// the file systems supports more precision.
-		else if (fileLastModified % 1000 == 0)
+		else if (fileLastModified % 1000 == 0
+				|| getOptions().getCheckStat() == CheckStat.MINIMAL)
 			cacheLastModified = cacheLastModified - cacheLastModified % 1000;
 		if (fileLastModified != cacheLastModified)
 			return MetadataDiff.DIFFER_BY_TIMESTAMP;
