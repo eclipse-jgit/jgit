@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPH//+lY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/PackBitmapIndexV1.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-01-30T01:33:21Z",
+      "side": 1,
+      "message": "25 bytes is an odd size for the header.\n\nI think what the header should be is:\n\n  4 byte magic \u0027BITM\u0027\n  2 byte version \u0027\\x01\u0027\n  2 byte options\n  4 byte number of bitmaps\n  20 byte pack SHA-1\n\nso a 32 byte header.",
+      "revId": "a6c167d447fb198e5b2dd0335d4b203d969ae457",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPH//+lU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/PackBitmapIndexV1.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-01-30T01:33:21Z",
+      "side": 1,
+      "message": "I agree. Put the number of entries into the header.",
+      "revId": "a6c167d447fb198e5b2dd0335d4b203d969ae457",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPH//+lQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/PackBitmapIndexWriterV1.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-01-30T01:33:21Z",
+      "side": 1,
+      "message": "nit: trailing space",
+      "revId": "a6c167d447fb198e5b2dd0335d4b203d969ae457",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
