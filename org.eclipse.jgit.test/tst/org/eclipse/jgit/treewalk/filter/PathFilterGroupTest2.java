@@ -136,7 +136,6 @@ public class PathFilterGroupTest2 {
 			n++;
 		long t2 = System.nanoTime();
 		data += (t2 - t1) / 1E9;
-		System.out.println(data);
 		assertEquals(filterSize, n);
 	}
 
@@ -157,7 +156,6 @@ public class PathFilterGroupTest2 {
 			n++;
 		long t2 = System.nanoTime();
 		data += (t2 - t1) / 1E9;
-		System.out.println(data);
 		assertEquals(expectedWalkCount, n);
 
 		// Walk time should be (much) faster then setup time
