@@ -50,6 +50,24 @@
       "revId": "57c5b9e1079fcd0927237544196f6a169c234172",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPH//+jo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1027,
+      "author": {
+        "id": 1001
+      },
+      "writtenOn": "2013-01-30T08:59:27Z",
+      "side": 1,
+      "message": "referring section \"Generating patches with -p\" at http://www.kernel.org/pub/software/scm/git/docs/v1.7.3/git-diff.html\n\"diff --git a/file1 b/file2\" is the \"git diff\" header\nfollowed by extended header lines. I couldn\u0027t find any other sources on how to name this line. I\u0027d appreciate any suggestions.\n\nAnyways, I think \"write\" should be replaced by \"format\" following the naming convention in DiffFormatter",
+      "parentUuid": "AABOPH//+r4\u003d",
+      "revId": "57c5b9e1079fcd0927237544196f6a169c234172",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
