@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPH//+lI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/PackBitmapIndexRemapper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-01-30T01:45:07Z",
+      "side": 1,
+      "message": "Missing EDL header.",
+      "revId": "25a7fa709dd665900d7b5a950a443fcbf0d48b2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPH//+lE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/PackBitmapIndexRemapper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-01-30T01:45:07Z",
+      "side": 1,
+      "message": "Do this init work in mapBitmap before you start walking through a million bits. Its a million less compare and jump needed to be done per bitmap.",
+      "revId": "25a7fa709dd665900d7b5a950a443fcbf0d48b2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPH//+lA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/PackBitmapIndexRemapper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-01-30T01:45:07Z",
+      "side": 1,
+      "message": "Why wouldn\u0027t you just do build this entire array once? It is very likely that everything in the old index will be mapped into the new one. Given that, if the prevToNewMapping hasn\u0027t yet been created in mapBitmap() why not build the entire array at once?\n\nAllocate it, walk through every object in the old index, find its position in the new one, and store it in the array. Actually, can\u0027t you merge the two indexes here? Open iterators on each source index to go through the objects in ObjectId order. Where the iterators are equal, lookup the two positions and store them into the array. I think that saves you an O(log N) lookup on the inside of the loop reducing the complexity.\n\nAnd then mapping a BitSet from one index to the other becomes a very tight brute force array indexing loop.",
+      "revId": "25a7fa709dd665900d7b5a950a443fcbf0d48b2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPH//+k8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-01-30T01:45:07Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this do some sort of work to favor commits we already have bitmaps on? Especially further back in history?",
+      "revId": "25a7fa709dd665900d7b5a950a443fcbf0d48b2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
