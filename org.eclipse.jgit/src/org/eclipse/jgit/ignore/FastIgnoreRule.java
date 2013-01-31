@@ -43,7 +43,7 @@
 package org.eclipse.jgit.ignore;
 
 import static org.eclipse.jgit.ignore.internal.Strings.stripTrailing;
-
+import static org.eclipse.jgit.ignore.internal.IMatcher.NO_MATCH;
 import org.eclipse.jgit.errors.InvalidPatternException;
 import org.eclipse.jgit.ignore.internal.IMatcher;
 import org.eclipse.jgit.ignore.internal.PathMatcher;
@@ -62,8 +62,6 @@ public class FastIgnoreRule {
 	 * Character used as default path separator for ignore entries
 	 */
 	public static final char PATH_SEPARATOR = '/';
-
-	private static final NoResultMatcher NO_MATCH = new NoResultMatcher();
 
 	private final IMatcher matcher;
 
@@ -213,17 +211,5 @@ public class FastIgnoreRule {
 		if (dirOnly != other.dirOnly)
 			return false;
 		return matcher.equals(other.matcher);
-	}
-
-	static final class NoResultMatcher implements IMatcher {
-
-		public boolean matches(String path, boolean assumeDirectory) {
-			return false;
-		}
-
-		public boolean matches(String segment, int startIncl, int endExcl,
-				boolean assumeDirectory) {
-			return false;
-		}
 	}
 }

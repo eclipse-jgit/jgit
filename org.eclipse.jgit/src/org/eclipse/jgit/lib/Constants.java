@@ -356,6 +356,13 @@ public final class Constants {
 	/** A bare repository typically ends with this string */
 	public static final String DOT_GIT_EXT = ".git";
 
+	/**
+	 * Name of the attributes file
+	 *
+	 * @since 3.7
+	 */
+	public static final String DOT_GIT_ATTRIBUTES = ".gitattributes";
+
 	/** Name of the ignore file */
 	public static final String DOT_GIT_IGNORE = ".gitignore";
 
