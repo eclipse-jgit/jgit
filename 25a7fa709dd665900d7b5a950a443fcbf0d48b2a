@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPH//+aw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/PackBitmapIndexRemapper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2013-01-31T19:20:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPH//+lI\u003d",
+      "revId": "25a7fa709dd665900d7b5a950a443fcbf0d48b2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPH//+lE\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/PackBitmapIndexRemapper.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-01-30T01:45:07Z",
       "side": 1,
       "message": "Do this init work in mapBitmap before you start walking through a million bits. Its a million less compare and jump needed to be done per bitmap.",
+      "revId": "25a7fa709dd665900d7b5a950a443fcbf0d48b2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPH//+YI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/PackBitmapIndexRemapper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2013-01-31T19:20:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPH//+lE\u003d",
       "revId": "25a7fa709dd665900d7b5a950a443fcbf0d48b2a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPH//+Y4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/PackBitmapIndexRemapper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2013-01-31T19:20:29Z",
+      "side": 1,
+      "message": "findPosition for the PackBitmapBuilder is constant time, since it is just a lookup in a map. Other ideas are Done.",
+      "parentUuid": "AABOPH//+lA\u003d",
+      "revId": "25a7fa709dd665900d7b5a950a443fcbf0d48b2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPH//+k8\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackWriterBitmapPreparer.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2013-01-30T01:45:07Z",
       "side": 1,
       "message": "Shouldn\u0027t this do some sort of work to favor commits we already have bitmaps on? Especially further back in history?",
+      "revId": "25a7fa709dd665900d7b5a950a443fcbf0d48b2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPH//+LY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2013-01-31T19:20:29Z",
+      "side": 1,
+      "message": "We traverse in the graph in reverse and usually pick the same commits.  I need to do more investigation on how we can decrease the number of commits on an incremental update.",
+      "parentUuid": "AABOPH//+k8\u003d",
       "revId": "25a7fa709dd665900d7b5a950a443fcbf0d48b2a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
