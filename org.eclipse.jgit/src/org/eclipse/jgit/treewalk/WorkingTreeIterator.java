@@ -58,11 +58,17 @@ import java.nio.charset.CharacterCodingException;
 import java.nio.charset.CharsetEncoder;
 import java.security.MessageDigest;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
 
 import org.eclipse.jgit.api.errors.JGitInternalException;
+import org.eclipse.jgit.attributes.Attribute;
+import org.eclipse.jgit.attributes.AttributesNode;
+import org.eclipse.jgit.attributes.AttributesRule;
 import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheEntry;
@@ -133,6 +139,9 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	/** If there is a .gitignore file present, the parsed rules from it. */
 	private IgnoreNode ignoreNode;
 
+	/** If there is a .gitattributes file present, the parsed rules from it. */
+	private AttributesNode attributesNode;
+
 	/** Repository that is the root level being iterated over */
 	protected Repository repository;
 
@@ -141,6 +150,12 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 
 	/** The offset of the content id in {@link #idBuffer()} */
 	private int contentIdOffset;
+
+	/**
+	 * Holds the {@link AttributesNode} that is stored in
+	 * $GIT_DIR/info/attributes file.
+	 */
+	private AttributesNode infoAttributeNode;
 
 	/**
 	 * Create a new iterator with no parent.
@@ -185,6 +200,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	protected WorkingTreeIterator(final WorkingTreeIterator p) {
 		super(p);
 		state = p.state;
+		infoAttributeNode = p.infoAttributeNode;
 	}
 
 	/**
@@ -204,6 +220,8 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		else
 			entry = null;
 		ignoreNode = new RootIgnoreNode(entry, repo);
+
+		infoAttributeNode = new InfoAttributesNode(repo);
 	}
 
 	/**
@@ -603,6 +621,113 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		return ignoreNode;
 	}
 
+	/**
+	 * Returns the attributes of the current entry path.
+	 *
+	 * @return a list of attributes (empty if no attributes are available)
+	 * @throws IOException
+	 *             a relevant attributes file exists but cannot be read.
+	 */
+	public List<Attribute> getEntryAttributes() throws IOException {
+		return new ArrayList<Attribute>(getEntryAttributes(pathLen, true)
+				.values());
+	}
+
+	/**
+	 * Returns the attributes of the current entry path.
+	 *
+	 * @param pLen
+	 *            the length of the path in the path buffer.
+	 * @param incluseInfoAttributes
+	 *            Holds <code>true</code> if {@link #infoAttributeNode} should
+	 *            be used to compute the map of attributes, <code>false</code>
+	 *            otherwise.
+	 * @return a list of attributes (empty if not attributes are available)
+	 * @throws IOException
+	 *             a relevant attributes file exists but cannot be read.
+	 */
+	protected Map<String, Attribute> getEntryAttributes(final int pLen,
+			boolean incluseInfoAttributes) throws IOException {
+		// The ignore code wants path to start with a '/' if possible.
+		// If we have the '/' in our path buffer because we are inside
+		// a subdirectory include it in the range we convert to string.
+		//
+		int pOff = pathOffset;
+		if (0 < pOff)
+			pOff--;
+		final String p = TreeWalk.pathOf(path, pOff, pLen);
+		Map<String, Attribute> attributes = null;
+		final boolean isDir = FileMode.TREE.equals(mode);
+
+		// Gets attributes from current node
+		final AttributesNode currentRules = getAttributesNode();
+		if (currentRules != null)
+			attributes = currentRules.getAttributes(p, isDir);
+
+		// Gets attributes from parent node
+		if (parent instanceof WorkingTreeIterator) {
+			final Map<String, Attribute> parentAttributes = ((WorkingTreeIterator) parent)
+					.getEntryAttributes(pLen, false);
+			if (attributes == null)
+				attributes = parentAttributes;
+			else if (parentAttributes != null)
+				attributes = mergeAttributes(parentAttributes, attributes);
+		}
+
+		// Gets attributes from the .gitattributes file located at
+		// GIT_DIR/info/attributes. It has the highest precedence
+		if (incluseInfoAttributes) {
+			final AttributesNode infoAttributes = getInfoAttributesNode();
+			if (infoAttributes != null) {
+				if (attributes == null)
+					attributes = infoAttributes.getAttributes(p, isDir);
+				else
+					mergeAttributes(attributes,
+							infoAttributes.getAttributes(p, isDir));
+
+			}
+		}
+		return attributes != null ? attributes : Collections
+				.<String, Attribute> emptyMap();
+
+	}
+
+	/**
+	 * Merges attributes from two map of attributes.
+	 *
+	 * @param baseAttributes
+	 *            Map used The first map is used as base for the merge. It will
+	 *            be returned at the end of the computation for convenience.
+	 * @param overridingAttributes
+	 *            The second map will be merged into the first one and will
+	 *            override any existing entry using the same key.
+	 * @return the baseAttributes map augmented with the second map.
+	 */
+	private Map<String, Attribute> mergeAttributes(
+			Map<String, Attribute> baseAttributes,
+			Map<String, Attribute> overridingAttributes) {
+		for (java.util.Map.Entry<String, Attribute> overridingEntry : overridingAttributes
+				.entrySet()) {
+			final String attrName = overridingEntry.getKey();
+			final Attribute attr = overridingEntry.getValue();
+			baseAttributes.put(attrName, attr);
+		}
+		return baseAttributes;
+	}
+
+	private AttributesNode getAttributesNode() throws IOException {
+		if (attributesNode instanceof PerDirectoryAttributesNode)
+			attributesNode = ((PerDirectoryAttributesNode) attributesNode)
+					.load();
+		return attributesNode;
+	}
+
+	private AttributesNode getInfoAttributesNode() throws IOException {
+		if (infoAttributeNode instanceof InfoAttributesNode)
+			infoAttributeNode = ((InfoAttributesNode) infoAttributeNode).load();
+		return infoAttributeNode;
+	}
+
 	private static final Comparator<Entry> ENTRY_CMP = new Comparator<Entry>() {
 		public int compare(final Entry o1, final Entry o2) {
 			final byte[] a = o1.encodedName;
@@ -656,6 +781,8 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 				continue;
 			if (Constants.DOT_GIT_IGNORE.equals(name))
 				ignoreNode = new PerDirectoryIgnoreNode(e);
+			if (Constants.DOT_GIT_ATTRIBUTES.equals(name))
+				attributesNode = new PerDirectoryAttributesNode(e);
 			if (i != o)
 				entries[o] = e;
 			e.encodeName(nameEncoder);
@@ -1189,6 +1316,71 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 				throws FileNotFoundException, IOException {
 			if (FS.DETECTED.exists(exclude)) {
 				FileInputStream in = new FileInputStream(exclude);
+				try {
+					r.parse(in);
+				} finally {
+					in.close();
+				}
+			}
+		}
+	}
+
+	/** Magic type indicating we know rules exist, but they aren't loaded. */
+	private static class PerDirectoryAttributesNode extends AttributesNode {
+		final Entry entry;
+
+		PerDirectoryAttributesNode(Entry entry) {
+			super(Collections.<AttributesRule> emptyList());
+			this.entry = entry;
+		}
+
+		AttributesNode load() throws IOException {
+			AttributesNode r = new AttributesNode();
+			InputStream in = entry.openInputStream();
+			try {
+				r.parse(in);
+			} finally {
+				in.close();
+			}
+			return r.getRules().isEmpty() ? null : r;
+		}
+	}
+
+	/** Magic type indicating there may be rules for the top level. */
+	private static class InfoAttributesNode extends AttributesNode {
+		final Repository repository;
+
+		InfoAttributesNode(Repository repository) {
+			this.repository = repository;
+		}
+
+		AttributesNode load() throws IOException {
+			AttributesNode r = new AttributesNode();
+
+			FS fs = repository.getFS();
+			String path = repository.getConfig().get(CoreConfig.KEY)
+					.getAttributesFile();
+			if (path != null) {
+				File attributesFile;
+				if (path.startsWith("~/")) //$NON-NLS-1$
+					attributesFile = fs.resolve(fs.userHome(),
+							path.substring(2));
+				else
+					attributesFile = fs.resolve(null, path);
+				loadRulesFromFile(r, attributesFile);
+			}
+
+			File attributes = fs.resolve(repository.getDirectory(),
+					"info/attributes"); //$NON-NLS-1$
+			loadRulesFromFile(r, attributes);
+
+			return r.getRules().isEmpty() ? null : r;
+		}
+
+		private static void loadRulesFromFile(AttributesNode r, File attrs)
+				throws FileNotFoundException, IOException {
+			if (attrs.exists()) {
+				FileInputStream in = new FileInputStream(attrs);
 				try {
 					r.parse(in);
 				} finally {
