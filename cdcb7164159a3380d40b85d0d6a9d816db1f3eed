@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPH//+dk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/ObjectDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 748,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2013-01-31T19:16:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPH//+l4\u003d",
+      "revId": "cdcb7164159a3380d40b85d0d6a9d816db1f3eed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPH//+rM\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/PackFile.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-01-29T22:47:53Z",
       "side": 1,
       "message": "spell pack",
+      "revId": "cdcb7164159a3380d40b85d0d6a9d816db1f3eed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPH//+dg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/PackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2013-01-31T19:16:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPH//+rM\u003d",
       "revId": "cdcb7164159a3380d40b85d0d6a9d816db1f3eed",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPH//+bw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/PackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2013-01-31T19:16:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPH//+lw\u003d",
+      "revId": "cdcb7164159a3380d40b85d0d6a9d816db1f3eed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPH//+rQ\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/PackFile.java",
         "patchSetId": 2
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPH//+dc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/PackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2013-01-31T19:16:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPH//+rQ\u003d",
+      "revId": "cdcb7164159a3380d40b85d0d6a9d816db1f3eed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPH//+l0\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackExt.java",
         "patchSetId": 2
@@ -81,6 +153,24 @@
       "writtenOn": "2013-01-30T01:18:41Z",
       "side": 1,
       "message": "static methods should be before instance members. So move this just below the VALUES array.",
+      "revId": "cdcb7164159a3380d40b85d0d6a9d816db1f3eed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPH//+dM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackExt.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2013-01-31T19:16:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPH//+l0\u003d",
       "revId": "cdcb7164159a3380d40b85d0d6a9d816db1f3eed",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
