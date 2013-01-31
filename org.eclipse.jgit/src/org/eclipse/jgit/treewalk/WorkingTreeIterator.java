@@ -61,8 +61,12 @@ import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 import org.eclipse.jgit.api.errors.JGitInternalException;
+import org.eclipse.jgit.attributes.Attribute;
+import org.eclipse.jgit.attributes.AttributesNode;
+import org.eclipse.jgit.attributes.AttributesRule;
 import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheEntry;
@@ -132,6 +136,9 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 
 	/** If there is a .gitignore file present, the parsed rules from it. */
 	private IgnoreNode ignoreNode;
+
+	/** If there is a .gitattributes file present, the parsed rules from it. */
+	private AttributesNode attributesNode;
 
 	/** Repository that is the root level being iterated over */
 	protected Repository repository;
@@ -204,6 +211,12 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		else
 			entry = null;
 		ignoreNode = new RootIgnoreNode(entry, repo);
+
+		if (attributesNode instanceof PerDirectoryAttributesNode)
+			entry = ((PerDirectoryAttributesNode) attributesNode).entry;
+		else
+			entry = null;
+		attributesNode = new RootAttributesNode(entry, repo);
 	}
 
 	/**
@@ -603,6 +616,55 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		return ignoreNode;
 	}
 
+	/**
+	 * Returns the attributes of the current entry path.
+	 *
+	 * @return a list of attributes (empty if no attributes are available)
+	 * @throws IOException
+	 *             a relevant attributes file exists but cannot be read.
+	 */
+	public List<Attribute> getEntryAttributes() throws IOException {
+		return getEntryAttributes(pathLen);
+	}
+
+	/**
+	 * Returns the attributes of the current entry path.
+	 *
+	 * @param pLen
+	 *            the length of the path in the path buffer.
+	 * @return a list of attributes (empty if not attributes are available)
+	 * @throws IOException
+	 *             a relevant attributes file exists but cannot be read.
+	 */
+	protected List<Attribute> getEntryAttributes(final int pLen)
+			throws IOException {
+		AttributesNode rules = getAttributesNode();
+		if (rules != null) {
+			// The ignore code wants path to start with a '/' if possible.
+			// If we have the '/' in our path buffer because we are inside
+			// a subdirectory include it in the range we convert to string.
+			//
+			int pOff = pathOffset;
+			if (0 < pOff)
+				pOff--;
+			String p = TreeWalk.pathOf(path, pOff, pLen);
+			List<Attribute> attributes = rules.getAttributes(p,
+					FileMode.TREE.equals(mode));
+			if (!attributes.isEmpty())
+				return attributes;
+		}
+		if (parent instanceof WorkingTreeIterator)
+			return ((WorkingTreeIterator) parent).getEntryAttributes(pLen);
+		return Collections.emptyList();
+	}
+
+	private AttributesNode getAttributesNode() throws IOException {
+		if (attributesNode instanceof PerDirectoryAttributesNode)
+			attributesNode = ((PerDirectoryAttributesNode) attributesNode)
+					.load();
+		return attributesNode;
+	}
+
 	private static final Comparator<Entry> ENTRY_CMP = new Comparator<Entry>() {
 		public int compare(final Entry o1, final Entry o2) {
 			final byte[] a = o1.encodedName;
@@ -656,6 +718,8 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 				continue;
 			if (Constants.DOT_GIT_IGNORE.equals(name))
 				ignoreNode = new PerDirectoryIgnoreNode(e);
+			if (Constants.DOT_GIT_ATTRIBUTES.equals(name))
+				attributesNode = new PerDirectoryAttributesNode(e);
 			if (i != o)
 				entries[o] = e;
 			e.encodeName(nameEncoder);
@@ -1189,6 +1253,79 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 				throws FileNotFoundException, IOException {
 			if (FS.DETECTED.exists(exclude)) {
 				FileInputStream in = new FileInputStream(exclude);
+				try {
+					r.parse(in);
+				} finally {
+					in.close();
+				}
+			}
+		}
+	}
+
+	/** Magic type indicating we know rules exist, but they aren't loaded. */
+	private static class PerDirectoryAttributesNode extends AttributesNode {
+		final Entry entry;
+
+		PerDirectoryAttributesNode(Entry entry) {
+			super(Collections.<AttributesRule> emptyList());
+			this.entry = entry;
+		}
+
+		AttributesNode load() throws IOException {
+			AttributesNode r = new AttributesNode();
+			InputStream in = entry.openInputStream();
+			try {
+				r.parse(in);
+			} finally {
+				in.close();
+			}
+			return r.getRules().isEmpty() ? null : r;
+		}
+	}
+
+	/** Magic type indicating there may be rules for the top level. */
+	private static class RootAttributesNode extends PerDirectoryAttributesNode {
+		final Repository repository;
+
+		RootAttributesNode(Entry entry, Repository repository) {
+			super(entry);
+			this.repository = repository;
+		}
+
+		@Override
+		AttributesNode load() throws IOException {
+			AttributesNode r;
+			if (entry != null) {
+				r = super.load();
+				if (r == null)
+					r = new AttributesNode();
+			} else {
+				r = new AttributesNode();
+			}
+
+			FS fs = repository.getFS();
+			String path = repository.getConfig().get(CoreConfig.KEY)
+					.getAttributesFile();
+			if (path != null) {
+				File attributesFile;
+				if (path.startsWith("~/")) //$NON-NLS-1$
+					attributesFile = fs.resolve(fs.userHome(), path.substring(2));
+				else
+					attributesFile = fs.resolve(null, path);
+				loadRulesFromFile(r, attributesFile);
+			}
+
+			File attributes = fs.resolve(repository.getDirectory(),
+					"info/attributes"); //$NON-NLS-1$
+			loadRulesFromFile(r, attributes);
+
+			return r.getRules().isEmpty() ? null : r;
+		}
+
+		private static void loadRulesFromFile(AttributesNode r, File attrs)
+				throws FileNotFoundException, IOException {
+			if (attrs.exists()) {
+				FileInputStream in = new FileInputStream(attrs);
 				try {
 					r.parse(in);
 				} finally {
