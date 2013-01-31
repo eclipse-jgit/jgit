@@ -45,13 +45,20 @@
 package org.eclipse.jgit.dircache;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Collections;
 
+import org.eclipse.jgit.attributes.AttributesNode;
+import org.eclipse.jgit.attributes.AttributesRule;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.EmptyTreeIterator;
+import org.eclipse.jgit.util.RawParseUtils;
 
 /**
  * Iterate a {@link DirCache} as part of a <code>TreeWalk</code>.
@@ -65,6 +72,10 @@ import org.eclipse.jgit.treewalk.EmptyTreeIterator;
  * @see org.eclipse.jgit.treewalk.TreeWalk
  */
 public class DirCacheIterator extends AbstractTreeIterator {
+	/** Byte array holding ".gitattributes" string */
+	private static final byte[] DOT_GIT_ATTRIBUTES_BYTES = Constants.DOT_GIT_ATTRIBUTES
+			.getBytes();
+
 	/** The cache this iterator was created to walk. */
 	protected final DirCache cache;
 
@@ -91,6 +102,9 @@ public class DirCacheIterator extends AbstractTreeIterator {
 
 	/** The subtree containing {@link #currentEntry} if this is first entry. */
 	protected DirCacheTree currentSubtree;
+
+	/** Holds an {@link AttributesNode} for the current entry */
+	private AttributesNode attributesNode;
 
 	/**
 	 * Create a new iterator for an already loaded DirCache instance.
@@ -254,6 +268,10 @@ public class DirCacheIterator extends AbstractTreeIterator {
 		path = cep;
 		pathLen = cep.length;
 		currentSubtree = null;
+		// Checks if this entry is a .gitattributes file
+		if (RawParseUtils.match(path, pathOffset, DOT_GIT_ATTRIBUTES_BYTES) == path.length)
+			attributesNode = new LazyLoadingAttributesNode(
+					currentEntry.getObjectId());
 	}
 
 	/**
@@ -265,4 +283,50 @@ public class DirCacheIterator extends AbstractTreeIterator {
 	public DirCacheEntry getDirCacheEntry() {
 		return currentSubtree == null ? currentEntry : null;
 	}
+
+	/**
+	 * Retrieves the {@link AttributesNode} for the current entry.
+	 *
+	 * @param reader
+	 *            {@link ObjectReader} used to parse the .gitattributes entry.
+	 * @return {@link AttributesNode} for the current entry.
+	 * @throws IOException
+	 * @since 3.7
+	 */
+	public AttributesNode getEntryAttributesNode(ObjectReader reader)
+			throws IOException {
+		if (attributesNode instanceof LazyLoadingAttributesNode)
+			attributesNode = ((LazyLoadingAttributesNode) attributesNode)
+					.load(reader);
+		return attributesNode;
+	}
+
+	/**
+	 * {@link AttributesNode} implementation that provides lazy loading
+	 * facilities.
+	 */
+	private static class LazyLoadingAttributesNode extends AttributesNode {
+		final ObjectId objectId;
+
+		LazyLoadingAttributesNode(ObjectId objectId) {
+			super(Collections.<AttributesRule> emptyList());
+			this.objectId = objectId;
+
+		}
+
+		AttributesNode load(ObjectReader reader) throws IOException {
+			AttributesNode r = new AttributesNode();
+			ObjectLoader loader = reader.open(objectId);
+			if (loader != null) {
+				InputStream in = loader.openStream();
+				try {
+					r.parse(in);
+				} finally {
+					in.close();
+				}
+			}
+			return r.getRules().isEmpty() ? null : r;
+		}
+	}
+
 }
