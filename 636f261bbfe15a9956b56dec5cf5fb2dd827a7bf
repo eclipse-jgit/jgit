@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPH//+RM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 765,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-01-31T14:28:51Z",
+      "side": 1,
+      "message": "what happens if \n  - cacheLastModified % 1000\" is dfferent from null and\n  - getOptions().getCheckStat() is CheckStat.MINIMAL and\n  - fileLastModifed \u003d\u003d cacheLastModified\n\nThen we would unnecessarily cut of fileLastModified and make it different from cacheLastModified. Or?",
+      "revId": "636f261bbfe15a9956b56dec5cf5fb2dd827a7bf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
