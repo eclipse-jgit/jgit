@@ -116,6 +116,13 @@ public class ConfigConstants {
 	/** The "excludesfile" key */
 	public static final String CONFIG_KEY_EXCLUDESFILE = "excludesfile";
 
+	/**
+	 * The "attributesfile" key
+	 *
+	 * @since 3.6
+	 */
+	public static final String CONFIG_KEY_ATTRIBUTESFILE = "attributesfile";
+
 	/** The "filemode" key */
 	public static final String CONFIG_KEY_FILEMODE = "filemode";
 
