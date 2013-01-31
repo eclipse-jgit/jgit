@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPH//+bA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/PackBitmapIndexV1.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2013-01-31T19:17:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPH//+lY\u003d",
+      "revId": "a6c167d447fb198e5b2dd0335d4b203d969ae457",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPH//+lU\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/PackBitmapIndexV1.java",
         "patchSetId": 8
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPH//+a8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/PackBitmapIndexV1.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2013-01-31T19:17:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPH//+lU\u003d",
+      "revId": "a6c167d447fb198e5b2dd0335d4b203d969ae457",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPH//+lQ\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/PackBitmapIndexWriterV1.java",
         "patchSetId": 8
@@ -47,6 +83,24 @@
       "writtenOn": "2013-01-30T01:33:21Z",
       "side": 1,
       "message": "nit: trailing space",
+      "revId": "a6c167d447fb198e5b2dd0335d4b203d969ae457",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPH//+a4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/PackBitmapIndexWriterV1.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2013-01-31T19:17:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPH//+lQ\u003d",
       "revId": "a6c167d447fb198e5b2dd0335d4b203d969ae457",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
