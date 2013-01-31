@@ -63,6 +63,8 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import org.eclipse.jgit.api.errors.JGitInternalException;
+import org.eclipse.jgit.attributes.AttributesNode;
+import org.eclipse.jgit.attributes.AttributesRule;
 import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheEntry;
@@ -133,6 +135,9 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	/** If there is a .gitignore file present, the parsed rules from it. */
 	private IgnoreNode ignoreNode;
 
+	/** If there is a .gitattributes file present, the parsed rules from it. */
+	private AttributesNode attributesNode;
+
 	/** Repository that is the root level being iterated over */
 	protected Repository repository;
 
@@ -141,6 +146,19 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 
 	/** The offset of the content id in {@link #idBuffer()} */
 	private int contentIdOffset;
+
+	/**
+	 * Holds the {@link AttributesNode} that is stored in
+	 * $GIT_DIR/info/attributes file.
+	 */
+	private AttributesNode infoAttributeNode;
+
+	/**
+	 * Holds the {@link AttributesNode} that is stored in global attribute file.
+	 *
+	 * @see CoreConfig#getAttributesFile()
+	 */
+	private AttributesNode globalAttributeNode;
 
 	/**
 	 * Create a new iterator with no parent.
@@ -185,6 +203,8 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	protected WorkingTreeIterator(final WorkingTreeIterator p) {
 		super(p);
 		state = p.state;
+		infoAttributeNode = p.infoAttributeNode;
+		globalAttributeNode = p.globalAttributeNode;
 	}
 
 	/**
@@ -204,6 +224,10 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		else
 			entry = null;
 		ignoreNode = new RootIgnoreNode(entry, repo);
+
+		infoAttributeNode = new InfoAttributesNode(repo);
+
+		globalAttributeNode = new GlobalAttributesNode(repo);
 	}
 
 	/**
@@ -414,8 +438,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		}
 	}
 
-	private static ByteBuffer filterClean(byte[] src, int n)
-			throws IOException {
+	private static ByteBuffer filterClean(byte[] src, int n) throws IOException {
 		InputStream in = new ByteArrayInputStream(src);
 		try {
 			return IO.readWholeStream(filterClean(in), n);
@@ -603,6 +626,53 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		return ignoreNode;
 	}
 
+	/**
+	 * Retrieves the {@link AttributesNode} for the current entry.
+	 *
+	 * @return {@link AttributesNode} for the current entry.
+	 * @throws IOException
+	 *             if an error is raised while parsing the .gitattributes file
+	 */
+	public AttributesNode getEntryAttributesNode() throws IOException {
+		if (attributesNode instanceof PerDirectoryAttributesNode)
+			attributesNode = ((PerDirectoryAttributesNode) attributesNode)
+					.load();
+		return attributesNode;
+	}
+
+	/**
+	 * Retrieves the {@link AttributesNode} that holds the information located
+	 * in $GIT_DIR/info/attributes file.
+	 *
+	 * @return the {@link AttributesNode} that holds the information located in
+	 *         $GIT_DIR/info/attributes file.
+	 * @throws IOException
+	 *             if an error is raised while parsing the attributes file
+	 */
+	public AttributesNode getInfoAttributesNode() throws IOException {
+		if (infoAttributeNode instanceof InfoAttributesNode)
+			infoAttributeNode = ((InfoAttributesNode) infoAttributeNode).load();
+		return infoAttributeNode;
+	}
+
+	/**
+	 * Retrieves the {@link AttributesNode} that holds the information located
+	 * in system-wide file.
+	 * 
+	 * @return the {@link AttributesNode} that holds the information located in
+	 *         system-wide file.
+	 * @throws IOException
+	 *             IOException if an error is raised while parsing the
+	 *             attributes file
+	 * @see CoreConfig#getAttributesFile()
+	 */
+	public AttributesNode getGlobalAttributesNode() throws IOException {
+		if (globalAttributeNode instanceof GlobalAttributesNode)
+			globalAttributeNode = ((GlobalAttributesNode) globalAttributeNode)
+					.load();
+		return globalAttributeNode;
+	}
+
 	private static final Comparator<Entry> ENTRY_CMP = new Comparator<Entry>() {
 		public int compare(final Entry o1, final Entry o2) {
 			final byte[] a = o1.encodedName;
@@ -656,6 +726,8 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 				continue;
 			if (Constants.DOT_GIT_IGNORE.equals(name))
 				ignoreNode = new PerDirectoryIgnoreNode(e);
+			if (Constants.DOT_GIT_ATTRIBUTES.equals(name))
+				attributesNode = new PerDirectoryAttributesNode(e);
 			if (i != o)
 				entries[o] = e;
 			e.encodeName(nameEncoder);
@@ -974,7 +1046,8 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		return FS.detect().normalize(RawParseUtils.decode(cachedBytes));
 	}
 
-	private static String readContentAsNormalizedString(Entry entry) throws IOException {
+	private static String readContentAsNormalizedString(Entry entry)
+			throws IOException {
 		long length = entry.getLength();
 		byte[] content = new byte[(int) length];
 		InputStream is = entry.openInputStream();
@@ -1194,6 +1267,90 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 				} finally {
 					in.close();
 				}
+			}
+		}
+	}
+
+	/** Magic type indicating we know rules exist, but they aren't loaded. */
+	private static class PerDirectoryAttributesNode extends AttributesNode {
+		final Entry entry;
+
+		PerDirectoryAttributesNode(Entry entry) {
+			super(Collections.<AttributesRule> emptyList());
+			this.entry = entry;
+		}
+
+		AttributesNode load() throws IOException {
+			AttributesNode r = new AttributesNode();
+			InputStream in = entry.openInputStream();
+			try {
+				r.parse(in);
+			} finally {
+				in.close();
+			}
+			return r.getRules().isEmpty() ? null : r;
+		}
+	}
+
+	/**
+	 * Attributes node loaded from global system-wide file.
+	 */
+	private static class GlobalAttributesNode extends AttributesNode {
+		final Repository repository;
+
+		GlobalAttributesNode(Repository repository) {
+			this.repository = repository;
+		}
+
+		AttributesNode load() throws IOException {
+			AttributesNode r = new AttributesNode();
+
+			FS fs = repository.getFS();
+			String path = repository.getConfig().get(CoreConfig.KEY)
+					.getAttributesFile();
+			if (path != null) {
+				File attributesFile;
+				if (path.startsWith("~/")) //$NON-NLS-1$
+					attributesFile = fs.resolve(fs.userHome(),
+							path.substring(2));
+				else
+					attributesFile = fs.resolve(null, path);
+				loadRulesFromFile(r, attributesFile);
+			}
+			return r.getRules().isEmpty() ? null : r;
+		}
+	}
+
+	/** Magic type indicating there may be rules for the top level. */
+	private static class InfoAttributesNode extends AttributesNode {
+		final Repository repository;
+
+		InfoAttributesNode(Repository repository) {
+			this.repository = repository;
+		}
+
+		AttributesNode load() throws IOException {
+			AttributesNode r = new AttributesNode();
+
+			FS fs = repository.getFS();
+
+			File attributes = fs.resolve(repository.getDirectory(),
+					"info/attributes"); //$NON-NLS-1$
+			loadRulesFromFile(r, attributes);
+
+			return r.getRules().isEmpty() ? null : r;
+		}
+
+	}
+
+	private static void loadRulesFromFile(AttributesNode r, File attrs)
+			throws FileNotFoundException, IOException {
+		if (attrs.exists()) {
+			FileInputStream in = new FileInputStream(attrs);
+			try {
+				r.parse(in);
+			} finally {
+				in.close();
 			}
 		}
 	}
