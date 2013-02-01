@@ -47,6 +47,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -180,4 +182,40 @@ public class HookMessageTest extends HttpTestCase {
 				+ "come back next year!\n", //
 				result.getMessages());
 	}
+
+	@Test
+	public void testPush_HookMessagesToOutputStream() throws Exception {
+		final TestRepository src = createTestRepository();
+		final RevBlob Q_txt = src.blob("new text");
+		final RevCommit Q = src.commit().add("Q", Q_txt).create();
+		final Repository db = src.getRepository();
+		final String dstName = Constants.R_HEADS + "new.branch";
+		Transport t;
+		PushResult result;
+
+		t = Transport.open(db, remoteURI);
+		OutputStream out = new ByteArrayOutputStream();
+		try {
+			final String srcExpr = Q.name();
+			final boolean forceUpdate = false;
+			final String localName = null;
+			final ObjectId oldId = null;
+
+			RemoteRefUpdate update = new RemoteRefUpdate(src.getRepository(),
+					srcExpr, dstName, forceUpdate, localName, oldId);
+			result = t.push(NullProgressMonitor.INSTANCE,
+					Collections.singleton(update), out);
+		} finally {
+			t.close();
+		}
+
+		String expectedMessage = "message line 1\n" //
+				+ "error: no soup for you!\n" //
+				+ "come back next year!\n";
+		assertEquals(expectedMessage, //
+				result.getMessages());
+
+		assertEquals(expectedMessage, out.toString());
+	}
+
 }

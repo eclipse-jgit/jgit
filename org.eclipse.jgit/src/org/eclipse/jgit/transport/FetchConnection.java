@@ -46,6 +46,7 @@
 
 package org.eclipse.jgit.transport;
 
+import java.io.OutputStream;
 import java.util.Collection;
 import java.util.Set;
 
@@ -110,6 +111,47 @@ public interface FetchConnection extends Connection {
 	public void fetch(final ProgressMonitor monitor,
 			final Collection<Ref> want, final Set<ObjectId> have)
 			throws TransportException;
+
+	/**
+	 * Fetch objects we don't have but that are reachable from advertised refs.
+	 * <p>
+	 * Only one call per connection is allowed. Subsequent calls will result in
+	 * {@link TransportException}.
+	 * </p>
+	 * <p>
+	 * Implementations are free to use network connections as necessary to
+	 * efficiently (for both client and server) transfer objects from the remote
+	 * repository into this repository. When possible implementations should
+	 * avoid replacing/overwriting/duplicating an object already available in
+	 * the local destination repository. Locally available objects and packs
+	 * should always be preferred over remotely available objects and packs.
+	 * {@link Transport#isFetchThin()} should be honored if applicable.
+	 * </p>
+	 *
+	 * @param monitor
+	 *            progress monitor to inform the end-user about the amount of
+	 *            work completed, or to indicate cancellation. Implementations
+	 *            should poll the monitor at regular intervals to look for
+	 *            cancellation requests from the user.
+	 * @param want
+	 *            one or more refs advertised by this connection that the caller
+	 *            wants to store locally.
+	 * @param have
+	 *            additional objects known to exist in the destination
+	 *            repository, especially if they aren't yet reachable by the ref
+	 *            database. Connections should take this set as an addition to
+	 *            what is reachable through all Refs, not in replace of it.
+	 * @param out
+	 *            OutputStream to write sideband messages to
+	 * @throws TransportException
+	 *             objects could not be copied due to a network failure,
+	 *             protocol error, or error on remote side, or connection was
+	 *             already used for fetch.
+	 * @since 3.0
+	 */
+	public void fetch(final ProgressMonitor monitor,
+			final Collection<Ref> want, final Set<ObjectId> have,
+			OutputStream out) throws TransportException;
 
 	/**
 	 * Did the last {@link #fetch(ProgressMonitor, Collection, Set)} get tags?
