@@ -137,6 +137,12 @@ class WalkPushConnection extends BaseConnection implements PushConnection {
 	public void push(final ProgressMonitor monitor,
 			final Map<String, RemoteRefUpdate> refUpdates)
 			throws TransportException {
+		push(monitor, refUpdates, null);
+	}
+
+	public void push(final ProgressMonitor monitor,
+			final Map<String, RemoteRefUpdate> refUpdates, OutputStream out)
+			throws TransportException {
 		markStartedOperation();
 		packNames = null;
 		newRefs = new TreeMap<String, Ref>(getRefsMap());

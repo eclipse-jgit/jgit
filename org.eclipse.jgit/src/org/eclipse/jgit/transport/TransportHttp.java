@@ -764,11 +764,11 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		}
 
 		protected void doPush(final ProgressMonitor monitor,
-				final Map<String, RemoteRefUpdate> refUpdates)
+				final Map<String, RemoteRefUpdate> refUpdates, OutputStream out)
 				throws TransportException {
 			final Service svc = new MultiRequestService(SVC_RECEIVE_PACK);
 			init(svc.getInputStream(), svc.getOutputStream());
-			super.doPush(monitor, refUpdates);
+			super.doPush(monitor, refUpdates, out);
 		}
 	}
 
