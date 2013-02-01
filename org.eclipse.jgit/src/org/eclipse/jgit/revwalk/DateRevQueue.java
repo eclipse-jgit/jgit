@@ -1,5 +1,6 @@
 /*
- * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
+ * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>,
+ * Copyright (C) 2013, Gustaf Lundh <gustaf.lundh@sonymobile.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -44,15 +45,24 @@
 package org.eclipse.jgit.revwalk;
 
 import java.io.IOException;
+import java.util.LinkedList;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 
 /** A queue of commits sorted by commit time order. */
 public class DateRevQueue extends AbstractRevQueue {
+	private static final int REBUILD_INDEX_COUNT = 1000;
+
 	private Entry head;
 
 	private Entry free;
+
+	private int inQueue = 0;
+
+	private int sinceLastIndex = 0;
+
+	private LinkedList<Entry> index = new LinkedList<Entry>();
 
 	/** Create an empty date queue. */
 	public DateRevQueue() {
@@ -70,8 +80,29 @@ public class DateRevQueue extends AbstractRevQueue {
 	}
 
 	public void add(final RevCommit c) {
+		sinceLastIndex++;
+		if (++inQueue > REBUILD_INDEX_COUNT
+				&& sinceLastIndex > REBUILD_INDEX_COUNT) {
+			sinceLastIndex = 0;
+			buildIndex();
+		}
+
 		Entry q = head;
 		final long when = c.commitTime;
+
+		if (!index.isEmpty()) {
+			Entry prev = null;
+			for (Entry i : index) {
+				if (when > i.commit.commitTime) {
+					if (prev != null) {
+						q = prev;
+					}
+					break;
+				}
+				prev = i;
+			}
+		}
+
 		final Entry n = newEntry(c);
 		if (q == null || when > q.commit.commitTime) {
 			n.next = q;
@@ -91,9 +122,26 @@ public class DateRevQueue extends AbstractRevQueue {
 		final Entry q = head;
 		if (q == null)
 			return null;
+
+		if (!index.isEmpty() && q == index.getFirst())
+			index.remove();
+		inQueue--;
+
 		head = q.next;
 		freeEntry(q);
 		return q.commit;
+	}
+
+	private void buildIndex() {
+		int i = 0;
+		index.clear();
+		Entry q = head;
+		while (q != null) {
+			if (++i % 100 == 0) {
+				index.add(q);
+			}
+			q = q.next;
+		}
 	}
 
 	/**
