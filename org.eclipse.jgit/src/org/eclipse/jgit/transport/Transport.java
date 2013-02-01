@@ -50,6 +50,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -1121,6 +1122,67 @@ public abstract class Transport {
 	 * <p>
 	 * When {@link #isDryRun()} is true, result of this operation is just
 	 * estimation of real operation result, no real action is performed.
+	 * 
+	 * @see RemoteRefUpdate
+	 * 
+	 * @param monitor
+	 *            progress monitor to inform the user about our processing
+	 *            activity. Must not be null. Use {@link NullProgressMonitor} if
+	 *            progress updates are not interesting or necessary.
+	 * @param toPush
+	 *            specification of refs to push. May be null or the empty
+	 *            collection to use the specifications from the RemoteConfig
+	 *            converted by {@link #findRemoteRefUpdatesFor(Collection)}. No
+	 *            more than 1 RemoteRefUpdate with the same remoteName is
+	 *            allowed. These objects are modified during this call.
+	 * 
+	 * @param out
+	 *            output stream to write messages to
+	 * @return information about results of remote refs updates, tracking refs
+	 *         updates and refs advertised by remote repository.
+	 * @throws NotSupportedException
+	 *             this transport implementation does not support pushing
+	 *             objects.
+	 * @throws TransportException
+	 *             the remote connection could not be established or object
+	 *             copying (if necessary) failed at I/O or protocol level or
+	 *             update specification was incorrect.
+	 */
+	public PushResult push(final ProgressMonitor monitor,
+			Collection<RemoteRefUpdate> toPush, OutputStream out)
+			throws NotSupportedException,
+			TransportException {
+		if (toPush == null || toPush.isEmpty()) {
+			// If the caller did not ask for anything use the defaults.
+			try {
+				toPush = findRemoteRefUpdatesFor(push);
+			} catch (final IOException e) {
+				throw new TransportException(MessageFormat.format(
+						JGitText.get().problemWithResolvingPushRefSpecsLocally, e.getMessage()), e);
+			}
+			if (toPush.isEmpty())
+				throw new TransportException(JGitText.get().nothingToPush);
+		}
+		final PushProcess pushProcess = new PushProcess(this, toPush, out);
+		return pushProcess.execute(monitor);
+	}
+
+	/**
+	 * Push objects and refs from the local repository to the remote one.
+	 * <p>
+	 * This is a utility function providing standard push behavior. It updates
+	 * remote refs and send there necessary objects according to remote ref
+	 * update specification. After successful remote ref update, associated
+	 * locally stored tracking branch is updated if set up accordingly. Detailed
+	 * operation result is provided after execution.
+	 * <p>
+	 * For setting up remote ref update specification from ref spec, see helper
+	 * method {@link #findRemoteRefUpdatesFor(Collection)}, predefined refspecs
+	 * ({@link #REFSPEC_TAGS}, {@link #REFSPEC_PUSH_ALL}) or consider using
+	 * directly {@link RemoteRefUpdate} for more possibilities.
+	 * <p>
+	 * When {@link #isDryRun()} is true, result of this operation is just
+	 * estimation of real operation result, no real action is performed.
 	 *
 	 * @see RemoteRefUpdate
 	 *
@@ -1134,6 +1196,7 @@ public abstract class Transport {
 	 *            converted by {@link #findRemoteRefUpdatesFor(Collection)}. No
 	 *            more than 1 RemoteRefUpdate with the same remoteName is
 	 *            allowed. These objects are modified during this call.
+	 *
 	 * @return information about results of remote refs updates, tracking refs
 	 *         updates and refs advertised by remote repository.
 	 * @throws NotSupportedException
@@ -1147,19 +1210,7 @@ public abstract class Transport {
 	public PushResult push(final ProgressMonitor monitor,
 			Collection<RemoteRefUpdate> toPush) throws NotSupportedException,
 			TransportException {
-		if (toPush == null || toPush.isEmpty()) {
-			// If the caller did not ask for anything use the defaults.
-			try {
-				toPush = findRemoteRefUpdatesFor(push);
-			} catch (final IOException e) {
-				throw new TransportException(MessageFormat.format(
-						JGitText.get().problemWithResolvingPushRefSpecsLocally, e.getMessage()), e);
-			}
-			if (toPush.isEmpty())
-				throw new TransportException(JGitText.get().nothingToPush);
-		}
-		final PushProcess pushProcess = new PushProcess(this, toPush);
-		return pushProcess.execute(monitor);
+		return push(monitor, toPush, null);
 	}
 
 	/**
