@@ -48,6 +48,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -429,6 +430,12 @@ public class PushProcessTest extends SampleDataRepositoryTestCase {
 		@Override
 		public void close() {
 			// nothing here
+		}
+
+		public void push(ProgressMonitor monitor,
+				Map<String, RemoteRefUpdate> refsToUpdate, OutputStream out)
+				throws TransportException {
+			push(monitor, refsToUpdate);
 		}
 
 		public void push(ProgressMonitor monitor,

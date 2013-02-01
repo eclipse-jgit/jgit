@@ -739,12 +739,12 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 
 		@Override
 		protected void doFetch(final ProgressMonitor monitor,
-				final Collection<Ref> want, final Set<ObjectId> have)
-				throws TransportException {
+				final Collection<Ref> want, final Set<ObjectId> have,
+				final OutputStream outputStream) throws TransportException {
 			try {
 				svc = new MultiRequestService(SVC_UPLOAD_PACK);
 				init(svc.getInputStream(), svc.getOutputStream());
-				super.doFetch(monitor, want, have);
+				super.doFetch(monitor, want, have, outputStream);
 			} finally {
 				svc = null;
 			}
@@ -768,11 +768,11 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		}
 
 		protected void doPush(final ProgressMonitor monitor,
-				final Map<String, RemoteRefUpdate> refUpdates)
+				final Map<String, RemoteRefUpdate> refUpdates, OutputStream out)
 				throws TransportException {
 			final Service svc = new MultiRequestService(SVC_RECEIVE_PACK);
 			init(svc.getInputStream(), svc.getOutputStream());
-			super.doPush(monitor, refUpdates);
+			super.doPush(monitor, refUpdates, out);
 		}
 	}
 
