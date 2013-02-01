@@ -43,6 +43,7 @@
 package org.eclipse.jgit.api;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.URISyntaxException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -91,6 +92,8 @@ public class PushCommand extends
 	private boolean force;
 
 	private boolean thin = Transport.DEFAULT_PUSH_THIN;
+
+	private OutputStream out;
 
 	/**
 	 * @param repo
@@ -150,7 +153,7 @@ public class PushCommand extends
 						.findRemoteRefUpdatesFor(refSpecs);
 
 				try {
-					PushResult result = transport.push(monitor, toPush);
+					PushResult result = transport.push(monitor, toPush, out);
 					pushResults.add(result);
 
 				} catch (TransportException e) {
@@ -402,6 +405,17 @@ public class PushCommand extends
 	public PushCommand setForce(boolean force) {
 		checkCallable();
 		this.force = force;
+		return this;
+	}
+
+	/**
+	 * Sets the output stream to write sideband messages to
+	 *
+	 * @param out
+	 * @return {@code this}
+	 */
+	public PushCommand setOutputStream(OutputStream out) {
+		this.out = out;
 		return this;
 	}
 }
