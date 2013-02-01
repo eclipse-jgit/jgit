@@ -1,5 +1,6 @@
 /*
- * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
+ * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>,
+ * Copyright (C) 2013, Gustaf Lundh <gustaf.lundh@sonymobile.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -50,9 +51,21 @@ import org.eclipse.jgit.errors.MissingObjectException;
 
 /** A queue of commits sorted by commit time order. */
 public class DateRevQueue extends AbstractRevQueue {
+	private static final int REBUILD_INDEX_COUNT = 1000;
+
 	private Entry head;
 
 	private Entry free;
+
+	private int inQueue;
+
+	private int sinceLastIndex;
+
+	private Entry[] index;
+
+	private int first;
+
+	private int last;
 
 	/** Create an empty date queue. */
 	public DateRevQueue() {
@@ -70,8 +83,32 @@ public class DateRevQueue extends AbstractRevQueue {
 	}
 
 	public void add(final RevCommit c) {
+		sinceLastIndex++;
+		if (++inQueue > REBUILD_INDEX_COUNT
+				&& sinceLastIndex > REBUILD_INDEX_COUNT) {
+			sinceLastIndex = 0;
+			buildIndex();
+		}
+
 		Entry q = head;
 		final long when = c.commitTime;
+
+		if (index != null && index[first] != null
+				&& index[first].commit.commitTime > when) {
+			int low = first, high = last;
+			while (low <= high) {
+				int mid = (low + high) / 2;
+				if (index[mid].commit.commitTime < when)
+					high = mid - 1;
+				else if (index[mid].commit.commitTime > when) {
+					low = mid + 1;
+				} else {
+					break;
+				}
+			}
+			q = index[Math.min(low, high)];
+		}
+
 		final Entry n = newEntry(c);
 		if (q == null || when > q.commit.commitTime) {
 			n.next = q;
@@ -91,9 +128,27 @@ public class DateRevQueue extends AbstractRevQueue {
 		final Entry q = head;
 		if (q == null)
 			return null;
+
+		if (index != null && q == index[first])
+			index[first++] = null;
+		inQueue--;
+
 		head = q.next;
 		freeEntry(q);
 		return q.commit;
+	}
+
+	private void buildIndex() {
+		first = 0;
+		index = new Entry[inQueue / 100 + 1];
+		Entry q = head;
+		int qi = 0, ii = 0;
+		while (q != null) {
+			if (++qi % 100 == 0)
+				index[ii++] = q;
+			q = q.next;
+		}
+		last = ii - 1;
 	}
 
 	/**
@@ -108,6 +163,8 @@ public class DateRevQueue extends AbstractRevQueue {
 	public void clear() {
 		head = null;
 		free = null;
+		index = null;
+		inQueue = 0;
 	}
 
 	boolean everbodyHasFlag(final int f) {
