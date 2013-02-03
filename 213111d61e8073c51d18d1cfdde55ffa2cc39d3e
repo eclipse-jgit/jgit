@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPH//9uU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 856,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-02-03T18:53:48Z",
+      "side": 1,
+      "message": "Indent. Otherwise ok",
+      "revId": "213111d61e8073c51d18d1cfdde55ffa2cc39d3e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
