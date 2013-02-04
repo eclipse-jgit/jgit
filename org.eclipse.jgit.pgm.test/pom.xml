@@ -60,6 +60,22 @@
     Tests for command line client tools built on top of JGit.
   </description>
 
+  <profiles>
+    <profile>
+      <id>jgit.java7</id>
+      <activation>
+	<jdk>1.7</jdk>
+      </activation>
+      <dependencies>
+	<dependency>
+	  <groupId>org.eclipse.jgit</groupId>
+	  <artifactId>org.eclipse.jgit.java7</artifactId>
+	  <version>${project.version}</version>
+	</dependency>
+      </dependencies>
+    </profile>
+  </profiles>
+
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
