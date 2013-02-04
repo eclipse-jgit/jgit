@@ -1,0 +1,208 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPH//9dw\u003d",
+        "filename": "org.eclipse.jgit.java7.test/.gitignore",
+        "patchSetId": 16
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-02-04T23:37:57Z",
+      "side": 1,
+      "message": "folder trash is located under folder target so I think this isn\u0027t required",
+      "revId": "c6593be5a1a52a1e55cbe362e87d7e46a62d35e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPH//9eE\u003d",
+        "filename": "org.eclipse.jgit.java7.test/.settings/org.eclipse.core.resources.prefs",
+        "patchSetId": 16
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-02-04T23:37:57Z",
+      "side": 1,
+      "message": "these files don\u0027t exist in this bundle",
+      "revId": "c6593be5a1a52a1e55cbe362e87d7e46a62d35e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPH//9d8\u003d",
+        "filename": "org.eclipse.jgit.java7.test/pom.xml",
+        "patchSetId": 16
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-02-04T23:37:57Z",
+      "side": 1,
+      "message": "I think we don\u0027t need all these dependencies at the moment",
+      "revId": "c6593be5a1a52a1e55cbe362e87d7e46a62d35e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPH//9d4\u003d",
+        "filename": "org.eclipse.jgit.java7.test/pom.xml",
+        "patchSetId": 16
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-02-04T23:37:57Z",
+      "side": 1,
+      "message": "iplog bundle was deleted",
+      "revId": "c6593be5a1a52a1e55cbe362e87d7e46a62d35e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPH//9d0\u003d",
+        "filename": "org.eclipse.jgit.java7.test/src/org/eclipse/jgit/util/FSJava7Test.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-02-04T23:37:57Z",
+      "side": 1,
+      "message": "s/traverses/traverse/",
+      "revId": "c6593be5a1a52a1e55cbe362e87d7e46a62d35e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPH//9ds\u003d",
+        "filename": "org.eclipse.jgit.java7/META-INF/MANIFEST.MF",
+        "patchSetId": 16
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-02-04T23:37:57Z",
+      "side": 1,
+      "message": "fragments have no Activator so this header doesn\u0027t seem to make sense here",
+      "revId": "c6593be5a1a52a1e55cbe362e87d7e46a62d35e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPH//9dg\u003d",
+        "filename": "org.eclipse.jgit.java7/src/org/eclipse/jgit/util/FileUtil.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-02-04T23:37:57Z",
+      "side": 1,
+      "message": "style nit: no braces here",
+      "revId": "c6593be5a1a52a1e55cbe362e87d7e46a62d35e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPH//9dY\u003d",
+        "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.junit.feature/feature.xml",
+        "patchSetId": 16
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-02-04T23:37:57Z",
+      "side": 1,
+      "message": "why is it required to include the jgit.java7 fragment in this feature ?",
+      "revId": "c6593be5a1a52a1e55cbe362e87d7e46a62d35e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPH//9dI\u003d",
+        "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.repository/pom.xml",
+        "patchSetId": 16
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-02-04T23:37:57Z",
+      "side": 1,
+      "message": "could we instead auto-activate this if java7 is available during the build ?",
+      "revId": "c6593be5a1a52a1e55cbe362e87d7e46a62d35e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPH//9dA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-02-04T23:37:57Z",
+      "side": 1,
+      "message": "Thie ??\n\nsecond sentence is truncated",
+      "revId": "c6593be5a1a52a1e55cbe362e87d7e46a62d35e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPH//9c4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-02-04T23:37:57Z",
+      "side": 1,
+      "message": "I think the meaning of \"or\" is ambiguous in this sentence hence I\u0027d write \"otherwise we do not support symbolic links\" instead",
+      "revId": "c6593be5a1a52a1e55cbe362e87d7e46a62d35e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPH//9c0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-02-04T23:37:57Z",
+      "side": 1,
+      "message": "s/return/returns/",
+      "revId": "c6593be5a1a52a1e55cbe362e87d7e46a62d35e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
