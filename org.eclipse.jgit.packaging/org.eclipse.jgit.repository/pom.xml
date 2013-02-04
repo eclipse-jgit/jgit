@@ -58,6 +58,23 @@
 
   <name>JGit P2 Repository</name>
 
+  <profiles>
+    <profile>
+      <id>jgit.java7</id>
+	  <activation>
+	    <jdk>1.7</jdk>
+	  </activation>
+      <dependencies>
+        <dependency>
+          <groupId>org.eclipse.jgit</groupId>
+          <artifactId>org.eclipse.jgit.java7</artifactId>
+          <version>${project.version}</version>
+          <optional>true</optional>
+        </dependency>
+      </dependencies>
+    </profile>
+  </profiles>
+
   <dependencies>
     <dependency>
       <groupId>org.eclipse.jgit</groupId>
