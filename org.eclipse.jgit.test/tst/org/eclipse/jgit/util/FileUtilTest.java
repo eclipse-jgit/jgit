@@ -420,4 +420,13 @@ public class FileUtilTest {
 		assertTrue(f2.exists());
 		assertEquals("f1", JGitTestUtil.read(f2));
 	}
+	@Test
+	public void testCreateSymlink() throws IOException {
+		FS fs = FS.DETECTED;
+		if (!fs.supportsSymlinks())
+			return;
+		fs.createSymLink(new File(trash, "x"), "y");
+		String target = fs.readSymLink(new File(trash, "x"));
+		assertEquals("y", target);
+	}
 }
