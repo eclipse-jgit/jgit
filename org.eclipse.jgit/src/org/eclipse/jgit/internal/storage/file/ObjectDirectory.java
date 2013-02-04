@@ -180,7 +180,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 
 	@Override
 	public boolean exists() {
-		return objects.exists();
+		return fs.exists(objects);
 	}
 
 	@Override
@@ -566,7 +566,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 		}
 
 		final File dst = fileFor(id);
-		if (dst.exists()) {
+		if (fs.exists(dst)) {
 			// We want to be extra careful and avoid replacing an object
 			// that already exists. We can't be sure renameTo() would
 			// fail on all platforms if dst exists, so we check first.
