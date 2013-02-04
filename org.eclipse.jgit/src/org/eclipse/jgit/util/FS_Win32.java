@@ -50,12 +50,27 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-class FS_Win32 extends FS {
-	FS_Win32() {
+
+/**
+ * FS implementation for Windows
+ *
+ * @since 3.0
+ */
+public class FS_Win32 extends FS {
+	/**
+	 * Constructor
+	 */
+	public FS_Win32() {
 		super();
 	}
 
-	FS_Win32(FS src) {
+	/**
+	 * Constructor
+	 *
+	 * @param src
+	 *            instance whose attributes to copy
+	 */
+	protected FS_Win32(FS src) {
 		super(src);
 	}
 

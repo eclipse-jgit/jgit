@@ -43,12 +43,19 @@
 package org.eclipse.jgit.util;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-abstract class FS_POSIX extends FS {
+
+/**
+ * Base FS for POSIX based systems
+ *
+ * @since 3.0
+ */
+public abstract class FS_POSIX extends FS {
 	@Override
 	protected File discoverGitPrefix() {
 		String path = SystemReader.getInstance().getenv("PATH"); //$NON-NLS-1$
@@ -75,17 +82,31 @@ abstract class FS_POSIX extends FS {
 		return null;
 	}
 
-	FS_POSIX() {
+	/**
+	 * Default constructor
+	 */
+	protected FS_POSIX() {
 		super();
 	}
 
-	FS_POSIX(FS src) {
+	/**
+	 * Constructor
+	 *
+	 * @param src
+	 *            FS to copy some settings from
+	 */
+	protected FS_POSIX(FS src) {
 		super(src);
 	}
 
 	@Override
 	public boolean isCaseSensitive() {
 		return !SystemReader.getInstance().isMacOS();
+	}
+
+	@Override
+	public void setHidden(File path, boolean hidden) throws IOException {
+		// Do nothing
 	}
 
 	@Override

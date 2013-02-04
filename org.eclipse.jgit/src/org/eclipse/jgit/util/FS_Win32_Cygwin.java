@@ -50,10 +50,19 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-class FS_Win32_Cygwin extends FS_Win32 {
+
+/**
+ * FS implementation for Cygwin on Windows
+ *
+ * @since 3.0
+ */
+public class FS_Win32_Cygwin extends FS_Win32 {
 	private static String cygpath;
 
-	static boolean isCygwin() {
+	/**
+	 * @return true if cygwin is found
+	 */
+	public static boolean isCygwin() {
 		final String path = AccessController
 				.doPrivileged(new PrivilegedAction<String>() {
 					public String run() {
@@ -68,11 +77,20 @@ class FS_Win32_Cygwin extends FS_Win32 {
 		return cygpath != null;
 	}
 
-	FS_Win32_Cygwin() {
+	/**
+	 * Constructor
+	 */
+	public FS_Win32_Cygwin() {
 		super();
 	}
 
-	FS_Win32_Cygwin(FS src) {
+	/**
+	 * Constructor
+	 *
+	 * @param src
+	 *            instance whose attributes to copy
+	 */
+	protected FS_Win32_Cygwin(FS src) {
 		super(src);
 	}
 
