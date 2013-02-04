@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPH//9lM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/ObjectDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-02-04T15:37:18Z",
+      "side": 1,
+      "message": "Why is this a List. Why not just use the bit form?",
+      "revId": "5893182eb1814290f5fafb3036e8754a36a5d565",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPH//9lI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/ObjectDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 745,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-02-04T15:37:18Z",
+      "side": 1,
+      "message": "Same as above, don\u0027t use a list use the bit form.",
+      "revId": "5893182eb1814290f5fafb3036e8754a36a5d565",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPH//9lY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackExt.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-02-04T15:37:18Z",
+      "side": 1,
+      "message": "This is now reference equality given the way the implementation works. So you can drop equals().",
+      "revId": "5893182eb1814290f5fafb3036e8754a36a5d565",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPH//9lU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackExt.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-02-04T15:37:18Z",
+      "side": 1,
+      "message": "This is actually also reference equality. So we could just drop this and use the object identity.",
+      "revId": "5893182eb1814290f5fafb3036e8754a36a5d565",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPH//9lQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackExt.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-02-04T15:37:18Z",
+      "side": 1,
+      "message": "Include the bit in the toString(), e.g. maybe 1\u003c\u003cgetPosition()",
+      "revId": "5893182eb1814290f5fafb3036e8754a36a5d565",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
