@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPH//9cg\u003d",
+        "filename": "org.eclipse.jgit.java7/src/org/eclipse/jgit/util/FileUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-02-04T23:47:18Z",
+      "side": 1,
+      "message": "will this work on Windows ?",
+      "revId": "85770a8f726fbbcb2845071454c94b2238aae953",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
