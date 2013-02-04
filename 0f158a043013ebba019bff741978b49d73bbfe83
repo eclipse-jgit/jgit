@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPH//9b8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-02-04T23:49:01Z",
+      "side": 1,
+      "message": "style nit: trailing whitespace",
+      "revId": "0f158a043013ebba019bff741978b49d73bbfe83",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
