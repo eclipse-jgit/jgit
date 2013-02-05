@@ -151,4 +151,9 @@ public class FS_Win32_Java7 extends FS_Win32 {
 	public void createSymLink(File path, String target) throws IOException {
 		FileUtil.createSymLink(path, target);
 	}
+
+	@Override
+	public Attributes getAttributes(File path) {
+		return FileUtil.getFileAttributesBasic(this, path);
+	}
 }
