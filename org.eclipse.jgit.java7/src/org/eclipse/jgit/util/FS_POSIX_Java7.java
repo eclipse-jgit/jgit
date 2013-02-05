@@ -46,8 +46,6 @@ package org.eclipse.jgit.util;
 import java.io.File;
 import java.io.IOException;
 
-import org.eclipse.jgit.util.FS;
-
 /**
  * FS implementation for Java7 on unix like systems
  */
@@ -149,5 +147,10 @@ public class FS_POSIX_Java7 extends FS_POSIX {
 	@Override
 	public void createSymLink(File path, String target) throws IOException {
 		FileUtil.createSymLink(path, target);
+	}
+
+	@Override
+	public Attributes getAttributes(File path) {
+		return FileUtil.getFileAttributes(this, path);
 	}
 }
