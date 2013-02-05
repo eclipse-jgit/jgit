@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPH//9Zg\u003d",
+        "filename": "org.eclipse.jgit.java7.test/.gitignore",
+        "patchSetId": 16
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-02-05T12:03:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPH//9dw\u003d",
+      "revId": "c6593be5a1a52a1e55cbe362e87d7e46a62d35e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPH//9eE\u003d",
         "filename": "org.eclipse.jgit.java7.test/.settings/org.eclipse.core.resources.prefs",
         "patchSetId": 16
@@ -30,6 +48,24 @@
       "writtenOn": "2013-02-04T23:37:57Z",
       "side": 1,
       "message": "these files don\u0027t exist in this bundle",
+      "revId": "c6593be5a1a52a1e55cbe362e87d7e46a62d35e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPH//9Zc\u003d",
+        "filename": "org.eclipse.jgit.java7.test/.settings/org.eclipse.core.resources.prefs",
+        "patchSetId": 16
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-02-05T12:03:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPH//9eE\u003d",
       "revId": "c6593be5a1a52a1e55cbe362e87d7e46a62d35e3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPH//9ZY\u003d",
+        "filename": "org.eclipse.jgit.java7.test/pom.xml",
+        "patchSetId": 16
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-02-05T12:03:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPH//9d8\u003d",
+      "revId": "c6593be5a1a52a1e55cbe362e87d7e46a62d35e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPH//9d4\u003d",
         "filename": "org.eclipse.jgit.java7.test/pom.xml",
         "patchSetId": 16
@@ -64,6 +118,24 @@
       "writtenOn": "2013-02-04T23:37:57Z",
       "side": 1,
       "message": "iplog bundle was deleted",
+      "revId": "c6593be5a1a52a1e55cbe362e87d7e46a62d35e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPH//9ZU\u003d",
+        "filename": "org.eclipse.jgit.java7.test/pom.xml",
+        "patchSetId": 16
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-02-05T12:03:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPH//9d4\u003d",
       "revId": "c6593be5a1a52a1e55cbe362e87d7e46a62d35e3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPH//9ZQ\u003d",
+        "filename": "org.eclipse.jgit.java7.test/src/org/eclipse/jgit/util/FSJava7Test.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-02-05T12:03:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPH//9d0\u003d",
+      "revId": "c6593be5a1a52a1e55cbe362e87d7e46a62d35e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPH//9ds\u003d",
         "filename": "org.eclipse.jgit.java7/META-INF/MANIFEST.MF",
         "patchSetId": 16
@@ -98,6 +188,24 @@
       "writtenOn": "2013-02-04T23:37:57Z",
       "side": 1,
       "message": "fragments have no Activator so this header doesn\u0027t seem to make sense here",
+      "revId": "c6593be5a1a52a1e55cbe362e87d7e46a62d35e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPH//9ZM\u003d",
+        "filename": "org.eclipse.jgit.java7/META-INF/MANIFEST.MF",
+        "patchSetId": 16
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-02-05T12:03:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPH//9ds\u003d",
       "revId": "c6593be5a1a52a1e55cbe362e87d7e46a62d35e3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPH//9ZI\u003d",
+        "filename": "org.eclipse.jgit.java7/src/org/eclipse/jgit/util/FileUtil.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-02-05T12:03:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPH//9dg\u003d",
+      "revId": "c6593be5a1a52a1e55cbe362e87d7e46a62d35e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPH//9dY\u003d",
         "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.junit.feature/feature.xml",
         "patchSetId": 16
@@ -132,6 +258,24 @@
       "writtenOn": "2013-02-04T23:37:57Z",
       "side": 1,
       "message": "why is it required to include the jgit.java7 fragment in this feature ?",
+      "revId": "c6593be5a1a52a1e55cbe362e87d7e46a62d35e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPH//9ZE\u003d",
+        "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.junit.feature/feature.xml",
+        "patchSetId": 16
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-02-05T12:03:57Z",
+      "side": 1,
+      "message": "Isn\u0027t  a feature supposed to contain all plugins?",
+      "parentUuid": "AABOPH//9dY\u003d",
       "revId": "c6593be5a1a52a1e55cbe362e87d7e46a62d35e3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPH//9Ys\u003d",
+        "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.repository/pom.xml",
+        "patchSetId": 16
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-02-05T12:03:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPH//9dI\u003d",
+      "revId": "c6593be5a1a52a1e55cbe362e87d7e46a62d35e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPH//9dA\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
         "patchSetId": 16
@@ -166,6 +328,24 @@
       "writtenOn": "2013-02-04T23:37:57Z",
       "side": 1,
       "message": "Thie ??\n\nsecond sentence is truncated",
+      "revId": "c6593be5a1a52a1e55cbe362e87d7e46a62d35e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPH//9ZA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-02-05T12:03:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPH//9dA\u003d",
       "revId": "c6593be5a1a52a1e55cbe362e87d7e46a62d35e3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
