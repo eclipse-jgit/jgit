@@ -282,6 +282,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPH//9Jw\u003d",
+        "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.junit.feature/feature.xml",
+        "patchSetId": 16
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-02-06T00:35:43Z",
+      "side": 1,
+      "message": "this feature doesn\u0027t include org.eclipse.jgit so why should it then include org.eclipse.jgit.java7 ? If it requires the jgit feature (which includes java7 fragment) you could require this feature from here\n\nnot sure what\u0027s the best approach ...",
+      "parentUuid": "AABOPH//9ZE\u003d",
+      "revId": "c6593be5a1a52a1e55cbe362e87d7e46a62d35e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPH//9dI\u003d",
         "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.repository/pom.xml",
         "patchSetId": 16
