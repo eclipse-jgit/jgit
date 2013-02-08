@@ -556,6 +556,15 @@ public class ConfigTest {
 		assertEquals(result, config.toText());
 	}
 
+	@Test
+	public void testNoFinalNewline() throws ConfigInvalidException {
+		Config c = parse("[a]\n"
+				+ "x = 0\n"
+				+ "y = 1");
+		assertEquals("0", c.getString("a", null, "x"));
+		assertEquals("1", c.getString("a", null, "y"));
+	}
+
 	private static void assertReadLong(long exp) throws ConfigInvalidException {
 		assertReadLong(exp, String.valueOf(exp));
 	}

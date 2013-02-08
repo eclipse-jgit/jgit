@@ -1002,8 +1002,11 @@ public class Config {
 		ConfigLine e = new ConfigLine();
 		for (;;) {
 			int input = in.read();
-			if (-1 == input)
+			if (-1 == input) {
+				if (e.section != null)
+					newEntries.add(e);
 				break;
+			}
 
 			final char c = (char) input;
 			if ('\n' == c) {
