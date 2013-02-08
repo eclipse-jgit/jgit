@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPH//8pw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 765,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-02-08T12:29:53Z",
+      "side": 1,
+      "message": "oops, Robin, I think you lost some changes int the last patch-set. Please compare patchSet 2 vs 4 and then 2 vs 5.",
+      "revId": "3fea197b22341561cfaaf252af36d922abfa3402",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
