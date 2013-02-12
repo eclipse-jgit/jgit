@@ -78,6 +78,9 @@ class Clone extends AbstractFetchCommand {
 	@Option(name = "--origin", aliases = { "-o" }, metaVar = "metaVar_remoteName", usage = "usage_useNameInsteadOfOriginToTrackUpstream")
 	private String remoteName = Constants.DEFAULT_REMOTE_NAME;
 
+	@Option(name = "--branch", aliases = { "-b" }, metaVar = "metaVar_branchName", usage = "usage_checkoutBranchAfterClone")
+	private String branch;
+
 	@Argument(index = 0, required = true, metaVar = "metaVar_uriish")
 	private String sourceUri;
 
@@ -121,8 +124,12 @@ class Clone extends AbstractFetchCommand {
 
 		saveRemote(uri);
 		final FetchResult r = runFetch();
-		final Ref branch = guessHEAD(r);
-		doCheckout(branch);
+		final Ref checkoutRef;
+		if (branch == null)
+			checkoutRef = guessHEAD(r);
+		else
+			checkoutRef = r.getAdvertisedRef(Constants.R_HEADS + branch);
+		doCheckout(checkoutRef);
 	}
 
 	private void saveRemote(final URIish uri) throws URISyntaxException,
