@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX///hc\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Clone.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2013-02-13T00:52:32Z",
+      "side": 1,
+      "message": "If the branch specified with \"-b\" does not exist, this will be null, and doCheckout() will die with\n\n fatal: cannot checkout; no HEAD advertised by remote\n\nShouldn\u0027t this say something like\n\n fatal: no such remote branch \u0027foo\u0027\n\ninstead?",
+      "revId": "27a97c50458d31902ae127eb0e5e516713edc3bd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
