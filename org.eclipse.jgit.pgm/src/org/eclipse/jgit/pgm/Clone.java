@@ -152,19 +152,16 @@ class Clone extends AbstractFetchCommand {
 
 	private static Ref guessHEAD(final FetchResult result) {
 		final Ref idHEAD = result.getAdvertisedRef(Constants.HEAD);
-		final List<Ref> availableRefs = new ArrayList<Ref>();
 		Ref head = null;
 		for (final Ref r : result.getAdvertisedRefs()) {
 			final String n = r.getName();
 			if (!n.startsWith(Constants.R_HEADS))
 				continue;
-			availableRefs.add(r);
 			if (idHEAD == null || head != null)
 				continue;
 			if (r.getObjectId().equals(idHEAD.getObjectId()))
 				head = r;
 		}
-		Collections.sort(availableRefs, RefComparator.INSTANCE);
 		if (idHEAD != null && head == null)
 			head = idHEAD;
 		return head;
