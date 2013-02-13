@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %plugin_name
 Bundle-SymbolicName: org.eclipse.jgit.http.test
-Bundle-Version: 2.3.0.qualifier
+Bundle-Version: 2.4.0.qualifier
 Bundle-Vendor: %provider_name
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
@@ -22,19 +22,19 @@ Import-Package: javax.servlet;version="[2.5.0,3.0.0)",
  org.eclipse.jetty.util.log;version="[7.6.0,8.0.0)",
  org.eclipse.jetty.util.security;version="[7.6.0,8.0.0)",
  org.eclipse.jetty.util.thread;version="[7.6.0,8.0.0)",
- org.eclipse.jgit.errors;version="[2.3.0,2.4.0)",
- org.eclipse.jgit.http.server;version="[2.3.0,2.4.0)",
- org.eclipse.jgit.http.server.glue;version="[2.3.0,2.4.0)",
- org.eclipse.jgit.http.server.resolver;version="[2.3.0,2.4.0)",
- org.eclipse.jgit.internal;version="[2.3.0,2.4.0)",
- org.eclipse.jgit.junit;version="[2.3.0,2.4.0)",
- org.eclipse.jgit.junit.http;version="[2.3.0,2.4.0)",
- org.eclipse.jgit.lib;version="[2.3.0,2.4.0)",
- org.eclipse.jgit.nls;version="[2.3.0,2.4.0)",
- org.eclipse.jgit.revwalk;version="[2.3.0,2.4.0)",
- org.eclipse.jgit.storage.file;version="[2.3.0,2.4.0)",
- org.eclipse.jgit.transport;version="[2.3.0,2.4.0)",
- org.eclipse.jgit.transport.resolver;version="[2.3.0,2.4.0)",
- org.eclipse.jgit.util;version="[2.3.0,2.4.0)",
+ org.eclipse.jgit.errors;version="[2.4.0,2.5.0)",
+ org.eclipse.jgit.http.server;version="[2.4.0,2.5.0)",
+ org.eclipse.jgit.http.server.glue;version="[2.4.0,2.5.0)",
+ org.eclipse.jgit.http.server.resolver;version="[2.4.0,2.5.0)",
+ org.eclipse.jgit.internal;version="[2.4.0,2.5.0)",
+ org.eclipse.jgit.junit;version="[2.4.0,2.5.0)",
+ org.eclipse.jgit.junit.http;version="[2.4.0,2.5.0)",
+ org.eclipse.jgit.lib;version="[2.4.0,2.5.0)",
+ org.eclipse.jgit.nls;version="[2.4.0,2.5.0)",
+ org.eclipse.jgit.revwalk;version="[2.4.0,2.5.0)",
+ org.eclipse.jgit.storage.file;version="[2.4.0,2.5.0)",
+ org.eclipse.jgit.transport;version="[2.4.0,2.5.0)",
+ org.eclipse.jgit.transport.resolver;version="[2.4.0,2.5.0)",
+ org.eclipse.jgit.util;version="[2.4.0,2.5.0)",
  org.hamcrest.core;version="[1.1.0,2.0.0)",
  org.junit;version="[4.0.0,5.0.0)"
