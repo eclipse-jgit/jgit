@@ -125,6 +125,9 @@ public class ChangeIdUtil {
 	private static final Pattern footerPattern = Pattern
 			.compile("(^[a-zA-Z0-9-]+:(?!//).*$)"); //$NON-NLS-1$
 
+	private static final Pattern changeIdPattern = Pattern
+			.compile("(^" + CHANGE_ID + " *I[a-f0-9]{40}$)"); //$NON-NLS-1$ //$NON-NLS-2$
+
 	private static final Pattern includeInFooterPattern = Pattern
 			.compile("^[ \\[].*$"); //$NON-NLS-1$
 
@@ -209,8 +212,11 @@ public class ChangeIdUtil {
 	}
 
 	/**
-	 * Find the index in the String {@code} message} where the Change-Id entry
-	 * begins
+	 * Return the index in the String {@code message} where the Change-Id entry
+	 * in the footer begins. If there are more than one entries matching the
+	 * pattern, return the index of the last one in the last section. Because of
+	 * Bug: 400818 we release the constraint here that a footer must contain
+	 * only lines matching {@code footerPattern}.
 	 *
 	 * @param message
 	 * @param delimiter
@@ -221,14 +227,28 @@ public class ChangeIdUtil {
 	 */
 	public static int indexOfChangeId(String message, String delimiter) {
 		String[] lines = message.split(delimiter);
-		int footerFirstLine = indexOfFirstFooterLine(lines);
-		if (footerFirstLine == lines.length)
-			return -1;
+		int indexOfChangeIdLine = 0;
+		boolean inFooter = false;
+		for (int i = lines.length - 1; i >= 0; --i) {
+			if (!inFooter && isEmptyLine(lines[i]))
+				continue;
+			inFooter = true;
+			if (changeIdPattern.matcher(lines[i].trim()).matches()) {
+				indexOfChangeIdLine = i;
+				break;
+			} else if (isEmptyLine(lines[i]) || i == 0)
+				return -1;
+		}
+		int indexOfChangeIdLineinString = 0;
+		for (int i = 0; i < indexOfChangeIdLine; ++i)
+			indexOfChangeIdLineinString += lines[i].length()
+					+ delimiter.length();
+		return indexOfChangeIdLineinString
+				+ lines[indexOfChangeIdLine].indexOf(CHANGE_ID);
+	}
 
-		int indexOfFooter = 0;
-		for (int i = 0; i < footerFirstLine; ++i)
-			indexOfFooter += lines[i].length() + delimiter.length();
-		return message.indexOf(CHANGE_ID, indexOfFooter);
+	private static boolean isEmptyLine(String line) {
+		return line.trim().length() == 0;
 	}
 
 	/**

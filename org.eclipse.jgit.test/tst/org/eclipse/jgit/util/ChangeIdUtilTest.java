@@ -642,27 +642,53 @@ public class ChangeIdUtilTest {
 		assertEquals(3, ChangeIdUtil.indexOfChangeId("x\n" + "\n"
 				+ "Change-Id: I3b7e4e16b503ce00f07ba6ad01d97a356dad7701\n",
 				"\n"));
+		assertEquals(3, ChangeIdUtil.indexOfChangeId("x\n" + "\n"
+				+ "Change-Id: I3b7e4e16b503ce00f07ba6ad01d97a356dad7701\n\n\n",
+				"\n"));
+		assertEquals(3, ChangeIdUtil.indexOfChangeId("x\n" + "\n"
+										+ "Change-Id: I3b7e4e16b503ce00f07ba6ad01d97a356dad7701\n \n \n",
+								"\n"));
+		assertEquals(3, ChangeIdUtil.indexOfChangeId("x\n" + "\n"
+				+ "Change-Id:  I3b7e4e16b503ce00f07ba6ad01d97a356dad7701\n",
+				"\n"));
+		assertEquals(4, ChangeIdUtil.indexOfChangeId("x\n" + "\n"
+				+ " Change-Id:  I3b7e4e16b503ce00f07ba6ad01d97a356dad7701\n",
+				"\n"));
+		assertEquals(5, ChangeIdUtil.indexOfChangeId("x\n" + "\n"
+				+ "\t Change-Id:  I3b7e4e16b503ce00f07ba6ad01d97a356dad7701\n",
+				"\n"));
+		assertEquals(-1, ChangeIdUtil.indexOfChangeId("x\n" + "\n"
+				+ "Change-Id: \n", "\n"));
+		assertEquals(3, ChangeIdUtil.indexOfChangeId("x\n" + "\n"
+				+ "Change-Id: I3b7e4e16b503ce00f07ba6ad01d97a356dad7701 \n",
+				"\n"));
+		assertEquals(12, ChangeIdUtil.indexOfChangeId("x\n" + "\n"
+				+ "Bug 4711\n"
+				+ "Change-Id: I3b7e4e16b503ce00f07ba6ad01d97a356dad7701\n",
+				"\n"));
+		assertEquals(56, ChangeIdUtil.indexOfChangeId("x\n"
+				+ "Change-Id: I3b7e4e16b503ce00f07ba6ad01d97a356dad7701\n"
+				+ "\n"
+				+ "Change-Id: I3b7e4e16b503ce00f07ba6ad01d97a356dad7701\n",
+				"\n"));
+		assertEquals(-1, ChangeIdUtil.indexOfChangeId("x\n"
+				+ "Change-Id: I3b7e4e16b503ce00f07ba6ad01d97a356dad7701\n"
+				+ "\n" + "x\n", "\n"));
+		assertEquals(-1, ChangeIdUtil.indexOfChangeId("x\n\n"
+				+ "Change-Id: I3b7e4e16b503ce00f07ba6ad01d97a356dad7701\n"
+				+ "\n" + "x\n", "\n"));
 		assertEquals(5, ChangeIdUtil.indexOfChangeId("x\r\n" + "\r\n"
 				+ "Change-Id: I3b7e4e16b503ce00f07ba6ad01d97a356dad7701\r\n",
 				"\r\n"));
 		assertEquals(3, ChangeIdUtil.indexOfChangeId("x\r" + "\r"
 				+ "Change-Id: I3b7e4e16b503ce00f07ba6ad01d97a356dad7701\r",
 				"\r"));
+		assertEquals(3, ChangeIdUtil.indexOfChangeId("x\r" + "\r"
+				+ "Change-Id: I3b7e4e16b503ce00f07ba6ad01d97a356dad7701\r",
+				"\r"));
 		assertEquals(8, ChangeIdUtil.indexOfChangeId("x\ny\n\nz\n" + "\n"
 				+ "Change-Id: I3b7e4e16b503ce00f07ba6ad01d97a356dad7701\n",
 				"\n"));
-	}
-
-	@Test
-	public void testIndexOfFirstFooterLine() {
-		assertEquals(
-				2,
-				ChangeIdUtil.indexOfFirstFooterLine(new String[] { "a", "",
-						"Bug: 42", "Signed-Off-By: j.developer@a.com" }));
-		assertEquals(
-				3,
-				ChangeIdUtil.indexOfFirstFooterLine(new String[] { "a",
-						"Bug: 42", "", "Signed-Off-By: j.developer@a.com" }));
 	}
 
 	private void hookDoesNotModify(final String in) throws Exception {
