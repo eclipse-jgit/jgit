@@ -1,0 +1,8 @@
+Code-Review+2: Robin Rosenberg <robin.rosenberg@dewire.com>
+IP-Clean+1: Robin Rosenberg <robin.rosenberg@dewire.com>
+Verified+1: Hudson CI
+Submitted-by: Robin Rosenberg <robin.rosenberg@dewire.com>
+Submitted-at: Sat, 16 Feb 2013 10:54:17 -0500
+Reviewed-on: https://git.eclipse.org/r/10328
+Project: jgit/jgit
+Branch: refs/heads/master
