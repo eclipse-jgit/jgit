@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//+yU\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/ChangeIdUtilTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 661,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2013-02-18T15:21:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//+2g\u003d",
+      "revId": "05c9a6189e1aa36c4caf3bfa654a11da3b6f13be",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//+2k\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/ChangeIdUtil.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-02-17T23:00:29Z",
       "side": 1,
       "message": "if we don\u0027t end up here we already know that the result must be -1\n\nfooters must be in the last paragraph hence we need to stop searching as soon as we find the first blank line",
+      "revId": "05c9a6189e1aa36c4caf3bfa654a11da3b6f13be",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//+yQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/ChangeIdUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2013-02-18T15:21:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//+2k\u003d",
       "revId": "05c9a6189e1aa36c4caf3bfa654a11da3b6f13be",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
