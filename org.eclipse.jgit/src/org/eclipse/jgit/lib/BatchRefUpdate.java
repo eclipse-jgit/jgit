@@ -53,9 +53,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
@@ -242,41 +244,120 @@ public class BatchRefUpdate {
 	 * @param walk
 	 *            a RevWalk to parse tags in case the storage system wants to
 	 *            store them pre-peeled, a common performance optimization.
-	 * @param update
+	 * @param monitor
 	 *            progress monitor to receive update status on.
 	 * @throws IOException
 	 *             the database is unable to accept the update. Individual
 	 *             command status must be tested to determine if there is a
 	 *             partial failure, or a total failure.
 	 */
-	public void execute(RevWalk walk, ProgressMonitor update)
+	public void execute(RevWalk walk, ProgressMonitor monitor)
 			throws IOException {
-		update.beginTask(JGitText.get().updatingReferences, commands.size());
+		monitor.beginTask(JGitText.get().updatingReferences, commands.size());
+		List<ReceiveCommand> commands2 = new ArrayList<ReceiveCommand>(
+				commands.size());
+		List<String> namesToCheck = new ArrayList<String>(commands.size());
+		// First delete refs. This may free the name space for some of the
+		// updates.
 		for (ReceiveCommand cmd : commands) {
 			try {
-				update.update(1);
-
 				if (cmd.getResult() == NOT_ATTEMPTED) {
 					cmd.updateType(walk);
-					RefUpdate ru = newUpdate(cmd);
 					switch (cmd.getType()) {
-					case DELETE:
-						cmd.setResult(ru.delete(walk));
-						continue;
-
 					case CREATE:
+						namesToCheck.add(cmd.getRefName());
+						commands2.add(cmd);
+						break;
 					case UPDATE:
 					case UPDATE_NONFASTFORWARD:
-						cmd.setResult(ru.update(walk));
-						continue;
+						commands2.add(cmd);
+						break;
+					case DELETE:
+						RefUpdate rud = newUpdate(cmd);
+						monitor.update(1);
+						cmd.setResult(rud.delete(walk));
 					}
 				}
 			} catch (IOException err) {
-				cmd.setResult(REJECTED_OTHER_REASON, MessageFormat.format(
-						JGitText.get().lockError, err.getMessage()));
+				cmd.setResult(
+						REJECTED_OTHER_REASON,
+						MessageFormat.format(JGitText.get().lockError,
+								err.getMessage()));
 			}
 		}
-		update.endTask();
+		if (!commands2.isEmpty()) {
+			// What part of the name space is already taken
+			Collection<String> takenNames = new HashSet<String>(refdb.getRefs(
+					RefDatabase.ALL).keySet());
+			Collection<String> takenPrefixes = getTakenPrefixes(takenNames);
+
+			// Now to the update that may require more room in the name space
+			for (ReceiveCommand cmd : commands2) {
+				try {
+					monitor.update(1);
+
+					if (cmd.getResult() == NOT_ATTEMPTED) {
+						cmd.updateType(walk);
+						RefUpdate ru = newUpdate(cmd);
+						SWITCH: switch (cmd.getType()) {
+						case DELETE:
+							// Performed in the first phase
+							break;
+						case UPDATE:
+						case UPDATE_NONFASTFORWARD:
+							monitor.update(1);
+							RefUpdate ruu = newUpdate(cmd);
+							cmd.setResult(ruu.update(walk));
+							break;
+						case CREATE:
+							for (String prefix : getPrefixes(cmd.getRefName())) {
+								if (takenNames.contains(prefix)) {
+									cmd.setResult(Result.LOCK_FAILURE);
+									break SWITCH;
+								}
+							}
+							if (takenPrefixes.contains(cmd.getRefName())) {
+								cmd.setResult(Result.LOCK_FAILURE);
+								break SWITCH;
+							}
+							ru.setCheckConflicting(false);
+							addRefToPrefixes(takenPrefixes, cmd.getRefName());
+							takenNames.add(cmd.getRefName());
+							cmd.setResult(ru.update(walk));
+						}
+					}
+				} catch (IOException err) {
+					cmd.setResult(REJECTED_OTHER_REASON, MessageFormat.format(
+							JGitText.get().lockError, err.getMessage()));
+				}
+			}
+		}
+		monitor.endTask();
+	}
+
+	private static Collection<String> getTakenPrefixes(
+			final Collection<String> names) {
+		Collection<String> ref = new HashSet<String>();
+		for (String name : names)
+			ref.addAll(getPrefixes(name));
+		return ref;
+	}
+
+	private static void addRefToPrefixes(Collection<String> prefixes,
+			String name) {
+		for (String prefix : getPrefixes(name)) {
+			prefixes.add(prefix);
+		}
+	}
+
+	static Collection<String> getPrefixes(String s) {
+		Collection<String> ret = new HashSet<String>();
+		int p1 = s.indexOf('/');
+		while (p1 > 0) {
+			ret.add(s.substring(0, p1));
+			p1 = s.indexOf('/', p1 + 1);
+		}
+		return ret;
 	}
 
 	/**
