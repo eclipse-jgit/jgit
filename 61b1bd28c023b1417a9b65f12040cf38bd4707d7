@@ -16,6 +16,24 @@
       "revId": "61b1bd28c023b1417a9b65f12040cf38bd4707d7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//+1U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1056
+      },
+      "writtenOn": "2013-02-18T12:39:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//+1c\u003d",
+      "revId": "61b1bd28c023b1417a9b65f12040cf38bd4707d7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
