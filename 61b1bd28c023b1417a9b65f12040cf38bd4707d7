@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//+1c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-02-18T11:52:57Z",
+      "side": 1,
+      "message": "Shouldn\u0027t you add a\n\n  inQueue \u003d 0;\n\nhere?",
+      "revId": "61b1bd28c023b1417a9b65f12040cf38bd4707d7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
