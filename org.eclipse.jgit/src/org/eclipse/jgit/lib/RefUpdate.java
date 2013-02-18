@@ -178,6 +178,8 @@ public abstract class RefUpdate {
 	 */
 	private boolean detachingSymbolicRef;
 
+	private boolean checkConflicting = true;
+
 	/**
 	 * Construct a new update operation for the reference.
 	 * <p>
@@ -564,7 +566,7 @@ public abstract class RefUpdate {
 	public Result link(String target) throws IOException {
 		if (!target.startsWith(Constants.R_REFS))
 			throw new IllegalArgumentException(MessageFormat.format(JGitText.get().illegalArgumentNotA, Constants.R_REFS));
-		if (getRefDatabase().isNameConflicting(getName()))
+		if (checkConflicting && getRefDatabase().isNameConflicting(getName()))
 			return Result.LOCK_FAILURE;
 		try {
 			if (!tryLock(false))
@@ -598,7 +600,7 @@ public abstract class RefUpdate {
 		RevObject newObj;
 		RevObject oldObj;
 
-		if (getRefDatabase().isNameConflicting(getName()))
+		if (checkConflicting && getRefDatabase().isNameConflicting(getName()))
 			return Result.LOCK_FAILURE;
 		try {
 			if (!tryLock(true))
@@ -628,6 +630,16 @@ public abstract class RefUpdate {
 		} finally {
 			unlock();
 		}
+	}
+
+	/**
+	 * Enable/disable the check for conflicting ref names. By default conflicts
+	 * are checked explicitly.
+	 *
+	 * @param check
+	 */
+	public void setCheckConflicting(boolean check) {
+		checkConflicting = check;
 	}
 
 	private static RevObject safeParse(final RevWalk rw, final AnyObjectId id)
