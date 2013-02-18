@@ -633,7 +633,10 @@ public class ResolveMerger extends ThreeWayMerger {
 		boolean isDirty = work.isModeDifferent(modeO);
 		if (!isDirty && nonTree(modeF))
 			isDirty = !tw.idEqual(T_FILE, T_OURS);
-
+		// Ignore existing empty directories
+		if (isDirty && modeF == FileMode.TYPE_TREE
+				&& modeO == FileMode.TYPE_MISSING)
+			isDirty = false;
 		if (isDirty)
 			failingPaths.put(tw.getPathString(),
 					MergeFailureReason.DIRTY_WORKTREE);
