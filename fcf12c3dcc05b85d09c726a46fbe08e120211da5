@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//+WY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/ChangeIdUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-02-19T23:58:04Z",
+      "side": 1,
+      "message": "I think we should not trim here since this leads to strange effects when amending a commit message with indented Change-Id  in the footer, e.g.\n\n test\n\n         Change-ID: Ic4bfb17d790c1250b7bfc22589bfe473d1509151\n\nin the staging view amending such a commit deletes the Change-Id which looks wrong",
+      "revId": "fcf12c3dcc05b85d09c726a46fbe08e120211da5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
