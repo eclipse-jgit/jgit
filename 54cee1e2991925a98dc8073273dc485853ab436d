@@ -16,6 +16,24 @@
       "revId": "54cee1e2991925a98dc8073273dc485853ab436d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//+ew\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 639,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-02-19T19:38:40Z",
+      "side": 1,
+      "message": "I think you are right, but then what do we do?\n\nIf the directory is empty or only contains empty folders (recursively), I think we should be able to just delete the directories.",
+      "parentUuid": "AABOPX//+pU\u003d",
+      "revId": "54cee1e2991925a98dc8073273dc485853ab436d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
