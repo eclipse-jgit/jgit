@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//+pU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 639,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-02-19T11:28:58Z",
+      "side": 1,
+      "message": "Not sure if this is sufficient. I agree that an empty dir in the working tree should not prevent a merge. But have you thought about the case where\n\n- base\u0026ours contain nothing for path p/x\n- worktree contains folder p/x\n- theirs contains a file p/x\n\nAfter/during a succesful merge we want to update the working tree with the file p/x from theirs. This will fail if in the same location a folder p/x exists, or? Maybe we need a test for this.",
+      "revId": "54cee1e2991925a98dc8073273dc485853ab436d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
