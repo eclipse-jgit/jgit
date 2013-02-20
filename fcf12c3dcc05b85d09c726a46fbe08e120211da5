@@ -34,6 +34,24 @@
       "revId": "fcf12c3dcc05b85d09c726a46fbe08e120211da5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//+GE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/ChangeIdUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-02-20T22:36:56Z",
+      "side": 1,
+      "message": "I tried pushing a change with indented change-id and Gerrit rejects that with the following error message:\n\n missing Change-Id in commit message\n Processing changes: refs: 1\n Processing changes: refs: 1, done    \n ERROR: missing Change-Id in commit message\n Suggestion for commit message:\n testing commit with indented change-id\n\n\tChange-Id: I4e310313c27873446519b09c82ef9a2e754f1b23\n\n Change-Id: Ic869add51cf3d82990102320004fa2a9d360b92b\n Hint: A potential Change-Id was found, but it was not in the  footer of the commit message.\n\nThere is no point to allow an indented change-id in EGit if Gerrit doesn\u0027t accept it",
+      "parentUuid": "AABOPX//+Ro\u003d",
+      "revId": "fcf12c3dcc05b85d09c726a46fbe08e120211da5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
