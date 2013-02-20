@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//+Dg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/ChangeIdUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-02-20T22:42:59Z",
+      "side": 1,
+      "message": "still amending removes lines with an indented Change-Id, trimming only on the right side fixes this",
+      "revId": "644a9b56a17b1bb000bee684eb065039a21f4e6a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
