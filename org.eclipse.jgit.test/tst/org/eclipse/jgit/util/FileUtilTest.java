@@ -43,6 +43,8 @@
 
 package org.eclipse.jgit.util;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.endsWith;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -175,6 +177,7 @@ public class FileUtilTest {
 		assertTrue(f.delete());
 	}
 
+	@Test
 	public void testCreateNewFile() throws IOException {
 		File f = new File(trash, "x");
 		FileUtils.createNewFile(f);
@@ -190,4 +193,47 @@ public class FileUtilTest {
 		FileUtils.delete(f);
 	}
 
+	@Test
+	public void testDeleteEmptyTreeOk() throws IOException {
+		File t = new File(trash, "t");
+		FileUtils.mkdir(t);
+		FileUtils.mkdir(new File(t, "d"));
+		FileUtils.mkdir(new File(new File(t, "d"), "e"));
+		FileUtils.delete(t, FileUtils.EMPTY_DIRECTORIES_ONLY | FileUtils.RECURSIVE);
+		assertFalse(t.exists());
+	}
+
+	@Test
+	public void testDeleteNotEmptyTreeNotOk() throws IOException {
+		File t = new File(trash, "t");
+		FileUtils.mkdir(t);
+		FileUtils.mkdir(new File(t, "d"));
+		File f = new File(new File(t, "d"), "f");
+		FileUtils.createNewFile(f);
+		FileUtils.mkdir(new File(new File(t, "d"), "e"));
+		try {
+			FileUtils.delete(t, FileUtils.EMPTY_DIRECTORIES_ONLY | FileUtils.RECURSIVE);
+			fail("expected failure to delete f");
+		} catch (IOException e) {
+			assertThat(e.getMessage(), endsWith(f.getAbsolutePath()));
+		}
+		assertTrue(t.exists());
+	}
+
+	@Test
+	public void testDeleteNotEmptyTreeNotOkButIgnoreFail() throws IOException {
+		File t = new File(trash, "t");
+		FileUtils.mkdir(t);
+		FileUtils.mkdir(new File(t, "d"));
+		File f = new File(new File(t, "d"), "f");
+		FileUtils.createNewFile(f);
+		File e = new File(new File(t, "d"), "e");
+		FileUtils.mkdir(e);
+		FileUtils.delete(t, FileUtils.EMPTY_DIRECTORIES_ONLY | FileUtils.RECURSIVE
+				| FileUtils.IGNORE_ERRORS);
+		// Should have deleted as much as possible, but not all
+		assertTrue(t.exists());
+		assertTrue(f.exists());
+		assertFalse(e.exists());
+	}
 }
