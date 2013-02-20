@@ -84,6 +84,14 @@ public class FileUtils {
 	public static final int IGNORE_ERRORS = 8;
 
 	/**
+	 * Option to only delete empty directories. This option can be combined with
+	 * {@link #RECURSIVE}
+	 *
+	 * @since 2.4
+	 */
+	public static final int EMPTY_DIRECTORY = 16;
+
+	/**
 	 * Delete file or empty folder
 	 *
 	 * @param f
@@ -126,7 +134,20 @@ public class FileUtils {
 					delete(c, options);
 			}
 		}
-		if (!f.delete()) {
+
+		boolean delete = false;
+		if ((options & EMPTY_DIRECTORY) != 0)
+			if (f.isDirectory())
+				delete = true;
+			else {
+				if ((options & IGNORE_ERRORS) == 0)
+					throw new IOException(MessageFormat.format(
+							JGitText.get().deleteFileFailed,
+							f.getAbsolutePath()));
+			}
+		else
+			delete = true;
+		if (delete && !f.delete()) {
 			if ((options & RETRY) != 0 && f.exists()) {
 				for (int i = 1; i < 10; i++) {
 					try {
