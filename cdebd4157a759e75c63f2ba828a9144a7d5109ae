@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//9z8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1056
+      },
+      "writtenOn": "2013-02-21T16:55:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//+AA\u003d",
+      "revId": "cdebd4157a759e75c63f2ba828a9144a7d5109ae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//9/w\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2013-02-21T00:43:18Z",
       "side": 1,
       "message": "This is an interesting approach, but given how you rebuild in bulk I wonder if we can\u0027t do better and still be simple.\n\nSwitch this to an Entry[] and add two additional fields that lets you know the \"first\" and \"last\" position in the array. During a rebuild you an approximate the array size as inQueue/100 + 1 and then append each 100th object into the array.\n\nDuring add you can binary search the Entry[] to locate in log N time the point to begin insertion at. This is a bit more code, but we like binary search in JGit so... not horrible.\n\nDuring next() you move the first field up in the array as items are popped from the queue, and null out the index so the Entry can be garbage collected.\n\nThis should have a much lower memory footprint, reduce GC pressure, and perform insertion even faster because we are now doing log N/100 tests rather than N/100 tests.",
+      "revId": "cdebd4157a759e75c63f2ba828a9144a7d5109ae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//9z4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1056
+      },
+      "writtenOn": "2013-02-21T16:55:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//9/w\u003d",
       "revId": "cdebd4157a759e75c63f2ba828a9144a7d5109ae",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
