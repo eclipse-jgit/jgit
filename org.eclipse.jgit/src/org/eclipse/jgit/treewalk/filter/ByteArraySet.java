@@ -88,7 +88,7 @@ class ByteArraySet {
 	}
 
 	private static boolean equals(byte[] a, byte[] b, int length) {
-		if (a.length < length || b.length < length)
+		if (a.length != length || b.length < length)
 			return false;
 		for (int i = 0; i < length; ++i) {
 			if (a[i] != b[i])
