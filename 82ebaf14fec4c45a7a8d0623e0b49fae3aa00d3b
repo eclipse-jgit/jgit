@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//9ss\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-02-21T22:26:03Z",
+      "side": 1,
+      "message": "Actually, \u003e\u003e1 is the same as /2. \u003e\u003e\u003e1 is not. The extra \u003e means it does the right shift without sign extension. If the addition overflows and wraps \u003e\u003e\u003e switches it back to a positive value rather than a negative value, so the later array index doesn\u0027t throw an exception.",
+      "parentUuid": "AABOPX//9tI\u003d",
+      "revId": "82ebaf14fec4c45a7a8d0623e0b49fae3aa00d3b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//9t8\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
         "patchSetId": 6
