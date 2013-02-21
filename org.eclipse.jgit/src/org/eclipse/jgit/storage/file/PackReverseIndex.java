@@ -108,7 +108,7 @@ public class PackReverseIndex {
 		int i64 = 0;
 		for (final MutableEntry me : index) {
 			final long o = me.getOffset();
-			if (o < Integer.MAX_VALUE)
+			if (o <= Integer.MAX_VALUE)
 				offsets32[i32++] = (int) o;
 			else
 				offsets64[i64++] = o;
@@ -120,7 +120,7 @@ public class PackReverseIndex {
 		int nth = 0;
 		for (final MutableEntry me : index) {
 			final long o = me.getOffset();
-			if (o < Integer.MAX_VALUE)
+			if (o <= Integer.MAX_VALUE)
 				nth32[Arrays.binarySearch(offsets32, (int) o)] = nth++;
 			else
 				nth64[Arrays.binarySearch(offsets64, o)] = nth++;
