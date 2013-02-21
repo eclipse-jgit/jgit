@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2008-2009, Google Inc.
  * Copyright (C) 2009, Matthias Sohn <matthias.sohn@sap.com>
+ * Copyright (C) 2012, Research In Motion Limited
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -66,8 +67,17 @@ public abstract class MergeStrategy {
 	/** Simple strategy to merge paths, without simultaneous edits. */
 	public static final ThreeWayMergeStrategy SIMPLE_TWO_WAY_IN_CORE = new StrategySimpleTwoWayInCore();
 
-	/** Simple strategy to merge paths. It tries to merge also contents. Multiple merge bases are not supported */
+	/**
+	 * Simple strategy to merge paths. It tries to merge also contents. Multiple
+	 * merge bases are not supported
+	 */
 	public static final ThreeWayMergeStrategy RESOLVE = new StrategyResolve();
+
+	/**
+	 * Recursive strategy to merge paths. It tries to merge also contents.
+	 * Multiple merge bases are supported
+	 */
+	public static final ThreeWayMergeStrategy RECURSIVE = new StrategyRecursive();
 
 	private static final HashMap<String, MergeStrategy> STRATEGIES = new HashMap<String, MergeStrategy>();
 
@@ -76,6 +86,7 @@ public abstract class MergeStrategy {
 		register(THEIRS);
 		register(SIMPLE_TWO_WAY_IN_CORE);
 		register(RESOLVE);
+		register(RECURSIVE);
 	}
 
 	/**
@@ -103,7 +114,8 @@ public abstract class MergeStrategy {
 	public static synchronized void register(final String name,
 			final MergeStrategy imp) {
 		if (STRATEGIES.containsKey(name))
-			throw new IllegalArgumentException(MessageFormat.format(JGitText.get().mergeStrategyAlreadyExistsAsDefault, name));
+			throw new IllegalArgumentException(MessageFormat.format(
+					JGitText.get().mergeStrategyAlreadyExistsAsDefault, name));
 		STRATEGIES.put(name, imp);
 	}
 
@@ -146,7 +158,7 @@ public abstract class MergeStrategy {
 
 	/**
 	 * Create a new merge instance.
-	 * 
+	 *
 	 * @param db
 	 *            repository database the merger will read from, and eventually
 	 *            write results back to.
