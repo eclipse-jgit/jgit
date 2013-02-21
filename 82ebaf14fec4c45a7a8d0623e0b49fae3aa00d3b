@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//9t4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-02-21T20:58:21Z",
+      "side": 1,
+      "message": "low \u003c high? When they are equal there is no point in running a binary search iteration. There is exactly one element to examine from index and the reassignment of q when the loop breaks will pick that single element.",
+      "revId": "82ebaf14fec4c45a7a8d0623e0b49fae3aa00d3b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//9uA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-02-21T20:58:21Z",
+      "side": 1,
+      "message": "mid \u003d (low + high) \u003e\u003e\u003e 1",
+      "revId": "82ebaf14fec4c45a7a8d0623e0b49fae3aa00d3b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//9t8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-02-21T20:58:21Z",
+      "side": 1,
+      "message": "Pull this into a local:\n\n  int t \u003d index[mid].commit.commitTime;",
+      "revId": "82ebaf14fec4c45a7a8d0623e0b49fae3aa00d3b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//9to\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-02-21T20:58:21Z",
+      "side": 1,
+      "message": "When you break here there was already a known commitTime tie at mid and the incoming c. See below about breaking a tie.",
+      "revId": "82ebaf14fec4c45a7a8d0623e0b49fae3aa00d3b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//9t0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-02-21T20:58:21Z",
+      "side": 1,
+      "message": "This is now wrong. We can only update head if q \u003d\u003d head. If the index did its magic above we can\u0027t use this block of the if because we aren\u0027t looking at the head node anymore.\n\nI wonder if your testing has been skewed because of this. Huge segments of the list may have been truncated away when an entry was found in the index.",
+      "revId": "82ebaf14fec4c45a7a8d0623e0b49fae3aa00d3b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//9ts\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-02-21T20:58:21Z",
+      "side": 1,
+      "message": "Ties are last-in-first-out because of this condition.\n\nSo when the binary search above finds a point where mid has the same time we should look at the prior index position (or head if mid\u003d0) to start q. If the prior position also has the same time, we need to keep going backwards through the index until we find a node that is not the same time.",
+      "revId": "82ebaf14fec4c45a7a8d0623e0b49fae3aa00d3b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
