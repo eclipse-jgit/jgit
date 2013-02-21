@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//9tI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1056
+      },
+      "writtenOn": "2013-02-21T22:23:48Z",
+      "side": 1,
+      "message": "I thought about bit shifting when I wrote the code, but I figured the compiler would absolutely do it for me. So to avoid any premature optimizations (especially when it also can hinder readability) I left it out.",
+      "parentUuid": "AABOPX//9uA\u003d",
+      "revId": "82ebaf14fec4c45a7a8d0623e0b49fae3aa00d3b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//9t8\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
         "patchSetId": 6
@@ -87,6 +105,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//9tE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1056
+      },
+      "writtenOn": "2013-02-21T22:23:48Z",
+      "side": 1,
+      "message": "\u003e I wonder if your testing has been skewed because of this. Huge segments of the list may have been truncated away when an entry was found in the index.\n\nI\u0027m not sure if you mean the tests in the commit message. Those numbers are from previous versions of this patch. In those patches this could not happen. E.g. \"when \u003e q.commit.commitTime\" could only be true if q \u003d\u003d head.\n\nI\u0027ll fix your comments and update with new numbers.",
+      "parentUuid": "AABOPX//9t0\u003d",
+      "revId": "82ebaf14fec4c45a7a8d0623e0b49fae3aa00d3b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//9ts\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
         "patchSetId": 6
@@ -98,6 +134,24 @@
       "writtenOn": "2013-02-21T20:58:21Z",
       "side": 1,
       "message": "Ties are last-in-first-out because of this condition.\n\nSo when the binary search above finds a point where mid has the same time we should look at the prior index position (or head if mid\u003d0) to start q. If the prior position also has the same time, we need to keep going backwards through the index until we find a node that is not the same time.",
+      "revId": "82ebaf14fec4c45a7a8d0623e0b49fae3aa00d3b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//9tA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1056
+      },
+      "writtenOn": "2013-02-21T22:23:48Z",
+      "side": 1,
+      "message": "Thanks!",
+      "parentUuid": "AABOPX//9ts\u003d",
       "revId": "82ebaf14fec4c45a7a8d0623e0b49fae3aa00d3b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
