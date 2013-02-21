@@ -50,7 +50,7 @@
   <parent>
     <groupId>org.eclipse.jgit</groupId>
     <artifactId>org.eclipse.jgit-parent</artifactId>
-    <version>2.3.1.201302201838-r</version>
+    <version>2.3.2-SNAPSHOT</version>
   </parent>
 
   <artifactId>org.eclipse.jgit.pgm.test</artifactId>
