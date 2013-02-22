@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//9dg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/errors/NoMergeBaseException.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-02-22T18:50:57Z",
+      "side": 1,
+      "message": "typo in enum:\ns/TO_MANY_MERGE_BASES/TOO_MANY_MERGE_BASES/",
+      "revId": "b9b44d03da02061585f267b71a4159f92ea4ee27",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//9d0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-02-22T18:50:57Z",
+      "side": 1,
+      "message": "unfinished sentence ?",
+      "revId": "b9b44d03da02061585f267b71a4159f92ea4ee27",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//9dc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-02-22T18:50:57Z",
+      "side": 1,
+      "message": "typo: s#auther/commiter#author/committer#",
+      "revId": "b9b44d03da02061585f267b71a4159f92ea4ee27",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
