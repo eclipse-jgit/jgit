@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "AABOPX//9jQ\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-02-22T15:27:20Z",
+      "side": 1,
+      "message": "\"Extend\"",
+      "revId": "97aeec4ca49156918437c6563ce3b121a5f5248a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//9jI\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-02-22T15:27:20Z",
+      "side": 1,
+      "message": "Some superfluous words there.",
+      "revId": "97aeec4ca49156918437c6563ce3b121a5f5248a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//9js\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
         "patchSetId": 1
