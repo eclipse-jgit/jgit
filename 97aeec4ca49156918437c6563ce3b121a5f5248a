@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//9js\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-02-22T15:21:58Z",
+      "side": 1,
+      "message": "Maybe EMPTY_DIRECTORY_ONLY or ONLY_EMPTY_DIRECTORY would be better because they\u0027re more explicit?",
+      "revId": "97aeec4ca49156918437c6563ce3b121a5f5248a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//9jw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-02-22T15:21:58Z",
+      "side": 1,
+      "message": "Could you add braces here and for the below if? It\u0027s kind of hard to read in this case.",
+      "revId": "97aeec4ca49156918437c6563ce3b121a5f5248a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
