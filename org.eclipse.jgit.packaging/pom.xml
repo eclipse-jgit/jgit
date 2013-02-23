@@ -94,6 +94,20 @@
     </repository>
   </repositories>
 
+  <distributionManagement>
+    <repository>
+      <id>repo.eclipse.org</id>
+      <name>JGit Maven Repository - Releases</name>
+      <url>https://repo.eclipse.org/content/repositories/jgit-releases/</url>
+    </repository>
+    <snapshotRepository>
+      <id>repo.eclipse.org</id>
+      <name>JGit Maven Repository - Snapshots</name>
+      <url>https://repo.eclipse.org/content/repositories/jgit-snapshots/</url>
+      <uniqueVersion>true</uniqueVersion>
+    </snapshotRepository>
+  </distributionManagement>
+
   <dependencies>
     <!-- sources artifacts so that we can place them in the features -->
     <dependency>
