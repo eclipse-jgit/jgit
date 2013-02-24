@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//9OI\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RebaseCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-02-24T15:45:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//9is\u003d",
+      "revId": "bbed6b67fd1a2bf5b395ff75b9536ed55d195afe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//9io\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RebaseCommandTest.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-02-22T15:37:51Z",
       "side": 1,
       "message": "Switch arguments, expected comes first for assertEquals.",
+      "revId": "bbed6b67fd1a2bf5b395ff75b9536ed55d195afe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//9OE\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RebaseCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-02-24T15:45:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//9io\u003d",
       "revId": "bbed6b67fd1a2bf5b395ff75b9536ed55d195afe",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
