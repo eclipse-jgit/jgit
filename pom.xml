@@ -184,6 +184,11 @@
     <servlet-api-version>2.5</servlet-api-version>
     <jetty-version>7.6.0.v20120127</jetty-version>
     <clirr-version>2.4</clirr-version>
+
+    <!-- Properties to enable jacoco code coverage analysis -->
+    <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
+    <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+    <sonar.jacoco.reportPath>../target/jacoco.exec</sonar.jacoco.reportPath>
   </properties>
 
   <repositories>
@@ -311,6 +316,11 @@
             <minSeverity>info</minSeverity>
           </configuration>
         </plugin>
+        <plugin>
+          <groupId>org.jacoco</groupId>
+          <artifactId>jacoco-maven-plugin</artifactId>
+          <version>0.6.2.201302030002</version>
+        </plugin>
       </plugins>
     </pluginManagement>
 
@@ -391,6 +401,24 @@
             <goals>
               <goal>jar</goal>
             </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+            <configuration>
+              <destFile>${sonar.jacoco.reportPath}</destFile>
+              <includes>
+                <include>org.eclipse.jgit.*</include>
+              </includes>
+              <append>true</append>
+            </configuration>
           </execution>
         </executions>
       </plugin>
