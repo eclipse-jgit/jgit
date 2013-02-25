@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//9EQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-02-25T16:50:14Z",
+      "side": 1,
+      "message": "There appears to be a bug here, but I don\u0027t think it can arise in practice.\n\nWith low \u003e\u003d first and --low in the loop we could decrement low to be earlier than first and attempt to load index[-1] or set q to null. However this cannot happen because we already tested in the if block above that index[first] \u003e when. Thus we are never equal when low\u003d\u003dfirst and we won\u0027t hit this bug.",
+      "revId": "84afea9179932995d1e59f8fda4e6b11217382ad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
