@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//9IA\u003d",
+        "filename": "pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-02-25T12:24:28Z",
+      "side": 1,
+      "message": "*TestCase could also be excluded (e.g. LocalDiskRepositoryTestCase). Or maybe exclude whole test projects? E.g. JGitTestUtil and such should also be excluded.",
+      "revId": "636f9e4e2e837d98d5116048534e1d742de24fc0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
