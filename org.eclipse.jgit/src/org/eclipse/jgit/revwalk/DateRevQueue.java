@@ -106,7 +106,7 @@ public class DateRevQueue extends AbstractRevQueue {
 				}
 			}
 			low = Math.min(low, high);
-			while (low >= first && when == index[low].commit.commitTime)
+			while (low > first && when == index[low].commit.commitTime)
 				--low;
 			q = index[low];
 		}
