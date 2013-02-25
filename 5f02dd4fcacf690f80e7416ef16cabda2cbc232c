@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//9KI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1056
+      },
+      "writtenOn": "2013-02-25T11:47:03Z",
+      "side": 1,
+      "message": "I think we need to keep both inQueue and sinceLastIndex here. \n\nFor instance, if we receive a very old commit we will need to traverse all commits in the repository that is newer than our  newly received (but older) commit, before all commits in the DateRevQueue are finally marked as uninteresting and the PendingGenerator is happy.\n\nSo.. If we have few refs but a very long history, we will continuously have relatively few objects in the queue but run add()/next() lots of times when receiving our (old) commit. And the DateRevQueue will not really have a need for the index in this situation.",
+      "parentUuid": "AABOPX//9fo\u003d",
+      "revId": "5f02dd4fcacf690f80e7416ef16cabda2cbc232c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//9e0\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
         "patchSetId": 7
@@ -30,6 +48,24 @@
       "writtenOn": "2013-02-22T17:49:38Z",
       "side": 1,
       "message": "What is the point of index[first] !\u003d null test?\n\nInitially the index is null so we never reach here. After a rebuild first points to a valid non-null entry.\n\nWhen next() runs it may advance first, but first still points to a valid index, provided that first \u003c\u003d last. The only time first isn\u0027t pointing at a non-null entry is when first \u003e last. In this case we also can\u0027t be sure first isn\u0027t \u003e index.length. If the array was sized exactly right then last \u003d\u003d index.length-1 and next() could advance first to be one past that when it pops the last index bucket. Now this array index operation will throw an exception.\n\nI think you want to write:\n\n  if (first \u003c\u003d last \u0026\u0026 index[first].commit.commitTime \u003e when)\n\nand modify the field initialization and clear() method to set last \u003d -1.",
+      "revId": "5f02dd4fcacf690f80e7416ef16cabda2cbc232c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//9KE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1056
+      },
+      "writtenOn": "2013-02-25T11:47:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//9e0\u003d",
       "revId": "5f02dd4fcacf690f80e7416ef16cabda2cbc232c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//9KA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1056
+      },
+      "writtenOn": "2013-02-25T11:47:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//9ew\u003d",
+      "revId": "5f02dd4fcacf690f80e7416ef16cabda2cbc232c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//9fw\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
         "patchSetId": 7
@@ -64,6 +118,24 @@
       "writtenOn": "2013-02-22T17:49:38Z",
       "side": 1,
       "message": "style nit: I would phrase this loop as:\n\n  int qi \u003d 0, ii \u003d 0;\n  for (Entry q \u003d head; q !\u003d null; q \u003d q.next) {\n    if (++qi % 100 \u003d\u003d 0)\n      index[ii++] \u003d q;\n  }\n\nIts shorter by two lines because you can combine into the for loop. I know you have three \"iterators\" here, but I think its sane to use the for loop for the Entry pointer that is the main loop control variable. The other two \"iterators\" qi and ii aren\u0027t related to the number of iterations the loop makes so don\u0027t need to be in the for loop construct.",
+      "revId": "5f02dd4fcacf690f80e7416ef16cabda2cbc232c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//9I0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1056
+      },
+      "writtenOn": "2013-02-25T11:47:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//9fw\u003d",
       "revId": "5f02dd4fcacf690f80e7416ef16cabda2cbc232c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
