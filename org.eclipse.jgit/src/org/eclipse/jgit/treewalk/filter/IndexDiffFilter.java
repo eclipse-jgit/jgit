@@ -285,12 +285,25 @@ public class IndexDiffFilter extends TreeFilter {
 	 *         empty list will be returned.
 	 */
 	public List<String> getUntrackedFolders() {
-		LinkedList<String> ret = new LinkedList<String>(untrackedFolders);
+		LinkedList<String> untracked = new LinkedList<String>(untrackedFolders);
 		if (!untrackedParentFolders.isEmpty()) {
 			String toBeAdded = untrackedParentFolders.getLast();
-			while (!ret.isEmpty() && ret.getLast().startsWith(toBeAdded))
-				ret.removeLast();
-			ret.addLast(toBeAdded);
+			while (!untracked.isEmpty() && untracked.getLast().startsWith(toBeAdded))
+				untracked.removeLast();
+			untracked.addLast(toBeAdded);
+		}
+		// remove ignored folders
+		LinkedList<String> ret = new LinkedList<String>();
+		for (String p: untracked) {
+			boolean ignored = false;
+			for (String i: ignoredPaths) {
+				if (p.startsWith(i)) {
+					ignored = true;
+					break;
+				}
+			}
+			if (!ignored)
+				ret.add(p);
 		}
 		return ret;
 	}
