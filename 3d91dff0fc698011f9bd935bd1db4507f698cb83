@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//8AA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/PackFile.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1095,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-02-28T19:29:47Z",
+      "side": 1,
+      "message": "!\u003d 0 is also valid if the bit is only ever 1 bit set.",
+      "revId": "3d91dff0fc698011f9bd935bd1db4507f698cb83",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//7/8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackExt.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-02-28T19:29:47Z",
+      "side": 1,
+      "message": "You can just say public static synchronized PackExt and have the JVM handle the locking for you.",
+      "revId": "3d91dff0fc698011f9bd935bd1db4507f698cb83",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//7/4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackExt.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-02-28T19:29:47Z",
+      "side": 1,
+      "message": "We should throw IllegalStateException if VALUES.length \u003d\u003d 32.",
+      "revId": "3d91dff0fc698011f9bd935bd1db4507f698cb83",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
