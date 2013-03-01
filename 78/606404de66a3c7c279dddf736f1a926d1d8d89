@@ -1,0 +1,10 @@
+Code-Review+2: Shawn Pearce <sop@google.com>
+Code-Review+1: Matthias Sohn <matthias.sohn@sap.com>
+IP-Clean+1: Matthias Sohn <matthias.sohn@sap.com>
+Code-Review+1: Robin Stocker <robin@nibor.org>
+Verified+1: Hudson CI
+Submitted-by: Shawn Pearce <sop@google.com>
+Submitted-at: Thu, 28 Feb 2013 19:21:59 -0500
+Reviewed-on: https://git.eclipse.org/r/10603
+Project: jgit/jgit
+Branch: refs/heads/master
