@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//75I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-01T00:33:20Z",
+      "side": 1,
+      "message": "This is now O(N^2). How about instead of tossing everything into commands2 you make commands2 an empty list:\n\n  List\u003cReceiveCommand\u003e commands2  \u003d new ArrayList\u003cReceiveCommand\u003e(commands.size());\n\nand only add items to it in the next case where you didn\u0027t handle the DELETE here.",
+      "revId": "cfd6afb160e6eca67e8805f0e9b8793e9e26554a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//75E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-01T00:33:20Z",
+      "side": 1,
+      "message": "IMHO we don\u0027t have to check UPDATE and UPDATE_NONFASTFORWARD for name collisions do we? The name must already exist and must have the old ObjectId as its value in order to execute the command.\n\nSo we only have to check names that are CREATE.",
+      "revId": "cfd6afb160e6eca67e8805f0e9b8793e9e26554a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//744\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-01T00:33:20Z",
+      "side": 1,
+      "message": "This should only execute if there was a CREATE. If we have no CREATE then this is just a huge waste of time.",
+      "revId": "cfd6afb160e6eca67e8805f0e9b8793e9e26554a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//740\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-01T00:33:20Z",
+      "side": 1,
+      "message": "This assert is unnecessary.",
+      "revId": "cfd6afb160e6eca67e8805f0e9b8793e9e26554a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//74s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-01T00:33:20Z",
+      "side": 1,
+      "message": "Checking the prefixes is faster with a TreeSet or a sorted List. Look at how RefDirectory.isNameConflicting() walks up the path for the input ref to see if any other ref already has that name. You don\u0027t have to build up large temporary HashSets containing every possible prefix permutation.",
+      "revId": "cfd6afb160e6eca67e8805f0e9b8793e9e26554a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
