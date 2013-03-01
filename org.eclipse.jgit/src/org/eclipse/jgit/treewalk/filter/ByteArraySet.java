@@ -53,6 +53,10 @@ import org.eclipse.jgit.util.RawParseUtils;
  * {@link PathFilterGroup.Group}. Most methods assume the hash is already know
  * and therefore requires the caller to supply it beforehand. The implementation
  * is a loose derivative of ObjectIdSubclassMap.
+ * <p>
+ * The class is only intended for use by PathFilterGroup.
+ * <p>
+ * The arrays stored may not be changed after adding.
  */
 class ByteArraySet {
 
@@ -87,11 +91,11 @@ class ByteArraySet {
 		return null;
 	}
 
-	private static boolean equals(byte[] a, byte[] b, int length) {
-		if (a.length != length || b.length < length)
+	private static boolean equals(byte[] storedObj, byte[] toFind, int length) {
+		if (storedObj.length != length || toFind.length < length)
 			return false;
 		for (int i = 0; i < length; ++i) {
-			if (a[i] != b[i])
+			if (storedObj[i] != toFind[i])
 				return false;
 		}
 		return true;
@@ -125,7 +129,8 @@ class ByteArraySet {
 	 * </pre>
 	 *
 	 * @param newValue
-	 *            the array to store.
+	 *            the array to store by reference if the length is the same as
+	 *            the length parameter
 	 * @param length
 	 *            The number of bytes in newValue that are used
 	 * @param hash
@@ -246,6 +251,9 @@ class ByteArraySet {
 		return -1;
 	}
 
+	/**
+	 * An incremental hash function.
+	 */
 	static class Hasher {
 		private int hash;
 
