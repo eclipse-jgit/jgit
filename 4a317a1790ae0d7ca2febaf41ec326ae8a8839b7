@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//75A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/PackFile.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1094,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-03-01T00:29:22Z",
+      "side": 1,
+      "message": "Eclipse complains with an error that this method is unused:\n\nThe method hasExt(PackExt) from the type PackFile is never used locally\tPackFile.java\t/org.eclipse.jgit/src/org/eclipse/jgit/storage/file\tline 1094\tJava Problem",
+      "revId": "4a317a1790ae0d7ca2febaf41ec326ae8a8839b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
