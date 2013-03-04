@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//7Ls\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/LogCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 102
+      },
+      "writtenOn": "2013-03-04T22:45:04Z",
+      "side": 1,
+      "message": "style-nit: Over-indented by one tab?",
+      "revId": "55cfeb00a88651652ab3716bef7d805818f91324",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
