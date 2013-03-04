@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//7RA\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-03-04T19:56:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//9jQ\u003d",
+      "revId": "97aeec4ca49156918437c6563ce3b121a5f5248a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//9jI\u003d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-02-22T15:27:20Z",
       "side": 1,
       "message": "Some superfluous words there.",
+      "revId": "97aeec4ca49156918437c6563ce3b121a5f5248a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//7Q8\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-03-04T19:56:58Z",
+      "side": 1,
+      "message": "Not really, but it looks funny.",
+      "parentUuid": "AABOPX//9jI\u003d",
       "revId": "97aeec4ca49156918437c6563ce3b121a5f5248a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//7RU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-03-04T19:56:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//9js\u003d",
+      "revId": "97aeec4ca49156918437c6563ce3b121a5f5248a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//9jw\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2013-02-22T15:21:58Z",
       "side": 1,
       "message": "Could you add braces here and for the below if? It\u0027s kind of hard to read in this case.",
+      "revId": "97aeec4ca49156918437c6563ce3b121a5f5248a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//7RY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-03-04T19:56:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//9jw\u003d",
       "revId": "97aeec4ca49156918437c6563ce3b121a5f5248a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
