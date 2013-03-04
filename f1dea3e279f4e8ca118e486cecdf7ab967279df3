@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//7PU\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-03-04T20:31:49Z",
+      "side": 1,
+      "message": "I was thinking that we cannot rely on that because packed refs may exist in conflicting forms, but when you update you create a loose ref.  Normally the conflict checks should prevent this, but...",
+      "revId": "f1dea3e279f4e8ca118e486cecdf7ab967279df3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
