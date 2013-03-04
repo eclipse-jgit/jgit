@@ -16,6 +16,24 @@
       "revId": "f1dea3e279f4e8ca118e486cecdf7ab967279df3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//7NI\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 102
+      },
+      "writtenOn": "2013-03-04T22:29:32Z",
+      "side": 1,
+      "message": "If the refs in .git/packed-refs exist in conflicted forms, won\u0027t they continue to be in conflict even if we abort the ref update and don\u0027t create the loose ref?\n\nI confess I\u0027m not sure, but don\u0027t I think I can see a way that omitting the isNameConflicting() check (in the case of existing refs) would make things worse.",
+      "parentUuid": "AABOPX//7PU\u003d",
+      "revId": "f1dea3e279f4e8ca118e486cecdf7ab967279df3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
