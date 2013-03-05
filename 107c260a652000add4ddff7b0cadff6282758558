@@ -1,0 +1,191 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//6ts\u003d",
+        "filename": "org.eclipse.jgit.java7.test/META-INF/MANIFEST.MF",
+        "patchSetId": 18
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-03-05T23:10:12Z",
+      "side": 1,
+      "message": "s/2.3.0/2.4.0/",
+      "revId": "107c260a652000add4ddff7b0cadff6282758558",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//6to\u003d",
+        "filename": "org.eclipse.jgit.java7.test/META-INF/MANIFEST.MF",
+        "patchSetId": 18
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-03-05T23:10:12Z",
+      "side": 1,
+      "message": "s/[2.3.0,2.4.0)/[2.4.0,2.5.0)/",
+      "revId": "107c260a652000add4ddff7b0cadff6282758558",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//6tk\u003d",
+        "filename": "org.eclipse.jgit.java7.test/META-INF/MANIFEST.MF",
+        "patchSetId": 18
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-03-05T23:10:12Z",
+      "side": 1,
+      "message": "s/[2.3.0,2.4.0)/[2.4.0,2.5.0)/",
+      "revId": "107c260a652000add4ddff7b0cadff6282758558",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//6tg\u003d",
+        "filename": "org.eclipse.jgit.java7.test/META-INF/MANIFEST.MF",
+        "patchSetId": 18
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-03-05T23:10:12Z",
+      "side": 1,
+      "message": "s/[2.3.0,2.4.0)/[2.4.0,2.5.0)/",
+      "revId": "107c260a652000add4ddff7b0cadff6282758558",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//6tc\u003d",
+        "filename": "org.eclipse.jgit.java7.test/pom.xml",
+        "patchSetId": 18
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-03-05T23:10:12Z",
+      "side": 1,
+      "message": "s/2.3.0-SNAPSHOT/2.4.0-SNAPSHOT/",
+      "revId": "107c260a652000add4ddff7b0cadff6282758558",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//6tY\u003d",
+        "filename": "org.eclipse.jgit.java7/META-INF/MANIFEST.MF",
+        "patchSetId": 18
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-03-05T23:10:12Z",
+      "side": 1,
+      "message": "s/2.3.0/2.4.0/",
+      "revId": "107c260a652000add4ddff7b0cadff6282758558",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//6tU\u003d",
+        "filename": "org.eclipse.jgit.java7/META-INF/MANIFEST.MF",
+        "patchSetId": 18
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-03-05T23:10:12Z",
+      "side": 1,
+      "message": "s/[2.3.0,2.4.0)/[2.4.0,2.5.0)/",
+      "revId": "107c260a652000add4ddff7b0cadff6282758558",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//6tQ\u003d",
+        "filename": "org.eclipse.jgit.java7/META-INF/MANIFEST.MF",
+        "patchSetId": 18
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-03-05T23:10:12Z",
+      "side": 1,
+      "message": "s/2.3.0/2.4.0/",
+      "revId": "107c260a652000add4ddff7b0cadff6282758558",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//6tM\u003d",
+        "filename": "org.eclipse.jgit.java7/META-INF/SOURCE-MANIFEST.MF",
+        "patchSetId": 18
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-03-05T23:10:12Z",
+      "side": 1,
+      "message": "s/2.3.0/2.4.0/",
+      "revId": "107c260a652000add4ddff7b0cadff6282758558",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//6tI\u003d",
+        "filename": "org.eclipse.jgit.java7/META-INF/SOURCE-MANIFEST.MF",
+        "patchSetId": 18
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-03-05T23:10:12Z",
+      "side": 1,
+      "message": "s/2.3.0/2.4.0/",
+      "revId": "107c260a652000add4ddff7b0cadff6282758558",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//6tE\u003d",
+        "filename": "org.eclipse.jgit.java7/pom.xml",
+        "patchSetId": 18
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-03-05T23:10:12Z",
+      "side": 1,
+      "message": "s/2.3.0-SNAPSHOT/2.4.0-SNAPSHOT/",
+      "revId": "107c260a652000add4ddff7b0cadff6282758558",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
