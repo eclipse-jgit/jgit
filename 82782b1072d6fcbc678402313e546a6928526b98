@@ -16,6 +16,24 @@
       "revId": "82782b1072d6fcbc678402313e546a6928526b98",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//7Co\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/LogCommandTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1085
+      },
+      "writtenOn": "2013-03-05T13:59:08Z",
+      "side": 1,
+      "message": "That is impossible in this code, because the tag is created to point to a commit in line 104.",
+      "parentUuid": "AABOPX//7DU\u003d",
+      "revId": "82782b1072d6fcbc678402313e546a6928526b98",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
