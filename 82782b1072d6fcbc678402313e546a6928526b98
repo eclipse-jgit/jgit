@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//7DU\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/LogCommandTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-03-05T12:52:50Z",
+      "side": 1,
+      "message": "What happens if the tag points to a tree or a blob?",
+      "revId": "82782b1072d6fcbc678402313e546a6928526b98",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
