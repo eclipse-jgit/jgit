@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//7PM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-03-05T12:56:34Z",
+      "side": 1,
+      "message": "Command2 is a linked list to avoid the O(n^2) behaviour that we\u0027d get from ArrayList.",
+      "parentUuid": "AABOPX//75I\u003d",
+      "revId": "cfd6afb160e6eca67e8805f0e9b8793e9e26554a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//75E\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-03-01T00:33:20Z",
       "side": 1,
       "message": "IMHO we don\u0027t have to check UPDATE and UPDATE_NONFASTFORWARD for name collisions do we? The name must already exist and must have the old ObjectId as its value in order to execute the command.\n\nSo we only have to check names that are CREATE.",
+      "revId": "cfd6afb160e6eca67e8805f0e9b8793e9e26554a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//7PI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-03-05T12:56:34Z",
+      "side": 1,
+      "message": "Depends on whether you trust that the packed refs list is checked for duplicates.\n\nCame to think about case-insensitive file systems, but that\u0027s another issue.",
+      "parentUuid": "AABOPX//75E\u003d",
       "revId": "cfd6afb160e6eca67e8805f0e9b8793e9e26554a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
