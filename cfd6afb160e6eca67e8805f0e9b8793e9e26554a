@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//7Ak\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-05T14:52:10Z",
+      "side": 1,
+      "message": "My point was don\u0027t implement this as a remove. Implement it instead as an addition of things that weren\u0027t handled in this initial iteration. If you also presize the ArrayList capacity to commands.size() the ArrayList will never grow, and we won\u0027t need to allocate the (relatively huge) LinkedList internal nodes.",
+      "parentUuid": "AABOPX//7PM\u003d",
+      "revId": "cfd6afb160e6eca67e8805f0e9b8793e9e26554a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//75E\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
         "patchSetId": 2
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "Depends on whether you trust that the packed refs list is checked for duplicates.\n\nCame to think about case-insensitive file systems, but that\u0027s another issue.",
       "parentUuid": "AABOPX//75E\u003d",
+      "revId": "cfd6afb160e6eca67e8805f0e9b8793e9e26554a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//7AY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-05T14:52:10Z",
+      "side": 1,
+      "message": "I think its safe to assume an existing reference does not conflict with another existing reference.",
+      "parentUuid": "AABOPX//7PI\u003d",
       "revId": "cfd6afb160e6eca67e8805f0e9b8793e9e26554a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
