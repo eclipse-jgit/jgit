@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//7H0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/dfs/DfsPackDescription.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-05T01:36:54Z",
+      "side": 1,
+      "message": "Why isn\u0027t this a bitmap like in PackFile?",
+      "revId": "45a60a6c87bfd65a5f6d65a3a2d6ffc015c75f8b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//7Hw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/PackBitmapIndex.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-05T01:36:54Z",
+      "side": 1,
+      "message": "This needs to be package access. We can\u0027t expose an array.",
+      "revId": "45a60a6c87bfd65a5f6d65a3a2d6ffc015c75f8b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
