@@ -146,7 +146,7 @@ public final class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 	@Override
 	public BitmapIndex getBitmapIndex() throws IOException {
 		for (DfsPackFile pack : db.getPacks()) {
-			PackBitmapIndex bitmapIndex = pack.getPackBitmapIndex(this);
+			PackBitmapIndex bitmapIndex = pack.getBitmapIndex(this);
 			if (bitmapIndex != null)
 				return new BitmapIndexImpl(bitmapIndex);
 		}
@@ -156,7 +156,7 @@ public final class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 	public Collection<CachedPack> getCachedPacksAndUpdate(
 		BitmapBuilder needBitmap) throws IOException {
 		for (DfsPackFile pack : db.getPacks()) {
-			PackBitmapIndex bitmapIndex = pack.getPackBitmapIndex(this);
+			PackBitmapIndex bitmapIndex = pack.getBitmapIndex(this);
 			if (needBitmap.removeAllOrNone(bitmapIndex))
 				return Collections.<CachedPack> singletonList(
 						new DfsCachedPack(pack));
