@@ -339,7 +339,7 @@ public class DfsGarbageCollector {
 			out = objdb.writeFile(pack, BITMAP_INDEX);
 			try {
 				CountingOutputStream cnt = new CountingOutputStream(out);
-				pw.writeIndex(cnt);
+				pw.writeBitmapIndex(cnt);
 				pack.setFileSize(BITMAP_INDEX, cnt.getCount());
 			} finally {
 				out.close();
