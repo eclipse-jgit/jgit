@@ -1057,6 +1057,8 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	}
 
 	synchronized PackBitmapIndex getBitmapIndex() throws IOException {
+		if (invalid)
+			return null;
 		if (bitmapIdx == null && hasExt(BITMAP_INDEX)) {
 			final PackBitmapIndex idx = PackBitmapIndex.open(
 					extFile(BITMAP_INDEX), idx(), getReverseIdx());

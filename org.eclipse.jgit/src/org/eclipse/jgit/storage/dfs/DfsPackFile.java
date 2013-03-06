@@ -277,6 +277,8 @@ public final class DfsPackFile {
 	}
 
 	PackBitmapIndex getBitmapIndex(DfsReader ctx) throws IOException {
+		if (invalid)
+			return null;
 		DfsBlockCache.Ref<PackBitmapIndex> idxref = bitmapIndex;
 		if (idxref != null) {
 			PackBitmapIndex idx = idxref.get();
