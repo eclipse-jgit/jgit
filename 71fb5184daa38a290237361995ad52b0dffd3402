@@ -1,0 +1,191 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//59M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/NameRevCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-07T20:38:39Z",
+      "side": 1,
+      "message": "why not just tip?",
+      "revId": "71fb5184daa38a290237361995ad52b0dffd3402",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//57k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/NameRevCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-07T20:38:39Z",
+      "side": 1,
+      "message": "ObjectId not AnyObjectId",
+      "revId": "71fb5184daa38a290237361995ad52b0dffd3402",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//568\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/NameRevCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-07T20:38:39Z",
+      "side": 1,
+      "message": "ObjectId",
+      "revId": "71fb5184daa38a290237361995ad52b0dffd3402",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//57s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/NameRevCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-07T20:38:39Z",
+      "side": 1,
+      "message": "Tracking everything as a double linked list... oww that hurts.",
+      "revId": "71fb5184daa38a290237361995ad52b0dffd3402",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//57E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/NameRevCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-07T20:38:39Z",
+      "side": 1,
+      "message": "no curly braces",
+      "revId": "71fb5184daa38a290237361995ad52b0dffd3402",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//57A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/NameRevCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-07T20:38:39Z",
+      "side": 1,
+      "message": "ObjectId",
+      "revId": "71fb5184daa38a290237361995ad52b0dffd3402",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//57o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/NameRevCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-07T20:38:39Z",
+      "side": 1,
+      "message": ".copy(). You need to make sure the object isn\u0027t mutable, or is someone else\u0027s RevCommit.",
+      "revId": "71fb5184daa38a290237361995ad52b0dffd3402",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//56w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/NameRevCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-07T20:38:39Z",
+      "side": 1,
+      "message": "no curly braces",
+      "revId": "71fb5184daa38a290237361995ad52b0dffd3402",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//57c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/NameRevCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-07T20:38:39Z",
+      "side": 1,
+      "message": "IIRC getObjectId() is allowed to return null on a dangling symbolic reference. Skip those.\n\nDo we also want to skip objects that don\u0027t exist instead of throwing?",
+      "revId": "71fb5184daa38a290237361995ad52b0dffd3402",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//560\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/NameRevCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-07T20:38:39Z",
+      "side": 1,
+      "message": "no curly braces",
+      "revId": "71fb5184daa38a290237361995ad52b0dffd3402",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//564\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/NameRevCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-07T20:38:39Z",
+      "side": 1,
+      "message": "Drop the else and move the final return one level left.",
+      "revId": "71fb5184daa38a290237361995ad52b0dffd3402",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
