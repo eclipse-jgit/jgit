@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//56k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/NameRevCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2013-03-07T20:48:22Z",
+      "side": 1,
+      "message": "StringBuilder(null) NPEs",
+      "parentUuid": "AABOPX//59M\u003d",
+      "revId": "71fb5184daa38a290237361995ad52b0dffd3402",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//57k\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/NameRevCommand.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-03-07T20:38:39Z",
       "side": 1,
       "message": "ObjectId not AnyObjectId",
+      "revId": "71fb5184daa38a290237361995ad52b0dffd3402",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//56g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/NameRevCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2013-03-07T20:48:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//57k\u003d",
       "revId": "71fb5184daa38a290237361995ad52b0dffd3402",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//56c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/NameRevCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2013-03-07T20:48:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//568\u003d",
+      "revId": "71fb5184daa38a290237361995ad52b0dffd3402",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//57s\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/NameRevCommand.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2013-03-07T20:38:39Z",
       "side": 1,
       "message": "Tracking everything as a double linked list... oww that hurts.",
+      "revId": "71fb5184daa38a290237361995ad52b0dffd3402",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//56U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/NameRevCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2013-03-07T20:48:22Z",
+      "side": 1,
+      "message": "Would have used ArrayDeque but that\u0027s 2.6+ :(. I figured the maximum length of the queue is bounded by the width of the DAG (number of parallel branches), which shouldn\u0027t be too large, at least not relative to the total depth.\n\nOther data structure recommendations are welcome, though I\u0027d prefer not to write my own. I do want FIFO behavior so the first parent gets popped first.",
+      "parentUuid": "AABOPX//57s\u003d",
       "revId": "71fb5184daa38a290237361995ad52b0dffd3402",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//56Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/NameRevCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2013-03-07T20:48:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//57E\u003d",
+      "revId": "71fb5184daa38a290237361995ad52b0dffd3402",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//57A\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/NameRevCommand.java",
         "patchSetId": 1
@@ -98,6 +188,24 @@
       "writtenOn": "2013-03-07T20:38:39Z",
       "side": 1,
       "message": "ObjectId",
+      "revId": "71fb5184daa38a290237361995ad52b0dffd3402",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//56M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/NameRevCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2013-03-07T20:48:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//57A\u003d",
       "revId": "71fb5184daa38a290237361995ad52b0dffd3402",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//56I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/NameRevCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2013-03-07T20:48:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//57o\u003d",
+      "revId": "71fb5184daa38a290237361995ad52b0dffd3402",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//56w\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/NameRevCommand.java",
         "patchSetId": 1
@@ -132,6 +258,24 @@
       "writtenOn": "2013-03-07T20:38:39Z",
       "side": 1,
       "message": "no curly braces",
+      "revId": "71fb5184daa38a290237361995ad52b0dffd3402",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//56E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/NameRevCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2013-03-07T20:48:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//56w\u003d",
       "revId": "71fb5184daa38a290237361995ad52b0dffd3402",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//56A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/NameRevCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2013-03-07T20:48:22Z",
+      "side": 1,
+      "message": "For add(), we want to throw, which we do.\n\nIf a symref is dangling, it may be a dangling HEAD, which is not a big deal. We can skip those.\n\nIf an object ID is dangling, it means you have a ref to an object that doesn\u0027t exist. Your repo is corrupt, deal with the exception.",
+      "parentUuid": "AABOPX//57c\u003d",
+      "revId": "71fb5184daa38a290237361995ad52b0dffd3402",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//560\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/NameRevCommand.java",
         "patchSetId": 1
@@ -172,6 +334,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//554\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/NameRevCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2013-03-07T20:48:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//560\u003d",
+      "revId": "71fb5184daa38a290237361995ad52b0dffd3402",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//564\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/NameRevCommand.java",
         "patchSetId": 1
@@ -183,6 +363,24 @@
       "writtenOn": "2013-03-07T20:38:39Z",
       "side": 1,
       "message": "Drop the else and move the final return one level left.",
+      "revId": "71fb5184daa38a290237361995ad52b0dffd3402",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//550\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/NameRevCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2013-03-07T20:48:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//564\u003d",
       "revId": "71fb5184daa38a290237361995ad52b0dffd3402",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
