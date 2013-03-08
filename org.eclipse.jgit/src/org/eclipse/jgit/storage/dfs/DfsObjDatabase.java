@@ -65,7 +65,7 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	/** Sources for a pack file. */
 	public static enum PackSource {
 		/** The pack is created by ObjectInserter due to local activity. */
-		INSERT,
+		INSERT(0),
 
 		/**
 		 * The pack is created by PackParser due to a network event.
@@ -76,7 +76,7 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		 * storage layout preferred by this version. Received packs are likely
 		 * to be either compacted or garbage collected in the future.
 		 */
-		RECEIVE,
+		RECEIVE(0),
 
 		/**
 		 * Pack was created by Git garbage collection by this implementation.
@@ -87,7 +87,7 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		 *
 		 * @see DfsGarbageCollector
 		 */
-		GC,
+		GC(1),
 
 		/**
 		 * The pack was created by compacting multiple packs together.
@@ -98,7 +98,7 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		 *
 		 * @see DfsPackCompactor
 		 */
-		COMPACT,
+		COMPACT(1),
 
 		/**
 		 * Pack was created by Git garbage collection.
@@ -107,7 +107,13 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		 * last GC pass. It is retained in a new pack until it is safe to prune
 		 * these objects from the repository.
 		 */
-		UNREACHABLE_GARBAGE;
+		UNREACHABLE_GARBAGE(2);
+
+		final int category;
+
+		PackSource(int category) {
+			this.category = category;
+		}
 	}
 
 	private final AtomicReference<PackList> packList;
