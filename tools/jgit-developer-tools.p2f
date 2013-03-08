@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?p2f version='1.0.0'?>
+<p2f version='1.0.0'>
+  <ius size='20'>
+    <iu id='org.apache.ant' name='Apache Ant' version='1.8.2.v20120109-1030'>
+      <repositories size='1'>
+        <repository location='http://download.eclipse.org/tools/orbit/downloads/drops/R20130118183705/repository/'/>
+      </repositories>
+    </iu>
+    <iu id='org.apache.commons.compress' name='Apache Commons Compress Plug-in' version='1.4.1.v201301140946'>
+      <repositories size='1'>
+        <repository location='http://download.eclipse.org/tools/orbit/downloads/drops/R20130118183705/repository/'/>
+      </repositories>
+    </iu>
+    <iu id='org.kohsuke.args4j' name='Args4j' version='2.0.21.v201301150030'>
+      <repositories size='1'>
+        <repository location='http://download.eclipse.org/tools/orbit/downloads/drops/R20130118183705/repository/'/>
+      </repositories>
+    </iu>
+    <iu id='org.hamcrest' name='Hamcrest Library of Matchers' version='1.1.0.v20090501071000'>
+      <repositories size='1'>
+        <repository location='http://download.eclipse.org/tools/orbit/downloads/drops/R20130118183705/repository/'/>
+      </repositories>
+    </iu>
+    <iu id='javaewah' name='JavaEWAH' version='0.5.6.v201210150900'>
+      <repositories size='1'>
+        <repository location='http://download.eclipse.org/tools/orbit/downloads/drops/R20130118183705/repository/'/>
+      </repositories>
+    </iu>
+    <iu id='org.objenesis' name='org.objenesis' version='1.0.0.v201105211943'>
+      <repositories size='1'>
+        <repository location='http://download.eclipse.org/tools/orbit/downloads/drops/R20130118183705/repository/'/>
+      </repositories>
+    </iu>
+    <iu id='org.mockito' name='Java Mocking and Stubbing Framework' version='1.8.4.v201102171835'>
+      <repositories size='1'>
+        <repository location='http://download.eclipse.org/tools/orbit/downloads/drops/R20130118183705/repository/'/>
+      </repositories>
+    </iu>
+    <iu id='com.jcraft.jsch' name='JSch' version='0.1.46.v201205102330'>
+      <repositories size='1'>
+        <repository location='http://download.eclipse.org/tools/orbit/downloads/drops/R20130118183705/repository/'/>
+      </repositories>
+    </iu>
+    <iu id='org.junit' name='JUnit' version='4.8.2.v4_8_2_v20110321-1705'>
+      <repositories size='1'>
+        <repository location='http://download.eclipse.org/tools/orbit/downloads/drops/R20130118183705/repository/'/>
+      </repositories>
+    </iu>
+    <iu id='javax.servlet' name='javax.servlet' version='2.5.0.v201103041518'>
+      <repositories size='1'>
+        <repository location='http://download.eclipse.org/tools/orbit/downloads/drops/R20130118183705/repository/'/>
+      </repositories>
+    </iu>
+    <iu id='org.eclipse.jetty.bundles.f.feature.group' name='Jetty - Bundles: all the jetty bundles' version='7.6.0'>
+      <repositories size='1'>
+        <repository location='http://archive.eclipse.org/jetty/updates/jetty-bundles-7.x/7.6.0.v20120127/'/>
+      </repositories>
+    </iu>
+    <iu id='org.eclipse.egit.feature.group' name='Eclipse EGit' version='0.0.0'>
+      <repositories size='1'>
+        <repository location='http://download.eclipse.org/egit/updates-nightly'/>
+      </repositories>
+    </iu>
+    <iu id='org.eclipse.egit.import.feature.group' name='EGit Plug-in Import Support' version='0.0.0'>
+      <repositories size='1'>
+        <repository location='http://download.eclipse.org/egit/updates-nightly'/>
+      </repositories>
+    </iu>
+    <iu id='org.eclipse.jgit.feature.group' name='Eclipse JGit' version='0.0.0'>
+      <repositories size='1'>
+        <repository location='http://download.eclipse.org/egit/updates-nightly'/>
+      </repositories>
+    </iu>
+    <iu id='org.eclipse.pde.api.tools.ee.j2se15.group' name='J2SE-1.5 Execution Environment Description' version='0.0.0'>
+      <repositories size='1'>
+        <repository location='http://download.eclipse.org/eclipse/updates/4.2'/>
+      </repositories>
+    </iu>
+    <iu id='org.eclipse.pde.api.tools.ee.javase16.group' name='JavaSE-1.6 Execution Environment Description' version='0.0.0'>
+      <repositories size='1'>
+        <repository location='http://download.eclipse.org/eclipse/updates/4.2'/>
+      </repositories>
+    </iu>
+    <iu id='org.eclipse.pde.api.tools.ee.javase17.group' name='JavaSE-1.7 Execution Environment Description' version='0.0.0'>
+      <repositories size='1'>
+        <repository location='http://download.eclipse.org/eclipse/updates/4.2'/>
+      </repositories>
+    </iu>
+    <iu id='com.mountainminds.eclemma.feature.feature.group' name='EclEmma Java Code Coverage' version='0.0.0'>
+      <repositories size='1'>
+        <repository location='http://update.eclemma.org/'/>
+      </repositories>
+    </iu>
+    <iu id='edu.umd.cs.findbugs.plugin.eclipse.feature.group' name='FindBugs Feature' version='0.0.0'>
+      <repositories size='1'>
+        <repository location='http://findbugs.cs.umd.edu/eclipse'/>
+      </repositories>
+    </iu>
+  </ius>
+</p2f>
