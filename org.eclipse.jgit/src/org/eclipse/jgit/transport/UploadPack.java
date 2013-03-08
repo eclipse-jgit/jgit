@@ -792,6 +792,7 @@ public class UploadPack {
 
 		sentReady = false;
 		int haveCnt = 0;
+		walk.getObjectReader().setAvoidUnreachableObjects(true);
 		AsyncRevObjectQueue q = walk.parseAny(peerHas, false);
 		try {
 			for (;;) {
@@ -838,6 +839,7 @@ public class UploadPack {
 			}
 		} finally {
 			q.release();
+			walk.getObjectReader().setAvoidUnreachableObjects(false);
 		}
 
 		int missCnt = peerHas.size() - haveCnt;

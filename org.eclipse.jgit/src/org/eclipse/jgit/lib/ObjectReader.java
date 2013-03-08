@@ -437,6 +437,19 @@ public abstract class ObjectReader {
 	}
 
 	/**
+	 * Advise the reader to avoid unreachable objects.
+	 * <p>
+	 * While enabled the reader will skip over anything previously proven to be
+	 * unreachable. This may be dangerous in the face of concurrent writes.
+	 *
+	 * @param avoid
+	 *            true to avoid unreachable objects.
+	 */
+	public void setAvoidUnreachableObjects(boolean avoid) {
+		// Do nothing by default.
+	}
+
+	/**
 	 * An index that can be used to speed up ObjectWalks.
 	 *
 	 * @return the index or null if one does not exist.
