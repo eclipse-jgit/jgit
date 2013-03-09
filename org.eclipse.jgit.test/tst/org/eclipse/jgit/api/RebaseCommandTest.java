@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010, Mathias Kinzler <mathias.kinzler@sap.com>
+ * Copyright (C) 2010, 2013 Mathias Kinzler <mathias.kinzler@sap.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -79,6 +79,7 @@ import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.merge.ResolveMerger.MergeFailureReason;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.util.FileUtils;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -1502,6 +1503,27 @@ public class RebaseCommandTest extends RepositoryTestCase {
 
 		checkFile(theFile, "dirty the file");
 
+		assertEquals(RepositoryState.SAFE, git.getRepository()
+				.getRepositoryState());
+	}
+
+	@Test
+	public void testAbortShouldAlsoAbortNonInteractiveRebaseWithRebaseApplyDir()
+			throws Exception {
+		writeTrashFile(FILE1, "initial file");
+		git.add().addFilepattern(FILE1).call();
+		git.commit().setMessage("initial commit").call();
+
+		File applyDir = new File(db.getDirectory(), "rebase-apply");
+		File headName = new File(applyDir, "head-name");
+		FileUtils.mkdir(applyDir);
+		write(headName, "master");
+		db.writeOrigHead(db.resolve(Constants.HEAD));
+
+		git.rebase().setOperation(Operation.ABORT).call();
+
+		assertFalse("Abort should clean up .git/rebase-apply",
+				applyDir.exists());
 		assertEquals(RepositoryState.SAFE, git.getRepository()
 				.getRepositoryState());
 	}
