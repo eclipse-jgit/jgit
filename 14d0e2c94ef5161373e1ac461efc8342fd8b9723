@@ -16,6 +16,24 @@
       "revId": "14d0e2c94ef5161373e1ac461efc8342fd8b9723",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//5UM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1254,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-03-09T15:37:24Z",
+      "side": 1,
+      "message": "Thanks, I did that in follow-up change If96d66b6c025ad8f2f47829c933f3c65ab6cbeef as this one just moved the method without changing its code.",
+      "parentUuid": "AABOPX//5VQ\u003d",
+      "revId": "14d0e2c94ef5161373e1ac461efc8342fd8b9723",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
