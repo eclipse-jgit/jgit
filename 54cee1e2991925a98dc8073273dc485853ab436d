@@ -52,6 +52,24 @@
       "revId": "54cee1e2991925a98dc8073273dc485853ab436d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//5PA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 639,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-03-10T15:48:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//7Ns\u003d",
+      "revId": "54cee1e2991925a98dc8073273dc485853ab436d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
