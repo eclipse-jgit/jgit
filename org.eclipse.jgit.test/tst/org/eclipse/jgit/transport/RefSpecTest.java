@@ -294,4 +294,20 @@ public class RefSpecTest {
 		assertEquals(src, r.getSource());
 		assertEquals(dst, r.getDestination());
 	}
+
+	@Test
+	public void testNormaliseRefName() {
+		assertEquals("refs/heads/*", RefSpec.normalize("refs/heads/*"));
+		assertEquals("refs/heads/*", RefSpec.normalize("/refs/heads/*"));
+		assertEquals("refs/heads/*", RefSpec.normalize("refs/heads//*"));
+		assertEquals("refs/heads/*", RefSpec.normalize("refs///heads//*"));
+	}
+
+	@Test
+	public void testNormaliseMalformedRefSpecsGeneratedByBug402031() {
+		assertEquals("refs/heads/*",
+				new RefSpec("+refs/heads/*:refs/heads//*").getDestination());
+		assertEquals("refs/bar/*",
+				new RefSpec("+refs/foo/*:refs/bar//*").getDestination());
+	}
 }

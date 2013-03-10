@@ -55,6 +55,9 @@ import org.eclipse.jgit.lib.Ref;
  * <p>
  * A ref specification provides matching support and limited rules to rewrite a
  * reference in one repository to another reference in another repository.
+ *
+ * Both the source and destination in the refspec will be normalised to
+ * remove superfluous slash ('/') characters.
  */
 public class RefSpec implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -132,10 +135,10 @@ public class RefSpec implements Serializable {
 			s = s.substring(1);
 			if (isWildcard(s))
 				throw new IllegalArgumentException(MessageFormat.format(JGitText.get().invalidWildcards, spec));
-			dstName = s;
+			dstName = normalize(s);
 		} else if (c > 0) {
-			srcName = s.substring(0, c);
-			dstName = s.substring(c + 1);
+			srcName = normalize(s.substring(0, c));
+			dstName = normalize(s.substring(c + 1));
 			if (isWildcard(srcName) && isWildcard(dstName))
 				wildcard = true;
 			else if (isWildcard(srcName) || isWildcard(dstName))
@@ -143,7 +146,7 @@ public class RefSpec implements Serializable {
 		} else {
 			if (isWildcard(s))
 				throw new IllegalArgumentException(MessageFormat.format(JGitText.get().invalidWildcards, spec));
-			srcName = s;
+			srcName = normalize(s);
 		}
 	}
 
@@ -215,7 +218,7 @@ public class RefSpec implements Serializable {
 	 */
 	public RefSpec setSource(final String source) {
 		final RefSpec r = new RefSpec(this);
-		r.srcName = source;
+		r.srcName = normalize(source);
 		if (isWildcard(r.srcName) && r.dstName == null)
 			throw new IllegalStateException(JGitText.get().destinationIsNotAWildcard);
 		if (isWildcard(r.srcName) != isWildcard(r.dstName))
@@ -254,7 +257,7 @@ public class RefSpec implements Serializable {
 	 */
 	public RefSpec setDestination(final String destination) {
 		final RefSpec r = new RefSpec(this);
-		r.dstName = destination;
+		r.dstName = normalize(destination);
 		if (isWildcard(r.dstName) && r.srcName == null)
 			throw new IllegalStateException(JGitText.get().sourceIsNotAWildcard);
 		if (isWildcard(r.srcName) != isWildcard(r.dstName))
@@ -281,7 +284,7 @@ public class RefSpec implements Serializable {
 		final RefSpec r = new RefSpec(this);
 		r.wildcard = isWildcard(source);
 		r.srcName = source;
-		r.dstName = destination;
+		r.dstName = normalize(destination);
 		return r;
 	}
 
@@ -452,6 +455,36 @@ public class RefSpec implements Serializable {
 		if (a == null || b == null)
 			return false;
 		return a.equals(b);
+	}
+
+	/**
+	 * Normalize 'refname' by removing any leading slash ('/') characters and
+	 * collapsing runs of adjacent slashes between name components into a single
+	 * slash.
+	 *
+	 * @see <a href="http://git-scm.com/docs/git-check-ref-format#_options"
+	 * >git-check-ref-format --normalize</a>
+	 *
+	 * @param refName a possibly malformed refname or null
+	 * @return a normalised version of the refname, or null if refName was null
+	 */
+
+	static String normalize(String refName) {
+		if (refName == null ||
+				!(refName.startsWith("/") || refName.contains("//"))) {
+			return refName;
+		}
+
+		StringBuilder sb = new StringBuilder();
+		char prev = '/';
+		for (int index=0; index<refName.length(); ++index) {
+			char c = refName.charAt(index);
+			if (prev == '/' && c == prev)
+				continue;
+			sb.append(c);
+			prev = c;
+		}
+		return sb.toString();
 	}
 
 	public String toString() {
