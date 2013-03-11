@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//47M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/NameRevCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2013-03-11T19:47:56Z",
+      "side": 1,
+      "message": "For toString() to not NPE when I was debugging. Fixed to allow format() to NPE but toString to succeed regardless. toString is explicitly only for debugging anyway, right?",
+      "parentUuid": "AABOPX//47w\u003d",
+      "revId": "8f088390f3a6a8d504d8f04806d101f20d8116c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//47s\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/NameRevCommand.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2013-03-11T18:50:55Z",
       "side": 1,
       "message": "Use FIFORevQueue? Unfortunately its not generic, but it does use RevCommit as its member type.",
+      "revId": "8f088390f3a6a8d504d8f04806d101f20d8116c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//45c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/NameRevCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2013-03-11T19:47:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//47s\u003d",
       "revId": "8f088390f3a6a8d504d8f04806d101f20d8116c4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//45w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/NameRevCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2013-03-11T19:47:56Z",
+      "side": 1,
+      "message": "c.tip can never be null. c is what comes out of the queue. The call to addPrefixes above ensures the initial commits in queue all have tips, and this block ensures that p.tip is set before adding p to the queue.",
+      "parentUuid": "AABOPX//47k\u003d",
+      "revId": "8f088390f3a6a8d504d8f04806d101f20d8116c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//47o\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/NameRevCommand.java",
         "patchSetId": 4
@@ -64,6 +118,24 @@
       "writtenOn": "2013-03-11T18:50:55Z",
       "side": 1,
       "message": "No curly braces.",
+      "revId": "8f088390f3a6a8d504d8f04806d101f20d8116c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//460\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/NameRevCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2013-03-11T19:47:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//47o\u003d",
       "revId": "8f088390f3a6a8d504d8f04806d101f20d8116c4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
