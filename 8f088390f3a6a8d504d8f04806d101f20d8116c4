@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//47w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/NameRevCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-11T18:50:55Z",
+      "side": 1,
+      "message": "OK so StringBuilder(null) NPEs. Why are we calling format on something with a null tip? Why are we formatting that string as \"null~5\" when we know its not a valid reference name?",
+      "revId": "8f088390f3a6a8d504d8f04806d101f20d8116c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//47s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/NameRevCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-11T18:50:55Z",
+      "side": 1,
+      "message": "Use FIFORevQueue? Unfortunately its not generic, but it does use RevCommit as its member type.",
+      "revId": "8f088390f3a6a8d504d8f04806d101f20d8116c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//47k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/NameRevCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-11T18:50:55Z",
+      "side": 1,
+      "message": "Instead of calling c.format() on a null tip value, maybe we want a merge \u0026\u0026 c.tip !\u003d null test here?",
+      "revId": "8f088390f3a6a8d504d8f04806d101f20d8116c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//47o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/NameRevCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-11T18:50:55Z",
+      "side": 1,
+      "message": "No curly braces.",
+      "revId": "8f088390f3a6a8d504d8f04806d101f20d8116c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
