@@ -18,11 +18,12 @@
    <feature url="features/org.eclipse.jgit.junit_0.0.0.qualifier.jar" id="org.eclipse.jgit.junit" version="0.0.0" patch="true">
       <category name="JGit"/>
    </feature>
+   <feature url="features/org.eclipse.jgit.java7_0.0.0.qualifier.jar" id="org.eclipse.jgit.java7" version="0.0.0" patch="true">
+      <category name="JGit"/>
+   </feature>
    <category-def name="JGit" label="JGit">
       <description>
          JGit
       </description>
    </category-def>
 </site>
-
-
