@@ -199,5 +199,13 @@
     </pluginManagement>
   </build>
 
+  <profiles>
+    <profile>
+      <id>jgit.native</id>
+      <modules>
+        <module>org.eclipse.jgit.native.feature</module>
+      </modules>
+    </profile>
+  </profiles>
 </project>
 
