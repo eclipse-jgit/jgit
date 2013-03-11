@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.eclipse.jgit"
+      id="org.eclipse.jgit.java7"
       label="%featureName"
       version="3.0.0.qualifier"
       provider-name="%providerName">
@@ -23,24 +23,11 @@
    </url>
 
    <plugin
-         id="org.eclipse.jgit"
+         id="org.eclipse.jgit.java7"
          download-size="0"
          install-size="0"
          version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="com.jcraft.jsch"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="javaewah"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
+         fragment="true"
          unpack="false"/>
 
 </feature>
