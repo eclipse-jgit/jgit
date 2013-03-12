@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//4yg\u003d",
+        "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.native.feature/.settings/org.eclipse.core.resources.prefs",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-12T03:19:26Z",
+      "side": 1,
+      "message": "Please make this a UNIX file.",
+      "revId": "9f4a10e2dead1a7b4c7322c90d8a299d628490e9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//4yc\u003d",
+        "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.native.feature/.settings/org.eclipse.core.runtime.prefs",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-12T03:19:26Z",
+      "side": 1,
+      "message": "Please make this a UNIX file.",
+      "revId": "9f4a10e2dead1a7b4c7322c90d8a299d628490e9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//4yY\u003d",
+        "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.native.feature/edl-v10.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-12T03:19:26Z",
+      "side": 1,
+      "message": "fix trailing whitespace?",
+      "revId": "9f4a10e2dead1a7b4c7322c90d8a299d628490e9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
