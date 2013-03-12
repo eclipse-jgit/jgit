@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//4dU\u003d",
+        "filename": "libjgit_native/src/list.c",
+        "patchSetId": 5
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-03-12T22:55:41Z",
+      "side": 1,
+      "message": "Need NFD -\u003e NFC conversion if core.precomposunicode is true",
+      "revId": "06a458e267038bddf80e8b6246a19866f5a23804",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//4yA\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/fs/FileAccessNativeTest.java",
         "patchSetId": 5
