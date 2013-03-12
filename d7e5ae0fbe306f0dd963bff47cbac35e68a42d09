@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//4dk\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/fs/FileAccessNativeTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-03-12T22:52:18Z",
+      "side": 1,
+      "message": "Add some non-ascii filename tests",
+      "revId": "d7e5ae0fbe306f0dd963bff47cbac35e68a42d09",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//4yQ\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/fs/FileAccessJava.java",
         "patchSetId": 4
