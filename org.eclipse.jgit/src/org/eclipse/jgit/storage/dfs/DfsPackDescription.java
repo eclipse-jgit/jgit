@@ -303,6 +303,15 @@ public class DfsPackDescription implements Comparable<DfsPackDescription> {
 	 *            the other pack.
 	 */
 	public int compareTo(DfsPackDescription b) {
+		// Cluster by PackSource, pushing UNREACHABLE_GARBAGE to the end.
+		PackSource as = getPackSource();
+		PackSource bs = b.getPackSource();
+		if (as != null && bs != null) {
+			int cmp = as.category - bs.category;
+			if (cmp != 0)
+				return cmp;
+		}
+
 		// Newer packs should sort first.
 		int cmp = Long.signum(b.getLastModified() - getLastModified());
 		if (cmp != 0)
