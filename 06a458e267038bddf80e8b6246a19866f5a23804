@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//4yE\u003d",
+        "filename": "libjgit_native/src/list.c",
+        "patchSetId": 5
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-12T04:02:30Z",
+      "side": 1,
+      "message": "I think we are missing a DeleteLocalRef(env, e) call here. But I really don\u0027t know. :-(",
+      "revId": "06a458e267038bddf80e8b6246a19866f5a23804",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//4yA\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/fs/FileAccessNativeTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-12T04:02:30Z",
+      "side": 1,
+      "message": "I think we should extend this test to have like 120 entries in the directory. Its not an even power of 2 for the temporary array, so 120 would exercise that the array resized correctly during the loop, and again at the end if it was too large. It would also help to test that part of the JNI where I am not sure I am using the local reference table correctly. I suspect the native tier would be more likely to crash the JVM or fail with some sort of exception if we are misusing JNI and we actually have enough entries to test it.",
+      "revId": "06a458e267038bddf80e8b6246a19866f5a23804",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
