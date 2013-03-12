@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//4yQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/fs/FileAccessJava.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-12T03:29:25Z",
+      "side": 1,
+      "message": "Drop this TODO. Yes I think the default code should do what Git on windows does, treat symlinks as text files holding the link target. Its hard though because the index code needs to supply the mode because the filesystem scan doesn\u0027t know its a symlink. :-\\",
+      "revId": "d7e5ae0fbe306f0dd963bff47cbac35e68a42d09",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//4yM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/fs/FileAccessJava.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-12T03:29:25Z",
+      "side": 1,
+      "message": "Drop todo?",
+      "revId": "d7e5ae0fbe306f0dd963bff47cbac35e68a42d09",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
