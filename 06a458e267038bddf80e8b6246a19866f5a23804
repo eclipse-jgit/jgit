@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//4cA\u003d",
+        "filename": "libjgit_native/src/list.c",
+        "patchSetId": 5
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-03-13T00:18:57Z",
+      "side": 1,
+      "message": "also the expanded test succeeds without adding this",
+      "parentUuid": "AABOPX//4yE\u003d",
+      "revId": "06a458e267038bddf80e8b6246a19866f5a23804",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//4dU\u003d",
         "filename": "libjgit_native/src/list.c",
         "patchSetId": 5
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//4b0\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/fs/FileAccessNativeTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-03-13T00:18:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//4yA\u003d",
+      "revId": "06a458e267038bddf80e8b6246a19866f5a23804",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//4xk\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/fs/FileAccessNativeTest.java",
         "patchSetId": 5
@@ -64,6 +100,24 @@
       "writtenOn": "2013-03-12T22:52:48Z",
       "side": 1,
       "message": "You need to test non-ascii names here to match what the java API\u0027s do",
+      "revId": "06a458e267038bddf80e8b6246a19866f5a23804",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//4bo\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/fs/FileAccessNativeTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-03-13T00:18:57Z",
+      "side": 1,
+      "message": "thanks for the tip: on Mac this succeeds for symbolic link and fails for file and directory",
+      "parentUuid": "AABOPX//4xk\u003d",
       "revId": "06a458e267038bddf80e8b6246a19866f5a23804",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
