@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//4LM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/NameRevCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-13T19:27:02Z",
+      "side": 1,
+      "message": "nit: no curly braces",
+      "revId": "e944390e283b3a2fa38f050820e7d067ffb4abe3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//4LE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/NameRevCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-13T19:27:02Z",
+      "side": 1,
+      "message": "If prefixes is empty but refs is not becuase the caller only invoked addAnnotatedTags(), do we still want to add every other reference?",
+      "revId": "e944390e283b3a2fa38f050820e7d067ffb4abe3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
