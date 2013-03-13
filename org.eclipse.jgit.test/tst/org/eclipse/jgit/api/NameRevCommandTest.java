@@ -89,6 +89,26 @@ public class NameRevCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void ref() throws Exception {
+		RevCommit c = tr.commit().create();
+		tr.update("refs/heads/master", c);
+		tr.update("refs/tags/tag", c);
+		assertOneResult("master",
+				git.nameRev().addRef(db.getRef("refs/heads/master")), c);
+		assertOneResult("tag",
+				git.nameRev().addRef(db.getRef("refs/tags/tag")), c);
+	}
+
+	@Test
+	public void annotatedTags() throws Exception {
+		RevCommit c = tr.commit().create();
+		tr.update("refs/heads/master", c);
+		tr.update("refs/tags/tag1", c);
+		tr.update("refs/tags/tag2", tr.tag("tag2", c));
+		assertOneResult("tag2", git.nameRev().addAnnotatedTags(), c);
+	}
+
+	@Test
 	public void simpleAncestor() throws Exception {
 		// 0--1--2
 		RevCommit c0 = tr.commit().create();
