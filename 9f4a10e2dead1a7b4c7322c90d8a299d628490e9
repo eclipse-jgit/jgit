@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//4h4\u003d",
+        "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.native.feature/.settings/org.eclipse.core.resources.prefs",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-03-13T00:21:04Z",
+      "side": 1,
+      "message": "Done, this was a copy from the jgit feature, will fix that in the next change",
+      "parentUuid": "AABOPX//4yg\u003d",
+      "revId": "9f4a10e2dead1a7b4c7322c90d8a299d628490e9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//4yc\u003d",
         "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.native.feature/.settings/org.eclipse.core.runtime.prefs",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//4h0\u003d",
+        "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.native.feature/.settings/org.eclipse.core.runtime.prefs",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-03-13T00:21:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//4yc\u003d",
+      "revId": "9f4a10e2dead1a7b4c7322c90d8a299d628490e9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//4yY\u003d",
         "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.native.feature/edl-v10.html",
         "patchSetId": 3
@@ -47,6 +83,24 @@
       "writtenOn": "2013-03-12T03:19:26Z",
       "side": 1,
       "message": "fix trailing whitespace?",
+      "revId": "9f4a10e2dead1a7b4c7322c90d8a299d628490e9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//4ho\u003d",
+        "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.native.feature/edl-v10.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-03-13T00:21:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//4yY\u003d",
       "revId": "9f4a10e2dead1a7b4c7322c90d8a299d628490e9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
