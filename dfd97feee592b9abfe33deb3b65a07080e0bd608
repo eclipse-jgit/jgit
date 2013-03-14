@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//384\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/IndexDiffTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-03-14T11:57:10Z",
+      "side": 1,
+      "message": "include a folder with the name sr anc one called srcs",
+      "revId": "dfd97feee592b9abfe33deb3b65a07080e0bd608",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//388\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/IndexDiffFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-03-14T11:57:10Z",
+      "side": 1,
+      "message": "abcde starts with abc. ignoredPaths does dot end with / for directories, I think, so you need a bit more logic here",
+      "revId": "dfd97feee592b9abfe33deb3b65a07080e0bd608",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
