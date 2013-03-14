@@ -1,0 +1,8 @@
+Code-Review+2: Shawn Pearce <sop@google.com>
+IP-Clean+1: Shawn Pearce <sop@google.com>
+Verified+1: Dave Borowitz <dborowitz@google.com>
+Submitted-by: Dave Borowitz <dborowitz@google.com>
+Submitted-at: Thu, 14 Mar 2013 13:03:35 -0400
+Reviewed-on: https://git.eclipse.org/r/11159
+Project: jgit/jgit
+Branch: refs/heads/master
