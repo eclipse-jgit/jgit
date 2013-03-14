@@ -100,12 +100,6 @@ public class DfsGarbageCollector {
 
 	private Set<ObjectId> nonHeads;
 
-	/** Sum of object counts in {@link #packsBefore}. */
-	private long objectsBefore;
-
-	/** Sum of object counts iN {@link #newPackDesc}. */
-	private long objectsPacked;
-
 	private Set<ObjectId> tagTargets;
 
 	/**
@@ -288,7 +282,7 @@ public class DfsGarbageCollector {
 	}
 
 	private void packRest(ProgressMonitor pm) throws IOException {
-		if (nonHeads.isEmpty() || objectsPacked == getObjectsBefore())
+		if (nonHeads.isEmpty())
 			return;
 
 		PackWriter pw = newPackWriter();
@@ -304,14 +298,11 @@ public class DfsGarbageCollector {
 	}
 
 	private void packGarbage(ProgressMonitor pm) throws IOException {
-		if (objectsPacked == getObjectsBefore())
-			return;
-
 		// TODO(sop) This is ugly. The garbage pack needs to be deleted.
 		PackWriter pw = newPackWriter();
 		try {
 			RevWalk pool = new RevWalk(ctx);
-			pm.beginTask("Finding garbage", (int) getObjectsBefore());
+			pm.beginTask("Finding garbage", objectsBefore());
 			for (DfsPackFile oldPack : packsBefore) {
 				PackIndex oldIdx = oldPack.getPackIndex(ctx);
 				for (PackIndex.MutableEntry ent : oldIdx) {
@@ -343,12 +334,11 @@ public class DfsGarbageCollector {
 		return ref.getName().startsWith(Constants.R_HEADS);
 	}
 
-	private long getObjectsBefore() {
-		if (objectsBefore == 0) {
-			for (DfsPackFile p : packsBefore)
-				objectsBefore += p.getPackDescription().getObjectCount();
-		}
-		return objectsBefore;
+	private int objectsBefore() {
+		int cnt = 0;
+		for (DfsPackFile p : packsBefore)
+			cnt += p.getPackDescription().getObjectCount();
+		return cnt;
 	}
 
 	private PackWriter newPackWriter() {
@@ -403,7 +393,6 @@ public class DfsGarbageCollector {
 
 		PackWriter.Statistics stats = pw.getStatistics();
 		pack.setPackStats(stats);
-		objectsPacked += stats.getTotalObjects();
 		newPackStats.add(stats);
 
 		DfsBlockCache.getInstance().getOrCreate(pack, null);
