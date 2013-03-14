@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//3wc\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2013-03-14T23:20:22Z",
+      "side": 1,
+      "message": "sp: Simplfy",
+      "revId": "b5dbf01cb525ea7685df75e46fe11c38d779326c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
