@@ -283,20 +283,19 @@ public class DfsPackCompactor {
 		pm.endTask();
 	}
 
-	private void writePack(DfsObjDatabase objdb, DfsPackDescription pack,
+	private static void writePack(DfsObjDatabase objdb,
+			DfsPackDescription pack,
 			PackWriter pw, ProgressMonitor pm) throws IOException {
 		DfsOutputStream out = objdb.writeFile(pack, PACK);
 		try {
-			CountingOutputStream cnt = new CountingOutputStream(out);
-			pw.writePack(pm, pm, cnt);
-			pack.setObjectCount(pw.getObjectCount());
-			pack.setFileSize(PACK, cnt.getCount());
+			pw.writePack(pm, pm, out);
 		} finally {
 			out.close();
 		}
 	}
 
-	private void writeIndex(DfsObjDatabase objdb, DfsPackDescription pack,
+	private static void writeIndex(DfsObjDatabase objdb,
+			DfsPackDescription pack,
 			PackWriter pw) throws IOException {
 		DfsOutputStream out = objdb.writeFile(pack, INDEX);
 		try {
