@@ -44,9 +44,7 @@
 package org.eclipse.jgit.storage.dfs;
 
 import java.io.IOException;
-import java.util.Set;
 
-import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.storage.pack.CachedPack;
 import org.eclipse.jgit.storage.pack.ObjectToPack;
 import org.eclipse.jgit.storage.pack.PackOutputStream;
@@ -63,11 +61,6 @@ public class DfsCachedPack extends CachedPack {
 	/** @return the description of the pack. */
 	public DfsPackDescription getPackDescription() {
 		return pack.getPackDescription();
-	}
-
-	@Override
-	public Set<ObjectId> getTips() {
-		return getPackDescription().getTips();
 	}
 
 	@Override

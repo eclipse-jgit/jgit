@@ -275,7 +275,7 @@ public class DfsGarbageCollector {
 		try {
 			pw.preparePack(pm, allHeads, Collections.<ObjectId> emptySet());
 			if (0 < pw.getObjectCount())
-				writePack(GC, pw, pm).setTips(allHeads);
+				writePack(GC, pw, pm);
 		} finally {
 			pw.release();
 		}

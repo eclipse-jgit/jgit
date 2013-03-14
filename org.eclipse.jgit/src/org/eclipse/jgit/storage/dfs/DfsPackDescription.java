@@ -47,9 +47,7 @@ import static org.eclipse.jgit.storage.pack.PackExt.PACK;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
-import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.storage.dfs.DfsObjDatabase.PackSource;
 import org.eclipse.jgit.storage.pack.PackExt;
 import org.eclipse.jgit.storage.pack.PackWriter;
@@ -76,8 +74,6 @@ public class DfsPackDescription implements Comparable<DfsPackDescription> {
 	private long objectCount;
 
 	private long deltaCount;
-
-	private Set<ObjectId> tips;
 
 	private PackWriter.Statistics stats;
 
@@ -220,21 +216,6 @@ public class DfsPackDescription implements Comparable<DfsPackDescription> {
 	 */
 	public DfsPackDescription setDeltaCount(long cnt) {
 		deltaCount = Math.max(0, cnt);
-		return this;
-	}
-
-	/** @return the tips that created this pack, if known. */
-	public Set<ObjectId> getTips() {
-		return tips;
-	}
-
-	/**
-	 * @param tips
-	 *            the tips of the pack, null if it has no known tips.
-	 * @return {@code this}
-	 */
-	public DfsPackDescription setTips(Set<ObjectId> tips) {
-		this.tips = tips;
 		return this;
 	}
 
