@@ -144,7 +144,21 @@ public class NameRevCommandTest extends RepositoryTestCase {
 		RevCommit c2 = tr.commit().parent(c0).create();
 		RevCommit c3 = tr.commit().parent(c1).parent(c2).create();
 		tr.update("master", c3);
-		assertOneResult("master^1~1", c0);
+		assertOneResult("master~2", c0);
+	}
+
+	@Test
+	public void onePathMergeSecondParent() throws Exception {
+		// 0--1-----4
+		//  \-2--3-/
+		RevCommit c0 = tr.commit().create();
+		RevCommit c1 = tr.commit().parent(c0).create();
+		RevCommit c2 = tr.commit().parent(c0).create();
+		RevCommit c3 = tr.commit().parent(c2).create();
+		RevCommit c4 = tr.commit().parent(c1).parent(c3).create();
+		tr.update("master", c4);
+		assertOneResult("master^2", c3);
+		assertOneResult("master^2~1", c2);
 	}
 
 	@Test

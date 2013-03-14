@@ -147,12 +147,11 @@ public class NameRevCommand extends GitCommand<Map<ObjectId, String>> {
 					break;
 				if (c.getCommitTime() < cutoff)
 					continue;
-				boolean merge = c.getParentCount() > 1;
-				long cost = c.cost + (merge ? MERGE_COST : 1);
+				long cost = c.cost + (c.getParentCount() > 1 ? MERGE_COST : 1);
 				for (int i = 0; i < c.getParentCount(); i++) {
 					NameRevCommit p = (NameRevCommit) walk.parseCommit(c.getParent(i));
 					if (p.tip == null || compare(c.tip, cost, p.tip, p.cost) < 0) {
-						if (merge) {
+						if (i > 0) {
 							p.tip = c.format().append('^').append(i + 1).toString();
 							p.distance = 0;
 						} else {
