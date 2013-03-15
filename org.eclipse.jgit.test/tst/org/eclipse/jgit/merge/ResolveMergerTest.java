@@ -189,6 +189,83 @@ public class ResolveMergerTest extends RepositoryTestCase {
 	}
 
 	/**
+	 * An existing directory without tracked content should not prevent merging
+	 * a tree where that directory exists.
+	 *
+	 * @param strategy
+	 * @throws Exception
+	 */
+	@Theory
+	public void checkUntrackedFolderIsNotAConflict(
+			MergeStrategy strategy) throws Exception {
+		Git git = Git.wrap(db);
+
+		writeTrashFile("d/1", "1");
+		git.add().addFilepattern("d/1").call();
+		RevCommit first = git.commit().setMessage("added d/1").call();
+
+		writeTrashFile("e/1", "4");
+		git.add().addFilepattern("e/1").call();
+		RevCommit masterCommit = git.commit().setMessage("added e/1").call();
+
+		git.checkout().setCreateBranch(true).setStartPoint(first)
+				.setName("side").call();
+		writeTrashFile("f/1", "5");
+		git.add().addFilepattern("f/1").call();
+		git.commit().setAll(true).setMessage("added f/1")
+				.call();
+
+		// Untracked directory e shall not conflict with merged e/1
+		writeTrashFile("e/2", "d two");
+
+		MergeResult mergeRes = git.merge().setStrategy(strategy)
+				.include(masterCommit).call();
+		assertEquals(MergeStatus.MERGED, mergeRes.getMergeStatus());
+		assertEquals(
+				"[d/1, mode:100644, content:1][e/1, mode:100644, content:4][f/1, mode:100644, content:5]",
+				indexState(CONTENT));
+	}
+
+	/**
+	 * An existing directory without tracked content should not prevent merging
+	 * a file with that name.
+	 *
+	 * @param strategy
+	 * @throws Exception
+	 */
+	@Theory
+	public void checkUntrackedEmpytFolderIsNotAConflictWithFile(
+			MergeStrategy strategy)
+			throws Exception {
+		Git git = Git.wrap(db);
+
+		writeTrashFile("d/1", "1");
+		git.add().addFilepattern("d/1").call();
+		RevCommit first = git.commit().setMessage("added d/1").call();
+
+		writeTrashFile("e", "4");
+		git.add().addFilepattern("e").call();
+		RevCommit masterCommit = git.commit().setMessage("added e").call();
+
+		git.checkout().setCreateBranch(true).setStartPoint(first)
+				.setName("side").call();
+		writeTrashFile("f/1", "5");
+		git.add().addFilepattern("f/1").call();
+		git.commit().setAll(true).setMessage("added f/1").call();
+
+		// Untracked empty directory hierarcy e/1 shall not conflict with merged
+		// e/1
+		FileUtils.mkdirs(new File(trash, "e/1"), true);
+
+		MergeResult mergeRes = git.merge().setStrategy(strategy)
+				.include(masterCommit).call();
+		assertEquals(MergeStatus.MERGED, mergeRes.getMergeStatus());
+		assertEquals(
+				"[d/1, mode:100644, content:1][e, mode:100644, content:4][f/1, mode:100644, content:5]",
+				indexState(CONTENT));
+	}
+
+	/**
 	 * Merging two equal subtrees when the index does not contain any file in
 	 * that subtree should lead to a merged state.
 	 *
