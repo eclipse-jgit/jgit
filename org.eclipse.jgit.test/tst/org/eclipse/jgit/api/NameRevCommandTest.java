@@ -162,7 +162,7 @@ public class NameRevCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void oneMergeDifferentLengths() throws Exception {
+	public void onePathMergeLongerFirstParentPath() throws Exception {
 		// 0--1--2--4
 		//  \--3---/
 		RevCommit c0 = tr.commit().create();
@@ -171,27 +171,24 @@ public class NameRevCommandTest extends RepositoryTestCase {
 		RevCommit c3 = tr.commit().parent(c0).create();
 		RevCommit c4 = tr.commit().parent(c2).parent(c3).create();
 		tr.update("master", c4);
-		assertOneResult("master^2~1", c0);
+		assertOneResult("master^2", c3);
+		assertOneResult("master~3", c0);
 	}
 
 	@Test
-	public void longerPathWithoutMerge() throws Exception {
-		// 0--1--2--4         <- master
-		//  \  \-3-/
-		//   \--5--6--7--8--9 <- branch
+	public void multiplePathsSecondParent() throws Exception {
+		// 0--...--2
+		//  \--1--/
 		RevCommit c0 = tr.commit().create();
 		RevCommit c1 = tr.commit().parent(c0).create();
-		RevCommit c2 = tr.commit().parent(c1).create();
-		RevCommit c3 = tr.commit().parent(c1).create();
-		RevCommit c4 = tr.commit().parent(c2).parent(c3).create();
-		RevCommit c5 = tr.commit().parent(c0).create();
-		RevCommit c6 = tr.commit().parent(c5).create();
-		RevCommit c7 = tr.commit().parent(c6).create();
-		RevCommit c8 = tr.commit().parent(c7).create();
-		RevCommit c9 = tr.commit().parent(c8).create();
-		tr.update("master", c4);
-		tr.update("branch", c9);
-		assertOneResult("branch~5", c0);
+		RevCommit c = c0;
+		int mergeCost = 5;
+		for (int i = 0; i < mergeCost; i++) {
+			c = tr.commit().parent(c).create();
+		}
+		RevCommit c2 = tr.commit().parent(c).parent(c1).create();
+		tr.update("master", c2);
+		assertOneResult("master^2~1", git.nameRev().setMergeCost(mergeCost), c0);
 	}
 
 	private static void assertOneResult(String expected, NameRevCommand nameRev,
