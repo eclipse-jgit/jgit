@@ -824,6 +824,18 @@ public class GC {
 		 * The number of refs stored in pack files.
 		 */
 		public long numberOfPackedRefs;
+
+		public String toString() {
+			final StringBuilder b = new StringBuilder();
+			b.append("numberOfPackedObjects=").append(numberOfPackedObjects); //$NON-NLS-1$
+			b.append(",numberOfPackFiles=").append(numberOfPackFiles); //$NON-NLS-1$
+			b.append(", numberOfLooseObjects=").append(numberOfLooseObjects); //$NON-NLS-1$
+			b.append(", numberOfLooseRefs=").append(numberOfLooseRefs); //$NON-NLS-1$
+			b.append(", numberOfPackedRefs=").append(numberOfPackedRefs); //$NON-NLS-1$
+			b.append(", sizeOfLooseObjects=").append(sizeOfLooseObjects); //$NON-NLS-1$
+			b.append(", sizeOfPackedObjects=").append(sizeOfPackedObjects); //$NON-NLS-1$
+			return b.toString();
+		}
 	}
 
 	/**
