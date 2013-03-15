@@ -427,6 +427,13 @@ public class GCTest extends LocalDiskRepositoryTestCase {
 		assertEquals(0, stats.numberOfLooseObjects);
 		assertEquals(4, stats.numberOfPackedObjects);
 		assertEquals(1, stats.numberOfPackFiles);
+
+		// Do the gc again and check that it hasn't changed anything
+		gc.gc();
+		stats = gc.getStatistics();
+		assertEquals(0, stats.numberOfLooseObjects);
+		assertEquals(4, stats.numberOfPackedObjects);
+		assertEquals(1, stats.numberOfPackFiles);
 	}
 
 	@Test

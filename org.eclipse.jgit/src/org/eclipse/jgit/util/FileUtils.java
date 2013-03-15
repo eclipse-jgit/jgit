@@ -45,7 +45,9 @@
 
 package org.eclipse.jgit.util;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.channels.FileLock;
 import java.text.MessageFormat;
@@ -90,6 +92,12 @@ public class FileUtils {
 	 * @since 2.4
 	 */
 	public static final int EMPTY_DIRECTORIES_ONLY = 16;
+
+	/**
+	 * If a rename fails check if source and destination have the same content.
+	 * If yes, simply delete the source
+	 */
+	public static final int RENAME_CHECK_FOR_SAME_CONTENT = 32;
 
 	/**
 	 * Delete file or empty folder
@@ -164,6 +172,76 @@ public class FileUtils {
 			if ((options & IGNORE_ERRORS) == 0)
 				throw new IOException(MessageFormat.format(
 						JGitText.get().deleteFileFailed, f.getAbsolutePath()));
+		}
+	}
+
+	/**
+	 * Compare two binary whether they have equal content
+	 *
+	 * @param f1
+	 *            The first file to compare
+	 * @param f2
+	 *            The second file to compare
+	 *
+	 * @return <code>true</code> if the files have equal content
+	 * @throws IOException
+	 */
+	public static boolean contentEquals(File f1, File f2) throws IOException {
+		BufferedInputStream s1 = null;
+		BufferedInputStream s2 = null;
+		try {
+			s1 = new BufferedInputStream(new FileInputStream(f1));
+			s2 = new BufferedInputStream(new FileInputStream(f2));
+			int ch = s1.read();
+			while (-1 != ch) {
+				int ch2 = s2.read();
+				if (ch != ch2) {
+					return false;
+				}
+				ch = s1.read();
+			}
+			int ch2 = s2.read();
+			return (ch2 == -1);
+		} finally {
+			if (s1 != null)
+				s1.close();
+			if (s2 != null)
+				s2.close();
+		}
+	}
+
+	/**
+	 * Rename a file or folder
+	 *
+	 * @param src
+	 *            the old {@code File}
+	 * @param dst
+	 *            the new {@code File}
+	 * @param options
+	 *            rename options. If {@code RENAME_CHECK_FOR_SAME_CONTENT} is
+	 *            specified then first a rename using
+	 *            {@link java.io.File#renameTo(File)} is tried. If this rename
+	 *            fails it is checked whether we try to rename to a file which
+	 *            has the same content as the source file. If this is true then
+	 *            simply delete the source file. Be aware that his has the
+	 *            effect of
+	 * @throws IOException
+	 *             if rename of {@code src} fails. Failures could be caused by
+	 *             platform specifics. E.g. a rename fails on Windows if there
+	 *             is an open handle on the target file.
+	 */
+	public static void rename(final File src, final File dst, int options)
+			throws IOException {
+		if (!src.renameTo(dst)) {
+			if (src.isFile() && dst.isFile())
+				if (src.length() == dst.length())
+					if (contentEquals(src, dst)) {
+						src.delete();
+						return;
+					}
+			throw new IOException(MessageFormat.format(
+					JGitText.get().renameFileFailed, src.getAbsolutePath(),
+					dst.getAbsolutePath()));
 		}
 	}
 
