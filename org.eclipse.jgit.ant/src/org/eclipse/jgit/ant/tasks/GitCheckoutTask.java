@@ -54,7 +54,7 @@ import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 
 /**
  * Checkout a branch or paths to the working tree.
- * 
+ *
  * @see <a
  *      href="http://www.kernel.org/pub/software/scm/git/docs/git-checkout.html"
  *      >git-checkout(1)</a>

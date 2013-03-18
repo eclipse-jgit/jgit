@@ -43,7 +43,7 @@
 
 package org.eclipse.jgit.transport;
 
-import org.eclipse.jgit.storage.pack.PackWriter;
+import org.eclipse.jgit.internal.storage.pack.PackWriter;
 
 /**
  * Logs activity that occurred within {@link UploadPack}.

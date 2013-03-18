@@ -51,7 +51,7 @@ import java.io.StringWriter;
 import java.util.Collection;
 import java.util.Map;
 
-import org.eclipse.jgit.storage.file.RefDirectory;
+import org.eclipse.jgit.internal.storage.file.RefDirectory;
 import org.eclipse.jgit.util.RefList;
 import org.eclipse.jgit.util.RefMap;
 

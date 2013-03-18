@@ -45,8 +45,6 @@ package org.eclipse.jgit.lib;
 
 import java.io.File;
 
-import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
-
 /**
  * Base class to support constructing a {@link Repository}.
  * <p>
@@ -57,7 +55,7 @@ import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
  * <p>
  * Single repository applications trying to be compatible with other Git
  * implementations are encouraged to use a model such as:
- *
+ * 
  * <pre>
  * new RepositoryBuilder() //
  * 		.setGitDir(gitDirArgument) // --git-dir if supplied, no-op if null
@@ -65,8 +63,8 @@ import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
  * 		.findGitDir() // scan up the file system tree
  * 		.build()
  * </pre>
- *
- * @see FileRepositoryBuilder
+ * 
+ * @see org.eclipse.jgit.storage.file.FileRepositoryBuilder
  */
 public class RepositoryBuilder extends
 		BaseRepositoryBuilder<RepositoryBuilder, Repository> {

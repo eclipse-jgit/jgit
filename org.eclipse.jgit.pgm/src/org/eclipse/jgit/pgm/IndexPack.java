@@ -46,9 +46,9 @@ package org.eclipse.jgit.pgm;
 
 import java.io.BufferedInputStream;
 
+import org.eclipse.jgit.internal.storage.file.ObjectDirectoryPackParser;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.TextProgressMonitor;
-import org.eclipse.jgit.storage.file.ObjectDirectoryPackParser;
 import org.eclipse.jgit.transport.PackParser;
 import org.kohsuke.args4j.Option;
 

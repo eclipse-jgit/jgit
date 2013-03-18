@@ -45,7 +45,7 @@ package org.eclipse.jgit.lib;
 
 import java.util.Iterator;
 
-import org.eclipse.jgit.storage.file.PackBitmapIndex;
+import org.eclipse.jgit.internal.storage.file.PackBitmapIndex;
 
 /** A compressed bitmap representation of the entire object graph. */
 public interface BitmapIndex {
