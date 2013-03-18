@@ -54,7 +54,7 @@ import java.lang.reflect.Method;
 import java.net.URISyntaxException;
 import java.net.URL;
 
-import org.eclipse.jgit.internal.storage.file.FileRepository;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
@@ -135,14 +135,14 @@ public abstract class JGitTestUtil {
 		return JGitTestUtil.class.getClassLoader();
 	}
 
-	public static File writeTrashFile(final FileRepository db,
+	public static File writeTrashFile(final Repository db,
 			final String name, final String data) throws IOException {
 		File path = new File(db.getWorkTree(), name);
 		write(path, data);
 		return path;
 	}
 
-	public static File writeTrashFile(final FileRepository db,
+	public static File writeTrashFile(final Repository db,
 			final String subdir,
 			final String name, final String data) throws IOException {
 		File path = new File(db.getWorkTree() + "/" + subdir, name);
@@ -190,13 +190,13 @@ public abstract class JGitTestUtil {
 		return new String(body, 0, body.length, "UTF-8");
 	}
 
-	public static String read(final FileRepository db, final String name)
+	public static String read(final Repository db, final String name)
 			throws IOException {
 		File file = new File(db.getWorkTree(), name);
 		return read(file);
 	}
 
-	public static void deleteTrashFile(final FileRepository db,
+	public static void deleteTrashFile(final Repository db,
 			final String name) throws IOException {
 		File path = new File(db.getWorkTree(), name);
 		FileUtils.delete(path);
