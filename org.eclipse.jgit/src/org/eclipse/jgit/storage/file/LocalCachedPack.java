@@ -46,11 +46,8 @@ package org.eclipse.jgit.storage.file;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
-import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.storage.pack.CachedPack;
 import org.eclipse.jgit.storage.pack.ObjectToPack;
 import org.eclipse.jgit.storage.pack.PackOutputStream;
@@ -59,34 +56,19 @@ import org.eclipse.jgit.storage.pack.StoredObjectRepresentation;
 class LocalCachedPack extends CachedPack {
 	private final ObjectDirectory odb;
 
-	private final Set<ObjectId> tips;
-
 	private final String[] packNames;
 
 	private PackFile[] packs;
 
-	LocalCachedPack(ObjectDirectory odb, Set<ObjectId> tips,
-			List<String> packNames) {
+	LocalCachedPack(ObjectDirectory odb, List<String> packNames) {
 		this.odb = odb;
-
-		if (tips.size() == 1)
-			this.tips = Collections.singleton(tips.iterator().next());
-		else
-			this.tips = Collections.unmodifiableSet(tips);
-
 		this.packNames = packNames.toArray(new String[packNames.size()]);
 	}
 
 	LocalCachedPack(List<PackFile> packs) {
 		odb = null;
-		tips = null;
 		packNames = null;
 		this.packs = packs.toArray(new PackFile[packs.size()]);
-	}
-
-	@Override
-	public Set<ObjectId> getTips() {
-		return tips;
 	}
 
 	@Override

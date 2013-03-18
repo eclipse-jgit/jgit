@@ -89,7 +89,7 @@ public interface ObjectReuseAsIs {
 	 * the writer can select the most suitable representation to reuse into the
 	 * output stream.
 	 * <p>
-	 * If the implementation returns CachedPack from {@link #getCachedPacks()},
+	 * If the implementation returns CachedPack from {@link #getCachedPacksAndUpdate(BitmapBuilder)}
 	 * it must consider the representation of any object that is stored in any
 	 * of the offered CachedPacks. PackWriter relies on this behavior to prune
 	 * duplicate objects out of the pack stream when it selects a CachedPack and
@@ -199,20 +199,6 @@ public interface ObjectReuseAsIs {
 	public void copyObjectAsIs(PackOutputStream out, ObjectToPack otp,
 			boolean validate) throws IOException,
 			StoredObjectRepresentationNotAvailableException;
-
-	/**
-	 * Obtain the available cached packs.
-	 * <p>
-	 * A cached pack has known starting points and may be sent entirely as-is,
-	 * with almost no effort on the sender's part.
-	 *
-	 * @return the available cached packs.
-	 * @throws IOException
-	 *             the cached packs cannot be listed from the repository.
-	 *             Callers may choose to ignore this and continue as-if there
-	 *             were no cached packs.
-	 */
-	public Collection<CachedPack> getCachedPacks() throws IOException;
 
 	/**
 	 * Append an entire pack's contents onto the output stream.

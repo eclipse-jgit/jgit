@@ -57,10 +57,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -101,7 +99,6 @@ import org.eclipse.jgit.revwalk.DepthWalk;
 import org.eclipse.jgit.revwalk.ObjectWalk;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
-import org.eclipse.jgit.revwalk.RevFlagSet;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevTag;
@@ -1387,7 +1384,8 @@ public class PackWriter {
 		}
 	}
 
-	private void runTasks(ExecutorService pool, ThreadSafeProgressMonitor pm,
+	private static void runTasks(ExecutorService pool,
+			ThreadSafeProgressMonitor pm,
 			List<DeltaTask> tasks, List<Throwable> errors) throws IOException {
 		List<Future<?>> futures = new ArrayList<Future<?>>(tasks.size());
 		for (DeltaTask task : tasks)
@@ -1631,46 +1629,14 @@ public class PackWriter {
 		all.addAll(want);
 		all.addAll(have);
 
-		final Map<ObjectId, CachedPack> tipToPack = new HashMap<ObjectId, CachedPack>();
-		final RevFlag inCachedPack = walker.newFlag("inCachedPack"); //$NON-NLS-1$
 		final RevFlag include = walker.newFlag("include"); //$NON-NLS-1$
 		final RevFlag added = walker.newFlag("added"); //$NON-NLS-1$
-
-		final RevFlagSet keepOnRestart = new RevFlagSet();
-		keepOnRestart.add(inCachedPack);
 
 		walker.carry(include);
 
 		int haveEst = have.size();
 		if (have.isEmpty()) {
 			walker.sort(RevSort.COMMIT_TIME_DESC);
-			if (useCachedPacks && reuseSupport != null) {
-				Set<ObjectId> need = new HashSet<ObjectId>(want);
-				List<CachedPack> shortCircuit = new LinkedList<CachedPack>();
-
-				for (CachedPack pack : reuseSupport.getCachedPacks()) {
-					if (need.containsAll(pack.getTips())) {
-						need.removeAll(pack.getTips());
-						shortCircuit.add(pack);
-					}
-
-					for (ObjectId id : pack.getTips()) {
-						tipToPack.put(id, pack);
-						all.add(id);
-					}
-				}
-
-				if (need.isEmpty() && !shortCircuit.isEmpty()) {
-					cachedPacks.addAll(shortCircuit);
-					for (CachedPack pack : shortCircuit)
-						countingMonitor.update((int) pack.getObjectCount());
-					endPhase(countingMonitor);
-					stats.timeCounting = System.currentTimeMillis() - countingStart;
-					return;
-				}
-
-				haveEst += tipToPack.size();
-			}
 		} else {
 			walker.sort(RevSort.TOPO);
 			if (thin)
@@ -1688,10 +1654,6 @@ public class PackWriter {
 					RevObject o = q.next();
 					if (o == null)
 						break;
-
-					if (tipToPack.containsKey(o))
-						o.add(inCachedPack);
-
 					if (have.contains(o))
 						haveObjs.add(o);
 					if (want.contains(o)) {
@@ -1747,20 +1709,6 @@ public class PackWriter {
 		while ((c = walker.next()) != null) {
 			if (exclude(c))
 				continue;
-			if (c.has(inCachedPack)) {
-				CachedPack pack = tipToPack.get(c);
-				if (includesAllTips(pack, include, walker)) {
-					useCachedPack(walker, keepOnRestart, //
-							wantObjs, haveObjs, pack);
-					commits = new BlockList<RevCommit>();
-
-					endPhase(countingMonitor);
-					beginPhase(PackingPhase.COUNTING, countingMonitor,
-							ProgressMonitor.UNKNOWN);
-					continue;
-				}
-			}
-
 			if (c.has(RevFlag.UNINTERESTING)) {
 				if (baseTrees.size() <= maxBases)
 					baseTrees.add(c.getTree());
@@ -1891,34 +1839,6 @@ public class PackWriter {
 
 		while (dst < list.size())
 			list.remove(list.size() - 1);
-	}
-
-	private void useCachedPack(ObjectWalk walker, RevFlagSet keepOnRestart,
-			List<RevObject> wantObj, List<RevObject> baseObj, CachedPack pack)
-			throws MissingObjectException, IncorrectObjectTypeException,
-			IOException {
-		cachedPacks.add(pack);
-		for (ObjectId id : pack.getTips())
-			baseObj.add(walker.lookupOrNull(id));
-
-		setThin(true);
-		walker.resetRetain(keepOnRestart);
-		walker.sort(RevSort.TOPO);
-		walker.sort(RevSort.BOUNDARY, true);
-
-		for (RevObject id : wantObj)
-			walker.markStart(id);
-		for (RevObject id : baseObj)
-			walker.markUninteresting(id);
-	}
-
-	private static boolean includesAllTips(CachedPack pack, RevFlag include,
-			ObjectWalk walker) {
-		for (ObjectId id : pack.getTips()) {
-			if (!walker.lookupOrNull(id).has(include))
-				return false;
-		}
-		return true;
 	}
 
 	/**

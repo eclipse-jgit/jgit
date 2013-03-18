@@ -57,7 +57,6 @@ import org.eclipse.jgit.lib.ObjectDatabase;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdOwnerMap;
 import org.eclipse.jgit.lib.ObjectLoader;
-import org.eclipse.jgit.storage.pack.CachedPack;
 import org.eclipse.jgit.storage.pack.ObjectToPack;
 import org.eclipse.jgit.storage.pack.PackWriter;
 import org.eclipse.jgit.util.FS;
@@ -144,11 +143,6 @@ class CachedObjectDirectory extends FileObjectDatabase {
 	@Override
 	Set<ObjectId> getShallowCommits() throws IOException {
 		return wrapped.getShallowCommits();
-	}
-
-	@Override
-	Collection<? extends CachedPack> getCachedPacks() throws IOException {
-		return wrapped.getCachedPacks();
 	}
 
 	@Override

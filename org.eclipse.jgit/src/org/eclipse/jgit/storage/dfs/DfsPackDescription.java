@@ -43,11 +43,11 @@
 
 package org.eclipse.jgit.storage.dfs;
 
+import static org.eclipse.jgit.storage.pack.PackExt.PACK;
+
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
-import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.storage.dfs.DfsObjDatabase.PackSource;
 import org.eclipse.jgit.storage.pack.PackExt;
 import org.eclipse.jgit.storage.pack.PackWriter;
@@ -74,8 +74,6 @@ public class DfsPackDescription implements Comparable<DfsPackDescription> {
 	private long objectCount;
 
 	private long deltaCount;
-
-	private Set<ObjectId> tips;
 
 	private PackWriter.Statistics stats;
 
@@ -221,21 +219,6 @@ public class DfsPackDescription implements Comparable<DfsPackDescription> {
 		return this;
 	}
 
-	/** @return the tips that created this pack, if known. */
-	public Set<ObjectId> getTips() {
-		return tips;
-	}
-
-	/**
-	 * @param tips
-	 *            the tips of the pack, null if it has no known tips.
-	 * @return {@code this}
-	 */
-	public DfsPackDescription setTips(Set<ObjectId> tips) {
-		this.tips = tips;
-		return this;
-	}
-
 	/**
 	 * @return statistics from PackWriter, if the pack was built with it.
 	 *         Generally this is only available for packs created by
@@ -248,6 +231,9 @@ public class DfsPackDescription implements Comparable<DfsPackDescription> {
 
 	DfsPackDescription setPackStats(PackWriter.Statistics stats) {
 		this.stats = stats;
+		setFileSize(PACK, stats.getTotalBytes());
+		setObjectCount(stats.getTotalObjects());
+		setDeltaCount(stats.getTotalDeltas());
 		return this;
 	}
 
