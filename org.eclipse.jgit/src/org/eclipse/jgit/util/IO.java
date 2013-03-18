@@ -45,6 +45,7 @@
 
 package org.eclipse.jgit.util;
 
+import java.io.BufferedReader;
 import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
@@ -332,6 +333,26 @@ public class IO {
 				throw new EOFException(JGitText.get().shortSkipOfBlock);
 			toSkip -= r;
 		}
+	}
+
+	/**
+	 * Divides the given reader into lines.
+	 * 
+	 * @param in
+	 *            the reader to read
+	 * @return the reader divided into lines
+	 * @throws IOException
+	 *             if an I/O error occurs
+	 * @since 2.4
+	 */
+	public static List<String> readLines(final BufferedReader in)
+			throws IOException {
+		List<String> l = new ArrayList<String>();
+		String s = null;
+		while ((s = in.readLine()) != null) {
+			l.add(s);
+		}
+		return l;
 	}
 
 	/**
