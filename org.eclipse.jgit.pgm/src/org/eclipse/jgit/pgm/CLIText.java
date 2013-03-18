@@ -197,6 +197,7 @@ public class CLIText extends TranslationBundle {
 	/***/ public String notOnAnyBranch;
 	/***/ public String noteObjectTooLargeToPrint;
 	/***/ public String nothingToSquash;
+	/***/ public String notSomethingWeCanMerge;
 	/***/ public String onBranchToBeBorn;
 	/***/ public String onBranch;
 	/***/ public String onlyOneMetaVarExpectedIn;
@@ -204,7 +205,6 @@ public class CLIText extends TranslationBundle {
 	/***/ public String pathspecDidNotMatch;
 	/***/ public String pushTo;
 	/***/ public String pathsRequired;
-	/***/ public String refDoesNotExistOrNoCommit;
 	/***/ public String remoteMessage;
 	/***/ public String remoteRefObjectChangedIsNotExpectedOne;
 	/***/ public String remoteSideDoesNotSupportDeletingRefs;

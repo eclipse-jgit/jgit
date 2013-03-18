@@ -284,6 +284,10 @@ public abstract class LocalDiskRepositoryTestCase {
 	 */
 	private FileRepository createRepository(boolean bare) throws IOException {
 		File gitdir = createUniqueTestGitDir(bare);
+		return createRepository(gitdir);
+	}
+
+	protected FileRepository createRepository(File gitdir) throws IOException {
 		FileRepository db = new FileRepository(gitdir);
 		assertFalse(gitdir.exists());
 		db.create();
