@@ -51,11 +51,11 @@ import java.util.Properties;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.file.FileRepository;
+import org.eclipse.jgit.internal.storage.file.GC;
+import org.eclipse.jgit.internal.storage.file.GC.RepoStatistics;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.storage.file.FileRepository;
-import org.eclipse.jgit.storage.file.GC;
-import org.eclipse.jgit.storage.file.GC.RepoStatistics;
 import org.eclipse.jgit.util.GitDateParser;
 
 /**

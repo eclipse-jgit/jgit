@@ -56,8 +56,8 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.lib.Config;
 
 /**
  * Interface to read values from the system.

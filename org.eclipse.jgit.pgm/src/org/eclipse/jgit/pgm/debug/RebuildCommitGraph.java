@@ -58,6 +58,7 @@ import java.util.Map;
 
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.ObjectWritingException;
+import org.eclipse.jgit.internal.storage.file.LockFile;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -72,7 +73,6 @@ import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.pgm.CLIText;
 import org.eclipse.jgit.pgm.TextBuiltin;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.storage.file.LockFile;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 

@@ -56,8 +56,8 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
 
+import org.eclipse.jgit.internal.storage.file.ObjectDirectory;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.storage.file.ObjectDirectory;
 
 /**
  * Requires the target {@link Repository} to be available via local filesystem.

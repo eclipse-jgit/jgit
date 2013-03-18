@@ -45,7 +45,7 @@ package org.eclipse.jgit.transport;
 
 import java.util.List;
 
-import org.eclipse.jgit.storage.pack.PackWriter;
+import org.eclipse.jgit.internal.storage.pack.PackWriter;
 
 /**
  * {@link UploadPackLogger} that delegates to a list of other loggers.

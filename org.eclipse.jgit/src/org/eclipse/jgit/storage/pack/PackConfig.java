@@ -47,13 +47,13 @@ package org.eclipse.jgit.storage.pack;
 import java.util.concurrent.Executor;
 import java.util.zip.Deflater;
 
+import org.eclipse.jgit.internal.storage.file.PackIndexWriter;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.storage.file.PackIndexWriter;
 
 /**
- * Configuration used by a {@link PackWriter} when constructing the stream.
- *
+ * Configuration used by a pack writer when constructing the stream.
+ * 
  * A configuration may be modified once created, but should not be modified
  * while it is being used by a PackWriter. If a configuration is not modified it
  * is safe to share the same configuration instance between multiple concurrent

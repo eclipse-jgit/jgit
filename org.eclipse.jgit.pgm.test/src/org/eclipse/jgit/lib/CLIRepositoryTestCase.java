@@ -47,10 +47,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.pgm.CLIGitCommand;
-import org.eclipse.jgit.storage.file.FileRepository;
 import org.junit.Before;
 
 public class CLIRepositoryTestCase extends LocalDiskRepositoryTestCase {

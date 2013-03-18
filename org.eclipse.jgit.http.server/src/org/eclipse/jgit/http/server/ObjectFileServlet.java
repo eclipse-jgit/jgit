@@ -60,8 +60,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.eclipse.jgit.internal.storage.file.ObjectDirectory;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.storage.file.ObjectDirectory;
 
 /** Sends any object from {@code GIT_DIR/objects/??/0 38}, or any pack file. */
 abstract class ObjectFileServlet extends HttpServlet {
