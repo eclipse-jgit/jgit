@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//3DQ\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/storage/file/GCTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 104
+      },
+      "writtenOn": "2013-03-18T13:11:34Z",
+      "side": 1,
+      "message": "s/allprojects/All-Projects",
+      "revId": "dd4d897f686fd771f414a8df72b9ed43654bbe5a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
