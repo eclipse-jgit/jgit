@@ -34,6 +34,24 @@
       "revId": "58b4b362c47bb47b1d6f369427f937aebb22fdc3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//2gY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 750,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-19T17:10:24Z",
+      "side": 1,
+      "message": "And its actually still less bad than before. If the process does fail to rename the .idx into place at least the .pack is valid. A human can remove the .idx and run index-pack to make a new .idx file from the valid .pack.",
+      "parentUuid": "AABOPX//2mc\u003d",
+      "revId": "58b4b362c47bb47b1d6f369427f937aebb22fdc3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
