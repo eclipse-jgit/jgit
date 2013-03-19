@@ -16,6 +16,24 @@
       "revId": "dd4d897f686fd771f414a8df72b9ed43654bbe5a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//2sc\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/storage/file/GCTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-19T00:01:58Z",
+      "side": 1,
+      "message": "Please fix this typo and rebase, the files are renamed and Gerrit won\u0027t be able to merge them.",
+      "parentUuid": "AABOPX//3DQ\u003d",
+      "revId": "dd4d897f686fd771f414a8df72b9ed43654bbe5a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
