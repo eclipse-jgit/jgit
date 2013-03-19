@@ -93,4 +93,19 @@ public class FileRepositoryBuilder extends
 			throw new RepositoryNotFoundException(getGitDir());
 		return repo;
 	}
+
+	/**
+	 * Convenience factory method to construct a {@link FileRepository}.
+	 *
+	 * @param gitDir
+	 *            {@code GIT_DIR}, the repository meta directory.
+	 * @return a repository matching this configuration.
+	 * @throws IOException
+	 *             the repository could not be accessed to configure the rest of
+	 *             the builder's parameters.
+	 */
+	public static Repository create(File gitDir) throws IOException {
+		return new FileRepositoryBuilder().setGitDir(gitDir).readEnvironment()
+				.build();
+	}
 }
