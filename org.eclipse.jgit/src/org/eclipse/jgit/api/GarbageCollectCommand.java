@@ -129,6 +129,23 @@ public class GarbageCollectCommand extends GitCommand<Properties> {
 		}
 	}
 
+	/**
+	 * Computes and returns the repository statistics.
+	 *
+	 * @return the repository statistics
+	 * @throws GitAPIException
+	 *             thrown if the repository statistics cannot be computed
+	 */
+	public Properties getStatistics() throws GitAPIException {
+		try {
+			GC gc = new GC((FileRepository) repo);
+			return toProperties(gc.getStatistics());
+		} catch (IOException e) {
+			throw new JGitInternalException(
+					JGitText.get().couldNotGetRepoStatistics, e);
+		}
+	}
+
 	@SuppressWarnings("boxing")
 	private static Properties toProperties(RepoStatistics stats) {
 		Properties p = new Properties();
