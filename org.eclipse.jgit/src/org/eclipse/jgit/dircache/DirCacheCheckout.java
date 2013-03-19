@@ -1126,16 +1126,12 @@ public class DirCacheCheckout {
 					fs.setExecute(tmpFile, false);
 			}
 		}
-		if (!tmpFile.renameTo(f)) {
-			// tried to rename which failed. Let' delete the target file and try
-			// again
-			FileUtils.delete(f, FileUtils.EMPTY_DIRECTORIES_ONLY
-					| FileUtils.RECURSIVE);
-			if (!tmpFile.renameTo(f)) {
-				throw new IOException(MessageFormat.format(
-						JGitText.get().couldNotWriteFile, tmpFile.getPath(),
-						f.getPath()));
-			}
+		try {
+			FileUtils.rename(tmpFile, f);
+		} catch (IOException e) {
+			throw new IOException(MessageFormat.format(
+					JGitText.get().couldNotWriteFile, tmpFile.getPath(),
+					f.getPath()));
 		}
 		entry.setLastModified(f.lastModified());
 		if (opt.getAutoCRLF() != AutoCRLF.FALSE)
