@@ -63,7 +63,7 @@ import org.eclipse.jgit.util.GitDateParser;
  * supported options and arguments of this command and a {@link #call()} method
  * to finally execute the command. Each instance of this class should only be
  * used for one invocation of the command (means: one call to {@link #call()})
- * 
+ *
  * @since 2.2
  * @see <a href="http://www.kernel.org/pub/software/scm/git/docs/git-gc.html"
  *      >Git documentation about gc</a>
@@ -126,6 +126,23 @@ public class GarbageCollectCommand extends GitCommand<Properties> {
 			throw new JGitInternalException(JGitText.get().gcFailed, e);
 		} catch (ParseException e) {
 			throw new JGitInternalException(JGitText.get().gcFailed, e);
+		}
+	}
+
+	/**
+	 * Computes and returns the repository statistics.
+	 *
+	 * @return the repository statistics
+	 * @throws GitAPIException
+	 *             thrown if the repository statistics cannot be computed
+	 */
+	public Properties getProperties() throws GitAPIException {
+		try {
+			GC gc = new GC((FileRepository) repo);
+			return toProperties(gc.getStatistics());
+		} catch (IOException e) {
+			throw new JGitInternalException(
+					JGitText.get().couldNotGetRepoStatistics, e);
 		}
 	}
 
