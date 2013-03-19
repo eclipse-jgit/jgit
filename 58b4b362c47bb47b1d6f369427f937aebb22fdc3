@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//2sU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 750,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-19T00:20:11Z",
+      "side": 1,
+      "message": "Even if this succeeds, the repository is now corrupt between here and the loop below finishing successfully. Unfortunately the Git experts have declared this is OK because the naming format for a file is flawed. *sigh*\n\nWhat you have is slightly better than before, but its still worrying.\n\nI don\u0027t have a good solution here. I have suggested Git rename these files to be based on a different SHA-1 computation, but that isn\u0027t going to happen anytime soon. I have also suggested all of these streams should be folded into a single stream, but that also won\u0027t happen anytime soon.",
+      "revId": "58b4b362c47bb47b1d6f369427f937aebb22fdc3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
