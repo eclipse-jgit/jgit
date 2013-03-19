@@ -55,6 +55,7 @@ import java.io.IOException;
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.util.FileUtils;
@@ -126,7 +127,7 @@ public class FileRepositoryBuilderTest extends LocalDiskRepositoryTestCase {
 
 		builder.setWorkTree(dir);
 		builder.setMustExist(true);
-		FileRepository repo2 = builder.build();
+		Repository repo2 = builder.build();
 
 		assertEquals(repo1.getDirectory(), repo2.getDirectory());
 		assertEquals(dir, repo2.getWorkTree());
@@ -145,7 +146,7 @@ public class FileRepositoryBuilderTest extends LocalDiskRepositoryTestCase {
 		FileRepositoryBuilder builder = new FileRepositoryBuilder();
 		builder.setWorkTree(dir);
 		builder.setMustExist(true);
-		FileRepository repo2 = builder.build();
+		Repository repo2 = builder.build();
 
 		assertEquals(repo1.getDirectory(), repo2.getDirectory());
 		assertEquals(dir, repo2.getWorkTree());
@@ -165,7 +166,7 @@ public class FileRepositoryBuilderTest extends LocalDiskRepositoryTestCase {
 		builder.findGitDir(dir);
 		assertEquals(repo1.getDirectory(), builder.getGitDir());
 		builder.setMustExist(true);
-		FileRepository repo2 = builder.build();
+		Repository repo2 = builder.build();
 
 		assertEquals(repo1.getDirectory(), repo2.getDirectory());
 		assertEquals(dir, repo2.getWorkTree());
