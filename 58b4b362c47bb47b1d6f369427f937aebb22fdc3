@@ -16,6 +16,24 @@
       "revId": "58b4b362c47bb47b1d6f369427f937aebb22fdc3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//2mc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 750,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-03-19T13:31:01Z",
+      "side": 1,
+      "message": "This is still worrying, true. But it\u0027s also much better in my eyes. Without this fix we always ended up in a repo with no loose objects and no packfiles(!) at all when this rename fails. This method returned null instead of throwing an exception. Means to the caller: no packfile was written. And later, when deleting the packfiles which are now outdated, we deleted all existing packfiles except those which where newly written. Since no packfile was written if the rename files all packfiles got deleted.\n\nNow we don\u0027t get a corrupted repo always when the rename fails but only somebody pulls the plug between here and the and of the loop.",
+      "parentUuid": "AABOPX//2sU\u003d",
+      "revId": "58b4b362c47bb47b1d6f369427f937aebb22fdc3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
