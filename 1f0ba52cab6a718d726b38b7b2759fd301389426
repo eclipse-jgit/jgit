@@ -16,6 +16,24 @@
       "revId": "1f0ba52cab6a718d726b38b7b2759fd301389426",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//2lQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/GarbageCollectCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 104
+      },
+      "writtenOn": "2013-03-19T14:13:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//2mE\u003d",
+      "revId": "1f0ba52cab6a718d726b38b7b2759fd301389426",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
