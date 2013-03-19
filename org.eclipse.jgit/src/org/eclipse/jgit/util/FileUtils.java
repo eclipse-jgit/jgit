@@ -168,6 +168,39 @@ public class FileUtils {
 	}
 
 	/**
+	 * Rename a file or folder. If the rename fails and if we are running on a
+	 * filesystem where it makes sense to repeat a failing rename then repeat
+	 * the rename operation up to 9 times with 100ms sleep time between two
+	 * calls
+	 *
+	 * @see FS#retryFailedLockFileCommit()
+	 * @param src
+	 *            the old {@code File}
+	 * @param dst
+	 *            the new {@code File}
+	 * @throws IOException
+	 *             if the rename has failed
+	 */
+	public static void rename(final File src, final File dst)
+			throws IOException {
+		int attempts = FS.DETECTED.retryFailedLockFileCommit() ? 10 : 1;
+		while (--attempts >= 0) {
+			if (src.renameTo(dst))
+				return;
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				throw new IOException(MessageFormat.format(
+						JGitText.get().renameFileFailed, src.getAbsolutePath(),
+						dst.getAbsolutePath()));
+			}
+		}
+		throw new IOException(MessageFormat.format(
+				JGitText.get().renameFileFailed, src.getAbsolutePath(),
+				dst.getAbsolutePath()));
+	}
+
+	/**
 	 * Creates the directory named by this abstract pathname.
 	 *
 	 * @param d

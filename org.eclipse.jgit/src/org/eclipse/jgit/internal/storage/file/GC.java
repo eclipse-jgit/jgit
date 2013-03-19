@@ -735,11 +735,21 @@ public class GC {
 
 			// rename the temporary files to real files
 			File realPack = nameFor(id, ".pack"); //$NON-NLS-1$
+
+			// if the packfile already exists (because we are rewriting a
+			// packfile for the same set of objects maybe with different
+			// PackConfig) then make sure we get rid of all handles on the file.
+			// Windows will not allow for rename otherwise.
+			if (realPack.exists())
+				for (PackFile p : repo.getObjectDatabase().getPacks())
+					if (realPack.getPath().equals(p.getPackFile().getPath())) {
+						p.close();
+						break;
+					}
 			tmpPack.setReadOnly();
 			boolean delete = true;
 			try {
-				if (!tmpPack.renameTo(realPack))
-					return null;
+				FileUtils.rename(tmpPack, realPack);
 				delete = false;
 				for (Map.Entry<PackExt, File> tmpEntry : tmpExts.entrySet()) {
 					File tmpExt = tmpEntry.getValue();
@@ -747,7 +757,9 @@ public class GC {
 
 					File realExt = nameFor(
 							id, "." + tmpEntry.getKey().getExtension()); //$NON-NLS-1$
-					if (!tmpExt.renameTo(realExt)) {
+					try {
+						FileUtils.rename(tmpExt, realExt);
+					} catch (IOException e) {
 						File newExt = new File(realExt.getParentFile(),
 								realExt.getName() + ".new"); //$NON-NLS-1$
 						if (!tmpExt.renameTo(newExt))
