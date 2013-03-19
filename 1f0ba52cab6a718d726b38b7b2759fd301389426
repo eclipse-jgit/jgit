@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//2mE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/GarbageCollectCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-03-19T13:54:14Z",
+      "side": 1,
+      "message": "I would call it getStatistics(). This fit\u0027s to your javadoc. If you call it properties I would think these are the properties of this instance of the GarbageCollectCommand.",
+      "revId": "1f0ba52cab6a718d726b38b7b2759fd301389426",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
