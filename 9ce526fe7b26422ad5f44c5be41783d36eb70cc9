@@ -16,6 +16,24 @@
       "revId": "9ce526fe7b26422ad5f44c5be41783d36eb70cc9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//2Y0\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revplot/PlotCommitListTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-03-20T14:51:41Z",
+      "side": 1,
+      "message": "I find it mostly a matter of taste. The \"new\" logic is that new head tend get allocated to the left at the expense of other commits. \n\nLooking at JGit\u0027s history the new layout tends to re-use columns more. In total it doesn\u0027t reduce the total width of all column, unfortunately.\n\nI really don\u0027t understand the algorithm enough to say how to improve, but I do know the previous behavior is wrong and the current isn\u0027t as far as I can find, but I\u0027d appreciate if other too.",
+      "parentUuid": "AABOPX//2aI\u003d",
+      "revId": "9ce526fe7b26422ad5f44c5be41783d36eb70cc9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
