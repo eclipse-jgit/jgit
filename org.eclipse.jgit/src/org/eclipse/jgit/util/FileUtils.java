@@ -87,7 +87,7 @@ public class FileUtils {
 	 * Option to only delete empty directories. This option can be combined with
 	 * {@link #RECURSIVE}
 	 *
-	 * @since 2.4
+	 * @since 3.0
 	 */
 	public static final int EMPTY_DIRECTORIES_ONLY = 16;
 
