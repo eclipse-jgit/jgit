@@ -43,7 +43,11 @@
 
 package org.eclipse.jgit.lib;
 
-/** Base object type accessed during bitmap expansion. */
+/**
+ * Base object type accessed during bitmap expansion.
+ *
+ * @since 3.0
+ */
 public abstract class BitmapObject {
 	/**
 	 * Get Git object type. See {@link Constants}.

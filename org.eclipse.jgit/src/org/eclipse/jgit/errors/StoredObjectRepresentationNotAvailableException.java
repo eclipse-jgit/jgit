@@ -51,9 +51,10 @@ public class StoredObjectRepresentationNotAvailableException extends Exception {
 
 	/**
 	 * Construct an error for an object.
-	 *
+	 * 
 	 * @param otp
 	 *            the object whose current representation is no longer present.
+	 * @since 3.0
 	 */
 	public StoredObjectRepresentationNotAvailableException(ObjectToPack otp) {
 		// Do nothing.

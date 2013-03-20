@@ -189,6 +189,7 @@ public class WindowCacheConfig {
 	 * @param rc
 	 *            configuration to read properties from.
 	 * @return {@code this}.
+	 * @since 3.0
 	 */
 	public WindowCacheConfig fromConfig(final Config rc) {
 		setPackedGitOpenFiles(rc.getInt(
@@ -217,6 +218,8 @@ public class WindowCacheConfig {
 	 * The new configuration is applied immediately. If the new limits are
 	 * smaller than what what is currently cached, older entries will be purged
 	 * as soon as possible to allow the cache to meet the new limit.
+	 *
+	 * @since 3.0
 	 */
 	public void install() {
 		WindowCache.reconfigure(this);
