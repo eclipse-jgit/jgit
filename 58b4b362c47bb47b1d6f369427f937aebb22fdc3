@@ -70,6 +70,24 @@
       "revId": "58b4b362c47bb47b1d6f369427f937aebb22fdc3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//2T0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 750,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-20T15:22:37Z",
+      "side": 1,
+      "message": "The directory approach is interesting. I think nobody has proposed it because there are some filesystems Git runs on that don\u0027t like to rename files across directories, or rename directories. Something like AFS or Coda is difficult about that.\n\nMy proposal has been to build a container file stream for the pack data, so pack, idx, bitmap are all inside of a single file rather than different files. Something like a ZIP or TAR but with the file contents uncompressed so they are easily mmap and seekable.\n\nA different fix is to name the file by the SHA1 of the pack\u0027s bytes, rather than the SHA1 of the sorted list of objects. At least then an identical pack means you shouldn\u0027t need to replace the file.",
+      "parentUuid": "AABOPX//2YU\u003d",
+      "revId": "58b4b362c47bb47b1d6f369427f937aebb22fdc3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
