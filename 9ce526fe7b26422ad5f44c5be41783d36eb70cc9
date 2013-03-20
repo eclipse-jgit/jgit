@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//2aI\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revplot/PlotCommitListTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-03-20T00:21:54Z",
+      "side": 1,
+      "message": "I tried this situation in the history view and it looks strange with this change. Is there really no way to fix the problem without affecting these? gitk seems to get this right. I wonder if it really matters in \"real\" histories though.",
+      "revId": "9ce526fe7b26422ad5f44c5be41783d36eb70cc9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
