@@ -112,6 +112,7 @@ public final class NB {
 	 *            position and the next 7 bytes after it (for a total of 8
 	 *            bytes) will be read.
 	 * @return signed integer value that matches the 64 bits read.
+	 * @since 3.0
 	 */
 	public static long decodeInt64(final byte[] intbuf, final int offset) {
 		long r = intbuf[offset] << 8;

@@ -68,8 +68,10 @@ import org.eclipse.jgit.revwalk.RevWalk;
 /**
  * Command to find human-readable names of revisions.
  *
- * @see <a href="http://www.kernel.org/pub/software/scm/git/docs/git-name-rev.html"
+ * @see <a
+ *      href="http://www.kernel.org/pub/software/scm/git/docs/git-name-rev.html"
  *      >Git documentation about name-rev</a>
+ * @since 3.0
  */
 public class NameRevCommand extends GitCommand<Map<ObjectId, String>> {
 	/** Amount of slop to allow walking past the earliest requested commit. */

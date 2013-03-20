@@ -53,7 +53,7 @@ import org.eclipse.jgit.lib.Repository;
 
 /**
  * Configuration used by a pack writer when constructing the stream.
- * 
+ *
  * A configuration may be modified once created, but should not be modified
  * while it is being used by a PackWriter. If a configuration is not modified it
  * is safe to share the same configuration instance between multiple concurrent
@@ -134,6 +134,7 @@ public class PackConfig {
 	 * Default value of the build bitmaps option: {@value}
 	 *
 	 * @see #setBuildBitmaps(boolean)
+	 * @since 3.0
 	 */
 	public static final boolean DEFAULT_BUILD_BITMAPS = true;
 
@@ -631,6 +632,7 @@ public class PackConfig {
 	 *
 	 * @return true if delta base is the writer can choose to output an index
 	 *         with bitmaps.
+	 * @since 3.0
 	 */
 	public boolean isBuildBitmaps() {
 		return buildBitmaps;
@@ -646,6 +648,7 @@ public class PackConfig {
 	 * @param buildBitmaps
 	 *            boolean indicating whether bitmaps may be included in the
 	 *            index.
+	 * @since 3.0
 	 */
 	public void setBuildBitmaps(boolean buildBitmaps) {
 		this.buildBitmaps = buildBitmaps;

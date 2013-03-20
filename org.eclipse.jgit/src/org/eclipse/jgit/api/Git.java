@@ -636,7 +636,7 @@ public class Git {
 	 * Returns a command object to find human-readable names of revisions.
 	 *
 	 * @return a {@link NameRevCommand}.
-	 * @since 2.3
+	 * @since 3.0
 	 */
 	public NameRevCommand nameRev() {
 		return new NameRevCommand(repo);
