@@ -51,6 +51,8 @@ import org.eclipse.jgit.merge.RecursiveMerger;
 
 /**
  * Exception thrown if a merge fails because no merge base could be determined.
+ *
+ * @since 3.0
  */
 public class NoMergeBaseException extends IOException {
 	private static final long serialVersionUID = 1L;

@@ -47,6 +47,8 @@ import org.eclipse.jgit.lib.Repository;
 
 /**
  * A three-way merge strategy performing a content-merge if necessary
+ *
+ * @since 3.0
  */
 public class StrategyRecursive extends StrategyResolve {
 

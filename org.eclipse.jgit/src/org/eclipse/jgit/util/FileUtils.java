@@ -87,7 +87,7 @@ public class FileUtils {
 	 * Option to only delete empty directories. This option can be combined with
 	 * {@link #RECURSIVE}
 	 *
-	 * @since 2.4
+	 * @since 3.0
 	 */
 	public static final int EMPTY_DIRECTORIES_ONLY = 16;
 
@@ -180,6 +180,7 @@ public class FileUtils {
 	 *            the new {@code File}
 	 * @throws IOException
 	 *             if the rename has failed
+	 * @since 3.0
 	 */
 	public static void rename(final File src, final File dst)
 			throws IOException {
