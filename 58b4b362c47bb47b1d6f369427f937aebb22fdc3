@@ -52,6 +52,24 @@
       "revId": "58b4b362c47bb47b1d6f369427f937aebb22fdc3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//2YU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 750,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-03-20T10:19:08Z",
+      "side": 1,
+      "message": "Yes, I agree on that.\n\nHas somebody thought about having all files which belong together (xyz.pack,xyz.idx,...) into a folder (xyz/pack, xyz/idx). Maybe then atomic renames are easier because we have to rename a single filesystem entity (although I don\u0027t have hope that the rename mess on windows becomes easier when we deal with non-empty folders).",
+      "parentUuid": "AABOPX//2gY\u003d",
+      "revId": "58b4b362c47bb47b1d6f369427f937aebb22fdc3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
