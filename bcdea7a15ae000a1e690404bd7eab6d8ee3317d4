@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//2uQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushConnection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-03-20T00:34:32Z",
+      "side": 1,
+      "message": "style nit: trailing whitespace",
+      "revId": "bcdea7a15ae000a1e690404bd7eab6d8ee3317d4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//2uM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushProcess.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-03-20T00:34:32Z",
+      "side": 1,
+      "message": "style nit: trailing whitespace, more below",
+      "revId": "bcdea7a15ae000a1e690404bd7eab6d8ee3317d4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
