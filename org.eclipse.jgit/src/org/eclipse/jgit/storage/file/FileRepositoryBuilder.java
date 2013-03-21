@@ -49,6 +49,7 @@ import java.io.IOException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.lib.BaseRepositoryBuilder;
+import org.eclipse.jgit.lib.Repository;
 
 /**
  * Constructs a {@link FileRepository}.
@@ -70,7 +71,7 @@ import org.eclipse.jgit.lib.BaseRepositoryBuilder;
  * </pre>
  */
 public class FileRepositoryBuilder extends
-		BaseRepositoryBuilder<FileRepositoryBuilder, FileRepository> {
+		BaseRepositoryBuilder<FileRepositoryBuilder, Repository> {
 	/**
 	 * Create a repository matching the configuration in this builder.
 	 * <p>
@@ -86,10 +87,25 @@ public class FileRepositoryBuilder extends
 	 *             the builder's parameters.
 	 */
 	@Override
-	public FileRepository build() throws IOException {
+	public Repository build() throws IOException {
 		FileRepository repo = new FileRepository(setup());
 		if (isMustExist() && !repo.getObjectDatabase().exists())
 			throw new RepositoryNotFoundException(getGitDir());
 		return repo;
+	}
+
+	/**
+	 * Convenience factory method to construct a {@link FileRepository}.
+	 *
+	 * @param gitDir
+	 *            {@code GIT_DIR}, the repository meta directory.
+	 * @return a repository matching this configuration.
+	 * @throws IOException
+	 *             the repository could not be accessed to configure the rest of
+	 *             the builder's parameters.
+	 */
+	public static Repository create(File gitDir) throws IOException {
+		return new FileRepositoryBuilder().setGitDir(gitDir).readEnvironment()
+				.build();
 	}
 }
