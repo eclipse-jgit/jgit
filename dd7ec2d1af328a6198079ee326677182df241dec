@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AABODX//+/o\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-03-21T00:41:01Z",
+      "side": 1,
+      "message": "s/option the/option for the/",
+      "revId": "dd7ec2d1af328a6198079ee326677182df241dec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOG3//8hU\u003d",
         "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/CLIText.properties",
         "patchSetId": 2
