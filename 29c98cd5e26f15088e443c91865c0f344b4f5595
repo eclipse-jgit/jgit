@@ -16,6 +16,24 @@
       "revId": "29c98cd5e26f15088e443c91865c0f344b4f5595",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//2DM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/IndexDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-03-21T11:21:37Z",
+      "side": 1,
+      "message": "Well, the thing is that a path with type BOTH_DELETED is already returned in getConflicting() (before this change). And apparently BOTH_DELETED and ADDED_BY_US/ADDED_BY_THEM can be a result in case of a rename/rename conflict: http://stackoverflow.com/a/4681361/305973",
+      "parentUuid": "AABOPX//2E0\u003d",
+      "revId": "29c98cd5e26f15088e443c91865c0f344b4f5595",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
