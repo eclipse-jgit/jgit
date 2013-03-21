@@ -2,6 +2,7 @@
  * Copyright (C) 2007, Dave Watson <dwatson@mimvista.com>
  * Copyright (C) 2008, Robin Rosenberg <robin.rosenberg@dewire.com>
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
+ * Copyright (C) 2013, Robin Stocker <robin@nibor.org>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -46,6 +47,7 @@
 package org.eclipse.jgit.lib;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -61,10 +63,12 @@ import org.eclipse.jgit.api.MergeResult;
 import org.eclipse.jgit.api.MergeResult.MergeStatus;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.dircache.DirCache;
+import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEditor;
 import org.eclipse.jgit.dircache.DirCacheEditor.PathEdit;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.junit.RepositoryTestCase;
+import org.eclipse.jgit.lib.IndexDiff.ConflictType;
 import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
@@ -212,6 +216,8 @@ public class IndexDiffTest extends RepositoryTestCase {
 		assertEquals("[]", diff.getMissing().toString());
 		assertEquals("[]", diff.getModified().toString());
 		assertEquals("[a]", diff.getConflicting().toString());
+		assertEquals(ConflictType.BOTH_MODIFIED,
+				diff.getConflictTypes().get("a"));
 		assertEquals(Collections.EMPTY_SET, diff.getUntrackedFolders());
 	}
 
@@ -251,6 +257,8 @@ public class IndexDiffTest extends RepositoryTestCase {
 		assertEquals("[]", diff.getMissing().toString());
 		assertEquals("[]", diff.getModified().toString());
 		assertEquals("[a]", diff.getConflicting().toString());
+		assertEquals(ConflictType.DELETED_BY_THEM,
+				diff.getConflictTypes().get("a"));
 		assertEquals(Collections.EMPTY_SET, diff.getUntrackedFolders());
 	}
 
@@ -498,6 +506,46 @@ public class IndexDiffTest extends RepositoryTestCase {
 		assertTrue(diff.getAssumeUnchanged().contains("file3"));
 		assertTrue(diff.getChanged().contains("file"));
 		assertEquals(Collections.EMPTY_SET, diff.getUntrackedFolders());
+	}
+
+	@Test
+	public void testConflictTypes() throws IOException {
+		final int base = DirCacheEntry.STAGE_1;
+		final int ours = DirCacheEntry.STAGE_2;
+		final int theirs = DirCacheEntry.STAGE_3;
+		verifyConflict(ConflictType.BOTH_DELETED, base);
+		verifyConflict(ConflictType.DELETED_BY_THEM, ours, base);
+		verifyConflict(ConflictType.DELETED_BY_US, base, theirs);
+		verifyConflict(ConflictType.BOTH_MODIFIED, base, ours, theirs);
+		verifyConflict(ConflictType.ADDED_BY_US, ours);
+		verifyConflict(ConflictType.BOTH_ADDED, ours, theirs);
+		verifyConflict(ConflictType.ADDED_BY_THEM, theirs);
+
+		assertTrue(ConflictType.BOTH_DELETED.hasBase());
+		assertFalse(ConflictType.BOTH_DELETED.hasOurs());
+		assertFalse(ConflictType.BOTH_DELETED.hasTheirs());
+		assertFalse(ConflictType.BOTH_ADDED.hasBase());
+		assertTrue(ConflictType.BOTH_ADDED.hasOurs());
+		assertTrue(ConflictType.BOTH_ADDED.hasTheirs());
+	}
+
+	private void verifyConflict(ConflictType expected, int... stages)
+			throws IOException {
+		DirCacheBuilder builder = db.lockDirCache().builder();
+		for (int stage : stages) {
+			DirCacheEntry entry = createEntry("a", FileMode.REGULAR_FILE,
+					stage, "content");
+			builder.add(entry);
+		}
+		builder.commit();
+
+		IndexDiff diff = new IndexDiff(db, Constants.HEAD,
+				new FileTreeIterator(db));
+		diff.diff();
+
+		assertEquals(
+				"Conflict for entries in stages " + Arrays.toString(stages),
+				expected, diff.getConflictTypes().get("a"));
 	}
 
 	private void removeFromIndex(String path) throws IOException {

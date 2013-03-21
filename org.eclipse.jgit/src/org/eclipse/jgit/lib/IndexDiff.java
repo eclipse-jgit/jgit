@@ -2,6 +2,7 @@
  * Copyright (C) 2007, Dave Watson <dwatson@mimvista.com>
  * Copyright (C) 2007-2008, Robin Rosenberg <robin.rosenberg@dewire.com>
  * Copyright (C) 2010, Jens Baumgart <jens.baumgart@sap.com>
+ * Copyright (C) 2013, Robin Stocker <robin@nibor.org>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -49,7 +50,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.jgit.dircache.DirCache;
@@ -84,6 +87,103 @@ import org.eclipse.jgit.treewalk.filter.TreeFilter;
  * </ul>
  */
 public class IndexDiff {
+
+	/**
+	 * The type of conflict, based on whether an index entry exists for each
+	 * possible stage (base, ours, theirs).
+	 *
+	 * @see IndexDiff#getConflictTypes()
+	 * @since 3.0
+	 */
+	public static enum ConflictType {
+		/**
+		 * Exists in base, but neither in ours nor in theirs.
+		 */
+		BOTH_DELETED(1),
+
+		/**
+		 * Only exists in ours.
+		 */
+		ADDED_BY_US(2),
+
+		/**
+		 * Exists in base and ours, but no in theirs.
+		 */
+		DELETED_BY_THEM(3),
+
+		/**
+		 * Only exists in theirs.
+		 */
+		ADDED_BY_THEM(4),
+
+		/**
+		 * Exists in base and theirs, but not in ours.
+		 */
+		DELETED_BY_US(5),
+
+		/**
+		 * Exists in ours and theirs, but not in base.
+		 */
+		BOTH_ADDED(6),
+
+		/**
+		 * Exists in all stages, content conflict.
+		 */
+		BOTH_MODIFIED(7);
+
+		private final int stageMask;
+
+		private ConflictType(int stageMask) {
+			this.stageMask = stageMask;
+		}
+
+		int getStageMask() {
+			return stageMask;
+		}
+
+		/**
+		 * @return whether there is a "base" stage entry
+		 */
+		public boolean hasBase() {
+			return (stageMask & 1) != 0;
+		}
+
+		/**
+		 * @return whether there is an "ours" stage entry
+		 */
+		public boolean hasOurs() {
+			return (stageMask & 2) != 0;
+		}
+
+		/**
+		 * @return whether there is a "theirs" stage entry
+		 */
+		public boolean hasTheirs() {
+			return (stageMask & 4) != 0;
+		}
+
+		static ConflictType fromStageMask(int stageMask) {
+			// bits represent: theirs, ours, base
+			switch (stageMask) {
+			case 1: // 0b001
+				return BOTH_DELETED;
+			case 2: // 0b010
+				return ADDED_BY_US;
+			case 3: // 0b011
+				return DELETED_BY_THEM;
+			case 4: // 0b100
+				return ADDED_BY_THEM;
+			case 5: // 0b101
+				return DELETED_BY_US;
+			case 6: // 0b110
+				return BOTH_ADDED;
+			case 7: // 0b111
+				return BOTH_MODIFIED;
+			default:
+				return null;
+			}
+		}
+	}
 
 	private static final class ProgressReportingFilter extends TreeFilter {
 
@@ -156,7 +256,7 @@ public class IndexDiff {
 
 	private Set<String> untracked = new HashSet<String>();
 
-	private Set<String> conflicts = new HashSet<String>();
+	private Map<String, ConflictType> conflicts = new HashMap<String, ConflictType>();
 
 	private Set<String> ignored;
 
@@ -295,9 +395,13 @@ public class IndexDiff {
 			if (dirCacheIterator != null) {
 				final DirCacheEntry dirCacheEntry = dirCacheIterator
 						.getDirCacheEntry();
-				if (dirCacheEntry != null && dirCacheEntry.getStage() > 0) {
-					conflicts.add(treeWalk.getPathString());
-					continue;
+				if (dirCacheEntry != null) {
+					int stage = dirCacheEntry.getStage();
+					if (stage > 0) {
+						String path = treeWalk.getPathString();
+						addConflict(path, stage);
+						continue;
+					}
 				}
 			}
 
@@ -355,6 +459,19 @@ public class IndexDiff {
 			return true;
 	}
 
+	private void addConflict(String path, int stage) {
+		ConflictType existingConflictType = conflicts.get(path);
+		byte stageMask = 0;
+		if (existingConflictType != null)
+			stageMask |= existingConflictType.getStageMask();
+		// stage 1 (base) should be shifted 0 times
+		int shifts = stage - 1;
+		stageMask |= (1 << shifts);
+		ConflictType conflictType = ConflictType
+				.fromStageMask(stageMask);
+		conflicts.put(path, conflictType);
+	}
+
 	/**
 	 * @return list of files added to the index, not in the tree
 	 */
@@ -398,9 +515,19 @@ public class IndexDiff {
 	}
 
 	/**
-	 * @return list of files that are in conflict
+	 * @return list of files that are in conflict, corresponds to the keys of
+	 *         {@link #getConflictTypes()}
 	 */
 	public Set<String> getConflicting() {
+		return conflicts.keySet();
+	}
+
+	/**
+	 * @return the map from each path of {@link #getConflicting()} to its
+	 *         corresponding {@link ConflictType}
+	 * @since 3.0
+	 */
+	public Map<String, ConflictType> getConflictTypes() {
 		return conflicts;
 	}
 
