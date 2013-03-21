@@ -34,6 +34,24 @@
       "revId": "9ce526fe7b26422ad5f44c5be41783d36eb70cc9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//1+Y\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revplot/PlotCommitListTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-03-21T16:55:58Z",
+      "side": 1,
+      "message": "Yes, this algorithm is too complicated in my eyes also. I also contributed to this mess and I am not very happy about the current state.\n\nI can imagine that we could go in long discussions about how to present graph\u0027s correct. As Robin said, that\u0027s a matter of taste. I would suggest to save this discussion time and to take what \"gitk\" or \"git log --graph\" show as our goal. If we really find a thing where we dislike heavily what gitk shows we could diverge --- but I don\u0027t see this in the moment.\n\nI\u0027ll try to find some time over the weekend to add comments about this algorithm. Also I know about certain really wrongly displayed graphs where the topology is displayed wrong which I\u0027ll put into tests. \n\nI\u0027ll also try to finally bring in my change https://git.eclipse.org/r/#/c/4863 which brings a lot some more very complicated tests and an easier way to test complicated graphs.",
+      "parentUuid": "AABOPX//2Y0\u003d",
+      "revId": "9ce526fe7b26422ad5f44c5be41783d36eb70cc9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
