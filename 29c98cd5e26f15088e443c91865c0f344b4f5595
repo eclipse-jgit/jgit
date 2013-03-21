@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//2E0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/IndexDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-03-21T08:45:19Z",
+      "side": 1,
+      "message": "What this enum represents is the status of the index for a certain path regarding the stages. Which stages do exist for this path and which not. I would rename it to StageStatus, Stages or something like that. Do you have a better name?\n\nWhy? Because I have problems with a conflict type called \"BOTH_DELETED\". Both deleted should be fine! That\u0027s not the reason for/type of a conflict.\n\nThe same argument goes for ADDED_BY_US, ADDED_BY_THEM, .... . These all don\u0027t describe situations where we don\u0027t expect a conflict.\n\nBut besides this I like the idea to publish the stageState.",
+      "revId": "29c98cd5e26f15088e443c91865c0f344b4f5595",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
