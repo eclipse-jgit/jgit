@@ -197,6 +197,7 @@ public abstract class Merger {
 	 *             one of the input objects is not a commit.
 	 * @throws IOException
 	 *             objects are missing or multiple merge bases were found.
+	 * @since 3.0
 	 */
 	protected AbstractTreeIterator mergeBase(RevCommit a, RevCommit b)
 			throws IOException {
@@ -241,6 +242,7 @@ public abstract class Merger {
 	 *             one of the input objects is not a commit.
 	 * @throws IOException
 	 *             objects are missing or multiple merge bases were found.
+	 * @since 3.0
 	 */
 	protected RevCommit getBaseCommit(RevCommit a, RevCommit b)
 			throws IncorrectObjectTypeException, IOException {

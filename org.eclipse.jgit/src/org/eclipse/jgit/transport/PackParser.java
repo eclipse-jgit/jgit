@@ -428,6 +428,7 @@ public abstract class PackParser {
 	 *         {@link #setLockMessage(String)}.
 	 * @throws IOException
 	 *             the stream is malformed, or contains corrupt objects.
+	 * @since 3.0
 	 */
 	public final PackLock parse(ProgressMonitor progress) throws IOException {
 		return parse(progress, progress);
@@ -446,6 +447,7 @@ public abstract class PackParser {
 	 *         {@link #setLockMessage(String)}.
 	 * @throws IOException
 	 *             the stream is malformed, or contains corrupt objects.
+	 * @since 3.0
 	 */
 	public PackLock parse(ProgressMonitor receiving, ProgressMonitor resolving)
 			throws IOException {

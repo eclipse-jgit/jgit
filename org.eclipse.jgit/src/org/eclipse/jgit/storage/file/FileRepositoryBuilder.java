@@ -104,6 +104,7 @@ public class FileRepositoryBuilder extends
 	 * @throws IOException
 	 *             the repository could not be accessed to configure the rest of
 	 *             the builder's parameters.
+	 * @since 3.0
 	 */
 	public static Repository create(File gitDir) throws IOException {
 		return new FileRepositoryBuilder().setGitDir(gitDir).readEnvironment()

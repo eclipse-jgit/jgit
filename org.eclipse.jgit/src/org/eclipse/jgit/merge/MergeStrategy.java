@@ -76,6 +76,7 @@ public abstract class MergeStrategy {
 	/**
 	 * Recursive strategy to merge paths. It tries to merge also contents.
 	 * Multiple merge bases are supported
+	 * @since 3.0
 	 */
 	public static final ThreeWayMergeStrategy RECURSIVE = new StrategyRecursive();
 

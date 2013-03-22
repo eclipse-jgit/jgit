@@ -82,9 +82,8 @@ import org.eclipse.jgit.treewalk.WorkingTreeIterator;
  * - uses "Lists" instead of Arrays for chained types
  *
  * - recursively merges the merge bases together to compute a usable base
- *
+ * @since 3.0
  */
-
 public class RecursiveMerger extends ResolveMerger {
 	static Logger log = Logger.getLogger(RecursiveMerger.class.toString());
 
