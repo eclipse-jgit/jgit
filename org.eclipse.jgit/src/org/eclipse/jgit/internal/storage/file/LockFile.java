@@ -513,6 +513,7 @@ public class LockFile {
 		saveStatInformation();
 	}
 
+	static int count;
 	/**
 	 * Unlock this file and abort this change.
 	 * <p>
@@ -531,7 +532,7 @@ public class LockFile {
 		if (haveLck) {
 			haveLck = false;
 			try {
-				FileUtils.delete(lck, FileUtils.RETRY);
+				FileUtils.delete(lck, FileUtils.RETRY | FileUtils.SKIP_MISSING);
 			} catch (IOException e) {
 				// couldn't delete the file even after retry.
 			}
