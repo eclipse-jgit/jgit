@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//1uE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1133,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-03-23T06:50:34Z",
+      "side": 1,
+      "message": "This an extra stat call in case f is a directory. In almost all cases f is a file, so we optimisically attempt to delete the file (or empty directory) first and do the expensive stuff if that fails.",
+      "revId": "a180834a7782ccb3418f0811e9545295c30500e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
