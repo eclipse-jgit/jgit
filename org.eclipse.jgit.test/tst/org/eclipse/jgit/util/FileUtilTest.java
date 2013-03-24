@@ -45,6 +45,7 @@ package org.eclipse.jgit.util;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.endsWith;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -52,6 +53,7 @@ import static org.junit.Assert.fail;
 import java.io.File;
 import java.io.IOException;
 
+import org.eclipse.jgit.junit.JGitTestUtil;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -320,5 +322,72 @@ public class FileUtilTest {
 		assertTrue(t.exists());
 		assertTrue(f.exists());
 		assertFalse(e.exists());
+	}
+
+	@Test
+	public void testRenameOverNonExistingFile() throws IOException {
+		File d = new File(trash, "d");
+		FileUtils.mkdirs(d);
+		File f1 = new File(trash, "d/f");
+		File f2 = new File(trash, "d/g");
+		JGitTestUtil.write(f1, "f1");
+		// test
+		FileUtils.rename(f1, f2);
+		assertFalse(f1.exists());
+		assertTrue(f2.exists());
+		assertEquals("f1", JGitTestUtil.read(f2));
+	}
+
+	@Test
+	public void testRenameOverExistingFile() throws IOException {
+		File d = new File(trash, "d");
+		FileUtils.mkdirs(d);
+		File f1 = new File(trash, "d/f");
+		File f2 = new File(trash, "d/g");
+		JGitTestUtil.write(f1, "f1");
+		JGitTestUtil.write(f2, "f2");
+		// test
+		FileUtils.rename(f1, f2);
+		assertFalse(f1.exists());
+		assertTrue(f2.exists());
+		assertEquals("f1", JGitTestUtil.read(f2));
+	}
+
+	@Test
+	public void testRenameOverExistingNonEmptyDirectory() throws IOException {
+		File d = new File(trash, "d");
+		FileUtils.mkdirs(d);
+		File f1 = new File(trash, "d/f");
+		File f2 = new File(trash, "d/g");
+		File d1 = new File(trash, "d/g/h/i");
+		File f3 = new File(trash, "d/g/h/f");
+		FileUtils.mkdirs(d1);
+		JGitTestUtil.write(f1, "f1");
+		JGitTestUtil.write(f3, "f3");
+		// test
+		try {
+			FileUtils.rename(f1, f2);
+			fail("rename to non-empty directory should fail");
+		} catch (IOException e) {
+			assertEquals("f1", JGitTestUtil.read(f1)); // untouched source
+			assertEquals("f3", JGitTestUtil.read(f3)); // untouched
+			// empty directories within f2 may or may not have been deleted
+		}
+	}
+
+	@Test
+	public void testRenameOverExistingEmptyDirectory() throws IOException {
+		File d = new File(trash, "d");
+		FileUtils.mkdirs(d);
+		File f1 = new File(trash, "d/f");
+		File f2 = new File(trash, "d/g");
+		File d1 = new File(trash, "d/g/h/i");
+		FileUtils.mkdirs(d1);
+		JGitTestUtil.write(f1, "f1");
+		// test
+		FileUtils.rename(f1, f2);
+		assertFalse(f1.exists());
+		assertTrue(f2.exists());
+		assertEquals("f1", JGitTestUtil.read(f2));
 	}
 }
