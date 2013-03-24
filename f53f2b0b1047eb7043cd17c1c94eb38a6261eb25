@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//1oM\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-03-24T22:51:04Z",
+      "side": 1,
+      "message": "Sorry Robin, my English is not good enough to understand this sentence. I know what you mean but could you rephrase this sentence?",
+      "revId": "f53f2b0b1047eb7043cd17c1c94eb38a6261eb25",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
