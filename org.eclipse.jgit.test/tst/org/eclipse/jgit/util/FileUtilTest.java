@@ -375,4 +375,19 @@ public class FileUtilTest {
 		}
 	}
 
+	@Test
+	public void testRenameOverExistingEmptyDirectory() throws IOException {
+		File d = new File(trash, "d");
+		FileUtils.mkdirs(d);
+		File f1 = new File(trash, "d/f");
+		File f2 = new File(trash, "d/g");
+		File d1 = new File(trash, "d/g/h/i");
+		FileUtils.mkdirs(d1);
+		JGitTestUtil.write(f1, "f1");
+		// test
+		FileUtils.rename(f1, f2);
+		assertFalse(f1.exists());
+		assertTrue(f2.exists());
+		assertEquals("f1", JGitTestUtil.read(f2));
+	}
 }
