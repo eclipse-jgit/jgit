@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//1dY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-03-25T18:48:14Z",
+      "side": 1,
+      "message": "The typical case is that dst is a file. Wouldn\u0027t it therefore be faster to just attempt to delete the target first. Only if that fails, take the hit for more advanced action.",
+      "revId": "693538a4987c2c4af7055a87f53740b3607ba59c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
