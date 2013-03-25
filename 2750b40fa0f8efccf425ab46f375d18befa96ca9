@@ -160,6 +160,24 @@
       "revId": "2750b40fa0f8efccf425ab46f375d18befa96ca9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//1i8\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/FileUtilTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-03-25T16:42:38Z",
+      "side": 1,
+      "message": "Chris, you suggested I modify and use FileUtils.rename for DirCacheCheckout. Have you changed your mind?",
+      "parentUuid": "AABOPX//1jc\u003d",
+      "revId": "2750b40fa0f8efccf425ab46f375d18befa96ca9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
