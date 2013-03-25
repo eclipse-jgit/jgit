@@ -168,7 +168,7 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 					.getParent(1));
 			ObjectId stashHeadCommit = stashCommit.getParent(0);
 
-			ResolveMerger merger = (ResolveMerger) MergeStrategy.RESOLVE
+			ResolveMerger merger = (ResolveMerger) MergeStrategy.RECURSIVE
 					.newMerger(repo);
 			merger.setCommitNames(new String[] { "stashed HEAD", "HEAD",
 					"stash" });
@@ -181,7 +181,7 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 				dco.setFailOnConflict(true);
 				dco.checkout(); // Ignoring failed deletes....
 				if (applyIndex) {
-					ResolveMerger ixMerger = (ResolveMerger) MergeStrategy.RESOLVE
+					ResolveMerger ixMerger = (ResolveMerger) MergeStrategy.RECURSIVE
 							.newMerger(repo, true);
 					ixMerger.setCommitNames(new String[] { "stashed HEAD",
 							"HEAD", "stashed index" });
