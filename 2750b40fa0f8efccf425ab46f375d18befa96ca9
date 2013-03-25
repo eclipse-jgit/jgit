@@ -52,6 +52,24 @@
       "revId": "2750b40fa0f8efccf425ab46f375d18befa96ca9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//1lc\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/FileUtilTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-03-25T09:57:13Z",
+      "side": 1,
+      "message": "By the way: we are deleting the target in case a rename fails even in our very central LockFile class (which protects ref updates, index updates, ...). In LockFile.commit() we have this coding:\n\n\t\tif (lck.renameTo(ref))\n\t\t\treturn true;\n\t\tif (!ref.exists() || deleteRef())\n\t\t\tif (renameLock())\n\t\t\t\treturn true;\n\t\tunlock();\n\t\treturn false;\n\nIf the first rename fails and the target file exists we will call deleteRef() (which deletes the target file) and then do another rename attempt in renameLock(). Non-atomic ... but we don\u0027t have a better chance if we also want to run on windows.\n\nBy reading this I am convinced that we should do the same in FileUtils.rename()",
+      "parentUuid": "AABOPX//1lw\u003d",
+      "revId": "2750b40fa0f8efccf425ab46f375d18befa96ca9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
