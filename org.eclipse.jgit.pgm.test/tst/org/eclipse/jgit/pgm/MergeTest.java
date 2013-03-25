@@ -97,7 +97,7 @@ public class MergeTest extends CLIRepositoryTestCase {
 		git.add().addFilepattern("side").call();
 		git.commit().setMessage("side commit").call();
 
-		assertEquals("Merge made by the '" + MergeStrategy.RESOLVE.getName()
+		assertEquals("Merge made by the '" + MergeStrategy.RECURSIVE.getName()
 				+ "' strategy.", execute("git merge master")[0]);
 	}
 

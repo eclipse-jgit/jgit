@@ -75,7 +75,7 @@ class Merge extends TextBuiltin {
 	@Option(name = "--no-commit", usage = "usage_noCommit")
 	private boolean noCommit = false;
 
-	private MergeStrategy mergeStrategy = MergeStrategy.RESOLVE;
+	private MergeStrategy mergeStrategy = MergeStrategy.RECURSIVE;
 
 	@Argument(required = true)
 	private String ref;

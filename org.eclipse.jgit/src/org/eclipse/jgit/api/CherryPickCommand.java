@@ -150,7 +150,7 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 				String cherryPickName = srcCommit.getId().abbreviate(7).name()
 						+ " " + srcCommit.getShortMessage(); //$NON-NLS-1$
 
-				ResolveMerger merger = (ResolveMerger) MergeStrategy.RESOLVE
+				ResolveMerger merger = (ResolveMerger) MergeStrategy.RECURSIVE
 						.newMerger(repo);
 				merger.setWorkingTreeIterator(new FileTreeIterator(repo));
 				merger.setBase(srcParent.getTree());
