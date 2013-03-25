@@ -70,7 +70,7 @@ public abstract class ObjectInserter {
 	/** An inserter that can be used for formatting and id generation only. */
 	public static class Formatter extends ObjectInserter {
 		@Override
-		public ObjectId insert(int objectType, long length, InputStream in)
+		protected ObjectId doInsert(int objectType, long length, InputStream in)
 				throws IOException {
 			throw new UnsupportedOperationException();
 		}
@@ -81,7 +81,7 @@ public abstract class ObjectInserter {
 		}
 
 		@Override
-		public void flush() throws IOException {
+		protected void doFlush() throws IOException {
 			// Do nothing.
 		}
 
@@ -118,16 +118,12 @@ public abstract class ObjectInserter {
 			return delegate().idFor(formatter);
 		}
 
-		public ObjectId insert(int type, byte[] data) throws IOException {
-			return delegate().insert(type, data);
-		}
-
-		public ObjectId insert(int type, byte[] data, int off, int len)
+		protected ObjectId doInsert(int type, byte[] data, int off, int len)
 				throws IOException {
 			return delegate().insert(type, data, off, len);
 		}
 
-		public ObjectId insert(int objectType, long length, InputStream in)
+		protected ObjectId doInsert(int objectType, long length, InputStream in)
 				throws IOException {
 			return delegate().insert(objectType, length, in);
 		}
@@ -150,6 +146,9 @@ public abstract class ObjectInserter {
 
 	/** Temporary working buffer for streaming data through. */
 	private byte[] tempBuffer;
+
+	/** Reader for reading back pending objects. */
+	private InsertedObjectReader insReader;
 
 	/** Create a new inserter for a database. */
 	protected ObjectInserter() {
@@ -273,6 +272,10 @@ public abstract class ObjectInserter {
 
 	/**
 	 * Insert a single tree into the store, returning its unique name.
+	 * <p>
+	 * May incur a {@link #flush()} call if
+	 * {@link #insertedObjectReader(ObjectReader, int, int)} was previously
+	 * called.
 	 *
 	 * @param formatter
 	 *            the formatter containing the proposed tree's data.
@@ -289,6 +292,10 @@ public abstract class ObjectInserter {
 
 	/**
 	 * Insert a single commit into the store, returning its unique name.
+	 * <p>
+	 * May incur a {@link #flush()} call if
+	 * {@link #insertedObjectReader(ObjectReader, int, int)} was previously
+	 * called.
 	 *
 	 * @param builder
 	 *            the builder containing the proposed commit's data.
@@ -302,6 +309,10 @@ public abstract class ObjectInserter {
 
 	/**
 	 * Insert a single annotated tag into the store, returning its unique name.
+	 * <p>
+	 * May incur a {@link #flush()} call if
+	 * {@link #insertedObjectReader(ObjectReader, int, int)} was previously
+	 * called.
 	 *
 	 * @param builder
 	 *            the builder containing the proposed tag's data.
@@ -315,6 +326,10 @@ public abstract class ObjectInserter {
 
 	/**
 	 * Insert a single object into the store, returning its unique name.
+	 * <p>
+	 * May incur a {@link #flush()} call if
+	 * {@link #insertedObjectReader(ObjectReader, int, int)} was previously
+	 * called.
 	 *
 	 * @param type
 	 *            type code of the object to store.
@@ -324,9 +339,36 @@ public abstract class ObjectInserter {
 	 * @throws IOException
 	 *             the object could not be stored.
 	 */
-	public ObjectId insert(final int type, final byte[] data)
+	public final ObjectId insert(final int type, final byte[] data)
 			throws IOException {
 		return insert(type, data, 0, data.length);
+	}
+
+	/**
+	 * Insert a single object into the store, returning its unique name.
+	 * <p>
+	 * May incur a {@link #flush()} call if
+	 * {@link #insertedObjectReader(ObjectReader, int, int)} was previously
+	 * called.
+	 *
+	 * @param type
+	 *            type code of the object to store.
+	 * @param data
+	 *            complete content of the object.
+	 * @param off
+	 *            first position within {@code data}.
+	 * @param len
+	 *            number of bytes to copy from {@code data}.
+	 * @return the name of the object.
+	 * @throws IOException
+	 *             the object could not be stored.
+	 */
+	public final ObjectId insert(int type, byte[] data, int off, int len)
+			throws IOException {
+		ObjectId id = doInsert(type, data, off, len);
+		if (insReader != null)
+			insReader.put(id, type, data, off, len);
+		return id;
 	}
 
 	/**
@@ -343,10 +385,38 @@ public abstract class ObjectInserter {
 	 * @return the name of the object.
 	 * @throws IOException
 	 *             the object could not be stored.
+	 * @since 3.0
 	 */
-	public ObjectId insert(int type, byte[] data, int off, int len)
+	protected ObjectId doInsert(int type, byte[] data, int off, int len)
 			throws IOException {
-		return insert(type, len, new ByteArrayInputStream(data, off, len));
+		return doInsert(type, len, new ByteArrayInputStream(data, off, len));
+	}
+
+	/**
+	 * Insert a single object into the store, returning its unique name.
+	 * <p>
+	 * May incur a {@link #flush()} call if
+	 * {@link #insertedObjectReader(ObjectReader, int, int)} was previously
+	 * called.
+	 *
+	 * @param objectType
+	 *            type code of the object to store.
+	 * @param length
+	 *            number of bytes to copy from {@code in}.
+	 * @param in
+	 *            stream providing the object content. The caller is responsible
+	 *            for closing the stream.
+	 * @return the name of the object.
+	 * @throws IOException
+	 *             the object could not be stored, or the source stream could
+	 *             not be read.
+	 */
+	public final ObjectId insert(int objectType, long length, InputStream in)
+			throws IOException {
+		ObjectId id = doInsert(objectType, length, in);
+		if (insReader != null)
+			insReader.put(id, objectType, length, in);
+		return id;
 	}
 
 	/**
@@ -363,9 +433,63 @@ public abstract class ObjectInserter {
 	 * @throws IOException
 	 *             the object could not be stored, or the source stream could
 	 *             not be read.
+	 * @since 3.0
 	 */
-	public abstract ObjectId insert(int objectType, long length, InputStream in)
-			throws IOException;
+	protected abstract ObjectId doInsert(int objectType, long length,
+			InputStream in) throws IOException;
+
+	/**
+	 * Return an {@link ObjectReader} that has access to previously inserted
+	 * objects.
+	 * <p>
+	 * There is no limit to the size or number of cached objects; see
+	 * {@link #insertedObjectReader(ObjectReader, int, int)} for details on
+	 * caching behavior.
+	 *
+	 * @param fallback
+	 *            reader for reading objects not previously inserted.
+	 * @return the object reader.
+	 * @since 3.0
+	 */
+	public final ObjectReader insertedObjectReader(ObjectReader fallback) {
+		return insertedObjectReader(fallback, 0, 0);
+	}
+
+	/**
+	 * Return an {@link ObjectReader} that has access to previously inserted
+	 * objects.
+	 * <p>
+	 * Objects previously inserted via {@code insert} are cached in memory and
+	 * guaranteed to be visible to this reader in a single thread immediately,
+	 * or across all threads after some period of time. Other objects in the
+	 * database are visible after a read. Objects newly inserted via
+	 * {@code newPackParser} are generally not visible (unless flushed).
+	 * <p>
+	 * If {@code objectLimit} or {@code byteLimit} is positive, this inserter is
+	 * flushed and the in-memory state of the reader cleared when either is
+	 * exceeded. This means calls to {@code insert} may block while calling
+	 * {@link #flush()}.
+	 * <p>
+	 * Multiple successive calls return the same reader until either the
+	 * inserter or reader is released. Limit arguments are ignored after the
+	 * first call.
+	 *
+	 * @param fallback
+	 *            reader for reading objects not previously inserted.
+	 * @param objectLimit
+	 *            maximum number of objects to cache before automatically
+	 *            flushing; zero or negative for no limit.
+	 * @param byteLimit
+	 *            maximum total size of objects to cache before automatically
+	 *            flushing; zero or negative for no limit.
+	 * @return the object reader, or {@code null} if the inserter does not
+	 *         support this operation.
+	 * @since 3.0
+	 */
+	public InsertedObjectReader insertedObjectReader(ObjectReader fallback,
+			int objectLimit, int byteLimit) {
+		return new InsertedObjectReader(this, fallback, objectLimit, byteLimit);
+	}
 
 	/**
 	 * Initialize a parser to read from a pack formatted stream.
@@ -390,7 +514,22 @@ public abstract class ObjectInserter {
 	 *             the flush could not be completed; objects inserted thus far
 	 *             are in an indeterminate state.
 	 */
-	public abstract void flush() throws IOException;
+	public void flush() throws IOException {
+		if (insReader != null)
+			insReader.flush(0);
+		else
+			doFlush();
+	}
+
+	/**
+	 * Implement {@link #flush()}.
+	 *
+	 * @throws IOException
+	 *             the flush could not be completed; objects inserted thus far
+	 *             are in an indeterminate state.
+	 * @since 3.0
+	 */
+	protected abstract void doFlush() throws IOException;
 
 	/**
 	 * Release any resources used by this inserter.
@@ -398,5 +537,7 @@ public abstract class ObjectInserter {
 	 * An inserter that has been released can be used again, but may need to be
 	 * released after the subsequent usage.
 	 */
-	public abstract void release();
+	public void release() {
+		insReader = null;
+	}
 }
