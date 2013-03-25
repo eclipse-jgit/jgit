@@ -124,6 +124,24 @@
       "revId": "2750b40fa0f8efccf425ab46f375d18befa96ca9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//1kA\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/FileUtilTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-03-25T13:09:31Z",
+      "side": 1,
+      "message": "renaming the target to a tmp file would be safer, but costs one fs call more. In the end we have to delete the tmp file. We don\u0027t spent this effort when we e.g. update a ref or update the index. Should we do here?",
+      "parentUuid": "AABOPX//1kk\u003d",
+      "revId": "2750b40fa0f8efccf425ab46f375d18befa96ca9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
