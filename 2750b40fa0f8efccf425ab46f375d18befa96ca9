@@ -106,6 +106,24 @@
       "revId": "2750b40fa0f8efccf425ab46f375d18befa96ca9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//1kk\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/FileUtilTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-03-25T12:33:54Z",
+      "side": 1,
+      "message": "no, I was commenting Chris first comment here ;-)\n\ninstead of deleting the target in the second try when atomic rename has failed in the first try, we could rename the target to some unique name e.g. \u0027target.bak.\u003ctimestamp\u003e\u0027, then do the actual rename and only if that succeeds delete this bak file. This way we would at least have a backup for manual recovery if something bad happens",
+      "parentUuid": "AABOPX//1lQ\u003d",
+      "revId": "2750b40fa0f8efccf425ab46f375d18befa96ca9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
