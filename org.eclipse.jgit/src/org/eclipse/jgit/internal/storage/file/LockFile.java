@@ -437,11 +437,16 @@ public class LockFile {
 		}
 
 		saveStatInformation();
-		if (lck.renameTo(ref))
+		if (lck.renameTo(ref)) {
+			haveLck = false;
 			return true;
-		if (!ref.exists() || deleteRef())
-			if (renameLock())
+		}
+		if (!ref.exists() || deleteRef()) {
+			if (renameLock()) {
+				haveLck = false;
 				return true;
+			}
+		}
 		unlock();
 		return false;
 	}
