@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//1Xk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-26T03:18:06Z",
+      "side": 1,
+      "message": "This map knows every object that was put into the current pack named by packDsc. Why can\u0027t you look for an object in this map and if its present use its offset to load the object from the pack stream?",
+      "revId": "8aaf451405cc51ea084b388baae797b7de546473",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//1Xg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-26T03:18:06Z",
+      "side": 1,
+      "message": "The tricky part is the return from db.writeFile() has support to read back from the file. But PackStream does not. So you need to hold onto the DfsOutputStream here (and our backend needs to also support read-back from INSERT type packs and just RECEIVE type packs, trivial fix there).\n\nWe may have to duplicate a small amount of code to read back a whole object from a pack from either DfsPackFile or the PackParser. But this is relatively simple code. We already stored the object deflated and we only store it as a whole form (see beginObject) so there are no delta chains to worry about needing to unfold.\n\nMemory wise you will use less memory, as we aren\u0027t duplicating the content. It might cost a bit more CPU however as the data needs to be inflated again.",
+      "revId": "8aaf451405cc51ea084b388baae797b7de546473",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//1Xo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/InsertedObjectReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-26T03:18:06Z",
+      "side": 1,
+      "message": "Nak, you did much more work than is necessary.\n\nThe underlying inserters know how to get the content they wrote. In the local filesystem one its just the loose object code path. So the local filesystem can return its normal WindowCursor handle as the ObjectReader and everything is happy.",
+      "revId": "8aaf451405cc51ea084b388baae797b7de546473",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//1Xc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-26T03:18:06Z",
+      "side": 1,
+      "message": "This stream is at EOF at this point. So the put wouldn\u0027t work.",
+      "revId": "8aaf451405cc51ea084b388baae797b7de546473",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
