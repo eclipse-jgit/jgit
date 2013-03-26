@@ -358,6 +358,7 @@ public class DfsGarbageCollector {
 		out = objdb.writeFile(pack, PACK);
 		try {
 			pw.writePack(pm, pm, out);
+			pack.addFileExt(PACK);
 		} finally {
 			out.close();
 		}
@@ -366,6 +367,7 @@ public class DfsGarbageCollector {
 		try {
 			CountingOutputStream cnt = new CountingOutputStream(out);
 			pw.writeIndex(cnt);
+			pack.addFileExt(INDEX);
 			pack.setFileSize(INDEX, cnt.getCount());
 			pack.setIndexVersion(pw.getIndexVersion());
 		} finally {
@@ -377,6 +379,7 @@ public class DfsGarbageCollector {
 			try {
 				CountingOutputStream cnt = new CountingOutputStream(out);
 				pw.writeBitmapIndex(cnt);
+				pack.addFileExt(BITMAP_INDEX);
 				pack.setFileSize(BITMAP_INDEX, cnt.getCount());
 			} finally {
 				out.close();

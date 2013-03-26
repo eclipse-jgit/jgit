@@ -148,6 +148,7 @@ public class DfsPackParser extends PackParser {
 			out = null;
 			currBuf = null;
 			readBlock = null;
+			packDsc.addFileExt(PACK);
 			packDsc.setFileSize(PACK, packEnd);
 
 			writePackIndex();
