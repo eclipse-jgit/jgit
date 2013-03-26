@@ -34,6 +34,24 @@
       "revId": "d0e92885e911c96be917574a5f804bf64d622cf9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//1Rw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-03-26T17:49:47Z",
+      "side": 1,
+      "message": "ah, just forgot that we\u0027re looping",
+      "parentUuid": "AABOPX//1UI\u003d",
+      "revId": "d0e92885e911c96be917574a5f804bf64d622cf9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
