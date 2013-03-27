@@ -1,0 +1,9 @@
+Code-Review+2: Christian Halstrick <christian.halstrick@sap.com>
+Code-Review+2: Robin Rosenberg <robin.rosenberg@dewire.com>
+IP-Clean+1: Robin Rosenberg <robin.rosenberg@dewire.com>
+Verified+1: Hudson CI
+Submitted-by: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-at: Wed, 27 Mar 2013 09:03:23 -0400
+Reviewed-on: https://git.eclipse.org/r/11414
+Project: jgit/jgit
+Branch: refs/heads/master
