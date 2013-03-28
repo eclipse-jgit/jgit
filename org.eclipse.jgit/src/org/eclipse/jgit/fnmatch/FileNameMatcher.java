@@ -60,9 +60,9 @@ import org.eclipse.jgit.errors.NoClosingBracketException;
  * <p>
  * Supported are the wildcard characters * and ? and groups with:
  * <ul>
- * <li> characters e.g. [abc]</li>
- * <li> ranges e.g. [a-z]</li>
- * <li> the following character classes
+ * <li>characters e.g. [abc]</li>
+ * <li>ranges e.g. [a-z]</li>
+ * <li>the following character classes
  * <ul>
  * <li>[:alnum:]</li>
  * <li>[:alpha:]</li>
@@ -78,9 +78,10 @@ import org.eclipse.jgit.errors.NoClosingBracketException;
  * <li>[:word:]</li>
  * <li>[:xdigit:]</li>
  * </ul>
- * e. g. [[:xdigit:]] </li>
+ * e. g. [[:xdigit:]]</li>
  * </ul>
  * </p>
+ * Any character can be escaped by prepending it with a \
  */
 public class FileNameMatcher {
 	static final List<Head> EMPTY_HEAD_LIST = Collections.emptyList();
@@ -199,7 +200,7 @@ public class FileNameMatcher {
 		int groupEnd = -1;
 		while (groupEnd == -1) {
 
-			final int possibleGroupEnd = pattern.indexOf(']',
+			final int possibleGroupEnd = indexOfUnescaped(pattern, ']',
 					firstValidEndBracketIndex);
 			if (possibleGroupEnd == -1)
 				throw new NoClosingBracketException(indexOfStartBracket, "[", //$NON-NLS-1$
@@ -238,7 +239,7 @@ public class FileNameMatcher {
 		int currentIndex = 0;
 		List<AbstractHead> heads = new ArrayList<AbstractHead>();
 		while (currentIndex < pattern.length()) {
-			final int groupStart = pattern.indexOf('[', currentIndex);
+			final int groupStart = indexOfUnescaped(pattern, '[', currentIndex);
 			if (groupStart == -1) {
 				final String patternPart = pattern.substring(currentIndex);
 				heads.addAll(createSimpleHeads(patternPart,
@@ -279,6 +280,9 @@ public class FileNameMatcher {
 				heads.add(head);
 				break;
 			}
+			case '\\': {
+				break;
+			}
 			default:
 				final CharacterHead head = new CharacterHead(c);
 				heads.add(head);
@@ -315,6 +319,18 @@ public class FileNameMatcher {
 		}
 		listForLocalUseage = heads;
 		heads = newHeads;
+	}
+
+	private static int indexOfUnescaped(final String searchString,
+			final char ch, final int fromIndex) {
+		for (int i = fromIndex; i < searchString.length(); i++) {
+			char current = searchString.charAt(i);
+			if (current == ch)
+				return i;
+			if (current == '\\')
+				i++; // Skip the next char as it is escaped }
+		}
+		return -1;
 	}
 
 	/**
