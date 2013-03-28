@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//0rY\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/archive/ArchiveCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2013-03-28T21:30:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//0sE\u003d",
+      "revId": "950b2641a7343614fc0d283f3b3ebe6d905d8acd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//0sA\u003d",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/archive/ArchiveCommand.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-03-28T20:15:52Z",
       "side": 1,
       "message": "setting to null is not necessary. this is the default behavior of the jvm when a new object is made.",
+      "revId": "950b2641a7343614fc0d283f3b3ebe6d905d8acd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//0rs\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/archive/ArchiveCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2013-03-28T21:30:53Z",
+      "side": 1,
+      "message": "Initializer dropped.",
+      "parentUuid": "AABOPX//0sA\u003d",
       "revId": "950b2641a7343614fc0d283f3b3ebe6d905d8acd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//0ro\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/archive/ArchiveCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2013-03-28T21:30:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//0r8\u003d",
+      "revId": "950b2641a7343614fc0d283f3b3ebe6d905d8acd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//0r4\u003d",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/archive/ArchiveCommand.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2013-03-28T20:15:52Z",
       "side": 1,
       "message": "release the TreeWalk?",
+      "revId": "950b2641a7343614fc0d283f3b3ebe6d905d8acd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//0rk\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/archive/ArchiveCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2013-03-28T21:30:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//0r4\u003d",
       "revId": "950b2641a7343614fc0d283f3b3ebe6d905d8acd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
