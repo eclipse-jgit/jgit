@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//0rM\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/archive/ArchiveCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-28T21:32:58Z",
+      "side": 1,
+      "message": "Maven doesn\u0027t like this:\n\n [ERROR] /opt/users/hudsonbuild/.hudson/jobs/jgit.gerrit/workspace/org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/archive/ArchiveCommand.java:[217,14] error: unreported exception IOException; must be caught or declared to be thrown\n [ERROR] /opt/users/hudsonbuild/.hudson/jobs/jgit.gerrit/workspace/org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/archive/ArchiveCommand.java:[202,20] error: unreported exception MissingObjectException; must be caught or declared to be thrown\n [ERROR] /opt/users/hudsonbuild/.hudson/jobs/jgit.gerrit/workspace/org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/archive/ArchiveCommand.java:[212,41] error: unreported exception MissingObjectException; must be caught or declared to be thrown\n [ERROR] /opt/users/hudsonbuild/.hudson/jobs/jgit.gerrit/workspace/org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/archive/ArchiveCommand.java:[212,17] error: unreported exception IOException; must be caught or declared to be thrown\n [ERROR] /opt/users/hudsonbuild/.hudson/jobs/jgit.gerrit/workspace/org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/archive/ArchiveCommand.java:[230,12] error: unreported exception MissingObjectException; must be caught or declared to be thrown",
+      "revId": "506ca84d21e4d1b466c8319d58e713dd6252fc07",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
