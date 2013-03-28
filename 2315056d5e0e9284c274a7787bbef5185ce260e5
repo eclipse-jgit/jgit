@@ -1,0 +1,446 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//0sw\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/attributes/AttributeTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-28T18:56:03Z",
+      "side": 1,
+      "message": "Header?",
+      "revId": "2315056d5e0e9284c274a7787bbef5185ce260e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//0ug\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesNode.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-28T18:56:03Z",
+      "side": 1,
+      "message": "file name patterns can be followed by space or tab. tab is useful if you like them, or if the filename contains a space.",
+      "revId": "2315056d5e0e9284c274a7787bbef5185ce260e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//0uc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesNode.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-28T18:56:03Z",
+      "side": 1,
+      "message": "nit: space after if. but isn\u0027t this always true? above you trimmed the line so the space can\u0027t be at the end. if there is no space patternEnd \u003d\u003d -1 and txt.length() \u003e -1.",
+      "revId": "2315056d5e0e9284c274a7787bbef5185ce260e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//0us\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesNode.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-28T18:56:03Z",
+      "side": 1,
+      "message": "nit: trailing space",
+      "revId": "2315056d5e0e9284c274a7787bbef5185ce260e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//0uU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesNode.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-28T18:56:03Z",
+      "side": 1,
+      "message": "@return attributes relevant to the path; empty list if no attributes are defined. Never null.",
+      "revId": "2315056d5e0e9284c274a7787bbef5185ce260e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//0uM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesNode.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-28T18:56:03Z",
+      "side": 1,
+      "message": "nit: i think we prefer i \u003e\u003d 0 for reverse iteration loops",
+      "revId": "2315056d5e0e9284c274a7787bbef5185ce260e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//0uY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesNode.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-28T18:56:03Z",
+      "side": 1,
+      "message": "nit: drop curly braces",
+      "revId": "2315056d5e0e9284c274a7787bbef5185ce260e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//0tQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesRule.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-28T18:56:03Z",
+      "side": 1,
+      "message": "It seems the errors here also exist in IgnoreRule. Or at least the code is confusing enough that I am seeing what appear to be bugs on my first reading of it. That\u0027s not a good sign.\n\nGiven most of the issues in this class also came from IgnoreRule, I\u0027m inclined to take attribute support now, try to clean it up in-tree, and then port that somehow over to clean up IgnoreRule.",
+      "revId": "2315056d5e0e9284c274a7787bbef5185ce260e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//0t4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesRule.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-28T18:56:03Z",
+      "side": 1,
+      "message": "I think this is [ \\t\\r] as the regex because tabs are allowed and the C implementation oddly enough allows \\r between attributes too.",
+      "revId": "2315056d5e0e9284c274a7787bbef5185ce260e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//0tg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesRule.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-28T18:56:03Z",
+      "side": 1,
+      "message": "final",
+      "revId": "2315056d5e0e9284c274a7787bbef5185ce260e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//0tc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesRule.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-28T18:56:03Z",
+      "side": 1,
+      "message": "final",
+      "revId": "2315056d5e0e9284c274a7787bbef5185ce260e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//0uE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesRule.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-28T18:56:03Z",
+      "side": 1,
+      "message": "a new attribute",
+      "revId": "2315056d5e0e9284c274a7787bbef5185ce260e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//0to\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesRule.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-28T18:56:03Z",
+      "side": 1,
+      "message": "isNameOnly()",
+      "revId": "2315056d5e0e9284c274a7787bbef5185ce260e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//0tk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesRule.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-28T18:56:03Z",
+      "side": 1,
+      "message": "Unfortunately this was modified in setup() and is no longer the original text. Specifically the trailing / was lost, and a leading / may have been added.",
+      "revId": "2315056d5e0e9284c274a7787bbef5185ce260e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//0tU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesRule.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-28T18:56:03Z",
+      "side": 1,
+      "message": "relativeTarget",
+      "revId": "2315056d5e0e9284c274a7787bbef5185ce260e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//0tM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesRule.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-28T18:56:03Z",
+      "side": 1,
+      "message": "This does not match what happens during setup(). If the pattern does not contain / we do not prefix it with / so then the simple target.equals(pattern) test that you might expect to succeed fails and we have to do further checks.",
+      "revId": "2315056d5e0e9284c274a7787bbef5185ce260e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//0t0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesRule.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-28T18:56:03Z",
+      "side": 1,
+      "message": "unnecessary parens around target. can\u0027t we test this without making a temporary string?\n\n  if (target.startsWith(pattern)\n      \u0026\u0026 target.length() \u003e pattern.length()\n      \u0026\u0026 target.charAt(pattern.length()) \u003d\u003d \u0027/\u0027)",
+      "revId": "2315056d5e0e9284c274a7787bbef5185ce260e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//0tI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesRule.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-28T18:56:03Z",
+      "side": 1,
+      "message": "during a runtime operation like this where tree paths are being matched we should avoid regex and instead use indexOf to skip through the string.",
+      "revId": "2315056d5e0e9284c274a7787bbef5185ce260e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//0ts\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesRule.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-28T18:56:03Z",
+      "side": 1,
+      "message": "This method no longer parses the attributes.",
+      "revId": "2315056d5e0e9284c274a7787bbef5185ce260e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//0tY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesRule.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-28T18:56:03Z",
+      "side": 1,
+      "message": "This should just happen in the constructor. And then the other fields can be final.",
+      "revId": "2315056d5e0e9284c274a7787bbef5185ce260e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//0tw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesRule.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-28T18:56:03Z",
+      "side": 1,
+      "message": "break this line up:\n\n  if (pattern.contains(\"*\") // $NON-NLS-1$\n    || pattern.contains(\"?\") // $NON-NLS-1$\n    || pattern.contains(\"[\")) { // $NON-NLS-1$",
+      "revId": "2315056d5e0e9284c274a7787bbef5185ce260e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//0tE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 619,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-28T18:56:03Z",
+      "side": 1,
+      "message": "nit: trailing whitespace",
+      "revId": "2315056d5e0e9284c274a7787bbef5185ce260e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//0tA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 630,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-28T18:56:03Z",
+      "side": 1,
+      "message": "nit: trailing whitespace",
+      "revId": "2315056d5e0e9284c274a7787bbef5185ce260e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//0s8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1204,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-28T18:56:03Z",
+      "side": 1,
+      "message": "this is incorrect. we don\u0027t want to parse the excludes file. you want core.attributesfile here.",
+      "revId": "2315056d5e0e9284c274a7787bbef5185ce260e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//0s4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1206,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-28T18:56:03Z",
+      "side": 1,
+      "message": "rename this variable",
+      "revId": "2315056d5e0e9284c274a7787bbef5185ce260e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//0s0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1223,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-28T18:56:03Z",
+      "side": 1,
+      "message": "rename exclude to attrs",
+      "revId": "2315056d5e0e9284c274a7787bbef5185ce260e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
