@@ -19,6 +19,40 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//0q0\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/attributes/AttributesMatcherTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-03-28T22:53:37Z",
+      "side": 1,
+      "message": "doesn\u0027t look like you are working for Red Hat or do I miss something here ? Also 2010 seems a bit old\n\nthere are more files with this header in this patch",
+      "revId": "2315056d5e0e9284c274a7787bbef5185ce260e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//0qw\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/attributes/AttributesNodeTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-03-28T22:53:37Z",
+      "side": 1,
+      "message": "what\u0027s the purpose of this dead code ?",
+      "revId": "2315056d5e0e9284c274a7787bbef5185ce260e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//0ug\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesNode.java",
         "patchSetId": 6
