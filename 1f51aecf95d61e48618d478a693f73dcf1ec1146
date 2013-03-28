@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//0vE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2013-03-28T18:02:10Z",
+      "side": 1,
+      "message": "This is probably a no-op but could probably drop the 0, here too.",
+      "revId": "1f51aecf95d61e48618d478a693f73dcf1ec1146",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
