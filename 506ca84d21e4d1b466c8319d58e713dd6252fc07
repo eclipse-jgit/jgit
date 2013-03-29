@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//0pQ\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/archive/ArchiveCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-03-29T02:32:31Z",
+      "side": 1,
+      "message": "ok, you are right",
+      "parentUuid": "AABOPX//0qM\u003d",
+      "revId": "506ca84d21e4d1b466c8319d58e713dd6252fc07",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//0rM\u003d",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/archive/ArchiveCommand.java",
         "patchSetId": 2
