@@ -96,7 +96,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 		MergeResult result = git.merge().include(db.getRef(Constants.HEAD)).call();
 		assertEquals(MergeResult.MergeStatus.ALREADY_UP_TO_DATE, result.getMergeStatus());
 		// no reflog entry written by merge
-		assertEquals("commit: initial commit",
+		assertEquals("commit (initial): initial commit",
 				db
 				.getReflogReader(Constants.HEAD).getLastEntry().getComment());
 		assertEquals("commit: initial commit",
