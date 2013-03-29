@@ -36,6 +36,23 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//0qE\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/attributes/AttributesMatcherTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-29T00:04:36Z",
+      "side": 1,
+      "message": "Most of this code was copied from the existing Ignore support. So the copyright assertion is correct. Its 2010 Red Hat according to the sources where this came from. Unfortunately JGit isn\u0027t seeing this as a copy, maybe its too different or copy detection isn\u0027t enabled in Gerrit because its costly.",
+      "revId": "2315056d5e0e9284c274a7787bbef5185ce260e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//0qw\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/attributes/AttributesNodeTest.java",
         "patchSetId": 6
