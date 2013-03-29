@@ -51,6 +51,24 @@
       "revId": "506ca84d21e4d1b466c8319d58e713dd6252fc07",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//0pw\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/archive/ArchiveCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2013-03-29T01:17:17Z",
+      "side": 1,
+      "message": "Caught, wrapped, and rethrown. In a spare moment I\u0027d like to tweak this to make it more obvious to the caller what went wrong (in particular to distinguish between a corrupt object db and internal errors).",
+      "parentUuid": "AABOPX//0rM\u003d",
+      "revId": "506ca84d21e4d1b466c8319d58e713dd6252fc07",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
