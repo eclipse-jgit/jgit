@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//0qM\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/archive/ArchiveCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-03-29T00:02:13Z",
+      "side": 1,
+      "message": "Sure but the contents of this file came from an exiting file in jgit that was created in 2012. So its a 2012 source.",
+      "parentUuid": "AABOPX//0qk\u003d",
+      "revId": "506ca84d21e4d1b466c8319d58e713dd6252fc07",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//0rM\u003d",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/archive/ArchiveCommand.java",
         "patchSetId": 2
