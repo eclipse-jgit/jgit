@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//0m8\u003d",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/MergeTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2013-03-29T15:04:54Z",
+      "side": 1,
+      "message": "This fails because the information about squash is lost.\n\nWhat about another status: MERGED_SQUASHED_NOT_COMMITTED?",
+      "revId": "b9d3fbdc3f90f04efa0f2261ca27dc2f636ac98b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//0nA\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/MergeCommandTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2013-03-29T15:04:54Z",
+      "side": 1,
+      "message": "Maybe add a test \"testNoFastForwardNoCommit\" (with the noff flag)",
+      "revId": "b9d3fbdc3f90f04efa0f2261ca27dc2f636ac98b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//0nE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2013-03-29T15:04:54Z",
+      "side": 1,
+      "message": "Why does newHead not contain the old commit? The javadoc says: \"the object the head points at after the merge\"\n\nNot directly related to this change, but why is mergebase null in case of a resolve merge? The Merger does calculate the common base commit. It seems that it is not exposed to the caller.",
+      "revId": "b9d3fbdc3f90f04efa0f2261ca27dc2f636ac98b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
