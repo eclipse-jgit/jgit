@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//0kM\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/fnmatch/FileNameMatcherTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 833,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-03-30T09:26:52Z",
+      "side": 1,
+      "message": "Add a case for escaped \u0027\\\u0027 and a mix of all to test that the escaping does not only work at the start and end of strings.",
+      "revId": "bb84cd7ee91ebbd19a2084b04d78234661a48d83",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//0kU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/fnmatch/FileNameMatcher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-03-30T09:26:52Z",
+      "side": 1,
+      "message": "nit: Braces not needed.",
+      "revId": "bb84cd7ee91ebbd19a2084b04d78234661a48d83",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//0kQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/fnmatch/FileNameMatcher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-03-30T09:26:52Z",
+      "side": 1,
+      "message": "// does not work if looking for \u0027\\\u0027, though we don\u0027t need that now",
+      "revId": "bb84cd7ee91ebbd19a2084b04d78234661a48d83",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
