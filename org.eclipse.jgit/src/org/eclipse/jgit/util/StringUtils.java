@@ -279,4 +279,30 @@ public final class StringUtils {
 	public static boolean isEmptyOrNull(String stringValue) {
 		return stringValue == null || stringValue.length() == 0;
 	}
+
+	/**
+	 * Replace CRLF, CR or LF with a single space.
+	 *
+	 * @param in
+	 *            A string with line breaks
+	 * @return in without line breaks
+	 */
+	public static String replaceLineBreaksWithSpace(String in) {
+		char[] buf = new char[in.length()];
+		int o = 0;
+		for (int i = 0; i < buf.length; ++i) {
+			char ch = in.charAt(i);
+			if (ch == '\r') {
+				if (i + 1 < buf.length && in.charAt(i + 1) == '\n') {
+					buf[o++] = ' ';
+					++i;
+				} else
+					buf[o++] = ' ';
+			} else if (ch == '\n')
+				buf[o++] = ' ';
+			else
+				buf[o++] = ch;
+		}
+		return new String(buf, 0, o);
+	}
 }
