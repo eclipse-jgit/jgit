@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//0lA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1078,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2013-03-30T00:25:26Z",
+      "side": 1,
+      "message": "Style: indentation dropped?",
+      "revId": "4cca97fc1297ba6f06da7c6a8555a8c2f64d3d75",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
