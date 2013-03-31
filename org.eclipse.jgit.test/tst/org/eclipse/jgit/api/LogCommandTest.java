@@ -100,10 +100,16 @@ public class LogCommandTest extends RepositoryTestCase {
 		commits.add(git.commit().setMessage("initial commit").call());
 
 		TagCommand tagCmd = git.tag();
-		tagCmd.setName("tagname");
+		tagCmd.setName("tagcommit");
 		tagCmd.setObjectId(commits.get(0));
 		tagCmd.setTagger(new PersonIdent(db));
 		Ref tag = tagCmd.call();
+
+		tagCmd = git.tag();
+		tagCmd.setName("tagtree");
+		tagCmd.setObjectId(commits.get(0).getTree());
+		tagCmd.setTagger(new PersonIdent(db));
+		tagCmd.call();
 
 		Iterator<RevCommit> log = git.log().all().call().iterator();
 		assertTrue(log.hasNext());
