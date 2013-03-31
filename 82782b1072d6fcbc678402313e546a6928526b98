@@ -34,6 +34,24 @@
       "revId": "82782b1072d6fcbc678402313e546a6928526b98",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//0i4\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/LogCommandTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-03-31T00:40:36Z",
+      "side": 1,
+      "message": "My point: There is no test case for that. A tag can reference any object type, not just commits, so a fix should take care of that.",
+      "parentUuid": "AABOPX//7Co\u003d",
+      "revId": "82782b1072d6fcbc678402313e546a6928526b98",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
