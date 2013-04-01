@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//0cs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1062,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2013-04-01T20:02:09Z",
+      "side": 1,
+      "message": "Style: trailing space",
+      "revId": "d6163dca70de7e8217ae0468ba4f80fa351d1fc5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//0b0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/StringUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2013-04-01T20:02:09Z",
+      "side": 1,
+      "message": "Looks good. I wonder, would a StringBuilder be more idiomatic?\n\nfinal int len \u003d in.length();\nStringBuilder buf \u003d new StringBuilder(len);\nfor (int i \u003d 0; i \u003c len; i++) {\n  char ch \u003d in.charAt(i);\n  if (ch \u003d\u003d \u0027\\r\u0027 \u0026\u0026 i + 1 \u003c len \u0026\u0026 in.charAt(i + 1) \u003d\u003d \u0027\\n\u0027) {\n    buf.append(\u0027 \u0027);\n    i++;\n  } else if (ch \u003d\u003d \u0027\\r\u0027 || ch \u003d\u003d \u0027\\n\u0027)\n    buf.append(\u0027 \u0027);\n  else\n    buf.append(ch);\n}\nreturn buf.toString();\n\nMaybe that\u0027s pointless abstraction. Either way there is this copy to convert a mutable object to an immutable one that I wish we could avoid but don\u0027t see how to.",
+      "revId": "d6163dca70de7e8217ae0468ba4f80fa351d1fc5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//0co\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1079,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2013-04-01T20:02:09Z",
+      "side": 0,
+      "message": "This is getting a bit obfuscated. The first loop searches for the string \"\\n\\n\" or \"\\n\\r\", or a \\n or \\r at the beginning of the string. The second loop moves back one character if there is room to do so. (It executes at most one time.) The \"if\" after that checks if the preceding character is \\r, and if so, moves back one more character.\n\nIs the intent something like the following?\n\n // A paragraph break is LF or CRLF at the beginning of a line.\n while (ptr \u003c sz \u0026\u0026 b[ptr] !\u003d \u0027\\n\u0027 \u0026\u0026\n          (b[ptr] !\u003d \u0027\\r\u0027 || ptr + 1 \u003d\u003d sz || b[ptr + 1] !\u003d \u0027\\n\u0027))\n   ptr \u003d nextLF(b, ptr);\n\n // Move back by one LF, CR, or CRLF\n if (start \u003c ptr \u0026\u0026 b[ptr - 1] \u003d\u003d \u0027\\n\u0027)\n   ptr--;\n if (start \u003c ptr \u0026\u0026 b[ptr - 1] \u003d\u003d \u0027\\r\u0027)\n   ptr--;\n\n return ptr;",
+      "revId": "e2a98104f7bfcd86ed20fa483ba7804cafe47c17",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
