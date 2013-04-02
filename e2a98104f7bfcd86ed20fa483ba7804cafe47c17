@@ -34,6 +34,24 @@
       "revId": "e2a98104f7bfcd86ed20fa483ba7804cafe47c17",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//0ME\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1079,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2013-04-02T21:42:25Z",
+      "side": 0,
+      "message": "Sorry for the lack of clarity. What I meant is that it seems strange to treat LF CR (without another LF after that) as a double-newline.",
+      "parentUuid": "AABOPX//0MY\u003d",
+      "revId": "e2a98104f7bfcd86ed20fa483ba7804cafe47c17",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
