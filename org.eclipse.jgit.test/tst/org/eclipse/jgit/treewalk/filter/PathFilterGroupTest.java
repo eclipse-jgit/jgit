@@ -76,7 +76,8 @@ public class PathFilterGroupTest {
 				"b/c",
 				"c/d/e",
 				"c/d/f",
-				"d/e/f/g"
+				"d/e/f/g",
+				"d/e/f/g.x"
 				};
 		// @formatter:on
 		filter = PathFilterGroup.createFromStrings(paths);
@@ -90,6 +91,7 @@ public class PathFilterGroupTest {
 		assertTrue(filter.include(fakeWalk("c/d/e")));
 		assertTrue(filter.include(fakeWalk("c/d/f")));
 		assertTrue(filter.include(fakeWalk("d/e/f/g")));
+		assertTrue(filter.include(fakeWalk("d/e/f/g.x")));
 	}
 
 	@Test
@@ -132,6 +134,11 @@ public class PathFilterGroupTest {
 		assertTrue(filter.include(fakeWalk("c/d/e/f")));
 		assertTrue(filter.include(fakeWalk("c/d/f/g")));
 		assertTrue(filter.include(fakeWalk("d/e/f/g/h")));
+		assertTrue(filter.include(fakeWalk("d/e/f/g/y")));
+		assertTrue(filter.include(fakeWalk("d/e/f/g.x/h")));
+		// listed before g/y, so can't StopWalk here, but it's not included
+		// either
+		assertFalse(filter.include(fakeWalk("d/e/f/g.y")));
 	}
 
 	@Test
@@ -171,6 +178,9 @@ public class PathFilterGroupTest {
 		} catch (StopWalkException e) {
 			// good
 		}
+
+		// less obvious #2 due to git sorting order
+		filter.include(fakeWalk("d/e/f/g/h.txt"));
 
 		// non-ascii
 		try {

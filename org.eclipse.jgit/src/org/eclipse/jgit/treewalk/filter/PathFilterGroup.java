@@ -208,6 +208,14 @@ public class PathFilterGroup {
 				if (compare(max, pf.pathRaw) < 0)
 					max = pf.pathRaw;
 			}
+			byte[] newMax = new byte[max.length + 1];
+			for (int i = 0; i < max.length; ++i)
+				if ((max[i]&0xFF) < '/')
+					newMax[i] = '/';
+				else
+					newMax[i] = max[i];
+			newMax[newMax.length - 1] = '/';
+			max = newMax;
 		}
 
 		private static int compare(byte[] a, byte[] b) {
