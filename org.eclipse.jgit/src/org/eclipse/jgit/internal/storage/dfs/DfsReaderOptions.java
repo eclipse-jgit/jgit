@@ -51,7 +51,7 @@ import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_STREAM_FILE_TRESHO
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.storage.pack.PackConfig;
 
-/** Options controlling how objects are read from a DHT stored repository. */
+/** Options controlling how objects are read from a DFS stored repository. */
 public class DfsReaderOptions {
 	/** 1024 (number of bytes in one kibibyte/kilobyte) */
 	public static final int KiB = 1024;
