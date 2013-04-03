@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//0Gs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathFilterGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-04-03T15:20:51Z",
+      "side": 1,
+      "message": "We are not changing the filters, just saying this no filters will match anything beyond the \"max\" path.",
+      "parentUuid": "AABOPX//0Ko\u003d",
+      "revId": "9b17e29537e20c3bef791ec7ffdd52ec46c9e440",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//0Kw\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathFilterGroup.java",
         "patchSetId": 1
@@ -47,6 +65,24 @@
       "writtenOn": "2013-04-03T08:29:28Z",
       "side": 1,
       "message": "if the old max already ended with a \u0027/\u0027 we would end up with a new max which ends with \u0027//\u0027, right? Maybe that\u0027s ok but I am not sure. Is it?",
+      "revId": "9b17e29537e20c3bef791ec7ffdd52ec46c9e440",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//0FY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathFilterGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-04-03T15:20:51Z",
+      "side": 1,
+      "message": "I don\u0027t think that\u0027s a problem.",
+      "parentUuid": "AABOPX//0Kw\u003d",
       "revId": "9b17e29537e20c3bef791ec7ffdd52ec46c9e440",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
