@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//0K4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathFilterGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-04-03T08:29:28Z",
+      "side": 1,
+      "message": "style: blanks around the \u0027\u0026\u0027 would be nice.",
+      "revId": "9b17e29537e20c3bef791ec7ffdd52ec46c9e440",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//0Ko\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathFilterGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-04-03T08:29:28Z",
+      "side": 1,
+      "message": "Here we are replacing every character lesser than \u0027/\u0027 with an \u0027/\u0027. We are ignoring all differences for path\u0027s for characters below \u0027/\u0027. But there are some characters below \u0027\\\u0027 which may be there in path\u0027s (e.g. +,-,\u0027,(,) ).  What is if this filter is initialized with pathes \"abc/\" \"abc(\" \"abc\". Will it work?",
+      "revId": "9b17e29537e20c3bef791ec7ffdd52ec46c9e440",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//0Kw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathFilterGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-04-03T08:29:28Z",
+      "side": 1,
+      "message": "if the old max already ended with a \u0027/\u0027 we would end up with a new max which ends with \u0027//\u0027, right? Maybe that\u0027s ok but I am not sure. Is it?",
+      "revId": "9b17e29537e20c3bef791ec7ffdd52ec46c9e440",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
