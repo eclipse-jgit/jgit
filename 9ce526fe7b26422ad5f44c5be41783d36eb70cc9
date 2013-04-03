@@ -52,6 +52,23 @@
       "revId": "9ce526fe7b26422ad5f44c5be41783d36eb70cc9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//0I0\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revplot/PlotCommitListTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-04-03T13:30:49Z",
+      "side": 1,
+      "message": "Before your change jgit was positioning the commits like gitk and \"git log --graph\". But now, with your change, we position the commit in our own JGit specific fashion. I know it\u0027s a matter of taste, but I prefer the lane positions as they have been before and as gitk shows it.",
+      "revId": "9ce526fe7b26422ad5f44c5be41783d36eb70cc9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
