@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//z/M\u003d",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/MergeTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2013-04-03T21:22:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//0m8\u003d",
+      "revId": "b9d3fbdc3f90f04efa0f2261ca27dc2f636ac98b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//0nA\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/MergeCommandTest.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2013-03-29T15:04:54Z",
       "side": 1,
       "message": "Maybe add a test \"testNoFastForwardNoCommit\" (with the noff flag)",
+      "revId": "b9d3fbdc3f90f04efa0f2261ca27dc2f636ac98b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//z/o\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/MergeCommandTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2013-04-03T21:22:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//0nA\u003d",
       "revId": "b9d3fbdc3f90f04efa0f2261ca27dc2f636ac98b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
