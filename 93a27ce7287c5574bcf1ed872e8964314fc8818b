@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//zpQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2013-04-04T22:38:35Z",
+      "side": 0,
+      "message": "Unrelated change? Harmless, though.",
+      "revId": "93a27ce7287c5574bcf1ed872e8964314fc8818b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}

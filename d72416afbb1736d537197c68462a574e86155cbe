@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//zo8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 505,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2013-04-04T22:38:35Z",
+      "side": 1,
+      "message": "What does this do?  Is otp\u0027s offset used?",
+      "revId": "d72416afbb1736d537197c68462a574e86155cbe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//zoo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2013-04-04T22:38:35Z",
+      "side": 1,
+      "message": "Is this missing another loop over objects to see if any were unfound? How does the caller learn about missing objects?",
+      "revId": "d72416afbb1736d537197c68462a574e86155cbe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
