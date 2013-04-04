@@ -47,34 +47,20 @@ import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.GC
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.UNREACHABLE_GARBAGE;
 
 import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource;
-import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
 import org.eclipse.jgit.internal.storage.pack.StoredObjectRepresentation;
 import org.eclipse.jgit.lib.ObjectId;
 
 class DfsObjectRepresentation extends StoredObjectRepresentation {
-	final ObjectToPack object;
-
-	DfsPackFile pack;
-
-	/**
-	 * Position of {@link #pack} in the reader's pack list. Lower numbers are
-	 * newer/more recent packs and less likely to contain the best format for a
-	 * base object. Higher numbered packs are bigger, more stable, and favored
-	 * by PackWriter when selecting representations... but only if they come
-	 * last in the representation ordering.
-	 */
-	int packIndex;
-
-	long offset;
-
+	final DfsPackFile pack;
+	final int packIndex;
 	int format;
-
+	long offset;
 	long length;
-
 	ObjectId baseId;
 
-	DfsObjectRepresentation(ObjectToPack object) {
-		this.object = object;
+	DfsObjectRepresentation(DfsPackFile pack, int packIndex) {
+		this.pack = pack;
+		this.packIndex = packIndex;
 	}
 
 	@Override
@@ -94,10 +80,7 @@ class DfsObjectRepresentation extends StoredObjectRepresentation {
 
 	@Override
 	public boolean wasDeltaAttempted() {
-		if (pack != null) {
-			PackSource source = pack.getPackDescription().getPackSource();
-			return source == GC || source == UNREACHABLE_GARBAGE;
-		}
-		return false;
+		PackSource source = pack.getPackDescription().getPackSource();
+		return source == GC || source == UNREACHABLE_GARBAGE;
 	}
 }

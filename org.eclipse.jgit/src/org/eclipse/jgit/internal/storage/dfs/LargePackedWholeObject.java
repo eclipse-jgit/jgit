@@ -109,7 +109,7 @@ final class LargePackedWholeObject extends ObjectLoader {
 			// again and open the stream from that location instead.
 			//
 			try {
-				ObjectId obj = pack.findObjectForOffset(ctx, objectOffset);
+				ObjectId obj = pack.getReverseIdx(ctx).findObject(objectOffset);
 				return ctx.open(obj, type).openStream();
 			} finally {
 				ctx.release();
