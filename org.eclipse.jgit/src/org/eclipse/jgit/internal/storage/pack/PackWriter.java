@@ -1246,6 +1246,13 @@ public class PackWriter {
 	}
 
 	private int findObjectsNeedingDelta(ObjectToPack[] list, int cnt, int type) {
+		// Do not delta compress chain roots.
+		for (ObjectToPack otp : objectsLists[type]) {
+			ObjectToPack base = otp.getDeltaBase();
+			if (base != null)
+				base.setDoNotDelta(true);
+		}
+
 		for (ObjectToPack otp : objectsLists[type]) {
 			if (otp.isDoNotDelta()) // delta is disabled for this path
 				continue;
