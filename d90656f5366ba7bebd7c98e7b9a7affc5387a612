@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//zpo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/NameRevCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2013-04-04T22:10:46Z",
+      "side": 1,
+      "message": "I actually preferred the literal string \"null\" from v1, but either seems fine.",
+      "revId": "d90656f5366ba7bebd7c98e7b9a7affc5387a612",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
