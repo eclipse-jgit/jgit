@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//zoE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 505,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-04-04T23:01:03Z",
+      "side": 1,
+      "message": "otp.offset is initialized to 0 by PackWriter when it made the list of objects to pack. Here we overloaded it within this small block of code to store the offset from the source, to avoid allocating a new structure to contain the source\u0027s offset.\n\nDuring output PackWriter expects this to be 0 for an object that is not yet written. So we have to reset it back to 0 if we set it to non-0 above.\n\nIts a hack to reduce memory usage. We do this all over the place in ObjectToPack. There are many fields in ObjectToPack that have 2 or 3 different values in them during the process of creating a pack.",
+      "parentUuid": "AABOPX//zo8\u003d",
+      "revId": "d72416afbb1736d537197c68462a574e86155cbe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//zoo\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2013-04-04T22:38:35Z",
       "side": 1,
       "message": "Is this missing another loop over objects to see if any were unfound? How does the caller learn about missing objects?",
+      "revId": "d72416afbb1736d537197c68462a574e86155cbe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//zoA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-04-04T23:01:03Z",
+      "side": 1,
+      "message": "I don\u0027t think so. From reading PackWriter it appears to be legal to omit objects here that are not found. All that means is PackWriter can\u0027t reuse the existing byte stream, and instead will deflate the object onto the wire on the fly.\n\nSo we just moved the not-found exception path from this early search phase into some much later downstream part. If delta compression is enabled it will discover the connectivity error trying to obtain the size of the object.\n\nIf delta compression is disabled, the connectivity error will show up somewhere in the middle of the pack stream and the packer will just abort and break the stream at an object boundary, with no SHA-1 trailer.",
+      "parentUuid": "AABOPX//zoo\u003d",
       "revId": "d72416afbb1736d537197c68462a574e86155cbe",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
