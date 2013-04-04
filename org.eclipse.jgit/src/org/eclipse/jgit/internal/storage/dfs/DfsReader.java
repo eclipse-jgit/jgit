@@ -73,6 +73,8 @@ import org.eclipse.jgit.errors.StoredObjectRepresentationNotAvailableException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.BitmapIndexImpl;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndex;
+import org.eclipse.jgit.internal.storage.file.PackIndex;
+import org.eclipse.jgit.internal.storage.file.PackReverseIndex;
 import org.eclipse.jgit.internal.storage.pack.CachedPack;
 import org.eclipse.jgit.internal.storage.pack.ObjectReuseAsIs;
 import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
@@ -476,12 +478,9 @@ public final class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 		return new DfsObjectToPack(objectId, type);
 	}
 
-	private static final Comparator<DfsObjectRepresentation> REPRESENTATION_SORT = new Comparator<DfsObjectRepresentation>() {
-		public int compare(DfsObjectRepresentation a, DfsObjectRepresentation b) {
-			int cmp = a.packIndex - b.packIndex;
-			if (cmp == 0)
-				cmp = Long.signum(a.offset - b.offset);
-			return cmp;
+	private static final Comparator<DfsObjectToPack> OFFSET_SORT = new Comparator<DfsObjectToPack>() {
+		public int compare(DfsObjectToPack a, DfsObjectToPack b) {
+			return Long.signum(a.getOffset() - b.getOffset());
 		}
 	};
 
@@ -489,56 +488,45 @@ public final class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 			ProgressMonitor monitor, Iterable<ObjectToPack> objects)
 			throws IOException, MissingObjectException {
 		DfsPackFile[] packList = db.getPacks();
-		if (packList.length == 0) {
-			Iterator<ObjectToPack> itr = objects.iterator();
-			if (itr.hasNext())
-				throw new MissingObjectException(itr.next(), "unknown");
-			return;
+		for (int packIndex = 0; packIndex < packList.length; packIndex++) {
+			DfsPackFile pack = packList[packIndex];
+			List<DfsObjectToPack> tmp = findAllFromPack(pack, objects);
+			if (tmp.isEmpty())
+				continue;
+			Collections.sort(tmp, OFFSET_SORT);
+			try {
+				wantReadAhead = true;
+				PackReverseIndex rev = pack.getReverseIdx(this);
+				DfsObjectRepresentation rep = new DfsObjectRepresentation(
+						pack,
+						packIndex);
+				for (DfsObjectToPack otp : tmp) {
+					pack.representation(rep, otp.getOffset(), this, rev);
+					otp.setOffset(0);
+					packer.select(otp, rep);
+					if (!otp.isFound()) {
+						otp.setFound();
+						monitor.update(1);
+					}
+				}
+			} finally {
+				cancelReadAhead();
+			}
 		}
+	}
 
-		int objectCount = 0;
-		int updated = 0;
-		int posted = 0;
-		List<DfsObjectRepresentation> all = new BlockList<DfsObjectRepresentation>();
+	private List<DfsObjectToPack> findAllFromPack(DfsPackFile pack,
+			Iterable<ObjectToPack> objects) throws IOException {
+		List<DfsObjectToPack> tmp = new BlockList<DfsObjectToPack>();
+		PackIndex idx = pack.idx(this);
 		for (ObjectToPack otp : objects) {
-			boolean found = false;
-			for (int packIndex = 0; packIndex < packList.length; packIndex++) {
-				DfsPackFile pack = packList[packIndex];
-				long p = pack.findOffset(this, otp);
-				if (0 < p) {
-					DfsObjectRepresentation r = new DfsObjectRepresentation(otp);
-					r.pack = pack;
-					r.packIndex = packIndex;
-					r.offset = p;
-					all.add(r);
-					found = true;
-				}
+			long p = idx.findOffset(otp);
+			if (0 < p) {
+				otp.setOffset(p);
+				tmp.add((DfsObjectToPack) otp);
 			}
-			if (!found)
-				throw new MissingObjectException(otp, otp.getType());
-			if ((++updated & 1) == 1) {
-				monitor.update(1); // Update by 50%, the other 50% is below.
-				posted++;
-			}
-			objectCount++;
 		}
-		Collections.sort(all, REPRESENTATION_SORT);
-
-		try {
-			wantReadAhead = true;
-			for (DfsObjectRepresentation r : all) {
-				r.pack.representation(this, r);
-				packer.select(r.object, r);
-				if ((++updated & 1) == 1 && posted < objectCount) {
-					monitor.update(1);
-					posted++;
-				}
-			}
-		} finally {
-			cancelReadAhead();
-		}
-		if (posted < objectCount)
-			monitor.update(objectCount - posted);
+		return tmp;
 	}
 
 	public void copyObjectAsIs(PackOutputStream out, ObjectToPack otp,
