@@ -113,12 +113,6 @@ public class ConfigConstants {
 	/** The "blockSize" key */
 	public static final String CONFIG_KEY_BLOCK_SIZE = "blockSize";
 
-	/** The "readAheadLimit" key */
-	public static final String CONFIG_KEY_READ_AHEAD_LIMIT = "readAheadLimit";
-
-	/** The "readAheadThreads" key */
-	public static final String CONFIG_KEY_READ_AHEAD_THREADS = "readAheadThreads";
-
 	/** The "deltaBaseCacheLimit" key */
 	public static final String CONFIG_KEY_DELTA_BASE_CACHE_LIMIT = "deltaBaseCacheLimit";
 

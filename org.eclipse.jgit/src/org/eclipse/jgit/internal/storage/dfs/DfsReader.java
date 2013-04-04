@@ -50,7 +50,6 @@ import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.eclipse.jgit.lib.Constants.OBJ_TREE;
 
 import java.io.IOException;
-import java.io.InterruptedIOException;
 import java.security.MessageDigest;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -60,10 +59,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.ExecutionException;
 import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
 
@@ -92,9 +89,6 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.ProgressMonitor;
-import org.eclipse.jgit.revwalk.ObjectWalk;
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.BlockList;
 
 /**
@@ -118,11 +112,7 @@ public final class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 
 	private DfsPackFile last;
 
-	private boolean wantReadAhead;
-
 	private boolean avoidUnreachable;
-
-	private List<ReadAheadTask.BlockFuture> pendingReadAhead;
 
 	DfsReader(DfsObjDatabase db) {
 		this.db = db;
@@ -322,8 +312,6 @@ public final class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 	@Override
 	public <T extends ObjectId> AsyncObjectLoaderQueue<T> open(
 			Iterable<T> objectIds, final boolean reportMissing) {
-		wantReadAhead = true;
-
 		Iterable<FoundObject<T>> order;
 		IOException error = null;
 		try {
@@ -345,7 +333,6 @@ public final class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 				} else if (findAllError != null) {
 					throw findAllError;
 				} else {
-					cancelReadAhead();
 					return false;
 				}
 			}
@@ -365,12 +352,11 @@ public final class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 			}
 
 			public boolean cancel(boolean mayInterruptIfRunning) {
-				cancelReadAhead();
 				return true;
 			}
 
 			public void release() {
-				cancelReadAhead();
+				// Nothing to clean up.
 			}
 		};
 	}
@@ -378,8 +364,6 @@ public final class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 	@Override
 	public <T extends ObjectId> AsyncObjectSizeQueue<T> getObjectSize(
 			Iterable<T> objectIds, final boolean reportMissing) {
-		wantReadAhead = true;
-
 		Iterable<FoundObject<T>> order;
 		IOException error = null;
 		try {
@@ -406,7 +390,6 @@ public final class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 				} else if (findAllError != null) {
 					throw findAllError;
 				} else {
-					cancelReadAhead();
 					return false;
 				}
 			}
@@ -424,29 +407,13 @@ public final class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 			}
 
 			public boolean cancel(boolean mayInterruptIfRunning) {
-				cancelReadAhead();
 				return true;
 			}
 
 			public void release() {
-				cancelReadAhead();
+				// Nothing to clean up.
 			}
 		};
-	}
-
-	@Override
-	public void walkAdviceBeginCommits(RevWalk walk, Collection<RevCommit> roots) {
-		wantReadAhead = true;
-	}
-
-	@Override
-	public void walkAdviceBeginTrees(ObjectWalk ow, RevCommit min, RevCommit max) {
-		wantReadAhead = true;
-	}
-
-	@Override
-	public void walkAdviceEnd() {
-		cancelReadAhead();
 	}
 
 	@Override
@@ -494,23 +461,18 @@ public final class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 			if (tmp.isEmpty())
 				continue;
 			Collections.sort(tmp, OFFSET_SORT);
-			try {
-				wantReadAhead = true;
-				PackReverseIndex rev = pack.getReverseIdx(this);
-				DfsObjectRepresentation rep = new DfsObjectRepresentation(
-						pack,
-						packIndex);
-				for (DfsObjectToPack otp : tmp) {
-					pack.representation(rep, otp.getOffset(), this, rev);
-					otp.setOffset(0);
-					packer.select(otp, rep);
-					if (!otp.isFound()) {
-						otp.setFound();
-						monitor.update(1);
-					}
+			PackReverseIndex rev = pack.getReverseIdx(this);
+			DfsObjectRepresentation rep = new DfsObjectRepresentation(
+					pack,
+					packIndex);
+			for (DfsObjectToPack otp : tmp) {
+				pack.representation(rep, otp.getOffset(), this, rev);
+				otp.setOffset(0);
+				packer.select(otp, rep);
+				if (!otp.isFound()) {
+					otp.setFound();
+					monitor.update(1);
 				}
-			} finally {
-				cancelReadAhead();
 			}
 		}
 	}
@@ -571,24 +533,13 @@ public final class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 		case OBJ_BLOB:
 			Collections.sort(list, WRITE_SORT);
 		}
-
-		try {
-			wantReadAhead = true;
-			for (ObjectToPack otp : list)
-				out.writeObject(otp);
-		} finally {
-			cancelReadAhead();
-		}
+		for (ObjectToPack otp : list)
+			out.writeObject(otp);
 	}
 
 	public void copyPackAsIs(PackOutputStream out, CachedPack pack,
 			boolean validate) throws IOException {
-		try {
-			wantReadAhead = true;
-			((DfsCachedPack) pack).copyAsIs(out, validate, this);
-		} finally {
-			cancelReadAhead();
-		}
+		((DfsCachedPack) pack).copyAsIs(out, validate, this);
 	}
 
 	/**
@@ -747,60 +698,14 @@ public final class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 			// be cleaned up by the GC during the get for the next window.
 			// So we always clear it, even though we are just going to set
 			// it again.
-			//
 			block = null;
-
-			if (pendingReadAhead != null)
-				waitForBlock(pack.key, position);
 			block = pack.getOrLoadBlock(position, this);
-		}
-	}
-
-	boolean wantReadAhead() {
-		return wantReadAhead;
-	}
-
-	void startedReadAhead(List<ReadAheadTask.BlockFuture> blocks) {
-		if (pendingReadAhead == null)
-			pendingReadAhead = new LinkedList<ReadAheadTask.BlockFuture>();
-		pendingReadAhead.addAll(blocks);
-	}
-
-	private void cancelReadAhead() {
-		if (pendingReadAhead != null) {
-			for (ReadAheadTask.BlockFuture f : pendingReadAhead)
-				f.cancel(true);
-			pendingReadAhead = null;
-		}
-		wantReadAhead = false;
-	}
-
-	private void waitForBlock(DfsPackKey key, long position)
-			throws InterruptedIOException {
-		Iterator<ReadAheadTask.BlockFuture> itr = pendingReadAhead.iterator();
-		while (itr.hasNext()) {
-			ReadAheadTask.BlockFuture f = itr.next();
-			if (f.contains(key, position)) {
-				try {
-					f.get();
-				} catch (InterruptedException e) {
-					throw new InterruptedIOException();
-				} catch (ExecutionException e) {
-					// Exceptions should never be thrown by get(). Ignore
-					// this and let the normal load paths identify any error.
-				}
-				itr.remove();
-				if (pendingReadAhead.isEmpty())
-					pendingReadAhead = null;
-				break;
-			}
 		}
 	}
 
 	/** Release the current window cursor. */
 	@Override
 	public void release() {
-		cancelReadAhead();
 		last = null;
 		block = null;
 		baseCache = null;

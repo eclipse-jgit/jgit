@@ -680,7 +680,6 @@ public final class DfsPackFile {
 		if (invalid)
 			throw new PackInvalidException(getPackName());
 
-		boolean close = true;
 		ReadableChannel rc = ctx.db.openFile(packDesc, PACK);
 		try {
 			// If the block alignment is not yet known, discover it. Prefer the
@@ -739,12 +738,9 @@ public final class DfsPackFile {
 			}
 
 			DfsBlock v = new DfsBlock(key, pos, buf);
-			if (v.end < len)
-				close = !cache.readAhead(rc, key, size, v.end, len, ctx);
 			return v;
 		} finally {
-			if (close)
-				rc.close();
+			rc.close();
 		}
 	}
 

@@ -45,13 +45,10 @@
 package org.eclipse.jgit.internal.storage.dfs;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.concurrent.locks.ReentrantLock;
@@ -116,8 +113,6 @@ public final class DfsBlockCache {
 		cache = nc;
 
 		if (oc != null) {
-			if (oc.readAheadService != null)
-				oc.readAheadService.shutdown();
 			for (DfsPackFile pack : oc.getPackFiles())
 				pack.key.cachedSize.set(0);
 		}
@@ -152,12 +147,6 @@ public final class DfsBlockCache {
 
 	/** As {@link #blockSize} is a power of 2, bits to shift for a / blockSize. */
 	private final int blockSizeShift;
-
-	/** Number of bytes to read-ahead from current read position. */
-	private final int readAheadLimit;
-
-	/** Thread pool to handle optimistic read-ahead. */
-	private final ThreadPoolExecutor readAheadService;
 
 	/** Cache of pack files, indexed by description. */
 	private final Map<DfsPackDescription, DfsPackFile> packCache;
@@ -208,9 +197,6 @@ public final class DfsBlockCache {
 		clockLock = new ReentrantLock(true /* fair */);
 		clockHand = new Ref<Object>(new DfsPackKey(), -1, 0, null);
 		clockHand.next = clockHand;
-
-		readAheadLimit = cfg.getReadAheadLimit();
-		readAheadService = cfg.getReadAheadService();
 
 		packCache = new ConcurrentHashMap<DfsPackDescription, DfsPackFile>(
 				16, 0.75f, 1);
@@ -496,32 +482,6 @@ public final class DfsBlockCache {
 		else
 			statHit.incrementAndGet();
 		return val;
-	}
-
-	boolean readAhead(ReadableChannel rc, DfsPackKey key, int size, long pos,
-			long len, DfsReader ctx) {
-		if (!ctx.wantReadAhead() || readAheadLimit <= 0 || readAheadService == null)
-			return false;
-
-		int cap = readAheadLimit / size;
-		long readAheadEnd = pos + readAheadLimit;
-		List<ReadAheadTask.BlockFuture> blocks = new ArrayList<ReadAheadTask.BlockFuture>(cap);
-		while (pos < readAheadEnd && pos < len) {
-			long end = Math.min(pos + size, len);
-			if (!contains(key, pos))
-				blocks.add(new ReadAheadTask.BlockFuture(key, pos, end));
-			pos = end;
-		}
-		if (blocks.isEmpty())
-			return false;
-
-		ReadAheadTask task = new ReadAheadTask(this, rc, blocks);
-		ReadAheadTask.TaskFuture t = new ReadAheadTask.TaskFuture(task);
-		for (ReadAheadTask.BlockFuture b : blocks)
-			b.setTask(t);
-		readAheadService.execute(t);
-		ctx.startedReadAhead(blocks);
-		return true;
 	}
 
 	private <T> T scan(HashEntry n, DfsPackKey pack, long position) {

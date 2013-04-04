@@ -47,15 +47,6 @@ import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_CORE_SECTION;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_DFS_SECTION;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_BLOCK_LIMIT;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_BLOCK_SIZE;
-import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_READ_AHEAD_LIMIT;
-import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_READ_AHEAD_THREADS;
-
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.RejectedExecutionHandler;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.jgit.lib.Config;
 
@@ -70,10 +61,6 @@ public class DfsBlockCacheConfig {
 	private long blockLimit;
 
 	private int blockSize;
-
-	private int readAheadLimit;
-
-	private ThreadPoolExecutor readAheadService;
 
 	/** Create a default configuration. */
 	public DfsBlockCacheConfig() {
@@ -118,40 +105,6 @@ public class DfsBlockCacheConfig {
 		return this;
 	}
 
-	/** @return number of bytes to read ahead sequentially by. */
-	public int getReadAheadLimit() {
-		return readAheadLimit;
-	}
-
-	/**
-	 * @param newSize
-	 *            new read-ahead limit, in bytes.
-	 * @return {@code this}
-	 */
-	public DfsBlockCacheConfig setReadAheadLimit(final int newSize) {
-		readAheadLimit = Math.max(0, newSize);
-		return this;
-	}
-
-	/** @return service to perform read-ahead of sequential blocks. */
-	public ThreadPoolExecutor getReadAheadService() {
-		return readAheadService;
-	}
-
-	/**
-	 * @param svc
-	 *            service to perform read-ahead of sequential blocks with. If
-	 *            not null the {@link RejectedExecutionHandler} must be managed
-	 *            by the JGit DFS library and not the application.
-	 * @return {@code this}.
-	 */
-	public DfsBlockCacheConfig setReadAheadService(ThreadPoolExecutor svc) {
-		if (svc != null)
-			svc.setRejectedExecutionHandler(ReadAheadRejectedExecutionHandler.INSTANCE);
-		readAheadService = svc;
-		return this;
-	}
-
 	/**
 	 * Update properties by setting fields from the configuration.
 	 * <p>
@@ -174,39 +127,6 @@ public class DfsBlockCacheConfig {
 				CONFIG_DFS_SECTION,
 				CONFIG_KEY_BLOCK_SIZE,
 				getBlockSize()));
-
-		setReadAheadLimit(rc.getInt(
-				CONFIG_CORE_SECTION,
-				CONFIG_DFS_SECTION,
-				CONFIG_KEY_READ_AHEAD_LIMIT,
-				getReadAheadLimit()));
-
-		int readAheadThreads = rc.getInt(
-				CONFIG_CORE_SECTION,
-				CONFIG_DFS_SECTION,
-				CONFIG_KEY_READ_AHEAD_THREADS,
-				0);
-
-		if (0 < getReadAheadLimit() && 0 < readAheadThreads) {
-			setReadAheadService(new ThreadPoolExecutor(
-					1, // Minimum number of threads kept alive.
-					readAheadThreads, // Maximum threads active.
-					60, TimeUnit.SECONDS, // Idle threads wait this long before ending.
-					new ArrayBlockingQueue<Runnable>(1), // Do not queue deeply.
-					new ThreadFactory() {
-						private final String name = "JGit-DFS-ReadAhead"; //$NON-NLS-1$
-						private final AtomicInteger cnt = new AtomicInteger();
-						private final ThreadGroup group = new ThreadGroup(name);
-
-						public Thread newThread(Runnable body) {
-							int id = cnt.incrementAndGet();
-							Thread thread = new Thread(group, body, name + "-" + id); //$NON-NLS-1$
-							thread.setDaemon(true);
-							thread.setContextClassLoader(getClass().getClassLoader());
-							return thread;
-						}
-					}, ReadAheadRejectedExecutionHandler.INSTANCE));
-		}
 		return this;
 	}
 }
