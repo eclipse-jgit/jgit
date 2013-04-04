@@ -1177,7 +1177,7 @@ public class PackWriter {
 					otp = objectsMap.get(sizeQueue.getObjectId());
 
 				long sz = sizeQueue.getSize();
-				if (DeltaIndex.BLKSZ < sz && sz < limit)
+				if (40 < sz && sz < limit)
 					otp.setWeight((int) sz);
 				else
 					otp.setDoNotDelta(); // too small, or too big
