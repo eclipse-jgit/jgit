@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//zn0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/DeltaWindow.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2013-04-04T23:31:01Z",
+      "side": 1,
+      "message": "This would be clearer inlined explicitly:\n\n resMaxDepth \u003d maxDepth - res.object.getChainLength();\n res.object.setChainLength(0);",
+      "revId": "7250e95032d5fc19fd2b1fecf1bd8d3055338515",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//znQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/ObjectToPack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2013-04-04T23:31:01Z",
+      "side": 1,
+      "message": "chainLength and deltaDepth share storage and seem to be live at the same time (in search()). How are they meant to relate to each other?",
+      "revId": "7250e95032d5fc19fd2b1fecf1bd8d3055338515",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//zns\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1258,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2013-04-04T23:31:01Z",
+      "side": 1,
+      "message": "Can the \"base \u003d\u003d otp\" case trip? If so, what prevents cycles that don\u0027t involve otp?",
+      "revId": "7250e95032d5fc19fd2b1fecf1bd8d3055338515",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
