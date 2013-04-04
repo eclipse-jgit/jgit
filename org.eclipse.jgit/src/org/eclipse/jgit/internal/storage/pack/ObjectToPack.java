@@ -150,22 +150,22 @@ public class ObjectToPack extends PackedObjectInfo {
 	 *            whole object.
 	 *
 	 */
-	void setDeltaBase(ObjectId deltaBase) {
+	final void setDeltaBase(ObjectId deltaBase) {
 		this.deltaBase = deltaBase;
 	}
 
-	void setCachedDelta(DeltaCache.Ref data){
+	final void setCachedDelta(DeltaCache.Ref data) {
 		cachedDelta = data;
 	}
 
-	DeltaCache.Ref popCachedDelta() {
+	final DeltaCache.Ref popCachedDelta() {
 		DeltaCache.Ref r = cachedDelta;
 		if (r != null)
 			cachedDelta = null;
 		return r;
 	}
 
-	void clearDeltaBase() {
+	final void clearDeltaBase() {
 		this.deltaBase = null;
 
 		if (cachedDelta != null) {
@@ -198,19 +198,19 @@ public class ObjectToPack extends PackedObjectInfo {
 		return (flags >> TYPE_SHIFT) & 0x7;
 	}
 
-	int getDeltaDepth() {
+	final int getDeltaDepth() {
 		return flags >>> DELTA_SHIFT;
 	}
 
-	void setDeltaDepth(int d) {
+	final void setDeltaDepth(int d) {
 		flags = (d << DELTA_SHIFT) | (flags & NON_DELTA_MASK);
 	}
 
-	boolean wantWrite() {
+	final boolean wantWrite() {
 		return (flags & WANT_WRITE) != 0;
 	}
 
-	void markWantWrite() {
+	final void markWantWrite() {
 		flags |= WANT_WRITE;
 	}
 
@@ -222,7 +222,7 @@ public class ObjectToPack extends PackedObjectInfo {
 		return (flags & REUSE_AS_IS) != 0;
 	}
 
-	void setReuseAsIs() {
+	final void setReuseAsIs() {
 		flags |= REUSE_AS_IS;
 	}
 
@@ -237,28 +237,28 @@ public class ObjectToPack extends PackedObjectInfo {
 		flags &= ~REUSE_AS_IS;
 	}
 
-	boolean isDoNotDelta() {
+	final boolean isDoNotDelta() {
 		return (flags & DO_NOT_DELTA) != 0;
 	}
 
-	void setDoNotDelta() {
+	final void setDoNotDelta() {
 		flags |= DO_NOT_DELTA;
 	}
 
-	boolean isEdge() {
+	final boolean isEdge() {
 		return (flags & EDGE) != 0;
 	}
 
-	void setEdge() {
+	final void setEdge() {
 		flags |= EDGE;
 	}
 
-	boolean doNotAttemptDelta() {
+	final boolean doNotAttemptDelta() {
 		// Do not attempt if delta attempted and object reuse.
 		return (flags & ATTEMPT_DELTA_MASK) == ATTEMPT_DELTA_MASK;
 	}
 
-	void setDeltaAttempted(boolean deltaAttempted) {
+	final void setDeltaAttempted(boolean deltaAttempted) {
 		if (deltaAttempted)
 			flags |= DELTA_ATTEMPTED;
 		else
@@ -324,7 +324,7 @@ public class ObjectToPack extends PackedObjectInfo {
 		flags = ((extFlags & EXT_MASK) << EXT_SHIFT) | (flags & NON_EXT_MASK);
 	}
 
-	int getFormat() {
+	final int getFormat() {
 		if (isReuseAsIs()) {
 			if (isDeltaRepresentation())
 				return StoredObjectRepresentation.PACK_DELTA;
@@ -334,27 +334,27 @@ public class ObjectToPack extends PackedObjectInfo {
 	}
 
 	// Overload weight into CRC since we don't need them at the same time.
-	int getWeight() {
+	final int getWeight() {
 		return getCRC();
 	}
 
-	void setWeight(int weight) {
+	final void setWeight(int weight) {
 		setCRC(weight);
 	}
 
-	int getPathHash() {
+	final int getPathHash() {
 		return pathHash;
 	}
 
-	void setPathHash(int hc) {
+	final void setPathHash(int hc) {
 		pathHash = hc;
 	}
 
-	int getCachedSize() {
+	final int getCachedSize() {
 		return pathHash;
 	}
 
-	void setCachedSize(int sz) {
+	final void setCachedSize(int sz) {
 		pathHash = sz;
 	}
 
