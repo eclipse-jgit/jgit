@@ -1157,13 +1157,13 @@ public class PackWriter {
 					if (ignoreMissingUninteresting) {
 						ObjectToPack otp = sizeQueue.getCurrent();
 						if (otp != null && otp.isEdge()) {
-							otp.setDoNotDelta(true);
+							otp.setDoNotDelta();
 							continue;
 						}
 
 						otp = objectsMap.get(notFound.getObjectId());
 						if (otp != null && otp.isEdge()) {
-							otp.setDoNotDelta(true);
+							otp.setDoNotDelta();
 							continue;
 						}
 					}
@@ -1176,10 +1176,10 @@ public class PackWriter {
 
 				long sz = sizeQueue.getSize();
 				if (limit <= sz || Integer.MAX_VALUE <= sz)
-					otp.setDoNotDelta(true); // too big, avoid costly files
+					otp.setDoNotDelta(); // too big, avoid costly files
 
 				else if (sz <= DeltaIndex.BLKSZ)
-					otp.setDoNotDelta(true); // too small, won't work
+					otp.setDoNotDelta(); // too small, won't work
 
 				else
 					otp.setWeight((int) sz);
