@@ -103,7 +103,7 @@ public class NameRevCommand extends GitCommand<Map<ObjectId, String>> {
 			if (tip != null)
 				sb.append(format());
 			else
-				sb.append(String.valueOf(null));
+				sb.append((Object) null);
 			sb.append(',').append(cost).append(']').append(' ')
 				.append(super.toString()).toString();
 			return sb.toString();
