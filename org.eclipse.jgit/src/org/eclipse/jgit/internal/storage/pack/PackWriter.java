@@ -1147,7 +1147,9 @@ public class PackWriter {
 		AsyncObjectSizeQueue<ObjectToPack> sizeQueue = reader.getObjectSize(
 				Arrays.<ObjectToPack> asList(list).subList(0, cnt), false);
 		try {
-			final long limit = config.getBigFileThreshold();
+			final long limit = Math.min(
+					config.getBigFileThreshold(),
+					Integer.MAX_VALUE);
 			for (;;) {
 				try {
 					if (!sizeQueue.next())
@@ -1175,14 +1177,10 @@ public class PackWriter {
 					otp = objectsMap.get(sizeQueue.getObjectId());
 
 				long sz = sizeQueue.getSize();
-				if (limit <= sz || Integer.MAX_VALUE <= sz)
-					otp.setDoNotDelta(); // too big, avoid costly files
-
-				else if (sz <= DeltaIndex.BLKSZ)
-					otp.setDoNotDelta(); // too small, won't work
-
-				else
+				if (DeltaIndex.BLKSZ < sz && sz < limit)
 					otp.setWeight((int) sz);
+				else
+					otp.setDoNotDelta(); // too small, or too big
 				monitor.update(1);
 			}
 		} finally {
