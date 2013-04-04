@@ -142,15 +142,15 @@ class DeltaWindow {
 				}
 				res.set(toSearch[off]);
 
-				if (res.object.isEdge() || res.object.doNotAttemptDelta()) {
-					// We don't actually want to make a delta for
-					// them, just need to push them into the window
-					// so they can be read by other objects.
-					//
+				if (res.object.isEdge()) {
+					// Retain in window as potential base candidate.
+					keepInWindow();
+				} else if (res.object.doNotAttemptDelta()) {
+					// Retain in window as potential base candidate.
+					res.object.setChainLength(0);
 					keepInWindow();
 				} else {
 					// Search for a delta for the current window slot.
-					//
 					monitor.update(1);
 					search();
 				}
@@ -182,14 +182,15 @@ class DeltaWindow {
 	}
 
 	private void search() throws IOException {
-		// TODO(spearce) If the object is used as a base for other
-		// objects in this pack we should limit the depth we create
-		// for ourselves to be the remainder of our longest dependent
-		// chain and the configured maximum depth. This can happen
-		// when the dependents are being reused out a pack, but we
-		// cannot be because we are near the edge of a thin pack.
-		//
-		resMaxDepth = maxDepth;
+		resMaxDepth = maxDepth - res.chainLength();
+		if (resMaxDepth <= 0) {
+			// Storing this object as a delta will make the chain of
+			// other objects longer than the desired maximum length.
+			// Keep it as a base candidate for other objects but do
+			// not attempt to convert format.
+			keepInWindow();
+			return;
+		}
 
 		// Loop through the window backwards, considering every entry.
 		// This lets us look at the bigger objects that came before.

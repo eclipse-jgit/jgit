@@ -58,6 +58,13 @@ class DeltaWindowEntry {
 		this.buffer = null;
 	}
 
+	int chainLength() {
+		int n = object.getChainLength();
+		if (0 < n)
+			object.setChainLength(0);
+		return n;
+	}
+
 	/** @return current delta chain depth of this object. */
 	int depth() {
 		return object.getDeltaDepth();
