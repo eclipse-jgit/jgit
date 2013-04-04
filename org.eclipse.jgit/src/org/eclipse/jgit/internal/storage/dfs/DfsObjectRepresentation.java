@@ -44,9 +44,7 @@
 package org.eclipse.jgit.internal.storage.dfs;
 
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.GC;
-import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.UNREACHABLE_GARBAGE;
 
-import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource;
 import org.eclipse.jgit.internal.storage.pack.StoredObjectRepresentation;
 import org.eclipse.jgit.lib.ObjectId;
 
@@ -80,7 +78,6 @@ class DfsObjectRepresentation extends StoredObjectRepresentation {
 
 	@Override
 	public boolean wasDeltaAttempted() {
-		PackSource source = pack.getPackDescription().getPackSource();
-		return source == GC || source == UNREACHABLE_GARBAGE;
+		return pack.getPackDescription().getPackSource() == GC;
 	}
 }
