@@ -189,7 +189,7 @@ public abstract class TreeEntry implements Comparable {
 		final Tree p = getParent();
 		if (p != null && id != n) {
 			if ((id == null && n != null) || (id != null && n == null)
-					|| !id.equals(n)) {
+					|| (id != null && !id.equals(n))) {
 				p.setId(null);
 			}
 		}
