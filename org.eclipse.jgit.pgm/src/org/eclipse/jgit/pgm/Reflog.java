@@ -48,7 +48,6 @@ import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.ReflogCommand;
 import org.eclipse.jgit.internal.storage.file.ReflogEntry;
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.kohsuke.args4j.Argument;
 
@@ -77,12 +76,7 @@ class Reflog extends TextBuiltin {
 		s.append(ref == null ? Constants.HEAD : Repository.shortenRefName(ref));
 		s.append("@{" + i + "}:"); //$NON-NLS-1$ //$NON-NLS-2$
 		s.append(" "); //$NON-NLS-1$
-		// temporary workaround for bug 393463
-		if (entry.getOldId().equals(ObjectId.zeroId()))
-			s.append(entry.getComment().replaceFirst("^commit:", //$NON-NLS-1$
-					"commit (initial):")); //$NON-NLS-1$
-		else
-			s.append(entry.getComment());
+		s.append(entry.getComment());
 		return s.toString();
 	}
 }
