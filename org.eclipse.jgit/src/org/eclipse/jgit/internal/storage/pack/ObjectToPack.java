@@ -194,6 +194,18 @@ public class ObjectToPack extends PackedObjectInfo {
 		flags = (d << DELTA_SHIFT) | (flags & NON_DELTA_MASK);
 	}
 
+	final int getChainLength() {
+		return getDeltaDepth();
+	}
+
+	final void setChainLength(int len) {
+		setDeltaDepth(len);
+	}
+
+	final void clearChainLength() {
+		flags &= NON_DELTA_MASK;
+	}
+
 	final boolean wantWrite() {
 		return getOffset() == 1;
 	}

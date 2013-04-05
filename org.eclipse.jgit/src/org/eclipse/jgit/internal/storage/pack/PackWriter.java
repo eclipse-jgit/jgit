@@ -1100,6 +1100,11 @@ public class PackWriter {
 		}
 		endPhase(monitor);
 		stats.timeSearchingForReuse = System.currentTimeMillis() - start;
+
+		if (config.isReuseDeltas() && config.getCutDeltaChains()) {
+			cutDeltaChains(objectsLists[OBJ_TREE]);
+			cutDeltaChains(objectsLists[OBJ_BLOB]);
+		}
 	}
 
 	private void searchForReuse(ProgressMonitor monitor, List<ObjectToPack> list)
@@ -1108,6 +1113,29 @@ public class PackWriter {
 		reuseSupport.selectObjectRepresentation(this, monitor, list);
 		if (pruneCurrentObjectList)
 			pruneEdgesFromObjectList(list);
+	}
+
+	private void cutDeltaChains(BlockList<ObjectToPack> list)
+			throws IOException {
+		int max = config.getMaxDeltaDepth();
+		for (int idx = list.size() - 1; idx >= 0; idx--) {
+			int d = 0;
+			ObjectToPack b = list.get(idx).getDeltaBase();
+			while (b != null) {
+				if (d < b.getChainLength())
+					break;
+				b.setChainLength(++d);
+				if (d >= max && b.isDeltaRepresentation()) {
+					reselectNonDelta(b);
+					break;
+				}
+				b = b.getDeltaBase();
+			}
+		}
+		if (config.isDeltaCompress()) {
+			for (ObjectToPack otp : list)
+				otp.clearChainLength();
+		}
 	}
 
 	private void searchForDeltas(ProgressMonitor monitor)
@@ -1255,6 +1283,17 @@ public class PackWriter {
 			list[cnt++] = otp;
 		}
 		return cnt;
+	}
+
+	private void reselectNonDelta(ObjectToPack otp) throws IOException {
+		otp.clearDeltaBase();
+		otp.clearReuseAsIs();
+		boolean old = reuseDeltas;
+		reuseDeltas = false;
+		reuseSupport.selectObjectRepresentation(this,
+				NullProgressMonitor.INSTANCE,
+				Collections.singleton(otp));
+		reuseDeltas = old;
 	}
 
 	private void searchForDeltas(final ProgressMonitor monitor,
@@ -1448,13 +1487,7 @@ public class PackWriter {
 			// (for example due to a concurrent repack) and a different base
 			// was chosen, forcing a cycle. Select something other than a
 			// delta, and write this object.
-			//
-			reuseDeltas = false;
-			otp.clearDeltaBase();
-			otp.clearReuseAsIs();
-			reuseSupport.selectObjectRepresentation(this,
-					NullProgressMonitor.INSTANCE,
-					Collections.singleton(otp));
+			reselectNonDelta(otp);
 		}
 		otp.markWantWrite();
 
