@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//zmQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/DeltaWindow.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-04-05T00:43:30Z",
+      "side": 1,
+      "message": "That may be true but I wanted to avoid calling setChainLength() unless getChainLength returned \u003e 0. I think in the common case objects have 0 for a chain length, I wanted to avoid the bit shifting logic inside of setChainLength() to clear the field when it was already clear.\n\nDoing that test here without calling getChainLength() twice (as that also does bit shifting) means I need to declare a new local variable in scope. I didn\u0027t want to do that either because its lifespan is so short.",
+      "parentUuid": "AABOPX//zn0\u003d",
+      "revId": "7250e95032d5fc19fd2b1fecf1bd8d3055338515",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//znQ\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/ObjectToPack.java",
         "patchSetId": 5
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//zmI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/ObjectToPack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-04-05T00:43:30Z",
+      "side": 1,
+      "message": "Before an object enters the delta window chainLength is the value here, and its the longest distance from this object to its furthest child/leaf node that uses this object as a base directly or indirectly.\n\nWhen an object enters the delta window, this switches to deltaDepth and becomes the distance from this object to the non-delta base that is used to inflate the content. If the object is not a delta its depth is 0. If the object was delta compressed and is in the window, its just the base\u0027s depth + 1.",
+      "parentUuid": "AABOPX//znQ\u003d",
+      "revId": "7250e95032d5fc19fd2b1fecf1bd8d3055338515",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//zns\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
         "patchSetId": 5
@@ -47,6 +83,24 @@
       "writtenOn": "2013-04-04T23:31:01Z",
       "side": 1,
       "message": "Can the \"base \u003d\u003d otp\" case trip? If so, what prevents cycles that don\u0027t involve otp?",
+      "revId": "7250e95032d5fc19fd2b1fecf1bd8d3055338515",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//zmM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1258,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-04-05T00:43:30Z",
+      "side": 1,
+      "message": "Yes base\u003d\u003dotp can trip. Consider two packs in a repository:\n\n  newest:  A delta -\u003e B base\n  oldest:  A base \u003c- B delta\n\nHow does this arise? We have pack oldest already in the repository. A is lets say a newer object and B is a delta to it. Now a client pushes newest to us as a thin pack with A as a REF_DELTA to B. We append B to complete the thin pack.\n\nDuring reuse search PackWriter is going to schedule a cycle of A-\u003eB-\u003eA because its trying to use the two delta forms to save pack space. The cycle gets broken during output. If graph enumeration says A comes first we\u0027ll try to write that as a delta, realize we need its base B, try to write B, B needs A, so we try to write A again... at which point the writer realizes its in a cycle and writes a non-delta form of A to the pack.\n\nHowever that cycle breaking is done late at writing time. So we need to guard against it here.\n\nFortunately reference equality also means Git object equality, as these objects all come from a single ObjectIdOwnerMap that keyed them by SHA-1. So if otp \u003d\u003d base we have a cycle.\n\nUnfortunately you are right, I missed the case of a different cycle:\n\n  A -\u003e B -\u003e C -\u003e B\n\ntraversing this chain from A will never terminate.",
+      "parentUuid": "AABOPX//zns\u003d",
       "revId": "7250e95032d5fc19fd2b1fecf1bd8d3055338515",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
