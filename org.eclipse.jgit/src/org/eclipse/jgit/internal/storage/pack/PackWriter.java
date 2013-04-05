@@ -2020,18 +2020,14 @@ public class PackWriter {
 	}
 
 	private boolean reuseDeltaFor(ObjectToPack otp) {
-		switch (otp.getType()) {
-		case Constants.OBJ_COMMIT:
+		int type = otp.getType();
+		if ((type & 2) != 0) // OBJ_TREE(2) or OBJ_BLOB(3)
+			return true;
+		if (type == OBJ_COMMIT)
 			return reuseDeltaCommits;
-		case Constants.OBJ_TREE:
-			return true;
-		case Constants.OBJ_BLOB:
-			return true;
-		case Constants.OBJ_TAG:
+		if (type == OBJ_TAG)
 			return false;
-		default:
-			return true;
-		}
+		return true;
 	}
 
 	/** Summary of how PackWriter created the pack. */
