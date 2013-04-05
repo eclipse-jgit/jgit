@@ -1243,8 +1243,28 @@ public class PackWriter {
 				stats.deltasFound++;
 	}
 
-	private int findObjectsNeedingDelta(ObjectToPack[] list, int cnt, int type) {
+	private int findObjectsNeedingDelta(ObjectToPack[] list, int cnt, int type)
+			throws IOException {
 		for (ObjectToPack otp : objectsLists[type]) {
+			ObjectToPack b = otp.getDeltaBase();
+			if (b != null) { // Reusing delta, and base also in pack
+				otp.setVisited();
+				int d = 0;
+				do {
+					if (d < b.getChainLength())
+						break;
+					b.setChainLength(++d);
+					if (b.visited()) { // break any cycles in delta chain
+						reselectNonDelta(b);
+						break;
+					}
+					b.setVisited();
+					b = b.getDeltaBase();
+				} while (b != null);
+				for (b = otp; b != null && b.visited(); b = b.getDeltaBase())
+					b.clearVisited();
+				continue;
+			}
 			if (otp.isDoNotDelta()) // delta is disabled for this path
 				continue;
 			if (otp.isDeltaRepresentation()) // already reusing a delta
@@ -1253,6 +1273,17 @@ public class PackWriter {
 			list[cnt++] = otp;
 		}
 		return cnt;
+	}
+
+	private void reselectNonDelta(ObjectToPack otp) throws IOException {
+		otp.clearDeltaBase();
+		otp.clearReuseAsIs();
+		boolean old = reuseDeltas;
+		reuseDeltas = false;
+		reuseSupport.selectObjectRepresentation(this,
+				NullProgressMonitor.INSTANCE,
+				Collections.singleton(otp));
+		reuseDeltas = old;
 	}
 
 	private void searchForDeltas(final ProgressMonitor monitor,
@@ -1446,13 +1477,7 @@ public class PackWriter {
 			// (for example due to a concurrent repack) and a different base
 			// was chosen, forcing a cycle. Select something other than a
 			// delta, and write this object.
-			//
-			reuseDeltas = false;
-			otp.clearDeltaBase();
-			otp.clearReuseAsIs();
-			reuseSupport.selectObjectRepresentation(this,
-					NullProgressMonitor.INSTANCE,
-					Collections.singleton(otp));
+			reselectNonDelta(otp);
 		}
 		otp.markWantWrite();
 

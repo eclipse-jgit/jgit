@@ -61,6 +61,8 @@ public class ObjectToPack extends PackedObjectInfo {
 	private static final int DELTA_ATTEMPTED = 1 << 1;
 	private static final int DO_NOT_DELTA = 1 << 2;
 	private static final int EDGE = 1 << 3;
+
+	private static final int VISITED = 1 << 4;
 	private static final int ATTEMPT_DELTA_MASK = REUSE_AS_IS | DELTA_ATTEMPTED;
 	private static final int TYPE_SHIFT = 5;
 	private static final int EXT_SHIFT = 8;
@@ -79,7 +81,7 @@ public class ObjectToPack extends PackedObjectInfo {
 	 * <li>1 bit: deltaAttempted</li>
 	 * <li>1 bit: doNotDelta</li>
 	 * <li>1 bit: edgeObject</li>
-	 * <li>1 bit: unused</li>
+	 * <li>1 bit: visited</li>
 	 * <li>3 bits: type</li>
 	 * <li>4 bits: subclass flags (if any)</li>
 	 * <li>--</li>
@@ -194,6 +196,14 @@ public class ObjectToPack extends PackedObjectInfo {
 		flags = (d << DELTA_SHIFT) | (flags & NON_DELTA_MASK);
 	}
 
+	final int getChainLength() {
+		return getDeltaDepth();
+	}
+
+	final void setChainLength(int len) {
+		setDeltaDepth(len);
+	}
+
 	final boolean wantWrite() {
 		return getOffset() == 1;
 	}
@@ -251,6 +261,18 @@ public class ObjectToPack extends PackedObjectInfo {
 			flags |= DELTA_ATTEMPTED;
 		else
 			flags &= ~DELTA_ATTEMPTED;
+	}
+
+	final boolean visited() {
+		return (flags & VISITED) != 0;
+	}
+
+	final void setVisited() {
+		flags |= VISITED;
+	}
+
+	final void clearVisited() {
+		flags &= ~VISITED;
 	}
 
 	/** @return the extended flags on this object, in the range [0x0, 0xf]. */
