@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//zNs\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-04-06T15:48:15Z",
+      "side": 1,
+      "message": "could you please move the IP assertions from the commit message to a review comment on this change ? That\u0027s sufficient to fullfil the IP rules and this way it doesn\u0027t clutter the commit message with formalities",
+      "revId": "0f1bd8481ad322210ed3eee0a6d7f44056a87b10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
