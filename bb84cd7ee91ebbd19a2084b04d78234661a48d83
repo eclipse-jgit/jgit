@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//zPI\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/fnmatch/FileNameMatcherTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 833,
+      "author": {
+        "id": 1078
+      },
+      "writtenOn": "2013-04-06T13:20:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//0kM\u003d",
+      "revId": "bb84cd7ee91ebbd19a2084b04d78234661a48d83",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//0kU\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/fnmatch/FileNameMatcher.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//zPE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/fnmatch/FileNameMatcher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1078
+      },
+      "writtenOn": "2013-04-06T13:20:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//0kU\u003d",
+      "revId": "bb84cd7ee91ebbd19a2084b04d78234661a48d83",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//0kQ\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/fnmatch/FileNameMatcher.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2013-03-30T09:26:52Z",
       "side": 1,
       "message": "// does not work if looking for \u0027\\\u0027, though we don\u0027t need that now",
+      "revId": "bb84cd7ee91ebbd19a2084b04d78234661a48d83",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//zPA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/fnmatch/FileNameMatcher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1078
+      },
+      "writtenOn": "2013-04-06T13:20:49Z",
+      "side": 1,
+      "message": "I don\u0027t see how you could look for an unescaped escape character, as there isn\u0027t really such a thing. Please elaborate if you want me to fix it.",
+      "parentUuid": "AABOPX//0kQ\u003d",
       "revId": "bb84cd7ee91ebbd19a2084b04d78234661a48d83",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
