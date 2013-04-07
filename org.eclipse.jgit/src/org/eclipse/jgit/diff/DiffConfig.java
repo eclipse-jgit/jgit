@@ -48,6 +48,7 @@ import java.text.MessageFormat;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Config.SectionParser;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.util.StringUtils;
 
 /** Keeps track of diff related configuration options. */
@@ -78,10 +79,12 @@ public class DiffConfig {
 	private final int renameLimit;
 
 	private DiffConfig(final Config rc) {
-		noPrefix = rc.getBoolean("diff", "noprefix", false); //$NON-NLS-1$ //$NON-NLS-2$
-		renameDetectionType = parseRenameDetectionType(rc.getString("diff", //$NON-NLS-1$
-				null, "renames")); //$NON-NLS-1$
-		renameLimit = rc.getInt("diff", "renamelimit", 200); //$NON-NLS-1$ //$NON-NLS-2$
+		noPrefix = rc.getBoolean(ConfigConstants.CONFIG_DIFF_SECTION,
+				ConfigConstants.CONFIG_KEY_NOPREFIX, false);
+		renameDetectionType = parseRenameDetectionType(rc.getString(
+				ConfigConstants.CONFIG_DIFF_SECTION, null, ConfigConstants.CONFIG_KEY_RENAMES));
+		renameLimit = rc.getInt(ConfigConstants.CONFIG_DIFF_SECTION,
+				ConfigConstants.CONFIG_KEY_RENAMELIMIT, 200);
 	}
 
 	/** @return true if the prefix "a/" and "b/" should be suppressed. */
@@ -108,16 +111,21 @@ public class DiffConfig {
 			final String renameString) {
 		if (renameString == null)
 			return RenameDetectionType.FALSE;
-		else if (StringUtils.equalsIgnoreCase("copy", renameString) //$NON-NLS-1$
-				|| StringUtils.equalsIgnoreCase("copies", renameString)) //$NON-NLS-1$
+		else if (StringUtils.equalsIgnoreCase(
+				ConfigConstants.CONFIG_RENAMELIMIT_COPY, renameString)
+				|| StringUtils
+						.equalsIgnoreCase(
+								ConfigConstants.CONFIG_RENAMELIMIT_COPIES,
+								renameString))
 			return RenameDetectionType.COPY;
 		else {
 			final Boolean renameBoolean = StringUtils
 					.toBooleanOrNull(renameString);
 			if (renameBoolean == null)
 				throw new IllegalArgumentException(MessageFormat.format(
-						JGitText.get().enumValueNotSupported2, "diff", //$NON-NLS-1$
-						"renames", renameString)); //$NON-NLS-1$
+						JGitText.get().enumValueNotSupported2,
+						ConfigConstants.CONFIG_DIFF_SECTION,
+						ConfigConstants.CONFIG_KEY_RENAMES, renameString));
 			else if (renameBoolean.booleanValue())
 				return RenameDetectionType.TRUE;
 			else
