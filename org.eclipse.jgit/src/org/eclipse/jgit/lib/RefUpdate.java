@@ -638,6 +638,7 @@ public abstract class RefUpdate {
 	 * are checked explicitly.
 	 *
 	 * @param check
+	 * @since 3.0
 	 */
 	public void setCheckConflicting(boolean check) {
 		checkConflicting = check;
