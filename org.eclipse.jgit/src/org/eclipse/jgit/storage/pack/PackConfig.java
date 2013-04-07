@@ -379,6 +379,7 @@ public class PackConfig {
 	 * @return true if existing delta chains should be cut at
 	 *         {@link #getMaxDeltaDepth()}. Default is false, allowing existing
 	 *         chains to be of any length.
+	 * @since 3.0
 	 */
 	public boolean getCutDeltaChains() {
 		return cutDeltaChains;
@@ -386,7 +387,7 @@ public class PackConfig {
 
 	/**
 	 * Enable cutting existing delta chains at {@link #getMaxDeltaDepth()}.
-	 *
+	 * 
 	 * By default this is disabled and existing chains are kept at whatever
 	 * length a prior packer was configured to create. This allows objects to be
 	 * packed one with a large depth (for example 250), and later to quickly
@@ -395,6 +396,7 @@ public class PackConfig {
 	 *
 	 * @param cut
 	 *            true to cut existing chains.
+	 * @since 3.0
 	 */
 	public void setCutDeltaChains(boolean cut) {
 		cutDeltaChains = cut;
