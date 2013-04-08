@@ -488,7 +488,11 @@ public class ResolveMerger extends ThreeWayMerger {
 				return true;
 			} else if (modeT == 0 && modeB != 0) {
 				// we want THEIRS ... but THEIRS contains the deletion of the
-				// file
+				// file. Also, do not complain if the file is already deleted
+				// locally. This complements the test in isWorktreeDirty() for
+				// the same case.
+				if (tw.getTreeCount() > T_FILE && tw.getRawMode(T_FILE) == 0)
+					return true;
 				toBeDeleted.add(tw.getPathString());
 				return true;
 			}
