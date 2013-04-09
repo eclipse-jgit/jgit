@@ -67,6 +67,8 @@ class DeltaWindow {
 
 	private final ObjectReader reader;
 
+	private final ProgressMonitor monitor;
+
 	private final DeltaWindowEntry[] window;
 
 	/** Maximum number of bytes to admit to the window at once. */
@@ -74,6 +76,10 @@ class DeltaWindow {
 
 	/** Maximum depth we should create for any delta chain. */
 	private final int maxDepth;
+
+	private final ObjectToPack[] toSearch;
+	private volatile int cur;
+	private volatile int end;
 
 	/** Amount of memory we have loaded right now. */
 	private long loaded;
@@ -102,10 +108,16 @@ class DeltaWindow {
 	/** Used to compress cached deltas. */
 	private Deflater deflater;
 
-	DeltaWindow(PackConfig pc, DeltaCache dc, ObjectReader or) {
+	DeltaWindow(PackConfig pc, DeltaCache dc, ObjectReader or,
+			ProgressMonitor pm,
+			ObjectToPack[] in, int beginIndex, int endIndex) {
 		config = pc;
 		deltaCache = dc;
 		reader = or;
+		monitor = pm;
+		toSearch = in;
+		cur = beginIndex;
+		end = endIndex;
 
 		// C Git increases the window size supplied by the user by 1.
 		// We don't know why it does this, but if the user asks for
@@ -126,21 +138,52 @@ class DeltaWindow {
 		maxDepth = config.getMaxDeltaDepth();
 	}
 
-	void search(ProgressMonitor monitor, ObjectToPack[] toSearch, int off,
-			int cnt) throws IOException {
+	int remaining() {
+		return end - cur;
+	}
+
+	synchronized DeltaTask.Slice stealWork() {
+		for (;;) {
+			int e = end;
+			int c = cur;
+			int n = (e - c) / 2;
+			if (0 == n)
+				return null;
+
+			int t = e - n;
+			int h = toSearch[t].getPathHash();
+			while (c < (t - 1)) {
+				if (h == toSearch[t - 1].getPathHash())
+					t--;
+				else
+					break;
+			}
+			if (c != cur)
+				continue;
+			end = t;
+			return new DeltaTask.Slice(t, e);
+		}
+	}
+
+	private synchronized int end() {
+		return end;
+	}
+
+	void search() throws IOException {
 		try {
-			for (int end = off + cnt; off < end; off++) {
+			for (; cur < end(); cur++) {
 				res = window[resSlot];
+				ObjectToPack next = toSearch[cur];
 				if (0 < maxMemory) {
 					clear(res);
 					int tail = next(resSlot);
-					final long need = estimateSize(toSearch[off]);
+					final long need = estimateSize(next);
 					while (maxMemory < loaded + need && tail != resSlot) {
 						clear(window[tail]);
 						tail = next(tail);
 					}
 				}
-				res.set(toSearch[off]);
+				res.set(next);
 
 				if (res.object.isEdge() || res.object.doNotAttemptDelta()) {
 					// We don't actually want to make a delta for
@@ -152,7 +195,7 @@ class DeltaWindow {
 					// Search for a delta for the current window slot.
 					//
 					monitor.update(1);
-					search();
+					searchInWindow();
 				}
 			}
 		} finally {
@@ -181,7 +224,7 @@ class DeltaWindow {
 		ent.set(null);
 	}
 
-	private void search() throws IOException {
+	private void searchInWindow() throws IOException {
 		// TODO(spearce) If the object is used as a base for other
 		// objects in this pack we should limit the depth we create
 		// for ourselves to be the remainder of our longest dependent
