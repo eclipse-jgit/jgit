@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//y4U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/DeltaWindow.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-04-09T01:18:07Z",
+      "side": 1,
+      "message": "I am slightly annoyed we have to grab a lock on each iteration, but its the only way we can be certain two threads don\u0027t attempt to update the same ObjectToPack.\n\nAn alternative implementation would be to acquire a lock on each ObjectToPack before storing the result into it. That might be heavier than a lock on the end point. E.g. the end point lock we might be able to do in batches, like every other object or something.",
+      "revId": "e8dbc68055bfb344f59e75cd235c9ef1bc0c358e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
