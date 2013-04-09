@@ -16,6 +16,24 @@
       "revId": "3b59375afc16c404306d56e6c222672270ec67d1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//yqo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/DeltaWindow.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-04-09T20:01:03Z",
+      "side": 1,
+      "message": "Fancy, but you introduce new virtual method dispatches into the main search loop. Worse they use interface methods. This is not as it happens the fastest way to call code in Java.",
+      "parentUuid": "AABOPX//yv0\u003d",
+      "revId": "3b59375afc16c404306d56e6c222672270ec67d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
