@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//yv0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/DeltaWindow.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2013-04-09T16:14:39Z",
+      "side": 1,
+      "message": "If you take in an Iterator here, you can move all the work stealing logic into a sub-class of iterator that is contained in DeltaTask (so everything lives in one place and is easier to reason about).\n\nThe single threaded case would use a normal iterator.\n\nThe multi-thread case would probably do something like:\n\n class Slice implements Iterator\u003cObjectToPack\u003e {\n\n   synchronized boolean hasNext() {\n      // save off the next OTP and update the pointer\n      // optionally this could call into block and steal the data\n   }\n\n   ObjectToPack next() {\n      // return the next, that was saved off (no need to synchronize)\n   }\n\n   synchronized int remaining() {\n     return end - cur;\n   }\n\n  synchronized Slice steal() {\n     // update the pointers\n  }\n\n }",
+      "revId": "3b59375afc16c404306d56e6c222672270ec67d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
