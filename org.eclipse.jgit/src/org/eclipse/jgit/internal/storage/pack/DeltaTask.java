@@ -43,6 +43,8 @@
 
 package org.eclipse.jgit.internal.storage.pack;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Callable;
 
 import org.eclipse.jgit.lib.ObjectReader;
@@ -50,42 +52,91 @@ import org.eclipse.jgit.lib.ThreadSafeProgressMonitor;
 import org.eclipse.jgit.storage.pack.PackConfig;
 
 final class DeltaTask implements Callable<Object> {
-	private final PackConfig config;
+	static class Block {
+		final List<DeltaTask> tasks;
+		final PackConfig config;
+		final ObjectReader templateReader;
+		final DeltaCache dc;
+		final ThreadSafeProgressMonitor pm;
+		final ObjectToPack[] list;
+		final int beginIndex;
+		final int endIndex;
 
-	private final ObjectReader templateReader;
+		Block(int threads, PackConfig config, ObjectReader reader,
+				DeltaCache dc, ThreadSafeProgressMonitor pm,
+				ObjectToPack[] list, int begin, int end) {
+			this.tasks = new ArrayList<DeltaTask>(threads);
+			this.config = config;
+			this.templateReader = reader;
+			this.dc = dc;
+			this.pm = pm;
+			this.list = list;
+			this.beginIndex = begin;
+			this.endIndex = end;
+		}
 
-	private final DeltaCache dc;
+		synchronized Slice stealWork() {
+			for (;;) {
+				DeltaTask maxTask = null;
+				int maxWork = 0;
+				for (DeltaTask task : tasks) {
+					int r = task.remaining();
+					if (maxWork < r) {
+						maxTask = task;
+						maxWork = r;
+					}
+				}
+				if (maxTask == null)
+					return null;
+				Slice s = maxTask.stealWork();
+				if (s != null)
+					return s;
+			}
+		}
+	}
 
-	private final ThreadSafeProgressMonitor pm;
+	static class Slice {
+		final int beginIndex;
+		final int endIndex;
 
-	private final int batchSize;
+		Slice(int b, int e) {
+			beginIndex = b;
+			endIndex = e;
+		}
+	}
 
-	private final int start;
+	private final Block block;
+	private final Slice firstSlice;
+	private volatile DeltaWindow dw;
 
-	private final ObjectToPack[] list;
-
-	DeltaTask(PackConfig config, ObjectReader reader, DeltaCache dc,
-			ThreadSafeProgressMonitor pm, int batchSize, int start,
-			ObjectToPack[] list) {
-		this.config = config;
-		this.templateReader = reader;
-		this.dc = dc;
-		this.pm = pm;
-		this.batchSize = batchSize;
-		this.start = start;
-		this.list = list;
+	DeltaTask(Block b, int beginIndex, int endIndex) {
+		this.block = b;
+		this.firstSlice = new Slice(beginIndex, endIndex);
 	}
 
 	public Object call() throws Exception {
-		final ObjectReader or = templateReader.newReader();
+		ObjectReader or = block.templateReader.newReader();
 		try {
-			DeltaWindow dw;
-			dw = new DeltaWindow(config, dc, or);
-			dw.search(pm, list, start, batchSize);
+			for (Slice s = firstSlice; s != null; s = block.stealWork()) {
+				dw = new DeltaWindow(block.config, block.dc, or, block.pm,
+						block.list, s.beginIndex, s.endIndex);
+				dw.search();
+				dw = null;
+			}
 		} finally {
 			or.release();
-			pm.endWorker();
+			block.pm.endWorker();
 		}
 		return null;
+	}
+
+	int remaining() {
+		DeltaWindow d = dw;
+		return d != null ? d.remaining() : 0;
+	}
+
+	Slice stealWork() {
+		DeltaWindow d = dw;
+		return d != null ? d.stealWork() : null;
 	}
 }
