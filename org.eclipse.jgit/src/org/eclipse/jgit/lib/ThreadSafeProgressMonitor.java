@@ -157,10 +157,7 @@ public class ThreadSafeProgressMonitor implements ProgressMonitor {
 	}
 
 	public void update(int completed) {
-		int old = pendingUpdates.getAndAdd(completed);
-		if (isMainThread())
-			doUpdates();
-		else if (old == 0)
+		if (0 == pendingUpdates.getAndAdd(completed))
 			process.release();
 	}
 
