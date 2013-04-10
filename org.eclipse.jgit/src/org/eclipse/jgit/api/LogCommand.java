@@ -241,10 +241,23 @@ public class LogCommand extends GitCommand<Iterable<RevCommit>> {
 		for (Ref ref : getRepository().getAllRefs().values()) {
 			if(!ref.isPeeled())
 				ref = getRepository().peel(ref);
+
 			ObjectId objectId = ref.getPeeledObjectId();
 			if (objectId == null)
 				objectId = ref.getObjectId();
-			add(objectId);
+			RevCommit commit = null;
+			try {
+				commit = walk.parseCommit(objectId);
+			} catch (MissingObjectException e) {
+				// ignore: the ref points to an object that does not exist;
+				// it should be ignored as traversal starting point.
+			} catch (IncorrectObjectTypeException e) {
+				// ignore: the ref points to an object that is not a commit
+				// (e.g. a tree or a blob);
+				// it should be ignored as traversal starting point.
+			}
+			if (commit != null)
+				add(commit);
 		}
 		return this;
 	}
