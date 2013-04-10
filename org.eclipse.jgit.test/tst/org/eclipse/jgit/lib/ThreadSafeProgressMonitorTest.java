@@ -104,9 +104,11 @@ public class ThreadSafeProgressMonitorTest {
 		assertEquals(42, mock.value);
 
 		pm.update(1);
+		pm.pollForUpdates();
 		assertEquals(43, mock.value);
 
 		pm.update(2);
+		pm.pollForUpdates();
 		assertEquals(45, mock.value);
 
 		pm.endTask();
