@@ -275,6 +275,8 @@ public class PackWriter {
 
 	private boolean canBuildBitmaps;
 
+	private boolean indexDisabled;
+
 	private int depth;
 
 	private Collection<? extends ObjectId> unshallowObjects;
@@ -469,6 +471,19 @@ public class PackWriter {
 	 */
 	public void setUseBitmaps(boolean useBitmaps) {
 		this.useBitmaps = useBitmaps;
+	}
+
+	/** @return true if the index file cannot be created by this PackWriter. */
+	public boolean isIndexDisabled() {
+		return indexDisabled || !cachedPacks.isEmpty();
+	}
+
+	/**
+	 * @param noIndex
+	 *            true to disable creation of the index file.
+	 */
+	public void setIndexDisabled(boolean noIndex) {
+		this.indexDisabled = noIndex;
 	}
 
 	/**
@@ -855,7 +870,7 @@ public class PackWriter {
 	 *             the index data could not be written to the supplied stream.
 	 */
 	public void writeIndex(final OutputStream indexStream) throws IOException {
-		if (!cachedPacks.isEmpty())
+		if (isIndexDisabled())
 			throw new IOException(JGitText.get().cachedPacksPreventsIndexCreation);
 
 		long writeStart = System.currentTimeMillis();
@@ -998,6 +1013,8 @@ public class PackWriter {
 
 		final PackOutputStream out = new PackOutputStream(writeMonitor,
 				packStream, this);
+		if (isIndexDisabled())
+			out.disableCRC32();
 
 		long objCnt = getObjectCount();
 		stats.totalObjects = objCnt;

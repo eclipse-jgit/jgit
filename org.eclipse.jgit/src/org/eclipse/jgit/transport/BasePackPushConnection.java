@@ -291,6 +291,7 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 					newObjects.add(r.getNewObjectId());
 			}
 
+			writer.setIndexDisabled(true);
 			writer.setUseCachedPacks(true);
 			writer.setUseBitmaps(true);
 			writer.setThin(thinPack);

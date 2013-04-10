@@ -1116,6 +1116,7 @@ public class UploadPack {
 			cfg = new PackConfig(db);
 		final PackWriter pw = new PackWriter(cfg, walk.getObjectReader());
 		try {
+			pw.setIndexDisabled(true);
 			pw.setUseCachedPacks(true);
 			pw.setUseBitmaps(true);
 			pw.setReuseDeltaCommits(true);
