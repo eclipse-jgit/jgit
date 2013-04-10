@@ -34,6 +34,24 @@
       "revId": "3b59375afc16c404306d56e6c222672270ec67d1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//yiw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/DeltaWindow.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2013-04-10T14:25:21Z",
+      "side": 1,
+      "message": "Right, but the JVM surely caches these resolutions so as to make it as quick as possible.  I bet it wouldn\u0027t cause a noticeable impact on performance.\n\nAlso, don\u0027t you do something like this for the queue in RevWalk? That seems pretty quick to me :)",
+      "parentUuid": "AABOPX//yqo\u003d",
+      "revId": "3b59375afc16c404306d56e6c222672270ec67d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
