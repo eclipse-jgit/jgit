@@ -96,14 +96,14 @@ public final class PackOutputStream extends OutputStream {
 	}
 
 	@Override
-	public void write(final int b) throws IOException {
+	public final void write(final int b) throws IOException {
 		count++;
 		out.write(b);
 		md.update((byte) b);
 	}
 
 	@Override
-	public void write(final byte[] b, int off, int len)
+	public final void write(final byte[] b, int off, int len)
 			throws IOException {
 		while (0 < len) {
 			final int n = Math.min(len, BYTES_TO_WRITE_BEFORE_CANCEL_CHECK);
@@ -130,7 +130,8 @@ public final class PackOutputStream extends OutputStream {
 		out.flush();
 	}
 
-	void writeFileHeader(int version, long objectCount) throws IOException {
+	final void writeFileHeader(int version, long objectCount)
+			throws IOException {
 		System.arraycopy(Constants.PACK_SIGNATURE, 0, headerBuffer, 0, 4);
 		NB.encodeInt32(headerBuffer, 4, version);
 		NB.encodeInt32(headerBuffer, 8, (int) objectCount);
@@ -152,7 +153,7 @@ public final class PackOutputStream extends OutputStream {
 	 *             examine the type of exception and possibly its message to
 	 *             distinguish between these cases.
 	 */
-	public void writeObject(ObjectToPack otp) throws IOException {
+	public final void writeObject(ObjectToPack otp) throws IOException {
 		packWriter.writeObject(this, otp);
 	}
 
@@ -172,7 +173,7 @@ public final class PackOutputStream extends OutputStream {
 	 * @throws IOException
 	 *             the underlying stream refused to accept the header.
 	 */
-	public void writeHeader(ObjectToPack otp, long rawLength)
+	public final void writeHeader(ObjectToPack otp, long rawLength)
 			throws IOException {
 		if (otp.isDeltaRepresentation()) {
 			if (packWriter.isDeltaBaseAsOffset()) {
@@ -201,7 +202,7 @@ public final class PackOutputStream extends OutputStream {
 		}
 	}
 
-	private int encodeTypeSize(int type, long rawLength) {
+	private final int encodeTypeSize(int type, long rawLength) {
 		long nextLength = rawLength >>> 4;
 		headerBuffer[0] = (byte) ((nextLength > 0 ? 0x80 : 0x00) | (type << 4) | (rawLength & 0x0F));
 		rawLength = nextLength;
@@ -215,7 +216,7 @@ public final class PackOutputStream extends OutputStream {
 	}
 
 	/** @return a temporary buffer writers can use to copy data with. */
-	public byte[] getCopyBuffer() {
+	public final byte[] getCopyBuffer() {
 		return copyBuffer;
 	}
 
@@ -224,12 +225,12 @@ public final class PackOutputStream extends OutputStream {
 	}
 
 	/** @return total number of bytes written since stream start. */
-	public long length() {
+	public final long length() {
 		return count;
 	}
 
 	/** @return obtain the current SHA-1 digest. */
-	byte[] getDigest() {
+	final byte[] getDigest() {
 		return md.digest();
 	}
 }
