@@ -70,9 +70,9 @@ public final class PackOutputStream extends OutputStream {
 
 	private long count;
 
-	private byte[] headerBuffer = new byte[32];
+	private final byte[] headerBuffer = new byte[32];
 
-	private byte[] copyBuffer;
+	private final byte[] copyBuffer = new byte[16 << 10];
 
 	private long checkCancelAt;
 
@@ -223,8 +223,6 @@ public final class PackOutputStream extends OutputStream {
 
 	/** @return a temporary buffer writers can use to copy data with. */
 	public byte[] getCopyBuffer() {
-		if (copyBuffer == null)
-			copyBuffer = new byte[16 * 1024];
 		return copyBuffer;
 	}
 
