@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//yR8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2013-04-10T23:50:10Z",
+      "side": 1,
+      "message": "Easy enough for a reader in this thread, but harder to guarantee for the result of calling newReader().newReader(). Pretty sure I found a DfsObjectReader implementation where read() is not threadsafe.",
+      "parentUuid": "AABOPX//1Xk\u003d",
+      "revId": "8aaf451405cc51ea084b388baae797b7de546473",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//1Xg\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsInserter.java",
         "patchSetId": 1
