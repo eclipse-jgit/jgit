@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//yVQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/ObjectToPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-04-10T22:26:03Z",
+      "side": 1,
+      "message": "Wouldn\u0027t a named constant like MAGIC_OFFSET_WANT_WRITE. rather than the anonymou magic constant 1 be better?",
+      "revId": "241eed844da1c00862b81701c07a08534b5a382e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
