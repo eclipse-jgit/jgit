@@ -59,22 +59,17 @@ public final class PackOutputStream extends OutputStream {
 	private static final int BYTES_TO_WRITE_BEFORE_CANCEL_CHECK = 128 * 1024;
 
 	private final ProgressMonitor writeMonitor;
-
 	private final OutputStream out;
-
 	private final PackWriter packWriter;
-
 	private final CRC32 crc = new CRC32();
-
 	private final MessageDigest md = Constants.newMessageDigest();
 
-	private long count;
-
 	private byte[] headerBuffer = new byte[32];
-
 	private byte[] copyBuffer;
 
+	private long count;
 	private long checkCancelAt;
+	private long lastProgressAt;
 
 	/**
 	 * Initialize a pack output stream.
@@ -117,6 +112,11 @@ public final class PackOutputStream extends OutputStream {
 				if (writeMonitor.isCancelled()) {
 					throw new IOException(
 							JGitText.get().packingCancelledDuringObjectsWriting);
+				}
+				int p = (int) ((count - lastProgressAt) >>> 10);
+				if (p != 0) {
+					writeMonitor.update(p);
+					lastProgressAt += p << 10;
 				}
 				checkCancelAt = count + BYTES_TO_WRITE_BEFORE_CANCEL_CHECK;
 			}
@@ -226,13 +226,20 @@ public final class PackOutputStream extends OutputStream {
 		return copyBuffer;
 	}
 
-	void endObject() {
-		writeMonitor.update(1);
-	}
-
 	/** @return total number of bytes written since stream start. */
 	public long length() {
 		return count;
+	}
+
+	void updateProgress(int cnt) {
+		writeMonitor.update(cnt);
+	}
+
+	void fixupProgress(long est) {
+		long p = count - lastProgressAt;
+		if (count < est)
+			p += est - count;
+		writeMonitor.update((int) (p >>> 10));
 	}
 
 	/** @return obtain the current CRC32 register. */

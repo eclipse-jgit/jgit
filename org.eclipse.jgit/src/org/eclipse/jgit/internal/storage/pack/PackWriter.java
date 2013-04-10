@@ -1000,8 +1000,9 @@ public class PackWriter {
 				packStream, this);
 
 		long objCnt = getObjectCount();
+		long estKiB = 1 + (estimatePackSize() >>> 10);
 		stats.totalObjects = objCnt;
-		beginPhase(PackingPhase.WRITING, writeMonitor, objCnt);
+		beginPhase(PackingPhase.WRITING, writeMonitor, estKiB);
 		long writeStart = System.currentTimeMillis();
 
 		out.writeFileHeader(PACK_VERSION_GENERATED, objCnt);
@@ -1041,7 +1042,23 @@ public class PackWriter {
 		}
 
 		reader.release();
+		out.fixupProgress(estKiB << 10);
 		endPhase(writeMonitor);
+	}
+
+	private long estimatePackSize() {
+		long estSize = 0;
+		for (BlockList<ObjectToPack> list : objectsLists) {
+			if (list == null)
+				continue;
+			for (ObjectToPack otp : list) {
+				if (otp.isReuseAsIs() || !otp.isDeltaRepresentation())
+					estSize += otp.getWeight();
+				else
+					estSize += otp.getCachedSize();
+			}
+		}
+		return estSize;
 	}
 
 	/**
@@ -1500,7 +1517,6 @@ public class PackWriter {
 			otp.setOffset(out.length());
 			try {
 				reuseSupport.copyObjectAsIs(out, otp, reuseValidate);
-				out.endObject();
 				otp.setCRC(out.getCRC32());
 				typeStats.reusedObjects++;
 				if (otp.isDeltaRepresentation()) {
@@ -1534,7 +1550,6 @@ public class PackWriter {
 			writeDeltaObjectDeflate(out, otp);
 		else
 			writeWholeObjectDeflate(out, otp);
-		out.endObject();
 		otp.setCRC(out.getCRC32());
 	}
 

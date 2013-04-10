@@ -345,6 +345,8 @@ class DeltaWindow {
 			} catch (OutOfMemoryError err) {
 				deltaCache.credit(rawsz);
 			}
+		} else {
+			resObj.setCachedSize(rawsz);
 		}
 	}
 
