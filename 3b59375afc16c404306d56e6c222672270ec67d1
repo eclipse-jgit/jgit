@@ -52,6 +52,24 @@
       "revId": "3b59375afc16c404306d56e6c222672270ec67d1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//yic\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/DeltaWindow.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-04-10T14:36:35Z",
+      "side": 1,
+      "message": "The Iterator usage or the virtual method dispatch internally? the Iterator is considered a fancy API to make it easy to use, but not encouraged when actually doing a walk that you care about the performance of. The internal method dispatch... yea, I bet on the virtual method being faster than a load and branch. Depends on the JVM and a lot of other specifics which is going to go be quicker.",
+      "parentUuid": "AABOPX//yiw\u003d",
+      "revId": "3b59375afc16c404306d56e6c222672270ec67d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
