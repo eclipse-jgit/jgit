@@ -73,7 +73,7 @@ public final class PackOutputStream extends OutputStream {
 
 	private final byte[] headerBuffer = new byte[32];
 
-	private final byte[] copyBuffer = new byte[16 << 10];
+	private final byte[] copyBuffer = new byte[64 << 10];
 
 	private long checkCancelAt;
 
