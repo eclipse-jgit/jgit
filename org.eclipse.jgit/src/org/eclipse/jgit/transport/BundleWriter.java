@@ -200,6 +200,7 @@ public class BundleWriter {
 			inc.addAll(include.values());
 			for (final RevCommit r : assume)
 				exc.add(r.getId());
+			packWriter.setIndexDisabled(true);
 			packWriter.setDeltaBaseAsOffset(true);
 			packWriter.setThin(exc.size() > 0);
 			packWriter.setReuseValidatingObjects(false);
