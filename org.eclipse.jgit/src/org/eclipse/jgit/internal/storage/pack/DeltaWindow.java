@@ -278,6 +278,10 @@ final class DeltaWindow {
 			return NEXT_RES;
 		}
 
+		// Do not use a base that is 32x larger than desired result.
+		if (res.size() < src.size() >>> 5)
+			return NEXT_SRC;
+
 		// Only consider a source with a short enough delta chain.
 		if (src.depth() > resMaxDepth)
 			return NEXT_SRC;
@@ -289,10 +293,6 @@ final class DeltaWindow {
 
 		// If we have to insert a lot to make this work, find another.
 		if (res.size() - src.size() > msz)
-			return NEXT_SRC;
-
-		// If the sizes are radically different, this is a bad pairing.
-		if (res.size() < src.size() / 16)
 			return NEXT_SRC;
 
 		DeltaIndex srcIndex;
