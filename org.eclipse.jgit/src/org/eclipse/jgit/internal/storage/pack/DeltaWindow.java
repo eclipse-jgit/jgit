@@ -83,11 +83,10 @@ final class DeltaWindow {
 	/** Window entry of the object we are currently considering. */
 	private DeltaWindowEntry res;
 
-	/** If we have a delta for {@link #res}, this is the shortest found yet. */
-	private TemporaryBuffer.Heap bestDelta;
-
-	/** If we have {@link #bestDelta}, the window position it was created by. */
+	/** If we have chosen a base, the window position it was created by. */
 	private DeltaWindowEntry bestBase;
+	private int deltaLen;
+	private Object deltaBuf;
 
 	/** Used to compress cached deltas. */
 	private Deflater deflater;
@@ -196,7 +195,7 @@ final class DeltaWindow {
 			if (delta(src) /* == NEXT_SRC */)
 				continue;
 			bestBase = null;
-			bestDelta = null;
+			deltaBuf = null;
 			return;
 		}
 
@@ -238,7 +237,7 @@ final class DeltaWindow {
 		}
 
 		bestBase = null;
-		bestDelta = null;
+		deltaBuf = null;
 	}
 
 	private boolean delta(final DeltaWindowEntry src)
@@ -282,15 +281,29 @@ final class DeltaWindow {
 		}
 
 		try {
-			TemporaryBuffer.Heap delta = new TemporaryBuffer.Heap(msz);
-			if (srcIndex.encode(delta, resBuf, msz)) {
-				bestBase = src;
-				bestDelta = delta;
-			}
+			OutputStream delta = msz <= (8 << 10)
+				? new ArrayStream(msz)
+				: new TemporaryBuffer.Heap(msz);
+			if (srcIndex.encode(delta, resBuf, msz))
+				selectDeltaBase(src, delta);
 		} catch (IOException deltaTooBig) {
 			// Unlikely, encoder should see limit and return false.
 		}
 		return NEXT_SRC;
+	}
+
+	private void selectDeltaBase(DeltaWindowEntry src, OutputStream delta) {
+		bestBase = src;
+
+		if (delta instanceof ArrayStream) {
+			ArrayStream a = (ArrayStream) delta;
+			deltaBuf = a.buf;
+			deltaLen = a.cnt;
+		} else {
+			TemporaryBuffer.Heap b = (TemporaryBuffer.Heap) delta;
+			deltaBuf = b;
+			deltaLen = (int) b.length();
+		}
 	}
 
 	private int deltaSizeLimit(DeltaWindowEntry src) {
@@ -308,7 +321,7 @@ final class DeltaWindow {
 		// With a delta base chosen any new delta must be "better".
 		// Retain the distribution described above.
 		int d = bestBase.depth();
-		int n = (int) bestDelta.length();
+		int n = deltaLen;
 
 		// If src is whole (depth=0) and base is near limit (depth=9/10)
 		// any delta using src can be 10x larger and still be better.
@@ -319,25 +332,23 @@ final class DeltaWindow {
 	}
 
 	private void cacheDelta(ObjectToPack srcObj, ObjectToPack resObj) {
-		if (Integer.MAX_VALUE < bestDelta.length())
-			return;
-
-		int rawsz = (int) bestDelta.length();
-		if (deltaCache.canCache(rawsz, srcObj, resObj)) {
+		if (deltaCache.canCache(deltaLen, srcObj, resObj)) {
 			try {
-				byte[] zbuf = new byte[deflateBound(rawsz)];
-
+				byte[] zbuf = new byte[deflateBound(deltaLen)];
 				ZipStream zs = new ZipStream(deflater(), zbuf);
-				bestDelta.writeTo(zs, null);
-				bestDelta = null;
+				if (deltaBuf instanceof byte[])
+					zs.write((byte[]) deltaBuf, 0, deltaLen);
+				else
+					((TemporaryBuffer.Heap) deltaBuf).writeTo(zs, null);
+				deltaBuf = null;
 				int len = zs.finish();
 
-				resObj.setCachedDelta(deltaCache.cache(zbuf, len, rawsz));
-				resObj.setCachedSize(rawsz);
+				resObj.setCachedDelta(deltaCache.cache(zbuf, len, deltaLen));
+				resObj.setCachedSize(deltaLen);
 			} catch (IOException err) {
-				deltaCache.credit(rawsz);
+				deltaCache.credit(deltaLen);
 			} catch (OutOfMemoryError err) {
-				deltaCache.credit(rawsz);
+				deltaCache.credit(deltaLen);
 			}
 		}
 	}
@@ -456,6 +467,30 @@ final class DeltaWindow {
 		@Override
 		public void write(int b) throws IOException {
 			throw new UnsupportedOperationException();
+		}
+	}
+
+	static final class ArrayStream extends OutputStream {
+		final byte[] buf;
+		int cnt;
+
+		ArrayStream(int max) {
+			buf = new byte[max];
+		}
+
+		@Override
+		public void write(int b) throws IOException {
+			if (cnt == buf.length)
+				throw new IOException();
+			buf[cnt++] = (byte) b;
+		}
+
+		@Override
+		public void write(byte[] b, int off, int len) throws IOException {
+			if (len > buf.length - cnt)
+				throw new IOException();
+			System.arraycopy(b, off, buf, cnt, len);
+			cnt += len;
 		}
 	}
 }
