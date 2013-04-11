@@ -62,11 +62,8 @@ final class DeltaWindow {
 	private static final int NEXT_SRC = 1;
 
 	private final PackConfig config;
-
 	private final DeltaCache deltaCache;
-
 	private final ObjectReader reader;
-
 	private final ProgressMonitor monitor;
 
 	private final DeltaWindowEntry[] window;
@@ -136,7 +133,7 @@ final class DeltaWindow {
 		for (int i = 0; i < window.length; i++)
 			window[i] = new DeltaWindowEntry();
 
-		maxMemory = config.getDeltaSearchMemoryLimit();
+		maxMemory = Math.max(0, config.getDeltaSearchMemoryLimit());
 		maxDepth = config.getMaxDeltaDepth();
 	}
 
@@ -172,7 +169,7 @@ final class DeltaWindow {
 					next = toSearch[cur++];
 				}
 				res = window[resSlot];
-				if (0 < maxMemory) {
+				if (maxMemory != 0) {
 					clear(res);
 					int tail = next(resSlot);
 					final long need = estimateSize(next);
@@ -480,7 +477,7 @@ final class DeltaWindow {
 				e.setObjectId(ent.object);
 				throw e;
 			}
-			if (0 < maxMemory)
+			if (maxMemory != 0)
 				loaded += idx.getIndexSize() - idx.getSourceSize();
 			ent.index = idx;
 		}
@@ -494,7 +491,7 @@ final class DeltaWindow {
 			checkLoadable(ent, ent.size());
 
 			buf = PackWriter.buffer(config, reader, ent.object);
-			if (0 < maxMemory)
+			if (maxMemory != 0)
 				loaded += buf.length;
 			ent.buffer = buf;
 		}
@@ -502,7 +499,7 @@ final class DeltaWindow {
 	}
 
 	private void checkLoadable(DeltaWindowEntry ent, long need) {
-		if (maxMemory <= 0)
+		if (maxMemory == 0)
 			return;
 
 		int tail = next(resSlot);
