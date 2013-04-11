@@ -115,11 +115,7 @@ final class DeltaWindow {
 		res = DeltaWindowEntry.createWindow(config.getDeltaSearchWindowSize());
 	}
 
-	synchronized int remaining() {
-		return end - cur;
-	}
-
-	synchronized DeltaTask.Slice stealWork() {
+	synchronized DeltaTask.Slice remaining() {
 		int e = end;
 		int n = (e - cur) >>> 1;
 		if (0 == n)
@@ -127,14 +123,24 @@ final class DeltaWindow {
 
 		int t = e - n;
 		int h = toSearch[t].getPathHash();
-		while (cur < t) {
-			if (h == toSearch[t - 1].getPathHash())
-				t--;
-			else
+		for (int s = t + 1; s < e; s++) {
+			if (h != toSearch[s].getPathHash()) {
+				t = s;
 				break;
+			}
 		}
-		end = t;
 		return new DeltaTask.Slice(t, e);
+	}
+
+	synchronized DeltaTask.Slice stealWork(DeltaTask.Slice s) {
+		int t = s.beginIndex;
+		if (t <= cur)
+			return null;
+		int h = toSearch[cur].getPathHash();
+		if (h == toSearch[t].getPathHash())
+			return null;
+		end = t;
+		return s;
 	}
 
 	void search() throws IOException {
