@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//x+c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/DeltaWindow.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-04-11T17:45:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//yBY\u003d",
+      "revId": "90394280878cba343708d67f5ab8ce7cd799ee7f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//yBM\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/DeltaWindow.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//x+Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/DeltaWindow.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-04-11T17:45:40Z",
+      "side": 1,
+      "message": "Doing so causes the line to wrap. Its two lines either way. This reads cleaner to me than making the for loop span two lines.",
+      "parentUuid": "AABOPX//yBM\u003d",
+      "revId": "90394280878cba343708d67f5ab8ce7cd799ee7f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//yA8\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/DeltaWindow.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2013-04-11T16:16:11Z",
       "side": 1,
       "message": "nit: this could be a for loop like you did above (or vice versa)",
+      "revId": "90394280878cba343708d67f5ab8ce7cd799ee7f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//x+U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/DeltaWindow.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 458,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-04-11T17:45:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//yA8\u003d",
       "revId": "90394280878cba343708d67f5ab8ce7cd799ee7f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
