@@ -43,7 +43,7 @@
 
 package org.eclipse.jgit.internal.storage.pack;
 
-class DeltaWindowEntry {
+final class DeltaWindowEntry {
 	ObjectToPack object;
 
 	/** Complete contents of this object. Lazily loaded. */
@@ -52,29 +52,29 @@ class DeltaWindowEntry {
 	/** Index of this object's content, to encode other deltas. Lazily loaded. */
 	DeltaIndex index;
 
-	void set(ObjectToPack object) {
+	final void set(ObjectToPack object) {
 		this.object = object;
 		this.index = null;
 		this.buffer = null;
 	}
 
 	/** @return current delta chain depth of this object. */
-	int depth() {
+	final int depth() {
 		return object.getDeltaDepth();
 	}
 
 	/** @return type of the object in this window entry. */
-	int type() {
+	final int type() {
 		return object.getType();
 	}
 
 	/** @return estimated unpacked size of the object, in bytes . */
-	int size() {
+	final int size() {
 		return object.getWeight();
 	}
 
 	/** @return true if there is no object stored in this entry. */
-	boolean empty() {
+	final boolean empty() {
 		return object == null;
 	}
 }
