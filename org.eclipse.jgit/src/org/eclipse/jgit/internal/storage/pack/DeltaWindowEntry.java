@@ -44,6 +44,8 @@
 package org.eclipse.jgit.internal.storage.pack;
 
 final class DeltaWindowEntry {
+	DeltaWindowEntry prev;
+	DeltaWindowEntry next;
 	ObjectToPack object;
 
 	/** Complete contents of this object. Lazily loaded. */
@@ -76,5 +78,43 @@ final class DeltaWindowEntry {
 	/** @return true if there is no object stored in this entry. */
 	final boolean empty() {
 		return object == null;
+	}
+
+	/** Remove this entry from the window chain. */
+	private final void unlink() {
+		prev.next = next;
+		next.prev = prev;
+	}
+
+	final void makeNext(DeltaWindowEntry e) {
+		e.unlink();
+		e.next = next;
+		e.prev = this;
+		next.prev = e;
+		next = e;
+	}
+
+	static DeltaWindowEntry createWindow(int cnt) {
+		// C Git increases the window size supplied by the user by 1.
+		// We don't know why it does this, but if the user asks for
+		// window=10, it actually processes with window=11. Because
+		// the window size has the largest direct impact on the final
+		// pack file size, we match this odd behavior here to give us
+		// a better chance of producing a similar sized pack as C Git.
+		//
+		// We would prefer to directly honor the user's request since
+		// PackWriter has a minimum of 2 for the window size, but then
+		// users might complain that JGit is creating a bigger pack file.
+		DeltaWindowEntry res = new DeltaWindowEntry();
+		DeltaWindowEntry p = res;
+		for (int i = 0; i < cnt; i++) {
+			DeltaWindowEntry e = new DeltaWindowEntry();
+			e.prev = p;
+			p.next = e;
+			p = e;
+		}
+		p.next = res;
+		res.prev = p;
+		return res;
 	}
 }
