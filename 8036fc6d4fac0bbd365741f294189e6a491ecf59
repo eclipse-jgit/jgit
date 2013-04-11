@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//yAA\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2013-04-11T21:01:38Z",
+      "side": 1,
+      "message": "This is confusing because it is ambiguous as to what the target is e.g. the inflated size of the object that is attempting to be delta compressed.",
+      "revId": "8036fc6d4fac0bbd365741f294189e6a491ecf59",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//x/4\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2013-04-11T21:01:38Z",
+      "side": 1,
+      "message": "This makes it sound like you only consider the end, yet you linearly decrease the required size of the delta as the depth gets deeper.",
+      "revId": "8036fc6d4fac0bbd365741f294189e6a491ecf59",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//x/0\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2013-04-11T21:01:38Z",
+      "side": 1,
+      "message": "This is confusing.\n\nYou are trying to say that:\n\n1)  if you haven\u0027t selected a delta yet, you use the inflated size of the object as described in the steps above.\n2) If you have selected a delta, you calculate the effective size of the object (based on the delta size and depth and must be smaller than the inflated object size) and use that in the steps above.",
+      "revId": "8036fc6d4fac0bbd365741f294189e6a491ecf59",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//x/E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/DeltaWindow.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2013-04-11T21:01:38Z",
+      "side": 1,
+      "message": "The fact that you can encode in the max size means you are already optimized for all the other parameters (i.e. depth \u0026 size), based on the equation in deltaSizeLimit(). This is subtle and you should add a comment.",
+      "revId": "8036fc6d4fac0bbd365741f294189e6a491ecf59",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//x7I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/DeltaWindow.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2013-04-11T21:01:38Z",
+      "side": 1,
+      "message": "FYI, i have confirmed this equation is correct.",
+      "revId": "8036fc6d4fac0bbd365741f294189e6a491ecf59",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
