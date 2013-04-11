@@ -75,6 +75,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import java.util.zip.CRC32;
+import java.util.zip.CheckedOutputStream;
 import java.util.zip.Deflater;
 import java.util.zip.DeflaterOutputStream;
 
@@ -275,11 +277,15 @@ public class PackWriter {
 
 	private boolean canBuildBitmaps;
 
+	private boolean indexDisabled;
+
 	private int depth;
 
 	private Collection<? extends ObjectId> unshallowObjects;
 
 	private PackBitmapIndexBuilder writeBitmaps;
+
+	private CRC32 crc32;
 
 	/**
 	 * Create writer for specified repository.
@@ -469,6 +475,19 @@ public class PackWriter {
 	 */
 	public void setUseBitmaps(boolean useBitmaps) {
 		this.useBitmaps = useBitmaps;
+	}
+
+	/** @return true if the index file cannot be created by this PackWriter. */
+	public boolean isIndexDisabled() {
+		return indexDisabled || !cachedPacks.isEmpty();
+	}
+
+	/**
+	 * @param noIndex
+	 *            true to disable creation of the index file.
+	 */
+	public void setIndexDisabled(boolean noIndex) {
+		this.indexDisabled = noIndex;
 	}
 
 	/**
@@ -855,7 +874,7 @@ public class PackWriter {
 	 *             the index data could not be written to the supplied stream.
 	 */
 	public void writeIndex(final OutputStream indexStream) throws IOException {
-		if (!cachedPacks.isEmpty())
+		if (isIndexDisabled())
 			throw new IOException(JGitText.get().cachedPacksPreventsIndexCreation);
 
 		long writeStart = System.currentTimeMillis();
@@ -996,8 +1015,13 @@ public class PackWriter {
 		if (config.isDeltaCompress())
 			searchForDeltas(compressMonitor);
 
-		final PackOutputStream out = new PackOutputStream(writeMonitor,
-				packStream, this);
+		crc32 = new CRC32();
+		final PackOutputStream out = new PackOutputStream(
+			writeMonitor,
+			isIndexDisabled()
+				? packStream
+				: new CheckedOutputStream(packStream, crc32),
+			this);
 
 		long objCnt = getObjectCount();
 		stats.totalObjects = objCnt;
@@ -1305,68 +1329,57 @@ public class PackWriter {
 			threads = Runtime.getRuntime().availableProcessors();
 
 		if (threads <= 1 || cnt <= 2 * config.getDeltaSearchWindowSize()) {
-			DeltaCache dc = new DeltaCache(config);
-			DeltaWindow dw = new DeltaWindow(config, dc, reader);
-			dw.search(monitor, list, 0, cnt);
+			new DeltaWindow(config, new DeltaCache(config), reader, monitor,
+					list, 0, cnt).search();
 			return;
 		}
 
 		final DeltaCache dc = new ThreadSafeDeltaCache(config);
 		final ThreadSafeProgressMonitor pm = new ThreadSafeProgressMonitor(monitor);
 
-		// Guess at the size of batch we want. Because we don't really
-		// have a way for a thread to steal work from another thread if
-		// it ends early, we over partition slightly so the work units
-		// are a bit smaller.
-		//
-		int estSize = cnt / (threads * 2);
-		if (estSize < 2 * config.getDeltaSearchWindowSize())
-			estSize = 2 * config.getDeltaSearchWindowSize();
+		int estSize = cnt / threads;
+		if (estSize < config.getDeltaSearchWindowSize())
+			estSize = config.getDeltaSearchWindowSize();
 
-		final List<DeltaTask> myTasks = new ArrayList<DeltaTask>(threads * 2);
+		DeltaTask.Block taskBlock = new DeltaTask.Block(threads, config,
+				reader, dc, pm,
+				list, 0, cnt);
 		for (int i = 0; i < cnt;) {
 			final int start = i;
-			final int batchSize;
+			int end;
 
 			if (cnt - i < estSize) {
 				// If we don't have enough to fill the remaining block,
 				// schedule what is left over as a single block.
-				//
-				batchSize = cnt - i;
+				end = cnt;
 			} else {
 				// Try to split the block at the end of a path.
-				//
-				int end = start + estSize;
+				end = start + estSize;
+				int h = list[end - 1].getPathHash();
 				while (end < cnt) {
-					ObjectToPack a = list[end - 1];
-					ObjectToPack b = list[end];
-					if (a.getPathHash() == b.getPathHash())
+					if (h == list[end].getPathHash())
 						end++;
 					else
 						break;
 				}
-				batchSize = end - start;
 			}
-			i += batchSize;
-			myTasks.add(new DeltaTask(config, reader, dc, pm, batchSize, start, list));
+			i = end;
+			taskBlock.tasks.add(new DeltaTask(taskBlock, start, end));
 		}
-		pm.startWorkers(myTasks.size());
+		pm.startWorkers(taskBlock.tasks.size());
 
 		final Executor executor = config.getExecutor();
 		final List<Throwable> errors = Collections
 				.synchronizedList(new ArrayList<Throwable>());
 		if (executor instanceof ExecutorService) {
 			// Caller supplied us a service, use it directly.
-			//
-			runTasks((ExecutorService) executor, pm, myTasks, errors);
-
+			runTasks((ExecutorService) executor, pm, taskBlock, errors);
 		} else if (executor == null) {
 			// Caller didn't give us a way to run the tasks, spawn up a
 			// temporary thread pool and make sure it tears down cleanly.
-			//
 			ExecutorService pool = Executors.newFixedThreadPool(threads);
 			try {
-				runTasks(pool, pm, myTasks, errors);
+				runTasks(pool, pm, taskBlock, errors);
 			} finally {
 				pool.shutdown();
 				for (;;) {
@@ -1383,8 +1396,7 @@ public class PackWriter {
 			// The caller gave us an executor, but it might not do
 			// asynchronous execution.  Wrap everything and hope it
 			// can schedule these for us.
-			//
-			for (final DeltaTask task : myTasks) {
+			for (final DeltaTask task : taskBlock.tasks) {
 				executor.execute(new Runnable() {
 					public void run() {
 						try {
@@ -1426,9 +1438,9 @@ public class PackWriter {
 
 	private static void runTasks(ExecutorService pool,
 			ThreadSafeProgressMonitor pm,
-			List<DeltaTask> tasks, List<Throwable> errors) throws IOException {
-		List<Future<?>> futures = new ArrayList<Future<?>>(tasks.size());
-		for (DeltaTask task : tasks)
+			DeltaTask.Block tb, List<Throwable> errors) throws IOException {
+		List<Future<?>> futures = new ArrayList<Future<?>>(tb.tasks.size());
+		for (DeltaTask task : tb.tasks)
 			futures.add(pool.submit(task));
 
 		try {
@@ -1496,12 +1508,12 @@ public class PackWriter {
 			if (otp.isWritten())
 				return; // Delta chain cycle caused this to write already.
 
-			out.resetCRC32();
+			crc32.reset();
 			otp.setOffset(out.length());
 			try {
 				reuseSupport.copyObjectAsIs(out, otp, reuseValidate);
 				out.endObject();
-				otp.setCRC(out.getCRC32());
+				otp.setCRC((int) crc32.getValue());
 				typeStats.reusedObjects++;
 				if (otp.isDeltaRepresentation()) {
 					typeStats.reusedDeltas++;
@@ -1535,7 +1547,7 @@ public class PackWriter {
 		else
 			writeWholeObjectDeflate(out, otp);
 		out.endObject();
-		otp.setCRC(out.getCRC32());
+		otp.setCRC((int) crc32.getValue());
 	}
 
 	private void writeBase(PackOutputStream out, ObjectToPack base)
@@ -1549,7 +1561,7 @@ public class PackWriter {
 		final Deflater deflater = deflater();
 		final ObjectLoader ldr = reader.open(otp, otp.getType());
 
-		out.resetCRC32();
+		crc32.reset();
 		otp.setOffset(out.length());
 		out.writeHeader(otp, ldr.getSize());
 
@@ -1563,7 +1575,7 @@ public class PackWriter {
 			final ObjectToPack otp) throws IOException {
 		writeBase(out, otp.getDeltaBase());
 
-		out.resetCRC32();
+		crc32.reset();
 		otp.setOffset(out.length());
 
 		DeltaCache.Ref ref = otp.popCachedDelta();

@@ -44,10 +44,13 @@
 
 package org.eclipse.jgit.internal.storage.pack;
 
+import static org.eclipse.jgit.lib.Constants.OBJ_OFS_DELTA;
+import static org.eclipse.jgit.lib.Constants.OBJ_REF_DELTA;
+import static org.eclipse.jgit.lib.Constants.PACK_SIGNATURE;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.security.MessageDigest;
-import java.util.zip.CRC32;
 
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
@@ -64,17 +67,17 @@ public final class PackOutputStream extends OutputStream {
 
 	private final PackWriter packWriter;
 
-	private final CRC32 crc = new CRC32();
-
 	private final MessageDigest md = Constants.newMessageDigest();
 
 	private long count;
 
-	private byte[] headerBuffer = new byte[32];
+	private final byte[] headerBuffer = new byte[32];
 
-	private byte[] copyBuffer;
+	private final byte[] copyBuffer = new byte[64 << 10];
 
 	private long checkCancelAt;
+
+	private boolean ofsDelta;
 
 	/**
 	 * Initialize a pack output stream.
@@ -99,15 +102,14 @@ public final class PackOutputStream extends OutputStream {
 	}
 
 	@Override
-	public void write(final int b) throws IOException {
+	public final void write(final int b) throws IOException {
 		count++;
 		out.write(b);
-		crc.update(b);
 		md.update((byte) b);
 	}
 
 	@Override
-	public void write(final byte[] b, int off, int len)
+	public final void write(final byte[] b, int off, int len)
 			throws IOException {
 		while (0 < len) {
 			final int n = Math.min(len, BYTES_TO_WRITE_BEFORE_CANCEL_CHECK);
@@ -122,7 +124,6 @@ public final class PackOutputStream extends OutputStream {
 			}
 
 			out.write(b, off, n);
-			crc.update(b, off, n);
 			md.update(b, off, n);
 
 			off += n;
@@ -135,11 +136,13 @@ public final class PackOutputStream extends OutputStream {
 		out.flush();
 	}
 
-	void writeFileHeader(int version, long objectCount) throws IOException {
-		System.arraycopy(Constants.PACK_SIGNATURE, 0, headerBuffer, 0, 4);
+	final void writeFileHeader(int version, long objectCount)
+			throws IOException {
+		System.arraycopy(PACK_SIGNATURE, 0, headerBuffer, 0, 4);
 		NB.encodeInt32(headerBuffer, 4, version);
 		NB.encodeInt32(headerBuffer, 8, (int) objectCount);
 		write(headerBuffer, 0, 12);
+		ofsDelta = packWriter.isDeltaBaseAsOffset();
 	}
 
 	/**
@@ -157,7 +160,7 @@ public final class PackOutputStream extends OutputStream {
 	 *             examine the type of exception and possibly its message to
 	 *             distinguish between these cases.
 	 */
-	public void writeObject(ObjectToPack otp) throws IOException {
+	public final void writeObject(ObjectToPack otp) throws IOException {
 		packWriter.writeObject(this, otp);
 	}
 
@@ -177,52 +180,52 @@ public final class PackOutputStream extends OutputStream {
 	 * @throws IOException
 	 *             the underlying stream refused to accept the header.
 	 */
-	public void writeHeader(ObjectToPack otp, long rawLength)
+	public final void writeHeader(ObjectToPack otp, long rawLength)
 			throws IOException {
-		if (otp.isDeltaRepresentation()) {
-			if (packWriter.isDeltaBaseAsOffset()) {
-				ObjectToPack baseInPack = otp.getDeltaBase();
-				if (baseInPack != null && baseInPack.isWritten()) {
-					final long start = count;
-					int n = encodeTypeSize(Constants.OBJ_OFS_DELTA, rawLength);
-					write(headerBuffer, 0, n);
-
-					long offsetDiff = start - baseInPack.getOffset();
-					n = headerBuffer.length - 1;
-					headerBuffer[n] = (byte) (offsetDiff & 0x7F);
-					while ((offsetDiff >>= 7) > 0)
-						headerBuffer[--n] = (byte) (0x80 | (--offsetDiff & 0x7F));
-					write(headerBuffer, n, headerBuffer.length - n);
-					return;
-				}
-			}
-
-			int n = encodeTypeSize(Constants.OBJ_REF_DELTA, rawLength);
+		ObjectToPack b = otp.getDeltaBase();
+		if (b != null && (b.isWritten() & ofsDelta)) {
+			int n = objectHeader(rawLength, OBJ_OFS_DELTA, headerBuffer);
+			n = ofsDelta(count - b.getOffset(), headerBuffer, n);
+			write(headerBuffer, 0, n);
+		} else if (otp.isDeltaRepresentation()) {
+			int n = objectHeader(rawLength, OBJ_REF_DELTA, headerBuffer);
 			otp.getDeltaBaseId().copyRawTo(headerBuffer, n);
-			write(headerBuffer, 0, n + Constants.OBJECT_ID_LENGTH);
+			write(headerBuffer, 0, n + 20);
 		} else {
-			int n = encodeTypeSize(otp.getType(), rawLength);
+			int n = objectHeader(rawLength, otp.getType(), headerBuffer);
 			write(headerBuffer, 0, n);
 		}
 	}
 
-	private int encodeTypeSize(int type, long rawLength) {
-		long nextLength = rawLength >>> 4;
-		headerBuffer[0] = (byte) ((nextLength > 0 ? 0x80 : 0x00) | (type << 4) | (rawLength & 0x0F));
-		rawLength = nextLength;
-		int n = 1;
-		while (rawLength > 0) {
-			nextLength >>>= 7;
-			headerBuffer[n++] = (byte) ((nextLength > 0 ? 0x80 : 0x00) | (rawLength & 0x7F));
-			rawLength = nextLength;
+	private static final int objectHeader(long len, int type, byte[] buf) {
+		byte b = (byte) ((type << 4) | (len & 0x0F));
+		int n = 0;
+		for (len >>>= 4; len != 0; len >>>= 7) {
+			buf[n++] = (byte) (0x80 | b);
+			b = (byte) (len & 0x7F);
 		}
+		buf[n++] = b;
+		return n;
+	}
+
+	private static final int ofsDelta(long diff, byte[] buf, int p) {
+		p += ofsDeltaVarIntLength(diff);
+		int n = p;
+		buf[--n] = (byte) (diff & 0x7F);
+		while ((diff >>>= 7) != 0)
+			buf[--n] = (byte) (0x80 | (--diff & 0x7F));
+		return p;
+	}
+
+	private static final int ofsDeltaVarIntLength(long v) {
+		int n = 1;
+		for (; (v >>>= 7) != 0; n++)
+			--v;
 		return n;
 	}
 
 	/** @return a temporary buffer writers can use to copy data with. */
-	public byte[] getCopyBuffer() {
-		if (copyBuffer == null)
-			copyBuffer = new byte[16 * 1024];
+	public final byte[] getCopyBuffer() {
 		return copyBuffer;
 	}
 
@@ -231,22 +234,12 @@ public final class PackOutputStream extends OutputStream {
 	}
 
 	/** @return total number of bytes written since stream start. */
-	public long length() {
+	public final long length() {
 		return count;
 	}
 
-	/** @return obtain the current CRC32 register. */
-	int getCRC32() {
-		return (int) crc.getValue();
-	}
-
-	/** Reinitialize the CRC32 register for a new region. */
-	void resetCRC32() {
-		crc.reset();
-	}
-
 	/** @return obtain the current SHA-1 digest. */
-	byte[] getDigest() {
+	final byte[] getDigest() {
 		return md.digest();
 	}
 }
