@@ -57,9 +57,8 @@ import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.util.TemporaryBuffer;
 
 final class DeltaWindow {
-	private static final int NEXT_RES = 0;
-
-	private static final int NEXT_SRC = 1;
+	private static final boolean NEXT_RES = false;
+	private static final boolean NEXT_SRC = true;
 
 	private final PackConfig config;
 	private final DeltaCache deltaCache;
@@ -236,10 +235,10 @@ final class DeltaWindow {
 			DeltaWindowEntry src = window[srcSlot];
 			if (src.empty())
 				break;
-			if (delta(src, srcSlot) == NEXT_RES) {
-				bestDelta = null;
-				return;
-			}
+			if (delta(src, srcSlot) /* == NEXT_SRC */)
+				continue;
+			bestDelta = null;
+			return;
 		}
 
 		// We couldn't find a suitable delta for this object, but it may
@@ -286,7 +285,7 @@ final class DeltaWindow {
 		keepInWindow();
 	}
 
-	private int delta(final DeltaWindowEntry src, final int srcSlot)
+	private boolean delta(final DeltaWindowEntry src, final int srcSlot)
 			throws IOException {
 		// Objects must use only the same type as their delta base.
 		// If we are looking at something where that isn't true we
