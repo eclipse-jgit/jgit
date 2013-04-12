@@ -64,6 +64,7 @@ final class DeltaWindow {
 	private final DeltaCache deltaCache;
 	private final ObjectReader reader;
 	private final ProgressMonitor monitor;
+	private final boolean reuseDeltas;
 
 	/** Maximum number of bytes to admit to the window at once. */
 	private final long maxMemory;
@@ -104,6 +105,7 @@ final class DeltaWindow {
 
 		maxMemory = Math.max(0, config.getDeltaSearchMemoryLimit());
 		maxDepth = config.getMaxDeltaDepth();
+		reuseDeltas = config.isReuseDeltas();
 		res = DeltaWindowEntry.createWindow(config.getDeltaSearchWindowSize());
 	}
 
@@ -148,15 +150,16 @@ final class DeltaWindow {
 				}
 				res.set(next);
 
-				if (res.object.isEdge() || res.object.doNotAttemptDelta()) {
-					// We don't actually want to make a delta for
-					// them, just need to push them into the window
-					// so they can be read by other objects.
-					//
+				if (res.object.isEdge()) {
+					// Edges are not packed and do not need to make a delta.
+					// They may be a base, retain the edge in the window
+					keepInWindow();
+				} else if (res.object.doNotAttemptDelta() && reuseDeltas) {
+					// Object may be a base for another object, but should
+					// not be converted into a delta on its own.
 					keepInWindow();
 				} else {
 					// Search for a delta for the current window slot.
-					//
 					monitor.update(1);
 					searchInWindow();
 				}
