@@ -121,20 +121,23 @@ final class DeltaWindow {
 			if (h != toSearch[n].getPathHash())
 				return new DeltaTask.Slice(n, e);
 		}
+System.out.println("50% remains on one path");
 
 		if (h != toSearch[cur].getPathHash()) {
 			// Try to split on the path before the 50% split point.
 			// Do not split the path currently being processed.
+			System.out.println("split != cur");
 			for (int p = split - 1; cur < p; p--) {
 				if (h != toSearch[p].getPathHash())
 					return new DeltaTask.Slice(p + 1, e);
 			}
+			System.out.println("no prior");
 		}
 		return null;
 	}
 
 	synchronized boolean tryStealWork(DeltaTask.Slice s) {
-		if (s.beginIndex <= cur)
+		if (s.beginIndex <= cur || end <= s.beginIndex)
 			return false;
 		end = s.beginIndex;
 		return true;

@@ -1337,35 +1337,10 @@ public class PackWriter {
 		final DeltaCache dc = new ThreadSafeDeltaCache(config);
 		final ThreadSafeProgressMonitor pm = new ThreadSafeProgressMonitor(monitor);
 
-		int estSize = cnt / threads;
-		if (estSize < config.getDeltaSearchWindowSize())
-			estSize = config.getDeltaSearchWindowSize();
-
 		DeltaTask.Block taskBlock = new DeltaTask.Block(threads, config,
 				reader, dc, pm,
 				list, 0, cnt);
-		for (int i = 0; i < cnt;) {
-			final int start = i;
-			int end;
-
-			if (cnt - i < estSize) {
-				// If we don't have enough to fill the remaining block,
-				// schedule what is left over as a single block.
-				end = cnt;
-			} else {
-				// Try to split the block at the end of a path.
-				end = start + estSize;
-				int h = list[end - 1].getPathHash();
-				while (end < cnt) {
-					if (h == list[end].getPathHash())
-						end++;
-					else
-						break;
-				}
-			}
-			i = end;
-			taskBlock.tasks.add(new DeltaTask(taskBlock, start, end));
-		}
+		taskBlock.partitionTasks();
 		pm.startWorkers(taskBlock.tasks.size());
 
 		final Executor executor = config.getExecutor();

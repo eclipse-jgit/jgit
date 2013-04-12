@@ -43,7 +43,11 @@
 
 package org.eclipse.jgit.internal.storage.pack;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
@@ -53,7 +57,10 @@ import org.eclipse.jgit.storage.pack.PackConfig;
 
 final class DeltaTask implements Callable<Object> {
 	static final class Block {
+		private static final int MIN_TOP_PATH = 50 << 20;
+
 		final List<DeltaTask> tasks;
+		final int threads;
 		final PackConfig config;
 		final ObjectReader templateReader;
 		final DeltaCache dc;
@@ -62,10 +69,16 @@ final class DeltaTask implements Callable<Object> {
 		final int beginIndex;
 		final int endIndex;
 
+		private TopPath[] topPaths;
+		private int topPathCnt;
+		private int nextTopPath;
+		private long totalWeight;
+
 		Block(int threads, PackConfig config, ObjectReader reader,
 				DeltaCache dc, ThreadSafeProgressMonitor pm,
 				ObjectToPack[] list, int begin, int end) {
 			this.tasks = new ArrayList<DeltaTask>(threads);
+			this.threads = threads;
 			this.config = config;
 			this.templateReader = reader;
 			this.dc = dc;
@@ -73,6 +86,7 @@ final class DeltaTask implements Callable<Object> {
 			this.list = list;
 			this.beginIndex = begin;
 			this.endIndex = end;
+			this.topPaths = new TopPath[threads];
 		}
 
 		synchronized Slice stealWork() {
@@ -93,7 +107,143 @@ final class DeltaTask implements Callable<Object> {
 					return null;
 				if (maxTask.tryStealWork(maxSlice))
 					return maxSlice;
+				System.out.println("cannot steal");
 			}
+		}
+
+		void partitionTasks() {
+			computeTopPaths();
+
+			int topIdx = 0;
+			long weightPerThread = totalWeight / threads;
+			for (int i = beginIndex; i < endIndex;) {
+				DeltaTask task = new DeltaTask(this, tasks.size());
+
+				// Assign the thread one top path.
+				if (topIdx < topPathCnt) {
+					TopPath p = topPaths[topIdx++];
+					// w += p.weight;
+					task.add(p.slice());
+				}
+
+				// Assign the task thread ~average weight.
+				int s = i;
+				long w = 0;
+				for (; w < weightPerThread && i < endIndex;) {
+					if (topPathAt(i)) {
+						if (s < i)
+							task.add(new Slice(s, i));
+						s = i = endOfTopPath();
+					} else
+						w += list[i++].getWeight();
+				}
+
+				// Round up the slice to the end of a path.
+				if (s < i) {
+					int h = list[i - 1].getPathHash();
+					while (i < endIndex) {
+						if (h == list[i].getPathHash())
+							i++;
+						else
+							break;
+					}
+					task.add(new Slice(s, i));
+				}
+System.out.println(String.format("%d starts with %d slices, %d bytes", task.tid, task.slices.size(), w));
+				if (!task.slices.isEmpty())
+					tasks.add(task);
+			}
+			for (;topIdx < topPathCnt; topIdx++) {
+				DeltaTask task = new DeltaTask(this, tasks.size());
+				TopPath p = topPaths[topIdx++];
+				System.out.println(String.format(
+						"%d starts with %d slices, %d bytes", task.tid,
+						task.slices.size(), p.weight));
+				task.add(p.slice());
+				tasks.add(task);
+			}
+
+			topPaths = null;
+		}
+
+		private void computeTopPaths() {
+			int cp = beginIndex;
+			int ch = list[cp].getPathHash();
+			long cw = list[cp].getWeight();
+			totalWeight = list[cp].getWeight();
+
+			for (int i = cp + 1; i < endIndex; i++) {
+				ObjectToPack o = list[i];
+				if (ch != o.getPathHash()) {
+					if (MIN_TOP_PATH < cw) {
+						if (topPathCnt < topPaths.length) {
+							TopPath p = new TopPath(cw, ch, cp, i);
+							topPaths[topPathCnt] = p;
+							if (++topPathCnt == topPaths.length)
+								Arrays.sort(topPaths);
+						} else if (topPaths[0].weight < cw) {
+							topPaths[0] = new TopPath(cw, ch, cp, i);
+							if (topPaths[0].compareTo(topPaths[1]) > 0)
+								Arrays.sort(topPaths);
+						}
+					}
+					cp = i;
+					ch = o.getPathHash();
+					cw = 0;
+				}
+				cw += o.getWeight();
+				totalWeight += o.getWeight();
+			}
+
+			// Sort by starting index to identify gaps later.
+			Arrays.sort(topPaths, 0, topPathCnt, new Comparator<TopPath>() {
+				public int compare(TopPath a, TopPath b) {
+					return a.beginIdx - b.beginIdx;
+				}
+			});
+
+			for (int i = 0; i < topPathCnt; i++)
+				totalWeight -= topPaths[i].weight;
+
+System.out.println(String.format("%d top paths:", topPathCnt));
+for(int i = 0; i < topPathCnt; i++)
+System.out.println(String.format("  %8x %5d %5d", topPaths[i].pathHash,
+		topPaths[i].endIdx - topPaths[i].beginIdx,
+		topPaths[i].weight));
+		}
+
+		private boolean topPathAt(int i) {
+			return nextTopPath < topPathCnt
+					&& i == topPaths[nextTopPath].beginIdx;
+		}
+
+		private int endOfTopPath() {
+			return topPaths[nextTopPath++].endIdx;
+		}
+	}
+
+	static final class TopPath implements Comparable<TopPath> {
+		final long weight;
+		final int pathHash;
+		final int beginIdx;
+		final int endIdx;
+
+		TopPath(long weight, int pathHash, int beginIdx, int endIdx) {
+			this.weight = weight;
+			this.pathHash = pathHash;
+			this.beginIdx = beginIdx;
+			this.endIdx = endIdx;
+		}
+
+		public int compareTo(TopPath o) {
+			int cmp = Long.signum(weight - o.weight);
+			if (cmp != 0)
+				return cmp;
+			return beginIdx - o.beginIdx;
+		}
+
+		Slice slice() {
+			return new Slice(beginIdx, endIdx);
 		}
 	}
 
@@ -112,36 +262,69 @@ final class DeltaTask implements Callable<Object> {
 	}
 
 	private final Block block;
-	private final Slice firstSlice;
-	private volatile DeltaWindow dw;
+	private final int tid;
+	private final LinkedList<Slice> slices;
+	private DeltaWindow dw;
 
-	DeltaTask(Block b, int beginIndex, int endIndex) {
+	DeltaTask(Block b, int tid) {
 		this.block = b;
-		this.firstSlice = new Slice(beginIndex, endIndex);
+		this.tid = tid;
+		this.slices = new LinkedList<Slice>();
+	}
+
+	void add(Slice s) {
+		slices.add(s);
 	}
 
 	public Object call() throws Exception {
 		ObjectReader or = block.templateReader.newReader();
 		try {
-			for (Slice s = firstSlice; s != null; s = block.stealWork()) {
-				dw = new DeltaWindow(block.config, block.dc, or, block.pm,
-						block.list, s.beginIndex, s.endIndex);
-				dw.search();
-				dw = null;
+			for (;;) {
+				Slice s;
+				synchronized (this) {
+					if (slices.isEmpty())
+						break;
+					s = slices.removeFirst();
+				}
+				doSlice(or, s);
+			}
+			for (Slice s = block.stealWork(); s != null; s = block.stealWork()) {
+				System.out.println(String.format("%d stole %d", tid, s.size()));
+				doSlice(or, s);
 			}
 		} finally {
 			or.release();
 			block.pm.endWorker();
 		}
+		System.out.println(String.format("thread %d end", tid));
 		return null;
 	}
 
-	Slice remaining() {
+	private void doSlice(ObjectReader or, Slice s) throws IOException {
+		DeltaWindow w = new DeltaWindow(block.config, block.dc,
+				or, block.pm,
+				block.list, s.beginIndex, s.endIndex);
+		synchronized (this) {
+			dw = w;
+		}
+		w.search();
+		synchronized (this) {
+			dw = null;
+		}
+	}
+
+	synchronized Slice remaining() {
+		if (!slices.isEmpty())
+			return slices.getLast();
 		DeltaWindow d = dw;
 		return d != null ? d.remaining() : null;
 	}
 
-	boolean tryStealWork(Slice s) {
+	synchronized boolean tryStealWork(Slice s) {
+		if (!slices.isEmpty() && slices.getLast().beginIndex == s.beginIndex) {
+			slices.removeLast();
+			return true;
+		}
 		DeltaWindow d = dw;
 		return d != null ? d.tryStealWork(s) : false;
 	}
