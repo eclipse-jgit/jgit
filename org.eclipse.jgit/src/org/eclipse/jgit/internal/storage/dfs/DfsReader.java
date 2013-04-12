@@ -46,8 +46,6 @@ package org.eclipse.jgit.internal.storage.dfs;
 
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 import static org.eclipse.jgit.lib.Constants.OBJECT_ID_LENGTH;
-import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
-import static org.eclipse.jgit.lib.Constants.OBJ_TREE;
 
 import java.io.IOException;
 import java.security.MessageDigest;
@@ -454,17 +452,13 @@ public final class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 	public void selectObjectRepresentation(PackWriter packer,
 			ProgressMonitor monitor, Iterable<ObjectToPack> objects)
 			throws IOException, MissingObjectException {
-		DfsPackFile[] packList = db.getPacks();
-		for (int packIndex = 0; packIndex < packList.length; packIndex++) {
-			DfsPackFile pack = packList[packIndex];
+		for (DfsPackFile pack : db.getPacks()) {
 			List<DfsObjectToPack> tmp = findAllFromPack(pack, objects);
 			if (tmp.isEmpty())
 				continue;
 			Collections.sort(tmp, OFFSET_SORT);
 			PackReverseIndex rev = pack.getReverseIdx(this);
-			DfsObjectRepresentation rep = new DfsObjectRepresentation(
-					pack,
-					packIndex);
+			DfsObjectRepresentation rep = new DfsObjectRepresentation(pack);
 			for (DfsObjectToPack otp : tmp) {
 				pack.representation(rep, otp.getOffset(), this, rev);
 				otp.setOffset(0);
@@ -498,41 +492,8 @@ public final class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 		src.pack.copyAsIs(out, src, validate, this);
 	}
 
-	private static final Comparator<ObjectToPack> WRITE_SORT = new Comparator<ObjectToPack>() {
-		public int compare(ObjectToPack o1, ObjectToPack o2) {
-			DfsObjectToPack a = (DfsObjectToPack) o1;
-			DfsObjectToPack b = (DfsObjectToPack) o2;
-			int cmp = a.packIndex - b.packIndex;
-			if (cmp == 0)
-				cmp = Long.signum(a.offset - b.offset);
-			return cmp;
-		}
-	};
-
 	public void writeObjects(PackOutputStream out, List<ObjectToPack> list)
 			throws IOException {
-		if (list.isEmpty())
-			return;
-
-		// Sorting objects by order in the current packs is usually
-		// worthwhile. Most packs are going to be OFS_DELTA style,
-		// where the base must appear before the deltas. If both base
-		// and delta are to be reused, this ensures the base writes in
-		// the output first without the recursive write-base-first logic
-		// used by PackWriter to ensure OFS_DELTA can be used.
-		//
-		// Sorting by pack also ensures newer objects go first, which
-		// typically matches the desired order.
-		//
-		// Only do this sorting for OBJ_TREE and OBJ_BLOB. Commits
-		// are very likely to already be sorted in a good order in the
-		// incoming list, and if they aren't, JGit's PackWriter has fixed
-		// the order to be more optimal for readers, so honor that.
-		switch (list.get(0).getType()) {
-		case OBJ_TREE:
-		case OBJ_BLOB:
-			Collections.sort(list, WRITE_SORT);
-		}
 		for (ObjectToPack otp : list)
 			out.writeObject(otp);
 	}

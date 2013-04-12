@@ -54,9 +54,6 @@ class DfsObjectToPack extends ObjectToPack {
 	/** Pack to reuse compressed data from, otherwise null. */
 	DfsPackFile pack;
 
-	/** Position of the pack in the reader's pack list. */
-	int packIndex;
-
 	/** Offset of the object's header in {@link #pack}. */
 	long offset;
 
@@ -85,7 +82,6 @@ class DfsObjectToPack extends ObjectToPack {
 	public void select(StoredObjectRepresentation ref) {
 		DfsObjectRepresentation ptr = (DfsObjectRepresentation) ref;
 		this.pack = ptr.pack;
-		this.packIndex = ptr.packIndex;
 		this.offset = ptr.offset;
 		this.length = ptr.length;
 	}

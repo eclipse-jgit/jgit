@@ -50,15 +50,13 @@ import org.eclipse.jgit.lib.ObjectId;
 
 class DfsObjectRepresentation extends StoredObjectRepresentation {
 	final DfsPackFile pack;
-	final int packIndex;
 	int format;
 	long offset;
 	long length;
 	ObjectId baseId;
 
-	DfsObjectRepresentation(DfsPackFile pack, int packIndex) {
+	DfsObjectRepresentation(DfsPackFile pack) {
 		this.pack = pack;
-		this.packIndex = packIndex;
 	}
 
 	@Override
