@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//xhQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/DeltaTask.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2013-04-12T16:01:37Z",
+      "side": 1,
+      "message": "nit: i would probably just return null here and remove ti from the end of the method.",
+      "revId": "4a77021f0501abc05e10cc81f55661e69f00c7d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
