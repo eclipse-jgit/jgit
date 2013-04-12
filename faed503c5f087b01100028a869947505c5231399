@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//xdU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/DeltaWindow.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2013-04-12T18:57:21Z",
+      "side": 1,
+      "message": "note: if h !\u003d toSearch[cur].getPathHash(), you can go to the left.",
+      "revId": "faed503c5f087b01100028a869947505c5231399",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
