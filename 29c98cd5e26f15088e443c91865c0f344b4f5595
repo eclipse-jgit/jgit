@@ -34,6 +34,24 @@
       "revId": "29c98cd5e26f15088e443c91865c0f344b4f5595",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//xoc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/IndexDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-04-12T11:36:13Z",
+      "side": 1,
+      "message": "So, Christian, have you seen my comment? I can rename the enum to StageState. The method on IndexDiff could be called getConflictingStageStates(). That would be ok for me, as it is close to getConflicting().",
+      "parentUuid": "AABOPX//2DM\u003d",
+      "revId": "29c98cd5e26f15088e443c91865c0f344b4f5595",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
