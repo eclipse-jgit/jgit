@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010, Matthias Sohn <matthias.sohn@sap.com>
+ * Copyright (C) 2010, 2013 Matthias Sohn <matthias.sohn@sap.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -115,6 +115,121 @@ public class FileUtilTest {
 			FileUtils.delete(d, FileUtils.RECURSIVE | FileUtils.SKIP_MISSING);
 		} catch (IOException e) {
 			fail("recursive deletion of non-existing directory must not fail with option SKIP_MISSING");
+		}
+	}
+
+	@Test
+
+	public void testDeleteRecursiveEmpty() throws IOException {
+		File f1 = new File(trash, "test/test/a");
+		File f2 = new File(trash, "test/a");
+		File d1 = new File(trash, "test");
+		File d2 = new File(trash, "test/test");
+		File d3 = new File(trash, "test/b");
+		FileUtils.mkdirs(f1.getParentFile());
+		FileUtils.createNewFile(f2);
+		FileUtils.createNewFile(f1);
+		FileUtils.mkdirs(d3);
+
+		// Cannot delete hierarchy since files exist
+		try {
+			FileUtils.delete(d1, FileUtils.EMPTY_DIRECTORIES_ONLY);
+			fail("delete should fail");
+		} catch (IOException e1) {
+			try {
+				FileUtils.delete(d1, FileUtils.EMPTY_DIRECTORIES_ONLY|FileUtils.RECURSIVE);
+				fail("delete should fail");
+			} catch (IOException e2) {
+				// Everything still there
+				assertTrue(f1.exists());
+				assertTrue(f2.exists());
+				assertTrue(d1.exists());
+				assertTrue(d2.exists());
+				assertTrue(d3.exists());
+			}
+		}
+
+		// setup: delete files, only directories left
+		assertTrue(f1.delete());
+		assertTrue(f2.delete());
+
+		// Shall not delete hierarchy without recursive
+		try {
+			FileUtils.delete(d1, FileUtils.EMPTY_DIRECTORIES_ONLY);
+			fail("delete should fail");
+		} catch (IOException e2) {
+			// Everything still there
+			assertTrue(d1.exists());
+			assertTrue(d2.exists());
+			assertTrue(d3.exists());
+		}
+
+		// Now delete the empty hierarchy
+		FileUtils.delete(d2, FileUtils.EMPTY_DIRECTORIES_ONLY
+				| FileUtils.RECURSIVE);
+		assertFalse(d2.exists());
+
+		// Will fail to delete non-existing without SKIP_MISSING
+		try {
+			FileUtils.delete(d2, FileUtils.EMPTY_DIRECTORIES_ONLY);
+			fail("Cannot delete non-existent entity");
+		} catch (IOException e) {
+			// ok
+		}
+
+		// ..with SKIP_MISSING there is no exception
+		FileUtils.delete(d2, FileUtils.EMPTY_DIRECTORIES_ONLY
+				| FileUtils.SKIP_MISSING);
+		FileUtils.delete(d2, FileUtils.EMPTY_DIRECTORIES_ONLY
+				| FileUtils.RECURSIVE | FileUtils.SKIP_MISSING);
+
+		// essentially the same, using IGNORE_ERRORS
+		FileUtils.delete(d2, FileUtils.EMPTY_DIRECTORIES_ONLY
+				| FileUtils.IGNORE_ERRORS);
+		FileUtils.delete(d2, FileUtils.EMPTY_DIRECTORIES_ONLY
+				| FileUtils.RECURSIVE | FileUtils.IGNORE_ERRORS);
+	}
+
+	@Test
+	public void testDeleteRecursiveEmptyNeedsToCheckFilesFirst()
+			throws IOException {
+		File d1 = new File(trash, "test");
+		File d2 = new File(trash, "test/a");
+		File d3 = new File(trash, "test/b");
+		File f1 = new File(trash, "test/c");
+		File d4 = new File(trash, "test/d");
+		FileUtils.mkdirs(d1);
+		FileUtils.mkdirs(d2);
+		FileUtils.mkdirs(d3);
+		FileUtils.mkdirs(d4);
+		FileUtils.createNewFile(f1);
+
+		// Cannot delete hierarchy since file exists
+		try {
+			FileUtils.delete(d1, FileUtils.EMPTY_DIRECTORIES_ONLY
+					| FileUtils.RECURSIVE);
+			fail("delete should fail");
+		} catch (IOException e) {
+			// Everything still there
+			assertTrue(f1.exists());
+			assertTrue(d1.exists());
+			assertTrue(d2.exists());
+			assertTrue(d3.exists());
+			assertTrue(d4.exists());
+		}
+	}
+
+	@Test
+	public void testDeleteRecursiveEmptyDirectoriesOnlyButIsFile()
+			throws IOException {
+		File f1 = new File(trash, "test/test/a");
+		FileUtils.mkdirs(f1.getParentFile());
+		FileUtils.createNewFile(f1);
+		try {
+			FileUtils.delete(f1, FileUtils.EMPTY_DIRECTORIES_ONLY);
+			fail("delete should fail");
+		} catch (IOException e) {
+			assertTrue(f1.exists());
 		}
 	}
 
