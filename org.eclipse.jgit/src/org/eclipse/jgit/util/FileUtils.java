@@ -49,6 +49,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.channels.FileLock;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.jgit.internal.JGitText;
 
@@ -130,8 +132,20 @@ public class FileUtils {
 		if ((options & RECURSIVE) != 0 && f.isDirectory()) {
 			final File[] items = f.listFiles();
 			if (items != null) {
+				List<File> files = new ArrayList<File>();
+				List<File> dirs = new ArrayList<File>();
 				for (File c : items)
-					delete(c, options);
+					if (c.isFile())
+						files.add(c);
+					else
+						dirs.add(c);
+				// Try to delete files first, otherwise options
+				// EMPTY_DIRECTORIES_ONLY|RECURSIVE will delete empty
+				// directories before aborting, depending on order.
+				for (File file : files)
+					delete(file, options);
+				for (File d : dirs)
+					delete(d, options);
 			}
 		}
 
