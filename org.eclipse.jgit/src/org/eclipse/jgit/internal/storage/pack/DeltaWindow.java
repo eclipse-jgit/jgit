@@ -57,19 +57,13 @@ import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.util.TemporaryBuffer;
 
 final class DeltaWindow {
-	private static final int NEXT_RES = 0;
-
-	private static final int NEXT_SRC = 1;
+	private static final boolean NEXT_RES = false;
+	private static final boolean NEXT_SRC = true;
 
 	private final PackConfig config;
-
 	private final DeltaCache deltaCache;
-
 	private final ObjectReader reader;
-
 	private final ProgressMonitor monitor;
-
-	private final DeltaWindowEntry[] window;
 
 	/** Maximum number of bytes to admit to the window at once. */
 	private final long maxMemory;
@@ -78,9 +72,7 @@ final class DeltaWindow {
 	private final int maxDepth;
 
 	private final ObjectToPack[] toSearch;
-
 	private int cur;
-
 	private int end;
 
 	/** Amount of memory we have loaded right now. */
@@ -88,24 +80,13 @@ final class DeltaWindow {
 
 	// The object we are currently considering needs a lot of state:
 
-	/** Position of {@link #res} within {@link #window} array. */
-	private int resSlot;
-
-	/**
-	 * Maximum delta chain depth the current object can have.
-	 * <p>
-	 * This can be smaller than {@link #maxDepth}.
-	 */
-	private int resMaxDepth;
-
 	/** Window entry of the object we are currently considering. */
 	private DeltaWindowEntry res;
 
-	/** If we have a delta for {@link #res}, this is the shortest found yet. */
-	private TemporaryBuffer.Heap bestDelta;
-
-	/** If we have {@link #bestDelta}, the window position it was created by. */
-	private int bestSlot;
+	/** If we have chosen a base, the window entry it was created from. */
+	private DeltaWindowEntry bestBase;
+	private int deltaLen;
+	private Object deltaBuf;
 
 	/** Used to compress cached deltas. */
 	private Deflater deflater;
@@ -121,45 +102,42 @@ final class DeltaWindow {
 		cur = beginIndex;
 		end = endIndex;
 
-		// C Git increases the window size supplied by the user by 1.
-		// We don't know why it does this, but if the user asks for
-		// window=10, it actually processes with window=11. Because
-		// the window size has the largest direct impact on the final
-		// pack file size, we match this odd behavior here to give us
-		// a better chance of producing a similar sized pack as C Git.
-		//
-		// We would prefer to directly honor the user's request since
-		// PackWriter has a minimum of 2 for the window size, but then
-		// users might complain that JGit is creating a bigger pack file.
-		//
-		window = new DeltaWindowEntry[config.getDeltaSearchWindowSize() + 1];
-		for (int i = 0; i < window.length; i++)
-			window[i] = new DeltaWindowEntry();
-
-		maxMemory = config.getDeltaSearchMemoryLimit();
+		maxMemory = Math.max(0, config.getDeltaSearchMemoryLimit());
 		maxDepth = config.getMaxDeltaDepth();
+		res = DeltaWindowEntry.createWindow(config.getDeltaSearchWindowSize());
 	}
 
-	synchronized int remaining() {
-		return end - cur;
-	}
-
-	synchronized DeltaTask.Slice stealWork() {
+	synchronized DeltaTask.Slice remaining() {
 		int e = end;
-		int n = (e - cur) >>> 1;
-		if (0 == n)
+		int halfRemaining = (e - cur) >>> 1;
+		if (0 == halfRemaining)
 			return null;
 
-		int t = e - n;
-		int h = toSearch[t].getPathHash();
-		while (cur < t) {
-			if (h == toSearch[t - 1].getPathHash())
-				t--;
-			else
-				break;
+		int split = e - halfRemaining;
+		int h = toSearch[split].getPathHash();
+
+		// Attempt to split on the next path after the 50% split point.
+		for (int n = split + 1; n < e; n++) {
+			if (h != toSearch[n].getPathHash())
+				return new DeltaTask.Slice(n, e);
 		}
-		end = t;
-		return new DeltaTask.Slice(t, e);
+
+		if (h != toSearch[cur].getPathHash()) {
+			// Try to split on the path before the 50% split point.
+			// Do not split the path currently being processed.
+			for (int p = split - 1; cur < p; p--) {
+				if (h != toSearch[p].getPathHash())
+					return new DeltaTask.Slice(p + 1, e);
+			}
+		}
+		return null;
+	}
+
+	synchronized boolean tryStealWork(DeltaTask.Slice s) {
+		if (s.beginIndex <= cur)
+			return false;
+		end = s.beginIndex;
+		return true;
 	}
 
 	void search() throws IOException {
@@ -171,15 +149,12 @@ final class DeltaWindow {
 						break;
 					next = toSearch[cur++];
 				}
-				res = window[resSlot];
-				if (0 < maxMemory) {
+				if (maxMemory != 0) {
 					clear(res);
-					int tail = next(resSlot);
 					final long need = estimateSize(next);
-					while (maxMemory < loaded + need && tail != resSlot) {
-						clear(window[tail]);
-						tail = next(tail);
-					}
+					DeltaWindowEntry n = res.next;
+					for (; maxMemory < loaded + need && n != res; n = n.next)
+						clear(n);
 				}
 				res.set(next);
 
@@ -223,39 +198,28 @@ final class DeltaWindow {
 	}
 
 	private void searchInWindow() throws IOException {
-		// TODO(spearce) If the object is used as a base for other
-		// objects in this pack we should limit the depth we create
-		// for ourselves to be the remainder of our longest dependent
-		// chain and the configured maximum depth. This can happen
-		// when the dependents are being reused out a pack, but we
-		// cannot be because we are near the edge of a thin pack.
-		//
-		resMaxDepth = maxDepth;
-
 		// Loop through the window backwards, considering every entry.
 		// This lets us look at the bigger objects that came before.
-		//
-		for (int srcSlot = prior(resSlot); srcSlot != resSlot; srcSlot = prior(srcSlot)) {
-			DeltaWindowEntry src = window[srcSlot];
+		for (DeltaWindowEntry src = res.prev; src != res; src = src.prev) {
 			if (src.empty())
 				break;
-			if (delta(src, srcSlot) == NEXT_RES) {
-				bestDelta = null;
-				return;
-			}
+			if (delta(src) /* == NEXT_SRC */)
+				continue;
+			bestBase = null;
+			deltaBuf = null;
+			return;
 		}
 
 		// We couldn't find a suitable delta for this object, but it may
 		// still be able to act as a base for another one.
-		//
-		if (bestDelta == null) {
+		if (bestBase == null) {
 			keepInWindow();
 			return;
 		}
 
 		// Select this best matching delta as the base for the object.
 		//
-		ObjectToPack srcObj = window[bestSlot].object;
+		ObjectToPack srcObj = bestBase.object;
 		ObjectToPack resObj = res.object;
 		if (srcObj.isEdge()) {
 			// The source (the delta base) is an edge object outside of the
@@ -263,59 +227,48 @@ final class DeltaWindow {
 			// has on hand, so we don't want to send it. We have to store
 			// an ObjectId and *NOT* an ObjectToPack for the base to ensure
 			// the base isn't included in the outgoing pack file.
-			//
 			resObj.setDeltaBase(srcObj.copy());
 		} else {
 			// The base is part of the pack we are sending, so it should be
 			// a direct pointer to the base.
-			//
 			resObj.setDeltaBase(srcObj);
 		}
-		resObj.setDeltaDepth(srcObj.getDeltaDepth() + 1);
+
+		int depth = srcObj.getDeltaDepth() + 1;
+		resObj.setDeltaDepth(depth);
 		resObj.clearReuseAsIs();
 		cacheDelta(srcObj, resObj);
 
-		// Discard the cached best result, otherwise it leaks.
-		//
-		bestDelta = null;
+		if (depth < maxDepth) {
+			// Reorder the window so that the best base will be tested
+			// first for the next object, and the current object will
+			// be the second candidate to consider before any others.
+			res.makeNext(bestBase);
+			res = bestBase.next;
+		}
 
-		// If this should be the end of a chain, don't keep
-		// it in the window. Just move on to the next object.
-		//
-		if (resObj.getDeltaDepth() == maxDepth)
-			return;
-
-		shuffleBaseUpInPriority();
-		keepInWindow();
+		bestBase = null;
+		deltaBuf = null;
 	}
 
-	private int delta(final DeltaWindowEntry src, final int srcSlot)
+	private boolean delta(final DeltaWindowEntry src)
 			throws IOException {
 		// Objects must use only the same type as their delta base.
-		// If we are looking at something where that isn't true we
-		// have exhausted everything of the correct type and should
-		// move on to the next thing to examine.
-		//
 		if (src.type() != res.type()) {
 			keepInWindow();
 			return NEXT_RES;
 		}
 
-		// Only consider a source with a short enough delta chain.
-		if (src.depth() > resMaxDepth)
+		// If the sizes are radically different, this is a bad pairing.
+		if (res.size() < src.size() >>> 4)
 			return NEXT_SRC;
 
-		// Estimate a reasonable upper limit on delta size.
-		int msz = deltaSizeLimit(res, resMaxDepth, src);
-		if (msz <= 8)
+		int msz = deltaSizeLimit(src);
+		if (msz <= 8) // Nearly impossible to fit useful delta.
 			return NEXT_SRC;
 
 		// If we have to insert a lot to make this work, find another.
 		if (res.size() - src.size() > msz)
-			return NEXT_SRC;
-
-		// If the sizes are radically different, this is a bad pairing.
-		if (res.size() < src.size() / 16)
 			return NEXT_SRC;
 
 		DeltaIndex srcIndex;
@@ -323,16 +276,11 @@ final class DeltaWindow {
 			srcIndex = index(src);
 		} catch (LargeObjectException tooBig) {
 			// If the source is too big to work on, skip it.
-			dropFromWindow(srcSlot);
 			return NEXT_SRC;
 		} catch (IOException notAvailable) {
-			if (src.object.isEdge()) {
-				// This is an edge that is suddenly not available.
-				dropFromWindow(srcSlot);
+			if (src.object.isEdge()) // Missing edges are OK.
 				return NEXT_SRC;
-			} else {
-				throw notAvailable;
-			}
+			throw notAvailable;
 		}
 
 		byte[] resBuf;
@@ -343,48 +291,75 @@ final class DeltaWindow {
 			return NEXT_RES;
 		}
 
-		// If we already have a delta for the current object, abort
-		// encoding early if this new pairing produces a larger delta.
-		if (bestDelta != null && bestDelta.length() < msz)
-			msz = (int) bestDelta.length();
-
-		TemporaryBuffer.Heap delta = new TemporaryBuffer.Heap(msz);
 		try {
-			if (!srcIndex.encode(delta, resBuf, msz))
-				return NEXT_SRC;
+			OutputStream delta = msz <= (8 << 10)
+				? new ArrayStream(msz)
+				: new TemporaryBuffer.Heap(msz);
+			if (srcIndex.encode(delta, resBuf, msz))
+				selectDeltaBase(src, delta);
 		} catch (IOException deltaTooBig) {
-			// This only happens when the heap overflows our limit.
-			return NEXT_SRC;
+			// Unlikely, encoder should see limit and return false.
 		}
-
-		if (isBetterDelta(src, delta)) {
-			bestDelta = delta;
-			bestSlot = srcSlot;
-		}
-
 		return NEXT_SRC;
 	}
 
+	private void selectDeltaBase(DeltaWindowEntry src, OutputStream delta) {
+		bestBase = src;
+
+		if (delta instanceof ArrayStream) {
+			ArrayStream a = (ArrayStream) delta;
+			deltaBuf = a.buf;
+			deltaLen = a.cnt;
+		} else {
+			TemporaryBuffer.Heap b = (TemporaryBuffer.Heap) delta;
+			deltaBuf = b;
+			deltaLen = (int) b.length();
+		}
+	}
+
+	private int deltaSizeLimit(DeltaWindowEntry src) {
+		if (bestBase == null) {
+			// Any delta should be no more than 50% of the original size
+			// (for text files deflate of whole form should shrink 50%).
+			int n = res.size() >>> 1;
+
+			// Evenly distribute delta size limits over allowed depth.
+			// If src is non-delta (depth = 0), delta <= 50% of original.
+			// If src is almost at limit (9/10), delta <= 10% of original.
+			return n * (maxDepth - src.depth()) / maxDepth;
+		}
+
+		// With a delta base chosen any new delta must be "better".
+		// Retain the distribution described above.
+		int d = bestBase.depth();
+		int n = deltaLen;
+
+		// If src is whole (depth=0) and base is near limit (depth=9/10)
+		// any delta using src can be 10x larger and still be better.
+		//
+		// If src is near limit (depth=9/10) and base is whole (depth=0)
+		// a new delta dependent on src must be 1/10th the size.
+		return n * (maxDepth - src.depth()) / (maxDepth - d);
+	}
+
 	private void cacheDelta(ObjectToPack srcObj, ObjectToPack resObj) {
-		if (Integer.MAX_VALUE < bestDelta.length())
-			return;
-
-		int rawsz = (int) bestDelta.length();
-		if (deltaCache.canCache(rawsz, srcObj, resObj)) {
+		if (deltaCache.canCache(deltaLen, srcObj, resObj)) {
 			try {
-				byte[] zbuf = new byte[deflateBound(rawsz)];
-
+				byte[] zbuf = new byte[deflateBound(deltaLen)];
 				ZipStream zs = new ZipStream(deflater(), zbuf);
-				bestDelta.writeTo(zs, null);
-				bestDelta = null;
+				if (deltaBuf instanceof byte[])
+					zs.write((byte[]) deltaBuf, 0, deltaLen);
+				else
+					((TemporaryBuffer.Heap) deltaBuf).writeTo(zs, null);
+				deltaBuf = null;
 				int len = zs.finish();
 
-				resObj.setCachedDelta(deltaCache.cache(zbuf, len, rawsz));
-				resObj.setCachedSize(rawsz);
+				resObj.setCachedDelta(deltaCache.cache(zbuf, len, deltaLen));
+				resObj.setCachedSize(deltaLen);
 			} catch (IOException err) {
-				deltaCache.credit(rawsz);
+				deltaCache.credit(deltaLen);
 			} catch (OutOfMemoryError err) {
-				deltaCache.credit(rawsz);
+				deltaCache.credit(deltaLen);
 			}
 		}
 	}
@@ -393,76 +368,8 @@ final class DeltaWindow {
 		return insz + ((insz + 7) >> 3) + ((insz + 63) >> 6) + 11;
 	}
 
-	private void shuffleBaseUpInPriority() {
-		// Shuffle the entire window so that the best match we just used
-		// is at our current index, and our current object is at the index
-		// before it. Slide any entries in between to make space.
-		//
-		window[resSlot] = window[bestSlot];
-
-		DeltaWindowEntry next = res;
-		int slot = prior(resSlot);
-		for (; slot != bestSlot; slot = prior(slot)) {
-			DeltaWindowEntry e = window[slot];
-			window[slot] = next;
-			next = e;
-		}
-		window[slot] = next;
-	}
-
 	private void keepInWindow() {
-		resSlot = next(resSlot);
-	}
-
-	private int next(int slot) {
-		if (++slot == window.length)
-			return 0;
-		return slot;
-	}
-
-	private int prior(int slot) {
-		if (slot == 0)
-			return window.length - 1;
-		return slot - 1;
-	}
-
-	private void dropFromWindow(@SuppressWarnings("unused") int srcSlot) {
-		// We should drop the current source entry from the window,
-		// it is somehow invalid for us to work with.
-	}
-
-	private boolean isBetterDelta(DeltaWindowEntry src,
-			TemporaryBuffer.Heap resDelta) {
-		if (bestDelta == null)
-			return true;
-
-		// If both delta sequences are the same length, use the one
-		// that has a shorter delta chain since it would be faster
-		// to access during reads.
-		//
-		if (resDelta.length() == bestDelta.length())
-			return src.depth() < window[bestSlot].depth();
-
-		return resDelta.length() < bestDelta.length();
-	}
-
-	private static int deltaSizeLimit(DeltaWindowEntry res, int maxDepth,
-			DeltaWindowEntry src) {
-		// Ideally the delta is at least 50% of the original size,
-		// but we also want to account for delta header overhead in
-		// the pack file (to point to the delta base) so subtract off
-		// some of those header bytes from the limit.
-		//
-		final int limit = res.size() / 2 - 20;
-
-		// Distribute the delta limit over the entire chain length.
-		// This is weighted such that deeper items in the chain must
-		// be even smaller than if they were earlier in the chain, as
-		// they cost significantly more to unpack due to the increased
-		// number of recursive unpack calls.
-		//
-		final int remainingDepth = maxDepth - src.depth();
-		return (limit * remainingDepth) / maxDepth;
+		res = res.next;
 	}
 
 	private DeltaIndex index(DeltaWindowEntry ent)
@@ -480,7 +387,7 @@ final class DeltaWindow {
 				e.setObjectId(ent.object);
 				throw e;
 			}
-			if (0 < maxMemory)
+			if (maxMemory != 0)
 				loaded += idx.getIndexSize() - idx.getSourceSize();
 			ent.index = idx;
 		}
@@ -494,7 +401,7 @@ final class DeltaWindow {
 			checkLoadable(ent, ent.size());
 
 			buf = PackWriter.buffer(config, reader, ent.object);
-			if (0 < maxMemory)
+			if (maxMemory != 0)
 				loaded += buf.length;
 			ent.buffer = buf;
 		}
@@ -502,17 +409,15 @@ final class DeltaWindow {
 	}
 
 	private void checkLoadable(DeltaWindowEntry ent, long need) {
-		if (maxMemory <= 0)
+		if (maxMemory == 0)
 			return;
 
-		int tail = next(resSlot);
-		while (maxMemory < loaded + need) {
-			DeltaWindowEntry cur = window[tail];
-			clear(cur);
-			if (cur == ent)
+		DeltaWindowEntry n = res.next;
+		for (; maxMemory < loaded + need; n = n.next) {
+			clear(n);
+			if (n == ent)
 				throw new LargeObjectException.ExceedsLimit(
 						maxMemory, loaded + need);
-			tail = next(tail);
 		}
 	}
 
@@ -572,6 +477,30 @@ final class DeltaWindow {
 		@Override
 		public void write(int b) throws IOException {
 			throw new UnsupportedOperationException();
+		}
+	}
+
+	static final class ArrayStream extends OutputStream {
+		final byte[] buf;
+		int cnt;
+
+		ArrayStream(int max) {
+			buf = new byte[max];
+		}
+
+		@Override
+		public void write(int b) throws IOException {
+			if (cnt == buf.length)
+				throw new IOException();
+			buf[cnt++] = (byte) b;
+		}
+
+		@Override
+		public void write(byte[] b, int off, int len) throws IOException {
+			if (len > buf.length - cnt)
+				throw new IOException();
+			System.arraycopy(b, off, buf, cnt, len);
+			cnt += len;
 		}
 	}
 }

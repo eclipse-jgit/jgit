@@ -1996,7 +1996,7 @@ public class PackWriter {
 			otp.clearReuseAsIs();
 		}
 
-		otp.setDeltaAttempted(next.wasDeltaAttempted());
+		otp.setDeltaAttempted(reuseDeltas & next.wasDeltaAttempted());
 		otp.select(next);
 	}
 

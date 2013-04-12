@@ -76,23 +76,24 @@ final class DeltaTask implements Callable<Object> {
 		}
 
 		synchronized Slice stealWork() {
-			for (int attempts = 0; attempts < 2; attempts++) {
+			for (;;) {
 				DeltaTask maxTask = null;
+				Slice maxSlice = null;
 				int maxWork = 0;
+
 				for (DeltaTask task : tasks) {
-					int r = task.remaining();
-					if (maxWork < r) {
+					Slice s = task.remaining();
+					if (s != null && maxWork < s.size()) {
 						maxTask = task;
-						maxWork = r;
+						maxSlice = s;
+						maxWork = s.size();
 					}
 				}
 				if (maxTask == null)
 					return null;
-				Slice s = maxTask.stealWork();
-				if (s != null)
-					return s;
+				if (maxTask.tryStealWork(maxSlice))
+					return maxSlice;
 			}
-			return null;
 		}
 	}
 
@@ -103,6 +104,10 @@ final class DeltaTask implements Callable<Object> {
 		Slice(int b, int e) {
 			beginIndex = b;
 			endIndex = e;
+		}
+
+		final int size() {
+			return endIndex - beginIndex;
 		}
 	}
 
@@ -131,13 +136,13 @@ final class DeltaTask implements Callable<Object> {
 		return null;
 	}
 
-	int remaining() {
+	Slice remaining() {
 		DeltaWindow d = dw;
-		return d != null ? d.remaining() : 0;
+		return d != null ? d.remaining() : null;
 	}
 
-	Slice stealWork() {
+	boolean tryStealWork(Slice s) {
 		DeltaWindow d = dw;
-		return d != null ? d.stealWork() : null;
+		return d != null ? d.tryStealWork(s) : false;
 	}
 }
