@@ -164,7 +164,8 @@ public class RevertCommand extends GitCommand<RevCommit> {
 						.newMerger(repo);
 				merger.setWorkingTreeIterator(new FileTreeIterator(repo));
 				merger.setBase(srcCommit.getTree());
-				merger.setCommitNames(new String[] { "BASE", ourName, revertName }); //$NON-NLS-1$ //$NON-NLS-2$
+				merger.setCommitNames(new String[] {
+						"BASE", ourName, revertName }); //$NON-NLS-1$
 
 				String shortMessage = "Revert \"" + srcCommit.getShortMessage() //$NON-NLS-1$
 						+ "\""; //$NON-NLS-1$
