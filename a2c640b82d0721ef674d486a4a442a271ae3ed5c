@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//xUg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/DeltaTask.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2013-04-13T00:51:33Z",
+      "side": 1,
+      "message": "This should really return 2 things:\n\nList\u003cTopPath\u003e, List\u003cSlice\u003e.\n\nThen, use an iterator to assign at most one TopPath per thread.\n\nAnd iterate through each slice until the weight per thread is met.",
+      "revId": "a2c640b82d0721ef674d486a4a442a271ae3ed5c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//xUk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/DeltaTask.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2013-04-13T00:51:33Z",
+      "side": 1,
+      "message": "why remove the top path weight? don\u0027t you want each thread to do the same amount work?",
+      "revId": "a2c640b82d0721ef674d486a4a442a271ae3ed5c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//xUc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/DeltaTask.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2013-04-13T00:51:33Z",
+      "side": 1,
+      "message": "Perhaps something like this would be easier to manage.\n  static final class PathResult {\n    long totalWeight;\n    List\u003cTopPath\u003e top;\n    List\u003cSlice\u003e rest;\n\n    void add(long weight, Slice slice) {\n       // if greater than current min, insert.\n       // else add to rest.\n    }\n    \n  }\n  static final class TopPath {\n    final long weight;\n    final Slice slice\n    // Comparable based on Weight.\n  }",
+      "revId": "a2c640b82d0721ef674d486a4a442a271ae3ed5c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//xUo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/DeltaTask.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2013-04-13T00:51:33Z",
+      "side": 1,
+      "message": "a few things to note:\n\n  1) you only can steal work from the currently processing worker\n  2) other stealing threads may exit if there notice that there is no work remaining ( or the period between switching threads)\n\nIf you sychronize access around the delta worker and the slices, then you can always check the last item in the slices list first, and then the delta worker if it is empty.",
+      "revId": "a2c640b82d0721ef674d486a4a442a271ae3ed5c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
