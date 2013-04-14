@@ -1,5 +1,6 @@
 /*
- * Copyright (C) 2011, Robin Rosenberg
+ * Copyright (C) 2011, 2013 Robin Rosenberg
+ * Copyright (C) 2013 Robin Stocker
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -65,6 +66,29 @@ public class AutoCRLFOutputStreamTest {
 		assertNoCrLf("\r\n\r\r", "\r\n\r\r");
 		assertNoCrLf("\r\n\r\n", "\r\n\r\n");
 		assertNoCrLf("\r\n\r\n\r", "\n\r\n\r");
+	}
+
+	@Test
+	public void testBoundary() throws IOException {
+		assertBoundaryCorrect(AutoCRLFOutputStream.BUFFER_SIZE - 5);
+		assertBoundaryCorrect(AutoCRLFOutputStream.BUFFER_SIZE - 4);
+		assertBoundaryCorrect(AutoCRLFOutputStream.BUFFER_SIZE - 3);
+		assertBoundaryCorrect(AutoCRLFOutputStream.BUFFER_SIZE - 2);
+		assertBoundaryCorrect(AutoCRLFOutputStream.BUFFER_SIZE - 1);
+		assertBoundaryCorrect(AutoCRLFOutputStream.BUFFER_SIZE);
+		assertBoundaryCorrect(AutoCRLFOutputStream.BUFFER_SIZE + 1);
+		assertBoundaryCorrect(AutoCRLFOutputStream.BUFFER_SIZE + 2);
+		assertBoundaryCorrect(AutoCRLFOutputStream.BUFFER_SIZE + 3);
+		assertBoundaryCorrect(AutoCRLFOutputStream.BUFFER_SIZE + 4);
+		assertBoundaryCorrect(AutoCRLFOutputStream.BUFFER_SIZE + 5);
+	}
+
+	private void assertBoundaryCorrect(int size) throws IOException {
+		StringBuilder sb = new StringBuilder(size);
+		for (int i = 0; i < size; i++)
+			sb.append('a');
+		String s = sb.toString();
+		assertNoCrLf(s, s);
 	}
 
 	private void assertNoCrLf(String string, String string2) throws IOException {

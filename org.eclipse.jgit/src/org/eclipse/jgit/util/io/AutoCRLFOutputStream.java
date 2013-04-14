@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011, Robin Rosenberg
+ * Copyright (C) 2011, 2013 Robin Rosenberg
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -55,11 +55,15 @@ import org.eclipse.jgit.diff.RawText;
  */
 public class AutoCRLFOutputStream extends OutputStream {
 
+	static final int BUFFER_SIZE = 8000;
+
 	private final OutputStream out;
 
 	private int buf = -1;
 
-	private byte[] binbuf = new byte[8000];
+	private byte[] binbuf = new byte[BUFFER_SIZE];
+
+	private byte[] onebytebuf = new byte[1];
 
 	private int binbufcnt = 0;
 
@@ -74,29 +78,8 @@ public class AutoCRLFOutputStream extends OutputStream {
 
 	@Override
 	public void write(int b) throws IOException {
-		int overflow = buffer((byte) b);
-		if (overflow >= 0)
-			return;
-		if (isBinary) {
-			out.write(b);
-			return;
-		}
-		if (b == '\n') {
-			if (buf == '\r') {
-				out.write('\n');
-				buf = -1;
-			} else if (buf == -1) {
-				out.write('\r');
-				out.write('\n');
-				buf = -1;
-			}
-		} else if (b == '\r') {
-			out.write(b);
-			buf = '\r';
-		} else {
-			out.write(b);
-			buf = -1;
-		}
+		onebytebuf[0] = (byte) b;
+		write(onebytebuf, 0, 1);
 	}
 
 	@Override
@@ -144,15 +127,6 @@ public class AutoCRLFOutputStream extends OutputStream {
 			buf = '\r';
 	}
 
-	private int buffer(byte b) throws IOException {
-		if (binbufcnt > binbuf.length)
-			return 1;
-		binbuf[binbufcnt++] = b;
-		if (binbufcnt == binbuf.length)
-			decideMode();
-		return 0;
-	}
-
 	private int buffer(byte[] b, int off, int len) throws IOException {
 		if (binbufcnt > binbuf.length)
 			return len;
@@ -174,7 +148,7 @@ public class AutoCRLFOutputStream extends OutputStream {
 
 	@Override
 	public void flush() throws IOException {
-		if (binbufcnt < binbuf.length)
+		if (binbufcnt <= binbuf.length)
 			decideMode();
 		buf = -1;
 		out.flush();
