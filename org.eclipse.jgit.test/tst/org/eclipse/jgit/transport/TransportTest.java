@@ -55,10 +55,10 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.junit.SampleDataRepositoryTestCase;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -216,7 +216,7 @@ public class TransportTest extends SampleDataRepositoryTestCase {
 
 	@Test
 	public void testLocalTransportWithRelativePath() throws Exception {
-		FileRepository other = createWorkRepository();
+		Repository other = createWorkRepository();
 		String otherDir = other.getWorkTree().getName();
 
 		RemoteConfig config = new RemoteConfig(db.getConfig(), "other");

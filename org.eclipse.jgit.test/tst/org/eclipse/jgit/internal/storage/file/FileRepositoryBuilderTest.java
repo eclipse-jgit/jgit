@@ -56,7 +56,7 @@ import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.util.FileUtils;
 import org.junit.Test;
@@ -64,7 +64,7 @@ import org.junit.Test;
 public class FileRepositoryBuilderTest extends LocalDiskRepositoryTestCase {
 	@Test
 	public void testShouldAutomagicallyDetectGitDirectory() throws Exception {
-		FileRepository r = createWorkRepository();
+		Repository r = createWorkRepository();
 		File d = new File(r.getDirectory(), "sub-dir");
 		FileUtils.mkdir(d);
 
@@ -74,8 +74,8 @@ public class FileRepositoryBuilderTest extends LocalDiskRepositoryTestCase {
 
 	@Test
 	public void emptyRepositoryFormatVersion() throws Exception {
-		FileRepository r = createWorkRepository();
-		FileBasedConfig config = r.getConfig();
+		Repository r = createWorkRepository();
+		StoredConfig config = r.getConfig();
 		config.setString(ConfigConstants.CONFIG_CORE_SECTION, null,
 				ConfigConstants.CONFIG_KEY_REPO_FORMAT_VERSION, "");
 		config.save();
@@ -85,8 +85,8 @@ public class FileRepositoryBuilderTest extends LocalDiskRepositoryTestCase {
 
 	@Test
 	public void invalidRepositoryFormatVersion() throws Exception {
-		FileRepository r = createWorkRepository();
-		FileBasedConfig config = r.getConfig();
+		Repository r = createWorkRepository();
+		StoredConfig config = r.getConfig();
 		config.setString(ConfigConstants.CONFIG_CORE_SECTION, null,
 				ConfigConstants.CONFIG_KEY_REPO_FORMAT_VERSION, "notanumber");
 		config.save();
@@ -101,8 +101,8 @@ public class FileRepositoryBuilderTest extends LocalDiskRepositoryTestCase {
 
 	@Test
 	public void unknownRepositoryFormatVersion() throws Exception {
-		FileRepository r = createWorkRepository();
-		FileBasedConfig config = r.getConfig();
+		Repository r = createWorkRepository();
+		StoredConfig config = r.getConfig();
 		config.setLong(ConfigConstants.CONFIG_CORE_SECTION, null,
 				ConfigConstants.CONFIG_KEY_REPO_FORMAT_VERSION, 1);
 		config.save();
@@ -118,7 +118,7 @@ public class FileRepositoryBuilderTest extends LocalDiskRepositoryTestCase {
 	@SuppressWarnings("resource" /* java 7 */)
 	@Test
 	public void absoluteGitDirRef() throws Exception {
-		FileRepository repo1 = createWorkRepository();
+		Repository repo1 = createWorkRepository();
 		File dir = createTempDirectory("dir");
 		File dotGit = new File(dir, Constants.DOT_GIT);
 		new FileWriter(dotGit).append(
@@ -136,7 +136,7 @@ public class FileRepositoryBuilderTest extends LocalDiskRepositoryTestCase {
 	@SuppressWarnings("resource" /* java 7 */)
 	@Test
 	public void relativeGitDirRef() throws Exception {
-		FileRepository repo1 = createWorkRepository();
+		Repository repo1 = createWorkRepository();
 		File dir = new File(repo1.getWorkTree(), "dir");
 		assertTrue(dir.mkdir());
 		File dotGit = new File(dir, Constants.DOT_GIT);
@@ -155,7 +155,7 @@ public class FileRepositoryBuilderTest extends LocalDiskRepositoryTestCase {
 	@SuppressWarnings("resource" /* java 7 */)
 	@Test
 	public void scanWithGitDirRef() throws Exception {
-		FileRepository repo1 = createWorkRepository();
+		Repository repo1 = createWorkRepository();
 		File dir = createTempDirectory("dir");
 		File dotGit = new File(dir, Constants.DOT_GIT);
 		new FileWriter(dotGit).append(
