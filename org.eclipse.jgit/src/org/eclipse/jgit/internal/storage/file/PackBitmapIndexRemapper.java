@@ -45,6 +45,7 @@ package org.eclipse.jgit.internal.storage.file;
 
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 import javaewah.EWAHCompressedBitmap;
 import javaewah.IntIterator;
@@ -142,13 +143,24 @@ public class PackBitmapIndexRemapper extends PackBitmapIndex
 
 		final Iterator<StoredBitmap> it = oldPackIndex.getBitmaps().iterator();
 		return new Iterator<Entry>() {
+			private Entry entry;
+
 			public boolean hasNext() {
-				return it.hasNext();
+				while (entry == null && it.hasNext()) {
+					StoredBitmap sb = it.next();
+					if (newPackIndex.findPosition(sb) != -1)
+						entry = new Entry(sb, sb.getFlags());
+				}
+				return entry != null;
 			}
 
 			public Entry next() {
-				StoredBitmap sb = it.next();
-				return new Entry(sb, sb.getFlags());
+				if (!hasNext())
+					throw new NoSuchElementException();
+
+				Entry res = entry;
+				entry = null;
+				return res;
 			}
 
 			public void remove() {
@@ -169,6 +181,9 @@ public class PackBitmapIndexRemapper extends PackBitmapIndex
 
 		StoredBitmap oldBitmap = oldPackIndex.getBitmaps().get(objectId);
 		if (oldBitmap == null)
+			return null;
+
+		if (newPackIndex.findPosition(objectId) == -1)
 			return null;
 
 		inflated.clear();
