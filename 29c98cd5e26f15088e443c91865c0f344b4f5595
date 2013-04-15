@@ -52,6 +52,24 @@
       "revId": "29c98cd5e26f15088e443c91865c0f344b4f5595",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//1+4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/IndexDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-04-15T12:54:47Z",
+      "side": 1,
+      "message": "very good example in the stackoverflow discussion. A file x was renamed in one branch to y and in another branch to z. When merging the branches I get a conflict. Is this one conflict or is it three conflicts (one on x, one on y, one on z)? For me this is one conflict and I can find out the kind of the conflict by looking at the index state. Because I see there a BOTH_DELETED in combination with a ADDED_BY_US/ADDED_BY_THEM I learn what kind of conflict it is. But BOTH_DELETED is not sufficient for me to understand why I have a conflict.\n\nDon\u0027t get me wrong: I like BOTH_DELETED and all that names, but I wouldn\u0027t call it a conflict type.",
+      "parentUuid": "AABOPX//2DM\u003d",
+      "revId": "29c98cd5e26f15088e443c91865c0f344b4f5595",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
