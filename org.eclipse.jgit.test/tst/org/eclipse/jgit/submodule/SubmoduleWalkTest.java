@@ -61,7 +61,6 @@ import org.eclipse.jgit.dircache.DirCacheEditor;
 import org.eclipse.jgit.dircache.DirCacheEditor.PathEdit;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
@@ -81,12 +80,12 @@ import org.junit.Test;
  * Unit tests of {@link SubmoduleWalk}
  */
 public class SubmoduleWalkTest extends RepositoryTestCase {
-	private TestRepository<FileRepository> testDb;
+	private TestRepository<Repository> testDb;
 
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-		testDb = new TestRepository<FileRepository>(db);
+		testDb = new TestRepository<Repository>(db);
 	}
 
 	@Test

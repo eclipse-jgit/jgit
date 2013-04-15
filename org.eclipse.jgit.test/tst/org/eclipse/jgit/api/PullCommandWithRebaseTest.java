@@ -57,7 +57,6 @@ import java.io.IOException;
 import org.eclipse.jgit.api.CreateBranchCommand.SetupUpstreamMode;
 import org.eclipse.jgit.api.MergeResult.MergeStatus;
 import org.eclipse.jgit.api.RebaseResult.Status;
-import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
@@ -76,7 +75,7 @@ import org.junit.Test;
 
 public class PullCommandWithRebaseTest extends RepositoryTestCase {
 	/** Second Test repository */
-	protected FileRepository dbTarget;
+	protected Repository dbTarget;
 
 	private Git source;
 

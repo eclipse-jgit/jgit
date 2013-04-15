@@ -68,6 +68,7 @@ import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.transport.PackedObjectInfo;
 import org.eclipse.jgit.util.FileUtils;
@@ -81,14 +82,14 @@ public class AbbreviationTest extends LocalDiskRepositoryTestCase {
 
 	private ObjectReader reader;
 
-	private TestRepository<FileRepository> test;
+	private TestRepository<Repository> test;
 
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
 		db = createBareRepository();
 		reader = db.newObjectReader();
-		test = new TestRepository<FileRepository>(db);
+		test = new TestRepository<Repository>(db);
 	}
 
 	@After

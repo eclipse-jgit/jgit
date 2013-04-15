@@ -71,6 +71,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectStream;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.storage.file.WindowCacheConfig;
 import org.eclipse.jgit.transport.PackParser;
@@ -86,9 +87,9 @@ public class PackFileTest extends LocalDiskRepositoryTestCase {
 
 	private TestRng rng;
 
-	private FileRepository repo;
+	private Repository repo;
 
-	private TestRepository<FileRepository> tr;
+	private TestRepository<Repository> tr;
 
 	private WindowCursor wc;
 
@@ -107,7 +108,7 @@ public class PackFileTest extends LocalDiskRepositoryTestCase {
 		WindowCache.reconfigure(cfg);
 
 		repo = createBareRepository();
-		tr = new TestRepository<FileRepository>(repo);
+		tr = new TestRepository<Repository>(repo);
 		wc = (WindowCursor) repo.newObjectReader();
 	}
 
