@@ -47,15 +47,17 @@ package org.eclipse.jgit.internal.storage.file;
 import java.io.Serializable;
 
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.CheckoutEntry;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.ReflogEntry;
 import org.eclipse.jgit.util.RawParseUtils;
 
 /**
  * Parsed reflog entry
  */
-public class ReflogEntry implements Serializable {
+public class ReflogEntryImpl implements Serializable, ReflogEntry {
 	private static final long serialVersionUID = 1L;
 
 	private ObjectId oldId;
@@ -66,7 +68,7 @@ public class ReflogEntry implements Serializable {
 
 	private String comment;
 
-	ReflogEntry(byte[] raw, int pos) {
+	ReflogEntryImpl(byte[] raw, int pos) {
 		oldId = ObjectId.fromString(raw, pos);
 		pos += Constants.OBJECT_ID_STRING_LENGTH;
 		if (raw[pos++] != ' ')
@@ -88,29 +90,29 @@ public class ReflogEntry implements Serializable {
 		}
 	}
 
-	/**
-	 * @return the commit id before the change
+	/* (non-Javadoc)
+	 * @see org.eclipse.jgit.internal.storage.file.ReflogEntry#getOldId()
 	 */
 	public ObjectId getOldId() {
 		return oldId;
 	}
 
-	/**
-	 * @return the commit id after the change
+	/* (non-Javadoc)
+	 * @see org.eclipse.jgit.internal.storage.file.ReflogEntry#getNewId()
 	 */
 	public ObjectId getNewId() {
 		return newId;
 	}
 
-	/**
-	 * @return user performing the change
+	/* (non-Javadoc)
+	 * @see org.eclipse.jgit.internal.storage.file.ReflogEntry#getWho()
 	 */
 	public PersonIdent getWho() {
 		return who;
 	}
 
-	/**
-	 * @return textual description of the change
+	/* (non-Javadoc)
+	 * @see org.eclipse.jgit.internal.storage.file.ReflogEntry#getComment()
 	 */
 	public String getComment() {
 		return comment;
@@ -123,13 +125,12 @@ public class ReflogEntry implements Serializable {
 				+ ", " + getComment() + "]";
 	}
 
-	/**
-	 * @return a {@link CheckoutEntry} with parsed information about a branch
-	 *         switch, or null if the entry is not a checkout
+	/* (non-Javadoc)
+	 * @see org.eclipse.jgit.internal.storage.file.ReflogEntry#parseCheckout()
 	 */
 	public CheckoutEntry parseCheckout() {
-		if (getComment().startsWith(CheckoutEntry.CHECKOUT_MOVING_FROM))
-			return new CheckoutEntry(this);
+		if (getComment().startsWith(CheckoutEntryImpl.CHECKOUT_MOVING_FROM))
+			return new CheckoutEntryImpl(this);
 		else
 			return null;
 	}

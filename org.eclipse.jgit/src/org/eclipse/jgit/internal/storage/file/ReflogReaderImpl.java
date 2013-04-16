@@ -1,5 +1,4 @@
 /*
- * Copyright (C) 2009, Robin Rosenberg
  * Copyright (C) 2009, Robin Rosenberg <robin.rosenberg@dewire.com>
  * and other copyright owners as documented in the project's IP log.
  *
@@ -52,6 +51,8 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ReflogEntry;
+import org.eclipse.jgit.lib.ReflogReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
@@ -59,42 +60,33 @@ import org.eclipse.jgit.util.RawParseUtils;
 /**
  * Utility for reading reflog entries
  */
-public class ReflogReader {
+class ReflogReaderImpl implements ReflogReader {
 	private File logName;
 
 	/**
 	 * @param db
 	 * @param refname
 	 */
-	public ReflogReader(Repository db, String refname) {
+	ReflogReaderImpl(Repository db, String refname) {
 		logName = new File(db.getDirectory(), Constants.LOGS + '/' + refname);
 	}
 
-	/**
-	 * Get the last entry in the reflog
-	 *
-	 * @return the latest reflog entry, or null if no log
-	 * @throws IOException
+	/* (non-Javadoc)
+	 * @see org.eclipse.jgit.internal.storage.file.ReflogReaader#getLastEntry()
 	 */
 	public ReflogEntry getLastEntry() throws IOException {
 		return getReverseEntry(0);
 	}
 
-	/**
-	 * @return all reflog entries in reverse order
-	 * @throws IOException
+	/* (non-Javadoc)
+	 * @see org.eclipse.jgit.internal.storage.file.ReflogReaader#getReverseEntries()
 	 */
 	public List<ReflogEntry> getReverseEntries() throws IOException {
 		return getReverseEntries(Integer.MAX_VALUE);
 	}
 
-	/**
-	 * Get specific entry in the reflog relative to the last entry which is
-	 * considered entry zero.
-	 *
-	 * @param number
-	 * @return reflog entry or null if not found
-	 * @throws IOException
+	/* (non-Javadoc)
+	 * @see org.eclipse.jgit.internal.storage.file.ReflogReaader#getReverseEntry(int)
 	 */
 	public ReflogEntry getReverseEntry(int number) throws IOException {
 		if (number < 0)
@@ -112,17 +104,14 @@ public class ReflogReader {
 		while (rs >= 0) {
 			rs = RawParseUtils.prevLF(log, rs);
 			if (number == current)
-				return new ReflogEntry(log, rs < 0 ? 0 : rs + 2);
+				return new ReflogEntryImpl(log, rs < 0 ? 0 : rs + 2);
 			current++;
 		}
 		return null;
 	}
 
-	/**
-	 * @param max
-	 *            max number of entries to read
-	 * @return all reflog entries in reverse order
-	 * @throws IOException
+	/* (non-Javadoc)
+	 * @see org.eclipse.jgit.internal.storage.file.ReflogReaader#getReverseEntries(int)
 	 */
 	public List<ReflogEntry> getReverseEntries(int max) throws IOException {
 		final byte[] log;
@@ -136,7 +125,7 @@ public class ReflogReader {
 		List<ReflogEntry> ret = new ArrayList<ReflogEntry>();
 		while (rs >= 0 && max-- > 0) {
 			rs = RawParseUtils.prevLF(log, rs);
-			ReflogEntry entry = new ReflogEntry(log, rs < 0 ? 0 : rs + 2);
+			ReflogEntry entry = new ReflogEntryImpl(log, rs < 0 ? 0 : rs + 2);
 			ret.add(entry);
 		}
 		return ret;

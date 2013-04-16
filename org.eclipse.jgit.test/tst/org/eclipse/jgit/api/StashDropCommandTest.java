@@ -52,12 +52,12 @@ import java.io.File;
 import java.util.List;
 
 import org.eclipse.jgit.api.errors.JGitInternalException;
-import org.eclipse.jgit.internal.storage.file.ReflogEntry;
-import org.eclipse.jgit.internal.storage.file.ReflogReader;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.ReflogEntry;
+import org.eclipse.jgit.lib.ReflogReader;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
 import org.junit.Test;
@@ -126,9 +126,9 @@ public class StashDropCommandTest extends RepositoryTestCase {
 		stashRef = git.getRepository().getRef(Constants.R_STASH);
 		assertNull(stashRef);
 
-		ReflogReader reader = new ReflogReader(git.getRepository(),
+		ReflogReader reader = git.getRepository().getReflogReader(
 				Constants.R_STASH);
-		assertTrue(reader.getReverseEntries().isEmpty());
+		assertNull(reader);
 	}
 
 	@Test
@@ -154,9 +154,9 @@ public class StashDropCommandTest extends RepositoryTestCase {
 		assertNull(git.stashDrop().setAll(true).call());
 		assertNull(git.getRepository().getRef(Constants.R_STASH));
 
-		ReflogReader reader = new ReflogReader(git.getRepository(),
+		ReflogReader reader = git.getRepository().getReflogReader(
 				Constants.R_STASH);
-		assertTrue(reader.getReverseEntries().isEmpty());
+		assertNull(reader);
 	}
 
 	@Test
@@ -184,7 +184,7 @@ public class StashDropCommandTest extends RepositoryTestCase {
 		assertNotNull(stashRef);
 		assertEquals(firstStash, stashRef.getObjectId());
 
-		ReflogReader reader = new ReflogReader(git.getRepository(),
+		ReflogReader reader = git.getRepository().getReflogReader(
 				Constants.R_STASH);
 		List<ReflogEntry> entries = reader.getReverseEntries();
 		assertEquals(1, entries.size());
@@ -226,7 +226,7 @@ public class StashDropCommandTest extends RepositoryTestCase {
 		assertNotNull(stashRef);
 		assertEquals(thirdStash, stashRef.getObjectId());
 
-		ReflogReader reader = new ReflogReader(git.getRepository(),
+		ReflogReader reader = git.getRepository().getReflogReader(
 				Constants.R_STASH);
 		List<ReflogEntry> entries = reader.getReverseEntries();
 		assertEquals(2, entries.size());
@@ -284,7 +284,7 @@ public class StashDropCommandTest extends RepositoryTestCase {
 		assertNotNull(stashRef);
 		assertEquals(thirdStash, stashRef.getObjectId());
 
-		ReflogReader reader = new ReflogReader(git.getRepository(),
+		ReflogReader reader = git.getRepository().getReflogReader(
 				Constants.R_STASH);
 		List<ReflogEntry> entries = reader.getReverseEntries();
 		assertEquals(2, entries.size());

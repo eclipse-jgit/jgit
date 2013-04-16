@@ -47,10 +47,10 @@ import static org.junit.Assert.assertNotNull;
 
 import java.util.Collection;
 
-import org.eclipse.jgit.internal.storage.file.ReflogEntry;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ReflogEntry;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
 import org.junit.Test;
