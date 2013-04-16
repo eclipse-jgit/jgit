@@ -134,7 +134,7 @@ final class DeltaWindow {
 	}
 
 	synchronized boolean tryStealWork(DeltaTask.Slice s) {
-		if (s.beginIndex <= cur)
+		if (s.beginIndex <= cur || end <= s.beginIndex)
 			return false;
 		end = s.beginIndex;
 		return true;
