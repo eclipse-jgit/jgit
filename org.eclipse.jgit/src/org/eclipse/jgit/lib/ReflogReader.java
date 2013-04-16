@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011, Robin Rosenberg <robin.rosenberg@dewire.com>
+ * Copyright (C) 2013, Robin Rosenberg <robin.rosenberg@dewire.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -41,38 +41,47 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.internal.storage.file;
+package org.eclipse.jgit.lib;
+
+import java.io.IOException;
+import java.util.List;
 
 /**
- * Parsed information about a checkout.
+ * Utility for reading reflog entries
  */
-public class CheckoutEntry {
-	static final String CHECKOUT_MOVING_FROM = "checkout: moving from "; //$NON-NLS-1$
-
-	private String from;
-
-	private String to;
-
-	CheckoutEntry(ReflogEntry reflogEntry) {
-		String comment = reflogEntry.getComment();
-		int p1 = CHECKOUT_MOVING_FROM.length();
-		int p2 = comment.indexOf(" to ", p1); //$NON-NLS-1$
-		int p3 = comment.length();
-		from = comment.substring(p1,p2);
-		to = comment.substring(p2 + " to ".length(), p3); //$NON-NLS-1$
-	}
+public interface ReflogReader {
 
 	/**
-	 * @return the name of the branch before checkout
+	 * Get the last entry in the reflog
+	 *
+	 * @return the latest reflog entry, or null if no log
+	 * @throws IOException
 	 */
-	public String getFromBranch() {
-		return from;
-	}
+	public abstract ReflogEntry getLastEntry() throws IOException;
 
 	/**
-	 * @return the name of the branch after checkout
+	 * @return all reflog entries in reverse order
+	 * @throws IOException
 	 */
-	public String getToBranch() {
-		return to;
-	}
+	public abstract List<ReflogEntry> getReverseEntries() throws IOException;
+
+	/**
+	 * Get specific entry in the reflog relative to the last entry which is
+	 * considered entry zero.
+	 *
+	 * @param number
+	 * @return reflog entry or null if not found
+	 * @throws IOException
+	 */
+	public abstract ReflogEntry getReverseEntry(int number) throws IOException;
+
+	/**
+	 * @param max
+	 *            max number of entries to read
+	 * @return all reflog entries in reverse order
+	 * @throws IOException
+	 */
+	public abstract List<ReflogEntry> getReverseEntries(int max)
+			throws IOException;
+
 }
