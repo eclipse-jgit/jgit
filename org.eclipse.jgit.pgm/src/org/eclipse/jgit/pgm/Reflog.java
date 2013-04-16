@@ -46,8 +46,8 @@ import java.util.Collection;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.ReflogCommand;
-import org.eclipse.jgit.internal.storage.file.ReflogEntry;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ReflogEntry;
 import org.eclipse.jgit.lib.Repository;
 import org.kohsuke.args4j.Argument;
 
