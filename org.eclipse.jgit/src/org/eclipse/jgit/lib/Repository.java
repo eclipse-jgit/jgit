@@ -76,9 +76,6 @@ import org.eclipse.jgit.events.IndexChangedListener;
 import org.eclipse.jgit.events.ListenerList;
 import org.eclipse.jgit.events.RepositoryEvent;
 import org.eclipse.jgit.internal.JGitText;
-import org.eclipse.jgit.internal.storage.file.CheckoutEntry;
-import org.eclipse.jgit.internal.storage.file.ReflogEntry;
-import org.eclipse.jgit.internal.storage.file.ReflogReader;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
@@ -757,7 +754,7 @@ public abstract class Repository {
 
 	private String resolveReflogCheckout(int checkoutNo)
 			throws IOException {
-		List<ReflogEntry> reflogEntries = new ReflogReader(this, Constants.HEAD)
+		List<ReflogEntry> reflogEntries = getReflogReader(Constants.HEAD)
 				.getReverseEntries();
 		for (ReflogEntry entry : reflogEntries) {
 			CheckoutEntry checkout = entry.parseCheckout();
@@ -778,7 +775,7 @@ public abstract class Repository {
 					JGitText.get().invalidReflogRevision, time));
 		}
 		assert number >= 0;
-		ReflogReader reader = new ReflogReader(this, ref.getName());
+		ReflogReader reader = getReflogReader(ref.getName());
 		ReflogEntry entry = reader.getReverseEntry(number);
 		if (entry == null)
 			throw new RevisionSyntaxException(MessageFormat.format(

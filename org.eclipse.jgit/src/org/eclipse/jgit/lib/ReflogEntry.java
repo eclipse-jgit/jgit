@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011, Chris Aniszczyk <caniszczyk@gmail.com>
+ * Copyright (C) 2011-2013, Robin Rosenberg <robin.rosenberg@dewire.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -40,68 +40,40 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.eclipse.jgit.api;
+package org.eclipse.jgit.lib;
 
-import java.io.IOException;
-import java.text.MessageFormat;
-import java.util.Collection;
-
-import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.api.errors.InvalidRefNameException;
-import org.eclipse.jgit.internal.JGitText;
-import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.ReflogEntry;
-import org.eclipse.jgit.lib.ReflogReader;
-import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.PersonIdent;
 
 /**
- * The reflog command
- *
- * @see <a
- *      href="http://www.kernel.org/pub/software/scm/git/docs/git-reflog.html"
- *      >Git documentation about reflog</a>
+ * Parsed reflog entry
  */
-public class ReflogCommand extends GitCommand<Collection<ReflogEntry>> {
-
-	private String ref = Constants.HEAD;
+public interface ReflogEntry {
 
 	/**
-	 * @param repo
+	 * @return the commit id before the change
 	 */
-	public ReflogCommand(Repository repo) {
-		super(repo);
-	}
+	public abstract ObjectId getOldId();
 
 	/**
-	 * The ref used for the reflog operation. If no ref is set, the default
-	 * value of HEAD will be used.
-	 *
-	 * @param ref
-	 * @return {@code this}
+	 * @return the commit id after the change
 	 */
-	public ReflogCommand setRef(String ref) {
-		checkCallable();
-		this.ref = ref;
-		return this;
-	}
+	public abstract ObjectId getNewId();
 
 	/**
-	 * Run the reflog command
-	 *
-	 * @throws GitAPIException
-	 * @throws InvalidRefNameException
+	 * @return user performing the change
 	 */
-	public Collection<ReflogEntry> call() throws GitAPIException,
-			InvalidRefNameException {
-		checkCallable();
+	public abstract PersonIdent getWho();
 
-		try {
-			ReflogReader reader = repo.getReflogReader(ref);
-			return reader.getReverseEntries();
-		} catch (IOException e) {
-			throw new InvalidRefNameException(MessageFormat.format(
-					JGitText.get().cannotRead, ref), e);
-		}
-	}
+	/**
+	 * @return textual description of the change
+	 */
+	public abstract String getComment();
+
+	/**
+	 * @return a {@link CheckoutEntry} with parsed information about a branch
+	 *         switch, or null if the entry is not a checkout
+	 */
+	public abstract CheckoutEntry parseCheckout();
 
 }
