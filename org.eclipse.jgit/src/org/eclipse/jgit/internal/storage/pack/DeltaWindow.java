@@ -64,6 +64,8 @@ final class DeltaWindow {
 	private final DeltaCache deltaCache;
 	private final ObjectReader reader;
 	private final ProgressMonitor monitor;
+	private final long bytesPerUnit;
+	private long bytesProcessed;
 
 	/** Maximum number of bytes to admit to the window at once. */
 	private final long maxMemory;
@@ -92,12 +94,13 @@ final class DeltaWindow {
 	private Deflater deflater;
 
 	DeltaWindow(PackConfig pc, DeltaCache dc, ObjectReader or,
-			ProgressMonitor pm,
+			ProgressMonitor pm, long bpu,
 			ObjectToPack[] in, int beginIndex, int endIndex) {
 		config = pc;
 		deltaCache = dc;
 		reader = or;
 		monitor = pm;
+		bytesPerUnit = bpu;
 		toSearch = in;
 		cur = beginIndex;
 		end = endIndex;
@@ -162,12 +165,14 @@ final class DeltaWindow {
 					// We don't actually want to make a delta for
 					// them, just need to push them into the window
 					// so they can be read by other objects.
-					//
 					keepInWindow();
 				} else {
 					// Search for a delta for the current window slot.
-					//
-					monitor.update(1);
+					if (bytesPerUnit <= (bytesProcessed += next.getWeight())) {
+						int d = (int) (bytesProcessed / bytesPerUnit);
+						monitor.update(d);
+						bytesProcessed -= d * bytesPerUnit;
+					}
 					searchInWindow();
 				}
 			}
