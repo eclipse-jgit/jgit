@@ -1286,9 +1286,7 @@ public class PackWriter {
 			return;
 
 		final long searchStart = System.currentTimeMillis();
-		beginPhase(PackingPhase.COMPRESSING, monitor, nonEdgeCnt);
 		searchForDeltas(monitor, list, cnt);
-		endPhase(monitor);
 		stats.deltaSearchNonEdgeObjects = nonEdgeCnt;
 		stats.timeCompressing = System.currentTimeMillis() - searchStart;
 
@@ -1327,25 +1325,49 @@ public class PackWriter {
 		int threads = config.getThreads();
 		if (threads == 0)
 			threads = Runtime.getRuntime().availableProcessors();
+		if (threads <= 1 || cnt <= config.getDeltaSearchWindowSize())
+			singleThreadDeltaSearch(monitor, list, cnt);
+		else
+			parallelDeltaSearch(monitor, list, cnt, threads);
+	}
 
-		if (threads <= 1 || cnt <= 2 * config.getDeltaSearchWindowSize()) {
-			new DeltaWindow(config, new DeltaCache(config), reader, monitor,
-					list, 0, cnt).search();
-			return;
+	private void singleThreadDeltaSearch(ProgressMonitor monitor,
+			ObjectToPack[] list, int cnt) throws IOException {
+		long totalWeight = 0;
+		for (int i = 0; i < cnt; i++) {
+			ObjectToPack o = list[i];
+			if (!o.isEdge() && !o.doNotAttemptDelta())
+				totalWeight += o.getWeight();
 		}
 
-		final DeltaCache dc = new ThreadSafeDeltaCache(config);
-		final ThreadSafeProgressMonitor pm = new ThreadSafeProgressMonitor(monitor);
+		long bytesPerUnit = 1;
+		while (DeltaTask.MAX_METER <= (totalWeight / bytesPerUnit))
+			bytesPerUnit <<= 10;
+		int cost = (int) (totalWeight / bytesPerUnit);
+		if (totalWeight % bytesPerUnit != 0)
+			cost++;
 
+		beginPhase(PackingPhase.COMPRESSING, monitor, cost);
+		new DeltaWindow(config, new DeltaCache(config), reader,
+				monitor, bytesPerUnit,
+				list, 0, cnt).search();
+		endPhase(monitor);
+	}
+
+	private void parallelDeltaSearch(ProgressMonitor monitor,
+			ObjectToPack[] list, int cnt, int threads) throws IOException {
+		DeltaCache dc = new ThreadSafeDeltaCache(config);
+		ThreadSafeProgressMonitor pm = new ThreadSafeProgressMonitor(monitor);
 		DeltaTask.Block taskBlock = new DeltaTask.Block(threads, config,
 				reader, dc, pm,
 				list, 0, cnt);
 		taskBlock.partitionTasks();
+		beginPhase(PackingPhase.COMPRESSING, monitor, taskBlock.cost());
 		pm.startWorkers(taskBlock.tasks.size());
 
-		final Executor executor = config.getExecutor();
-		final List<Throwable> errors = Collections
-				.synchronizedList(new ArrayList<Throwable>());
+		Executor executor = config.getExecutor();
+		final List<Throwable> errors =
+				Collections.synchronizedList(new ArrayList<Throwable>(threads));
 		if (executor instanceof ExecutorService) {
 			// Caller supplied us a service, use it directly.
 			runTasks((ExecutorService) executor, pm, taskBlock, errors);
@@ -1409,6 +1431,7 @@ public class PackWriter {
 			fail.initCause(err);
 			throw fail;
 		}
+		endPhase(monitor);
 	}
 
 	private static void runTasks(ExecutorService pool,

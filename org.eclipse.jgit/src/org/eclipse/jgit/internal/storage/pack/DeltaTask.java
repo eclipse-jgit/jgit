@@ -57,6 +57,8 @@ import org.eclipse.jgit.lib.ThreadSafeProgressMonitor;
 import org.eclipse.jgit.storage.pack.PackConfig;
 
 final class DeltaTask implements Callable<Object> {
+	static final long MAX_METER = 9 << 20;
+
 	static final class Block {
 		private static final int MIN_TOP_PATH = 50 << 20;
 
@@ -71,6 +73,7 @@ final class DeltaTask implements Callable<Object> {
 		final int endIndex;
 
 		private long totalWeight;
+		private long bytesPerUnit;
 
 		Block(int threads, PackConfig config, ObjectReader reader,
 				DeltaCache dc, ThreadSafeProgressMonitor pm,
@@ -84,6 +87,13 @@ final class DeltaTask implements Callable<Object> {
 			this.list = list;
 			this.beginIndex = begin;
 			this.endIndex = end;
+		}
+
+		int cost() {
+			int d = (int) (totalWeight / bytesPerUnit);
+			if (totalWeight % bytesPerUnit != 0)
+				d++;
+			return d;
 		}
 
 		synchronized DeltaWindow stealWork(DeltaTask forThread) {
@@ -200,6 +210,10 @@ final class DeltaTask implements Callable<Object> {
 					return a.slice.beginIndex - b.slice.beginIndex;
 				}
 			});
+
+			bytesPerUnit = 1;
+			while (MAX_METER <= (totalWeight / bytesPerUnit))
+				bytesPerUnit <<= 10;
 			return topPaths;
 		}
 	}
@@ -282,7 +296,7 @@ final class DeltaTask implements Callable<Object> {
 
 	DeltaWindow initWindow(Slice s) {
 		DeltaWindow w = new DeltaWindow(block.config, block.dc,
-				or, block.pm,
+				or, block.pm, block.bytesPerUnit,
 				block.list, s.beginIndex, s.endIndex);
 		synchronized (this) {
 			dw = w;
