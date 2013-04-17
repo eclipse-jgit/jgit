@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//wb4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/DeltaTask.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2013-04-17T17:42:46Z",
+      "side": 1,
+      "message": "You are really making this more complicated than it needs to be. If you returned two arrays, one for top paths and one for other paths, then you would wouldn\u0027t have this logic. The other array can at most be threads + 1 length and you wouldn\u0027t have all this overlap  logic.\n\nbut, logic looks ok.",
+      "revId": "f33381da0e34f8abeb0da44b20bdea1bea799151",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//waw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/DeltaTask.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2013-04-17T17:42:46Z",
+      "side": 1,
+      "message": "How about WeightedPath?",
+      "revId": "f33381da0e34f8abeb0da44b20bdea1bea799151",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//wa0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/DeltaTask.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2013-04-17T17:42:46Z",
+      "side": 1,
+      "message": "not used. remove",
+      "revId": "f33381da0e34f8abeb0da44b20bdea1bea799151",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//wa8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/DeltaTask.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2013-04-17T17:42:46Z",
+      "side": 1,
+      "message": "there is a race here between the dw \u003d null and selecting the next. i.e. there could be more work but dw has not been assigned yet.  Perhaps you should set dw in this synchronized loop too.  Maybe doSlice could be refactored into newDeltaWorker() and a runWorker().\n\n private void setWorker(ObjectReader or, Slice s) throws IOException {\n    DeltaWindow w \u003d new DeltaWindow(block.config, block.dc, or, block.pm, block.list, s.beginIndex, s.endIndex);\n  synchronized (this) {\n    dw \u003d w;\n  }\n }\n\n  private void runWorker() throws IOException {\n     DeltaWorker w;\n     synchronized (this) {\n       w \u003d dw;\n     } \n     w.search();\n     synchronized (this) {\n       dw \u003d null;\n     }\n  }",
+      "revId": "f33381da0e34f8abeb0da44b20bdea1bea799151",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//wa4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/DeltaTask.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2013-04-17T17:42:46Z",
+      "side": 1,
+      "message": "this would become runWorker();",
+      "revId": "f33381da0e34f8abeb0da44b20bdea1bea799151",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
