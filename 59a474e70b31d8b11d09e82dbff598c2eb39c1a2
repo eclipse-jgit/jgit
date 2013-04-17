@@ -16,6 +16,24 @@
       "revId": "59a474e70b31d8b11d09e82dbff598c2eb39c1a2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//wYc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/DeltaTask.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-04-17T18:20:37Z",
+      "side": 1,
+      "message": "Gah, you are right. This could cause threads to terminate very early.",
+      "parentUuid": "AABOPX//wZw\u003d",
+      "revId": "59a474e70b31d8b11d09e82dbff598c2eb39c1a2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
