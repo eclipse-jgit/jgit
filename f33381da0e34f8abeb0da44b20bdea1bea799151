@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//wZk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/DeltaTask.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2013-04-17T18:04:10Z",
+      "side": 1,
+      "message": "Right, but it is a more straight forward check. What you have is fine, just more complex.",
+      "parentUuid": "AABOPX//waA\u003d",
+      "revId": "f33381da0e34f8abeb0da44b20bdea1bea799151",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//waw\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/DeltaTask.java",
         "patchSetId": 4
