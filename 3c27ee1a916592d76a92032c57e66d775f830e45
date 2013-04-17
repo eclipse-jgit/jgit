@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//wZQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackCompactor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2013-04-17T18:15:52Z",
+      "side": 1,
+      "message": "how could this be true within a single pack? I thought an object could only occur once within a pack, since you pre-filtered these in toInclude.",
+      "revId": "3c27ee1a916592d76a92032c57e66d775f830e45",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//wZY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackCompactor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2013-04-17T18:15:52Z",
+      "side": 1,
+      "message": "So you are trying to find all objects in the src that are not already in the repository.",
+      "revId": "3c27ee1a916592d76a92032c57e66d775f830e45",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
