@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//wZw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/DeltaTask.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2013-04-17T18:04:22Z",
+      "side": 1,
+      "message": "at this point you could have pulled the last slice BUT the dw is null, so no other thread can steal work from you until you assign dw.",
+      "revId": "59a474e70b31d8b11d09e82dbff598c2eb39c1a2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
