@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//wYw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackCompactor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-04-17T18:19:06Z",
+      "side": 1,
+      "message": "Call it being paranoid. The resulting pack is corrupt if an object is included twice.",
+      "parentUuid": "AABOPX//wZQ\u003d",
+      "revId": "3c27ee1a916592d76a92032c57e66d775f830e45",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//wZY\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackCompactor.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-04-17T18:15:52Z",
       "side": 1,
       "message": "So you are trying to find all objects in the src that are not already in the repository.",
+      "revId": "3c27ee1a916592d76a92032c57e66d775f830e45",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//wYs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackCompactor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-04-17T18:19:06Z",
+      "side": 1,
+      "message": "Objects in src that were not explicitly excluded, yes.",
+      "parentUuid": "AABOPX//wZY\u003d",
       "revId": "3c27ee1a916592d76a92032c57e66d775f830e45",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
