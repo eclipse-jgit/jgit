@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//waA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/DeltaTask.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-04-17T17:56:57Z",
+      "side": 1,
+      "message": "Returning two arrays just means I have to push this logic into the computeTopPaths() method. Moving where it goes doesn\u0027t mean I can make this go away.",
+      "parentUuid": "AABOPX//wb4\u003d",
+      "revId": "f33381da0e34f8abeb0da44b20bdea1bea799151",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//waw\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/DeltaTask.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2013-04-17T17:42:46Z",
       "side": 1,
       "message": "How about WeightedPath?",
+      "revId": "f33381da0e34f8abeb0da44b20bdea1bea799151",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//waQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/DeltaTask.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-04-17T17:56:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//waw\u003d",
       "revId": "f33381da0e34f8abeb0da44b20bdea1bea799151",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//waE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/DeltaTask.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-04-17T17:56:57Z",
+      "side": 1,
+      "message": "There is no race here. We lock on this and remove the last element.",
+      "parentUuid": "AABOPX//wa8\u003d",
+      "revId": "f33381da0e34f8abeb0da44b20bdea1bea799151",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//wa4\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/DeltaTask.java",
         "patchSetId": 4
@@ -81,6 +135,24 @@
       "writtenOn": "2013-04-17T17:42:46Z",
       "side": 1,
       "message": "this would become runWorker();",
+      "revId": "f33381da0e34f8abeb0da44b20bdea1bea799151",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//waM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/DeltaTask.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-04-17T17:56:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//wa4\u003d",
       "revId": "f33381da0e34f8abeb0da44b20bdea1bea799151",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
