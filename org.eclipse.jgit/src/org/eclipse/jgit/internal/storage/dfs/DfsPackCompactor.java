@@ -46,6 +46,7 @@ package org.eclipse.jgit.internal.storage.dfs;
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.COMPACT;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
+import static org.eclipse.jgit.internal.storage.pack.StoredObjectRepresentation.PACK_DELTA;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -56,6 +57,7 @@ import java.util.List;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.PackIndex;
+import org.eclipse.jgit.internal.storage.file.PackReverseIndex;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.NullProgressMonitor;
@@ -88,11 +90,17 @@ public class DfsPackCompactor {
 
 	private final List<DfsPackFile> srcPacks;
 
+	private final List<PackWriter.ObjectIdSet> exclude;
+
 	private final List<DfsPackDescription> newPacks;
 
 	private final List<PackWriter.Statistics> newStats;
 
 	private int autoAddSize;
+
+	private RevWalk rw;
+	private RevFlag added;
+	private RevFlag isBase;
 
 	/**
 	 * Initialize a pack compactor.
@@ -104,6 +112,7 @@ public class DfsPackCompactor {
 		repo = repository;
 		autoAddSize = 5 * 1024 * 1024; // 5 MiB
 		srcPacks = new ArrayList<DfsPackFile>();
+		exclude = new ArrayList<PackWriter.ObjectIdSet>(4);
 		newPacks = new ArrayList<DfsPackDescription>(1);
 		newStats = new ArrayList<PackWriter.Statistics>(1);
 	}
@@ -141,8 +150,46 @@ public class DfsPackCompactor {
 			DfsPackDescription d = pack.getPackDescription();
 			if (d.getFileSize(PACK) < autoAddSize)
 				add(pack);
+			else
+				exclude(pack);
 		}
 		return this;
+	}
+
+	/**
+	 * Exclude objects from the compacted pack.
+	 *
+	 * @param set
+	 *            objects to not include.
+	 * @return {@code this}.
+	 */
+	public DfsPackCompactor exclude(PackWriter.ObjectIdSet set) {
+		exclude.add(set);
+		return this;
+	}
+
+	/**
+	 * Exclude objects from the compacted pack.
+	 *
+	 * @param pack
+	 *            objects to not include.
+	 * @return {@code this}.
+	 * @throws IOException
+	 *             pack index cannot be loaded.
+	 */
+	public DfsPackCompactor exclude(DfsPackFile pack) throws IOException {
+		final PackIndex idx;
+		DfsReader ctx = (DfsReader) repo.newObjectReader();
+		try {
+			idx = pack.getPackIndex(ctx);
+		} finally {
+			ctx.release();
+		}
+		return exclude(new PackWriter.ObjectIdSet() {
+			public boolean contains(AnyObjectId id) {
+				return idx.hasObject(id);
+			}
+		});
 	}
 
 	/**
@@ -200,6 +247,7 @@ public class DfsPackCompactor {
 					pw.release();
 			}
 		} finally {
+			rw = null;
 			ctx.release();
 		}
 	}
@@ -239,48 +287,71 @@ public class DfsPackCompactor {
 			}
 		});
 
-		RevWalk rw = new RevWalk(ctx);
-		RevFlag added = rw.newFlag("ADDED"); //$NON-NLS-1$
+		rw = new RevWalk(ctx);
+		added = rw.newFlag("ADDED"); //$NON-NLS-1$
+		isBase = rw.newFlag("IS_BASE"); //$NON-NLS-1$
+		List<RevObject> baseObjects = new BlockList<RevObject>();
 
 		pm.beginTask(JGitText.get().countingObjects, ProgressMonitor.UNKNOWN);
 		for (DfsPackFile src : srcPacks) {
-			List<ObjectIdWithOffset> want = new BlockList<ObjectIdWithOffset>();
-			for (PackIndex.MutableEntry ent : src.getPackIndex(ctx)) {
-				ObjectId id = ent.toObjectId();
-				RevObject obj = rw.lookupOrNull(id);
-				if (obj == null || !obj.has(added))
-					want.add(new ObjectIdWithOffset(id, ent.getOffset()));
-			}
+			List<ObjectIdWithOffset> want = toInclude(src, ctx);
+			if (want.isEmpty())
+				continue;
 
-			// Sort objects by the order they appear in the pack file, for
-			// two benefits. Scanning object type information is faster when
-			// the pack is traversed in order, and this allows the PackWriter
-			// to be given the new objects in a relatively sane newest-first
-			// ordering without additional logic, like unpacking commits and
-			// walking a commit queue.
-			Collections.sort(want, new Comparator<ObjectIdWithOffset>() {
-				public int compare(ObjectIdWithOffset a, ObjectIdWithOffset b) {
-					return Long.signum(a.offset - b.offset);
-				}
-			});
-
-			// Only pack each object at most once into the output file. The
-			// PackWriter will later select a representation to reuse, which
-			// may be the version in this pack, or may be from another pack if
-			// the object was copied here to complete a thin pack and is larger
-			// than a delta from another pack. This is actually somewhat common
-			// if an object is modified frequently, such as the top level tree.
+			PackReverseIndex rev = src.getReverseIdx(ctx);
+			DfsObjectRepresentation rep = new DfsObjectRepresentation(src);
 			for (ObjectIdWithOffset id : want) {
 				int type = src.getObjectType(ctx, id.offset);
 				RevObject obj = rw.lookupAny(id, type);
-				if (!obj.has(added)) {
-					pm.update(1);
-					pw.addObject(obj);
-					obj.add(added);
+				if (obj.has(added))
+					continue;
+
+				pm.update(1);
+				pw.addObject(obj);
+				obj.add(added);
+
+				src.representation(rep, id.offset, ctx, rev);
+				if (rep.getFormat() != PACK_DELTA)
+					continue;
+
+				RevObject base = rw.lookupAny(rep.getDeltaBase(), type);
+				if (!base.has(added) && !base.has(isBase)) {
+					baseObjects.add(base);
+					base.add(isBase);
 				}
 			}
 		}
+		for (RevObject obj : baseObjects) {
+			if (!obj.has(added)) {
+				pm.update(1);
+				pw.addObject(obj);
+				obj.add(added);
+			}
+		}
 		pm.endTask();
+	}
+
+	private List<ObjectIdWithOffset> toInclude(DfsPackFile src, DfsReader ctx)
+			throws IOException {
+		PackIndex srcIdx = src.getPackIndex(ctx);
+		List<ObjectIdWithOffset> want = new BlockList<ObjectIdWithOffset>(
+				(int) srcIdx.getObjectCount());
+		SCAN: for (PackIndex.MutableEntry ent : srcIdx) {
+			ObjectId id = ent.toObjectId();
+			RevObject obj = rw.lookupOrNull(id);
+			if (obj != null && (obj.has(added) || obj.has(isBase)))
+				continue;
+			for (PackWriter.ObjectIdSet e : exclude)
+				if (e.contains(id))
+					continue SCAN;
+			want.add(new ObjectIdWithOffset(id, ent.getOffset()));
+		}
+		Collections.sort(want, new Comparator<ObjectIdWithOffset>() {
+			public int compare(ObjectIdWithOffset a, ObjectIdWithOffset b) {
+				return Long.signum(a.offset - b.offset);
+			}
+		});
+		return want;
 	}
 
 	private static void writePack(DfsObjDatabase objdb,
