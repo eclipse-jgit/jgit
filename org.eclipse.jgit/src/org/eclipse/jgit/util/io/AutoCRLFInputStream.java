@@ -58,9 +58,12 @@ import org.eclipse.jgit.diff.RawText;
  * of binary files, canonicalization is turned off (for the complete file).
  */
 public class AutoCRLFInputStream extends InputStream {
+
+	static final int BUFFER_SIZE = 8096;
+
 	private final byte[] single = new byte[1];
 
-	private final byte[] buf = new byte[8096];
+	private final byte[] buf = new byte[BUFFER_SIZE];
 
 	private final InputStream in;
 

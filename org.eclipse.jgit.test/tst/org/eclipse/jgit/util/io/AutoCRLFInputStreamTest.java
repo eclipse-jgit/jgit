@@ -64,6 +64,17 @@ public class AutoCRLFInputStreamTest {
 		assertNoCrLf("\r\n\r\r", "\r\n\r\r");
 		assertNoCrLf("\r\n\r\n", "\r\n\r\n");
 		assertNoCrLf("\r\n\r\n\r", "\n\r\n\r");
+		assertNoCrLf("\0\n", "\0\n");
+	}
+
+	@Test
+	public void testBoundary() throws IOException {
+		for (int i = AutoCRLFInputStream.BUFFER_SIZE - 10; i < AutoCRLFInputStream.BUFFER_SIZE + 10; i++) {
+			String s1 = AutoCRLFOutputStreamTest.repeat("a", i);
+			assertNoCrLf(s1, s1);
+			String s2 = AutoCRLFOutputStreamTest.repeat("\0", i);
+			assertNoCrLf(s2, s2);
+		}
 	}
 
 	private void assertNoCrLf(String string, String string2) throws IOException {
