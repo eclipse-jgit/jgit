@@ -70,6 +70,24 @@
       "revId": "29c98cd5e26f15088e443c91865c0f344b4f5595",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//v3U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/IndexDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-04-18T20:25:56Z",
+      "side": 1,
+      "message": "Ok, you were convincing :). Changed it to StageState (has a nicer plural than status).",
+      "parentUuid": "AABOPX//1+4\u003d",
+      "revId": "29c98cd5e26f15088e443c91865c0f344b4f5595",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
