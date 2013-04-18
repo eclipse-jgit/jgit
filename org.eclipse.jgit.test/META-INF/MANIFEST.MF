@@ -45,4 +45,3 @@ Import-Package: javaewah;version="0.5.6",
  org.junit.experimental.theories;version="[4.4.0,5.0.0)",
  org.junit.runner;version="[4.4.0,5.0.0)"
 Require-Bundle: org.hamcrest.core;bundle-version="[1.1.0,2.0.0)"
-Export-Package: org.eclipse.jgit.lib;version="3.0.0"
