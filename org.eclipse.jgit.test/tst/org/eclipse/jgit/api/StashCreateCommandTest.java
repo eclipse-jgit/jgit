@@ -88,6 +88,7 @@ public class StashCreateCommandTest extends RepositoryTestCase {
 		git.add().addFilepattern("file.txt").call();
 		head = git.commit().setMessage("add file").call();
 		assertNotNull(head);
+		writeTrashFile("untracked.txt", "content");
 	}
 
 	/**

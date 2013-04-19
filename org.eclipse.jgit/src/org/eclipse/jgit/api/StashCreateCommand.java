@@ -241,6 +241,7 @@ public class StashCreateCommand extends GitCommand<RevCommit> {
 				MutableObjectId id = new MutableObjectId();
 				List<PathEdit> wtEdits = new ArrayList<PathEdit>();
 				List<String> wtDeletes = new ArrayList<String>();
+				boolean hasChanges = false;
 				do {
 					AbstractTreeIterator headIter = treeWalk.getTree(0,
 							AbstractTreeIterator.class);
@@ -254,9 +255,12 @@ public class StashCreateCommand extends GitCommand<RevCommit> {
 								new UnmergedPathException(
 										indexIter.getDirCacheEntry()));
 					if (wtIter != null) {
-						if (indexIter != null && wtIter.idEqual(indexIter)
-								|| headIter != null
-								&& wtIter.idEqual(headIter))
+						if (indexIter == null && headIter == null)
+							continue;
+						hasChanges = true;
+						if (indexIter != null && wtIter.idEqual(indexIter))
+							continue;
+						if (headIter != null && wtIter.idEqual(headIter))
 							continue;
 						treeWalk.getObjectId(id, 0);
 						final DirCacheEntry entry = new DirCacheEntry(
@@ -278,9 +282,13 @@ public class StashCreateCommand extends GitCommand<RevCommit> {
 							}
 						});
 					}
+					hasChanges = true;
 					if (wtIter == null && headIter != null)
 						wtDeletes.add(treeWalk.getPathString());
 				} while (treeWalk.next());
+
+				if (!hasChanges)
+					return null;
 
 				String branch = Repository.shortenRefName(head.getTarget()
 						.getName());
