@@ -144,7 +144,7 @@ public class FileUtilTest {
 				assertTrue(f2.exists());
 				assertTrue(d1.exists());
 				assertTrue(d2.exists());
-				assertTrue(d3.exists());
+				assertFalse(d3.exists());
 			}
 		}
 
@@ -160,7 +160,7 @@ public class FileUtilTest {
 			// Everything still there
 			assertTrue(d1.exists());
 			assertTrue(d2.exists());
-			assertTrue(d3.exists());
+			assertFalse(d3.exists());
 		}
 
 		// Now delete the empty hierarchy
