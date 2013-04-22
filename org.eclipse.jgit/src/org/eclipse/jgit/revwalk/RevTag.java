@@ -240,8 +240,16 @@ public class RevTag extends RevObject {
 
 	/**
 	 * Get a reference to the object this tag was placed on.
+	 * <p>
+	 * Note that the returned object has only been looked up (see
+	 * {@link RevWalk#lookupAny(AnyObjectId, int)}. To access the contents it
+	 * needs to be parsed, see {@link RevWalk#parseHeaders(RevObject)} and
+	 * {@link RevWalk#parseBody(RevObject)}.
+	 * <p>
+	 * As an alternative, use {@link RevWalk#peel(RevObject)} and pass this
+	 * {@link RevTag} to peel it until the first non-tag object.
 	 *
-	 * @return object this tag refers to.
+	 * @return object this tag refers to (only looked up, not parsed)
 	 */
 	public final RevObject getObject() {
 		return object;
