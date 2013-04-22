@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010, Chris Aniszczyk <caniszczyk@gmail.com>
+ * Copyright (C) 2010, 2013 Chris Aniszczyk <caniszczyk@gmail.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -66,9 +66,18 @@ import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 /**
- * A class used to execute a {@code Tag} command. It has setters for all
- * supported options and arguments of this command and a {@link #call()} method
- * to finally execute the command.
+ * Create/update an annotated tag object.
+ * <p>
+ * Examples (<code>git</code> is a {@link Git} instance):
+ * <p>
+ * Create a new annotated tag for the current commit:
+ *
+ * <pre>
+ * git.tag().setName(&quot;v1.0&quot;).setMessage(&quot;First stable release&quot;).call();
+ * </pre>
+ * <p>
+ * Use {@link Repository#updateRef(String)} to create a lightweight tag (just a
+ * named reference to a commit).
  *
  * @see <a href="http://www.kernel.org/pub/software/scm/git/docs/git-tag.html"
  *      >Git documentation about Tag</a>
