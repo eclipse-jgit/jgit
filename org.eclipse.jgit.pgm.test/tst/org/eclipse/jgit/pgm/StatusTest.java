@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012, François Rey <eclipse.org_@_francois_._rey_._name>
+ * Copyright (C) 2012, 2013 François Rey <eclipse.org_@_francois_._rey_._name>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -191,7 +191,7 @@ public class StatusTest extends CLIRepositoryTestCase {
 						"# On branch master", //
 						"# Unmerged paths:", //
 						"# ", //
-						"# \tunmerged", //
+						"# \tboth modified:      unmerged", //
 						"# ", //
 						"# Untracked files:", //
 						"# ", //
@@ -205,7 +205,7 @@ public class StatusTest extends CLIRepositoryTestCase {
 						"# Not currently on any branch.", //
 						"# Unmerged paths:", //
 						"# ", //
-						"# \tunmerged", //
+						"# \tboth modified:      unmerged", //
 						"# ", //
 						"# Untracked files:", //
 						"# ", //
