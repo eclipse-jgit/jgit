@@ -43,7 +43,6 @@
 package org.eclipse.jgit.pgm.archive;
 
 import java.lang.String;
-import java.lang.System;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.EnumMap;
@@ -118,12 +117,6 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 				throws IOException;
 	}
 
-	private static void warnArchiveEntryModeIgnored(String name) {
-		System.err.println(MessageFormat.format( //
-				CLIText.get().archiveEntryModeIgnored, //
-				name));
-	}
-
 	private static final Map<Format, Archiver> formats;
 
 	static {
@@ -144,7 +137,8 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 						|| mode == FileMode.SYMLINK) {
 					entry.setUnixMode(mode.getBits());
 				} else {
-					warnArchiveEntryModeIgnored(path);
+					// TODO(jrn): Let the caller know the tree contained
+					// an entry with unsupported mode (e.g., a submodule).
 				}
 				entry.setSize(loader.getSize());
 				out.putArchiveEntry(entry);
@@ -172,10 +166,12 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 
 				final TarArchiveEntry entry = new TarArchiveEntry(path);
 				if (mode == FileMode.REGULAR_FILE ||
-				    mode == FileMode.EXECUTABLE_FILE)
+				    mode == FileMode.EXECUTABLE_FILE) {
 					entry.setMode(mode.getBits());
-				else
-					warnArchiveEntryModeIgnored(path);
+				} else {
+					// TODO(jrn): Let the caller know the tree contained
+					// an entry with unsupported mode (e.g., a submodule).
+				}
 				entry.setSize(loader.getSize());
 				out.putArchiveEntry(entry);
 				loader.copyTo(out);
