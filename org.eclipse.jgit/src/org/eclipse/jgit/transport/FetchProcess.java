@@ -382,23 +382,16 @@ class FetchProcess {
 				continue;
 
 			Ref local = haveRefs.get(r.getName());
-			ObjectId obj = r.getObjectId();
-
-			if (r.getPeeledObjectId() == null) {
-				if (local != null && obj.equals(local.getObjectId()))
-					continue;
-				if (askFor.containsKey(obj) || transport.local.hasObject(obj))
-					wantTag(r);
-				else
-					additionalTags.add(r);
+			if (local != null)
+				// We already have a tag with this name, don't fetch it (even if
+				// the local is different).
 				continue;
-			}
 
-			if (local != null) {
-				if (!obj.equals(local.getObjectId()))
-					wantTag(r);
-			} else if (askFor.containsKey(r.getPeeledObjectId())
-					|| transport.local.hasObject(r.getPeeledObjectId()))
+			ObjectId obj = r.getPeeledObjectId();
+			if (obj == null)
+				obj = r.getObjectId();
+
+			if (askFor.containsKey(obj) || transport.local.hasObject(obj))
 				wantTag(r);
 			else
 				additionalTags.add(r);
