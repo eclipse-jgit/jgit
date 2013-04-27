@@ -66,6 +66,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.ReflogReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
@@ -414,7 +415,7 @@ public class FileRepository extends Repository {
 	public ReflogReader getReflogReader(String refName) throws IOException {
 		Ref ref = getRef(refName);
 		if (ref != null)
-			return new ReflogReader(this, ref.getName());
+			return new ReflogReaderImpl(this, ref.getName());
 		return null;
 	}
 }
