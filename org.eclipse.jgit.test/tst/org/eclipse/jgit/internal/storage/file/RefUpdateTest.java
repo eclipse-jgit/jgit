@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2008, Charles O'Farrell <charleso@charleso.org>
  * Copyright (C) 2009-2010, Google Inc.
- * Copyright (C) 2008-2009, Robin Rosenberg <robin.rosenberg@dewire.com>
+ * Copyright (C) 2008-2013, Robin Rosenberg <robin.rosenberg@dewire.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -281,6 +281,21 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		delete(ref, Result.REJECTED, true, false);
 		ref.setForceUpdate(true);
 		delete(ref, Result.FORCED);
+	}
+
+	@Test
+	public void testDeleteWithoutHead() throws IOException {
+		// Prepare repository without HEAD
+		RefUpdate refUpdate = db.updateRef(Constants.HEAD, true);
+		refUpdate.setForceUpdate(true);
+		refUpdate.setNewObjectId(ObjectId.zeroId());
+		Result updateResult = refUpdate.update();
+		assertEquals(Result.FORCED, updateResult);
+		Result deleteHeadResult = db.updateRef(Constants.HEAD).delete();
+		assertEquals(Result.NO_CHANGE, deleteHeadResult);
+
+		// Any result is ok as long as it's not an NPE
+		db.updateRef(Constants.R_HEADS + "master").delete();
 	}
 
 	@Test
