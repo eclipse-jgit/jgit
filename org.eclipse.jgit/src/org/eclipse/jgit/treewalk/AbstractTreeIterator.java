@@ -425,7 +425,14 @@ public abstract class AbstractTreeIterator {
 		return TreeWalk.pathOf(this);
 	}
 
-	/** @return the internal buffer holding the current path. */
+	/**
+	 * Get the current entry path buffer.
+	 * <p>
+	 * Note that the returned byte[] has to be used together with
+	 * {@link #getEntryPathLength()} (only use bytes up to this length).
+	 *
+	 * @return the internal buffer holding the current path.
+	 */
 	public byte[] getEntryPathBuffer() {
 		return path;
 	}
