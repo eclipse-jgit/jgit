@@ -3,6 +3,7 @@
  * Copyright (C) 2008, Robin Rosenberg <robin.rosenberg@dewire.com>
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
  * Copyright (C) 2010, Christian Halstrick <christian.halstrick@sap.com>
+ * Copyright (C) 2013, Robin Stocker <robin@nibor.org>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -111,7 +112,7 @@ public class URIish implements Serializable {
 	 * Part of a pattern which matches a relative path. Relative paths don't
 	 * start with slash or drive letters. Defines no capturing group.
 	 */
-	private static final String RELATIVE_PATH_P = "(?:(?:[^\\\\/]+[\\\\/])*[^\\\\/]+[\\\\/]?)"; //$NON-NLS-1$
+	private static final String RELATIVE_PATH_P = "(?:(?:[^\\\\/]+[\\\\/]+)*[^\\\\/]+[\\\\/]*)"; //$NON-NLS-1$
 
 	/**
 	 * Part of a pattern which matches a relative or absolute path. Defines no
@@ -698,7 +699,7 @@ public class URIish implements Serializable {
 		if ("file".equals(scheme) || LOCAL_FILE.matcher(s).matches()) //$NON-NLS-1$
 			elements = s.split("[\\" + File.separatorChar + "/]"); //$NON-NLS-1$ //$NON-NLS-2$
 		else
-			elements = s.split("/"); //$NON-NLS-1$
+			elements = s.split("/+"); //$NON-NLS-1$
 		if (elements.length == 0)
 			throw new IllegalArgumentException();
 		String result = elements[elements.length - 1];
