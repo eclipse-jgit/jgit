@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-   Copyright (C) 2009, Google Inc.
-   Copyright (C) 2008, Imran M Yousuf <imyousuf@smartitengineering.com>
-   Copyright (C) 2008, Jonas Fonseca <fonseca@diku.dk>
+   Copyright (C) 2009-2010, Google Inc.
    and other copyright owners as documented in the project's IP log.
 
    This program and the accompanying materials are made available
@@ -55,25 +53,21 @@
     <version>3.0.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>org.eclipse.jgit.test</artifactId>
-  <name>JGit - Core Tests</name>
+  <artifactId>org.eclipse.jgit.archive</artifactId>
+  <name>JGit Archiver</name>
 
   <description>
-    JUnit tests for the core library.
+    Support for archiving a Git tree in formats such as zip and tar
   </description>
+
+  <properties>
+    <translate-qualifier/>
+  </properties>
 
   <dependencies>
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.hamcrest</groupId>
-      <artifactId>hamcrest-library</artifactId>
-      <scope>test</scope>
-      <version>[1.1.0,2.0.0)</version>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-compress</artifactId>
     </dependency>
 
     <dependency>
@@ -81,54 +75,15 @@
       <artifactId>org.eclipse.jgit</artifactId>
       <version>${project.version}</version>
     </dependency>
-
-    <dependency>
-      <groupId>org.eclipse.jgit</groupId>
-      <artifactId>org.eclipse.jgit.junit</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.eclipse.jgit</groupId>
-      <artifactId>org.eclipse.jgit.archive</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.eclipse.jgit</groupId>
-      <artifactId>org.eclipse.jgit.ui</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.eclipse.jgit</groupId>
-      <artifactId>org.eclipse.jgit.console</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.eclipse.jgit</groupId>
-      <artifactId>org.eclipse.jgit.pgm</artifactId>
-      <version>${project.version}</version>
-    </dependency>
   </dependencies>
 
   <build>
-    <testSourceDirectory>tst/</testSourceDirectory>
+    <sourceDirectory>src/</sourceDirectory>
 
-    <testResources>
-      <testResource>
-        <directory>tst-rsrc/</directory>
-      </testResource>
-    </testResources>
-
-    <plugins>
-      <plugin>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <configuration>
-          <argLine>-Xmx256m -Dfile.encoding=UTF-8</argLine>
-        </configuration>
-      </plugin>
-    </plugins>
+    <resources>
+      <resource>
+        <directory>resources/</directory>
+      </resource>
+    </resources>
   </build>
 </project>

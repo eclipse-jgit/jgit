@@ -116,7 +116,6 @@ public class CLIText extends TranslationBundle {
 	/***/ public String doesNotExist;
 	/***/ public String dontOverwriteLocalChanges;
 	/***/ public String everythingUpToDate;
-	/***/ public String exceptionCaughtDuringExecutionOfArchiveCommand;
 	/***/ public String expectedNumberOfbytes;
 	/***/ public String exporting;
 	/***/ public String failedToCommitIndex;
