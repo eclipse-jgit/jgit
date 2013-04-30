@@ -16,6 +16,24 @@
       "revId": "9e67a958fdefaa439afbbb794a090d9145f9b21f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//sM0\u003d",
+        "filename": "org.eclipse.jgit.archive/about.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2013-04-30T21:47:47Z",
+      "side": 1,
+      "message": "Fixed. (Most existing about.html files have the same trailing whitespace, but that\u0027s no reason not to make this copy more readable.)",
+      "parentUuid": "AABOPX//sN0\u003d",
+      "revId": "9e67a958fdefaa439afbbb794a090d9145f9b21f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
