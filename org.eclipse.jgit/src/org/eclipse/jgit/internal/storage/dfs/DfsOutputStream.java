@@ -44,6 +44,7 @@
 package org.eclipse.jgit.internal.storage.dfs;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
 
@@ -96,4 +97,80 @@ public abstract class DfsOutputStream extends OutputStream {
 	 *             to DFS errors.
 	 */
 	public abstract int read(long position, ByteBuffer buf) throws IOException;
+
+	/**
+	 * Open a stream to read back a portion of already written data.
+	 * <p>
+	 * The writing position of the output stream is not affected by a read. The
+	 * input stream can be read up to the current writing position.
+	 *
+	 * @param position
+	 *            offset to read from.
+	 * @return new input stream
+	 */
+	public InputStream openInputStream(final long position) {
+		return new ReadBackStream(this, position);
+	}
+
+	private static class ReadBackStream extends InputStream {
+		private final DfsOutputStream os;
+		private ByteBuffer buf;
+		private long position;
+
+		private ReadBackStream(DfsOutputStream os, long position) {
+			this.os = os;
+			this.position = position;
+		}
+
+		private void prepare() throws IOException {
+			if (buf == null) {
+				int bs = os.blockSize();
+				buf = ByteBuffer.allocate(bs > 0 ? bs : 8192);
+				os.read(position, buf);
+				buf.flip();
+			}
+		}
+
+		@Override
+		public int read(byte[] b, int off, int len) throws IOException {
+			prepare();
+			int p = off;
+			int n = 0;
+			while (true) {
+				if (len <= buf.remaining()) {
+					buf.get(b, off, len);
+					return n + len;
+				}
+				int r = buf.remaining();
+				buf.get(b, p, r);
+				n += r;
+				p += r;
+				buf.rewind();
+				position += buf.capacity();
+				int nr = os.read(position, buf);
+				if (nr < 0) {
+					buf.limit(0);
+					return n > 0 ? n : -1;
+				}
+				buf.flip();
+			}
+		}
+
+		@Override
+		public int read() throws IOException {
+			prepare();
+			if (buf.remaining() > 0) {
+				return buf.get();
+			}
+			buf.rewind();
+			position += buf.capacity();
+			int nr = os.read(position, buf);
+			if (nr < 0) {
+				buf.limit(0);
+				return -1;
+			}
+			buf.flip();
+			return buf.get();
+		}
+	}
 }
