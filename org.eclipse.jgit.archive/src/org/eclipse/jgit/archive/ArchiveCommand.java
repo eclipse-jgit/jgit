@@ -40,7 +40,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.eclipse.jgit.pgm.archive;
+package org.eclipse.jgit.archive;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -57,13 +57,13 @@ import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.GitCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
+import org.eclipse.jgit.archive.ArchiveText;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.pgm.CLIText;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 
@@ -238,7 +238,7 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 		} catch (IOException e) {
 			// TODO(jrn): Throw finer-grained errors.
 			throw new JGitInternalException(
-					CLIText.get().exceptionCaughtDuringExecutionOfArchiveCommand, e);
+					ArchiveText.get().exceptionCaughtDuringExecutionOfArchiveCommand, e);
 		}
 
 		return out;
