@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//sN0\u003d",
+        "filename": "org.eclipse.jgit.archive/about.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-04-30T21:26:03Z",
+      "side": 1,
+      "message": "style nit: trailing whitespace",
+      "revId": "9e67a958fdefaa439afbbb794a090d9145f9b21f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
