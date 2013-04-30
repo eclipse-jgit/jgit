@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 Google Inc.
+ * Copyright (C) 2013, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -40,36 +40,22 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+package org.eclipse.jgit.archive;
 
-package org.eclipse.jgit.pgm;
+import org.eclipse.jgit.nls.NLS;
+import org.eclipse.jgit.nls.TranslationBundle;
 
-import org.eclipse.jgit.archive.ArchiveCommand;
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.pgm.CLIText;
-import org.eclipse.jgit.pgm.TextBuiltin;
-import org.kohsuke.args4j.Argument;
-import org.kohsuke.args4j.Option;
-
-@Command(common = true, usage = "usage_archive")
-class Archive extends TextBuiltin {
-	@Argument(index = 0, metaVar = "metaVar_treeish")
-	private ObjectId tree;
-
-	@Option(name = "--format", metaVar = "metaVar_archiveFormat", usage = "usage_archiveFormat")
-	private ArchiveCommand.Format format = ArchiveCommand.Format.ZIP;
-
-	@Override
-	protected void run() throws Exception {
-		if (tree == null)
-			throw die(CLIText.get().treeIsRequired);
-
-		final ArchiveCommand cmd = new ArchiveCommand(db);
-		try {
-			cmd.setTree(tree)
-					.setFormat(format)
-					.setOutputStream(outs).call();
-		} finally {
-			cmd.release();
-		}
+/**
+ * Translation bundle for JGit archive support
+ */
+public class ArchiveText extends TranslationBundle {
+	/**
+	 * @return an instance of this translation bundle
+	 */
+	public static ArchiveText get() {
+		return NLS.getBundleFor(ArchiveText.class);
 	}
+
+	// @formatter:off
+	/***/ public String exceptionCaughtDuringExecutionOfArchiveCommand;
 }
