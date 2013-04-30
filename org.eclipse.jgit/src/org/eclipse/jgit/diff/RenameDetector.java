@@ -146,6 +146,7 @@ public class RenameDetector {
 	 *            reader to obtain objects from the repository with.
 	 * @param cfg
 	 *            diff config specifying rename detection options.
+	 * @since 3.0
 	 */
 	public RenameDetector(ObjectReader reader, DiffConfig cfg) {
 		objectReader = reader.newReader();
