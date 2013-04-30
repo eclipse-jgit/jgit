@@ -98,6 +98,8 @@ import org.eclipse.jgit.treewalk.TreeWalk;
  *
  * @see <a href="http://git-htmldocs.googlecode.com/git/git-archive.html"
  *      >Git documentation about archive</a>
+ *
+ * @since 3.0
  */
 public class ArchiveCommand extends GitCommand<OutputStream> {
 	/**
