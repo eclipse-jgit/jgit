@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//sKk\u003d",
+        "filename": "org.eclipse.jgit.pgm/.settings/.api_filters",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-05-01T00:22:47Z",
+      "side": 1,
+      "message": "I don\u0027t see warnings, so what do these filters do?",
+      "revId": "e503b16dba6efe63263829a97e526574476b93d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
