@@ -81,6 +81,11 @@ public abstract class ObjectInserter {
 		}
 
 		@Override
+		public ObjectReader newReader() {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
 		public void flush() throws IOException {
 			// Do nothing.
 		}
@@ -134,6 +139,10 @@ public abstract class ObjectInserter {
 
 		public PackParser newPackParser(InputStream in) throws IOException {
 			return delegate().newPackParser(in);
+		}
+
+		public ObjectReader newReader() {
+			return delegate().newReader();
 		}
 
 		public void flush() throws IOException {
@@ -379,6 +388,21 @@ public abstract class ObjectInserter {
 	 *             parse objects into the ObjectDatabase.
 	 */
 	public abstract PackParser newPackParser(InputStream in) throws IOException;
+
+	/**
+	 * Open a reader for objects that may have been written by this inserter.
+	 * <p>
+	 * The returned reader allows the calling thread to read back recently
+	 * inserted objects without first calling {@code flush()} to make them
+	 * visible to the repository. The returned reader should only be used from
+	 * the same thread as the inserter. Objects written by this inserter may not
+	 * be visible to {@code this.newReader().newReader()}.
+	 *
+	 * @since 3.5
+	 * @return reader for any object, including an object recently inserted by
+	 *         this inserter since the last flush.
+	 */
+	public abstract ObjectReader newReader();
 
 	/**
 	 * Make all inserted objects visible.
