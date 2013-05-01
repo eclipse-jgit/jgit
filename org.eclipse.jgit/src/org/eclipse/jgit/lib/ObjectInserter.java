@@ -51,7 +51,11 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.MessageDigest;
+import java.util.Collection;
+import java.util.Set;
 
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.transport.PackParser;
 
 /**
@@ -77,6 +81,11 @@ public abstract class ObjectInserter {
 
 		@Override
 		public PackParser newPackParser(InputStream in) throws IOException {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public ObjectReader newReader(Repository db) {
 			throw new UnsupportedOperationException();
 		}
 
@@ -134,6 +143,10 @@ public abstract class ObjectInserter {
 
 		public PackParser newPackParser(InputStream in) throws IOException {
 			return delegate().newPackParser(in);
+		}
+
+		public ObjectReader newReader(Repository db) {
+			return delegate().newReader(db);
 		}
 
 		public void flush() throws IOException {
@@ -379,6 +392,52 @@ public abstract class ObjectInserter {
 	 *             parse objects into the ObjectDatabase.
 	 */
 	public abstract PackParser newPackParser(InputStream in) throws IOException;
+
+	/**
+	 * Open a reader for objects that may have been written by this inserter.
+	 * <p>
+	 * Prevents callers from having to flush before objects become available.
+	 * Should only be used from the same thread as the inserter; objects written
+	 * by this inserter might not be visible to
+	 * {@code this.newReader().newReader()}.
+	 * <p>
+	 * The default implementation calls {@link #flush()} on this inserter before
+	 * each read; subclasses should provide more efficient implementations.
+	 *
+	 * @param db
+	 *            fallback repository.
+	 * @return reader for previously-written objects.
+	 */
+	public ObjectReader newReader(Repository db) {
+		final ObjectReader reader = db.newObjectReader();
+		return new ObjectReader() {
+			@Override
+			public ObjectReader newReader() {
+				return reader.newReader();
+			}
+
+			@Override
+			public Collection<ObjectId> resolve(AbbreviatedObjectId id)
+					throws IOException {
+				flush();
+				return reader.resolve(id);
+			}
+
+			@Override
+			public ObjectLoader open(AnyObjectId objectId, int typeHint)
+					throws MissingObjectException, IncorrectObjectTypeException,
+					IOException {
+				flush();
+				return reader.open(objectId, typeHint);
+			}
+
+			@Override
+			public Set<ObjectId> getShallowCommits() throws IOException {
+				flush();
+				return reader.getShallowCommits();
+			}
+		};
+	}
 
 	/**
 	 * Make all inserted objects visible.
