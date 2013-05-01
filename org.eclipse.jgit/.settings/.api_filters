@@ -8,6 +8,14 @@
             </message_arguments>
         </filter>
     </resource>
+    <resource path="src/org/eclipse/jgit/lib/ObjectInserter.java" type="org.eclipse.jgit.lib.ObjectInserter">
+        <filter id="336695337">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.ObjectInserter"/>
+                <message_argument value="newReader()"/>
+            </message_arguments>
+        </filter>
+    </resource>
     <resource path="src/org/eclipse/jgit/merge/ResolveMerger.java" type="org.eclipse.jgit.merge.ResolveMerger">
         <filter comment="Doesn't break consumers. Breaking providers is allowed also in minor versions." id="338792546">
             <message_arguments>
