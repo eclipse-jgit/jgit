@@ -81,6 +81,11 @@ public abstract class ObjectInserter {
 		}
 
 		@Override
+		public ObjectReader newReader() {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
 		public void flush() throws IOException {
 			// Do nothing.
 		}
@@ -379,6 +384,16 @@ public abstract class ObjectInserter {
 	 *             parse objects into the ObjectDatabase.
 	 */
 	public abstract PackParser newPackParser(InputStream in) throws IOException;
+
+	/**
+	 * @return a reader for objects that may have been written by this inserter,
+	 *     without having to flush first. Should only be used from the same thread as
+	 *     this inserter; objects written by this inserter may not be visible to
+	 *     {@code this.newReader().newReader()}.
+	 * @throws IOException
+	 *             the reader could not be created.
+	 */
+	public abstract ObjectReader newReader() throws IOException;
 
 	/**
 	 * Make all inserted objects visible.
