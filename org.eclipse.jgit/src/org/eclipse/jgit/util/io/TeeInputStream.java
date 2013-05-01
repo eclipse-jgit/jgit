@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010, Google Inc.
+ * Copyright (C) 2010, 2013 Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -89,11 +89,12 @@ public class TeeInputStream extends InputStream {
 	}
 
 	@Override
-	public long skip(long cnt) throws IOException {
+	public long skip(final long count) throws IOException {
 		long skipped = 0;
-		byte[] b = skipBuffer();
+		long cnt = count;
+		final byte[] b = skipBuffer();
 		while (0 < cnt) {
-			int n = src.read(b, 0, (int) Math.min(b.length, cnt));
+			final int n = src.read(b, 0, (int) Math.min(b.length, cnt));
 			if (n <= 0)
 				break;
 			dst.write(b, 0, n);

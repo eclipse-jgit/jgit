@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010, Marc Strapetz <marc.strapetz@syntevo.com>
+ * Copyright (C) 2010, 2013 Marc Strapetz <marc.strapetz@syntevo.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -91,17 +91,17 @@ public class EolCanonicalizingInputStream extends InputStream {
 	}
 
 	@Override
-	public int read(byte[] bs, int off, int len) throws IOException {
+	public int read(byte[] bs, final int off, final int len) throws IOException {
 		if (len == 0)
 			return 0;
 
 		if (cnt == -1)
 			return -1;
 
-		final int startOff = off;
+		int i = off;
 		final int end = off + len;
 
-		while (off < end) {
+		while (i < end) {
 			if (ptr == cnt && !fillBuffer()) {
 				break;
 			}
@@ -109,23 +109,23 @@ public class EolCanonicalizingInputStream extends InputStream {
 			byte b = buf[ptr++];
 			if (isBinary || b != '\r') {
 				// Logic for binary files ends here
-				bs[off++] = b;
+				bs[i++] = b;
 				continue;
 			}
 
 			if (ptr == cnt && !fillBuffer()) {
-				bs[off++] = '\r';
+				bs[i++] = '\r';
 				break;
 			}
 
 			if (buf[ptr] == '\n') {
-				bs[off++] = '\n';
+				bs[i++] = '\n';
 				ptr++;
 			} else
-				bs[off++] = '\r';
+				bs[i++] = '\r';
 		}
 
-		return startOff == off ? -1 : off - startOff;
+		return i == off ? -1 : i - off;
 	}
 
 	@Override
