@@ -357,6 +357,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String mergeUsingStrategyResultedInDescription;
 	/***/ public String mergeRecursiveReturnedNoCommit;
 	/***/ public String mergeRecursiveTooManyMergeBasesFor;
+	/***/ public String messageAndTaggerNotAllowedInUnannotatedTags;
 	/***/ public String minutesAgo;
 	/***/ public String missingAccesskey;
 	/***/ public String missingConfigurationForKey;
