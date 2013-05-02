@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009, Google Inc.
+ * Copyright (C) 2009, 2013 Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -158,17 +158,18 @@ public class UnionInputStream extends InputStream {
 	}
 
 	@Override
-	public long skip(long len) throws IOException {
-		long cnt = 0;
-		while (0 < len) {
+	public long skip(final long count) throws IOException {
+		long skipped = 0;
+		long cnt = count;
+		while (0 < cnt) {
 			final InputStream in = head();
-			final long n = in.skip(len);
+			final long n = in.skip(cnt);
 			if (0 < n) {
-				cnt += n;
-				len -= n;
+				skipped += n;
+				cnt -= n;
 
 			} else if (in == EOF) {
-				return cnt;
+				return skipped;
 
 			} else {
 				// Is this stream at EOF? We can't tell from skip alone.
@@ -178,15 +179,15 @@ public class UnionInputStream extends InputStream {
 				final int r = in.read();
 				if (r < 0) {
 					pop();
-					if (0 < cnt)
+					if (0 < skipped)
 						break;
 				} else {
-					cnt += 1;
-					len -= 1;
+					skipped += 1;
+					cnt -= 1;
 				}
 			}
 		}
-		return cnt;
+		return skipped;
 	}
 
 	@Override

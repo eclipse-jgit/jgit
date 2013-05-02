@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2012, Robin Rosenberg
- * Copyright (C) 2010, Marc Strapetz <marc.strapetz@syntevo.com>
+ * Copyright (C) 2010, 2013 Marc Strapetz <marc.strapetz@syntevo.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -98,40 +98,40 @@ public class AutoCRLFInputStream extends InputStream {
 	}
 
 	@Override
-	public int read(byte[] bs, int off, int len) throws IOException {
+	public int read(byte[] bs, final int off, final int len) throws IOException {
 		if (len == 0)
 			return 0;
 
 		if (cnt == -1)
 			return -1;
 
-		final int startOff = off;
+		int i = off;
 		final int end = off + len;
 
-		while (off < end) {
+		while (i < end) {
 			if (ptr == cnt && !fillBuffer())
 				break;
 
 			byte b = buf[ptr++];
 			if (isBinary || b != '\n') {
 				// Logic for binary files ends here
-				bs[off++] = last = b;
+				bs[i++] = last = b;
 				continue;
 			}
 
 			if (b == '\n') {
 				if (last == '\r') {
-					bs[off++] = last = b;
+					bs[i++] = last = b;
 					continue;
 				}
-				bs[off++] = last = '\r';
+				bs[i++] = last = '\r';
 				ptr--;
 			} else
-				bs[off++] = last = b;
+				bs[i++] = last = b;
 		}
-		int n = startOff == off ? -1 : off - startOff;
+		int n = i == off ? -1 : i - off;
 		if (n > 0)
-			last = bs[off - 1];
+			last = bs[i - 1];
 		return n;
 	}
 
