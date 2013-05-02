@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//rso\u003d",
+        "filename": "org.eclipse.jgit.java7/META-INF/MANIFEST.MF",
+        "patchSetId": 23
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-05-02T13:48:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//r0w\u003d",
+      "revId": "995582e682bf122a800739d653a752bfdef3d1c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//r0s\u003d",
         "filename": "org.eclipse.jgit.java7/build.properties",
         "patchSetId": 23
@@ -30,6 +48,24 @@
       "writtenOn": "2013-05-02T13:32:33Z",
       "side": 1,
       "message": "missing includes:\n\n               about.html,\\\n               plugin.properties",
+      "revId": "995582e682bf122a800739d653a752bfdef3d1c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//rsk\u003d",
+        "filename": "org.eclipse.jgit.java7/build.properties",
+        "patchSetId": 23
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-05-02T13:48:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//r0s\u003d",
       "revId": "995582e682bf122a800739d653a752bfdef3d1c4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//rsg\u003d",
+        "filename": "org.eclipse.jgit.java7/pom.xml",
+        "patchSetId": 23
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-05-02T13:48:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//r0o\u003d",
+      "revId": "995582e682bf122a800739d653a752bfdef3d1c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//r0g\u003d",
         "filename": "org.eclipse.jgit.java7/pom.xml",
         "patchSetId": 23
@@ -64,6 +118,24 @@
       "writtenOn": "2013-05-02T13:32:33Z",
       "side": 1,
       "message": "this isn\u0027t needed here since we do not need to exclude this fragment from pack200 packing",
+      "revId": "995582e682bf122a800739d653a752bfdef3d1c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//rsc\u003d",
+        "filename": "org.eclipse.jgit.java7/pom.xml",
+        "patchSetId": 23
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-05-02T13:48:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//r0g\u003d",
       "revId": "995582e682bf122a800739d653a752bfdef3d1c4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -121,6 +193,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//rsY\u003d",
+        "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.junit.feature/feature.xml",
+        "patchSetId": 23
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-05-02T13:48:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//r20\u003d",
+      "revId": "995582e682bf122a800739d653a752bfdef3d1c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//ruE\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
         "patchSetId": 23
@@ -132,6 +222,24 @@
       "writtenOn": "2013-05-02T13:32:33Z",
       "side": 1,
       "message": "missing @since tag",
+      "revId": "995582e682bf122a800739d653a752bfdef3d1c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//rsU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-05-02T13:48:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//ruE\u003d",
       "revId": "995582e682bf122a800739d653a752bfdef3d1c4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -155,6 +263,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//rsQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-05-02T13:48:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//ruA\u003d",
+      "revId": "995582e682bf122a800739d653a752bfdef3d1c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//r0c\u003d",
         "filename": "pom.xml",
         "patchSetId": 23
@@ -166,6 +292,24 @@
       "writtenOn": "2013-05-02T13:32:33Z",
       "side": 1,
       "message": "style nit: inconsistent whitespace, use 2 blanks to indent in pom.xml",
+      "revId": "995582e682bf122a800739d653a752bfdef3d1c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//rsM\u003d",
+        "filename": "pom.xml",
+        "patchSetId": 23
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-05-02T13:48:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//r0c\u003d",
       "revId": "995582e682bf122a800739d653a752bfdef3d1c4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
