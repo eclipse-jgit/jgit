@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//rtY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 625,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-05-02T13:41:55Z",
+      "side": 1,
+      "message": "missing @since tag",
+      "revId": "d63455ff2f10e2ce608c5c83e2d23a0dfd62802e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//rtQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 749,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-05-02T13:41:55Z",
+      "side": 1,
+      "message": "missing @since tag",
+      "revId": "d63455ff2f10e2ce608c5c83e2d23a0dfd62802e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
