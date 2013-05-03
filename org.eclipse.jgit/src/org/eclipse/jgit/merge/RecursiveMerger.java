@@ -62,7 +62,6 @@ import org.eclipse.jgit.errors.NoMergeBaseException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -147,6 +146,7 @@ public class RecursiveMerger extends ResolveMerger {
 	 */
 	protected RevCommit getBaseCommit(RevCommit a, RevCommit b, int callDepth)
 			throws IOException {
+		getObjectInserter();
 		ArrayList<RevCommit> baseCommits = new ArrayList<RevCommit>();
 		walk.reset();
 		walk.setRevFilter(RevFilter.MERGE_BASE);
@@ -235,9 +235,7 @@ public class RecursiveMerger extends ResolveMerger {
 		c.setTreeId(tree);
 		c.setAuthor(ident);
 		c.setCommitter(ident);
-		ObjectInserter odi = db.newObjectInserter();
-		ObjectId newCommitId = odi.insert(c);
-		odi.flush();
+		ObjectId newCommitId = getObjectInserter().insert(c);
 		RevCommit ret = walk.lookupCommit(newCommitId);
 		walk.parseHeaders(ret);
 		return ret;
