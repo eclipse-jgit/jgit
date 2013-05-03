@@ -73,10 +73,10 @@ public abstract class Merger {
 	protected final Repository db;
 
 	/** Reader to support {@link #walk} and other object loading. */
-	protected final ObjectReader reader;
+	protected ObjectReader reader;
 
 	/** A RevWalk for computing merge bases, or listing incoming commits. */
-	protected final RevWalk walk;
+	protected RevWalk walk;
 
 	private ObjectInserter inserter;
 
@@ -97,7 +97,8 @@ public abstract class Merger {
 	 */
 	protected Merger(final Repository local) {
 		db = local;
-		reader = db.newObjectReader();
+		inserter = db.newObjectInserter();
+		reader = inserter.newReader();
 		walk = new RevWalk(reader);
 	}
 
@@ -108,14 +109,8 @@ public abstract class Merger {
 		return db;
 	}
 
-	/**
-	 * @return an object writer to create objects in {@link #getRepository()}.
-	 *         If no inserter has been set on this instance, one will be created
-	 *         and returned by all future calls.
-	 */
+	/** @return an object writer to create objects in {@link #getRepository()}. */
 	public ObjectInserter getObjectInserter() {
-		if (inserter == null)
-			inserter = getRepository().newObjectInserter();
 		return inserter;
 	}
 
@@ -123,17 +118,20 @@ public abstract class Merger {
 	 * Set the inserter this merger will use to create objects.
 	 * <p>
 	 * If an inserter was already set on this instance (such as by a prior set,
-	 * or a prior call to {@link #getObjectInserter()}), the prior inserter will
-	 * be released first.
+	 * or a prior call to {@link #getObjectInserter()}), the prior inserter as
+	 * well as the in-progress walk will be released.
 	 *
 	 * @param oi
 	 *            the inserter instance to use. Must be associated with the
 	 *            repository instance returned by {@link #getRepository()}.
 	 */
 	public void setObjectInserter(ObjectInserter oi) {
-		if (inserter != null)
-			inserter.release();
+		walk.release();
+		reader.release();
+		inserter.release();
 		inserter = oi;
+		reader = oi.newReader();
+		walk = new RevWalk(reader);
 	}
 
 	/**
@@ -175,12 +173,11 @@ public abstract class Merger {
 
 		try {
 			boolean ok = mergeImpl();
-			if (ok && inserter != null)
+			if (ok)
 				inserter.flush();
 			return ok;
 		} finally {
-			if (inserter != null)
-				inserter.release();
+			inserter.release();
 			reader.release();
 		}
 	}
@@ -227,7 +224,15 @@ public abstract class Merger {
 		if (sourceCommits[bIdx] == null)
 			throw new IncorrectObjectTypeException(sourceObjects[bIdx],
 					Constants.TYPE_COMMIT);
-		return getBaseCommit(sourceCommits[aIdx], sourceCommits[bIdx]);
+		try {
+			return getBaseCommit(sourceCommits[aIdx], sourceCommits[bIdx]);
+		} finally {
+			// Ensure any virtual bases are flushed before returning. In practice,
+			// since the merge already happened, implementations *shouldn't* create
+			// new virtual merges at this point, but the interface of
+			// getBaseCommit(RevCommit, RevCommit) doesn't guarantee this.
+			inserter.flush();
+		}
 	}
 
 	/**
