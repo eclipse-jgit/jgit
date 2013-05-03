@@ -50,6 +50,7 @@ import java.util.List;
 
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
+import org.eclipse.jgit.diff.DiffConfig;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -117,9 +118,7 @@ abstract class RevWalkTextBuiltin extends TextBuiltin {
 	}
 
 	@Option(name = "--follow", metaVar = "metaVar_path")
-	void follow(final String path) {
-		pathFilter = FollowFilter.create(path);
-	}
+	private String followPath;
 
 	@Argument(index = 0, metaVar = "metaVar_commitish")
 	private final List<RevCommit> commits = new ArrayList<RevCommit>();
@@ -150,11 +149,14 @@ abstract class RevWalkTextBuiltin extends TextBuiltin {
 		for (final RevSort s : sorting)
 			walk.sort(s, true);
 
-		if (pathFilter instanceof FollowFilter)
-			walk.setTreeFilter(pathFilter);
-		else if (pathFilter != TreeFilter.ALL)
+		if (pathFilter == TreeFilter.ALL) {
+			if (followPath != null)
+				walk.setTreeFilter(FollowFilter.create(followPath,
+						db.getConfig().get(DiffConfig.KEY)));
+		} else if (pathFilter != TreeFilter.ALL) {
 			walk.setTreeFilter(AndTreeFilter.create(pathFilter,
 					TreeFilter.ANY_DIFF));
+		}
 
 		if (revLimiter.size() == 1)
 			walk.setRevFilter(revLimiter.get(0));
