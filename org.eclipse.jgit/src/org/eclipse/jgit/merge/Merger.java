@@ -73,10 +73,10 @@ public abstract class Merger {
 	protected final Repository db;
 
 	/** Reader to support {@link #walk} and other object loading. */
-	protected final ObjectReader reader;
+	protected ObjectReader reader;
 
 	/** A RevWalk for computing merge bases, or listing incoming commits. */
-	protected final RevWalk walk;
+	protected RevWalk walk;
 
 	private ObjectInserter inserter;
 
@@ -115,7 +115,7 @@ public abstract class Merger {
 	 */
 	public ObjectInserter getObjectInserter() {
 		if (inserter == null)
-			inserter = getRepository().newObjectInserter();
+			setObjectInserter(getRepository().newObjectInserter());
 		return inserter;
 	}
 
@@ -133,6 +133,10 @@ public abstract class Merger {
 	public void setObjectInserter(ObjectInserter oi) {
 		if (inserter != null)
 			inserter.release();
+		reader.release();
+		walk.release();
+		reader = oi.newReader();
+		walk = new RevWalk(reader);
 		inserter = oi;
 	}
 
@@ -231,7 +235,17 @@ public abstract class Merger {
 		if (sourceCommits[bIdx] == null)
 			throw new IncorrectObjectTypeException(sourceObjects[bIdx],
 					Constants.TYPE_COMMIT);
-		return getBaseCommit(sourceCommits[aIdx], sourceCommits[bIdx]);
+		try {
+			return getBaseCommit(sourceCommits[aIdx], sourceCommits[bIdx]);
+		} finally {
+			// Ensure any virtual bases are flushed before returning. In practice,
+			// since the merge already happened, implementations *shouldn't* create
+			// new virtual merges at this point, but the interface of
+			// getBaseCommit(RevCommit, RevCommit) doesn't guarantee this.
+			if (inserter != null) {
+				inserter.flush();
+			}
+		}
 	}
 
 	/**
