@@ -119,6 +119,8 @@ public class DiffFormatter {
 
 	private ObjectReader reader;
 
+	private DiffConfig diffCfg;
+
 	private int context = 3;
 
 	private int abbreviationLength = 7;
@@ -173,6 +175,7 @@ public class DiffFormatter {
 
 		db = repository;
 		reader = db.newObjectReader();
+		diffCfg = db.getConfig().get(DiffConfig.KEY);
 
 		ContentSource cs = ContentSource.create(reader);
 		source = new ContentSource.Pair(cs, cs);
@@ -534,7 +537,7 @@ public class DiffFormatter {
 		String oldPath = ((FollowFilter) pathFilter).getPath();
 		for (DiffEntry ent : files) {
 			if (isRename(ent) && ent.getNewPath().equals(oldPath)) {
-				pathFilter = FollowFilter.create(ent.getOldPath());
+				pathFilter = FollowFilter.create(ent.getOldPath(), diffCfg);
 				return Collections.singletonList(ent);
 			}
 		}
