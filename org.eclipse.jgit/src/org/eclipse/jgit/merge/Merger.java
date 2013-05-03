@@ -193,11 +193,15 @@ public abstract class Merger {
 
 	/**
 	 * Return the merge base of two commits.
+	 * <p>
+	 * May only be called after {@link #merge(RevCommit...)}.
 	 *
 	 * @param aIdx
-	 *            index of the first commit in {@link #sourceObjects}.
+	 *            index of the first commit in tips passed to
+	 *            {@link #merge(RevCommit...)}.
 	 * @param bIdx
-	 *            index of the second commit in {@link #sourceObjects}.
+	 *            index of the second commit in tips passed to
+	 *            {@link #merge(RevCommit...)}.
 	 * @return the merge base of two commits
 	 * @throws IncorrectObjectTypeException
 	 *             one of the input objects is not a commit.
