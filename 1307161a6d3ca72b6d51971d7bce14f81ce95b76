@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//rR4\u003d",
+        "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.junit.feature/feature.xml",
+        "patchSetId": 24
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-05-03T14:25:00Z",
+      "side": 1,
+      "message": "https://git.eclipse.org/r/#/c/12488/",
+      "parentUuid": "AABOPX//rVo\u003d",
+      "revId": "1307161a6d3ca72b6d51971d7bce14f81ce95b76",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//rVg\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/FileUtilTest.java",
         "patchSetId": 24
