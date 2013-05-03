@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AABOPX//rTw\u003d",
+        "filename": "org.eclipse.jgit.java7/.project",
+        "patchSetId": 24
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2013-05-03T13:36:01Z",
+      "side": 1,
+      "message": ".fbprefs (FindBugs preferences) is not checked in. Not sure if this is required or not, at least org.eclipse.jgit defines it\u0027s own FB preferences.",
+      "revId": "1307161a6d3ca72b6d51971d7bce14f81ce95b76",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//rVo\u003d",
         "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.junit.feature/feature.xml",
         "patchSetId": 24
