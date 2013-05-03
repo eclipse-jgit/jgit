@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//rVo\u003d",
+        "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.junit.feature/feature.xml",
+        "patchSetId": 24
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2013-05-03T13:15:03Z",
+      "side": 1,
+      "message": "The file seems to have unusual line break characters. It is not introduced by the change, but should be fixed IMHO.",
+      "revId": "1307161a6d3ca72b6d51971d7bce14f81ce95b76",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//rVg\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/FileUtilTest.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2013-05-03T13:15:03Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we check if the platform we are running inside *is* capable of supporting symlinks, and if so, fail if FS returns false on supportsSymLinks()?",
+      "revId": "1307161a6d3ca72b6d51971d7bce14f81ce95b76",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//rVU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2013-05-03T13:15:03Z",
+      "side": 1,
+      "message": "System.out on not exceptional path? Use log.info or remove completely?",
+      "revId": "1307161a6d3ca72b6d51971d7bce14f81ce95b76",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//rVM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2013-05-03T13:15:03Z",
+      "side": 1,
+      "message": "System.out (not err) on exceptional path? Use log.error or remove?",
+      "revId": "1307161a6d3ca72b6d51971d7bce14f81ce95b76",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//rVQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2013-05-03T13:15:03Z",
+      "side": 1,
+      "message": "System.out (not err) on exceptional path? Use log.error or remove?",
+      "revId": "1307161a6d3ca72b6d51971d7bce14f81ce95b76",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//rVI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2013-05-03T13:15:03Z",
+      "side": 1,
+      "message": "Typo: \"Constructor*e*\"",
+      "revId": "1307161a6d3ca72b6d51971d7bce14f81ce95b76",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//rVE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2013-05-03T13:15:03Z",
+      "side": 1,
+      "message": "@since missing?",
+      "revId": "1307161a6d3ca72b6d51971d7bce14f81ce95b76",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//rVA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2013-05-03T13:15:03Z",
+      "side": 1,
+      "message": "@since missing?",
+      "revId": "1307161a6d3ca72b6d51971d7bce14f81ce95b76",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
