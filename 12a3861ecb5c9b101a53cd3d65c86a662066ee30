@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//rWs\u003d",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/ConfigTest.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2013-05-03T12:56:46Z",
+      "side": 1,
+      "message": "As \"true\" is a default value (if set), it is not listed here, so no test if the default is set properly on java 7?",
+      "revId": "12a3861ecb5c9b101a53cd3d65c86a662066ee30",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//rWo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2013-05-03T12:56:46Z",
+      "side": 1,
+      "message": "typo in javadoc: \"repository*t*\"",
+      "revId": "12a3861ecb5c9b101a53cd3d65c86a662066ee30",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//rWk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeOptions.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2013-05-03T12:56:46Z",
+      "side": 1,
+      "message": "\"@since 3.0\" is missing?",
+      "revId": "12a3861ecb5c9b101a53cd3d65c86a662066ee30",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
