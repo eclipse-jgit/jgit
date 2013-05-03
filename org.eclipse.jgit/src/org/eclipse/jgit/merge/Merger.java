@@ -153,6 +153,34 @@ public abstract class Merger {
 	 *             be written to the Repository.
 	 */
 	public boolean merge(final AnyObjectId... tips) throws IOException {
+		return merge(true, tips);
+	}
+
+	/**
+	 * Merge together two or more tree-ish objects.
+	 * <p>
+	 * Any tree-ish may be supplied as inputs. Commits and/or tags pointing at
+	 * trees or commits may be passed as input objects.
+	 *
+	 * @param flush
+	 *            whether to flush the underlying object inserter when finished to
+	 *            store any content-merged blobs and virtual merged bases; if
+	 *            false, callers are responsible for flushing.
+	 * @param tips
+	 *            source trees to be combined together. The merge base is not
+	 *            included in this set.
+	 * @return true if the merge was completed without conflicts; false if the
+	 *         merge strategy cannot handle this merge or there were conflicts
+	 *         preventing it from automatically resolving all paths.
+	 * @throws IncorrectObjectTypeException
+	 *             one of the input objects is not a commit, but the strategy
+	 *             requires it to be a commit.
+	 * @throws IOException
+	 *             one or more sources could not be read, or outputs could not
+	 *             be written to the Repository.
+	 */
+	public boolean merge(final boolean flush, final AnyObjectId... tips)
+			throws IOException {
 		sourceObjects = new RevObject[tips.length];
 		for (int i = 0; i < tips.length; i++)
 			sourceObjects[i] = walk.parseAny(tips[i]);
@@ -172,11 +200,12 @@ public abstract class Merger {
 
 		try {
 			boolean ok = mergeImpl();
-			if (ok)
+			if (ok && flush)
 				inserter.flush();
 			return ok;
 		} finally {
-			inserter.release();
+			if (flush)
+				inserter.release();
 			reader.release();
 		}
 	}
