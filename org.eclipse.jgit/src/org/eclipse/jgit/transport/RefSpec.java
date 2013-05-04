@@ -43,8 +43,8 @@
 
 package org.eclipse.jgit.transport;
 
-import java.text.MessageFormat;
 import java.io.Serializable;
+import java.text.MessageFormat;
 
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
@@ -59,7 +59,7 @@ import org.eclipse.jgit.lib.Ref;
 public class RefSpec implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-        /**
+	/**
 	 * Suffix for wildcard ref spec component, that indicate matching all refs
 	 * with specified prefix.
 	 */
@@ -73,7 +73,7 @@ public class RefSpec implements Serializable {
 	 * @return true if provided string is a wildcard ref spec component.
 	 */
 	public static boolean isWildcard(final String s) {
-		return s != null && s.endsWith(WILDCARD_SUFFIX);
+		return s != null && s.contains("*"); //$NON-NLS-1$
 	}
 
 	/** Does this specification ask for forced updated (rewind/reset)? */
@@ -112,6 +112,7 @@ public class RefSpec implements Serializable {
 	 * <li><code>+refs/heads/master</code></li>
 	 * <li><code>+refs/heads/master:refs/remotes/origin/master</code></li>
 	 * <li><code>+refs/heads/*:refs/remotes/origin/*</code></li>
+	 * <li><code>+refs/pull/&#42;/head:refs/remotes/origin/pr/*</code></li>
 	 * <li><code>:refs/heads/master</code></li>
 	 * </ul>
 	 *
@@ -132,18 +133,24 @@ public class RefSpec implements Serializable {
 			s = s.substring(1);
 			if (isWildcard(s))
 				throw new IllegalArgumentException(MessageFormat.format(JGitText.get().invalidWildcards, spec));
-			dstName = s;
+			setDestinationWithValidation(s);
 		} else if (c > 0) {
-			srcName = s.substring(0, c);
-			dstName = s.substring(c + 1);
-			if (isWildcard(srcName) && isWildcard(dstName))
+			String src = s.substring(0, c);
+			String dst = s.substring(c + 1);
+			if (isWildcard(src) && isWildcard(dst)) {
+				// Both contain wildcard
 				wildcard = true;
-			else if (isWildcard(srcName) || isWildcard(dstName))
+			} else if (isWildcard(src) || isWildcard(dst)) {
+				// If either source or destination has wildcard, the other one
+				// must have as well.
 				throw new IllegalArgumentException(MessageFormat.format(JGitText.get().invalidWildcards, spec));
+			}
+			setSourceWithValidation(src);
+			setDestinationWithValidation(dst);
 		} else {
 			if (isWildcard(s))
 				throw new IllegalArgumentException(MessageFormat.format(JGitText.get().invalidWildcards, spec));
-			srcName = s;
+			setSourceWithValidation(s);
 		}
 	}
 
@@ -215,12 +222,19 @@ public class RefSpec implements Serializable {
 	 */
 	public RefSpec setSource(final String source) {
 		final RefSpec r = new RefSpec(this);
-		r.srcName = source;
+		r.setSourceWithValidation(source);
 		if (isWildcard(r.srcName) && r.dstName == null)
 			throw new IllegalStateException(JGitText.get().destinationIsNotAWildcard);
 		if (isWildcard(r.srcName) != isWildcard(r.dstName))
 			throw new IllegalStateException(JGitText.get().sourceDestinationMustMatch);
 		return r;
+	}
+
+	private void setSourceWithValidation(final String source) {
+		if (source != null && !isValid(source))
+			throw new IllegalArgumentException(MessageFormat.format(
+					JGitText.get().invalidRefSpec, source));
+		srcName = source;
 	}
 
 	/**
@@ -254,12 +268,19 @@ public class RefSpec implements Serializable {
 	 */
 	public RefSpec setDestination(final String destination) {
 		final RefSpec r = new RefSpec(this);
-		r.dstName = destination;
+		r.setDestinationWithValidation(destination);
 		if (isWildcard(r.dstName) && r.srcName == null)
 			throw new IllegalStateException(JGitText.get().sourceIsNotAWildcard);
 		if (isWildcard(r.srcName) != isWildcard(r.dstName))
 			throw new IllegalStateException(JGitText.get().sourceDestinationMustMatch);
 		return r;
+	}
+
+	private void setDestinationWithValidation(final String destination) {
+		if (destination != null && !isValid(destination))
+			throw new IllegalArgumentException(MessageFormat.format(
+					JGitText.get().invalidRefSpec, destination));
+		dstName = destination;
 	}
 
 	/**
@@ -350,8 +371,7 @@ public class RefSpec implements Serializable {
 		final String psrc = srcName, pdst = dstName;
 		wildcard = false;
 		srcName = name;
-		dstName = pdst.substring(0, pdst.length() - 1)
-				+ name.substring(psrc.length() - 1);
+		dstName = expandWildcard(name, psrc, pdst);
 		return this;
 	}
 
@@ -392,8 +412,7 @@ public class RefSpec implements Serializable {
 	private RefSpec expandFromDstImp(final String name) {
 		final String psrc = srcName, pdst = dstName;
 		wildcard = false;
-		srcName = psrc.substring(0, psrc.length() - 1)
-				+ name.substring(pdst.length() - 1);
+		srcName = expandWildcard(name, pdst, psrc);
 		dstName = name;
 		return this;
 	}
@@ -417,9 +436,48 @@ public class RefSpec implements Serializable {
 	private boolean match(final String refName, final String s) {
 		if (s == null)
 			return false;
-		if (isWildcard())
-			return refName.startsWith(s.substring(0, s.length() - 1));
-		return refName.equals(s);
+		if (isWildcard()) {
+			int wildcardIndex = s.indexOf('*');
+			String prefix = s.substring(0, wildcardIndex);
+			String suffix = s.substring(wildcardIndex + 1);
+			return refName.startsWith(prefix) && refName.endsWith(suffix)
+					&& refName.length() > prefix.length() + suffix.length();
+		} else {
+			return refName.equals(s);
+		}
+	}
+
+	private static String expandWildcard(String refName, String fromPattern,
+			String toPattern) {
+		int fromWildcard = fromPattern.indexOf('*');
+		int fromTrailing = fromPattern.length() - (fromWildcard + 1);
+		int toWildcard = toPattern.indexOf('*');
+		String wildcardPart = refName.substring(fromWildcard, refName.length()
+				- fromTrailing);
+		return toPattern.substring(0, toWildcard) + wildcardPart
+				+ toPattern.substring(toWildcard + 1);
+	}
+
+	private static boolean isValid(final String s) {
+		final int includeTrailingEmpty = -1;
+		final String[] parts = s.split("/", includeTrailingEmpty); //$NON-NLS-1$
+		boolean wildcard = false;
+		for (int i = 0; i < parts.length; i++) {
+			String part = parts[i];
+			// Part may not be empty
+			if (part.length() == 0)
+				return false;
+			if (part.equals("*")) { //$NON-NLS-1$
+				// Only one part may be wildcard
+				if (wildcard)
+					return false;
+				wildcard = true;
+			} else if (part.contains("*")) { //$NON-NLS-1$
+				// May only be a part on its own
+				return false;
+			}
+		}
+		return true;
 	}
 
 	public int hashCode() {
