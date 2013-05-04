@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//rGI\u003d",
+        "filename": "org.eclipse.jgit.java7/.project",
+        "patchSetId": 24
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-05-04T00:19:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//rTw\u003d",
+      "revId": "1307161a6d3ca72b6d51971d7bce14f81ce95b76",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//rVo\u003d",
         "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.junit.feature/feature.xml",
         "patchSetId": 24
@@ -71,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//rGE\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/FileUtilTest.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-05-04T00:19:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//rVg\u003d",
+      "revId": "1307161a6d3ca72b6d51971d7bce14f81ce95b76",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//rVU\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
         "patchSetId": 24
@@ -82,6 +118,24 @@
       "writtenOn": "2013-05-03T13:15:03Z",
       "side": 1,
       "message": "System.out on not exceptional path? Use log.info or remove completely?",
+      "revId": "1307161a6d3ca72b6d51971d7bce14f81ce95b76",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//rGU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-05-04T00:19:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//rVU\u003d",
       "revId": "1307161a6d3ca72b6d51971d7bce14f81ce95b76",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -105,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//rGQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-05-04T00:19:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//rVM\u003d",
+      "revId": "1307161a6d3ca72b6d51971d7bce14f81ce95b76",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//rVQ\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
         "patchSetId": 24
@@ -116,6 +188,24 @@
       "writtenOn": "2013-05-03T13:15:03Z",
       "side": 1,
       "message": "System.out (not err) on exceptional path? Use log.error or remove?",
+      "revId": "1307161a6d3ca72b6d51971d7bce14f81ce95b76",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//rGM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-05-04T00:19:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//rVQ\u003d",
       "revId": "1307161a6d3ca72b6d51971d7bce14f81ce95b76",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -139,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//rGY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-05-04T00:19:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//rVI\u003d",
+      "revId": "1307161a6d3ca72b6d51971d7bce14f81ce95b76",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//rVE\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
         "patchSetId": 24
@@ -156,6 +264,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//rGg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-05-04T00:19:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//rVE\u003d",
+      "revId": "1307161a6d3ca72b6d51971d7bce14f81ce95b76",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//rVA\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
         "patchSetId": 24
@@ -167,6 +293,24 @@
       "writtenOn": "2013-05-03T13:15:03Z",
       "side": 1,
       "message": "@since missing?",
+      "revId": "1307161a6d3ca72b6d51971d7bce14f81ce95b76",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//rGc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-05-04T00:19:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//rVA\u003d",
       "revId": "1307161a6d3ca72b6d51971d7bce14f81ce95b76",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
