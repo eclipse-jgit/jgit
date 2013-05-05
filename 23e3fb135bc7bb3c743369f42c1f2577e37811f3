@@ -34,6 +34,23 @@
       "revId": "23e3fb135bc7bb3c743369f42c1f2577e37811f3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//rAQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-05-05T16:51:26Z",
+      "side": 1,
+      "message": "I hardly think the edits here are covered by copyright, but I guess we have to keep growing this lengthy header since the project is at Eclipse.",
+      "revId": "23e3fb135bc7bb3c743369f42c1f2577e37811f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
