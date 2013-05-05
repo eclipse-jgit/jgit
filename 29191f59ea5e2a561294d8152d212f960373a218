@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//rCs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RenameDetector.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-05-05T15:39:00Z",
+      "side": 1,
+      "message": "Use this form instead:\n\n  this(repo.newObjectReader(),\n    repo.getConfig().get(DiffConfig.KEY));",
+      "revId": "29191f59ea5e2a561294d8152d212f960373a218",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//rC0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/FollowFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-05-05T15:39:00Z",
+      "side": 1,
+      "message": "Looks like you added trailing whitespace here. Eclipse always inserts it and has trouble removing it.",
+      "revId": "29191f59ea5e2a561294d8152d212f960373a218",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
