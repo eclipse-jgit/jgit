@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//rBE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsInserter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-05-05T16:23:23Z",
+      "side": 1,
+      "message": "Ironically the way you have this implemented we have data in cache but the output stream doesn\u0027t know how to get it, so you re-read from disk.\n\nLook at what DfsPackParser does. It tries to keep track of the output position and uses cache blocks when possible for reading, and only asks the DfsOutputStream for data if the cache block is missing.\n\nI wonder if you can refactor code out of DfsPackParser to share with DfsInserter to implement a common cache-based read-back.",
+      "revId": "83aefbf949828e0c4678e1b2467e0d9047791086",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//rBY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsInserter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-05-05T16:23:23Z",
+      "side": 1,
+      "message": "IIRC this is not carried into the new clone reader by any other implementation.",
+      "revId": "83aefbf949828e0c4678e1b2467e0d9047791086",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//rBU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsInserter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-05-05T16:23:23Z",
+      "side": 1,
+      "message": "Import these using a static import.",
+      "revId": "83aefbf949828e0c4678e1b2467e0d9047791086",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//rBM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsInserter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-05-05T16:23:23Z",
+      "side": 1,
+      "message": "0xf",
+      "revId": "83aefbf949828e0c4678e1b2467e0d9047791086",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//rBI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsInserter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-05-05T16:23:23Z",
+      "side": 1,
+      "message": "If you are doing this also override isLarge() to return true. The default version of isLarge() calls this method and traps the exception to return true. That is a slow way to say \"don\u0027t call this\".",
+      "revId": "83aefbf949828e0c4678e1b2467e0d9047791086",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
