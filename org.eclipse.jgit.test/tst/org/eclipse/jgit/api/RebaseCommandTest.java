@@ -74,6 +74,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.ReflogEntry;
 import org.eclipse.jgit.lib.RepositoryState;
 import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.merge.ResolveMerger.MergeFailureReason;
@@ -107,6 +108,8 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		// update the HEAD
 		RefUpdate refUpdate = db.updateRef(Constants.HEAD, true);
 		refUpdate.setNewObjectId(commit);
+		refUpdate.setRefLogMessage("checkout: moving to " + head.getName(),
+				false);
 		refUpdate.forceUpdate();
 	}
 
@@ -123,7 +126,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		// create file2 on master
 		File file2 = writeTrashFile("file2", "file2");
 		git.add().addFilepattern("file2").call();
-		git.commit().setMessage("Add file2").call();
+		RevCommit second = git.commit().setMessage("Add file2").call();
 		assertTrue(new File(db.getWorkTree(), "file2").exists());
 
 		checkoutBranch("refs/heads/topic");
@@ -133,6 +136,22 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		assertTrue(new File(db.getWorkTree(), "file2").exists());
 		checkFile(file2, "file2");
 		assertEquals(Status.FAST_FORWARD, res.getStatus());
+
+		List<ReflogEntry> headLog = db.getReflogReader(Constants.HEAD)
+				.getReverseEntries();
+		List<ReflogEntry> topicLog = db.getReflogReader("refs/heads/topic")
+				.getReverseEntries();
+		List<ReflogEntry> masterLog = db.getReflogReader("refs/heads/master")
+				.getReverseEntries();
+		assertEquals("rebase finished: returning to refs/heads/topic", headLog
+				.get(0).getComment());
+		assertEquals("checkout: moving from topic to " + second.getName(),
+				headLog.get(1).getComment());
+		assertEquals(2, masterLog.size());
+		assertEquals(2, topicLog.size());
+		assertEquals(
+				"rebase finished: refs/heads/topic onto " + second.getName(),
+				topicLog.get(0).getComment());
 	}
 
 	@Test
@@ -153,7 +172,8 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		// write a second commit
 		writeTrashFile("file2", "file2 new content");
 		git.add().addFilepattern("file2").call();
-		git.commit().setMessage("Change content of file2").call();
+		RevCommit second = git.commit().setMessage("Change content of file2")
+				.call();
 
 		checkoutBranch("refs/heads/topic");
 		assertFalse(new File(db.getWorkTree(), "file2").exists());
@@ -162,6 +182,22 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		assertTrue(new File(db.getWorkTree(), "file2").exists());
 		checkFile(file2, "file2 new content");
 		assertEquals(Status.FAST_FORWARD, res.getStatus());
+
+		List<ReflogEntry> headLog = db.getReflogReader(Constants.HEAD)
+				.getReverseEntries();
+		List<ReflogEntry> topicLog = db.getReflogReader("refs/heads/topic")
+				.getReverseEntries();
+		List<ReflogEntry> masterLog = db.getReflogReader("refs/heads/master")
+				.getReverseEntries();
+		assertEquals("rebase finished: returning to refs/heads/topic", headLog
+				.get(0).getComment());
+		assertEquals("checkout: moving from topic to " + second.getName(),
+				headLog.get(1).getComment());
+		assertEquals(3, masterLog.size());
+		assertEquals(2, topicLog.size());
+		assertEquals(
+				"rebase finished: refs/heads/topic onto " + second.getName(),
+				topicLog.get(0).getComment());
 	}
 
 	/**
@@ -242,6 +278,29 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		assertDerivedFrom(rw.next(), c);
 		assertEquals(b, rw.next());
 		assertEquals(a, rw.next());
+
+		List<ReflogEntry> headLog = db.getReflogReader(Constants.HEAD)
+				.getReverseEntries();
+		List<ReflogEntry> sideLog = db.getReflogReader("refs/heads/side")
+				.getReverseEntries();
+		List<ReflogEntry> topicLog = db.getReflogReader("refs/heads/topic")
+				.getReverseEntries();
+		List<ReflogEntry> masterLog = db.getReflogReader("refs/heads/master")
+				.getReverseEntries();
+		assertEquals("rebase finished: returning to refs/heads/topic", headLog
+				.get(0).getComment());
+		assertEquals("rebase: update file2 on side", headLog.get(1)
+				.getComment());
+		assertEquals("rebase: Add file2", headLog.get(2).getComment());
+		assertEquals("rebase: update file3 on topic", headLog.get(3)
+				.getComment());
+		assertEquals("checkout: moving from topic to " + b.getName(), headLog
+				.get(4).getComment());
+		assertEquals(2, masterLog.size());
+		assertEquals(2, sideLog.size());
+		assertEquals(5, topicLog.size());
+		assertEquals("rebase finished: refs/heads/topic onto " + b.getName(),
+				topicLog.get(0).getComment());
 	}
 
 	static void assertDerivedFrom(RevCommit derived, RevCommit original) {
@@ -261,6 +320,11 @@ public class RebaseCommandTest extends RepositoryTestCase {
 
 		RebaseResult result = git.rebase().setUpstream(parent).call();
 		assertEquals(Status.UP_TO_DATE, result.getStatus());
+
+		assertEquals(2, db.getReflogReader(Constants.HEAD).getReverseEntries()
+				.size());
+		assertEquals(2, db.getReflogReader("refs/heads/master")
+				.getReverseEntries().size());
 	}
 
 	@Test
@@ -274,6 +338,11 @@ public class RebaseCommandTest extends RepositoryTestCase {
 
 		RebaseResult res = git.rebase().setUpstream(first).call();
 		assertEquals(Status.UP_TO_DATE, res.getStatus());
+
+		assertEquals(1, db.getReflogReader(Constants.HEAD).getReverseEntries()
+				.size());
+		assertEquals(1, db.getReflogReader("refs/heads/master")
+				.getReverseEntries().size());
 	}
 
 	@Test
@@ -328,6 +397,18 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		assertEquals(lastMasterChange, new RevWalk(db).parseCommit(
 				db.resolve(Constants.HEAD)).getParent(0));
 		assertEquals(origHead, db.readOrigHead());
+		List<ReflogEntry> headLog = db.getReflogReader(Constants.HEAD)
+				.getReverseEntries();
+		List<ReflogEntry> topicLog = db.getReflogReader("refs/heads/topic")
+				.getReverseEntries();
+		List<ReflogEntry> masterLog = db.getReflogReader("refs/heads/master")
+				.getReverseEntries();
+		assertEquals(2, masterLog.size());
+		assertEquals(3, topicLog.size());
+		assertEquals("rebase finished: refs/heads/topic onto "
+				+ lastMasterChange.getName(), topicLog.get(0).getComment());
+		assertEquals("rebase finished: returning to refs/heads/topic", headLog
+				.get(0).getComment());
 	}
 
 	@Test
@@ -366,6 +447,13 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		assertEquals(lastMasterChange, new RevWalk(db).parseCommit(
 				db.resolve(Constants.HEAD)).getParent(0));
 
+		List<ReflogEntry> headLog = db.getReflogReader(Constants.HEAD)
+				.getReverseEntries();
+		assertEquals(8, headLog.size());
+		assertEquals("rebase: change file1 in topic", headLog.get(0)
+				.getComment());
+		assertEquals("checkout: moving from " + topicCommit.getName() + " to "
+				+ lastMasterChange.getName(), headLog.get(1).getComment());
 	}
 
 	@Test
