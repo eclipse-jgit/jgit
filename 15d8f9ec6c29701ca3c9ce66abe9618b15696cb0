@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//rAY\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/RefSpecTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-05-05T16:47:47Z",
+      "side": 1,
+      "message": "Updating the year for my copyright statement when I didn\u0027t add code is wrong.",
+      "revId": "15d8f9ec6c29701ca3c9ce66abe9618b15696cb0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//rA0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-05-05T16:47:47Z",
+      "side": 1,
+      "message": "So does CGit accept \"refs/heads/foo-*:refs/heads/*\" to rename references and strip foo- prefix?\n\nI am wondering if we need to test for endsWith(\"/*\") or contains(\"/*/\") or if just contains(\"*\") is correct.",
+      "revId": "15d8f9ec6c29701ca3c9ce66abe9618b15696cb0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//rAw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-05-05T16:47:47Z",
+      "side": 1,
+      "message": "Why \u0026#42; and not * here?",
+      "revId": "15d8f9ec6c29701ca3c9ce66abe9618b15696cb0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//rAc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-05-05T16:47:47Z",
+      "side": 1,
+      "message": "I think you can simplify the code a little by using a static helper function:\n\n  private static String checkValidRef(String ref) {\n    if (!isValid(ref))\n      throw ...\n    return ref;\n  }\n\nNow all of the places you use replaced the field assignment with a setter just use the field assignment but wrap the right hand side with checkValidRef().",
+      "revId": "15d8f9ec6c29701ca3c9ce66abe9618b15696cb0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//rAo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-05-05T16:47:47Z",
+      "side": 1,
+      "message": "I would test this length case first, if it fails there is no way the startsWith or endsWith can be correct.",
+      "revId": "15d8f9ec6c29701ca3c9ce66abe9618b15696cb0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//rAk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-05-05T16:47:47Z",
+      "side": 1,
+      "message": "Don\u0027t use else here.",
+      "revId": "15d8f9ec6c29701ca3c9ce66abe9618b15696cb0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//rAg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-05-05T16:47:47Z",
+      "side": 1,
+      "message": "The line wrapping here is ugly. I think some shorter variable names might actually make the code easier to read, and avoid breaking this line.",
+      "revId": "15d8f9ec6c29701ca3c9ce66abe9618b15696cb0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//rAs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-05-05T16:47:47Z",
+      "side": 1,
+      "message": "I think you can write this method as:\n\n  int s \u003d str.indexOf(\u0027*\u0027);\n  if (s \u003c 1)\n    return true;\n  if (str.indexOf(\u0027*\u0027, s + 1) \u003e s)\n    return false;\n  if (str.charAt(s - 1) !\u003d \u0027/\u0027)\n    return false;\n  if (s \u003d\u003d str.length() - 1)\n    return true;\n  return str.charAt(s + 1) \u003d\u003d \u0027/\u0027;\n\nalthough that version does fail to check for the // case, but we didn\u0027t check for that before either.",
+      "revId": "15d8f9ec6c29701ca3c9ce66abe9618b15696cb0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
