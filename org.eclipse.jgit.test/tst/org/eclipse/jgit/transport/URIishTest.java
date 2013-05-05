@@ -2,6 +2,7 @@
  * Copyright (C) 2009, Mykola Nikishov <mn@mn.com.ua>
  * Copyright (C) 2008, Robin Rosenberg <robin.rosenberg@dewire.com>
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
+ * Copyright (C) 2013, Robin Stocker <robin@nibor.org>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -611,7 +612,7 @@ public class URIishTest {
 
 	@Test
 	public void testGetTwoSlashesDotGitHumanishName() throws URISyntaxException {
-		assertEquals("", new URIish("/.git").getHumanishName());
+		assertEquals("", new URIish("//.git").getHumanishName());
 	}
 
 	@Test
@@ -646,7 +647,7 @@ public class URIishTest {
 	@Test
 	public void testGetSlashSlashDotGitSlashHumanishName()
 			throws IllegalArgumentException, URISyntaxException {
-		final String humanishName = new URIish(GIT_SCHEME + "/abc//.git")
+		final String humanishName = new URIish(GIT_SCHEME + "/.git")
 				.getHumanishName();
 		assertEquals("may return an empty humanish name", "", humanishName);
 	}
@@ -699,6 +700,21 @@ public class URIishTest {
 	public void testGetValidWithSlashesDotGitSlashHumanishName()
 			throws IllegalArgumentException, URISyntaxException {
 		String humanishName = new URIish("/a/b/c.git/").getHumanishName();
+		assertEquals("c", humanishName);
+	}
+
+	@Test
+	public void testGetValidLocalWithTwoSlashesHumanishName()
+			throws IllegalArgumentException, URISyntaxException {
+		String humanishName = new URIish("/a/b/c//").getHumanishName();
+		assertEquals("c", humanishName);
+	}
+
+	@Test
+	public void testGetValidGitSchemeWithTwoSlashesHumanishName()
+			throws IllegalArgumentException, URISyntaxException {
+		String humanishName = new URIish(GIT_SCHEME + "/a/b/c//")
+				.getHumanishName();
 		assertEquals("c", humanishName);
 	}
 
