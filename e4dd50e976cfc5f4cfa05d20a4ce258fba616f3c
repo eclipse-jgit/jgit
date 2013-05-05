@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//rB8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsOutputStream.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-05-05T16:07:45Z",
+      "side": 1,
+      "message": "You don\u0027t need this field, see below.",
+      "revId": "e4dd50e976cfc5f4cfa05d20a4ce258fba616f3c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//rBo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsOutputStream.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-05-05T16:07:45Z",
+      "side": 1,
+      "message": "I think it would be simpler to just allocate the ByteBuffer in the constructor. IIRC on a new buffer remaining() will be 0.",
+      "revId": "e4dd50e976cfc5f4cfa05d20a4ce258fba616f3c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//rBs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsOutputStream.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-05-05T16:07:45Z",
+      "side": 1,
+      "message": "off should be p here, and since len isn\u0027t adjusted during the loop this should be len - n.\n\nThis sort of bug is often why I just modify the arguments even though this is against the JGit warning policy in Eclipse. Whoever enabled that warning in our project settings is a bit too paranoid and in many functions trying to follow it actively hurts the readability of the code.",
+      "revId": "e4dd50e976cfc5f4cfa05d20a4ce258fba616f3c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//rBk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsOutputStream.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-05-05T16:07:45Z",
+      "side": 1,
+      "message": "I think I would implement this method as:\n\n  public int read(byte[] b, int off, int len) throws IOException {\n    int cnt \u003d 0;\n    while (0 \u003c len) {\n      if (!buf.hasRemaining()) {\n        buf.rewind();\n        int nr \u003d os.read(position, buf);\n        if (nr \u003c 0)\n          break;\n        position +\u003d nr;\n        buf.flip();\n      }\n\n      int n \u003d Math.min(len, buf.remaining());\n      buf.get(b, off, n);\n      off +\u003d n;\n      len -\u003d n;\n      cnt +\u003d n;\n    }\n    if (cnt \u003d\u003d 0 \u0026\u0026 len \u003e 0)\n      throw new EOFException();\n    return cnt;\n  }",
+      "revId": "e4dd50e976cfc5f4cfa05d20a4ce258fba616f3c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//rCA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsOutputStream.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-05-05T16:07:45Z",
+      "side": 1,
+      "message": "The classical hack is to implement read() like this:\n\n  byte[] b \u003d new byte[1];\n  int n \u003d read(b);\n  return n \u003d\u003d 1 ? b[0] \u0026 0xff : -1;\n\nIts almost never used and this form is short and easy to read.",
+      "revId": "e4dd50e976cfc5f4cfa05d20a4ce258fba616f3c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
