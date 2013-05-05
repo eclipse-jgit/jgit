@@ -45,6 +45,7 @@ package org.eclipse.jgit.revwalk;
 
 import java.io.IOException;
 
+import org.eclipse.jgit.diff.DiffConfig;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.treewalk.TreeWalk;
@@ -77,20 +78,25 @@ public class FollowFilter extends TreeFilter {
 	 *            the path to filter on. Must not be the empty string. All
 	 *            trailing '/' characters will be trimmed before string's length
 	 *            is checked or is used as part of the constructed filter.
+	 * @param cfg
+	 *            diff config specifying rename detection options.
 	 * @return a new filter for the requested path.
 	 * @throws IllegalArgumentException
 	 *             the path supplied was the empty string.
+	 * @since 3.0
 	 */
-	public static FollowFilter create(String path) {
-		return new FollowFilter(PathFilter.create(path));
+	public static FollowFilter create(String path, DiffConfig cfg) {
+		return new FollowFilter(PathFilter.create(path), cfg);
 	}
 
 	private final PathFilter path;
+	final DiffConfig cfg;
 
 	private RenameCallback renameCallback;
 
-	FollowFilter(final PathFilter path) {
+	FollowFilter(final PathFilter path, final DiffConfig cfg) {
 		this.path = path;
+		this.cfg = cfg;
 	}
 
 	/** @return the path this filter matches. */
@@ -112,7 +118,7 @@ public class FollowFilter extends TreeFilter {
 
 	@Override
 	public TreeFilter clone() {
-		return new FollowFilter(path.clone());
+		return new FollowFilter(path.clone(), cfg);
 	}
 
 	@SuppressWarnings("nls")

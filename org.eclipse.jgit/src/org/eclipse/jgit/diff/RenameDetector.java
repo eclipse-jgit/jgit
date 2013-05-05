@@ -111,7 +111,7 @@ public class RenameDetector {
 
 	private boolean done;
 
-	private final Repository repo;
+	private final ObjectReader objectReader;
 
 	/** Similarity score required to pair an add/delete as a rename. */
 	private int renameScore = 60;
@@ -136,11 +136,20 @@ public class RenameDetector {
 	 *            the repository to use for rename detection
 	 */
 	public RenameDetector(Repository repo) {
-		this.repo = repo;
+		this(repo.newObjectReader(), repo.getConfig().get(DiffConfig.KEY));
+	}
 
-		DiffConfig cfg = repo.getConfig().get(DiffConfig.KEY);
+	/**
+	 * Create a new rename detector with a specified reader and diff config.
+	 *
+	 * @param reader
+	 *            reader to obtain objects from the repository with.
+	 * @param cfg
+	 *            diff config specifying rename detection options.
+	 */
+	public RenameDetector(ObjectReader reader, DiffConfig cfg) {
+		objectReader = reader.newReader();
 		renameLimit = cfg.getRenameLimit();
-
 		reset();
 	}
 
@@ -310,11 +319,10 @@ public class RenameDetector {
 	 */
 	public List<DiffEntry> compute(ProgressMonitor pm) throws IOException {
 		if (!done) {
-			ObjectReader reader = repo.newObjectReader();
 			try {
-				return compute(reader, pm);
+				return compute(objectReader, pm);
 			} finally {
-				reader.release();
+				objectReader.release();
 			}
 		}
 		return Collections.unmodifiableList(entries);
