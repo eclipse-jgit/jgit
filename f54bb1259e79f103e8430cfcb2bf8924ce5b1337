@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//qno\u003d",
+        "filename": "org.eclipse.jgit.pgm.test/META-INF/MANIFEST.MF",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-05-06T21:49:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//qoA\u003d",
+      "revId": "f54bb1259e79f103e8430cfcb2bf8924ce5b1337",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//qn8\u003d",
         "filename": "org.eclipse.jgit.test/META-INF/MANIFEST.MF",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-05-06T21:46:19Z",
       "side": 1,
       "message": "use range",
+      "revId": "f54bb1259e79f103e8430cfcb2bf8924ce5b1337",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//qnk\u003d",
+        "filename": "org.eclipse.jgit.test/META-INF/MANIFEST.MF",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-05-06T21:49:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//qn8\u003d",
       "revId": "f54bb1259e79f103e8430cfcb2bf8924ce5b1337",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
