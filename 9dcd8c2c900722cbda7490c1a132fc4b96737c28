@@ -16,6 +16,24 @@
       "revId": "9dcd8c2c900722cbda7490c1a132fc4b96737c28",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//qts\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-05-06T19:03:13Z",
+      "side": 1,
+      "message": "There was no negative comments for almost two weeks. It\u0027s not to late to change the abstraction. \n\nThe API itself is not dependent on the FileRepostory, but only the FileRepository has an actual implementation, but that could be fixed without changing the API.",
+      "parentUuid": "AABOPX//qvY\u003d",
+      "revId": "9dcd8c2c900722cbda7490c1a132fc4b96737c28",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
