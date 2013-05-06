@@ -60,6 +60,7 @@ import java.util.ResourceBundle;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.pgm.internal.CLIText;
 import org.eclipse.jgit.pgm.opt.CmdLineParser;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.io.ThrowingPrintWriter;

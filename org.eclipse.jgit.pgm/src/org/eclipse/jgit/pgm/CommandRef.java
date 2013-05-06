@@ -47,6 +47,8 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.text.MessageFormat;
 
+import org.eclipse.jgit.pgm.internal.CLIText;
+
 /**
  * Description of a command (a {@link TextBuiltin} subclass.
  * <p>
