@@ -16,6 +16,24 @@
       "revId": "252b1dd5c21603eaf62b87b4a652c386b32d1084",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//qs0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/AutoCRLFOutputStream.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-05-06T19:16:30Z",
+      "side": 1,
+      "message": "The warning has been enabled as far as I can remember",
+      "parentUuid": "AABOPX//qvQ\u003d",
+      "revId": "252b1dd5c21603eaf62b87b4a652c386b32d1084",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
