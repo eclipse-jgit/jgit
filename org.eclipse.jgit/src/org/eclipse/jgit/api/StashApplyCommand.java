@@ -163,7 +163,7 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 						JGitText.get().stashCommitMissingTwoParents,
 						stashId.name()));
 
-			ObjectId headTree = repo.resolve(Constants.HEAD + "^{tree}");
+			ObjectId headTree = repo.resolve(Constants.HEAD + "^{tree}"); //$NON-NLS-1$
 			ObjectId stashIndexCommit = revWalk.parseCommit(stashCommit
 					.getParent(1));
 			ObjectId stashHeadCommit = stashCommit.getParent(0);

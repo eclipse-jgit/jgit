@@ -88,7 +88,7 @@ public class URIish implements Serializable {
 	 * Part of a pattern which matches the host part of URIs. Defines one
 	 * capturing group containing the host name.
 	 */
-	private static final String HOST_P = "((?:[^\\\\/:]+)|(?:\\[[0-9a-f:]+\\]))";
+	private static final String HOST_P = "((?:[^\\\\/:]+)|(?:\\[[0-9a-f:]+\\]))"; //$NON-NLS-1$
 
 	/**
 	 * Part of a pattern which matches the optional port part of URIs. Defines
