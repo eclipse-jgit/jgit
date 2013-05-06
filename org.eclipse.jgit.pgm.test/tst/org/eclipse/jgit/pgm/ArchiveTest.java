@@ -70,6 +70,10 @@ import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.lib.CLIRepositoryTestCase;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.pgm.CLIGitCommand;
+import org.eclipse.jgit.pgm.archive.ArchiveCommand;
+import org.eclipse.jgit.pgm.archive.TarFormat;
+import org.eclipse.jgit.pgm.archive.ZipFormat;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -82,9 +86,20 @@ public class ArchiveTest extends CLIRepositoryTestCase {
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
+
+		ArchiveCommand.registerFormat("tar", new TarFormat());
+		ArchiveCommand.registerFormat("zip", new ZipFormat());
+
 		git = new Git(db);
 		git.commit().setMessage("initial commit").call();
 		emptyTree = db.resolve("HEAD^{tree}").abbreviate(12).name();
+	}
+
+	@Override
+	@After
+	public void tearDown() throws Exception {
+		ArchiveCommand.unregisterFormat("zip");
+		ArchiveCommand.unregisterFormat("tar");
 	}
 
 	@Ignore("Some versions of java.util.zip refuse to write an empty ZIP")
