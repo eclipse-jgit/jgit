@@ -235,7 +235,7 @@ public class TransportSftp extends SshTransport implements WalkTransport {
 					files.put(ent.getFilename(), ent);
 				for (final ChannelSftp.LsEntry ent : list) {
 					final String n = ent.getFilename();
-					if (!n.startsWith("pack-") || !n.endsWith(".pack")) //$NON-NLS-1$
+					if (!n.startsWith("pack-") || !n.endsWith(".pack")) //$NON-NLS-1$ //$NON-NLS-2$
 						continue;
 
 					final String in = n.substring(0, n.length() - 5) + ".idx"; //$NON-NLS-1$

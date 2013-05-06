@@ -169,7 +169,7 @@ public class RevertCommand extends GitCommand<RevCommit> {
 
 				String shortMessage = "Revert \"" + srcCommit.getShortMessage() //$NON-NLS-1$
 						+ "\""; //$NON-NLS-1$
-				String newMessage = shortMessage + "\n\n"
+				String newMessage = shortMessage + "\n\n" //$NON-NLS-1$
 						+ "This reverts commit " + srcCommit.getId().getName() //$NON-NLS-1$
 						+ ".\n"; //$NON-NLS-1$
 				if (merger.merge(headCommit, srcParent)) {

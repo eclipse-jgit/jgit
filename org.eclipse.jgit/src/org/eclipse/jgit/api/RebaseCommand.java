@@ -383,7 +383,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		if (headName.startsWith(Constants.R_REFS)) {
 			RefUpdate rup = repo.updateRef(headName);
 			rup.setNewObjectId(newHead);
-			rup.setRefLogMessage("rebase finished: " + headName + " onto " //$NON-NLS-1$
+			rup.setRefLogMessage("rebase finished: " + headName + " onto " //$NON-NLS-1$ //$NON-NLS-2$
 					+ onto.getName(), false);
 			Result res = rup.forceUpdate();
 			switch (res) {

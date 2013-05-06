@@ -131,7 +131,7 @@ public class ChangeIdUtil {
 	private static final Pattern includeInFooterPattern = Pattern
 			.compile("^[ \\[].*$"); //$NON-NLS-1$
 
-	private static final Pattern trailingWhitespace = Pattern.compile("\\s+$");
+	private static final Pattern trailingWhitespace = Pattern.compile("\\s+$"); //$NON-NLS-1$
 
 	/**
 	 * Find the right place to insert a Change-Id and return it.
