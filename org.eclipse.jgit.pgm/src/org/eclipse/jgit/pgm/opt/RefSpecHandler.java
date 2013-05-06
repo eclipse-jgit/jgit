@@ -49,7 +49,7 @@ import org.kohsuke.args4j.OptionDef;
 import org.kohsuke.args4j.spi.OptionHandler;
 import org.kohsuke.args4j.spi.Parameters;
 import org.kohsuke.args4j.spi.Setter;
-import org.eclipse.jgit.pgm.CLIText;
+import org.eclipse.jgit.pgm.internal.CLIText;
 import org.eclipse.jgit.transport.RefSpec;
 
 /**

@@ -51,8 +51,8 @@ import java.text.MessageFormat;
 
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheTree;
-import org.eclipse.jgit.pgm.CLIText;
 import org.eclipse.jgit.pgm.TextBuiltin;
+import org.eclipse.jgit.pgm.internal.CLIText;
 
 class ShowCacheTree extends TextBuiltin {
 	@Override

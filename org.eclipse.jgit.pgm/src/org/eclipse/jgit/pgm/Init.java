@@ -53,6 +53,7 @@ import java.text.MessageFormat;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.InitCommand;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.pgm.internal.CLIText;
 import org.kohsuke.args4j.Option;
 
 @Command(common = true, usage = "usage_CreateAnEmptyGitRepository")
