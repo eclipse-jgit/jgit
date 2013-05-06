@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPX//qvY\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-05-06T17:23:45Z",
+      "side": 1,
+      "message": "Why?\n\nI had good reason for hiding this. It only works on the FileRepository backend and shouldn\u0027t be relied upon as-is because we need to correctly abstract it for other storage backends.\n\nWhy was this also self-approved?",
+      "revId": "9dcd8c2c900722cbda7490c1a132fc4b96737c28",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
