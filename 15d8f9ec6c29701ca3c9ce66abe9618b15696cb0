@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//qYs\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/RefSpecTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-05-07T21:22:59Z",
+      "side": 1,
+      "message": "It was meant for the \"... and other copyright owners\". Normally there is just one year range with the first author and \"... and other\". Here there are more entries. Maybe we should simplify the headers a bit, so that it\u0027s always just a matter to bump the year if necessary? Would be something to discuss on the mailing list.\n\nI added a separate line for this change.",
+      "parentUuid": "AABOPX//rAY\u003d",
+      "revId": "15d8f9ec6c29701ca3c9ce66abe9618b15696cb0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//rA0\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-05-05T16:47:47Z",
       "side": 1,
       "message": "So does CGit accept \"refs/heads/foo-*:refs/heads/*\" to rename references and strip foo- prefix?\n\nI am wondering if we need to test for endsWith(\"/*\") or contains(\"/*/\") or if just contains(\"*\") is correct.",
+      "revId": "15d8f9ec6c29701ca3c9ce66abe9618b15696cb0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//qYY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-05-07T21:22:59Z",
+      "side": 1,
+      "message": "It does not accept such a refspec:\n\n    fatal: Invalid refspec \u0027refs/heads/foo-*:refs/heads/*\u0027\n\nIt does however accept \"*:*\" (for mirroring).\n\nMy thinking was that the above method does not need to check whether the refspec is actually valid, as that is done later. So the method is more a \"does this look whether it could be a wildcard ref (valid or not)?\".",
+      "parentUuid": "AABOPX//rA0\u003d",
       "revId": "15d8f9ec6c29701ca3c9ce66abe9618b15696cb0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//qYU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-05-07T21:22:59Z",
+      "side": 1,
+      "message": "Because \"*/\" ends a comment in Java. I\u0027m not sure if there is another way. Escaping the \"/\" would also be possible, but either way it looks ugly in source form (but OK in final rendered form).",
+      "parentUuid": "AABOPX//rAw\u003d",
+      "revId": "15d8f9ec6c29701ca3c9ce66abe9618b15696cb0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//rAc\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2013-05-05T16:47:47Z",
       "side": 1,
       "message": "I think you can simplify the code a little by using a static helper function:\n\n  private static String checkValidRef(String ref) {\n    if (!isValid(ref))\n      throw ...\n    return ref;\n  }\n\nNow all of the places you use replaced the field assignment with a setter just use the field assignment but wrap the right hand side with checkValidRef().",
+      "revId": "15d8f9ec6c29701ca3c9ce66abe9618b15696cb0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//qYI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-05-07T21:22:59Z",
+      "side": 1,
+      "message": "Good idea, I like that better. Done.",
+      "parentUuid": "AABOPX//rAc\u003d",
       "revId": "15d8f9ec6c29701ca3c9ce66abe9618b15696cb0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//qYE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-05-07T21:22:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//rAo\u003d",
+      "revId": "15d8f9ec6c29701ca3c9ce66abe9618b15696cb0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//rAk\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
         "patchSetId": 2
@@ -98,6 +188,24 @@
       "writtenOn": "2013-05-05T16:47:47Z",
       "side": 1,
       "message": "Don\u0027t use else here.",
+      "revId": "15d8f9ec6c29701ca3c9ce66abe9618b15696cb0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPX//qYA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-05-07T21:22:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//rAk\u003d",
       "revId": "15d8f9ec6c29701ca3c9ce66abe9618b15696cb0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPX//qUc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-05-07T21:22:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//rAg\u003d",
+      "revId": "15d8f9ec6c29701ca3c9ce66abe9618b15696cb0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//rAs\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
         "patchSetId": 2
@@ -132,6 +258,24 @@
       "writtenOn": "2013-05-05T16:47:47Z",
       "side": 1,
       "message": "I think you can write this method as:\n\n  int s \u003d str.indexOf(\u0027*\u0027);\n  if (s \u003c 1)\n    return true;\n  if (str.indexOf(\u0027*\u0027, s + 1) \u003e s)\n    return false;\n  if (str.charAt(s - 1) !\u003d \u0027/\u0027)\n    return false;\n  if (s \u003d\u003d str.length() - 1)\n    return true;\n  return str.charAt(s + 1) \u003d\u003d \u0027/\u0027;\n\nalthough that version does fail to check for the // case, but we didn\u0027t check for that before either.",
+      "revId": "15d8f9ec6c29701ca3c9ce66abe9618b15696cb0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPn///18\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-05-07T21:22:59Z",
+      "side": 1,
+      "message": "Done, and added some more test cases to cover all branches. I included a check for \"//\" because such a ref results in a fatal in C Git, so maybe it\u0027s better to be strict than forgiving here:\n\n    fatal: Invalid refspec \u0027refs/heads//*:refs/remotes/origin/*\u0027",
+      "parentUuid": "AABOPX//rAs\u003d",
       "revId": "15d8f9ec6c29701ca3c9ce66abe9618b15696cb0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
