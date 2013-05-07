@@ -42,12 +42,12 @@
  */
 package org.eclipse.jgit.pgm.archive;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import org.apache.commons.compress.archivers.ArchiveOutputStream;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.GitCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -97,14 +97,32 @@ import org.eclipse.jgit.treewalk.TreeWalk;
  * @since 3.0
  */
 public class ArchiveCommand extends GitCommand<OutputStream> {
-	public static interface Format {
-		ArchiveOutputStream createArchiveOutputStream(OutputStream s);
-		void putEntry(String path, FileMode mode, //
-				ObjectLoader loader, ArchiveOutputStream out) //
-				throws IOException;
+	/**
+	 * Archival format.
+	 *
+	 * Usage:
+	 *	Repository repo = git.getRepository();
+	 *	T out = format.createArchiveOutputStream(System.out);
+	 *	try {
+	 *		for (...) {
+	 *			format.putEntry(path, mode, repo.open(objectId), out);
+	 *		}
+	 *	} finally {
+	 *		out.close();
+	 *	}
+	 */
+	public static interface Format<T extends Closeable> {
+		T createArchiveOutputStream(OutputStream s);
+		void putEntry(String path, FileMode mode,
+				ObjectLoader loader, T out) throws IOException;
 	}
 
-	private static ConcurrentMap<String, Format> formats = new ConcurrentHashMap<String, Format>();
+	/**
+	 * Available archival formats (corresponding to values for
+	 * the --format= option)
+	 */
+	private static ConcurrentMap<String, Format<?>> formats =
+			new ConcurrentHashMap<String, Format<?>>();
 
 	static {
 		formats.put("zip", new ZipFormat());
@@ -133,14 +151,10 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 		walk.release();
 	}
 
-	/**
-	 * @return the stream to which the archive has been written
-	 */
-	@Override
-	public OutputStream call() throws GitAPIException {
+	private <T extends Closeable>
+	OutputStream writeArchive(Format<T> fmt) throws GitAPIException {
 		final MutableObjectId idBuf = new MutableObjectId();
-		final Format fmt = formats.get(format);
-		final ArchiveOutputStream outa = fmt.createArchiveOutputStream(out);
+		final T outa = fmt.createArchiveOutputStream(out);
 		final ObjectReader reader = walk.getObjectReader();
 
 		try {
@@ -169,6 +183,15 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 
 		return out;
 	}
+
+	/**
+	 * @return the stream to which the archive has been written
+	 */
+	@Override
+	public OutputStream call() throws GitAPIException {
+		final Format<?> fmt = formats.get(format);
+		return writeArchive(fmt);
+        }
 
 	/**
 	 * @param tree
