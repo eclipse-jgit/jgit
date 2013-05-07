@@ -243,6 +243,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String errorOccurredDuringUnpackingOnTheRemoteEnd;
 	/***/ public String errorReadingInfoRefs;
 	/***/ public String exceptionCaughtDuringExecutionOfAddCommand;
+	/***/ public String exceptionCaughtDuringExecutionOfArchiveCommand;
 	/***/ public String exceptionCaughtDuringExecutionOfCherryPickCommand;
 	/***/ public String exceptionCaughtDuringExecutionOfCommitCommand;
 	/***/ public String exceptionCaughtDuringExecutionOfFetchCommand;

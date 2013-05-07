@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 Google Inc.
+ * Copyright (C) 2013 Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -40,38 +40,21 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.eclipse.jgit.pgm.archive;
+package org.eclipse.jgit.archive;
 
-import java.io.IOException;
-import java.io.OutputStream;
+import org.eclipse.jgit.api.ArchiveCommand;
+import org.osgi.framework.BundleActivator;
+import org.osgi.framework.BundleContext;
 
-import org.apache.commons.compress.archivers.ArchiveOutputStream;
-import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
-import org.apache.commons.compress.archivers.zip.ZipArchiveOutputStream;
-import org.eclipse.jgit.lib.FileMode;
-import org.eclipse.jgit.lib.ObjectLoader;
-
-public class ZipFormat implements ArchiveCommand.Format<ArchiveOutputStream> {
-	public ArchiveOutputStream createArchiveOutputStream(OutputStream s) {
-		return new ZipArchiveOutputStream(s);
+@SuppressWarnings("unused") public class FormatActivator
+					implements BundleActivator {
+	public void start(BundleContext context) throws Exception {
+		ArchiveCommand.registerFormat("tar", new TarFormat());
+		ArchiveCommand.registerFormat("zip", new ZipFormat());
 	}
 
-	public void putEntry(String path, FileMode mode, ObjectLoader loader,
-				ArchiveOutputStream out) throws IOException {
-		final ZipArchiveEntry entry = new ZipArchiveEntry(path);
-
-		if (mode == FileMode.REGULAR_FILE) {
-			// ok
-		} else if (mode == FileMode.EXECUTABLE_FILE
-				|| mode == FileMode.SYMLINK) {
-			entry.setUnixMode(mode.getBits());
-		} else {
-			// TODO(jrn): Let the caller know the tree contained
-			// an entry with unsupported mode (e.g., a submodule).
-		}
-		entry.setSize(loader.getSize());
-		out.putArchiveEntry(entry);
-		loader.copyTo(out);
-		out.closeArchiveEntry();
+	public void stop(BundleContext context) throws Exception {
+		ArchiveCommand.unregisterFormat("zip");
+		ArchiveCommand.unregisterFormat("tar");
 	}
 }

@@ -27,6 +27,13 @@
    </requires>
 
    <plugin
+         id="org.eclipse.jgit.archive"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
          id="org.eclipse.jgit.pgm"
          download-size="0"
          install-size="0"
@@ -49,6 +56,13 @@
 
    <plugin
          id="org.kohsuke.args4j"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.osgi.core"
          download-size="0"
          install-size="0"
          version="0.0.0"

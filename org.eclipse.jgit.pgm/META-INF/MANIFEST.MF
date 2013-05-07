@@ -6,11 +6,9 @@ Bundle-Version: 3.0.0.qualifier
 Bundle-Vendor: %provider_name
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Import-Package: org.apache.commons.compress.archivers;version="[1.3,2.0)",
- org.apache.commons.compress.archivers.tar;version="[1.3,2.0)",
- org.apache.commons.compress.archivers.zip;version="[1.3,2.0)",
- org.eclipse.jgit.api;version="[3.0.0,3.1.0)",
+Import-Package: org.eclipse.jgit.api;version="[3.0.0,3.1.0)",
  org.eclipse.jgit.api.errors;version="[3.0.0,3.1.0)",
+ org.eclipse.jgit.archive;version="[3.0.0,3.1.0)",
  org.eclipse.jgit.awtui;version="[3.0.0,3.1.0)",
  org.eclipse.jgit.blame;version="[3.0.0,3.1.0)",
  org.eclipse.jgit.diff;version="[3.0.0,3.1.0)",
@@ -34,10 +32,8 @@ Import-Package: org.apache.commons.compress.archivers;version="[1.3,2.0)",
  org.eclipse.jgit.util;version="[3.0.0,3.1.0)",
  org.eclipse.jgit.util.io;version="[3.0.0,3.1.0)",
  org.kohsuke.args4j;version="[2.0.12,2.1.0)",
- org.kohsuke.args4j.spi;version="[2.0.12,2.1.0)",
- org.osgi.framework;version="[4.0,5.0)"
+ org.kohsuke.args4j.spi;version="[2.0.12,2.1.0)"
 Bundle-ActivationPolicy: lazy
-Bundle-Activator: org.eclipse.jgit.pgm.archive.FormatActivator
 Export-Package: org.eclipse.jgit.pgm;version="3.0.0";
   uses:="org.eclipse.jgit.lib,
    org.eclipse.jgit.nls,

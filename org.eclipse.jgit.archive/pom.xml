@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-   Copyright (C) 2012, IBM Corporation
+   Copyright (C) 2013, Google Inc.
    and other copyright owners as documented in the project's IP log.
 
    This program and the accompanying materials are made available
@@ -53,47 +53,59 @@
     <version>3.0.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>org.eclipse.jgit.pgm.test</artifactId>
-  <name>JGit - Command Line Interface Tests</name>
+  <artifactId>org.eclipse.jgit.archive</artifactId>
+  <name>JGit Archive Formats</name>
 
   <description>
-    Tests for command line client tools built on top of JGit.
+    Support for archiving a Git tree in formats such as zip and tar.
+    This is a separate bundle from org.eclipse.jgit to avoid a
+    dependency by the latter on commons-compress.
   </description>
+
+  <properties>
+    <translate-qualifier/>
+  </properties>
 
   <dependencies>
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <scope>compile</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>args4j</groupId>
-      <artifactId>args4j</artifactId>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-compress</artifactId>
     </dependency>
 
     <dependency>
       <groupId>org.eclipse.jgit</groupId>
-      <artifactId>org.eclipse.jgit.archive</artifactId>
+      <artifactId>org.eclipse.jgit</artifactId>
       <version>${project.version}</version>
     </dependency>
 
     <dependency>
-      <groupId>org.eclipse.jgit</groupId>
-      <artifactId>org.eclipse.jgit.junit</artifactId>
-      <version>${project.version}</version>
+      <groupId>org.eclipse.tycho</groupId>
+      <artifactId>org.eclipse.osgi</artifactId>
     </dependency>
-
-    <dependency>
-      <groupId>org.eclipse.jgit</groupId>
-      <artifactId>org.eclipse.jgit.pgm</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-
   </dependencies>
 
   <build>
     <sourceDirectory>src/</sourceDirectory>
-    <testSourceDirectory>tst/</testSourceDirectory>
+
+    <resources>
+      <resource>
+        <directory>.</directory>
+        <includes>
+          <include>plugin.properties</include>
+          <include>about.html</include>
+        </includes>
+      </resource>
+    </resources>
+
+    <plugins>
+      <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifestFile>${bundle-manifest}</manifestFile>
+          </archive>
+        </configuration>
+      </plugin>
+    </plugins>
   </build>
 </project>

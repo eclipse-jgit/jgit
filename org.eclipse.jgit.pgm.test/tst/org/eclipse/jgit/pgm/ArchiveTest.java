@@ -65,14 +65,14 @@ import java.util.concurrent.Future;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import org.eclipse.jgit.api.ArchiveCommand;
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.archive.TarFormat;
+import org.eclipse.jgit.archive.ZipFormat;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.lib.CLIRepositoryTestCase;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.pgm.CLIGitCommand;
-import org.eclipse.jgit.pgm.archive.ArchiveCommand;
-import org.eclipse.jgit.pgm.archive.TarFormat;
-import org.eclipse.jgit.pgm.archive.ZipFormat;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
