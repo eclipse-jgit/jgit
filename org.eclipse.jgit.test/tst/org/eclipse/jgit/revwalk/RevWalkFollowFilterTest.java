@@ -47,10 +47,8 @@ import static org.junit.Assert.assertNull;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.jgit.diff.DiffConfig;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.junit.TestRepository.CommitBuilder;
-import org.eclipse.jgit.lib.Config;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -76,8 +74,7 @@ public class RevWalkFollowFilterTest extends RevWalkTestCase {
 	}
 
 	protected FollowFilter follow(final String followPath) {
-		FollowFilter followFilter =
-			FollowFilter.create(followPath, new Config().get(DiffConfig.KEY));
+		FollowFilter followFilter = FollowFilter.create(followPath);
 		followFilter.setRenameCallback(diffCollector);
 		rw.setTreeFilter(followFilter);
 		return followFilter;

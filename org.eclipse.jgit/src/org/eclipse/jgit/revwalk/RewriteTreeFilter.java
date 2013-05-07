@@ -46,15 +46,15 @@ package org.eclipse.jgit.revwalk;
 import java.io.IOException;
 import java.util.List;
 
-import org.eclipse.jgit.diff.DiffConfig;
 import org.eclipse.jgit.diff.DiffEntry;
-import org.eclipse.jgit.diff.DiffEntry.ChangeType;
 import org.eclipse.jgit.diff.RenameDetector;
+import org.eclipse.jgit.diff.DiffEntry.ChangeType;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.StopWalkException;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
@@ -82,7 +82,10 @@ class RewriteTreeFilter extends RevFilter {
 
 	private final TreeWalk pathFilter;
 
+	private final Repository repository;
+
 	RewriteTreeFilter(final RevWalk walker, final TreeFilter t) {
+		repository = walker.repository;
 		pathFilter = new TreeWalk(walker.reader);
 		pathFilter.setFilter(t);
 		pathFilter.setRecursive(t.shouldBeRecursive());
@@ -139,7 +142,7 @@ class RewriteTreeFilter extends RevFilter {
 					// commit. We need to update our filter to its older
 					// name, if we can discover it. Find out what that is.
 					//
-					updateFollowFilter(trees, ((FollowFilter) tw.getFilter()).cfg);
+					updateFollowFilter(trees);
 				}
 				return true;
 			}
@@ -232,7 +235,7 @@ class RewriteTreeFilter extends RevFilter {
 		return false;
 	}
 
-	private void updateFollowFilter(ObjectId[] trees, DiffConfig cfg)
+	private void updateFollowFilter(ObjectId[] trees)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			CorruptObjectException, IOException {
 		TreeWalk tw = pathFilter;
@@ -241,14 +244,14 @@ class RewriteTreeFilter extends RevFilter {
 		tw.reset(trees);
 
 		List<DiffEntry> files = DiffEntry.scan(tw);
-		RenameDetector rd = new RenameDetector(tw.getObjectReader(), cfg);
+		RenameDetector rd = new RenameDetector(repository);
 		rd.addAll(files);
 		files = rd.compute();
 
 		TreeFilter newFilter = oldFilter;
 		for (DiffEntry ent : files) {
 			if (isRename(ent) && ent.getNewPath().equals(oldFilter.getPath())) {
-				newFilter = FollowFilter.create(ent.getOldPath(), cfg);
+				newFilter = FollowFilter.create(ent.getOldPath());
 				RenameCallback callback = oldFilter.getRenameCallback();
 				if (callback != null) {
 					callback.renamed(ent);
