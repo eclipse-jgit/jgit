@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPn///wg\u003d",
+        "filename": "org.eclipse.jgit.archive/META-INF/MANIFEST.MF",
+        "patchSetId": 7
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-05-08T00:46:06Z",
+      "side": 1,
+      "message": "I think we can\u0027t rely on an activator in all cases, e.g. org.eclipse.jgit.pgm and Gerrit use JGit as a plain jar and don\u0027t use OSGi class loading",
+      "revId": "b1759e32a335e4345a92dfe11b6d3e90dd45c041",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPn///wk\u003d",
+        "filename": "pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-05-08T00:46:06Z",
+      "side": 1,
+      "message": "I am not sure this is the right source to get the osgi framework from",
+      "revId": "b1759e32a335e4345a92dfe11b6d3e90dd45c041",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
