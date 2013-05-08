@@ -16,6 +16,23 @@
       "revId": "46ef61a7027449198abe2f18c3ee1d6c578cf949",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPn///W0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackOutputStream.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-05-08T21:43:08Z",
+      "side": 1,
+      "message": "Was the use of \u0026 instead of \u0026\u0026 intentional? Can\u0027t see anything really wrong, but findbugs gives a warning.",
+      "revId": "46ef61a7027449198abe2f18c3ee1d6c578cf949",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
