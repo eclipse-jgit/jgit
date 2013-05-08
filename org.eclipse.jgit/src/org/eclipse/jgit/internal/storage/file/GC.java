@@ -628,13 +628,13 @@ public class GC {
 					throw new IOException(MessageFormat.format(
 							JGitText.get().corruptObjectInvalidMode3, String
 									.format("%o", Integer.valueOf(treeWalk //$NON-NLS-1$
-											.getRawMode(0)),
-											(objectId == null) ? "null" //$NON-NLS-1$
-													: objectId.name(), treeWalk
-											.getPathString(), repo
-											.getIndexFile())));
+											.getRawMode(0))),
+							(objectId == null) ? "null" //$NON-NLS-1$
+									: objectId.name(),
+							treeWalk.getPathString(), repo.getIndexFile()));
 			    }
 			  }
+			String.format("%o", Integer.valueOf(3));
 			return ret;
 		} finally {
 			if (revWalk != null)
