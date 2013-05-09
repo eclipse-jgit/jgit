@@ -187,13 +187,12 @@ public class RepositorySetupWorkDirTest extends LocalDiskRepositoryTestCase {
 		}
 	}
 
-	private static File getFile(String... pathComponents) throws IOException {
-		String rootPath = new File(new File("target"), "trash").getPath();
+	private File getFile(String... pathComponents) throws IOException {
+		File dir = getTemporaryDirectory();
 		for (String pathComponent : pathComponents)
-			rootPath = rootPath + File.separatorChar + pathComponent;
-		File result = new File(rootPath);
-		FileUtils.mkdirs(result, true);
-		return result;
+			dir = new File(dir, pathComponent);
+		FileUtils.mkdirs(dir, true);
+		return dir;
 	}
 
 	private static void setBare(File gitDir, boolean bare) throws IOException,
