@@ -51,6 +51,24 @@
       "revId": "46ef61a7027449198abe2f18c3ee1d6c578cf949",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPn///Qo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackOutputStream.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-05-09T10:08:07Z",
+      "side": 1,
+      "message": "I know about that one so I tried it in the jgit core without seeing any result so I never posted any patches. I wonder whether this is a myth or a real opportunity for gaining performance. How much does it gain here?",
+      "parentUuid": "AABOPn///SM\u003d",
+      "revId": "46ef61a7027449198abe2f18c3ee1d6c578cf949",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
