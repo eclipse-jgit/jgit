@@ -77,6 +77,8 @@ import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryState;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevObject;
+import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
@@ -486,7 +488,14 @@ public class CommitCommand extends GitCommand<RevCommit> {
 		// when doing a merge commit parse MERGE_HEAD and MERGE_MSG files
 		if (state == RepositoryState.MERGING_RESOLVED) {
 			try {
+				RevWalk rw = new RevWalk(repo);
 				parents = repo.readMergeHeads();
+				if (parents != null)
+					for (int i = 0; i < parents.size(); i++) {
+						RevObject ro = rw.parseAny(parents.get(i));
+						if (ro instanceof RevTag)
+							parents.set(i, rw.peel(ro));
+					}
 			} catch (IOException e) {
 				throw new JGitInternalException(MessageFormat.format(
 						JGitText.get().exceptionOccurredDuringReadingOfGIT_DIR,
