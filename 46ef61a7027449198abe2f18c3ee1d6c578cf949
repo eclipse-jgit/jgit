@@ -33,6 +33,24 @@
       "revId": "46ef61a7027449198abe2f18c3ee1d6c578cf949",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPn///SM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackOutputStream.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-05-09T00:52:33Z",
+      "side": 1,
+      "message": "Yes. \u0026 avoids a branch. The two sides are fairly quick to compute so using \u0026 avoids a branch instruction and lets the machine combine the two sides before it does the final conditional branch.",
+      "parentUuid": "AABOPn///W0\u003d",
+      "revId": "46ef61a7027449198abe2f18c3ee1d6c578cf949",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
