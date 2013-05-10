@@ -1106,7 +1106,7 @@ public class DiffFormatter {
 			o.write('\n');
 		}
 
-		if (!ent.getOldId().equals(ent.getNewId())) {
+		if (ent.getOldId() != null && !ent.getOldId().equals(ent.getNewId())) {
 			formatIndexLine(o, ent);
 		}
 	}
