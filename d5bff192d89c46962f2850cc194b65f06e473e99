@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPn//+6k\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2013-05-10T14:22:49Z",
+      "side": 1,
+      "message": "Please mention Bug 336291",
+      "revId": "d5bff192d89c46962f2850cc194b65f06e473e99",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPn//+6g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2013-05-10T14:22:49Z",
+      "side": 1,
+      "message": "This line could be moved into the if block to improve readability.",
+      "revId": "d5bff192d89c46962f2850cc194b65f06e473e99",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
