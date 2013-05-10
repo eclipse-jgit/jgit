@@ -69,6 +69,24 @@
       "revId": "46ef61a7027449198abe2f18c3ee1d6c578cf949",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPn//+9s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackOutputStream.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-05-10T03:01:48Z",
+      "side": 1,
+      "message": "May just be myth. I didn\u0027t benchmark the change to see if its better or worse. :-(",
+      "parentUuid": "AABOPn///Qo\u003d",
+      "revId": "46ef61a7027449198abe2f18c3ee1d6c578cf949",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
