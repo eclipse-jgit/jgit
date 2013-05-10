@@ -33,6 +33,23 @@
       "revId": "d5bff192d89c46962f2850cc194b65f06e473e99",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPn//+5w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-05-10T14:56:36Z",
+      "side": 1,
+      "message": "RevWalk needs to be released after use, right?",
+      "revId": "d5bff192d89c46962f2850cc194b65f06e473e99",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
