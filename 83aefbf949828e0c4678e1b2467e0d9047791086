@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPn//9sg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsInserter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2013-05-15T17:53:29Z",
+      "side": 1,
+      "message": "I\u0027m happy to fix this, but it seems like belongs in DfsOutputStream. ISTM a smart implementation of DfsOutputStream.read would do this, since it knows the PackKey it\u0027s writing.",
+      "parentUuid": "AABOPX//rBE\u003d",
+      "revId": "83aefbf949828e0c4678e1b2467e0d9047791086",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//rBY\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsInserter.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2013-05-05T16:23:23Z",
       "side": 1,
       "message": "IIRC this is not carried into the new clone reader by any other implementation.",
+      "revId": "83aefbf949828e0c4678e1b2467e0d9047791086",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPn//9s4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsInserter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2013-05-15T17:53:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//rBY\u003d",
       "revId": "83aefbf949828e0c4678e1b2467e0d9047791086",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPn//9ss\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsInserter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2013-05-15T17:53:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//rBU\u003d",
+      "revId": "83aefbf949828e0c4678e1b2467e0d9047791086",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//rBM\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsInserter.java",
         "patchSetId": 3
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPn//9s0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsInserter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2013-05-15T17:53:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//rBM\u003d",
+      "revId": "83aefbf949828e0c4678e1b2467e0d9047791086",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//rBI\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsInserter.java",
         "patchSetId": 3
@@ -81,6 +153,24 @@
       "writtenOn": "2013-05-05T16:23:23Z",
       "side": 1,
       "message": "If you are doing this also override isLarge() to return true. The default version of isLarge() calls this method and traps the exception to return true. That is a slow way to say \"don\u0027t call this\".",
+      "revId": "83aefbf949828e0c4678e1b2467e0d9047791086",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPn//9so\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsInserter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2013-05-15T17:53:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//rBI\u003d",
       "revId": "83aefbf949828e0c4678e1b2467e0d9047791086",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
