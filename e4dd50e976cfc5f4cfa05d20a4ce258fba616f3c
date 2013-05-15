@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPn//9tQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsOutputStream.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2013-05-15T17:42:47Z",
+      "side": 1,
+      "message": "From my reading of your comments below, this field is still needed, it can just be final.",
+      "parentUuid": "AABOPX//rB8\u003d",
+      "revId": "e4dd50e976cfc5f4cfa05d20a4ce258fba616f3c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//rBo\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsOutputStream.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-05-05T16:07:45Z",
       "side": 1,
       "message": "I think it would be simpler to just allocate the ByteBuffer in the constructor. IIRC on a new buffer remaining() will be 0.",
+      "revId": "e4dd50e976cfc5f4cfa05d20a4ce258fba616f3c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPn//9tM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsOutputStream.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2013-05-15T17:42:47Z",
+      "side": 1,
+      "message": "Done. (Doesn\u0027t start with remaining() \u003d\u003d 0 but easy to fix.)",
+      "parentUuid": "AABOPX//rBo\u003d",
       "revId": "e4dd50e976cfc5f4cfa05d20a4ce258fba616f3c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPn//9tY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsOutputStream.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2013-05-15T17:42:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//rBs\u003d",
+      "revId": "e4dd50e976cfc5f4cfa05d20a4ce258fba616f3c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//rBk\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsOutputStream.java",
         "patchSetId": 2
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPn//9tU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsOutputStream.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2013-05-15T17:42:47Z",
+      "side": 1,
+      "message": "Done, plus a couple of fixes.",
+      "parentUuid": "AABOPX//rBk\u003d",
+      "revId": "e4dd50e976cfc5f4cfa05d20a4ce258fba616f3c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPX//rCA\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsOutputStream.java",
         "patchSetId": 2
@@ -81,6 +153,24 @@
       "writtenOn": "2013-05-05T16:07:45Z",
       "side": 1,
       "message": "The classical hack is to implement read() like this:\n\n  byte[] b \u003d new byte[1];\n  int n \u003d read(b);\n  return n \u003d\u003d 1 ? b[0] \u0026 0xff : -1;\n\nIts almost never used and this form is short and easy to read.",
+      "revId": "e4dd50e976cfc5f4cfa05d20a4ce258fba616f3c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPn//9tc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsOutputStream.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2013-05-15T17:42:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPX//rCA\u003d",
       "revId": "e4dd50e976cfc5f4cfa05d20a4ce258fba616f3c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
