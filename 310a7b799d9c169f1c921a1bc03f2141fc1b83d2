@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPn//90k\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 26
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-05-16T07:35:21Z",
+      "side": 1,
+      "message": "s/turs/turns/",
+      "revId": "310a7b799d9c169f1c921a1bc03f2141fc1b83d2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
