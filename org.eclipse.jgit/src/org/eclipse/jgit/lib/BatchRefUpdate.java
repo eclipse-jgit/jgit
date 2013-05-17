@@ -294,8 +294,6 @@ public class BatchRefUpdate {
 			// Now to the update that may require more room in the name space
 			for (ReceiveCommand cmd : commands2) {
 				try {
-					monitor.update(1);
-
 					if (cmd.getResult() == NOT_ATTEMPTED) {
 						cmd.updateType(walk);
 						RefUpdate ru = newUpdate(cmd);
@@ -323,6 +321,7 @@ public class BatchRefUpdate {
 							ru.setCheckConflicting(false);
 							addRefToPrefixes(takenPrefixes, cmd.getRefName());
 							takenNames.add(cmd.getRefName());
+							monitor.update(1);
 							cmd.setResult(ru.update(walk));
 						}
 					}
