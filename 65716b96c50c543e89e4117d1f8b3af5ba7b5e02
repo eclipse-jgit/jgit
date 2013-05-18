@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPn//87w\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefDirectoryTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1316,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-05-18T19:11:19Z",
+      "side": 1,
+      "message": "Please place } on its own line.",
+      "revId": "65716b96c50c543e89e4117d1f8b3af5ba7b5e02",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPn//870\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefDirectoryTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1329,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-05-18T19:11:19Z",
+      "side": 1,
+      "message": "Why not use assertEquals(totalWork, lastWork, ...) here?",
+      "revId": "65716b96c50c543e89e4117d1f8b3af5ba7b5e02",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPn//87s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-05-18T19:11:19Z",
+      "side": 1,
+      "message": "If we break in one of the above cases, it should nevertheless update the counter, right? So maybe it would be better to leave the update call at the beginning of the commands2 for loop, and just remove the one from the UPDATE case?",
+      "revId": "65716b96c50c543e89e4117d1f8b3af5ba7b5e02",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
