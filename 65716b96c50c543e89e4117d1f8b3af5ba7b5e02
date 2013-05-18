@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPn//87Y\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefDirectoryTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1316,
+      "author": {
+        "id": 102
+      },
+      "writtenOn": "2013-05-18T20:40:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPn//87w\u003d",
+      "revId": "65716b96c50c543e89e4117d1f8b3af5ba7b5e02",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPn//870\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefDirectoryTest.java",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPn//87U\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefDirectoryTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1329,
+      "author": {
+        "id": 102
+      },
+      "writtenOn": "2013-05-18T20:40:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPn//870\u003d",
+      "revId": "65716b96c50c543e89e4117d1f8b3af5ba7b5e02",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPn//87s\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2013-05-18T19:11:19Z",
       "side": 1,
       "message": "If we break in one of the above cases, it should nevertheless update the counter, right? So maybe it would be better to leave the update call at the beginning of the commands2 for loop, and just remove the one from the UPDATE case?",
+      "revId": "65716b96c50c543e89e4117d1f8b3af5ba7b5e02",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPn//87Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 102
+      },
+      "writtenOn": "2013-05-18T20:40:19Z",
+      "side": 1,
+      "message": "Yep, fair enough - Patch Set 3 has it done as you describe, though I think technically/pedantically there\u0027s an argument for moving that single update call to the /end/ of the loop, as the semantics for the update method are supposed to be completion rather than commencement (\"Denote that some work units have been completed.\")",
+      "parentUuid": "AABOPn//87s\u003d",
       "revId": "65716b96c50c543e89e4117d1f8b3af5ba7b5e02",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
