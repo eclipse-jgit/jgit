@@ -294,8 +294,6 @@ public class BatchRefUpdate {
 			// Now to the update that may require more room in the name space
 			for (ReceiveCommand cmd : commands2) {
 				try {
-					monitor.update(1);
-
 					if (cmd.getResult() == NOT_ATTEMPTED) {
 						cmd.updateType(walk);
 						RefUpdate ru = newUpdate(cmd);
@@ -305,7 +303,6 @@ public class BatchRefUpdate {
 							break;
 						case UPDATE:
 						case UPDATE_NONFASTFORWARD:
-							monitor.update(1);
 							RefUpdate ruu = newUpdate(cmd);
 							cmd.setResult(ruu.update(walk));
 							break;
@@ -329,6 +326,8 @@ public class BatchRefUpdate {
 				} catch (IOException err) {
 					cmd.setResult(REJECTED_OTHER_REASON, MessageFormat.format(
 							JGitText.get().lockError, err.getMessage()));
+				} finally {
+					monitor.update(1);
 				}
 			}
 		}
