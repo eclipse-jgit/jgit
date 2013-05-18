@@ -104,6 +104,24 @@
       "revId": "65716b96c50c543e89e4117d1f8b3af5ba7b5e02",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPn//87I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-05-18T21:16:10Z",
+      "side": 1,
+      "message": "You\u0027re right, we could put it in a finally block, as it should also happen in case of error.",
+      "parentUuid": "AABOPn//87Q\u003d",
+      "revId": "65716b96c50c543e89e4117d1f8b3af5ba7b5e02",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
