@@ -308,6 +308,8 @@ public class DiffEntry {
 		r.changeType = changeType;
 		r.score = score;
 
+		r.treeFilterMarks = src.treeFilterMarks | dst.treeFilterMarks;
+
 		return r;
 	}
 
