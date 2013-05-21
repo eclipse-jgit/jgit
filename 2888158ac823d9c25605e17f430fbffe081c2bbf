@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPn//8oM\u003d",
+        "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.java7.feature/feature.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-05-21T13:02:50Z",
+      "side": 1,
+      "message": "Java7 -\u003e Java 7 (while we\u0027re at it)",
+      "revId": "2888158ac823d9c25605e17f430fbffe081c2bbf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
