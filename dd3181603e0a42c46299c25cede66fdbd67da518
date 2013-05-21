@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPn//8j8\u003d",
+        "filename": "org.eclipse.jgit.java7/src/org/eclipse/jgit/util/FileUtil.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2013-05-21T17:04:25Z",
+      "side": 1,
+      "message": "Unfortunately if target is not normalized path, new File(target) will normalize it, so that physical link will differ on file system from the original one.\nE.g. \"/tmp/\" target will be created as \"/tmp\" etc.\nThis is limitation of Java 7 implementation, native git does everything right.\nAs a result, working directory of the repository containing not normalized link targets will be *always* dirty after checkout.\n\nIt would be nice if we could report here some kind of warning if(!nioTarget.toString().equals(target)){\nSys.err.println(\"Failed to create expected link (target is not normalized). Link: \u0027\" + path + \"\u0027, original target: \u0027\" + target + \"\u0027, created target: \u0027\" + nioTarget + \"\u0027.\")\n}\n\nAdditionally it would be nice to have some extra javadoc for the method here and in FS class.",
+      "revId": "dd3181603e0a42c46299c25cede66fdbd67da518",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
