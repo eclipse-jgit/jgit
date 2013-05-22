@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPn//8Os\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-05-22T21:51:50Z",
+      "side": 1,
+      "message": "There was no way to get access to the stream, because we had no API for it, so we couldn\u0027t send any messages.",
+      "parentUuid": "AABOPn//8P0\u003d",
+      "revId": "6e896ba66ba095b97a89a622d43f05ce9ad501e7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPn//8P8\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPn//8Oo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-05-22T21:51:50Z",
+      "side": 1,
+      "message": "Yea on upload-pack we mostly just used side-band.",
+      "parentUuid": "AABOPn//8P8\u003d",
+      "revId": "6e896ba66ba095b97a89a622d43f05ce9ad501e7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPn//8P4\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2013-05-22T19:57:13Z",
       "side": 1,
       "message": "This overrides the msgOut that was passed to upload, is that intentional?",
+      "revId": "6e896ba66ba095b97a89a622d43f05ce9ad501e7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPn//8Oc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1117,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-05-22T21:51:50Z",
+      "side": 1,
+      "message": "Yes. The side-band channel should always be preferred.",
+      "parentUuid": "AABOPn//8P4\u003d",
       "revId": "6e896ba66ba095b97a89a622d43f05ce9ad501e7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
