@@ -104,6 +104,24 @@
       "revId": "6e896ba66ba095b97a89a622d43f05ce9ad501e7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPn//8OQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1117,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2013-05-22T22:10:51Z",
+      "side": 1,
+      "message": "Ok, so:\nBefore: don\u0027t send anything if OPTION_NO_PROGRESS set, regardless of messages stream passed to upload()\nAfter: if OPTION_NO_PROGRESS set, use messages stream passed to upload(). If the caller happened to hook that messages stream up to the sideband or SSH\u0027s stderr, we will actually send messages over the wire that we wouldn\u0027t have sent previously. The client will (presumably) drop these on the floor.\n\nSound right?",
+      "parentUuid": "AABOPn//8Oc\u003d",
+      "revId": "6e896ba66ba095b97a89a622d43f05ce9ad501e7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
