@@ -122,6 +122,24 @@
       "revId": "6e896ba66ba095b97a89a622d43f05ce9ad501e7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPn//8N0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1117,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-05-22T22:36:37Z",
+      "side": 1,
+      "message": "Yes, this looks right. If the user asks for no-progress the only messages they would get will be from the PreUploadHook. I think that is reasonable, the hook isn\u0027t sending progress its sending some other sort of important message(s).",
+      "parentUuid": "AABOPn//8OQ\u003d",
+      "revId": "6e896ba66ba095b97a89a622d43f05ce9ad501e7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
