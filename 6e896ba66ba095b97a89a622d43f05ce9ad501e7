@@ -140,6 +140,24 @@
       "revId": "6e896ba66ba095b97a89a622d43f05ce9ad501e7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPn//8No\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1117,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2013-05-22T22:40:27Z",
+      "side": 1,
+      "message": "Yes, we\u0027re on the same page here. This behavior seems reasonable.\n\n(But note that the definition of no-progress is \u0027Basically the client just says \"I do not wish to receive stream 2 on sideband, so do not send it to me, and if you did, I will drop it on the floor anyway\".\u0027 So the hook may decide the message is important, and will send it, but the client will drop it and the user will never see it.)",
+      "parentUuid": "AABOPn//8N0\u003d",
+      "revId": "6e896ba66ba095b97a89a622d43f05ce9ad501e7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
