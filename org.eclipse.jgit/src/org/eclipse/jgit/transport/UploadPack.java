@@ -80,6 +80,7 @@ import org.eclipse.jgit.revwalk.filter.CommitTimeRevFilter;
 import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.transport.BasePackFetchConnection.MultiAck;
 import org.eclipse.jgit.transport.RefAdvertiser.PacketLineOutRefAdvertiser;
+import org.eclipse.jgit.util.io.DisabledOutputStream;
 import org.eclipse.jgit.util.io.InterruptTimer;
 import org.eclipse.jgit.util.io.TimeoutInputStream;
 import org.eclipse.jgit.util.io.TimeoutOutputStream;
@@ -191,6 +192,8 @@ public class UploadPack {
 	private PacketLineIn pckIn;
 
 	private PacketLineOut pckOut;
+
+	private OutputStream msgOut = DisabledOutputStream.INSTANCE;
 
 	/** The refs we advertised as existing at the start of the connection. */
 	private Map<String, Ref> refs;
@@ -504,6 +507,8 @@ public class UploadPack {
 		try {
 			rawIn = input;
 			rawOut = output;
+			if (messages != null)
+				msgOut = messages;
 
 			if (timeout > 0) {
 				final Thread caller = Thread.currentThread();
@@ -520,6 +525,7 @@ public class UploadPack {
 			pckOut = new PacketLineOut(rawOut);
 			service();
 		} finally {
+			msgOut = DisabledOutputStream.INSTANCE;
 			walk.release();
 			if (timer != null) {
 				try {
@@ -690,6 +696,29 @@ public class UploadPack {
 		adv.setDerefTags(true);
 		advertised = adv.send(getAdvertisedOrDefaultRefs());
 		adv.end();
+	}
+
+	/**
+	 * Send a message to the client, if it supports receiving them.
+	 * <p>
+	 * If the client doesn't support receiving messages, the message will be
+	 * discarded, with no other indication to the caller or to the client.
+	 *
+	 * @param what
+	 *            string describing the problem identified by the hook. The
+	 *            string must not end with an LF, and must not contain an LF.
+	 */
+	public void sendMessage(String what) {
+		try {
+			msgOut.write(Constants.encode(what + "\n")); //$NON-NLS-1$
+		} catch (IOException e) {
+			// Ignore write failures.
+		}
+	}
+
+	/** @return an underlying stream for sending messages to the client, or null. */
+	public OutputStream getMessageOutputStream() {
+		return msgOut;
 	}
 
 	private void recvWants() throws IOException {
@@ -1076,7 +1105,6 @@ public class UploadPack {
 	private void sendPack(final boolean sideband) throws IOException {
 		ProgressMonitor pm = NullProgressMonitor.INSTANCE;
 		OutputStream packOut = rawOut;
-		SideBandOutputStream msgOut = null;
 
 		if (sideband) {
 			int bufsz = SideBandOutputStream.SMALL_BUF;
@@ -1181,7 +1209,7 @@ public class UploadPack {
 			pw.writePack(pm, NullProgressMonitor.INSTANCE, packOut);
 			statistics = pw.getStatistics();
 
-			if (msgOut != null) {
+			if (msgOut != DisabledOutputStream.INSTANCE) {
 				String msg = pw.getStatistics().getMessage() + '\n';
 				msgOut.write(Constants.encode(msg));
 				msgOut.flush();
