@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPn//8P0\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2013-05-22T19:57:13Z",
+      "side": 1,
+      "message": "It\u0027s not clear from this description how this usage wasn\u0027t enabled before. Was it just that any output during this particular hook was swallowed regardless of what the caller passed in to upload()?",
+      "revId": "6e896ba66ba095b97a89a622d43f05ce9ad501e7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPn//8P8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2013-05-22T19:57:13Z",
+      "side": 1,
+      "message": "Um, so this was unused before? I guess this makes this a behavior change.",
+      "revId": "6e896ba66ba095b97a89a622d43f05ce9ad501e7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPn//8P4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1117,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2013-05-22T19:57:13Z",
+      "side": 1,
+      "message": "This overrides the msgOut that was passed to upload, is that intentional?",
+      "revId": "6e896ba66ba095b97a89a622d43f05ce9ad501e7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
