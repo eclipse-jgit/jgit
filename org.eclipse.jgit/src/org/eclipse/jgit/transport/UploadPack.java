@@ -80,7 +80,6 @@ import org.eclipse.jgit.revwalk.filter.CommitTimeRevFilter;
 import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.transport.BasePackFetchConnection.MultiAck;
 import org.eclipse.jgit.transport.RefAdvertiser.PacketLineOutRefAdvertiser;
-import org.eclipse.jgit.util.io.DisabledOutputStream;
 import org.eclipse.jgit.util.io.InterruptTimer;
 import org.eclipse.jgit.util.io.NullOutputStream;
 import org.eclipse.jgit.util.io.TimeoutInputStream;
