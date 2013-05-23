@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPn//8BU\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/archive/ArchiveCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-05-23T16:56:51Z",
+      "side": 1,
+      "message": "final",
+      "revId": "3d5c54376373488d3ee808c9d55fb6ff394bfebb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPn//8BQ\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/archive/ArchiveCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-05-23T16:56:51Z",
+      "side": 1,
+      "message": "returns null if the caller gives you an invalid format. Which causes the next line to throw NPE. Check the value of format.",
+      "revId": "3d5c54376373488d3ee808c9d55fb6ff394bfebb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
