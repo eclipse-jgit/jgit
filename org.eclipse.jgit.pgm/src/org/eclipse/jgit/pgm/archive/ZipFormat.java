@@ -56,8 +56,9 @@ class ZipFormat implements ArchiveCommand.Format {
 		return new ZipArchiveOutputStream(s);
 	}
 
-	public void putEntry(String path, FileMode mode, ObjectLoader loader,
-				ArchiveOutputStream out) throws IOException {
+	public void putEntry(ArchiveOutputStream out,
+			String path, FileMode mode, ObjectLoader loader)
+			throws IOException {
 		final ZipArchiveEntry entry = new ZipArchiveEntry(path);
 
 		if (mode == FileMode.REGULAR_FILE) {
