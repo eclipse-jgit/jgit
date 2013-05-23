@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPn//8BI\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/archive/ArchiveCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-05-23T17:00:04Z",
+      "side": 1,
+      "message": "Put T out first not last. Its more C-style where the \"output\" side is the first parameter of a method so its more like an LHS of an assignment.",
+      "revId": "00dc9f3a5f25d70d1fdd254681d7ad1cc822d6da",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPn//8BA\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/archive/ArchiveCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-05-23T17:00:04Z",
+      "side": 1,
+      "message": "can return null",
+      "revId": "00dc9f3a5f25d70d1fdd254681d7ad1cc822d6da",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPn//8BE\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/archive/ArchiveCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-05-23T17:00:04Z",
+      "side": 1,
+      "message": "bad formatting here",
+      "revId": "00dc9f3a5f25d70d1fdd254681d7ad1cc822d6da",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
