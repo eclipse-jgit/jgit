@@ -82,6 +82,7 @@ import org.eclipse.jgit.transport.BasePackFetchConnection.MultiAck;
 import org.eclipse.jgit.transport.RefAdvertiser.PacketLineOutRefAdvertiser;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
 import org.eclipse.jgit.util.io.InterruptTimer;
+import org.eclipse.jgit.util.io.NullOutputStream;
 import org.eclipse.jgit.util.io.TimeoutInputStream;
 import org.eclipse.jgit.util.io.TimeoutOutputStream;
 
@@ -193,7 +194,7 @@ public class UploadPack {
 
 	private PacketLineOut pckOut;
 
-	private OutputStream msgOut = DisabledOutputStream.INSTANCE;
+	private OutputStream msgOut = NullOutputStream.INSTANCE;
 
 	/** The refs we advertised as existing at the start of the connection. */
 	private Map<String, Ref> refs;
@@ -525,7 +526,7 @@ public class UploadPack {
 			pckOut = new PacketLineOut(rawOut);
 			service();
 		} finally {
-			msgOut = DisabledOutputStream.INSTANCE;
+			msgOut = NullOutputStream.INSTANCE;
 			walk.release();
 			if (timer != null) {
 				try {
@@ -1126,6 +1127,7 @@ public class UploadPack {
 			} else {
 				preUploadHook.onSendPack(this, wantAll, commonBase);
 			}
+			msgOut.flush();
 		} catch (ServiceMayNotContinueException noPack) {
 			if (sideband && noPack.getMessage() != null) {
 				noPack.setOutput();
@@ -1209,7 +1211,7 @@ public class UploadPack {
 			pw.writePack(pm, NullProgressMonitor.INSTANCE, packOut);
 			statistics = pw.getStatistics();
 
-			if (msgOut != DisabledOutputStream.INSTANCE) {
+			if (msgOut != NullOutputStream.INSTANCE) {
 				String msg = pw.getStatistics().getMessage() + '\n';
 				msgOut.write(Constants.encode(msg));
 				msgOut.flush();
