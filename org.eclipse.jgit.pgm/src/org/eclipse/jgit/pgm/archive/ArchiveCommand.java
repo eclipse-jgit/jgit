@@ -106,7 +106,7 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 	 *	ArchiveOutputStream out = format.createArchiveOutputStream(System.out);
 	 *	try {
 	 *		for (...) {
-	 *			format.putEntry(path, mode, repo.open(objectId), out);
+	 *			format.putEntry(out, path, mode, repo.open(objectId));
 	 *		}
 	 *	} finally {
 	 *		out.close();
@@ -114,9 +114,8 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 	 */
 	public static interface Format {
 		ArchiveOutputStream createArchiveOutputStream(OutputStream s);
-		void putEntry(String path, FileMode mode, //
-				ObjectLoader loader, ArchiveOutputStream out) //
-				throws IOException;
+		void putEntry(ArchiveOutputStream out, String path, FileMode mode,
+				ObjectLoader loader) throws IOException;
 	}
 
 	/**
@@ -204,7 +203,7 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 						continue;
 
 					walk.getObjectId(idBuf, 0);
-					fmt.putEntry(name, mode, reader.open(idBuf), outa);
+					fmt.putEntry(outa, name, mode, reader.open(idBuf));
 				}
 			} finally {
 				outa.close();
