@@ -40,36 +40,38 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+package org.eclipse.jgit.pgm.archive;
 
-package org.eclipse.jgit.pgm;
+import java.io.IOException;
+import java.io.OutputStream;
 
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.pgm.TextBuiltin;
-import org.eclipse.jgit.pgm.archive.ArchiveCommand;
-import org.eclipse.jgit.pgm.internal.CLIText;
-import org.kohsuke.args4j.Argument;
-import org.kohsuke.args4j.Option;
+import org.apache.commons.compress.archivers.ArchiveOutputStream;
+import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
+import org.apache.commons.compress.archivers.zip.ZipArchiveOutputStream;
+import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.lib.ObjectLoader;
 
-@Command(common = true, usage = "usage_archive")
-class Archive extends TextBuiltin {
-	@Argument(index = 0, metaVar = "metaVar_treeish")
-	private ObjectId tree;
+class ZipFormat implements ArchiveCommand.Format {
+	public ArchiveOutputStream createArchiveOutputStream(OutputStream s) {
+		return new ZipArchiveOutputStream(s);
+	}
 
-	@Option(name = "--format", metaVar = "metaVar_archiveFormat", usage = "usage_archiveFormat")
-	private String format = "zip";
+	public void putEntry(String path, FileMode mode, ObjectLoader loader,
+				ArchiveOutputStream out) throws IOException {
+		final ZipArchiveEntry entry = new ZipArchiveEntry(path);
 
-	@Override
-	protected void run() throws Exception {
-		if (tree == null)
-			throw die(CLIText.get().treeIsRequired);
-
-		final ArchiveCommand cmd = new ArchiveCommand(db);
-		try {
-			cmd.setTree(tree)
-					.setFormat(format)
-					.setOutputStream(outs).call();
-		} finally {
-			cmd.release();
+		if (mode == FileMode.REGULAR_FILE) {
+			// ok
+		} else if (mode == FileMode.EXECUTABLE_FILE
+				|| mode == FileMode.SYMLINK) {
+			entry.setUnixMode(mode.getBits());
+		} else {
+			// TODO(jrn): Let the caller know the tree contained
+			// an entry with unsupported mode (e.g., a submodule).
 		}
+		entry.setSize(loader.getSize());
+		out.putArchiveEntry(entry);
+		loader.copyTo(out);
+		out.closeArchiveEntry();
 	}
 }
