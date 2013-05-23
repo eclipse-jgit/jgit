@@ -45,11 +45,19 @@ package org.eclipse.jgit.api.errors;
 public abstract class GitAPIException extends Exception {
 	private static final long serialVersionUID = 1L;
 
-	GitAPIException(String message, Throwable cause) {
+	/**
+	 * Constructs a new exception with the specified detail
+	 * message and cause.
+	 */
+	protected GitAPIException(String message, Throwable cause) {
 		super(message, cause);
 	}
 
-	GitAPIException(String message) {
+	/**
+	 * Constructs a new exception with the specified detail
+	 * message and no cause.
+	 */
+	protected GitAPIException(String message) {
 		super(message);
 	}
 }
