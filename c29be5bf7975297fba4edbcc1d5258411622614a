@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPn//7b4\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Archive.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-05-24T23:41:41Z",
+      "side": 1,
+      "message": "Eh, I would have put these in a static {} block and just left them registered for the life of the program. The memory usage is trivial.",
+      "revId": "c29be5bf7975297fba4edbcc1d5258411622614a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPn//7b0\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/archive/ArchiveCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-05-24T23:41:41Z",
+      "side": 1,
+      "message": "unfortunately we still string translate these. :-(",
+      "revId": "c29be5bf7975297fba4edbcc1d5258411622614a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
