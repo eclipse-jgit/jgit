@@ -244,6 +244,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String errorReadingInfoRefs;
 	/***/ public String errorSymlinksNotSupported;
 	/***/ public String exceptionCaughtDuringExecutionOfAddCommand;
+	/***/ public String exceptionCaughtDuringExecutionOfArchiveCommand;
 	/***/ public String exceptionCaughtDuringExecutionOfCherryPickCommand;
 	/***/ public String exceptionCaughtDuringExecutionOfCommitCommand;
 	/***/ public String exceptionCaughtDuringExecutionOfFetchCommand;
@@ -586,6 +587,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String unpackException;
 	/***/ public String unreadablePackIndex;
 	/***/ public String unrecognizedRef;
+	/***/ public String unsupportedArchiveFormat;
 	/***/ public String unsupportedCommand0;
 	/***/ public String unsupportedEncryptionAlgorithm;
 	/***/ public String unsupportedEncryptionVersion;
