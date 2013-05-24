@@ -41,7 +41,7 @@
          unpack="false"/>
 
    <plugin
-         id="org.apache.commons.compress"
+         id="org.eclipse.jgit.archive"
          download-size="0"
          install-size="0"
          version="0.0.0"

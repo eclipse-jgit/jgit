@@ -40,7 +40,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.eclipse.jgit.pgm.archive;
+package org.eclipse.jgit.api;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -53,13 +53,13 @@ import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.GitCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.pgm.internal.CLIText;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 
@@ -72,7 +72,7 @@ import org.eclipse.jgit.treewalk.TreeWalk;
  *
  * <pre>
  * ArchiveCommand.registerFormat("tar", new TarFormat());
- * cmd = new ArchiveCommand(git.getRepository());
+ * cmd = git.archive();
  * try {
  *	cmd.setTree(db.resolve(&quot;HEAD&quot;))
  *		.setOutputStream(out).call();
@@ -135,7 +135,7 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 		 * @param format the problematic format name
 		 */
 		public UnsupportedFormatException(String format) {
-			super(MessageFormat.format(CLIText.get().unsupportedArchiveFormat, format));
+			super(MessageFormat.format(JGitText.get().unsupportedArchiveFormat, format));
 			this.format = format;
 		}
 
@@ -243,7 +243,7 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 		} catch (IOException e) {
 			// TODO(jrn): Throw finer-grained errors.
 			throw new JGitInternalException(
-					CLIText.get().exceptionCaughtDuringExecutionOfArchiveCommand, e);
+					JGitText.get().exceptionCaughtDuringExecutionOfArchiveCommand, e);
 		}
 
 		return out;
