@@ -47,6 +47,8 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.pgm.TextBuiltin;
 import org.eclipse.jgit.pgm.archive.ArchiveCommand;
+import org.eclipse.jgit.pgm.archive.TarFormat;
+import org.eclipse.jgit.pgm.archive.ZipFormat;
 import org.eclipse.jgit.pgm.internal.CLIText;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
@@ -64,6 +66,8 @@ class Archive extends TextBuiltin {
 		if (tree == null)
 			throw die(CLIText.get().treeIsRequired);
 
+		ArchiveCommand.registerFormat("tar", new TarFormat());
+		ArchiveCommand.registerFormat("zip", new ZipFormat());
 		final ArchiveCommand cmd = new ArchiveCommand(db);
 		try {
 			cmd.setTree(tree)
@@ -73,6 +77,8 @@ class Archive extends TextBuiltin {
 			throw die(e.getMessage());
 		} finally {
 			cmd.release();
+			ArchiveCommand.unregisterFormat("zip");
+			ArchiveCommand.unregisterFormat("tar");
 		}
 	}
 }

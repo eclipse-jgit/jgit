@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 Google Inc.
+ * Copyright (C) 2013 Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -42,45 +42,17 @@
  */
 package org.eclipse.jgit.pgm.archive;
 
-import java.io.IOException;
-import java.io.OutputStream;
+import org.osgi.framework.BundleActivator;
+import org.osgi.framework.BundleContext;
 
-import org.apache.commons.compress.archivers.ArchiveOutputStream;
-import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
-import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;
-import org.apache.commons.compress.archivers.tar.TarConstants;
-import org.eclipse.jgit.lib.FileMode;
-import org.eclipse.jgit.lib.ObjectLoader;
-
-public class TarFormat implements ArchiveCommand.Format<ArchiveOutputStream> {
-	public ArchiveOutputStream createArchiveOutputStream(OutputStream s) {
-		return new TarArchiveOutputStream(s);
+public class FormatActivator implements BundleActivator {
+	public void start(BundleContext context) throws Exception {
+		ArchiveCommand.registerFormat("tar", new TarFormat());
+		ArchiveCommand.registerFormat("zip", new ZipFormat());
 	}
 
-	public void putEntry(ArchiveOutputStream out,
-			String path, FileMode mode, ObjectLoader loader)
-			throws IOException {
-		if (mode == FileMode.SYMLINK) {
-			final TarArchiveEntry entry = new TarArchiveEntry(
-					path, TarConstants.LF_SYMLINK);
-			entry.setLinkName(new String(
-					loader.getCachedBytes(100), "UTF-8")); //$NON-NLS-1$
-			out.putArchiveEntry(entry);
-			out.closeArchiveEntry();
-			return;
-		}
-
-		final TarArchiveEntry entry = new TarArchiveEntry(path);
-		if (mode == FileMode.REGULAR_FILE ||
-		    mode == FileMode.EXECUTABLE_FILE) {
-			entry.setMode(mode.getBits());
-		} else {
-			// TODO(jrn): Let the caller know the tree contained
-			// an entry with unsupported mode (e.g., a submodule).
-		}
-		entry.setSize(loader.getSize());
-		out.putArchiveEntry(entry);
-		loader.copyTo(out);
-		out.closeArchiveEntry();
+	public void stop(BundleContext context) throws Exception {
+		ArchiveCommand.unregisterFormat("zip");
+		ArchiveCommand.unregisterFormat("tar");
 	}
 }
