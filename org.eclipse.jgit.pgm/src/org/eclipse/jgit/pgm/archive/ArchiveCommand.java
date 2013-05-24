@@ -71,24 +71,28 @@ import org.eclipse.jgit.treewalk.TreeWalk;
  * Create a tarball from HEAD:
  *
  * <pre>
+ * ArchiveCommand.registerFormat("tar", new TarFormat());
  * cmd = new ArchiveCommand(git.getRepository());
  * try {
  *	cmd.setTree(db.resolve(&quot;HEAD&quot;))
  *		.setOutputStream(out).call();
  * } finally {
  *	cmd.release();
+ *	ArchiveCommand.unregisterFormat("tar");
  * }
  * </pre>
  * <p>
  * Create a ZIP file from master:
  *
  * <pre>
+ * ArchiveCommand.registerFormat("zip", new ZipFormat());
  * try {
  *	cmd.setTree(db.resolve(&quot;master&quot;))
  *		.setFormat("zip")
  *		.setOutputStream(out).call();
  * } finally {
  *	cmd.release();
+ *	ArchiveCommand.unregisterFormat("zip");
  * }
  * </pre>
  *
@@ -150,9 +154,39 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 	private static final ConcurrentMap<String, Format<?>> formats =
 			new ConcurrentHashMap<String, Format<?>>();
 
-	static {
-		formats.put("zip", new ZipFormat());
-		formats.put("tar", new TarFormat());
+	/**
+	 * Adds support for an additional archival format.  To avoid
+	 * unnecessary dependencies, ArchiveCommand does not have support
+	 * for any formats built in; use this function to add them.
+	 *
+	 * OSGi plugins providing formats should call this function at
+	 * bundle activation time.
+	 *
+	 * @param name name of a format (e.g., "tar" or "zip").
+	 * @param fmt archiver for that format
+	 * @throws JGitInternalException
+	 *              An archival format with that name was already registered.
+	 */
+	public static void registerFormat(String name, Format<?> fmt) {
+		if (formats.putIfAbsent(name, fmt) != null)
+			throw new JGitInternalException(MessageFormat.format(
+					CLIText.get().archiveFormatAlreadyRegistered,
+					name));
+	}
+
+	/**
+	 * Removes support for an archival format so its Format can be
+	 * garbage collected.
+	 *
+	 * @param name name of format (e.g., "tar" or "zip").
+	 * @throws JGitInternalException
+	 *              No such archival format was registered.
+	 */
+	public static void unregisterFormat(String name) {
+		if (formats.remove(name) == null)
+			throw new JGitInternalException(MessageFormat.format(
+					CLIText.get().archiveFormatAlreadyAbsent,
+					name));
 	}
 
 	private static Format<?> lookupFormat(String formatName) throws UnsupportedFormatException {

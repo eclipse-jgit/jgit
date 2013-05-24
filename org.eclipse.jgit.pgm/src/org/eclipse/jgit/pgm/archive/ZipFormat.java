@@ -51,7 +51,7 @@ import org.apache.commons.compress.archivers.zip.ZipArchiveOutputStream;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectLoader;
 
-class ZipFormat implements ArchiveCommand.Format<ArchiveOutputStream> {
+public class ZipFormat implements ArchiveCommand.Format<ArchiveOutputStream> {
 	public ArchiveOutputStream createArchiveOutputStream(OutputStream s) {
 		return new ZipArchiveOutputStream(s);
 	}

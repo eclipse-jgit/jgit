@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 Google Inc.
+ * Copyright (C) 2013 Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -40,46 +40,19 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+package org.eclipse.jgit.pgm.archive;
 
-package org.eclipse.jgit.pgm;
+import org.osgi.framework.BundleActivator;
+import org.osgi.framework.BundleContext;
 
-import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.pgm.TextBuiltin;
-import org.eclipse.jgit.pgm.archive.ArchiveCommand;
-import org.eclipse.jgit.pgm.archive.TarFormat;
-import org.eclipse.jgit.pgm.archive.ZipFormat;
-import org.eclipse.jgit.pgm.internal.CLIText;
-import org.kohsuke.args4j.Argument;
-import org.kohsuke.args4j.Option;
-
-@Command(common = true, usage = "usage_archive")
-class Archive extends TextBuiltin {
-	static {
+public class FormatActivator implements BundleActivator {
+	public void start(BundleContext context) throws Exception {
 		ArchiveCommand.registerFormat("tar", new TarFormat());
 		ArchiveCommand.registerFormat("zip", new ZipFormat());
 	}
 
-	@Argument(index = 0, metaVar = "metaVar_treeish")
-	private ObjectId tree;
-
-	@Option(name = "--format", metaVar = "metaVar_archiveFormat", usage = "usage_archiveFormat")
-	private String format = "zip";
-
-	@Override
-	protected void run() throws Exception {
-		if (tree == null)
-			throw die(CLIText.get().treeIsRequired);
-
-		final ArchiveCommand cmd = new ArchiveCommand(db);
-		try {
-			cmd.setTree(tree)
-					.setFormat(format)
-					.setOutputStream(outs).call();
-		} catch (GitAPIException e) {
-			throw die(e.getMessage());
-		} finally {
-			cmd.release();
-		}
+	public void stop(BundleContext context) throws Exception {
+		ArchiveCommand.unregisterFormat("zip");
+		ArchiveCommand.unregisterFormat("tar");
 	}
 }
