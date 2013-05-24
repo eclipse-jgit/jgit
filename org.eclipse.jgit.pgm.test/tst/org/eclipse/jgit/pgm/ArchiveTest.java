@@ -103,6 +103,13 @@ public class ArchiveTest extends CLIRepositoryTestCase {
 	}
 
 	@Test
+	public void testUnrecognizedFormat() throws Exception {
+		final String[] expect = new String[] { "fatal: Unknown archive format 'nonsense'" };
+		final String[] actual = execute("git archive --format=nonsense " + emptyTree);
+		assertArrayEquals(expect, actual);
+	}
+
+	@Test
 	public void testArchiveWithFiles() throws Exception {
 		writeTrashFile("a", "a file with content!");
 		writeTrashFile("c", ""); // empty file

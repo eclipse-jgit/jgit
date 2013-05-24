@@ -44,15 +44,11 @@ package org.eclipse.jgit.pgm.archive;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.EnumMap;
-import java.util.Map;
+import java.text.MessageFormat;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import org.apache.commons.compress.archivers.ArchiveOutputStream;
-import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
-import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;
-import org.apache.commons.compress.archivers.tar.TarConstants;
-import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
-import org.apache.commons.compress.archivers.zip.ZipArchiveOutputStream;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.GitCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -89,7 +85,7 @@ import org.eclipse.jgit.treewalk.TreeWalk;
  * <pre>
  * try {
  *	cmd.setTree(db.resolve(&quot;master&quot;))
- *		.setFormat(ArchiveCommand.Format.ZIP)
+ *		.setFormat("zip")
  *		.setOutputStream(out).call();
  * } finally {
  *	cmd.release();
@@ -103,91 +99,69 @@ import org.eclipse.jgit.treewalk.TreeWalk;
  */
 public class ArchiveCommand extends GitCommand<OutputStream> {
 	/**
-	 * Available archival formats (corresponding to values for
-	 * the --format= option)
+	 * Archival format.
+	 *
+	 * Usage:
+	 *	Repository repo = git.getRepository();
+	 *	ArchiveOutputStream out = format.createArchiveOutputStream(System.out);
+	 *	try {
+	 *		for (...) {
+	 *			format.putEntry(path, mode, repo.open(objectId), out);
+	 *		}
+	 *	} finally {
+	 *		out.close();
+	 *	}
 	 */
-	public static enum Format {
-		/** Zip format */
-		ZIP,
-
-		/** Posix TAR-format */
-		TAR
-	}
-
-	private static interface Archiver {
+	public static interface Format {
 		ArchiveOutputStream createArchiveOutputStream(OutputStream s);
 		void putEntry(String path, FileMode mode, //
 				ObjectLoader loader, ArchiveOutputStream out) //
 				throws IOException;
 	}
 
-	private static final Map<Format, Archiver> formats;
+	/**
+	 * Signals an attempt to use an archival format that ArchiveCommand
+	 * doesn't know about (for example due to a typo).
+	 */
+	public static class UnsupportedFormatException extends GitAPIException {
+		private static final long serialVersionUID = 1L;
+
+		private final String format;
+
+		/**
+		 * @param format the problematic format name
+		 */
+		public UnsupportedFormatException(String format) {
+			super(MessageFormat.format(CLIText.get().unsupportedArchiveFormat, format));
+			this.format = format;
+		}
+
+		/**
+		 * @return the problematic format name
+		 */
+		public String getFormat() {
+			return format;
+		}
+	}
+
+	private static final ConcurrentMap<String, Format> formats =
+			new ConcurrentHashMap<String, Format>();
 
 	static {
-		Map<Format, Archiver> fmts = new EnumMap<Format, Archiver>(Format.class);
-		fmts.put(Format.ZIP, new Archiver() {
-			public ArchiveOutputStream createArchiveOutputStream(OutputStream s) {
-				return new ZipArchiveOutputStream(s);
-			}
+		formats.put("zip", new ZipFormat());
+		formats.put("tar", new TarFormat());
+	}
 
-			public void putEntry(String path, FileMode mode, //
-					ObjectLoader loader, ArchiveOutputStream out) //
-					throws IOException {
-				final ZipArchiveEntry entry = new ZipArchiveEntry(path);
-
-				if (mode == FileMode.REGULAR_FILE) {
-					// ok
-				} else if (mode == FileMode.EXECUTABLE_FILE
-						|| mode == FileMode.SYMLINK) {
-					entry.setUnixMode(mode.getBits());
-				} else {
-					// TODO(jrn): Let the caller know the tree contained
-					// an entry with unsupported mode (e.g., a submodule).
-				}
-				entry.setSize(loader.getSize());
-				out.putArchiveEntry(entry);
-				loader.copyTo(out);
-				out.closeArchiveEntry();
-			}
-		});
-		fmts.put(Format.TAR, new Archiver() {
-			public ArchiveOutputStream createArchiveOutputStream(OutputStream s) {
-				return new TarArchiveOutputStream(s);
-			}
-
-			public void putEntry(String path, FileMode mode, //
-					ObjectLoader loader, ArchiveOutputStream out) //
-					throws IOException {
-				if (mode == FileMode.SYMLINK) {
-					final TarArchiveEntry entry = new TarArchiveEntry( //
-							path, TarConstants.LF_SYMLINK);
-					entry.setLinkName(new String( //
-							loader.getCachedBytes(100), "UTF-8")); //$NON-NLS-1$
-					out.putArchiveEntry(entry);
-					out.closeArchiveEntry();
-					return;
-				}
-
-				final TarArchiveEntry entry = new TarArchiveEntry(path);
-				if (mode == FileMode.REGULAR_FILE ||
-				    mode == FileMode.EXECUTABLE_FILE) {
-					entry.setMode(mode.getBits());
-				} else {
-					// TODO(jrn): Let the caller know the tree contained
-					// an entry with unsupported mode (e.g., a submodule).
-				}
-				entry.setSize(loader.getSize());
-				out.putArchiveEntry(entry);
-				loader.copyTo(out);
-				out.closeArchiveEntry();
-			}
-		});
-		formats = fmts;
+	private static Format lookupFormat(String formatName) throws UnsupportedFormatException {
+		Format fmt = formats.get(formatName);
+		if (fmt == null)
+			throw new UnsupportedFormatException(formatName);
+		return fmt;
 	}
 
 	private OutputStream out;
 	private TreeWalk walk;
-	private Format format = Format.TAR;
+	private String format = "tar";
 
 	/**
 	 * @param repo
@@ -213,7 +187,7 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 	@Override
 	public OutputStream call() throws GitAPIException {
 		final MutableObjectId idBuf = new MutableObjectId();
-		final Archiver fmt = formats.get(format);
+		final Format fmt = lookupFormat(format);
 		final ArchiveOutputStream outa = fmt.createArchiveOutputStream(out);
 		final ObjectReader reader = walk.getObjectReader();
 
@@ -268,10 +242,10 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 
 	/**
 	 * @param fmt
-	 *	      archive format (e.g., Format.TAR)
+	 *	      archive format (e.g., "tar" or "zip")
 	 * @return this
 	 */
-	public ArchiveCommand setFormat(Format fmt) {
+	public ArchiveCommand setFormat(String fmt) {
 		this.format = fmt;
 		return this;
 	}
