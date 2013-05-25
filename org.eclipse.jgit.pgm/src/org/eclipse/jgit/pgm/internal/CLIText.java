@@ -76,8 +76,6 @@ public class CLIText extends TranslationBundle {
 	// @formatter:off
 	/***/ public String alreadyOnBranch;
 	/***/ public String alreadyUpToDate;
-	/***/ public String archiveFormatAlreadyRegistered;
-	/***/ public String archiveFormatAlreadyAbsent;
 	/***/ public String authorInfo;
 	/***/ public String averageMSPerRead;
 	/***/ public String branchAlreadyExists;
@@ -117,7 +115,6 @@ public class CLIText extends TranslationBundle {
 	/***/ public String doesNotExist;
 	/***/ public String dontOverwriteLocalChanges;
 	/***/ public String everythingUpToDate;
-	/***/ public String exceptionCaughtDuringExecutionOfArchiveCommand;
 	/***/ public String expectedNumberOfbytes;
 	/***/ public String exporting;
 	/***/ public String failedToCommitIndex;
@@ -238,7 +235,6 @@ public class CLIText extends TranslationBundle {
 	/***/ public char[] unknownIoErrorStdout;
 	/***/ public String unknownMergeStrategy;
 	/***/ public String unmergedPaths;
-	/***/ public String unsupportedArchiveFormat;
 	/***/ public String unsupportedOperation;
 	/***/ public String untrackedFiles;
 	/***/ public String updating;
