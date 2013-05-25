@@ -72,12 +72,12 @@ import org.eclipse.jgit.treewalk.TreeWalk;
  *
  * <pre>
  * ArchiveCommand.registerFormat("tar", new TarFormat());
- * cmd = git.archive();
  * try {
- *	cmd.setTree(db.resolve(&quot;HEAD&quot;))
- *		.setOutputStream(out).call();
+ *	git.archive()
+ *		.setTree(db.resolve(&quot;HEAD&quot;))
+ *		.setOutputStream(out)
+ *		.call();
  * } finally {
- *	cmd.release();
  *	ArchiveCommand.unregisterFormat("tar");
  * }
  * </pre>
@@ -87,11 +87,12 @@ import org.eclipse.jgit.treewalk.TreeWalk;
  * <pre>
  * ArchiveCommand.registerFormat("zip", new ZipFormat());
  * try {
- *	cmd.setTree(db.resolve(&quot;master&quot;))
+ *	git.archive().
+ *		.setTree(db.resolve(&quot;master&quot;))
  *		.setFormat("zip")
- *		.setOutputStream(out).call();
+ *		.setOutputStream(out)
+ *		.call();
  * } finally {
- *	cmd.release();
  *	ArchiveCommand.unregisterFormat("zip");
  * }
  * </pre>
@@ -197,7 +198,7 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 	}
 
 	private OutputStream out;
-	private TreeWalk walk;
+	private ObjectId tree;
 	private String format = "tar";
 
 	/**
@@ -205,27 +206,20 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 	 */
 	public ArchiveCommand(Repository repo) {
 		super(repo);
-		walk = new TreeWalk(repo);
-	}
-
-	/**
-	 * Release any resources used by the internal ObjectReader.
-	 * <p>
-	 * This does not close the output stream set with setOutputStream, which
-	 * belongs to the caller.
-	 */
-	public void release() {
-		walk.release();
+		setCallable(false);
 	}
 
 	private <T extends Closeable>
 	OutputStream writeArchive(Format<T> fmt) throws GitAPIException {
-		final MutableObjectId idBuf = new MutableObjectId();
-		final T outa = fmt.createArchiveOutputStream(out);
-		final ObjectReader reader = walk.getObjectReader();
-
+		final TreeWalk walk = new TreeWalk(repo);
 		try {
+			final T outa = fmt.createArchiveOutputStream(out);
 			try {
+				final MutableObjectId idBuf = new MutableObjectId();
+				final ObjectReader reader = walk.getObjectReader();
+				final RevWalk rw = new RevWalk(walk.getObjectReader());
+
+				walk.reset(rw.parseTree(tree));
 				walk.setRecursive(true);
 				while (walk.next()) {
 					final String name = walk.getPathString();
@@ -242,13 +236,14 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 			} finally {
 				outa.close();
 			}
+			return out;
 		} catch (IOException e) {
 			// TODO(jrn): Throw finer-grained errors.
 			throw new JGitInternalException(
 					JGitText.get().exceptionCaughtDuringExecutionOfArchiveCommand, e);
+		} finally {
+			walk.release();
 		}
-
-		return out;
 	}
 
 	/**
@@ -256,6 +251,8 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 	 */
 	@Override
 	public OutputStream call() throws GitAPIException {
+		checkCallable();
+
 		final Format<?> fmt = lookupFormat(format);
 		return writeArchive(fmt);
 	}
@@ -264,11 +261,13 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 	 * @param tree
 	 *            the tag, commit, or tree object to produce an archive for
 	 * @return this
-	 * @throws IOException
 	 */
-	public ArchiveCommand setTree(ObjectId tree) throws IOException {
-		final RevWalk rw = new RevWalk(walk.getObjectReader());
-		walk.reset(rw.parseTree(tree));
+	public ArchiveCommand setTree(ObjectId tree) {
+		if (tree == null)
+			throw new IllegalArgumentException();
+
+		this.tree = tree;
+		setCallable(true);
 		return this;
 	}
 

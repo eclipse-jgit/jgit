@@ -72,15 +72,14 @@ class Archive extends TextBuiltin {
 		if (tree == null)
 			throw die(CLIText.get().treeIsRequired);
 
-		final ArchiveCommand cmd = new Git(db).archive();
 		try {
-			cmd.setTree(tree)
-					.setFormat(format)
-					.setOutputStream(outs).call();
+			new Git(db).archive()
+				.setTree(tree)
+				.setFormat(format)
+				.setOutputStream(outs)
+				.call();
 		} catch (GitAPIException e) {
 			throw die(e.getMessage());
-		} finally {
-			cmd.release();
 		}
 	}
 }
