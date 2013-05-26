@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPn//7Vw\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-05-26T21:11:26Z",
+      "side": 1,
+      "message": "\"It is not possible\" ...? Was this to mention the problem with startsWith, endsWith?",
+      "revId": "fa531770177c1914363860393eff3835fed471a7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
