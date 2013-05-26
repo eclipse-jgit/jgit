@@ -37,8 +37,7 @@
  */
 package org.eclipse.jgit.lib;
 
-import static org.hamcrest.Matchers.startsWith;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.File;
@@ -399,7 +398,7 @@ public class DirCacheCheckoutMaliciousPathTest extends RepositoryTestCase {
 		} catch (InvalidPathException e) {
 			if (good)
 				throw e;
-			assertThat(e.getMessage(), startsWith("Invalid path: "));
+			assertTrue(e.getMessage().startsWith("Invalid path: "));
 		}
 	}
 
