@@ -69,6 +69,16 @@ import org.eclipse.jgit.lib.Repository;
 public class RenameDetector {
 	private static final int EXACT_RENAME_SCORE = 100;
 
+	private static int fileSizeLimit = Integer.MAX_VALUE;
+
+	public static int getFileSizeLimit() {
+		return fileSizeLimit;
+	}
+
+	public static void setFileSizeLimit(int fileSizeLimit) {
+		RenameDetector.fileSizeLimit = fileSizeLimit;
+	}
+
 	private static final Comparator<DiffEntry> DIFF_COMPARATOR = new Comparator<DiffEntry>() {
 		public int compare(DiffEntry a, DiffEntry b) {
 			int cmp = nameOf(a).compareTo(nameOf(b));

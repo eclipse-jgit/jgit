@@ -264,6 +264,11 @@ class SimilarityRenameDetector {
 				}
 
 				long max = Math.max(srcSize, dstSize);
+				if (max > RenameDetector.getFileSizeLimit()) {
+					pm.update(1);
+					continue;
+				}
+
 				long min = Math.min(srcSize, dstSize);
 				if (min * 100 / max < renameScore) {
 					// Cannot possibly match, as the file sizes are so different
