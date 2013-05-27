@@ -95,21 +95,21 @@ public class RawSubStringPattern {
 		int matchPos = rcs.startPtr;
 		final int maxPos = rcs.endPtr - needleLen;
 
-		OUTER: for (; matchPos < maxPos; matchPos++) {
+		OUTER: for (; matchPos <= maxPos; matchPos++) {
 			if (neq(first, text[matchPos])) {
-				while (++matchPos < maxPos && neq(first, text[matchPos])) {
+				while (++matchPos <= maxPos && neq(first, text[matchPos])) {
 					/* skip */
 				}
-				if (matchPos == maxPos)
+				if (matchPos > maxPos)
 					return -1;
 			}
 
-			int si = ++matchPos;
+			int si = matchPos + 1;
 			for (int j = 1; j < needleLen; j++, si++) {
 				if (neq(needle[j], text[si]))
 					continue OUTER;
 			}
-			return matchPos - 1;
+			return matchPos;
 		}
 		return -1;
 	}
