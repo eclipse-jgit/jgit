@@ -48,18 +48,11 @@ package org.eclipse.jgit.internal.storage.file;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.BITMAP_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
 
-import java.io.EOFException;
-import java.io.File;
-import java.io.IOException;
-import java.io.RandomAccessFile;
+import java.io.*;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel.MapMode;
 import java.text.MessageFormat;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 import java.util.zip.CRC32;
 import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
@@ -140,6 +133,16 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	 */
 	private volatile LongList corruptObjects;
 
+	private static Map<PackFile, Exception> openPackToStackTrace = new HashMap<PackFile, Exception>();
+	private static boolean DEBUG_OPEN_PACKS = Boolean.getBoolean("jgit.debug-open-packs");
+
+	public static void outputOpenPacks() {
+		for (PackFile pack : openPackToStackTrace.keySet()) {
+			System.err.println(pack + " " + pack.packFile);
+			openPackToStackTrace.get(pack).printStackTrace();
+		}
+	}
+
 	/**
 	 * Construct a reader for an existing, pre-indexed packfile.
 	 *
@@ -158,6 +161,12 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 		//
 		hash = System.identityHashCode(this) * 31;
 		length = Long.MAX_VALUE;
+
+		if (DEBUG_OPEN_PACKS) {
+			synchronized (PackFile.class) {
+				openPackToStackTrace.put(this, new Exception());
+			}
+		}
 	}
 
 	private synchronized PackIndex idx() throws IOException {
@@ -265,6 +274,12 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	 * Close the resources utilized by this repository
 	 */
 	public void close() {
+		if (DEBUG_OPEN_PACKS) {
+			synchronized (PackFile.class) {
+				openPackToStackTrace.remove(this);
+			}
+		}
+
 		WindowCache.purge(this);
 		synchronized (this) {
 			loadedIdx = null;
