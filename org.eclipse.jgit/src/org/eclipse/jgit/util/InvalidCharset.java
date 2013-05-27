@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011, Leonard Broman <leonard.broman@gmail.com>
+ * Copyright (C) 2014, Marc Strapetz <marc.strapetz@syntevo.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -40,40 +40,50 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 package org.eclipse.jgit.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
+import java.nio.*;
+import java.nio.charset.*;
 
-import java.nio.charset.Charset;
-import java.nio.charset.UnsupportedCharsetException;
+public class InvalidCharset extends Charset {
 
-import org.eclipse.jgit.lib.Constants;
-import org.junit.Test;
+	public static final InvalidCharset INSTANCE = new InvalidCharset();
 
-public class RawParseUtilsTest {
-
-	@Test
-	public void testParseEncoding_ISO8859_1_encoding() {
-		Charset result = RawParseUtils.parseEncoding(Constants
-				.encodeASCII("encoding ISO-8859-1\n"));
-		assertNotNull(result);
+	private InvalidCharset() {
+		super("Invalid", new String[0]);
 	}
 
-	@Test
-	public void testParseEncoding_Accept_Latin_One_AsISO8859_1() {
-		Charset result = RawParseUtils.parseEncoding(Constants
-				.encodeASCII("encoding latin-1\n"));
-		assertNotNull(result);
-		assertEquals("ISO-8859-1", result.name());
+	@Override
+	public boolean contains(Charset cs) {
+		return false;
 	}
 
-	@Test
-	public void testParseEncoding_badEncoding() {
-		Charset result = RawParseUtils.parseEncoding(Constants.
-				encodeASCII("encoding xyz\n"));
-		assertNotNull(result);
-		assertEquals("Invalid", result.name());
+	@Override
+	public CharsetDecoder newDecoder() {
+		return new CharsetDecoder(this, 1, 1) {
+			@Override
+			protected CoderResult decodeLoop(ByteBuffer in, CharBuffer out) {
+				if (in.remaining() > 0) {
+					return CoderResult.unmappableForLength(1);
+				}
+
+				return CoderResult.UNDERFLOW;
+			}
+		};
+	}
+
+	@Override
+	public CharsetEncoder newEncoder() {
+		return new CharsetEncoder(this, 4, 4) {
+			@Override
+			protected CoderResult encodeLoop(CharBuffer in, ByteBuffer out) {
+				if (in.remaining() > 0) {
+					return CoderResult.unmappableForLength(1);
+				}
+
+				return CoderResult.UNDERFLOW;
+			}
+		};
 	}
 }
