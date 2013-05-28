@@ -42,18 +42,65 @@
  */
 package org.eclipse.jgit.archive;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.jgit.api.ArchiveCommand;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
+/**
+ * This activator registers all format types from the
+ * org.eclipse.jgit.archive package for use via the ArchiveCommand
+ * API.
+ *
+ * This registration happens automatically behind the scenes
+ * when the package is loaded as an OSGi bundle (and the corresponding
+ * deregistration happens when the bundle is unloaded, to avoid
+ * leaks).
+ *
+ * The static start() and stop() methods allow registering the same
+ * list of formats manually in cases where OSGi bundle activation
+ * cannot be used.
+ */
 public class FormatActivator implements BundleActivator {
+	private static final List<String> myFormats = new ArrayList<String>();
+
+	private static final void register(String name, ArchiveCommand.Format<?> fmt) {
+		myFormats.add(name);
+		ArchiveCommand.registerFormat(name, fmt);
+	}
+
+	/**
+	 * Register all included archive formats so they can be used
+	 * as arguments to the ArchiveCommand.setFormat() method.
+	 *
+	 * Should not be called twice without a call to stop() in between.
+	 * Not thread-safe.
+	 */
+	public static void start() {
+		register("tar", new TarFormat());
+		register("zip", new ZipFormat());
+	}
+
+	/**
+	 * Clean up by deregistering all formats that were registered
+	 * by start().
+	 *
+	 * Not thread-safe.
+	 */
+	public static void stop() {
+		for (String name : myFormats) {
+			ArchiveCommand.unregisterFormat(name);
+		}
+		myFormats.clear();
+	}
+
 	public void start(BundleContext context) throws Exception {
-		ArchiveCommand.registerFormat("tar", new TarFormat());
-		ArchiveCommand.registerFormat("zip", new ZipFormat());
+		start();
 	}
 
 	public void stop(BundleContext context) throws Exception {
-		ArchiveCommand.unregisterFormat("zip");
-		ArchiveCommand.unregisterFormat("tar");
+		stop();
 	}
 }
