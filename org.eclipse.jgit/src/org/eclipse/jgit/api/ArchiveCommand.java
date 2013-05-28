@@ -118,7 +118,7 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 	 *	}
 	 */
 	public static interface Format<T extends Closeable> {
-		T createArchiveOutputStream(OutputStream s);
+		T createArchiveOutputStream(OutputStream s) throws IOException;
 		void putEntry(T out, String path, FileMode mode,
 				ObjectLoader loader) throws IOException;
 	}
