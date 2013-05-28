@@ -42,22 +42,25 @@
  */
 package org.eclipse.jgit.archive;
 
-import org.eclipse.jgit.api.ArchiveCommand;
-import org.osgi.framework.BundleActivator;
-import org.osgi.framework.BundleContext;
+import java.io.IOException;
+import java.io.OutputStream;
 
-public class FormatActivator implements BundleActivator {
-	public void start(BundleContext context) throws Exception {
-		ArchiveCommand.registerFormat("tar", new TarFormat());
-		ArchiveCommand.registerFormat("tgz", new TgzFormat());
-		ArchiveCommand.registerFormat("txz", new TxzFormat());
-		ArchiveCommand.registerFormat("zip", new ZipFormat());
+import org.apache.commons.compress.archivers.ArchiveOutputStream;
+import org.apache.commons.compress.compressors.gzip.GzipCompressorOutputStream;
+import org.eclipse.jgit.api.ArchiveCommand;
+import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.lib.ObjectLoader;
+
+public class TgzFormat implements ArchiveCommand.Format<ArchiveOutputStream> {
+	public ArchiveOutputStream createArchiveOutputStream(OutputStream s)
+			throws IOException {
+		GzipCompressorOutputStream out = new GzipCompressorOutputStream(s);
+		return new TarFormat().createArchiveOutputStream(out);
 	}
 
-	public void stop(BundleContext context) throws Exception {
-		ArchiveCommand.unregisterFormat("zip");
-		ArchiveCommand.unregisterFormat("txz");
-		ArchiveCommand.unregisterFormat("tgz");
-		ArchiveCommand.unregisterFormat("tar");
+	public void putEntry(ArchiveOutputStream out,
+			String path, FileMode mode, ObjectLoader loader)
+			throws IOException {
+		new TarFormat().putEntry(out, path, mode, loader);
 	}
 }

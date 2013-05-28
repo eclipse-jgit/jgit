@@ -47,6 +47,8 @@ import org.eclipse.jgit.api.ArchiveCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.archive.TarFormat;
+import org.eclipse.jgit.archive.TgzFormat;
+import org.eclipse.jgit.archive.TxzFormat;
 import org.eclipse.jgit.archive.ZipFormat;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.pgm.TextBuiltin;
@@ -58,6 +60,8 @@ import org.kohsuke.args4j.Option;
 class Archive extends TextBuiltin {
 	static {
 		ArchiveCommand.registerFormat("tar", new TarFormat());
+		ArchiveCommand.registerFormat("tgz", new TgzFormat());
+		ArchiveCommand.registerFormat("txz", new TxzFormat());
 		ArchiveCommand.registerFormat("zip", new ZipFormat());
 	}
 
