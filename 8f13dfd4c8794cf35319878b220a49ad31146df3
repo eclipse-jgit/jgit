@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPn//6gs\u003d",
+        "filename": "org.eclipse.jgit.archive/src/org/eclipse/jgit/archive/FormatActivator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2013-05-28T23:40:10Z",
+      "side": 1,
+      "message": "Yes.",
+      "parentUuid": "AABOPn//6iU\u003d",
+      "revId": "8f13dfd4c8794cf35319878b220a49ad31146df3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPn//6iQ\u003d",
         "filename": "org.eclipse.jgit.archive/src/org/eclipse/jgit/archive/FormatActivator.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-05-28T22:54:50Z",
       "side": 1,
       "message": "Maybe use a small helper method to setup the registrations:\n\n  private static final List\u003cString\u003e myFormats \u003d Collections.synchronizedList(new ArrayList\u003cString\u003e());\n\n  private static final void register(String name, Format\u003c?\u003e fmt) {\n    myFormats.add(name);\n    ArchiveCommand.registerFormat(name, fmt);\n  }\n\n  public void stop(BundleContext context) throws Exception {\n    for (String name : myFormats) {\n      ArchiveCommand.unregisterFormat(name);\n    }\n    myFormats.clear();\n  }",
+      "revId": "8f13dfd4c8794cf35319878b220a49ad31146df3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPn//6gg\u003d",
+        "filename": "org.eclipse.jgit.archive/src/org/eclipse/jgit/archive/FormatActivator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2013-05-28T23:40:10Z",
+      "side": 1,
+      "message": "Done, without synchronization because I expect the caller to synchronize as appropriate.",
+      "parentUuid": "AABOPn//6iQ\u003d",
       "revId": "8f13dfd4c8794cf35319878b220a49ad31146df3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AABOPn//6g4\u003d",
+        "filename": "org.eclipse.jgit.archive/src/org/eclipse/jgit/archive/TgzFormat.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2013-05-28T23:40:10Z",
+      "side": 1,
+      "message": "Yes, that\u0027s much nicer.",
+      "parentUuid": "AABOPn//6ig\u003d",
+      "revId": "8f13dfd4c8794cf35319878b220a49ad31146df3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOPn//6ic\u003d",
         "filename": "org.eclipse.jgit.archive/src/org/eclipse/jgit/archive/TxzFormat.java",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2013-05-28T22:54:50Z",
       "side": 1,
       "message": "same comment as in tgz",
+      "revId": "8f13dfd4c8794cf35319878b220a49ad31146df3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPn//6g8\u003d",
+        "filename": "org.eclipse.jgit.archive/src/org/eclipse/jgit/archive/TxzFormat.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2013-05-28T23:40:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOPn//6ic\u003d",
       "revId": "8f13dfd4c8794cf35319878b220a49ad31146df3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
