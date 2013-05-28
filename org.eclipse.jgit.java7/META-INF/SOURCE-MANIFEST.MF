@@ -3,6 +3,6 @@ Bundle-ManifestVersion: 2
 Bundle-Name: org.eclipse.jgit.java7 - Sources
 Bundle-SymbolicName: org.eclipse.jgit.java7.source;singleton:=true
 Bundle-Vendor: Eclipse.org - JGit
-Bundle-Version: 3.0.0.qualifier
+Bundle-Version: 3.0.0.201305281830-rc2
 Eclipse-SourceBundle: org.eclipse.jgit.java7;version="3.0.0";roots="."
 
