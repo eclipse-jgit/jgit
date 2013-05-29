@@ -56,11 +56,11 @@ import org.osgi.framework.BundleContext;
  * leaks).
  */
 public class FormatActivator implements BundleActivator {
-	public void start(BundleContext context) throws Exception {
+	public void start(BundleContext context) {
 		ArchiveFormats.registerAll();
 	}
 
-	public void stop(BundleContext context) throws Exception {
+	public void stop(BundleContext context) {
 		ArchiveFormats.unregisterAll();
 	}
 }
