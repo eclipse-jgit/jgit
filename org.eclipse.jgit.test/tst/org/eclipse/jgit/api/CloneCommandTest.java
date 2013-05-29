@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011, Chris Aniszczyk <caniszczyk@gmail.com>
+ * Copyright (C) 2011, 2013 Chris Aniszczyk <caniszczyk@gmail.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -64,7 +64,6 @@ import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -92,11 +91,10 @@ public class CloneCommandTest extends RepositoryTestCase {
 		writeTrashFile("Test.txt", "Hello world");
 		git.add().addFilepattern("Test.txt").call();
 		git.commit().setMessage("Initial commit").call();
+		git.tag().setName("tag-initial").setMessage("Tag initial").call();
 
-		// create a master branch and switch to it
-		git.branchCreate().setName("test").call();
-		RefUpdate rup = db.updateRef(Constants.HEAD);
-		rup.link("refs/heads/test");
+		// create a test branch and switch to it
+		git.checkout().setCreateBranch(true).setName("test").call();
 
 		// commit something on the test branch
 		writeTrashFile("Test.txt", "Some change");
@@ -203,6 +201,36 @@ public class CloneCommandTest extends RepositoryTestCase {
 		assertEquals(git2.getRepository().getFullBranch(), "refs/heads/master");
 		assertEquals("refs/heads/master, refs/heads/test", allRefNames(git2
 				.branchList().setListMode(ListMode.ALL).call()));
+	}
+
+	@Test
+	public void testCloneRepositoryWithBranchShortName() throws Exception {
+		File directory = createTempDirectory("testCloneRepositoryWithBranch");
+		CloneCommand command = Git.cloneRepository();
+		command.setBranch("test");
+		command.setDirectory(directory);
+		command.setURI("file://" + git.getRepository().getWorkTree().getPath());
+		Git git2 = command.call();
+		addRepoToClose(git2.getRepository());
+
+		assertNotNull(git2);
+		assertEquals("refs/heads/test", git2.getRepository().getFullBranch());
+	}
+
+	@Test
+	public void testCloneRepositoryWithTagName() throws Exception {
+		File directory = createTempDirectory("testCloneRepositoryWithBranch");
+		CloneCommand command = Git.cloneRepository();
+		command.setBranch("tag-initial");
+		command.setDirectory(directory);
+		command.setURI("file://" + git.getRepository().getWorkTree().getPath());
+		Git git2 = command.call();
+		addRepoToClose(git2.getRepository());
+
+		assertNotNull(git2);
+		ObjectId taggedCommit = db.resolve("tag-initial^{commit}");
+		assertEquals(taggedCommit.name(), git2
+				.getRepository().getFullBranch());
 	}
 
 	@Test

@@ -64,7 +64,7 @@
     <args4j-version>2.0.21.v201301150030</args4j-version>
     <jsch-version>0.1.46.v201205102330</jsch-version>
     <eclipse-site>http://download.eclipse.org/releases/juno</eclipse-site>
-    <orbit-site>http://download.eclipse.org/tools/orbit/downloads/drops/R20130118183705/repository/</orbit-site>
+    <orbit-site>http://download.eclipse.org/tools/orbit/downloads/drops/R20130517111416/repository/</orbit-site>
   </properties>
 
   <modules>
