@@ -209,8 +209,7 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 		setCallable(false);
 	}
 
-	private <T extends Closeable>
-	OutputStream writeArchive(Format<T> fmt) throws GitAPIException {
+	private <T extends Closeable> OutputStream writeArchive(Format<T> fmt) {
 		final TreeWalk walk = new TreeWalk(repo);
 		try {
 			final T outa = fmt.createArchiveOutputStream(out);

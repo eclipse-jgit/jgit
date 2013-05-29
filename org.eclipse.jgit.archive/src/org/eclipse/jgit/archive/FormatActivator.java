@@ -98,11 +98,11 @@ public class FormatActivator implements BundleActivator {
 		myFormats.clear();
 	}
 
-	public void start(BundleContext context) throws Exception {
+	public void start(BundleContext context) {
 		start();
 	}
 
-	public void stop(BundleContext context) throws Exception {
+	public void stop(BundleContext context) {
 		stop();
 	}
 }
