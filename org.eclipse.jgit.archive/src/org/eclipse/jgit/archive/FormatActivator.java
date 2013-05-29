@@ -98,10 +98,23 @@ public class FormatActivator implements BundleActivator {
 		myFormats.clear();
 	}
 
+	/**
+	 * Registers all included archive formats by calling
+	 * {@link #start()}.  This method is called by the OSGi framework
+	 * when the bundle is started.
+	 *
+	 * @param context unused
+	 */
 	public void start(BundleContext context) {
 		start();
 	}
 
+	/**
+	 * Cleans up after {@link #start(BundleContext)} by calling
+	 * {@link #stop()}.
+	 *
+	 * @param context unused
+	 */
 	public void stop(BundleContext context) {
 		stop();
 	}

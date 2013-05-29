@@ -53,6 +53,9 @@ import org.eclipse.jgit.api.ArchiveCommand;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectLoader;
 
+/**
+ * Unix TAR format (ustar + old GNU long filename extension).
+ */
 public class TarFormat implements ArchiveCommand.Format<ArchiveOutputStream> {
 	public ArchiveOutputStream createArchiveOutputStream(OutputStream s) {
 		return new TarArchiveOutputStream(s);

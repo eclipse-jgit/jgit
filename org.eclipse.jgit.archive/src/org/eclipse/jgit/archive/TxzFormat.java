@@ -51,6 +51,9 @@ import org.eclipse.jgit.api.ArchiveCommand;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectLoader;
 
+/**
+ * Xz-compressed tar (tar.xz) format.
+ */
 public class TxzFormat implements ArchiveCommand.Format<ArchiveOutputStream> {
 	private final ArchiveCommand.Format<ArchiveOutputStream> tarFormat = new TarFormat();
 
