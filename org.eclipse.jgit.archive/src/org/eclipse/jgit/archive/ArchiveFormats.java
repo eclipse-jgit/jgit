@@ -42,25 +42,50 @@
  */
 package org.eclipse.jgit.archive;
 
-import org.osgi.framework.BundleActivator;
-import org.osgi.framework.BundleContext;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.jgit.api.ArchiveCommand;
 
 /**
- * This activator registers all format types from the
- * org.eclipse.jgit.archive package for use via the ArchiveCommand
- * API.
+ * Registers all format types from the org.eclipse.jgit.archive
+ * package for use via the ArchiveCommand API.
  *
- * This registration happens automatically behind the scenes
- * when the package is loaded as an OSGi bundle (and the corresponding
- * deregistration happens when the bundle is unloaded, to avoid
- * leaks).
+ * See {@link FormatActivator} for an OSGi bundle activator
+ * that performs the same registration automatically.
  */
-public class FormatActivator implements BundleActivator {
-	public void start(BundleContext context) throws Exception {
-		ArchiveFormats.registerAll();
+public class ArchiveFormats {
+	private static final List<String> myFormats = new ArrayList<String>();
+
+	private static final void register(String name, ArchiveCommand.Format<?> fmt) {
+		myFormats.add(name);
+		ArchiveCommand.registerFormat(name, fmt);
 	}
 
-	public void stop(BundleContext context) throws Exception {
-		ArchiveFormats.unregisterAll();
+	/**
+	 * Register all included archive formats so they can be used
+	 * as arguments to the ArchiveCommand.setFormat() method.
+	 *
+	 * Should not be called twice without a call to stop() in between.
+	 * Not thread-safe.
+	 */
+	public static void registerAll() {
+		register("tar", new TarFormat());
+		register("tgz", new TgzFormat());
+		register("txz", new TxzFormat());
+		register("zip", new ZipFormat());
+	}
+
+	/**
+	 * Clean up by deregistering all formats that were registered
+	 * by registerAll().
+	 *
+	 * Not thread-safe.
+	 */
+	public static void unregisterAll() {
+		for (String name : myFormats) {
+			ArchiveCommand.unregisterFormat(name);
+		}
+		myFormats.clear();
 	}
 }

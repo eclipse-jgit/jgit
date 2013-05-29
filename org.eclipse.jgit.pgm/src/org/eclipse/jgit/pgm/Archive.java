@@ -46,7 +46,7 @@ package org.eclipse.jgit.pgm;
 import org.eclipse.jgit.api.ArchiveCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.archive.FormatActivator;
+import org.eclipse.jgit.archive.ArchiveFormats;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.pgm.TextBuiltin;
 import org.eclipse.jgit.pgm.internal.CLIText;
@@ -56,7 +56,7 @@ import org.kohsuke.args4j.Option;
 @Command(common = true, usage = "usage_archive")
 class Archive extends TextBuiltin {
 	static {
-		FormatActivator.start();
+		ArchiveFormats.registerAll();
 	}
 
 	@Argument(index = 0, metaVar = "metaVar_treeish")
