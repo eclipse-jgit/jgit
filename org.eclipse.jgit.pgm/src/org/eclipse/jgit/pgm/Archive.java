@@ -43,7 +43,6 @@
 
 package org.eclipse.jgit.pgm;
 
-import org.eclipse.jgit.api.ArchiveCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.archive.FormatActivator;
