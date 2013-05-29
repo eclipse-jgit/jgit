@@ -116,9 +116,39 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 	 *	} finally {
 	 *		out.close();
 	 *	}
+	 *
+	 * @param <T>
+	 *            type representing an archive being created.
 	 */
 	public static interface Format<T extends Closeable> {
+		/**
+		 * Start a new archive. Entries can be included in the archive using the
+		 * putEntry method, and then the archive should be closed using its
+		 * close method.
+		 *
+		 * @param s
+		 *            underlying output stream to which to write the archive.
+		 * @return new archive object for use in putEntry
+		 * @throws IOException
+		 *             thrown by the underlying output stream for I/O errors
+		 */
 		T createArchiveOutputStream(OutputStream s) throws IOException;
+
+		/**
+		 * Write an entry to an archive.
+		 *
+		 * @param out
+		 *            archive object from createArchiveOutputStream
+		 * @param path
+		 *            full filename relative to the root of the archive
+		 * @param mode
+		 *            mode (for example FileMode.REGULAR_FILE or
+		 *            FileMode.SYMLINK)
+		 * @param loader
+		 *            blob object with data for this entry
+		 * @throws IOException
+		 *            thrown by the underlying output stream for I/O errors
+		 */
 		void putEntry(T out, String path, FileMode mode,
 				ObjectLoader loader) throws IOException;
 	}

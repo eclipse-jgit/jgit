@@ -56,10 +56,23 @@ import org.osgi.framework.BundleContext;
  * leaks).
  */
 public class FormatActivator implements BundleActivator {
+	/**
+	 * Registers all included archive formats by calling
+	 * {@link #start()}.  This method is called by the OSGi framework
+	 * when the bundle is started.
+	 *
+	 * @param context unused
+	 */
 	public void start(BundleContext context) {
 		ArchiveFormats.registerAll();
 	}
 
+	/**
+	 * Cleans up after {@link #start(BundleContext)} by calling
+	 * {@link #stop()}.
+	 *
+	 * @param context unused
+	 */
 	public void stop(BundleContext context) {
 		ArchiveFormats.unregisterAll();
 	}

@@ -51,6 +51,9 @@ import org.eclipse.jgit.api.ArchiveCommand;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectLoader;
 
+/**
+ * gzip-compressed tarball (tar.gz) format.
+ */
 public class TgzFormat implements ArchiveCommand.Format<ArchiveOutputStream> {
 	private final ArchiveCommand.Format<ArchiveOutputStream> tarFormat = new TarFormat();
 
