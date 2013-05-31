@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+   Copyright (C) 2012, 2013 Matthias Sohn <matthias.sohn@sap.com>
+
+   All rights reserved. This program and the accompanying materials
+   are made available under the terms of the Eclipse Public License v1.0
+   which accompanies this distribution, and is available at
+   http://www.eclipse.org/legal/epl-v10.html
+-->
+<?pde version="3.6"?>
+<target name="jgit.target" sequenceNumber="54">
+  <locations>
+    <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
+      <repository location="http://archive.eclipse.org/jetty/updates/jetty-bundles-7.x/7.6.0.v20120127/"/>
+      <unit id="org.eclipse.jetty.client" version="7.6.0.v20120127"/>
+      <unit id="org.eclipse.jetty.client.source" version="7.6.0.v20120127"/>
+      <unit id="org.eclipse.jetty.continuation" version="7.6.0.v20120127"/>
+      <unit id="org.eclipse.jetty.continuation.source" version="7.6.0.v20120127"/>
+      <unit id="org.eclipse.jetty.http" version="7.6.0.v20120127"/>
+      <unit id="org.eclipse.jetty.http.source" version="7.6.0.v20120127"/>
+      <unit id="org.eclipse.jetty.io" version="7.6.0.v20120127"/>
+      <unit id="org.eclipse.jetty.io.source" version="7.6.0.v20120127"/>
+      <unit id="org.eclipse.jetty.security" version="7.6.0.v20120127"/>
+      <unit id="org.eclipse.jetty.security.source" version="7.6.0.v20120127"/>
+      <unit id="org.eclipse.jetty.server" version="7.6.0.v20120127"/>
+      <unit id="org.eclipse.jetty.server.source" version="7.6.0.v20120127"/>
+      <unit id="org.eclipse.jetty.servlet" version="7.6.0.v20120127"/>
+      <unit id="org.eclipse.jetty.servlet.source" version="7.6.0.v20120127"/>
+      <unit id="org.eclipse.jetty.util" version="7.6.0.v20120127"/>
+      <unit id="org.eclipse.jetty.util.source" version="7.6.0.v20120127"/>
+    </location>
+    <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
+      <repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20130517111416/repository/"/>
+      <unit id="org.apache.ant.source" version="1.8.2.v201303080311"/>
+      <unit id="org.apache.ant" version="1.8.2.v201303080311"/>
+      <unit id="org.apache.commons.compress" version="1.4.1.v201301140946"/>
+      <unit id="org.apache.commons.compress.source" version="1.4.1.v201301140946"/>
+      <unit id="org.apache.log4j" version="1.2.15.v201012070815"/>
+      <unit id="org.apache.log4j.source" version="1.2.15.v201012070815"/>
+      <unit id="org.kohsuke.args4j" version="2.0.21.v201301150030"/>
+      <unit id="org.kohsuke.args4j.source" version="2.0.21.v201301150030"/>
+      <unit id="org.hamcrest.core" version="1.1.0.v20090501071000"/>
+      <unit id="org.hamcrest.core.source" version="1.1.0.v20090501071000"/>
+      <unit id="org.hamcrest.generator" version="1.1.0.v20090501071000"/>
+      <unit id="org.hamcrest.generator.source" version="1.1.0.v20090501071000"/>
+      <unit id="org.hamcrest.integration" version="1.1.0.v201303031500"/>
+      <unit id="org.hamcrest.integration.source" version="1.1.0.v201303031500"/>
+      <unit id="org.hamcrest.library" version="1.1.0.v20090501071000"/>
+      <unit id="org.hamcrest.library.source" version="1.1.0.v20090501071000"/>
+      <unit id="org.hamcrest" version="1.1.0.v20090501071000"/>
+      <unit id="org.hamcrest.text" version="1.1.0.v20090501071000"/>
+      <unit id="org.hamcrest.text.source" version="1.1.0.v20090501071000"/>
+      <unit id="javaewah" version="0.5.6.v201210150900"/>
+      <unit id="org.objenesis" version="1.0.0.v201105211943"/>
+      <unit id="org.objenesis.source" version="1.0.0.v201105211943"/>
+      <unit id="org.mockito" version="1.8.4.v201303031500"/>
+      <unit id="org.mockito.source" version="1.8.4.v201303031500"/>
+      <unit id="com.jcraft.jsch" version="0.1.46.v201205102330"/>
+      <unit id="com.jcraft.jsch.source" version="0.1.46.v201205102330"/>
+      <unit id="org.junit" version="4.8.2.v4_8_2_v20130308-0413"/>
+      <unit id="org.junit.source" version="4.8.2.v4_8_2_v20130308-0413"/>
+      <unit id="com.google.protobuf" version="2.4.0.v201105131100"/>
+      <unit id="com.google.protobuf.source" version="2.4.0.v201105131100"/>
+      <unit id="javax.servlet" version="2.5.0.v201103041518"/>
+      <unit id="javax.servlet.source" version="2.5.0.v201103041518"/>
+    </location>
+    <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
+      <repository location="http://download.eclipse.org/releases/staging/"/>
+      <unit id="org.eclipse.osgi" version="0.0.0"/>
+    </location>
+  </locations>
+</target>

@@ -63,11 +63,12 @@
     <jetty-version>7.6.0.v20120127</jetty-version>
     <args4j-version>2.0.21.v201301150030</args4j-version>
     <jsch-version>0.1.46.v201205102330</jsch-version>
-    <eclipse-site>http://download.eclipse.org/releases/juno</eclipse-site>
+    <eclipse-site>http://download.eclipse.org/releases/kepler</eclipse-site>
     <orbit-site>http://download.eclipse.org/tools/orbit/downloads/drops/R20130517111416/repository/</orbit-site>
   </properties>
 
   <modules>
+    <module>org.eclipse.jgit.target</module>
     <module>org.eclipse.jgit.feature</module>
     <module>org.eclipse.jgit.java7.feature</module>
     <module>org.eclipse.jgit.pgm.feature</module>
@@ -79,7 +80,7 @@
 
   <repositories>
     <repository>
-      <id>indigo</id>
+      <id>eclipse</id>
       <layout>p2</layout>
       <url>${eclipse-site}</url>
     </repository>
@@ -114,7 +115,7 @@
     <dependency>
       <groupId>org.eclipse.jgit</groupId>
       <artifactId>org.eclipse.jgit</artifactId>
-      <version>3.0.0-SNAPSHOT</version>
+      <version>${project.version}</version>
       <classifier>sources</classifier>
     </dependency>
     <dependency>
@@ -167,6 +168,13 @@
           <configuration>
             <resolver>p2</resolver>
             <pomDependencies>consider</pomDependencies>
+            <target>
+              <artifact>
+                <groupId>org.eclipse.jgit</groupId>
+                <artifactId>org.eclipse.jgit-target</artifactId>
+                <version>${project.version}</version>
+              </artifact>
+            </target>
             <environments>
               <environment>
                 <os>linux</os>
