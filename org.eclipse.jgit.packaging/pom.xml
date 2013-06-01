@@ -59,7 +59,7 @@
   <name>JGit Tycho Parent</name>
 
   <properties>
-    <tycho-version>0.17.0</tycho-version>
+    <tycho-version>0.18.0</tycho-version>
   </properties>
 
   <modules>
