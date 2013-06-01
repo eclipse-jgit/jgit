@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPn//5UE\u003d",
+        "filename": "org.eclipse.jgit.archive/src/org/eclipse/jgit/archive/FormatActivator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2013-06-01T22:25:10Z",
+      "side": 1,
+      "message": "This should say {@link ArchiveFormats#registerAll()}",
+      "revId": "d623673e9dbb7d30a724a75f0fa070948c7b474a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPn//5UA\u003d",
+        "filename": "org.eclipse.jgit.archive/src/org/eclipse/jgit/archive/FormatActivator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2013-06-01T22:25:10Z",
+      "side": 1,
+      "message": "Should say {@link ArchiveFormats#unregisterAll}",
+      "revId": "d623673e9dbb7d30a724a75f0fa070948c7b474a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
