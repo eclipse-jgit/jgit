@@ -22,6 +22,10 @@
       <discovery label="%updateSiteName" url="http://download.eclipse.org/egit/updates"/>
    </url>
 
+   <includes
+         id="org.eclipse.jgit"
+         version="0.0.0"/>
+
    <requires>
       <import feature="org.eclipse.jgit" version="3.0.0" match="equivalent"/>
    </requires>
@@ -41,21 +45,7 @@
          unpack="false"/>
 
    <plugin
-         id="org.apache.commons.compress"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="org.kohsuke.args4j"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="javaewah"
          download-size="0"
          install-size="0"
          version="0.0.0"
