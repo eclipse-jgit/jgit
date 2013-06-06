@@ -42,51 +42,30 @@
  */
 package org.eclipse.jgit.archive;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
+import java.io.OutputStream;
 
+import org.apache.commons.compress.archivers.ArchiveOutputStream;
+import org.apache.commons.compress.compressors.bzip2.BZip2CompressorOutputStream;
 import org.eclipse.jgit.api.ArchiveCommand;
+import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.lib.ObjectLoader;
 
 /**
- * Registers all format types from the org.eclipse.jgit.archive
- * package for use via the ArchiveCommand API.
- *
- * See {@link FormatActivator} for an OSGi bundle activator
- * that performs the same registration automatically.
+ * bzip2-compressed tarball (tar.bz2) format.
  */
-public class ArchiveFormats {
-	private static final List<String> myFormats = new ArrayList<String>();
+public class Tbz2Format implements ArchiveCommand.Format<ArchiveOutputStream> {
+	private final ArchiveCommand.Format<ArchiveOutputStream> tarFormat = new TarFormat();
 
-	private static final void register(String name, ArchiveCommand.Format<?> fmt) {
-		myFormats.add(name);
-		ArchiveCommand.registerFormat(name, fmt);
+	public ArchiveOutputStream createArchiveOutputStream(OutputStream s)
+			throws IOException {
+		BZip2CompressorOutputStream out = new BZip2CompressorOutputStream(s);
+		return tarFormat.createArchiveOutputStream(out);
 	}
 
-	/**
-	 * Register all included archive formats so they can be used
-	 * as arguments to the ArchiveCommand.setFormat() method.
-	 *
-	 * Should not be called twice without a call to stop() in between.
-	 * Not thread-safe.
-	 */
-	public static void registerAll() {
-		register("tar", new TarFormat());
-		register("tgz", new TgzFormat());
-		register("tbz2", new Tbz2Format());
-		register("txz", new TxzFormat());
-		register("zip", new ZipFormat());
-	}
-
-	/**
-	 * Clean up by deregistering all formats that were registered
-	 * by registerAll().
-	 *
-	 * Not thread-safe.
-	 */
-	public static void unregisterAll() {
-		for (String name : myFormats) {
-			ArchiveCommand.unregisterFormat(name);
-		}
-		myFormats.clear();
+	public void putEntry(ArchiveOutputStream out,
+			String path, FileMode mode, ObjectLoader loader)
+			throws IOException {
+		tarFormat.putEntry(out, path, mode, loader);
 	}
 }
