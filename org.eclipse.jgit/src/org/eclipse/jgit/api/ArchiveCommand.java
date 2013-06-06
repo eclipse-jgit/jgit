@@ -46,6 +46,8 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.MessageFormat;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -151,6 +153,18 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 		 */
 		void putEntry(T out, String path, FileMode mode,
 				ObjectLoader loader) throws IOException;
+
+		/**
+		 * Filename suffixes representing this format (e.g.,
+		 * { ".tar.gz", ".tgz" }).
+		 *
+		 * The behavior is undefined when suffixes overlap (if
+		 * one format claims suffix ".7z", no other format should
+		 * take ".tar.7z").
+		 *
+		 * @return this format's suffixes
+		 */
+		Iterable<String> suffixes();
 	}
 
 	/**
@@ -199,6 +213,8 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 	 *              An archival format with that name was already registered.
 	 */
 	public static void registerFormat(String name, Format<?> fmt) {
+		// TODO(jrn): Check that suffixes don't overlap.
+
 		if (formats.putIfAbsent(name, fmt) != null)
 			throw new JGitInternalException(MessageFormat.format(
 					JGitText.get().archiveFormatAlreadyRegistered,
@@ -220,6 +236,17 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 					name));
 	}
 
+	private static Format<?> formatBySuffix(String filenameSuffix)
+			throws UnsupportedFormatException {
+		for (Format<?> fmt : formats.values()) {
+			for (String sfx : fmt.suffixes()) {
+				if (filenameSuffix.endsWith(sfx))
+					return fmt;
+			}
+		}
+		throw new UnsupportedFormatException(filenameSuffix);
+	}
+
 	private static Format<?> lookupFormat(String formatName) throws UnsupportedFormatException {
 		Format<?> fmt = formats.get(formatName);
 		if (fmt == null)
@@ -229,7 +256,10 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 
 	private OutputStream out;
 	private ObjectId tree;
-	private String format = "tar";
+	private String format;
+
+	/** Filename suffix, for automatically choosing a format. */
+	private String suffix;
 
 	/**
 	 * @param repo
@@ -282,7 +312,13 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 	public OutputStream call() throws GitAPIException {
 		checkCallable();
 
-		final Format<?> fmt = lookupFormat(format);
+		final Format<?> fmt;
+		if (format == null && suffix != null)
+			fmt = formatBySuffix(suffix);
+		else if (format == null)
+			fmt = lookupFormat("tar");
+		else
+			fmt = lookupFormat(format);
 		return writeArchive(fmt);
 	}
 
@@ -301,6 +337,26 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 	}
 
 	/**
+	 * Set the intended filename for the produced archive.
+	 * Currently the only effect is to determine the default
+	 * archive format when none is specified with
+	 * {@link #setFormat(String)}.
+	 *
+	 * @param filename
+	 *		intended filename for the archive
+	 */
+	public ArchiveCommand setFilename(String filename) {
+		int slash = filename.lastIndexOf('/');
+		int dot = filename.indexOf('.', slash + 1);
+
+		if (dot == -1)
+			this.suffix = "";
+		else
+			this.suffix = filename.substring(dot);
+		return this;
+	}
+
+	/**
 	 * @param out
 	 *	      the stream to which to write the archive
 	 * @return this
@@ -312,7 +368,9 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 
 	/**
 	 * @param fmt
-	 *	      archive format (e.g., "tar" or "zip")
+	 *	      archive format (e.g., "tar" or "zip").
+	 *	      null means to choose automatically based on
+	 *	      the archive filename.
 	 * @return this
 	 */
 	public ArchiveCommand setFormat(String fmt) {
