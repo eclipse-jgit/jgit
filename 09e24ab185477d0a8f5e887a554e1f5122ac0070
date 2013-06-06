@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPn//3/U\u003d",
+        "filename": "org.eclipse.jgit.archive/src/org/eclipse/jgit/archive/TarFormat.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2013-06-06T15:11:14Z",
+      "side": 1,
+      "message": "Can\u0027t you just say:\nCollections.unmodifiableList(Arrays.asList(\".tar\"));",
+      "revId": "09e24ab185477d0a8f5e887a554e1f5122ac0070",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPn//3/Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ArchiveCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2013-06-06T15:11:14Z",
+      "side": 1,
+      "message": "i don\u0027t grok the second sentence",
+      "revId": "09e24ab185477d0a8f5e887a554e1f5122ac0070",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
