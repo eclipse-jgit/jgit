@@ -44,6 +44,9 @@ package org.eclipse.jgit.archive;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import org.apache.commons.compress.archivers.ArchiveOutputStream;
 import org.apache.commons.compress.compressors.xz.XZCompressorOutputStream;
@@ -55,6 +58,10 @@ import org.eclipse.jgit.lib.ObjectLoader;
  * Xz-compressed tar (tar.xz) format.
  */
 public class TxzFormat implements ArchiveCommand.Format<ArchiveOutputStream> {
+	private static final List<String> SUFFIXES =
+			Collections.unmodifiableList(Arrays.asList(new String[] {
+				".tar.xz", ".txz" }));
+
 	private final ArchiveCommand.Format<ArchiveOutputStream> tarFormat = new TarFormat();
 
 	public ArchiveOutputStream createArchiveOutputStream(OutputStream s)
@@ -67,5 +74,9 @@ public class TxzFormat implements ArchiveCommand.Format<ArchiveOutputStream> {
 			String path, FileMode mode, ObjectLoader loader)
 			throws IOException {
 		tarFormat.putEntry(out, path, mode, loader);
+	}
+
+	public Iterable<String> suffixes() {
+		return SUFFIXES;
 	}
 }
