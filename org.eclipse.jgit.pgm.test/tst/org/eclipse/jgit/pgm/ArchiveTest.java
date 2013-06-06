@@ -229,6 +229,36 @@ public class ArchiveTest extends CLIRepositoryTestCase {
 	}
 
 	@Test
+	public void testArchiveWithLongFilename() throws Exception {
+		String filename = "1234567890";
+		for (int i = 0; i < 20; i++)
+			filename = filename + "/1234567890";
+		writeTrashFile(filename, "file with long path");
+		git.add().addFilepattern("1234567890").call();
+		git.commit().setMessage("file with long name").call();
+
+		final byte[] result = CLIGitCommand.rawExecute( //
+				"git archive HEAD", db);
+		assertArrayEquals(new String[] { filename },
+				listZipEntries(result));
+	}
+
+	@Test
+	public void testTarWithLongFilename() throws Exception {
+		String filename = "1234567890";
+		for (int i = 0; i < 20; i++)
+			filename = filename + "/1234567890";
+		writeTrashFile(filename, "file with long path");
+		git.add().addFilepattern("1234567890").call();
+		git.commit().setMessage("file with long name").call();
+
+		final byte[] result = CLIGitCommand.rawExecute( //
+				"git archive --format=tar HEAD", db);
+		assertArrayEquals(new String[] { filename },
+				listTarEntries(result));
+	}
+
+	@Test
 	public void testArchivePreservesContent() throws Exception {
 		final String payload = "“The quick brown fox jumps over the lazy dog!”";
 		writeTrashFile("xyzzy", payload);

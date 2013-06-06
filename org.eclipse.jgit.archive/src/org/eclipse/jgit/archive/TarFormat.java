@@ -54,11 +54,14 @@ import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectLoader;
 
 /**
- * Unix TAR format (ustar + old GNU long filename extension).
+ * Unix TAR format (ustar + some PAX extensions).
  */
 public class TarFormat implements ArchiveCommand.Format<ArchiveOutputStream> {
 	public ArchiveOutputStream createArchiveOutputStream(OutputStream s) {
-		return new TarArchiveOutputStream(s);
+		TarArchiveOutputStream out = new TarArchiveOutputStream(s, "UTF-8"); //$NON-NLS-1$
+		out.setLongFileMode(TarArchiveOutputStream.LONGFILE_POSIX);
+		out.setBigNumberMode(TarArchiveOutputStream.BIGNUMBER_POSIX);
+		return out;
 	}
 
 	public void putEntry(ArchiveOutputStream out,
