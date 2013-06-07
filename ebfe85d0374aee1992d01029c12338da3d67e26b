@@ -16,6 +16,24 @@
       "revId": "ebfe85d0374aee1992d01029c12338da3d67e26b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPn//3r4\u003d",
+        "filename": "org.eclipse.jgit.archive/META-INF/MANIFEST.MF",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2013-06-07T16:58:28Z",
+      "side": 1,
+      "message": "The Maven build already uses 1.4.1.",
+      "parentUuid": "AABOPn//3sA\u003d",
+      "revId": "ebfe85d0374aee1992d01029c12338da3d67e26b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
