@@ -43,6 +43,11 @@
 
 package org.eclipse.jgit.pgm;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+
+import org.eclipse.jgit.api.ArchiveCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.archive.ArchiveFormats;
@@ -62,21 +67,39 @@ class Archive extends TextBuiltin {
 	private ObjectId tree;
 
 	@Option(name = "--format", metaVar = "metaVar_archiveFormat", usage = "usage_archiveFormat")
-	private String format = "zip";
+	private String format;
+
+	@Option(name = "--output", aliases = { "-o" }, metaVar = "metaVar_file", usage = "usage_archiveOutput")
+	private String output;
 
 	@Override
 	protected void run() throws Exception {
 		if (tree == null)
 			throw die(CLIText.get().treeIsRequired);
 
+		OutputStream stream = null;
 		try {
-			new Git(db).archive()
-				.setTree(tree)
-				.setFormat(format)
-				.setOutputStream(outs)
-				.call();
+			if (output != null)
+				stream = new FileOutputStream(output);
+			else
+				stream = outs;
+
+			try {
+				ArchiveCommand cmd = new Git(db).archive()
+					.setTree(tree)
+					.setFormat(format)
+					.setOutputStream(stream);
+				if (output != null)
+					cmd.setFilename(output);
+				cmd.call();
 		} catch (GitAPIException e) {
 			throw die(e.getMessage());
+		}
+		} catch (FileNotFoundException e) {
+			throw die(e.getMessage());
+		} finally {
+			if (output != null && stream != null)
+				stream.close();
 		}
 	}
 }
