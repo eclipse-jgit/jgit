@@ -44,6 +44,9 @@ package org.eclipse.jgit.archive;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import org.apache.commons.compress.archivers.ArchiveOutputStream;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
@@ -57,6 +60,9 @@ import org.eclipse.jgit.lib.ObjectLoader;
  * Unix TAR format (ustar + some PAX extensions).
  */
 public class TarFormat implements ArchiveCommand.Format<ArchiveOutputStream> {
+	private static final List<String> SUFFIXES =
+			Collections.unmodifiableList(Arrays.asList(".tar"));
+
 	public ArchiveOutputStream createArchiveOutputStream(OutputStream s) {
 		TarArchiveOutputStream out = new TarArchiveOutputStream(s, "UTF-8"); //$NON-NLS-1$
 		out.setLongFileMode(TarArchiveOutputStream.LONGFILE_POSIX);
@@ -89,5 +95,9 @@ public class TarFormat implements ArchiveCommand.Format<ArchiveOutputStream> {
 		out.putArchiveEntry(entry);
 		loader.copyTo(out);
 		out.closeArchiveEntry();
+	}
+
+	public Iterable<String> suffixes() {
+		return SUFFIXES;
 	}
 }

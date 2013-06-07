@@ -44,6 +44,9 @@ package org.eclipse.jgit.archive;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import org.apache.commons.compress.archivers.ArchiveOutputStream;
 import org.apache.commons.compress.compressors.gzip.GzipCompressorOutputStream;
@@ -55,6 +58,10 @@ import org.eclipse.jgit.lib.ObjectLoader;
  * gzip-compressed tarball (tar.gz) format.
  */
 public class TgzFormat implements ArchiveCommand.Format<ArchiveOutputStream> {
+	private static final List<String> SUFFIXES =
+			Collections.unmodifiableList(Arrays.asList(
+				".tar.gz", ".tgz"));
+
 	private final ArchiveCommand.Format<ArchiveOutputStream> tarFormat = new TarFormat();
 
 	public ArchiveOutputStream createArchiveOutputStream(OutputStream s)
@@ -67,5 +74,9 @@ public class TgzFormat implements ArchiveCommand.Format<ArchiveOutputStream> {
 			String path, FileMode mode, ObjectLoader loader)
 			throws IOException {
 		tarFormat.putEntry(out, path, mode, loader);
+	}
+
+	public Iterable<String> suffixes() {
+		return SUFFIXES;
 	}
 }
