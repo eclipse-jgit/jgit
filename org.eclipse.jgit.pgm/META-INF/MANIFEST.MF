@@ -2,39 +2,39 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %plugin_name
 Bundle-SymbolicName: org.eclipse.jgit.pgm
-Bundle-Version: 3.0.0.qualifier
+Bundle-Version: 3.1.0.qualifier
 Bundle-Vendor: %provider_name
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Import-Package: org.eclipse.jgit.api;version="[3.0.0,3.1.0)",
- org.eclipse.jgit.api.errors;version="[3.0.0,3.1.0)",
- org.eclipse.jgit.archive;version="[3.0.0,3.1.0)",
- org.eclipse.jgit.awtui;version="[3.0.0,3.1.0)",
- org.eclipse.jgit.blame;version="[3.0.0,3.1.0)",
- org.eclipse.jgit.diff;version="[3.0.0,3.1.0)",
- org.eclipse.jgit.dircache;version="[3.0.0,3.1.0)",
- org.eclipse.jgit.errors;version="[3.0.0,3.1.0)",
- org.eclipse.jgit.internal.storage.file;version="[3.0.0,3.1.0)",
- org.eclipse.jgit.internal.storage.pack;version="[3.0.0,3.1.0)",
- org.eclipse.jgit.lib;version="[3.0.0,3.1.0)",
- org.eclipse.jgit.merge;version="3.0.0",
- org.eclipse.jgit.nls;version="[3.0.0,3.1.0)",
- org.eclipse.jgit.notes;version="[3.0.0,3.1.0)",
- org.eclipse.jgit.revplot;version="[3.0.0,3.1.0)",
- org.eclipse.jgit.revwalk;version="[3.0.0,3.1.0)",
- org.eclipse.jgit.revwalk.filter;version="[3.0.0,3.1.0)",
- org.eclipse.jgit.storage.file;version="[3.0.0,3.1.0)",
- org.eclipse.jgit.storage.pack;version="[3.0.0,3.1.0)",
- org.eclipse.jgit.transport;version="[3.0.0,3.1.0)",
- org.eclipse.jgit.transport.resolver;version="[3.0.0,3.1.0)",
- org.eclipse.jgit.treewalk;version="[3.0.0,3.1.0)",
- org.eclipse.jgit.treewalk.filter;version="[3.0.0,3.1.0)",
- org.eclipse.jgit.util;version="[3.0.0,3.1.0)",
- org.eclipse.jgit.util.io;version="[3.0.0,3.1.0)",
+Import-Package: org.eclipse.jgit.api;version="[3.1.0,3.2.0)",
+ org.eclipse.jgit.api.errors;version="[3.1.0,3.2.0)",
+ org.eclipse.jgit.archive;version="[3.1.0,3.2.0)",
+ org.eclipse.jgit.awtui;version="[3.1.0,3.2.0)",
+ org.eclipse.jgit.blame;version="[3.1.0,3.2.0)",
+ org.eclipse.jgit.diff;version="[3.1.0,3.2.0)",
+ org.eclipse.jgit.dircache;version="[3.1.0,3.2.0)",
+ org.eclipse.jgit.errors;version="[3.1.0,3.2.0)",
+ org.eclipse.jgit.internal.storage.file;version="[3.1.0,3.2.0)",
+ org.eclipse.jgit.internal.storage.pack;version="[3.1.0,3.2.0)",
+ org.eclipse.jgit.lib;version="[3.1.0,3.2.0)",
+ org.eclipse.jgit.merge;version="3.1.0",
+ org.eclipse.jgit.nls;version="[3.1.0,3.2.0)",
+ org.eclipse.jgit.notes;version="[3.1.0,3.2.0)",
+ org.eclipse.jgit.revplot;version="[3.1.0,3.2.0)",
+ org.eclipse.jgit.revwalk;version="[3.1.0,3.2.0)",
+ org.eclipse.jgit.revwalk.filter;version="[3.1.0,3.2.0)",
+ org.eclipse.jgit.storage.file;version="[3.1.0,3.2.0)",
+ org.eclipse.jgit.storage.pack;version="[3.1.0,3.2.0)",
+ org.eclipse.jgit.transport;version="[3.1.0,3.2.0)",
+ org.eclipse.jgit.transport.resolver;version="[3.1.0,3.2.0)",
+ org.eclipse.jgit.treewalk;version="[3.1.0,3.2.0)",
+ org.eclipse.jgit.treewalk.filter;version="[3.1.0,3.2.0)",
+ org.eclipse.jgit.util;version="[3.1.0,3.2.0)",
+ org.eclipse.jgit.util.io;version="[3.1.0,3.2.0)",
  org.kohsuke.args4j;version="[2.0.12,2.1.0)",
  org.kohsuke.args4j.spi;version="[2.0.12,2.1.0)"
 Bundle-ActivationPolicy: lazy
-Export-Package: org.eclipse.jgit.pgm;version="3.0.0";
+Export-Package: org.eclipse.jgit.pgm;version="3.1.0";
   uses:="org.eclipse.jgit.lib,
    org.eclipse.jgit.nls,
    org.eclipse.jgit.treewalk,
@@ -43,8 +43,8 @@ Export-Package: org.eclipse.jgit.pgm;version="3.0.0";
    org.eclipse.jgit.pgm.opt,
    org.eclipse.jgit.awtui,
    org.eclipse.jgit.transport",
- org.eclipse.jgit.pgm.debug;version="3.0.0",
- org.eclipse.jgit.pgm.internal;version="3.0.0";x-friends:="org.eclipse.jgit.pgm.test,org.eclipse.jgit.test",
- org.eclipse.jgit.pgm.opt;version="3.0.0"
+ org.eclipse.jgit.pgm.debug;version="3.1.0",
+ org.eclipse.jgit.pgm.internal;version="3.1.0";x-friends:="org.eclipse.jgit.pgm.test,org.eclipse.jgit.test",
+ org.eclipse.jgit.pgm.opt;version="3.1.0"
 Main-Class: org.eclipse.jgit.pgm.Main
 Implementation-Title: JGit Command Line Interface
