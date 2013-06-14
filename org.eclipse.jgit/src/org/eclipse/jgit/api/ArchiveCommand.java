@@ -46,8 +46,6 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.MessageFormat;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -334,13 +332,13 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 	}
 
 	/**
-	 * Set the intended filename for the produced archive.
-	 * Currently the only effect is to determine the default
-	 * archive format when none is specified with
-	 * {@link #setFormat(String)}.
-	 *
+	 * Set the intended filename for the produced archive. Currently the only
+	 * effect is to determine the default archive format when none is specified
+	 * with {@link #setFormat(String)}.
+	 * 
 	 * @param filename
-	 *		intended filename for the archive
+	 *            intended filename for the archive
+	 * @return this
 	 */
 	public ArchiveCommand setFilename(String filename) {
 		int slash = filename.lastIndexOf('/');
