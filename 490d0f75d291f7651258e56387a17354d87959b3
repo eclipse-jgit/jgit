@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPn//2YY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ArchiveCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2013-06-14T23:40:03Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "490d0f75d291f7651258e56387a17354d87959b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
