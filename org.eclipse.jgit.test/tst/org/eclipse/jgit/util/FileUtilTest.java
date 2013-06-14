@@ -43,6 +43,8 @@
 
 package org.eclipse.jgit.util;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.CoreMatchers.endsWith;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -330,7 +332,7 @@ public class FileUtilTest {
 			FileUtils.delete(t, FileUtils.EMPTY_DIRECTORIES_ONLY | FileUtils.RECURSIVE);
 			fail("expected failure to delete f");
 		} catch (IOException e) {
-			assertTrue(e.getMessage().endsWith(f.getAbsolutePath()));
+			assertThat(e.getMessage(), endsWith(f.getAbsolutePath()));
 		}
 		assertTrue(t.exists());
 	}
