@@ -43,8 +43,12 @@
 
 package org.eclipse.jgit.transport;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Config.SectionParser;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 
 /**
@@ -61,6 +65,7 @@ public class TransferConfig {
 
 	private final boolean fsckObjects;
 	private final boolean allowTipSha1InWant;
+	private final String[] hideRefs;
 
 	TransferConfig(final Repository db) {
 		this(db.getConfig());
@@ -68,8 +73,9 @@ public class TransferConfig {
 
 	private TransferConfig(final Config rc) {
 		fsckObjects = rc.getBoolean("receive", "fsckobjects", false); //$NON-NLS-1$ //$NON-NLS-2$
-		allowTipSha1InWant =
-				rc.getBoolean("uploadpack", "allowtipsha1inwant", false); //$NON-NLS-1$ //$NON-NLS-2$
+		allowTipSha1InWant = rc.getBoolean(
+				"uploadpack", "allowtipsha1inwant", false); //$NON-NLS-1$ //$NON-NLS-2$
+		hideRefs = rc.getStringList("uploadpack", null, "hiderefs"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	/**
@@ -84,5 +90,35 @@ public class TransferConfig {
 	 */
 	public boolean isAllowTipSha1InWant() {
 		return allowTipSha1InWant;
+	}
+
+	/**
+	 * @return {@link RefFilter} respecting configured hidden refs.
+	 */
+	public RefFilter getRefFilter() {
+		if (hideRefs.length == 0)
+			return RefFilter.DEFAULT;
+
+		return new RefFilter() {
+			public Map<String, Ref> filter(Map<String, Ref> refs) {
+				Map<String, Ref> result = new HashMap<String, Ref>();
+				for (Map.Entry<String, Ref> e : refs.entrySet()) {
+					boolean add = true;
+					for (String hide : hideRefs) {
+						if (e.getKey().equals(hide) || prefixMatch(hide, e.getKey())) {
+							add = false;
+							break;
+						}
+					}
+					if (add)
+						result.put(e.getKey(), e.getValue());
+				}
+				return result;
+			}
+
+			private boolean prefixMatch(String p, String s) {
+				return p.charAt(p.length() - 1) == '/' && s.startsWith(p);
+			}
+		};
 	}
 }
