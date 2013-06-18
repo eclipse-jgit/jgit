@@ -339,7 +339,10 @@ public class UploadPack {
 			refs = allRefs;
 		else
 			refs = db.getAllRefs();
-		refs = refFilter.filter(refs);
+		if (refFilter == RefFilter.DEFAULT)
+			refs = transferConfig.getRefFilter().filter(refs);
+		else
+			refs = refFilter.filter(refs);
 	}
 
 	/** @return timeout (in seconds) before aborting an IO operation. */
@@ -431,7 +434,8 @@ public class UploadPack {
 	 * <p>
 	 * Only refs allowed by this filter will be sent to the client.
 	 * The filter is run against the refs specified by the
-	 * {@link AdvertiseRefsHook} (if applicable).
+	 * {@link AdvertiseRefsHook} (if applicable). If null or not set, uses the
+	 * filter implied by the {@link TransferConfig}.
 	 *
 	 * @param refFilter
 	 *            the filter; may be null to show all refs.
