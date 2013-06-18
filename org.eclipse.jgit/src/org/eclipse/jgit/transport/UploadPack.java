@@ -176,6 +176,9 @@ public class UploadPack {
 	/** Configuration to pass into the PackWriter. */
 	private PackConfig packConfig;
 
+	/** Configuration for various transfer options. */
+	private TransferConfig transferConfig;
+
 	/** Timeout in seconds to wait for client interaction. */
 	private int timeout;
 
@@ -263,7 +266,7 @@ public class UploadPack {
 
 	private final RevFlagSet SAVE;
 
-	private RequestPolicy requestPolicy = RequestPolicy.ADVERTISED;
+	private RequestPolicy requestPolicy;
 
 	private MultiAck multiAck = MultiAck.OFF;
 
@@ -295,6 +298,8 @@ public class UploadPack {
 		SAVE.add(PEER_HAS);
 		SAVE.add(COMMON);
 		SAVE.add(SATISFIED);
+
+		transferConfig = new TransferConfig(db);
 	}
 
 	/** @return the repository this upload is reading from. */
@@ -373,10 +378,6 @@ public class UploadPack {
 	 */
 	public void setBiDirectionalPipe(final boolean twoWay) {
 		biDirectionalPipe = twoWay;
-		if (!biDirectionalPipe &&
-				(requestPolicy == RequestPolicy.ADVERTISED
-				|| requestPolicy == RequestPolicy.TIP))
-			requestPolicy = RequestPolicy.REACHABLE_COMMIT;
 	}
 
 	/** @return policy used by the service to validate client requests. */
@@ -392,9 +393,10 @@ public class UploadPack {
 	 *            object that a reference directly points to. This may be relaxed
 	 *            to {@link RequestPolicy#REACHABLE_COMMIT} when callers
 	 *            have {@link #setBiDirectionalPipe(boolean)} set to false.
+	 *            Overrides any policy specified in a {@link TransferConfig}.
 	 */
 	public void setRequestPolicy(RequestPolicy policy) {
-		requestPolicy = policy != null ? policy : RequestPolicy.ADVERTISED;
+		requestPolicy = policy;
 	}
 
 	/** @return the hook used while advertising the refs to the client */
@@ -462,6 +464,15 @@ public class UploadPack {
 	 */
 	public void setPackConfig(PackConfig pc) {
 		this.packConfig = pc;
+	}
+
+	/**
+	 * @param tc
+	 *            configuration controlling transfer options. If null the source
+	 *            repository's settings will be used.
+	 */
+	public void setTransferConfig(TransferConfig tc) {
+		this.transferConfig = tc != null ? tc : new TransferConfig(db);
 	}
 
 	/** @return the configured logger. */
@@ -567,7 +578,24 @@ public class UploadPack {
 		return refs;
 	}
 
+	private RequestPolicy getEffectiveRequestPolicy() {
+		RequestPolicy rp;
+		if (requestPolicy != null)
+			rp = requestPolicy;
+		else if (transferConfig.isAllowTipSha1InWant())
+			rp = RequestPolicy.TIP;
+		else
+			rp = RequestPolicy.ADVERTISED;
+
+		if (!biDirectionalPipe
+				&& (rp == RequestPolicy.ADVERTISED || rp == RequestPolicy.TIP))
+			rp = RequestPolicy.REACHABLE_COMMIT;
+		return rp;
+	}
+
 	private void service() throws IOException {
+		requestPolicy = getEffectiveRequestPolicy();
+
 		if (biDirectionalPipe)
 			sendAdvertisedRefs(new PacketLineOutRefAdvertiser(pckOut));
 		else if (requestPolicy == RequestPolicy.ANY)
