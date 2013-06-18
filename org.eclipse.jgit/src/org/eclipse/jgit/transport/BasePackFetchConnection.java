@@ -181,6 +181,13 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 	 */
 	public static final String OPTION_NO_DONE = "no-done"; //$NON-NLS-1$
 
+	/**
+	 * The client supports fetching objects at the tip of any ref, even if not
+	 * advertised.
+	 * @since 3.0
+	 */
+	public static final String OPTION_ALLOW_TIP_SHA1_IN_WANT = "allow-tip-sha1-in-want"; //$NON-NLS-1$
+
 	static enum MultiAck {
 		OFF, CONTINUE, DETAILED;
 	}
