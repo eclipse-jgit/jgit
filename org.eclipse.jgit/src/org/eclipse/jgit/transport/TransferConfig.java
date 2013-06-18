@@ -45,9 +45,11 @@ package org.eclipse.jgit.transport;
 
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Config.SectionParser;
+import org.eclipse.jgit.lib.Repository;
 
 /**
- * The standard "transfer", "fetch" and "receive" configuration parameters.
+ * The standard "transfer", "fetch", "receive", and "uploadpack" configuration
+ * parameters.
  */
 public class TransferConfig {
 	/** Key for {@link Config#get(SectionParser)}. */
@@ -58,9 +60,16 @@ public class TransferConfig {
 	};
 
 	private final boolean fsckObjects;
+	private final boolean allowTipSha1InWant;
+
+	TransferConfig(final Repository db) {
+		this(db.getConfig());
+	}
 
 	private TransferConfig(final Config rc) {
 		fsckObjects = rc.getBoolean("receive", "fsckobjects", false); //$NON-NLS-1$ //$NON-NLS-2$
+		allowTipSha1InWant =
+				rc.getBoolean("uploadpack", "allowtipsha1inwant", false); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	/**
@@ -68,5 +77,12 @@ public class TransferConfig {
 	 */
 	public boolean isFsckObjects() {
 		return fsckObjects;
+	}
+
+	/**
+	 * @return allow clients to request non-advertised tip SHA-1s?
+	 */
+	public boolean isAllowTipSha1InWant() {
+		return allowTipSha1InWant;
 	}
 }
