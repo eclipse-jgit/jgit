@@ -49,6 +49,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -113,8 +114,27 @@ public class UploadPack {
 	public static enum RequestPolicy {
 		/** Client may only ask for objects the server advertised a reference for. */
 		ADVERTISED,
-		/** Client may ask for any commit reachable from a reference. */
+
+		/**
+		 * Client may ask for any commit reachable from a reference advertised by
+		 * the server.
+		 */
 		REACHABLE_COMMIT,
+
+		/**
+		 * Client may ask for objects that are the tip of some reference, even if
+		 * that reference wasn't advertised.
+		 * <p>
+		 * This may happen, for example, when a custom {@link RefFilter} is set.
+		 */
+		TIP,
+
+		/**
+		 * Client may ask for any commit reachable from any reference, even if that
+		 * reference wasn't advertised.
+		 */
+		REACHABLE_COMMIT_TIP,
+
 		/** Client may ask for any SHA-1 in the repository. */
 		ANY;
 	}
@@ -363,8 +383,12 @@ public class UploadPack {
 	 */
 	public void setBiDirectionalPipe(final boolean twoWay) {
 		biDirectionalPipe = twoWay;
-		if (!biDirectionalPipe && requestPolicy == RequestPolicy.ADVERTISED)
-			requestPolicy = RequestPolicy.REACHABLE_COMMIT;
+		if (!biDirectionalPipe) {
+			if (requestPolicy == RequestPolicy.ADVERTISED)
+				requestPolicy = RequestPolicy.REACHABLE_COMMIT;
+			else if (requestPolicy == RequestPolicy.TIP)
+				requestPolicy = RequestPolicy.REACHABLE_COMMIT_TIP;
+		}
 	}
 
 	/** @return policy used by the service to validate client requests. */
@@ -378,8 +402,9 @@ public class UploadPack {
 	 *            By default the policy is {@link RequestPolicy#ADVERTISED},
 	 *            which is the Git default requiring clients to only ask for an
 	 *            object that a reference directly points to. This may be relaxed
-	 *            to {@link RequestPolicy#REACHABLE_COMMIT} when callers
-	 *            have {@link #setBiDirectionalPipe(boolean)} set to false.
+	 *            to {@link RequestPolicy#REACHABLE_COMMIT} or
+	 *            {@link RequestPolicy#REACHABLE_COMMIT_TIP} when callers have
+	 *            {@link #setBiDirectionalPipe(boolean)} set to false.
 	 */
 	public void setRequestPolicy(RequestPolicy policy) {
 		requestPolicy = policy != null ? policy : RequestPolicy.ADVERTISED;
@@ -560,13 +585,8 @@ public class UploadPack {
 			sendAdvertisedRefs(new PacketLineOutRefAdvertiser(pckOut));
 		else if (requestPolicy == RequestPolicy.ANY)
 			advertised = Collections.emptySet();
-		else {
-			advertised = new HashSet<ObjectId>();
-			for (Ref ref : getAdvertisedOrDefaultRefs().values()) {
-				if (ref.getObjectId() != null)
-					advertised.add(ref.getObjectId());
-			}
-		}
+		else
+			advertised = refIdSet(getAdvertisedOrDefaultRefs().values());
 
 		boolean sendPack;
 		try {
@@ -616,6 +636,15 @@ public class UploadPack {
 
 		if (sendPack)
 			sendPack();
+	}
+
+	private static Set<ObjectId> refIdSet(Collection<Ref> refs) {
+		Set<ObjectId> ids = new HashSet<ObjectId>(refs.size());
+		for (Ref ref : refs) {
+			if (ref.getObjectId() != null)
+				ids.add(ref.getObjectId());
+		}
+		return ids;
 	}
 
 	private void reportErrorDuringNegotiate(String msg) {
@@ -922,6 +951,8 @@ public class UploadPack {
 		AsyncRevObjectQueue q = walk.parseAny(wantIds, true);
 		try {
 			List<RevCommit> checkReachable = null;
+			Set<ObjectId> reachableFrom = null;
+			Set<ObjectId> tips = null;
 			RevObject obj;
 			while ((obj = q.next()) != null) {
 				if (!advertised.contains(obj)) {
@@ -935,8 +966,28 @@ public class UploadPack {
 							throw new PackProtocolException(MessageFormat.format(
 								JGitText.get().wantNotValid, obj));
 						}
-						if (checkReachable == null)
+						if (checkReachable == null) {
 							checkReachable = new ArrayList<RevCommit>();
+							reachableFrom = advertised;
+						}
+						checkReachable.add((RevCommit) obj);
+						break;
+					case TIP:
+						if (tips == null)
+							tips = refIdSet(db.getAllRefs().values());
+						if (!tips.contains(obj))
+							throw new PackProtocolException(MessageFormat.format(
+									JGitText.get().wantNotValid, obj));
+						break;
+					case REACHABLE_COMMIT_TIP:
+						if (!(obj instanceof RevCommit)) {
+							throw new PackProtocolException(MessageFormat.format(
+								JGitText.get().wantNotValid, obj));
+						}
+						if (checkReachable == null) {
+							checkReachable = new ArrayList<RevCommit>();
+							reachableFrom = refIdSet(db.getAllRefs().values());
+						}
 						checkReachable.add((RevCommit) obj);
 						break;
 					case ANY:
@@ -954,7 +1005,7 @@ public class UploadPack {
 				}
 			}
 			if (checkReachable != null)
-				checkNotAdvertisedWants(checkReachable);
+				checkNotAdvertisedWants(checkReachable, reachableFrom);
 			wantIds.clear();
 		} catch (MissingObjectException notFound) {
 			ObjectId id = notFound.getObjectId();
@@ -972,17 +1023,18 @@ public class UploadPack {
 		}
 	}
 
-	private void checkNotAdvertisedWants(List<RevCommit> notAdvertisedWants)
+	private void checkNotAdvertisedWants(List<RevCommit> notAdvertisedWants,
+			Set<ObjectId> reachableFrom)
 			throws MissingObjectException, IncorrectObjectTypeException, IOException {
-		// Walk the requested commits back to the advertised commits.
-		// If any commit exists, a branch was deleted or rewound and
-		// the repository owner no longer exports that requested item.
-		// If the requested commit is merged into an advertised branch
-		// it will be marked UNINTERESTING and no commits return.
+		// Walk the requested commits back to the provided set of commits. If any
+		// commit exists, a branch was deleted or rewound and the repository owner
+		// no longer exports that requested item. If the requested commit is merged
+		// into an advertised branch it will be marked UNINTERESTING and no commits
+		// return.
 
 		for (RevCommit c : notAdvertisedWants)
 			walk.markStart(c);
-		for (ObjectId id : advertised) {
+		for (ObjectId id : reachableFrom) {
 			try {
 				walk.markUninteresting(walk.parseCommit(id));
 			} catch (IncorrectObjectTypeException notCommit) {
