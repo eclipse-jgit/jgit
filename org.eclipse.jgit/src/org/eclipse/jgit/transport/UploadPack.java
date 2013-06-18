@@ -49,6 +49,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -115,6 +116,13 @@ public class UploadPack {
 		ADVERTISED,
 		/** Client may ask for any commit reachable from a reference. */
 		REACHABLE_COMMIT,
+		/**
+		 * Client may ask for objects that are the tip of some reference, even if
+		 * that reference wasn't advertised.
+		 * <p>
+		 * This may happen, for example, when a custom {@link RefFilter} is set.
+		 */
+		TIP,
 		/** Client may ask for any SHA-1 in the repository. */
 		ANY;
 	}
@@ -363,7 +371,9 @@ public class UploadPack {
 	 */
 	public void setBiDirectionalPipe(final boolean twoWay) {
 		biDirectionalPipe = twoWay;
-		if (!biDirectionalPipe && requestPolicy == RequestPolicy.ADVERTISED)
+		if (!biDirectionalPipe &&
+				(requestPolicy == RequestPolicy.ADVERTISED
+				|| requestPolicy == RequestPolicy.TIP))
 			requestPolicy = RequestPolicy.REACHABLE_COMMIT;
 	}
 
@@ -560,13 +570,8 @@ public class UploadPack {
 			sendAdvertisedRefs(new PacketLineOutRefAdvertiser(pckOut));
 		else if (requestPolicy == RequestPolicy.ANY)
 			advertised = Collections.emptySet();
-		else {
-			advertised = new HashSet<ObjectId>();
-			for (Ref ref : getAdvertisedOrDefaultRefs().values()) {
-				if (ref.getObjectId() != null)
-					advertised.add(ref.getObjectId());
-			}
-		}
+		else
+			advertised = refIdSet(getAdvertisedOrDefaultRefs().values());
 
 		boolean sendPack;
 		try {
@@ -616,6 +621,15 @@ public class UploadPack {
 
 		if (sendPack)
 			sendPack();
+	}
+
+	private static Set<ObjectId> refIdSet(Collection<Ref> refs) {
+		Set<ObjectId> ids = new HashSet<ObjectId>(refs.size());
+		for (Ref ref : refs) {
+			if (ref.getObjectId() != null)
+				ids.add(ref.getObjectId());
+		}
+		return ids;
 	}
 
 	private void reportErrorDuringNegotiate(String msg) {
@@ -923,6 +937,7 @@ public class UploadPack {
 		try {
 			List<RevCommit> checkReachable = null;
 			RevObject obj;
+			Set<ObjectId> tips = null;
 			while ((obj = q.next()) != null) {
 				if (!advertised.contains(obj)) {
 					switch (requestPolicy) {
@@ -930,6 +945,13 @@ public class UploadPack {
 					default:
 						throw new PackProtocolException(MessageFormat.format(
 								JGitText.get().wantNotValid, obj));
+					case TIP:
+						if (tips == null)
+							tips = refIdSet(db.getAllRefs().values());
+						if (!tips.contains(obj))
+							throw new PackProtocolException(MessageFormat.format(
+									JGitText.get().wantNotValid, obj));
+						break;
 					case REACHABLE_COMMIT:
 						if (!(obj instanceof RevCommit)) {
 							throw new PackProtocolException(MessageFormat.format(
