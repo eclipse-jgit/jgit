@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPn//1zk\u003d",
+        "filename": "org.eclipse.jgit.test/META-INF/MANIFEST.MF",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-06-19T15:50:19Z",
+      "side": 1,
+      "message": "version\u003d\"[3.0.0,3.1.0)\"",
+      "revId": "0f17dbd22f6994b1f58b4676a0826e2f8f30f4d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPn//1zU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsOutputStream.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-06-19T15:50:19Z",
+      "side": 1,
+      "message": "Please add a note that closing the returned InputStream has no effect on the DfsOutputStream.",
+      "revId": "0f17dbd22f6994b1f58b4676a0826e2f8f30f4d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPn//1zY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsOutputStream.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-06-19T15:50:19Z",
+      "side": 1,
+      "message": "It would be easier to drop the static keyword and let the compiler manage the \"this\" pointer to the containing class.",
+      "revId": "0f17dbd22f6994b1f58b4676a0826e2f8f30f4d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPn//1zQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsOutputStream.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-06-19T15:50:19Z",
+      "side": 1,
+      "message": "buf.capacity() would also work. And has symmetry with what you do in the constructor to make buf.hasRemaining() false.",
+      "revId": "0f17dbd22f6994b1f58b4676a0826e2f8f30f4d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPn//1zE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/InMemoryOutputStream.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-06-19T15:50:19Z",
+      "side": 1,
+      "message": "nit: this blank line is unnecessary. It shouldn\u0027t have appeared in the source, you can delete it here.",
+      "revId": "0f17dbd22f6994b1f58b4676a0826e2f8f30f4d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
