@@ -16,6 +16,24 @@
       "revId": "2d9f0d73c956b7cda5c992dd10cd2c4d96cce3c6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPn//1wI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectInserter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-06-19T17:26:33Z",
+      "side": 1,
+      "message": "Eh, the next release will just have to be named 4.0.",
+      "parentUuid": "AABOPn//1xU\u003d",
+      "revId": "2d9f0d73c956b7cda5c992dd10cd2c4d96cce3c6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
