@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPn//1xU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectInserter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2013-06-19T16:55:22Z",
+      "side": 1,
+      "message": "Damn, we missed the 3.0 deadline on this so I\u0027m not allowed to make this API change without another major version rev.\n\nA sensible default implementation would be a wrapper that wraps a new ObjectReader on the repo and calls flush() at the top of each method. Unfortunately we can\u0027t do that either since there\u0027s no guaranteed Repository pointer.",
+      "revId": "2d9f0d73c956b7cda5c992dd10cd2c4d96cce3c6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
