@@ -52,6 +52,24 @@
       "revId": "2d9f0d73c956b7cda5c992dd10cd2c4d96cce3c6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPn//1mc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectInserter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-06-19T22:28:39Z",
+      "side": 1,
+      "message": "Make another commit with ./tools/version.sh --snapshot\u003d4.0.0",
+      "parentUuid": "AABOPn//1v8\u003d",
+      "revId": "2d9f0d73c956b7cda5c992dd10cd2c4d96cce3c6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
