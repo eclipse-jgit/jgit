@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPn//1VY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectInserter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-06-20T23:07:04Z",
+      "side": 1,
+      "message": "OK so we can\u0027t break the API, and we can\u0027t change the version number. Here is another version:\n\n  public ObjectReader newReader() {\n    throw new UnsupportedOperationException();\n  }\n\nInstead of declaring it as an abstract method, tell callers its an optional method that throws UnsupportedOperationException if the implementor is unable to implement the JGit API.\n\nMy other alternative is to fork JGit and start a new project where we can actually make API changes more often than once every 12 months.",
+      "revId": "a05180568a577206f370e2c2449b239a0294c4de",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
