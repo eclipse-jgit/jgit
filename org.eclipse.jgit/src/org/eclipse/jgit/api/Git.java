@@ -406,6 +406,7 @@ public class Git {
 	 * Returns a command to create an archive from a tree
 	 *
 	 * @return a {@link ArchiveCommand}
+	 * @since 3.1
 	 */
 	public ArchiveCommand archive() {
 		return new ArchiveCommand(repo);
