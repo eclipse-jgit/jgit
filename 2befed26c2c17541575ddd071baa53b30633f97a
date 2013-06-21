@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPn//1BQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsInserter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-06-21T21:54:43Z",
+      "side": 1,
+      "message": "Given that we cached the block in memory here, its a shame we have to read back a partial segment below.",
+      "revId": "2befed26c2c17541575ddd071baa53b30633f97a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPn//1Bc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsInserter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-06-21T21:54:43Z",
+      "side": 1,
+      "message": "db.newReader. Make it clear we are using the db to get the reader in case someone later writes newReader to \"return new Reader()\".",
+      "revId": "2befed26c2c17541575ddd071baa53b30633f97a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPn//1BM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsInserter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-06-21T21:54:43Z",
+      "side": 1,
+      "message": "IIRC this fails on our DFS when position is not aligned to a block size and the file is still being written.",
+      "revId": "2befed26c2c17541575ddd071baa53b30633f97a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPn//1CI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectInserter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-06-21T21:54:43Z",
+      "side": 1,
+      "message": "This is a very annoying signature that we are going to have to live with. *sigh*",
+      "revId": "2befed26c2c17541575ddd071baa53b30633f97a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
