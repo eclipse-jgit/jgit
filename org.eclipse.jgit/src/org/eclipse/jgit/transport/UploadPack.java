@@ -786,10 +786,10 @@ public class UploadPack {
 	private ObjectId processHaveLines(List<ObjectId> peerHas, ObjectId last)
 			throws IOException {
 		preUploadHook.onBeginNegotiateRound(this, wantIds, peerHas.size());
-		if (peerHas.isEmpty())
-			return last;
 		if (wantAll.isEmpty() && !wantIds.isEmpty())
 			parseWants();
+		if (peerHas.isEmpty())
+			return last;
 
 		sentReady = false;
 		int haveCnt = 0;
