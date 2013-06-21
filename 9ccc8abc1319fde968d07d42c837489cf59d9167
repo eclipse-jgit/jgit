@@ -16,6 +16,24 @@
       "revId": "9ccc8abc1319fde968d07d42c837489cf59d9167",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOPn//0+4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2013-06-21T22:54:51Z",
+      "side": 1,
+      "message": "Done. I didn\u0027t test on HTTP but I did test by setting the RequestPolicy explicitly to REACHABLE_COMMIT_TIP.",
+      "parentUuid": "AABOPn//1AE\u003d",
+      "revId": "9ccc8abc1319fde968d07d42c837489cf59d9167",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
