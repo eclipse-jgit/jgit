@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPn//1AE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-06-21T22:16:29Z",
+      "side": 1,
+      "message": "On HTTP TIP doesn\u0027t work. You need two different types of REACHABLE_COMMIT.",
+      "revId": "9ccc8abc1319fde968d07d42c837489cf59d9167",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
