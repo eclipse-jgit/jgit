@@ -53,11 +53,12 @@ import org.kohsuke.args4j.Option;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 
+@Command(usage = "usage_RevParse")
 class RevParse extends TextBuiltin {
-	@Option(name = "--all")
+	@Option(name = "--all", usage = "usage_RevParseAll")
 	boolean all = false;
 
-	@Argument(index = 0, metaVar = "commit-ish")
+	@Argument(index = 0, metaVar = "metaVar_commitish")
 	private final List<ObjectId> commits = new ArrayList<ObjectId>();
 
 	@Override

@@ -60,12 +60,14 @@ import org.eclipse.jgit.internal.storage.pack.StoredObjectRepresentation;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.pgm.Command;
 import org.eclipse.jgit.pgm.TextBuiltin;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.TemporaryBuffer;
 import org.kohsuke.args4j.Argument;
 
+@Command(usage = "usage_ShowPackDelta")
 class ShowPackDelta extends TextBuiltin {
 	@Argument(index = 0)
 	private ObjectId objectId;

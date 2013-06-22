@@ -51,9 +51,11 @@ import java.text.MessageFormat;
 
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheTree;
+import org.eclipse.jgit.pgm.Command;
 import org.eclipse.jgit.pgm.TextBuiltin;
 import org.eclipse.jgit.pgm.internal.CLIText;
 
+@Command(usage = "usage_MakeCacheTree")
 class MakeCacheTree extends TextBuiltin {
 	@Override
 	protected void run() throws Exception {

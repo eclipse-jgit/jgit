@@ -70,6 +70,7 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefWriter;
 import org.eclipse.jgit.lib.TextProgressMonitor;
+import org.eclipse.jgit.pgm.Command;
 import org.eclipse.jgit.pgm.TextBuiltin;
 import org.eclipse.jgit.pgm.internal.CLIText;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -94,6 +95,7 @@ import org.kohsuke.args4j.Option;
  * deleted from the current repository.
  * <p>
  */
+@Command(usage = "usage_RebuildCommitGraph")
 class RebuildCommitGraph extends TextBuiltin {
 	private static final String REALLY = "--destroy-this-repository"; //$NON-NLS-1$
 

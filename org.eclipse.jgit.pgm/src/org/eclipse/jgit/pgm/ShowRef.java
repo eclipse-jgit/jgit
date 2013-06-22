@@ -54,6 +54,7 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefComparator;
 import org.eclipse.jgit.util.RefMap;
 
+@Command(usage = "usage_ShowRef")
 class ShowRef extends TextBuiltin {
 	@Override
 	protected void run() throws Exception {
