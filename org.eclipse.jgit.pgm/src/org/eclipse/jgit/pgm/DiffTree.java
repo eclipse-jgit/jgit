@@ -56,6 +56,7 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.AndTreeFilter;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 
+@Command(usage = "usage_ShowDiffTree")
 class DiffTree extends TextBuiltin {
 	@Option(name = "--recursive", usage = "usage_recurseIntoSubtrees", aliases = { "-r" })
 	private boolean recursive;

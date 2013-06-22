@@ -65,6 +65,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevWalk;
 
+@Command(usage = "usage_Glog")
 class Glog extends RevWalkTextBuiltin {
 	final JFrame frame;
 
