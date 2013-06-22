@@ -48,9 +48,11 @@ import static java.lang.Long.valueOf;
 
 import java.text.MessageFormat;
 
+import org.eclipse.jgit.pgm.Command;
 import org.eclipse.jgit.pgm.TextBuiltin;
 import org.eclipse.jgit.pgm.internal.CLIText;
 
+@Command(usage = "usage_ReadDirCache")
 class ReadDirCache extends TextBuiltin {
 	@Override
 	protected void run() throws Exception {

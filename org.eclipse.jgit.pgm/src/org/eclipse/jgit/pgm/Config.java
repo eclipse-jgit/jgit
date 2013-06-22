@@ -52,19 +52,19 @@ import org.kohsuke.args4j.Option;
 
 @Command(common = true, usage = "usage_getAndSetOptions")
 class Config extends TextBuiltin {
-	@Option(name = "--system")
+	@Option(name = "--system", usage = "usage_configSystem")
 	private boolean system;
 
-	@Option(name = "--global")
+	@Option(name = "--global", usage = "usage_configGlobal")
 	private boolean global;
 
-	@Option(name = "--local")
+	@Option(name = "--local", usage = "usage_configLocal")
 	private boolean local;
 
-	@Option(name = "--list", aliases = { "-l" })
+	@Option(name = "--list", aliases = { "-l" }, usage = "usage_configList")
 	private boolean list;
 
-	@Option(name = "--file", aliases = { "-f" })
+	@Option(name = "--file", aliases = { "-f" }, metaVar = "metaVar_file", usage = "usage_configFile")
 	private File configFile;
 
 	@Override

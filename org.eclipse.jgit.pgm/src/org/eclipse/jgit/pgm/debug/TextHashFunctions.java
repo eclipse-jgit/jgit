@@ -64,6 +64,7 @@ import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryBuilder;
 import org.eclipse.jgit.lib.RepositoryCache;
+import org.eclipse.jgit.pgm.Command;
 import org.eclipse.jgit.pgm.TextBuiltin;
 import org.eclipse.jgit.pgm.internal.CLIText;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -90,6 +91,7 @@ import org.kohsuke.args4j.Option;
  * type {@link Fold} and implement the logic. The test suite will automatically
  * pick up the new function through reflection.
  */
+@Command(usage = "usage_TextHashFunctions")
 class TextHashFunctions extends TextBuiltin {
 
 	/** Standard SHA-1 on the line, using the first 4 bytes as the hash code. */
