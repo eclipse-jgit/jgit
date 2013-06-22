@@ -78,18 +78,23 @@ class Merge extends TextBuiltin {
 
 	private MergeStrategy mergeStrategy = MergeStrategy.RECURSIVE;
 
-	@Argument(required = true)
+	@Argument(required = true, metaVar = "metaVar_ref", usage = "usage_mergeRef")
 	private String ref;
 
-	@Option(name = "--ff")
 	private FastForwardMode ff = FastForwardMode.FF;
 
-	@Option(name = "--no-ff")
+	@Option(name = "--ff", usage = "usage_mergeFf")
+	void ff(@SuppressWarnings("unused")
+	final boolean ignored) {
+		ff = FastForwardMode.FF;
+	}
+
+	@Option(name = "--no-ff", usage = "usage_mergeNoFf")
 	void noff(@SuppressWarnings("unused") final boolean ignored) {
 		ff = FastForwardMode.NO_FF;
 	}
 
-	@Option(name = "--ff-only")
+	@Option(name = "--ff-only", usage = "usage_mergeFfOnly")
 	void ffonly(@SuppressWarnings("unused") final boolean ignored) {
 		ff = FastForwardMode.FF_ONLY;
 	}

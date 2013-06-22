@@ -49,6 +49,7 @@ import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTree;
 
+@Command(usage = "usage_RevList")
 class RevList extends RevWalkTextBuiltin {
 	@Override
 	protected void show(final RevCommit c) throws Exception {

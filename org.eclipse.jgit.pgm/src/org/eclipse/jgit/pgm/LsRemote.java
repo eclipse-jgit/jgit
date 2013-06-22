@@ -54,6 +54,7 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.transport.FetchConnection;
 import org.eclipse.jgit.transport.Transport;
 
+@Command(common = true, usage = "usage_LsRemote")
 class LsRemote extends TextBuiltin {
 	@Option(name = "--timeout", metaVar = "metaVar_service", usage = "usage_abortConnectionIfNoActivity")
 	int timeout = -1;

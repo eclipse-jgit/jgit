@@ -54,8 +54,10 @@ import java.util.Date;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.pgm.Command;
 import org.eclipse.jgit.pgm.TextBuiltin;
 
+@Command(usage = "usage_ShowDirCache")
 class ShowDirCache extends TextBuiltin {
 	@Override
 	protected void run() throws Exception {
