@@ -11,6 +11,7 @@ org.eclipse.jgit.pgm.Daemon
 org.eclipse.jgit.pgm.Diff
 org.eclipse.jgit.pgm.DiffTree
 org.eclipse.jgit.pgm.Fetch
+org.eclipse.jgit.pgm.Gc
 org.eclipse.jgit.pgm.Glog
 org.eclipse.jgit.pgm.IndexPack
 org.eclipse.jgit.pgm.Init
@@ -34,7 +35,6 @@ org.eclipse.jgit.pgm.UploadPack
 org.eclipse.jgit.pgm.Version
 
 org.eclipse.jgit.pgm.debug.DiffAlgorithms
-org.eclipse.jgit.pgm.debug.Gc
 org.eclipse.jgit.pgm.debug.MakeCacheTree
 org.eclipse.jgit.pgm.debug.ReadDirCache
 org.eclipse.jgit.pgm.debug.RebuildCommitGraph
