@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOPn//02o\u003d",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/internal/CLIText.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-06-24T07:57:52Z",
+      "side": 1,
+      "message": "DiffAlgorithms is a statement from Shawn which tests the performance of our three different Diff Algorithms on a given repo. One example output  is:\n\n  \u003e jgit.sh debug-diff-algorithms --repository /home/user/git/jgit/.git\n  jgit: start at 85ac072\n            9548 files,         2683 commits\n    N\u003d         3 min lines,    16000 max lines\n  Algorithm                     Time(ns) (  Time(ns) on   Time(ns) on )\n                                         (          N\u003d3       N\u003d16000 )\n  ---------------------------------------------------------------------\n  histogram                    262697835 (         3386       1923341 )\n  histogram_myers              265468602 (         3416       1849512 )\n  myers                        595601734 (         3905       4581831 )",
+      "revId": "153b33a5bf39d08053522b231bdf594a34d7ba2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
