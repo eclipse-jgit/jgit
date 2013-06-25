@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87a3737f_ecce3ad9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2013-06-25T17:07:33Z",
+      "side": 1,
+      "message": "From a quick glance at least the rev-parse texts look ok. What\u0027s left to fix?",
+      "revId": "622dc1e66a24895841982e3e4f27857b07e3dad6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
