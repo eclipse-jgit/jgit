@@ -16,6 +16,24 @@
       "revId": "622dc1e66a24895841982e3e4f27857b07e3dad6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87a3737f_fb46e574",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-06-26T15:29:37Z",
+      "side": 1,
+      "message": "actually the text looks good but when running jgit rev-parse -h I get an error instead of the usage text, I need to debug that",
+      "parentUuid": "87a3737f_ecce3ad9",
+      "revId": "622dc1e66a24895841982e3e4f27857b07e3dad6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
