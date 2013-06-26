@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87a3737f_64ea5624",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Merge.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2013-06-26T23:52:24Z",
+      "side": 1,
+      "message": "The wrapping is odd here.",
+      "revId": "9984035c51097e96d77f42830a10c9e0e58b73ad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
