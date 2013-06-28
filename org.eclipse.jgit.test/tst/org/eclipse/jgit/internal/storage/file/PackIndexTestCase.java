@@ -158,6 +158,21 @@ public abstract class PackIndexTestCase extends RepositoryTestCase {
 	}
 
 	/**
+	 * Compare offset from iterator entries with output of getOffset() method.
+	 */
+	@Test
+	public void testCompareEntriesOffsetsWithGetOffsets() {
+		int i = 0;
+		for (MutableEntry me : smallIdx) {
+			assertEquals(smallIdx.getOffset(i++), me.getOffset());
+		}
+		int j = 0;
+		for (MutableEntry me : denseIdx) {
+			assertEquals(denseIdx.getOffset(j++), me.getOffset());
+		}
+	}
+
+	/**
 	 * Test partial results of iterator comparing to content of well-known
 	 * (prepared) dense index, that may need multi-level indexing.
 	 */

@@ -245,6 +245,19 @@ public abstract class PackIndex implements Iterable<PackIndex.MutableEntry> {
 	}
 
 	/**
+	 * Get offset in a pack for the n-th object entry returned by
+	 * {@link #iterator()}.
+	 *
+	 * @param nthPosition
+	 *            unsigned 32 bit position within the traversal of
+	 *            {@link #iterator()} for which the caller needs the offset. The
+	 *            first returned {@link MutableEntry} is 0, the second is 1,
+	 *            etc. Positions past 2**31-1 are negative, but still valid.
+	 * @return the offset in a pack for the corresponding entry.
+	 */
+	abstract long getOffset(long nthPosition);
+
+	/**
 	 * Locate the file offset position for the requested object.
 	 *
 	 * @param objId
