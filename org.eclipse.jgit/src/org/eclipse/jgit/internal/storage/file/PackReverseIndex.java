@@ -44,7 +44,6 @@
 package org.eclipse.jgit.internal.storage.file;
 
 import java.text.MessageFormat;
-import java.util.Arrays;
 
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.internal.JGitText;
@@ -65,21 +64,9 @@ public class PackReverseIndex {
 	/** Index we were created from, and that has our ObjectId data. */
 	private final PackIndex index;
 
-	/**
-	 * (offset31, truly) Offsets accommodating in 31 bits.
-	 */
-	private final int offsets32[];
-
-	/**
-	 * Offsets not accommodating in 31 bits.
-	 */
-	private final long offsets64[];
-
-	/** Position of the corresponding {@link #offsets32} in {@link #index}. */
-	private final int nth32[];
-
-	/** Position of the corresponding {@link #offsets64} in {@link #index}. */
-	private final int nth64[];
+	private final long bucketSize;
+	private final int[] offsetIndex;
+	private final int[] nth;
 
 	/**
 	 * Create reverse index from straight/forward pack index, by indexing all
@@ -92,38 +79,56 @@ public class PackReverseIndex {
 		index = packIndex;
 
 		final long cnt = index.getObjectCount();
-		final long n64 = index.getOffset64Count();
-		final long n32 = cnt - n64;
-		if (n32 > Integer.MAX_VALUE || n64 > Integer.MAX_VALUE
-				|| cnt > 0xffffffffL)
+		if (cnt > Integer.MAX_VALUE)
 			throw new IllegalArgumentException(
 					JGitText.get().hugeIndexesAreNotSupportedByJgitYet);
 
-		offsets32 = new int[(int) n32];
-		offsets64 = new long[(int) n64];
-		nth32 = new int[offsets32.length];
-		nth64 = new int[offsets64.length];
-
-		int i32 = 0;
-		int i64 = 0;
-		for (final MutableEntry me : index) {
-			final long o = me.getOffset();
-			if (o <= Integer.MAX_VALUE)
-				offsets32[i32++] = (int) o;
-			else
-				offsets64[i64++] = o;
+		if (cnt == 0) {
+			bucketSize = Long.MAX_VALUE;
+			offsetIndex = new int[1];
+			nth = new int[0];
+			return;
 		}
 
-		Arrays.sort(offsets32);
-		Arrays.sort(offsets64);
+		final long[] offsetsBySha1 = new long[(int) cnt];
 
-		int nth = 0;
+		long maxOffset = 0;
+		int ith = 0;
 		for (final MutableEntry me : index) {
 			final long o = me.getOffset();
-			if (o <= Integer.MAX_VALUE)
-				nth32[Arrays.binarySearch(offsets32, (int) o)] = nth++;
-			else
-				nth64[Arrays.binarySearch(offsets64, o)] = nth++;
+			offsetsBySha1[ith++] = o;
+			if (o > maxOffset)
+				maxOffset = o;
+		}
+
+		bucketSize = maxOffset / cnt + 1;
+		offsetIndex = new int[(int) cnt];
+		int[] bucketValues = new int[(int) cnt + 1];
+		for (int oi = 0; oi < offsetsBySha1.length; oi++) {
+			final long o = offsetsBySha1[oi];
+			final int bucketIndexPos = (int) (o / bucketSize);
+			final int bucketValuesPos = oi + 1;
+			final int current = offsetIndex[bucketIndexPos];
+			offsetIndex[bucketIndexPos] = bucketValuesPos;
+			bucketValues[bucketValuesPos] = current;
+		}
+
+		int nthByOffset = 0;
+		nth = new int[offsetsBySha1.length];
+		for (int bi = 0; bi < offsetIndex.length; bi++) {
+			final int start = nthByOffset;
+			for (int vi = offsetIndex[bi]; vi > 0; vi = bucketValues[vi]) {
+				final int nthBySha1 = vi - 1;
+				final long o = offsetsBySha1[nthBySha1];
+				int insertion = nthByOffset++;
+				for (; start < insertion; insertion--) {
+					if (o > offsetsBySha1[nth[insertion - 1]])
+						break;
+					nth[insertion] = nth[insertion - 1];
+				}
+				nth[insertion] = nthBySha1;
+			}
+			offsetIndex[bi] = nthByOffset;
 		}
 	}
 
@@ -136,17 +141,10 @@ public class PackReverseIndex {
 	 * @return object id for this offset, or null if no object was found.
 	 */
 	public ObjectId findObject(final long offset) {
-		if (offset <= Integer.MAX_VALUE) {
-			final int i32 = Arrays.binarySearch(offsets32, (int) offset);
-			if (i32 < 0)
-				return null;
-			return index.getObjectId(nth32[i32]);
-		} else {
-			final int i64 = Arrays.binarySearch(offsets64, offset);
-			if (i64 < 0)
-				return null;
-			return index.getObjectId(nth64[i64]);
-		}
+		final int ith = binarySearch(offset);
+		if (ith < 0)
+			return null;
+		return index.getObjectId(nth[ith]);
 	}
 
 	/**
@@ -166,52 +164,40 @@ public class PackReverseIndex {
 	 */
 	public long findNextOffset(final long offset, final long maxOffset)
 			throws CorruptObjectException {
-		if (offset <= Integer.MAX_VALUE) {
-			final int i32 = Arrays.binarySearch(offsets32, (int) offset);
-			if (i32 < 0)
-				throw new CorruptObjectException(
-						MessageFormat.format(
-								JGitText.get().cantFindObjectInReversePackIndexForTheSpecifiedOffset,
-								Long.valueOf(offset)));
+		final int ith = binarySearch(offset);
+		if (ith < 0)
+			throw new CorruptObjectException(
+					MessageFormat.format(
+							JGitText.get().cantFindObjectInReversePackIndexForTheSpecifiedOffset,
+							Long.valueOf(offset)));
 
-			if (i32 + 1 == offsets32.length) {
-				if (offsets64.length > 0)
-					return offsets64[0];
-				return maxOffset;
-			}
-			return offsets32[i32 + 1];
-		} else {
-			final int i64 = Arrays.binarySearch(offsets64, offset);
-			if (i64 < 0)
-				throw new CorruptObjectException(
-						MessageFormat.format(
-								JGitText.get().cantFindObjectInReversePackIndexForTheSpecifiedOffset,
-								Long.valueOf(offset)));
-
-			if (i64 + 1 == offsets64.length)
-				return maxOffset;
-			return offsets64[i64 + 1];
-		}
+		if (ith + 1 == nth.length)
+			return maxOffset;
+		return index.getOffset(nth[ith + 1]);
 	}
 
 	int findPostion(long offset) {
-		if (offset <= Integer.MAX_VALUE) {
-			final int i32 = Arrays.binarySearch(offsets32, (int) offset);
-			if (i32 < 0)
-				return -1;
-			return i32;
-		} else {
-			final int i64 = Arrays.binarySearch(offsets64, offset);
-			if (i64 < 0)
-				return -1;
-			return nth32.length + i64;
+		return binarySearch(offset);
+	}
+
+	private int binarySearch(final long offset) {
+		int bucket = (int) (offset / bucketSize);
+		int low = bucket == 0 ? 0 : offsetIndex[bucket - 1];
+		int high = offsetIndex[bucket];
+		while (low < high) {
+			final int mid = (low + high) >>> 1;
+			final long o = index.getOffset(nth[mid]);
+			if (offset < o)
+				high = mid;
+			else if (offset == o)
+				return mid;
+			else
+				low = mid + 1;
 		}
+		return -1;
 	}
 
 	ObjectId findObjectByPosition(int nthPosition) {
-		if (nthPosition < nth32.length)
-			return index.getObjectId(nth32[nthPosition]);
-		final int i64 = nthPosition - nth32.length;
-		return index.getObjectId(nth64[i64]);
+		return index.getObjectId(nth[nthPosition]);
 	}
 }
