@@ -170,15 +170,13 @@ class PackIndexV2 extends PackIndex {
 		return offset64.length / 8;
 	}
 
-	@Override
-	public ObjectId getObjectId(final long nthPosition) {
+	private int findLevelOne(final long nthPosition) {
 		int levelOne = Arrays.binarySearch(fanoutTable, nthPosition + 1);
-		long base;
 		if (levelOne >= 0) {
 			// If we hit the bucket exactly the item is in the bucket, or
 			// any bucket before it which has the same object count.
 			//
-			base = fanoutTable[levelOne];
+			long base = fanoutTable[levelOne];
 			while (levelOne > 0 && base == fanoutTable[levelOne - 1])
 				levelOne--;
 		} else {
@@ -186,11 +184,27 @@ class PackIndexV2 extends PackIndex {
 			//
 			levelOne = -(levelOne + 1);
 		}
+		return levelOne;
+	}
 
-		base = levelOne > 0 ? fanoutTable[levelOne - 1] : 0;
-		final int p = (int) (nthPosition - base);
+	private int getLevelTwo(final long nthPosition, final int levelOne) {
+		final long base = levelOne > 0 ? fanoutTable[levelOne - 1] : 0;
+		return (int) (nthPosition - base);
+	}
+
+	@Override
+	public ObjectId getObjectId(final long nthPosition) {
+		final int levelOne = findLevelOne(nthPosition);
+		final int p = getLevelTwo(nthPosition, levelOne);
 		final int p4 = p << 2;
 		return ObjectId.fromRaw(names[levelOne], p4 + p); // p * 5
+	}
+
+	@Override
+	public long getOffset(final long nthPosition) {
+		final int levelOne = findLevelOne(nthPosition);
+		final int levelTwo = getLevelTwo(nthPosition, levelOne);
+		return getOffset(levelOne, levelTwo);
 	}
 
 	@Override
@@ -199,6 +213,10 @@ class PackIndexV2 extends PackIndex {
 		final int levelTwo = binarySearchLevelTwo(objId, levelOne);
 		if (levelTwo == -1)
 			return -1;
+		return getOffset(levelOne, levelTwo);
+	}
+
+	private long getOffset(final int levelOne, final int levelTwo) {
 		final long p = NB.decodeUInt32(offset32[levelOne], levelTwo << 2);
 		if ((p & IS_O64) != 0)
 			return NB.decodeUInt64(offset64, (8 * (int) (p & ~IS_O64)));
