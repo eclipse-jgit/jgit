@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "273ac7f6_0c922dda",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2013-07-01T16:14:52Z",
+      "side": 1,
+      "message": "Isn\u0027t value the position *after* the last in nth that contains the value of the bucket? I thought the range nth[offsetIndex[bucket - 1]] to nth[offsetIndex[bucket]] was inclusive on the left and exclusive on the right.",
+      "revId": "baa3c235d90beee58dc325a9c9988e7013aa3ed8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "273ac7f6_ec19c906",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2013-07-01T16:14:52Z",
+      "side": 1,
+      "message": "Nice. Thanks - yeah, this is more readable.",
+      "revId": "baa3c235d90beee58dc325a9c9988e7013aa3ed8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
