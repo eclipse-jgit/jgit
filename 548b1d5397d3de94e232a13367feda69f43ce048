@@ -16,6 +16,24 @@
       "revId": "548b1d5397d3de94e232a13367feda69f43ce048",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "273ac7f6_27890aae",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2013-07-01T18:31:46Z",
+      "side": 1,
+      "message": "Done. This means there are a few more instanceof checks, and getRequestPolicy may return null, but that\u0027s probably ok. I made the public classes final so the instanceof checks are more reliable and to encourage composition rather than inheritance.",
+      "parentUuid": "273ac7f6_5227b23e",
+      "revId": "548b1d5397d3de94e232a13367feda69f43ce048",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
