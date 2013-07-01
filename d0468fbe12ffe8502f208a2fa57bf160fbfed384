@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "273ac7f6_cc1de526",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2013-07-01T16:02:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47333b20_03f32560",
+      "revId": "d0468fbe12ffe8502f208a2fa57bf160fbfed384",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47333b20_4351adaf",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndex.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "273ac7f6_2cf3b160",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2013-07-01T16:02:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47333b20_4351adaf",
+      "revId": "d0468fbe12ffe8502f208a2fa57bf160fbfed384",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47333b20_c3d13dc6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndex.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2013-06-28T23:23:58Z",
       "side": 1,
       "message": "At first it wasn\u0027t clear to me that this was an index in the list of buckets. How about \"final int bucket \u003d ...\"?",
+      "revId": "d0468fbe12ffe8502f208a2fa57bf160fbfed384",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "273ac7f6_4cf6f551",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2013-07-01T16:02:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47333b20_c3d13dc6",
       "revId": "d0468fbe12ffe8502f208a2fa57bf160fbfed384",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
