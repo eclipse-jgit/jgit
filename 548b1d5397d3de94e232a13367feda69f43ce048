@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "273ac7f6_5227b23e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-07-01T01:17:12Z",
+      "side": 1,
+      "message": "Don\u0027t do this. Instead of storing the enum in the UploadPack store the RequestValidator reference. When the caller invokes setRequestPolicy() always immediately switch to use the validator instance.\n\nThis means you may need to rearrange a bit of code that deals with the validator enum, but it avoids creating an ugly API artifact.",
+      "revId": "548b1d5397d3de94e232a13367feda69f43ce048",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
