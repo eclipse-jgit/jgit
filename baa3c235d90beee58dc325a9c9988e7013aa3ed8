@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "273ac7f6_6c077990",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2013-07-01T16:23:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "273ac7f6_0c922dda",
+      "revId": "baa3c235d90beee58dc325a9c9988e7013aa3ed8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "273ac7f6_ec19c906",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndex.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-07-01T16:14:52Z",
       "side": 1,
       "message": "Nice. Thanks - yeah, this is more readable.",
+      "revId": "baa3c235d90beee58dc325a9c9988e7013aa3ed8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "273ac7f6_8c30fd72",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2013-07-01T16:23:58Z",
+      "side": 1,
+      "message": "Yea I figured that was confusing.",
+      "parentUuid": "273ac7f6_ec19c906",
       "revId": "baa3c235d90beee58dc325a9c9988e7013aa3ed8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
