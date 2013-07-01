@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "273ac7f6_72bc7656",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 603,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-07-01T01:08:03Z",
+      "side": 1,
+      "message": "nit: extra blank line",
+      "revId": "617f2ea855a779083c26aab8c49502ccc338f5d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
