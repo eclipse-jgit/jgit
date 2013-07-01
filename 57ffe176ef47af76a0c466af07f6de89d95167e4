@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "273ac7f6_4711ae0a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2013-07-01T18:00:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "273ac7f6_12d52ab2",
+      "revId": "57ffe176ef47af76a0c466af07f6de89d95167e4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "273ac7f6_f2f8863f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2013-07-01T00:52:02Z",
       "side": 1,
       "message": "nit: declare RevObject obj immediately before the loop not in the middle of the two new Sets you initialize as null.",
+      "revId": "57ffe176ef47af76a0c466af07f6de89d95167e4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "273ac7f6_270e2aef",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 956,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2013-07-01T18:00:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "273ac7f6_f2f8863f",
       "revId": "57ffe176ef47af76a0c466af07f6de89d95167e4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
