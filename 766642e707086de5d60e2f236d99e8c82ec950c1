@@ -16,6 +16,24 @@
       "revId": "766642e707086de5d60e2f236d99e8c82ec950c1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "273ac7f6_6d147e4b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2013-07-03T22:24:37Z",
+      "side": 1,
+      "message": "Actually lost in the parent commit, fixed there.",
+      "parentUuid": "273ac7f6_2d66f61b",
+      "revId": "766642e707086de5d60e2f236d99e8c82ec950c1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
