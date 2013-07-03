@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "273ac7f6_2d66f61b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-07-03T22:09:16Z",
+      "side": 1,
+      "message": "I think you lost selecting the default policy from the configuration.",
+      "revId": "766642e707086de5d60e2f236d99e8c82ec950c1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
