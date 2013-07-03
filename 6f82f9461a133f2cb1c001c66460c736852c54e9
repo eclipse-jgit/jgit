@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "273ac7f6_2d60b6ad",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 6
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-07-03T22:43:14Z",
+      "side": 1,
+      "message": "Unused",
+      "revId": "6f82f9461a133f2cb1c001c66460c736852c54e9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "273ac7f6_4d637abc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/JGitText.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-07-03T22:43:14Z",
+      "side": 1,
+      "message": "Unused.",
+      "revId": "6f82f9461a133f2cb1c001c66460c736852c54e9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
