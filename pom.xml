@@ -183,7 +183,7 @@
     <args4j-version>2.0.12</args4j-version>
     <commons-compress-version>1.4.1</commons-compress-version>
     <servlet-api-version>2.5</servlet-api-version>
-    <jetty-version>7.6.0.v20120127</jetty-version>
+    <jetty-version>7.6.11.v20130520</jetty-version>
     <clirr-version>2.4</clirr-version>
   </properties>
 
