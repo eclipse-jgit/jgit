@@ -186,7 +186,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 
 	private final RebaseState rebaseState;
 
-	private InteractiveHandler interactiveHandler;
+	private boolean interactive;
 
 	/**
 	 * @param repo
@@ -270,36 +270,13 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			ObjectReader or = repo.newObjectReader();
 
 			List<Step> steps = loadSteps();
-			if (isInteractive()) {
-				interactiveHandler.prepareSteps(steps);
-				BufferedWriter fw = new BufferedWriter(new OutputStreamWriter(
-						new FileOutputStream(
-								rebaseState.getFile(GIT_REBASE_TODO)),
-								Constants.CHARACTER_ENCODING));
-				fw.newLine();
-				try {
-					StringBuilder sb = new StringBuilder();
-					for (Step step : steps) {
-						sb.setLength(0);
-						sb.append(step.action.token);
-						sb.append(" "); //$NON-NLS-1$
-						sb.append(step.commit.name());
-						sb.append(" "); //$NON-NLS-1$
-						sb.append(RawParseUtils.decode(step.shortMessage)
-								.trim());
-						fw.write(sb.toString());
-						fw.newLine();
-					}
-				} finally {
-					fw.close();
-				}
-			}
 
 			int squashCount = 0;
 			boolean squash = false;
 			String squashCommitMessage = repo.readSquashCommitMsg();
 			StringBuilder squashMessageBuilder = new StringBuilder(
 					squashCommitMessage == null ? "" : squashCommitMessage);
+
 			for (Step step : steps) {
 				popSteps(1);
 				Collection<ObjectId> ids = or.resolve(step.commit);
@@ -309,7 +286,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 				RevCommit commitToPick = walk
 						.parseCommit(ids.iterator().next());
 				if (monitor.isCancelled())
-					return new RebaseResult(commitToPick);
+					return new RebaseResult(commitToPick, null);
 				try {
 					monitor.beginTask(MessageFormat.format(
 							JGitText.get().applyingCommit,
@@ -334,9 +311,9 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 								return abort(new RebaseResult(
 										cherryPickResult.getFailingPaths()));
 							else
-								return stop(commitToPick);
+								return stop(commitToPick, null);
 						case CONFLICTING:
-							return stop(commitToPick);
+							return stop(commitToPick, null);
 						case OK:
 							newHead = cherryPickResult.getNewHead();
 						}
@@ -345,15 +322,10 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 					case PICK:
 						continue; // continue rebase process on pick command
 					case REWORD:
-						String oldMessage = commitToPick.getFullMessage();
-						String newMessage = interactiveHandler
-								.modifyCommitMessage(oldMessage);
-						newHead = new Git(repo).commit().setMessage(newMessage)
-								.setAmend(true).call();
-						continue;
+						return stop(commitToPick, Action.REWORD);
 					case EDIT:
 						rebaseState.createFile(AMEND, commitToPick.name());
-						return stop(commitToPick);
+						return stop(commitToPick, Action.EDIT);
 					case SQUASH:
 						squash = true;
 						//$FALL-THROUGH$
@@ -567,7 +539,8 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		return parseAuthor(raw);
 	}
 
-	private RebaseResult stop(RevCommit commitToPick) throws IOException {
+	private RebaseResult stop(RevCommit commitToPick, Action action)
+			throws IOException {
 		PersonIdent author = commitToPick.getAuthorIdent();
 		String authorScript = toAuthorScript(author);
 		rebaseState.createFile(AUTHOR_SCRIPT, authorScript);
@@ -585,7 +558,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		// Remove cherry pick state file created by CherryPickCommand, it's not
 		// needed for rebase
 		repo.writeCherryPickHead(null);
-		return new RebaseResult(commitToPick);
+		return new RebaseResult(commitToPick, action);
 	}
 
 	String toAuthorScript(PersonIdent author) {
@@ -747,28 +720,25 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		rebaseState.createFile(ONTO, upstreamCommit.name());
 		rebaseState.createFile(ONTO_NAME, upstreamCommitName);
 		rebaseState.createFile(INTERACTIVE, ""); //$NON-NLS-1$
-		BufferedWriter fw = new BufferedWriter(new OutputStreamWriter(
-				new FileOutputStream(rebaseState.getFile(GIT_REBASE_TODO)),
-				Constants.CHARACTER_ENCODING));
-		fw.write("# Created by EGit: rebasing " + upstreamCommit.name()
-				+ " onto " + headId.name());
-		fw.newLine();
-		try {
-			StringBuilder sb = new StringBuilder();
-			ObjectReader reader = walk.getObjectReader();
-			for (RevCommit commit : cherryPickList) {
-				sb.setLength(0);
-				sb.append(Action.PICK.toToken());
-				sb.append(" "); //$NON-NLS-1$
-				sb.append(reader.abbreviate(commit).name());
-				sb.append(" "); //$NON-NLS-1$
-				sb.append(commit.getShortMessage());
-				fw.write(sb.toString());
-				fw.newLine();
-			}
-		} finally {
-			fw.close();
-		}
+
+		writeSteps("# Created by EGit: rebasing " + upstreamCommit.name()
+				+ " onto " + headId.name(),
+				cherryPickList, new ToDoLineFormatter<RevCommit>() {
+					private ObjectReader reader = walk.getObjectReader();
+
+					public String getToken(RevCommit obj) {
+						return Action.PICK.toToken();
+					}
+
+					public String getName(RevCommit obj) throws IOException {
+						return reader.abbreviate(obj).name();
+					}
+
+					public String getShortMessage(RevCommit obj) {
+						return obj.getShortMessage();
+					}
+
+				});
 
 		monitor.endTask();
 
@@ -779,8 +749,11 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		try {
 			checkoutOk = checkoutCommit(upstreamCommit);
 		} finally {
-			if (!checkoutOk)
-				FileUtils.delete(rebaseState.getDir(), FileUtils.RECURSIVE);
+			if (checkoutOk) {
+				monitor.endTask();
+				return new RebaseResult(upstreamCommit, null);
+			}
+			FileUtils.delete(rebaseState.getDir(), FileUtils.RECURSIVE);
 		}
 		monitor.endTask();
 
@@ -788,7 +761,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	}
 
 	private boolean isInteractive() {
-		return interactiveHandler != null;
+		return interactive;
 	}
 
 	/**
@@ -982,6 +955,140 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		return true;
 	}
 
+	/**
+	 * @param commit
+	 * @param newMessage
+	 * @return as
+	 * @throws GitAPIException
+	 * @throws NoHeadException
+	 * @throws RefNotFoundException
+	 * @throws WrongRepositoryStateException
+	 * @since 3.1
+	 */
+	public RebaseResult rewordAndContinue(RevCommit commit, String newMessage)
+			throws GitAPIException, NoHeadException, RefNotFoundException,
+			WrongRepositoryStateException {
+		// TODO: check: head must be equal to the given commit commit
+
+		new Git(repo).commit().setMessage(newMessage).setAmend(true).call();
+		return new Git(repo).rebase().setOperation(Operation.CONTINUE).call();
+	}
+
+	/**
+	 *
+	 * @param <T>
+	 * @since 3.1
+	 */
+	public interface ToDoLineFormatter<T> {
+		/** */
+		public static final ToDoLineFormatter<Step> STEP_FORMATTER = new ToDoLineFormatter<Step>() {
+
+			public String getToken(Step obj) {
+				return obj.action.token;
+			}
+
+			public String getName(Step obj) {
+				return obj.commit.name();
+			}
+
+			public String getShortMessage(Step obj) {
+				return RawParseUtils.decode(obj.shortMessage);
+			}
+		};
+
+		/**
+		 * @param obj
+		 * @return as
+		 * @throws IOException
+		 */
+		String getToken(T obj) throws IOException;
+
+		/**
+		 * @param obj
+		 * @return as
+		 * @throws IOException
+		 */
+		String getName(T obj) throws IOException;
+
+		/**
+		 * @param obj
+		 * @return as
+		 * @throws IOException
+		 */
+		String getShortMessage(T obj) throws IOException;
+	}
+
+	/**
+	 * @param headComment
+	 * @param steps
+	 * @return as
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 * @since 3.1
+	 */
+	public RebaseCommand writeSteps(final String headComment, List<Step> steps)
+			throws FileNotFoundException, IOException {
+		writeSteps(headComment, steps, ToDoLineFormatter.STEP_FORMATTER);
+		return this;
+	}
+
+	/**
+	 * @param <T>
+	 * @param steps
+	 * @param headComment
+	 * @param formatter
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 * @since 3.1
+	 */
+	public <T> void writeSteps(final String headComment, List<T> steps,
+			ToDoLineFormatter<T> formatter) throws
+			FileNotFoundException, IOException {
+		if (formatter == null)
+			throw new IllegalArgumentException(
+					"ToDoLineFormatter must not be null");
+		BufferedWriter fw = new BufferedWriter(new OutputStreamWriter(
+				new FileOutputStream(rebaseState.getFile(GIT_REBASE_TODO)),
+				Constants.CHARACTER_ENCODING));
+		try {
+			if (headComment != null) {
+				fw.write(headComment);
+				fw.newLine();
+			}
+			StringBuilder sb = new StringBuilder();
+			for (T step : steps) {
+				sb.setLength(0);
+				sb.append(formatter.getToken(step));
+				sb.append(" "); //$NON-NLS-1$
+				sb.append(formatter.getName(step));
+				sb.append(" "); //$NON-NLS-1$
+				sb.append(formatter.getShortMessage(step));
+				fw.write(sb.toString());
+				fw.newLine();
+			}
+		} finally {
+			fw.close();
+		}
+	}
+
+	/**
+	 * Reads the todo-File for the current rebase from
+	 * {@link RebaseCommand#GIT_REBASE_TODO}
+	 *
+	 * @return a List of Steps to be performed, null if there is no todo-file
+	 *         written to the file system (i.e. no rebase running)
+	 * @throws IOException
+	 *             the todo-file exists, but can not be read
+	 * @since 3.1
+	 */
+	public List<Step> readSteps() throws IOException {
+		try {
+			return loadSteps();
+		} catch (FileNotFoundException e) {
+			return null;
+		}
+	}
+
 	List<Step> loadSteps() throws IOException {
 		byte[] buf = IO.readFully(rebaseState.getFile(GIT_REBASE_TODO));
 		int ptr = 0;
@@ -1123,33 +1230,11 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	/**
 	 * Enables interactive rebase
 	 *
-	 * @param handler
 	 * @return this
 	 */
-	public RebaseCommand runInteractively(InteractiveHandler handler) {
-		this.interactiveHandler = handler;
+	public RebaseCommand runInteractively() {
+		this.interactive = true;
 		return this;
-	}
-
-	/**
-	 * Allows configure rebase interactive process and modify commit message
-	 */
-	public interface InteractiveHandler {
-		/**
-		 * Given list of {@code steps} should be modified according to user
-		 * rebase configuration
-		 * @param steps
-		 *            initial configuration of rebase interactive
-		 */
-		void prepareSteps(List<Step> steps);
-
-		/**
-		 * Used for editing commit message on REWORD
-		 *
-		 * @param commit
-		 * @return new commit message
-		 */
-		String modifyCommitMessage(String commit);
 	}
 
 	/**
@@ -1164,13 +1249,13 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		EDIT("edit", "e"), //$NON-NLS-1$ //$NON-NLS-2$
 		/**
 		 * Use commit, but meld into previous commit
-		 * 
+		 *
 		 * @since 3.1
 		 */
 		SQUASH("squash", "s"), //$NON-NLS-1$ //$NON-NLS-2$
 		/**
 		 * like "squash", but discard this commit's log message
-		 * 
+		 *
 		 * @since 3.1
 		 */
 		FIXUP("fixup", "f"); //$NON-NLS-1$ //$NON-NLS-2$

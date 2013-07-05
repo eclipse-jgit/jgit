@@ -45,6 +45,7 @@ package org.eclipse.jgit.api;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.jgit.api.RebaseCommand.Action;
 import org.eclipse.jgit.merge.ResolveMerger;
 import org.eclipse.jgit.merge.ResolveMerger.MergeFailureReason;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -160,6 +161,8 @@ public class RebaseResult {
 
 	private List<String> conflicts;
 
+	private Action interactiveAction;
+
 	private RebaseResult(Status status) {
 		this.status = status;
 		currentCommit = null;
@@ -201,6 +204,15 @@ public class RebaseResult {
 	}
 
 	/**
+	 * @param commitToPick
+	 * @param action
+	 */
+	RebaseResult(RevCommit commitToPick, Action action) {
+		this(commitToPick);
+		this.interactiveAction = action;
+	}
+
+	/**
 	 * @return the overall status
 	 */
 	public Status getStatus() {
@@ -229,5 +241,13 @@ public class RebaseResult {
 	 */
 	public List<String> getConflicts() {
 		return conflicts;
+	}
+
+	/**
+	 * @return the RebaseAction that was performed returning this Result
+	 *         {@link RebaseResult#interactiveAction}
+	 */
+	public Action getInteractiveAction() {
+		return interactiveAction;
 	}
 }
