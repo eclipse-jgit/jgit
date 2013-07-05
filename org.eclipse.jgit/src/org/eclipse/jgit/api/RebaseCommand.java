@@ -184,7 +184,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 
 	private final RebaseState rebaseState;
 
-	private InteractiveHandler interactiveHandler;
+	private boolean interactive;
 
 	/**
 	 * @param repo
@@ -268,10 +268,6 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			ObjectReader or = repo.newObjectReader();
 
 			List<Step> steps = loadSteps();
-			if (isInteractive()) {
-				interactiveHandler.prepareSteps(steps);
-				writeSteps(null, steps);
-			}
 			for (Step step : steps) {
 				popSteps(1);
 				Collection<ObjectId> ids = or.resolve(step.commit);
@@ -281,7 +277,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 				RevCommit commitToPick = walk
 						.parseCommit(ids.iterator().next());
 				if (monitor.isCancelled())
-					return new RebaseResult(commitToPick);
+					return new RebaseResult(commitToPick, null);
 				try {
 					monitor.beginTask(MessageFormat.format(
 							JGitText.get().applyingCommit,
@@ -306,9 +302,9 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 								return abort(new RebaseResult(
 										cherryPickResult.getFailingPaths()));
 							else
-								return stop(commitToPick);
+								return stop(commitToPick, null);
 						case CONFLICTING:
-							return stop(commitToPick);
+							return stop(commitToPick, null);
 						case OK:
 							newHead = cherryPickResult.getNewHead();
 						}
@@ -317,15 +313,10 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 					case PICK:
 						continue; // continue rebase process on pick command
 					case REWORD:
-						String oldMessage = commitToPick.getFullMessage();
-						String newMessage = interactiveHandler
-								.modifyCommitMessage(oldMessage);
-						newHead = new Git(repo).commit().setMessage(newMessage)
-								.setAmend(true).call();
-						continue;
+						return stop(commitToPick, Action.REWORD);
 					case EDIT:
 						rebaseState.createFile(AMEND, commitToPick.name());
-						return stop(commitToPick);
+						return stop(commitToPick, Action.EDIT);
 					}
 				} finally {
 					monitor.endTask();
@@ -461,7 +452,8 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		return parseAuthor(raw);
 	}
 
-	private RebaseResult stop(RevCommit commitToPick) throws IOException {
+	private RebaseResult stop(RevCommit commitToPick, Action action)
+			throws IOException {
 		PersonIdent author = commitToPick.getAuthorIdent();
 		String authorScript = toAuthorScript(author);
 		rebaseState.createFile(AUTHOR_SCRIPT, authorScript);
@@ -479,7 +471,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		// Remove cherry pick state file created by CherryPickCommand, it's not
 		// needed for rebase
 		repo.writeCherryPickHead(null);
-		return new RebaseResult(commitToPick);
+		return new RebaseResult(commitToPick, action);
 	}
 
 	String toAuthorScript(PersonIdent author) {
@@ -670,8 +662,11 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		try {
 			checkoutOk = checkoutCommit(upstreamCommit);
 		} finally {
-			if (!checkoutOk)
-				FileUtils.delete(rebaseState.getDir(), FileUtils.RECURSIVE);
+			if (checkoutOk) {
+				monitor.endTask();
+				return new RebaseResult(upstreamCommit, null);
+			}
+			FileUtils.delete(rebaseState.getDir(), FileUtils.RECURSIVE);
 		}
 		monitor.endTask();
 
@@ -679,7 +674,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	}
 
 	private boolean isInteractive() {
-		return interactiveHandler != null;
+		return interactive;
 	}
 
 	/**
@@ -873,7 +868,25 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		return true;
 	}
 
+	/**
+	 * @param commit
+	 * @param newMessage
+	 * @return as
+	 * @throws GitAPIException
+	 * @throws NoHeadException
+	 * @throws RefNotFoundException
+	 * @throws WrongRepositoryStateException
+	 * @since 3.1
+	 */
+	public RebaseResult rewordAndContinue(RevCommit commit, String newMessage)
+			throws GitAPIException, NoHeadException, RefNotFoundException,
+			WrongRepositoryStateException {
+		// TODO: check: head must be equal to the given commit commit
 
+		new Git(repo).commit().setMessage(newMessage).setAmend(true).call();
+		return new Git(repo).rebase().setOperation(Operation.CONTINUE).call();
+	}
+	
 	/**
 	 *
 	 * @param <T>
@@ -968,6 +981,24 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			}
 		} finally {
 			fw.close();
+		}
+	}
+
+	/**
+	 * Reads the todo-File for the current rebase from
+	 * {@link RebaseCommand#GIT_REBASE_TODO}
+	 *
+	 * @return a List of Steps to be performed, null if there is no todo-file
+	 *         written to the file system (i.e. no rebase running)
+	 * @throws IOException
+	 *             the todo-file exists, but can not be read
+	 * @since 3.1
+	 */
+	public List<Step> readSteps() throws IOException {
+		try {
+			return loadSteps();
+		} catch (FileNotFoundException e) {
+			return null;
 		}
 	}
 
@@ -1112,33 +1143,11 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	/**
 	 * Enables interactive rebase
 	 *
-	 * @param handler
 	 * @return this
 	 */
-	public RebaseCommand runInteractively(InteractiveHandler handler) {
-		this.interactiveHandler = handler;
+	public RebaseCommand runInteractively() {
+		this.interactive = true;
 		return this;
-	}
-
-	/**
-	 * Allows configure rebase interactive process and modify commit message
-	 */
-	public interface InteractiveHandler {
-		/**
-		 * Given list of {@code steps} should be modified according to user
-		 * rebase configuration
-		 * @param steps
-		 *            initial configuration of rebase interactive
-		 */
-		void prepareSteps(List<Step> steps);
-
-		/**
-		 * Used for editing commit message on REWORD
-		 *
-		 * @param commit
-		 * @return new commit message
-		 */
-		String modifyCommitMessage(String commit);
 	}
 
 	/**
