@@ -59,6 +59,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.eclipse.jgit.api.RebaseResult.Status;
 import org.eclipse.jgit.api.errors.CheckoutConflictException;
@@ -292,6 +294,12 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 					fw.close();
 				}
 			}
+
+			int squashCount = 0;
+			boolean squash = false;
+			String squashCommitMessage = repo.readSquashCommitMsg();
+			StringBuilder squashMessageBuilder = new StringBuilder(
+					squashCommitMessage == null ? "" : squashCommitMessage);
 			for (Step step : steps) {
 				popSteps(1);
 				Collection<ObjectId> ids = or.resolve(step.commit);
@@ -346,6 +354,68 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 					case EDIT:
 						rebaseState.createFile(AMEND, commitToPick.name());
 						return stop(commitToPick);
+					case SQUASH:
+						squash = true;
+						//$FALL-THROUGH$
+					case FIXUP:
+						RevWalk rw = new RevWalk(repo);
+						RevCommit headCommit = rw.parseCommit(repo
+								.resolve(Constants.HEAD));
+						rw.release();
+						try {
+							Pattern pattern = Pattern
+									.compile("(/^.*$\\/m This is a combination of \\(.*\\) commits\\."); //$NON-NLS-1$
+							Matcher matcher = pattern
+									.matcher(squashCommitMessage);
+							squashCount = Integer.parseInt(matcher.group(0));
+						} catch (Throwable t) {
+							// Catch any, do nothing
+						} finally {
+							squashCount++;
+						}
+
+						if (squashCount == 1) {
+							squashMessageBuilder.setLength(0);
+							squashMessageBuilder
+									.append("# This is a combination of 2 commits.\n"); //$NON-NLS-1$
+							squashMessageBuilder
+									.append("The first commit's message is:\n"); //$NON-NLS-1$
+
+							String headCommitMessage = headCommit
+									.getFullMessage();
+							squashMessageBuilder.append(headCommitMessage);
+
+						} else {
+							squashMessageBuilder.delete(0,
+									squashMessageBuilder.indexOf("\n"));
+							squashMessageBuilder.insert(0,
+									"# This is a combination of " + squashCount
+											+ "commits.\n");
+						}
+
+						if (squash) {
+							// delete File fixup-messege
+							squashMessageBuilder
+									.append("# The " + squashCount + getOrdinal(squashCount) + "commit's message is:\n"); //$NON-NLS-1$ //$NON-NLS-2$
+							squashMessageBuilder.append(commitToPick
+									.getFullMessage());
+
+						} else {
+							squashMessageBuilder
+									.append("# The " + squashCount + getOrdinal(squashCount) + "commit message will be skipped:\n"); //$NON-NLS-1$ //$NON-NLS-2$
+							squashMessageBuilder
+									.append(commitToPick.getFullMessage()
+											.replaceAll("\n", "\n#\t"));
+						}
+
+						newHead = new Git(repo).commit()
+								.setAuthor(headCommit.getAuthorIdent())
+								.setAmend(true)
+								.setMessage(squashMessageBuilder.toString())
+								.setReflogComment(step.action.token).call();
+
+						squash = false; // reset Fallthrough indicator
+						continue;
 					}
 				} finally {
 					monitor.endTask();
@@ -365,6 +435,22 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		} catch (IOException ioe) {
 			throw new JGitInternalException(ioe.getMessage(), ioe);
 		}
+	}
+
+	private static String getOrdinal(int squashCount) {
+		String ordinal = "th";
+		switch (squashCount % 10) {
+		case 1:
+			ordinal = "st";
+			break;
+		case 2:
+			ordinal = "nd";
+			break;
+		case 3:
+			ordinal = "rd";
+			break;
+		}
+		return ordinal;
 	}
 
 	private String getOurCommitName() {
@@ -1075,8 +1161,19 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		/** Use commit, but edit the commit message */
 		REWORD("reword", "r"), //$NON-NLS-1$ //$NON-NLS-2$
 		/** Use commit, but stop for amending */
-		EDIT("edit", "e"); // later add SQUASH, FIXUP, etc. //$NON-NLS-1$ //$NON-NLS-2$
-
+		EDIT("edit", "e"), //$NON-NLS-1$ //$NON-NLS-2$
+		/**
+		 * Use commit, but meld into previous commit
+		 * 
+		 * @since 3.1
+		 */
+		SQUASH("squash", "s"), //$NON-NLS-1$ //$NON-NLS-2$
+		/**
+		 * like "squash", but discard this commit's log message
+		 * 
+		 * @since 3.1
+		 */
+		FIXUP("fixup", "f"); //$NON-NLS-1$ //$NON-NLS-2$
 		private final String token;
 
 		private final String shortToken;
