@@ -87,6 +87,7 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.RepositoryState;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
@@ -270,27 +271,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			List<Step> steps = loadSteps();
 			if (isInteractive()) {
 				interactiveHandler.prepareSteps(steps);
-				BufferedWriter fw = new BufferedWriter(new OutputStreamWriter(
-						new FileOutputStream(
-								rebaseState.getFile(GIT_REBASE_TODO)),
-								Constants.CHARACTER_ENCODING));
-				fw.newLine();
-				try {
-					StringBuilder sb = new StringBuilder();
-					for (Step step : steps) {
-						sb.setLength(0);
-						sb.append(step.action.token);
-						sb.append(" "); //$NON-NLS-1$
-						sb.append(step.commit.name());
-						sb.append(" "); //$NON-NLS-1$
-						sb.append(RawParseUtils.decode(step.shortMessage)
-								.trim());
-						fw.write(sb.toString());
-						fw.newLine();
-					}
-				} finally {
-					fw.close();
-				}
+				writeSteps(steps);
 			}
 			for (Step step : steps) {
 				popSteps(1);
@@ -661,28 +642,25 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		rebaseState.createFile(ONTO, upstreamCommit.name());
 		rebaseState.createFile(ONTO_NAME, upstreamCommitName);
 		rebaseState.createFile(INTERACTIVE, ""); //$NON-NLS-1$
-		BufferedWriter fw = new BufferedWriter(new OutputStreamWriter(
-				new FileOutputStream(rebaseState.getFile(GIT_REBASE_TODO)),
-				Constants.CHARACTER_ENCODING));
-		fw.write("# Created by EGit: rebasing " + upstreamCommit.name()
-				+ " onto " + headId.name());
-		fw.newLine();
-		try {
-			StringBuilder sb = new StringBuilder();
-			ObjectReader reader = walk.getObjectReader();
-			for (RevCommit commit : cherryPickList) {
-				sb.setLength(0);
-				sb.append(Action.PICK.toToken());
-				sb.append(" "); //$NON-NLS-1$
-				sb.append(reader.abbreviate(commit).name());
-				sb.append(" "); //$NON-NLS-1$
-				sb.append(commit.getShortMessage());
-				fw.write(sb.toString());
-				fw.newLine();
-			}
-		} finally {
-			fw.close();
-		}
+
+		writeSteps("# Created by EGit: rebasing " + upstreamCommit.name()
+				+ " onto " + headId.name(),
+				cherryPickList, new StepFormatter<RevCommit>() {
+					private ObjectReader reader = walk.getObjectReader();
+
+					public String getToken(RevCommit obj) {
+						return Action.PICK.toToken();
+					}
+
+					public String getName(RevCommit obj) throws IOException {
+						return reader.abbreviate(obj).name();
+					}
+
+					public String getShortMessage(RevCommit obj) {
+						return obj.getShortMessage();
+					}
+
+				});
 
 		monitor.endTask();
 
@@ -894,6 +872,78 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			monitor.endTask();
 		}
 		return true;
+	}
+
+	private interface StepFormatter<T> {
+		/** Default Formatter for an entry of type {@link Step} */
+		public static final StepFormatter<Step> STEP_FORMATTER = new StepFormatter<Step>() {
+
+			public String getToken(Step obj) {
+				return obj.action.token;
+			}
+
+			public String getName(Step obj) {
+				return obj.commit.name();
+			}
+
+			public String getShortMessage(Step obj) {
+				return RawParseUtils.decode(obj.shortMessage);
+			}
+		};
+
+		String getToken(T obj) throws IOException;
+
+		String getName(T obj) throws IOException;
+
+		String getShortMessage(T obj) throws IOException;
+	}
+
+	/**
+	 * Persists a list of rebase steps to file
+	 * {@link RebaseCommand#GIT_REBASE_TODO} if the repository is in rebase
+	 * interactive state
+	 *
+	 * @param steps
+	 *            the {@link Step} {@link List} containing the rebase steps to
+	 *            be persisted
+	 * @throws IOException
+	 *             If an I/O error occurs
+	 * @throws WrongRepositoryStateException
+	 *             If current repository is not in rebase interactive state
+	 */
+	public void writeSteps(List<Step> steps) throws IOException,
+			WrongRepositoryStateException {
+		if (repo.getRepositoryState() != RepositoryState.REBASING_INTERACTIVE)
+			throw new WrongRepositoryStateException(MessageFormat.format(
+					JGitText.get().wrongRepositoryState, repo
+							.getRepositoryState().name()));
+		writeSteps(null, steps, StepFormatter.STEP_FORMATTER);
+	}
+
+	private <T> void writeSteps(final String headComment, List<T> steps,
+			StepFormatter<T> formatter) throws
+			FileNotFoundException, IOException {
+		BufferedWriter fw = new BufferedWriter(new OutputStreamWriter(
+				new FileOutputStream(rebaseState.getFile(GIT_REBASE_TODO)),
+				Constants.CHARACTER_ENCODING));
+		try {
+			if (headComment != null) {
+				fw.write(headComment);
+				fw.newLine();
+			}
+			for (T step : steps) {
+				if (step == null)
+					continue;
+				fw.append(formatter.getToken(step));
+				fw.append(" "); //$NON-NLS-1$
+				fw.append(formatter.getName(step));
+				fw.append(" "); //$NON-NLS-1$
+				fw.append(formatter.getShortMessage(step));
+				fw.newLine();
+			}
+		} finally {
+			fw.close();
+		}
 	}
 
 	List<Step> loadSteps() throws IOException {
