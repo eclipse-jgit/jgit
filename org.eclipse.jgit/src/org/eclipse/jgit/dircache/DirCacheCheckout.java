@@ -475,7 +475,7 @@ public class DirCacheCheckout {
 	 private void removeEmptyParents(File f) {
 		File parentFile = f.getParentFile();
 
-		while (!parentFile.equals(repo.getWorkTree())) {
+		while (parentFile != null && !parentFile.equals(repo.getWorkTree())) {
 			if (!parentFile.delete())
 				break;
 			parentFile = parentFile.getParentFile();
