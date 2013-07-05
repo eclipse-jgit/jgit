@@ -270,27 +270,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			List<Step> steps = loadSteps();
 			if (isInteractive()) {
 				interactiveHandler.prepareSteps(steps);
-				BufferedWriter fw = new BufferedWriter(new OutputStreamWriter(
-						new FileOutputStream(
-								rebaseState.getFile(GIT_REBASE_TODO)),
-								Constants.CHARACTER_ENCODING));
-				fw.newLine();
-				try {
-					StringBuilder sb = new StringBuilder();
-					for (Step step : steps) {
-						sb.setLength(0);
-						sb.append(step.action.token);
-						sb.append(" "); //$NON-NLS-1$
-						sb.append(step.commit.name());
-						sb.append(" "); //$NON-NLS-1$
-						sb.append(RawParseUtils.decode(step.shortMessage)
-								.trim());
-						fw.write(sb.toString());
-						fw.newLine();
-					}
-				} finally {
-					fw.close();
-				}
+				writeSteps(null, steps);
 			}
 			for (Step step : steps) {
 				popSteps(1);
@@ -661,28 +641,25 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		rebaseState.createFile(ONTO, upstreamCommit.name());
 		rebaseState.createFile(ONTO_NAME, upstreamCommitName);
 		rebaseState.createFile(INTERACTIVE, ""); //$NON-NLS-1$
-		BufferedWriter fw = new BufferedWriter(new OutputStreamWriter(
-				new FileOutputStream(rebaseState.getFile(GIT_REBASE_TODO)),
-				Constants.CHARACTER_ENCODING));
-		fw.write("# Created by EGit: rebasing " + upstreamCommit.name()
-				+ " onto " + headId.name());
-		fw.newLine();
-		try {
-			StringBuilder sb = new StringBuilder();
-			ObjectReader reader = walk.getObjectReader();
-			for (RevCommit commit : cherryPickList) {
-				sb.setLength(0);
-				sb.append(Action.PICK.toToken());
-				sb.append(" "); //$NON-NLS-1$
-				sb.append(reader.abbreviate(commit).name());
-				sb.append(" "); //$NON-NLS-1$
-				sb.append(commit.getShortMessage());
-				fw.write(sb.toString());
-				fw.newLine();
-			}
-		} finally {
-			fw.close();
-		}
+
+		writeSteps("# Created by EGit: rebasing " + upstreamCommit.name()
+				+ " onto " + headId.name(),
+				cherryPickList, new ToDoLineFormatter<RevCommit>() {
+					private ObjectReader reader = walk.getObjectReader();
+
+					public String getToken(RevCommit obj) {
+						return Action.PICK.toToken();
+					}
+
+					public String getName(RevCommit obj) throws IOException {
+						return reader.abbreviate(obj).name();
+					}
+
+					public String getShortMessage(RevCommit obj) {
+						return obj.getShortMessage();
+					}
+
+				});
 
 		monitor.endTask();
 
@@ -894,6 +871,104 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			monitor.endTask();
 		}
 		return true;
+	}
+
+
+	/**
+	 *
+	 * @param <T>
+	 * @since 3.1
+	 */
+	public interface ToDoLineFormatter<T> {
+		/** */
+		public static final ToDoLineFormatter<Step> STEP_FORMATTER = new ToDoLineFormatter<Step>() {
+
+			public String getToken(Step obj) {
+				return obj.action.token;
+			}
+
+			public String getName(Step obj) {
+				return obj.commit.name();
+			}
+
+			public String getShortMessage(Step obj) {
+				return RawParseUtils.decode(obj.shortMessage);
+			}
+		};
+
+		/**
+		 * @param obj
+		 * @return as
+		 * @throws IOException
+		 */
+		String getToken(T obj) throws IOException;
+
+		/**
+		 * @param obj
+		 * @return as
+		 * @throws IOException
+		 */
+		String getName(T obj) throws IOException;
+
+		/**
+		 * @param obj
+		 * @return as
+		 * @throws IOException
+		 */
+		String getShortMessage(T obj) throws IOException;
+	}
+
+	/**
+	 * @param headComment
+	 * @param steps
+	 * @return as
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 * @since 3.1
+	 */
+	public RebaseCommand writeSteps(final String headComment, List<Step> steps)
+			throws FileNotFoundException, IOException {
+		writeSteps(headComment, steps, ToDoLineFormatter.STEP_FORMATTER);
+		return this;
+	}
+
+	/**
+	 * @param <T>
+	 * @param steps
+	 * @param headComment
+	 * @param formatter
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 * @since 3.1
+	 */
+	public <T> void writeSteps(final String headComment, List<T> steps,
+			ToDoLineFormatter<T> formatter) throws
+			FileNotFoundException, IOException {
+		if (formatter == null)
+			throw new IllegalArgumentException(
+					"ToDoLineFormatter must not be null");
+		BufferedWriter fw = new BufferedWriter(new OutputStreamWriter(
+				new FileOutputStream(rebaseState.getFile(GIT_REBASE_TODO)),
+				Constants.CHARACTER_ENCODING));
+		try {
+			if (headComment != null) {
+				fw.write(headComment);
+				fw.newLine();
+			}
+			StringBuilder sb = new StringBuilder();
+			for (T step : steps) {
+				sb.setLength(0);
+				sb.append(formatter.getToken(step));
+				sb.append(" "); //$NON-NLS-1$
+				sb.append(formatter.getName(step));
+				sb.append(" "); //$NON-NLS-1$
+				sb.append(formatter.getShortMessage(step));
+				fw.write(sb.toString());
+				fw.newLine();
+			}
+		} finally {
+			fw.close();
+		}
 	}
 
 	List<Step> loadSteps() throws IOException {
