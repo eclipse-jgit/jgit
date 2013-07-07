@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009, Google Inc.
+ * Copyright (C) 2009, 2013 Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -43,11 +43,11 @@
 
 package org.eclipse.jgit.treewalk.filter;
 
-import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.jgit.dircache.DirCache;
@@ -64,84 +64,64 @@ public class PathSuffixFilterTest extends RepositoryTestCase {
 
 	@Test
 	public void testNonRecursiveFiltering() throws IOException {
-		final ObjectInserter odi = db.newObjectInserter();
-		final ObjectId aSth = odi.insert(OBJ_BLOB, "a.sth".getBytes());
-		final ObjectId aTxt = odi.insert(OBJ_BLOB, "a.txt".getBytes());
-		final DirCache dc = db.readDirCache();
-		final DirCacheBuilder builder = dc.builder();
-		final DirCacheEntry aSthEntry = new DirCacheEntry("a.sth");
-		aSthEntry.setFileMode(FileMode.REGULAR_FILE);
-		aSthEntry.setObjectId(aSth);
-		final DirCacheEntry aTxtEntry = new DirCacheEntry("a.txt");
-		aTxtEntry.setFileMode(FileMode.REGULAR_FILE);
-		aTxtEntry.setObjectId(aTxt);
-		builder.add(aSthEntry);
-		builder.add(aTxtEntry);
-		builder.finish();
-		final ObjectId treeId = dc.writeTree(odi);
-		odi.flush();
+		ObjectId treeId = createTree("a.sth", "a.txt");
 
-
-		final TreeWalk tw = new TreeWalk(db);
-		tw.setFilter(PathSuffixFilter.create(".txt"));
-		tw.addTree(treeId);
-
-		List<String> paths = new LinkedList<String>();
-		while (tw.next()) {
-			paths.add(tw.getPathString());
-		}
-
-		List<String> expected =  new LinkedList<String>();
-		expected.add("a.txt");
+		List<String> paths = getMatchingPaths(".txt", treeId);
+		List<String> expected = Arrays.asList("a.txt");
 
 		assertEquals(expected, paths);
 	}
 
 	@Test
 	public void testRecursiveFiltering() throws IOException {
+		ObjectId treeId = createTree("a.sth", "a.txt", "sub/b.sth", "sub/b.txt");
+
+		List<String> paths = getMatchingPaths(".txt", treeId, true);
+		List<String> expected = Arrays.asList("a.txt", "sub/b.txt");
+
+		assertEquals(expected, paths);
+	}
+
+	@Test
+	public void testEdgeCases() throws IOException {
+		ObjectId treeId = createTree("abc", "abcd", "bcd", "c");
+		assertEquals(new ArrayList<String>(), getMatchingPaths("xbcd", treeId));
+		assertEquals(new ArrayList<String>(), getMatchingPaths("abcx", treeId));
+		assertEquals(Arrays.asList("abcd"), getMatchingPaths("abcd", treeId));
+		assertEquals(Arrays.asList("abcd", "bcd"), getMatchingPaths("bcd", treeId));
+		assertEquals(Arrays.asList("abc", "c"), getMatchingPaths("c", treeId));
+	}
+
+	private ObjectId createTree(String... paths) throws IOException {
 		final ObjectInserter odi = db.newObjectInserter();
-		final ObjectId aSth = odi.insert(OBJ_BLOB, "a.sth".getBytes());
-		final ObjectId aTxt = odi.insert(OBJ_BLOB, "a.txt".getBytes());
-		final ObjectId bSth = odi.insert(OBJ_BLOB, "b.sth".getBytes());
-		final ObjectId bTxt = odi.insert(OBJ_BLOB, "b.txt".getBytes());
 		final DirCache dc = db.readDirCache();
 		final DirCacheBuilder builder = dc.builder();
-		final DirCacheEntry aSthEntry = new DirCacheEntry("a.sth");
-		aSthEntry.setFileMode(FileMode.REGULAR_FILE);
-		aSthEntry.setObjectId(aSth);
-		final DirCacheEntry aTxtEntry = new DirCacheEntry("a.txt");
-		aTxtEntry.setFileMode(FileMode.REGULAR_FILE);
-		aTxtEntry.setObjectId(aTxt);
-		builder.add(aSthEntry);
-		builder.add(aTxtEntry);
-		final DirCacheEntry bSthEntry = new DirCacheEntry("sub/b.sth");
-		bSthEntry.setFileMode(FileMode.REGULAR_FILE);
-		bSthEntry.setObjectId(bSth);
-		final DirCacheEntry bTxtEntry = new DirCacheEntry("sub/b.txt");
-		bTxtEntry.setFileMode(FileMode.REGULAR_FILE);
-		bTxtEntry.setObjectId(bTxt);
-		builder.add(bSthEntry);
-		builder.add(bTxtEntry);
+		for (String path : paths) {
+			DirCacheEntry entry = createEntry(path, FileMode.REGULAR_FILE);
+			builder.add(entry);
+		}
 		builder.finish();
 		final ObjectId treeId = dc.writeTree(odi);
 		odi.flush();
+		return treeId;
+	}
 
+	private List<String> getMatchingPaths(String suffixFilter,
+			final ObjectId treeId) throws IOException {
+		return getMatchingPaths(suffixFilter, treeId, false);
+	}
 
+	private List<String> getMatchingPaths(String suffixFilter,
+			final ObjectId treeId, boolean recursiveWalk) throws IOException {
 		final TreeWalk tw = new TreeWalk(db);
-		tw.setRecursive(true);
-		tw.setFilter(PathSuffixFilter.create(".txt"));
+		tw.setFilter(PathSuffixFilter.create(suffixFilter));
+		tw.setRecursive(recursiveWalk);
 		tw.addTree(treeId);
 
-		List<String> paths = new LinkedList<String>();
-		while (tw.next()) {
+		List<String> paths = new ArrayList<String>();
+		while (tw.next())
 			paths.add(tw.getPathString());
-		}
-
-		List<String> expected =  new LinkedList<String>();
-		expected.add("a.txt");
-		expected.add("sub/b.txt");
-
-		assertEquals(expected, paths);
+		return paths;
 	}
 
 }
