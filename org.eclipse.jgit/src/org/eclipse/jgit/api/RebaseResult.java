@@ -45,6 +45,7 @@ package org.eclipse.jgit.api;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.jgit.api.RebaseCommand.Action;
 import org.eclipse.jgit.merge.ResolveMerger;
 import org.eclipse.jgit.merge.ResolveMerger.MergeFailureReason;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -160,9 +161,25 @@ public class RebaseResult {
 
 	private List<String> conflicts;
 
+	private Action rebaseAction;
+
 	private RebaseResult(Status status) {
 		this.status = status;
 		currentCommit = null;
+	}
+
+	/**
+	 * Create <code>RebaseResult</code> with status {@link Status#STOPPED}
+	 *
+	 * @param commit
+	 *            current commit
+	 * @param action
+	 *            the action that was performed for the current commit
+	 */
+	RebaseResult(RevCommit commit, Action action) {
+		status = Status.STOPPED;
+		currentCommit = commit;
+		rebaseAction = action;
 	}
 
 	/**
@@ -229,5 +246,18 @@ public class RebaseResult {
 	 */
 	public List<String> getConflicts() {
 		return conflicts;
+	}
+
+	/**
+	 * Returns the {@link Action} that was performed and caused an interactive
+	 * rebase to stop.<br>
+	 * This can be used to determine whether a rebase is in interactive mode or
+	 * not.
+	 *
+	 * @return the action that was performed if the rebase is interactive, null
+	 *         otherwise
+	 */
+	public Action getAction() {
+		return rebaseAction;
 	}
 }
