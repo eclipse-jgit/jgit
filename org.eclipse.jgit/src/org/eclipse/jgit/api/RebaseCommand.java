@@ -87,6 +87,7 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.RepositoryState;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
@@ -894,6 +895,21 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			monitor.endTask();
 		}
 		return true;
+	}
+
+	/**
+	 * @return a list of Steps from {@link RebaseCommand#GIT_REBASE_TODO}
+	 * @throws IOException
+	 *             exception occuring when trying to read the file
+	 * @throws WrongRepositoryStateException
+	 *             when not in rebase interactive state
+	 */
+	public List<Step> readSteps() throws IOException,
+			WrongRepositoryStateException {
+		if (repo.getRepositoryState() == RepositoryState.REBASING_INTERACTIVE)
+			return loadSteps();
+		throw new WrongRepositoryStateException(MessageFormat.format(JGitText
+				.get().wrongRepositoryState, repo.getRepositoryState().name()));
 	}
 
 	List<Step> loadSteps() throws IOException {
