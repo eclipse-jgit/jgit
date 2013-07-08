@@ -291,7 +291,10 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 				} finally {
 					fw.close();
 				}
+				if (steps.isEmpty() && !rebaseState.getFile(DONE).exists())
+					return abort(RebaseResult.NOTHING_TO_DO_RESULT);
 			}
+
 			for (Step step : steps) {
 				popSteps(1);
 				Collection<ObjectId> ids = or.resolve(step.commit);
