@@ -835,13 +835,17 @@ public class TreeWalk {
 		final AbstractTreeIterator t = currentHead;
 		final byte[] c = t.path;
 		final int cLen = t.pathLen;
-		int ci;
 
-		for (ci = 1; ci < cLen && ci < pLen; ci++) {
-			if (c[cLen-ci] != p[pLen-ci])
+		for (int i = 1; i <= pLen; i++) {
+			// Pattern longer than current path
+			if (i > cLen)
+				return false;
+			// Current path doesn't match pattern
+			if (c[cLen - i] != p[pLen - i])
 				return false;
 		}
 
+		// Whole pattern tested -> matches
 		return true;
 	}
 
