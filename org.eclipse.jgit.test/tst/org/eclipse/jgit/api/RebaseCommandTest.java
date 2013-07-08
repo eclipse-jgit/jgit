@@ -1652,6 +1652,46 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		assertEquals("edited commit message", actualCommitMag);
 	}
 
+	@Test
+	public void testNothingToDoResult() throws Exception {
+		// create file1 on master
+		writeTrashFile(FILE1, FILE1);
+		git.add().addFilepattern(FILE1).call();
+		git.commit().setMessage("Add file1").call();
+		assertTrue(new File(db.getWorkTree(), FILE1).exists());
+
+		// create file2 on master
+		writeTrashFile("file2", "file2");
+		git.add().addFilepattern("file2").call();
+		git.commit().setMessage("Add file2").call();
+		assertTrue(new File(db.getWorkTree(), "file2").exists());
+
+		// update FILE1 on master
+		writeTrashFile(FILE1, "blah");
+		git.add().addFilepattern(FILE1).call();
+		git.commit().setMessage("updated file1 on master").call();
+
+		writeTrashFile("file2", "more change");
+		git.add().addFilepattern("file2").call();
+		git.commit().setMessage("update file2 on side").call();
+
+		RebaseResult res = git.rebase().setUpstream("HEAD~2")
+				.runInteractively(new InteractiveHandler() {
+					public void prepareSteps(List<Step> steps) {
+						steps.clear();
+					}
+
+					public String modifyCommitMessage(String commit) {
+						return ""; // not used
+					}
+				}).call();
+		assertEquals(Status.NOTHING_TO_DO, res.getStatus());
+		assertEquals(RepositoryState.SAFE, db.getRepositoryState());
+
+		// rebase- dir in .git must be deleted
+		assertFalse(new File(db.getDirectory(), "rebase-merge").exists());
+	}
+
 	private File getTodoFile() {
 		File todoFile = new File(db.getDirectory(),
 				"rebase-merge/git-rebase-todo");
