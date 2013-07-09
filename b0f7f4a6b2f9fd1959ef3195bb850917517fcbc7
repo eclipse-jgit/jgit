@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "073dc3ed_42025481",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-07-09T14:31:51Z",
+      "side": 1,
+      "message": "could we disallow to add null elements instead ?",
+      "revId": "b0f7f4a6b2f9fd1959ef3195bb850917517fcbc7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
