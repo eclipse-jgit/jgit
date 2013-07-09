@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "073dc3ed_828e1c8a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-07-09T14:31:15Z",
+      "side": 1,
+      "message": "s/added/Add/",
+      "revId": "f1132f3693e194dbb26190cadeca59ddf4c2dd33",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "073dc3ed_4294149a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-07-09T14:31:15Z",
+      "side": 1,
+      "message": "s/if and only if no steps has/if no steps have/",
+      "revId": "f1132f3693e194dbb26190cadeca59ddf4c2dd33",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "073dc3ed_229910d2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-07-09T14:31:15Z",
+      "side": 1,
+      "message": "s/List of Steps/list of steps/",
+      "revId": "f1132f3693e194dbb26190cadeca59ddf4c2dd33",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "073dc3ed_629318b0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-07-09T14:31:15Z",
+      "side": 1,
+      "message": "I don\u0027t see a need to refer to CGit here",
+      "revId": "f1132f3693e194dbb26190cadeca59ddf4c2dd33",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "073dc3ed_a2f2400b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseResult.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-07-09T14:31:15Z",
+      "side": 1,
+      "message": "remove generated comment",
+      "revId": "f1132f3693e194dbb26190cadeca59ddf4c2dd33",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
