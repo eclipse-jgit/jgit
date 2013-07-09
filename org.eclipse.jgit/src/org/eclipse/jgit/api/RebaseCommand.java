@@ -278,6 +278,8 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 				try {
 					StringBuilder sb = new StringBuilder();
 					for (Step step : steps) {
+						if (step == null)
+							continue;
 						sb.setLength(0);
 						sb.append(step.action.token);
 						sb.append(" "); //$NON-NLS-1$
@@ -293,6 +295,12 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 				}
 			}
 			for (Step step : steps) {
+				if (step == null) {
+					// we retrieved a null element from the list. this should
+					// only happen if a user added a null elements to the list
+					// in prepareSteps() so we skip it
+					continue;
+				}
 				popSteps(1);
 				Collection<ObjectId> ids = or.resolve(step.commit);
 				if (ids.size() != 1)
