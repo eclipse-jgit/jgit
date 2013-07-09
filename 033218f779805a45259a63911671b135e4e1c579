@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "073dc3ed_22075091",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-07-09T14:34:26Z",
+      "side": 1,
+      "message": "I wouldn\u0027t expose the concrete implementation (LinkedList) here. Rather I would say\n\n  Queue\u003cStep\u003e steps \u003d loadSteps()\n\nAll the methods you call on \"steps\" are in the Queue interface.",
+      "revId": "033218f779805a45259a63911671b135e4e1c579",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "073dc3ed_c2f5c4f7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 903,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-07-09T14:34:26Z",
+      "side": 1,
+      "message": "should be \n\n\tQueue\u003cStep\u003e loadSteps() throws IOException {",
+      "revId": "033218f779805a45259a63911671b135e4e1c579",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "073dc3ed_e2c728a8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 907,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-07-09T14:34:26Z",
+      "side": 1,
+      "message": "should be \n\t\tQueue\u003cStep\u003e r \u003d new LinkedList\u003cStep\u003e();",
+      "revId": "033218f779805a45259a63911671b135e4e1c579",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
