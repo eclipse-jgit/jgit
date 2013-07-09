@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "073dc3ed_c5c4ae8a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-07-09T14:39:54Z",
+      "side": 1,
+      "message": "no need to mention here that the method is public, this is obvious from the diff, better:\n\nAllow to get list of rebase steps from RebaseCommand",
+      "revId": "901498e409450b3821c133374ac1641185961b2f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "073dc3ed_a5c1aa78",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 903,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-07-09T14:39:54Z",
+      "side": 1,
+      "message": "s/try/trying/",
+      "revId": "901498e409450b3821c133374ac1641185961b2f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "073dc3ed_05cfb6a4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 905,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-07-09T14:39:54Z",
+      "side": 1,
+      "message": "s/in in/in/",
+      "revId": "901498e409450b3821c133374ac1641185961b2f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "073dc3ed_45037e4c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 912,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-07-09T14:39:54Z",
+      "side": 1,
+      "message": "externalize error message",
+      "revId": "901498e409450b3821c133374ac1641185961b2f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
