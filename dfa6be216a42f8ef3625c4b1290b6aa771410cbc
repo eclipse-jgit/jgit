@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "073dc3ed_e5461275",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-07-09T14:49:44Z",
+      "side": 1,
+      "message": "start header with an uppercase letter\n\nuse present tense\n\ntry to find a better description of what this change is about",
+      "revId": "dfa6be216a42f8ef3625c4b1290b6aa771410cbc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "073dc3ed_051856a7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1042,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-07-09T14:49:44Z",
+      "side": 1,
+      "message": "use a single \u003cp\u003e tag instead of 2 \u003cbr\u003e ?",
+      "revId": "dfa6be216a42f8ef3625c4b1290b6aa771410cbc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "073dc3ed_850d8679",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1045,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-07-09T14:49:44Z",
+      "side": 1,
+      "message": "javadoc link to the other method ?",
+      "revId": "dfa6be216a42f8ef3625c4b1290b6aa771410cbc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "073dc3ed_a51a4aa0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1060,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-07-09T14:49:44Z",
+      "side": 1,
+      "message": "style nit: trailing whitespace",
+      "revId": "dfa6be216a42f8ef3625c4b1290b6aa771410cbc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "073dc3ed_e5145275",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseResult.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-07-09T14:49:44Z",
+      "side": 1,
+      "message": "remove generated comment",
+      "revId": "dfa6be216a42f8ef3625c4b1290b6aa771410cbc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "073dc3ed_45553e25",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseResult.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-07-09T14:49:44Z",
+      "side": 1,
+      "message": "why is this unsuccessful ?",
+      "revId": "dfa6be216a42f8ef3625c4b1290b6aa771410cbc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
