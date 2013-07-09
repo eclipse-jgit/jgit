@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "073dc3ed_e578d29d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 877,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-07-09T14:57:13Z",
+      "side": 1,
+      "message": "first I thought it\u0027s overkill to introduce a Formatter interface here. Why don\u0027t we simply always work with Steps. But now I see that this helps when writing the steps from a list of RevCommits. Nice idea.",
+      "revId": "980fdefe0f326ab03bec2b47364518a924cb891d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "073dc3ed_22847062",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
         "patchSetId": 2
@@ -98,6 +115,23 @@
       "writtenOn": "2013-07-09T14:36:28Z",
       "side": 1,
       "message": "externalize error message",
+      "revId": "980fdefe0f326ab03bec2b47364518a924cb891d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "073dc3ed_c51dce9c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 933,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-07-09T14:57:13Z",
+      "side": 1,
+      "message": "simply remove sb and in the change the body of the for loop to\n\n\t\t\t\tif (step \u003d\u003d null)\n\t\t\t\t\tcontinue;\n\t\t\t\tfw.write(formatter.getToken(step));\n\t\t\t\tfw.write(\" \"); //$NON-NLS-1$\n\t\t\t\tfw.write(formatter.getName(step));\n\t\t\t\tfw.write(\" \"); //$NON-NLS-1$\n\t\t\t\tfw.write(formatter.getShortMessage(step));\n\t\t\t\tfw.newLine();\n\nYou don\u0027t need to pre-buffer in a String when writing to an BufferedWriter",
       "revId": "980fdefe0f326ab03bec2b47364518a924cb891d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
