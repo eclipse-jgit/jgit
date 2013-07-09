@@ -57,6 +57,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -267,7 +268,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 
 			ObjectReader or = repo.newObjectReader();
 
-			List<Step> steps = loadSteps();
+			LinkedList<Step> steps = loadSteps();
 			if (isInteractive()) {
 				interactiveHandler.prepareSteps(steps);
 				BufferedWriter fw = new BufferedWriter(new OutputStreamWriter(
@@ -292,7 +293,10 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 					fw.close();
 				}
 			}
-			for (Step step : steps) {
+			// reload steps after each iteration, may have been altered (e.g.
+			// git rebase --edit-todo)
+			for (; !steps.isEmpty(); steps = loadSteps()) {
+				Step step = steps.poll();
 				popSteps(1);
 				Collection<ObjectId> ids = or.resolve(step.commit);
 				if (ids.size() != 1)
@@ -896,11 +900,11 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		return true;
 	}
 
-	List<Step> loadSteps() throws IOException {
+	LinkedList<Step> loadSteps() throws IOException {
 		byte[] buf = IO.readFully(rebaseState.getFile(GIT_REBASE_TODO));
 		int ptr = 0;
 		int tokenBegin = 0;
-		ArrayList<Step> r = new ArrayList<Step>();
+		LinkedList<Step> r = new LinkedList<Step>();
 		while (ptr < buf.length) {
 			tokenBegin = ptr;
 			ptr = RawParseUtils.nextLF(buf, ptr);
