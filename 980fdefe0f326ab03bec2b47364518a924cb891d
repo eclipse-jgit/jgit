@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "073dc3ed_22847062",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 902,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-07-09T14:36:28Z",
+      "side": 1,
+      "message": "s/List of Steps to File/list of steps to the file/",
+      "revId": "980fdefe0f326ab03bec2b47364518a924cb891d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "073dc3ed_8289fc7c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 903,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-07-09T14:36:28Z",
+      "side": 1,
+      "message": "s/and only if//",
+      "revId": "980fdefe0f326ab03bec2b47364518a924cb891d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "073dc3ed_e223a82f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 904,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-07-09T14:36:28Z",
+      "side": 1,
+      "message": "style nit: trailing whitespace",
+      "revId": "980fdefe0f326ab03bec2b47364518a924cb891d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "073dc3ed_22359061",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 906,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-07-09T14:36:28Z",
+      "side": 1,
+      "message": "s/List Step/Step List/\n\ns/Steps to persisted/steps to be persisted/",
+      "revId": "980fdefe0f326ab03bec2b47364518a924cb891d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "073dc3ed_25b63a26",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 916,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-07-09T14:36:28Z",
+      "side": 1,
+      "message": "externalize error message",
+      "revId": "980fdefe0f326ab03bec2b47364518a924cb891d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "073dc3ed_85bbc60c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 924,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-07-09T14:36:28Z",
+      "side": 1,
+      "message": "externalize error message",
+      "revId": "980fdefe0f326ab03bec2b47364518a924cb891d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
