@@ -67,6 +67,23 @@
       "revId": "901498e409450b3821c133374ac1641185961b2f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "073dc3ed_05921628",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 915,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-07-09T15:14:43Z",
+      "side": 1,
+      "message": "In another change I will move RebaseCommand.loadSteps() to Repository.readGitRebaseTodo(). It seems to me more common practice to have methods which read files in the .git directory in the Repository class. As an example see Repository.readMergeCommitMsg(), Repository.readMergeHeads(), ...\n\nWe should not spread the knowledge about how a certain git repository reads/writes standard files (files which also cgit knows about) to much in our code. Ideally only the Repository knows how to read write such data structures. This helps when you think about other Repository implementations which don\u0027t read/write everything into/from a filesystem.",
+      "revId": "901498e409450b3821c133374ac1641185961b2f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
