@@ -85,16 +85,16 @@ public class FSJava7Test {
 	@Test
 	public void testSymlinkAttributes() throws IOException, InterruptedException {
 		FS fs = FS.DETECTED;
-		File link = new File(trash, "x");
-		File target = new File(trash, "y");
-		fs.createSymLink(link, "y");
+		File link = new File(trash, "ä");
+		File target = new File(trash, "å");
+		fs.createSymLink(link, "å");
 		assertTrue(fs.exists(link));
 		String targetName = fs.readSymLink(link);
-		assertEquals("y", targetName);
+		assertEquals("å", targetName);
 		assertTrue(fs.lastModified(link) > 0);
 		assertTrue(fs.exists(link));
 		assertFalse(fs.canExecute(link));
-		assertEquals(1, fs.length(link));
+		assertEquals(2, fs.length(link));
 		assertFalse(fs.exists(target));
 		assertFalse(fs.isFile(target));
 		assertFalse(fs.isDirectory(target));
