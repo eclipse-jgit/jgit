@@ -63,31 +63,14 @@ class FileUtil {
 
 	static class Java7PosixAttributes extends Attributes {
 
-		private Path path;
-
-		Java7PosixAttributes(FS fs, File fPath,
-				Path pPath,
+		Java7PosixAttributes(FS fs, File fPath, Path pPath,
 				boolean exists,
 				boolean isDirectory,
 				boolean isExecutable,
 				boolean isSymbolicLink, boolean isRegularFile,
-				long creationTime, long lastModifiedTime) {
+				long creationTime, long lastModifiedTime, long length) {
 			super(fs, fPath, exists, isDirectory, isExecutable, isSymbolicLink,
-					isRegularFile,
-					creationTime, lastModifiedTime);
-			this.path = pPath;
-		}
-
-		@Override
-		public long getLength() {
-			if (length == -1) {
-				try {
-					length = Files.size(path);
-				} catch (IOException e) {
-					length = 0;
-				}
-			}
-			return length;
+					isRegularFile, creationTime, lastModifiedTime, length);
 		}
 	}
 
@@ -196,11 +179,12 @@ class FileUtil {
 					readAttributes.isSymbolicLink(),
 					readAttributes.isRegularFile(), readAttributes
 							.creationTime().toMillis(), readAttributes
-							.lastModifiedTime().toMillis());
+							.lastModifiedTime().toMillis(),
+					readAttributes.size());
 			return attributes;
 		} catch (NoSuchFileException e) {
-			return new FileUtil.Java7PosixAttributes(fs, path, null, false, false,
-					false, false, false, 0L, 0L);
+			return new FileUtil.Java7PosixAttributes(fs, path, null, false,
+					false, false, false, false, 0L, 0L, 0L);
 		} catch (IOException e) {
 			return new Attributes(path, fs);
 		}
