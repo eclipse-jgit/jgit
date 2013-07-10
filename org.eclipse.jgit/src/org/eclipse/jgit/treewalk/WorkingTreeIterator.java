@@ -67,6 +67,7 @@ import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.errors.CorruptObjectException;
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.ignore.IgnoreNode;
 import org.eclipse.jgit.ignore.IgnoreRule;
@@ -76,11 +77,13 @@ import org.eclipse.jgit.lib.CoreConfig;
 import org.eclipse.jgit.lib.CoreConfig.SymLinks;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.CoreConfig.CheckStat;
 import org.eclipse.jgit.submodule.SubmoduleWalk;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.IO;
+import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.io.EolCanonicalizingInputStream;
 
 /**
@@ -824,6 +827,8 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		case EQUAL:
 			return false;
 		case DIFFER_BY_METADATA:
+			if (mode == FileMode.SYMLINK.getBits())
+				return contentCheck(entry);
 			return true;
 		default:
 			throw new IllegalStateException(MessageFormat.format(
@@ -883,9 +888,27 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 
 			return false;
 		} else {
+			if (mode == FileMode.SYMLINK.getBits())
+				return !new File(readContentAsString(current()))
+						.equals(new File(readContentAsString(entry)));
 			// Content differs: that's a real change!
 			return true;
 		}
+	}
+
+	private String readContentAsString(DirCacheEntry entry)
+			throws MissingObjectException, IOException {
+		ObjectLoader open = repository.open(entry.getObjectId());
+		byte[] cachedBytes = open.getCachedBytes();
+		return RawParseUtils.decode(cachedBytes);
+	}
+
+	private static String readContentAsString(Entry entry) throws IOException {
+		long length = entry.getLength();
+		byte[] content = new byte[(int) length];
+		InputStream is = entry.openInputStream();
+		IO.readFully(is, content, 0, (int) length);
+		return RawParseUtils.decode(content);
 	}
 
 	private long computeLength(InputStream in) throws IOException {
