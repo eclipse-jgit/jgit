@@ -921,8 +921,9 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 			return false;
 		} else {
 			if (mode == FileMode.SYMLINK.getBits())
-				return !new File(readContentAsString(current()))
-						.equals(new File(readContentAsString(entry)));
+				return !new File(FS.detect().normalize(
+						readContentAsString(current()))).equals(new File((FS
+						.detect().normalize(readContentAsString(entry)))));
 			// Content differs: that's a real change, perhaps
 			if (reader == null) // deprecated use, do no further checks
 				return true;
