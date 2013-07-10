@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "073dc3ed_9712cf91",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-07-10T14:03:52Z",
+      "side": 1,
+      "message": "s/for for/for/",
+      "revId": "174e32127c9be260347550fa3260c4b5b86c9c09",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "073dc3ed_b70d5379",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-07-10T14:03:52Z",
+      "side": 1,
+      "message": "I think this sentence doesn\u0027t add value to the commit message",
+      "revId": "174e32127c9be260347550fa3260c4b5b86c9c09",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "073dc3ed_57084767",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-07-10T14:03:52Z",
+      "side": 1,
+      "message": "we usually put bug references at the top of the footers",
+      "revId": "174e32127c9be260347550fa3260c4b5b86c9c09",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "073dc3ed_f7c4fb89",
+        "filename": "org.eclipse.jgit.java7.test/src/org/eclipse/jgit/lib/DirCacheCheckoutTestWithSymlinks.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-07-10T14:03:52Z",
+      "side": 1,
+      "message": "style nit: we put the license header at the top of the file",
+      "revId": "174e32127c9be260347550fa3260c4b5b86c9c09",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "073dc3ed_d7c1f777",
+        "filename": "org.eclipse.jgit.java7.test/src/org/eclipse/jgit/lib/DirCacheCheckoutTestWithSymlinks.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-07-10T14:03:52Z",
+      "side": 1,
+      "message": "s/with where/where/",
+      "revId": "174e32127c9be260347550fa3260c4b5b86c9c09",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "073dc3ed_17ccffac",
+        "filename": "org.eclipse.jgit.java7.test/src/org/eclipse/jgit/lib/DirCacheCheckoutTestWithSymlinks.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-07-10T14:03:52Z",
+      "side": 1,
+      "message": "why not fix teardown instead ?",
+      "revId": "174e32127c9be260347550fa3260c4b5b86c9c09",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
