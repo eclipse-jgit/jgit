@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "073dc3ed_9e502cdd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-07-10T08:14:18Z",
+      "side": 1,
+      "message": "add a reference to Bug: 412489",
+      "revId": "9b76e29b6fffbaa5fc45929d0290c5ed613627fe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
