@@ -49,6 +49,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -89,6 +90,8 @@ import org.eclipse.jgit.util.io.TimeoutOutputStream;
  * Implements the server side of a fetch connection, transmitting objects.
  */
 public class UploadPack {
+	static final String OPTION_ALLOW_TIP_SHA1_IN_WANT = BasePackFetchConnection.OPTION_ALLOW_TIP_SHA1_IN_WANT;
+
 	static final String OPTION_INCLUDE_TAG = BasePackFetchConnection.OPTION_INCLUDE_TAG;
 
 	static final String OPTION_MULTI_ACK = BasePackFetchConnection.OPTION_MULTI_ACK;
@@ -113,10 +116,53 @@ public class UploadPack {
 	public static enum RequestPolicy {
 		/** Client may only ask for objects the server advertised a reference for. */
 		ADVERTISED,
-		/** Client may ask for any commit reachable from a reference. */
+
+		/**
+		 * Client may ask for any commit reachable from a reference advertised by
+		 * the server.
+		 */
 		REACHABLE_COMMIT,
+
+		/**
+		 * Client may ask for objects that are the tip of any reference, even if not
+		 * advertised.
+		 * <p>
+		 * This may happen, for example, when a custom {@link RefFilter} is set.
+		 */
+		TIP,
+
+		/**
+		 * Client may ask for any commit reachable from any reference, even if that
+		 * reference wasn't advertised.
+		 */
+		REACHABLE_COMMIT_TIP,
+
 		/** Client may ask for any SHA-1 in the repository. */
 		ANY;
+	}
+
+	/**
+	 * Validator for client requests.
+	 *
+	 * @since 3.1
+	 */
+	public interface RequestValidator {
+		/**
+		 * Check a list of client wants against the request policy.
+		 *
+		 * @param up
+		 *            {@link UploadPack} instance.
+		 * @param wants
+		 *            objects the client requested that were not advertised.
+		 *
+		 * @throws PackProtocolException
+		 *            if one or more wants is not valid.
+		 * @throws IOException
+		 *            if a low-level exception occurred.
+		 * @since 3.1
+		 */
+		void checkWants(UploadPack up, List<RevObject> wants)
+				throws PackProtocolException, IOException;
 	}
 
 	/** Data in the first line of a request, the line itself plus options. */
@@ -165,6 +211,9 @@ public class UploadPack {
 
 	/** Configuration to pass into the PackWriter. */
 	private PackConfig packConfig;
+
+	/** Configuration for various transfer options. */
+	private TransferConfig transferConfig;
 
 	/** Timeout in seconds to wait for client interaction. */
 	private int timeout;
@@ -253,7 +302,7 @@ public class UploadPack {
 
 	private final RevFlagSet SAVE;
 
-	private RequestPolicy requestPolicy = RequestPolicy.ADVERTISED;
+	private RequestValidator requestValidator = new AdvertisedRequestValidator();
 
 	private MultiAck multiAck = MultiAck.OFF;
 
@@ -285,6 +334,8 @@ public class UploadPack {
 		SAVE.add(PEER_HAS);
 		SAVE.add(COMMON);
 		SAVE.add(SATISFIED);
+
+		setTransferConfig(null);
 	}
 
 	/** @return the repository this upload is reading from. */
@@ -324,7 +375,10 @@ public class UploadPack {
 			refs = allRefs;
 		else
 			refs = db.getAllRefs();
-		refs = refFilter.filter(refs);
+		if (refFilter == RefFilter.DEFAULT)
+			refs = transferConfig.getRefFilter().filter(refs);
+		else
+			refs = refFilter.filter(refs);
 	}
 
 	/** @return timeout (in seconds) before aborting an IO operation. */
@@ -363,13 +417,24 @@ public class UploadPack {
 	 */
 	public void setBiDirectionalPipe(final boolean twoWay) {
 		biDirectionalPipe = twoWay;
-		if (!biDirectionalPipe && requestPolicy == RequestPolicy.ADVERTISED)
-			requestPolicy = RequestPolicy.REACHABLE_COMMIT;
 	}
 
-	/** @return policy used by the service to validate client requests. */
+	/**
+	 * @return policy used by the service to validate client requests, or null for
+	 *         a custom request validator.
+	 */
 	public RequestPolicy getRequestPolicy() {
-		return requestPolicy;
+		if (requestValidator instanceof AdvertisedRequestValidator)
+			return RequestPolicy.ADVERTISED;
+		if (requestValidator instanceof ReachableCommitRequestValidator)
+			return RequestPolicy.REACHABLE_COMMIT;
+		if (requestValidator instanceof TipRequestValidator)
+			return RequestPolicy.TIP;
+		if (requestValidator instanceof ReachableCommitTipRequestValidator)
+			return RequestPolicy.REACHABLE_COMMIT_TIP;
+		if (requestValidator instanceof AnyRequestValidator)
+			return RequestPolicy.ANY;
+		return null;
 	}
 
 	/**
@@ -378,11 +443,40 @@ public class UploadPack {
 	 *            By default the policy is {@link RequestPolicy#ADVERTISED},
 	 *            which is the Git default requiring clients to only ask for an
 	 *            object that a reference directly points to. This may be relaxed
-	 *            to {@link RequestPolicy#REACHABLE_COMMIT} when callers
-	 *            have {@link #setBiDirectionalPipe(boolean)} set to false.
+	 *            to {@link RequestPolicy#REACHABLE_COMMIT} or
+	 *            {@link RequestPolicy#REACHABLE_COMMIT_TIP} when callers have
+	 *            {@link #setBiDirectionalPipe(boolean)} set to false.
+	 *            Overrides any policy specified in a {@link TransferConfig}.
 	 */
 	public void setRequestPolicy(RequestPolicy policy) {
-		requestPolicy = policy != null ? policy : RequestPolicy.ADVERTISED;
+		switch (policy) {
+			case ADVERTISED:
+			default:
+				requestValidator = new AdvertisedRequestValidator();
+				break;
+			case REACHABLE_COMMIT:
+				requestValidator = new ReachableCommitRequestValidator();
+				break;
+			case TIP:
+				requestValidator = new TipRequestValidator();
+				break;
+			case REACHABLE_COMMIT_TIP:
+				requestValidator = new ReachableCommitTipRequestValidator();
+				break;
+			case ANY:
+				requestValidator = new AnyRequestValidator();
+				break;
+		}
+	}
+
+	/**
+	 * @param validator
+	 *            custom validator for client want list.
+	 * @since 3.1
+	 */
+	public void setRequestValidator(RequestValidator validator) {
+		requestValidator = validator != null ? validator
+				: new AdvertisedRequestValidator();
 	}
 
 	/** @return the hook used while advertising the refs to the client */
@@ -417,7 +511,8 @@ public class UploadPack {
 	 * <p>
 	 * Only refs allowed by this filter will be sent to the client.
 	 * The filter is run against the refs specified by the
-	 * {@link AdvertiseRefsHook} (if applicable).
+	 * {@link AdvertiseRefsHook} (if applicable). If null or not set, uses the
+	 * filter implied by the {@link TransferConfig}.
 	 *
 	 * @param refFilter
 	 *            the filter; may be null to show all refs.
@@ -450,6 +545,17 @@ public class UploadPack {
 	 */
 	public void setPackConfig(PackConfig pc) {
 		this.packConfig = pc;
+	}
+
+	/**
+	 * @param tc
+	 *            configuration controlling transfer options. If null the source
+	 *            repository's settings will be used.
+	 */
+	public void setTransferConfig(TransferConfig tc) {
+		this.transferConfig = tc != null ? tc : new TransferConfig(db);
+		setRequestPolicy(transferConfig.isAllowTipSha1InWant()
+				? RequestPolicy.TIP : RequestPolicy.ADVERTISED);
 	}
 
 	/** @return the configured logger. */
@@ -558,15 +664,10 @@ public class UploadPack {
 	private void service() throws IOException {
 		if (biDirectionalPipe)
 			sendAdvertisedRefs(new PacketLineOutRefAdvertiser(pckOut));
-		else if (requestPolicy == RequestPolicy.ANY)
+		else if (requestValidator instanceof AnyRequestValidator)
 			advertised = Collections.emptySet();
-		else {
-			advertised = new HashSet<ObjectId>();
-			for (Ref ref : getAdvertisedOrDefaultRefs().values()) {
-				if (ref.getObjectId() != null)
-					advertised.add(ref.getObjectId());
-			}
-		}
+		else
+			advertised = refIdSet(getAdvertisedOrDefaultRefs().values());
 
 		boolean sendPack;
 		try {
@@ -616,6 +717,15 @@ public class UploadPack {
 
 		if (sendPack)
 			sendPack();
+	}
+
+	private static Set<ObjectId> refIdSet(Collection<Ref> refs) {
+		Set<ObjectId> ids = new HashSet<ObjectId>(refs.size());
+		for (Ref ref : refs) {
+			if (ref.getObjectId() != null)
+				ids.add(ref.getObjectId());
+		}
+		return ids;
 	}
 
 	private void reportErrorDuringNegotiate(String msg) {
@@ -693,6 +803,11 @@ public class UploadPack {
 		adv.advertiseCapability(OPTION_SHALLOW);
 		if (!biDirectionalPipe)
 			adv.advertiseCapability(OPTION_NO_DONE);
+		RequestPolicy policy = getRequestPolicy();
+		if (policy == RequestPolicy.TIP
+				|| policy == RequestPolicy.REACHABLE_COMMIT_TIP
+				|| policy == null)
+			adv.advertiseCapability(OPTION_ALLOW_TIP_SHA1_IN_WANT);
 		adv.setDerefTags(true);
 		advertised = adv.send(getAdvertisedOrDefaultRefs());
 		adv.end();
@@ -921,27 +1036,13 @@ public class UploadPack {
 	private void parseWants() throws IOException {
 		AsyncRevObjectQueue q = walk.parseAny(wantIds, true);
 		try {
-			List<RevCommit> checkReachable = null;
+			List<RevObject> notAdvertisedWants = null;
 			RevObject obj;
 			while ((obj = q.next()) != null) {
 				if (!advertised.contains(obj)) {
-					switch (requestPolicy) {
-					case ADVERTISED:
-					default:
-						throw new PackProtocolException(MessageFormat.format(
-								JGitText.get().wantNotValid, obj));
-					case REACHABLE_COMMIT:
-						if (!(obj instanceof RevCommit)) {
-							throw new PackProtocolException(MessageFormat.format(
-								JGitText.get().wantNotValid, obj));
-						}
-						if (checkReachable == null)
-							checkReachable = new ArrayList<RevCommit>();
-						checkReachable.add((RevCommit) obj);
-						break;
-					case ANY:
-						break;
-					}
+					if (notAdvertisedWants == null)
+						notAdvertisedWants = new ArrayList<RevObject>();
+					notAdvertisedWants.add(obj);
 				}
 				want(obj);
 
@@ -953,8 +1054,8 @@ public class UploadPack {
 						want(obj);
 				}
 			}
-			if (checkReachable != null)
-				checkNotAdvertisedWants(checkReachable);
+			if (notAdvertisedWants != null)
+				requestValidator.checkWants(this, notAdvertisedWants);
 			wantIds.clear();
 		} catch (MissingObjectException notFound) {
 			ObjectId id = notFound.getObjectId();
@@ -972,17 +1073,101 @@ public class UploadPack {
 		}
 	}
 
-	private void checkNotAdvertisedWants(List<RevCommit> notAdvertisedWants)
-			throws MissingObjectException, IncorrectObjectTypeException, IOException {
-		// Walk the requested commits back to the advertised commits.
-		// If any commit exists, a branch was deleted or rewound and
-		// the repository owner no longer exports that requested item.
-		// If the requested commit is merged into an advertised branch
-		// it will be marked UNINTERESTING and no commits return.
+	/**
+	 * Validator corresponding to {@link RequestPolicy#ADVERTISED}.
+	 *
+	 * @since 3.1
+	 */
+	public static final class AdvertisedRequestValidator
+			implements RequestValidator {
+		public void checkWants(UploadPack up, List<RevObject> wants)
+				throws PackProtocolException, IOException {
+			if (!up.isBiDirectionalPipe())
+				new ReachableCommitRequestValidator().checkWants(up, wants);
+			else if (!wants.isEmpty())
+				throw new PackProtocolException(MessageFormat.format(
+						JGitText.get().wantNotValid, wants.iterator().next().name()));
+		}
+	}
 
-		for (RevCommit c : notAdvertisedWants)
-			walk.markStart(c);
-		for (ObjectId id : advertised) {
+	/**
+	 * Validator corresponding to {@link RequestPolicy#REACHABLE_COMMIT}.
+	 *
+	 * @since 3.1
+	 */
+	public static final class ReachableCommitRequestValidator
+			implements RequestValidator {
+		public void checkWants(UploadPack up, List<RevObject> wants)
+				throws PackProtocolException, IOException {
+			checkNotAdvertisedWants(up.getRevWalk(), wants,
+					refIdSet(up.getAdvertisedRefs().values()));
+		}
+	}
+
+	/**
+	 * Validator corresponding to {@link RequestPolicy#TIP}.
+	 *
+	 * @since 3.1
+	 */
+	public static final class TipRequestValidator implements RequestValidator {
+		public void checkWants(UploadPack up, List<RevObject> wants)
+				throws PackProtocolException, IOException {
+			if (!up.isBiDirectionalPipe())
+				new ReachableCommitTipRequestValidator().checkWants(up, wants);
+			else if (!wants.isEmpty()) {
+				Set<ObjectId> refIds =
+					refIdSet(up.getRepository().getAllRefs().values());
+				for (RevObject obj : wants) {
+					if (!refIds.contains(obj))
+						throw new PackProtocolException(MessageFormat.format(
+								JGitText.get().wantNotValid, obj.name()));
+				}
+			}
+		}
+	}
+
+	/**
+	 * Validator corresponding to {@link RequestPolicy#REACHABLE_COMMIT_TIP}.
+	 *
+	 * @since 3.1
+	 */
+	public static final class ReachableCommitTipRequestValidator
+			implements RequestValidator {
+		public void checkWants(UploadPack up, List<RevObject> wants)
+				throws PackProtocolException, IOException {
+			checkNotAdvertisedWants(up.getRevWalk(), wants,
+					refIdSet(up.getRepository().getAllRefs().values()));
+		}
+	}
+
+	/**
+	 * Validator corresponding to {@link RequestPolicy#ANY}.
+	 *
+	 * @since 3.1
+	 */
+	public static final class AnyRequestValidator implements RequestValidator {
+		public void checkWants(UploadPack up, List<RevObject> wants)
+				throws PackProtocolException, IOException {
+			// All requests are valid.
+		}
+	}
+
+	private static void checkNotAdvertisedWants(RevWalk walk,
+			List<RevObject> notAdvertisedWants, Set<ObjectId> reachableFrom)
+			throws MissingObjectException, IncorrectObjectTypeException, IOException {
+		// Walk the requested commits back to the provided set of commits. If any
+		// commit exists, a branch was deleted or rewound and the repository owner
+		// no longer exports that requested item. If the requested commit is merged
+		// into an advertised branch it will be marked UNINTERESTING and no commits
+		// return.
+
+		for (RevObject obj : notAdvertisedWants) {
+			if (!(obj instanceof RevCommit))
+				throw new PackProtocolException(MessageFormat.format(
+					JGitText.get().wantNotValid, obj.name()));
+			walk.markStart((RevCommit) obj);
+		}
+		for (ObjectId id : reachableFrom) {
 			try {
 				walk.markUninteresting(walk.parseCommit(id));
 			} catch (IncorrectObjectTypeException notCommit) {
