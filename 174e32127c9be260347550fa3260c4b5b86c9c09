@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "073dc3ed_57ede782",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-07-10T15:58:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "073dc3ed_9712cf91",
+      "revId": "174e32127c9be260347550fa3260c4b5b86c9c09",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "073dc3ed_b70d5379",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-07-10T14:03:52Z",
       "side": 1,
       "message": "I think this sentence doesn\u0027t add value to the commit message",
+      "revId": "174e32127c9be260347550fa3260c4b5b86c9c09",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "073dc3ed_b7e27390",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-07-10T15:58:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "073dc3ed_b70d5379",
       "revId": "174e32127c9be260347550fa3260c4b5b86c9c09",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "073dc3ed_f706bbd7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-07-10T15:58:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "073dc3ed_57084767",
+      "revId": "174e32127c9be260347550fa3260c4b5b86c9c09",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "073dc3ed_f7c4fb89",
         "filename": "org.eclipse.jgit.java7.test/src/org/eclipse/jgit/lib/DirCacheCheckoutTestWithSymlinks.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2013-07-10T14:03:52Z",
       "side": 1,
       "message": "style nit: we put the license header at the top of the file",
+      "revId": "174e32127c9be260347550fa3260c4b5b86c9c09",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "073dc3ed_d703b7c5",
+        "filename": "org.eclipse.jgit.java7.test/src/org/eclipse/jgit/lib/DirCacheCheckoutTestWithSymlinks.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-07-10T15:58:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "073dc3ed_f7c4fb89",
       "revId": "174e32127c9be260347550fa3260c4b5b86c9c09",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "073dc3ed_3711430c",
+        "filename": "org.eclipse.jgit.java7.test/src/org/eclipse/jgit/lib/DirCacheCheckoutTestWithSymlinks.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-07-10T15:58:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "073dc3ed_d7c1f777",
+      "revId": "174e32127c9be260347550fa3260c4b5b86c9c09",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "073dc3ed_17ccffac",
         "filename": "org.eclipse.jgit.java7.test/src/org/eclipse/jgit/lib/DirCacheCheckoutTestWithSymlinks.java",
         "patchSetId": 1
@@ -98,6 +188,24 @@
       "writtenOn": "2013-07-10T14:03:52Z",
       "side": 1,
       "message": "why not fix teardown instead ?",
+      "revId": "174e32127c9be260347550fa3260c4b5b86c9c09",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "073dc3ed_3754a34b",
+        "filename": "org.eclipse.jgit.java7.test/src/org/eclipse/jgit/lib/DirCacheCheckoutTestWithSymlinks.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-07-10T15:58:42Z",
+      "side": 1,
+      "message": "Done. The problem was that we had\n\n  /trashDir/\n    testRepo/\n      .git/\n      ...\n    symlink -\u003e /trashDir\n \nThe symlink was pointing to his own parent directory. This cause problems during recursive deletion of the hierarchy which I don\u0027t want to fix in this change.\n\nInstead I changed it to\n\n  /trashDir/\n    repos/\n      testRepo/\n        .git/\n        ...\n    symlink -\u003e /trashDir/repos",
+      "parentUuid": "073dc3ed_17ccffac",
       "revId": "174e32127c9be260347550fa3260c4b5b86c9c09",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
