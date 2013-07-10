@@ -863,7 +863,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	 *
 	 * @param entry
 	 *            the entry to be checked
-	 * @return <code>true</code> if the content matches, <code>false</code>
+	 * @return <code>true</code> if the content differs, <code>false</code>
 	 *         otherwise
 	 * @throws IOException
 	 */
