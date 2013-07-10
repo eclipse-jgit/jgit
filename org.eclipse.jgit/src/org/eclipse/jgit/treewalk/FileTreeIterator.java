@@ -166,7 +166,9 @@ public class FileTreeIterator extends WorkingTreeIterator {
 		public FileEntry(final File f, FS fs) {
 			this.fs = fs;
 			attributes = fs.getAttributes(f);
-			if (attributes.isDirectory()) {
+			if (attributes.isSymbolicLink())
+				mode = FileMode.SYMLINK;
+			else if (attributes.isDirectory()) {
 				if (new File(f, Constants.DOT_GIT).exists())
 					mode = FileMode.GITLINK;
 				else
