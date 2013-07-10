@@ -52,7 +52,7 @@ import java.nio.file.attribute.FileTime;
 import java.text.Normalizer;
 import java.text.Normalizer.Form;
 
-import org.eclipse.jgit.util.SystemReader;
+import org.eclipse.jgit.lib.Constants;
 
 class FileUtil {
 
@@ -113,7 +113,8 @@ class FileUtil {
 	public static long getLength(File path) throws IOException {
 		Path nioPath = path.toPath();
 		if (Files.isSymbolicLink(nioPath))
-			return Files.readSymbolicLink(nioPath).toString().length();
+			return Files.readSymbolicLink(nioPath).toString()
+					.getBytes(Constants.CHARSET).length;
 		return Files.size(nioPath);
 	}
 
