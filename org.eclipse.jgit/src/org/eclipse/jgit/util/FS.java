@@ -780,4 +780,26 @@ public abstract class FS {
 		return new Attributes(this, path, exists, isDirectory, canExecute,
 				isSymlink, isFile, createTime, lastModified, -1);
 	}
+
+	/**
+	 * Normalize the unicode path to composed form.
+	 *
+	 * @param file
+	 * @return NFC-format File
+	 * @since 3.3
+	 */
+	public File normalize(File file) {
+		return file;
+	}
+
+	/**
+	 * Normalize the unicode path to composed form.
+	 *
+	 * @param name
+	 * @return NFC-format string
+	 * @since 3.3
+	 */
+	public String normalize(String name) {
+		return name;
+	}
 }

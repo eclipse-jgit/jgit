@@ -921,8 +921,8 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 			return false;
 		} else {
 			if (mode == FileMode.SYMLINK.getBits())
-				return !new File(readContentAsString(current()))
-						.equals(new File(readContentAsString(entry)));
+				return !new File(readContentAsNormalizedString(current()))
+						.equals(new File((readContentAsNormalizedString(entry))));
 			// Content differs: that's a real change, perhaps
 			if (reader == null) // deprecated use, do no further checks
 				return true;
@@ -971,19 +971,19 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		}
 	}
 
-	private String readContentAsString(DirCacheEntry entry)
+	private String readContentAsNormalizedString(DirCacheEntry entry)
 			throws MissingObjectException, IOException {
 		ObjectLoader open = repository.open(entry.getObjectId());
 		byte[] cachedBytes = open.getCachedBytes();
-		return RawParseUtils.decode(cachedBytes);
+		return FS.detect().normalize(RawParseUtils.decode(cachedBytes));
 	}
 
-	private static String readContentAsString(Entry entry) throws IOException {
+	private static String readContentAsNormalizedString(Entry entry) throws IOException {
 		long length = entry.getLength();
 		byte[] content = new byte[(int) length];
 		InputStream is = entry.openInputStream();
 		IO.readFully(is, content, 0, (int) length);
-		return RawParseUtils.decode(content);
+		return FS.detect().normalize(RawParseUtils.decode(content));
 	}
 
 	private long computeLength(InputStream in) throws IOException {
