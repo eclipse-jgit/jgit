@@ -163,8 +163,9 @@ public class FileTreeIterator extends WorkingTreeIterator {
 		 * @param fs
 		 *            file system
 		 */
-		public FileEntry(final File f, FS fs) {
+		public FileEntry(File f, FS fs) {
 			this.fs = fs;
+			f = fs.normalize(f);
 			attributes = fs.getAttributes(f);
 			if (attributes.isSymbolicLink())
 				mode = FileMode.SYMLINK;
