@@ -166,7 +166,11 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		/**
 		 * Aborts and resets the current rebase
 		 */
-		ABORT;
+		ABORT,
+		/**
+		 * starts processing steps
+		 */
+		PROCESS_STEPS;
 	}
 
 	private Operation operation = Operation.BEGIN;
@@ -182,6 +186,8 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	private final RebaseState rebaseState;
 
 	private InteractiveHandler interactiveHandler;
+
+	private boolean stopAfterInitialization = false;
 
 	/**
 	 * @param repo
@@ -218,6 +224,8 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 				} catch (IOException ioe) {
 					throw new JGitInternalException(ioe.getMessage(), ioe);
 				}
+			case PROCESS_STEPS:
+				// fall through
 			case SKIP:
 				// fall through
 			case CONTINUE:
@@ -234,6 +242,8 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 				break;
 			case BEGIN:
 				RebaseResult res = initFilesAndRewind();
+				if (stopAfterInitialization)
+					return RebaseResult.INTERACTIVE_PREPARED_RESULT;
 				if (res != null)
 					return res;
 			}
@@ -707,6 +717,12 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	}
 
 	private void checkParameters() throws WrongRepositoryStateException {
+		if (this.operation == Operation.PROCESS_STEPS) {
+			if (rebaseState.getFile(DONE).exists())
+				throw new WrongRepositoryStateException(MessageFormat.format(
+						JGitText.get().wrongRepositoryState, repo
+								.getRepositoryState().name()));
+		}
 		if (this.operation != Operation.BEGIN) {
 			// these operations are only possible while in a rebasing state
 			switch (repo.getRepositoryState()) {
@@ -920,12 +936,32 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	}
 
 	/**
-	 * Enables interactive rebase
+	 * Enables interactive rebase<br>
+	 * <br>
+	 * Does not stop after initialization of rebase interactive. This is equals
+	 * to runInteractively(InteractiveHandler handler, false);
 	 *
 	 * @param handler
 	 * @return this
 	 */
 	public RebaseCommand runInteractively(InteractiveHandler handler) {
+		return runInteractively(handler, false);
+	}
+
+	/**
+	 * Enables interactive rebase<br>
+	 * <br>
+	 * If stopAfterRebaseInteractiveInitialization is true the rebase stops
+	 * after initialization of rebase interactive returning
+	 * {@link RebaseResult#INTERACTIVE_PREPARED_RESULT}
+	 * @param handler
+	 * @param stopAfterRebaseInteractiveInitialization
+	 *            if true the rebase stops after initialization
+	 * @return this instance
+	 */
+	public RebaseCommand runInteractively(InteractiveHandler handler,
+			final boolean stopAfterRebaseInteractiveInitialization) {
+		this.stopAfterInitialization = stopAfterRebaseInteractiveInitialization;
 		this.interactiveHandler = handler;
 		return this;
 	}

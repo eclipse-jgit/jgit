@@ -131,6 +131,17 @@ public class RebaseResult {
 			public boolean isSuccessful() {
 				return false;
 			}
+		},
+
+		/**
+		 * Interactive rebase has been prepared
+		 */
+		INTERACTIVE_PREPARED {
+			@Override
+			public boolean isSuccessful() {
+				// TODO Auto-generated method stub
+				return false;
+			}
 		};
 
 		/**
@@ -151,6 +162,9 @@ public class RebaseResult {
 
 	static final RebaseResult NOTHING_TO_COMMIT_RESULT = new RebaseResult(
 			Status.NOTHING_TO_COMMIT);
+
+	static final RebaseResult INTERACTIVE_PREPARED_RESULT =  new RebaseResult(
+			Status.INTERACTIVE_PREPARED);
 
 	private final Status status;
 
