@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "073dc3ed_abc687df",
+        "filename": "tools/maven-central/deploy.rb",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-07-11T10:42:34Z",
+      "side": 1,
+      "message": "Normally, arrays are concatenated using +. | does a union, which may not be what you want (if a param would need to be added twice, it would be removed).",
+      "revId": "95db7b1dd5a4a8002484c3dce077b5a614e205ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "073dc3ed_6b511fb0",
+        "filename": "tools/maven-central/deploy.rb",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-07-11T10:42:34Z",
+      "side": 1,
+      "message": "This is repeated everywhere, why not write it like this:\n\n  system(*prefix, argN1, argN2)\n\nOr define a function which does the unwrapping:\n\n  def run(args)\n    system(*args)\n  end\n\nThen call it like this:\n\n  run prefix + [...]",
+      "revId": "95db7b1dd5a4a8002484c3dce077b5a614e205ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "073dc3ed_8b4c631e",
+        "filename": "tools/maven-central/deploy.rb",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-07-11T10:42:34Z",
+      "side": 1,
+      "message": "It\u0027s common to put arrays in `[]` (even though it\u0027s not strictly necessary)",
+      "revId": "95db7b1dd5a4a8002484c3dce077b5a614e205ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
