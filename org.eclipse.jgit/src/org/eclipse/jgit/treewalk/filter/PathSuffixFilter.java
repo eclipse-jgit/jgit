@@ -52,17 +52,25 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.treewalk.TreeWalk;
 
 /**
- * Includes tree entries only if they match the configured path.
+ * Includes tree entries only if they end with the configured path (suffix
+ * match).
+ * <p>
+ * For example, <code>PathSuffixFilter.create(".txt")</code> will match all
+ * paths ending in <code>.txt</code>.
+ * <p>
+ * Using this filter is recommended instead of filtering the entries using
+ * {@link TreeWalk#getPathString()} and <code>endsWith</code> or some other type
+ * of string match function.
  */
 public class PathSuffixFilter extends TreeFilter {
 
 	/**
-	 * Create a new tree filter for a user supplied path.
+	 * Create a new tree filter for a user supplied path suffix.
 	 * <p>
 	 * Path strings use '/' to delimit directories on all platforms.
 	 *
 	 * @param path
-	 *            the path (suffix) to filter on. Must not be the empty string.
+	 *            the path suffix to filter on. Must not be the empty string.
 	 * @return a new filter for the requested path.
 	 * @throws IllegalArgumentException
 	 *             the path supplied was the empty string.
