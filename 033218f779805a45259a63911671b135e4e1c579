@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "073dc3ed_657e8256",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1001
+      },
+      "writtenOn": "2013-07-17T13:48:49Z",
+      "side": 1,
+      "message": "We need a List\u003cStep\u003e reference for prepareSteps(List\u003cStep\u003e steps) in InteractiveHandler (see line 273)",
+      "parentUuid": "073dc3ed_22075091",
+      "revId": "033218f779805a45259a63911671b135e4e1c579",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "073dc3ed_c2f5c4f7",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-07-09T14:34:26Z",
       "side": 1,
       "message": "should be \n\n\tQueue\u003cStep\u003e loadSteps() throws IOException {",
+      "revId": "033218f779805a45259a63911671b135e4e1c579",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "073dc3ed_c562eeb7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 903,
+      "author": {
+        "id": 1001
+      },
+      "writtenOn": "2013-07-17T13:48:49Z",
+      "side": 1,
+      "message": "we need a List\u003cStep\u003e for prepareStep(List\u003cStep\u003e steps) in InteractiveHandler",
+      "parentUuid": "073dc3ed_c2f5c4f7",
       "revId": "033218f779805a45259a63911671b135e4e1c579",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
