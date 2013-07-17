@@ -121,6 +121,24 @@
     },
     {
       "key": {
+        "uuid": "073dc3ed_f234bfe3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 924,
+      "author": {
+        "id": 1001
+      },
+      "writtenOn": "2013-07-17T13:47:41Z",
+      "side": 1,
+      "message": "Since this method is private, I\u0027ll remove this check for a null argument. Throwing an illegalArgumentException will probably not improve the code. Callers from within RebaseCommand should prevent passing null values.",
+      "parentUuid": "073dc3ed_85bbc60c",
+      "revId": "980fdefe0f326ab03bec2b47364518a924cb891d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "073dc3ed_c51dce9c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
         "patchSetId": 2
