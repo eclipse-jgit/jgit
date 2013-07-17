@@ -16,6 +16,24 @@
       "revId": "b0f7f4a6b2f9fd1959ef3195bb850917517fcbc7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "073dc3ed_b247d7f5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1001
+      },
+      "writtenOn": "2013-07-17T14:25:11Z",
+      "side": 1,
+      "message": "Both ArrayList and LinkedList (that are most appropriate here) do allow null elements.\nOverriding the methods add() and addAll() would do the job. But throwing a exception when a user tries to add a null element may cause problems for the user when trying to copy elements from another collection containing null elements.\nImho I would rather handle (skip) null elements in the list then hand over responsibility to the user (note that the user can still check for null elements but is not forced to do so)",
+      "parentUuid": "073dc3ed_42025481",
+      "revId": "b0f7f4a6b2f9fd1959ef3195bb850917517fcbc7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
