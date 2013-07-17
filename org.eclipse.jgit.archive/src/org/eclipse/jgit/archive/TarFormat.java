@@ -93,7 +93,7 @@ public class TarFormat implements ArchiveCommand.Format<ArchiveOutputStream> {
 		}
 		entry.setSize(loader.getSize());
 		out.putArchiveEntry(entry);
-                try {
+		try {
 			loader.copyTo(out);
 		} finally {
 			out.closeArchiveEntry();
