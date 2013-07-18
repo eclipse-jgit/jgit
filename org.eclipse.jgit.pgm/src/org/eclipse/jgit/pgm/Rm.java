@@ -55,11 +55,9 @@ import org.kohsuke.args4j.spi.StopOptionHandler;
 
 @Command(usage = "usage_StopTrackingAFile", common = true)
 class Rm extends TextBuiltin {
-	@Argument(metaVar = "metaVar_path", usage = "usage_path", multiValued = true, required = true)
-
+	@Argument(metaVar = "metaVar_path", usage = "usage_path", required = true)
 	@Option(name = "--", handler = StopOptionHandler.class)
 	private List<String> paths = new ArrayList<String>();
-
 
 	@Override
 	protected void run() throws Exception {
