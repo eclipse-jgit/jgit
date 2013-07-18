@@ -186,7 +186,7 @@ public class MergeResult {
 		 **/
 		MERGED_NOT_COMMITTED {
 			public String toString() {
-				return "MergedNotCommited";
+				return "Merged-not-committed";
 			}
 
 			@Override
