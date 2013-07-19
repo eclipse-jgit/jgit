@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7434f7f_7e345194",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/StatusCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 434
+      },
+      "writtenOn": "2013-07-19T14:07:44Z",
+      "side": 1,
+      "message": "pathes -\u003e paths",
+      "revId": "02c1245c3eacacea36e50dfc61971dcb7e40904d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7434f7f_be5ff9ba",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/StatusCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 434
+      },
+      "writtenOn": "2013-07-19T14:07:44Z",
+      "side": 1,
+      "message": "should specify if path is relative to current dir or repository root.\nSee also config variable status.relativePaths https://www.kernel.org/pub/software/scm/git/docs/git-status.html",
+      "revId": "02c1245c3eacacea36e50dfc61971dcb7e40904d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
