@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c73e4bec_fddfc7f7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/StatusCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-07-19T15:49:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7434f7f_7e345194",
+      "revId": "02c1245c3eacacea36e50dfc61971dcb7e40904d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7434f7f_be5ff9ba",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/StatusCommand.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-07-19T14:07:44Z",
       "side": 1,
       "message": "should specify if path is relative to current dir or repository root.\nSee also config variable status.relativePaths https://www.kernel.org/pub/software/scm/git/docs/git-status.html",
+      "revId": "02c1245c3eacacea36e50dfc61971dcb7e40904d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c73e4bec_dddc8b06",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/StatusCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-07-19T15:49:20Z",
+      "side": 1,
+      "message": "I describe that in the @param tag. But you are right. It\u0027s so important I should mention it also here.\n\nDone",
+      "parentUuid": "e7434f7f_be5ff9ba",
       "revId": "02c1245c3eacacea36e50dfc61971dcb7e40904d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
