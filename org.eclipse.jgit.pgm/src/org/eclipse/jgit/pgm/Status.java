@@ -52,11 +52,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.StatusCommand;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.IndexDiff.StageState;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.pgm.internal.CLIText;
+import org.kohsuke.args4j.Option;
 
 @Command(usage = "usage_Status", common = true)
 class Status extends TextBuiltin {
@@ -68,6 +70,9 @@ class Status extends TextBuiltin {
 	protected final String statusFileListFormatWithPrefix = CLIText.get().statusFileListFormatWithPrefix;
 
 	protected final String statusFileListFormatUnmerged = CLIText.get().statusFileListFormatUnmerged;
+
+	@Option(name = "--", metaVar = "metaVar_path", multiValued = true)
+	protected List<String> filterPaths;
 
 	@Override
 	protected void run() throws Exception {
@@ -81,7 +86,11 @@ class Status extends TextBuiltin {
 		} else
 			outw.println(CLIText.formatLine(CLIText.get().notOnAnyBranch));
 		// List changes
-		org.eclipse.jgit.api.Status status = new Git(db).status().call();
+		StatusCommand statusCommand = new Git(db).status();
+		if (filterPaths != null && filterPaths.size() > 0)
+			for (String path : filterPaths)
+				statusCommand.addPath(path);
+		org.eclipse.jgit.api.Status status = statusCommand.call();
 		Collection<String> added = status.getAdded();
 		Collection<String> changed = status.getChanged();
 		Collection<String> removed = status.getRemoved();
