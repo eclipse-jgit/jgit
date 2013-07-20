@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "c73e4bec_da5c84c8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-07-20T23:29:18Z",
+      "side": 1,
+      "message": "The reloading is the important part here, should be in the subject line",
+      "revId": "033218f779805a45259a63911671b135e4e1c579",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "073dc3ed_22075091",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
         "patchSetId": 1
