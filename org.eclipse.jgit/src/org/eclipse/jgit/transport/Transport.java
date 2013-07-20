@@ -559,6 +559,9 @@ public abstract class Transport {
 
 	/**
 	 * Open a new transport with no local repository.
+	 * <p>
+	 * Note that the resulting transport instance can not be used for fetching
+	 * or pushing, but only for reading remote refs.
 	 *
 	 * @param uri
 	 * @return new Transport instance
@@ -1238,6 +1241,9 @@ public abstract class Transport {
 
 	/**
 	 * Begins a new connection for fetching from the remote repository.
+	 * <p>
+	 * If the transport has no local repository, the fetch connection can only
+	 * be used for reading remote refs.
 	 *
 	 * @return a fresh connection to fetch from the remote repository.
 	 * @throws NotSupportedException
