@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c73e4bec_919dbe49",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-07-21T14:35:35Z",
+      "side": 1,
+      "message": "I\u0027m not sure about the method name here, but we can\u0027t also name it `lsRemote`. Any ideas?",
+      "revId": "d5ceecc7d07acc52c2dea103158147d90dc92140",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
