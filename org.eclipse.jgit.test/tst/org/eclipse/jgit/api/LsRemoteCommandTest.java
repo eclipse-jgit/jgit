@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011, Chris Aniszczyk <caniszczyk@gmail.com>
+ * Copyright (C) 2011, 2013 Chris Aniszczyk <caniszczyk@gmail.com> and others.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -124,6 +124,14 @@ public class LsRemoteCommandTest extends RepositoryTestCase {
 		LsRemoteCommand lsRemoteCommand = git2.lsRemote();
 		lsRemoteCommand.setHeads(true);
 		Collection<Ref> refs = lsRemoteCommand.call();
+		assertNotNull(refs);
+		assertEquals(2, refs.size());
+	}
+
+	@Test
+	public void testLsRemoteWithoutLocalRepository() throws Exception {
+		String uri = "file://" + git.getRepository().getWorkTree().getPath();
+		Collection<Ref> refs = Git.lsRemoteRepository().setRemote(uri).setHeads(true).call();
 		assertNotNull(refs);
 		assertEquals(2, refs.size());
 	}
