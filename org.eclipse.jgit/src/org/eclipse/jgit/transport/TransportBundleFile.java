@@ -59,6 +59,7 @@ import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.util.FS;
 
 class TransportBundleFile extends Transport implements TransportBundle {
 	static final TransportProtocol PROTO_BUNDLE = new TransportProtocol() {
@@ -104,12 +105,26 @@ class TransportBundleFile extends Transport implements TransportBundle {
 			//
 			return TransportLocal.PROTO_LOCAL.open(uri, local, remoteName);
 		}
+
+		public Transport open(URIish uri) throws NotSupportedException,
+				TransportException {
+			if ("bundle".equals(uri.getScheme())) { //$NON-NLS-1$
+				File path = FS.DETECTED.resolve(new File("."), uri.getPath()); //$NON-NLS-1$
+				return new TransportBundleFile(uri, path);
+			}
+			return TransportLocal.PROTO_LOCAL.open(uri);
+		}
 	};
 
 	private final File bundle;
 
 	TransportBundleFile(Repository local, URIish uri, File bundlePath) {
 		super(local, uri);
+		bundle = bundlePath;
+	}
+
+	public TransportBundleFile(URIish uri, File bundlePath) {
+		super(uri);
 		bundle = bundlePath;
 	}
 
