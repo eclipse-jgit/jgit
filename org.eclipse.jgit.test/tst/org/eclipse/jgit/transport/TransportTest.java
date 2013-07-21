@@ -57,7 +57,9 @@ import java.util.List;
 
 import org.eclipse.jgit.junit.SampleDataRepositoryTestCase;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.After;
 import org.junit.Before;
@@ -224,6 +226,20 @@ public class TransportTest extends SampleDataRepositoryTestCase {
 
 		// Should not throw NoRemoteRepositoryException
 		transport = Transport.open(db, config);
+	}
+
+	@Test
+	public void testLocalTransportFetchWithoutLocalRepository()
+			throws Exception {
+		URIish uri = new URIish("file://" + db.getWorkTree().getPath());
+		transport = Transport.open(uri);
+		FetchConnection fetchConnection = transport.openFetch();
+		try {
+			Ref head = fetchConnection.getRef(Constants.HEAD);
+			assertNotNull(head);
+		} finally {
+			fetchConnection.close();
+		}
 	}
 
 	@Test

@@ -65,6 +65,7 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryBuilder;
 import org.eclipse.jgit.lib.RepositoryCache;
+import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.io.MessageWriter;
 import org.eclipse.jgit.util.io.SafeBufferedOutputStream;
 import org.eclipse.jgit.util.io.StreamCopyThread;
@@ -130,12 +131,32 @@ class TransportLocal extends Transport implements PackTransport {
 				throw new NoRemoteRepositoryException(uri, JGitText.get().notFound);
 			return new TransportLocal(local, uri, gitDir);
 		}
+
+		public Transport open(URIish uri) throws NotSupportedException,
+				TransportException {
+			File path = FS.DETECTED.resolve(new File("."), uri.getPath()); //$NON-NLS-1$
+			// If the reference is to a local file, C Git behavior says
+			// assume this is a bundle, since repositories are directories.
+			if (path.isFile())
+				return new TransportBundleFile(uri, path);
+
+			File gitDir = RepositoryCache.FileKey.resolve(path, FS.DETECTED);
+			if (gitDir == null)
+				throw new NoRemoteRepositoryException(uri,
+						JGitText.get().notFound);
+			return new TransportLocal(uri, gitDir);
+		}
 	};
 
 	private final File remoteGitDir;
 
 	TransportLocal(Repository local, URIish uri, File gitDir) {
 		super(local, uri);
+		remoteGitDir = gitDir;
+	}
+
+	TransportLocal(URIish uri, File gitDir) {
+		super(uri);
 		remoteGitDir = gitDir;
 	}
 
