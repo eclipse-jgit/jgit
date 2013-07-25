@@ -51,6 +51,7 @@ import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.IndexDiff;
+import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.WorkingTreeIterator;
@@ -67,8 +68,12 @@ import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
  *      >Git documentation about Status</a>
  */
 public class StatusCommand extends GitCommand<Status> {
+
 	private WorkingTreeIterator workingTreeIt;
+
 	private List<String> paths = null;
+
+	private ProgressMonitor progressMonitor = null;
 
 	/**
 	 * @param repo
@@ -124,7 +129,12 @@ public class StatusCommand extends GitCommand<Status> {
 			IndexDiff diff = new IndexDiff(repo, Constants.HEAD, workingTreeIt);
 			if (paths != null)
 				diff.setFilter(PathFilterGroup.createFromStrings(paths));
-			diff.diff();
+			if (progressMonitor == null)
+				diff.diff();
+			else
+				diff.diff(progressMonitor, ProgressMonitor.UNKNOWN,
+						ProgressMonitor.UNKNOWN, ""); //$NON-NLS-1$
+
 			return new Status(diff);
 		} catch (IOException e) {
 			throw new JGitInternalException(e.getMessage(), e);
@@ -141,6 +151,18 @@ public class StatusCommand extends GitCommand<Status> {
 	 */
 	public StatusCommand setWorkingTreeIt(WorkingTreeIterator workingTreeIt) {
 		this.workingTreeIt = workingTreeIt;
+		return this;
+	}
+
+	/**
+	 * To set the {@link ProgressMonitor} which contains callback methods to
+	 * inform you about the progress of this command.
+	 *
+	 * @param progressMonitor
+	 * @return {@code this}
+	 */
+	public StatusCommand setProgressMonitor(ProgressMonitor progressMonitor) {
+		this.progressMonitor = progressMonitor;
 		return this;
 	}
 }
