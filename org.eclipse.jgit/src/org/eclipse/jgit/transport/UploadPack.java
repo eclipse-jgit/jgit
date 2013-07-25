@@ -124,16 +124,20 @@ public class UploadPack {
 		REACHABLE_COMMIT,
 
 		/**
-		 * Client may ask for objects that are the tip of any reference, even if not
-		 * advertised.
+		 * Client may ask for objects that are the tip of any reference, even if
+		 * not advertised.
 		 * <p>
 		 * This may happen, for example, when a custom {@link RefFilter} is set.
+		 * 
+		 * @since 3.1
 		 */
 		TIP,
 
 		/**
-		 * Client may ask for any commit reachable from any reference, even if that
-		 * reference wasn't advertised.
+		 * Client may ask for any commit reachable from any reference, even if
+		 * that reference wasn't advertised.
+		 *
+		 * @since 3.1
 		 */
 		REACHABLE_COMMIT_TIP,
 
@@ -551,6 +555,7 @@ public class UploadPack {
 	 * @param tc
 	 *            configuration controlling transfer options. If null the source
 	 *            repository's settings will be used.
+	 * @since 3.1
 	 */
 	public void setTransferConfig(TransferConfig tc) {
 		this.transferConfig = tc != null ? tc : new TransferConfig(db);
