@@ -91,6 +91,7 @@ public class StatusCommand extends GitCommand<Status> {
 	 * @param path
 	 *            a path is relative to the top level of the repository
 	 * @return {@code this}
+	 * @since 3.1
 	 */
 	public StatusCommand addPath(String path) {
 		if (paths == null)
@@ -104,6 +105,7 @@ public class StatusCommand extends GitCommand<Status> {
 	 *
 	 * @return the paths for which the status is shown or <code>null</code> if
 	 *         the complete status for the whole repo is shown.
+	 * @since 3.1
 	 */
 	public List<String> getPaths() {
 		return paths;
