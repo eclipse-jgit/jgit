@@ -653,6 +653,16 @@ public class Git {
 	}
 
 	/**
+	 * Returns a command object to come up with a short name that describes a commit
+	 * in terms of the nearest git tag.
+	 *
+	 * @return 3.1
+	 */
+	public DescribeCommand describe() {
+		return new DescribeCommand(repo);
+	}
+
+	/**
 	 * @return the git repository this class is interacting with
 	 */
 	public Repository getRepository() {
