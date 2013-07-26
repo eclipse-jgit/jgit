@@ -1,0 +1,208 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c73e4bec_de4ba17e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/DescribeCommandTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-07-26T11:16:29Z",
+      "side": 1,
+      "message": "ObjectId c4 \u003d git.merge().include(c2).call().getNewHead();\nand skip the call to head();",
+      "revId": "30984c5b78ba8d6374e0ccf120ef15c3f98401f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c73e4bec_1e46a975",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/DescribeCommandTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-07-26T11:16:29Z",
+      "side": 1,
+      "message": "see comment above",
+      "revId": "30984c5b78ba8d6374e0ccf120ef15c3f98401f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c73e4bec_fe501d2b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/DescribeCommandTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-07-26T11:16:29Z",
+      "side": 1,
+      "message": "you could return git.commit()......call().getID() instead of calling head().",
+      "revId": "30984c5b78ba8d6374e0ccf120ef15c3f98401f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c73e4bec_3e4ba580",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/DescribeCommandTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-07-26T11:16:29Z",
+      "side": 1,
+      "message": "I don\u0027t think you need this method.",
+      "revId": "30984c5b78ba8d6374e0ccf120ef15c3f98401f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c73e4bec_9b7dab5a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-07-26T11:16:29Z",
+      "side": 1,
+      "message": "This  gives a warning in eclipse with our settings because there is no javadoc for a protected declaration.",
+      "revId": "30984c5b78ba8d6374e0ccf120ef15c3f98401f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c73e4bec_bb7a275f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-07-26T11:16:29Z",
+      "side": 1,
+      "message": "we\u0027ll nee a javadoc tag for the return value,the parameter and the thrown exception",
+      "revId": "30984c5b78ba8d6374e0ccf120ef15c3f98401f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c73e4bec_fb630fba",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-07-26T11:16:29Z",
+      "side": 1,
+      "message": "we\u0027ll nee a javadoc tag for the return value and the thrown exception",
+      "revId": "30984c5b78ba8d6374e0ccf120ef15c3f98401f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c73e4bec_3b45771a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-07-26T11:16:29Z",
+      "side": 1,
+      "message": "The text has to be externalized. Please look at CheckoutCommand.java and how we throw RefNotFoundException there. You would have to enter your text in JGitText.java and JGitText.properties.",
+      "revId": "30984c5b78ba8d6374e0ccf120ef15c3f98401f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c73e4bec_db5e13f6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-07-26T11:16:29Z",
+      "side": 1,
+      "message": "The text has to be externalized. Please look at CheckoutCommand.java and how we throw RefNotFoundException there. You would have to enter your text in JGitText.java and JGitText.properties.",
+      "revId": "30984c5b78ba8d6374e0ccf120ef15c3f98401f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c73e4bec_1b407b07",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-07-26T11:16:29Z",
+      "side": 1,
+      "message": "why do you need to store this attribute \"commit\"? You don\u0027t make use of it.",
+      "revId": "30984c5b78ba8d6374e0ccf120ef15c3f98401f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c73e4bec_db18d303",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-07-26T11:16:29Z",
+      "side": 1,
+      "message": "Do we really have to call carry on the walk AND on the commit? I am not sure.",
+      "revId": "30984c5b78ba8d6374e0ccf120ef15c3f98401f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c73e4bec_7be9bf77",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-07-26T11:16:29Z",
+      "side": 1,
+      "message": "please add add a comment \"// $NON-NLS-1\" to mark the String literal as non-translateable.",
+      "revId": "30984c5b78ba8d6374e0ccf120ef15c3f98401f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
