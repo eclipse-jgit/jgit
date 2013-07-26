@@ -161,7 +161,7 @@ public class UploadPack {
 		 *            if a low-level exception occurred.
 		 * @since 3.1
 		 */
-		void checkWants(UploadPack up, List<RevObject> wants)
+		void checkWants(UploadPack up, List<ObjectId> wants)
 				throws PackProtocolException, IOException;
 	}
 
@@ -1034,16 +1034,21 @@ public class UploadPack {
 	}
 
 	private void parseWants() throws IOException {
+		List<ObjectId> notAdvertisedWants = null;
+		for (ObjectId obj : wantIds) {
+			if (!advertised.contains(obj)) {
+				if (notAdvertisedWants == null)
+					notAdvertisedWants = new ArrayList<ObjectId>();
+				notAdvertisedWants.add(obj);
+			}
+	    }
+		if (notAdvertisedWants != null)
+			requestValidator.checkWants(this, notAdvertisedWants);
+
 		AsyncRevObjectQueue q = walk.parseAny(wantIds, true);
 		try {
-			List<RevObject> notAdvertisedWants = null;
 			RevObject obj;
 			while ((obj = q.next()) != null) {
-				if (!advertised.contains(obj)) {
-					if (notAdvertisedWants == null)
-						notAdvertisedWants = new ArrayList<RevObject>();
-					notAdvertisedWants.add(obj);
-				}
 				want(obj);
 
 				if (!(obj instanceof RevCommit))
@@ -1054,8 +1059,6 @@ public class UploadPack {
 						want(obj);
 				}
 			}
-			if (notAdvertisedWants != null)
-				requestValidator.checkWants(this, notAdvertisedWants);
 			wantIds.clear();
 		} catch (MissingObjectException notFound) {
 			ObjectId id = notFound.getObjectId();
@@ -1080,7 +1083,7 @@ public class UploadPack {
 	 */
 	public static final class AdvertisedRequestValidator
 			implements RequestValidator {
-		public void checkWants(UploadPack up, List<RevObject> wants)
+		public void checkWants(UploadPack up, List<ObjectId> wants)
 				throws PackProtocolException, IOException {
 			if (!up.isBiDirectionalPipe())
 				new ReachableCommitRequestValidator().checkWants(up, wants);
@@ -1097,7 +1100,7 @@ public class UploadPack {
 	 */
 	public static final class ReachableCommitRequestValidator
 			implements RequestValidator {
-		public void checkWants(UploadPack up, List<RevObject> wants)
+		public void checkWants(UploadPack up, List<ObjectId> wants)
 				throws PackProtocolException, IOException {
 			checkNotAdvertisedWants(up.getRevWalk(), wants,
 					refIdSet(up.getAdvertisedRefs().values()));
@@ -1110,14 +1113,14 @@ public class UploadPack {
 	 * @since 3.1
 	 */
 	public static final class TipRequestValidator implements RequestValidator {
-		public void checkWants(UploadPack up, List<RevObject> wants)
+		public void checkWants(UploadPack up, List<ObjectId> wants)
 				throws PackProtocolException, IOException {
 			if (!up.isBiDirectionalPipe())
 				new ReachableCommitTipRequestValidator().checkWants(up, wants);
 			else if (!wants.isEmpty()) {
 				Set<ObjectId> refIds =
 					refIdSet(up.getRepository().getAllRefs().values());
-				for (RevObject obj : wants) {
+				for (ObjectId obj : wants) {
 					if (!refIds.contains(obj))
 						throw new PackProtocolException(MessageFormat.format(
 								JGitText.get().wantNotValid, obj.name()));
@@ -1133,7 +1136,7 @@ public class UploadPack {
 	 */
 	public static final class ReachableCommitTipRequestValidator
 			implements RequestValidator {
-		public void checkWants(UploadPack up, List<RevObject> wants)
+		public void checkWants(UploadPack up, List<ObjectId> wants)
 				throws PackProtocolException, IOException {
 			checkNotAdvertisedWants(up.getRevWalk(), wants,
 					refIdSet(up.getRepository().getAllRefs().values()));
@@ -1146,14 +1149,14 @@ public class UploadPack {
 	 * @since 3.1
 	 */
 	public static final class AnyRequestValidator implements RequestValidator {
-		public void checkWants(UploadPack up, List<RevObject> wants)
+		public void checkWants(UploadPack up, List<ObjectId> wants)
 				throws PackProtocolException, IOException {
 			// All requests are valid.
 		}
 	}
 
 	private static void checkNotAdvertisedWants(RevWalk walk,
-			List<RevObject> notAdvertisedWants, Set<ObjectId> reachableFrom)
+			List<ObjectId> notAdvertisedWants, Set<ObjectId> reachableFrom)
 			throws MissingObjectException, IncorrectObjectTypeException, IOException {
 		// Walk the requested commits back to the provided set of commits. If any
 		// commit exists, a branch was deleted or rewound and the repository owner
@@ -1161,7 +1164,9 @@ public class UploadPack {
 		// into an advertised branch it will be marked UNINTERESTING and no commits
 		// return.
 
-		for (RevObject obj : notAdvertisedWants) {
+		AsyncRevObjectQueue q = walk.parseAny(notAdvertisedWants, true);
+		RevObject obj;
+		while ((obj = q.next()) != null) {
 			if (!(obj instanceof RevCommit))
 				throw new PackProtocolException(MessageFormat.format(
 					JGitText.get().wantNotValid, obj.name()));
