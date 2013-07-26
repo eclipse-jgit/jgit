@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c73e4bec_1b2a3b7e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/StatusCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-07-26T07:12:51Z",
+      "side": 1,
+      "message": "Please keep the diff small and avoid adding extra newlines. I guess Eclipse was adding the extra lines for you, right?",
+      "revId": "4c18de1afcddbae6a8d4eacf14e790d90de542f2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c73e4bec_7bcc1f65",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/StatusCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-07-26T07:12:51Z",
+      "side": 1,
+      "message": "again, skip the newline here.",
+      "revId": "4c18de1afcddbae6a8d4eacf14e790d90de542f2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
