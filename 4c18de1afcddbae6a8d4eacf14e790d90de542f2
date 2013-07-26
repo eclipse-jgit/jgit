@@ -33,6 +33,23 @@
       "revId": "4c18de1afcddbae6a8d4eacf14e790d90de542f2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c73e4bec_24b714bd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/StatusCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-07-26T14:12:57Z",
+      "side": 1,
+      "message": "Please add @since 3.1 here, which documents that this method is only available in JGit \u003e\u003d 3.1.",
+      "revId": "4c18de1afcddbae6a8d4eacf14e790d90de542f2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
