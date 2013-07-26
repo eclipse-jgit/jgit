@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "c73e4bec_4474e0bf",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/DescribeCommandTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-07-26T13:41:06Z",
+      "side": 1,
+      "message": "Please remove this.",
+      "revId": "30984c5b78ba8d6374e0ccf120ef15c3f98401f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c73e4bec_de4ba17e",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/DescribeCommandTest.java",
         "patchSetId": 3
@@ -64,6 +81,40 @@
       "writtenOn": "2013-07-26T11:16:29Z",
       "side": 1,
       "message": "I don\u0027t think you need this method.",
+      "revId": "30984c5b78ba8d6374e0ccf120ef15c3f98401f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c73e4bec_046ad8e0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-07-26T13:41:06Z",
+      "side": 1,
+      "message": "We don\u0027t use @author tags (that\u0027s what the Git history is for), please remove.",
+      "revId": "30984c5b78ba8d6374e0ccf120ef15c3f98401f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c73e4bec_e4640c15",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-07-26T13:41:06Z",
+      "side": 1,
+      "message": "Please add @since 3.1 to Javadoc.",
       "revId": "30984c5b78ba8d6374e0ccf120ef15c3f98401f7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
