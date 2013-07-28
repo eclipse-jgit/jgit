@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c73e4bec_6c145002",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 659,
+      "author": {
+        "id": 1089
+      },
+      "writtenOn": "2013-07-28T15:11:18Z",
+      "side": 1,
+      "message": "Should be @since",
+      "revId": "fae87008bbc16da9526500c367d12e7911ab3414",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
