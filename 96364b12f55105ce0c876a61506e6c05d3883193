@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c73e4bec_df125f0f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1159,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2013-07-29T16:20:37Z",
+      "side": 1,
+      "message": "Why rename from notAdvertisedWants?",
+      "revId": "96364b12f55105ce0c876a61506e6c05d3883193",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
