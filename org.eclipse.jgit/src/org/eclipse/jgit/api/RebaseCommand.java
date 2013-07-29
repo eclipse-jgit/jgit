@@ -57,10 +57,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.jgit.api.RebaseResult.Status;
+import org.eclipse.jgit.api.ResetCommand.ResetType;
 import org.eclipse.jgit.api.errors.CheckoutConflictException;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRefNameException;
@@ -87,6 +89,7 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.RepositoryState;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
@@ -150,6 +153,18 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 
 	private static final String AMEND = "amend"; //$NON-NLS-1$
 
+	private static final String MESSAGE_SQUASH = "message-squash"; //$NON-NLS-1$
+
+	private static final String MESSAGE_FIXUP = "message-fixup"; //$NON-NLS-1$
+
+	private static final String COMMIT_MESSAGE_COMMENT_PREFIX = "#\t"; //$NON-NLS-1$
+
+	private static final String COMMIT_MESSAGE_REPLACE_SOURCE = "\n[^\\"
+			+ COMMIT_MESSAGE_COMMENT_PREFIX + "]";
+
+	private static final String COMMIT_MESSAGE_REPLACE_WITH = "\n"
+			+ COMMIT_MESSAGE_COMMENT_PREFIX;
+
 	/**
 	 * The available operations
 	 */
@@ -169,7 +184,11 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		/**
 		 * Aborts and resets the current rebase
 		 */
-		ABORT;
+		ABORT,
+		/**
+		 * starts processing steps
+		 */
+		PROCESS_STEPS;
 	}
 
 	private Operation operation = Operation.BEGIN;
@@ -185,6 +204,8 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	private final RebaseState rebaseState;
 
 	private InteractiveHandler interactiveHandler;
+
+	private boolean stopAfterInitialization = false;
 
 	/**
 	 * @param repo
@@ -211,6 +232,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			RefNotFoundException, WrongRepositoryStateException {
 		RevCommit newHead = null;
 		boolean lastStepWasForward = false;
+		int squashCount = 0;
 		checkCallable();
 		checkParameters();
 		try {
@@ -221,6 +243,8 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 				} catch (IOException ioe) {
 					throw new JGitInternalException(ioe.getMessage(), ioe);
 				}
+			case PROCESS_STEPS:
+				// fall through
 			case SKIP:
 				// fall through
 			case CONTINUE:
@@ -237,12 +261,17 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 				break;
 			case BEGIN:
 				RebaseResult res = initFilesAndRewind();
+				if (stopAfterInitialization)
+					return RebaseResult.INTERACTIVE_PREPARED_RESULT;
 				if (res != null)
 					return res;
 			}
 
 			if (monitor.isCancelled())
 				return abort(RebaseResult.ABORTED_RESULT);
+
+			if (operation == Operation.PROCESS_STEPS)
+				newHead = continueRebase();
 
 			if (operation == Operation.CONTINUE) {
 				newHead = continueRebase();
@@ -267,33 +296,28 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 
 			ObjectReader or = repo.newObjectReader();
 
-			List<Step> steps = loadSteps();
+			LinkedList<Step> steps = loadSteps();
+			if (steps.isEmpty())
+				return abort(RebaseResult.NOTHING_TO_DO_RESULT);
 			if (isInteractive()) {
 				interactiveHandler.prepareSteps(steps);
-				BufferedWriter fw = new BufferedWriter(new OutputStreamWriter(
-						new FileOutputStream(
-								rebaseState.getFile(GIT_REBASE_TODO)),
-								Constants.CHARACTER_ENCODING));
-				fw.newLine();
-				try {
-					StringBuilder sb = new StringBuilder();
-					for (Step step : steps) {
-						sb.setLength(0);
-						sb.append(step.action.token);
-						sb.append(" "); //$NON-NLS-1$
-						sb.append(step.commit.name());
-						sb.append(" "); //$NON-NLS-1$
-						sb.append(RawParseUtils.decode(step.shortMessage)
-								.trim());
-						fw.write(sb.toString());
-						fw.newLine();
-					}
-				} finally {
-					fw.close();
-				}
+				writeSteps(steps);
 			}
-			for (Step step : steps) {
+			if (steps.isEmpty() && !rebaseState.getFile(DONE).exists())
+				return abort(RebaseResult.NOTHING_TO_DO_RESULT);
+			StringBuilder sb = new StringBuilder();
+			// reload steps after each iteration, may have been altered (e.g.
+			// git rebase --edit-todo)
+			for (; !steps.isEmpty(); steps = loadSteps()) {
+				Step step = steps.poll();
+				if (step == null) {
+					// we retrieved a null element from the list. this should
+					// only happen if a user added a null elements to the list
+					// in prepareSteps() so we skip it
+					continue;
+				}
 				popSteps(1);
+
 				Collection<ObjectId> ids = or.resolve(step.commit);
 				if (ids.size() != 1)
 					throw new JGitInternalException(
@@ -319,8 +343,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 						String ourCommitName = getOurCommitName();
 						CherryPickResult cherryPickResult = new Git(repo)
 								.cherryPick().include(commitToPick)
-								.setOurCommitName(ourCommitName)
-								.setReflogPrefix("rebase:").call(); //$NON-NLS-1$
+								.setOurCommitName(ourCommitName).call();
 						switch (cherryPickResult.getStatus()) {
 						case FAILED:
 							if (operation == Operation.BEGIN)
@@ -337,10 +360,176 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 					switch (step.action) {
 					case PICK:
 						continue; // continue rebase process on pick command
+					case SQUASH:
+						//$FALL-THROUGH$
+					case FIXUP:
+						Ref orig_head = repo.getRef(Constants.ORIG_HEAD);
+						ObjectId orig_headId = orig_head.getObjectId();
+
+						// we have already commited the cherry-picked commit
+						// what we need is to have changes introduced by this
+						// commit to be on the index
+						// this is a workaround! replace by cherry pick to index
+						Git.wrap(repo).reset().setMode(ResetType.SOFT)
+								.setRef("HEAD~1").call();
+						// set ORIG_HEAD back to where we started cause soft
+						// reset moved it
+						repo.writeOrigHead(orig_headId);
+
+						File messageFixup = rebaseState.getFile(MESSAGE_FIXUP);
+						if (step.action == Action.SQUASH) {
+							// with the first occurrence of a Squash in a
+							// Squash/Fixup sequence, we delete the
+							// message-fixup file
+							if (messageFixup.exists()) {
+								messageFixup.delete();
+							}
+						}
+						if (!rebaseState.getFile(DONE).exists()
+								|| rebaseState.readFile(DONE).isEmpty()) {
+							// we cannot squash/fixup without previous commit
+							// cgit does not abort here but returns and doesn't
+							// offer a
+							// hint on how to solve the problem (e.g. git rebase
+							// --edit-todo); (git rebase --continue wil result
+							// in the exact same error
+							throw new JGitInternalException(
+									"cannot Squash/Fixup without previous commit"); //$NON-NLS-1$
+						}
+						File messageSquash = rebaseState
+								.getFile(MESSAGE_SQUASH);
+						try {
+							String currSquashMessage = null;
+							if (!messageSquash.exists()) {
+								squashCount = 1;
+								// write initial
+
+								RevWalk rw = new RevWalk(repo);
+								RevCommit squashInto = rw.parseCommit(repo
+										.resolve(Constants.HEAD));
+								rw.release();
+								String contendPre = COMMIT_MESSAGE_COMMENT_PREFIX
+										+ "This is a combination of 2 commits.\n" + COMMIT_MESSAGE_COMMENT_PREFIX + "\n" + COMMIT_MESSAGE_COMMENT_PREFIX + "The first commit's message is:\n" + squashInto.getFullMessage(); //$NON-NLS-1$
+
+								currSquashMessage = contendPre
+										+ "The first commit's message is:\n"
+										+ squashInto.getFullMessage();
+								rebaseState.createFile(MESSAGE_SQUASH,
+										contendPre);
+								if (step.action == Action.FIXUP) {
+									rebaseState.createFile(MESSAGE_FIXUP, "");
+								}
+							}
+							if (currSquashMessage == null)
+								currSquashMessage = rebaseState
+									.readFile(MESSAGE_SQUASH);
+							sb.setLength(0);
+							// try {
+							// Pattern pattern = Pattern
+							//										.compile("This is a combination of (.*) commits"); //$NON-NLS-1$
+							// Matcher matcher = pattern
+							// .matcher(currSquashMessage);
+							// squashCount = Integer
+							// .parseInt(matcher.group(0));
+							// sb.append(matcher.replaceFirst("This is a combination of "
+							// + (squashCount + 1)
+							// + " commits"));
+							// } catch (Throwable t) {
+							// } finally {
+							// squashCount++;
+							// }
+							squashCount++;
+							sb.append("This is a combination of " + squashCount
+									+ " commits\n");
+
+							String ordinal;
+							switch (squashCount % 10) {
+							case 1:
+								ordinal = "st"; //$NON-NLS-1$
+								break;
+							case 2:
+								ordinal = "nd"; //$NON-NLS-1$
+								break;
+							case 3:
+								ordinal = "rd"; //$NON-NLS-1$
+								break;
+							default:
+								ordinal = "th"; //$NON-NLS-1$
+								break;
+							}
+
+							// write header
+							if (step.action == Action.SQUASH) {
+								sb.append("#\tThe ").append(squashCount)
+										.append(ordinal)
+										.append(" commit's message is:\n");
+								sb.append(commitToPick.getFullMessage());
+							} else {
+								sb.append("#\tThe ")
+										.append(squashCount)
+										.append(ordinal)
+										.append(" commit message will be skipped:\n");
+								sb.append(commitToPick.getFullMessage()
+										.replace(COMMIT_MESSAGE_REPLACE_SOURCE,
+												COMMIT_MESSAGE_REPLACE_WITH));
+							}
+							sb.append(currSquashMessage
+									.substring(currSquashMessage.indexOf("\n") + 1));
+
+							// write message to file
+							String contend = sb.toString();
+							rebaseState.createFile(MESSAGE_SQUASH, contend);
+							if (messageFixup.exists()) {
+								// we will only write a copy to message-fixup if
+								// it still exists (i.e there has been no squash
+								// in the squash/fixup sequence yet)
+								rebaseState.createFile(MESSAGE_FIXUP, contend);
+							}
+
+						} finally {
+							Step nextStep = steps.peek();
+							String commitMessage = rebaseState
+									.readFile(messageFixup.exists() ? MESSAGE_FIXUP
+											: MESSAGE_SQUASH);
+							if (nextStep != null
+									&& ((nextStep.getAction() == Action.FIXUP) || (nextStep
+											.getAction() == Action.SQUASH))) {
+								// intermediate step
+								newHead = new Git(repo).commit()
+										.setMessage(commitMessage)
+										.setAmend(true).call();
+							} else {
+								// last step of this squash/fixup sequence
+								if (messageFixup.exists()) {
+									//no user interaction
+									newHead = new Git(repo).commit()
+											.setMessage(commitMessage).setAmend(true)
+											.call();
+								} else {
+									// sequence contains squash
+									String newMessage = commitMessage;
+									if (interactiveHandler != null) {
+										newMessage = interactiveHandler
+												.modifyCommitMessage(commitMessage);
+									}
+									if (newMessage == null)
+										return abort(RebaseResult.ABORTED_RESULT);
+
+									newHead = new Git(repo).commit()
+											.setMessage(newMessage).setAmend(true)
+											.call();
+									}
+							}
+						}
+						break;
 					case REWORD:
-						String oldMessage = commitToPick.getFullMessage();
-						String newMessage = interactiveHandler
-								.modifyCommitMessage(oldMessage);
+						String newMessage = commitToPick.getFullMessage();
+						if (isInteractive()) {
+							newMessage = interactiveHandler
+									.modifyCommitMessage(newMessage);
+							if (newMessage == null)
+								return abort(RebaseResult.ABORTED_RESULT);
+						}
 						newHead = new Git(repo).commit().setMessage(newMessage)
 								.setAmend(true).call();
 						continue;
@@ -354,7 +543,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			}
 			if (newHead != null) {
 				String headName = rebaseState.readFile(HEAD_NAME);
-				updateHead(headName, newHead, upstreamCommit);
+				updateHead(headName, newHead);
 				FileUtils.delete(rebaseState.getDir(), FileUtils.RECURSIVE);
 				if (lastStepWasForward)
 					return RebaseResult.FAST_FORWARD_RESULT;
@@ -371,20 +560,18 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	private String getOurCommitName() {
 		// If onto is different from upstream, this should say "onto", but
 		// RebaseCommand doesn't support a different "onto" at the moment.
-		String ourCommitName = "Upstream, based on " //$NON-NLS-1$
+		String ourCommitName = "Upstream, based on "
 				+ Repository.shortenRefName(upstreamCommitName);
 		return ourCommitName;
 	}
 
-	private void updateHead(String headName, RevCommit newHead, RevCommit onto)
+	private void updateHead(String headName, RevCommit newHead)
 			throws IOException {
 		// point the previous head (if any) to the new commit
 
 		if (headName.startsWith(Constants.R_REFS)) {
 			RefUpdate rup = repo.updateRef(headName);
 			rup.setNewObjectId(newHead);
-			rup.setRefLogMessage("rebase finished: " + headName + " onto " //$NON-NLS-1$ //$NON-NLS-2$
-					+ onto.getName(), false);
 			Result res = rup.forceUpdate();
 			switch (res) {
 			case FAST_FORWARD:
@@ -395,8 +582,6 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 				throw new JGitInternalException("Updating HEAD failed");
 			}
 			rup = repo.updateRef(Constants.HEAD);
-			rup.setRefLogMessage("rebase finished: returning to " + headName, //$NON-NLS-1$
-					false);
 			res = rup.link(headName);
 			switch (res) {
 			case FAST_FORWARD:
@@ -619,7 +804,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		if (head.isSymbolic())
 			headName = head.getTarget().getName();
 		else
-			headName = head.getObjectId().getName();
+			headName = "detached HEAD";
 		ObjectId headId = head.getObjectId();
 		if (headId == null)
 			throw new RefNotFoundException(MessageFormat.format(
@@ -634,10 +819,10 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			monitor.beginTask(MessageFormat.format(
 					JGitText.get().resettingHead,
 					upstreamCommit.getShortMessage()), ProgressMonitor.UNKNOWN);
-			checkoutCommit(headName, upstreamCommit);
+			checkoutCommit(upstreamCommit);
 			monitor.endTask();
 
-			updateHead(headName, upstreamCommit, upstream);
+			updateHead(headName, upstreamCommit);
 			return RebaseResult.FAST_FORWARD_RESULT;
 		}
 
@@ -666,28 +851,25 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		rebaseState.createFile(ONTO, upstreamCommit.name());
 		rebaseState.createFile(ONTO_NAME, upstreamCommitName);
 		rebaseState.createFile(INTERACTIVE, ""); //$NON-NLS-1$
-		BufferedWriter fw = new BufferedWriter(new OutputStreamWriter(
-				new FileOutputStream(rebaseState.getFile(GIT_REBASE_TODO)),
-				Constants.CHARACTER_ENCODING));
-		fw.write("# Created by EGit: rebasing " + upstreamCommit.name()
-				+ " onto " + headId.name());
-		fw.newLine();
-		try {
-			StringBuilder sb = new StringBuilder();
-			ObjectReader reader = walk.getObjectReader();
-			for (RevCommit commit : cherryPickList) {
-				sb.setLength(0);
-				sb.append(Action.PICK.toToken());
-				sb.append(" "); //$NON-NLS-1$
-				sb.append(reader.abbreviate(commit).name());
-				sb.append(" "); //$NON-NLS-1$
-				sb.append(commit.getShortMessage());
-				fw.write(sb.toString());
-				fw.newLine();
-			}
-		} finally {
-			fw.close();
-		}
+
+		writeSteps("# Created by EGit: rebasing " + upstreamCommit.name()
+				+ " onto " + headId.name(),
+				cherryPickList, new StepFormatter<RevCommit>() {
+					private ObjectReader reader = walk.getObjectReader();
+
+					public String getToken(RevCommit obj) {
+						return Action.PICK.toToken();
+					}
+
+					public String getName(RevCommit obj) throws IOException {
+						return reader.abbreviate(obj).name();
+					}
+
+					public String getShortMessage(RevCommit obj) {
+						return obj.getShortMessage();
+					}
+
+				});
 
 		monitor.endTask();
 
@@ -696,7 +878,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 				upstreamCommit.getShortMessage()), ProgressMonitor.UNKNOWN);
 		boolean checkoutOk = false;
 		try {
-			checkoutOk = checkoutCommit(headName, upstreamCommit);
+			checkoutOk = checkoutCommit(upstreamCommit);
 		} finally {
 			if (!checkoutOk)
 				FileUtils.delete(rebaseState.getDir(), FileUtils.RECURSIVE);
@@ -737,7 +919,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		if (head.isSymbolic())
 			headName = head.getTarget().getName();
 		else
-			headName = head.getObjectId().getName();
+			headName = "detached HEAD";
 		return tryFastForward(headName, headCommit, newCommit);
 	}
 
@@ -782,6 +964,12 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	}
 
 	private void checkParameters() throws WrongRepositoryStateException {
+		if (this.operation == Operation.PROCESS_STEPS) {
+			if (rebaseState.getFile(DONE).exists())
+				throw new WrongRepositoryStateException(MessageFormat.format(
+						JGitText.get().wrongRepositoryState, repo
+								.getRepositoryState().name()));
+		}
 		if (this.operation != Operation.BEGIN) {
 			// these operations are only possible while in a rebasing state
 			switch (repo.getRepositoryState()) {
@@ -848,7 +1036,6 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 
 				// update the HEAD
 				RefUpdate refUpdate = repo.updateRef(Constants.HEAD, false);
-				refUpdate.setRefLogMessage("rebase: aborting", false); //$NON-NLS-1$
 				Result res = refUpdate.link(headName);
 				switch (res) {
 				case FAST_FORWARD:
@@ -870,8 +1057,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		}
 	}
 
-	private boolean checkoutCommit(String headName, RevCommit commit)
-			throws IOException,
+	private boolean checkoutCommit(RevCommit commit) throws IOException,
 			CheckoutConflictException {
 		try {
 			RevCommit head = walk.parseCommit(repo.resolve(Constants.HEAD));
@@ -887,10 +1073,6 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			RefUpdate refUpdate = repo.updateRef(Constants.HEAD, true);
 			refUpdate.setExpectedOldObjectId(head);
 			refUpdate.setNewObjectId(commit);
-			refUpdate.setRefLogMessage(
-					"checkout: moving from " //$NON-NLS-1$
-							+ Repository.shortenRefName(headName)
-							+ " to " + commit.getName(), false); //$NON-NLS-1$
 			Result res = refUpdate.forceUpdate();
 			switch (res) {
 			case FAST_FORWARD:
@@ -907,11 +1089,100 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		return true;
 	}
 
-	List<Step> loadSteps() throws IOException {
+	private interface StepFormatter<T> {
+		/** Default Formatter for an entry of type {@link Step} */
+		public static final StepFormatter<Step> STEP_FORMATTER = new StepFormatter<Step>() {
+
+			public String getToken(Step obj) {
+				return obj.action.token;
+			}
+
+			public String getName(Step obj) {
+				return obj.commit.name();
+			}
+
+			public String getShortMessage(Step obj) {
+				return RawParseUtils.decode(obj.shortMessage);
+			}
+		};
+
+		String getToken(T obj) throws IOException;
+
+		String getName(T obj) throws IOException;
+
+		String getShortMessage(T obj) throws IOException;
+	}
+
+	/**
+	 * Persists a List of Steps to File {@link RebaseCommand#GIT_REBASE_TODO} if
+	 * and only if the repository is in rebase interactive state
+	 *
+	 * @param steps
+	 *            the {@link List}<{@link Step}> containing the Steps to
+	 *            persisted
+	 * @throws IOException
+	 *             If an I/O error occurs
+	 * @throws WrongRepositoryStateException
+	 *             If current repository is not in rebase interactive state
+	 */
+	public void writeSteps(List<Step> steps) throws IOException,
+			WrongRepositoryStateException {
+		if (repo.getRepositoryState() != RepositoryState.REBASING_INTERACTIVE)
+			throw new WrongRepositoryStateException("Not in rebase interactive"); //$NON-NLS-1$
+		writeSteps(null, steps, StepFormatter.STEP_FORMATTER);
+	}
+
+	private <T> void writeSteps(final String headComment, List<T> steps,
+			StepFormatter<T> formatter) throws
+			FileNotFoundException, IOException {
+		if (formatter == null)
+			throw new IllegalArgumentException("StepFormatter must not be null"); //$NON-NLS-1$
+		BufferedWriter fw = new BufferedWriter(new OutputStreamWriter(
+				new FileOutputStream(rebaseState.getFile(GIT_REBASE_TODO)),
+				Constants.CHARACTER_ENCODING));
+		try {
+			if (headComment != null) {
+				fw.write(headComment);
+				fw.newLine();
+			}
+			StringBuilder sb = new StringBuilder();
+			for (T step : steps) {
+				if (step == null)
+					continue;
+				sb.setLength(0);
+				sb.append(formatter.getToken(step));
+				sb.append(" "); //$NON-NLS-1$
+				sb.append(formatter.getName(step));
+				sb.append(" "); //$NON-NLS-1$
+				sb.append(formatter.getShortMessage(step));
+				fw.write(sb.toString());
+				fw.newLine();
+			}
+		} finally {
+			fw.close();
+		}
+	}
+
+	/**
+	 * @return a list of Steps from {@link RebaseCommand#GIT_REBASE_TODO}
+	 * @throws IOException
+	 *             exception occuring when try to read the file
+	 * @throws WrongRepositoryStateException
+	 *             when not in in rebase interactive state
+	 */
+	public List<Step> readSteps() throws IOException,
+			WrongRepositoryStateException {
+		if (repo.getRepositoryState() == RepositoryState.REBASING_INTERACTIVE)
+			return loadSteps();
+		throw new WrongRepositoryStateException(
+				"Not in rebase interactive state");
+	}
+
+	LinkedList<Step> loadSteps() throws IOException {
 		byte[] buf = IO.readFully(rebaseState.getFile(GIT_REBASE_TODO));
 		int ptr = 0;
 		int tokenBegin = 0;
-		ArrayList<Step> r = new ArrayList<Step>();
+		LinkedList<Step> r = new LinkedList<Step>();
 		while (ptr < buf.length) {
 			tokenBegin = ptr;
 			ptr = RawParseUtils.nextLF(buf, ptr);
@@ -1046,12 +1317,32 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	}
 
 	/**
-	 * Enables interactive rebase
+	 * Enables interactive rebase<br>
+	 * <br>
+	 * Does not stop after initialization of rebase interactive. This is equals
+	 * to runInteractively(InteractiveHandler handler, false);
 	 *
 	 * @param handler
 	 * @return this
 	 */
 	public RebaseCommand runInteractively(InteractiveHandler handler) {
+		return runInteractively(handler, false);
+	}
+
+	/**
+	 * Enables interactive rebase<br>
+	 * <br>
+	 * If stopAfterRebaseInteractiveInitialization is true the rebase stops
+	 * after initialization of rebase interactive returning
+	 * {@link RebaseResult#INTERACTIVE_PREPARED_RESULT}
+	 * @param handler
+	 * @param stopAfterRebaseInteractiveInitialization
+	 *            if true the rebase stops after initialization
+	 * @return this instance
+	 */
+	public RebaseCommand runInteractively(InteractiveHandler handler,
+			final boolean stopAfterRebaseInteractiveInitialization) {
+		this.stopAfterInitialization = stopAfterRebaseInteractiveInitialization;
 		this.interactiveHandler = handler;
 		return this;
 	}
@@ -1086,8 +1377,15 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		/** Use commit, but edit the commit message */
 		REWORD("reword", "r"), //$NON-NLS-1$ //$NON-NLS-2$
 		/** Use commit, but stop for amending */
-		EDIT("edit", "e"); // later add SQUASH, FIXUP, etc. //$NON-NLS-1$ //$NON-NLS-2$
-
+		EDIT("edit", "e"), //$NON-NLS-1$ //$NON-NLS-2$
+		/**
+		 * Use commit, but meld into previous commit
+		 */
+		SQUASH("squash", "s"), //$NON-NLS-1$ //$NON-NLS-2$
+		/**
+		 * like "squash", but discard this commit's log message
+		 */
+		FIXUP("fixup", "f"); //$NON-NLS-1$ //$NON-NLS-2$
 		private final String token;
 
 		private final String shortToken;
@@ -1177,6 +1475,22 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 					+ ((shortMessage == null) ? "null" : new String(
 							shortMessage)) + "]";
 		}
+
+		/**
+		 * Creates a Step by the given parameters
+		 * 
+		 * @param commitId
+		 * @param shortMessage
+		 * @param action
+		 * @return The newly created Step
+		 */
+		public static Step create(AbbreviatedObjectId commitId,
+				byte[] shortMessage, Action action) {
+			Step theStep = new Step(action);
+			theStep.commit = commitId;
+			theStep.shortMessage = shortMessage;
+			return theStep;
+		}
 	}
 
 	PersonIdent parseAuthor(byte[] raw) {
@@ -1226,6 +1540,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	private static class RebaseState {
 
 		private final File repoDirectory;
+
 		private File dir;
 
 		public RebaseState(File repoDirectory) {
