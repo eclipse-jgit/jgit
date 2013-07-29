@@ -45,6 +45,7 @@ package org.eclipse.jgit.api;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.jgit.api.RebaseCommand.Operation;
 import org.eclipse.jgit.merge.ResolveMerger;
 import org.eclipse.jgit.merge.ResolveMerger.MergeFailureReason;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -131,6 +132,26 @@ public class RebaseResult {
 			public boolean isSuccessful() {
 				return false;
 			}
+		},
+
+		/**
+		 * Aborted, the git-rebase-todo file contained no Steps to process
+		 */
+		NOTHING_TO_DO {
+			@Override
+			public boolean isSuccessful() {
+				return false;
+			}
+		},
+
+		/**
+		 * Interactive rebase has been prepared in {@link Operation#BEGIN}
+		 */
+		INTERACTIVE_PREPARED {
+			@Override
+			public boolean isSuccessful() {
+				return false;
+			}
 		};
 
 		/**
@@ -151,6 +172,12 @@ public class RebaseResult {
 
 	static final RebaseResult NOTHING_TO_COMMIT_RESULT = new RebaseResult(
 			Status.NOTHING_TO_COMMIT);
+
+	static final RebaseResult NOTHING_TO_DO_RESULT = new RebaseResult(
+			Status.NOTHING_TO_DO);
+
+	static final RebaseResult INTERACTIVE_PREPARED_RESULT =  new RebaseResult(
+			Status.INTERACTIVE_PREPARED);
 
 	private final Status status;
 
