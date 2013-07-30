@@ -60,10 +60,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.jgit.api.MergeResult.MergeStatus;
-import org.eclipse.jgit.api.RebaseCommand.Action;
 import org.eclipse.jgit.api.RebaseCommand.InteractiveHandler;
 import org.eclipse.jgit.api.RebaseCommand.Operation;
-import org.eclipse.jgit.api.RebaseCommand.Step;
 import org.eclipse.jgit.api.RebaseResult.Status;
 import org.eclipse.jgit.api.errors.RefNotFoundException;
 import org.eclipse.jgit.api.errors.UnmergedPathsException;
@@ -73,6 +71,8 @@ import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.RebaseTodoLine;
+import org.eclipse.jgit.lib.RebaseTodoLine.Action;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.ReflogEntry;
 import org.eclipse.jgit.lib.RepositoryState;
@@ -85,6 +85,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class RebaseCommandTest extends RepositoryTestCase {
+	private static final String GIT_REBASE_TODO = "rebase-merge/git-rebase-todo";
+
 	private static final String FILE1 = "file1";
 
 	protected Git git;
@@ -1497,15 +1499,18 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		try {
 			String line = br.readLine();
 			while (line != null) {
-				String actionToken = line.substring(0, line.indexOf(' '));
-				Action action = null;
-				try {
-					action = Action.parse(actionToken);
-				} catch (Exception e) {
-					// ignore
+				int firstBlank = line.indexOf(' ');
+				if (firstBlank != -1) {
+					String actionToken = line.substring(0, firstBlank);
+					Action action = null;
+					try {
+						action = Action.parse(actionToken);
+					} catch (Exception e) {
+						// ignore
+					}
+					if (Action.PICK.equals(action))
+						count++;
 				}
-				if (action != null)
-					count++;
 				line = br.readLine();
 			}
 			return count;
@@ -1625,11 +1630,10 @@ public class RebaseCommandTest extends RepositoryTestCase {
 				+ "# Comment line at end\n";
 		write(getTodoFile(), todo);
 
-		RebaseCommand rebaseCommand = git.rebase();
-		List<Step> steps = rebaseCommand.loadSteps();
+		List<RebaseTodoLine> steps = db.readRebaseTodo(GIT_REBASE_TODO, false);
 		assertEquals(2, steps.size());
-		assertEquals("1111111", steps.get(0).commit.name());
-		assertEquals("2222222", steps.get(1).commit.name());
+		assertEquals("1111111", steps.get(0).getCommit().name());
+		assertEquals("2222222", steps.get(1).getCommit().name());
 	}
 
 	@Test
@@ -1638,13 +1642,47 @@ public class RebaseCommandTest extends RepositoryTestCase {
 				+ "reword 2222222 Commit 2\n";
 		write(getTodoFile(), todo);
 
-		RebaseCommand rebaseCommand = git.rebase();
-		List<Step> steps = rebaseCommand.loadSteps();
+		List<RebaseTodoLine> steps = db.readRebaseTodo(GIT_REBASE_TODO, false);
 
 		assertEquals(2, steps.size());
-		assertEquals("1111111", steps.get(0).commit.name());
-		assertEquals("2222222", steps.get(1).commit.name());
-		assertEquals(Action.REWORD, steps.get(1).action);
+		assertEquals("1111111", steps.get(0).getCommit().name());
+		assertEquals("2222222", steps.get(1).getCommit().name());
+		assertEquals(Action.REWORD, steps.get(1).getAction());
+	}
+
+	@Test
+	public void testEmptyRebaseTodo() throws Exception {
+		write(getTodoFile(), "");
+		assertEquals(0, db.readRebaseTodo(GIT_REBASE_TODO, true).size());
+		assertEquals(0, db.readRebaseTodo(GIT_REBASE_TODO, false).size());
+	}
+
+	@Test
+	public void testOnlyCommentRebaseTodo() throws Exception {
+		write(getTodoFile(), "# a b c d e\n# e f");
+		assertEquals(2, db.readRebaseTodo(GIT_REBASE_TODO, true).size());
+		assertEquals(0, db.readRebaseTodo(GIT_REBASE_TODO, false).size());
+		write(getTodoFile(), "# a b c d e\n# e f\n");
+		assertEquals(2, db.readRebaseTodo(GIT_REBASE_TODO, true).size());
+		assertEquals(0, db.readRebaseTodo(GIT_REBASE_TODO, false).size());
+		write(getTodoFile(), " 	 \r\n# a b c d e\r\n# e f\r\n#");
+		assertEquals(4, db.readRebaseTodo(GIT_REBASE_TODO, true).size());
+		assertEquals(0, db.readRebaseTodo(GIT_REBASE_TODO, false).size());
+	}
+
+	@Test
+	public void testLeadingSpacesRebaseTodo() throws Exception {
+		String todo =	"  \t\t pick 1111111 Commit 1\n"
+					+ "\t\n"
+					+ "\treword 2222222 Commit 2\n";
+		write(getTodoFile(), todo);
+
+		List<RebaseTodoLine> steps = db.readRebaseTodo(GIT_REBASE_TODO, false);
+
+		assertEquals(2, steps.size());
+		assertEquals("1111111", steps.get(0).getCommit().name());
+		assertEquals("2222222", steps.get(1).getCommit().name());
+		assertEquals(Action.REWORD, steps.get(1).getAction());
 	}
 
 	@Test
@@ -1672,8 +1710,8 @@ public class RebaseCommandTest extends RepositoryTestCase {
 
 		RebaseResult res = git.rebase().setUpstream("HEAD~2")
 				.runInteractively(new InteractiveHandler() {
-					public void prepareSteps(List<Step> steps) {
-						steps.get(0).action = Action.REWORD;
+					public void prepareSteps(List<RebaseTodoLine> steps) {
+						steps.get(0).setAction(Action.REWORD);
 					}
 					public String modifyCommitMessage(String commit) {
 						return "rewritten commit message";
@@ -1713,8 +1751,8 @@ public class RebaseCommandTest extends RepositoryTestCase {
 
 		RebaseResult res = git.rebase().setUpstream("HEAD~2")
 				.runInteractively(new InteractiveHandler() {
-					public void prepareSteps(List<Step> steps) {
-						steps.get(0).action = Action.EDIT;
+					public void prepareSteps(List<RebaseTodoLine> steps) {
+						steps.get(0).setAction(Action.EDIT);
 					}
 
 					public String modifyCommitMessage(String commit) {
@@ -1741,8 +1779,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	private File getTodoFile() {
-		File todoFile = new File(db.getDirectory(),
-				"rebase-merge/git-rebase-todo");
+		File todoFile = new File(db.getDirectory(), GIT_REBASE_TODO);
 		return todoFile;
 	}
 }
