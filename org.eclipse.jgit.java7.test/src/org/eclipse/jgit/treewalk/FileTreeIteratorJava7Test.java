@@ -66,7 +66,7 @@ import org.junit.Test;
 
 public class FileTreeIteratorJava7Test extends RepositoryTestCase {
 	@Test
-	public void testFileTreeSymLinkMode() throws IOException {
+	public void testFileModeSymLinkIsNotATree() throws IOException {
 		FS fs = db.getFS();
 		// mål = target in swedish, just to get som unicode in here
 		writeTrashFile("mål/data", "targetdata");
