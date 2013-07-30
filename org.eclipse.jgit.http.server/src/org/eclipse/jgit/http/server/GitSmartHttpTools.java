@@ -112,6 +112,9 @@ public class GitSmartHttpTools {
 			Collections.unmodifiableList(Arrays.asList(new String[] {
 					INFO_REFS_PATH, UPLOAD_PACK_PATH, RECEIVE_PACK_PATH }));
 
+	private static final String ORIGINAL_STATUS_CODE =
+			"org.eclipse.jgit.http.server.OriginalStatusCode";
+
 	/**
 	 * Check a request for Git-over-HTTP indicators.
 	 *
@@ -130,6 +133,10 @@ public class GitSmartHttpTools {
 	 * to a Git protocol client using an HTTP 200 OK response with the error
 	 * embedded in the payload. If the request was not issued by a Git client,
 	 * an HTTP response code is returned instead.
+	 * <p>
+	 * The status code passed to this method can be retrieved with
+	 * {@link #getOriginalStatus(HttpServletRequest, HttpServletResponse)}
+	 * regardless of whether the actual status code was rewritten to 200.
 	 *
 	 * @param req
 	 *            current request.
@@ -157,6 +164,10 @@ public class GitSmartHttpTools {
 	 * {@link UploadPack#upload(java.io.InputStream, OutputStream, OutputStream)}
 	 * or
 	 * {@link ReceivePack#receive(java.io.InputStream, OutputStream, OutputStream)}.
+	 * <p>
+	 * The status code passed to this method can be retrieved with
+	 * {@link #getOriginalStatus(HttpServletRequest, HttpServletResponse)}
+	 * regardless of whether the actual status code was rewritten to 200.
 	 *
 	 * @param req
 	 *            current request.
@@ -175,6 +186,7 @@ public class GitSmartHttpTools {
 	public static void sendError(HttpServletRequest req,
 			HttpServletResponse res, int httpStatus, String textForGit)
 			throws IOException {
+		req.setAttribute(ORIGINAL_STATUS_CODE, httpStatus);
 		if (textForGit == null || textForGit.length() == 0) {
 			switch (httpStatus) {
 			case SC_FORBIDDEN:
@@ -203,6 +215,21 @@ public class GitSmartHttpTools {
 				ServletUtils.consumeRequestBody(req);
 			res.sendError(httpStatus);
 		}
+	}
+
+	/**
+	 * Get the original status code of a request/response passed to
+	 * {@code sendError}.
+	 *
+	 * @param req
+	 *            current request.
+	 * @return the status code set by {@code sendError} if the request was
+	 *         previously passed to that method, or null if the method was not
+	 *         previously called.
+	 * @since 3.1
+	 */
+	public static Integer getOriginalStatus(HttpServletRequest req) {
+		return (Integer) req.getAttribute(ORIGINAL_STATUS_CODE);
 	}
 
 	private static void sendInfoRefsError(HttpServletRequest req,
