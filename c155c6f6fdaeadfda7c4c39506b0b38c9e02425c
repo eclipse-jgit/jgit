@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c73e4bec_305f1ff4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RebaseTodoFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1001
+      },
+      "writtenOn": "2013-07-31T22:23:16Z",
+      "side": 1,
+      "message": "now that we can transform from non-comment to comment and vice versa pretty neat we could also try to parse  id and shortmessage here. If it does not fail, add a comment line that can be transformed to a non-comment line.",
+      "revId": "c155c6f6fdaeadfda7c4c39506b0b38c9e02425c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
