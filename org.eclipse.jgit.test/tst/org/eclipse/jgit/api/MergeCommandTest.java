@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2010, Stefan Lay <stefan.lay@sap.com>
  * Copyright (C) 2010-2012, Christian Halstrick <christian.halstrick@sap.com>
+ * Copyright (C) 2013, Obeo
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -43,13 +44,17 @@
  */
 package org.eclipse.jgit.api;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Iterator;
 
 import org.eclipse.jgit.api.MergeCommand.FastForwardMode;
@@ -65,6 +70,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.GitDateFormatter;
+import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.GitDateFormatter.Format;
 import org.junit.Before;
 import org.junit.Test;
@@ -1532,6 +1538,175 @@ public class MergeCommandTest extends RepositoryTestCase {
 
 		assertEquals(MergeStatus.ABORTED, result.getMergeStatus());
 	}
+
+	@Test
+	public void testBinaryMergeAdditions() throws Exception {
+		// ours added, no change on theirs : merge takes ours
+		// ours added, added on theirs : merge takes ours, conflict marked
+		// no change on ours, added on theirs : merge takes theirs
+		Git git = new Git(db);
+		RevCommit initialCommit = git.commit().setMessage("initial commit")
+				.call();
+
+		createBranch(initialCommit, "refs/heads/side");
+
+		writeBinaryTrashFile("a", 0xCAFED00D);
+		writeBinaryTrashFile("b", 0xCAFEBABE);
+		git.add().addFilepattern("a").addFilepattern("b").call();
+		git.commit().setMessage("master").call();
+
+		checkoutBranch("refs/heads/side");
+
+		writeBinaryTrashFile("b", 0x600DF00D);
+		writeBinaryTrashFile("c", 0xDEADC0DE);
+		git.add().addFilepattern("b").addFilepattern("c").call();
+		RevCommit branchCommit = git.commit().setMessage("side").call();
+
+		checkoutBranch("refs/heads/master");
+
+		MergeResult result = git.merge().include(branchCommit.getId())
+				.setStrategy(MergeStrategy.RESOLVE).call();
+		assertEquals(MergeStatus.CONFLICTING, result.getMergeStatus());
+
+		assertBinaryContentEquals("a", 0xCAFED00D);
+		assertBinaryContentEquals("b", 0xCAFEBABE);
+		assertBinaryContentEquals("c", 0xDEADC0DE);
+
+		assertEquals(1, result.getConflicts().size());
+		assertEquals("b", result.getConflicts().keySet().iterator().next());
+
+		assertEquals(RepositoryState.MERGING, db.getRepositoryState());
+	}
+
+	@Test
+	public void testBinaryMergeDeletions() throws Exception {
+		// ours deleted, no change on theirs : merge takes ours
+		// ours deleted, theirs changed : merge takes ours, conflict marked
+		// ours deleted, theirs deleted : merge takes ours
+		// no change on ours, theirs changed : merge takes theirs
+		// no change on ours, theirs deleted : merge takes theirs
+		Git git = new Git(db);
+
+		writeBinaryTrashFile("a", 0xCAFED00D);
+		writeBinaryTrashFile("b", 0xCAFEBABE);
+		writeBinaryTrashFile("c", 0x600DF00D);
+		writeBinaryTrashFile("d", 0xDEADC0DE);
+		writeBinaryTrashFile("e", 0xDEADBEEF);
+		git.add().addFilepattern("a").addFilepattern("b").addFilepattern("c")
+				.addFilepattern("d").addFilepattern("e").call();
+		RevCommit initialCommit = git.commit().setMessage("initial commit")
+				.call();
+
+		createBranch(initialCommit, "refs/heads/side");
+
+		git.rm().addFilepattern("a").addFilepattern("b").addFilepattern("c")
+				.call();
+		git.commit().setMessage("master").call();
+
+		checkoutBranch("refs/heads/side");
+
+		writeBinaryTrashFile("b", 0x8BADF00D);
+		writeBinaryTrashFile("d", 0xFACEFEED);
+		git.rm().addFilepattern("c").addFilepattern("e").call();
+		git.add().addFilepattern("b").addFilepattern("d").call();
+		RevCommit branchCommit = git.commit().setMessage("side").call();
+
+		checkoutBranch("refs/heads/master");
+
+		MergeResult result = git.merge().include(branchCommit.getId())
+				.setStrategy(MergeStrategy.RESOLVE).call();
+		assertEquals(MergeStatus.CONFLICTING, result.getMergeStatus());
+
+		assertFalse(new File(db.getWorkTree(), "a").exists());
+		assertBinaryContentEquals("b", 0x8BADF00D);
+		assertFalse(new File(db.getWorkTree(), "c").exists());
+		assertBinaryContentEquals("d", 0xFACEFEED);
+		assertFalse(new File(db.getWorkTree(), "e").exists());
+
+		assertEquals(1, result.getConflicts().size());
+		assertEquals("b", result.getConflicts().keySet().iterator().next());
+
+		assertEquals(RepositoryState.MERGING, db.getRepositoryState());
+	}
+
+	@Test
+	public void testBinaryMergeChanges() throws Exception {
+		// ours changed, no change on theirs : merge takes ours
+		// ours changed, theirs changed : merge takes ours, conflict marked
+		// no change on ours, theirs changed : merge takes theirs
+		Git git = new Git(db);
+
+		writeBinaryTrashFile("a", 0xCAFED00D);
+		writeBinaryTrashFile("b", 0xCAFEBABE);
+		writeBinaryTrashFile("c", 0x600DF00D);
+		git.add().addFilepattern("a").addFilepattern("b").addFilepattern("c")
+				.call();
+		RevCommit initialCommit = git.commit().setMessage("initial commit")
+				.call();
+
+		createBranch(initialCommit, "refs/heads/side");
+
+		writeBinaryTrashFile("a", 0xDEADC0DE);
+		writeBinaryTrashFile("b", 0xDEADBEEF);
+		git.add().addFilepattern("a").addFilepattern("b").call();
+		git.commit().setMessage("master").call();
+
+		checkoutBranch("refs/heads/side");
+
+		writeBinaryTrashFile("b", 0x8BADF00D);
+		writeBinaryTrashFile("c", 0xFACEFEED);
+		git.add().addFilepattern("b").addFilepattern("c").call();
+		RevCommit branchCommit = git.commit().setMessage("side").call();
+
+		checkoutBranch("refs/heads/master");
+
+		MergeResult result = git.merge().include(branchCommit.getId())
+				.setStrategy(MergeStrategy.RESOLVE).call();
+		assertEquals(MergeStatus.CONFLICTING, result.getMergeStatus());
+
+		assertBinaryContentEquals("a", 0xDEADC0DE);
+		assertBinaryContentEquals("b", 0xDEADBEEF);
+		assertBinaryContentEquals("c", 0xFACEFEED);
+
+		assertEquals(1, result.getConflicts().size());
+		assertEquals("b", result.getConflicts().keySet().iterator().next());
+
+		assertEquals(RepositoryState.MERGING, db.getRepositoryState());
+	}
+
+	private void writeBinaryTrashFile(String name, int data)
+			throws IOException {
+		final File path = new File(db.getWorkTree(), name);
+		FileUtils.mkdirs(path.getParentFile(), true);
+		final DataOutputStream output = new DataOutputStream(
+				new FileOutputStream(
+				path));
+		try {
+			// Force jgit into thinking that this file contains binary data.
+			output.writeByte(0x0);
+			output.writeInt(data);
+		} finally {
+			output.close();
+		}
+	}
+
+	private void assertBinaryContentEquals(String name, int data) throws IOException {
+		final byte[] contents = readFile(name);
+		final byte[] expected = new byte[5];
+		// We've added 0x0 at the beginning of the file. Account for it now.
+		expected[0] = 0x0;
+		expected[1] = (byte)((data >>> 24) & 0xFF);
+		expected[2] = (byte)((data >>> 16) & 0xFF);
+		expected[3] = (byte)((data >>> 8) & 0xFF);
+		expected[4] = (byte)((data >>> 0) & 0xFF);
+		assertArrayEquals(expected, contents);
+	}
+
+	private byte[] readFile(String name) throws IOException {
+		final File path = new File(db.getWorkTree(), name);
+		return IO.readFully(path);
+	}
+
 	private static void setExecutable(Git git, String path, boolean executable) {
 		FS.DETECTED.setExecute(
 				new File(git.getRepository().getWorkTree(), path), executable);

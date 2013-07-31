@@ -2,6 +2,7 @@
  * Copyright (C) 2010, Google Inc.
  * Copyright (C) 2010, Matthias Sohn <matthias.sohn@sap.com>
  * Copyright (C) 2010, Jens Baumgart <jens.baumgart@sap.com>
+ * Copyright (C) 2013, Obeo
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -46,6 +47,8 @@
 package org.eclipse.jgit.util;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileLock;
 import java.text.MessageFormat;
@@ -92,6 +95,9 @@ public class FileUtils {
 	 * @since 3.0
 	 */
 	public static final int EMPTY_DIRECTORIES_ONLY = 16;
+
+	/** Size of the buffer to use when copying files. */
+	private static final int FILE_COPY_BUFFER_SIZE = 8192;
 
 	/**
 	 * Delete file or empty folder
@@ -361,5 +367,47 @@ public class FileUtils {
 	 */
 	public static String readSymLink(File path) throws IOException {
 		return FS.DETECTED.readSymLink(path);
+	}
+
+	/**
+	 * Copies the given sourceFile towards the given destination.
+	 *
+	 * @param sourceFile
+	 *            File that is to be copied.
+	 * @param destFile
+	 *            Destination where we need to copy.
+	 * @throws IOException
+	 */
+	public static void copyFile(File sourceFile, File destFile)
+			throws IOException {
+		if (destFile.exists()) {
+			if (destFile.isDirectory())
+				throw new IOException(MessageFormat.format(
+						JGitText.get().copyFailureDestinationIsDirectory,
+						destFile));
+			else if (!destFile.canWrite())
+				throw new IOException(MessageFormat.format(
+						JGitText.get().copyFailureDestinationIsReadOnly,
+						destFile));
+		}
+
+		FileInputStream inputStream = null;
+		FileOutputStream outputStream = null;
+		try {
+			inputStream = new FileInputStream(sourceFile);
+			outputStream = new FileOutputStream(destFile);
+
+			byte[] buffer = new byte[FILE_COPY_BUFFER_SIZE];
+			int read = inputStream.read(buffer);
+			while (read != -1) {
+				outputStream.write(buffer, 0, read);
+				read = inputStream.read(buffer);
+			}
+		} finally {
+			if (inputStream != null)
+				inputStream.close();
+			if (outputStream != null)
+				outputStream.close();
+		}
 	}
 }
