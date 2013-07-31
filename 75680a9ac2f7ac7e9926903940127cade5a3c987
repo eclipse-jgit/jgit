@@ -2,6 +2,91 @@
   "comments": [
     {
       "key": {
+        "uuid": "c73e4bec_41d140c3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 1001
+      },
+      "writtenOn": "2013-07-31T12:55:51Z",
+      "side": 1,
+      "message": "I think we should use Strings and let the RebaseTodoLine Class do the encoding.",
+      "revId": "75680a9ac2f7ac7e9926903940127cade5a3c987",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c73e4bec_e1b20c31",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RebaseTodoLine.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1001
+      },
+      "writtenOn": "2013-07-31T12:55:51Z",
+      "side": 1,
+      "message": "I would prefer to have commit be final.\nHaving commit be final (and therefor only be set in the constructor) makes it clear whether this line has ever been a regular (i.e. non-comment) or a comment line by checking if it\u0027s null.\n\nnull indicating that this line has ever been a comment line, otherwise this line either is a non-comment line or it has been transformed from non-comment to comment",
+      "revId": "75680a9ac2f7ac7e9926903940127cade5a3c987",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c73e4bec_c188b001",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RebaseTodoLine.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1001
+      },
+      "writtenOn": "2013-07-31T12:55:51Z",
+      "side": 1,
+      "message": "would prefer String to have this class be independent from encoding",
+      "revId": "75680a9ac2f7ac7e9926903940127cade5a3c987",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c73e4bec_218074d4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RebaseTodoLine.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1001
+      },
+      "writtenOn": "2013-07-31T12:55:51Z",
+      "side": 1,
+      "message": "would prefer String to have this class be independent from encoding",
+      "revId": "75680a9ac2f7ac7e9926903940127cade5a3c987",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c73e4bec_f6bbf429",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RebaseTodoLine.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1001
+      },
+      "writtenOn": "2013-07-31T12:55:51Z",
+      "side": 1,
+      "message": "It\u0027s possible to transform a non-comment line to a comment line, so it may be useful to change it back (only in the particular case, that a comment line has been a non-comment line befor)\n\nnon-comment -\u003e comment -\u003e non-comment sould work\n\ncomment -\u003e non-comment should fail (i.e. if \"AbbreviatedObjectId commit\" is null)",
+      "revId": "75680a9ac2f7ac7e9926903940127cade5a3c987",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c73e4bec_56b2a8ce",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 1
@@ -31,6 +116,40 @@
       "side": 1,
       "message": "Right. I could move the implementation into a different class just to keep the Repository class smaller. But I still would like have two methods readRebaseTodoFile() and writeRebaseTodoFile() in the repository class. Whenever I have to read or write a file in the .git filesystem hierarchy I start searching for it in the Repository class. read/writeCommitMsgFile(), read/writeOrigHead(), read/writeMergeCommitMsg() are good examples.\nTo motivate that I\u0027ll make them really non-static so that it is obvious they are related to the repository. Currently the caller has to specify a java.io.File and I expect it to point inside the .git directory of the repository. I\u0027ll substitute the File by a path string which is meant to relative to the repos .git folder.",
       "parentUuid": "c73e4bec_56b2a8ce",
+      "revId": "75680a9ac2f7ac7e9926903940127cade5a3c987",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c73e4bec_4165c00d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1594,
+      "author": {
+        "id": 1001
+      },
+      "writtenOn": "2013-07-31T12:55:51Z",
+      "side": 1,
+      "message": "move initialization of tokenCount just befor the inner while loop makes it clear, that it won\u0027t be changed by the following checks and therefore makes this method more readable (I expected it to be intentionally placed here and that it\u0027s changed before entering the inner loop)",
+      "revId": "75680a9ac2f7ac7e9926903940127cade5a3c987",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c73e4bec_015578ca",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1665,
+      "author": {
+        "id": 1001
+      },
+      "writtenOn": "2013-07-31T12:55:51Z",
+      "side": 1,
+      "message": "If the Line has been transformed from a non-comment step to a comment step we may lose information here. But it seems to me that this problem can not be faced easily (if at all).\n\nIt would be neat if a sequence of writeRebaseTodoFile(...) and readRebaseTodoFile would(...) gives the exact same result as the original input was",
       "revId": "75680a9ac2f7ac7e9926903940127cade5a3c987",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
