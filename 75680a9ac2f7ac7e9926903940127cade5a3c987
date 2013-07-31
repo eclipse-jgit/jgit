@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c73e4bec_56b2a8ce",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-07-31T10:28:54Z",
+      "side": 1,
+      "message": "Do these two methods have to be in the Repository class? They could be declared static AFAICS. How about a new RebaseTodoFile class (maybe in a new rebase package - the lib package is already kind of big)?",
+      "revId": "75680a9ac2f7ac7e9926903940127cade5a3c987",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
