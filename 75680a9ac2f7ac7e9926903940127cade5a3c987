@@ -16,6 +16,24 @@
       "revId": "75680a9ac2f7ac7e9926903940127cade5a3c987",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c73e4bec_16e4a09c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-07-31T10:46:00Z",
+      "side": 1,
+      "message": "Right. I could move the implementation into a different class just to keep the Repository class smaller. But I still would like have two methods readRebaseTodoFile() and writeRebaseTodoFile() in the repository class. Whenever I have to read or write a file in the .git filesystem hierarchy I start searching for it in the Repository class. read/writeCommitMsgFile(), read/writeOrigHead(), read/writeMergeCommitMsg() are good examples.\nTo motivate that I\u0027ll make them really non-static so that it is obvious they are related to the repository. Currently the caller has to specify a java.io.File and I expect it to point inside the .git directory of the repository. I\u0027ll substitute the File by a path string which is meant to relative to the repos .git folder.",
+      "parentUuid": "c73e4bec_56b2a8ce",
+      "revId": "75680a9ac2f7ac7e9926903940127cade5a3c987",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
