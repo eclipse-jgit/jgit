@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2009, Christian Halstrick <christian.halstrick@sap.com>
+ * Copyright (C) 2013, Laurent Goubet <laurent.goubet@obeo.fr>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -72,7 +73,7 @@ public class MergeResult<S extends Sequence> implements Iterable<MergeChunk> {
 
 	private final IntList chunks = new IntList();
 
-	private boolean containsConflicts = false;
+	private int conflictCount = 0;
 
 	/**
 	 * Creates a new empty MergeResult
@@ -113,7 +114,7 @@ public class MergeResult<S extends Sequence> implements Iterable<MergeChunk> {
 		chunks.add(begin);
 		chunks.add(end);
 		if (conflictState != ConflictState.NO_CONFLICT)
-			containsConflicts = true;
+			conflictCount++;
 	}
 
 	/**
@@ -156,9 +157,16 @@ public class MergeResult<S extends Sequence> implements Iterable<MergeChunk> {
 	}
 
 	/**
+	 * @return The number of conflicts detected during this merge.
+	 */
+	public int getConflictCount() {
+		return conflictCount;
+	}
+
+	/**
 	 * @return true if this merge result contains conflicts
 	 */
 	public boolean containsConflicts() {
-		return containsConflicts;
+		return conflictCount > 0;
 	}
 }

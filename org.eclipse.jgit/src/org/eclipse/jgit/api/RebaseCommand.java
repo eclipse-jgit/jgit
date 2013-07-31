@@ -273,7 +273,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 				BufferedWriter fw = new BufferedWriter(new OutputStreamWriter(
 						new FileOutputStream(
 								rebaseState.getFile(GIT_REBASE_TODO)),
-								Constants.CHARACTER_ENCODING));
+						Constants.CHARACTER_ENCODING));
 				fw.newLine();
 				try {
 					StringBuilder sb = new StringBuilder();

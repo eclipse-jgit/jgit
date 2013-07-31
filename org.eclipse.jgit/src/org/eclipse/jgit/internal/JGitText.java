@@ -89,6 +89,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String bareRepositoryNoWorkdirAndIndex;
 	/***/ public String base64InputNotProperlyPadded;
 	/***/ public String baseLengthIncorrect;
+	/***/ public String binaryMergeDriverName;
 	/***/ public String bitmapMissingObject;
 	/***/ public String bitmapsMustBePrepared;
 	/***/ public String blameNotCommittedYet;
@@ -161,6 +162,8 @@ public class JGitText extends TranslationBundle {
 	/***/ public String connectionFailed;
 	/***/ public String connectionTimeOut;
 	/***/ public String contextMustBeNonNegative;
+	/***/ public String copyFailureDestinationIsDirectory;
+	/***/ public String copyFailureDestinationIsReadOnly;
 	/***/ public String corruptionDetectedReReadingAt;
 	/***/ public String corruptObjectBadStream;
 	/***/ public String corruptObjectBadStreamCorruptHeader;
@@ -540,6 +543,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String tagAlreadyExists;
 	/***/ public String tagNameInvalid;
 	/***/ public String tagOnRepoWithoutHEADCurrentlyNotSupported;
+	/***/ public String textMergeDriverName;
 	/***/ public String theFactoryMustNotBeNull;
 	/***/ public String timerAlreadyTerminated;
 	/***/ public String topologicalSortRequired;
