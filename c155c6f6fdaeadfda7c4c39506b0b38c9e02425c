@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "c73e4bec_2de85d9f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RebaseTodoLine.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1001
+      },
+      "writtenOn": "2013-08-01T11:53:53Z",
+      "side": 1,
+      "message": "commit.name()",
+      "revId": "c155c6f6fdaeadfda7c4c39506b0b38c9e02425c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c73e4bec_7af17e06",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RebaseTodoLine.java",
         "patchSetId": 4
