@@ -16,6 +16,23 @@
       "revId": "c155c6f6fdaeadfda7c4c39506b0b38c9e02425c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c73e4bec_7af17e06",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RebaseTodoLine.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1001
+      },
+      "writtenOn": "2013-08-01T08:11:14Z",
+      "side": 1,
+      "message": "make sure each comment line is prefixed with \"#\"\n\n(1) do not allow multiline string (i.e. containing \\n or \\r) therefor fix or throw exception\n\n(2) prefix all lines with #\n\nsuggestion to (1): String replaceFirst(\"^([\\W^#^\\n^\\r]*)\",\"# $2\"); String.replaceAll(\"\\n\", \"\"); //squash into single line\n\nsuggestion to (2): String.replaceAll(\"(\\n|^)([\\W^#^\\n^\\r]*)\",\"$1# $2\")",
+      "revId": "c155c6f6fdaeadfda7c4c39506b0b38c9e02425c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
