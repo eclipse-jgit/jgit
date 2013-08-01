@@ -1156,7 +1156,7 @@ public class UploadPack {
 	}
 
 	private static void checkNotAdvertisedWants(RevWalk walk,
-			List<ObjectId> wants, Set<ObjectId> reachableFrom)
+			List<ObjectId> notAdvertisedWants, Set<ObjectId> reachableFrom)
 			throws MissingObjectException, IncorrectObjectTypeException, IOException {
 		// Walk the requested commits back to the provided set of commits. If any
 		// commit exists, a branch was deleted or rewound and the repository owner
@@ -1164,7 +1164,7 @@ public class UploadPack {
 		// into an advertised branch it will be marked UNINTERESTING and no commits
 		// return.
 
-		AsyncRevObjectQueue q = walk.parseAny(wants, true);
+		AsyncRevObjectQueue q = walk.parseAny(notAdvertisedWants, true);
 		RevObject obj;
 		while ((obj = q.next()) != null) {
 			if (!(obj instanceof RevCommit))
