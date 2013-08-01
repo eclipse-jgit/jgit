@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c73e4bec_5cb0f971",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1044,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-08-01T23:55:55Z",
+      "side": 1,
+      "message": "Formatting seems broken here. JGit standard is to use tab for indent at each level.",
+      "revId": "ae0858f009c3a0e7bff65774c5f9b32b260bdbfb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c73e4bec_bc0bfdb3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1169,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-08-01T23:55:55Z",
+      "side": 1,
+      "message": "This should be moved inside of a try/finally block:\n\n  try {\n    .. the loop\n  } finally {\n    q.release();\n  }\n\nSee the usage above of walk.parseAny.",
+      "revId": "ae0858f009c3a0e7bff65774c5f9b32b260bdbfb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
