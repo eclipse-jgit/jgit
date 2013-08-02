@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c73e4bec_7bc692ae",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-08-02T23:29:32Z",
+      "side": 1,
+      "message": "style nit: trailing whitespace",
+      "revId": "9a3ac2f0bd476e7351680433a17fa863df9a1b18",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c73e4bec_db81a654",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/StatusCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-08-02T23:29:32Z",
+      "side": 1,
+      "message": "it looks like you add an unrelated feature in this change, why are you adding a progress monitor here ?",
+      "revId": "9a3ac2f0bd476e7351680433a17fa863df9a1b18",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c73e4bec_bb865a69",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/StatusCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-08-02T23:29:32Z",
+      "side": 1,
+      "message": "style nit: trailing whitespace",
+      "revId": "9a3ac2f0bd476e7351680433a17fa863df9a1b18",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c73e4bec_1b882e75",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-08-02T23:29:32Z",
+      "side": 1,
+      "message": "style nit: trailing whitespace",
+      "revId": "9a3ac2f0bd476e7351680433a17fa863df9a1b18",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
