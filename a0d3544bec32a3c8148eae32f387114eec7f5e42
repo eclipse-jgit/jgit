@@ -1,0 +1,259 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c73e4bec_9b255e38",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RebaseCommandTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1670,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-08-02T23:12:17Z",
+      "side": 1,
+      "message": "shouldn\u0027t we also assert that the steps have been all detected to be comments (Action.COMMENT) ?",
+      "revId": "a0d3544bec32a3c8148eae32f387114eec7f5e42",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c73e4bec_3bd40ab4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RebaseTodoFile.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-08-02T23:12:17Z",
+      "side": 1,
+      "message": "\"in the ??? like\" -\u003e something is wrong in this sentence\n\ndid you mean instead:\n\n\"Offers methods to read and write files formatted like the git-rebase-todo file\"",
+      "revId": "a0d3544bec32a3c8148eae32f387114eec7f5e42",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c73e4bec_9bdd5edb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RebaseTodoFile.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-08-02T23:12:17Z",
+      "side": 1,
+      "message": "s/spaces+tabs+cr/spaces, tabs, CR/",
+      "revId": "a0d3544bec32a3c8148eae32f387114eec7f5e42",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c73e4bec_7bf17255",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RebaseTodoFile.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-08-02T23:12:17Z",
+      "side": 1,
+      "message": "s/whitespaces/whitespace/",
+      "revId": "a0d3544bec32a3c8148eae32f387114eec7f5e42",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c73e4bec_bb1ada2b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RebaseTodoFile.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-08-02T23:12:17Z",
+      "side": 1,
+      "message": "s/repositories/repository\u0027s/",
+      "revId": "a0d3544bec32a3c8148eae32f387114eec7f5e42",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c73e4bec_1b1cae27",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RebaseTodoLine.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-08-02T23:12:17Z",
+      "side": 1,
+      "message": "style nit: unnecessary blank line",
+      "revId": "a0d3544bec32a3c8148eae32f387114eec7f5e42",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c73e4bec_3b2d2a48",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RebaseTodoLine.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-08-02T23:12:17Z",
+      "side": 1,
+      "message": "s/Creates/Create/",
+      "revId": "a0d3544bec32a3c8148eae32f387114eec7f5e42",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c73e4bec_9b26fe68",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RebaseTodoLine.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-08-02T23:12:17Z",
+      "side": 1,
+      "message": "s/Creates/Create/",
+      "revId": "a0d3544bec32a3c8148eae32f387114eec7f5e42",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c73e4bec_7b233259",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RebaseTodoLine.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-08-02T23:12:17Z",
+      "side": 1,
+      "message": "s/Set\u0027s/Set/",
+      "revId": "a0d3544bec32a3c8148eae32f387114eec7f5e42",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c73e4bec_db67e69a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RebaseTodoLine.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-08-02T23:12:17Z",
+      "side": 1,
+      "message": "s/always//",
+      "revId": "a0d3544bec32a3c8148eae32f387114eec7f5e42",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c73e4bec_bb53fab7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RebaseTodoLine.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-08-02T23:12:17Z",
+      "side": 1,
+      "message": "I don\u0027t understand this sentence, it seems not to make sense to change the action back to comment on a non-comment line on which the comment action was set before",
+      "revId": "a0d3544bec32a3c8148eae32f387114eec7f5e42",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c73e4bec_1b45ceed",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RebaseTodoLine.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-08-02T23:12:17Z",
+      "side": 1,
+      "message": "s/Sets/Set/\n\ns/lines/line\u0027s/",
+      "revId": "a0d3544bec32a3c8148eae32f387114eec7f5e42",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c73e4bec_fbc462da",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RebaseTodoLine.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-08-02T23:12:17Z",
+      "side": 1,
+      "message": "aren\u0027t tabs whitespace ?\n\ns/whitespaces/whitespace/ ?",
+      "revId": "a0d3544bec32a3c8148eae32f387114eec7f5e42",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c73e4bec_5bad961f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RebaseTodoLine.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-08-02T23:12:17Z",
+      "side": 1,
+      "message": "what is a short message commit ?",
+      "revId": "a0d3544bec32a3c8148eae32f387114eec7f5e42",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c73e4bec_3baa4a08",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1589,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-08-02T23:12:17Z",
+      "side": 1,
+      "message": "s/repositories/repository\u0027s/",
+      "revId": "a0d3544bec32a3c8148eae32f387114eec7f5e42",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
