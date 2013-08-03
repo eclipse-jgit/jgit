@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c73e4bec_0454459f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RebaseTodoFile.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-08-03T22:37:37Z",
+      "side": 1,
+      "message": "style nit: trailing whitespace",
+      "revId": "a17a1c407cc836495c543e3091b0eb1bc73ae14d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c73e4bec_644549ed",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1570,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-08-03T22:37:37Z",
+      "side": 1,
+      "message": "trailing whitespace",
+      "revId": "a17a1c407cc836495c543e3091b0eb1bc73ae14d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
