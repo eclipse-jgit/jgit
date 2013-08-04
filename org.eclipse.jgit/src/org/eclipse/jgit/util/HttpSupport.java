@@ -47,7 +47,6 @@ package org.eclipse.jgit.util;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.ConnectException;
-import java.net.HttpURLConnection;
 import java.net.Proxy;
 import java.net.ProxySelector;
 import java.net.URISyntaxException;
@@ -158,11 +157,11 @@ public class HttpSupport {
 	 * @param c
 	 *            connection the code should be obtained from.
 	 * @return r HTTP status code, usually 200 to indicate success. See
-	 *         {@link HttpURLConnection} for other defined constants.
+	 *         {@link HttpConnection} for other defined constants.
 	 * @throws IOException
 	 *             communications error prevented obtaining the response code.
 	 */
-	public static int response(final HttpURLConnection c) throws IOException {
+	public static int response(final HttpConnection c) throws IOException {
 		try {
 			return c.getResponseCode();
 		} catch (ConnectException ce) {
@@ -171,6 +170,34 @@ public class HttpSupport {
 			//
 			if ("Connection timed out: connect".equals(ce.getMessage()))
 				throw new ConnectException(MessageFormat.format(JGitText.get().connectionTimeOut, host));
+			throw new ConnectException(ce.getMessage() + " " + host); //$NON-NLS-1$
+		}
+	}
+
+	/**
+	 * Get the HTTP response code from the request.
+	 * <p>
+	 * Roughly the same as <code>c.getResponseCode()</code> but the
+	 * ConnectException is translated to be more understandable.
+	 *
+	 * @param c
+	 *            connection the code should be obtained from.
+	 * @return r HTTP status code, usually 200 to indicate success. See
+	 *         {@link HttpConnection} for other defined constants.
+	 * @throws IOException
+	 *             communications error prevented obtaining the response code.
+	 */
+	public static int response(final java.net.HttpURLConnection c)
+			throws IOException {
+		try {
+			return c.getResponseCode();
+		} catch (ConnectException ce) {
+			final String host = c.getURL().getHost();
+			// The standard J2SE error message is not very useful.
+			//
+			if ("Connection timed out: connect".equals(ce.getMessage()))
+				throw new ConnectException(MessageFormat.format(
+						JGitText.get().connectionTimeOut, host));
 			throw new ConnectException(ce.getMessage() + " " + host); //$NON-NLS-1$
 		}
 	}
