@@ -102,11 +102,11 @@ import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.SymbolicRef;
+import org.eclipse.jgit.util.HttpClientConnectionFactory;
 import org.eclipse.jgit.util.HttpConnection;
 import org.eclipse.jgit.util.HttpConnectionFactory;
 import org.eclipse.jgit.util.HttpSupport;
 import org.eclipse.jgit.util.IO;
-import org.eclipse.jgit.util.JDKHttpConnectionFactory;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.TemporaryBuffer;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
@@ -130,7 +130,7 @@ import org.eclipse.jgit.util.io.UnionInputStream;
  */
 public class TransportHttp extends HttpTransport implements WalkTransport,
 		PackTransport {
-	private HttpConnectionFactory connFact = new JDKHttpConnectionFactory();
+	private HttpConnectionFactory connFact = new HttpClientConnectionFactory();
 
 	private static final String SVC_UPLOAD_PACK = "git-upload-pack"; //$NON-NLS-1$
 
