@@ -260,6 +260,7 @@ public interface HttpConnection {
 	 *            that is used when making trust decisions, and for deciding
 	 *            whether credentials presented by a peer should be accepted.
 	 * @param random
+	 * 
 	 * @throws NoSuchAlgorithmException
 	 * @throws KeyManagementException
 	 */
