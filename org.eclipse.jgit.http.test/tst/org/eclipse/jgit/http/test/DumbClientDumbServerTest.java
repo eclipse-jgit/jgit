@@ -55,6 +55,8 @@ import static org.junit.Assert.fail;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -76,9 +78,16 @@ import org.eclipse.jgit.transport.HttpTransport;
 import org.eclipse.jgit.transport.Transport;
 import org.eclipse.jgit.transport.TransportHttp;
 import org.eclipse.jgit.transport.URIish;
+import org.eclipse.jgit.transport.http.HttpConnectionFactory;
+import org.eclipse.jgit.transport.http.JDKHttpConnectionFactory;
+import org.eclipse.jgit.transport.http.apache.HttpClientConnectionFactory;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 
+@RunWith(Parameterized.class)
 public class DumbClientDumbServerTest extends HttpTestCase {
 	private Repository remoteRepository;
 
@@ -87,6 +96,18 @@ public class DumbClientDumbServerTest extends HttpTestCase {
 	private RevBlob A_txt;
 
 	private RevCommit A, B;
+
+	@Parameters
+	public static Collection<Object[]> data() {
+		// run all tests with both connection factories we have
+		return Arrays.asList(new Object[][] {
+				{ new JDKHttpConnectionFactory() },
+				{ new HttpClientConnectionFactory() } });
+	}
+
+	public DumbClientDumbServerTest(HttpConnectionFactory cf) {
+		HttpTransport.setConnectionFactory(cf);
+	}
 
 	@Before
 	public void setUp() throws Exception {
