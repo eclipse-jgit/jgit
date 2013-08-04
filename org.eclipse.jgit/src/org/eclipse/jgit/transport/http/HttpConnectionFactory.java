@@ -1,7 +1,5 @@
 /*
- * Copyright (C) 2009, Constantine Plotnikov <constantine.plotnikov@gmail.com>
- * Copyright (C) 2009, JetBrains s.r.o.
- * Copyright (C) 2009, Shawn O. Pearce <spearce@spearce.org>
+ * Copyright (C) 2013 Christian Halstrick <christian.halstrick@sap.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -42,65 +40,38 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+package org.eclipse.jgit.transport.http;
 
-package org.eclipse.jgit.transport;
-
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.transport.http.HttpConnectionFactory;
-import org.eclipse.jgit.transport.http.JDKHttpConnectionFactory;
+import java.io.IOException;
+import java.net.Proxy;
+import java.net.URL;
 
 /**
- * The base class for transports that use HTTP as underlying protocol. This class
- * allows customizing HTTP connection settings.
+ * The interface of a factory returning {@link HttpConnection}
+ *
+ * @since 3.2
  */
-public abstract class HttpTransport extends Transport {
+public interface HttpConnectionFactory {
 	/**
-	 * factory for creating HTTP connections
+	 * Creates a new connection to a destination defined by a {@link URL}
 	 *
-	 * @since 3.2
+	 * @param url
+	 * @return a {@link HttpConnection}
+	 * @throws IOException
 	 */
-	protected static HttpConnectionFactory connectionFactory = new JDKHttpConnectionFactory();
+	public HttpConnection create(URL url) throws IOException;
 
 	/**
-	 * @return the {@link HttpConnectionFactory} used to create new connections
-	 * @since 3.2
-	 */
-	public static HttpConnectionFactory getConnectionFactory() {
-		return connectionFactory;
-	}
-
-	/**
-	 * Set the {@link HttpConnectionFactory} to be used to create new
-	 * connections
+	 * Creates a new connection to a destination defined by a {@link URL} using
+	 * a proxy
 	 *
-	 * @param cf
-	 * @since 3.2
-	 */
-	public static void setConnectionFactory(HttpConnectionFactory cf) {
-		connectionFactory = cf;
-	}
-
-	/**
-	 * Create a new transport instance.
+	 * @param url
+	 * @param proxy
+	 *            the proxy to be used
+	 * @return a {@link HttpConnection}
 	 *
-	 * @param local
-	 *            the repository this instance will fetch into, or push out of.
-	 *            This must be the repository passed to
-	 *            {@link #open(Repository, URIish)}.
-	 * @param uri
-	 *            the URI used to access the remote repository. This must be the
-	 *            URI passed to {@link #open(Repository, URIish)}.
+	 * @throws IOException
 	 */
-	protected HttpTransport(Repository local, URIish uri) {
-		super(local, uri);
-	}
-
-	/**
-	 * Create a minimal HTTP transport instance not tied to a single repository.
-	 *
-	 * @param uri
-	 */
-	protected HttpTransport(URIish uri) {
-		super(uri);
-	}
+	public HttpConnection create(URL url, Proxy proxy)
+			throws IOException;
 }
