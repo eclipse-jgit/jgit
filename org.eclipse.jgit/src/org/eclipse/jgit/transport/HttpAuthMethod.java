@@ -48,7 +48,6 @@ import static org.eclipse.jgit.util.HttpSupport.HDR_WWW_AUTHENTICATE;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -61,6 +60,7 @@ import java.util.Map.Entry;
 import java.util.Random;
 
 import org.eclipse.jgit.util.Base64;
+import org.eclipse.jgit.util.HttpConnection;
 
 /**
  * Support class to populate user authentication data on a connection.
@@ -81,7 +81,7 @@ abstract class HttpAuthMethod {
 	 *            the connection that failed.
 	 * @return new authentication method to try.
 	 */
-	static HttpAuthMethod scanResponse(final HttpURLConnection conn) {
+	static HttpAuthMethod scanResponse(final HttpConnection conn) {
 		final Map<String, List<String>> headers = conn.getHeaderFields();
 		HttpAuthMethod authentication = NONE;
 
@@ -168,7 +168,7 @@ abstract class HttpAuthMethod {
 	 * @param conn
 	 * @throws IOException
 	 */
-	abstract void configureRequest(HttpURLConnection conn) throws IOException;
+	abstract void configureRequest(HttpConnection conn) throws IOException;
 
 	/** Performs no user authentication. */
 	private static class None extends HttpAuthMethod {
@@ -178,7 +178,7 @@ abstract class HttpAuthMethod {
 		}
 
 		@Override
-		void configureRequest(HttpURLConnection conn) throws IOException {
+		void configureRequest(HttpConnection conn) throws IOException {
 			// Do nothing when no authentication is enabled.
 		}
 	}
@@ -198,7 +198,7 @@ abstract class HttpAuthMethod {
 		}
 
 		@Override
-		void configureRequest(final HttpURLConnection conn) throws IOException {
+		void configureRequest(final HttpConnection conn) throws IOException {
 			String ident = user + ":" + pass; //$NON-NLS-1$
 			String enc = Base64.encodeBytes(ident.getBytes("UTF-8")); //$NON-NLS-1$
 			conn.setRequestProperty(HDR_AUTHORIZATION, NAME + " " + enc); //$NON-NLS-1$
@@ -238,7 +238,7 @@ abstract class HttpAuthMethod {
 
 		@SuppressWarnings("boxing")
 		@Override
-		void configureRequest(final HttpURLConnection conn) throws IOException {
+		void configureRequest(final HttpConnection conn) throws IOException {
 			final Map<String, String> r = new LinkedHashMap<String, String>();
 
 			final String realm = params.get("realm"); //$NON-NLS-1$
