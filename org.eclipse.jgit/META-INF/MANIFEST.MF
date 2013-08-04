@@ -109,6 +109,12 @@ Export-Package: org.eclipse.jgit.api;version="3.3.0";
    org.eclipse.jgit.storage.pack",
  org.eclipse.jgit.transport.http;version="3.3.0";
   uses:="javax.net.ssl",
+ org.eclipse.jgit.transport.http.apache;version="3.3.0";
+  uses:="org.eclipse.jgit.transport.http,
+   javax.net.ssl,
+   org.apache.http.client,
+   org.apache.http.client.methods,
+   org.apache.http",
  org.eclipse.jgit.transport.resolver;version="3.3.0";
   uses:="org.eclipse.jgit.lib,org.eclipse.jgit.transport",
  org.eclipse.jgit.treewalk;version="3.3.0";
@@ -128,5 +134,17 @@ Require-Bundle: com.jcraft.jsch;bundle-version="[0.1.37,0.2.0)"
 Import-Package: com.googlecode.javaewah;version="[0.7.9,0.8.0)",
  javax.crypto,
  javax.net.ssl,
+ org.apache.http;version="[4.1.0,5.0.0)",
+ org.apache.http.client;version="[4.1.0,5.0.0)",
+ org.apache.http.client.methods;version="[4.1.0,5.0.0)",
+ org.apache.http.client.params;version="[4.1.0,5.0.0)",
+ org.apache.http.conn;version="[4.1.0,5.0.0)",
+ org.apache.http.conn.params;version="[4.1.0,5.0.0)",
+ org.apache.http.conn.scheme;version="[4.1.0,5.0.0)",
+ org.apache.http.conn.ssl;version="[4.1.0,5.0.0)",
+ org.apache.http.entity;version="[4.1.0,5.0.0)",
+ org.apache.http.impl.client;version="[4.1.0,5.0.0)",
+ org.apache.http.impl.client.cache;version="[4.1.0,5.0.0)",
+ org.apache.http.params;version="[4.1.0,5.0.0)",
  org.xml.sax,
  org.xml.sax.helpers
