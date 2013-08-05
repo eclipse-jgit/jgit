@@ -83,6 +83,9 @@ class Fetch extends AbstractFetchCommand {
 		thin = Boolean.FALSE;
 	}
 
+	@Option(name = "--quiet", usage = "usage_quiet")
+	private Boolean quiet;
+
 	@Argument(index = 0, metaVar = "metaVar_uriish")
 	private String remote = Constants.DEFAULT_REMOTE_NAME;
 
@@ -105,7 +108,8 @@ class Fetch extends AbstractFetchCommand {
 		fetch.setRemote(remote);
 		if (thin != null)
 			fetch.setThin(thin.booleanValue());
-		fetch.setProgressMonitor(new TextProgressMonitor());
+		if (quiet == null || !quiet.booleanValue())
+			fetch.setProgressMonitor(new TextProgressMonitor());
 
 		FetchResult result = fetch.call();
 		if (result.getTrackingRefUpdates().isEmpty())
