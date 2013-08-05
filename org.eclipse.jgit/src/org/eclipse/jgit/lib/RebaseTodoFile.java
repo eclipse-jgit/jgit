@@ -51,6 +51,7 @@ import java.io.OutputStreamWriter;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.eclipse.jgit.lib.RebaseTodoLine.Action;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
 
@@ -89,8 +90,6 @@ public class RebaseTodoFile {
 		int tokenBegin = 0;
 		List<RebaseTodoLine> r = new LinkedList<RebaseTodoLine>();
 		while (ptr < buf.length) {
-			RebaseTodoLine.Action action = null;
-			AbbreviatedObjectId commit = null;
 			tokenBegin = ptr;
 			ptr = RawParseUtils.nextLF(buf, ptr);
 			int lineStart = tokenBegin;
@@ -99,53 +98,101 @@ public class RebaseTodoFile {
 				lineEnd--;
 			// Handle comments
 			if (buf[tokenBegin] == '#') {
-				if (includeComments)
-					r.add(new RebaseTodoLine(RawParseUtils.decode(buf,
-							tokenBegin, lineEnd + 1)));
+				if (includeComments) {
+					RebaseTodoLine line = null;
+					String commentString = RawParseUtils.decode(buf,
+							tokenBegin, lineEnd + 1);
+					try {
+						int skip = tokenBegin + 1; // skip '#'
+						skip = nextParsableToken(buf, skip, lineEnd);
+						if (skip != -1) {
+							// try to parse the line as non-comment
+							line = parseLine(buf, skip, lineEnd);
+							// successfully parsed as non-comment line
+							// mark this line as a comment explicitly
+							line.setAction(Action.COMMENT);
+							// use the read line as comment string
+							line.setComment(commentString);
+						}
+					} catch (Exception e) {
+						// parsing as non-comment line failed
+						line = null;
+					} finally {
+						if (line == null)
+							line = new RebaseTodoLine(commentString);
+						r.add(line);
+					}
+				}
 				continue;
 			}
-			// skip leading spaces, tabs, CR
-			while (tokenBegin <= lineEnd
-					&& (buf[tokenBegin] == ' ' || buf[tokenBegin] == '\t' || buf[tokenBegin] == '\r'))
-				tokenBegin++;
+			// skip leading spaces+tabs+cr
+			tokenBegin = nextParsableToken(buf, tokenBegin, lineEnd);
 			// Handle empty lines (maybe empty after skipping leading
 			// whitespace)
-			if (tokenBegin > lineEnd) {
+			if (tokenBegin == -1) {
 				if (includeComments)
 					r.add(new RebaseTodoLine(RawParseUtils.decode(buf,
 							lineStart, 1 + lineEnd)));
 				continue;
 			}
-			int nextSpace = RawParseUtils.next(buf, tokenBegin, ' ');
-			int tokenCount = 0;
-			while (tokenCount < 3 && nextSpace < ptr) {
-				switch (tokenCount) {
-				case 0:
-					String actionToken = new String(buf, tokenBegin, nextSpace
-							- tokenBegin - 1);
-					tokenBegin = nextSpace;
-					action = RebaseTodoLine.Action.parse(actionToken);
-					break;
-				case 1:
-					if (action == null)
-						break;
-					nextSpace = RawParseUtils.next(buf, tokenBegin, ' ');
-					String commitToken = new String(buf, tokenBegin, nextSpace
-							- tokenBegin - 1);
-					tokenBegin = nextSpace;
-					commit = AbbreviatedObjectId.fromString(commitToken);
-					break;
-				case 2:
-					if (action == null)
-						break;
-					r.add(new RebaseTodoLine(action, commit, RawParseUtils
-							.decode(buf, tokenBegin, 1 + lineEnd)));
-					break;
-				}
-				tokenCount++;
-			}
+			RebaseTodoLine line = parseLine(buf, tokenBegin, lineEnd);
+			if (line == null)
+				continue;
+			r.add(line);
 		}
 		return r;
+	}
+
+	/**
+	 * skip leading spaces, tabs and cr
+	 *
+	 * @param buf
+	 * @param tokenBegin
+	 * @param lineEnd
+	 * @return the token within the range of the given <code>buf</code> that
+	 *         doesn't need to be skipped, <code>-1</code> if no such token
+	 *         found within the range (i.e. empty line)
+	 */
+	private static int nextParsableToken(byte[] buf, int tokenBegin, int lineEnd) {
+		while (tokenBegin <= lineEnd
+				&& (buf[tokenBegin] == ' ' || buf[tokenBegin] == '\t' || buf[tokenBegin] == '\r'))
+			tokenBegin++;
+		if (tokenBegin > lineEnd)
+			return -1;
+		return tokenBegin;
+	}
+
+	private static RebaseTodoLine parseLine(byte[] buf, int tokenBegin,
+			int lineEnd) {
+		RebaseTodoLine.Action action = null;
+		AbbreviatedObjectId commit = null;
+
+		int nextSpace = RawParseUtils.next(buf, tokenBegin, ' ');
+		int tokenCount = 0;
+		while (tokenCount < 3 && nextSpace < lineEnd) {
+			switch (tokenCount) {
+			case 0:
+				String actionToken = new String(buf, tokenBegin, nextSpace
+						- tokenBegin - 1);
+				tokenBegin = nextSpace;
+				action = RebaseTodoLine.Action.parse(actionToken);
+				if (action == null)
+					return null; // parsing failed
+				break;
+			case 1:
+				nextSpace = RawParseUtils.next(buf, tokenBegin, ' ');
+				String commitToken = new String(buf, tokenBegin, nextSpace
+						- tokenBegin - 1);
+				tokenBegin = nextSpace;
+				commit = AbbreviatedObjectId.fromString(commitToken);
+				break;
+			case 2:
+				return new RebaseTodoLine(action, commit, RawParseUtils.decode(
+						buf, tokenBegin, 1 + lineEnd));
+			}
+			tokenCount++;
+		}
+		return null;
 	}
 
 	/**
