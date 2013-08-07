@@ -137,6 +137,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String cannotReadTree;
 	/***/ public String cannotRebaseWithoutCurrentHead;
 	/***/ public String cannotResolveLocalTrackingRefForUpdating;
+	/***/ public String cannotSquashFixupWithoutPreviousCommit;
 	/***/ public String cannotStoreObjects;
 	/***/ public String cannotUnloadAModifiedTree;
 	/***/ public String cannotWorkWithOtherStagesThanZeroRightNow;

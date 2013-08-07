@@ -59,8 +59,11 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.eclipse.jgit.api.RebaseResult.Status;
+import org.eclipse.jgit.api.ResetCommand.ResetType;
 import org.eclipse.jgit.api.errors.CheckoutConflictException;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRefNameException;
@@ -149,6 +152,10 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	private static final String REBASE_HEAD = "head"; //$NON-NLS-1$
 
 	private static final String AMEND = "amend"; //$NON-NLS-1$
+
+	private static final String MESSAGE_FIXUP = "message-fixup"; //$NON-NLS-1$
+
+	private static final String MESSAGE_SQUASH = "message-squash"; //$NON-NLS-1$
 
 	/**
 	 * The available operations
@@ -292,9 +299,11 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 					fw.close();
 				}
 			}
-			for (Step step : steps) {
+			for (int i = 0; i < steps.size(); i++) {
+				Step step = steps.get(i);
 				popSteps(1);
-				Collection<ObjectId> ids = or.resolve(step.commit);
+				boolean isSquash = false;
+				Collection<ObjectId> ids = or.resolve(step.getCommit());
 				if (ids.size() != 1)
 					throw new JGitInternalException(
 							"Could not resolve uniquely the abbreviated object ID");
@@ -347,6 +356,34 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 					case EDIT:
 						rebaseState.createFile(AMEND, commitToPick.name());
 						return stop(commitToPick);
+					case SQUASH:
+						isSquash = true;
+						//$FALL-THROUGH$
+					case FIXUP:
+						// we have already commited the cherry-picked commit.
+						// what we need is to have changes introduced by this
+						// commit to be on the index
+						// resetting is a workaround
+						rewindHeadForAChachedCherryPick();
+						Step nextStep = (i >= steps.size() ? null
+								: steps.get(i + 1));
+						File messageFixupFile = rebaseState.getFile(MESSAGE_FIXUP);
+						File messageSquashFile = rebaseState
+								.getFile(MESSAGE_SQUASH);
+						if (isSquash) {
+							if (messageFixupFile.exists()) {
+								messageFixupFile.delete();
+							}
+						}
+						if (!rebaseState.getFile(DONE).exists()
+								|| rebaseState.readFile(DONE).trim().length() == 0) {
+							throw new JGitInternalException(
+									MessageFormat.format(
+											JGitText.get().cannotSquashFixupWithoutPreviousCommit,
+											step.getAction().name()));
+						}
+						newHead = doSquashFixup(isSquash, commitToPick,
+								nextStep, messageFixupFile, messageSquashFile);
 					}
 				} finally {
 					monitor.endTask();
@@ -366,6 +403,144 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		} catch (IOException ioe) {
 			throw new JGitInternalException(ioe.getMessage(), ioe);
 		}
+	}
+
+	private RevCommit doSquashFixup(boolean isSquash, RevCommit commitToPick,
+			Step nextStep, File messageFixup, File messageSquash)
+			throws IOException, GitAPIException {
+
+		if (!messageSquash.exists()) {
+			// init squash/fixup sequence
+			ObjectId headId = repo.resolve(Constants.HEAD);
+			RevCommit previousCommit = walk.parseCommit(headId);
+
+			initializeSquashFixupFile(MESSAGE_SQUASH,
+					previousCommit.getFullMessage());
+			if (!isSquash)
+				initializeSquashFixupFile(MESSAGE_FIXUP,
+					previousCommit.getFullMessage());
+		}
+		String currSquashMessage = rebaseState
+				.readFile(MESSAGE_SQUASH);
+
+		int count = parseSquashFixupSequenceCount(currSquashMessage) + 1;
+
+		String contend = composeSquashMessage(isSquash,
+				commitToPick, currSquashMessage, count);
+		rebaseState.createFile(MESSAGE_SQUASH, contend);
+		if (messageFixup.exists()) {
+			rebaseState.createFile(MESSAGE_FIXUP, contend);
+		}
+
+		return squashByAmending(
+				!messageFixup.exists(),
+				nextStep);
+	}
+
+	private void rewindHeadForAChachedCherryPick() throws IOException,
+			GitAPIException, CheckoutConflictException {
+		Ref orig_head = repo.getRef(Constants.ORIG_HEAD);
+		ObjectId orig_headId = orig_head.getObjectId();
+		Git.wrap(repo).reset().setMode(ResetType.SOFT)
+				.setRef("HEAD~1").call(); //$NON-NLS-1$
+		// set ORIG_HEAD back to where we started because soft
+		// reset moved it
+		repo.writeOrigHead(orig_headId);
+	}
+
+	private RevCommit squashByAmending(boolean sequenceContainsSquash,
+			Step nextStep)
+			throws IOException, GitAPIException {
+		RevCommit newHead;
+		String commitMessage = rebaseState
+				.readFile(MESSAGE_SQUASH);
+
+
+		if (nextStep == null
+				|| ((nextStep.getAction() != Action.FIXUP) && (nextStep
+						.getAction() != Action.SQUASH))) {
+			// this is the last step in this sequence
+			if (sequenceContainsSquash) {
+				commitMessage = interactiveHandler
+						.modifyCommitMessage(commitMessage);
+			}
+			commitMessage = commitMessage.replaceAll("(?m)^#.*$\n", ""); //$NON-NLS-1$ //$NON-NLS-2$
+			newHead = new Git(repo).commit().setMessage(commitMessage)
+					.setAmend(true).call();
+			rebaseState.getFile(MESSAGE_SQUASH).delete();
+			rebaseState.getFile(MESSAGE_FIXUP).delete();
+
+		} else {
+			// Next step is either Squash or Fixup
+			commitMessage = commitMessage.replaceAll("(?m)^#.*$\n", ""); //$NON-NLS-1$ //$NON-NLS-2$
+			newHead = new Git(repo).commit()
+					.setMessage(commitMessage).setAmend(true)
+					.call();
+		}
+		return newHead;
+	}
+
+	@SuppressWarnings("nls")
+	private static String composeSquashMessage(boolean isSquash,
+			RevCommit commitToPick, String currSquashMessage, int count) {
+		StringBuilder sb = new StringBuilder();
+		String ordinal = getOrdinal(count);
+		sb.setLength(0);
+		sb.append("# This is a combination of ").append(count)
+				.append(" commits.\n");
+		if (isSquash) {
+			sb.append("# This is the ").append(count).append(ordinal)
+					.append(" commit message:\n");
+			sb.append(commitToPick.getFullMessage());
+		} else {
+			sb.append("# The ").append(count).append(ordinal)
+					.append(" commit message will be skipped:\n# ");
+			sb.append(commitToPick.getFullMessage().replaceAll("([\n\r]+)",
+					"$1# "));
+		}
+		// Add the previous message without header (i.e first line)
+		sb.append("\n");
+		sb.append(currSquashMessage.substring(currSquashMessage.indexOf("\n") + 1));
+		return sb.toString();
+	}
+
+	private static String getOrdinal(int count) {
+		switch (count % 10) {
+		case 1:
+			return "st"; //$NON-NLS-1$
+		case 2:
+			return "nd"; //$NON-NLS-1$
+		case 3:
+			return "rd"; //$NON-NLS-1$
+		default:
+			return "th"; //$NON-NLS-1$
+		}
+	}
+
+	/**
+	 * Parse the count from squashed commit messages
+	 *
+	 * @param currSquashMessage
+	 *            the squashed commit message to be parsed
+	 * @return the count of squashed messages in the given string
+	 */
+	protected static int parseSquashFixupSequenceCount(String currSquashMessage) {
+		String regex = "This is a combination of (.*) commits"; //$NON-NLS-1$
+		String firstLine = currSquashMessage.substring(0,
+				currSquashMessage.indexOf("\n")); //$NON-NLS-1$
+		Pattern pattern = Pattern.compile(regex);
+		Matcher matcher = pattern.matcher(firstLine);
+		if (!matcher.find())
+			throw new IllegalArgumentException();
+		return Integer.parseInt(matcher.group(1));
+	}
+
+	private void initializeSquashFixupFile(String messageFile,
+			String fullMessage) throws IOException {
+		rebaseState
+				.createFile(
+						messageFile,
+						"# This is a combination of 1 commits.\n# The first commit's message is:\n" + fullMessage); //$NON-NLS-1$);
 	}
 
 	private String getOurCommitName() {
@@ -1086,7 +1261,11 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		/** Use commit, but edit the commit message */
 		REWORD("reword", "r"), //$NON-NLS-1$ //$NON-NLS-2$
 		/** Use commit, but stop for amending */
-		EDIT("edit", "e"); // later add SQUASH, FIXUP, etc. //$NON-NLS-1$ //$NON-NLS-2$
+		EDIT("edit", "e"), //$NON-NLS-1$ //$NON-NLS-2$
+		/** Use commit, but meld into previous commit */
+		SQUASH("squash", "s"), //$NON-NLS-1$ //$NON-NLS-2$
+		/** like "squash", but discard this commit's log message */
+		FIXUP("fixup", "f"); //$NON-NLS-1$ //$NON-NLS-2$
 
 		private final String token;
 
@@ -1226,6 +1405,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	private static class RebaseState {
 
 		private final File repoDirectory;
+
 		private File dir;
 
 		public RebaseState(File repoDirectory) {
