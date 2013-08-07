@@ -42,9 +42,9 @@
  */
 package org.eclipse.jgit.api;
 
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -83,6 +83,8 @@ import org.eclipse.jgit.merge.ResolveMerger.MergeFailureReason;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.FileUtils;
+import org.eclipse.jgit.util.IO;
+import org.eclipse.jgit.util.RawParseUtils;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -1904,6 +1906,344 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		logIterator.next(); // skip first commit;
 		String actualCommitMag = logIterator.next().getShortMessage();
 		assertEquals("edited commit message", actualCommitMag);
+	}
+
+	@Test
+	public void testParseSquashFixupSequenceCount() {
+		int count = RebaseCommand
+				.parseSquashFixupSequenceCount("# This is a combination of 3 commits.\n# newline");
+		assertEquals(3, count);
+	}
+
+	@Test
+	public void testRebaseInteractiveSingleSquashAndModifyMessage() throws Exception {
+		// create file1 on master
+		writeTrashFile(FILE1, FILE1);
+		git.add().addFilepattern(FILE1).call();
+		git.commit().setMessage("Add file1\nnew line").call();
+		assertTrue(new File(db.getWorkTree(), FILE1).exists());
+
+		// create file2 on master
+		writeTrashFile("file2", "file2");
+		git.add().addFilepattern("file2").call();
+		git.commit().setMessage("Add file2\nnew line").call();
+		assertTrue(new File(db.getWorkTree(), "file2").exists());
+
+		// update FILE1 on master
+		writeTrashFile(FILE1, "blah");
+		git.add().addFilepattern(FILE1).call();
+		git.commit().setMessage("updated file1 on master\nnew line").call();
+
+		writeTrashFile("file2", "more change");
+		git.add().addFilepattern("file2").call();
+		git.commit().setMessage("update file2 on master\nnew line").call();
+
+		git.rebase().setUpstream("HEAD~3")
+				.runInteractively(new InteractiveHandler() {
+
+					public void prepareSteps(List<RebaseTodoLine> steps) {
+						steps.get(1).setAction(Action.SQUASH);
+					}
+
+					public String modifyCommitMessage(String commit) {
+						final File messageSquashFile = new File(db
+								.getDirectory(), "rebase-merge/message-squash");
+						final File messageFixupFile = new File(db
+								.getDirectory(), "rebase-merge/message-fixup");
+
+						assertFalse(messageFixupFile.exists());
+						assertTrue(messageSquashFile.exists());
+						assertEquals(
+								"# This is a combination of 2 commits.\n# This is the 2nd commit message:\nupdated file1 on master\nnew line\n# The first commit's message is:\nAdd file2\nnew line",
+								commit);
+
+						try {
+							byte[] messageSquashBytes = IO
+									.readFully(messageSquashFile);
+							int end = RawParseUtils.prevLF(messageSquashBytes,
+									messageSquashBytes.length);
+							String messageSquashContent = RawParseUtils.decode(
+									messageSquashBytes, 0, end + 1);
+							assertEquals(messageSquashContent, commit);
+						} catch (Throwable t) {
+							fail(t.getMessage());
+						}
+
+						return "changed";
+					}
+				}).call();
+
+		RevWalk walk = new RevWalk(db);
+		ObjectId headId = db.resolve(Constants.HEAD);
+		RevCommit headCommit = walk.parseCommit(headId);
+		assertEquals(headCommit.getFullMessage(),
+				"update file2 on master\nnew line");
+
+		ObjectId head2Id = db.resolve(Constants.HEAD + "^1");
+		RevCommit head1Commit = walk.parseCommit(head2Id);
+		assertEquals("changed", head1Commit.getFullMessage());
+	}
+
+	@Test
+	public void testRebaseInteractiveMultipleSquash() throws Exception {
+		// create file0 on master
+		writeTrashFile("file0", "file0");
+		git.add().addFilepattern("file0").call();
+		git.commit().setMessage("Add file0\nnew line").call();
+		assertTrue(new File(db.getWorkTree(), "file0").exists());
+
+		// create file1 on master
+		writeTrashFile(FILE1, FILE1);
+		git.add().addFilepattern(FILE1).call();
+		git.commit().setMessage("Add file1\nnew line").call();
+		assertTrue(new File(db.getWorkTree(), FILE1).exists());
+
+		// create file2 on master
+		writeTrashFile("file2", "file2");
+		git.add().addFilepattern("file2").call();
+		git.commit().setMessage("Add file2\nnew line").call();
+		assertTrue(new File(db.getWorkTree(), "file2").exists());
+
+		// update FILE1 on master
+		writeTrashFile(FILE1, "blah");
+		git.add().addFilepattern(FILE1).call();
+		git.commit().setMessage("updated file1 on master\nnew line").call();
+
+		writeTrashFile("file2", "more change");
+		git.add().addFilepattern("file2").call();
+		git.commit().setMessage("update file2 on master\nnew line").call();
+
+		git.rebase().setUpstream("HEAD~4")
+				.runInteractively(new InteractiveHandler() {
+
+					public void prepareSteps(List<RebaseTodoLine> steps) {
+						steps.get(1).setAction(Action.SQUASH);
+						steps.get(2).setAction(Action.SQUASH);
+					}
+
+					public String modifyCommitMessage(String commit) {
+						final File messageSquashFile = new File(db.getDirectory(),
+								"rebase-merge/message-squash");
+						final File messageFixupFile = new File(db.getDirectory(),
+								"rebase-merge/message-fixup");
+						assertFalse(messageFixupFile.exists());
+						assertTrue(messageSquashFile.exists());
+						assertEquals(
+								"# This is a combination of 3 commits.\n# This is the 3rd commit message:\nupdated file1 on master\nnew line\n# This is the 2nd commit message:\nAdd file2\nnew line\n# The first commit's message is:\nAdd file1\nnew line",
+								commit);
+
+						try {
+							byte[] messageSquashBytes = IO
+									.readFully(messageSquashFile);
+							int end = RawParseUtils.prevLF(messageSquashBytes,
+									messageSquashBytes.length);
+							String messageSquashContend = RawParseUtils.decode(
+									messageSquashBytes, 0, end + 1);
+							assertEquals(messageSquashContend, commit);
+						} catch (Throwable t) {
+							fail(t.getMessage());
+						}
+
+						return "# This is a combination of 3 commits.\n# This is the 3rd commit message:\nupdated file1 on master\nnew line\n# This is the 2nd commit message:\nAdd file2\nnew line\n# The first commit's message is:\nAdd file1\nnew line";
+					}
+				}).call();
+
+		RevWalk walk = new RevWalk(db);
+		ObjectId headId = db.resolve(Constants.HEAD);
+		RevCommit headCommit = walk.parseCommit(headId);
+		assertEquals(headCommit.getFullMessage(),
+				"update file2 on master\nnew line");
+
+		ObjectId head2Id = db.resolve(Constants.HEAD + "^1");
+		RevCommit head1Commit = walk.parseCommit(head2Id);
+		assertEquals(
+				"updated file1 on master\nnew line\nAdd file2\nnew line\nAdd file1\nnew line",
+				head1Commit.getFullMessage());
+	}
+
+	@Test
+	public void testRebaseInteractiveMixedSquashAndFixup() throws Exception {
+		// create file0 on master
+		writeTrashFile("file0", "file0");
+		git.add().addFilepattern("file0").call();
+		git.commit().setMessage("Add file0\nnew line").call();
+		assertTrue(new File(db.getWorkTree(), "file0").exists());
+
+		// create file1 on master
+		writeTrashFile(FILE1, FILE1);
+		git.add().addFilepattern(FILE1).call();
+		git.commit().setMessage("Add file1\nnew line").call();
+		assertTrue(new File(db.getWorkTree(), FILE1).exists());
+
+		// create file2 on master
+		writeTrashFile("file2", "file2");
+		git.add().addFilepattern("file2").call();
+		git.commit().setMessage("Add file2\nnew line").call();
+		assertTrue(new File(db.getWorkTree(), "file2").exists());
+
+		// update FILE1 on master
+		writeTrashFile(FILE1, "blah");
+		git.add().addFilepattern(FILE1).call();
+		git.commit().setMessage("updated file1 on master\nnew line").call();
+
+		writeTrashFile("file2", "more change");
+		git.add().addFilepattern("file2").call();
+		git.commit().setMessage("update file2 on master\nnew line").call();
+
+		git.rebase().setUpstream("HEAD~4")
+				.runInteractively(new InteractiveHandler() {
+
+					public void prepareSteps(List<RebaseTodoLine> steps) {
+						steps.get(1).setAction(Action.FIXUP);
+						steps.get(2).setAction(Action.SQUASH);
+					}
+
+					public String modifyCommitMessage(String commit) {
+						final File messageSquashFile = new File(db
+								.getDirectory(), "rebase-merge/message-squash");
+						final File messageFixupFile = new File(db
+								.getDirectory(), "rebase-merge/message-fixup");
+
+						assertFalse(messageFixupFile.exists());
+						assertTrue(messageSquashFile.exists());
+						assertEquals(
+								"# This is a combination of 3 commits.\n# This is the 3rd commit message:\nupdated file1 on master\nnew line\n# The 2nd commit message will be skipped:\n# Add file2\n# new line\n# The first commit's message is:\nAdd file1\nnew line",
+								commit);
+
+						try {
+							byte[] messageSquashBytes = IO
+									.readFully(messageSquashFile);
+							int end = RawParseUtils.prevLF(messageSquashBytes,
+									messageSquashBytes.length);
+							String messageSquashContend = RawParseUtils.decode(
+									messageSquashBytes, 0, end + 1);
+							assertEquals(messageSquashContend, commit);
+						} catch (Throwable t) {
+							fail(t.getMessage());
+						}
+
+						return "changed";
+					}
+				}).call();
+
+		RevWalk walk = new RevWalk(db);
+		ObjectId headId = db.resolve(Constants.HEAD);
+		RevCommit headCommit = walk.parseCommit(headId);
+		assertEquals(headCommit.getFullMessage(),
+				"update file2 on master\nnew line");
+
+		ObjectId head2Id = db.resolve(Constants.HEAD + "^1");
+		RevCommit head1Commit = walk.parseCommit(head2Id);
+		assertEquals("changed", head1Commit.getFullMessage());
+	}
+
+	@Test
+	public void testRebaseInteractiveSingleFixup() throws Exception {
+		// create file1 on master
+		writeTrashFile(FILE1, FILE1);
+		git.add().addFilepattern(FILE1).call();
+		git.commit().setMessage("Add file1\nnew line").call();
+		assertTrue(new File(db.getWorkTree(), FILE1).exists());
+
+		// create file2 on master
+		writeTrashFile("file2", "file2");
+		git.add().addFilepattern("file2").call();
+		git.commit().setMessage("Add file2\nnew line").call();
+		assertTrue(new File(db.getWorkTree(), "file2").exists());
+
+		// update FILE1 on master
+		writeTrashFile(FILE1, "blah");
+		git.add().addFilepattern(FILE1).call();
+		git.commit().setMessage("updated file1 on master\nnew line").call();
+
+		writeTrashFile("file2", "more change");
+		git.add().addFilepattern("file2").call();
+		git.commit().setMessage("update file2 on master\nnew line").call();
+
+		git.rebase().setUpstream("HEAD~3")
+				.runInteractively(new InteractiveHandler() {
+
+					public void prepareSteps(List<RebaseTodoLine> steps) {
+						steps.get(1).setAction(Action.FIXUP);
+					}
+
+					public String modifyCommitMessage(String commit) {
+						fail("No callback to modify commit message expected for single fixup");
+						return commit;
+					}
+				}).call();
+
+		RevWalk walk = new RevWalk(db);
+		ObjectId headId = db.resolve(Constants.HEAD);
+		RevCommit headCommit = walk.parseCommit(headId);
+		assertEquals("update file2 on master\nnew line",
+				headCommit.getFullMessage());
+
+		ObjectId head1Id = db.resolve(Constants.HEAD + "^1");
+		RevCommit head1Commit = walk.parseCommit(head1Id);
+		assertEquals("Add file2\nnew line",
+				head1Commit.getFullMessage());
+	}
+
+
+	@Test(expected = JGitInternalException.class)
+	public void testRebaseInteractiveFixupFirstCommitShouldFail()
+			throws Exception {
+		// create file1 on master
+		writeTrashFile(FILE1, FILE1);
+		git.add().addFilepattern(FILE1).call();
+		git.commit().setMessage("Add file1\nnew line").call();
+		assertTrue(new File(db.getWorkTree(), FILE1).exists());
+
+		// create file2 on master
+		writeTrashFile("file2", "file2");
+		git.add().addFilepattern("file2").call();
+		git.commit().setMessage("Add file2\nnew line").call();
+		assertTrue(new File(db.getWorkTree(), "file2").exists());
+
+		git.rebase().setUpstream("HEAD~1")
+				.runInteractively(new InteractiveHandler() {
+
+					public void prepareSteps(List<RebaseTodoLine> steps) {
+						steps.get(0).setAction(Action.FIXUP);
+					}
+
+					public String modifyCommitMessage(String commit) {
+						fail("No callback to modify commit message expected for single fixup");
+						return commit;
+					}
+				}).call();
+
+	}
+
+	@Test(expected = JGitInternalException.class)
+	public void testRebaseInteractiveSquashFirstCommitShouldFail()
+			throws Exception {
+		// create file1 on master
+		writeTrashFile(FILE1, FILE1);
+		git.add().addFilepattern(FILE1).call();
+		git.commit().setMessage("Add file1\nnew line").call();
+		assertTrue(new File(db.getWorkTree(), FILE1).exists());
+
+		// create file2 on master
+		writeTrashFile("file2", "file2");
+		git.add().addFilepattern("file2").call();
+		git.commit().setMessage("Add file2\nnew line").call();
+		assertTrue(new File(db.getWorkTree(), "file2").exists());
+
+		git.rebase().setUpstream("HEAD~1")
+				.runInteractively(new InteractiveHandler() {
+
+					public void prepareSteps(List<RebaseTodoLine> steps) {
+						steps.get(0).setAction(Action.SQUASH);
+					}
+
+					public String modifyCommitMessage(String commit) {
+						fail("No callback to modify commit message expected for single fixup");
+						return commit;
+					}
+				}).call();
+
 	}
 
 	private File getTodoFile() {
