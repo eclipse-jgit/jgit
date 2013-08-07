@@ -61,7 +61,11 @@ public class RebaseTodoLine {
 		/** Use commit, but edit the commit message */
 		REWORD("reword", "r"), //$NON-NLS-1$ //$NON-NLS-2$
 		/** Use commit, but stop for amending */
-		EDIT("edit", "e"), // later add SQUASH, FIXUP, etc. //$NON-NLS-1$ //$NON-NLS-2$
+		EDIT("edit", "e"), //$NON-NLS-1$ //$NON-NLS-2$
+		/** Use commit, but meld into previous commit */
+		SQUASH("squash", "s"), //$NON-NLS-1$ //$NON-NLS-2$
+		/** like "squash", but discard this commit's log message */
+		FIXUP("fixup", "f"), //$NON-NLS-1$ //$NON-NLS-2$
 		/**
 		 * A comment in the file. Also blank lines (or lines containing only
 		 * whitespaces) are reported as comments
