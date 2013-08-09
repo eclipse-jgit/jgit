@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c73e4bec_9cf87372",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1001
+      },
+      "writtenOn": "2013-08-09T14:31:18Z",
+      "side": 1,
+      "message": "I think we should check for comment lines here, and if so, continue immediately (i.e. skip processing the line)",
+      "revId": "38cfb6d3d562f688f57729eb375f6c05ea2322ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c73e4bec_dca95b66",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1001
+      },
+      "writtenOn": "2013-08-09T14:31:18Z",
+      "side": 1,
+      "message": "handle comment lines right at the beginning of this loop",
+      "revId": "38cfb6d3d562f688f57729eb375f6c05ea2322ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
