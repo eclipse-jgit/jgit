@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c73e4bec_2c38ff51",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-08-10T21:39:10Z",
+      "side": 1,
+      "message": "There are only two, so we could be more clear here since \" \" is somewhat strange looking.\n\nE.g Invalid path (space and period at end is ignored by Windows): {1}",
+      "revId": "874557ac5b43b3d82731f09139523f9548bcbefb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
