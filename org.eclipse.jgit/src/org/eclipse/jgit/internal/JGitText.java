@@ -328,6 +328,9 @@ public class JGitText extends TranslationBundle {
 	/***/ public String invalidOldIdSent;
 	/***/ public String invalidPacketLineHeader;
 	/***/ public String invalidPath;
+	/***/ public String invalidPathContainsSeparator;
+	/***/ public String invalidPathSpaceOrDotAtEndWindows;
+	/***/ public String invalidPathReservedOnWindows;
 	/***/ public String invalidReflogRevision;
 	/***/ public String invalidRefName;
 	/***/ public String invalidRemote;
