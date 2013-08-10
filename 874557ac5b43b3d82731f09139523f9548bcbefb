@@ -16,6 +16,24 @@
       "revId": "874557ac5b43b3d82731f09139523f9548bcbefb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c73e4bec_4fe57d14",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-08-10T22:17:52Z",
+      "side": 1,
+      "message": "You\u0027re right. We could split it into two, so that it\u0027s even clearer (and because the space at the end of the path is not easily visible). Second patch set coming up.",
+      "parentUuid": "c73e4bec_2c38ff51",
+      "revId": "874557ac5b43b3d82731f09139523f9548bcbefb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
