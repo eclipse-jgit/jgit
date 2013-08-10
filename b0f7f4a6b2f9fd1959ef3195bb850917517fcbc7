@@ -34,6 +34,24 @@
       "revId": "b0f7f4a6b2f9fd1959ef3195bb850917517fcbc7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c73e4bec_8cbaf358",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-08-10T21:26:00Z",
+      "side": 1,
+      "message": "I think Matthias, ment the code that adds the nulls. The content of those lists are under our control and there is no legacy reason for supporting nulls. The code that construct these lists should make sure it does not add nulls.",
+      "parentUuid": "073dc3ed_b247d7f5",
+      "revId": "b0f7f4a6b2f9fd1959ef3195bb850917517fcbc7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
