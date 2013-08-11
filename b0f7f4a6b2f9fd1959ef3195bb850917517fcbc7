@@ -70,6 +70,24 @@
       "revId": "b0f7f4a6b2f9fd1959ef3195bb850917517fcbc7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c73e4bec_266db3f5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-08-11T21:33:16Z",
+      "side": 1,
+      "message": "but why would a user want to add a null step ?",
+      "parentUuid": "c73e4bec_b2caa514",
+      "revId": "b0f7f4a6b2f9fd1959ef3195bb850917517fcbc7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
