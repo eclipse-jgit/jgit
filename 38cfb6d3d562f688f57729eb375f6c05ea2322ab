@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c73e4bec_d7ee3afc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-08-12T07:23:13Z",
+      "side": 1,
+      "message": "First I thought that\u0027s a valid comment. But think about it: if we would have to deal with comment lines here and if we wouldn\u0027t check for comment lines here ... then we would fail two lines below where we check that each line contains a commit id. This would mean: our current tests are so bad that they don\u0027t recognize that RebaseCommand can\u0027t handle comment lines. That would be a severe bug in our tests.\n\nThe thing is: we don\u0027t have to deal with comments here. We know that they are already filtered out in the readRebaseTodo() call by specifying that we don\u0027t want to see comments.",
+      "parentUuid": "c73e4bec_9cf87372",
+      "revId": "38cfb6d3d562f688f57729eb375f6c05ea2322ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c73e4bec_dca95b66",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
         "patchSetId": 7
@@ -30,6 +48,24 @@
       "writtenOn": "2013-08-09T14:31:18Z",
       "side": 1,
       "message": "handle comment lines right at the beginning of this loop",
+      "revId": "38cfb6d3d562f688f57729eb375f6c05ea2322ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c73e4bec_1700a237",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-08-12T07:23:13Z",
+      "side": 1,
+      "message": "We don\u0027t care about comments here - but I\u0027ll leave this line because otherwise I get warnings from eclipse about incomplete switch statements.",
+      "parentUuid": "c73e4bec_dca95b66",
       "revId": "38cfb6d3d562f688f57729eb375f6c05ea2322ab",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
