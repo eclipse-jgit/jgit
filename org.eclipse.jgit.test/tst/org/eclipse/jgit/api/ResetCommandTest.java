@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2012, Chris Aniszczyk <caniszczyk@gmail.com>
+ * Copyright (C) 2011-2013, Chris Aniszczyk <caniszczyk@gmail.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -404,6 +404,27 @@ public class ResetCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testPathsResetOnUnbornBranch() throws Exception {
+		git = new Git(db);
+		writeTrashFile("a.txt", "content");
+		git.add().addFilepattern("a.txt").call();
+		// Should assume an empty tree, like in C Git 1.8.2
+		git.reset().addPath("a.txt").call();
+
+		DirCache cache = db.readDirCache();
+		DirCacheEntry aEntry = cache.getEntry("a.txt");
+		assertNull(aEntry);
+	}
+
+	@Test(expected = JGitInternalException.class)
+	public void testPathsResetToNonexistingRef() throws Exception {
+		git = new Git(db);
+		writeTrashFile("a.txt", "content");
+		git.add().addFilepattern("a.txt").call();
+		git.reset().setRef("doesnotexist").addPath("a.txt").call();
+	}
+
+	@Test
 	public void testHardResetOnTag() throws Exception {
 		setupRepository();
 		String tagName = "initialtag";
@@ -451,6 +472,21 @@ public class ResetCommandTest extends RepositoryTestCase {
 		g.reset().setMode(ResetType.HARD).setRef(first.getName()).call();
 
 		assertNull(db.readSquashCommitMsg());
+	}
+
+	@Test
+	public void testHardResetOnUnbornBranch() throws Exception {
+		git = new Git(db);
+		File fileA = writeTrashFile("a.txt", "content");
+		git.add().addFilepattern("a.txt").call();
+		// Should assume an empty tree, like in C Git 1.8.2
+		git.reset().setMode(ResetType.HARD).call();
+
+		DirCache cache = db.readDirCache();
+		DirCacheEntry aEntry = cache.getEntry("a.txt");
+		assertNull(aEntry);
+		assertFalse(fileA.exists());
+		assertNull(db.resolve(Constants.HEAD));
 	}
 
 	private void assertReflog(ObjectId prevHead, ObjectId head)
