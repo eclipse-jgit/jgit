@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "c73e4bec_e0ae0519",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 942,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-08-12T23:07:20Z",
+      "side": 1,
+      "message": "why?",
+      "revId": "7b0ef67c1ea950210417c520d363785e3ae46856",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c73e4bec_a0951d12",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
         "patchSetId": 3
