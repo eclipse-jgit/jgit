@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "c73e4bec_60db1a63",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1001
+      },
+      "writtenOn": "2013-08-12T12:48:08Z",
+      "side": 1,
+      "message": "I get the point, but still, we expose the list of steps to the user and cannot assume that the user does not add comments.\n\nHere\u0027s a Test that shows the issue:\nhttps://github.com/TobiasPfeifer/jgit/commit/1e0beb44709787aae42a1467c0318a29f8be8318",
+      "parentUuid": "c73e4bec_d7ee3afc",
+      "revId": "38cfb6d3d562f688f57729eb375f6c05ea2322ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c73e4bec_dca95b66",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
         "patchSetId": 7
