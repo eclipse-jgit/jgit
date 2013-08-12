@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c73e4bec_80358101",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-08-12T22:32:08Z",
+      "side": 1,
+      "message": "this message isn\u0027t understandable",
+      "revId": "adbf5d1c2be03a7802af6e67cd122de771dfd5d6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c73e4bec_00dfb1f9",
+        "filename": "org.eclipse.jgit.java7.test/src/org/eclipse/jgit/treewalk/FileTreeIteratorJava7Test.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-08-12T22:32:08Z",
+      "side": 1,
+      "message": "looks like this should be squashed with Ia4c9c7902316bc0a90fb89d8dea9902835c06dfa,n,z",
+      "revId": "adbf5d1c2be03a7802af6e67cd122de771dfd5d6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
