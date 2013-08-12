@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c73e4bec_a0951d12",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-08-12T22:36:28Z",
+      "side": 1,
+      "message": "maybe api version here",
+      "revId": "7b0ef67c1ea950210417c520d363785e3ae46856",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHH///Q0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-08-12T22:36:28Z",
+      "side": 1,
+      "message": "According to the keySety() javadoc you can actually do this:\n\nconflicts.keySet().removeAll(removed)",
+      "revId": "7b0ef67c1ea950210417c520d363785e3ae46856",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
