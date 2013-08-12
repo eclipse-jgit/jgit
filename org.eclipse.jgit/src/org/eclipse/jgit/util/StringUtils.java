@@ -286,6 +286,7 @@ public final class StringUtils {
 	 * @param in
 	 *            A string with line breaks
 	 * @return in without line breaks
+	 * @since 3.1
 	 */
 	public static String replaceLineBreaksWithSpace(String in) {
 		char[] buf = new char[in.length()];
