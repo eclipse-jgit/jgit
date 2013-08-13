@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c73e4bec_1d40b35d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 942,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2013-08-13T14:44:36Z",
+      "side": 1,
+      "message": "It\u0027s a map now.",
+      "parentUuid": "c73e4bec_e0ae0519",
+      "revId": "7b0ef67c1ea950210417c520d363785e3ae46856",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c73e4bec_a0951d12",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
         "patchSetId": 3
@@ -36,6 +54,41 @@
     },
     {
       "key": {
+        "uuid": "c73e4bec_bd99bf88",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2013-08-13T14:44:36Z",
+      "side": 1,
+      "message": "Yeah, makes sense. Would a comment here be enough, or should I mention the change in the javadoc too?",
+      "parentUuid": "c73e4bec_a0951d12",
+      "revId": "7b0ef67c1ea950210417c520d363785e3ae46856",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c73e4bec_9d968354",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/StashApplyCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2013-08-13T14:44:36Z",
+      "side": 1,
+      "message": "TODO: this change is gone in the latest patch set.",
+      "revId": "7b0ef67c1ea950210417c520d363785e3ae46856",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOHH///Q0\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 3
@@ -47,6 +100,24 @@
       "writtenOn": "2013-08-12T22:36:28Z",
       "side": 1,
       "message": "According to the keySety() javadoc you can actually do this:\n\nconflicts.keySet().removeAll(removed)",
+      "revId": "7b0ef67c1ea950210417c520d363785e3ae46856",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c73e4bec_7d3577ff",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2013-08-13T14:44:36Z",
+      "side": 1,
+      "message": "Cool.",
+      "parentUuid": "AABOHH///Q0\u003d",
       "revId": "7b0ef67c1ea950210417c520d363785e3ae46856",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
