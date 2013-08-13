@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "c73e4bec_466ee8aa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-08-13T20:42:39Z",
+      "side": 1,
+      "message": "Is it a bug or just undefined behavior?",
+      "parentUuid": "c73e4bec_40fc197e",
+      "revId": "bb2d5c0e645ab55564bce329b1bffe16999d963b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c73e4bec_20ff4d73",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
         "patchSetId": 1
