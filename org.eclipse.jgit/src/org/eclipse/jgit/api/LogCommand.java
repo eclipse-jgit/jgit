@@ -74,10 +74,24 @@ import org.eclipse.jgit.treewalk.filter.TreeFilter;
  * to finally execute the command. Each instance of this class should only be
  * used for one invocation of the command (means: one call to {@link #call()})
  * <p>
- * This is currently a very basic implementation which takes only one starting
- * revision as option.
+ * Examples (<code>git</code> is a {@link Git} instance):
+ * <p>
+ * Get newest 10 commits, starting from the current branch:
  *
- * TODO: add more options (revision ranges, sorting, ...)
+ * <pre>
+ * ObjectId head = repository.resolve(Constants.HEAD);
+ *
+ * Iterable&lt;RevCommit&gt; commits = git.log().add(head).setMaxCount(10).call();
+ * </pre>
+ * <p>
+ *
+ * <p>
+ * Get commits only for a specific file:
+ *
+ * <pre>
+ * git.log().add(head).addPath(&quot;dir/filename.txt&quot;).call();
+ * </pre>
+ * <p>
  *
  * @see <a href="http://www.kernel.org/pub/software/scm/git/docs/git-log.html"
  *      >Git documentation about Log</a>
