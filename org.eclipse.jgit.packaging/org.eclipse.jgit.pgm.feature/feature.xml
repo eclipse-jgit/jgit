@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.jgit.pgm"
       label="%featureName"
-      version="3.0.0.qualifier"
+      version="3.0.2.qualifier"
       provider-name="%providerName">
 
    <description url="http://www.eclipse.org/jgit/">
@@ -23,7 +23,7 @@
    </url>
 
    <requires>
-      <import feature="org.eclipse.jgit" version="3.0.0" match="equivalent"/>
+      <import feature="org.eclipse.jgit" version="3.0.2" match="equivalent"/>
    </requires>
 
    <plugin
