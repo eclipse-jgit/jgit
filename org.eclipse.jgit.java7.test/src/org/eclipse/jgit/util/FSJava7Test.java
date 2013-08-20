@@ -50,26 +50,24 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.io.IOException;
 
+import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.junit.RepositoryTestCase;
-import org.eclipse.jgit.util.FS;
-import org.eclipse.jgit.util.FileUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class FSJava7Test {
+public class FSJava7Test extends LocalDiskRepositoryTestCase {
 
-	private final File trash = new File(new File("target"), "trash");
+	private File testDir = null;
 
 	@Before
 	public void setUp() throws Exception {
-		FileUtils.delete(trash, FileUtils.RECURSIVE | FileUtils.RETRY | FileUtils.SKIP_MISSING);
-		assertTrue(trash.mkdirs());
+		testDir = createTempDirectory(this.getClass().getName());
 	}
 
 	@After
 	public void tearDown() throws Exception {
-		FileUtils.delete(trash, FileUtils.RECURSIVE | FileUtils.RETRY);
+		FileUtils.delete(testDir, FileUtils.RECURSIVE | FileUtils.RETRY);
 	}
 
 	/**
@@ -85,8 +83,8 @@ public class FSJava7Test {
 	@Test
 	public void testSymlinkAttributes() throws IOException, InterruptedException {
 		FS fs = FS.DETECTED;
-		File link = new File(trash, "x");
-		File target = new File(trash, "y");
+		File link = new File(testDir, "x");
+		File target = new File(testDir, "y");
 		fs.createSymLink(link, "y");
 		assertTrue(fs.exists(link));
 		String targetName = fs.readSymLink(link);
