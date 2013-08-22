@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Fragment-Host: org.eclipse.jgit;bundle-version="3.0.0"
+Fragment-Host: org.eclipse.jgit;bundle-version="3.1.0"
 Bundle-Name: %plugin_name
 Bundle-SymbolicName: org.eclipse.jgit.java7
 Bundle-Version: 3.1.0.qualifier
