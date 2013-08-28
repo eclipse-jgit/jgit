@@ -105,10 +105,24 @@
 
     <plugins>
       <plugin>
-	<artifactId>maven-surefire-plugin</artifactId>
-	<configuration>
-	  <argLine>-Xmx256m -Dfile.encoding=UTF-8</argLine>
-	</configuration>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>test-jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <argLine>-Xmx256m -Dfile.encoding=UTF-8</argLine>
+          <dependenciesToScan>
+            <dependency>org.eclipse.jgit:${project.name}</dependency>
+          </dependenciesToScan>
+        </configuration>
       </plugin>
     </plugins>
   </build>
