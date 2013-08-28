@@ -62,6 +62,11 @@
     JUnit tests for the core library.
   </description>
 
+  <properties>
+    <!-- skip signing test bundles since they don't pack classes -->
+    <cbi.jarsigner.skip>true</cbi.jarsigner.skip>
+  </properties>
+
   <profiles>
     <profile>
       <id>jgit.java7</id>

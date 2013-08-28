@@ -60,6 +60,11 @@
     Tests for command line client tools built on top of JGit.
   </description>
 
+  <properties>
+    <!-- skip signing test bundles since they don't pack classes -->
+    <cbi.jarsigner.skip>true</cbi.jarsigner.skip>
+  </properties>
+
   <profiles>
     <profile>
       <id>jgit.java7</id>

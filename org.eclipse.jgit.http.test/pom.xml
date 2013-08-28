@@ -61,6 +61,11 @@
     Tests for the HTTP transport.
   </description>
 
+  <properties>
+    <!-- skip signing test bundles since they don't pack classes -->
+    <cbi.jarsigner.skip>true</cbi.jarsigner.skip>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
