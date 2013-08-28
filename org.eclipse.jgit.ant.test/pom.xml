@@ -92,6 +92,9 @@
 
     <plugins>
       <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+      </plugin>
+      <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
           <argLine>-Xmx256m -Dfile.encoding=UTF-8</argLine>
