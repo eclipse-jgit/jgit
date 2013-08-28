@@ -166,6 +166,17 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 		assertEntry(F, tracked, "src/a/b");
 	}
 
+	@Test
+	public void testNoPatterns() throws IOException {
+		writeIgnoreFile(".gitignore", "", " ", "# comment", "/");
+		writeTrashFile("a/a", "");
+
+		beginWalk();
+		assertEntry(F, tracked, ".gitignore");
+		assertEntry(D, tracked, "a");
+		assertEntry(F, tracked, "a/a");
+	}
+
 	private void beginWalk() throws CorruptObjectException {
 		walk = new TreeWalk(db);
 		walk.addTree(new FileTreeIterator(db));
