@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-   Copyright (C) 2009-2012, Matthias Sohn <matthias.sohn@sap.com>
+   Copyright (C) 2009, 2013, Matthias Sohn <matthias.sohn@sap.com>
    and other copyright owners as documented in the project's IP log.
 
    This program and the accompanying materials are made available
@@ -90,4 +90,74 @@
       <version>${project.version}</version>
     </dependency>
   </dependencies>
+
+  <build>
+    <plugins>
+      <!-- Tycho doesn't support consuming pack200 artifacts via pomDependencies
+           hence we need to copy them manually and use tycho-extra's
+           tycho-p2-extras-plugin:publish-features-and-bundles
+           to generate the missing p2 metadata -->
+      <plugin>
+        <!-- copy jgit jars and pack.gz files to plugins folder -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>copy-dependencies</id>
+            <phase>package</phase>
+            <goals>
+              <goal>copy-dependencies</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/repository/plugins</outputDirectory>
+              <overWriteReleases>false</overWriteReleases>
+              <overWriteSnapshots>false</overWriteSnapshots>
+              <overWriteIfNewer>true</overWriteIfNewer>
+              <excludeTransitive>true</excludeTransitive>
+              <useBaseVersion>false</useBaseVersion>
+              <includeGroupIds>org.eclipse.jgit</includeGroupIds>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+        <plugin>
+            <groupId>org.eclipse.tycho.extras</groupId>
+            <artifactId>tycho-p2-extras-plugin</artifactId>
+            <version>${tycho-version}</version>
+            <executions>
+                <execution>
+                    <!-- generate the full p2 metadata for the mirrored artifacts -->
+                    <id>generate-full-metadata</id>
+                    <phase>compile</phase>
+                    <goals>
+                        <goal>publish-features-and-bundles</goal>
+                    </goals>
+                    <configuration>
+                        <sourceLocation>${project.build.directory}/repository</sourceLocation>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <executions>
+                <execution>
+                    <!-- strip the p2 metadata that contains the "partial IUs" which were used for dependency resolution in Tycho -->
+                    <id>remove-incomplete-metadata</id>
+                    <phase>process-resources</phase>
+                    <goals>
+                        <goal>run</goal>
+                    </goals>
+                    <configuration>
+                        <target>
+                            <delete file="${project.build.directory}/repository/content.jar" />
+                            <delete file="${project.build.directory}/repository/artifacts.jar" />
+                        </target>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
+    </plugins>
+  </build>
 </project>
