@@ -757,6 +757,18 @@ public class ObjectDirectory extends FileObjectDatabase {
 		return alt;
 	}
 
+	void addAlternate(AlternateHandle alt) {
+		AlternateHandle[] alts = myAlternates();
+		if (!alt.in(alts)) {
+			AlternateHandle[] newalts = new AlternateHandle[alts.length + 1];
+			System.arraycopy(alts, 0, newalts, 0, alts.length);
+			newalts[alts.length] = alt;
+			synchronized(alternates) {
+				alternates.set(newalts);
+			}
+		}
+	}
+
 	private AlternateHandle[] loadAlternates() throws IOException {
 		final List<AlternateHandle> l = new ArrayList<AlternateHandle>(4);
 		final BufferedReader br = open(alternatesFile);
