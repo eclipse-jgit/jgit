@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a74dd7b0_5875f73d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileObjectDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-09-04T10:59:37Z",
+      "side": 1,
+      "message": "Please fix indentation here.",
+      "revId": "75c26f6f33918aad444d9a7dc3305fc689d402e1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
