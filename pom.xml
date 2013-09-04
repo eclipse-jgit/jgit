@@ -543,7 +543,7 @@
               </execution>
             </executions>
           </plugin>
-<!--          <plugin>
+          <plugin>
             <groupId>org.eclipse.cbi.maven.plugins</groupId>
             <artifactId>eclipse-jarsigner-plugin</artifactId>
             <executions>
@@ -556,7 +556,7 @@
               </execution>
             </executions>
           </plugin>
--->          <plugin>
+          <plugin>
             <groupId>org.eclipse.tycho.extras</groupId>
             <artifactId>tycho-pack200b-plugin</artifactId>
             <!-- TODO remove this configuration when https://git.eclipse.org/r/#/c/16027 is available -->
