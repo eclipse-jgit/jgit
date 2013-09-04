@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %plugin_name
 Bundle-SymbolicName: org.eclipse.jgit
-Bundle-Version: 3.0.2.201309041250-rc2
+Bundle-Version: 3.0.2.qualifier
 Bundle-Localization: plugin
 Bundle-Vendor: %provider_name
 Export-Package: org.eclipse.jgit.api;version="3.0.2",

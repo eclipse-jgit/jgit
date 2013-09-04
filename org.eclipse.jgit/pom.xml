@@ -53,7 +53,7 @@
   <parent>
     <groupId>org.eclipse.jgit</groupId>
     <artifactId>org.eclipse.jgit-parent</artifactId>
-    <version>3.0.2.201309041250-rc2</version>
+    <version>3.0.2-SNAPSHOT</version>
   </parent>
 
   <artifactId>org.eclipse.jgit</artifactId>
