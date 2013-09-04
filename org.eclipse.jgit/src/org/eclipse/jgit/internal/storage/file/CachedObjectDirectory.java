@@ -159,6 +159,16 @@ class CachedObjectDirectory extends FileObjectDatabase {
 	}
 
 	@Override
+	void addAlternate(AlternateHandle alt) {
+		if (!alt.in(myAlternates())) {
+			AlternateHandle[] newalts = new AlternateHandle[alts.length + 1];
+			System.arraycopy(alts, 0, newalts, 0, alts.length);
+			newalts[alts.length] = alt;
+			alts = newalts;
+		}
+	}
+
+	@Override
 	void resolve(Set<ObjectId> matches, AbbreviatedObjectId id)
 			throws IOException {
 		// In theory we could accelerate the loose object scan using our
@@ -176,7 +186,7 @@ class CachedObjectDirectory extends FileObjectDatabase {
 
 	@Override
 	public boolean has(final AnyObjectId objectId) {
-		return hasObjectImpl1(objectId);
+		return hasObjectImpl1(objectId, null);
 	}
 
 	@Override
@@ -188,7 +198,7 @@ class CachedObjectDirectory extends FileObjectDatabase {
 	@Override
 	ObjectLoader openObject(final WindowCursor curs,
 			final AnyObjectId objectId) throws IOException {
-		return openObjectImpl1(curs, objectId);
+		return openObjectImpl1(curs, objectId, null);
 	}
 
 	@Override
