@@ -55,17 +55,6 @@ import org.eclipse.jgit.internal.storage.pack.PackOutputStream;
 
 /** A cached slice of a {@link DfsPackFile}. */
 final class DfsBlock {
-	/**
-	 * Size in bytes to pass to {@link Inflater} at a time.
-	 * <p>
-	 * Blocks can be large (for example 1 MiB), while compressed objects inside
-	 * of them are very small (for example less than 100 bytes for a delta). JNI
-	 * forces the data supplied to the Inflater to be copied during setInput(),
-	 * so use a smaller stride to reduce the risk that too much unnecessary was
-	 * moved into the native layer.
-	 */
-	private static final int INFLATE_STRIDE = 512;
-
 	final DfsPackKey pack;
 
 	final long start;
@@ -105,29 +94,9 @@ final class DfsBlock {
 		return n;
 	}
 
-	int inflate(Inflater inf, long pos, byte[] dstbuf, int dstoff)
-			throws DataFormatException {
+	void setInput(Inflater inf, long pos) {
 		int ptr = (int) (pos - start);
-		int in = Math.min(INFLATE_STRIDE, block.length - ptr);
-		if (dstoff < dstbuf.length)
-			in = Math.min(in, dstbuf.length - dstoff);
-		inf.setInput(block, ptr, in);
-
-		for (;;) {
-			int out = inf.inflate(dstbuf, dstoff, dstbuf.length - dstoff);
-			if (out == 0) {
-				if (inf.needsInput()) {
-					ptr += in;
-					in = Math.min(INFLATE_STRIDE, block.length - ptr);
-					if (in == 0)
-						return dstoff;
-					inf.setInput(block, ptr, in);
-					continue;
-				}
-				return dstoff;
-			}
-			dstoff += out;
-		}
+		inf.setInput(block, ptr, block.length - ptr);
 	}
 
 	void crc32(CRC32 out, long pos, int cnt) {
