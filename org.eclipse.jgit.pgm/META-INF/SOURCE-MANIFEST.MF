@@ -6,3 +6,4 @@ Bundle-Vendor: Eclipse.org - JGit
 Bundle-Version: 3.1.0.qualifier
 Eclipse-SourceBundle: org.eclipse.jgit.pgm;version="3.1.0";roots="."
 
+
