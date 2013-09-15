@@ -70,8 +70,10 @@ public class BranchTrackingStatus {
 	public static BranchTrackingStatus of(Repository repository, String branchName)
 			throws IOException {
 
+		String shortBranchName = Repository.shortenRefName(branchName);
+		String fullBranchName = Constants.R_HEADS + shortBranchName;
 		BranchConfig branchConfig = new BranchConfig(repository.getConfig(),
-				branchName);
+				shortBranchName);
 
 		String trackingBranch = branchConfig.getTrackingBranch();
 		if (trackingBranch == null)
@@ -81,7 +83,7 @@ public class BranchTrackingStatus {
 		if (tracking == null)
 			return null;
 
-		Ref local = repository.getRef(branchName);
+		Ref local = repository.getRef(fullBranchName);
 		if (local == null)
 			return null;
 
