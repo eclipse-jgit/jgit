@@ -53,7 +53,7 @@
 
   <groupId>org.eclipse.jgit</groupId>
   <artifactId>jgit.tycho.parent</artifactId>
-  <version>3.0.3-SNAPSHOT</version>
+  <version>3.0.3.201309161630-r</version>
   <packaging>pom</packaging>
 
   <name>JGit Tycho Parent</name>
