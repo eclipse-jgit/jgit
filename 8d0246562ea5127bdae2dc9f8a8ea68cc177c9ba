@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a74dd7b0_9c2d01cf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileObjectDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-09-17T20:32:51Z",
+      "side": 1,
+      "message": "Please fix the indentation.\n\nSince there is only one component, there is no point doing the extra arithmetic in hashCode",
+      "revId": "8d0246562ea5127bdae2dc9f8a8ea68cc177c9ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a74dd7b0_bc61dd05",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileObjectDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-09-17T20:32:51Z",
+      "side": 1,
+      "message": "Since there is only one component, there is no point doing the extra arithmetic here",
+      "revId": "8d0246562ea5127bdae2dc9f8a8ea68cc177c9ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a74dd7b0_1c6c51fb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 766,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-09-17T20:32:51Z",
+      "side": 1,
+      "message": "alternates is already of a special synchronized class",
+      "revId": "8d0246562ea5127bdae2dc9f8a8ea68cc177c9ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
