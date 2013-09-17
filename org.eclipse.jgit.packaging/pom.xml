@@ -105,6 +105,12 @@
     </dependency>
     <dependency>
       <groupId>org.eclipse.jgit</groupId>
+      <artifactId>org.eclipse.jgit.java7</artifactId>
+      <version>${project.version}</version>
+      <classifier>sources</classifier>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jgit</groupId>
       <artifactId>org.eclipse.jgit.pgm</artifactId>
       <version>${project.version}</version>
       <classifier>sources</classifier>
