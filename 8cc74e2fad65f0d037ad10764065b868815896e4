@@ -16,6 +16,24 @@
       "revId": "8cc74e2fad65f0d037ad10764065b868815896e4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_01e04eb4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1069,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2013-09-19T21:54:30Z",
+      "side": 1,
+      "message": "fine ill do the good if not the bad. also the invalidBitmap doesn\u0027t need to be volatile",
+      "parentUuid": "8748d3a1_21f74a83",
+      "revId": "8cc74e2fad65f0d037ad10764065b868815896e4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
