@@ -273,8 +273,8 @@ public class RebaseCommandTest extends RepositoryTestCase {
 
 		RevWalk rw = new RevWalk(db);
 		rw.markStart(rw.parseCommit(db.resolve("refs/heads/topic")));
-		assertDerivedFrom(rw.next(), e);
 		assertDerivedFrom(rw.next(), d);
+		assertDerivedFrom(rw.next(), e);
 		assertDerivedFrom(rw.next(), c);
 		assertEquals(b, rw.next());
 		assertEquals(a, rw.next());
@@ -289,9 +289,9 @@ public class RebaseCommandTest extends RepositoryTestCase {
 				.getReverseEntries();
 		assertEquals("rebase finished: returning to refs/heads/topic", headLog
 				.get(0).getComment());
-		assertEquals("rebase: update file2 on side", headLog.get(1)
+		assertEquals("rebase: Add file2", headLog.get(1).getComment());
+		assertEquals("rebase: update file2 on side", headLog.get(2)
 				.getComment());
-		assertEquals("rebase: Add file2", headLog.get(2).getComment());
 		assertEquals("rebase: update file3 on topic", headLog.get(3)
 				.getComment());
 		assertEquals("checkout: moving from topic to " + b.getName(), headLog
