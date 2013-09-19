@@ -90,20 +90,25 @@ public class DateRevQueueTest extends RevQueueTestCase<DateRevQueue> {
 	public void testInsertTie() throws Exception {
 		final RevCommit a = parseBody(commit());
 		final RevCommit b = parseBody(commit(0, a));
+		final RevCommit c = parseBody(commit(0, b));
 		{
 			q = create();
 			q.add(a);
 			q.add(b);
+			q.add(c);
 
 			assertCommit(a, q.next());
 			assertCommit(b, q.next());
+			assertCommit(c, q.next());
 			assertNull(q.next());
 		}
 		{
 			q = create();
+			q.add(c);
 			q.add(b);
 			q.add(a);
 
+			assertCommit(c, q.next());
 			assertCommit(b, q.next());
 			assertCommit(a, q.next());
 			assertNull(q.next());
