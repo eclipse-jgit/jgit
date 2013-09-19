@@ -121,6 +121,8 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 
 	private volatile boolean invalid;
 
+	private volatile boolean invalidBitmap;
+
 	private byte[] packChecksum;
 
 	private PackIndex loadedIdx;
@@ -1057,19 +1059,17 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	}
 
 	synchronized PackBitmapIndex getBitmapIndex() throws IOException {
-		if (invalid)
+		if (invalid || invalidBitmap)
 			return null;
 		if (bitmapIdx == null && hasExt(BITMAP_INDEX)) {
 			final PackBitmapIndex idx = PackBitmapIndex.open(
 					extFile(BITMAP_INDEX), idx(), getReverseIdx());
 
-			if (packChecksum == null)
-				packChecksum = idx.packChecksum;
-			else if (!Arrays.equals(packChecksum, idx.packChecksum))
-				throw new PackMismatchException(
-						JGitText.get().packChecksumMismatch);
-
-			bitmapIdx = idx;
+			// At this point, idx() will have set packChecksum.
+			if (!Arrays.equals(packChecksum, idx.packChecksum))
+				invalidBitmap = true;
+			else
+				bitmapIdx = idx;
 		}
 		return bitmapIdx;
 	}
