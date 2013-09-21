@@ -47,10 +47,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.security.AlgorithmParameters;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.security.spec.InvalidParameterSpecException;
+import java.security.spec.KeySpec;
 import java.text.MessageFormat;
 
 import javax.crypto.Cipher;
@@ -59,8 +62,10 @@ import javax.crypto.CipherOutputStream;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.PBEParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 
 import org.eclipse.jgit.internal.JGitText;
 
@@ -87,18 +92,21 @@ abstract class WalkEncryption {
 		if (v == null)
 			v = ""; //$NON-NLS-1$
 		if (!version.equals(v))
-			throw new IOException(MessageFormat.format(JGitText.get().unsupportedEncryptionVersion, v));
+			throw new IOException(MessageFormat.format(
+					JGitText.get().unsupportedEncryptionVersion, v));
 
 		v = u.getHeaderField(p + JETS3T_CRYPTO_ALG);
 		if (v == null)
 			v = ""; //$NON-NLS-1$
 		if (!name.equals(v))
-			throw new IOException(JGitText.get().unsupportedEncryptionAlgorithm + v);
+			throw new IOException(JGitText.get().unsupportedEncryptionAlgorithm
+					+ v);
 	}
 
 	IOException error(final Throwable why) {
 		final IOException e;
-		e = new IOException(MessageFormat.format(JGitText.get().encryptionError, why.getMessage()));
+		e = new IOException(MessageFormat.format(
+				JGitText.get().encryptionError, why.getMessage()));
 		e.initCause(why);
 		return e;
 	}
@@ -124,6 +132,107 @@ abstract class WalkEncryption {
 		OutputStream encrypt(OutputStream os) {
 			return os;
 		}
+	}
+
+	static class AesEncryption extends WalkEncryption {
+		SecretKey secret;
+
+		private final String algorithmName = "AES/CBC/PKCS5Padding"; //$NON-NLS-1$
+
+		public AesEncryption(final String key, final int keyLen) {
+			byte[] salt = { (byte) 0xA4, (byte) 0x0B, (byte) 0xC8, (byte) 0x34,
+					(byte) 0xD6, (byte) 0x95, (byte) 0xF3, (byte) 0x12 };
+			/* Derive the key, given password and salt. */
+
+			try {
+				SecretKeyFactory factory = SecretKeyFactory
+						.getInstance("PBKDF2WithHmacSHA1"); //$NON-NLS-1$
+				KeySpec spec = new PBEKeySpec(key.toCharArray(), salt, 65536,
+						keyLen);
+				SecretKey tmp = factory.generateSecret(spec);
+				secret = new SecretKeySpec(tmp.getEncoded(), "AES"); //$NON-NLS-1$
+			} catch (InvalidKeySpecException e) {
+				e.printStackTrace();
+			} catch (NoSuchAlgorithmException e1) {
+				e1.printStackTrace();
+			}
+
+		}
+
+		@Override
+		OutputStream encrypt(OutputStream os) throws IOException {
+			/* Encrypt the message. */
+			Cipher cipher;
+			try {
+				cipher = Cipher.getInstance(algorithmName);
+				cipher.init(Cipher.ENCRYPT_MODE, secret);
+
+				AlgorithmParameters params = cipher.getParameters();
+				byte[] iv = params.getParameterSpec(IvParameterSpec.class)
+						.getIV();
+
+				os.write(iv.length);
+				os.write(":::".getBytes());//$NON-NLS-1$
+				os.write(iv);
+				os.write(":::".getBytes()); //$NON-NLS-1$
+
+				return new CipherOutputStream(os, cipher);
+			} catch (NoSuchAlgorithmException e) {
+				e.printStackTrace();
+			} catch (NoSuchPaddingException e) {
+				e.printStackTrace();
+			} catch (InvalidKeyException e) {
+				e.printStackTrace();
+			} catch (InvalidParameterSpecException e) {
+				e.printStackTrace();
+			}
+			return null;
+
+		}
+
+		@Override
+		InputStream decrypt(InputStream in) throws IOException {
+			Cipher cipher;
+			try {
+				cipher = Cipher.getInstance(algorithmName);
+				if (in.available() > 0) {
+
+
+					int ivlen = in.read();
+					byte[] iv = new byte[ivlen];
+					in.skip(3);
+					in.read(iv, 0, ivlen);
+					in.skip(3);
+					cipher.init(Cipher.DECRYPT_MODE, secret,
+							new IvParameterSpec(iv));
+
+					return new CipherInputStream(in, cipher);
+				}
+
+			} catch (NoSuchAlgorithmException e) {
+				e.printStackTrace();
+			} catch (NoSuchPaddingException e) {
+				e.printStackTrace();
+			} catch (InvalidKeyException e) {
+				e.printStackTrace();
+			} catch (InvalidAlgorithmParameterException e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
+
+		@Override
+		void request(HttpURLConnection u, String prefix) {
+			u.setRequestProperty(prefix + JETS3T_CRYPTO_VER, "2"); //$NON-NLS-1$
+			u.setRequestProperty(prefix + JETS3T_CRYPTO_ALG,
+ algorithmName);
+		}
+
+		@Override
+		void validate(HttpURLConnection u, String p) throws IOException {
+			validateImpl(u, p, "2", algorithmName); //$NON-NLS-1$
+		}
+
 	}
 
 	static class ObjectEncryptionV2 extends WalkEncryption {

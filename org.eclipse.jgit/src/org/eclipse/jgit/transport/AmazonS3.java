@@ -106,9 +106,31 @@ import org.xml.sax.helpers.XMLReaderFactory;
  * private AWSSecretAccessKey.
  * <p>
  * Optional client-side encryption may be enabled if requested. The format is
- * compatible with <a href="http://jets3t.s3.amazonaws.com/index.html">jets3t</a>,
- * a popular Java based Amazon S3 client library. Enabling encryption can hide
- * sensitive data from the operators of the S3 service.
+ * compatible with <a
+ * href="http://jets3t.s3.amazonaws.com/index.html">jets3t</a>, a popular Java
+ * based Amazon S3 client library. Enabling encryption can hide sensitive data
+ * from the operators of the S3 service.
+ * 
+ * To use client-side encryption :
+ * <ol>
+ * <li>Add "accesskey: <AWS_ACCESS_KEY>" to property file. This is the access
+ * key obtained from aws.</li>
+ * <li>Add "secretkey: <AWS_SECRET_KEY>" to property file. This is the secret
+ * key obtained from aws for the above access key.</li>
+ * <li>Add "acl: <public|private>" to property file. Setting "acl" to "public"
+ * makes the repository accessible by everyone, whereas the "private" option
+ * makes repository accessible only be owner</li>
+ * <li>Add "crypto.algorithm: <AES|PBEWithMD5AndDES>" to property file. Select
+ * the algorithm used to encrypt the data. Default is "PBEWithMD5AndDES"</li>
+ * <li>Add "password: <PASSWORD_FOR_ENCRYPTION>" to property file. This is the
+ * passphrase used to as key for encryption. Choose a strong password (> 20
+ * chars)</li>
+ * <li>Add "crypto.keylength: <KEY_LENGTH>" to property file. This option is for
+ * AES Encryption only. Default value is 128.</li>
+ * </ol>
+ * 
+ * Note: For using strong encryptions Java Cryptography Extension (JCE)
+ * Unlimited Strength Jurisdiction Policy Files needs to be installed properly.
  */
 public class AmazonS3 {
 	private static final Set<String> SIGNED_HEADERS;
@@ -236,9 +258,31 @@ public class AmazonS3 {
 			final String cPas = props.getProperty("password"); //$NON-NLS-1$
 			if (cPas != null) {
 				String cAlg = props.getProperty("crypto.algorithm"); //$NON-NLS-1$
-				if (cAlg == null)
+				String cAlgKeyLenStr = props.getProperty("crypto.keylength"); //$NON-NLS-1$
+				int cAlgKeyLen = 128;
+				if (cAlgKeyLenStr == null)
+					cAlgKeyLen = 128;
+				else if (cAlgKeyLenStr.equalsIgnoreCase("128")) //$NON-NLS-1$
+					cAlgKeyLen = 128;
+				else if (cAlgKeyLenStr.equalsIgnoreCase("192")) //$NON-NLS-1$
+					cAlgKeyLen = 192;
+				else if (cAlgKeyLenStr.equalsIgnoreCase("256")) //$NON-NLS-1$
+					cAlgKeyLen = 256;
+
+				if (cAlg == null) {
 					cAlg = "PBEWithMD5AndDES"; //$NON-NLS-1$
-				encryption = new WalkEncryption.ObjectEncryptionV2(cAlg, cPas);
+				}
+
+				System.out
+						.println("Using encryption : " + cAlg + " : " + cAlgKeyLen); //$NON-NLS-1$ //$NON-NLS-2$
+				if (cAlg.equalsIgnoreCase("AES")) { //$NON-NLS-1$
+					encryption = new WalkEncryption.AesEncryption(cPas,
+							cAlgKeyLen);
+				} else {
+					encryption = new WalkEncryption.ObjectEncryptionV2(cAlg,
+							cPas);
+				}
+
 			} else {
 				encryption = WalkEncryption.NONE;
 			}
