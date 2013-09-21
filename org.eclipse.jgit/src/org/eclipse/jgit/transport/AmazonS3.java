@@ -236,9 +236,24 @@ public class AmazonS3 {
 			final String cPas = props.getProperty("password"); //$NON-NLS-1$
 			if (cPas != null) {
 				String cAlg = props.getProperty("crypto.algorithm"); //$NON-NLS-1$
-				if (cAlg == null)
+				Integer cAlgKeyLen = Integer.valueOf(props
+						.getProperty("crypto.keylength")); //$NON-NLS-1$
+				if (cAlgKeyLen == null) {
+					cAlgKeyLen = new Integer(128);
+				}
+				if (cAlg == null) {
 					cAlg = "PBEWithMD5AndDES"; //$NON-NLS-1$
-				encryption = new WalkEncryption.ObjectEncryptionV2(cAlg, cPas);
+				}
+				System.out
+						.println("Using encryption :" + cAlg + ":" + cAlgKeyLen); //$NON-NLS-1$ //$NON-NLS-2$
+				if (cAlg.equalsIgnoreCase("AES")) { //$NON-NLS-1$
+					encryption = new WalkEncryption.AesEncryption(cPas,
+							cAlgKeyLen);
+				} else {
+					encryption = new WalkEncryption.ObjectEncryptionV2(cAlg,
+							cPas);
+				}
+
 			} else {
 				encryption = WalkEncryption.NONE;
 			}
