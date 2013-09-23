@@ -81,8 +81,8 @@ public class ZipFormat implements ArchiveCommand.Format<ArchiveOutputStream> {
 			// an entry with unsupported mode (e.g., a submodule).
 		}
 		entry.setSize(loader.getSize());
-		out.putArchiveEntry(entry);
 		try {
+			out.putArchiveEntry(entry);
 			loader.copyTo(out);
 		} finally {
 			out.closeArchiveEntry();
