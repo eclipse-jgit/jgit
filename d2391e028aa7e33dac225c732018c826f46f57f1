@@ -16,6 +16,24 @@
       "revId": "d2391e028aa7e33dac225c732018c826f46f57f1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_85e398c2",
+        "filename": "org.eclipse.jgit.archive/src/org/eclipse/jgit/archive/TarFormat.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2013-09-23T23:45:00Z",
+      "side": 1,
+      "message": "Yeah, it\u0027s even worse than that. closeArchiveEntry() will fail because there are no unclosed entries.\n\nThis check in finish() is obnoxious. I think we\u0027ll just have to catch Exception instead of relying on a finally block to close the archive.",
+      "parentUuid": "8748d3a1_c52be080",
+      "revId": "d2391e028aa7e33dac225c732018c826f46f57f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
