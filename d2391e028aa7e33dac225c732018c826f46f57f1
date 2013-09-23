@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8748d3a1_c52be080",
+        "filename": "org.eclipse.jgit.archive/src/org/eclipse/jgit/archive/TarFormat.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-09-23T23:43:01Z",
+      "side": 1,
+      "message": "I think this is still flawed. If the reason putArchiveEntry() throws is also going to cause closeArchiveEntry() to throw we still lose the original exception and get get something from the closeArchiveEntry() instead.",
+      "revId": "d2391e028aa7e33dac225c732018c826f46f57f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
