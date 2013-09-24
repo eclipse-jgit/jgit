@@ -93,11 +93,8 @@ public class TarFormat implements ArchiveCommand.Format<ArchiveOutputStream> {
 		}
 		entry.setSize(loader.getSize());
 		out.putArchiveEntry(entry);
-		try {
-			loader.copyTo(out);
-		} finally {
-			out.closeArchiveEntry();
-		}
+		loader.copyTo(out);
+		out.closeArchiveEntry();
 	}
 
 	public Iterable<String> suffixes() {
