@@ -34,6 +34,24 @@
       "revId": "0cccef16a1067f0ec5c835c1ec9615f147ba6faf",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_e5f6dc4f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2013-09-24T00:05:56Z",
+      "side": 1,
+      "message": "Sure. It would be forgoing a chance to rid the world of this awful check in TarArchiveOutputStream.close(), though. :) Patching incoming...",
+      "parentUuid": "8748d3a1_a5fcd433",
+      "revId": "0cccef16a1067f0ec5c835c1ec9615f147ba6faf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
