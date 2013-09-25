@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8748d3a1_9c7da15a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1495
+      },
+      "writtenOn": "2013-09-25T01:04:09Z",
+      "side": 1,
+      "message": "I\u0027m not sure this is working as you expect.  When I try this patch, Integer.valueOf throws a java.lang.NumberFormatException if \"crypto.keylength\" is missing from the configuration file.",
+      "revId": "c85c3cdf8edd4a88339c11c785ba0532d140c7b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
