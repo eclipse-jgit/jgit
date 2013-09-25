@@ -139,7 +139,7 @@ abstract class WalkEncryption {
 
 		private final String algorithmName = "AES/CBC/PKCS5Padding"; //$NON-NLS-1$
 
-		public AesEncryption(final String key, final Integer keyLen) {
+		public AesEncryption(final String key, final int keyLen) {
 			byte[] salt = { (byte) 0xA4, (byte) 0x0B, (byte) 0xC8, (byte) 0x34,
 					(byte) 0xD6, (byte) 0x95, (byte) 0xF3, (byte) 0x12 };
 			/* Derive the key, given password and salt. */
