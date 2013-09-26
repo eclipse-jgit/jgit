@@ -1,0 +1,242 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8748d3a1_4ebb4c5e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RebaseCommandTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1939,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2013-09-26T15:44:19Z",
+      "side": 1,
+      "message": "s/on side/on master/",
+      "revId": "d288977a5cb514a53162b4ceec7728cfe87fc0e7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_11c7a5aa",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RebaseCommandTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1942,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2013-09-26T15:44:19Z",
+      "side": 1,
+      "message": "Use File.separator",
+      "revId": "d288977a5cb514a53162b4ceec7728cfe87fc0e7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_d16edd23",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RebaseCommandTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1944,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2013-09-26T15:44:19Z",
+      "side": 1,
+      "message": "Move these two assignments into the modifyCommitMessage method.",
+      "revId": "d288977a5cb514a53162b4ceec7728cfe87fc0e7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_71954995",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RebaseCommandTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1965,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2013-09-26T15:44:19Z",
+      "side": 1,
+      "message": "s/Contend/content/",
+      "revId": "d288977a5cb514a53162b4ceec7728cfe87fc0e7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_24026142",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RebaseCommandTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 2019,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2013-09-26T15:44:19Z",
+      "side": 1,
+      "message": "Use File.separator\n\nMove these two assignments into the modifyCommitMessage method.",
+      "revId": "d288977a5cb514a53162b4ceec7728cfe87fc0e7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_04fda5a3",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RebaseCommandTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 2097,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2013-09-26T15:44:19Z",
+      "side": 1,
+      "message": "Use File.separator\n\nMove these two assignments into the modifyCommitMessage method.",
+      "revId": "d288977a5cb514a53162b4ceec7728cfe87fc0e7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_b17fd158",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2013-09-26T15:44:19Z",
+      "side": 1,
+      "message": "This line can be moved down, isSquash is not used in the following lines.",
+      "revId": "d288977a5cb514a53162b4ceec7728cfe87fc0e7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_0e2ae47d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2013-09-26T15:44:19Z",
+      "side": 1,
+      "message": "c/Chached/Cached/",
+      "revId": "d288977a5cb514a53162b4ceec7728cfe87fc0e7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_91073525",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2013-09-26T15:44:19Z",
+      "side": 1,
+      "message": "can this check be moved up to below the case FIXUP: line?",
+      "revId": "d288977a5cb514a53162b4ceec7728cfe87fc0e7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_51176d05",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2013-09-26T15:44:19Z",
+      "side": 1,
+      "message": "s/contend/content/",
+      "revId": "d288977a5cb514a53162b4ceec7728cfe87fc0e7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_6e5728d7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2013-09-26T15:44:19Z",
+      "side": 1,
+      "message": "Please remove the protected keyword because this class will never be subclassed.",
+      "revId": "d288977a5cb514a53162b4ceec7728cfe87fc0e7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_ced0fcc2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1022,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2013-09-26T15:44:19Z",
+      "side": 1,
+      "message": "(Draft)\t\tDraft saved at 3:35 PM\n\nunrelated change",
+      "revId": "d288977a5cb514a53162b4ceec7728cfe87fc0e7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_eed5f8b2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1160,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2013-09-26T15:44:19Z",
+      "side": 1,
+      "message": "(Draft)\t\tDraft saved at 3:35 PM\n\nunrelated change",
+      "revId": "d288977a5cb514a53162b4ceec7728cfe87fc0e7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_8ecf1426",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1208,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2013-09-26T15:44:19Z",
+      "side": 1,
+      "message": "unrelated change",
+      "revId": "d288977a5cb514a53162b4ceec7728cfe87fc0e7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
