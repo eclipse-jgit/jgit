@@ -1,0 +1,9 @@
+Code-Review+2: Matthias Sohn <matthias.sohn@sap.com>
+IP-Clean+1: Matthias Sohn <matthias.sohn@sap.com>
+Verified+1: Matthias Sohn <matthias.sohn@sap.com>
+Verified+1: Hudson CI
+Submitted-by: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-at: Fri, 27 Sep 2013 08:04:27 -0400
+Reviewed-on: https://git.eclipse.org/r/16830
+Project: jgit/jgit
+Branch: refs/heads/stable-3.1
