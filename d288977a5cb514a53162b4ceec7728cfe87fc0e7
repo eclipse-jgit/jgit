@@ -155,6 +155,23 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_4b8df13c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2013-09-27T09:39:31Z",
+      "side": 1,
+      "message": "This check does not work because the done file is already written in the popSteps call above.\n\nPlease add a test case for this situation.",
+      "revId": "d288977a5cb514a53162b4ceec7728cfe87fc0e7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_51176d05",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
         "patchSetId": 4
