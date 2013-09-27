@@ -669,8 +669,8 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		BufferedWriter fw = new BufferedWriter(new OutputStreamWriter(
 				new FileOutputStream(rebaseState.getFile(GIT_REBASE_TODO)),
 				Constants.CHARACTER_ENCODING));
-		fw.write("# Created by EGit: rebasing " + upstreamCommit.name()
-				+ " onto " + headId.name());
+		fw.write("# Created by EGit: rebasing " + headId.name() + " onto "
+				+ upstreamCommit.name());
 		fw.newLine();
 		try {
 			StringBuilder sb = new StringBuilder();
