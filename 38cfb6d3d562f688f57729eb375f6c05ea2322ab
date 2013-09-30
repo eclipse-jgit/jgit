@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "8748d3a1_8a8a2ea1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2013-09-30T13:37:34Z",
+      "side": 1,
+      "message": "s/as/as in/",
+      "revId": "38cfb6d3d562f688f57729eb375f6c05ea2322ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_aa372a68",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2013-09-30T13:37:34Z",
+      "side": 1,
+      "message": "s/get\u0027s/gets/",
+      "revId": "38cfb6d3d562f688f57729eb375f6c05ea2322ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c73e4bec_9cf87372",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
         "patchSetId": 7
