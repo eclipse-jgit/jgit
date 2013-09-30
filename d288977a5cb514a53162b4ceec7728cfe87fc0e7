@@ -229,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_77222b2e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RebaseCommandTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 2181,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2013-09-30T12:07:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_7777cbab",
+      "revId": "d288977a5cb514a53162b4ceec7728cfe87fc0e7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_d7221fab",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RebaseCommandTest.java",
         "patchSetId": 4
@@ -240,6 +258,24 @@
       "writtenOn": "2013-09-30T12:06:06Z",
       "side": 1,
       "message": "This should be \"Add file2...\"",
+      "revId": "d288977a5cb514a53162b4ceec7728cfe87fc0e7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_d7321f79",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RebaseCommandTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 2185,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2013-09-30T12:07:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_d7221fab",
       "revId": "d288977a5cb514a53162b4ceec7728cfe87fc0e7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -432,6 +468,24 @@
       "writtenOn": "2013-09-30T09:28:39Z",
       "side": 1,
       "message": "you could do this in a finally block in order to guarantee that an exception does not leave ORIG_HEAD in a wrong state",
+      "revId": "d288977a5cb514a53162b4ceec7728cfe87fc0e7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_1729270e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 439,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2013-09-30T12:07:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_14b005f6",
       "revId": "d288977a5cb514a53162b4ceec7728cfe87fc0e7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
