@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8748d3a1_cd2290ab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2013-09-30T14:16:43Z",
+      "side": 1,
+      "message": "What is this needed for?",
+      "revId": "7e82360955e0459461b0ea05f3f499fa2605ead5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_6d125c60",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RebaseTodoFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2013-09-30T14:16:43Z",
+      "side": 1,
+      "message": "extract a method for th",
+      "revId": "7e82360955e0459461b0ea05f3f499fa2605ead5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_ed8b0c28",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RebaseTodoFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2013-09-30T14:16:43Z",
+      "side": 1,
+      "message": "better do an else for the non-comment case instead of skipping the rest with continue.",
+      "revId": "7e82360955e0459461b0ea05f3f499fa2605ead5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
