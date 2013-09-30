@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_8da368b1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-09-30T15:44:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_8a8a2ea1",
+      "revId": "38cfb6d3d562f688f57729eb375f6c05ea2322ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_aa372a68",
         "filename": "/COMMIT_MSG",
         "patchSetId": 7
@@ -30,6 +48,24 @@
       "writtenOn": "2013-09-30T13:37:34Z",
       "side": 1,
       "message": "s/get\u0027s/gets/",
+      "revId": "38cfb6d3d562f688f57729eb375f6c05ea2322ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_0d87581f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-09-30T15:44:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_aa372a68",
       "revId": "38cfb6d3d562f688f57729eb375f6c05ea2322ab",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -83,6 +119,24 @@
       "side": 1,
       "message": "I get the point, but still, we expose the list of steps to the user and cannot assume that the user does not add comments.\n\nHere\u0027s a Test that shows the issue:\nhttps://github.com/TobiasPfeifer/jgit/commit/1e0beb44709787aae42a1467c0318a29f8be8318",
       "parentUuid": "c73e4bec_d7ee3afc",
+      "revId": "38cfb6d3d562f688f57729eb375f6c05ea2322ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_4daa00d2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-09-30T15:44:07Z",
+      "side": 1,
+      "message": "Done. I also added your test.",
+      "parentUuid": "c73e4bec_60db1a63",
       "revId": "38cfb6d3d562f688f57729eb375f6c05ea2322ab",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
