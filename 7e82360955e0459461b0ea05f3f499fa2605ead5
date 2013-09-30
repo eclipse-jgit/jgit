@@ -50,6 +50,40 @@
       "revId": "7e82360955e0459461b0ea05f3f499fa2605ead5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_c5f744c5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RebaseTodoFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-09-30T15:03:22Z",
+      "side": 1,
+      "message": "s/skip leading spaces, tabs and cr/Skip leading space, tab, CR and LF characters/",
+      "revId": "7e82360955e0459461b0ea05f3f499fa2605ead5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_6563d00d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RebaseTodoFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-09-30T15:03:22Z",
+      "side": 1,
+      "message": "use {@code buf} instead of \u003ccode\u003ebuf\u003c/code\u003e",
+      "revId": "7e82360955e0459461b0ea05f3f499fa2605ead5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
