@@ -50,7 +50,7 @@
   <parent>
     <groupId>org.eclipse.jgit</groupId>
     <artifactId>org.eclipse.jgit-parent</artifactId>
-    <version>3.1.0-SNAPSHOT</version>
+    <version>3.1.1-SNAPSHOT</version>
   </parent>
 
   <artifactId>org.eclipse.jgit.pgm</artifactId>
@@ -178,6 +178,20 @@
                   </manifestEntries>
                 </transformer>
               </transformers>
+              <filters>
+                <!-- exclude the signing data for individual jars, ueberjar will be signed again -->
+                <filter>
+                  <artifact>*:*</artifact>
+                  <excludes>
+                    <exclude>META-INF/*.SF</exclude>
+                    <exclude>META-INF/*.DSA</exclude>
+                    <exclude>META-INF/*.RSA</exclude>
+                    <exclude>OSGI-OPT/**</exclude>
+                  </excludes>
+                </filter>
+              </filters>
+              <shadedArtifactAttached>true</shadedArtifactAttached>
+              <shadedClassifierName>shaded</shadedClassifierName> <!-- Any name that makes sense -->
             </configuration>
           </execution>
         </executions>
