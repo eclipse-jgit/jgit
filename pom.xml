@@ -181,7 +181,7 @@
     <junit-version>4.11</junit-version>
     <!-- TODO: update Maven dependency for args4j to 2.0.21 as soon as available on Maven Central -->
     <args4j-version>2.0.12</args4j-version>
-    <commons-compress-version>1.4.1</commons-compress-version>
+    <commons-compress-version>1.5</commons-compress-version>
     <osgi-core-version>4.3.1</osgi-core-version>
     <servlet-api-version>2.5</servlet-api-version>
     <jetty-version>7.6.11.v20130520</jetty-version>
