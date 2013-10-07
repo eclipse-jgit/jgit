@@ -47,6 +47,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Map;
 
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
@@ -55,6 +56,7 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.pgm.internal.CLIText;
 import org.eclipse.jgit.pgm.opt.PathTreeFilterHandler;
 import org.eclipse.jgit.revwalk.FollowFilter;
@@ -164,8 +166,10 @@ abstract class RevWalkTextBuiltin extends TextBuiltin {
 		else if (revLimiter.size() > 1)
 			walk.setRevFilter(AndRevFilter.create(revLimiter));
 
-		if (all)
-			for (Ref a : db.getAllRefs().values()) {
+		if (all) {
+			Map<String, Ref> refs =
+				db.getRefDatabase().getRefs(RefDatabase.ALL);
+			for (Ref a : refs.values()) {
 				ObjectId oid = a.getPeeledObjectId();
 				if (oid == null)
 					oid = a.getObjectId();
@@ -175,6 +179,7 @@ abstract class RevWalkTextBuiltin extends TextBuiltin {
 					// Ignore all refs which are not commits
 				}
 			}
+		}
 
 		if (commits.isEmpty()) {
 			final ObjectId head = db.resolve(Constants.HEAD);

@@ -44,6 +44,8 @@
 
 package org.eclipse.jgit.pgm;
 
+import static org.eclipse.jgit.lib.RefDatabase.ALL;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -64,7 +66,7 @@ class RevParse extends TextBuiltin {
 	@Override
 	protected void run() throws Exception {
 		if (all) {
-			Map<String, Ref> allRefs = db.getAllRefs();
+			Map<String, Ref> allRefs = db.getRefDatabase().getRefs(ALL);
 			for (final Ref r : allRefs.values())
 				outw.println(r.getObjectId().name());
 		} else {
