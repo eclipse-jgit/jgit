@@ -909,8 +909,12 @@ public abstract class Repository {
 	}
 
 	/**
-	 * @return mutable map of all known refs (heads, tags, remotes).
+	 * @return mutable map of all known refs (heads, tags, remotes),
+	 *         or an empty map if the ref database cannot be read.
+	 *
+	 * @deprecated Use getRefDatabase().getRefs(RefDatabase.ALL) instead.
 	 */
+	@Deprecated
 	public Map<String, Ref> getAllRefs() {
 		try {
 			return getRefDatabase().getRefs(RefDatabase.ALL);
@@ -923,7 +927,11 @@ public abstract class Repository {
 	 * @return mutable map of all tags; key is short tag name ("v1.0") and value
 	 *         of the entry contains the ref with the full tag name
 	 *         ("refs/tags/v1.0").
+	 *         If the map database cannot be read, returns an empty map.
+	 *
+	 * @deprecated Use getRefDatabase().getRefs(Constants.R_TAGS) instead.
 	 */
+	@Deprecated
 	public Map<String, Ref> getTags() {
 		try {
 			return getRefDatabase().getRefs(Constants.R_TAGS);
