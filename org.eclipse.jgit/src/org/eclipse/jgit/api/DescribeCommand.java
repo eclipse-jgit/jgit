@@ -152,7 +152,8 @@ public class DescribeCommand extends GitCommand<String> {
 				throw new IllegalArgumentException(JGitText.get().targetIsNotSet);
 
 			Map<ObjectId, Ref> tags = new HashMap<ObjectId, Ref>();
-			for (Ref r : repo.getTags().values()) {
+
+			for (Ref r : repo.getRefDatabase().getRefs(R_TAGS).values()) {
 				ObjectId key = repo.peel(r).getPeeledObjectId();
 				if (key == null)
 					key = r.getObjectId();

@@ -43,6 +43,8 @@
 
 package org.eclipse.jgit.pgm;
 
+import static org.eclipse.jgit.lib.RefDatabase.ALL;
+
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -175,7 +177,7 @@ class Branch extends TextBuiltin {
 	}
 
 	private void list() throws Exception {
-		Map<String, Ref> refs = db.getAllRefs();
+		Map<String, Ref> refs = db.getRefDatabase().getRefs(ALL);
 		Ref head = refs.get(Constants.HEAD);
 		// This can happen if HEAD is stillborn
 		if (head != null) {

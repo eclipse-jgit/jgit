@@ -45,6 +45,7 @@ package org.eclipse.jgit.internal.storage.file;
 
 import static org.eclipse.jgit.internal.storage.pack.PackExt.BITMAP_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
+import static org.eclipse.jgit.lib.RefDatabase.ALL;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -457,7 +458,7 @@ public class GC {
 	 * @throws IOException
 	 */
 	public void packRefs() throws IOException {
-		Collection<Ref> refs = repo.getAllRefs().values();
+		Collection<Ref> refs = repo.getRefDatabase().getRefs(ALL).values();
 		List<String> refsToBePacked = new ArrayList<String>(refs.size());
 		pm.beginTask(JGitText.get().packRefs, refs.size());
 		try {
@@ -574,7 +575,7 @@ public class GC {
 	 * @throws IOException
 	 */
 	private Map<String, Ref> getAllRefs() throws IOException {
-		Map<String, Ref> ret = repo.getAllRefs();
+		Map<String, Ref> ret = repo.getRefDatabase().getRefs(ALL);
 		for (Ref ref : repo.getRefDatabase().getAdditionalRefs())
 			ret.put(ref.getName(), ref);
 		return ret;
