@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8748d3a1_5c009538",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2013-10-07T18:18:39Z",
+      "side": 1,
+      "message": "Repository.getAllRefs() (missing \u0027.\u0027 and \u0027s\u0027)",
+      "revId": "126be04cbaf39e1f5068b860931b3074c62303c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_bc0f196d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BundleFetchConnection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2013-10-07T18:18:39Z",
+      "side": 1,
+      "message": "Could this try be made to wrap just the initialization of localRefs? E.g.\n\nMap\u003cString, ref\u003e localRefs;\ntry {\n  localRefs \u003d ...\n} catch (IOException readError) {\n  // If we cannot read the refs, skip them.\n  localRefs \u003d new HashMap\u003cString, Ref\u003e();\n}\nfor (final Ref r : localRefs.values()) {\n  ...\n}\n\nBTW, is MissingBundlePrerequisiteException actually better than IOException for this case? Do you know why this was made to catch IOException in the first place?",
+      "revId": "126be04cbaf39e1f5068b860931b3074c62303c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
