@@ -1,0 +1,9 @@
+Verified+1: Hudson CI
+Code-Review+2: Colby Ranger <cranger@google.com>
+IP-Clean+1: Colby Ranger <cranger@google.com>
+Code-Review+1: Jonathan Nieder <jrn@google.com>
+Submitted-by: Colby Ranger <cranger@google.com>
+Submitted-at: Tue, 08 Oct 2013 13:47:53 -0400
+Reviewed-on: https://git.eclipse.org/r/17176
+Project: jgit/jgit
+Branch: refs/heads/master
