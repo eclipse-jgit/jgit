@@ -79,7 +79,8 @@ public class ServiceMayNotContinueException extends IOException {
 	 *            the cause of the exception.
 	 */
 	public ServiceMayNotContinueException(String msg, Throwable cause) {
-		super(msg, cause);
+		super(msg);
+		initCause(cause);
 	}
 
 	/**
@@ -89,7 +90,7 @@ public class ServiceMayNotContinueException extends IOException {
 	 *            the cause of the exception.
 	 */
 	public ServiceMayNotContinueException(Throwable cause) {
-		super(JGitText.get().internalServerError, cause);
+		this(JGitText.get().internalServerError, cause);
 	}
 
 	/** @return true if the message was already output to the client. */
