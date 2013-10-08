@@ -61,17 +61,17 @@ import org.junit.Test;
 
 public class RepositoryCacheTest extends RepositoryTestCase {
 	@Test
-	public void testNonBareFileKey() {
+	public void testNonBareFileKey() throws IOException {
 		File gitdir = db.getDirectory();
 		File parent = gitdir.getParentFile();
 		File other = new File(parent, "notagit");
-		assertEquals(gitdir, FileKey.exact(gitdir, db.getFS()).getFile());
-		assertEquals(parent, FileKey.exact(parent, db.getFS()).getFile());
-		assertEquals(other, FileKey.exact(other, db.getFS()).getFile());
+		assertEqualsFile(gitdir, FileKey.exact(gitdir, db.getFS()).getFile());
+		assertEqualsFile(parent, FileKey.exact(parent, db.getFS()).getFile());
+		assertEqualsFile(other, FileKey.exact(other, db.getFS()).getFile());
 
-		assertEquals(gitdir, FileKey.lenient(gitdir, db.getFS()).getFile());
-		assertEquals(gitdir, FileKey.lenient(parent, db.getFS()).getFile());
-		assertEquals(other, FileKey.lenient(other, db.getFS()).getFile());
+		assertEqualsFile(gitdir, FileKey.lenient(gitdir, db.getFS()).getFile());
+		assertEqualsFile(gitdir, FileKey.lenient(parent, db.getFS()).getFile());
+		assertEqualsFile(other, FileKey.lenient(other, db.getFS()).getFile());
 	}
 
 	@Test
@@ -83,10 +83,11 @@ public class RepositoryCacheTest extends RepositoryTestCase {
 		assertTrue(name.endsWith(".git"));
 		name = name.substring(0, name.length() - 4);
 
-		assertEquals(gitdir, FileKey.exact(gitdir, db.getFS()).getFile());
+		assertEqualsFile(gitdir, FileKey.exact(gitdir, db.getFS()).getFile());
 
-		assertEquals(gitdir, FileKey.lenient(gitdir, db.getFS()).getFile());
-		assertEquals(gitdir, FileKey.lenient(new File(parent, name), db.getFS()).getFile());
+		assertEqualsFile(gitdir, FileKey.lenient(gitdir, db.getFS()).getFile());
+		assertEqualsFile(gitdir,
+				FileKey.lenient(new File(parent, name), db.getFS()).getFile());
 	}
 
 	@Test
@@ -95,12 +96,12 @@ public class RepositoryCacheTest extends RepositoryTestCase {
 
 		r = new FileKey(db.getDirectory(), db.getFS()).open(true);
 		assertNotNull(r);
-		assertEquals(db.getDirectory(), r.getDirectory());
+		assertEqualsFile(db.getDirectory(), r.getDirectory());
 		r.close();
 
 		r = new FileKey(db.getDirectory(), db.getFS()).open(false);
 		assertNotNull(r);
-		assertEquals(db.getDirectory(), r.getDirectory());
+		assertEqualsFile(db.getDirectory(), r.getDirectory());
 		r.close();
 	}
 
@@ -116,12 +117,13 @@ public class RepositoryCacheTest extends RepositoryTestCase {
 			new FileKey(gitdir, db.getFS()).open(true);
 			fail("incorrectly opened a non existant repository");
 		} catch (RepositoryNotFoundException e) {
-			assertEquals("repository not found: " + gitdir, e.getMessage());
+			assertEquals("repository not found: " + gitdir.getCanonicalPath(),
+					e.getMessage());
 		}
 
 		final Repository o = new FileKey(gitdir, db.getFS()).open(false);
 		assertNotNull(o);
-		assertEquals(gitdir, o.getDirectory());
+		assertEqualsFile(gitdir, o.getDirectory());
 		assertFalse(gitdir.exists());
 	}
 
