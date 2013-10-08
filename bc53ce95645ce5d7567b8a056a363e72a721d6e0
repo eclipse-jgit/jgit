@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_9cba1307",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2013-10-08T12:25:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_aac353cf",
+      "revId": "bc53ce95645ce5d7567b8a056a363e72a721d6e0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_4a828fa2",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RebaseCommandTest.java",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2013-10-07T08:55:47Z",
       "side": 1,
       "message": "This message is misleading. The test will probalby fail with this message if it fails",
+      "revId": "bc53ce95645ce5d7567b8a056a363e72a721d6e0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_3cb77f22",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RebaseCommandTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 2242,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2013-10-08T12:25:44Z",
+      "side": 1,
+      "message": "Yes, this was from copy and paste.\n\nI just remove the line. Additionally I add a new Exception type because this situation is not an internal exception of JGit, but a wrong usage of the API.",
+      "parentUuid": "8748d3a1_4a828fa2",
       "revId": "bc53ce95645ce5d7567b8a056a363e72a721d6e0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
