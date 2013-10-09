@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8748d3a1_a4e7e81e",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Main.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-10-09T21:23:49Z",
+      "side": 1,
+      "message": "Why don\u0027t we abort here when --version is specified? An invalid command with an additional --version should not continue, but rather print the error message, no?",
+      "revId": "2c969ea00b7267c266d0e9a6bc883c1d9ec645f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
