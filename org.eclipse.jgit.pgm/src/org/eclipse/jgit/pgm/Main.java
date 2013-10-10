@@ -73,6 +73,9 @@ public class Main {
 	@Option(name = "--help", usage = "usage_displayThisHelpText", aliases = { "-h" })
 	private boolean help;
 
+	@Option(name = "--version", usage = "usage_displayVersion")
+	private boolean version;
+
 	@Option(name = "--show-stack-trace", usage = "usage_displayThejavaStackTraceOnExceptions")
 	private boolean showStackTrace;
 
@@ -167,7 +170,7 @@ public class Main {
 		try {
 			clp.parseArgument(argv);
 		} catch (CmdLineException err) {
-			if (argv.length > 0 && !help) {
+			if (argv.length > 0 && !help && !version) {
 				writer.println(MessageFormat.format(CLIText.get().fatalError, err.getMessage()));
 				writer.flush();
 				System.exit(1);
@@ -202,6 +205,11 @@ public class Main {
 			}
 			writer.flush();
 			System.exit(1);
+		}
+
+		if (version) {
+			String cmdId = Version.class.getSimpleName().toLowerCase();
+			subcommand = CommandCatalog.get(cmdId).create();
 		}
 
 		final TextBuiltin cmd = subcommand;
