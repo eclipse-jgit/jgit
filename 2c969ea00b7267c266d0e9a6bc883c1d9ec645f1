@@ -34,6 +34,24 @@
       "revId": "2c969ea00b7267c266d0e9a6bc883c1d9ec645f1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_fa22202c",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Main.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-10-10T11:53:57Z",
+      "side": 1,
+      "message": "You\u0027re right, looks good then.",
+      "parentUuid": "8748d3a1_fa3fc08a",
+      "revId": "2c969ea00b7267c266d0e9a6bc883c1d9ec645f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
