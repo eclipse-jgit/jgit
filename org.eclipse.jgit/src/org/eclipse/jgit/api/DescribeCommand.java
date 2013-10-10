@@ -107,7 +107,7 @@ public class DescribeCommand extends GitCommand<String> {
 	 * @throws IOException
 	 *             a pack file or loose object could not be read.
 	 */
-	DescribeCommand setTarget(ObjectId target) throws IOException {
+	public DescribeCommand setTarget(ObjectId target) throws IOException {
 		this.target = w.parseCommit(target);
 		return this;
 	}
@@ -126,7 +126,8 @@ public class DescribeCommand extends GitCommand<String> {
 	 * @throws IOException
 	 *             a pack file or loose object could not be read.
 	 */
-	DescribeCommand setTarget(String rev) throws IOException, RefNotFoundException {
+	public DescribeCommand setTarget(String rev) throws IOException,
+			RefNotFoundException {
 		ObjectId id = repo.resolve(rev);
 		if (id == null)
 			throw new RefNotFoundException(MessageFormat.format(JGitText.get().refNotResolved, rev));
