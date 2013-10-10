@@ -87,6 +87,9 @@ public class DescribeCommandTest extends RepositoryTestCase {
 		assertNameStartsWith(c4, "3e563c5");
 		// the value verified with git-describe(1)
 		assertEquals("t2-1-g3e563c5", describe(c4));
+
+		// test default target
+		assertEquals("t2-1-g3e563c5", git.describe().call());
 	}
 
 	/**
