@@ -50,6 +50,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeSet;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.StatusCommand;
@@ -71,26 +72,133 @@ class Status extends TextBuiltin {
 
 	protected final String statusFileListFormatUnmerged = CLIText.get().statusFileListFormatUnmerged;
 
+	@Option(name = "--porcelain", usage = "usage_machineReadableOutput")
+	protected boolean porcelain;
+
 	@Option(name = "--", metaVar = "metaVar_path", multiValued = true)
 	protected List<String> filterPaths;
 
 	@Override
 	protected void run() throws Exception {
-		// Print current branch name
-		final Ref head = db.getRef(Constants.HEAD);
-		boolean firstHeader = true;
-		if (head != null && head.isSymbolic()) {
-			String branch = Repository.shortenRefName(head.getLeaf().getName());
-			outw.println(CLIText.formatLine(
-					MessageFormat.format(CLIText.get().onBranch, branch)));
-		} else
-			outw.println(CLIText.formatLine(CLIText.get().notOnAnyBranch));
-		// List changes
 		StatusCommand statusCommand = new Git(db).status();
 		if (filterPaths != null && filterPaths.size() > 0)
 			for (String path : filterPaths)
 				statusCommand.addPath(path);
 		org.eclipse.jgit.api.Status status = statusCommand.call();
+		printStatus(status);
+	}
+
+	private void printStatus(org.eclipse.jgit.api.Status status)
+			throws IOException {
+		if (porcelain)
+			printPorcelainStatus(status);
+		else
+			printLongStatus(status);
+	}
+
+	private void printPorcelainStatus(org.eclipse.jgit.api.Status status)
+			throws IOException {
+
+		Collection<String> added = status.getAdded();
+		Collection<String> changed = status.getChanged();
+		Collection<String> removed = status.getRemoved();
+		Collection<String> modified = status.getModified();
+		Collection<String> missing = status.getMissing();
+		Map<String, StageState> conflicting = status.getConflictingStageState();
+
+		// build a sorted list of all paths except untracked and ignored
+		TreeSet<String> sorted = new TreeSet<String>();
+		sorted.addAll(added);
+		sorted.addAll(changed);
+		sorted.addAll(removed);
+		sorted.addAll(modified);
+		sorted.addAll(missing);
+		sorted.addAll(conflicting.keySet());
+
+		// list each path
+		for (String path : sorted) {
+			char x = ' ';
+			char y = ' ';
+
+			if (added.contains(path))
+				x = 'A';
+			else if (changed.contains(path))
+				x = 'M';
+			else if (removed.contains(path))
+				x = 'D';
+
+			if (modified.contains(path))
+				y = 'M';
+			else if (missing.contains(path))
+				y = 'D';
+
+			if (conflicting.containsKey(path)) {
+				StageState stageState = conflicting.get(path);
+
+				switch (stageState) {
+				case BOTH_DELETED:
+					x = 'D';
+					y = 'D';
+					break;
+				case ADDED_BY_US:
+					x = 'A';
+					y = 'U';
+					break;
+				case DELETED_BY_THEM:
+					x = 'U';
+					y = 'D';
+					break;
+				case ADDED_BY_THEM:
+					x = 'U';
+					y = 'A';
+					break;
+				case DELETED_BY_US:
+					x = 'D';
+					y = 'U';
+					break;
+				case BOTH_ADDED:
+					x = 'A';
+					y = 'A';
+					break;
+				case BOTH_MODIFIED:
+					x = 'U';
+					y = 'U';
+					break;
+				default:
+					throw new IllegalArgumentException("Unknown StageState: " //$NON-NLS-1$
+							+ stageState);
+				}
+			}
+
+			printPorcelainLine(x, y, path);
+		}
+
+		// untracked are always at the end of the list
+		for (String path : status.getUntracked())
+			printPorcelainLine('?', '?', path);
+	}
+
+	private void printPorcelainLine(char x, char y, String path)
+			throws IOException {
+		StringBuilder lineBuilder = new StringBuilder();
+		lineBuilder.append(x).append(y).append(' ').append(path);
+		outw.println(lineBuilder.toString());
+	}
+
+	private void printLongStatus(org.eclipse.jgit.api.Status status)
+			throws IOException {
+		// Print current branch name
+		final Ref head = db.getRef(Constants.HEAD);
+		if (head != null && head.isSymbolic()) {
+			String branch = Repository.shortenRefName(head.getLeaf().getName());
+			outw.println(CLIText.formatLine(MessageFormat.format(
+					CLIText.get().onBranch, branch)));
+		} else
+			outw.println(CLIText.formatLine(CLIText.get().notOnAnyBranch));
+
+		// List changes
+		boolean firstHeader = true;
+
 		Collection<String> added = status.getAdded();
 		Collection<String> changed = status.getChanged();
 		Collection<String> removed = status.getRemoved();
