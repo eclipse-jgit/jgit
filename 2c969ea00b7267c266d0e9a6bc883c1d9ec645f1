@@ -16,6 +16,24 @@
       "revId": "2c969ea00b7267c266d0e9a6bc883c1d9ec645f1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_fa3fc08a",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Main.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 621
+      },
+      "writtenOn": "2013-10-10T11:25:46Z",
+      "side": 1,
+      "message": "Actually, my intention was to cover the case when no command is specified, but just \"--version\" as the only argument. In this case we get an exception with message: Argument \"command\" is required.\n\nIf there is invalid command in addition to --version then no exception will be thrown and this line of code won\u0027t be executed. The additional command will be just ignored and the version info will be printed. Git on Linux has the same behavior.",
+      "parentUuid": "8748d3a1_a4e7e81e",
+      "revId": "2c969ea00b7267c266d0e9a6bc883c1d9ec645f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
