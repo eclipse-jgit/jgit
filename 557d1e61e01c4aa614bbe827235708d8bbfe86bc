@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8748d3a1_1c0d3ff2",
+        "filename": "org.eclipse.jgit.pgm/build.properties",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-10-10T22:07:55Z",
+      "side": 1,
+      "message": "why also \u0027/\u0027 ?",
+      "revId": "557d1e61e01c4aa614bbe827235708d8bbfe86bc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
