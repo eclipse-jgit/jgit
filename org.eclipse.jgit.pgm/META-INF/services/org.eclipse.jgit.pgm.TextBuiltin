@@ -8,6 +8,7 @@ org.eclipse.jgit.pgm.Clone
 org.eclipse.jgit.pgm.Commit
 org.eclipse.jgit.pgm.Config
 org.eclipse.jgit.pgm.Daemon
+org.eclipse.jgit.pgm.Describe
 org.eclipse.jgit.pgm.Diff
 org.eclipse.jgit.pgm.DiffTree
 org.eclipse.jgit.pgm.Fetch
