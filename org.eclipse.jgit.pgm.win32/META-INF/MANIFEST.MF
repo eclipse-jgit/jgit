@@ -1,0 +1,9 @@
+Bundle-ManifestVersion: 2
+Bundle-Name: JGit CLI Executable for Win32
+Bundle-SymbolicName: org.eclipse.jgit.pgm.win32
+Bundle-Version: 3.2.0.qualifier
+Fragment-Host: org.eclipse.jgit.pgm
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-Vendor: Eclipse JGit
+Eclipse-PlatformFilter: (osgi.os=win32)
+Eclipse-BundleShape: dir

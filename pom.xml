@@ -594,6 +594,9 @@
     <module>org.eclipse.jgit.ui</module>
     <module>org.eclipse.jgit.http.server</module>
     <module>org.eclipse.jgit.pgm</module>
+    <module>org.eclipse.jgit.pgm.linux</module>
+    <module>org.eclipse.jgit.pgm.macosx</module>
+    <module>org.eclipse.jgit.pgm.win32</module>
     <module>org.eclipse.jgit.junit</module>
     <module>org.eclipse.jgit.junit.http</module>
 
