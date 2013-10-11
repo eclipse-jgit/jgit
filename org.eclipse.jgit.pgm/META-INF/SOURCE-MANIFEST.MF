@@ -5,3 +5,4 @@ Bundle-SymbolicName: org.eclipse.jgit.pgm.source;singleton:=true
 Bundle-Vendor: Eclipse.org - JGit
 Bundle-Version: 3.2.0.qualifier
 Eclipse-SourceBundle: org.eclipse.jgit.pgm;version="3.2.0";roots="."
+Eclipse-BundleShape: dir

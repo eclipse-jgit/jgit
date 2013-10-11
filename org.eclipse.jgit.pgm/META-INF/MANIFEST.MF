@@ -58,3 +58,4 @@ Export-Package: org.eclipse.jgit.pgm;version="3.2.0";
    org.kohsuke.args4j"
 Main-Class: org.eclipse.jgit.pgm.Main
 Implementation-Title: JGit Command Line Interface
+Eclipse-BundleShape: dir
