@@ -45,6 +45,7 @@
 
 package org.eclipse.jgit.pgm;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.jgit.api.FetchCommand;
@@ -85,6 +86,11 @@ class Fetch extends AbstractFetchCommand {
 
 	@Option(name = "--quiet", usage = "usage_quiet")
 	private Boolean quiet;
+
+	@Option(name = "--tags", usage="usage_tags", aliases = { "-t" })
+	private void tags(@SuppressWarnings("unused") final boolean ignored) {
+		toget = Arrays.asList(new RefSpec("refs/tags/*:refs/tags/*")); //$NON-NLS-1$
+	}
 
 	@Argument(index = 0, metaVar = "metaVar_uriish")
 	private String remote = Constants.DEFAULT_REMOTE_NAME;
