@@ -51,3 +51,4 @@ Export-Package: org.eclipse.jgit.pgm;version="3.2.0";
  org.eclipse.jgit.pgm.opt;version="3.2.0"
 Main-Class: org.eclipse.jgit.pgm.Main
 Implementation-Title: JGit Command Line Interface
+Eclipse-BundleShape: dir
