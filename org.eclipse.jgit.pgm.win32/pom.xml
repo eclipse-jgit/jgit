@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.eclipse.jgit</groupId>
+    <artifactId>org.eclipse.jgit-parent</artifactId>
+    <version>3.1.0.201310021548-r</version>
+  </parent>
+
+  <artifactId>org.eclipse.jgit.pgm.win32</artifactId>
+  <name>JGit - CLI Executable for Win32</name>
+
+  <properties>
+    <translate-qualifier/>
+    <source-bundle-manifest>${project.build.directory}/META-INF/SOURCE-MANIFEST.MF</source-bundle-manifest>
+  </properties>
+
+  <build>
+    <resources>
+      <resource>
+        <directory>.</directory>
+        <includes>
+          <include>git.bat</include>
+        </includes>
+      </resource>
+    </resources>
+
+    <plugins>
+      <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifestFile>${bundle-manifest}</manifestFile>
+          </archive>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>target-platform-configuration</artifactId>
+        <version>0.18.0</version>
+        <configuration>
+          <environments>
+            <environment>
+              <os>win32</os>
+              <ws>win32</ws>
+              <arch>x86</arch>
+            </environment>
+            <environment>
+              <os>win32</os>
+              <ws>win32</ws>
+              <arch>x86_64</arch>
+            </environment>
+          </environments>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

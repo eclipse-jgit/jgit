@@ -81,6 +81,24 @@
 
     <dependency>
       <groupId>org.eclipse.jgit</groupId>
+      <artifactId>org.eclipse.jgit.pgm.linux</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.eclipse.jgit</groupId>
+      <artifactId>org.eclipse.jgit.pgm.macosx</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.eclipse.jgit</groupId>
+      <artifactId>org.eclipse.jgit.pgm.win32</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.eclipse.jgit</groupId>
       <artifactId>org.eclipse.jgit.ui</artifactId>
       <version>${project.version}</version>
     </dependency>

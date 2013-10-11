@@ -1,0 +1,9 @@
+Bundle-ManifestVersion: 2
+Bundle-Name: JGit CLI Executable for MacOS X
+Bundle-SymbolicName: org.eclipse.jgit.pgm.macosx
+Bundle-Version: 3.1.0.201310021548-r
+Fragment-Host: org.eclipse.jgit.pgm
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-Vendor: Eclipse JGit
+Eclipse-PlatformFilter: (osgi.os=macosx)
+Eclipse-BundleShape: dir

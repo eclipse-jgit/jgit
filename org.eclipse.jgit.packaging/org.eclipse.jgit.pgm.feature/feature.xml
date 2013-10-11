@@ -65,4 +65,28 @@
          version="0.0.0"
          unpack="false"/>
 
+   <plugin
+         id="org.eclipse.jgit.pgm.win32"
+         os="win32"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"/>
+
+   <plugin
+         id="org.eclipse.jgit.pgm.linux"
+         os="linux"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"/>
+
+   <plugin
+         id="org.eclipse.jgit.pgm.macosx"
+         os="macosx"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"/>
+
 </feature>
