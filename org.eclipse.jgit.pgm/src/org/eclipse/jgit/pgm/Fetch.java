@@ -53,6 +53,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.transport.FetchResult;
 import org.eclipse.jgit.transport.RefSpec;
+import org.eclipse.jgit.transport.TagOpt;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
@@ -86,6 +87,15 @@ class Fetch extends AbstractFetchCommand {
 	@Option(name = "--quiet", usage = "usage_quiet")
 	private Boolean quiet;
 
+	@Option(name = "--tags", usage="usage_tags", aliases = { "-t" })
+	private Boolean tags;
+
+	@Option(name = "--no-tags", usage = "usage_notags", aliases = { "-n" })
+	void notags(@SuppressWarnings("unused")
+	final boolean ignored) {
+		tags = Boolean.FALSE;
+	}
+
 	@Argument(index = 0, metaVar = "metaVar_uriish")
 	private String remote = Constants.DEFAULT_REMOTE_NAME;
 
@@ -102,6 +112,10 @@ class Fetch extends AbstractFetchCommand {
 			fetch.setRemoveDeletedRefs(prune.booleanValue());
 		if (toget != null)
 			fetch.setRefSpecs(toget);
+		if (tags != null) {
+			fetch.setTagOpt(tags.booleanValue() ? TagOpt.FETCH_TAGS
+					: TagOpt.NO_TAGS);
+		}
 		if (0 <= timeout)
 			fetch.setTimeout(timeout);
 		fetch.setDryRun(dryRun);
