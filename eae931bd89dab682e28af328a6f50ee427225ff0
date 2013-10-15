@@ -72,6 +72,40 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_4eaa2c8d",
+        "filename": "org.eclipse.jgit.pgm.linux/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-10-15T22:29:47Z",
+      "side": 1,
+      "message": "- don\u0027t use Tycho in the jgit build since mixing of standard maven build and Tycho in the same reactor isn\u0027t supported by Tycho \n- we need Maven artifacts which can\u0027t be produced by Tycho :-(\n- we only use Tycho in the packaging project to generate features and p2 repo, all bundles are generated using plain Maven which means we have to manually keep in synch pom dependencies and OSGi dependencies in manifests, this way we are able to generate bundles and can publish them both the Maven and OSGi way. I discussed this problem many times with Jan and Tobias from the Tycho project and the result of these discussions was that this is currently the best approach.",
+      "revId": "eae931bd89dab682e28af328a6f50ee427225ff0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_aeb130fd",
+        "filename": "org.eclipse.jgit.pgm.macosx/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-10-15T22:29:47Z",
+      "side": 1,
+      "message": "don\u0027t use Tycho in the jgit build",
+      "revId": "eae931bd89dab682e28af328a6f50ee427225ff0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_1a169f09",
         "filename": "org.eclipse.jgit.pgm.win32/git.bat",
         "patchSetId": 2
@@ -101,6 +135,23 @@
       "side": 1,
       "message": "Just like in the existing jgit.sh script, it is expected that this var is set by the caller of the script.",
       "parentUuid": "8748d3a1_1a169f09",
+      "revId": "eae931bd89dab682e28af328a6f50ee427225ff0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_8eb434ec",
+        "filename": "org.eclipse.jgit.pgm.win32/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-10-15T22:29:47Z",
+      "side": 1,
+      "message": "don\u0027t use Tycho in the jgit build",
       "revId": "eae931bd89dab682e28af328a6f50ee427225ff0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
