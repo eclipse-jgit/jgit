@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_1aba1f5a",
+        "filename": "org.eclipse.jgit.pgm.linux/git",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 621
+      },
+      "writtenOn": "2013-10-15T21:25:02Z",
+      "side": 1,
+      "message": "This is just an untouched copy of existing jgit.sh script. Therefore, I did not change the copyright header.",
+      "parentUuid": "8748d3a1_7a1d2324",
+      "revId": "eae931bd89dab682e28af328a6f50ee427225ff0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_ba068bd6",
         "filename": "org.eclipse.jgit.pgm.linux/git",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_7ac1a3c8",
+        "filename": "org.eclipse.jgit.pgm.linux/git",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 621
+      },
+      "writtenOn": "2013-10-15T21:25:02Z",
+      "side": 1,
+      "message": "Yes, this part is related to MacOS and can be removed. This script is just a copy of the existing jgit.sh. I did not want to change it to avoid unnecessary regressions.",
+      "parentUuid": "8748d3a1_ba068bd6",
+      "revId": "eae931bd89dab682e28af328a6f50ee427225ff0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_1a169f09",
         "filename": "org.eclipse.jgit.pgm.win32/git.bat",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2013-10-15T21:08:21Z",
       "side": 1,
       "message": "Where is the JGIT_CLASSPATH var set?",
+      "revId": "eae931bd89dab682e28af328a6f50ee427225ff0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_5ac4a7d8",
+        "filename": "org.eclipse.jgit.pgm.win32/git.bat",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 621
+      },
+      "writtenOn": "2013-10-15T21:25:02Z",
+      "side": 1,
+      "message": "Just like in the existing jgit.sh script, it is expected that this var is set by the caller of the script.",
+      "parentUuid": "8748d3a1_1a169f09",
       "revId": "eae931bd89dab682e28af328a6f50ee427225ff0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
