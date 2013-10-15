@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_30abc90e",
+        "filename": "tools/maven-central/deploy.rb",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-10-15T06:43:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "073dc3ed_abc687df",
+      "revId": "95db7b1dd5a4a8002484c3dce077b5a614e205ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "073dc3ed_6b511fb0",
         "filename": "tools/maven-central/deploy.rb",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_d0c425db",
+        "filename": "tools/maven-central/deploy.rb",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-10-15T06:43:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "073dc3ed_6b511fb0",
+      "revId": "95db7b1dd5a4a8002484c3dce077b5a614e205ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "073dc3ed_8b4c631e",
         "filename": "tools/maven-central/deploy.rb",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2013-07-11T10:42:34Z",
       "side": 1,
       "message": "It\u0027s common to put arrays in `[]` (even though it\u0027s not strictly necessary)",
+      "revId": "95db7b1dd5a4a8002484c3dce077b5a614e205ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_f0c161ca",
+        "filename": "tools/maven-central/deploy.rb",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-10-15T06:43:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "073dc3ed_8b4c631e",
       "revId": "95db7b1dd5a4a8002484c3dce077b5a614e205ec",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
