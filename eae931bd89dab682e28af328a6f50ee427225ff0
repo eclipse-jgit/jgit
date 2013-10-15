@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8748d3a1_7a1d2324",
+        "filename": "org.eclipse.jgit.pgm.linux/git",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2013-10-15T21:08:21Z",
+      "side": 1,
+      "message": "Is the header correct? If so, does it mean it has been copied/pasted?",
+      "revId": "eae931bd89dab682e28af328a6f50ee427225ff0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_ba068bd6",
+        "filename": "org.eclipse.jgit.pgm.linux/git",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2013-10-15T21:08:21Z",
+      "side": 1,
+      "message": "Looks mac-ish to me and we\u0027re in the linux fragment.",
+      "revId": "eae931bd89dab682e28af328a6f50ee427225ff0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_1a169f09",
+        "filename": "org.eclipse.jgit.pgm.win32/git.bat",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2013-10-15T21:08:21Z",
+      "side": 1,
+      "message": "Where is the JGIT_CLASSPATH var set?",
+      "revId": "eae931bd89dab682e28af328a6f50ee427225ff0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
