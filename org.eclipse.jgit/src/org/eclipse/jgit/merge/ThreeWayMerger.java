@@ -49,13 +49,18 @@ import java.io.IOException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
+import org.eclipse.jgit.treewalk.EmptyTreeIterator;
 
 /** A merge of 2 trees, using a common base ancestor tree. */
 public abstract class ThreeWayMerger extends Merger {
 	private RevTree baseTree;
+
+	private ObjectId baseCommitId;
 
 	/**
 	 * Create a new merge instance for a repository.
@@ -109,6 +114,11 @@ public abstract class ThreeWayMerger extends Merger {
 		return super.merge(tips);
 	}
 
+	@Override
+	public ObjectId getBaseCommitId() {
+		return baseCommitId;
+	}
+
 	/**
 	 * Create an iterator to walk the merge base.
 	 *
@@ -119,6 +129,15 @@ public abstract class ThreeWayMerger extends Merger {
 	protected AbstractTreeIterator mergeBase() throws IOException {
 		if (baseTree != null)
 			return openTree(baseTree);
-		return mergeBase(sourceCommits[0], sourceCommits[1]);
+		RevCommit baseCommit = (baseCommitId != null) ? walk
+				.parseCommit(baseCommitId) : getBaseCommit(sourceCommits[0],
+				sourceCommits[1]);
+		if (baseCommit == null) {
+			baseCommitId = null;
+			return new EmptyTreeIterator();
+		} else {
+			baseCommitId = baseCommit.toObjectId();
+			return openTree(baseCommit.getTree());
+		}
 	}
 }
