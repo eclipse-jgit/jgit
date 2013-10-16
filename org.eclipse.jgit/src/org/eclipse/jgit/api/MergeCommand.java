@@ -379,8 +379,7 @@ public class MergeCommand extends GitCommand<MergeResult> {
 					if (failingPaths != null) {
 						repo.writeMergeCommitMsg(null);
 						repo.writeMergeHeads(null);
-						return new MergeResult(null,
-								merger.getBaseCommit(0, 1),
+						return new MergeResult(null, merger.getBaseCommitId(),
 								new ObjectId[] {
 										headCommit.getId(), srcCommit.getId() },
 								MergeStatus.FAILED, mergeStrategy,
@@ -390,8 +389,7 @@ public class MergeCommand extends GitCommand<MergeResult> {
 								.formatWithConflicts(mergeMessage,
 										unmergedPaths);
 						repo.writeMergeCommitMsg(mergeMessageWithConflicts);
-						return new MergeResult(null,
-								merger.getBaseCommit(0, 1),
+						return new MergeResult(null, merger.getBaseCommitId(),
 								new ObjectId[] { headCommit.getId(),
 										srcCommit.getId() },
 								MergeStatus.CONFLICTING, mergeStrategy,
