@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2009, Google Inc.
+ * Copyright (C) 2008-2013, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -88,6 +88,9 @@ public abstract class Merger {
 
 	/** The trees matching every entry in {@link #sourceObjects}. */
 	protected RevTree[] sourceTrees;
+
+	/** ID of commit that was used as merge base, null if none. */
+	private ObjectId baseCommitId;
 
 	/**
 	 * Create a new merge instance for a repository.
@@ -187,6 +190,9 @@ public abstract class Merger {
 
 	/**
 	 * Create an iterator to walk the merge base of two commits.
+	 * <p>
+	 * The ID of the commit used as base is stored in {@link #baseCommitId},
+	 * which can later be queried using {@link #getBaseCommitId()}.
 	 *
 	 * @param a
 	 *            the first commit in {@link #sourceObjects}.
@@ -202,7 +208,21 @@ public abstract class Merger {
 	protected AbstractTreeIterator mergeBase(RevCommit a, RevCommit b)
 			throws IOException {
 		RevCommit base = getBaseCommit(a, b);
-		return (base == null) ? new EmptyTreeIterator() : openTree(base.getTree());
+		if (base == null) {
+			baseCommitId = null;
+			return new EmptyTreeIterator();
+		} else {
+			baseCommitId = base.toObjectId();
+			return openTree(base.getTree());
+		}
+	}
+
+	/**
+	 * @return the ID of the commit that was used as merge base for merging
+	 * @since 3.2
+	 */
+	public ObjectId getBaseCommitId() {
+		return baseCommitId;
 	}
 
 	/**
@@ -217,7 +237,10 @@ public abstract class Merger {
 	 *             one of the input objects is not a commit.
 	 * @throws IOException
 	 *             objects are missing or multiple merge bases were found.
+	 * @deprecated use {@link #getBaseCommitId()} instead, as that does not
+	 *             require walking the commits again
 	 */
+	@Deprecated
 	public RevCommit getBaseCommit(final int aIdx, final int bIdx)
 			throws IncorrectObjectTypeException,
 			IOException {

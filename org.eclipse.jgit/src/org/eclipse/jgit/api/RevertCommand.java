@@ -191,14 +191,14 @@ public class RevertCommand extends GitCommand<RevCommit> {
 							.getFailingPaths();
 					if (failingPaths != null)
 						failingResult = new MergeResult(null,
-								merger.getBaseCommit(0, 1),
+								merger.getBaseCommitId(),
 								new ObjectId[] { headCommit.getId(),
 										srcParent.getId() },
 								MergeStatus.FAILED, MergeStrategy.RECURSIVE,
 								merger.getMergeResults(), failingPaths, null);
 					else
 						failingResult = new MergeResult(null,
-								merger.getBaseCommit(0, 1),
+								merger.getBaseCommitId(),
 								new ObjectId[] { headCommit.getId(),
 										srcParent.getId() },
 								MergeStatus.CONFLICTING,

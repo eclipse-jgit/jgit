@@ -56,8 +56,11 @@ import org.eclipse.jgit.api.MergeCommand.FastForwardMode;
 import org.eclipse.jgit.api.MergeResult.MergeStatus;
 import org.eclipse.jgit.api.errors.InvalidMergeHeadsException;
 import org.eclipse.jgit.junit.RepositoryTestCase;
+import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.junit.TestRepository.BranchBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryState;
 import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.merge.ResolveMerger.MergeFailureReason;
@@ -1532,6 +1535,37 @@ public class MergeCommandTest extends RepositoryTestCase {
 
 		assertEquals(MergeStatus.ABORTED, result.getMergeStatus());
 	}
+
+	@Test
+	public void testRecursiveMergeWithConflict() throws Exception {
+		TestRepository<Repository> db_t = new TestRepository<Repository>(db);
+		BranchBuilder master = db_t.branch("master");
+		RevCommit m0 = master.commit().add("f", "1\n2\n3\n4\n5\n6\n7\n8\n9\n")
+				.message("m0").create();
+		RevCommit m1 = master.commit()
+				.add("f", "1-master\n2\n3\n4\n5\n6\n7\n8\n9\n").message("m1")
+				.create();
+		db_t.getRevWalk().parseCommit(m1);
+
+		BranchBuilder side = db_t.branch("side");
+		RevCommit s1 = side.commit().parent(m0)
+				.add("f", "1\n2\n3\n4\n5\n6\n7\n8\n9-side\n").message("s1")
+				.create();
+		RevCommit s2 = side.commit().parent(m1)
+				.add("f", "1-master\n2\n3\n4\n5\n6\n7-res(side)\n8\n9-side\n")
+				.message("s2(merge)").create();
+		master.commit().parent(s1)
+				.add("f", "1-master\n2\n3\n4\n5\n6\n7-conflict\n8\n9-side\n")
+				.message("m2(merge)").create();
+
+		Git git = Git.wrap(db);
+		git.checkout().setName("master").call();
+
+		MergeResult result = git.merge().setStrategy(MergeStrategy.RECURSIVE)
+				.include("side", s2).call();
+		assertEquals(MergeStatus.CONFLICTING, result.getMergeStatus());
+	}
+
 	private static void setExecutable(Git git, String path, boolean executable) {
 		FS.DETECTED.setExecute(
 				new File(git.getRepository().getWorkTree(), path), executable);
