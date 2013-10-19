@@ -16,6 +16,24 @@
       "revId": "401212de7abd404669534b85e24fcf4d078615d1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_8a24ee3a",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Describe.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-10-19T21:45:13Z",
+      "side": 1,
+      "message": "git-core raises this error message for git describe on a pristine repo without HEAD and also when a repo has commits (and HEAD) but no tags\n\nhence I did the same here",
+      "parentUuid": "8748d3a1_6011c859",
+      "revId": "401212de7abd404669534b85e24fcf4d078615d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
