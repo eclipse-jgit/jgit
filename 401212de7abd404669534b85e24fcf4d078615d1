@@ -34,6 +34,24 @@
       "revId": "401212de7abd404669534b85e24fcf4d078615d1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_c6c6ea3d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Describe.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-10-20T16:31:24Z",
+      "side": 1,
+      "message": "ok",
+      "parentUuid": "8748d3a1_8a24ee3a",
+      "revId": "401212de7abd404669534b85e24fcf4d078615d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
