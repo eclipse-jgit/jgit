@@ -48,6 +48,7 @@ import static org.junit.Assert.assertEquals;
 import org.eclipse.jgit.junit.MockSystemReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.util.GitDateFormatter.Format;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -68,6 +69,11 @@ public class GitDateFormatterTest {
 		SystemReader.setInstance(mockSystemReader);
 		ident = RawParseUtils
 				.parsePersonIdent("A U Thor <author@example.com> 1316560165 -0400");
+	}
+
+	@After
+	public void tearDown() {
+		SystemReader.setInstance(null);
 	}
 
 	@Test

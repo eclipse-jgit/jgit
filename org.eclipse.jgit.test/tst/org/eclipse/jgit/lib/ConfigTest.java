@@ -68,12 +68,19 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.junit.MockSystemReader;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.SystemReader;
+import org.junit.After;
 import org.junit.Test;
 
 /**
  * Test reading of git config
  */
 public class ConfigTest {
+
+	@After
+	public void tearDown() {
+		SystemReader.setInstance(null);
+	}
+
 	@Test
 	public void test001_ReadBareKey() throws ConfigInvalidException {
 		final Config c = parse("[foo]\nbar\n");

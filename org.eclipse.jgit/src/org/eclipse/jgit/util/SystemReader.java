@@ -137,7 +137,8 @@ public abstract class SystemReader {
 
 	/**
 	 * @param newReader
-	 *            the new instance to use when accessing properties.
+	 *            the new instance to use when accessing properties, or null for
+	 *            the default instance.
 	 */
 	public static void setInstance(SystemReader newReader) {
 		if (newReader == null)
