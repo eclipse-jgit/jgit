@@ -1941,7 +1941,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 						return ""; // not used
 					}
 				}).call();
-		assertEquals(Status.STOPPED, res.getStatus());
+		assertEquals(Status.EDIT, res.getStatus());
 		RevCommit toBeEditted = git.log().call().iterator().next();
 		assertEquals("updated file1 on master", toBeEditted.getFullMessage());
 
