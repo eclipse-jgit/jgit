@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_8c7d2126",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RebaseCommandTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1643,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-10-22T00:03:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_f23e3ce6",
+      "revId": "1f174238c1699f4ffd5c1f82439a3f8d1a380437",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_d2434069",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RebaseCommandTest.java",
         "patchSetId": 8
@@ -30,6 +48,24 @@
       "writtenOn": "2013-10-01T11:28:20Z",
       "side": 1,
       "message": "why do we need this assertion here ? add and commit commands are tested elsewhere",
+      "revId": "1f174238c1699f4ffd5c1f82439a3f8d1a380437",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_ac80dd99",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RebaseCommandTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1646,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-10-22T00:03:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_d2434069",
       "revId": "1f174238c1699f4ffd5c1f82439a3f8d1a380437",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_ec4dc519",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RebaseCommandTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1661,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-10-22T00:03:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_521d7098",
+      "revId": "1f174238c1699f4ffd5c1f82439a3f8d1a380437",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_32354400",
         "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
         "patchSetId": 8
@@ -64,6 +118,24 @@
       "writtenOn": "2013-10-01T11:28:20Z",
       "side": 1,
       "message": "s/comment/comment line/",
+      "revId": "1f174238c1699f4ffd5c1f82439a3f8d1a380437",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_2cbfad4a",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 8
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-10-22T00:03:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_32354400",
       "revId": "1f174238c1699f4ffd5c1f82439a3f8d1a380437",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_0cc471d7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RebaseTodoFile.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-10-22T00:03:40Z",
+      "side": 1,
+      "message": "seems I was wrong the formatter has a different opinion ;-)",
+      "parentUuid": "8748d3a1_f290fc56",
+      "revId": "1f174238c1699f4ffd5c1f82439a3f8d1a380437",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_720fcc3d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RebaseTodoLine.java",
         "patchSetId": 8
@@ -98,6 +188,24 @@
       "writtenOn": "2013-10-01T11:28:20Z",
       "side": 1,
       "message": "I think this enum is easier to read if you add a blank line between the enum values",
+      "revId": "1f174238c1699f4ffd5c1f82439a3f8d1a380437",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_4c9039d0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RebaseTodoLine.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-10-22T00:03:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_720fcc3d",
       "revId": "1f174238c1699f4ffd5c1f82439a3f8d1a380437",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_b57f7485",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RebaseTodoLine.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-10-22T00:03:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_12076826",
+      "revId": "1f174238c1699f4ffd5c1f82439a3f8d1a380437",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_12d9281f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RebaseTodoLine.java",
         "patchSetId": 8
@@ -132,6 +258,24 @@
       "writtenOn": "2013-10-01T11:28:20Z",
       "side": 1,
       "message": "s/on that//",
+      "revId": "1f174238c1699f4ffd5c1f82439a3f8d1a380437",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_0c9111a6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RebaseTodoLine.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-10-22T00:03:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_12d9281f",
       "revId": "1f174238c1699f4ffd5c1f82439a3f8d1a380437",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
