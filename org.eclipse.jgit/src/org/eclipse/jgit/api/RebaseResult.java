@@ -85,6 +85,15 @@ public class RebaseResult {
 			}
 		},
 		/**
+		 * Stopped for editing in the context of an interactive rebase
+		 */
+		EDIT {
+			@Override
+			public boolean isSuccessful() {
+				return false;
+			}
+		},
+		/**
 		 * Failed; the original HEAD was restored
 		 */
 		FAILED {
@@ -183,9 +192,10 @@ public class RebaseResult {
 	 *
 	 * @param commit
 	 *            current commit
+	 * @param status
 	 */
-	RebaseResult(RevCommit commit) {
-		status = Status.STOPPED;
+	RebaseResult(RevCommit commit, RebaseResult.Status status) {
+		this.status = status;
 		currentCommit = commit;
 	}
 

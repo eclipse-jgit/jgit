@@ -302,7 +302,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 				RevCommit commitToPick = walk
 						.parseCommit(ids.iterator().next());
 				if (monitor.isCancelled())
-					return new RebaseResult(commitToPick);
+					return new RebaseResult(commitToPick, Status.STOPPED);
 				try {
 					monitor.beginTask(MessageFormat.format(
 							JGitText.get().applyingCommit,
@@ -328,9 +328,9 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 								return abort(new RebaseResult(
 										cherryPickResult.getFailingPaths()));
 							else
-								return stop(commitToPick);
+								return stop(commitToPick, Status.STOPPED);
 						case CONFLICTING:
-							return stop(commitToPick);
+							return stop(commitToPick, Status.STOPPED);
 						case OK:
 							newHead = cherryPickResult.getNewHead();
 						}
@@ -348,7 +348,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 						continue;
 					case EDIT:
 						rebaseState.createFile(AMEND, commitToPick.name());
-						return stop(commitToPick);
+						return stop(commitToPick, Status.EDIT);
 					case COMMENT:
 						break;
 					case SQUASH:
@@ -673,7 +673,8 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		return parseAuthor(raw);
 	}
 
-	private RebaseResult stop(RevCommit commitToPick) throws IOException {
+	private RebaseResult stop(RevCommit commitToPick, RebaseResult.Status status)
+			throws IOException {
 		PersonIdent author = commitToPick.getAuthorIdent();
 		String authorScript = toAuthorScript(author);
 		rebaseState.createFile(AUTHOR_SCRIPT, authorScript);
@@ -691,7 +692,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		// Remove cherry pick state file created by CherryPickCommand, it's not
 		// needed for rebase
 		repo.writeCherryPickHead(null);
-		return new RebaseResult(commitToPick);
+		return new RebaseResult(commitToPick, status);
 	}
 
 	String toAuthorScript(PersonIdent author) {
