@@ -77,6 +77,7 @@ public class ServiceMayNotContinueException extends IOException {
 	 *            be shown to an end-user.
 	 * @param cause
 	 *            the cause of the exception.
+	 * @since 3.2
 	 */
 	public ServiceMayNotContinueException(String msg, Throwable cause) {
 		super(msg);
@@ -88,6 +89,7 @@ public class ServiceMayNotContinueException extends IOException {
 	 *
 	 * @param cause
 	 *            the cause of the exception.
+	 * @since 3.2
 	 */
 	public ServiceMayNotContinueException(Throwable cause) {
 		this(JGitText.get().internalServerError, cause);

@@ -68,7 +68,7 @@ import static org.eclipse.jgit.lib.Constants.R_TAGS;
 /**
  * Given a commit, show the most recent tag that is reachable from a commit.
  *
- * @since 3.1
+ * @since 3.2
  */
 public class DescribeCommand extends GitCommand<String> {
 	private final RevWalk w;

@@ -668,7 +668,7 @@ public class Git {
 	 * commit in terms of the nearest git tag.
 	 *
 	 * @return a {@link DescribeCommand}.
-	 * @since 3.1
+	 * @since 3.2
 	 */
 	public DescribeCommand describe() {
 		return new DescribeCommand(repo);
