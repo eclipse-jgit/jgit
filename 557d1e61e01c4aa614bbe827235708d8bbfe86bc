@@ -16,6 +16,24 @@
       "revId": "557d1e61e01c4aa614bbe827235708d8bbfe86bc",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_35d79769",
+        "filename": "org.eclipse.jgit.pgm/build.properties",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2013-10-28T11:52:14Z",
+      "side": 1,
+      "message": "Because there\u0027s a warning for it :) I\u0027m not sure why, maybe it\u0027s for the jgit.sh file under /.",
+      "parentUuid": "8748d3a1_1c0d3ff2",
+      "revId": "557d1e61e01c4aa614bbe827235708d8bbfe86bc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
