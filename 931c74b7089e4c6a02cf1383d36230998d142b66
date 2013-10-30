@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8748d3a1_87ef49aa",
+        "filename": "org.eclipse.jgit.pgm/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2013-10-30T11:27:22Z",
+      "side": 1,
+      "message": "Probably a dumb question, but shouldn\u0027t this include the newly added jgit.bat file too?",
+      "revId": "931c74b7089e4c6a02cf1383d36230998d142b66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
