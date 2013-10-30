@@ -16,6 +16,24 @@
       "revId": "931c74b7089e4c6a02cf1383d36230998d142b66",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_c73e7142",
+        "filename": "org.eclipse.jgit.pgm/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 621
+      },
+      "writtenOn": "2013-10-30T12:15:19Z",
+      "side": 1,
+      "message": "This is related to producing the jgit binary executable, not to what is included in the pgm bundle. The binary is a concatenation of the shell script and the jgit-cli.jar (which is the pgm bundle + all dependencies).",
+      "parentUuid": "8748d3a1_87ef49aa",
+      "revId": "931c74b7089e4c6a02cf1383d36230998d142b66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
