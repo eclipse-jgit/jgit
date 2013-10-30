@@ -110,15 +110,10 @@ class PackBitmapIndexV1 extends BasePackBitmapIndex {
 
 		// Read the options (2 bytes)
 		final int opts = NB.decodeUInt16(scratch, 6);
-		switch (opts) {
-		case OPT_FULL:
-			// Bitmaps are self contained within this file.
-			break;
-		default:
+		if ((opts & OPT_FULL) == 0)
 			throw new IOException(MessageFormat.format(
 					JGitText.get().expectedGot, Integer.valueOf(OPT_FULL),
 					Integer.valueOf(opts)));
-		}
 
 		// Read the number of entries (1 int32)
 		long numEntries = NB.decodeUInt32(scratch, 8);
