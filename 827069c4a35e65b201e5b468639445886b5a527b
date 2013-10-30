@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8748d3a1_c43e6f42",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RebaseTodoFile.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-10-30T10:36:20Z",
+      "side": 1,
+      "message": "style nit: no braces here",
+      "revId": "827069c4a35e65b201e5b468639445886b5a527b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
