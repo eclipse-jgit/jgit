@@ -51,8 +51,6 @@
       <unit id="com.jcraft.jsch.source" version="0.1.46.v201205102330"/>
       <unit id="org.junit" version="4.11.0.v201303080030"/>
       <unit id="org.junit.source" version="4.11.0.v201303080030"/>
-      <unit id="com.google.protobuf" version="2.4.0.v201105131100"/>
-      <unit id="com.google.protobuf.source" version="2.4.0.v201105131100"/>
       <unit id="javax.servlet" version="2.5.0.v201103041518"/>
       <unit id="javax.servlet.source" version="2.5.0.v201103041518"/>
       <unit id="org.tukaani.xz" version="1.3.0.v201308270617"/>
