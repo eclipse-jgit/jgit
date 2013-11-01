@@ -1,9 +1,10 @@
 PREFIX = 'tst/org/eclipse/jgit/'
 DATA = glob(['tst-rsrc/org/eclipse/jgit/test/resources/**/*'])
-TEST = glob([PREFIX + '**/*Test.java'])
-UTIL = glob(['tst/**/*.java'], excludes = TEST)
+DFS  = glob([PREFIX + 'internal/storage/dfs/**/*Test.java'])
+LIB = glob([PREFIX + '**/*Test.java'], excludes = DFS)
+UTIL = glob(['tst/**/*.java'], excludes = DFS + LIB)
 
-for test in TEST:
+for test in LIB:
   e = test.index('.java')
   java_test(
     name = test[len(PREFIX):e].replace('/', '.'),
@@ -16,13 +17,37 @@ for test in TEST:
     ]
   )
 
+for test in DFS:
+  e = test.index('.java')
+  java_test(
+    name = test[len(PREFIX):e].replace('/', '.'),
+    srcs = [test],
+    deps = [
+      ':test_util',
+      '//org.eclipse.jgit:storage_dfs',
+    ],
+    labels = ['dfs'],
+  )
+
 java_library(
   name = 'test_util',
   srcs = UTIL,
   resources = glob(['tst-rsrc/**/*'], excludes = DATA),
   deps = [
     ':sample_data_jar',
+    '//org.eclipse.jgit:api',
+    '//org.eclipse.jgit:blame',
+    '//org.eclipse.jgit:fnmatch',
     '//org.eclipse.jgit:lib',
+    '//org.eclipse.jgit:merge',
+    '//org.eclipse.jgit:nls',
+    '//org.eclipse.jgit:notes',
+    '//org.eclipse.jgit:progress',
+    '//org.eclipse.jgit:revplot',
+    '//org.eclipse.jgit:text',
+    '//org.eclipse.jgit:transport_client',
+    '//org.eclipse.jgit:transport_server',
+    '//org.eclipse.jgit:util',
     '//org.eclipse.jgit.junit:junit',
     '//lib:ewah',
     '//lib:hamcrest-core',

@@ -1,12 +1,357 @@
+def pkg(*names):
+  return ['src/org/eclipse/jgit/' + n for n in names]
+
+NLS = glob(pkg('nls/**/*.java')) + pkg(
+  'errors/TranslationBundleException.java',
+  'errors/TranslationBundleLoadingException.java',
+  'errors/TranslationStringMissingException.java',
+)
+
+TEXT = pkg('internal/JGitText.java')
+
+API = glob(pkg('api/**/*.java'))
+BLAME = glob(pkg('blame/**/*.java'))
+DFS = glob(pkg('internal/storage/dfs/**/*.java'))
+NOTES = glob(pkg('notes/**/*.java'))
+REVPLOT = glob(pkg('revplot/**/*.java'))
+
+FNMATCH = glob(pkg('fnmatch/**/*.java')) + pkg(
+  'errors/InvalidPatternException.java',
+  'errors/NoClosingBracketException.java',
+)
+
+PROGRESS = pkg(
+  'lib/BatchingProgressMonitor.java',
+  'lib/EmptyProgressMonitor.java',
+  'lib/NullProgressMonitor.java',
+  'lib/ProgressMonitor.java',
+  'lib/TextProgressMonitor.java',
+  'lib/ThreadSafeProgressMonitor.java',
+)
+
+UTIL = pkg(
+  'util/BlockList.java',
+  'util/IO.java',
+  'util/IntList.java',
+  'util/LongList.java',
+  'util/MutableInteger.java',
+  'util/NB.java',
+  'util/RawCharSequence.java',
+  'util/RawCharUtil.java',
+  'util/StringUtils.java',
+  'util/TemporaryBuffer.java',
+  'util/io/CountingOutputStream.java',
+  'util/io/DisabledOutputStream.java',
+  'util/io/InterruptTimer.java',
+  'util/io/NullOutputStream.java',
+  'util/io/SafeBufferedOutputStream.java',
+  'util/io/TeeInputStream.java',
+  'util/io/TimeoutInputStream.java',
+  'util/io/TimeoutOutputStream.java',
+  'util/io/UnionInputStream.java',
+)
+
+MERGE = glob(pkg(
+  'diff/**/*.java',
+  'merge/**/*.java',
+  'patch/**/*.java',
+), excludes = pkg(
+  'diff/ContentSource.java',
+  'diff/DiffConfig.java',
+  'diff/DiffEntry.java',
+  'diff/RawText.java',
+  'diff/RenameDetector.java',
+  'diff/Sequence.java',
+  'diff/SimilarityIndex.java',
+  'diff/SimilarityRenameDetector.java',
+)) + pkg(
+  'errors/NoMergeBaseException.java',
+)
+
+DAEMON = pkg(
+  'transport/Daemon.java',
+  'transport/DaemonClient.java',
+  'transport/DaemonService.java',
+)
+
+HTTP_UTIL = pkg('util/HttpSupport.java')
+
+TRANSPORT_SERVER = pkg(
+  'transport/AbstractAdvertiseRefsHook.java',
+  'transport/AdvertiseRefsHookChain.java',
+  'transport/PostReceiveHook.java',
+  'transport/PostReceiveHookChain.java',
+  'transport/PreReceiveHook.java',
+  'transport/PreReceiveHookChain.java',
+  'transport/PreUploadHookChain.java',
+  'transport/ReceivePack.java',
+  'transport/UploadPackLoggerChain.java',
+  'transport/UploadPackMayNotContinueException.java',
+)
+
+TRANSPORT_CLIENT = pkg(
+  'errors/MissingBundlePrerequisiteException.java',
+  'errors/NoRemoteRepositoryException.java',
+  'errors/RemoteRepositoryException.java',
+  'errors/UnsupportedCredentialItem.java',
+  'transport/AmazonS3.java',
+  'transport/BaseConnection.java',
+  'transport/BaseFetchConnection.java',
+  'transport/BasePackConnection.java',
+  'transport/BasePackFetchConnection.java',
+  'transport/BasePackPushConnection.java',
+  'transport/BundleFetchConnection.java',
+  'transport/BundleWriter.java',
+  'transport/Connection.java',
+  'transport/CredentialItem.java',
+  'transport/CredentialsProvider.java',
+  'transport/CredentialsProviderUserInfo.java',
+  'transport/DefaultSshSessionFactory.java',
+  'transport/FetchConnection.java',
+  'transport/FetchHeadRecord.java',
+  'transport/FetchProcess.java',
+  'transport/FetchResult.java',
+  'transport/HttpAuthMethod.java',
+  'transport/HttpTransport.java',
+  'transport/JschConfigSessionFactory.java',
+  'transport/JschSession.java',
+  'transport/OpenSshConfig.java',
+  'transport/OperationResult.java',
+  'transport/PackTransport.java',
+  'transport/PushConnection.java',
+  'transport/PushProcess.java',
+  'transport/PushResult.java',
+  'transport/RemoteRefUpdate.java',
+  'transport/RemoteSession.java',
+  'transport/SshSessionFactory.java',
+  'transport/SshTransport.java',
+  'transport/TcpTransport.java',
+  'transport/TrackingRefUpdate.java',
+  'transport/Transport.java',
+  'transport/TransportAmazonS3.java',
+  'transport/TransportBundle.java',
+  'transport/TransportBundleFile.java',
+  'transport/TransportBundleStream.java',
+  'transport/TransportGitAnon.java',
+  'transport/TransportGitSsh.java',
+  'transport/TransportHttp.java',
+  'transport/TransportLocal.java',
+  'transport/TransportProtocol.java',
+  'transport/TransportSftp.java',
+  'transport/UsernamePasswordCredentialsProvider.java',
+  'transport/WalkEncryption.java',
+  'transport/WalkFetchConnection.java',
+  'transport/WalkPushConnection.java',
+  'transport/WalkRemoteObjectDatabase.java',
+  'transport/WalkTransport.java',
+  'util/Base64.java',
+  'util/CachedAuthenticator.java',
+  'util/io/StreamCopyThread.java',
+)
+
+TRANSPORT_RESOLVER = glob(pkg('transport/resolver/**/*.java'))
+
 java_library(
   name = 'lib',
-  srcs = glob(['src/**/*.java']),
-  resources = glob(['resources/**/*']),
+  srcs = glob(
+    ['src/**/*.java'],
+    excludes = (NLS + TEXT +
+      API + BLAME + DFS + NOTES + UTIL +
+      REVPLOT + FNMATCH + MERGE + PROGRESS +
+      DAEMON + HTTP_UTIL + TRANSPORT_SERVER +
+      TRANSPORT_CLIENT + TRANSPORT_RESOLVER)
+  ),
   deps = [
+    ':fnmatch',
+    ':nls',
+    ':progress',
+    ':text',
+    ':util',
     '//lib:ewah',
+  ],
+  visibility = ['PUBLIC'],
+)
+
+java_library(
+  name = 'api',
+  srcs = API,
+  deps = [
+    ':blame',
+    ':lib',
+    ':merge',
+    ':nls',
+    ':notes',
+    ':progress',
+    ':text',
+    ':transport_client',
+    ':util',
+  ],
+  visibility = ['PUBLIC'],
+)
+
+java_library(
+  name = 'blame',
+  srcs = BLAME,
+  deps = [
+    ':lib',
+    ':merge',
+    ':nls',
+    ':text',
+  ],
+  visibility = ['PUBLIC'],
+)
+
+java_library(
+  name = 'notes',
+  srcs = NOTES,
+  deps = [
+    ':lib',
+    ':merge',
+    ':nls',
+    ':text',
+    ':util',
+  ],
+  visibility = ['PUBLIC'],
+)
+
+java_library(
+  name = 'merge',
+  srcs = MERGE,
+  deps = [
+    ':lib',
+    ':nls',
+    ':progress',
+    ':text',
+    ':util',
+  ],
+  visibility = ['PUBLIC'],
+)
+
+java_library(
+  name = 'revplot',
+  srcs = REVPLOT,
+  deps = [
+    ':lib',
+    ':nls',
+    ':text',
+  ],
+  visibility = ['PUBLIC'],
+)
+
+java_library(
+  name = 'daemon',
+  srcs = DAEMON,
+  deps = [
+    ':lib',
+    ':nls',
+    ':text',
+    ':transport_resolver',
+    ':transport_server',
+    ':util',
+  ],
+  visibility = ['PUBLIC'],
+)
+
+java_library(
+  name = 'transport_client',
+  srcs = TRANSPORT_CLIENT,
+  deps = [
+    ':fnmatch',
+    ':http_util',
+    ':lib',
+    ':nls',
+    ':progress',
+    ':text',
+    ':transport_server',  # for TransportLocal
+    ':util',
     '//lib:jsch',
   ],
   visibility = ['PUBLIC'],
+)
+
+java_library(
+  name = 'transport_server',
+  srcs = TRANSPORT_SERVER,
+  deps = [
+    ':lib',
+    ':nls',
+    ':text',
+  ],
+  visibility = ['PUBLIC'],
+)
+
+java_library(
+  name = 'transport_resolver',
+  srcs = TRANSPORT_RESOLVER,
+  deps = [
+    ':lib',
+    ':nls',
+    ':text',
+    ':transport_server',
+  ],
+  visibility = ['PUBLIC'],
+)
+
+java_library(
+  name = 'storage_dfs',
+  srcs = DFS,
+  resources = [
+    'resources/org/eclipse/jgit/internal/storage/dfs/DfsText.properties',
+  ],
+  deps = [
+    ':lib',
+    ':nls',
+    ':progress',
+    ':text',
+    ':util',
+  ],
+  visibility = ['PUBLIC'],
+)
+
+java_library(
+  name = 'http_util',
+  srcs = HTTP_UTIL,
+  deps = [':nls', ':text'],
+  visibility = ['PUBLIC'],
+)
+
+java_library(
+  name = 'fnmatch',
+  srcs = FNMATCH,
+  deps = [':nls', ':text'],
+  visibility = ['PUBLIC'],
+)
+
+java_library(
+  name = 'progress',
+  srcs = PROGRESS,
+  visibility = ['PUBLIC'],
+)
+
+java_library(
+  name = 'util',
+  srcs = UTIL,
+  deps = [':nls', ':text', ':progress'],
+  visibility = ['PUBLIC'],
+)
+
+java_library(
+  name = 'nls',
+  srcs = NLS,
+  visibility = ['PUBLIC'],
+)
+
+java_library(
+  name = 'text',
+  srcs = TEXT,
+  resources = [
+    'resources/org/eclipse/jgit/internal/JGitText.properties',
+  ],
+  deps = [':nls'],
+  visibility = [
+    '//org.eclipse.jgit.test:test_util',
+    '//org.eclipse.jgit.http.test:test_util',
+  ]
 )
 
 genrule(

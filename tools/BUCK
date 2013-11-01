@@ -1,6 +1,8 @@
 java_library(
   name = 'eclipse_classpath',
   deps = [
+    '//org.eclipse.jgit:api',
+    '//org.eclipse.jgit:storage_dfs',
     '//org.eclipse.jgit.pgm:jgit_main',
     '//org.eclipse.jgit.ant:ant',
     '//org.eclipse.jgit.ant.test:ant',

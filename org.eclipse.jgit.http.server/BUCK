@@ -3,7 +3,13 @@ java_library(
   srcs = glob(['src/**/*.java']),
   resources = glob(['resources/**/*']),
   deps = [
+    '//org.eclipse.jgit:http_util',
     '//org.eclipse.jgit:lib',
+    '//org.eclipse.jgit:nls',
+    '//org.eclipse.jgit:progress',
+    '//org.eclipse.jgit:transport_resolver',
+    '//org.eclipse.jgit:transport_server',
+    '//org.eclipse.jgit:util',
     '//lib:servlet-api',
   ],
   visibility = ['PUBLIC'],
