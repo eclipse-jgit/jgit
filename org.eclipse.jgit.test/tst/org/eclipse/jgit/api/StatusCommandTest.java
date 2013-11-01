@@ -48,8 +48,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.NoFilepatternException;
@@ -82,12 +80,12 @@ public class StatusCommandTest extends RepositoryTestCase {
 		writeTrashFile("c", "content of c");
 		git.add().addFilepattern("a").addFilepattern("b").call();
 		Status stat = git.status().call();
-		assertEquals(set("a", "b"), stat.getAdded());
+		assertEquals(Sets.of("a", "b"), stat.getAdded());
 		assertEquals(0, stat.getChanged().size());
 		assertEquals(0, stat.getMissing().size());
 		assertEquals(0, stat.getModified().size());
 		assertEquals(0, stat.getRemoved().size());
-		assertEquals(set("c"), stat.getUntracked());
+		assertEquals(Sets.of("c"), stat.getUntracked());
 		git.commit().setMessage("initial").call();
 
 		writeTrashFile("a", "modified content of a");
@@ -96,12 +94,12 @@ public class StatusCommandTest extends RepositoryTestCase {
 		git.add().addFilepattern("a").addFilepattern("d").call();
 		writeTrashFile("a", "again modified content of a");
 		stat = git.status().call();
-		assertEquals(set("d"), stat.getAdded());
-		assertEquals(set("a"), stat.getChanged());
+		assertEquals(Sets.of("d"), stat.getAdded());
+		assertEquals(Sets.of("a"), stat.getChanged());
 		assertEquals(0, stat.getMissing().size());
-		assertEquals(set("b", "a"), stat.getModified());
+		assertEquals(Sets.of("b", "a"), stat.getModified());
 		assertEquals(0, stat.getRemoved().size());
-		assertEquals(set("c"), stat.getUntracked());
+		assertEquals(Sets.of("c"), stat.getUntracked());
 		git.add().addFilepattern(".").call();
 		git.commit().setMessage("second").call();
 
@@ -122,8 +120,8 @@ public class StatusCommandTest extends RepositoryTestCase {
 		assertEquals(0, stat.getChanged().size());
 		assertEquals(0, stat.getMissing().size());
 		assertEquals(0, stat.getModified().size());
-		assertEquals(set("a"), stat.getRemoved());
-		assertEquals(set("a"), stat.getUntracked());
+		assertEquals(Sets.of("a"), stat.getRemoved());
+		assertEquals(Sets.of("a"), stat.getUntracked());
 		git.commit().setMessage("t").call();
 
 		writeTrashFile("sub/a", "sub-file");
@@ -153,25 +151,18 @@ public class StatusCommandTest extends RepositoryTestCase {
 
 		// filter on an existing file
 		stat = git.status().addPath("a").call();
-		assertEquals(set("a"), stat.getModified());
+		assertEquals(Sets.of("a"), stat.getModified());
 
 		// filter on an existing folder
 		stat = git.status().addPath("D").call();
-		assertEquals(set("D/b", "D/D/d"), stat.getModified());
+		assertEquals(Sets.of("D/b", "D/D/d"), stat.getModified());
 
 		// filter on an existing folder and file
 		stat = git.status().addPath("D/D").addPath("a").call();
-		assertEquals(set("a", "D/D/d"), stat.getModified());
+		assertEquals(Sets.of("a", "D/D/d"), stat.getModified());
 
 		// do not filter at all
 		stat = git.status().call();
-		assertEquals(set("a", "D/b", "D/D/d"), stat.getModified());
-	}
-
-	public static Set<String> set(String... elements) {
-		Set<String> ret = new HashSet<String>();
-		for (String element : elements)
-			ret.add(element);
-		return ret;
+		assertEquals(Sets.of("a", "D/b", "D/D/d"), stat.getModified());
 	}
 }
