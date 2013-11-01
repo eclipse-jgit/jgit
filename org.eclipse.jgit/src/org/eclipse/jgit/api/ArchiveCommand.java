@@ -278,10 +278,15 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 					final String name = walk.getPathString();
 					final FileMode mode = walk.getFileMode(0);
 
-					if (mode == FileMode.TREE)
+					if (FileMode.TREE.equals(mode)
+							|| FileMode.GITLINK.equals(mode)) {
 						// ZIP entries for directories are optional.
 						// Leave them out, mimicking "git archive".
+
+						// TODO(jrn): Take a callback to recurse
+						// into submodules.
 						continue;
+					}
 
 					walk.getObjectId(idBuf, 0);
 					fmt.putEntry(outa, name, mode, reader.open(idBuf));
