@@ -50,13 +50,12 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.transport.BaseConnection;
 import org.eclipse.jgit.util.RawParseUtils;
 
 /**
  * Combines messages from an OutputStream (hopefully in UTF-8) and a Writer.
  * <p>
- * This class is primarily meant for {@link BaseConnection} in contexts where a
+ * This class is primarily meant for {@code BaseConnection} in contexts where a
  * standard error stream from a command execution, as well as messages from a
  * side-band channel, need to be combined together into a buffer to represent
  * the complete set of messages from a remote repository.
