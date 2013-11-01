@@ -88,25 +88,25 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 	 * The client expects a status report after the server processes the pack.
 	 * @since 2.0
 	 */
-	public static final String CAPABILITY_REPORT_STATUS = "report-status"; //$NON-NLS-1$
+	public static final String CAPABILITY_REPORT_STATUS = GitProtocolConstants.CAPABILITY_REPORT_STATUS;
 
 	/**
 	 * The server supports deleting refs.
 	 * @since 2.0
 	 */
-	public static final String CAPABILITY_DELETE_REFS = "delete-refs"; //$NON-NLS-1$
+	public static final String CAPABILITY_DELETE_REFS = GitProtocolConstants.CAPABILITY_DELETE_REFS;
 
 	/**
 	 * The server supports packs with OFS deltas.
 	 * @since 2.0
 	 */
-	public static final String CAPABILITY_OFS_DELTA = "ofs-delta"; //$NON-NLS-1$
+	public static final String CAPABILITY_OFS_DELTA = GitProtocolConstants.CAPABILITY_OFS_DELTA;
 
 	/**
 	 * The client supports using the 64K side-band for progress messages.
 	 * @since 2.0
 	 */
-	public static final String CAPABILITY_SIDE_BAND_64K = "side-band-64k"; //$NON-NLS-1$
+	public static final String CAPABILITY_SIDE_BAND_64K = GitProtocolConstants.CAPABILITY_SIDE_BAND_64K;
 
 	private final boolean thinPack;
 
