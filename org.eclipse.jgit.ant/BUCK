@@ -1,0 +1,16 @@
+java_library(
+  name = 'ant',
+  srcs = glob(['src/**/*.java']),
+  resources = glob(['resources/**/*']),
+  deps = [
+    '//org.eclipse.jgit:lib',
+    '//lib/ant:ant',
+  ],
+  visibility = ['PUBLIC'],
+)
+
+java_library(
+  name = 'ant-src',
+  resources = glob(['src/**/*.java', 'resources/**/*']),
+  visibility = ['PUBLIC'],
+)
