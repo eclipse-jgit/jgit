@@ -1,0 +1,16 @@
+include_defs('//tools/maven.defs')
+
+maven_jar(
+  name = 'ant',
+  id = 'org.apache.ant:ant:1.7.1',
+  sha1 = '1d33711018e7649a8427fff62a87f94f4e7d310f',
+  license = 'Apache2.0',
+)
+
+maven_jar(
+  name = 'launcher',
+  id = 'org.apache.ant:ant-launcher:1.7.1',
+  sha1 = 'a9cbbcefbbb5e7f97596045268243a8c1c7aafca',
+  license = 'Apache2.0',
+  deps = [':ant'],
+)

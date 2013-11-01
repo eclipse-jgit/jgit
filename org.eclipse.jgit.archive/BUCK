@@ -1,0 +1,27 @@
+ACTIVATOR = ['src/org/eclipse/jgit/archive/FormatActivator.java']
+
+java_library(
+  name = 'archive',
+  srcs = glob(['src/**/*.java'], excludes = ACTIVATOR),
+  deps = [
+    '//org.eclipse.jgit:lib',
+    '//lib:commons-compress',
+  ],
+  visibility = ['PUBLIC'],
+)
+
+java_library(
+  name = 'osgi',
+  srcs = ACTIVATOR,
+  deps = [
+    ':archive',
+    '//lib:osgi-core',
+  ],
+  visibility = ['PUBLIC'],
+)
+
+java_library(
+  name = 'archive-src',
+  resources = glob(['src/**/*.java']),
+  visibility = ['PUBLIC'],
+)

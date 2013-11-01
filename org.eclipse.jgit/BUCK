@@ -1,0 +1,40 @@
+java_library(
+  name = 'lib',
+  srcs = glob(['src/**/*.java']),
+  resources = glob(['resources/**/*']),
+  deps = [
+    '//lib:ewah',
+    '//lib:jsch',
+  ],
+  visibility = ['PUBLIC'],
+)
+
+genrule(
+  name = 'javadoc',
+  cmd = ' '.join([
+    'javadoc',
+    '-quiet',
+    '-protected',
+    '-encoding UTF-8',
+    '-charset UTF-8',
+    '-notimestamp',
+    '-windowtitle "JGit Library API Documentation"',
+    '-link http://java.sun.com/j2se/1.5.0/docs/api',
+    '-sourcepath $SRCDIR/src',
+    '-classpath $(location //lib:ewah):$(location //lib:jsch)',
+    '-subpackages org.eclipse.jgit',
+    '-d $TMP',
+  ]) + ';jar cf $OUT -C $TMP .',
+  srcs = glob(['src/**/*.java']),
+  deps = [
+    '//lib:ewah',
+    '//lib:jsch',
+  ],
+  out = 'javadoc.jar',
+)
+
+java_library(
+  name = 'lib-src',
+  resources = glob(['src/**/*.java', 'resources/**/*']),
+  visibility = ['PUBLIC'],
+)

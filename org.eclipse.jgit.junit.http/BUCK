@@ -1,0 +1,18 @@
+java_library(
+  name = 'http',
+  srcs = glob(['src/**/*.java']),
+  deps = [
+    '//org.eclipse.jgit:lib',
+    '//org.eclipse.jgit.http.server:server',
+    '//org.eclipse.jgit.junit:junit',
+    '//lib:junit',
+    '//lib:servlet-api',
+    '//lib/jetty:http',
+    '//lib/jetty:io',
+    '//lib/jetty:security',
+    '//lib/jetty:server',
+    '//lib/jetty:servlet',
+    '//lib/jetty:util',
+  ],
+  visibility = ['PUBLIC'],
+)

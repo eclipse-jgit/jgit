@@ -1,0 +1,31 @@
+java_library(
+  name = 'lib',
+  srcs = glob(['src/**/*.java']),
+  deps = [
+    '//org.eclipse.jgit:lib',
+    '//org.eclipse.jgit.junit:junit',
+    '//org.eclipse.jgit.pgm:pgm',
+    '//lib:args4j',
+    '//lib:junit',
+  ],
+  visibility = ['//tools:eclipse_classpath'],
+)
+
+PREFIX = 'tst/org/eclipse/jgit/pgm/'
+for test in glob([PREFIX + '**/*.java']):
+  name = test[len(PREFIX):test.index('.java')]
+  java_test(
+    name = name,
+    srcs = [test],
+    deps = [
+      ':lib',
+      '//org.eclipse.jgit:lib',
+      '//org.eclipse.jgit.junit:junit',
+      '//org.eclipse.jgit.pgm:pgm',
+      '//org.eclipse.jgit.pgm:services',
+      '//lib:junit',
+      '//lib:xz',
+    ],
+    vm_args = ['-Xmx256m'],
+    labels = ['pgm'],
+  )
