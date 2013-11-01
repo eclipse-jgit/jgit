@@ -1,0 +1,19 @@
+java_test(
+  name = 'http',
+  srcs = glob(['tst/**/*.java']),
+  deps = [
+    '//org.eclipse.jgit:lib',
+    '//org.eclipse.jgit.junit:junit',
+    '//org.eclipse.jgit.junit.http:http',
+    '//org.eclipse.jgit.http.server:server',
+    '//lib:junit',
+    '//lib:servlet-api',
+    '//lib/jetty:http',
+    '//lib/jetty:io',
+    '//lib/jetty:security',
+    '//lib/jetty:server',
+    '//lib/jetty:servlet',
+    '//lib/jetty:util',
+  ],
+  visibility = ['//tools:eclipse_classpath'],
+)

@@ -1,0 +1,10 @@
+java_library(
+  name = 'lib',
+  srcs = glob(['src/**/*.java']),
+  resources = glob(['resources/**/*']),
+  deps = [
+    '//lib:ewah',
+    '//lib:jsch',
+  ],
+  visibility = ['PUBLIC'],
+)

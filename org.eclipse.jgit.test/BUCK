@@ -1,0 +1,17 @@
+java_test(
+  name = 'lib',
+  srcs = glob(['tst/**/*.java']),
+  resources = glob(['tst-rsrc/**/*']),
+  deps = [
+    '//org.eclipse.jgit:lib',
+    '//org.eclipse.jgit.junit:junit',
+    '//lib:ewah',
+    '//lib:hamcrest-core',
+    '//lib:hamcrest-library',
+    '//lib:junit',
+    '//org.eclipse.jgit.console:console', # ConsoleText
+    '//org.eclipse.jgit.pgm:pgm', # CLIText
+    '//org.eclipse.jgit.ui:ui', # UIText
+  ],
+  visibility = ['//tools:eclipse_classpath'],
+)

@@ -1,0 +1,10 @@
+java_library(
+  name = 'archive',
+  srcs = glob(['src/**/*.java']),
+  deps = [
+    '//org.eclipse.jgit:lib',
+    '//lib:commons-compress',
+    '//lib:osgi-core',
+  ],
+  visibility = ['PUBLIC'],
+)
