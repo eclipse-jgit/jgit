@@ -12,6 +12,7 @@ java_library(
     '//org.eclipse.jgit.java7.test:java7',
     '//org.eclipse.jgit.pgm.test:lib',
     '//org.eclipse.jgit.test:test_util',
+    '//tools/osgi:bundler_lib',
   ],
 )
 

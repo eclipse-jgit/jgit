@@ -1,0 +1,13 @@
+java_binary(
+  name = 'bundler',
+  main_class = 'Bundler',
+  deps = [':bundler_lib'],
+  visibility = ['PUBLIC'],
+)
+
+java_library(
+  name = 'bundler_lib',
+  srcs = ['src/Bundler.java'],
+  deps = ['//lib:args4j'],
+  visibility = ['//tools:eclipse_classpath'],
+)
