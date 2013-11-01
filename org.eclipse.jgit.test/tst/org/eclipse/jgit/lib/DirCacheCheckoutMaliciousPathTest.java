@@ -54,6 +54,7 @@ import org.eclipse.jgit.util.SystemReader;
 import org.junit.Test;
 
 public class DirCacheCheckoutMaliciousPathTest extends RepositoryTestCase {
+
 	protected ObjectId theHead;
 	protected ObjectId theMerge;
 
@@ -230,8 +231,14 @@ public class DirCacheCheckoutMaliciousPathTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testMaliciousPathEmpty() throws Exception {
-		((MockSystemReader) SystemReader.getInstance()).setCurrentPlatform();
+	public void testMaliciousPathEmptyUnix() throws Exception {
+		((MockSystemReader) SystemReader.getInstance()).setUnix();
+		testMaliciousPathBadFirstCheckout("", "no");
+	}
+
+	@Test
+	public void testMaliciousPathEmptyWindows() throws Exception {
+		((MockSystemReader) SystemReader.getInstance()).setWindows();
 		testMaliciousPathBadFirstCheckout("", "no");
 	}
 
