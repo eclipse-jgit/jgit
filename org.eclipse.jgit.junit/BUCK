@@ -2,7 +2,10 @@ java_library(
   name = 'junit',
   srcs = glob(['src/**/*.java']),
   deps = [
+    '//org.eclipse.jgit:api',
     '//org.eclipse.jgit:lib',
+    '//org.eclipse.jgit:progress',
+    '//org.eclipse.jgit:util',
     '//lib:junit',
   ],
   visibility = ['PUBLIC'],
