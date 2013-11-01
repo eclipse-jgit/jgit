@@ -46,17 +46,11 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
-import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
-import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import java.io.File;
 import java.io.IOException;
 
-import org.eclipse.jgit.internal.storage.file.PackFile;
-import org.eclipse.jgit.internal.storage.file.WindowCursor;
-import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
@@ -64,17 +58,23 @@ import org.eclipse.jgit.test.resources.SampleDataRepositoryTestCase;
 import org.junit.Test;
 
 public class T0004_PackReaderTest extends SampleDataRepositoryTestCase {
-	private static final String PACK_NAME = "pack-34be9032ac282b11fa9babdc2b2a93ca996c9c2f";
-	private static final File TEST_PACK = JGitTestUtil.getTestResourceFile(PACK_NAME + ".pack");
+	private static final String PACK_NAME = "34be9032ac282b11fa9babdc2b2a93ca996c9c2f";
 
 	@Test
 	public void test003_lookupCompressedObject() throws IOException {
-		final PackFile pr;
 		final ObjectId id;
 		final ObjectLoader or;
 
+		PackFile pr = null;
+		for (PackFile p : db.getObjectDatabase().getPacks()) {
+			if (PACK_NAME.equals(p.getPackName())) {
+				pr = p;
+				break;
+			}
+		}
+		assertNotNull("have pack-" + PACK_NAME, pr);
+
 		id = ObjectId.fromString("902d5476fa249b7abc9d84c611577a81381f0327");
-		pr = new PackFile(TEST_PACK, PACK.getBit() | INDEX.getBit());
 		or = pr.get(new WindowCursor(null), id);
 		assertNotNull(or);
 		assertEquals(Constants.OBJ_TREE, or.getType());
