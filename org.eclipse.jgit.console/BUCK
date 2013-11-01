@@ -2,7 +2,11 @@ java_library(
   name = 'console',
   srcs = glob(['src/**/*.java']),
   resources = glob(['resources/**/*']),
-  deps = ['//org.eclipse.jgit:lib'],
+  deps = [
+    '//org.eclipse.jgit:lib',
+    '//org.eclipse.jgit:nls',
+    '//org.eclipse.jgit:transport_client',
+  ],
   visibility = ['PUBLIC'],
 )
 

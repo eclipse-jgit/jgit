@@ -3,6 +3,8 @@ java_library(
   srcs = glob(['src/**/*.java']),
   deps = [
     '//org.eclipse.jgit:lib',
+    '//org.eclipse.jgit:nls',
+    '//org.eclipse.jgit:util',
     '//org.eclipse.jgit.junit:junit',
     '//org.eclipse.jgit.pgm:pgm',
     '//lib:args4j',
@@ -19,10 +21,13 @@ for test in glob([PREFIX + '**/*.java']):
     srcs = [test],
     deps = [
       ':lib',
+      '//org.eclipse.jgit:api',
       '//org.eclipse.jgit:lib',
+      '//org.eclipse.jgit:merge',
       '//org.eclipse.jgit.junit:junit',
       '//org.eclipse.jgit.pgm:pgm',
       '//org.eclipse.jgit.pgm:services',
+      '//lib:args4j',
       '//lib:junit',
       '//lib:xz',
     ],

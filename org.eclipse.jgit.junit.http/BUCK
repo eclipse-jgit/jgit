@@ -3,6 +3,9 @@ java_library(
   srcs = glob(['src/**/*.java']),
   deps = [
     '//org.eclipse.jgit:lib',
+    '//org.eclipse.jgit:transport_client',
+    '//org.eclipse.jgit:transport_resolver',
+    '//org.eclipse.jgit:transport_server',
     '//org.eclipse.jgit.http.server:server',
     '//org.eclipse.jgit.junit:junit',
     '//lib:junit',
