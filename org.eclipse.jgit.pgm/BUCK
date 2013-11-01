@@ -1,0 +1,52 @@
+MAIN = 'org.eclipse.jgit.pgm.Main'
+DEPS = [':pgm', ':services']
+
+java_library(
+  name = 'pgm',
+  srcs = glob(['src/**/*.java']),
+  resources = glob(['resources/**/*']),
+  deps = [
+    '//lib:args4j',
+    '//org.eclipse.jgit:lib',
+    '//org.eclipse.jgit.archive:archive',
+    '//org.eclipse.jgit.console:console',
+    '//org.eclipse.jgit.ui:ui',
+  ],
+  visibility = ['PUBLIC'],
+)
+
+genrule(
+  name = 'sh_header',
+  cmd = 'cp $SRCDIR/jgit.sh $OUT',
+  srcs = ['jgit.sh'],
+  out = 'sh_header',
+  visibility = ['PUBLIC'],
+)
+
+java_binary(
+  name = 'jgit_main',
+  main_class = MAIN,
+  deps = DEPS + ['//org.eclipse.jgit.java7:java7'],
+  visibility = ['PUBLIC'],
+)
+
+java_binary(
+  name = 'jgit6_main',
+  main_class = MAIN,
+  deps = DEPS,
+  visibility = ['PUBLIC'],
+)
+
+genrule(
+  name = 'service_meta',
+  cmd = 'jar cf $OUT -C $SRCDIR META-INF',
+  srcs = ['META-INF/services/org.eclipse.jgit.pgm.TextBuiltin'],
+  out = 'services.jar',
+)
+
+prebuilt_jar(
+  name = 'services',
+  binary_jar = genfile('services.jar'),
+  deps = [':service_meta'],
+  visibility = ['PUBLIC'],
+)

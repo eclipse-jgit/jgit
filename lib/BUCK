@@ -1,0 +1,72 @@
+include_defs('//tools/maven.defs')
+
+maven_jar(
+  name = 'ant',
+  id = 'org.apache.ant:ant:1.7.1',
+  sha1 = '1d33711018e7649a8427fff62a87f94f4e7d310f',
+  license = 'Apache2.0',
+)
+
+maven_jar(
+  name = 'args4j',
+  id = 'args4j:args4j:2.0.12',
+  sha1 = '8c5403feb1152f34fff9b013f0d0b5a05c4f5764',
+  license = 'MIT',
+)
+
+maven_jar(
+  name = 'commons-compress',
+  id = 'org.apache.commons:commons-compress:1.4.1',
+  sha1 = 'b02e84a993d88568417536240e970c4b809126fd',
+  license = 'Apache2.0',
+)
+
+maven_jar(
+  name = 'ewah',
+  id = 'com.googlecode.javaewah:JavaEWAH:0.5.6',
+  sha1 = '1207c0fc8552d4f5f574b50f29321d923521128e',
+  license = 'Apache2.0',
+)
+
+maven_jar(
+  name = 'jsch',
+  id = 'com.jcraft:jsch:0.1.46',
+  sha1 = '0f3a38fd1d65c32bd627b1389e7181eb294cc8a8',
+  license = 'BSD',
+)
+
+maven_jar(
+  name = 'osgi-core',
+  id = 'org.osgi:org.osgi.core:4.3.1',
+  sha1 = '5458ffe2ba049e76c29f2df2dc3ffccddf8b839e',
+  license = 'Apache2.0',
+)
+
+maven_jar(
+  name = 'junit',
+  id = 'junit:junit:4.11',
+  sha1 = '4e031bb61df09069aeb2bffb4019e7a5034a4ee0',
+  license = 'DO_NOT_DISTRIBUTE',
+  deps = [':hamcrest-core'],
+)
+       
+maven_jar(
+  name = 'hamcrest-core',
+  id = 'org.hamcrest:hamcrest-core:1.3',
+  sha1 = '42a25dc3219429f0e5d060061f71acb49bf010a0',
+  license = 'DO_NOT_DISTRIBUTE',
+)
+
+maven_jar(
+  name = 'hamcrest-library',
+  id = 'org.hamcrest:hamcrest-library:1.3',
+  sha1 = '4785a3c21320980282f9f33d0d1264a69040538f',
+  license = 'DO_NOT_DISTRIBUTE',
+)
+
+maven_jar(
+  name = 'servlet-api',
+  id = 'org.eclipse.jetty.orbit:javax.servlet:2.5.0.v201103041518',
+  sha1 = '9c16011c06bc6fe5e9dba080fcb40ddb4b75dc85',
+  license = 'DO_NOT_DISTRIBUTE',
+)

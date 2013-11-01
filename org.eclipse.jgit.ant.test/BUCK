@@ -1,0 +1,11 @@
+java_test(
+  name = 'ant',
+  srcs = glob(['src/**/*.java']),
+  deps = [
+    '//org.eclipse.jgit:lib',
+    '//org.eclipse.jgit.ant:ant',
+    '//org.eclipse.jgit.junit:junit',
+    '//lib:ant',
+    '//lib:junit',
+  ],
+)
