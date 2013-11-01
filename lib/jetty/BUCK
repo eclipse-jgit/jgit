@@ -1,0 +1,62 @@
+include_defs('//tools/maven.defs')
+
+VERSION = '7.6.14.v20131031'
+
+maven_jar(
+  name = 'servlet',
+  id = 'org.eclipse.jetty:jetty-servlet:' + VERSION,
+  sha1 = '87a26d5162f3c6ab9f9aa0c7322c21eebc751708',
+  license = 'Apache2.0',
+  deps = [':security'],
+)
+
+maven_jar(
+  name = 'security',
+  id = 'org.eclipse.jetty:jetty-security:' + VERSION,
+  sha1 = '6b302799a536bf6cc7e077ba42e98434f0b37460',
+  license = 'Apache2.0',
+  deps = [':server'],
+)
+
+maven_jar(
+  name = 'server',
+  id = 'org.eclipse.jetty:jetty-server:' + VERSION,
+  sha1 = '321293267c86c1544c49b46180888abe95f1cb78',
+  license = 'Apache2.0',
+  deps = [
+    ':continuation',
+    ':http',
+    '//lib:servlet-api',
+  ],
+)
+
+maven_jar(
+  name = 'continuation',
+  id = 'org.eclipse.jetty:jetty-continuation:' + VERSION,
+  sha1 = '5141a4c6a07e29f12fe93ff18375778a5646c281',
+  license = 'Apache2.0',
+  visibility = [],
+)
+
+maven_jar(
+  name = 'http',
+  id = 'org.eclipse.jetty:jetty-http:' + VERSION,
+  sha1 = 'b8243efc92bf9c862a1612de871bed82d07d490b',
+  license = 'Apache2.0',
+  deps = [':io'],
+)
+
+maven_jar(
+  name = 'io',
+  id = 'org.eclipse.jetty:jetty-io:' + VERSION,
+  sha1 = 'e81a4b7902d3598be23f2411d089984af65fbfe0',
+  license = 'Apache2.0',
+  deps = [':util'],
+)
+
+maven_jar(
+  name = 'util',
+  id = 'org.eclipse.jetty:jetty-util:' + VERSION,
+  sha1 = 'e639ade488f5a917edea1bdd7c1ad1af4b047b94',
+  license = 'Apache2.0',
+)

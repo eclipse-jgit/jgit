@@ -1,0 +1,20 @@
+java_library(
+  name = 'eclipse_classpath',
+  deps = [
+    '//org.eclipse.jgit.pgm:jgit_main',
+    '//org.eclipse.jgit.ant:ant',
+    '//org.eclipse.jgit.ant.test:ant',
+    '//org.eclipse.jgit.archive:osgi',
+    '//org.eclipse.jgit.http.server:server',
+    '//org.eclipse.jgit.http.test:test_util',
+    '//org.eclipse.jgit.java7.test:java7',
+    '//org.eclipse.jgit.pgm.test:lib',
+    '//org.eclipse.jgit.test:test_util',
+  ],
+)
+
+python_binary(
+  name = 'download_file',
+  main = 'download_file.py',
+  visibility = ['PUBLIC'],
+)

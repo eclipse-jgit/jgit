@@ -1,0 +1,13 @@
+java_library(
+  name = 'ui',
+  srcs = glob(['src/**/*.java']),
+  resources = glob(['resources/**/*']),
+  deps = ['//org.eclipse.jgit:lib'],
+  visibility = ['PUBLIC'],
+)
+
+java_library(
+  name = 'ui-src',
+  resources = glob(['src/**/*.java', 'resources/**/*']),
+  visibility = ['PUBLIC'],
+)

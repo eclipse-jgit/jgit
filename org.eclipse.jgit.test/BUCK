@@ -1,0 +1,50 @@
+PREFIX = 'tst/org/eclipse/jgit/'
+DATA = glob(['tst-rsrc/org/eclipse/jgit/test/resources/**/*'])
+TEST = glob([PREFIX + '**/*Test.java'])
+UTIL = glob(['tst/**/*.java'], excludes = TEST)
+
+for test in TEST:
+  e = test.index('.java')
+  java_test(
+    name = test[len(PREFIX):e].replace('/', '.'),
+    srcs = [test],
+    deps = [':test_util'],
+    labels = ['lib'],
+    # TODO(msohn): find out why this doesn't work if OS platform encoding is different
+    vm_args = [
+      '-Dfile.encoding=UTF-8'
+    ]
+  )
+
+java_library(
+  name = 'test_util',
+  srcs = UTIL,
+  resources = glob(['tst-rsrc/**/*'], excludes = DATA),
+  deps = [
+    ':sample_data_jar',
+    '//org.eclipse.jgit:lib',
+    '//org.eclipse.jgit.junit:junit',
+    '//lib:ewah',
+    '//lib:hamcrest-core',
+    '//lib:hamcrest-library',
+    '//lib:junit',
+    '//org.eclipse.jgit.console:console', # ConsoleText
+    '//org.eclipse.jgit.pgm:pgm', # CLIText
+    '//org.eclipse.jgit.ui:ui', # UIText
+  ],
+  export_deps = True,
+  visibility = ['//tools:eclipse_classpath'],
+)
+
+prebuilt_jar(
+  name = 'sample_data_jar',
+  binary_jar = genfile('sample_data.jar'),
+  deps = [':sample_data'],
+)
+
+genrule(
+  name = 'sample_data',
+  cmd = 'jar cf $OUT -C $SRCDIR/tst-rsrc org',
+  srcs = DATA,
+  out = 'sample_data.jar',
+)

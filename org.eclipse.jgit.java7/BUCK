@@ -1,0 +1,12 @@
+java_library(
+  name = 'java7',
+  srcs = glob(['src/**/*.java']),
+  deps = ['//org.eclipse.jgit:lib'],
+  visibility = ['PUBLIC'],
+)
+
+java_library(
+  name = 'java7-src',
+  resources = glob(['src/**/*.java']),
+  visibility = ['PUBLIC'],
+)

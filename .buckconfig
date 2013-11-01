@@ -1,0 +1,13 @@
+[alias]
+  all = //tools:eclipse_classpath
+  ant = //org.eclipse.jgit.ant:ant
+  http = //org.eclipse.jgit.junit.http:http
+  jgit = //:jgit
+  jgit6 = //:jgit6
+  lib = //org.eclipse.jgit:lib
+
+[project]
+  ignore = .git
+
+[java]
+  src_roots = src, resources, tst, tst-rsrc

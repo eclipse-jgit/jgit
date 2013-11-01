@@ -1,0 +1,32 @@
+PREFIX = 'tst/org/eclipse/jgit/http'
+HTTP = glob([PREFIX + '**/*Test.java'])
+
+for test in HTTP:
+  e = test.index('.java')
+  java_test(
+    name = test[len(PREFIX):e].replace('/', '.'),
+    srcs = [test],
+    deps = [':test_util'],
+    labels = ['http'],
+  )
+
+java_library(
+  name = 'test_util',
+  srcs = glob([PREFIX + '**/*.java'], excludes = HTTP),
+  deps = [
+    '//org.eclipse.jgit:lib',
+    '//org.eclipse.jgit.junit:junit',
+    '//org.eclipse.jgit.junit.http:http',
+    '//org.eclipse.jgit.http.server:server',
+    '//lib:junit',
+    '//lib:servlet-api',
+    '//lib/jetty:http',
+    '//lib/jetty:io',
+    '//lib/jetty:security',
+    '//lib/jetty:server',
+    '//lib/jetty:servlet',
+    '//lib/jetty:util',
+  ],
+  export_deps = True,
+  visibility = ['//tools:eclipse_classpath'],
+)
