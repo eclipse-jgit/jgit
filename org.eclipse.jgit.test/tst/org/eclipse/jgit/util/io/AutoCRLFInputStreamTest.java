@@ -70,9 +70,9 @@ public class AutoCRLFInputStreamTest {
 	@Test
 	public void testBoundary() throws IOException {
 		for (int i = AutoCRLFInputStream.BUFFER_SIZE - 10; i < AutoCRLFInputStream.BUFFER_SIZE + 10; i++) {
-			String s1 = AutoCRLFOutputStreamTest.repeat("a", i);
+			String s1 = Strings.repeat("a", i);
 			assertNoCrLf(s1, s1);
-			String s2 = AutoCRLFOutputStreamTest.repeat("\0", i);
+			String s2 = Strings.repeat("\0", i);
 			assertNoCrLf(s2, s2);
 		}
 	}
