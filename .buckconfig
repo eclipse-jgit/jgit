@@ -6,5 +6,8 @@
 [project]
   ignore = .git
 
+[buildfile]
+  includes = //tools/osgi/bundle.defs
+
 [java]
   src_roots = src, resources, tst, tst-rsrc
