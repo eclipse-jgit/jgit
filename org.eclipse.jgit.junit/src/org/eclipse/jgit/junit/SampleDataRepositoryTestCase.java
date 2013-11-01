@@ -66,11 +66,11 @@ public abstract class SampleDataRepositoryTestCase extends RepositoryTestCase {
 		};
 		final File packDir = new File(db.getObjectDatabase().getDirectory(), "pack");
 		for (String n : packs) {
-			copyFile(JGitTestUtil.getTestResourceFile(n + ".pack"), new File(packDir, n + ".pack"));
-			copyFile(JGitTestUtil.getTestResourceFile(n + ".idx"), new File(packDir, n + ".idx"));
+			JGitTestUtil.copyTestResource(n + ".pack", new File(packDir, n + ".pack"));
+			JGitTestUtil.copyTestResource(n + ".idx", new File(packDir, n + ".idx"));
 		}
 
-		copyFile(JGitTestUtil.getTestResourceFile("packed-refs"), new File(db
-				.getDirectory(), "packed-refs"));
+		JGitTestUtil.copyTestResource("packed-refs",
+				new File(db.getDirectory(), "packed-refs"));
 	}
 }
