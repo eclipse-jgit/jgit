@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8748d3a1_a1ba1158",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2013-11-02T03:17:26Z",
+      "side": 1,
+      "message": "This is saying basically the same thing you have but the way I think about it is that \"jgit archive\" should not produce different outputs from the same tree-ish depending on whether or not the submodules are cloned/checked out.",
+      "revId": "9be2445353022459f5155297d885a9a4547644f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_01c025c4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ArchiveCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2013-11-02T03:17:26Z",
+      "side": 1,
+      "message": "I think this comment may need updating.",
+      "revId": "9be2445353022459f5155297d885a9a4547644f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
