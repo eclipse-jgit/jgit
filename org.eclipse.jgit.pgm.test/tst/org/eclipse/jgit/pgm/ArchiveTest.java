@@ -433,6 +433,46 @@ public class ArchiveTest extends CLIRepositoryTestCase {
 	}
 
 	@Test
+	public void testArchiveIncludesSubmoduleDirectory() throws Exception {
+		writeTrashFile("a", "a file with content!");
+		writeTrashFile("c", "after submodule");
+		git.add().addFilepattern("a").call();
+		git.add().addFilepattern("c").call();
+		git.commit().setMessage("initial commit").call();
+		git.submoduleAdd().setURI("./.").setPath("b").call().close();
+		git.commit().setMessage("add submodule").call();
+
+		final byte[] result = CLIGitCommand.rawExecute( //
+				"git archive --format=zip master", db);
+		String[] expect = { ".gitmodules", "a", "b/", "c" };
+		String[] actual = listZipEntries(result);
+
+		Arrays.sort(expect);
+		Arrays.sort(actual);
+		assertArrayEquals(expect, actual);
+	}
+
+	@Test
+	public void testTarIncludesSubmoduleDirectory() throws Exception {
+		writeTrashFile("a", "a file with content!");
+		writeTrashFile("c", "after submodule");
+		git.add().addFilepattern("a").call();
+		git.add().addFilepattern("c").call();
+		git.commit().setMessage("initial commit").call();
+		git.submoduleAdd().setURI("./.").setPath("b").call().close();
+		git.commit().setMessage("add submodule").call();
+
+		final byte[] result = CLIGitCommand.rawExecute( //
+				"git archive --format=tar master", db);
+		String[] expect = { ".gitmodules", "a", "b/", "c" };
+		String[] actual = listTarEntries(result);
+
+		Arrays.sort(expect);
+		Arrays.sort(actual);
+		assertArrayEquals(expect, actual);
+	}
+
+	@Test
 	public void testArchivePreservesMode() throws Exception {
 		writeTrashFile("plain", "a file with content");
 		writeTrashFile("executable", "an executable file");
