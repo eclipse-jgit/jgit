@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8748d3a1_fe4e7442",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RebaseCommandTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 2267,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-11-02T01:15:03Z",
+      "side": 1,
+      "message": "remove unnecessary blank line",
+      "revId": "4e2d332b0af7dd59e20c0c25a815e4c0dc106ab8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_de53b8e5",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RebaseCommandTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 2296,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-11-02T01:15:03Z",
+      "side": 1,
+      "message": "remove unnecessary blank line",
+      "revId": "4e2d332b0af7dd59e20c0c25a815e4c0dc106ab8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_5eda08e1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-11-02T01:15:03Z",
+      "side": 1,
+      "message": "style nit: no braces around single line block",
+      "revId": "4e2d332b0af7dd59e20c0c25a815e4c0dc106ab8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_bee6aca6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-11-02T01:15:03Z",
+      "side": 1,
+      "message": "style nit: no braces around single line block",
+      "revId": "4e2d332b0af7dd59e20c0c25a815e4c0dc106ab8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_9eebf06f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-11-02T01:15:03Z",
+      "side": 1,
+      "message": "style nit: no braces around single line block",
+      "revId": "4e2d332b0af7dd59e20c0c25a815e4c0dc106ab8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_fee0348b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-11-02T01:15:03Z",
+      "side": 1,
+      "message": "style nit: no braces around single line block",
+      "revId": "4e2d332b0af7dd59e20c0c25a815e4c0dc106ab8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_dee5789a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/errors/InvalidRebaseStepException.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-11-02T01:15:03Z",
+      "side": 1,
+      "message": "s/musz/must/",
+      "revId": "4e2d332b0af7dd59e20c0c25a815e4c0dc106ab8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
