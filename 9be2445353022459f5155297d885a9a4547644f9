@@ -33,6 +33,24 @@
       "revId": "9be2445353022459f5155297d885a9a4547644f9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_21a3a1fc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ArchiveCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2013-11-02T03:45:56Z",
+      "side": 1,
+      "message": "Yeah, it\u0027s just plain false (\"git archive\" includes entries for directories --- not sure what I did to convince myself otherwise). Will rebase on top of a fix.",
+      "parentUuid": "8748d3a1_01c025c4",
+      "revId": "9be2445353022459f5155297d885a9a4547644f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
