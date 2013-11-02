@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_5e396856",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RebaseCommandTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 2267,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-11-02T01:57:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_fe4e7442",
+      "revId": "4e2d332b0af7dd59e20c0c25a815e4c0dc106ab8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_de53b8e5",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RebaseCommandTest.java",
         "patchSetId": 9
@@ -30,6 +48,24 @@
       "writtenOn": "2013-11-02T01:15:03Z",
       "side": 1,
       "message": "remove unnecessary blank line",
+      "revId": "4e2d332b0af7dd59e20c0c25a815e4c0dc106ab8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_bed98ca4",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RebaseCommandTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 2296,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-11-02T01:57:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_de53b8e5",
       "revId": "4e2d332b0af7dd59e20c0c25a815e4c0dc106ab8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_9ede5089",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-11-02T01:57:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_5eda08e1",
+      "revId": "4e2d332b0af7dd59e20c0c25a815e4c0dc106ab8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_bee6aca6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
         "patchSetId": 9
@@ -64,6 +118,24 @@
       "writtenOn": "2013-11-02T01:15:03Z",
       "side": 1,
       "message": "style nit: no braces around single line block",
+      "revId": "4e2d332b0af7dd59e20c0c25a815e4c0dc106ab8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_fee3144c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-11-02T01:57:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_bee6aca6",
       "revId": "4e2d332b0af7dd59e20c0c25a815e4c0dc106ab8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_dee8d82b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-11-02T01:57:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_9eebf06f",
+      "revId": "4e2d332b0af7dd59e20c0c25a815e4c0dc106ab8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_fee0348b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
         "patchSetId": 9
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_3ecd7cdd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-11-02T01:57:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_fee0348b",
+      "revId": "4e2d332b0af7dd59e20c0c25a815e4c0dc106ab8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_dee5789a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/errors/InvalidRebaseStepException.java",
         "patchSetId": 9
@@ -115,6 +223,24 @@
       "writtenOn": "2013-11-02T01:15:03Z",
       "side": 1,
       "message": "s/musz/must/",
+      "revId": "4e2d332b0af7dd59e20c0c25a815e4c0dc106ab8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_1eca40c4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/errors/InvalidRebaseStepException.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-11-02T01:57:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_dee5789a",
       "revId": "4e2d332b0af7dd59e20c0c25a815e4c0dc106ab8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
