@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8748d3a1_fe867421",
+        "filename": "lib/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-11-02T01:05:14Z",
+      "side": 1,
+      "message": "we have an approval for 1.8.2 and in the target platform use 1.8.4 \n\n;-?",
+      "revId": "042bb1b1582f2f94157b7b0f91079bb683401ac7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_de629808",
+        "filename": "lib/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-11-02T01:05:14Z",
+      "side": 1,
+      "message": "at the moment we use instead\n\n javax.servlet:servlet-api:2.5\n\navailable in Maven central\nhttp://search.maven.org/#artifactdetails%7Cjavax.servlet%7Cservlet-api%7C2.5%7Cjar",
+      "revId": "042bb1b1582f2f94157b7b0f91079bb683401ac7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_3ebd7caf",
+        "filename": "tools/download_file.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-11-02T01:05:14Z",
+      "side": 1,
+      "message": "we should download 3rd party from orbit, latest orbit released p2 repository is at http://download.eclipse.org/tools/orbit/downloads/drops/R20130827064939/repository/",
+      "revId": "042bb1b1582f2f94157b7b0f91079bb683401ac7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_fed314fe",
+        "filename": "tools/download_file.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-11-02T01:05:14Z",
+      "side": 1,
+      "message": "s/GERRIT_HOME/JGIT_HOME/\n\ns#~/.gerritcodereview#~/.jgit#\n\nshould we replace that by a generic directory e.g. ~/.buck ?",
+      "revId": "042bb1b1582f2f94157b7b0f91079bb683401ac7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_ded8d81d",
+        "filename": "tools/download_file.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-11-02T01:05:14Z",
+      "side": 1,
+      "message": "s/GERRIT_HOME/JGIT_HOME/",
+      "revId": "042bb1b1582f2f94157b7b0f91079bb683401ac7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_be9b4c52",
+        "filename": "tools/download_file.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-11-02T01:05:14Z",
+      "side": 1,
+      "message": "s/Gerrit/JGit/",
+      "revId": "042bb1b1582f2f94157b7b0f91079bb683401ac7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
