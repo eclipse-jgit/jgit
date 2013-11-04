@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8748d3a1_5c8b14a7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/Merger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-11-04T10:04:06Z",
+      "side": 1,
+      "message": "This looks buggy to me. This method may be called from subclasses of Merger as often as they want and with arbitrary commits. In such a case the result of this method may be some intermediate commit and not the merge base used for the overall merge.\n\nI would rather make the getBaseCommitId() abstract and let the non-abstract implementations of Merger (InCore-, Resolve- and RecursiveMerger) decide when they have found the overall merge base.",
+      "revId": "5355024d6c2d3e889d4d7d64281fb175a50fdf67",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
