@@ -49,6 +49,7 @@ import java.util.Properties;
 
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.util.GitDateParser;
+import org.eclipse.jgit.util.SystemReader;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -68,7 +69,8 @@ public class GarbageCollectCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testGConeCommit() throws Exception {
-		Date expire = GitDateParser.parse("now", null);
+		Date expire = GitDateParser.parse("now", null, SystemReader
+				.getInstance().getLocale());
 		Properties res = git.gc().setExpire(expire).call();
 		assertTrue(res.size() == 7);
 	}
@@ -83,8 +85,11 @@ public class GarbageCollectCommandTest extends RepositoryTestCase {
 		writeTrashFile("b.txt", "a couple of words for gc to pack more 2");
 		writeTrashFile("c.txt", "a couple of words for gc to pack more 3");
 		git.commit().setAll(true).setMessage("commit3").call();
-		Properties res = git.gc().setExpire(GitDateParser.parse("now", null))
-				.call();
+		Properties res = git
+				.gc()
+				.setExpire(
+						GitDateParser.parse("now", null, SystemReader
+								.getInstance().getLocale())).call();
 		assertTrue(res.size() == 7);
 	}
 }
