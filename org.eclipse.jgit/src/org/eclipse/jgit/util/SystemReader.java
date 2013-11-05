@@ -230,6 +230,21 @@ public abstract class SystemReader {
 	}
 
 	/**
+	 * Returns a simple date format instance as specified by the given pattern.
+	 *
+	 * @param pattern
+	 *            the pattern as defined in
+	 *            {@link SimpleDateFormat#SimpleDateFormat(String)}
+	 * @param locale
+	 *            locale to be used for the {@code SimpleDateFormat}
+	 * @return the simple date format
+	 * @since 3.2
+	 */
+	public SimpleDateFormat getSimpleDateFormat(String pattern, Locale locale) {
+		return new SimpleDateFormat(pattern, locale);
+	}
+
+	/**
 	 * Returns a date/time format instance for the given styles.
 	 *
 	 * @param dateStyle

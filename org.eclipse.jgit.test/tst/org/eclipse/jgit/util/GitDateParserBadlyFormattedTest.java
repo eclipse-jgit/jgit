@@ -78,7 +78,8 @@ public class GitDateParserBadlyFormattedTest {
 		Calendar ref = new GregorianCalendar(SystemReader.getInstance()
 				.getTimeZone(), SystemReader.getInstance().getLocale());
 		try {
-			GitDateParser.parse(dateStr, ref);
+			GitDateParser.parse(dateStr, ref, SystemReader.getInstance()
+					.getLocale());
 			fail("The expected ParseException while parsing '" + dateStr
 					+ "' did not occur.");
 		} catch (ParseException e) {
@@ -89,7 +90,8 @@ public class GitDateParserBadlyFormattedTest {
 	@Theory
 	public void badlyFormattedWithoutRef() {
 		try {
-			GitDateParser.parse(dateStr, null);
+			GitDateParser.parse(dateStr, null, SystemReader.getInstance()
+					.getLocale());
 			fail("The expected ParseException while parsing '" + dateStr
 					+ "' did not occur.");
 		} catch (ParseException e) {
