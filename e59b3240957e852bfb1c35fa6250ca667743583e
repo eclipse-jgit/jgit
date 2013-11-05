@@ -16,6 +16,24 @@
       "revId": "e59b3240957e852bfb1c35fa6250ca667743583e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_87e4179e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/Sets.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-11-05T17:40:38Z",
+      "side": 1,
+      "message": "No, Christian wrote this function. I copied it from his code so I left his copyright. Its so small that I doubt there is any other way to really write this method, but its correct to say its Christian\u0027s code.",
+      "parentUuid": "8748d3a1_6bd8c498",
+      "revId": "e59b3240957e852bfb1c35fa6250ca667743583e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
