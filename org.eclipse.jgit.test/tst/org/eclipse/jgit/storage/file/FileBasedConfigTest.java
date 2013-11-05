@@ -44,6 +44,7 @@ package org.eclipse.jgit.storage.file;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -55,6 +56,7 @@ import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.IO;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 public class FileBasedConfigTest {
@@ -73,7 +75,14 @@ public class FileBasedConfigTest {
 	private static final String CONTENT2 = "[" + USER + "]\n\t" + NAME + " = "
 			+ BOB + "\n";
 
-	private final File trash = new File(new File("target"), "trash");
+	private File trash;
+
+	@Before
+	public void setUp() throws Exception {
+		trash = File.createTempFile("tmp_", "");
+		trash.delete();
+		assertTrue("mkdir " + trash, trash.mkdir());
+	}
 
 	@After
 	public void tearDown() throws Exception {

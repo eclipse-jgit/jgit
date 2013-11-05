@@ -1340,7 +1340,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 		assertNull(db.readMergeCommitMsg());
 
 		Status stat = git.status().call();
-		assertEquals(StatusCommandTest.set("file2", "file3"), stat.getAdded());
+		assertEquals(Sets.of("file2", "file3"), stat.getAdded());
 	}
 
 	@Test
@@ -1396,7 +1396,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 		assertNull(db.readMergeCommitMsg());
 
 		Status stat = git.status().call();
-		assertEquals(StatusCommandTest.set("file3"), stat.getAdded());
+		assertEquals(Sets.of("file3"), stat.getAdded());
 	}
 
 	@Test
@@ -1450,7 +1450,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 		assertEquals("\nConflicts:\n\tfile2\n", db.readMergeCommitMsg());
 
 		Status stat = git.status().call();
-		assertEquals(StatusCommandTest.set("file2"), stat.getConflicting());
+		assertEquals(Sets.of("file2"), stat.getConflicting());
 	}
 
 	@Test

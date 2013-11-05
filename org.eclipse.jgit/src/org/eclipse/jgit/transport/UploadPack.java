@@ -44,6 +44,17 @@
 package org.eclipse.jgit.transport;
 
 import static org.eclipse.jgit.lib.RefDatabase.ALL;
+import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_ALLOW_TIP_SHA1_IN_WANT;
+import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_INCLUDE_TAG;
+import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_MULTI_ACK;
+import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_MULTI_ACK_DETAILED;
+import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_NO_DONE;
+import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_NO_PROGRESS;
+import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_OFS_DELTA;
+import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SHALLOW;
+import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SIDE_BAND;
+import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SIDE_BAND_64K;
+import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_THIN_PACK;
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -81,7 +92,7 @@ import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.revwalk.filter.CommitTimeRevFilter;
 import org.eclipse.jgit.storage.pack.PackConfig;
-import org.eclipse.jgit.transport.BasePackFetchConnection.MultiAck;
+import org.eclipse.jgit.transport.GitProtocolConstants.MultiAck;
 import org.eclipse.jgit.transport.RefAdvertiser.PacketLineOutRefAdvertiser;
 import org.eclipse.jgit.util.io.InterruptTimer;
 import org.eclipse.jgit.util.io.NullOutputStream;
@@ -92,28 +103,6 @@ import org.eclipse.jgit.util.io.TimeoutOutputStream;
  * Implements the server side of a fetch connection, transmitting objects.
  */
 public class UploadPack {
-	static final String OPTION_ALLOW_TIP_SHA1_IN_WANT = BasePackFetchConnection.OPTION_ALLOW_TIP_SHA1_IN_WANT;
-
-	static final String OPTION_INCLUDE_TAG = BasePackFetchConnection.OPTION_INCLUDE_TAG;
-
-	static final String OPTION_MULTI_ACK = BasePackFetchConnection.OPTION_MULTI_ACK;
-
-	static final String OPTION_MULTI_ACK_DETAILED = BasePackFetchConnection.OPTION_MULTI_ACK_DETAILED;
-
-	static final String OPTION_THIN_PACK = BasePackFetchConnection.OPTION_THIN_PACK;
-
-	static final String OPTION_SIDE_BAND = BasePackFetchConnection.OPTION_SIDE_BAND;
-
-	static final String OPTION_SIDE_BAND_64K = BasePackFetchConnection.OPTION_SIDE_BAND_64K;
-
-	static final String OPTION_OFS_DELTA = BasePackFetchConnection.OPTION_OFS_DELTA;
-
-	static final String OPTION_NO_PROGRESS = BasePackFetchConnection.OPTION_NO_PROGRESS;
-
-	static final String OPTION_NO_DONE = BasePackFetchConnection.OPTION_NO_DONE;
-
-	static final String OPTION_SHALLOW = BasePackFetchConnection.OPTION_SHALLOW;
-
 	/** Policy the server uses to validate client requests */
 	public static enum RequestPolicy {
 		/** Client may only ask for objects the server advertised a reference for. */

@@ -319,7 +319,7 @@ public class PullCommandWithRebaseTest extends RepositoryTestCase {
 
 		config
 				.addURI(new URIish(source.getRepository().getWorkTree()
-						.getPath()));
+						.getAbsolutePath()));
 		config.addFetchRefSpec(new RefSpec(
 				"+refs/heads/*:refs/remotes/origin/*"));
 		config.update(targetConfig);

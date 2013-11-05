@@ -121,7 +121,7 @@ public class BranchCommandTest extends RepositoryTestCase {
 		Git localGit = new Git(localRepository);
 		StoredConfig config = localRepository.getConfig();
 		RemoteConfig rc = new RemoteConfig(config, "origin");
-		rc.addURI(new URIish(remoteRepository.getDirectory().getPath()));
+		rc.addURI(new URIish(remoteRepository.getDirectory().getAbsolutePath()));
 		rc.addFetchRefSpec(new RefSpec("+refs/heads/*:refs/remotes/origin/*"));
 		rc.update(config);
 		config.save();

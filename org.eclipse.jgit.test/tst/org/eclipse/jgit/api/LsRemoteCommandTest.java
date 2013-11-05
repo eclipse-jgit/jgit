@@ -82,7 +82,7 @@ public class LsRemoteCommandTest extends RepositoryTestCase {
 		File directory = createTempDirectory("testRepository");
 		CloneCommand command = Git.cloneRepository();
 		command.setDirectory(directory);
-		command.setURI("file://" + git.getRepository().getWorkTree().getPath());
+		command.setURI(fileUri());
 		command.setCloneAllBranches(true);
 		Git git2 = command.call();
 		addRepoToClose(git2.getRepository());
@@ -99,7 +99,7 @@ public class LsRemoteCommandTest extends RepositoryTestCase {
 		File directory = createTempDirectory("testRepository");
 		CloneCommand command = Git.cloneRepository();
 		command.setDirectory(directory);
-		command.setURI("file://" + git.getRepository().getWorkTree().getPath());
+		command.setURI(fileUri());
 		command.setCloneAllBranches(true);
 		Git git2 = command.call();
 		addRepoToClose(git2.getRepository());
@@ -116,7 +116,7 @@ public class LsRemoteCommandTest extends RepositoryTestCase {
 		File directory = createTempDirectory("testRepository");
 		CloneCommand command = Git.cloneRepository();
 		command.setDirectory(directory);
-		command.setURI("file://" + git.getRepository().getWorkTree().getPath());
+		command.setURI(fileUri());
 		command.setCloneAllBranches(true);
 		Git git2 = command.call();
 		addRepoToClose(git2.getRepository());
@@ -130,10 +130,14 @@ public class LsRemoteCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testLsRemoteWithoutLocalRepository() throws Exception {
-		String uri = "file://" + git.getRepository().getWorkTree().getPath();
+		String uri = fileUri();
 		Collection<Ref> refs = Git.lsRemoteRepository().setRemote(uri).setHeads(true).call();
 		assertNotNull(refs);
 		assertEquals(2, refs.size());
+	}
+
+	private String fileUri() {
+		return "file://" + git.getRepository().getWorkTree().getAbsolutePath();
 	}
 
 }

@@ -153,7 +153,7 @@ public class FileResolverTest extends LocalDiskRepositoryTestCase {
 			Throwable why = e.getCause();
 			assertNotNull("has cause", why);
 			assertEquals("repository not found: "
-					+ new File(base, name).getAbsolutePath(), why.getMessage());
+					+ new File(base, name).getPath(), why.getMessage());
 		}
 	}
 }

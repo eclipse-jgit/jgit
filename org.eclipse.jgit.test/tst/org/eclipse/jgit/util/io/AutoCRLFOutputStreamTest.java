@@ -72,19 +72,11 @@ public class AutoCRLFOutputStreamTest {
 	@Test
 	public void testBoundary() throws IOException {
 		for (int i = AutoCRLFOutputStream.BUFFER_SIZE - 10; i < AutoCRLFOutputStream.BUFFER_SIZE + 10; i++) {
-			String s1 = repeat("a", i);
+			String s1 = Strings.repeat("a", i);
 			assertNoCrLf(s1, s1);
-			String s2 = repeat("\0", i);
+			String s2 = Strings.repeat("\0", i);
 			assertNoCrLf(s2, s2);
 		}
-	}
-
-	public static String repeat(String input, int size) {
-		StringBuilder sb = new StringBuilder(input.length() * size);
-		for (int i = 0; i < size; i++)
-			sb.append(input);
-		String s = sb.toString();
-		return s;
 	}
 
 	private void assertNoCrLf(String string, String string2) throws IOException {

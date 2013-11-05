@@ -101,7 +101,7 @@ public class GitCloneTaskTest extends LocalDiskRepositoryTestCase {
 	public void shouldCloneAValidGitRepository() throws Exception {
 		Repository repo = createBareRepository();
 		File directory = repo.getDirectory();
-		task.setUri("file://" + directory);
+		task.setUri("file://" + directory.getAbsolutePath());
 		task.execute();
 
 		assertTrue(RepositoryCache.FileKey.isGitRepository(new File(dest, ".git"), FS.DETECTED));
@@ -111,7 +111,7 @@ public class GitCloneTaskTest extends LocalDiskRepositoryTestCase {
 	public void shouldCreateABareCloneOfAValidGitRepository() throws Exception {
 		Repository repo = createBareRepository();
 		File directory = repo.getDirectory();
-		task.setUri("file://" + directory);
+		task.setUri("file://" + directory.getAbsolutePath());
 		task.setBare(true);
 		task.execute();
 

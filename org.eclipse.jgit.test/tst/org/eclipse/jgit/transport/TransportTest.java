@@ -231,7 +231,7 @@ public class TransportTest extends SampleDataRepositoryTestCase {
 	@Test
 	public void testLocalTransportFetchWithoutLocalRepository()
 			throws Exception {
-		URIish uri = new URIish("file://" + db.getWorkTree().getPath());
+		URIish uri = new URIish("file://" + db.getWorkTree().getAbsolutePath());
 		transport = Transport.open(uri);
 		FetchConnection fetchConnection = transport.openFetch();
 		try {
