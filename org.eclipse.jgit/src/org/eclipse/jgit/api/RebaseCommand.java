@@ -261,7 +261,13 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 
 			if (operation == Operation.CONTINUE) {
 				newHead = continueRebase();
-
+				List<RebaseTodoLine> doneLines = repo.readRebaseTodo(
+						rebaseState.getPath(DONE), true);
+				if (newHead != null
+						&& doneLines.get(doneLines.size() - 1).getAction() == Action.EDIT) {
+					rebaseState.createFile(AMEND, newHead.name());
+					return stop(newHead, Status.EDIT);
+				}
 				File amendFile = rebaseState.getFile(AMEND);
 				boolean amendExists = amendFile.exists();
 				if (amendExists) {
