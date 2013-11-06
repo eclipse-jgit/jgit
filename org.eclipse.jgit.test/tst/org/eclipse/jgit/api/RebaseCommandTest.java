@@ -2294,6 +2294,39 @@ public class RebaseCommandTest extends RepositoryTestCase {
 				}).call();
 	}
 
+	@Test
+	public void testRebaseEndsIfLastStepIsEdit() throws Exception {
+		// create file1 on master
+		writeTrashFile(FILE1, FILE1);
+		git.add().addFilepattern(FILE1).call();
+		git.commit().setMessage("Add file1\nnew line").call();
+		assertTrue(new File(db.getWorkTree(), FILE1).exists());
+
+		// create file2 on master
+		writeTrashFile("file2", "file2");
+		git.add().addFilepattern("file2").call();
+		git.commit().setMessage("Add file2\nnew line").call();
+		assertTrue(new File(db.getWorkTree(), "file2").exists());
+
+		git.rebase().setUpstream("HEAD~1")
+				.runInteractively(new InteractiveHandler() {
+
+					public void prepareSteps(List<RebaseTodoLine> steps) {
+						steps.get(0).setAction(Action.EDIT);
+					}
+
+					public String modifyCommitMessage(String commit) {
+						return commit;
+					}
+				}).call();
+		git.commit().setAmend(true)
+				.setMessage("Add file2\nnew line\nanother line").call();
+		RebaseResult result = git.rebase().setOperation(Operation.CONTINUE)
+				.call();
+		assertEquals(Status.OK, result.getStatus());
+
+	}
+
 	private File getTodoFile() {
 		File todoFile = new File(db.getDirectory(), GIT_REBASE_TODO);
 		return todoFile;

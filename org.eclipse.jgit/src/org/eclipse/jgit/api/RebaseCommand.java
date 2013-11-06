@@ -284,6 +284,9 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 
 			List<RebaseTodoLine> steps = repo.readRebaseTodo(
 					rebaseState.getPath(GIT_REBASE_TODO), false);
+			if (steps.size() == 0) {
+				return finishRebase(walk.parseCommit(repo.resolve(Constants.HEAD)), false);
+			}
 			if (isInteractive()) {
 				interactiveHandler.prepareSteps(steps);
 				repo.writeRebaseTodoFile(rebaseState.getPath(GIT_REBASE_TODO),
@@ -370,20 +373,22 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 					monitor.endTask();
 				}
 			}
-			if (newHead != null) {
-				String headName = rebaseState.readFile(HEAD_NAME);
-				updateHead(headName, newHead, upstreamCommit);
-				FileUtils.delete(rebaseState.getDir(), FileUtils.RECURSIVE);
-				if (lastStepWasForward)
-					return RebaseResult.FAST_FORWARD_RESULT;
-				return RebaseResult.OK_RESULT;
-			}
-			return RebaseResult.FAST_FORWARD_RESULT;
+			return finishRebase(newHead, lastStepWasForward);
 		} catch (CheckoutConflictException cce) {
 			return new RebaseResult(cce.getConflictingPaths());
 		} catch (IOException ioe) {
 			throw new JGitInternalException(ioe.getMessage(), ioe);
 		}
+	}
+
+	private RebaseResult finishRebase(RevCommit newHead,
+			boolean lastStepWasForward) throws IOException {
+		String headName = rebaseState.readFile(HEAD_NAME);
+		updateHead(headName, newHead, upstreamCommit);
+		FileUtils.delete(rebaseState.getDir(), FileUtils.RECURSIVE);
+		if (lastStepWasForward || newHead == null)
+			return RebaseResult.FAST_FORWARD_RESULT;
+		return RebaseResult.OK_RESULT;
 	}
 
 	private void checkSteps(List<RebaseTodoLine> steps)
