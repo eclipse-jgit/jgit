@@ -2327,6 +2327,44 @@ public class RebaseCommandTest extends RepositoryTestCase {
 
 	}
 
+	@Test
+	public void testRebaseShouldStopForEditInCaseOfConflict()
+			throws Exception {
+		// create file1 on master
+		writeTrashFile(FILE1, FILE1);
+		git.add().addFilepattern(FILE1).call();
+		git.commit().setMessage("Add file1\nnew line").call();
+		assertTrue(new File(db.getWorkTree(), FILE1).exists());
+
+		//change file1
+		writeTrashFile(FILE1, FILE1 + "a");
+		git.add().addFilepattern(FILE1).call();
+		git.commit().setMessage("Change file1").call();
+
+		//change file1
+		writeTrashFile(FILE1, FILE1 + "b");
+		git.add().addFilepattern(FILE1).call();
+		git.commit().setMessage("Change file1").call();
+
+		RebaseResult result = git.rebase().setUpstream("HEAD~2")
+				.runInteractively(new InteractiveHandler() {
+
+					public void prepareSteps(List<RebaseTodoLine> steps) {
+						steps.remove(0);
+						steps.get(0).setAction(Action.EDIT);
+					}
+
+					public String modifyCommitMessage(String commit) {
+						return commit;
+					}
+				}).call();
+		assertEquals(Status.STOPPED, result.getStatus());
+		git.add().addFilepattern(FILE1).call();
+		result = git.rebase().setOperation(Operation.CONTINUE).call();
+		assertEquals(Status.EDIT, result.getStatus());
+
+	}
+
 	private File getTodoFile() {
 		File todoFile = new File(db.getDirectory(), GIT_REBASE_TODO);
 		return todoFile;
