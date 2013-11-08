@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8748d3a1_a1a91f99",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-11-08T08:22:07Z",
+      "side": 1,
+      "message": "we also need this handling for other actions in case of a conflict:\nREWORD, SQUASH, FIXUP",
+      "revId": "51b9b15c7aa1eb1719a3cd60b2f455c7e5b709cc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
