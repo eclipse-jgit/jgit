@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8748d3a1_e68b3d70",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RebaseCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2365,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-11-08T08:14:43Z",
+      "side": 1,
+      "message": "unnecessary blank line",
+      "revId": "f141c3e7ddafb4ec0457a8d0d05644906b23004c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
