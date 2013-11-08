@@ -40,6 +40,8 @@ package org.eclipse.jgit.api.errors;
 /**
  * Exception thrown if a rebase step is invalid. E.g., a rebase must not start
  * with squash or fixup.
+ *
+ * @since 3.2
  */
 public class InvalidRebaseStepException extends GitAPIException {
 	private static final long serialVersionUID = 1L;

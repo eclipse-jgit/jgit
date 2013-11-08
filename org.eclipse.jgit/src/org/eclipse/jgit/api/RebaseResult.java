@@ -86,6 +86,8 @@ public class RebaseResult {
 		},
 		/**
 		 * Stopped for editing in the context of an interactive rebase
+		 *
+		 * @since 3.2
 		 */
 		EDIT {
 			@Override
