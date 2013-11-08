@@ -511,6 +511,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	 * @param u
 	 * @return the connection
 	 * @throws IOException
+	 * @since 3.2
 	 */
 	protected HttpURLConnection httpOpen(String method, URL u)
 			throws IOException {

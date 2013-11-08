@@ -50,6 +50,8 @@ import org.eclipse.jgit.internal.JGitText;
 
 /**
  * Describes a single line in a file formatted like the git-rebase-todo file.
+ *
+ * @since 3.2
  */
 public class RebaseTodoLine {
 	/**
