@@ -1043,7 +1043,6 @@ public class CommitOnlyTest extends RepositoryTestCase {
 		return f1;
 	}
 
-	@SuppressWarnings("null")
 	private void executeAndCheck_f1_1(final Git git, final int state)
 			throws Exception {
 		JGitInternalException exception = null;
@@ -1059,7 +1058,6 @@ public class CommitOnlyTest extends RepositoryTestCase {
 		assertEquals(expected_f3_idx(state), indexState(CONTENT));
 	}
 
-	@SuppressWarnings("null")
 	private void executeAndCheck_f1_1_f2_f14(final Git git, final int state)
 			throws Exception {
 		JGitInternalException exception = null;
@@ -1077,7 +1075,6 @@ public class CommitOnlyTest extends RepositoryTestCase {
 				+ expected_f3_idx(state), indexState(CONTENT));
 	}
 
-	@SuppressWarnings("null")
 	private void executeAndCheck_f1_2(final Git git, final int state)
 			throws Exception {
 		JGitInternalException exception = null;
@@ -1129,7 +1126,6 @@ public class CommitOnlyTest extends RepositoryTestCase {
 		executeAndCheck_f1_3(git, state);
 	}
 
-	@SuppressWarnings("null")
 	private void executeAndCheck_f1_6(final Git git, final int state)
 			throws Exception {
 		JGitInternalException exception = null;
@@ -1192,7 +1188,6 @@ public class CommitOnlyTest extends RepositoryTestCase {
 		executeAndCheck_f1_8(git, state);
 	}
 
-	@SuppressWarnings("null")
 	private void executeAndCheck_f1_12(final Git git, final int state)
 			throws Exception {
 		JGitInternalException exception = null;
