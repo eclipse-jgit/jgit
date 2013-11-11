@@ -175,21 +175,9 @@ public class GC {
 	 *
 	 * @param oldPacks
 	 * @param newPacks
-	 * @param ignoreErrors
-	 *            <code>true</code> if we should ignore the fact that a certain
-	 *            pack files or index files couldn't be deleted.
-	 *            <code>false</code> if an exception should be thrown in such
-	 *            cases
-	 * @throws IOException
-	 *             if a pack file couldn't be deleted and
-	 *             <code>ignoreErrors</code> is set to <code>false</code>
 	 */
 	private void deleteOldPacks(Collection<PackFile> oldPacks,
-			Collection<PackFile> newPacks, boolean ignoreErrors)
-			throws IOException {
-		int deleteOptions = FileUtils.RETRY | FileUtils.SKIP_MISSING;
-		if (ignoreErrors)
-			deleteOptions |= FileUtils.IGNORE_ERRORS;
+			Collection<PackFile> newPacks) {
 		oldPackLoop: for (PackFile oldPack : oldPacks) {
 			String oldName = oldPack.getPackName();
 			// check whether an old pack file is also among the list of new
@@ -200,15 +188,48 @@ public class GC {
 
 			if (!oldPack.shouldBeKept()) {
 				oldPack.close();
-				for (PackExt ext : PackExt.values()) {
-					File f = nameFor(oldName, "." + ext.getExtension()); //$NON-NLS-1$
-					FileUtils.delete(f, deleteOptions);
-				}
+				prunePack(oldName);
 			}
 		}
 		// close the complete object database. Thats my only chance to force
 		// rescanning and to detect that certain pack files are now deleted.
 		repo.getObjectDatabase().close();
+	}
+
+	/**
+	 * Delete files associated with a single pack file. First try to delete the
+	 * ".pack" file because on some platforms the ".pack" file may be locked and
+	 * can't be deleted. In such a case it is better to detect this early and
+	 * give up on deleting files for this packfile. Otherwise we may delete the
+	 * ".index" file and when failing to delete the ".pack" file we are left
+	 * with a ".pack" file without a ".index" file.
+	 *
+	 * @param packName
+	 */
+	private void prunePack(String packName) {
+		PackExt[] extensions = PackExt.values();
+		try {
+			// Delete the .pack file first and if this fails give up on deleting
+			// the other files
+			int deleteOptions = FileUtils.RETRY | FileUtils.SKIP_MISSING;
+			for (PackExt ext : extensions)
+				if (PackExt.PACK.equals(ext)) {
+					File f = nameFor(packName, "." + ext.getExtension()); //$NON-NLS-1$
+					FileUtils.delete(f, deleteOptions);
+					break;
+				}
+			// The .pack file has been deleted. Delete as many as the other
+			// files as you can.
+			deleteOptions |= FileUtils.IGNORE_ERRORS;
+			for (PackExt ext : extensions) {
+				if (!PackExt.PACK.equals(ext)) {
+					File f = nameFor(packName, "." + ext.getExtension()); //$NON-NLS-1$
+					FileUtils.delete(f, deleteOptions);
+				}
+			}
+		} catch (IOException e) {
+			// Deletion of the .pack file failed. Silently return.
+		}
 	}
 
 	/**
@@ -533,7 +554,7 @@ public class GC {
 			if (rest != null)
 				ret.add(rest);
 		}
-		deleteOldPacks(toBeDeleted, ret, true);
+		deleteOldPacks(toBeDeleted, ret);
 		prunePacked();
 
 		lastPackedRefs = refsBefore;
