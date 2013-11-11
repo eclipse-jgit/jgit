@@ -59,8 +59,8 @@
   <name>JGit Tycho Parent</name>
 
   <properties>
-    <tycho-version>0.18.0</tycho-version>
-    <tycho-extras-version>0.18.0</tycho-extras-version>
+    <tycho-version>0.19.0</tycho-version>
+    <tycho-extras-version>${tycho-version}</tycho-extras-version>
   </properties>
 
   <pluginRepositories>
