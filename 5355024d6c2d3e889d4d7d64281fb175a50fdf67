@@ -16,6 +16,24 @@
       "revId": "5355024d6c2d3e889d4d7d64281fb175a50fdf67",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_2192fcd9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/Merger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-11-12T22:49:52Z",
+      "side": 1,
+      "message": "You\u0027re right. But making getBaseCommitId abstract will break API, no? Or is it ok to add new methods to a base class because only extenders will break, but not users?\n\nWe could also make it non-abstract and just return null in Merger.",
+      "parentUuid": "8748d3a1_5c8b14a7",
+      "revId": "5355024d6c2d3e889d4d7d64281fb175a50fdf67",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
