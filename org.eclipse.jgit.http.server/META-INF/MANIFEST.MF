@@ -7,8 +7,13 @@ Bundle-Localization: plugin
 Bundle-Vendor: %provider_name
 Export-Package: 
  org.eclipse.jgit.http.server;version="3.2.0",
- org.eclipse.jgit.http.server.glue;version="3.2.0",
- org.eclipse.jgit.http.server.resolver;version="3.2.0"
+ org.eclipse.jgit.http.server.glue;version="3.2.0";
+  uses:="javax.servlet,javax.servlet.http",
+ org.eclipse.jgit.http.server.resolver;version="3.2.0";
+  uses:="org.eclipse.jgit.transport.resolver,
+   org.eclipse.jgit.lib,
+   org.eclipse.jgit.transport,
+   javax.servlet.http"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Import-Package: javax.servlet;version="[2.5.0,3.0.0)",

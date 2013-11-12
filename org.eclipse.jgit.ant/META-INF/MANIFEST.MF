@@ -8,4 +8,5 @@ Import-Package: org.apache.tools.ant,
   org.eclipse.jgit.storage.file;version="[3.2.0,3.3.0)"
 Bundle-Localization: plugin
 Bundle-Vendor: %Provider-Name
-Export-Package: org.eclipse.jgit.ant.tasks;version="3.2.0"
+Export-Package: org.eclipse.jgit.ant.tasks;version="3.2.0";
+ uses:="org.apache.tools.ant.types,org.apache.tools.ant"
