@@ -1575,6 +1575,7 @@ public abstract class Repository {
 	 *            <code>true</code> if also comments should be reported
 	 * @return the list of steps
 	 * @throws IOException
+	 * @since 3.2
 	 */
 	public List<RebaseTodoLine> readRebaseTodo(String path,
 			boolean includeComments)
@@ -1593,6 +1594,7 @@ public abstract class Repository {
 	 * @param append
 	 *            whether to append to an existing file or to write a new file
 	 * @throws IOException
+	 * @since 3.2
 	 */
 	public void writeRebaseTodoFile(String path, List<RebaseTodoLine> steps,
 			boolean append)

@@ -180,6 +180,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		ABORT,
 		/**
 		 * Starts processing steps
+		 * @since 3.2
 		 */
 		PROCESS_STEPS;
 	}
@@ -1202,6 +1203,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	 * @param stopAfterRebaseInteractiveInitialization
 	 *            if {@code true} the rebase stops after initialization
 	 * @return this instance
+	 * @since 3.2
 	 */
 	public RebaseCommand runInteractively(InteractiveHandler handler,
 			final boolean stopAfterRebaseInteractiveInitialization) {
