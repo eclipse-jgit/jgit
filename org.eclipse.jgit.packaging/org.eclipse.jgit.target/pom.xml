@@ -53,6 +53,33 @@
   </parent>
 
   <artifactId>org.eclipse.jgit.target</artifactId>
-  <packaging>eclipse-target-definition</packaging>
+  <packaging>pom</packaging>
   <name>JGit Target Platform</name>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>attach-artifacts</id>
+            <phase>package</phase>
+            <goals>
+              <goal>attach-artifact</goal>
+            </goals>
+            <configuration>
+              <artifacts>
+                <artifact>
+                  <file>${target-platform}.target</file>
+                  <type>target</type>
+                  <classifier>${target-platform}</classifier>
+                </artifact>
+              </artifacts>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 </project>
