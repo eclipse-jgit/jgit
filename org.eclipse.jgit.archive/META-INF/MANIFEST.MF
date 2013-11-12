@@ -17,4 +17,8 @@ Import-Package: org.apache.commons.compress.archivers;version="[1.4,2.0)",
  org.osgi.framework;version="[1.3.0,2.0.0)"
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: org.eclipse.jgit.archive.FormatActivator
-Export-Package: org.eclipse.jgit.archive;version="3.2.0"
+Export-Package: org.eclipse.jgit.archive;version="3.2.0";
+  uses:="org.eclipse.jgit.lib,
+   org.eclipse.jgit.api,
+   org.apache.commons.compress.archivers,
+   org.osgi.framework"
