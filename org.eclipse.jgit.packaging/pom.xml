@@ -164,6 +164,7 @@
                 <groupId>org.eclipse.jgit</groupId>
                 <artifactId>org.eclipse.jgit.target</artifactId>
                 <version>${project.version}</version>
+                <classifier>${target-platform}</classifier>
               </artifact>
             </target>
             <environments>
@@ -215,11 +216,42 @@
           <artifactId>eclipse-jarsigner-plugin</artifactId>
           <version>1.0.4</version>
         </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>build-helper-maven-plugin</artifactId>
+          <version>1.7</version>
+        </plugin>
       </plugins>
     </pluginManagement>
   </build>
 
   <profiles>
+    <profile>
+      <id>platform-kepler</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+        <property>
+          <name>platform-version-name</name>
+          <value>kepler</value>
+        </property>
+      </activation>
+      <properties>
+        <target-platform>jgit-4.3</target-platform>
+      </properties>
+    </profile>
+    <profile>
+      <id>platform-luna</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+        <property>
+          <name>platform-version-name</name>
+          <value>luna</value>
+        </property>
+      </activation>
+      <properties>
+        <target-platform>jgit-4.4</target-platform>
+      </properties>
+    </profile>
     <profile>
       <id>eclipse-sign</id>
       <build>
