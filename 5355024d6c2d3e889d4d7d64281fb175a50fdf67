@@ -34,6 +34,24 @@
       "revId": "5355024d6c2d3e889d4d7d64281fb175a50fdf67",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_41e90820",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/Merger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-11-12T23:06:34Z",
+      "side": 1,
+      "message": "AFAIK breaking extenders is ok in a minor release according to OSGi semantic versioning rules [1]:\n\n\"A change in the second (minor) part of the version signals that the change is \nbackward compatible with consumers of the API package but not with the providers of that API. That is, \nwhen the API package goes from version 1.5 to 1.6 it is no longer compatible with a provider of that API but \nconsumers of that API are backward compatible with that API package\"\n\n[1] see page 2 in http://www.osgi.org/wiki/uploads/Links/SemanticVersioning.pdf",
+      "parentUuid": "8748d3a1_2192fcd9",
+      "revId": "5355024d6c2d3e889d4d7d64281fb175a50fdf67",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
