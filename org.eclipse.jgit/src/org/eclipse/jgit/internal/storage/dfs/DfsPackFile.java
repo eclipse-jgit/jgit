@@ -191,7 +191,7 @@ public final class DfsPackFile {
 	 */
 	public boolean isIndexLoaded() {
 		DfsBlockCache.Ref<PackIndex> idxref = index;
-		return idxref != null && idxref.get() != null;
+		return idxref != null && idxref.has();
 	}
 
 	/** @return bytes cached in memory for this pack, excluding the index. */

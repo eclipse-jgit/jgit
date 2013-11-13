@@ -556,5 +556,9 @@ public final class DfsBlockCache {
 				hot = true;
 			return v;
 		}
+
+		boolean has() {
+			return value != null;
+		}
 	}
 }
