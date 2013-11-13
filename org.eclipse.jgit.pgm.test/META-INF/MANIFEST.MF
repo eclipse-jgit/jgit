@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %plugin_name
 Bundle-SymbolicName: org.eclipse.jgit.pgm.test
-Bundle-Version: 3.2.0.qualifier
+Bundle-Version: 3.2.0.201311130903-m3
 Bundle-Vendor: %provider_name
 Bundle-Localization: plugin
 Bundle-ActivationPolicy: lazy
