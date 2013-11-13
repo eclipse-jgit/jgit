@@ -52,6 +52,24 @@
       "revId": "5355024d6c2d3e889d4d7d64281fb175a50fdf67",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_fbad5970",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/Merger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-11-13T10:51:05Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "8748d3a1_41e90820",
+      "revId": "5355024d6c2d3e889d4d7d64281fb175a50fdf67",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
