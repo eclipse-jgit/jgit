@@ -194,9 +194,9 @@ public abstract class ObjectReader {
 	 * @param objectId
 	 *            identity of the object to test for existence of.
 	 * @param typeHint
-	 *            hint about the type of object being requested;
-	 *            {@link #OBJ_ANY} if the object type is not known, or does not
-	 *            matter to the caller.
+	 *            hint about the type of object being requested, e.g.
+	 *            {@link Constants#OBJ_BLOB}; {@link #OBJ_ANY} if the object
+	 *            type is not known, or does not matter to the caller.
 	 * @return true if the specified object is stored in this database.
 	 * @throws IncorrectObjectTypeException
 	 *             typeHint was not OBJ_ANY, and the object's actual type does
@@ -235,9 +235,9 @@ public abstract class ObjectReader {
 	 * @param objectId
 	 *            identity of the object to open.
 	 * @param typeHint
-	 *            hint about the type of object being requested;
-	 *            {@link #OBJ_ANY} if the object type is not known, or does not
-	 *            matter to the caller.
+	 *            hint about the type of object being requested, e.g.
+	 *            {@link Constants#OBJ_BLOB}; {@link #OBJ_ANY} if the object
+	 *            type is not known, or does not matter to the caller.
 	 * @return a {@link ObjectLoader} for accessing the object.
 	 * @throws MissingObjectException
 	 *             the object does not exist.
@@ -323,9 +323,9 @@ public abstract class ObjectReader {
 	 * @param objectId
 	 *            identity of the object to open.
 	 * @param typeHint
-	 *            hint about the type of object being requested;
-	 *            {@link #OBJ_ANY} if the object type is not known, or does not
-	 *            matter to the caller.
+	 *            hint about the type of object being requested, e.g.
+	 *            {@link Constants#OBJ_BLOB}; {@link #OBJ_ANY} if the object
+	 *            type is not known, or does not matter to the caller.
 	 * @return size of object in bytes.
 	 * @throws MissingObjectException
 	 *             the object does not exist.
