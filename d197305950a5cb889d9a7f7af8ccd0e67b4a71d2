@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8748d3a1_15e27abe",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-11-15T15:47:37Z",
+      "side": 1,
+      "message": "These should not be translated IMO, as the merge driver registry uses them as IDs. Just return \"binary\" from BinaryMergeDriver#getName, the same with \"text\".",
+      "revId": "d197305950a5cb889d9a7f7af8ccd0e67b4a71d2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_d579326c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/IMergeDriver.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-11-15T15:47:37Z",
+      "side": 1,
+      "message": "JGit does not use the \"I*\" convention for interfaces, see other interfaces (e.g. Ref), please remove it.",
+      "revId": "d197305950a5cb889d9a7f7af8ccd0e67b4a71d2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_95884a00",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/IMergeDriver.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-11-15T15:47:37Z",
+      "side": 1,
+      "message": "I don\u0027t like that the return type is int, especially because the exact conflict count is not really used (the code just checks if it is 0 or not).\n\nCould you add a simple MergeDriverResult class which just has a boolean \"conflicts\" field for now?",
+      "revId": "d197305950a5cb889d9a7f7af8ccd0e67b4a71d2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_3564d6c2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/IMergeDriver.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-11-15T15:47:37Z",
+      "side": 1,
+      "message": "Please also document that this will be used as an identifier by MergeDriverRegistry.",
+      "revId": "d197305950a5cb889d9a7f7af8ccd0e67b4a71d2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_756ade8f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeDriverRegistry.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-11-15T15:47:37Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be lastIndexOf(\u0027/\u0027)?",
+      "revId": "d197305950a5cb889d9a7f7af8ccd0e67b4a71d2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_d5cbf217",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 564,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-11-15T15:47:37Z",
+      "side": 1,
+      "message": "This means that the files will also be created even when we\u0027re using a built-in merge driver, instead of just using the stages (as before). I think we should just create them when a custom merge driver is involved.",
+      "revId": "d197305950a5cb889d9a7f7af8ccd0e67b4a71d2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_55d7e2b6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-11-15T15:47:37Z",
+      "side": 1,
+      "message": "If this method was in the FS abstraction, we could use Files.copy in the Java 7 implementations.",
+      "revId": "d197305950a5cb889d9a7f7af8ccd0e67b4a71d2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
