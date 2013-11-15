@@ -83,6 +83,7 @@ public class SubmoduleStatusCommand extends
 	 * Add repository-relative submodule path to limit status reporting to
 	 *
 	 * @param path
+	 *            (with <code>/</code> as separator)
 	 * @return this command
 	 */
 	public SubmoduleStatusCommand addPath(final String path) {

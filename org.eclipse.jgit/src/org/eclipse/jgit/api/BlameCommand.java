@@ -86,9 +86,10 @@ public class BlameCommand extends GitCommand<BlameResult> {
 	}
 
 	/**
-	 * Set file path
+	 * Set file path.
 	 *
 	 * @param filePath
+	 *            file path (with <code>/</code> as separator)
 	 * @return this command
 	 */
 	public BlameCommand setFilePath(String filePath) {

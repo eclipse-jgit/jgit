@@ -282,11 +282,11 @@ public class LogCommand extends GitCommand<Iterable<RevCommit>> {
 
 	/**
 	 * Show only commits that affect any of the specified paths. The path must
-	 * either name a file or a directory exactly. Note that regex expressions or
-	 * wildcards are not supported.
+	 * either name a file or a directory exactly and use <code>/</code> (slash)
+	 * as separator. Note that regex expressions or wildcards are not supported.
 	 *
 	 * @param path
-	 *            a path is relative to the top level of the repository
+	 *            a repository-relative path (with <code>/</code> as separator)
 	 * @return {@code this}
 	 */
 	public LogCommand addPath(String path) {
