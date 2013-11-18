@@ -109,7 +109,8 @@ public class ResolveMerger extends ThreeWayMerger {
 		COULD_NOT_DELETE
 	}
 
-	private NameConflictTreeWalk tw;
+	/** The tree walk which we'll iterate over to merge entries. */
+	protected NameConflictTreeWalk tw;
 
 	/**
 	 * string versions of a list of commit SHA1s
@@ -118,15 +119,20 @@ public class ResolveMerger extends ThreeWayMerger {
 	 */
 	protected String commitNames[];
 
-	private static final int T_BASE = 0;
+	/** Index of the base tree within the {@link #tw tree walk}. */
+	protected static final int T_BASE = 0;
 
-	private static final int T_OURS = 1;
+	/** Index of our tree in withthe {@link #tw tree walk}. */
+	protected static final int T_OURS = 1;
 
-	private static final int T_THEIRS = 2;
+	/** Index of their tree within the {@link #tw tree walk}. */
+	protected static final int T_THEIRS = 2;
 
-	private static final int T_INDEX = 3;
+	/** Index of the index tree within the {@link #tw tree walk}. */
+	protected static final int T_INDEX = 3;
 
-	private static final int T_FILE = 4;
+	/** Index of the working directory tree within the {@link #tw tree walk}. */
+	protected static final int T_FILE = 4;
 
 	private DirCacheBuilder builder;
 
@@ -149,7 +155,11 @@ public class ResolveMerger extends ThreeWayMerger {
 
 	private Map<String, MergeFailureReason> failingPaths = new HashMap<String, MergeFailureReason>();
 
-	private boolean enterSubtree;
+	/**
+	 * Updated as we merge entries of the tree walk. Tells us whether we should
+	 * recurse into the entry if it is a subtree.
+	 */
+	protected boolean enterSubtree;
 
 	/**
 	 * Set to true if this merge should work in-memory. The repos dircache and
@@ -971,6 +981,7 @@ public class ResolveMerger extends ThreeWayMerger {
 	 * @throws IOException
 	 * @since 3.0
 	 */
+	// FIXME This is "protected"... but actually unusable by subclasses.
 	protected boolean mergeTrees(AbstractTreeIterator baseTree,
 			RevTree headTree, RevTree mergeTree) throws IOException {
 
@@ -985,19 +996,8 @@ public class ResolveMerger extends ThreeWayMerger {
 		if (workingTreeIterator != null)
 			tw.addTree(workingTreeIterator);
 
-		while (tw.next()) {
-			if (!processEntry(
-					tw.getTree(T_BASE, CanonicalTreeParser.class),
-					tw.getTree(T_OURS, CanonicalTreeParser.class),
-					tw.getTree(T_THEIRS, CanonicalTreeParser.class),
-					tw.getTree(T_INDEX, DirCacheBuildIterator.class),
-					(workingTreeIterator == null) ? null : tw.getTree(T_FILE,
-							WorkingTreeIterator.class))) {
-				cleanUp();
-				return false;
-			}
-			if (tw.isSubtree() && enterSubtree)
-				tw.enterSubtree();
+		if (!mergeTreeWalk(tw)) {
+			return false;
 		}
 
 		if (!inCore) {
@@ -1028,5 +1028,31 @@ public class ResolveMerger extends ThreeWayMerger {
 			resultTree = null;
 			return false;
 		}
+	}
+
+	/**
+	 * Process the given TreeWalk's entries.
+	 *
+	 * @param treeWalk
+	 *            The walk to iterate over.
+	 * @return Whether the tress merged cleanly.
+	 * @throws IOException
+	 */
+	protected boolean mergeTreeWalk(TreeWalk treeWalk) throws IOException {
+		while (treeWalk.next()) {
+			if (!processEntry(
+					treeWalk.getTree(T_BASE, CanonicalTreeParser.class),
+					treeWalk.getTree(T_OURS, CanonicalTreeParser.class),
+					treeWalk.getTree(T_THEIRS, CanonicalTreeParser.class),
+					treeWalk.getTree(T_INDEX, DirCacheBuildIterator.class),
+					(tw.getTreeCount() >= T_FILE) ? null : treeWalk.getTree(
+							T_FILE, WorkingTreeIterator.class))) {
+				cleanUp();
+				return false;
+			}
+			if (treeWalk.isSubtree() && enterSubtree)
+				treeWalk.enterSubtree();
+		}
+		return true;
 	}
 }
