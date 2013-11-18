@@ -11,23 +11,23 @@
 <target name="jgit.target" sequenceNumber="55">
   <locations>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
-      <repository location="http://download.eclipse.org/jetty/updates/jetty-bundles-7.x/7.6.11.v20130520/"/>
-      <unit id="org.eclipse.jetty.client" version="7.6.11.v20130520"/>
-      <unit id="org.eclipse.jetty.client.source" version="7.6.11.v20130520"/>
-      <unit id="org.eclipse.jetty.continuation" version="7.6.11.v20130520"/>
-      <unit id="org.eclipse.jetty.continuation.source" version="7.6.11.v20130520"/>
-      <unit id="org.eclipse.jetty.http" version="7.6.11.v20130520"/>
-      <unit id="org.eclipse.jetty.http.source" version="7.6.11.v20130520"/>
-      <unit id="org.eclipse.jetty.io" version="7.6.11.v20130520"/>
-      <unit id="org.eclipse.jetty.io.source" version="7.6.11.v20130520"/>
-      <unit id="org.eclipse.jetty.security" version="7.6.11.v20130520"/>
-      <unit id="org.eclipse.jetty.security.source" version="7.6.11.v20130520"/>
-      <unit id="org.eclipse.jetty.server" version="7.6.11.v20130520"/>
-      <unit id="org.eclipse.jetty.server.source" version="7.6.11.v20130520"/>
-      <unit id="org.eclipse.jetty.servlet" version="7.6.11.v20130520"/>
-      <unit id="org.eclipse.jetty.servlet.source" version="7.6.11.v20130520"/>
-      <unit id="org.eclipse.jetty.util" version="7.6.11.v20130520"/>
-      <unit id="org.eclipse.jetty.util.source" version="7.6.11.v20130520"/>
+      <repository location="http://download.eclipse.org/jetty/updates/jetty-bundles-7.x/7.6.14.v20131031/"/>
+      <unit id="org.eclipse.jetty.client" version="7.6.14.v20131031"/>
+      <unit id="org.eclipse.jetty.client.source" version="7.6.14.v20131031"/>
+      <unit id="org.eclipse.jetty.continuation" version="7.6.14.v20131031"/>
+      <unit id="org.eclipse.jetty.continuation.source" version="7.6.14.v20131031"/>
+      <unit id="org.eclipse.jetty.http" version="7.6.14.v20131031"/>
+      <unit id="org.eclipse.jetty.http.source" version="7.6.14.v20131031"/>
+      <unit id="org.eclipse.jetty.io" version="7.6.14.v20131031"/>
+      <unit id="org.eclipse.jetty.io.source" version="7.6.14.v20131031"/>
+      <unit id="org.eclipse.jetty.security" version="7.6.14.v20131031"/>
+      <unit id="org.eclipse.jetty.security.source" version="7.6.14.v20131031"/>
+      <unit id="org.eclipse.jetty.server" version="7.6.14.v20131031"/>
+      <unit id="org.eclipse.jetty.server.source" version="7.6.14.v20131031"/>
+      <unit id="org.eclipse.jetty.servlet" version="7.6.14.v20131031"/>
+      <unit id="org.eclipse.jetty.servlet.source" version="7.6.14.v20131031"/>
+      <unit id="org.eclipse.jetty.util" version="7.6.14.v20131031"/>
+      <unit id="org.eclipse.jetty.util.source" version="7.6.14.v20131031"/>
     </location>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
       <repository location="http://download.eclipse.org/tools/orbit/downloads/drops/S20131024145017/repository/"/>
