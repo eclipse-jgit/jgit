@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_d55bd3cb",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2013-11-18T12:35:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_15e27abe",
+      "revId": "d197305950a5cb889d9a7f7af8ccd0e67b4a71d2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_d579326c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/IMergeDriver.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2013-11-15T15:47:37Z",
       "side": 1,
       "message": "JGit does not use the \"I*\" convention for interfaces, see other interfaces (e.g. Ref), please remove it.",
+      "revId": "d197305950a5cb889d9a7f7af8ccd0e67b4a71d2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_95b14bfc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/IMergeDriver.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2013-11-18T12:35:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_d579326c",
       "revId": "d197305950a5cb889d9a7f7af8ccd0e67b4a71d2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_b56c477f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/IMergeDriver.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2013-11-18T12:35:39Z",
+      "side": 1,
+      "message": "I do not like the \"int\" return either, I blame that on C coders :p.\n\nStill, I used this in order to mimic the API expected of drivers contributed to CGit so that they would be interchangeable. Most of the API implemented in this patch has been made with this compatibility in mind. Please also see http://git-scm.com/docs/gitattributes.html (\"The merge driver is expected to leave the result of the merge in the file named with %A by overwriting it, and exit with zero status if it managed to merge them cleanly, or non-zero if there were conflicts.\").\n\nI can change this to a boolean if it would be preferred.",
+      "parentUuid": "8748d3a1_95884a00",
+      "revId": "d197305950a5cb889d9a7f7af8ccd0e67b4a71d2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_3564d6c2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/IMergeDriver.java",
         "patchSetId": 3
@@ -64,6 +118,24 @@
       "writtenOn": "2013-11-15T15:47:37Z",
       "side": 1,
       "message": "Please also document that this will be used as an identifier by MergeDriverRegistry.",
+      "revId": "d197305950a5cb889d9a7f7af8ccd0e67b4a71d2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_956f8b71",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/IMergeDriver.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2013-11-18T12:35:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_3564d6c2",
       "revId": "d197305950a5cb889d9a7f7af8ccd0e67b4a71d2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_355797a1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeDriverRegistry.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2013-11-18T12:35:39Z",
+      "side": 1,
+      "message": "Indeed it should. Replaced.",
+      "parentUuid": "8748d3a1_756ade8f",
+      "revId": "d197305950a5cb889d9a7f7af8ccd0e67b4a71d2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_d5cbf217",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
         "patchSetId": 3
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_7988f92c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 564,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2013-11-18T12:35:39Z",
+      "side": 1,
+      "message": "That was the point : make sure that even the built-in merge driver use what will be available to extenders (\"eat your own dog food\") to make sure they have everything needed.\n\nBasically, I would like for an extender to be capable of \"just\" sub-classing the text or binary merge drivers in order to reuse their logic. Doing things like this should also make it possible for a client to use the binary \"built-in\" driver for files that we would have otherwise considered textual.\n\nI could try and make these two built-in drivers use the stages data instead of temporary files, but that means we need to provide an API for custom merges that is entirely different than what we use internally and that the uilt-in drivers are not reusable in any way (they would not extend the MergeDriver interface).\n\nI\u0027ll change this if you still think it would be better.",
+      "parentUuid": "8748d3a1_d5cbf217",
+      "revId": "d197305950a5cb889d9a7f7af8ccd0e67b4a71d2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_55d7e2b6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
         "patchSetId": 3
@@ -115,6 +223,24 @@
       "writtenOn": "2013-11-15T15:47:37Z",
       "side": 1,
       "message": "If this method was in the FS abstraction, we could use Files.copy in the Java 7 implementations.",
+      "revId": "d197305950a5cb889d9a7f7af8ccd0e67b4a71d2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_1914554a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2013-11-18T12:35:39Z",
+      "side": 1,
+      "message": "Should I move this as FS.copyFile(File, File) ? Where is the Java7 implementation located if so?",
+      "parentUuid": "8748d3a1_55d7e2b6",
       "revId": "d197305950a5cb889d9a7f7af8ccd0e67b4a71d2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
