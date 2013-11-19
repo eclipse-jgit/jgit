@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_01f32e61",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-11-19T23:17:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_21c3ca04",
+      "revId": "17e7b372af88a0e9565ee4dd62b89832911c77ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_e16602c9",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-11-19T23:12:21Z",
       "side": 1,
       "message": "missing @since tag for new public method",
+      "revId": "17e7b372af88a0e9565ee4dd62b89832911c77ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_e1ef2275",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-11-19T23:17:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_e16602c9",
       "revId": "17e7b372af88a0e9565ee4dd62b89832911c77ce",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
