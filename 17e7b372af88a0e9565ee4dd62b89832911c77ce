@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8748d3a1_d1d759dd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-11-19T13:19:00Z",
+      "side": 1,
+      "message": "I think instead we should call RepositoryCache.close(repo) in order to also remove the repository from the cache",
+      "revId": "17e7b372af88a0e9565ee4dd62b89832911c77ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
