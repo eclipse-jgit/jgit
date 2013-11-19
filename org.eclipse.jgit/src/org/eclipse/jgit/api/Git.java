@@ -125,6 +125,24 @@ public class Git {
 	}
 
 	/**
+	 * Frees resources hold by the underlying {@link Repository} instance. It is
+	 * recommended to call this method as soon as you don't need a reference to
+	 * this {@link Git} instance and the underlying {@link Repository} instance
+	 * anymore. This method closes the underlying object and ref databases. This
+	 * will free memory and file handles. E.g. on Windows the repository will
+	 * keep file handles on pack files unless you call this method. Such open
+	 * file handles will for example prevent that the repository folder in the
+	 * filesystem can be deleted.
+	 * <p>
+	 * After calling close() you should not use this {@link Git} instance and
+	 * the underlying {@link Repository} instance anymore.
+	 */
+	public void close() {
+		if (repo != null)
+			repo.close();
+	}
+
+	/**
 	 * Returns a command object to execute a {@code clone} command
 	 *
 	 * @see <a
