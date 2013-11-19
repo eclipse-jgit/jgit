@@ -16,6 +16,24 @@
       "revId": "17e7b372af88a0e9565ee4dd62b89832911c77ce",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_b1c1ed98",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-11-19T14:26:19Z",
+      "side": 1,
+      "message": "As discussed: Since we are not explicitly putting something into that cache in this class I don\u0027t feel responsible to remove it from there. The RepositoryCache seems to be an internal cache used by JGit server side (TransportLocal, Daemon).",
+      "parentUuid": "8748d3a1_d1d759dd",
+      "revId": "17e7b372af88a0e9565ee4dd62b89832911c77ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
