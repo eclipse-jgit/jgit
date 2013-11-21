@@ -70,6 +70,21 @@ public class EolCanonicalizingInputStream extends InputStream {
 
 	private boolean detectBinary;
 
+	private boolean abortIfBinary;
+
+	/**
+	 * A special exception thrown when {@link EolCanonicalizingInputStream} is
+	 * told to throw an exception when attempting to read a binary file. The
+	 * exception may be thrown at any stage during reading.
+	 */
+	public static class IsBinaryException extends IOException {
+		private static final long serialVersionUID = 1L;
+
+		IsBinaryException() {
+			super();
+		}
+	}
+
 	/**
 	 * Creates a new InputStream, wrapping the specified stream
 	 *
@@ -80,8 +95,25 @@ public class EolCanonicalizingInputStream extends InputStream {
 	 * @since 2.0
 	 */
 	public EolCanonicalizingInputStream(InputStream in, boolean detectBinary) {
+		this(in, detectBinary, false);
+	}
+
+	/**
+	 * Creates a new InputStream, wrapping the specified stream
+	 *
+	 * @param in
+	 *            raw input stream
+	 * @param detectBinary
+	 *            whether binaries should be detected
+	 * @param abortIfBinary
+	 *            throw an IOException if the file is binary
+	 * @since 3.2
+	 */
+	public EolCanonicalizingInputStream(InputStream in, boolean detectBinary,
+			boolean abortIfBinary) {
 		this.in = in;
 		this.detectBinary = detectBinary;
+		this.abortIfBinary = abortIfBinary;
 	}
 
 	@Override
@@ -128,6 +160,13 @@ public class EolCanonicalizingInputStream extends InputStream {
 		return i == off ? -1 : i - off;
 	}
 
+	/**
+	 * @return true if the stream has detected as a binary so far
+	 */
+	public boolean isBinary() {
+		return isBinary;
+	}
+
 	@Override
 	public void close() throws IOException {
 		in.close();
@@ -140,6 +179,8 @@ public class EolCanonicalizingInputStream extends InputStream {
 		if (detectBinary) {
 			isBinary = RawText.isBinary(buf, cnt);
 			detectBinary = false;
+			if (isBinary && abortIfBinary)
+				throw new IsBinaryException();
 		}
 		ptr = 0;
 		return true;
