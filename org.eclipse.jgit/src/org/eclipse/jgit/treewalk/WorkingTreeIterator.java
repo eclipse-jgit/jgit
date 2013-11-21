@@ -73,10 +73,11 @@ import org.eclipse.jgit.ignore.IgnoreRule;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.CoreConfig;
+import org.eclipse.jgit.lib.CoreConfig.CheckStat;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.lib.CoreConfig.CheckStat;
 import org.eclipse.jgit.submodule.SubmoduleWalk;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.IO;
@@ -874,6 +875,45 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 			return false;
 		} else {
 			// Content differs: that's a real change!
+			switch (getOptions().getAutoCRLF()) {
+			case INPUT:
+			case TRUE:
+				InputStream dcIn = null;
+				try {
+					ObjectLoader loader = repository.open(entry.getObjectId());
+					dcIn = loader.openStream();
+					if (RawText.isBinary(dcIn))
+						return true;
+					dcIn.close();
+
+					dcIn = new EolCanonicalizingInputStream(
+							loader.openStream(), true);
+					long dcInLen = computeLength(dcIn);
+					dcIn.close();
+
+					dcIn = new EolCanonicalizingInputStream(
+							loader.openStream(), true);
+					byte[] autoCrLfHash = computeHash(dcIn, dcInLen);
+					boolean changed = getEntryObjectId().compareTo(
+							autoCrLfHash, 0) != 0;
+					if (!changed) {
+						entry.setLength((int) getEntryLength());
+						entry.setObjectIdFromRaw(autoCrLfHash, 0);
+					}
+					return changed;
+				} catch (IOException e) {
+					return true;
+				} finally {
+					if (dcIn != null)
+						try {
+							dcIn.close();
+						} catch (IOException e) {
+							// empty
+						}
+				}
+			case FALSE:
+				break;
+			}
 			return true;
 		}
 	}
