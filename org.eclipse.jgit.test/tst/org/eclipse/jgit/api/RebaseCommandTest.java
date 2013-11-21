@@ -2250,6 +2250,44 @@ public class RebaseCommandTest extends RepositoryTestCase {
 				head1Commit.getFullMessage());
 	}
 
+	@Test
+	public void testRebaseInteractiveFixupWithBlankLines() throws Exception {
+		// create file1 on master
+		writeTrashFile(FILE1, FILE1);
+		git.add().addFilepattern(FILE1).call();
+		git.commit().setMessage("Add file1\nnew line").call();
+		assertTrue(new File(db.getWorkTree(), FILE1).exists());
+
+		// create file2 on master
+		writeTrashFile("file2", "file2");
+		git.add().addFilepattern("file2").call();
+		git.commit().setMessage("Add file2").call();
+		assertTrue(new File(db.getWorkTree(), "file2").exists());
+
+		// update FILE1 on master
+		writeTrashFile(FILE1, "blah");
+		git.add().addFilepattern(FILE1).call();
+		git.commit().setMessage("updated file1 on master\n\nsome text").call();
+
+		git.rebase().setUpstream("HEAD~2")
+				.runInteractively(new InteractiveHandler() {
+
+					public void prepareSteps(List<RebaseTodoLine> steps) {
+						steps.get(1).setAction(Action.FIXUP);
+					}
+
+					public String modifyCommitMessage(String commit) {
+						fail("No callback to modify commit message expected for single fixup");
+						return commit;
+					}
+				}).call();
+
+		RevWalk walk = new RevWalk(db);
+		ObjectId headId = db.resolve(Constants.HEAD);
+		RevCommit headCommit = walk.parseCommit(headId);
+		assertEquals("Add file2",
+				headCommit.getFullMessage());
+	}
 
 	@Test(expected = InvalidRebaseStepException.class)
 	public void testRebaseInteractiveFixupFirstCommitShouldFail()
