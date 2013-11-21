@@ -53,6 +53,7 @@ import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.WorkingTreeIterator;
 
@@ -72,7 +73,7 @@ import org.eclipse.jgit.treewalk.WorkingTreeIterator;
  * <p>
  * If no difference is found then we have to compare index and working-tree as
  * the last step. By making use of
- * {@link WorkingTreeIterator#isModified(org.eclipse.jgit.dircache.DirCacheEntry, boolean)}
+ * {@link WorkingTreeIterator#isModified(org.eclipse.jgit.dircache.DirCacheEntry, boolean, ObjectReader)}
  * we can avoid the computation of the content id if the file is not dirty.
  * <p>
  * Instances of this filter should not be used for multiple {@link TreeWalk}s.
@@ -218,7 +219,7 @@ public class IndexDiffFilter extends TreeFilter {
 		// Only one chance left to detect a diff: between index and working
 		// tree. Make use of the WorkingTreeIterator#isModified() method to
 		// avoid computing SHA1 on filesystem content if not really needed.
-		return wi.isModified(di.getDirCacheEntry(), true);
+		return wi.isModified(di.getDirCacheEntry(), true, tw.getObjectReader());
 	}
 
 	/**
