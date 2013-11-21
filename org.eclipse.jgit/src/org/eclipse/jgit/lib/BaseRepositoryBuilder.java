@@ -100,7 +100,7 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 				&& ref[7] == ' ';
 	}
 
-	private static File getSymRef(File workTree, File dotGit)
+	private static File getSymRef(File workTree, File dotGit, FS fs)
 			throws IOException {
 		byte[] content = IO.readFully(dotGit);
 		if (!isSymRef(content))
@@ -116,7 +116,7 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 					JGitText.get().invalidGitdirRef, dotGit.getAbsolutePath()));
 
 		String gitdirPath = RawParseUtils.decode(content, pathStart, lineEnd);
-		File gitdirFile = new File(gitdirPath);
+		File gitdirFile = fs.resolve(workTree, gitdirPath);
 		if (gitdirFile.isAbsolute())
 			return gitdirFile;
 		else
@@ -516,7 +516,7 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 					break;
 				} else if (dir.isFile())
 					try {
-						setGitDir(getSymRef(current, dir));
+						setGitDir(getSymRef(current, dir, tryFS));
 						break;
 					} catch (IOException ignored) {
 						// Continue searching if gitdir ref isn't found
@@ -597,7 +597,7 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 			if (!dotGit.isFile())
 				setGitDir(dotGit);
 			else
-				setGitDir(getSymRef(getWorkTree(), dotGit));
+				setGitDir(getSymRef(getWorkTree(), dotGit, safeFS()));
 		}
 	}
 
