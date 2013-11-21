@@ -550,7 +550,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		} else {
 			sb.append("# The ").append(count).append(ordinal)
 					.append(" commit message will be skipped:\n# ");
-			sb.append(commitToPick.getFullMessage().replaceAll("([\n\r]+)",
+			sb.append(commitToPick.getFullMessage().replaceAll("([\n\r])",
 					"$1# "));
 		}
 		// Add the previous message without header (i.e first line)
