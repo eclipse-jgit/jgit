@@ -73,13 +73,15 @@ import org.eclipse.jgit.ignore.IgnoreRule;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.CoreConfig;
+import org.eclipse.jgit.lib.CoreConfig.CheckStat;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.lib.CoreConfig.CheckStat;
 import org.eclipse.jgit.submodule.SubmoduleWalk;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.IO;
+import org.eclipse.jgit.util.io.AutoCRLFInputStream;
 import org.eclipse.jgit.util.io.EolCanonicalizingInputStream;
 
 /**
@@ -874,6 +876,29 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 			return false;
 		} else {
 			// Content differs: that's a real change!
+			switch (getOptions().getAutoCRLF()) {
+			case INPUT:
+			case TRUE:
+				InputStream dcIn = null;
+				try {
+					ObjectLoader loader = repository.open(entry.getObjectId());
+					dcIn = new AutoCRLFInputStream(loader.openStream(), true);
+					byte[] autoCrLfHash = computeHash(dcIn, 0);
+					return ObjectId.equals(idBuffer(), idOffset(),
+							autoCrLfHash, 0);
+				} catch (IOException e) {
+					return false;
+				} finally {
+					if (dcIn != null)
+						try {
+							dcIn.close();
+						} catch (IOException e) {
+							// empty
+						}
+				}
+			case FALSE:
+				break;
+			}
 			return true;
 		}
 	}
