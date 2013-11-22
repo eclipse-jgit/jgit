@@ -89,7 +89,7 @@ class Diff extends TextBuiltin {
 	@Option(name = "--cached", usage = "usage_cached")
 	private boolean cached;
 
-	@Option(name = "--", metaVar = "metaVar_paths", multiValued = true, handler = PathTreeFilterHandler.class)
+	@Option(name = "--", metaVar = "metaVar_paths", handler = PathTreeFilterHandler.class)
 	private TreeFilter pathFilter = TreeFilter.ALL;
 
 	// BEGIN -- Options shared with Log

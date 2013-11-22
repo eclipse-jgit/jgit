@@ -184,8 +184,8 @@ public class CmdLineParser extends org.kohsuke.args4j.CmdLineParser {
 	static class MyOptionDef extends OptionDef {
 
 		public MyOptionDef(OptionDef o) {
-			super(o.usage(), o.metaVar(), o.required(), o.handler(), o
-					.isMultiValued());
+			super(o.usage(), o.metaVar(), o.required(),
+			      o.hidden(), o.handler(), o.isMultiValued());
 		}
 
 		@Override

@@ -2,8 +2,8 @@ include_defs('//tools/maven.defs')
 
 maven_jar(
   name = 'args4j',
-  id = 'args4j:args4j:2.0.12',
-  sha1 = '8c5403feb1152f34fff9b013f0d0b5a05c4f5764',
+  id = 'args4j:args4j:2.0.26',
+  sha1 = '01ebb18ebb3b379a74207d5af4ea7c8338ebd78b',
   license = 'MIT',
 )
 

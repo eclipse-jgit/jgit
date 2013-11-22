@@ -71,7 +71,7 @@ class Status extends TextBuiltin {
 
 	protected final String statusFileListFormatUnmerged = CLIText.get().statusFileListFormatUnmerged;
 
-	@Option(name = "--", metaVar = "metaVar_path", multiValued = true)
+	@Option(name = "--", metaVar = "metaVar_path")
 	protected List<String> filterPaths;
 
 	@Override
