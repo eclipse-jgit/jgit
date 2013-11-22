@@ -111,13 +111,13 @@ class DiffAlgorithms extends TextBuiltin {
 	//
 	//
 
-	@Option(name = "--algorithm", multiValued = true, metaVar = "NAME", usage = "Enable algorithm(s)")
+	@Option(name = "--algorithm", metaVar = "NAME", usage = "Enable algorithm(s)")
 	List<String> algorithms = new ArrayList<String>();
 
 	@Option(name = "--text-limit", metaVar = "LIMIT", usage = "Maximum size in KiB to scan per file revision")
 	int textLimit = 15 * 1024; // 15 MiB as later we do * 1024.
 
-	@Option(name = "--repository", aliases = { "-r" }, multiValued = true, metaVar = "GIT_DIR", usage = "Repository to scan")
+	@Option(name = "--repository", aliases = { "-r" }, metaVar = "GIT_DIR", usage = "Repository to scan")
 	List<File> gitDirs = new ArrayList<File>();
 
 	@Option(name = "--count", metaVar = "LIMIT", usage = "Number of file revisions to be compared")
