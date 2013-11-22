@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8748d3a1_3ec29c7c",
+        "filename": "org.eclipse.jgit.junit.http/META-INF/MANIFEST.MF",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-11-22T14:27:10Z",
+      "side": 1,
+      "message": "s/1.1.1/[1.1.1,2.0.0)/",
+      "revId": "da956e306da720d1a362d8eb596dab86962e5bc0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_1ebfe0f7",
+        "filename": "org.eclipse.jgit/META-INF/MANIFEST.MF",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-11-22T14:27:10Z",
+      "side": 1,
+      "message": "I would instead use the version range \"[4.1.0,5.0.0)\" for all these dependencies",
+      "revId": "da956e306da720d1a362d8eb596dab86962e5bc0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_7ecc24af",
+        "filename": "org.eclipse.jgit/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-11-22T14:27:10Z",
+      "side": 1,
+      "message": "style nit: indentation doesn\u0027t match",
+      "revId": "da956e306da720d1a362d8eb596dab86962e5bc0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_be27cceb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-11-22T14:27:10Z",
+      "side": 1,
+      "message": "as you said, this should be configurable",
+      "revId": "da956e306da720d1a362d8eb596dab86962e5bc0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_bea4ecc0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/HttpClientConnection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-11-22T14:27:10Z",
+      "side": 1,
+      "message": "style nit: remove blank line",
+      "revId": "da956e306da720d1a362d8eb596dab86962e5bc0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_9e2c90d1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/HttpClientConnection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-11-22T14:27:10Z",
+      "side": 1,
+      "message": "we need this method as it is used in jgit\n\nthe missing implementation is also failing test org.eclipse.jgit.http.test.SmartClientSmartServerTest.testPush_ChunkedEncoding",
+      "revId": "da956e306da720d1a362d8eb596dab86962e5bc0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_fe2154d6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/HttpClientConnection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-11-22T14:27:10Z",
+      "side": 1,
+      "message": "as you said we need this for ssl support",
+      "revId": "da956e306da720d1a362d8eb596dab86962e5bc0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_de2618ed",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/HttpClientConnection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-11-22T14:27:10Z",
+      "side": 1,
+      "message": "as you said we need this for ssl support",
+      "revId": "da956e306da720d1a362d8eb596dab86962e5bc0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_3e1bbca8",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-11-22T14:27:10Z",
+      "side": 1,
+      "message": "why is this version different from those used in org.eclipse.jgit/META-INF/MANIFEST.MF ?",
+      "revId": "da956e306da720d1a362d8eb596dab86962e5bc0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
