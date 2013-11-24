@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_f9ae776c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/IMergeDriver.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-11-24T15:47:53Z",
+      "side": 1,
+      "message": "If one plans to use a driver for C Git, one has to wrap it and use Runtime.exec or something like that anyway. So I don\u0027t see why this should be tied to the C Git \"API\".",
+      "parentUuid": "8748d3a1_b56c477f",
+      "revId": "d197305950a5cb889d9a7f7af8ccd0e67b4a71d2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_3564d6c2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/IMergeDriver.java",
         "patchSetId": 3
@@ -212,6 +230,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_b94eaf41",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 564,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-11-24T15:47:53Z",
+      "side": 1,
+      "message": "I\u0027m not sure, I would love to hear other opinions on this.\n\nIf the API would have e.g. CanonicalTreeParser as input and would return the merged result and whether there are still conflicts, I think reuse would still be possible and we wouldn\u0027t have to have two different APIs.\n\nMerge drivers which *need* to write these out to files could easily do that using ObjectLoader.copyTo. If they want to call the built-in drivers, they can just pass the original input parameters instead.",
+      "parentUuid": "8748d3a1_7988f92c",
+      "revId": "d197305950a5cb889d9a7f7af8ccd0e67b4a71d2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_55d7e2b6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
         "patchSetId": 3
@@ -241,6 +277,24 @@
       "side": 1,
       "message": "Should I move this as FS.copyFile(File, File) ? Where is the Java7 implementation located if so?",
       "parentUuid": "8748d3a1_55d7e2b6",
+      "revId": "d197305950a5cb889d9a7f7af8ccd0e67b4a71d2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_f9d2f7c8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-11-24T15:47:53Z",
+      "side": 1,
+      "message": "Yes. See e.g. FS_POSIX_Java7 in the org.eclipse.jgit.java7 project.",
+      "parentUuid": "8748d3a1_1914554a",
       "revId": "d197305950a5cb889d9a7f7af8ccd0e67b4a71d2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
