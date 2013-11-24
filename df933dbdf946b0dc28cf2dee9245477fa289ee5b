@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "8748d3a1_47c986bd",
+        "filename": ".buckversion",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2013-11-24T20:56:13Z",
+      "side": 1,
+      "message": "Can we try to sync Buck versions between Gerrit \u0026 JGit projects? Working on the same machine for two projects that have different Buck versions is going to be a pain.",
+      "revId": "df933dbdf946b0dc28cf2dee9245477fa289ee5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_27855a91",
         "filename": "tools/download_file.py",
         "patchSetId": 4
