@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2012, Robin Rosenberg <robin.rosenberg@dewire.com>
+ * Copyright (C) 2013, Obeo
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -45,6 +46,8 @@ package org.eclipse.jgit.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 
 import org.eclipse.jgit.util.FS;
 
@@ -144,5 +147,16 @@ public class FS_POSIX_Java7 extends FS_POSIX {
 	@Override
 	public void createSymLink(File path, String target) throws IOException {
 		FileUtil.createSymLink(path, target);
+	}
+
+	@Override
+	public PathMatcher getPathMatcher(String globPattern) {
+		return new PathMatcher_Java7(globPattern);
+	}
+
+	@Override
+	public void copyFile(File sourceFile, File destFile) throws IOException {
+		Files.copy(sourceFile.toPath(), destFile.toPath(),
+				StandardCopyOption.REPLACE_EXISTING);
 	}
 }
