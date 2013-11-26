@@ -45,11 +45,14 @@ package org.eclipse.jgit.util;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
+import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -97,6 +100,9 @@ public abstract class FS {
 	public static final FS DETECTED = detect();
 
 	private static FSFactory factory;
+
+	/** Size of the buffer to use when copying files. */
+	private static final int FILE_COPY_BUFFER_SIZE = 8192;
 
 	/**
 	 * Auto-detect the appropriate file system abstraction.
@@ -611,6 +617,60 @@ public abstract class FS {
 	 *         populating directory, environment, and then start the process.
 	 */
 	public abstract ProcessBuilder runInShell(String cmd, String[] args);
+
+	/**
+	 * Returns an implementation-dependent {@link PathMatcher path matcher} that
+	 * will match file paths against the given glob pattern.
+	 *
+	 * @param globPattern
+	 *            The pattern for which we need a matcher.
+	 * @return A matcher that will match paths against the given pattern.
+	 */
+	public PathMatcher getPathMatcher(String globPattern) {
+		return new PathMatcher_Java5(globPattern);
+	}
+
+	/**
+	 * Copies the given sourceFile towards the given destination.
+	 *
+	 * @param sourceFile
+	 *            File that is to be copied.
+	 * @param destFile
+	 *            Destination where we need to copy.
+	 * @throws IOException
+	 */
+	public void copyFile(File sourceFile, File destFile)
+			throws IOException {
+		if (destFile.exists()) {
+			if (destFile.isDirectory())
+				throw new IOException(MessageFormat.format(
+						JGitText.get().copyFailureDestinationIsDirectory,
+						destFile));
+			else if (!destFile.canWrite())
+				throw new IOException(MessageFormat.format(
+						JGitText.get().copyFailureDestinationIsReadOnly,
+						destFile));
+		}
+
+		FileInputStream inputStream = null;
+		FileOutputStream outputStream = null;
+		try {
+			inputStream = new FileInputStream(sourceFile);
+			outputStream = new FileOutputStream(destFile);
+
+			byte[] buffer = new byte[FILE_COPY_BUFFER_SIZE];
+			int read = inputStream.read(buffer);
+			while (read != -1) {
+				outputStream.write(buffer, 0, read);
+				read = inputStream.read(buffer);
+			}
+		} finally {
+			if (inputStream != null)
+				inputStream.close();
+			if (outputStream != null)
+				outputStream.close();
+		}
+	}
 
 	private static class Holder<V> {
 		final V value;
