@@ -125,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_4e04ec52",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/IMergeDriver.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2013-11-26T10:20:46Z",
+      "side": 1,
+      "message": "Changed to boolean.",
+      "parentUuid": "8748d3a1_f9ae776c",
+      "revId": "d197305950a5cb889d9a7f7af8ccd0e67b4a71d2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_3564d6c2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/IMergeDriver.java",
         "patchSetId": 3
@@ -248,6 +266,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_2ea360b3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 564,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2013-11-26T10:20:46Z",
+      "side": 1,
+      "message": "I absolutely did not want to expose the CanonicalTreeParsers to the custom merge drivers. I do not wish to give implementers a mean to totally break the merging. With the tree parsers, an implementer could break something while telling us all went well : ignoring files, corrupting the index...\n\nNot to mention that it makes implementing a custom driver _much_ more difficult. Users shouldn\u0027t need to understand how to use the JGit innards in order to implement a merger for their custom file formats.\n\nFinally, I wish to remain as close as possible to the \"merge drivers\" as defined in Git itself ( https://www.kernel.org/pub/software/scm/git/docs/gitattributes.html#_performing_a_three_way_merge ) : it wouldn\u0027t do to have our own merge drivers totally differing from the merge drivers as known by other git implementations : users who stumble on these documents (or those that are used to these mechanisms) should be able to understand how to do things.",
+      "parentUuid": "8748d3a1_b94eaf41",
+      "revId": "d197305950a5cb889d9a7f7af8ccd0e67b4a71d2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_55d7e2b6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
         "patchSetId": 3
@@ -295,6 +331,24 @@
       "side": 1,
       "message": "Yes. See e.g. FS_POSIX_Java7 in the org.eclipse.jgit.java7 project.",
       "parentUuid": "8748d3a1_1914554a",
+      "revId": "d197305950a5cb889d9a7f7af8ccd0e67b4a71d2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_6e8c4845",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2013-11-26T10:20:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_f9d2f7c8",
       "revId": "d197305950a5cb889d9a7f7af8ccd0e67b4a71d2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
