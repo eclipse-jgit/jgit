@@ -429,51 +429,58 @@ public class ResolveMerger extends ThreeWayMerger {
 
 		if (nonTree(modeO) && nonTree(modeT) && tw.idEqual(T_OURS, T_THEIRS)) {
 			// OURS and THEIRS have equal content. Check the file mode
+			final boolean success;
 			if (modeO == modeT) {
 				// content and mode of OURS and THEIRS are equal: it doesn't
 				// matter which one we choose. OURS is chosen. Since the index
-				// is clean (the index matches already OURS) we can keep the existing one
+				// is clean (the index matches already OURS) we can keep the
+				// existing one.
 				keep(ourDce);
-				// no checkout needed!
-				return true;
+				success = true;
 			} else {
 				// same content but different mode on OURS and THEIRS.
-				// Try to merge the mode and report an error if this is
-				// not possible.
+				// Try to merge the mode and report an error if this is not
+				// possible.
 				int newMode = mergeFileModes(modeB, modeO, modeT);
 				if (newMode != FileMode.MISSING.getBits()) {
-					if (newMode == modeO)
+					if (newMode == modeO) {
 						// ours version is preferred
 						keep(ourDce);
-					else {
+						success = true;
+					} else {
 						// the preferred version THEIRS has a different mode
 						// than ours. Check it out!
 						if (isWorktreeDirty(tw, work, ourDce)) {
 							failingPaths.put(tw.getPathString(),
 									MergeFailureReason.DIRTY_WORKTREE);
-							return false;
+							success = false;
+						} else {
+							// we know about length and lastMod only after we
+							// have written the new content. This will happen
+							// later. Set these values to 0 for know.
+							DirCacheEntry e = add(tw.getRawPath(),
+									theirs, DirCacheEntry.STAGE_0, 0, 0);
+							toBeCheckedOut.put(tw.getPathString(), e);
+							success = true;
 						}
-						// we know about length and lastMod only after we have written the new content.
-						// This will happen later. Set these values to 0 for know.
-						DirCacheEntry e = add(tw.getRawPath(), theirs,
-								DirCacheEntry.STAGE_0, 0, 0);
-						toBeCheckedOut.put(tw.getPathString(), e);
 					}
-					return true;
 				} else {
 					// FileModes are not mergeable. We found a conflict on modes.
-					// For conflicting entries we don't know lastModified and length.
-					add(tw.getRawPath(), base, DirCacheEntry.STAGE_1, 0, 0);
-					add(tw.getRawPath(), ours, DirCacheEntry.STAGE_2, 0, 0);
-					add(tw.getRawPath(), theirs, DirCacheEntry.STAGE_3, 0, 0);
+					// For conflicting entries we don't know lastModified and
+					// length.
+					byte[] rawPath = tw.getRawPath();
+					add(rawPath, base, DirCacheEntry.STAGE_1, 0, 0);
+					add(rawPath, ours, DirCacheEntry.STAGE_2, 0, 0);
+					add(rawPath, theirs, DirCacheEntry.STAGE_3, 0, 0);
 					unmergedPaths.add(tw.getPathString());
 					mergeResults.put(
 							tw.getPathString(),
 							new MergeResult<RawText>(Collections
 									.<RawText> emptyList()));
+					success = true;
 				}
-				return true;
 			}
+			return success;
 		}
 
 		if (nonTree(modeO) && modeB == modeT && tw.idEqual(T_BASE, T_THEIRS)) {
@@ -493,8 +500,7 @@ public class ResolveMerger extends ThreeWayMerger {
 				failingPaths.put(tw.getPathString(),
 						MergeFailureReason.DIRTY_WORKTREE);
 				return false;
-			}
-			if (nonTree(modeT)) {
+			} else if (nonTree(modeT)) {
 				// we know about length and lastMod only after we have written
 				// the new content.
 				// This will happen later. Set these values to 0 for know.
@@ -512,6 +518,8 @@ public class ResolveMerger extends ThreeWayMerger {
 					return true;
 				toBeDeleted.add(tw.getPathString());
 				return true;
+			} else {
+				// fall through
 			}
 		}
 
@@ -521,31 +529,31 @@ public class ResolveMerger extends ThreeWayMerger {
 			// base/index/workingTree and something else are not relevant or
 			// detected later
 			if (nonTree(modeO) && !nonTree(modeT)) {
+				byte[] rawPath = tw.getRawPath();
 				if (nonTree(modeB))
-					add(tw.getRawPath(), base, DirCacheEntry.STAGE_1, 0, 0);
-				add(tw.getRawPath(), ours, DirCacheEntry.STAGE_2, 0, 0);
+					add(rawPath, base, DirCacheEntry.STAGE_1, 0, 0);
+				add(rawPath, ours, DirCacheEntry.STAGE_2, 0, 0);
 				unmergedPaths.add(tw.getPathString());
 				enterSubtree = false;
 				return true;
-			}
-			if (nonTree(modeT) && !nonTree(modeO)) {
+			} else if (nonTree(modeT) && !nonTree(modeO)) {
+				byte[] rawPath = tw.getRawPath();
 				if (nonTree(modeB))
-					add(tw.getRawPath(), base, DirCacheEntry.STAGE_1, 0, 0);
-				add(tw.getRawPath(), theirs, DirCacheEntry.STAGE_3, 0, 0);
+					add(rawPath, base, DirCacheEntry.STAGE_1, 0, 0);
+				add(rawPath, theirs, DirCacheEntry.STAGE_3, 0, 0);
 				unmergedPaths.add(tw.getPathString());
 				enterSubtree = false;
 				return true;
-			}
-
-			// ours and theirs are both folders or both files (and treewalk
-			// tells us we are in a subtree because of index or working-dir).
-			// If they are both folders no content-merge is required - we can
-			// return here.
-			if (!nonTree(modeO))
+			} else if (!nonTree(modeO)) {
+				// ours and theirs are both folders or both files (and treewalk
+				// tells us we are in a subtree because of index or working-dir).
+				// If they are both folders no content-merge is required - we can
+				// return here.
 				return true;
-
-			// ours and theirs are both files, just fall out of the if block
-			// and do the content merge
+			} else {
+				// ours and theirs are both files, just fall out of the if block
+				// and do the content merge
+			}
 		}
 
 		if (nonTree(modeO) && nonTree(modeT)) {
@@ -554,13 +562,12 @@ public class ResolveMerger extends ThreeWayMerger {
 				failingPaths.put(tw.getPathString(),
 						MergeFailureReason.DIRTY_WORKTREE);
 				return false;
-			}
-
-			// Don't attempt to resolve submodule link conflicts
-			if (isGitLink(modeO) || isGitLink(modeT)) {
-				add(tw.getRawPath(), base, DirCacheEntry.STAGE_1, 0, 0);
-				add(tw.getRawPath(), ours, DirCacheEntry.STAGE_2, 0, 0);
-				add(tw.getRawPath(), theirs, DirCacheEntry.STAGE_3, 0, 0);
+			} else if (isGitLink(modeO) || isGitLink(modeT)) {
+				// Don't attempt to resolve submodule link conflicts
+				byte[] rawPath = tw.getRawPath();
+				add(rawPath, base, DirCacheEntry.STAGE_1, 0, 0);
+				add(rawPath, ours, DirCacheEntry.STAGE_2, 0, 0);
+				add(rawPath, theirs, DirCacheEntry.STAGE_3, 0, 0);
 				unmergedPaths.add(tw.getPathString());
 				return true;
 			} else {
@@ -619,24 +626,22 @@ public class ResolveMerger extends ThreeWayMerger {
 			}
 		} else if (modeO != modeT) {
 			// OURS or THEIRS has been deleted
-			if (((modeO != 0 && !tw.idEqual(T_BASE, T_OURS)) || (modeT != 0 && !tw
-					.idEqual(T_BASE, T_THEIRS)))) {
+			if ((modeO != 0 && !tw.idEqual(T_BASE, T_OURS))
+					|| (modeT != 0 && !tw.idEqual(T_BASE, T_THEIRS))) {
+				byte[] rawPath = tw.getRawPath();
+				add(rawPath, base, DirCacheEntry.STAGE_1, 0, 0);
+				add(rawPath, ours, DirCacheEntry.STAGE_2, 0, 0);
+				DirCacheEntry e = add(rawPath, theirs, DirCacheEntry.STAGE_3,
+						0, 0);
 
-				add(tw.getRawPath(), base, DirCacheEntry.STAGE_1, 0, 0);
-				add(tw.getRawPath(), ours, DirCacheEntry.STAGE_2, 0, 0);
-				DirCacheEntry e = add(tw.getRawPath(), theirs,
-						DirCacheEntry.STAGE_3, 0, 0);
-
-				// OURS was deleted checkout THEIRS
+				// OURS was deleted, checkout THEIRS
 				if (modeO == 0) {
 					// Check worktree before checking out THEIRS
 					if (isWorktreeDirty(tw, work, ourDce)) {
 						failingPaths.put(tw.getPathString(), MergeFailureReason.DIRTY_WORKTREE);
 						return false;
-					}
-					if (nonTree(modeT)) {
-						if (e != null)
-							toBeCheckedOut.put(tw.getPathString(), e);
+					} else if (nonTree(modeT) && e != null) {
+						toBeCheckedOut.put(tw.getPathString(), e);
 					}
 				}
 
@@ -688,8 +693,7 @@ public class ResolveMerger extends ThreeWayMerger {
 		}
 	}
 
-
-	private boolean isIndexDirty(TreeWalk tw) {
+	private static boolean isIndexDirty(TreeWalk tw) {
 		final int modeI = tw.getRawMode(T_INDEX);
 		final int modeO = tw.getRawMode(T_OURS);
 
