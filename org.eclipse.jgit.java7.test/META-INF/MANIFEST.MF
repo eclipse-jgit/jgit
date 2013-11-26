@@ -12,3 +12,4 @@ Import-Package: org.eclipse.jgit.api;version="[3.2.0,3.3.0)",
  org.eclipse.jgit.revwalk;version="[3.2.0,3.3.0)",
  org.eclipse.jgit.storage.file;version="[3.2.0,3.3.0)",
  org.eclipse.jgit.util;version="[3.2.0,3.3.0)"
+Require-Bundle: org.eclipse.jgit.test;bundle-version="3.2.0"
