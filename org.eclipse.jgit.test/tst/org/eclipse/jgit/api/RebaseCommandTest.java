@@ -80,7 +80,6 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.ReflogEntry;
 import org.eclipse.jgit.lib.RepositoryState;
 import org.eclipse.jgit.merge.MergeStrategy;
-import org.eclipse.jgit.merge.ResolveMerger.MergeFailureReason;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.FileUtils;
@@ -1200,9 +1199,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		// rebase
 		RebaseResult result = git.rebase().setUpstream("refs/heads/master")
 				.call();
-		assertEquals(Status.CONFLICTS, result.getStatus());
-		assertEquals(1, result.getConflicts().size());
-		assertEquals("file2", result.getConflicts().get(0));
+		assertEquals(Status.UNCOMMITTED_CHANGES, result.getStatus());
 	}
 
 	@Test
@@ -1233,9 +1230,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 
 		RebaseResult result = git.rebase().setUpstream("refs/heads/master")
 				.call();
-		assertEquals(Status.CONFLICTS, result.getStatus());
-		assertEquals(1, result.getConflicts().size());
-		assertEquals("file2", result.getConflicts().get(0));
+		assertEquals(Status.UNCOMMITTED_CHANGES, result.getStatus());
 
 		checkFile(uncommittedFile, "uncommitted file2");
 		assertEquals(RepositoryState.SAFE, git.getRepository().getRepositoryState());
@@ -1268,9 +1263,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		// rebase
 		RebaseResult result = git.rebase().setUpstream("refs/heads/master")
 				.call();
-		assertEquals(Status.CONFLICTS, result.getStatus());
-		assertEquals(1, result.getConflicts().size());
-		assertEquals(FILE1, result.getConflicts().get(0));
+		assertEquals(Status.UNCOMMITTED_CHANGES, result.getStatus());
 	}
 
 	@Test
@@ -1302,9 +1295,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		// rebase
 		RebaseResult result = git.rebase().setUpstream("refs/heads/master")
 				.call();
-		assertEquals(Status.CONFLICTS, result.getStatus());
-		assertEquals(1, result.getConflicts().size());
-		assertEquals(FILE1, result.getConflicts().get(0));
+		assertEquals(Status.UNCOMMITTED_CHANGES, result.getStatus());
 	}
 
 	@Test
@@ -1333,7 +1324,8 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		writeTrashFile("file0", "unstaged modified file0");
 
 		// rebase
-		assertEquals(Status.OK, git.rebase().setUpstream("refs/heads/master")
+		assertEquals(Status.UNCOMMITTED_CHANGES,
+				git.rebase().setUpstream("refs/heads/master")
 				.call().getStatus());
 	}
 
@@ -1371,12 +1363,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		// rebase
 		RebaseResult result = git.rebase().setUpstream("refs/heads/master")
 				.call();
-		assertEquals(Status.FAILED, result.getStatus());
-		// staged file0 causes DIRTY_INDEX
-		assertEquals(1, result.getFailingPaths().size());
-		assertEquals(MergeFailureReason.DIRTY_INDEX, result.getFailingPaths()
-				.get("file0"));
-		assertEquals("unstaged modified file0", read(file0));
+		assertEquals(Status.UNCOMMITTED_CHANGES, result.getStatus());
 		// index shall be unchanged
 		assertEquals(indexState, indexState(CONTENT));
 		assertEquals(RepositoryState.SAFE, db.getRepositoryState());
@@ -1412,7 +1399,8 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		writeTrashFile("file0", "unstaged modified file0");
 
 		// rebase
-		assertEquals(Status.OK, git.rebase().setUpstream("refs/heads/master")
+		assertEquals(Status.UNCOMMITTED_CHANGES,
+				git.rebase().setUpstream("refs/heads/master")
 				.call().getStatus());
 	}
 
@@ -1453,14 +1441,44 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		// rebase
 		RebaseResult result = git.rebase().setUpstream("refs/heads/master")
 				.call();
-		assertEquals(Status.FAILED, result.getStatus());
+		assertEquals(Status.UNCOMMITTED_CHANGES, result.getStatus());
 		// staged file0 causes DIRTY_INDEX
-		assertEquals(1, result.getFailingPaths().size());
-		assertEquals(MergeFailureReason.DIRTY_INDEX, result.getFailingPaths()
-				.get("file0"));
 		assertEquals("unstaged modified file0", read(file0));
 		// index shall be unchanged
 		assertEquals(indexState, indexState(CONTENT));
+		assertEquals(RepositoryState.SAFE, db.getRepositoryState());
+	}
+
+	@Test
+	public void testFastForwardRebaseWithModification() throws Exception {
+		// create file0 + file1, add and commit
+		writeTrashFile("file0", "file0");
+		writeTrashFile(FILE1, "file1");
+		git.add().addFilepattern("file0").addFilepattern(FILE1).call();
+		RevCommit commit = git.commit().setMessage("commit1").call();
+
+		// create topic branch
+		createBranch(commit, "refs/heads/topic");
+
+		// still on master / modify file1, add and commit
+		writeTrashFile(FILE1, "modified file1");
+		git.add().addFilepattern(FILE1).call();
+		git.commit().setMessage("commit2").call();
+
+		// checkout topic branch / delete file0 and add to index
+		checkoutBranch("refs/heads/topic");
+		writeTrashFile("file0", "mofified file0 in index");
+		git.add().addFilepattern("file0").addFilepattern(FILE1).call();
+		// do not commit
+		writeTrashFile("file0", "modified file0");
+
+		// rebase
+		RebaseResult result = git.rebase().setUpstream("refs/heads/master")
+				.call();
+		assertEquals(Status.FAST_FORWARD, result.getStatus());
+		assertEquals("[file0, mode:100644, content:mofified file0 in index]"
+				+ "[file1, mode:100644, content:modified file1]",
+				indexState(CONTENT));
 		assertEquals(RepositoryState.SAFE, db.getRepositoryState());
 	}
 
@@ -1595,9 +1613,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		// and attempt to rebase
 		RebaseResult rebaseResult = git.rebase()
 					.setUpstream("refs/heads/master").call();
-		assertEquals(Status.CONFLICTS, rebaseResult.getStatus());
-		assertEquals(1, rebaseResult.getConflicts().size());
-		assertEquals(FILE1, rebaseResult.getConflicts().get(0));
+		assertEquals(Status.UNCOMMITTED_CHANGES, rebaseResult.getStatus());
 
 		checkFile(theFile, "dirty the file");
 
