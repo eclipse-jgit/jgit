@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8748d3a1_b4c20d27",
+        "filename": "pat",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-11-27T21:53:55Z",
+      "side": 1,
+      "message": "looks like you committed this patch file by mistake",
+      "revId": "b648c46e888ade8fefb99ff0d0b4b4f05005be6a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
