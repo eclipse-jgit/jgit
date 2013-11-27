@@ -185,6 +185,7 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 							.newMerger(repo, true);
 					ixMerger.setCommitNames(new String[] { "stashed HEAD",
 							"HEAD", "stashed index" });
+					ixMerger.setBase(stashHeadCommit);
 					boolean ok = ixMerger.merge(headCommit, stashIndexCommit);
 					if (ok) {
 						resetIndex(revWalk
