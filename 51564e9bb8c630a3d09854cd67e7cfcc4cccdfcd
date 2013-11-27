@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8748d3a1_19e7ba5a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-11-27T21:16:19Z",
+      "side": 1,
+      "message": "Why this condition?",
+      "revId": "51564e9bb8c630a3d09854cd67e7cfcc4cccdfcd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_99d2aa75",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseResult.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-11-27T21:16:19Z",
+      "side": 1,
+      "message": "Typo: s/uncomitted/uncommitted\n\nShould this also mention \" and the rebase is not a fast-forward\"?",
+      "revId": "51564e9bb8c630a3d09854cd67e7cfcc4cccdfcd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_f9000e79",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseResult.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-11-27T21:16:19Z",
+      "side": 1,
+      "message": "The only difference to the above constructor is that one accepts a List while the other accepts a Set. I would add a static method which has an explicit name, calls new RebaseResult(Status.UNCOMMITTED_CHANGES), sets the paths and returns the results.\n\nThen you could also directly set it as a List instead of converting it in the getter below.",
+      "revId": "51564e9bb8c630a3d09854cd67e7cfcc4cccdfcd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_19b97a33",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Status.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-11-27T21:16:19Z",
+      "side": 1,
+      "message": "It\u0027s the other way around, no?",
+      "revId": "51564e9bb8c630a3d09854cd67e7cfcc4cccdfcd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_79bfde17",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Status.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-11-27T21:16:19Z",
+      "side": 1,
+      "message": "This should be getModified.",
+      "revId": "51564e9bb8c630a3d09854cd67e7cfcc4cccdfcd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
