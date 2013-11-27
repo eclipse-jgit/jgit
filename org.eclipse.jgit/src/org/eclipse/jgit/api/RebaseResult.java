@@ -42,8 +42,10 @@
  */
 package org.eclipse.jgit.api;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.jgit.merge.ResolveMerger;
 import org.eclipse.jgit.merge.ResolveMerger.MergeFailureReason;
@@ -99,6 +101,15 @@ public class RebaseResult {
 		 * Failed; the original HEAD was restored
 		 */
 		FAILED {
+			@Override
+			public boolean isSuccessful() {
+				return false;
+			}
+		},
+		/**
+		 * The repository contains uncomitted changes
+		 */
+		UNCOMMITTED_CHANGES {
 			@Override
 			public boolean isSuccessful() {
 				return false;
@@ -185,6 +196,8 @@ public class RebaseResult {
 
 	private List<String> conflicts;
 
+	private Set<String> uncommittedChanges;
+
 	private RebaseResult(Status status) {
 		this.status = status;
 		currentCommit = null;
@@ -227,6 +240,19 @@ public class RebaseResult {
 	}
 
 	/**
+	 * Create <code>RebaseResult</code> with status
+	 * {@link Status#UNCOMMITTED_CHANGES}
+	 *
+	 * @param uncommittedChanges
+	 *            the list of paths
+	 */
+	RebaseResult(Set<String> uncommittedChanges) {
+		status = Status.UNCOMMITTED_CHANGES;
+		currentCommit = null;
+		this.uncommittedChanges = uncommittedChanges;
+	}
+
+	/**
 	 * @return the overall status
 	 */
 	public Status getStatus() {
@@ -256,4 +282,15 @@ public class RebaseResult {
 	public List<String> getConflicts() {
 		return conflicts;
 	}
+
+	/**
+	 * @return the list of uncommitted changes if status is
+	 *         {@link Status#UNCOMMITTED_CHANGES}
+	 */
+	public List<String> getUncommittedChanges() {
+		List<String> list = new ArrayList<String>();
+		list.addAll(uncommittedChanges);
+		return list;
+	}
+
 }
