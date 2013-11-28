@@ -321,7 +321,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			}
 			return finishRebase(newHead, lastStepWasForward);
 		} catch (CheckoutConflictException cce) {
-			return new RebaseResult(cce.getConflictingPaths());
+			return RebaseResult.conflicts(cce.getConflictingPaths());
 		} catch (IOException ioe) {
 			throw new JGitInternalException(ioe.getMessage(), ioe);
 		}
@@ -340,7 +340,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		RevCommit commitToPick = walk.parseCommit(ids.iterator().next());
 		if (shouldPick) {
 			if (monitor.isCancelled())
-				return new RebaseResult(commitToPick, Status.STOPPED);
+				return RebaseResult.result(Status.STOPPED, commitToPick);
 			RebaseResult result = cherryPickCommit(commitToPick);
 			if (result != null)
 				return result;
@@ -403,8 +403,8 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 				switch (cherryPickResult.getStatus()) {
 				case FAILED:
 					if (operation == Operation.BEGIN)
-						return abort(new RebaseResult(
-								cherryPickResult.getFailingPaths()));
+						return abort(RebaseResult.failed(cherryPickResult
+								.getFailingPaths()));
 					else
 						return stop(commitToPick, Status.STOPPED);
 				case CONFLICTING:
@@ -735,7 +735,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		// Remove cherry pick state file created by CherryPickCommand, it's not
 		// needed for rebase
 		repo.writeCherryPickHead(null);
-		return new RebaseResult(commitToPick, status);
+		return RebaseResult.result(status, commitToPick);
 	}
 
 	String toAuthorScript(PersonIdent author) {

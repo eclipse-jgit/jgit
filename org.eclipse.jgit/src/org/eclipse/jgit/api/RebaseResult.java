@@ -190,16 +190,22 @@ public class RebaseResult {
 		currentCommit = null;
 	}
 
-	/**
-	 * Create <code>RebaseResult</code> with status {@link Status#STOPPED}
-	 *
-	 * @param commit
-	 *            current commit
-	 * @param status
-	 */
-	RebaseResult(RevCommit commit, RebaseResult.Status status) {
+	private RebaseResult(Status status, RevCommit commit) {
 		this.status = status;
 		currentCommit = commit;
+	}
+
+	/**
+	 * Create <code>RebaseResult</code>
+	 * 
+	 * @param status
+	 * @param commit
+	 *            current commit
+	 * @return the RebaseResult
+	 */
+	static RebaseResult result(RebaseResult.Status status,
+			RevCommit commit) {
+		return new RebaseResult(status, commit);
 	}
 
 	/**
@@ -207,11 +213,13 @@ public class RebaseResult {
 	 *
 	 * @param failingPaths
 	 *            list of paths causing this rebase to fail
+	 * @return the RebaseResult
 	 */
-	RebaseResult(Map<String, MergeFailureReason> failingPaths) {
-		status = Status.FAILED;
-		currentCommit = null;
-		this.failingPaths = failingPaths;
+	static RebaseResult failed(
+			Map<String, MergeFailureReason> failingPaths) {
+		RebaseResult result = new RebaseResult(Status.FAILED);
+		result.failingPaths = failingPaths;
+		return result;
 	}
 
 	/**
@@ -219,11 +227,12 @@ public class RebaseResult {
 	 *
 	 * @param conflicts
 	 *            the list of conflicting paths
+	 * @return the RebaseResult
 	 */
-	RebaseResult(List<String> conflicts) {
-		status = Status.CONFLICTS;
-		currentCommit = null;
-		this.conflicts = conflicts;
+	static RebaseResult conflicts(List<String> conflicts) {
+		RebaseResult result = new RebaseResult(Status.CONFLICTS);
+		result.conflicts = conflicts;
+		return result;
 	}
 
 	/**
