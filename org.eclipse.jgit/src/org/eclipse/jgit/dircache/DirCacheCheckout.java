@@ -555,7 +555,9 @@ public class DirCacheCheckout {
 		 * 3    D        F       D                 Y       N       N           Keep
 		 * 4    D        F       D                 N       N       N           Conflict
 		 * 5    D        F       F       Y         N       N       Y           Keep
+		 * 5b   D        F       F       Y         N       N       N           Conflict
 		 * 6    D        F       F       N         N       N       Y           Keep
+		 * 6b   D        F       F       N         N       N       N           Conflict
 		 * 7    F        D       F       Y         Y       N       N           Update
 		 * 8    F        D       F       N         Y       N       N           Conflict
 		 * 9    F        D       F       Y         N       N       N           Update
@@ -620,7 +622,11 @@ public class DirCacheCheckout {
 			case 0xF0D: // 18
 				remove(name);
 				break;
-			case 0xDFF: // 5 6
+			case 0xDFF: // 5 5b 6 6b
+				if (equalIdAndMode(iId, iMode, mId, mMode))
+					keep(dce); // 5 6
+				else
+					conflict(name, dce, h, m); // 5b 6b
 			case 0xFDD: // 10 11
 				// TODO: make use of tree extension as soon as available in jgit
 				// we would like to do something like
