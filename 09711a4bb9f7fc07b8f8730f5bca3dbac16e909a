@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8748d3a1_79bd1eae",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-11-28T08:14:59Z",
+      "side": 0,
+      "message": "this change is unrelated",
+      "revId": "09711a4bb9f7fc07b8f8730f5bca3dbac16e909a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
