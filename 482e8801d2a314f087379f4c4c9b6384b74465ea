@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8748d3a1_5571f9ff",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsRefDatabase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2013-11-28T22:42:16Z",
+      "side": 1,
+      "message": "DfsRefUpdate is designed to ensure calls are made to this method. Why are you overriding the type with your own?\n\nAnd if that is necessary, maybe the better option is to make DfsRefUpdate non-final, and public?",
+      "revId": "482e8801d2a314f087379f4c4c9b6384b74465ea",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
