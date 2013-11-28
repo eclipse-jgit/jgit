@@ -16,6 +16,24 @@
       "revId": "482e8801d2a314f087379f4c4c9b6384b74465ea",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_28be94fa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsRefDatabase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2013-11-28T23:05:12Z",
+      "side": 1,
+      "message": "The BatchUpdate allows you to override the newBatchUpdate method, as does the newRename. It\u0027s only the newUpdate that stops you being updated here, and mainly seems designed to stop people overriding this method.\n\nBatchUpdate gets called from a bunch of places (including when you upload changes directly to a branch) but Update gets called when you perform a merge.\n\nBy overriding this method, you get finer control over how the update happens, including inserting a wrapper class to permit you to delegate or override calls whilst at the same time performing additional logging. Amongst other things, the (Dfs)RefUpdate has knowledge of things that the compareAndPut doesn\u0027t in the refdb, including:\n\n* comment\n* if it was a force push or not\n* identity of submitter\n\nBy the time you get to the compareAndPut all you know is that Ref A is now Ref B and you lose this contextual information. Were one to implement reflogs using Gerrit then hooking this in at the DFS RefDB implementation would make the most sense, but this isn\u0027t there in the API at the moment (you\u0027d ideally like something along the lines of compareAndPut(Ref 1, Ref 2, PersonIdent, String message, boolean force) as the signature, which could delegate to the existing compareAndPut method) but the next best thing is to override the dfs implementation and inject wrappers around the update operations so you can get this context before it\u0027s lost.\n\nI don\u0027t really see the point in making this restrictive though; there isn\u0027t a DfsBatchUpdate or DfsBatchRename and this forces the implementor to not override this method. Having DfsRefUpdate public and non-final would permit this but were one to implement a generic ref database on top of something like Zookeeper the restriction that you have to override a named class may not be beneficial.",
+      "parentUuid": "8748d3a1_5571f9ff",
+      "revId": "482e8801d2a314f087379f4c4c9b6384b74465ea",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
