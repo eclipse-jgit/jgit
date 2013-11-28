@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_4c497d86",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2013-11-28T10:36:27Z",
+      "side": 1,
+      "message": "This is just wrong.",
+      "parentUuid": "8748d3a1_19e7ba5a",
+      "revId": "51564e9bb8c630a3d09854cd67e7cfcc4cccdfcd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_99d2aa75",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseResult.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-11-27T21:16:19Z",
       "side": 1,
       "message": "Typo: s/uncomitted/uncommitted\n\nShould this also mention \" and the rebase is not a fast-forward\"?",
+      "revId": "51564e9bb8c630a3d09854cd67e7cfcc4cccdfcd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_ac480183",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseResult.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2013-11-28T10:36:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_99d2aa75",
       "revId": "51564e9bb8c630a3d09854cd67e7cfcc4cccdfcd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_cc8f4d37",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseResult.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2013-11-28T10:36:27Z",
+      "side": 1,
+      "message": "I also thought at a static method but hesitated because there is already a mixture of constants and constructors. But I admit that two constructors only differing by the type of the collection is not nice. But there are already different constructors only differing by arguments constructing different types of results, which also is not nice.\n\nI think we should get rid of the different constructors and go for only static methods with different names. I can add a change before this one doing only that.",
+      "parentUuid": "8748d3a1_f9000e79",
+      "revId": "51564e9bb8c630a3d09854cd67e7cfcc4cccdfcd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_19b97a33",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Status.java",
         "patchSetId": 1
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_2c4511ee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Status.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2013-11-28T10:36:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_19b97a33",
+      "revId": "51564e9bb8c630a3d09854cd67e7cfcc4cccdfcd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_79bfde17",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Status.java",
         "patchSetId": 1
@@ -81,6 +153,24 @@
       "writtenOn": "2013-11-27T21:16:19Z",
       "side": 1,
       "message": "This should be getModified.",
+      "revId": "51564e9bb8c630a3d09854cd67e7cfcc4cccdfcd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_0c481504",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Status.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2013-11-28T10:36:27Z",
+      "side": 1,
+      "message": "Yes! I somehow forgot to commit the latest state of the change...",
+      "parentUuid": "8748d3a1_79bfde17",
       "revId": "51564e9bb8c630a3d09854cd67e7cfcc4cccdfcd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
