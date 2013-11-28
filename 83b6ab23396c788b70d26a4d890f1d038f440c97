@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_78efcf76",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RebaseCommandTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1513,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2013-11-28T15:14:02Z",
+      "side": 1,
+      "message": "The test should fail without the fix introduced here. We wanted to provoke the case that the modification is deleted.",
+      "parentUuid": "8748d3a1_38df07fc",
+      "revId": "83b6ab23396c788b70d26a4d890f1d038f440c97",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_98de1bfc",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RebaseCommandTest.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2013-11-28T14:55:05Z",
       "side": 1,
       "message": "shouldn\u0027t this test fail otherwise (if status isn\u0027t EDIT) ?",
+      "revId": "83b6ab23396c788b70d26a4d890f1d038f440c97",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_d811c312",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RebaseCommandTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2681,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2013-11-28T15:14:02Z",
+      "side": 1,
+      "message": "The test should fail without the fix introduced here. We wanted to provoke the case that the modification is deleted.",
+      "parentUuid": "8748d3a1_98de1bfc",
       "revId": "83b6ab23396c788b70d26a4d890f1d038f440c97",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_181ccb27",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseResult.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2013-11-28T15:14:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_f8259fe1",
+      "revId": "83b6ab23396c788b70d26a4d890f1d038f440c97",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_b804b753",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseResult.java",
         "patchSetId": 3
@@ -64,6 +118,24 @@
       "writtenOn": "2013-11-28T14:55:05Z",
       "side": 1,
       "message": "missing @since tags",
+      "revId": "83b6ab23396c788b70d26a4d890f1d038f440c97",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_5805b3ca",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseResult.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2013-11-28T15:14:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_b804b753",
       "revId": "83b6ab23396c788b70d26a4d890f1d038f440c97",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_98261b69",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Status.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2013-11-28T15:14:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_3817077b",
+      "revId": "83b6ab23396c788b70d26a4d890f1d038f440c97",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_98161b7b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Status.java",
         "patchSetId": 3
@@ -98,6 +188,24 @@
       "writtenOn": "2013-11-28T14:55:05Z",
       "side": 1,
       "message": "missing @since tag",
+      "revId": "83b6ab23396c788b70d26a4d890f1d038f440c97",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_78218f4f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Status.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2013-11-28T15:14:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_98161b7b",
       "revId": "83b6ab23396c788b70d26a4d890f1d038f440c97",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
