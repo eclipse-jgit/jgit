@@ -467,7 +467,9 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 	 *3    D        F       D                 Y       N       N           Keep
 	 *4    D        F       D                 N       N       N           Conflict
 	 *5    D        F       F       Y         N       N       Y           Keep
+	 *5b   D        F       F       Y         N       N       N           Conflict
 	 *6    D        F       F       N         N       N       Y           Keep
+	 *6b   D        F       F       N         N       N       N           Conflict
 	 *7    F        D       F       Y         Y       N       N           Update
 	 *8    F        D       F       N         Y       N       N           Conflict
 	 *9    F        D       F       Y         N       N       N           Update
@@ -540,7 +542,17 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 		// 5
 		doit(mk("DF/DF"), mk("DF"), mk("DF"));
 		assertRemoved("DF/DF");
+		assertEquals(0, dco.getConflicts().size());
+		assertEquals(0, dco.getUpdated().size());
+	}
 
+	@Test
+	public void testDirectoryFileConflicts_5b() throws Exception {
+		// 5
+		doit(mk("DF/DF"), mkmap("DF", "different"), mk("DF"));
+		assertRemoved("DF/DF");
+		assertConflict("DF");
+		assertEquals(0, dco.getUpdated().size());
 	}
 
 	@Test
@@ -550,6 +562,19 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 		writeTrashFile("DF", "different");
 		go();
 		assertRemoved("DF/DF");
+		assertEquals(0, dco.getConflicts().size());
+		assertEquals(0, dco.getUpdated().size());
+	}
+
+	@Test
+	public void testDirectoryFileConflicts_6b() throws Exception {
+		// 6
+		setupCase(mk("DF/DF"), mk("DF"), mkmap("DF", "different"));
+		writeTrashFile("DF", "again different");
+		go();
+		assertRemoved("DF/DF");
+		assertConflict("DF");
+		assertEquals(0, dco.getUpdated().size());
 	}
 
 	@Test
