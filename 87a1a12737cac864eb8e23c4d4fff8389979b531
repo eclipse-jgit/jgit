@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8748d3a1_63f444fa",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/CheckoutTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-11-28T17:33:00Z",
+      "side": 1,
+      "message": "don\u0027t you want to add a/b?",
+      "revId": "87a1a12737cac864eb8e23c4d4fff8389979b531",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_238d1c8f",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/CheckoutTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-11-28T17:33:00Z",
+      "side": 1,
+      "message": "Do I miss something? In moment the index contains a file \u0027a\u0027 with content \"New Hello world a\".  The workingtree contains the same. And now you checkout a branch with also contains file \u0027a\u0027 with exactly that content. Why should it fail?",
+      "revId": "87a1a12737cac864eb8e23c4d4fff8389979b531",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
