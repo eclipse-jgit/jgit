@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_0c36559b",
+        "filename": "org.eclipse.jgit.java7.test/META-INF/MANIFEST.MF",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2013-11-28T11:48:10Z",
+      "side": 1,
+      "message": "The problem with this is that hudson doesn\u0027t seem to find the \"PathMatcherTest\" class. I tried using a Require-Bundle directive to work around that, but to no avail. \"PathMatcherJava7Test\" in its current form cannot be run by hudson even though it works fine locally.",
+      "parentUuid": "8748d3a1_190fba6f",
+      "revId": "28217333bf1b621cc3fe84d3c9c22ebe1548393c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_19617a04",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/MergeDriverTest.java",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2013-11-28T08:14:59Z",
       "side": 1,
       "message": "missing license header",
+      "revId": "28217333bf1b621cc3fe84d3c9c22ebe1548393c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_ac264168",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/MergeDriverTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2013-11-28T11:48:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_19617a04",
       "revId": "28217333bf1b621cc3fe84d3c9c22ebe1548393c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_6c5ef9c0",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/MergeDriverTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2013-11-28T11:48:10Z",
+      "side": 1,
+      "message": "I tend to use \"//\" for single line comments and \"/*\" whenever what I consider as \"one comment\" must span multiple lines.\n\nThe two above this are standalone comments, explaining what \"a.txt\" and \"b.txt\" are, respectively... while the one below is a single comment explaining why there is a conflict even though we have a custom merge driver that should be able to handle that case.\n\nI can easily change to always use \"//\", I just think we\u0027re losing some of the meaning when doing that. I\u0027ll still do the swap in the incoming patch set (except if someone tells me otherwise).",
+      "parentUuid": "8748d3a1_b97166d1",
+      "revId": "28217333bf1b621cc3fe84d3c9c22ebe1548393c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_996c6afb",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/PathMatcherTest.java",
         "patchSetId": 6
@@ -64,6 +118,24 @@
       "writtenOn": "2013-11-28T08:14:59Z",
       "side": 1,
       "message": "then move it there and add javadoc",
+      "revId": "28217333bf1b621cc3fe84d3c9c22ebe1548393c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_0c9ad5f3",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/PathMatcherTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2013-11-28T11:48:10Z",
+      "side": 1,
+      "message": "This is an overlook, I intended to move it before pushing.\n\nDone.",
+      "parentUuid": "8748d3a1_996c6afb",
       "revId": "28217333bf1b621cc3fe84d3c9c22ebe1548393c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_ec64c941",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/BinaryMergeDriver.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2013-11-28T11:48:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_19385af6",
+      "revId": "28217333bf1b621cc3fe84d3c9c22ebe1548393c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_59278267",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/BinaryMergeDriver.java",
         "patchSetId": 6
@@ -98,6 +188,24 @@
       "writtenOn": "2013-11-28T08:14:59Z",
       "side": 1,
       "message": "I think we don\u0027t use @inheritDoc and @see to refer to javadoc on superclass",
+      "revId": "28217333bf1b621cc3fe84d3c9c22ebe1548393c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_2fba2309",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/BinaryMergeDriver.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2013-11-28T11:48:10Z",
+      "side": 1,
+      "message": "This is a javadoc template on my side, I\u0027ll avoid those when working on (J|E)Git.",
+      "parentUuid": "8748d3a1_59278267",
       "revId": "28217333bf1b621cc3fe84d3c9c22ebe1548393c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_6fc38b80",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeDriver.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2013-11-28T11:48:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_5994a24c",
+      "revId": "28217333bf1b621cc3fe84d3c9c22ebe1548393c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_f98c8e46",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeDriver.java",
         "patchSetId": 6
@@ -132,6 +258,24 @@
       "writtenOn": "2013-11-28T08:14:59Z",
       "side": 1,
       "message": "s/Take note/Note/",
+      "revId": "28217333bf1b621cc3fe84d3c9c22ebe1548393c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_4fbe8ffb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeDriver.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2013-11-28T11:48:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_f98c8e46",
       "revId": "28217333bf1b621cc3fe84d3c9c22ebe1548393c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_cfd9ff6a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeDriverRegistry.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2013-11-28T11:48:10Z",
+      "side": 1,
+      "message": "I don\u0027t really have a preference here, I\u0027ll go with yours if its better (french here :)).\n\nDone.",
+      "parentUuid": "8748d3a1_39871620",
+      "revId": "28217333bf1b621cc3fe84d3c9c22ebe1548393c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_198a1a26",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeDriverRegistry.java",
         "patchSetId": 6
@@ -166,6 +328,24 @@
       "writtenOn": "2013-11-28T08:14:59Z",
       "side": 1,
       "message": "style nit: trailing whitespace",
+      "revId": "28217333bf1b621cc3fe84d3c9c22ebe1548393c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_afff539c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeDriverRegistry.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2013-11-28T11:48:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_198a1a26",
       "revId": "28217333bf1b621cc3fe84d3c9c22ebe1548393c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_8ffa57aa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeDriverRegistry.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2013-11-28T11:48:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_79807e03",
+      "revId": "28217333bf1b621cc3fe84d3c9c22ebe1548393c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_39d436e7",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeResult.java",
         "patchSetId": 6
@@ -200,6 +398,41 @@
       "writtenOn": "2013-11-28T08:14:59Z",
       "side": 1,
       "message": "this is weird and I don\u0027t understand your reasoning",
+      "revId": "28217333bf1b621cc3fe84d3c9c22ebe1548393c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_8feff775",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeResult.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2013-11-28T11:48:10Z",
+      "side": 1,
+      "message": "It _is_ weird, but it is due to the \"API\" I would like to remove : org.eclipse.jgit.api.MergeResult.getConflicts.\n\nRemove these two lines and run the \"MergeCommandTest\" tests, you will see two errors due to NPEs.\n\nThe reason of which is that both \"org.eclipse.jgit.api.MergeResult\" and \"org.eclipse.jgit.merge.MergeResult\" consider that there are no conflicts if there are no sequences in conflit added to them (\"containsConflict\" is only set to true in \"add\" down below and if the conflictState !\u003d ConflictState.NO_CONFLICT).\n\nNow, consider where we create \"MergeResult\"s ?\nOne very problematic case is on line 456 of ResolveMerger : http://git.eclipse.org/c/jgit/jgit.git/tree/org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java#n456 \"we found a conflict on file modes, create a conflicting merge result\". However, \"containsConflict\" will be false, and \"org.eclipse.jgit.api.MergeResult\" will reflect that with its \"conflicts\" Map null.\nThe second problematic one \"was\" on line 672 http://git.eclipse.org/c/jgit/jgit.git/tree/org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java#n672 . It had nothing to do there, so I moved it out of \u0027updateIndex\u0027 back in \u0027processEntry\u0027. You can see the result of that on https://git.eclipse.org/r/#/c/17634/6/org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java in the changes at line 581 on the right. Basically, this :\n\nif (driver instanceof TextMergeDriver)\n\tmergeResults.put(tw.getPathString(), ((TextMergeDriver) driver).getLowLevelResults());\t\nelse\n\tmergeResults.put(tw.getPathString(), new MergeResult\u003cRawText\u003e(Collections.\u003cRawText\u003e emptyList()));\n\nThe \"binary\" merge driver does _not_ generate low level results since it does not act on \"chunks\" or \"Sequences\". Still, since \"merge.MergeResult\" has been thought for textual merges, it requires \"Sequences\" to have a conflict so that it is reflected in \"api.MergeResult\".\n\nSince \"api.MergeResult\" is API, I could not remove these \"low level results\" (that are only used in tests) without mandating a version bump. The easiest workaround I could find was this \"weird\" thing : if there are no Sequences, then it was a file mode conflict or a binary conflict. It is a conflict nonetheless.",
+      "parentUuid": "8748d3a1_39d436e7",
+      "revId": "28217333bf1b621cc3fe84d3c9c22ebe1548393c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_8f109757",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeResult.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2013-11-28T11:48:10Z",
+      "side": 1,
+      "message": "This was actually no longer needed since I\u0027ve switched the \"MergeDriver\" interface to use boolean instead of ints to tell whether there are conflicts or not.\n\nThe next patch set will remove all corresponding changes.",
       "revId": "28217333bf1b621cc3fe84d3c9c22ebe1548393c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -223,6 +456,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_2f97c3cd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2013-11-28T11:48:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_b9de86fb",
+      "revId": "28217333bf1b621cc3fe84d3c9c22ebe1548393c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_d99f12e5",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
         "patchSetId": 6
@@ -234,6 +485,24 @@
       "writtenOn": "2013-11-28T08:14:59Z",
       "side": 1,
       "message": "why do we need temp files here ? We shouldn\u0027t need to write additional files for merge drivers. Ours, theirs and base versions are available in the object database and the result should end up in the working tree.\n\nWe also want to be able to run a merge in-core, we don\u0027t use this in EGit but e.g. in Gerrit which also creates merge commits but doesn\u0027t have a working tree since it\u0027s operating on bare repositories only.",
+      "revId": "28217333bf1b621cc3fe84d3c9c22ebe1548393c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_af3c7349",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2013-11-28T11:48:10Z",
+      "side": 1,
+      "message": "See also discussions with Robin on patch set 3 https://git.eclipse.org/r/#/c/17634/3/org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java \n\nBasically, I wanted to keep close to the definition of \"merge drivers\" as known by git : https://www.kernel.org/pub/software/scm/git/docs/gitattributes.html#_defining_a_custom_merge_driver . \"A merge driver takes three files as parameters and leaves its result in the \u0027ours\u0027 version\".\n\nFurthermore, I did not want to expose jgit innards and force implementers to learn what all of these concepts are : CanonicalTreeParser, index, object database, object inserter, ...\n\nAs Robin mentionned, we \"could\" have the built-in drivers (text and binary) use a different API as what we provide to our clients so that we internally use the object database and create temporary files only when a custom, external merge driver is to be called. I don\u0027t think that is the best thing to do though, since it means \"we\" are not eating our own dog food...\n\nShould this discussion be moved to jgit-dev?",
+      "parentUuid": "8748d3a1_d99f12e5",
       "revId": "28217333bf1b621cc3fe84d3c9c22ebe1548393c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -257,6 +526,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_efab1bdf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 628,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2013-11-28T11:48:10Z",
+      "side": 1,
+      "message": "Seems like the formatter didn\u0027t kick in.\n\nDone",
+      "parentUuid": "8748d3a1_b9b966b2",
+      "revId": "28217333bf1b621cc3fe84d3c9c22ebe1548393c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_399716ce",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
         "patchSetId": 6
@@ -268,6 +555,24 @@
       "writtenOn": "2013-11-28T08:14:59Z",
       "side": 1,
       "message": "use // for comments, since it needs less lines",
+      "revId": "28217333bf1b621cc3fe84d3c9c22ebe1548393c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_2fb6a344",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 719,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2013-11-28T11:48:10Z",
+      "side": 1,
+      "message": "It needs less lines, but is seen differently by the formatter. I changed these to avoid the need to manually reformat each line each time I modified the comment.\n\nre-changed to single line comments.",
+      "parentUuid": "8748d3a1_399716ce",
       "revId": "28217333bf1b621cc3fe84d3c9c22ebe1548393c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -291,6 +596,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_d2d9a46a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 782,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2013-11-28T11:48:10Z",
+      "side": 1,
+      "message": "There will not be any use for a merge driver if there is neither an \"ours\" nor a \"theirs\" : this would mean both have been deleted, in which case git considers it a trivial merge and does not call the merge drivers. So we know that at least one of the two is not null.\n\nWe only use the file path to determine whether there is a custom merge driver defined for this merge. If there is one, we won\u0027t even consider ours and theirs here.\n\nOtherwise, we only check the first available version : if \u0027ours\u0027 is not null, then consider that its type is the same as theirs and base (if they exist : ours binary means that we\u0027ll use a binary merge driver. ours textual means that we\u0027ll use a textual merge driver.\n\nThese last assumption (the content of the \"if (driver \u003d\u003d null)\" branch) may need to be revised in order to check the kind of all available version? Namely, \"if any of ours, theirs or base is not null and binary, then use the binary merge driver\" ?",
+      "parentUuid": "8748d3a1_19485a04",
+      "revId": "28217333bf1b621cc3fe84d3c9c22ebe1548393c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_f9548ed3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
         "patchSetId": 6
@@ -302,6 +625,24 @@
       "writtenOn": "2013-11-28T08:14:59Z",
       "side": 1,
       "message": "this would break API, at the moment we plan to bump to 4.0 with Luna June next year",
+      "revId": "28217333bf1b621cc3fe84d3c9c22ebe1548393c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_32d1e83f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 896,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2013-11-28T11:48:10Z",
+      "side": 1,
+      "message": "Yes, see my previous comments on https://git.eclipse.org/r/#/c/17634/6/org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeResult.java . I\u0027ve left al of these in and just added FIXMEs in the affected spots. I\u0027ve tried to cope with this during the implementation and worked around it when I could not ignore it :).",
+      "parentUuid": "8748d3a1_f9548ed3",
       "revId": "28217333bf1b621cc3fe84d3c9c22ebe1548393c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -325,6 +666,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_12d4ac2d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/TextMergeDriver.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2013-11-28T11:48:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_99ae2a19",
+      "revId": "28217333bf1b621cc3fe84d3c9c22ebe1548393c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_99d8eae8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/TextMergeDriver.java",
         "patchSetId": 6
@@ -336,6 +695,24 @@
       "writtenOn": "2013-11-28T08:14:59Z",
       "side": 1,
       "message": "s/in/into/",
+      "revId": "28217333bf1b621cc3fe84d3c9c22ebe1548393c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_72ea50ea",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/TextMergeDriver.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2013-11-28T11:48:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_99d8eae8",
       "revId": "28217333bf1b621cc3fe84d3c9c22ebe1548393c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -359,6 +736,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_d256c430",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/PathMatcher.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2013-11-28T11:48:10Z",
+      "side": 1,
+      "message": "Done.\n\nAlso removed the second paragraph here since implementers of a Path Matcher can do so without relying on globs. I\u0027ve moved that part to the Java 5 implementation.",
+      "parentUuid": "8748d3a1_39e1d68d",
+      "revId": "28217333bf1b621cc3fe84d3c9c22ebe1548393c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_d9e9d278",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/PathMatcher.java",
         "patchSetId": 6
@@ -370,6 +765,24 @@
       "writtenOn": "2013-11-28T08:14:59Z",
       "side": 1,
       "message": "style nit: trailing whitespace",
+      "revId": "28217333bf1b621cc3fe84d3c9c22ebe1548393c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_325e084a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/PathMatcher.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2013-11-28T11:48:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_d9e9d278",
       "revId": "28217333bf1b621cc3fe84d3c9c22ebe1548393c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -393,6 +806,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_b2485883",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/PathMatcher_Java5.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2013-11-28T11:48:10Z",
+      "side": 1,
+      "message": "To be honest, I didn\u0027t know which number to use : this will be used with both Java 5 and Java 6 (it only changes with Java 7). Seems like I hesitated right till the end :p.\n\nI have changed the wording on these comments so there is no longer a confusion. As for the class name, I didn\u0027t really have an example to follow. Should I use \"Java5\" or \"Java6\"... or no qualifier at all?",
+      "parentUuid": "8748d3a1_59f5c243",
+      "revId": "28217333bf1b621cc3fe84d3c9c22ebe1548393c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_d93b9284",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/PathMatcher_Java5.java",
         "patchSetId": 6
@@ -404,6 +835,24 @@
       "writtenOn": "2013-11-28T08:14:59Z",
       "side": 1,
       "message": "this doesn\u0027t say much, I\u0027d remove this text, I think the parameter description is sufficient",
+      "revId": "28217333bf1b621cc3fe84d3c9c22ebe1548393c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_928b9cf5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/PathMatcher_Java5.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2013-11-28T11:48:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_d93b9284",
       "revId": "28217333bf1b621cc3fe84d3c9c22ebe1548393c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
