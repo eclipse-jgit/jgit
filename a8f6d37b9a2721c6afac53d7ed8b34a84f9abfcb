@@ -16,6 +16,24 @@
       "revId": "a8f6d37b9a2721c6afac53d7ed8b34a84f9abfcb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_fceaaa99",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseResult.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2013-11-29T08:36:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_55a9f912",
+      "revId": "a8f6d37b9a2721c6afac53d7ed8b34a84f9abfcb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
