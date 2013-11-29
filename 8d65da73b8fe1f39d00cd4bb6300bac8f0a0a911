@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8748d3a1_115f7cf3",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RebaseCommandTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1481,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-11-29T15:32:23Z",
+      "side": 1,
+      "message": "Could you add an assertion that the contents of file0 are \"modified file0\" (for working directory)?",
+      "revId": "8d65da73b8fe1f39d00cd4bb6300bac8f0a0a911",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}

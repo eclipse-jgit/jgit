@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8748d3a1_f1793075",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RebaseCommandTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1205,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-11-29T15:32:23Z",
+      "side": 0,
+      "message": "Could we preserve these assertions (and others below)? Just change getConflicts to getUncommittedChanges",
+      "revId": "ec0d78d0939ee8ce30bd349bd885186c13d3b645",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
