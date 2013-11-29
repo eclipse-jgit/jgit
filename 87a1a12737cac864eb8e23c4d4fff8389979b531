@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_bc0782a7",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/CheckoutTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1013
+      },
+      "writtenOn": "2013-11-29T09:26:37Z",
+      "side": 1,
+      "message": "It doesn\u0027t change anything in this case, but it is more understandable with the pattern \"a/b\", so I will change this.",
+      "parentUuid": "8748d3a1_63f444fa",
+      "revId": "87a1a12737cac864eb8e23c4d4fff8389979b531",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_238d1c8f",
         "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/CheckoutTest.java",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_1ca4b639",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/CheckoutTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1013
+      },
+      "writtenOn": "2013-11-29T09:26:37Z",
+      "side": 1,
+      "message": "It is not the same content, because the first file \u0027a\u0027 contains \"Hello world a\" and the second file \u0027a\u0027 contains \"New Hello world a\"",
+      "parentUuid": "8748d3a1_238d1c8f",
+      "revId": "87a1a12737cac864eb8e23c4d4fff8389979b531",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_f5cc8533",
         "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/CheckoutTest.java",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2013-11-28T21:59:45Z",
       "side": 1,
       "message": "if I run\n\n git checkout branch_1 \n\nhere using native git it says:\n\n already on \u0027branch_1\u0027\n\nso it looks like this test case is wrong",
+      "revId": "87a1a12737cac864eb8e23c4d4fff8389979b531",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_dcc24ecc",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/CheckoutTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1013
+      },
+      "writtenOn": "2013-11-29T09:26:37Z",
+      "side": 1,
+      "message": "At line 119, I only do a create branch, not a checkout, so before the execute(\"git checkout branch_1\"), I\u0027m on the master branch",
+      "parentUuid": "8748d3a1_f5cc8533",
       "revId": "87a1a12737cac864eb8e23c4d4fff8389979b531",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
