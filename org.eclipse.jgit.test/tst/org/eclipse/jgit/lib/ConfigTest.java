@@ -520,6 +520,31 @@ public class ConfigTest {
 	}
 
 	@Test
+	public void test_ReadNamesInSectionRecursive()
+			throws ConfigInvalidException {
+		String baseConfigString = "[core]\n" + "logAllRefUpdates = true\n";
+		String configString = "[core]\n" + "repositoryFormatVersion = 0\n"
+				+ "filemode = false\n";
+		final Config c = parse(configString, parse(baseConfigString));
+		Set<String> names = c.getNames("core", true);
+		assertEquals("Core section size", 3, names.size());
+		assertTrue("Core section should contain \"filemode\"",
+				names.contains("filemode"));
+		assertTrue("Core section should contain \"repositoryFormatVersion\"",
+				names.contains("repositoryFormatVersion"));
+		assertTrue("Core section should contain \"logAllRefUpdates\"",
+				names.contains("logAllRefUpdates"));
+		assertTrue("Core section should contain \"logallrefupdates\"",
+				names.contains("logallrefupdates"));
+
+		Iterator<String> itr = names.iterator();
+		assertEquals("filemode", itr.next());
+		assertEquals("repositoryFormatVersion", itr.next());
+		assertEquals("logAllRefUpdates", itr.next());
+		assertFalse(itr.hasNext());
+	}
+
+	@Test
 	public void test010_readNamesInSubSection() throws ConfigInvalidException {
 		String configString = "[a \"sub1\"]\n"//
 				+ "x = 0\n" //
@@ -538,6 +563,30 @@ public class ConfigTest {
 		assertEquals("Subsection size", 2, names.size());
 		assertTrue("Subsection should contain \"a\"", names.contains("a"));
 		assertTrue("Subsection should contain \"b\"", names.contains("b"));
+	}
+
+	@Test
+	public void readNamesInSubSectionRecursive() throws ConfigInvalidException {
+		String baseConfigString = "[a \"sub1\"]\n"//
+				+ "x = 0\n" //
+				+ "y = false\n"//
+				+ "[a \"sub2\"]\n"//
+				+ "A=0\n";//
+		String configString = "[a \"sub1\"]\n"//
+				+ "z = true\n"//
+				+ "[a \"sub2\"]\n"//
+				+ "B=1\n";
+		final Config c = parse(configString, parse(baseConfigString));
+		Set<String> names = c.getNames("a", "sub1", true);
+		assertEquals("Subsection size", 3, names.size());
+		assertTrue("Subsection should contain \"x\"", names.contains("x"));
+		assertTrue("Subsection should contain \"y\"", names.contains("y"));
+		assertTrue("Subsection should contain \"z\"", names.contains("z"));
+		names = c.getNames("a", "sub2", true);
+		assertEquals("Subsection size", 2, names.size());
+		assertTrue("Subsection should contain \"A\"", names.contains("A"));
+		assertTrue("Subsection should contain \"a\"", names.contains("a"));
+		assertTrue("Subsection should contain \"B\"", names.contains("B"));
 	}
 
 	@Test
@@ -584,7 +633,12 @@ public class ConfigTest {
 
 	private static Config parse(final String content)
 			throws ConfigInvalidException {
-		final Config c = new Config(null);
+		return parse(content, null);
+	}
+
+	private static Config parse(final String content, Config baseConfig)
+			throws ConfigInvalidException {
+		final Config c = new Config(baseConfig);
 		c.fromText(content);
 		return c;
 	}
