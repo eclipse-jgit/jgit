@@ -97,6 +97,16 @@ class ConfigSnapshot {
 	}
 
 	Set<String> getNames(String section, String subsection) {
+		return getNames(section, subsection, false);
+	}
+
+	Set<String> getNames(String section, String subsection, boolean recursive) {
+		Map<String, String> m = getNamesInternal(section, subsection, recursive);
+		return new CaseFoldingSet(m);
+	}
+
+	private Map<String, String> getNamesInternal(String section,
+			String subsection, boolean recursive) {
 		List<ConfigLine> s = sorted();
 		int idx = find(s, section, subsection, ""); //$NON-NLS-1$
 		if (idx < 0)
@@ -113,7 +123,9 @@ class ConfigSnapshot {
 			if (!m.containsKey(l))
 				m.put(l, e.name);
 		}
-		return new CaseFoldingSet(m);
+		if (recursive && baseState != null)
+			m.putAll(baseState.getNamesInternal(section, subsection, recursive));
+		return m;
 	}
 
 	String[] get(String section, String subsection, String name) {
@@ -253,7 +265,7 @@ class ConfigSnapshot {
 		}
 	}
 
-	private static class CaseFoldingSet extends AbstractSet<String> {
+	static class CaseFoldingSet extends AbstractSet<String> {
 		private final Map<String, String> names;
 
 		CaseFoldingSet(Map<String, String> names) {
