@@ -528,6 +528,33 @@ public class Config {
 	}
 
 	/**
+	 * @param section
+	 *            the section
+	 * @param recursive
+	 *            if {@code true} recursively adds the names defined in all base
+	 *            configurations
+	 * @return the list of names defined for this section
+	 */
+	public Set<String> getNames(String section, boolean recursive) {
+		return getState().getNames(section, null, recursive);
+	}
+
+	/**
+	 * @param section
+	 *            the section
+	 * @param subsection
+	 *            the subsection
+	 * @param recursive
+	 *            if {@code true} recursively adds the names defined in all base
+	 *            configurations
+	 * @return the list of names defined for this subsection
+	 */
+	public Set<String> getNames(String section, String subsection,
+			boolean recursive) {
+		return getState().getNames(section, subsection, recursive);
+	}
+
+	/**
 	 * Obtain a handle to a parsed set of configuration values.
 	 *
 	 * @param <T>
