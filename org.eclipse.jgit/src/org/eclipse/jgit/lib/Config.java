@@ -54,6 +54,7 @@ package org.eclipse.jgit.lib;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
@@ -525,6 +526,41 @@ public class Config {
 	 */
 	public Set<String> getNames(String section, String subsection) {
 		return getState().getNames(section, subsection);
+	}
+
+	/**
+	 * @param section
+	 *            the section
+	 * @param recursive
+	 *            if {@code true} recursively adds the names defined in all base
+	 *            configurations
+	 * @return the list of names defined for this section
+	 */
+	public Set<String> getNames(String section, boolean recursive) {
+		return getNames(section, null, recursive);
+	}
+
+	/**
+	 * @param section
+	 *            the section
+	 * @param subsection
+	 *            the subsection
+	 * @param recursive
+	 *            if {@code true} recursively adds the names defined in all base
+	 *            configurations
+	 * @return the list of names defined for this subsection
+	 */
+	public Set<String> getNames(String section, String subsection,
+			boolean recursive) {
+		if (!recursive)
+			return getNames(section, subsection);
+
+		Set<String> names = new HashSet<String>(getNames(section, subsection));
+		Config c = this;
+		while ((c = c.baseConfig) != null)
+			names.addAll(c.getNames(section, subsection));
+
+		return names;
 	}
 
 	/**
