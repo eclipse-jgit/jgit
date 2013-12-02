@@ -212,6 +212,40 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_c9ac2976",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeDriver.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-12-02T20:32:57Z",
+      "side": 1,
+      "message": "here you have to help me: if merge drivers are expected to determine whether they can handle a given entry then I would expect something like a \"canHandle(Entry e)\" method in this contract If I look only at this interface I would guess that merge drivers don\u0027t know which entries they can handle.",
+      "revId": "28217333bf1b621cc3fe84d3c9c22ebe1548393c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_e9af6567",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeDriver.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-12-02T20:32:57Z",
+      "side": 1,
+      "message": "The contract for merge drivers should also explain where to put the result of the merge.\n\nAs I understood it In native git a merge driver get\u0027s 3 strings as input (base,current,other). These strings should be interpreted as pathes in the filesystem. The merge driver is expected to write the result into the file referred by \"current\".\n\nFor a Java API we don\u0027t want Strings, but as discussed in other comments I suggest to have 3 InputStreams. And a fourth parameter is the outputstream where the mergedriver should write his result.\n\nI was not sure whether we need the repository. This gives merge drivers more rights than they need. They can also write to the repo. Do merge drivers realy create new git objects or change refs, ... . Maybe it\u0027s safer to give the merge driver only the Config object so he can look up parameters which control him. On the other hand: there may be merge drivers which really look up other objects from the object database. Do you already have a use case in mind for merge drivers which need more than the config?",
+      "revId": "28217333bf1b621cc3fe84d3c9c22ebe1548393c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_5994a24c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeDriver.java",
         "patchSetId": 6
@@ -241,6 +275,23 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "8748d3a1_5994a24c",
+      "revId": "28217333bf1b621cc3fe84d3c9c22ebe1548393c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_4973f98c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeDriver.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-12-02T20:32:57Z",
+      "side": 1,
+      "message": "I know that this is also not handle by native git merge drivers, but have you thought about exposing the occurred conflicts here? The merge driver is the one who will decide which conflicts occur. But he has no way to tell that in this contract.",
       "revId": "28217333bf1b621cc3fe84d3c9c22ebe1548393c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -626,6 +677,41 @@
       "side": 1,
       "message": "There will not be any use for a merge driver if there is neither an \"ours\" nor a \"theirs\" : this would mean both have been deleted, in which case git considers it a trivial merge and does not call the merge drivers. So we know that at least one of the two is not null.\n\nWe only use the file path to determine whether there is a custom merge driver defined for this merge. If there is one, we won\u0027t even consider ours and theirs here.\n\nOtherwise, we only check the first available version : if \u0027ours\u0027 is not null, then consider that its type is the same as theirs and base (if they exist : ours binary means that we\u0027ll use a binary merge driver. ours textual means that we\u0027ll use a textual merge driver.\n\nThese last assumption (the content of the \"if (driver \u003d\u003d null)\" branch) may need to be revised in order to check the kind of all available version? Namely, \"if any of ours, theirs or base is not null and binary, then use the binary merge driver\" ?",
       "parentUuid": "8748d3a1_19485a04",
+      "revId": "28217333bf1b621cc3fe84d3c9c22ebe1548393c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_29daede0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 782,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-12-02T20:32:57Z",
+      "side": 1,
+      "message": "right, I also think we should look at all available versions and if any is binary then use the binary mode. But in this case you would need to pass also \"base\" into this method in order to check the base for binary content. That\u0027s what Matthias suggested.",
+      "parentUuid": "8748d3a1_d2d9a46a",
+      "revId": "28217333bf1b621cc3fe84d3c9c22ebe1548393c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_49177905",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 783,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-12-02T20:32:57Z",
+      "side": 1,
+      "message": "One question: do we plan to handle renames? Maybe there is no single \"filePath\" but in base that file was call \"src/a.txt\", in ours it was renamed to \"demo/x\" and in theirs it was renamed to \"ssh.bin\". I am wondering whether we should simply only give three CanonicalTreeParsers into this method (you can ask them for the current path they are looking at). Then we would be prepared for situations where there is no single filepath.",
       "revId": "28217333bf1b621cc3fe84d3c9c22ebe1548393c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
