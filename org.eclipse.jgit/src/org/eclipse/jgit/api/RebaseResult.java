@@ -165,6 +165,18 @@ public class RebaseResult {
 			public boolean isSuccessful() {
 				return false;
 			}
+		},
+
+		/**
+		 * Applying stash resulted in conflicts
+		 *
+		 * @since 3.2
+		 */
+		STASH_APPLY_CONFLICTS {
+			@Override
+			public boolean isSuccessful() {
+				return true;
+			}
 		};
 
 		/**
@@ -188,6 +200,9 @@ public class RebaseResult {
 
 	static final RebaseResult INTERACTIVE_PREPARED_RESULT =  new RebaseResult(
 			Status.INTERACTIVE_PREPARED);
+
+	static final RebaseResult STASH_APPLY_CONFLICTS_RESULT = new RebaseResult(
+			Status.STASH_APPLY_CONFLICTS);
 
 	private final Status status;
 
