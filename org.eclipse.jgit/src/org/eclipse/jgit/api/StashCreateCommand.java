@@ -154,6 +154,7 @@ public class StashCreateCommand extends GitCommand<RevCommit> {
 
 	/**
 	 * Set the reference to update with the stashed commit id
+	 * If null, no reference is updated
 	 * <p>
 	 * This value defaults to {@link Constants#R_STASH}
 	 *
@@ -185,6 +186,8 @@ public class StashCreateCommand extends GitCommand<RevCommit> {
 
 	private void updateStashRef(ObjectId commitId, PersonIdent refLogIdent,
 			String refLogMessage) throws IOException {
+		if (ref == null)
+			return;
 		Ref currentRef = repo.getRef(ref);
 		RefUpdate refUpdate = repo.updateRef(ref);
 		refUpdate.setNewObjectId(commitId);
