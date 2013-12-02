@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_cfea71e8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RebaseCommandTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1481,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2013-12-02T08:05:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_115f7cf3",
+      "revId": "8d65da73b8fe1f39d00cd4bb6300bac8f0a0a911",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_74b6aec1",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseResult.java",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2013-11-29T16:52:59Z",
       "side": 1,
       "message": "remove the trailing blank",
+      "revId": "8d65da73b8fe1f39d00cd4bb6300bac8f0a0a911",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_afe7251e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseResult.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2013-12-02T08:05:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_74b6aec1",
       "revId": "8d65da73b8fe1f39d00cd4bb6300bac8f0a0a911",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_0fe1f908",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseResult.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2013-12-02T08:05:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_54b3b2ce",
+      "revId": "8d65da73b8fe1f39d00cd4bb6300bac8f0a0a911",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_d4ece2b7",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Status.java",
         "patchSetId": 5
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_efddad50",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Status.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2013-12-02T08:05:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_d4ece2b7",
+      "revId": "8d65da73b8fe1f39d00cd4bb6300bac8f0a0a911",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_34e546c8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Status.java",
         "patchSetId": 5
@@ -81,6 +153,24 @@
       "writtenOn": "2013-11-29T16:52:59Z",
       "side": 1,
       "message": "remove the trailing blank",
+      "revId": "8d65da73b8fe1f39d00cd4bb6300bac8f0a0a911",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_4f02e148",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Status.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2013-12-02T08:05:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_34e546c8",
       "revId": "8d65da73b8fe1f39d00cd4bb6300bac8f0a0a911",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
