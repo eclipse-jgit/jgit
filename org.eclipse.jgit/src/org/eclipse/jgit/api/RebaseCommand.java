@@ -70,6 +70,7 @@ import org.eclipse.jgit.api.errors.NoHeadException;
 import org.eclipse.jgit.api.errors.NoMessageException;
 import org.eclipse.jgit.api.errors.RefAlreadyExistsException;
 import org.eclipse.jgit.api.errors.RefNotFoundException;
+import org.eclipse.jgit.api.errors.StashApplyFailureException;
 import org.eclipse.jgit.api.errors.UnmergedPathsException;
 import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 import org.eclipse.jgit.diff.DiffFormatter;
@@ -79,6 +80,7 @@ import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
@@ -157,6 +159,8 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	private static final String MESSAGE_FIXUP = "message-fixup"; //$NON-NLS-1$
 
 	private static final String MESSAGE_SQUASH = "message-squash"; //$NON-NLS-1$
+
+	private static final String AUTOSTASH = "autostash"; //$NON-NLS-1$
 
 	/**
 	 * The available operations
@@ -257,6 +261,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 						.resolve(upstreamCommitId));
 				break;
 			case BEGIN:
+				autoStash();
 				if (stopAfterInitialization
 						|| !walk.isMergedInto(
 								walk.parseCommit(repo.resolve(Constants.HEAD)),
@@ -337,6 +342,33 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		} catch (IOException ioe) {
 			throw new JGitInternalException(ioe.getMessage(), ioe);
 		}
+	}
+
+	private void autoStash() throws GitAPIException, IOException {
+		if (repo.getConfig().getBoolean(ConfigConstants.CONFIG_REBASE_SECTION,
+				ConfigConstants.CONFIG_KEY_AUTOSTASH, false)) {
+			RevCommit stashCommit = Git.wrap(repo).stashCreate().setRef(null)
+					.call();
+			if (stashCommit != null) {
+				FileUtils.mkdir(rebaseState.getDir());
+				rebaseState.createFile(AUTOSTASH, stashCommit.getName());
+			}
+		}
+	}
+
+	private boolean autoStashApply() throws IOException, GitAPIException {
+		boolean conflicts = false;
+		if (rebaseState.getFile(AUTOSTASH).exists()) {
+			String stash = rebaseState.readFile(AUTOSTASH);
+			try {
+				Git.wrap(repo).stashApply().setStashRef(stash)
+						.ignoreRepositoryState(true).call();
+			} catch (StashApplyFailureException e) {
+				conflicts = true;
+				// TODO create real stash
+			}
+		}
+		return conflicts;
 	}
 
 	private RebaseResult processStep(RebaseTodoLine step, boolean shouldPick)
@@ -432,10 +464,13 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	}
 
 	private RebaseResult finishRebase(RevCommit newHead,
-			boolean lastStepWasForward) throws IOException {
+			boolean lastStepWasForward) throws IOException, GitAPIException {
 		String headName = rebaseState.readFile(HEAD_NAME);
 		updateHead(headName, newHead, upstreamCommit);
+		boolean stashConflicts = autoStashApply();
 		FileUtils.delete(rebaseState.getDir(), FileUtils.RECURSIVE);
+		if (stashConflicts)
+			return RebaseResult.STASH_APPLY_CONFLICTS_RESULT;
 		if (lastStepWasForward || newHead == null)
 			return RebaseResult.FAST_FORWARD_RESULT;
 		return RebaseResult.OK_RESULT;
@@ -857,7 +892,8 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 
 		Collections.reverse(cherryPickList);
 		// create the folder for the meta information
-		FileUtils.mkdir(rebaseState.getDir());
+		if (!rebaseState.getDir().exists())
+			FileUtils.mkdir(rebaseState.getDir());
 
 		repo.writeOrigHead(headId);
 		rebaseState.createFile(REBASE_HEAD, headId.name());
@@ -1004,7 +1040,8 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			}
 	}
 
-	private RebaseResult abort(RebaseResult result) throws IOException {
+	private RebaseResult abort(RebaseResult result) throws IOException,
+			GitAPIException {
 		try {
 			ObjectId origHead = repo.readOrigHead();
 			String commitId = origHead != null ? origHead.name() : null;
@@ -1053,9 +1090,12 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 							JGitText.get().abortingRebaseFailed);
 				}
 			}
+			boolean stashConflicts = autoStashApply();
 			// cleanup the files
 			FileUtils.delete(rebaseState.getDir(), FileUtils.RECURSIVE);
 			repo.writeCherryPickHead(null);
+			if (stashConflicts)
+				return RebaseResult.STASH_APPLY_CONFLICTS_RESULT;
 			return result;
 
 		} finally {

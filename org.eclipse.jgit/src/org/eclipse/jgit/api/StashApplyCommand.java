@@ -90,6 +90,8 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 
 	private boolean applyIndex = true;
 
+	private boolean ignoreRepositoryState;
+
 	/**
 	 * Create command to apply the changes of a stashed commit
 	 *
@@ -110,6 +112,15 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 	 */
 	public StashApplyCommand setStashRef(final String stashRef) {
 		this.stashRef = stashRef;
+		return this;
+	}
+
+	/**
+	 * @param ignoreRepositoryState
+	 * @return {@code this}
+	 */
+	public StashApplyCommand ignoreRepositoryState(boolean ignoreRepositoryState) {
+		this.ignoreRepositoryState = ignoreRepositoryState;
 		return this;
 	}
 
@@ -143,7 +154,8 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 			StashApplyFailureException {
 		checkCallable();
 
-		if (repo.getRepositoryState() != RepositoryState.SAFE)
+		if (!ignoreRepositoryState
+				&& repo.getRepositoryState() != RepositoryState.SAFE)
 			throw new WrongRepositoryStateException(MessageFormat.format(
 					JGitText.get().stashApplyOnUnsafeRepository,
 					repo.getRepositoryState()));

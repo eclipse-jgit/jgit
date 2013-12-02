@@ -77,6 +77,9 @@ public class ConfigConstants {
 	/** The "submodule" section */
 	public static final String CONFIG_SUBMODULE_SECTION = "submodule";
 
+	/** The "rebase" section */
+	public static final String CONFIG_REBASE_SECTION = "rebase";
+
 	/** The "gc" section */
 	public static final String CONFIG_GC_SECTION = "gc";
 
@@ -136,6 +139,10 @@ public class ConfigConstants {
 
 	/** The "autosetuprebase" key */
 	public static final String CONFIG_KEY_AUTOSETUPREBASE = "autosetuprebase";
+
+	/** The "autostash" key */
+	public static final String CONFIG_KEY_AUTOSTASH = "autostash";
+
 	/** The "name" key */
 	public static final String CONFIG_KEY_NAME = "name";
 
