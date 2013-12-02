@@ -68,9 +68,14 @@ import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.RefNotFoundException;
 import org.eclipse.jgit.api.errors.UnmergedPathsException;
 import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
+import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.dircache.DirCacheCheckout;
+import org.eclipse.jgit.errors.AmbiguousObjectException;
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -82,6 +87,8 @@ import org.eclipse.jgit.lib.RepositoryState;
 import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
@@ -1565,6 +1572,136 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		assertEquals("[file1, mode:100644, content:modified file1]",
 				indexState(CONTENT));
 		assertEquals(RepositoryState.SAFE, db.getRepositoryState());
+	}
+
+	@Test
+	public void testRebaseWithAutoStash()
+			throws Exception {
+		// create file0, add and commit
+		db.getConfig().setBoolean(ConfigConstants.CONFIG_REBASE_SECTION, null,
+				ConfigConstants.CONFIG_KEY_AUTOSTASH, true);
+		writeTrashFile("file0", "file0");
+		git.add().addFilepattern("file0").call();
+		git.commit().setMessage("commit0").call();
+		// create file1, add and commit
+		writeTrashFile(FILE1, "file1");
+		git.add().addFilepattern(FILE1).call();
+		RevCommit commit = git.commit().setMessage("commit1").call();
+
+		// create topic branch and checkout / create file2, add and commit
+		createBranch(commit, "refs/heads/topic");
+		checkoutBranch("refs/heads/topic");
+		writeTrashFile("file2", "file2");
+		git.add().addFilepattern("file2").call();
+		git.commit().setMessage("commit2").call();
+
+		// checkout master branch / modify file1, add and commit
+		checkoutBranch("refs/heads/master");
+		writeTrashFile(FILE1, "modified file1");
+		git.add().addFilepattern(FILE1).call();
+		git.commit().setMessage("commit3").call();
+
+		// checkout topic branch / modify file0
+		checkoutBranch("refs/heads/topic");
+		writeTrashFile("file0", "unstaged modified file0");
+
+		// rebase
+		assertEquals(Status.OK,
+				git.rebase().setUpstream("refs/heads/master").call()
+						.getStatus());
+		checkFile(new File(db.getWorkTree(), "file0"),
+				"unstaged modified file0");
+		checkFile(new File(db.getWorkTree(), FILE1), "modified file1");
+		checkFile(new File(db.getWorkTree(), "file2"), "file2");
+		assertEquals("[file0, mode:100644, content:file0]"
+				+ "[file1, mode:100644, content:modified file1]"
+				+ "[file2, mode:100644, content:file2]",
+				indexState(CONTENT));
+		assertEquals(RepositoryState.SAFE, db.getRepositoryState());
+	}
+
+	@Test
+	public void testRebaseWithAutoStashConflictOnApply() throws Exception {
+		// create file0, add and commit
+		db.getConfig().setBoolean(ConfigConstants.CONFIG_REBASE_SECTION, null,
+				ConfigConstants.CONFIG_KEY_AUTOSTASH, true);
+		writeTrashFile("file0", "file0");
+		git.add().addFilepattern("file0").call();
+		git.commit().setMessage("commit0").call();
+		// create file1, add and commit
+		writeTrashFile(FILE1, "file1");
+		git.add().addFilepattern(FILE1).call();
+		RevCommit commit = git.commit().setMessage("commit1").call();
+
+		// create topic branch and checkout / create file2, add and commit
+		createBranch(commit, "refs/heads/topic");
+		checkoutBranch("refs/heads/topic");
+		writeTrashFile("file2", "file2");
+		git.add().addFilepattern("file2").call();
+		git.commit().setMessage("commit2").call();
+
+		// checkout master branch / modify file1, add and commit
+		checkoutBranch("refs/heads/master");
+		writeTrashFile(FILE1, "modified file1");
+		git.add().addFilepattern(FILE1).call();
+		git.commit().setMessage("commit3").call();
+
+		// checkout topic branch / modify file0
+		checkoutBranch("refs/heads/topic");
+		writeTrashFile("file1", "unstaged modified file1");
+
+		// rebase
+		assertEquals(Status.STASH_APPLY_CONFLICTS,
+				git.rebase().setUpstream("refs/heads/master").call()
+						.getStatus());
+		checkFile(new File(db.getWorkTree(), "file0"), "file0");
+		checkFile(
+				new File(db.getWorkTree(), FILE1),
+				"<<<<<<< HEAD\nmodified file1\n=======\nunstaged modified file1\n>>>>>>> stash\n");
+		checkFile(new File(db.getWorkTree(), "file2"), "file2");
+		assertEquals(
+				"[file0, mode:100644, content:file0]"
+						+ "[file1, mode:100644, stage:1, content:file1]"
+						+ "[file1, mode:100644, stage:2, content:modified file1]"
+						+ "[file1, mode:100644, stage:3, content:unstaged modified file1]"
+						+ "[file2, mode:100644, content:file2]",
+				indexState(CONTENT));
+		assertEquals(RepositoryState.SAFE, db.getRepositoryState());
+
+		List<DiffEntry> diffs = getStashedDiff();
+		assertEquals(1, diffs.size());
+		assertEquals(DiffEntry.ChangeType.MODIFY, diffs.get(0).getChangeType());
+		assertEquals("file1", diffs.get(0).getOldPath());
+	}
+
+	private List<DiffEntry> getStashedDiff() throws AmbiguousObjectException,
+			IncorrectObjectTypeException, IOException, MissingObjectException {
+		ObjectId stashId = db.resolve("stash@{0}");
+		RevWalk revWalk = new RevWalk(db);
+		RevCommit stashCommit = revWalk.parseCommit(stashId);
+		List<DiffEntry> diffs = diffWorkingAgainstHead(stashCommit, revWalk);
+		return diffs;
+	}
+
+	private TreeWalk createTreeWalk() {
+		TreeWalk walk = new TreeWalk(db);
+		walk.setRecursive(true);
+		walk.setFilter(TreeFilter.ANY_DIFF);
+		return walk;
+	}
+
+	private List<DiffEntry> diffWorkingAgainstHead(final RevCommit commit,
+			RevWalk revWalk)
+			throws IOException {
+		TreeWalk walk = createTreeWalk();
+		RevCommit parentCommit = revWalk.parseCommit(commit.getParent(0));
+		try {
+			walk.addTree(parentCommit.getTree());
+			walk.addTree(commit.getTree());
+			return DiffEntry.scan(walk);
+		} finally {
+			walk.release();
+		}
 	}
 
 	private int countPicks() throws IOException {
