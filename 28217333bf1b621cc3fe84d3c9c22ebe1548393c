@@ -509,6 +509,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_03eef279",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-12-02T16:41:14Z",
+      "side": 1,
+      "message": "I would avoid creating new temp files. I can understand that you would like to be near to the native git merge driver interface. But here we are explicitly defining an interface for merge drivers implemented in Java. If such an MergeDriver would get three InputStreams and one outputStream --- wouldn\u0027t that be better? If I have to implement a MergeDriver in Java and I get three InputStreams instead of three java.io.File objects --- I wouldn\u0027t care much.\n\nWe don\u0027t expose any internals and can avoid touching the filesystem. I looked at the merge drivers you have proposed up to now and they all don\u0027t have problems with this solution.\n\nIn a lot of other places in JGit we thought a lot before touching the filesystem. We should not invent writing three new files without a good reason. Think about windows machines where sometimes all the content you write go through virus scanners.",
+      "parentUuid": "8748d3a1_af3c7349",
+      "revId": "28217333bf1b621cc3fe84d3c9c22ebe1548393c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_b9b966b2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
         "patchSetId": 6
