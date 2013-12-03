@@ -340,6 +340,18 @@ public class IgnoreMatcherTest {
 		assertEquals(r.getPattern(), "/patter?");
 	}
 
+	@Test
+	public void testResetState() {
+		String pattern = "/build/*";
+		String target = "/build";
+		// Don't use the assert methods of this class, as we want to test
+		// whether the state in IgnoreRule is reset properly
+		IgnoreRule r = new IgnoreRule(pattern);
+		// Result should be the same for the same inputs
+		assertFalse(r.isMatch(target, true));
+		assertFalse(r.isMatch(target, true));
+	}
+
 	/**
 	 * Check for a match. If target ends with "/", match will assume that the
 	 * target is meant to be a directory.
