@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8748d3a1_01e8a0ed",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ThreeWayMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-12-03T15:30:23Z",
+      "side": 1,
+      "message": "I would also make use of the cached baseCommitID. Something like replacing the previous line by:\n  \n  RevCommit baseCommit \u003d (baseCommitId !\u003d null)\n    ? walk.parseCommit(baseCommitId)\n    : getBaseCommit(sourceCommits[0],sourceCommits[1]);",
+      "revId": "ef8a349b366d59b18506757c5c2c452bdb592e8f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
