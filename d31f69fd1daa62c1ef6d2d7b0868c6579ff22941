@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8748d3a1_c124f8e6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-12-03T16:52:59Z",
+      "side": 1,
+      "message": "please remove the trailing whitespace",
+      "revId": "d31f69fd1daa62c1ef6d2d7b0868c6579ff22941",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_011a60a1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-12-03T16:52:59Z",
+      "side": 1,
+      "message": "no need to to say equalsIgnoreCase. Simply use equals. Also in the next two occurrences.",
+      "revId": "d31f69fd1daa62c1ef6d2d7b0868c6579ff22941",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_6113648c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-12-03T16:52:59Z",
+      "side": 1,
+      "message": "please remove debug statements and then you can say \"else if (cAlg...\"",
+      "revId": "d31f69fd1daa62c1ef6d2d7b0868c6579ff22941",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_8124b0b7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/WalkEncryption.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-12-03T16:52:59Z",
+      "side": 1,
+      "message": "better don\u0027t hide these exceptions. I would do like ObjectEncryptionV2 where they have the same situation as here but they always \"throw error(e)\". The same is true also in decryt()",
+      "revId": "d31f69fd1daa62c1ef6d2d7b0868c6579ff22941",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_01bb80ba",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/WalkEncryption.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-12-03T16:52:59Z",
+      "side": 1,
+      "message": "Don\u0027t you want to validate that the stream is ok and check that you received 3 \u0027:\u0027? Same two lines below",
+      "revId": "d31f69fd1daa62c1ef6d2d7b0868c6579ff22941",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
