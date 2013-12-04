@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8748d3a1_a38e0788",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexV1.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-12-04T14:12:13Z",
+      "side": 1,
+      "message": "Wouldn\u0027t his mean that JGit will start to handling PackBitmapIndexes which have options which are not understood by this jgit? What should jgit do if he see\u0027s options which he doesn\u0027t understand. If we say JGit should simply ignore options he doesn\u0027t understand than this change is ok. If we say JGit should deny working on PackBitMapIndexes with unknown options then this change is harmful. I can\u0027t decide.",
+      "revId": "67ccd386e313f13f3042503050a2a5e7f5035eda",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
