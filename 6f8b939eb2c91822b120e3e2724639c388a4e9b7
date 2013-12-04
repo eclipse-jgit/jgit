@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8748d3a1_4f176205",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 916,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-12-04T21:00:05Z",
+      "side": 1,
+      "message": "use FileUtils.mkdir(dir, true) instead of the condition here",
+      "revId": "6f8b939eb2c91822b120e3e2724639c388a4e9b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_af41c6e2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 953,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-12-04T21:00:05Z",
+      "side": 1,
+      "message": "this method can be declared static",
+      "revId": "6f8b939eb2c91822b120e3e2724639c388a4e9b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_af18a634",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/StashApplyCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-12-04T21:00:05Z",
+      "side": 1,
+      "message": "missing since tag",
+      "revId": "6f8b939eb2c91822b120e3e2724639c388a4e9b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_efa90e15",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-12-04T21:00:05Z",
+      "side": 1,
+      "message": "missing since tag",
+      "revId": "6f8b939eb2c91822b120e3e2724639c388a4e9b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_cfa6d242",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-12-04T21:00:05Z",
+      "side": 1,
+      "message": "missing since tag",
+      "revId": "6f8b939eb2c91822b120e3e2724639c388a4e9b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
