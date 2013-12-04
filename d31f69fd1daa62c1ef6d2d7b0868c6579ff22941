@@ -121,6 +121,23 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_c3aa2e8b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/WalkEncryption.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-12-04T21:16:08Z",
+      "side": 1,
+      "message": "Please explain the use of in.available() here.",
+      "revId": "d31f69fd1daa62c1ef6d2d7b0868c6579ff22941",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_01bb80ba",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/WalkEncryption.java",
         "patchSetId": 2
