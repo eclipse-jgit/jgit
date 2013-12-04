@@ -184,7 +184,7 @@
     <commons-compress-version>1.4.1</commons-compress-version>
     <osgi-core-version>4.3.1</osgi-core-version>
     <servlet-api-version>2.5</servlet-api-version>
-    <jetty-version>7.6.11.v20130520</jetty-version>
+    <jetty-version>7.6.14.v20131031</jetty-version>
     <clirr-version>2.4</clirr-version>
   </properties>
 

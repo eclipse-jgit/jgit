@@ -174,7 +174,7 @@ public class CleanCommand extends GitCommand<Set<String>> {
 	 * If paths are set, only these paths are affected by the cleaning.
 	 *
 	 * @param paths
-	 *            the paths to set
+	 *            the paths to set (with <code>/</code> as separator)
 	 * @return {@code this}
 	 */
 	public CleanCommand setPaths(Set<String> paths) {

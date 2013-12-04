@@ -89,7 +89,8 @@ public class StatusCommand extends GitCommand<Status> {
 	 * supported.
 	 *
 	 * @param path
-	 *            a path is relative to the top level of the repository
+	 *            repository-relative path of file/directory to show status for
+	 *            (with <code>/</code> as separator)
 	 * @return {@code this}
 	 * @since 3.1
 	 */

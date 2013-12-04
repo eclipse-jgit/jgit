@@ -85,6 +85,7 @@ public class SubmoduleSyncCommand extends GitCommand<Map<String, String>> {
 	 * Add repository-relative submodule path to synchronize
 	 *
 	 * @param path
+	 *            (with <code>/</code> as separator)
 	 * @return this command
 	 */
 	public SubmoduleSyncCommand addPath(final String path) {

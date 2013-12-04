@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012, Matthias Sohn <matthias.sohn@sap.com>
+ * Copyright (C) 2012, Christian Halstrick <christian.halstrick@sap.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -40,56 +40,74 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.eclipse.jgit.api;
 
-import static org.junit.Assert.assertTrue;
+package org.eclipse.jgit.internal.storage.file;
 
-import java.util.Date;
-import java.util.Properties;
+import java.io.IOException;
 
+import org.eclipse.jgit.internal.storage.file.GC.RepoStatistics;
+import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.junit.RepositoryTestCase;
-import org.eclipse.jgit.util.GitDateParser;
-import org.eclipse.jgit.util.SystemReader;
+import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.junit.TestRepository.CommitBuilder;
+import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.junit.After;
 import org.junit.Before;
-import org.junit.Test;
 
-public class GarbageCollectCommandTest extends RepositoryTestCase {
-	private Git git;
+public abstract class GcTestCase extends LocalDiskRepositoryTestCase {
+	protected TestRepository<FileRepository> tr;
+	protected FileRepository repo;
+	protected GC gc;
+	protected RepoStatistics stats;
 
-	@Override
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-		git = new Git(db);
-		String path = "a.txt";
-		writeTrashFile(path, "content");
-		git.add().addFilepattern(path).call();
-		git.commit().setMessage("commit").call();
+		repo = createWorkRepository();
+		tr = new TestRepository<FileRepository>((repo));
+		gc = new GC(repo);
 	}
 
-	@Test
-	public void testGConeCommit() throws Exception {
-		Date expire = GitDateParser.parse("now", null, SystemReader
-				.getInstance().getLocale());
-		Properties res = git.gc().setExpire(expire).call();
-		assertTrue(res.size() == 7);
+	@After
+	public void tearDown() throws Exception {
+		super.tearDown();
 	}
 
-	@Test
-	public void testGCmoreCommits() throws Exception {
-		writeTrashFile("a.txt", "a couple of words for gc to pack");
-		writeTrashFile("b.txt", "a couple of words for gc to pack 2");
-		writeTrashFile("c.txt", "a couple of words for gc to pack 3");
-		git.commit().setAll(true).setMessage("commit2").call();
-		writeTrashFile("a.txt", "a couple of words for gc to pack more");
-		writeTrashFile("b.txt", "a couple of words for gc to pack more 2");
-		writeTrashFile("c.txt", "a couple of words for gc to pack more 3");
-		git.commit().setAll(true).setMessage("commit3").call();
-		Properties res = git
-				.gc()
-				.setExpire(
-						GitDateParser.parse("now", null, SystemReader
-								.getInstance().getLocale())).call();
-		assertTrue(res.size() == 7);
+	/**
+	 * Create a chain of commits of given depth.
+	 * <p>
+	 * Each commit contains one file named "a" containing the index of the
+	 * commit in the chain as its content. The created commit chain is
+	 * referenced from any ref.
+	 * <p>
+	 * A chain of depth = N will create 3*N objects in Gits object database. For
+	 * each depth level three objects are created: the commit object, the
+	 * top-level tree object and a blob for the content of the file "a".
+	 *
+	 * @param depth
+	 *            the depth of the commit chain.
+	 * @return the commit that is the tip of the commit chain
+	 * @throws Exception
+	 */
+	protected RevCommit commitChain(int depth) throws Exception {
+		if (depth <= 0)
+			throw new IllegalArgumentException("Chain depth must be > 0");
+		CommitBuilder cb = tr.commit();
+		RevCommit tip;
+		do {
+			--depth;
+			tip = cb.add("a", "" + depth).message("" + depth).create();
+			cb = cb.child();
+		} while (depth > 0);
+		return tip;
+	}
+
+	protected long lastModified(AnyObjectId objectId) {
+		return repo.getObjectDatabase().fileFor(objectId).lastModified();
+	}
+
+	protected static void fsTick() throws InterruptedException, IOException {
+		RepositoryTestCase.fsTick(null);
 	}
 }

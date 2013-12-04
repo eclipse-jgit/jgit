@@ -70,6 +70,7 @@ import org.eclipse.jgit.api.errors.NoHeadException;
 import org.eclipse.jgit.api.errors.NoMessageException;
 import org.eclipse.jgit.api.errors.RefAlreadyExistsException;
 import org.eclipse.jgit.api.errors.RefNotFoundException;
+import org.eclipse.jgit.api.errors.StashApplyFailureException;
 import org.eclipse.jgit.api.errors.UnmergedPathsException;
 import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 import org.eclipse.jgit.diff.DiffFormatter;
@@ -79,6 +80,7 @@ import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
@@ -157,6 +159,10 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	private static final String MESSAGE_FIXUP = "message-fixup"; //$NON-NLS-1$
 
 	private static final String MESSAGE_SQUASH = "message-squash"; //$NON-NLS-1$
+
+	private static final String AUTOSTASH = "autostash"; //$NON-NLS-1$
+
+	private static final String AUTOSTASH_MSG = "On {0}: autostash";
 
 	/**
 	 * The available operations
@@ -257,11 +263,26 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 						.resolve(upstreamCommitId));
 				break;
 			case BEGIN:
+				autoStash();
+				if (stopAfterInitialization
+						|| !walk.isMergedInto(
+								walk.parseCommit(repo.resolve(Constants.HEAD)),
+								upstreamCommit)) {
+					org.eclipse.jgit.api.Status status = Git.wrap(repo)
+							.status().call();
+					if (status.hasUncommittedChanges()) {
+						List<String> list = new ArrayList<String>();
+						list.addAll(status.getUncommittedChanges());
+						return RebaseResult.uncommittedChanges(list);
+					}
+				}
 				RebaseResult res = initFilesAndRewind();
 				if (stopAfterInitialization)
 					return RebaseResult.INTERACTIVE_PREPARED_RESULT;
-				if (res != null)
+				if (res != null) {
+					autoStashApply();
 					return res;
+				}
 			}
 
 			if (monitor.isCancelled())
@@ -321,10 +342,61 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			}
 			return finishRebase(newHead, lastStepWasForward);
 		} catch (CheckoutConflictException cce) {
-			return new RebaseResult(cce.getConflictingPaths());
+			return RebaseResult.conflicts(cce.getConflictingPaths());
 		} catch (IOException ioe) {
 			throw new JGitInternalException(ioe.getMessage(), ioe);
 		}
+	}
+
+	private void autoStash() throws GitAPIException, IOException {
+		if (repo.getConfig().getBoolean(ConfigConstants.CONFIG_REBASE_SECTION,
+				ConfigConstants.CONFIG_KEY_AUTOSTASH, false)) {
+			String message = MessageFormat.format(
+							AUTOSTASH_MSG,
+							Repository
+									.shortenRefName(getHeadName(getHead())));
+			RevCommit stashCommit = Git.wrap(repo).stashCreate().setRef(null)
+					.setWorkingDirectoryMessage(
+							message)
+					.call();
+			if (stashCommit != null) {
+				FileUtils.mkdir(rebaseState.getDir());
+				rebaseState.createFile(AUTOSTASH, stashCommit.getName());
+			}
+		}
+	}
+
+	private boolean autoStashApply() throws IOException, GitAPIException {
+		boolean conflicts = false;
+		if (rebaseState.getFile(AUTOSTASH).exists()) {
+			String stash = rebaseState.readFile(AUTOSTASH);
+			try {
+				Git.wrap(repo).stashApply().setStashRef(stash)
+						.ignoreRepositoryState(true).call();
+			} catch (StashApplyFailureException e) {
+				conflicts = true;
+				RevWalk rw = new RevWalk(repo);
+				ObjectId stashId = repo.resolve(stash);
+				RevCommit commit = rw.parseCommit(stashId);
+				updateStashRef(commit, commit.getAuthorIdent(),
+						commit.getShortMessage());
+			}
+		}
+		return conflicts;
+	}
+
+	private void updateStashRef(ObjectId commitId, PersonIdent refLogIdent,
+			String refLogMessage) throws IOException {
+		Ref currentRef = repo.getRef(Constants.R_STASH);
+		RefUpdate refUpdate = repo.updateRef(Constants.R_STASH);
+		refUpdate.setNewObjectId(commitId);
+		refUpdate.setRefLogIdent(refLogIdent);
+		refUpdate.setRefLogMessage(refLogMessage, false);
+		if (currentRef != null)
+			refUpdate.setExpectedOldObjectId(currentRef.getObjectId());
+		else
+			refUpdate.setExpectedOldObjectId(ObjectId.zeroId());
+		refUpdate.forceUpdate();
 	}
 
 	private RebaseResult processStep(RebaseTodoLine step, boolean shouldPick)
@@ -340,7 +412,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		RevCommit commitToPick = walk.parseCommit(ids.iterator().next());
 		if (shouldPick) {
 			if (monitor.isCancelled())
-				return new RebaseResult(commitToPick, Status.STOPPED);
+				return RebaseResult.result(Status.STOPPED, commitToPick);
 			RebaseResult result = cherryPickCommit(commitToPick);
 			if (result != null)
 				return result;
@@ -403,8 +475,8 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 				switch (cherryPickResult.getStatus()) {
 				case FAILED:
 					if (operation == Operation.BEGIN)
-						return abort(new RebaseResult(
-								cherryPickResult.getFailingPaths()));
+						return abort(RebaseResult.failed(cherryPickResult
+								.getFailingPaths()));
 					else
 						return stop(commitToPick, Status.STOPPED);
 				case CONFLICTING:
@@ -420,10 +492,13 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	}
 
 	private RebaseResult finishRebase(RevCommit newHead,
-			boolean lastStepWasForward) throws IOException {
+			boolean lastStepWasForward) throws IOException, GitAPIException {
 		String headName = rebaseState.readFile(HEAD_NAME);
 		updateHead(headName, newHead, upstreamCommit);
+		boolean stashConflicts = autoStashApply();
 		FileUtils.delete(rebaseState.getDir(), FileUtils.RECURSIVE);
+		if (stashConflicts)
+			return RebaseResult.STASH_APPLY_CONFLICTS_RESULT;
 		if (lastStepWasForward || newHead == null)
 			return RebaseResult.FAST_FORWARD_RESULT;
 		return RebaseResult.OK_RESULT;
@@ -550,7 +625,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		} else {
 			sb.append("# The ").append(count).append(ordinal)
 					.append(" commit message will be skipped:\n# ");
-			sb.append(commitToPick.getFullMessage().replaceAll("([\n\r]+)",
+			sb.append(commitToPick.getFullMessage().replaceAll("([\n\r])",
 					"$1# "));
 		}
 		// Add the previous message without header (i.e first line)
@@ -735,7 +810,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		// Remove cherry pick state file created by CherryPickCommand, it's not
 		// needed for rebase
 		repo.writeCherryPickHead(null);
-		return new RebaseResult(commitToPick, status);
+		return RebaseResult.result(status, commitToPick);
 	}
 
 	String toAuthorScript(PersonIdent author) {
@@ -797,16 +872,9 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		// we need to store everything into files so that we can implement
 		// --skip, --continue, and --abort
 
-		Ref head = repo.getRef(Constants.HEAD);
-		if (head == null || head.getObjectId() == null)
-			throw new RefNotFoundException(MessageFormat.format(
-					JGitText.get().refNotResolved, Constants.HEAD));
+		Ref head = getHead();
 
-		String headName;
-		if (head.isSymbolic())
-			headName = head.getTarget().getName();
-		else
-			headName = head.getObjectId().getName();
+		String headName = getHeadName(head);
 		ObjectId headId = head.getObjectId();
 		if (headId == null)
 			throw new RefNotFoundException(MessageFormat.format(
@@ -845,7 +913,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 
 		Collections.reverse(cherryPickList);
 		// create the folder for the meta information
-		FileUtils.mkdir(rebaseState.getDir());
+		FileUtils.mkdir(rebaseState.getDir(), true);
 
 		repo.writeOrigHead(headId);
 		rebaseState.createFile(REBASE_HEAD, headId.name());
@@ -881,6 +949,23 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		return null;
 	}
 
+	private static String getHeadName(Ref head) {
+		String headName;
+		if (head.isSymbolic())
+			headName = head.getTarget().getName();
+		else
+			headName = head.getObjectId().getName();
+		return headName;
+	}
+
+	private Ref getHead() throws IOException, RefNotFoundException {
+		Ref head = repo.getRef(Constants.HEAD);
+		if (head == null || head.getObjectId() == null)
+			throw new RefNotFoundException(MessageFormat.format(
+					JGitText.get().refNotResolved, Constants.HEAD));
+		return head;
+	}
+
 	private boolean isInteractive() {
 		return interactiveHandler != null;
 	}
@@ -895,10 +980,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	 */
 	public RevCommit tryFastForward(RevCommit newCommit) throws IOException,
 			GitAPIException {
-		Ref head = repo.getRef(Constants.HEAD);
-		if (head == null || head.getObjectId() == null)
-			throw new RefNotFoundException(MessageFormat.format(
-					JGitText.get().refNotResolved, Constants.HEAD));
+		Ref head = getHead();
 
 		ObjectId headId = head.getObjectId();
 		if (headId == null)
@@ -908,11 +990,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		if (walk.isMergedInto(newCommit, headCommit))
 			return newCommit;
 
-		String headName;
-		if (head.isSymbolic())
-			headName = head.getTarget().getName();
-		else
-			headName = head.getObjectId().getName();
+		String headName = getHeadName(head);
 		return tryFastForward(headName, headCommit, newCommit);
 	}
 
@@ -992,7 +1070,8 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			}
 	}
 
-	private RebaseResult abort(RebaseResult result) throws IOException {
+	private RebaseResult abort(RebaseResult result) throws IOException,
+			GitAPIException {
 		try {
 			ObjectId origHead = repo.readOrigHead();
 			String commitId = origHead != null ? origHead.name() : null;
@@ -1041,9 +1120,12 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 							JGitText.get().abortingRebaseFailed);
 				}
 			}
+			boolean stashConflicts = autoStashApply();
 			// cleanup the files
 			FileUtils.delete(rebaseState.getDir(), FileUtils.RECURSIVE);
 			repo.writeCherryPickHead(null);
+			if (stashConflicts)
+				return RebaseResult.STASH_APPLY_CONFLICTS_RESULT;
 			return result;
 
 		} finally {

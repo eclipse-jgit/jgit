@@ -156,9 +156,10 @@ public abstract class ObjectDatabase {
 	 * @param objectId
 	 *            identity of the object to open.
 	 * @param typeHint
-	 *            hint about the type of object being requested;
-	 *            {@link ObjectReader#OBJ_ANY} if the object type is not known,
-	 *            or does not matter to the caller.
+	 *            hint about the type of object being requested, e.g.
+	 *            {@link Constants#OBJ_BLOB}; {@link ObjectReader#OBJ_ANY} if
+	 *            the object type is not known, or does not matter to the
+	 *            caller.
 	 * @return a {@link ObjectLoader} for accessing the object.
 	 * @throws MissingObjectException
 	 *             the object does not exist.

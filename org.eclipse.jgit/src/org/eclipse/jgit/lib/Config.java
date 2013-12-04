@@ -435,7 +435,7 @@ public class Config {
 	}
 
 	/**
-	 * Get string value
+	 * Get string value or null if not found.
 	 *
 	 * @param section
 	 *            the section
@@ -443,7 +443,7 @@ public class Config {
 	 *            the subsection for the value
 	 * @param name
 	 *            the key name
-	 * @return a String value from git config.
+	 * @return a String value from the config, <code>null</code> if not found
 	 */
 	public String getString(final String section, String subsection,
 			final String name) {

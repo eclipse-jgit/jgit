@@ -197,6 +197,8 @@ public class RebaseTodoFile {
 			}
 			tokenCount++;
 		}
+		if (tokenCount == 2)
+			return new RebaseTodoLine(action, commit, ""); //$NON-NLS-1$
 		return null;
 	}
 

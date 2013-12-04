@@ -279,16 +279,17 @@ public class ResetCommand extends GitCommand<Ref> {
 	}
 
 	/**
-	 * @param file
-	 *            the file to add
+	 * @param path
+	 *            repository-relative path of file/directory to reset (with
+	 *            <code>/</code> as separator)
 	 * @return this instance
 	 */
-	public ResetCommand addPath(String file) {
+	public ResetCommand addPath(String path) {
 		if (mode != null)
 			throw new JGitInternalException(MessageFormat.format(
 					JGitText.get().illegalCombinationOfArguments, "<paths>...",
 					"[--mixed | --soft | --hard]")); //$NON-NLS-1$
-		filepaths.add(file);
+		filepaths.add(path);
 		return this;
 	}
 

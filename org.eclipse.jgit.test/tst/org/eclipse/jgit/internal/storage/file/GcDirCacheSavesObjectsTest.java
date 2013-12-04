@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012, Matthias Sohn <matthias.sohn@sap.com>
+ * Copyright (C) 2012, Christian Halstrick <christian.halstrick@sap.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -40,56 +40,46 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.eclipse.jgit.api;
 
-import static org.junit.Assert.assertTrue;
+package org.eclipse.jgit.internal.storage.file;
 
-import java.util.Date;
-import java.util.Properties;
+import static org.junit.Assert.assertEquals;
 
-import org.eclipse.jgit.junit.RepositoryTestCase;
-import org.eclipse.jgit.util.GitDateParser;
-import org.eclipse.jgit.util.SystemReader;
-import org.junit.Before;
+import org.eclipse.jgit.junit.TestRepository.BranchBuilder;
 import org.junit.Test;
 
-public class GarbageCollectCommandTest extends RepositoryTestCase {
-	private Git git;
-
-	@Override
-	@Before
-	public void setUp() throws Exception {
-		super.setUp();
-		git = new Git(db);
-		String path = "a.txt";
-		writeTrashFile(path, "content");
-		git.add().addFilepattern(path).call();
-		git.commit().setMessage("commit").call();
+public class GcDirCacheSavesObjectsTest extends GcTestCase {
+	@Test
+	public void testDirCacheSavesObjects() throws Exception {
+		BranchBuilder bb = tr.branch("refs/heads/master");
+		bb.commit().add("A", "A").add("B", "B").create();
+		bb.commit().add("A", "A2").add("B", "B2").create();
+		bb.commit().add("A", "A3"); // this new content in index should survive
+		stats = gc.getStatistics();
+		assertEquals(9, stats.numberOfLooseObjects);
+		assertEquals(0, stats.numberOfPackedObjects);
+		gc.gc();
+		stats = gc.getStatistics();
+		assertEquals(1, stats.numberOfLooseObjects);
+		assertEquals(8, stats.numberOfPackedObjects);
+		assertEquals(1, stats.numberOfPackFiles);
 	}
 
 	@Test
-	public void testGConeCommit() throws Exception {
-		Date expire = GitDateParser.parse("now", null, SystemReader
-				.getInstance().getLocale());
-		Properties res = git.gc().setExpire(expire).call();
-		assertTrue(res.size() == 7);
-	}
-
-	@Test
-	public void testGCmoreCommits() throws Exception {
-		writeTrashFile("a.txt", "a couple of words for gc to pack");
-		writeTrashFile("b.txt", "a couple of words for gc to pack 2");
-		writeTrashFile("c.txt", "a couple of words for gc to pack 3");
-		git.commit().setAll(true).setMessage("commit2").call();
-		writeTrashFile("a.txt", "a couple of words for gc to pack more");
-		writeTrashFile("b.txt", "a couple of words for gc to pack more 2");
-		writeTrashFile("c.txt", "a couple of words for gc to pack more 3");
-		git.commit().setAll(true).setMessage("commit3").call();
-		Properties res = git
-				.gc()
-				.setExpire(
-						GitDateParser.parse("now", null, SystemReader
-								.getInstance().getLocale())).call();
-		assertTrue(res.size() == 7);
+	public void testDirCacheSavesObjectsWithPruneNow() throws Exception {
+		BranchBuilder bb = tr.branch("refs/heads/master");
+		bb.commit().add("A", "A").add("B", "B").create();
+		bb.commit().add("A", "A2").add("B", "B2").create();
+		bb.commit().add("A", "A3"); // this new content in index should survive
+		stats = gc.getStatistics();
+		assertEquals(9, stats.numberOfLooseObjects);
+		assertEquals(0, stats.numberOfPackedObjects);
+		gc.setExpireAgeMillis(0);
+		fsTick();
+		gc.gc();
+		stats = gc.getStatistics();
+		assertEquals(0, stats.numberOfLooseObjects);
+		assertEquals(8, stats.numberOfPackedObjects);
+		assertEquals(1, stats.numberOfPackFiles);
 	}
 }

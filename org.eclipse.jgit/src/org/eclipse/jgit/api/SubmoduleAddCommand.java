@@ -93,6 +93,7 @@ public class SubmoduleAddCommand extends
 	 * Set repository-relative path of submodule
 	 *
 	 * @param path
+	 *            (with <code>/</code> as separator)
 	 * @return this command
 	 */
 	public SubmoduleAddCommand setPath(final String path) {

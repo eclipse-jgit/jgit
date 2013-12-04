@@ -305,15 +305,16 @@ public class CheckoutCommand extends GitCommand<Ref> {
 	}
 
 	/**
-	 * Add a single path to the list of paths to check out. To check out all
-	 * paths, use {@link #setAllPaths(boolean)}.
+	 * Add a single slash-separated path to the list of paths to check out. To
+	 * check out all paths, use {@link #setAllPaths(boolean)}.
 	 * <p>
 	 * If this option is set, neither the {@link #setCreateBranch(boolean)} nor
 	 * {@link #setName(String)} option is considered. In other words, these
 	 * options are exclusive.
 	 *
 	 * @param path
-	 *            path to update in the working tree and index
+	 *            path to update in the working tree and index (with
+	 *            <code>/</code> as separator)
 	 * @return {@code this}
 	 */
 	public CheckoutCommand addPath(String path) {

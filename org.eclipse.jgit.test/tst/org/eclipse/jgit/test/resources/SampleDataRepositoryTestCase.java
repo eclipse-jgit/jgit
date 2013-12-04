@@ -44,9 +44,12 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.junit;
+package org.eclipse.jgit.test.resources;
 
 import java.io.File;
+
+import org.eclipse.jgit.junit.JGitTestUtil;
+import org.eclipse.jgit.junit.RepositoryTestCase;
 
 
 /** Test case which includes C Git generated pack files for testing. */
@@ -66,11 +69,11 @@ public abstract class SampleDataRepositoryTestCase extends RepositoryTestCase {
 		};
 		final File packDir = new File(db.getObjectDatabase().getDirectory(), "pack");
 		for (String n : packs) {
-			copyFile(JGitTestUtil.getTestResourceFile(n + ".pack"), new File(packDir, n + ".pack"));
-			copyFile(JGitTestUtil.getTestResourceFile(n + ".idx"), new File(packDir, n + ".idx"));
+			JGitTestUtil.copyTestResource(n + ".pack", new File(packDir, n + ".pack"));
+			JGitTestUtil.copyTestResource(n + ".idx", new File(packDir, n + ".idx"));
 		}
 
-		copyFile(JGitTestUtil.getTestResourceFile("packed-refs"), new File(db
-				.getDirectory(), "packed-refs"));
+		JGitTestUtil.copyTestResource("packed-refs",
+				new File(db.getDirectory(), "packed-refs"));
 	}
 }

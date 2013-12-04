@@ -405,7 +405,7 @@ public class DirCacheCheckoutMaliciousPathTest extends RepositoryTestCase {
 		} catch (InvalidPathException e) {
 			if (good)
 				throw e;
-			assertTrue(e.getMessage().startsWith("Invalid path: "));
+			assertTrue(e.getMessage().startsWith("Invalid path"));
 		}
 	}
 

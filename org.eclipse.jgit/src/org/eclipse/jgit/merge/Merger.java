@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2009, Google Inc.
+ * Copyright (C) 2008-2013, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -54,8 +54,8 @@ import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTree;
@@ -63,7 +63,6 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
-import org.eclipse.jgit.treewalk.EmptyTreeIterator;
 
 /**
  * Instance of a specific {@link MergeStrategy} for a single {@link Repository}.
@@ -186,24 +185,11 @@ public abstract class Merger {
 	}
 
 	/**
-	 * Create an iterator to walk the merge base of two commits.
-	 *
-	 * @param a
-	 *            the first commit in {@link #sourceObjects}.
-	 * @param b
-	 *            the second commit in {@link #sourceObjects}.
-	 * @return the new iterator
-	 * @throws IncorrectObjectTypeException
-	 *             one of the input objects is not a commit.
-	 * @throws IOException
-	 *             objects are missing or multiple merge bases were found.
-	 * @since 3.0
+	 * @return the ID of the commit that was used as merge base for merging, or
+	 *         null if no merge base was used or it was set manually
+	 * @since 3.2
 	 */
-	protected AbstractTreeIterator mergeBase(RevCommit a, RevCommit b)
-			throws IOException {
-		RevCommit base = getBaseCommit(a, b);
-		return (base == null) ? new EmptyTreeIterator() : openTree(base.getTree());
-	}
+	public abstract ObjectId getBaseCommitId();
 
 	/**
 	 * Return the merge base of two commits.
@@ -217,7 +203,10 @@ public abstract class Merger {
 	 *             one of the input objects is not a commit.
 	 * @throws IOException
 	 *             objects are missing or multiple merge bases were found.
+	 * @deprecated use {@link #getBaseCommitId()} instead, as that does not
+	 *             require walking the commits again
 	 */
+	@Deprecated
 	public RevCommit getBaseCommit(final int aIdx, final int bIdx)
 			throws IncorrectObjectTypeException,
 			IOException {
