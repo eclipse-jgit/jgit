@@ -43,7 +43,7 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
-import javaewah.EWAHCompressedBitmap;
+import com.googlecode.javaewah.EWAHCompressedBitmap;
 
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectIdOwnerMap;
