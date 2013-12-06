@@ -50,7 +50,7 @@ import java.io.OutputStream;
 import java.security.DigestOutputStream;
 import java.text.MessageFormat;
 
-import javaewah.EWAHCompressedBitmap;
+import com.googlecode.javaewah.EWAHCompressedBitmap;
 
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndexBuilder.StoredEntry;
