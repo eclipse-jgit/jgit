@@ -49,7 +49,7 @@ import java.io.InputStream;
 import java.text.MessageFormat;
 import java.util.Arrays;
 
-import javaewah.EWAHCompressedBitmap;
+import com.googlecode.javaewah.EWAHCompressedBitmap;
 
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
