@@ -177,7 +177,7 @@
 
     <jgit-last-release-version>3.0.0.201306101825-r</jgit-last-release-version>
     <jsch-version>0.1.46</jsch-version>
-    <javaewah-version>0.5.6</javaewah-version>
+    <javaewah-version>0.7.9</javaewah-version>
     <junit-version>4.11</junit-version>
     <!-- TODO: update Maven dependency for args4j to 2.0.21 as soon as available on Maven Central -->
     <args4j-version>2.0.12</args4j-version>

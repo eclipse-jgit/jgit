@@ -49,7 +49,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.MessageFormat;
 
-import javaewah.EWAHCompressedBitmap;
+import com.googlecode.javaewah.EWAHCompressedBitmap;
 
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.internal.JGitText;
