@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8748d3a1_75d8ff65",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 897,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-12-08T20:40:40Z",
+      "side": 1,
+      "message": "I think that algorithm will work.\n\nBut I am wondering whether we really have no more efficient way. In this block we are reading some parts of the content 3 times. First RawText.isBinary will read the first 8 KB. Then we are reading the complete file just to compute the resulting length . And then we are finally reading it a third time, do the same EOLCanonicalization again as in the previous step to comput a SHA1 of the content.\n\nIf we would have a InputStream who would do EolCanonicalization on a arbitrary length stream we could save one round of reading the file. If that same InputStream implementation would throw an exception if he detects the file is binary we could save another round of reading the content. That would be a big performance boost I guess.\n\nWe could also do it in a different change - but I think we should fix this.",
+      "revId": "617abc00f274762ac0c3b533ea252885912f8d86",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
