@@ -903,6 +903,8 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 						entry.setLength((int) getEntryLength());
 						entry.setObjectIdFromRaw(autoCrLfHash, 0);
 					}
+					// Ok, we know it's different so unsmudge the dirache entry
+					entry.setLength(loader.getSize());
 					return changed;
 				} catch (IOException e) {
 					return true;
@@ -915,6 +917,17 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 						}
 				}
 			case FALSE:
+				// Ok, we know it's different so unsmudge the dircache entry
+				try {
+					if (repository != null) {
+						ObjectId id = entry.getObjectId();
+						ObjectLoader loader = repository.open(id);
+						if (loader != null)
+							entry.setLength((int) loader.getSize());
+					}
+				} catch (IOException e) {
+					// panic, no, but don't unsmudge
+				}
 				break;
 			}
 			return true;
