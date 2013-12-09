@@ -16,6 +16,41 @@
       "revId": "617abc00f274762ac0c3b533ea252885912f8d86",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_25aabf8b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 897,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-12-09T15:42:24Z",
+      "side": 1,
+      "message": "If everything is smudged, then yes it\u0027ll be performance boost.",
+      "parentUuid": "8748d3a1_75d8ff65",
+      "revId": "617abc00f274762ac0c3b533ea252885912f8d86",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_c5815b08",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 909,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-12-09T15:42:24Z",
+      "side": 1,
+      "message": "I wonder, is there a reason not to unsmudge when we know files are different too?",
+      "revId": "617abc00f274762ac0c3b533ea252885912f8d86",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
