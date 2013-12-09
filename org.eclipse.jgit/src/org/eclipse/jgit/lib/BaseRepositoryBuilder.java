@@ -695,7 +695,7 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 		String path = cfg.getString(CONFIG_CORE_SECTION, null,
 				CONFIG_KEY_WORKTREE);
 		if (path != null)
-			return safeFS().resolve(getGitDir(), path);
+			return safeFS().resolve(getGitDir(), path).getCanonicalFile();
 
 		// If core.bare is set, honor its value. Assume workTree is
 		// the parent directory of the repository.
