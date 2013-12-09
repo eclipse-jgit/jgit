@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_826bc965",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 886,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-12-09T15:05:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_3b468af9",
+      "revId": "a896bfedfc6d6527afda10881dc48283b331d9e9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_7b02d2c3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
         "patchSetId": 2
@@ -47,6 +65,24 @@
       "writtenOn": "2013-12-05T21:38:03Z",
       "side": 1,
       "message": "Hm, should we default to true here? If there\u0027s an exception, is it safer to say \"it is modified\" or \"it is not modified\"?",
+      "revId": "a896bfedfc6d6527afda10881dc48283b331d9e9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_e250cda7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 890,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-12-09T15:05:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_7b02d2c3",
       "revId": "a896bfedfc6d6527afda10881dc48283b331d9e9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
