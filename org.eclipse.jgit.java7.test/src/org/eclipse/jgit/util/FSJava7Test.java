@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2012-2013, Robin Rosenberg <robin.rosenberg@dewire.com>
+ * Copyright (C) 2014, Obeo.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -48,8 +49,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
-import java.io.IOException;
-
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
@@ -79,11 +78,10 @@ public class FSJava7Test {
 	 * for the other attributes like lastModified, hidden and exists we must
 	 * differ between the link and the target.
 	 *
-	 * @throws IOException
-	 * @throws InterruptedException
+	 * @throws Exception
 	 */
 	@Test
-	public void testSymlinkAttributes() throws IOException, InterruptedException {
+	public void testSymlinkAttributes() throws Exception {
 		FS fs = FS.DETECTED;
 		File link = new File(trash, "ä");
 		File target = new File(trash, "å");
