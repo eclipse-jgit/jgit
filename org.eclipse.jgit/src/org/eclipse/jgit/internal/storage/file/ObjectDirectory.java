@@ -428,7 +428,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 
 	@Override
 	void selectObjectRepresentation(PackWriter packer, ObjectToPack otp,
-			WindowCursor curs) throws IOException {
+			WindowCursor curs, final FileObjectDatabase primary) throws IOException {
 		PackList pList = packList.get();
 		SEARCH: for (;;) {
 			for (final PackFile p : pList.packs) {
@@ -450,8 +450,14 @@ public class ObjectDirectory extends FileObjectDatabase {
 			break SEARCH;
 		}
 
-		for (AlternateHandle h : myAlternates())
-			h.db.selectObjectRepresentation(packer, otp, curs);
+		for (AlternateHandle h : myAlternates()) {
+			if (primary == null)
+				h.db.selectObjectRepresentation(packer, otp, curs, this);
+			else if (!h.in(primary.myAlternates())) {
+				primary.addAlternate(h);
+				h.db.selectObjectRepresentation(packer, otp, curs, primary);
+			}
+		}
 	}
 
 	boolean hasObject2(final String objectName) {
@@ -755,6 +761,18 @@ public class ObjectDirectory extends FileObjectDatabase {
 			}
 		}
 		return alt;
+	}
+
+	void addAlternate(AlternateHandle alt) {
+		AlternateHandle[] alts = myAlternates();
+		if (!alt.in(alts)) {
+			AlternateHandle[] newalts = new AlternateHandle[alts.length + 1];
+			System.arraycopy(alts, 0, newalts, 0, alts.length);
+			newalts[alts.length] = alt;
+			synchronized(alternates) {
+				alternates.set(newalts);
+			}
+		}
 	}
 
 	private AlternateHandle[] loadAlternates() throws IOException {

@@ -89,6 +89,7 @@ import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.io.SafeBufferedOutputStream;
+import org.eclipse.jgit.internal.storage.file.ObjectDirectory;
 
 /**
  * Represents a Git repository.
@@ -891,7 +892,7 @@ public abstract class Repository {
 	 *
 	 * @return unmodifiable collection of other known objects.
 	 */
-	public Set<ObjectId> getAdditionalHaves() {
+	public Set<ObjectId> getAdditionalHaves(final ObjectDirectory primary) {
 		return Collections.emptySet();
 	}
 

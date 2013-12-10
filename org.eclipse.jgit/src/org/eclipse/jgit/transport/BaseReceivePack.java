@@ -385,7 +385,7 @@ public abstract class BaseReceivePack {
 		if (additionalHaves != null)
 			advertisedHaves.addAll(additionalHaves);
 		else
-			advertisedHaves.addAll(db.getAdditionalHaves());
+			advertisedHaves.addAll(db.getAdditionalHaves(null));
 	}
 
 	/**
