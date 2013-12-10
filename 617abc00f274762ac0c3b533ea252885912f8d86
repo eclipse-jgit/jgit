@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_0524e35f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 897,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-12-10T11:27:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_25aabf8b",
+      "revId": "617abc00f274762ac0c3b533ea252885912f8d86",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_c5815b08",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
         "patchSetId": 5
@@ -48,6 +66,24 @@
       "writtenOn": "2013-12-09T15:42:24Z",
       "side": 1,
       "message": "I wonder, is there a reason not to unsmudge when we know files are different too?",
+      "revId": "617abc00f274762ac0c3b533ea252885912f8d86",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_e51e1713",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 909,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-12-10T11:27:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_c5815b08",
       "revId": "617abc00f274762ac0c3b533ea252885912f8d86",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
