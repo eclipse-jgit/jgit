@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_6a25a7e0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 861,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-12-10T11:24:54Z",
+      "side": 1,
+      "message": "I don\u0027t undetstand. If the hash matches without tweaking, we\u0027re fine?",
+      "parentUuid": "8748d3a1_c45b14ce",
+      "revId": "99411876652d2dab89139311a8b03c8187e69dcd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_249f58e8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_aa168f7b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 898,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-12-10T11:24:54Z",
+      "side": 1,
+      "message": "What\u0027s the difference?",
+      "parentUuid": "8748d3a1_249f58e8",
+      "revId": "99411876652d2dab89139311a8b03c8187e69dcd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_244d9818",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
         "patchSetId": 3
@@ -47,6 +83,24 @@
       "writtenOn": "2013-12-10T10:41:11Z",
       "side": 1,
       "message": "if a file is not changed then we are calling entry.setLength() twice with different values. This looks strange. Maybe this setLength should be in a \u0027else\u0027 block.",
+      "revId": "99411876652d2dab89139311a8b03c8187e69dcd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_aae4cf1b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 907,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-12-10T11:24:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_244d9818",
       "revId": "99411876652d2dab89139311a8b03c8187e69dcd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
