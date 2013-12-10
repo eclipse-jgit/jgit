@@ -1101,24 +1101,29 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		}
 		try {
 			String headName = rebaseState.readFile(HEAD_NAME);
-			if (headName.startsWith(Constants.R_REFS)) {
 				monitor.beginTask(MessageFormat.format(
 						JGitText.get().resettingHead, headName),
 						ProgressMonitor.UNKNOWN);
 
+			Result res = null;
+			RefUpdate refUpdate = repo.updateRef(Constants.HEAD, false);
+			refUpdate.setRefLogMessage("rebase: aborting", false); //$NON-NLS-1$
+			if (headName.startsWith(Constants.R_REFS)) {
 				// update the HEAD
-				RefUpdate refUpdate = repo.updateRef(Constants.HEAD, false);
-				refUpdate.setRefLogMessage("rebase: aborting", false); //$NON-NLS-1$
-				Result res = refUpdate.link(headName);
-				switch (res) {
-				case FAST_FORWARD:
-				case FORCED:
-				case NO_CHANGE:
-					break;
-				default:
-					throw new JGitInternalException(
-							JGitText.get().abortingRebaseFailed);
-				}
+				res = refUpdate.link(headName);
+			} else {
+				refUpdate.setNewObjectId(repo.readOrigHead());
+				res = refUpdate.forceUpdate();
+
+			}
+			switch (res) {
+			case FAST_FORWARD:
+			case FORCED:
+			case NO_CHANGE:
+				break;
+			default:
+				throw new JGitInternalException(
+						JGitText.get().abortingRebaseFailed);
 			}
 			boolean stashConflicts = autoStashApply();
 			// cleanup the files

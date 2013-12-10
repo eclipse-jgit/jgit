@@ -576,6 +576,69 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testStopOnConflictAndAbortWithDetachedHEAD() throws Exception {
+		// create file1 on master
+		RevCommit firstInMaster = writeFileAndCommit(FILE1, "Add file1", "1",
+				"2", "3");
+		// change first line in master
+		writeFileAndCommit(FILE1, "change file1 in master", "1master", "2", "3");
+		checkFile(FILE1, "1master", "2", "3");
+		// create a topic branch based on second commit
+		createBranch(firstInMaster, "refs/heads/topic");
+		checkoutBranch("refs/heads/topic");
+		// we have the old content again
+		checkFile(FILE1, "1", "2", "3");
+
+		// add a line (non-conflicting)
+		writeFileAndCommit(FILE1, "add a line to file1 in topic", "1", "2",
+				"3", "topic4");
+
+		// change first line (conflicting)
+		RevCommit conflicting = writeFileAndCommit(FILE1,
+				"change file1 in topic", "1topic", "2", "3", "topic4");
+
+		RevCommit lastTopicCommit = writeFileAndCommit(FILE1,
+				"change file1 in topic again", "1topic", "2", "3", "topic4");
+
+		git.checkout().setName(lastTopicCommit.getName()).call();
+
+		RebaseResult res = git.rebase().setUpstream("refs/heads/master").call();
+		assertEquals(Status.STOPPED, res.getStatus());
+		assertEquals(conflicting, res.getCurrentCommit());
+		checkFile(FILE1,
+				"<<<<<<< Upstream, based on master\n1master\n=======\n1topic",
+				">>>>>>> e0d1dea change file1 in topic\n2\n3\ntopic4");
+
+		assertEquals(RepositoryState.REBASING_INTERACTIVE,
+				db.getRepositoryState());
+		assertTrue(new File(db.getDirectory(), "rebase-merge").exists());
+		// the first one should be included, so we should have left two picks in
+		// the file
+		assertEquals(1, countPicks());
+
+		// rebase should not succeed in this state
+		try {
+			git.rebase().setUpstream("refs/heads/master").call();
+			fail("Expected exception was not thrown");
+		} catch (WrongRepositoryStateException e) {
+			// expected
+		}
+
+		// abort should reset to topic branch
+		res = git.rebase().setOperation(Operation.ABORT).call();
+		assertEquals(res.getStatus(), Status.ABORTED);
+		assertEquals(lastTopicCommit.getName(), db.getFullBranch());
+		checkFile(FILE1, "1topic", "2", "3", "topic4");
+		RevWalk rw = new RevWalk(db);
+		assertEquals(lastTopicCommit,
+				rw.parseCommit(db.resolve(Constants.HEAD)));
+		assertEquals(RepositoryState.SAFE, db.getRepositoryState());
+
+		// rebase- dir in .git must be deleted
+		assertFalse(new File(db.getDirectory(), "rebase-merge").exists());
+	}
+
+	@Test
 	public void testStopOnConflictAndContinue() throws Exception {
 		// create file1 on master
 		RevCommit firstInMaster = writeFileAndCommit(FILE1, "Add file1", "1",
