@@ -45,7 +45,7 @@ package org.eclipse.jgit.lib;
 
 import java.text.MessageFormat;
 
-import org.eclipse.jgit.api.errors.JGitInternalException;
+import org.eclipse.jgit.errors.IllegalTodoFileModification;
 import org.eclipse.jgit.internal.JGitText;
 
 /**
@@ -111,7 +111,7 @@ public class RebaseTodoLine {
 						|| action.shortToken.equals(token))
 					return action;
 			}
-			throw new JGitInternalException(MessageFormat.format(
+			throw new IllegalArgumentException(MessageFormat.format(
 					JGitText.get().unknownOrUnsupportedCommand, token,
 					Action.values()));
 		}
@@ -167,8 +167,11 @@ public class RebaseTodoLine {
 	 * non-comment.
 	 *
 	 * @param newAction
+	 * @throws IllegalTodoFileModification
+	 *             on attempt to set a non-comment action on a line which was a
+	 *             comment line before.
 	 */
-	public void setAction(Action newAction) {
+	public void setAction(Action newAction) throws IllegalTodoFileModification {
 		if (!Action.COMMENT.equals(action) && Action.COMMENT.equals(newAction)) {
 			// transforming from non-comment to comment
 			if (comment == null)
@@ -180,7 +183,7 @@ public class RebaseTodoLine {
 		} else if (Action.COMMENT.equals(action) && !Action.COMMENT.equals(newAction)) {
 			// transforming from comment to non-comment
 			if (commit == null)
-				throw new JGitInternalException(MessageFormat.format(
+				throw new IllegalTodoFileModification(MessageFormat.format(
 						JGitText.get().cannotChangeActionOnComment, action,
 						newAction));
 		}
@@ -219,12 +222,11 @@ public class RebaseTodoLine {
 		throw createInvalidCommentException(newComment);
 	}
 
-	private static JGitInternalException createInvalidCommentException(
+	private static IllegalArgumentException createInvalidCommentException(
 			String newComment) {
-		IllegalArgumentException iae = new IllegalArgumentException(
+		return new IllegalArgumentException(
 				MessageFormat.format(
 				JGitText.get().argumentIsNotAValidCommentString, newComment));
-		return new JGitInternalException(iae.getMessage(), iae);
 	}
 
 	/**
