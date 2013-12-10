@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8748d3a1_c45b14ce",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 861,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-12-10T10:41:11Z",
+      "side": 1,
+      "message": "Isn\u0027t it wrong to ignore autocrlf\u003d\u003dINPUT in this case. What if you have staged content with crlf and the workingtree file contains exactly the same bytes you have staged. If you set autocrlf to INPUT wouldn\u0027t that mean that we have to report that the contents differ? What\u0027s in the file is different from what you read (eol-canonicalized) from the index.",
+      "revId": "99411876652d2dab89139311a8b03c8187e69dcd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_249f58e8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 898,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-12-10T10:41:11Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we unsmudge entries only when they are smudged? You are setting the length independently from whether you are looking at a smudged entry or not. This is also true for the case for autcrlf \u003d FALSE",
+      "revId": "99411876652d2dab89139311a8b03c8187e69dcd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_244d9818",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 907,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-12-10T10:41:11Z",
+      "side": 1,
+      "message": "if a file is not changed then we are calling entry.setLength() twice with different values. This looks strange. Maybe this setLength should be in a \u0027else\u0027 block.",
+      "revId": "99411876652d2dab89139311a8b03c8187e69dcd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
