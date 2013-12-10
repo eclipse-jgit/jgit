@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
+ * Copyright (C) 2014, Obeo.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -43,13 +44,18 @@
 
 package org.eclipse.jgit.util;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.jgit.api.errors.JGitInternalException;
+import org.eclipse.jgit.lib.Constants;
 
 /**
  * FS implementation for Cygwin on Windows
@@ -98,6 +104,12 @@ public class FS_Win32_Cygwin extends FS_Win32 {
 		return new FS_Win32_Cygwin(this);
 	}
 
+	@Override
+	public boolean isCaseSensitive() {
+		return true;
+	}
+
+	@Override
 	public File resolve(final File dir, final String pn) {
 		String useCygPath = System.getProperty("jgit.usecygpath"); //$NON-NLS-1$
 		if (useCygPath != null && useCygPath.equals("true")) { //$NON-NLS-1$
@@ -135,4 +147,62 @@ public class FS_Win32_Cygwin extends FS_Win32 {
 		proc.command(argv);
 		return proc;
 	}
+
+	@Override
+	public boolean supportsSymlinks() {
+		return true;
+	}
+
+	@Override
+	public void createSymLink(File path, String target) throws IOException {
+		ProcessBuilder processBuilder = runInShell(
+				"ln", new String[] { "-s", target, path.getName() }); //$NON-NLS-1$ //$NON-NLS-2$
+		processBuilder.directory(path.getParentFile());
+		Process process = processBuilder.start();
+		try {
+			process.waitFor();
+		} catch (InterruptedException e) {
+			throw new JGitInternalException(e.getMessage(), e);
+		}
+	}
+
+	@Override
+	public boolean isSymLink(File path) throws IOException {
+		ProcessBuilder processBuilder = runInShell(
+				"test", new String[] { "-h", path.toString() }); //$NON-NLS-1$ //$NON-NLS-2$
+		Process process = processBuilder.start();
+		int exitValue = -1;
+		try {
+			exitValue = process.waitFor();
+		} catch (InterruptedException e) {
+			throw new JGitInternalException(e.getMessage(), e);
+		}
+		return exitValue == 0;
+	}
+
+	@Override
+	public String readSymLink(File path) throws IOException {
+		ProcessBuilder processBuilder = runInShell(
+				"readlink", new String[] { path.getAbsolutePath() }); //$NON-NLS-1$
+		Process process = processBuilder.start();
+		String readLine = new BufferedReader(new InputStreamReader(
+				process.getInputStream())).readLine();
+		try {
+			process.waitFor();
+		} catch (InterruptedException e) {
+			throw new JGitInternalException(e.getMessage(), e);
+		}
+		return readLine;
+	}
+
+	@Override
+	public long length(File path) throws Exception {
+		if (isSymLink(path)) {
+			return readSymLink(path).toString().getBytes(
+					Constants.CHARACTER_ENCODING).length;
+		} else {
+			return super.length(path);
+		}
+	}
+
 }

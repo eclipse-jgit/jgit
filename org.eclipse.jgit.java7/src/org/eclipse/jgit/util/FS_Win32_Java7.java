@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2012, Robin Rosenberg <robin.rosenberg@dewire.com>
+ * Copyright (C) 2014, Obeo.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -63,6 +64,21 @@ public class FS_Win32_Java7 extends FS_Win32 {
 	@Override
 	public FS newInstance() {
 		return new FS_Win32_Java7(this);
+	}
+
+	@Override
+	public boolean supportsExecute() {
+		return true;
+	}
+
+	@Override
+	public boolean canExecute(File f) {
+		return FileUtil.canExecute(f);
+	}
+
+	@Override
+	public boolean setExecute(File f, boolean canExecute) {
+		return FileUtil.setExecute(f, canExecute);
 	}
 
 	@Override
