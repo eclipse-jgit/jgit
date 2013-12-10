@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_a4b36353",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 898,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-12-10T16:36:09Z",
+      "side": 1,
+      "message": "You are right - I was on a wrong path. Here was my idea: Imagine you have staged a file with CRLF and autocrlf\u003dfalse. Now you switch to autocrlf\u003dinput. My expectation was that the file is immediatly dirty. That\u0027s because if on that file you would say \"git rm --cached\" and then \"git add\" you would get new content.\n\nBut I learned that even native git is not so picky. It overlooks that there is potentially new content in that file and reports it as clean.\n\nLet\u0027s talk git. Here is how I tried this situation:\n\n        git init\n        git config core.autocrlf false\n        echo -ne \u0027line1\\r\\nline2\\r\\n\u0027 \u003e dos.txt\n        echo -ne \u0027line1\\nline2\\n\u0027 \u003e unix.txt\n        echo -ne \u0027line1\\r\\nline2\\n\u0027 \u003e mixed.txt\n        git add *\n        git commit -m \"add unix,dos and mixed style file\"\n\n        # How do the working tree files and the index look like and what does git think about the status?\n        file *\n        git ls-files -s -t --debug\n\n        # set repo to autocrlf\u003dinput \n        git config core.autocrlf input\n\n        # get the status again. Be aware that git tells dos.txt is clean although if you would say\n        # \"git rm dos.txt \u0026\u0026 git add dos.txt\" you would get new content \n        git ls-files -s -t --debug -- dos.txt\n\n        # delete the index content and add the same files again but now with autocrlf\u003dinput \n        git rm --cached *\n        git add *\n        # Compare len and content-sha1 to previous status --- len fields have not changed (they reflect\n        # the length of the files in the working tree) but sha1\u0027s are now all the same (because of \n        # eol-canonicalization). That means: the add brought new content although the status was clean.\n        git ls-files -s -t --debug",
+      "parentUuid": "8748d3a1_aa168f7b",
+      "revId": "99411876652d2dab89139311a8b03c8187e69dcd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_244d9818",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
         "patchSetId": 3
