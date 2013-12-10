@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8748d3a1_e4f72b4d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 924,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-12-10T16:10:08Z",
+      "side": 1,
+      "message": "though I changed this lime and the build now succeeds, I\u0027m not sure this is the reason of the failure, because the previous version also worked on my machine.",
+      "revId": "fde04b8b1dc623b95e85cf97020879f2c00eb08f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
