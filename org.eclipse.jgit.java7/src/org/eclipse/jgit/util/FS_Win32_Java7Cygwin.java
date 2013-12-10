@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2012, Robin Rosenberg <robin.rosenberg@dewire.com>
+ * Copyright (C) 2014, Obeo.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -46,6 +47,8 @@ package org.eclipse.jgit.util;
 import java.io.File;
 import java.io.IOException;
 
+import org.eclipse.jgit.api.errors.JGitInternalException;
+
 /**
  * FS for Java7 on Windows with Cygwin
  */
@@ -64,13 +67,25 @@ public class FS_Win32_Java7Cygwin extends FS_Win32_Cygwin {
 	}
 
 	@Override
-	public boolean supportsSymlinks() {
+	public boolean supportsExecute() {
 		return true;
 	}
 
 	@Override
-	public boolean isSymLink(File path) throws IOException {
-		return FileUtil.isSymlink(path);
+	public boolean canExecute(File f) {
+		try {
+			if (isSymLink(f)) {
+				return false;
+			}
+		} catch (IOException e) {
+			throw new JGitInternalException(e.getMessage(), e);
+		}
+		return FileUtil.canExecute(f);
+	}
+
+	@Override
+	public boolean setExecute(File f, boolean canExecute) {
+		return FileUtil.setExecute(f, canExecute);
 	}
 
 	@Override
@@ -86,11 +101,6 @@ public class FS_Win32_Java7Cygwin extends FS_Win32_Cygwin {
 	@Override
 	public void delete(File path) throws IOException {
 		FileUtil.delete(path);
-	}
-
-	@Override
-	public long length(File f) throws IOException {
-		return FileUtil.getLength(f);
 	}
 
 	@Override
@@ -116,16 +126,6 @@ public class FS_Win32_Java7Cygwin extends FS_Win32_Cygwin {
 	@Override
 	public void setHidden(File path, boolean hidden) throws IOException {
 		FileUtil.setHidden(path, hidden);
-	}
-
-	@Override
-	public String readSymLink(File path) throws IOException {
-		return FileUtil.readSymlink(path);
-	}
-
-	@Override
-	public void createSymLink(File path, String target) throws IOException {
-		FileUtil.createSymLink(path, target);
 	}
 
 	@Override

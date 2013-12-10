@@ -46,6 +46,7 @@
 package org.eclipse.jgit.util;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -112,6 +113,9 @@ public class FS_POSIX_Java6 extends FS_POSIX {
 
 	public boolean canExecute(final File f) {
 		try {
+			if (isSymLink(f)) {
+				return false;
+			}
 			final Object r = canExecute.invoke(f, (Object[]) null);
 			return ((Boolean) r).booleanValue();
 		} catch (IllegalArgumentException e) {
@@ -119,6 +123,8 @@ public class FS_POSIX_Java6 extends FS_POSIX {
 		} catch (IllegalAccessException e) {
 			throw new Error(e);
 		} catch (InvocationTargetException e) {
+			throw new Error(e);
+		} catch (IOException e) {
 			throw new Error(e);
 		}
 	}

@@ -1,6 +1,5 @@
 /*
  * Copyright (C) 2012-2013, Robin Rosenberg <robin.rosenberg@dewire.com>
- * Copyright (C) 2014, Obeo.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -49,14 +48,13 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+
 import org.eclipse.jgit.junit.RepositoryTestCase;
-import org.eclipse.jgit.util.FS;
-import org.eclipse.jgit.util.FileUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class FSJava7Test {
+public class FSTest {
 	private File trash;
 
 	@Before
@@ -69,6 +67,78 @@ public class FSJava7Test {
 	@After
 	public void tearDown() throws Exception {
 		FileUtils.delete(trash, FileUtils.RECURSIVE | FileUtils.RETRY);
+	}
+
+	@Test
+	public void fsTest() throws Exception {
+		FS fs = FS.DETECTED;
+
+		if ("FS_Win32" == fs.getClass().getName()) {
+			assertFalse(fs.isCaseSensitive());
+		} else if (SystemReader.getInstance().isMacOS()) {
+			assertFalse(fs.isCaseSensitive());
+		} else {
+			assertTrue(fs.isCaseSensitive());
+		}
+
+		if ("FS_Win32" == fs.getClass().getName()) {
+			assertFalse(fs.supportsSymlinks());
+		} else {
+			assertTrue(fs.supportsSymlinks());
+		}
+
+		File file = new File(trash, "a");
+		assertFalse(fs.exists(file));
+		FileUtils.createNewFile(file);
+
+		assertTrue(fs.isFile(file));
+		assertFalse(fs.isDirectory(file));
+		assertFalse(fs.isSymLink(file));
+		assertTrue(fs.canExecute(file));
+		assertTrue(fs.exists(file));
+		assertEquals(2, fs.length(file));
+
+		File directory = new File(trash, "d");
+		assertFalse(fs.exists(directory));
+		FileUtils.mkdir(directory);
+
+		assertFalse(fs.isFile(directory));
+		assertTrue(fs.isDirectory(directory));
+		assertFalse(fs.isSymLink(directory));
+		assertTrue(fs.canExecute(directory));
+		assertTrue(fs.exists(directory));
+		assertEquals(2, fs.length(directory));
+
+		File symlink = new File(trash, "s");
+		File target = new File(trash, "target");
+		assertFalse(fs.exists(symlink));
+		assertFalse(fs.exists(target));
+		fs.createSymLink(symlink, target.getName());
+
+		assertFalse(fs.isFile(symlink));
+		assertFalse(fs.isDirectory(symlink));
+		assertTrue(fs.isSymLink(symlink));
+		assertFalse(fs.canExecute(symlink));
+		assertTrue(fs.exists(symlink));
+		assertEquals(2, fs.length(symlink));
+
+		String targetName = fs.readSymLink(symlink);
+		assertEquals(target.getName(), targetName);
+
+		// fs.delete(f)
+		// fs.getAttributes(path)
+		// fs.isCaseSensitive()
+		// fs.isHidden(path)
+		// fs.lastModified(f)
+		// fs.normalize(file)
+		// fs.normalize(name)
+		// fs.resolve(dir, name)
+		// fs.setExecute(f, canExec)
+		// fs.setHidden(path, hidden)
+		// fs.setLastModified(f, time)
+		// fs.supportsExecute()
+
+
 	}
 
 	/**
