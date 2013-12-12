@@ -108,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_bf319376",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 898,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-12-12T11:47:30Z",
+      "side": 1,
+      "message": "Right, also gitattributes files have to be considered also when we start supporting them. But for me it\u0027s sufficient to be as good as cgit. Reconfiguring core.autocrlf requires some additional manual steps to be effective.",
+      "parentUuid": "8748d3a1_7db8ca2f",
+      "revId": "99411876652d2dab89139311a8b03c8187e69dcd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_244d9818",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
         "patchSetId": 3
