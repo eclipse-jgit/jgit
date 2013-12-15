@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_b0a39e32",
+        "filename": ".buckconfig",
+        "patchSetId": 4
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-12-15T01:40:37Z",
+      "side": 1,
+      "message": "added all, ant, http",
+      "parentUuid": "8748d3a1_c1ca0215",
+      "revId": "df933dbdf946b0dc28cf2dee9245477fa289ee5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_47c986bd",
         "filename": ".buckversion",
         "patchSetId": 4
@@ -30,6 +48,41 @@
       "writtenOn": "2013-11-24T20:56:13Z",
       "side": 1,
       "message": "Can we try to sync Buck versions between Gerrit \u0026 JGit projects? Working on the same machine for two projects that have different Buck versions is going to be a pain.",
+      "revId": "df933dbdf946b0dc28cf2dee9245477fa289ee5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_556b2c99",
+        "filename": ".buckversion",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-12-15T01:40:37Z",
+      "side": 1,
+      "message": "no idea how to synchronize this as Gerrit decides independently which JGit version it\u0027s consuming",
+      "parentUuid": "8748d3a1_47c986bd",
+      "revId": "df933dbdf946b0dc28cf2dee9245477fa289ee5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_36146e4b",
+        "filename": ".buckversion",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-12-15T01:40:37Z",
+      "side": 1,
+      "message": "updated to current master a0cea525aac6c69f9b3c00626ee5fef48b80326d",
       "revId": "df933dbdf946b0dc28cf2dee9245477fa289ee5b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_f58a38f1",
+        "filename": ".gitignore",
+        "patchSetId": 4
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-12-15T01:40:37Z",
+      "side": 1,
+      "message": "no, I was wrong, this is just ignoring the generated .project and .classpath files in the root directory so this is fine",
+      "parentUuid": "8748d3a1_364b2aaf",
+      "revId": "df933dbdf946b0dc28cf2dee9245477fa289ee5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_81dbda60",
         "filename": "lib/BUCK",
         "patchSetId": 4
@@ -64,6 +135,24 @@
       "writtenOn": "2013-12-08T00:44:31Z",
       "side": 1,
       "message": "we are now using 0.1.50 coming with Luna",
+      "revId": "df933dbdf946b0dc28cf2dee9245477fa289ee5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_d0190ab0",
+        "filename": "lib/BUCK",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-12-15T01:40:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_81dbda60",
       "revId": "df933dbdf946b0dc28cf2dee9245477fa289ee5b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +176,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_b016fe7b",
+        "filename": "lib/BUCK",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-12-15T01:40:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_e1ce1ea2",
+      "revId": "df933dbdf946b0dc28cf2dee9245477fa289ee5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_21f766c7",
         "filename": "lib/ant/BUCK",
         "patchSetId": 4
@@ -98,6 +205,24 @@
       "writtenOn": "2013-12-08T00:44:31Z",
       "side": 1,
       "message": "we now use 1.9.2 coming with Luna",
+      "revId": "df933dbdf946b0dc28cf2dee9245477fa289ee5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_1046d276",
+        "filename": "lib/ant/BUCK",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-12-15T01:40:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_21f766c7",
       "revId": "df933dbdf946b0dc28cf2dee9245477fa289ee5b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -121,6 +246,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_f0424660",
+        "filename": "lib/ant/BUCK",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-12-15T01:40:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_01f22ad4",
+      "revId": "df933dbdf946b0dc28cf2dee9245477fa289ee5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_61fdeea3",
         "filename": "lib/jetty/BUCK",
         "patchSetId": 4
@@ -138,6 +281,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_70b2b600",
+        "filename": "lib/jetty/BUCK",
+        "patchSetId": 4
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-12-15T01:40:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_61fdeea3",
+      "revId": "df933dbdf946b0dc28cf2dee9245477fa289ee5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_27855a91",
         "filename": "tools/download_file.py",
         "patchSetId": 4
@@ -149,6 +310,24 @@
       "writtenOn": "2013-11-24T20:45:13Z",
       "side": 1,
       "message": "Well that doesn\u0027t scale any more, if more projects use Gerrit\u0027s approach and try\nto mimic missing Buck native support for Maven artifacts.\n\nInstead of saving it under\n\n $HOME/.gerritcodereview/buck-cache\n\nor even\n\n $HOME/.project-foo/buck-cache\n $HOME/.project-bar/buck-cache\n\nwe should just do\n\n$HOME/.buck-cache\n\nor even be more explicit about content with:\n\n $HOME/.buck-maven-cache\n\nor to reflect that it is all Buck related and extendable for the future, with:\n\n $HOME/.buck/maven-cache",
+      "revId": "df933dbdf946b0dc28cf2dee9245477fa289ee5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_160fb23b",
+        "filename": "tools/download_file.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-12-15T01:40:37Z",
+      "side": 1,
+      "message": "not yet sure which of these proposals is the best one",
+      "parentUuid": "8748d3a1_27855a91",
       "revId": "df933dbdf946b0dc28cf2dee9245477fa289ee5b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
