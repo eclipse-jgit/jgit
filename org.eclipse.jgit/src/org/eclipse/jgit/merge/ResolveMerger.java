@@ -439,7 +439,7 @@ public class ResolveMerger extends ThreeWayMerger {
 					else {
 						// the preferred version THEIRS has a different mode
 						// than ours. Check it out!
-						if (isWorktreeDirty(work))
+						if (isWorktreeDirty(work, ourDce))
 							return false;
 						// we know about length and lastMod only after we have written the new content.
 						// This will happen later. Set these values to 0 for know.
@@ -477,7 +477,7 @@ public class ResolveMerger extends ThreeWayMerger {
 			// THEIRS. THEIRS is chosen.
 
 			// Check worktree before checking out THEIRS
-			if (isWorktreeDirty(work))
+			if (isWorktreeDirty(work, ourDce))
 				return false;
 			if (nonTree(modeT)) {
 				// we know about length and lastMod only after we have written
@@ -535,7 +535,7 @@ public class ResolveMerger extends ThreeWayMerger {
 
 		if (nonTree(modeO) && nonTree(modeT)) {
 			// Check worktree before modifying files
-			if (isWorktreeDirty(work))
+			if (isWorktreeDirty(work, ourDce))
 				return false;
 
 			// Don't attempt to resolve submodule link conflicts
@@ -566,7 +566,7 @@ public class ResolveMerger extends ThreeWayMerger {
 				// OURS was deleted checkout THEIRS
 				if (modeO == 0) {
 					// Check worktree before checking out THEIRS
-					if (isWorktreeDirty(work))
+					if (isWorktreeDirty(work, ourDce))
 						return false;
 					if (nonTree(modeT)) {
 						if (e != null)
@@ -625,7 +625,8 @@ public class ResolveMerger extends ThreeWayMerger {
 		return isDirty;
 	}
 
-	private boolean isWorktreeDirty(WorkingTreeIterator work) {
+	private boolean isWorktreeDirty(WorkingTreeIterator work,
+			DirCacheEntry ourDce) {
 		if (work == null)
 			return false;
 
@@ -633,9 +634,15 @@ public class ResolveMerger extends ThreeWayMerger {
 		final int modeO = tw.getRawMode(T_OURS);
 
 		// Worktree entry has to match ours to be considered clean
-		boolean isDirty = work.isModeDifferent(modeO);
-		if (!isDirty && nonTree(modeF))
-			isDirty = !tw.idEqual(T_FILE, T_OURS);
+		boolean isDirty;
+		if (ourDce != null)
+			isDirty = work.isModified(ourDce, true, reader);
+		else {
+			isDirty = work.isModeDifferent(modeO);
+			if (!isDirty && nonTree(modeF))
+				isDirty = !tw.idEqual(T_FILE, T_OURS);
+		}
+
 		// Ignore existing empty directories
 		if (isDirty && modeF == FileMode.TYPE_TREE
 				&& modeO == FileMode.TYPE_MISSING)
