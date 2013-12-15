@@ -54,6 +54,7 @@ import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.MergeResult;
 import org.eclipse.jgit.api.MergeResult.MergeStatus;
 import org.eclipse.jgit.api.errors.CheckoutConflictException;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.errors.NoMergeBaseException;
@@ -263,6 +264,38 @@ public class ResolveMergerTest extends RepositoryTestCase {
 		assertEquals(
 				"[d/1, mode:100644, content:1][e, mode:100644, content:4][f/1, mode:100644, content:5]",
 				indexState(CONTENT));
+	}
+
+	@Theory
+	public void mergeWithCrlfInWT(MergeStrategy strategy) throws IOException,
+			GitAPIException {
+		Git git = Git.wrap(db);
+		db.getConfig().setString("core", null, "autocrlf", "false");
+		db.getConfig().save();
+		writeTrashFile("crlf.txt", "some\r\ndata\r\n");
+		git.add().addFilepattern("crlf.txt").call();
+		git.commit().setMessage("base").call();
+
+		git.branchCreate().setName("brancha").call();
+
+		writeTrashFile("crlf.txt", "some\r\nmore\r\ndata\r\n");
+		git.add().addFilepattern("crlf.txt").call();
+		git.commit().setMessage("on master").call();
+
+		git.checkout().setName("brancha").call();
+		writeTrashFile("crlf.txt", "some\r\ndata\r\ntoo\r\n");
+		git.add().addFilepattern("crlf.txt").call();
+		git.commit().setMessage("on brancha").call();
+
+		db.getConfig().setString("core", null, "autocrlf", "input");
+		db.getConfig().save();
+		writeTrashFile("crlf.txt", "some\r\ndata\r\ntoo\r\n");
+
+		MergeResult mergeResult = git.merge().setStrategy(strategy)
+				.include(db.resolve("master"))
+				.call();
+		assertEquals(MergeResult.MergeStatus.MERGED,
+				mergeResult.getMergeStatus());
 	}
 
 	/**
