@@ -2,6 +2,7 @@ java_bundle(
   name = 'bundle',
   srcs = ['META-INF/MANIFEST.MF', 'plugin.properties'],
   deps = [':junit'],
+  visibility = ['PUBLIC'],
 )
 
 java_library(

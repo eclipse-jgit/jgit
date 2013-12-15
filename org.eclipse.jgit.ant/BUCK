@@ -3,6 +3,7 @@ java_bundle(
   deps = [
     ':ant',
   ],
+  visibility = ['PUBLIC'],
 )
 
 java_library(

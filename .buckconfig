@@ -1,6 +1,7 @@
 [alias]
   all = //tools:eclipse_classpath
   ant = //org.eclipse.jgit.ant:ant
+  bundles = //:bundles
   http = //org.eclipse.jgit.junit.http:http
   jgit = //:jgit
   jgit6 = //:jgit6

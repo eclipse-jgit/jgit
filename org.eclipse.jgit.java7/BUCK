@@ -3,6 +3,7 @@ java_bundle(
   deps = [
     ':java7',
   ],
+  visibility = ['PUBLIC'],
 )
 
 java_library(

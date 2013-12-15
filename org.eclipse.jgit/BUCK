@@ -18,6 +18,7 @@ java_bundle(
     ':transport_server',
     ':util',
   ],
+  visibility = ['PUBLIC'],
 )
 
 def pkg(*names):

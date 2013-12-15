@@ -4,6 +4,7 @@ java_bundle(
     ':archive',
     ':osgi',
   ],
+  visibility = ['PUBLIC'],
 )
 
 ACTIVATOR = ['src/org/eclipse/jgit/archive/FormatActivator.java']
