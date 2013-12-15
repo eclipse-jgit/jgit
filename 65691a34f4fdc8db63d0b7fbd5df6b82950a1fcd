@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8748d3a1_5fc826ba",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 804,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-12-15T21:21:58Z",
+      "side": 1,
+      "message": "Missing @since here.",
+      "revId": "65691a34f4fdc8db63d0b7fbd5df6b82950a1fcd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_1fbe9e1b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 847,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-12-15T21:21:58Z",
+      "side": 1,
+      "message": "Why does it pass null instead of entry here?",
+      "revId": "65691a34f4fdc8db63d0b7fbd5df6b82950a1fcd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_ffb8122f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/EolCanonicalizingInputStream.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2013-12-15T21:21:58Z",
+      "side": 1,
+      "message": "Is this used somewhere? If yes, it needs @since.",
+      "revId": "65691a34f4fdc8db63d0b7fbd5df6b82950a1fcd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
