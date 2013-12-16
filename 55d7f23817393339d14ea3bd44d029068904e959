@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8748d3a1_2b02377f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 634,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-12-16T15:44:02Z",
+      "side": 1,
+      "message": "That\u0027s a big change what you are proposing here. Look at the javadoc: we are trying to compare the file with \"ours\". And previous code was explicitly only checking file versus ours. You are now switching to comparing the file against the index. Previously if the file would differ from ours this method would return true. But now if you have already staged the file then this method would compare only against the index and report \"false\".\n\nAre you aware of this? I am not sure about all of the implications this has. Maybe at somewhere we really want to to know whether the working tree file contains something different than HEAD.",
+      "revId": "55d7f23817393339d14ea3bd44d029068904e959",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
