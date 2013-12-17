@@ -16,6 +16,24 @@
       "revId": "55d7f23817393339d14ea3bd44d029068904e959",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_fd13e316",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 634,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-12-17T22:57:18Z",
+      "side": 1,
+      "message": "I\u0027m not sure here.. Added another test case which fails, just as the C test case fails. Calling it RFC... need more brain cells here.",
+      "parentUuid": "8748d3a1_2b02377f",
+      "revId": "55d7f23817393339d14ea3bd44d029068904e959",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
