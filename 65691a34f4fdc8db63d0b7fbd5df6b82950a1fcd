@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_b857aea0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 804,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-12-17T15:53:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_5fc826ba",
+      "revId": "65691a34f4fdc8db63d0b7fbd5df6b82950a1fcd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_1fbe9e1b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
         "patchSetId": 13
@@ -54,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_1857c2a1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 847,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-12-17T15:53:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_780d2675",
+      "revId": "65691a34f4fdc8db63d0b7fbd5df6b82950a1fcd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_98d2b2fa",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
         "patchSetId": 13
@@ -65,6 +101,24 @@
       "writtenOn": "2013-12-17T15:46:37Z",
       "side": 1,
       "message": "this javadoc looks wrong, we return false if the content matches and true otherwise",
+      "revId": "65691a34f4fdc8db63d0b7fbd5df6b82950a1fcd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_f85136ab",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 884,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-12-17T15:53:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_98d2b2fa",
       "revId": "65691a34f4fdc8db63d0b7fbd5df6b82950a1fcd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -88,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_58b4aa6d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/EolCanonicalizingInputStream.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-12-17T15:53:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_1d51745b",
+      "revId": "65691a34f4fdc8db63d0b7fbd5df6b82950a1fcd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_ffb8122f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/EolCanonicalizingInputStream.java",
         "patchSetId": 13
@@ -99,6 +171,24 @@
       "writtenOn": "2013-12-15T21:21:58Z",
       "side": 1,
       "message": "Is this used somewhere? If yes, it needs @since.",
+      "revId": "65691a34f4fdc8db63d0b7fbd5df6b82950a1fcd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_38b71e73",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/EolCanonicalizingInputStream.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-12-17T15:53:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_ffb8122f",
       "revId": "65691a34f4fdc8db63d0b7fbd5df6b82950a1fcd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
