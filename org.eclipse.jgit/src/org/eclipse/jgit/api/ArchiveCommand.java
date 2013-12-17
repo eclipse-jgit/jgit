@@ -250,6 +250,7 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 
 	private OutputStream out;
 	private ObjectId tree;
+	private String prefix;
 	private String format;
 
 	/** Filename suffix, for automatically choosing a format. */
@@ -264,6 +265,7 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 	}
 
 	private <T extends Closeable> OutputStream writeArchive(Format<T> fmt) {
+		final String pfx = prefix == null ? "" : prefix;
 		final TreeWalk walk = new TreeWalk(repo);
 		try {
 			final T outa = fmt.createArchiveOutputStream(out);
@@ -275,7 +277,7 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 				walk.reset(rw.parseTree(tree));
 				walk.setRecursive(true);
 				while (walk.next()) {
-					final String name = walk.getPathString();
+					final String name = pfx + walk.getPathString();
 					final FileMode mode = walk.getFileMode(0);
 
 					if (mode == FileMode.TREE)
@@ -326,6 +328,16 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 
 		this.tree = tree;
 		setCallable(true);
+		return this;
+	}
+
+	/**
+	 * @param prefix
+	 *            string prefixed to filenames in archive (e.g., "master/").
+	 *            null means to not use any leading prefix.
+	 */
+	public ArchiveCommand setPrefix(String prefix) {
+		this.prefix = prefix;
 		return this;
 	}
 
