@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8748d3a1_b351915e",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/ArchiveTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2013-12-17T18:07:26Z",
+      "side": 1,
+      "message": "What is the purpose of having two of every test method when we\u0027re not testing something format-specific? (I would be interested if one format normalized double slashes and another didn\u0027t, but that doesn\u0027t appear to be the case.)",
+      "revId": "745b5c85c5434ff1302a657a92ec44e5ec024fe9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_d36ffd1f",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/ArchiveTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2013-12-17T18:07:26Z",
+      "side": 1,
+      "message": "Glad you wrote a test, but when would somebody actually want this behavior?",
+      "revId": "745b5c85c5434ff1302a657a92ec44e5ec024fe9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_93861569",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Archive.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2013-12-17T18:07:26Z",
+      "side": 1,
+      "message": "Since convention is for foo-bar.tar.gz to extract to foo-bar/..., would it be reasonable to do \"prefix !\u003d null ? prefix : output\"?",
+      "revId": "745b5c85c5434ff1302a657a92ec44e5ec024fe9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_7389c978",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ArchiveCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2013-12-17T18:07:26Z",
+      "side": 1,
+      "message": "I think we should either check that prefix ends in \"/\" or (my preference) append one if it doesn\u0027t (and is not empty or null of course).",
+      "revId": "745b5c85c5434ff1302a657a92ec44e5ec024fe9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
