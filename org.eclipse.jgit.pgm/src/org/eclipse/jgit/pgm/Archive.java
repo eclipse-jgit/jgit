@@ -69,6 +69,9 @@ class Archive extends TextBuiltin {
 	@Option(name = "--format", metaVar = "metaVar_archiveFormat", usage = "usage_archiveFormat")
 	private String format;
 
+	@Option(name = "--prefix", metaVar = "metaVar_archivePrefix", usage = "usage_archivePrefix")
+	private String prefix;
+
 	@Option(name = "--output", aliases = { "-o" }, metaVar = "metaVar_file", usage = "usage_archiveOutput")
 	private String output;
 
@@ -88,6 +91,7 @@ class Archive extends TextBuiltin {
 				ArchiveCommand cmd = new Git(db).archive()
 					.setTree(tree)
 					.setFormat(format)
+					.setPrefix(prefix)
 					.setOutputStream(stream);
 				if (output != null)
 					cmd.setFilename(output);

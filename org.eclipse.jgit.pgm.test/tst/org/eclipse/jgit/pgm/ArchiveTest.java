@@ -338,6 +338,99 @@ public class ArchiveTest extends CLIRepositoryTestCase {
 		assertArrayEquals(expect, actual);
 	}
 
+	private void commitBazAndFooSlashBar() throws Exception {
+		writeTrashFile("baz", "a file");
+		writeTrashFile("foo/bar", "another file");
+		git.add().addFilepattern("baz").call();
+		git.add().addFilepattern("foo").call();
+		git.commit().setMessage("sample commit").call();
+	}
+
+	@Test
+	public void testArchivePrefixOption() throws Exception {
+		commitBazAndFooSlashBar();
+		byte[] result = CLIGitCommand.rawExecute(
+				"git archive --prefix=x/ --format=zip master", db);
+		String[] expect = { "x/baz", "x/foo/bar" };
+		String[] actual = listZipEntries(result);
+
+		Arrays.sort(expect);
+		Arrays.sort(actual);
+		assertArrayEquals(expect, actual);
+	}
+
+	@Test
+	public void testTarPrefixOption() throws Exception {
+		commitBazAndFooSlashBar();
+		byte[] result = CLIGitCommand.rawExecute(
+				"git archive --prefix=x/ --format=tar master", db);
+		String[] expect = { "x/baz", "x/foo/bar" };
+		String[] actual = listTarEntries(result);
+
+		Arrays.sort(expect);
+		Arrays.sort(actual);
+		assertArrayEquals(expect, actual);
+	}
+
+	private void commitFoo() throws Exception {
+		writeTrashFile("foo", "a file");
+		git.add().addFilepattern("foo").call();
+		git.commit().setMessage("boring commit").call();
+	}
+
+	@Test
+	public void testPrefixDoesNotNormalizeDoubleSlash() throws Exception {
+		commitFoo();
+		byte[] result = CLIGitCommand.rawExecute(
+				"git archive --prefix=x// --format=zip master", db);
+		String[] expect = { "x//foo" };
+		assertArrayEquals(expect, listZipEntries(result));
+	}
+
+	@Test
+	public void testPrefixDoesNotNormalizeDoubleSlashInTar() throws Exception {
+		commitFoo();
+		final byte[] result = CLIGitCommand.rawExecute( //
+				"git archive --prefix=x// --format=tar master", db);
+		String[] expect = { "x//foo" };
+		assertArrayEquals(expect, listTarEntries(result));
+	}
+
+	/**
+	 * The prefix passed to "git archive" need not end with '/'.
+	 * In practice it is not very common to have a nonempty prefix
+	 * that does not name a directory (and hence end with /), but
+	 * since git has historically supported other prefixes, we do,
+	 * too.
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testPrefixWithoutTrailingSlash() throws Exception {
+		commitBazAndFooSlashBar();
+		byte[] result = CLIGitCommand.rawExecute(
+				"git archive --prefix=my- --format=zip master", db);
+		String[] expect = { "my-baz", "my-foo/bar" };
+		String[] actual = listZipEntries(result);
+
+		Arrays.sort(expect);
+		Arrays.sort(actual);
+		assertArrayEquals(expect, actual);
+	}
+
+	@Test
+	public void testTarPrefixWithoutTrailingSlash() throws Exception {
+		commitBazAndFooSlashBar();
+		final byte[] result = CLIGitCommand.rawExecute( //
+				"git archive --prefix=my- --format=tar master", db);
+		String[] expect = { "my-baz", "my-foo/bar" };
+		String[] actual = listTarEntries(result);
+
+		Arrays.sort(expect);
+		Arrays.sort(actual);
+		assertArrayEquals(expect, actual);
+	}
+
 	@Test
 	public void testArchivePreservesMode() throws Exception {
 		writeTrashFile("plain", "a file with content");
