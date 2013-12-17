@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_57b91813",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/ArchiveTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2013-12-17T18:21:42Z",
+      "side": 1,
+      "message": "I didn\u0027t know what would happen when I wrote these --- it wouldn\u0027t have been terribly surprising for commons-compress to normalize in some formats behind the scenes.\n\nThe duplication is just sloppy coding on my part, though: it would be better for tests to try tar and zip in a loop instead of repeating itself so much. Something for a later change.",
+      "parentUuid": "8748d3a1_b351915e",
+      "revId": "745b5c85c5434ff1302a657a92ec44e5ec024fe9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_d36ffd1f",
         "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/ArchiveTest.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-12-17T18:07:26Z",
       "side": 1,
       "message": "Glad you wrote a test, but when would somebody actually want this behavior?",
+      "revId": "745b5c85c5434ff1302a657a92ec44e5ec024fe9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_37d3ac48",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/ArchiveTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2013-12-17T18:21:42Z",
+      "side": 1,
+      "message": "I can\u0027t really imagine. :) I added the test to make sure it continues not to do anything crazy.\n\nIt mattered enough to somebody to report a bug in core git after the option had existed for a year or so, which got fixed by v1.6.5~3^2 (archive: do not leave out subdirectories when prefix lacks trailing \"/\", 2009-10-08).",
+      "parentUuid": "8748d3a1_d36ffd1f",
       "revId": "745b5c85c5434ff1302a657a92ec44e5ec024fe9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "8748d3a1_f72ae4b2",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Archive.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2013-12-17T18:21:42Z",
+      "side": 1,
+      "message": "\"git archive\" defaults to an empty prefix and scripts rely on that, but maybe --output is rarely enough used that it could be changed.\n\nFor now I prefer to keep \"jgit archive\" matching \"git archive\", but this is a nice idea for improving \"git archive\".",
+      "parentUuid": "8748d3a1_93861569",
+      "revId": "745b5c85c5434ff1302a657a92ec44e5ec024fe9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_7389c978",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ArchiveCommand.java",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2013-12-17T18:07:26Z",
       "side": 1,
       "message": "I think we should either check that prefix ends in \"/\" or (my preference) append one if it doesn\u0027t (and is not empty or null of course).",
+      "revId": "745b5c85c5434ff1302a657a92ec44e5ec024fe9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8748d3a1_5722b8da",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ArchiveCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2013-12-17T18:21:42Z",
+      "side": 1,
+      "message": "I\u0027m aiming for compatibility with \"git archive\". Would a comment before the corresponding test explaining the context help?",
+      "parentUuid": "8748d3a1_7389c978",
       "revId": "745b5c85c5434ff1302a657a92ec44e5ec024fe9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
