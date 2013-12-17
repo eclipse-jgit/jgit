@@ -339,6 +339,103 @@ public class ArchiveTest extends CLIRepositoryTestCase {
 	}
 
 	@Test
+	public void testArchivePrefixOption() throws Exception {
+		writeTrashFile("baz", "a file");
+		writeTrashFile("foo/bar", "another file");
+		git.add().addFilepattern("baz").call();
+		git.add().addFilepattern("foo").call();
+		git.commit().setMessage("sample commit").call();
+
+		final byte[] result = CLIGitCommand.rawExecute( //
+				"git archive --prefix=x/ --format=zip master", db);
+		String[] expect = { "x/baz", "x/foo/bar" };
+		String[] actual = listZipEntries(result);
+
+		Arrays.sort(expect);
+		Arrays.sort(actual);
+		assertArrayEquals(expect, actual);
+	}
+
+
+	@Test
+	public void testTarPrefixOption() throws Exception {
+		writeTrashFile("baz", "a file");
+		writeTrashFile("foo/bar", "another file");
+		git.add().addFilepattern("baz").call();
+		git.add().addFilepattern("foo").call();
+		git.commit().setMessage("sample commit").call();
+
+		final byte[] result = CLIGitCommand.rawExecute( //
+				"git archive --prefix=x/ --format=tar master", db);
+		String[] expect = { "x/baz", "x/foo/bar" };
+		String[] actual = listTarEntries(result);
+
+		Arrays.sort(expect);
+		Arrays.sort(actual);
+		assertArrayEquals(expect, actual);
+	}
+
+	@Test
+	public void testPrefixDoesNotNormalizeDoubleSlash() throws Exception {
+		writeTrashFile("foo", "a file");
+		git.add().addFilepattern("foo").call();
+		git.commit().setMessage("boring commit").call();
+
+		final byte[] result = CLIGitCommand.rawExecute( //
+				"git archive --prefix=x// --format=zip master", db);
+		String[] expect = { "x//foo" };
+		assertArrayEquals(expect, listZipEntries(result));
+	}
+
+	@Test
+	public void testPrefixDoesNotNormalizeDoubleSlashInTar() throws Exception {
+		writeTrashFile("foo", "a file");
+		git.add().addFilepattern("foo").call();
+		git.commit().setMessage("boring commit").call();
+
+		final byte[] result = CLIGitCommand.rawExecute( //
+				"git archive --prefix=x// --format=tar master", db);
+		String[] expect = { "x//foo" };
+		assertArrayEquals(expect, listTarEntries(result));
+	}
+
+	@Test
+	public void testPrefixWithoutTrailingSlash() throws Exception {
+		writeTrashFile("baz", "a file");
+		writeTrashFile("foo/bar", "another file");
+		git.add().addFilepattern("baz").call();
+		git.add().addFilepattern("foo").call();
+		git.commit().setMessage("sample commit").call();
+
+		final byte[] result = CLIGitCommand.rawExecute( //
+				"git archive --prefix=my- --format=zip master", db);
+		String[] expect = { "my-baz", "my-foo/bar" };
+		String[] actual = listZipEntries(result);
+
+		Arrays.sort(expect);
+		Arrays.sort(actual);
+		assertArrayEquals(expect, actual);
+	}
+
+	@Test
+	public void testTarPrefixWithoutTrailingSlash() throws Exception {
+		writeTrashFile("baz", "a file");
+		writeTrashFile("foo/bar", "another file");
+		git.add().addFilepattern("baz").call();
+		git.add().addFilepattern("foo").call();
+		git.commit().setMessage("sample commit").call();
+
+		final byte[] result = CLIGitCommand.rawExecute( //
+				"git archive --prefix=my- --format=tar master", db);
+		String[] expect = { "my-baz", "my-foo/bar" };
+		String[] actual = listTarEntries(result);
+
+		Arrays.sort(expect);
+		Arrays.sort(actual);
+		assertArrayEquals(expect, actual);
+	}
+
+	@Test
 	public void testArchivePreservesMode() throws Exception {
 		writeTrashFile("plain", "a file with content");
 		writeTrashFile("executable", "an executable file");
