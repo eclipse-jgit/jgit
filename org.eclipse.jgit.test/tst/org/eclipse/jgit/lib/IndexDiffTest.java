@@ -68,11 +68,9 @@ import org.eclipse.jgit.dircache.DirCacheEditor;
 import org.eclipse.jgit.dircache.DirCacheEditor.PathEdit;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.junit.RepositoryTestCase;
-import org.eclipse.jgit.lib.CoreConfig.AutoCRLF;
 import org.eclipse.jgit.lib.IndexDiff.StageState;
 import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.util.IO;
 import org.junit.Test;
@@ -529,35 +527,6 @@ public class IndexDiffTest extends RepositoryTestCase {
 		assertFalse(StageState.BOTH_ADDED.hasBase());
 		assertTrue(StageState.BOTH_ADDED.hasOurs());
 		assertTrue(StageState.BOTH_ADDED.hasTheirs());
-	}
-
-	@Test
-	public void testAutoCRLFInput() throws Exception {
-		Git git = new Git(db);
-		FileBasedConfig config = db.getConfig();
-
-		// Make sure core.autocrlf is false before adding
-		config.setEnum(ConfigConstants.CONFIG_CORE_SECTION, null,
-				ConfigConstants.CONFIG_KEY_AUTOCRLF, AutoCRLF.FALSE);
-		config.save();
-
-		// File is already in repository with CRLF
-		writeTrashFile("crlf.txt", "this\r\ncontains\r\ncrlf\r\n");
-		git.add().addFilepattern("crlf.txt").call();
-		git.commit().setMessage("Add crlf.txt").call();
-
-		// Now set core.autocrlf to input
-		config.setEnum(ConfigConstants.CONFIG_CORE_SECTION, null,
-				ConfigConstants.CONFIG_KEY_AUTOCRLF, AutoCRLF.INPUT);
-		config.save();
-
-		FileTreeIterator iterator = new FileTreeIterator(db);
-		IndexDiff diff = new IndexDiff(db, Constants.HEAD, iterator);
-		diff.diff();
-
-		assertTrue(
-				"Expected no modified files, but there were: "
-						+ diff.getModified(), diff.getModified().isEmpty());
 	}
 
 	private void verifyStageState(StageState expected, int... stages)

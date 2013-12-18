@@ -73,12 +73,10 @@ import org.eclipse.jgit.ignore.IgnoreRule;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.CoreConfig;
-import org.eclipse.jgit.lib.CoreConfig.CheckStat;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectLoader;
-import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.CoreConfig.CheckStat;
 import org.eclipse.jgit.submodule.SubmoduleWalk;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.IO;
@@ -797,27 +795,23 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	 * @param forceContentCheck
 	 *            True if the actual file content should be checked if
 	 *            modification time differs.
-	 * @param reader
-	 *            access to repository objects if necessary.
 	 * @return true if content is most likely different.
-	 * @since 3.2
 	 */
-	public boolean isModified(DirCacheEntry entry, boolean forceContentCheck,
-			ObjectReader reader) {
+	public boolean isModified(DirCacheEntry entry, boolean forceContentCheck) {
 		MetadataDiff diff = compareMetadata(entry);
 		switch (diff) {
 		case DIFFER_BY_TIMESTAMP:
 			if (forceContentCheck)
 				// But we are told to look at content even though timestamps
 				// tell us about modification
-				return contentCheck(entry, reader);
+				return contentCheck(entry);
 			else
 				// We are told to assume a modification if timestamps differs
 				return true;
 		case SMUDGED:
 			// The file is clean by timestamps but the entry was smudged.
 			// Lets do a content check
-			return contentCheck(entry, reader);
+			return contentCheck(entry);
 		case EQUAL:
 			return false;
 		case DIFFER_BY_METADATA:
@@ -826,26 +820,6 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 			throw new IllegalStateException(MessageFormat.format(
 					JGitText.get().unexpectedCompareResult, diff.name()));
 		}
-	}
-
-	/**
-	 * Checks whether this entry differs from a given entry from the
-	 * {@link DirCache}.
-	 *
-	 * File status information is used and if status is same we consider the
-	 * file identical to the state in the working directory. Native git uses
-	 * more stat fields than we have accessible in Java.
-	 *
-	 * @param entry
-	 *            the entry from the dircache we want to compare against
-	 * @param forceContentCheck
-	 *            True if the actual file content should be checked if
-	 *            modification time differs.
-	 * @return true if content is most likely different.
-	 * @deprecated Use {@link #isModified(DirCacheEntry, boolean, ObjectReader)}
-	 */
-	public boolean isModified(DirCacheEntry entry, boolean forceContentCheck) {
-		return isModified(entry, false, null);
 	}
 
 	/**
@@ -880,12 +854,10 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	 *
 	 * @param entry
 	 *            the entry to be checked
-	 * @param reader
-	 *            acccess to repository data if necessary
-	 * @return <code>true</code> if the content doesn't match,
-	 *         <code>false</code> if it matches
+	 * @return <code>true</code> if the content matches, <code>false</code>
+	 *         otherwise
 	 */
-	private boolean contentCheck(DirCacheEntry entry, ObjectReader reader) {
+	private boolean contentCheck(DirCacheEntry entry) {
 		if (getEntryObjectId().equals(entry.getObjectId())) {
 			// Content has not changed
 
@@ -901,68 +873,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 
 			return false;
 		} else {
-			// Content differs: that's a real change, perhaps
-			if (reader == null) // deprecated use, do no further checks
-				return true;
-			switch (getOptions().getAutoCRLF()) {
-			case INPUT:
-			case TRUE:
-				InputStream dcIn = null;
-				try {
-					ObjectLoader loader = reader.open(entry.getObjectId());
-					if (loader == null)
-						return true;
-
-					// We need to compute the length, but only if it is not
-					// a binary stream.
-					dcIn = new EolCanonicalizingInputStream(
-							loader.openStream(), true, true /* abort if binary */);
-					long dcInLen;
-					try {
-						dcInLen = computeLength(dcIn);
-					} catch (EolCanonicalizingInputStream.IsBinaryException e) {
-						// ok, we know it's different so unsmudge the entry
-						entry.setLength(entry.getLength());
-						return true;
-					} finally {
-						dcIn.close();
-					}
-
-					dcIn = new EolCanonicalizingInputStream(
-							loader.openStream(), true);
-					byte[] autoCrLfHash = computeHash(dcIn, dcInLen);
-					boolean changed = getEntryObjectId().compareTo(
-							autoCrLfHash, 0) != 0;
-					if (!changed) {
-						// Update the index with the eol'ed hash, so we can
-						// detect the no-change faster next time
-						entry.setObjectIdFromRaw(autoCrLfHash, 0);
-					}
-					// Ok, we know whether it has changed, so unsmudge the
-					// dirache entry
-					entry.setLength(loader.getSize());
-					return changed;
-				} catch (IOException e) {
-					return true;
-				} finally {
-					if (dcIn != null)
-						try {
-							dcIn.close();
-						} catch (IOException e) {
-							// empty
-						}
-				}
-			case FALSE:
-				// Ok, we know it's different so unsmudge the dircache entry
-				try {
-					ObjectLoader loader = reader.open(entry.getObjectId());
-					if (loader != null)
-						entry.setLength((int) loader.getSize());
-				} catch (IOException e) {
-					// panic, no, but don't unsmudge
-				}
-				break;
-			}
+			// Content differs: that's a real change!
 			return true;
 		}
 	}
