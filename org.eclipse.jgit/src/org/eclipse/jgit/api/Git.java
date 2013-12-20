@@ -695,6 +695,18 @@ public class Git {
 	}
 
 	/**
+	 * Returns a command object used to create orphan branches
+	 * 
+	 * @see <a
+	 *      href="http://www.kernel.org/pub/software/scm/git/docs/git-checkout.html"
+	 *      >Git documentation about Checkout</a>
+	 * @return a {@link CreateOrphanBranchCommand}
+	 */
+	public CreateOrphanBranchCommand orphanBranchCreate() {
+		return new CreateOrphanBranchCommand(repo);
+	}
+
+	/**
 	 * @return the git repository this class is interacting with
 	 */
 	public Repository getRepository() {
