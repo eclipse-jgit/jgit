@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67591f73_8ef91d91",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CreateOrphanBranchCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-12-21T00:23:28Z",
+      "side": 1,
+      "message": "We use ! for checking if something is false",
+      "revId": "574eaeaffd49e9c8312a524afd8595a4966e56a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_0e0d0d45",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CreateOrphanBranchCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-12-21T00:23:28Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be a RefAlreadyExistsException. \n\nJGitInternalException is for strange errors that we don\u0027t anticipate. You should try to thow a GitAPIException if you are positive about what the issue is. JGitInternalException aren\u0027t something the caller can do anything with, except reporting the raw exception (more or less). GitAPIException\u0027s can be examined and acted upon",
+      "revId": "574eaeaffd49e9c8312a524afd8595a4966e56a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
