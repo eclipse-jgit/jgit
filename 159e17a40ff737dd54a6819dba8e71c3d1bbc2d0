@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67591f73_e77c1e93",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/internal/CLIText.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2013-12-23T23:12:19Z",
+      "side": 1,
+      "message": "Is the space between the \u0027\u003d\u0027 intended?",
+      "revId": "159e17a40ff737dd54a6819dba8e71c3d1bbc2d0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
