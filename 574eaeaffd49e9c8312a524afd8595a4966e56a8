@@ -51,6 +51,24 @@
       "revId": "574eaeaffd49e9c8312a524afd8595a4966e56a8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_0b930ddf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CreateOrphanBranchCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-12-25T17:24:15Z",
+      "side": 1,
+      "message": "Good point..",
+      "parentUuid": "67591f73_b5cb65b6",
+      "revId": "574eaeaffd49e9c8312a524afd8595a4966e56a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
