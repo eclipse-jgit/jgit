@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67591f73_6b344965",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CheckoutCommandTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-12-25T17:37:16Z",
+      "side": 1,
+      "message": "Just attempt to resolve HEAD to a commit instead.",
+      "revId": "ed4a7b116fafa063de20ad7bf2c66bb880ee47cc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_0bd02d70",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CheckoutCommandTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-12-25T17:37:16Z",
+      "side": 1,
+      "message": "Find a better name",
+      "revId": "ed4a7b116fafa063de20ad7bf2c66bb880ee47cc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_cb2bd505",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CheckoutCommandTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-12-25T17:37:16Z",
+      "side": 1,
+      "message": "Please test the return value of call() too. I knows some existing test don\u0027t, but I think that\u0027s bad.",
+      "revId": "ed4a7b116fafa063de20ad7bf2c66bb880ee47cc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_4b8d05ba",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-12-25T17:37:16Z",
+      "side": 1,
+      "message": "Why was the call to processOptopns moved?\n\nWe can add new exceptions without breadking the API as long as they extend GitAPIException. The redundant list of exceptions is declared so callers know what exception the should consider handling explicigtly.",
+      "revId": "ed4a7b116fafa063de20ad7bf2c66bb880ee47cc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_8b31dd77",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2013-12-25T17:37:16Z",
+      "side": 1,
+      "message": "See, my comment on your comments int rhe previous patch. I was wrong.",
+      "revId": "ed4a7b116fafa063de20ad7bf2c66bb880ee47cc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
