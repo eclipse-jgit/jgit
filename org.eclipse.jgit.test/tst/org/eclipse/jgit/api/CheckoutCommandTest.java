@@ -43,8 +43,8 @@
  */
 package org.eclipse.jgit.api;
 
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -59,7 +59,10 @@ import java.io.IOException;
 
 import org.eclipse.jgit.api.CheckoutResult.Status;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.api.errors.InvalidRefNameException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
+import org.eclipse.jgit.api.errors.NoHeadException;
+import org.eclipse.jgit.api.errors.RefAlreadyExistsException;
 import org.eclipse.jgit.api.errors.RefNotFoundException;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheEntry;
@@ -351,4 +354,95 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 		assertEquals(size, entry.getLength());
 		assertEquals(mTime, entry.getLastModified());
 	}
+
+	@Test
+	public void testCheckoutOrphanBranch() throws Exception {
+		CheckoutCommand co = git.checkout().setOrphan(true)
+				.setName("orphanbranch");
+		Ref ref = co.call();
+		assertNotNull(ref);
+		assertEquals("refs/heads/orphanbranch", ref.getTarget().getName());
+
+		File HEAD = new File(trash, ".git/HEAD");
+		String headRef = read(HEAD);
+		assertEquals("ref: refs/heads/orphanbranch\n", headRef);
+		assertEquals(2, trash.list().length);
+
+		File heads = new File(trash, ".git/refs/heads");
+		assertEquals(2, heads.listFiles().length);
+
+		this.assertNoHead();
+		this.assertStatus(1);
+		assertEquals(CheckoutResult.NOT_TRIED_RESULT, co.getResult());
+	}
+
+	private void assertNoHead() throws GitAPIException {
+		try {
+			this.git.log().call();
+			fail();
+		} catch (NoHeadException e) {
+			// except to hit here
+		}
+	}
+
+	private void assertStatus(int files) throws GitAPIException {
+		org.eclipse.jgit.api.Status status = this.git.status().call();
+		assertFalse(status.isClean());
+		assertEquals(files, status.getAdded().size());
+	}
+
+	@Test
+	public void testCreateOrphanBranchWithStartCommit() throws Exception {
+		CheckoutCommand co = git.checkout().setOrphan(true)
+				.setName("orphanbranch");
+		co.setStartPoint(initialCommit).call();
+		assertEquals(2, trash.list().length);
+		this.assertNoHead();
+		this.assertStatus(1);
+	}
+
+	@Test
+	public void testCreateOrphanBranchWithStartPoint() throws Exception {
+		CheckoutCommand co = git.checkout().setOrphan(true)
+				.setName("orphanbranch");
+		co.setStartPoint("HEAD^").call();
+		assertEquals(2, trash.list().length);
+		this.assertNoHead();
+		this.assertStatus(1);
+	}
+
+	@Test
+	public void testInvalidRefName() throws Exception {
+		try {
+			git.checkout().setOrphan(true).setName("../invalidname").call();
+			fail("Should have failed");
+		} catch (InvalidRefNameException e) {
+			// except to hit here
+		}
+	}
+
+	@Test
+	public void testNullRefName() throws Exception {
+		try {
+			git.checkout().setOrphan(true).setName(null).call();
+			fail("Should have failed");
+		} catch (InvalidRefNameException e) {
+			// except to hit here
+		}
+	}
+
+	@Test
+	public void testAlreadyExists() throws Exception {
+		this.git.checkout().setCreateBranch(true).setName("orphanbranch")
+				.call();
+		this.git.checkout().setName("master").call();
+
+		try {
+			git.checkout().setOrphan(true).setName("orphanbranch").call();
+			fail("Should have failed");
+		} catch (RefAlreadyExistsException e) {
+			// except to hit here
+		}
+	}
+
 }
