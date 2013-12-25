@@ -33,6 +33,24 @@
       "revId": "574eaeaffd49e9c8312a524afd8595a4966e56a8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_b5cb65b6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CreateOrphanBranchCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 2498
+      },
+      "writtenOn": "2013-12-25T07:47:55Z",
+      "side": 1,
+      "message": "now i confused. \n\nCheckoutCommand#L.280 throws JGitInternalException.\nBut you say me to use GitAPIExceptions(or RefAlreadyExistsException?)\n\nthis condition not be true in most cases.\nbecause Repository is already checked in #processOptions.\nby the way, it throws RefAlreadyExistsException",
+      "parentUuid": "67591f73_0e0d0d45",
+      "revId": "574eaeaffd49e9c8312a524afd8595a4966e56a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
