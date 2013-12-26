@@ -326,7 +326,8 @@ public class DirCacheCheckout {
 						m.getEntryFileMode());
 			} else if (i.getDirCacheEntry() != null) {
 				// The index contains a file (and not a folder)
-				if (f.isModified(i.getDirCacheEntry(), true)
+				if (f.isModified(i.getDirCacheEntry(), true,
+						this.walk.getObjectReader())
 						|| i.getDirCacheEntry().getStage() != 0)
 					// The working tree file is dirty or the index contains a
 					// conflict
@@ -660,7 +661,9 @@ public class DirCacheCheckout {
 				break;
 			case 0xFFD: // 12 13 14
 				if (equalIdAndMode(hId, hMode, iId, iMode))
-					if (f == null || f.isModified(dce, true))
+					if (f == null
+							|| f.isModified(dce, true,
+									this.walk.getObjectReader()))
 						conflict(name, dce, h, m);
 					else
 						remove(name);
@@ -774,7 +777,8 @@ public class DirCacheCheckout {
 						// Nothing in Head
 						// Something in Index
 						if (dce != null
-								&& (f == null || f.isModified(dce, true)))
+								&& (f == null || f.isModified(dce, true,
+										this.walk.getObjectReader())))
 							// No file or file is dirty
 							// Nothing in Merge and current path is part of
 							// File/Folder conflict
@@ -841,7 +845,9 @@ public class DirCacheCheckout {
 						// Something different from a submodule in Index
 						// Nothing in Merge
 						// Something in Head
-						if (f == null || f.isModified(dce, true))
+						if (f == null
+								|| f.isModified(dce, true,
+										this.walk.getObjectReader()))
 							// file is dirty
 							// Index contains the same as Head
 							// Something different from a submodule in Index
@@ -904,7 +910,8 @@ public class DirCacheCheckout {
 						// file content
 						update(name, mId, mMode);
 					} else if (dce != null
-							&& (f == null || f.isModified(dce, true))) {
+							&& (f == null || f.isModified(dce, true,
+									this.walk.getObjectReader()))) {
 						// File doesn't exist or is dirty
 						// Head and Index don't contain a submodule
 						// Head contains the same as Index. Merge differs
@@ -1041,7 +1048,8 @@ public class DirCacheCheckout {
 			wtIt = tw.getTree(1, WorkingTreeIterator.class);
 			if (dcIt == null || wtIt == null)
 				return true;
-			if (wtIt.isModified(dcIt.getDirCacheEntry(), true)) {
+			if (wtIt.isModified(dcIt.getDirCacheEntry(), true,
+					this.walk.getObjectReader())) {
 				return true;
 			}
 		}
