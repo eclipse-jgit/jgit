@@ -62,8 +62,8 @@ import org.eclipse.jgit.lib.ObjectLoader;
  * Unix TAR format (ustar + some PAX extensions).
  */
 public class TarFormat implements ArchiveCommand.Format<ArchiveOutputStream> {
-	private static final List<String> SUFFIXES =
-			Collections.unmodifiableList(Arrays.asList(".tar"));
+	private static final List<String> SUFFIXES = Collections
+			.unmodifiableList(Arrays.asList(".tar")); //$NON-NLS-1$
 
 	public ArchiveOutputStream createArchiveOutputStream(OutputStream s) {
 		TarArchiveOutputStream out = new TarArchiveOutputStream(s, "UTF-8"); //$NON-NLS-1$

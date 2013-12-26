@@ -58,9 +58,8 @@ import org.eclipse.jgit.lib.ObjectLoader;
  * Xz-compressed tar (tar.xz) format.
  */
 public class TxzFormat implements ArchiveCommand.Format<ArchiveOutputStream> {
-	private static final List<String> SUFFIXES =
-			Collections.unmodifiableList(Arrays.asList(
-				".tar.xz", ".txz"));
+	private static final List<String> SUFFIXES = Collections
+			.unmodifiableList(Arrays.asList(".tar.xz", ".txz")); //$NON-NLS-1$ //$NON-NLS-2$
 
 	private final ArchiveCommand.Format<ArchiveOutputStream> tarFormat = new TarFormat();
 
