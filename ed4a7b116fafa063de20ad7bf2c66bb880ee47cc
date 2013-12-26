@@ -88,6 +88,24 @@
     },
     {
       "key": {
+        "uuid": "67591f73_d7fd36e2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 2498
+      },
+      "writtenOn": "2013-12-26T03:04:22Z",
+      "side": 1,
+      "message": "i missed.\nIOException should be wrapped by JGitInternalException.",
+      "parentUuid": "67591f73_d7ed36b4",
+      "revId": "ed4a7b116fafa063de20ad7bf2c66bb880ee47cc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67591f73_8b31dd77",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutCommand.java",
         "patchSetId": 3
