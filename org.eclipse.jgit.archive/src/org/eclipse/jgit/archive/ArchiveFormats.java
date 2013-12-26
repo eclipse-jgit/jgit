@@ -70,11 +70,11 @@ public class ArchiveFormats {
 	 * Not thread-safe.
 	 */
 	public static void registerAll() {
-		register("tar", new TarFormat());
-		register("tgz", new TgzFormat());
-		register("tbz2", new Tbz2Format());
-		register("txz", new TxzFormat());
-		register("zip", new ZipFormat());
+		register("tar", new TarFormat()); //$NON-NLS-1$
+		register("tgz", new TgzFormat()); //$NON-NLS-1$
+		register("tbz2", new Tbz2Format()); //$NON-NLS-1$
+		register("txz", new TxzFormat()); //$NON-NLS-1$
+		register("zip", new ZipFormat()); //$NON-NLS-1$
 	}
 
 	/**

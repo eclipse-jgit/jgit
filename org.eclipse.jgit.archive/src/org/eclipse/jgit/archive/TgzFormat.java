@@ -58,9 +58,8 @@ import org.eclipse.jgit.lib.ObjectLoader;
  * gzip-compressed tarball (tar.gz) format.
  */
 public class TgzFormat implements ArchiveCommand.Format<ArchiveOutputStream> {
-	private static final List<String> SUFFIXES =
-			Collections.unmodifiableList(Arrays.asList(
-				".tar.gz", ".tgz"));
+	private static final List<String> SUFFIXES = Collections
+			.unmodifiableList(Arrays.asList(".tar.gz", ".tgz")); //$NON-NLS-1$ //$NON-NLS-2$
 
 	private final ArchiveCommand.Format<ArchiveOutputStream> tarFormat = new TarFormat();
 

@@ -62,7 +62,7 @@ class ShowDirCache extends TextBuiltin {
 	@Override
 	protected void run() throws Exception {
 		final SimpleDateFormat fmt;
-		fmt = new SimpleDateFormat("yyyy-MM-dd,HH:mm:ss.SSS");
+		fmt = new SimpleDateFormat("yyyy-MM-dd,HH:mm:ss.SSS"); //$NON-NLS-1$
 
 		final DirCache cache = db.readDirCache();
 		for (int i = 0; i < cache.getEntryCount(); i++) {

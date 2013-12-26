@@ -265,7 +265,7 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 	}
 
 	private <T extends Closeable> OutputStream writeArchive(Format<T> fmt) {
-		final String pfx = prefix == null ? "" : prefix;
+		final String pfx = prefix == null ? "" : prefix; //$NON-NLS-1$
 		final TreeWalk walk = new TreeWalk(repo);
 		try {
 			final T outa = fmt.createArchiveOutputStream(out);

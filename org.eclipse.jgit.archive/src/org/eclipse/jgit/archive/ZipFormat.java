@@ -59,8 +59,8 @@ import org.eclipse.jgit.lib.ObjectLoader;
  * PKWARE's ZIP format.
  */
 public class ZipFormat implements ArchiveCommand.Format<ArchiveOutputStream> {
-	private static final List<String> SUFFIXES =
-			Collections.unmodifiableList(Arrays.asList(".zip"));
+	private static final List<String> SUFFIXES = Collections
+			.unmodifiableList(Arrays.asList(".zip")); //$NON-NLS-1$
 
 	public ArchiveOutputStream createArchiveOutputStream(OutputStream s) {
 		return new ZipArchiveOutputStream(s);

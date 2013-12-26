@@ -123,7 +123,7 @@ public class GitDateParser {
 		SHORT_WITH_DOTS("yyyy.MM.dd"), // //$NON-NLS-1$
 		SHORT_WITH_SLASH("MM/dd/yyyy"), // //$NON-NLS-1$
 		DEFAULT("EEE MMM dd HH:mm:ss yyyy Z"), // //$NON-NLS-1$
-		LOCAL("EEE MMM dd HH:mm:ss yyyy");
+		LOCAL("EEE MMM dd HH:mm:ss yyyy"); //$NON-NLS-1$
 
 		String formatStr;
 

@@ -191,7 +191,7 @@ public class CmdLineParser extends org.kohsuke.args4j.CmdLineParser {
 		@Override
 		public String toString() {
 			if (metaVar() == null)
-				return "ARG";
+				return "ARG"; //$NON-NLS-1$
 			try {
 				Field field = CLIText.class.getField(metaVar());
 				String ret = field.get(CLIText.get()).toString();
