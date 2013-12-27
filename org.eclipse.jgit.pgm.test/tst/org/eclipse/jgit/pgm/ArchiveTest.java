@@ -43,6 +43,7 @@
 package org.eclipse.jgit.pgm;
 
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import static org.junit.Assume.assumeNoException;
 
@@ -304,7 +305,7 @@ public class ArchiveTest extends CLIRepositoryTestCase {
 
 		final byte[] result = CLIGitCommand.rawExecute( //
 				"git archive --format=zip master", db);
-		String[] expect = { "a", "b.c", "b0c", "b/a", "b/b", "c" };
+		String[] expect = { "a", "b.c", "b0c", "b/", "b/a", "b/b", "c" };
 		String[] actual = listZipEntries(result);
 
 		Arrays.sort(expect);
@@ -330,7 +331,7 @@ public class ArchiveTest extends CLIRepositoryTestCase {
 
 		final byte[] result = CLIGitCommand.rawExecute( //
 				"git archive --format=tar master", db);
-		String[] expect = { "a", "b.c", "b0c", "b/a", "b/b", "c" };
+		String[] expect = { "a", "b.c", "b0c", "b/", "b/a", "b/b", "c" };
 		String[] actual = listTarEntries(result);
 
 		Arrays.sort(expect);
@@ -351,7 +352,7 @@ public class ArchiveTest extends CLIRepositoryTestCase {
 		commitBazAndFooSlashBar();
 		byte[] result = CLIGitCommand.rawExecute(
 				"git archive --prefix=x/ --format=zip master", db);
-		String[] expect = { "x/baz", "x/foo/bar" };
+		String[] expect = { "x/baz", "x/foo/", "x/foo/bar" };
 		String[] actual = listZipEntries(result);
 
 		Arrays.sort(expect);
@@ -364,7 +365,7 @@ public class ArchiveTest extends CLIRepositoryTestCase {
 		commitBazAndFooSlashBar();
 		byte[] result = CLIGitCommand.rawExecute(
 				"git archive --prefix=x/ --format=tar master", db);
-		String[] expect = { "x/baz", "x/foo/bar" };
+		String[] expect = { "x/baz", "x/foo/", "x/foo/bar" };
 		String[] actual = listTarEntries(result);
 
 		Arrays.sort(expect);
@@ -410,7 +411,7 @@ public class ArchiveTest extends CLIRepositoryTestCase {
 		commitBazAndFooSlashBar();
 		byte[] result = CLIGitCommand.rawExecute(
 				"git archive --prefix=my- --format=zip master", db);
-		String[] expect = { "my-baz", "my-foo/bar" };
+		String[] expect = { "my-baz", "my-foo/", "my-foo/bar" };
 		String[] actual = listZipEntries(result);
 
 		Arrays.sort(expect);
@@ -423,7 +424,7 @@ public class ArchiveTest extends CLIRepositoryTestCase {
 		commitBazAndFooSlashBar();
 		final byte[] result = CLIGitCommand.rawExecute( //
 				"git archive --prefix=my- --format=tar master", db);
-		String[] expect = { "my-baz", "my-foo/bar" };
+		String[] expect = { "my-baz", "my-foo/", "my-foo/bar" };
 		String[] actual = listTarEntries(result);
 
 		Arrays.sort(expect);
@@ -436,9 +437,11 @@ public class ArchiveTest extends CLIRepositoryTestCase {
 		writeTrashFile("plain", "a file with content");
 		writeTrashFile("executable", "an executable file");
 		writeTrashFile("symlink", "plain");
+                writeTrashFile("dir/content", "clutter in a subdir");
 		git.add().addFilepattern("plain").call();
 		git.add().addFilepattern("executable").call();
 		git.add().addFilepattern("symlink").call();
+                git.add().addFilepattern("dir").call();
 
 		DirCache cache = db.lockDirCache();
 		cache.getEntry("executable").setFileMode(FileMode.EXECUTABLE_FILE);
@@ -455,6 +458,7 @@ public class ArchiveTest extends CLIRepositoryTestCase {
 		assertContainsEntryWithMode("zip-with-modes.zip", "-rw-", "plain");
 		assertContainsEntryWithMode("zip-with-modes.zip", "-rwx", "executable");
 		assertContainsEntryWithMode("zip-with-modes.zip", "l", "symlink");
+		assertContainsEntryWithMode("zip-with-modes.zip", "-rw-", "dir/");
 	}
 
 	@Test
@@ -462,9 +466,11 @@ public class ArchiveTest extends CLIRepositoryTestCase {
 		writeTrashFile("plain", "a file with content");
 		writeTrashFile("executable", "an executable file");
 		writeTrashFile("symlink", "plain");
+                writeTrashFile("dir/content", "clutter in a subdir");
 		git.add().addFilepattern("plain").call();
 		git.add().addFilepattern("executable").call();
 		git.add().addFilepattern("symlink").call();
+                git.add().addFilepattern("dir").call();
 
 		DirCache cache = db.lockDirCache();
 		cache.getEntry("executable").setFileMode(FileMode.EXECUTABLE_FILE);
@@ -481,35 +487,46 @@ public class ArchiveTest extends CLIRepositoryTestCase {
 		assertTarContainsEntry("with-modes.tar", "-rw-r--r--", "plain");
 		assertTarContainsEntry("with-modes.tar", "-rwxr-xr-x", "executable");
 		assertTarContainsEntry("with-modes.tar", "l", "symlink -> plain");
+		assertTarContainsEntry("with-modes.tar", "drwxr-xr-x", "dir/");
 	}
 
 	@Test
 	public void testArchiveWithLongFilename() throws Exception {
-		String filename = "1234567890";
-		for (int i = 0; i < 20; i++)
-			filename = filename + "/1234567890";
+		String filename = "";
+		final List<String> l = new ArrayList<String>();
+		for (int i = 0; i < 20; i++) {
+			filename = filename + "1234567890/";
+			l.add(filename);
+		}
+		filename = filename + "1234567890";
+		l.add(filename);
 		writeTrashFile(filename, "file with long path");
 		git.add().addFilepattern("1234567890").call();
 		git.commit().setMessage("file with long name").call();
 
 		final byte[] result = CLIGitCommand.rawExecute( //
 				"git archive --format=zip HEAD", db);
-		assertArrayEquals(new String[] { filename },
+		assertArrayEquals(l.toArray(new String[l.size()]),
 				listZipEntries(result));
 	}
 
 	@Test
 	public void testTarWithLongFilename() throws Exception {
-		String filename = "1234567890";
-		for (int i = 0; i < 20; i++)
-			filename = filename + "/1234567890";
+		String filename = "";
+		final List<String> l = new ArrayList<String>();
+		for (int i = 0; i < 20; i++) {
+			filename = filename + "1234567890/";
+			l.add(filename);
+		}
+		filename = filename + "1234567890";
+		l.add(filename);
 		writeTrashFile(filename, "file with long path");
 		git.add().addFilepattern("1234567890").call();
 		git.commit().setMessage("file with long name").call();
 
 		final byte[] result = CLIGitCommand.rawExecute( //
 				"git archive --format=tar HEAD", db);
-		assertArrayEquals(new String[] { filename },
+		assertArrayEquals(l.toArray(new String[l.size()]),
 				listTarEntries(result));
 	}
 

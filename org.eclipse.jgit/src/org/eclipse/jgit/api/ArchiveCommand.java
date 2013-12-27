@@ -138,11 +138,13 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 		 *            archive object from createArchiveOutputStream
 		 * @param path
 		 *            full filename relative to the root of the archive
+                 *            (with trailing '/' for directories)
 		 * @param mode
 		 *            mode (for example FileMode.REGULAR_FILE or
 		 *            FileMode.SYMLINK)
 		 * @param loader
-		 *            blob object with data for this entry
+		 *            blob object with data for this entry (null for
+		 *            directories)
 		 * @throws IOException
 		 *            thrown by the underlying output stream for I/O errors
 		 */
@@ -275,16 +277,15 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 				final RevWalk rw = new RevWalk(walk.getObjectReader());
 
 				walk.reset(rw.parseTree(tree));
-				walk.setRecursive(true);
 				while (walk.next()) {
 					final String name = pfx + walk.getPathString();
 					final FileMode mode = walk.getFileMode(0);
 
-					if (mode == FileMode.TREE)
-						// ZIP entries for directories are optional.
-						// Leave them out, mimicking "git archive".
+					if (walk.isSubtree()) {
+						fmt.putEntry(outa, name + "/", mode, null);
+						walk.enterSubtree();
 						continue;
-
+					}
 					walk.getObjectId(idBuf, 0);
 					fmt.putEntry(outa, name, mode, reader.open(idBuf));
 				}
