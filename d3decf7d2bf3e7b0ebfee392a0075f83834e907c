@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67591f73_a5bcba22",
+        "filename": "org.eclipse.jgit.archive/src/org/eclipse/jgit/archive/TarFormat.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2013-12-27T16:33:31Z",
+      "side": 1,
+      "message": "Why the change from \u003d\u003d to .equals? Do we expect mode to be null?",
+      "revId": "d3decf7d2bf3e7b0ebfee392a0075f83834e907c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_858a566d",
+        "filename": "org.eclipse.jgit.archive/src/org/eclipse/jgit/archive/TarFormat.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2013-12-27T16:33:31Z",
+      "side": 1,
+      "message": "This seems a bit like you\u0027re leaking the underlying commons compress API into the JGit API.\n\nWhy not just be nice to callers and automatically append a slash if the mode is TREE? (I would probably still be ok with throwing IAE if there is a trailing slash and mode is _not_ TREE.)",
+      "revId": "d3decf7d2bf3e7b0ebfee392a0075f83834e907c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_e59d12b9",
+        "filename": "org.eclipse.jgit.archive/src/org/eclipse/jgit/archive/TarFormat.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2013-12-27T16:33:31Z",
+      "side": 1,
+      "message": "This string should be a property; cf. the output of \"find . -name \\*.java | xargs grep -A1 \u0027new IllegalArgumentException\u0027\"",
+      "revId": "d3decf7d2bf3e7b0ebfee392a0075f83834e907c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_45803e4f",
+        "filename": "org.eclipse.jgit.archive/src/org/eclipse/jgit/archive/TarFormat.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2013-12-27T16:33:31Z",
+      "side": 1,
+      "message": "Property",
+      "revId": "d3decf7d2bf3e7b0ebfee392a0075f83834e907c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_0555a647",
+        "filename": "org.eclipse.jgit.archive/src/org/eclipse/jgit/archive/ZipFormat.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2013-12-27T16:33:31Z",
+      "side": 1,
+      "message": "Property (since it\u0027s reused with different classes you can use a placeholder for the method name part as well).",
+      "revId": "d3decf7d2bf3e7b0ebfee392a0075f83834e907c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
