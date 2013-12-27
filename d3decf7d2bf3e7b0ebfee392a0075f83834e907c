@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "67591f73_77fa5984",
+        "filename": "org.eclipse.jgit.archive/src/org/eclipse/jgit/archive/TarFormat.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2013-12-27T17:12:36Z",
+      "side": 1,
+      "message": "\u003d\u003d is easier to read. Changed back.",
+      "parentUuid": "67591f73_a5bcba22",
+      "revId": "d3decf7d2bf3e7b0ebfee392a0075f83834e907c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67591f73_858a566d",
         "filename": "org.eclipse.jgit.archive/src/org/eclipse/jgit/archive/TarFormat.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-12-27T16:33:31Z",
       "side": 1,
       "message": "This seems a bit like you\u0027re leaking the underlying commons compress API into the JGit API.\n\nWhy not just be nice to callers and automatically append a slash if the mode is TREE? (I would probably still be ok with throwing IAE if there is a trailing slash and mode is _not_ TREE.)",
+      "revId": "d3decf7d2bf3e7b0ebfee392a0075f83834e907c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_b71b5178",
+        "filename": "org.eclipse.jgit.archive/src/org/eclipse/jgit/archive/TarFormat.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2013-12-27T17:12:36Z",
+      "side": 1,
+      "message": "The idea is that most people wouldn\u0027t use classes like TarFormat directly --- instead, those are used by ArchiveCommand, and the more important public API is that when people want to write their own ArchiveCommand.Format that should be as easy as possible.\n\nSo that interface specifies a consistent convention for how trees are named (with the trailing slash).\n\nThe assertion here is to protect against regressions in that, since the commons-compress API isn\u0027t going to pay attention to the mode. As you say, there\u0027s no harm in just adding the \u0027/\u0027 and that should make it easier to use this class directly, so done.",
+      "parentUuid": "67591f73_858a566d",
       "revId": "d3decf7d2bf3e7b0ebfee392a0075f83834e907c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "67591f73_971e0d67",
+        "filename": "org.eclipse.jgit.archive/src/org/eclipse/jgit/archive/TarFormat.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2013-12-27T17:12:36Z",
+      "side": 1,
+      "message": "Yeah. :(\n\nDoes the EGit UI show text from IllegalArgumentExceptions or something? Would it make sense to revisit this some time?",
+      "parentUuid": "67591f73_e59d12b9",
+      "revId": "d3decf7d2bf3e7b0ebfee392a0075f83834e907c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67591f73_45803e4f",
         "filename": "org.eclipse.jgit.archive/src/org/eclipse/jgit/archive/TarFormat.java",
         "patchSetId": 2
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "67591f73_f734a9e3",
+        "filename": "org.eclipse.jgit.archive/src/org/eclipse/jgit/archive/TarFormat.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2013-12-27T17:12:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67591f73_45803e4f",
+      "revId": "d3decf7d2bf3e7b0ebfee392a0075f83834e907c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67591f73_0555a647",
         "filename": "org.eclipse.jgit.archive/src/org/eclipse/jgit/archive/ZipFormat.java",
         "patchSetId": 2
@@ -81,6 +153,24 @@
       "writtenOn": "2013-12-27T16:33:31Z",
       "side": 1,
       "message": "Property (since it\u0027s reused with different classes you can use a placeholder for the method name part as well).",
+      "revId": "d3decf7d2bf3e7b0ebfee392a0075f83834e907c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_d72fe58e",
+        "filename": "org.eclipse.jgit.archive/src/org/eclipse/jgit/archive/ZipFormat.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2013-12-27T17:12:36Z",
+      "side": 1,
+      "message": "The method name will show up in a stack trace already, so dropped it from the message.",
+      "parentUuid": "67591f73_0555a647",
       "revId": "d3decf7d2bf3e7b0ebfee392a0075f83834e907c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
