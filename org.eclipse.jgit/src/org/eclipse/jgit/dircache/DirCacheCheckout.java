@@ -1156,19 +1156,51 @@ public class DirCacheCheckout {
 
 	private static byte[][] forbidden;
 	static {
+		String[] list = getSortedForbiddenFileNames();
+		forbidden = new byte[list.length][];
+		for (int i = 0; i < list.length; ++i)
+			forbidden[i] = Constants.encodeASCII(list[i]);
+	}
+
+	static String[] getSortedForbiddenFileNames() {
 		String[] list = new String[] { "AUX", "COM1", "COM2", "COM3", "COM4", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 				"COM5", "COM6", "COM7", "COM8", "COM9", "CON", "LPT1", "LPT2", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$
 				"LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9", "NUL", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$
 				"PRN" }; //$NON-NLS-1$
-		forbidden = new byte[list.length][];
-		for (int i = 0; i < list.length; ++i)
-			forbidden[i] = Constants.encodeASCII(list[i]);
+		return list;
 	}
 
 	private static void checkValidPath(CanonicalTreeParser t)
 			throws InvalidPathException {
 		for (CanonicalTreeParser i = t; i != null; i = i.getParent())
 			checkValidPathSegment(i);
+	}
+
+	/**
+	 * Check if path is a valid path for a checked out file name or ref name.
+	 *
+	 * @param path
+	 * @throws InvalidPathException
+	 *             if the path is invalid
+	 * @since 3.3
+	 */
+	public static void checkValidPath(String path) throws InvalidPathException {
+		boolean isWindows = SystemReader.getInstance().isWindows();
+		boolean isOSX = SystemReader.getInstance().isMacOS();
+		boolean ignCase = isOSX || isWindows;
+
+		byte[] bytes = Constants.encode(path);
+		int segmentStart = 0;
+		for (int i = 0; i < bytes.length; i++) {
+			if (bytes[i] == '/') {
+				checkValidPathSegment(isWindows, ignCase, bytes, segmentStart,
+						i, path);
+				segmentStart = i + 1;
+			}
+		}
+		if (segmentStart < bytes.length)
+			checkValidPathSegment(isWindows, ignCase, bytes, segmentStart,
+					bytes.length, path);
 	}
 
 	private static void checkValidPathSegment(CanonicalTreeParser t)
@@ -1181,33 +1213,38 @@ public class DirCacheCheckout {
 		byte[] raw = t.getEntryPathBuffer();
 		int end = ptr + t.getNameLength();
 
+		checkValidPathSegment(isWindows, ignCase, raw, ptr, end,
+				t.getEntryPathString());
+	}
+
+	private static void checkValidPathSegment(boolean isWindows,
+			boolean ignCase, byte[] raw, int ptr, int end, String path) {
 		// Validate path component at this level of the tree
 		int start = ptr;
 		while (ptr < end) {
 			if (raw[ptr] == '/')
 				throw new InvalidPathException(
-						JGitText.get().invalidPathContainsSeparator,
-						"/", t.getEntryPathString()); //$NON-NLS-1$
+						JGitText.get().invalidPathContainsSeparator, "/", path); //$NON-NLS-1$
 			if (isWindows) {
 				if (raw[ptr] == '\\')
 					throw new InvalidPathException(
 							JGitText.get().invalidPathContainsSeparator,
-							"\\", t.getEntryPathString()); //$NON-NLS-1$
+							"\\", path); //$NON-NLS-1$
 				if (raw[ptr] == ':')
 					throw new InvalidPathException(
 							JGitText.get().invalidPathContainsSeparator,
-							":", t.getEntryPathString()); //$NON-NLS-1$
+							":", path); //$NON-NLS-1$
 			}
 			ptr++;
 		}
 		// '.' and '..' are invalid here
 		if (ptr - start == 1) {
 			if (raw[start] == '.')
-				throw new InvalidPathException(t.getEntryPathString());
+				throw new InvalidPathException(path);
 		} else if (ptr - start == 2) {
 			if (raw[start] == '.')
 				if (raw[start + 1] == '.')
-					throw new InvalidPathException(t.getEntryPathString());
+					throw new InvalidPathException(path);
 		} else if (ptr - start == 4) {
 			// .git (possibly case insensitive) is disallowed
 			if (raw[start] == '.')
@@ -1216,8 +1253,7 @@ public class DirCacheCheckout {
 							|| (ignCase && raw[start + 2] == 'I'))
 						if (raw[start + 3] == 't'
 								|| (ignCase && raw[start + 3] == 'T'))
-							throw new InvalidPathException(
-									t.getEntryPathString());
+							throw new InvalidPathException(path);
 		}
 		if (isWindows) {
 			// Space or period at end of file name is ignored by Windows.
@@ -1226,12 +1262,10 @@ public class DirCacheCheckout {
 			if (ptr > 0) {
 				if (raw[ptr - 1] == '.')
 					throw new InvalidPathException(
-							JGitText.get().invalidPathPeriodAtEndWindows,
-							t.getEntryPathString());
+							JGitText.get().invalidPathPeriodAtEndWindows, path);
 				if (raw[ptr - 1] == ' ')
 					throw new InvalidPathException(
-							JGitText.get().invalidPathSpaceAtEndWindows,
-							t.getEntryPathString());
+							JGitText.get().invalidPathSpaceAtEndWindows, path);
 			}
 
 			int i;
@@ -1253,8 +1287,7 @@ public class DirCacheCheckout {
 						if (k == len)
 							throw new InvalidPathException(
 									JGitText.get().invalidPathReservedOnWindows,
-									RawParseUtils.decode(forbidden[j]), t
-											.getEntryPathString());
+									RawParseUtils.decode(forbidden[j]), path);
 					}
 				}
 			}
