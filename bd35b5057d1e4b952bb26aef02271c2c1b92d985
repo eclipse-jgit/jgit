@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67591f73_65f0e286",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2013-12-27T15:21:47Z",
+      "side": 1,
+      "message": "Well, it could be a useful default to have \"jgit archive\" fetch submodule contents if possible, so it might be more accurate to say \"depending on whether or not the submodule repository can be found\" or something.",
+      "revId": "bd35b5057d1e4b952bb26aef02271c2c1b92d985",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_c5e60ed4",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/ArchiveTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2013-12-27T15:21:47Z",
+      "side": 1,
+      "message": "So this is a recursive submodule? Seems like this will cause an infinite loop if we ever change the default behavior to recurse :)",
+      "revId": "bd35b5057d1e4b952bb26aef02271c2c1b92d985",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
