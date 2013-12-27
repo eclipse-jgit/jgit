@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "67591f73_c573ae08",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2013-12-27T16:33:42Z",
+      "side": 1,
+      "message": "Tweaked the wording a little.",
+      "parentUuid": "67591f73_65f0e286",
+      "revId": "bd35b5057d1e4b952bb26aef02271c2c1b92d985",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67591f73_c5e60ed4",
         "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/ArchiveTest.java",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2013-12-27T15:21:47Z",
       "side": 1,
       "message": "So this is a recursive submodule? Seems like this will cause an infinite loop if we ever change the default behavior to recurse :)",
+      "revId": "bd35b5057d1e4b952bb26aef02271c2c1b92d985",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_e54fd2b8",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/ArchiveTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2013-12-27T16:33:42Z",
+      "side": 1,
+      "message": "It\u0027s ok as long as we only recurse into the specific commit referenced by the submodule entry. :)",
+      "parentUuid": "67591f73_c5e60ed4",
       "revId": "bd35b5057d1e4b952bb26aef02271c2c1b92d985",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
