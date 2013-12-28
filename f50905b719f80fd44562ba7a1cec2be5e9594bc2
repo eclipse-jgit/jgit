@@ -16,6 +16,24 @@
       "revId": "f50905b719f80fd44562ba7a1cec2be5e9594bc2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_50ec7b87",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/EolCanonicalizingInputStream.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2013-12-28T00:06:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67591f73_f034afe3",
+      "revId": "f50905b719f80fd44562ba7a1cec2be5e9594bc2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
