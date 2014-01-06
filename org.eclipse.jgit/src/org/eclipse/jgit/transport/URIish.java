@@ -593,6 +593,8 @@ public class URIish implements Serializable {
 	private static boolean eq(final String a, final String b) {
 		if (a == b)
 			return true;
+		if (StringUtils.isEmptyOrNull(a) && StringUtils.isEmptyOrNull(b))
+			return true;
 		if (a == null || b == null)
 			return false;
 		return a.equals(b);
