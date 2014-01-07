@@ -82,6 +82,10 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 
 	private PullRebaseMode pullRebaseMode = PullRebaseMode.USE_CONFIG;
 
+	private String remote;
+
+	private String remoteBranchName;
+
 	private enum PullRebaseMode {
 		USE_CONFIG,
 		REBASE,
@@ -177,21 +181,24 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 					JGitText.get().cannotPullOnARepoWithState, repo
 							.getRepositoryState().name()));
 
-		// get the configured remote for the currently checked out branch
-		// stored in configuration key branch.<branch name>.remote
 		Config repoConfig = repo.getConfig();
-		String remote = repoConfig.getString(
-				ConfigConstants.CONFIG_BRANCH_SECTION, branchName,
-				ConfigConstants.CONFIG_KEY_REMOTE);
+		if (remote == null) {
+			// get the configured remote for the currently checked out branch
+			// stored in configuration key branch.<branch name>.remote
+			remote = repoConfig.getString(
+					ConfigConstants.CONFIG_BRANCH_SECTION, branchName,
+					ConfigConstants.CONFIG_KEY_REMOTE);
+		}
 		if (remote == null)
 			// fall back to default remote
 			remote = Constants.DEFAULT_REMOTE_NAME;
 
-		// get the name of the branch in the remote repository
-		// stored in configuration key branch.<branch name>.merge
-		String remoteBranchName = repoConfig.getString(
-				ConfigConstants.CONFIG_BRANCH_SECTION, branchName,
-				ConfigConstants.CONFIG_KEY_MERGE);
+		if (remoteBranchName == null)
+			// get the name of the branch in the remote repository
+			// stored in configuration key branch.<branch name>.merge
+			remoteBranchName = repoConfig.getString(
+					ConfigConstants.CONFIG_BRANCH_SECTION, branchName,
+					ConfigConstants.CONFIG_KEY_MERGE);
 
         // determines whether rebase should be used after fetching
         boolean doRebase = false;
@@ -309,4 +316,35 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 		return result;
 	}
 
+	/**
+	 * The remote (uri or name) and remote branch name to be used for the pull
+	 * operation. If no remote is set, the branch configuration will be used. If
+	 * the branch configuration is missing the default value of
+	 * <code>Constants.DEFAULT_REMOTE_NAME</code> will be used.
+	 *
+	 * @see Constants#DEFAULT_REMOTE_NAME
+	 * @param remote
+	 * @param remoteBranchName
+	 * @return {@code this}
+	 */
+	public PullCommand setRemote(String remote, String remoteBranchName) {
+		checkCallable();
+		this.remote = remote;
+		this.remoteBranchName = remoteBranchName;
+		return this;
+	}
+
+	/**
+	 * @return the remote used for the pull operation
+	 */
+	public String getRemote() {
+		return remote;
+	}
+
+	/**
+	 * @return the remote branch name used for the pull operation
+	 */
+	public String getRemoteBranchName() {
+		return remoteBranchName;
+	}
 }

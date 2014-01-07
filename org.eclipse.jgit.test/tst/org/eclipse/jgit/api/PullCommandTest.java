@@ -232,6 +232,36 @@ public class PullCommandTest extends RepositoryTestCase {
 		Git.wrap(empty).pull().call();
 	}
 
+	@Test
+	public void testPullMergeProgrammaticConfiguration() throws Exception {
+		// create another commmit on another branch in source
+		source.checkout().setCreateBranch(true).setName("other").call();
+		sourceFile = new File(db.getWorkTree(), "file2.txt");
+		writeToFile(sourceFile, "content");
+		source.add().addFilepattern("file2.txt").call();
+		RevCommit sourceCommit = source.commit()
+				.setMessage("source commit on branch other").call();
+
+		File targetFile2 = new File(dbTarget.getWorkTree(), "OtherFile.txt");
+		writeToFile(targetFile2, "Unconflicting change");
+		target.add().addFilepattern("OtherFile.txt").call();
+		RevCommit targetCommit = target.commit()
+				.setMessage("Unconflicting change in local").call();
+
+		PullResult res = target.pull().setRemote("origin", "other")
+				.setRebase(false).call();
+
+		MergeResult mergeResult = res.getMergeResult();
+		ObjectId[] mergedCommits = mergeResult.getMergedCommits();
+		assertEquals(targetCommit.getId(), mergedCommits[0]);
+		assertEquals(sourceCommit.getId(), mergedCommits[1]);
+		RevCommit mergeCommit = new RevWalk(dbTarget).parseCommit(mergeResult
+				.getNewHead());
+		String message = "Merge branch 'other' of "
+				+ db.getWorkTree().getAbsolutePath();
+		assertEquals(message, mergeCommit.getShortMessage());
+	}
+
 	@Override
 	@Before
 	public void setUp() throws Exception {
