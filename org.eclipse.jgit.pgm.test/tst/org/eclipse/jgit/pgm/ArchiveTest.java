@@ -43,7 +43,6 @@
 package org.eclipse.jgit.pgm;
 
 import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import static org.junit.Assume.assumeNoException;
 
