@@ -16,6 +16,24 @@
       "revId": "17c99a5d378c800293bdb4f8847025066c285026",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_90bf81f8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/BlameCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 2957
+      },
+      "writtenOn": "2014-01-12T14:38:50Z",
+      "side": 1,
+      "message": "Yes, but this method is about the working tree copy. It is canonicalized to match the repo content.",
+      "parentUuid": "67591f73_b578b769",
+      "revId": "17c99a5d378c800293bdb4f8847025066c285026",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
