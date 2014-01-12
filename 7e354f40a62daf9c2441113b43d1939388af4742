@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67591f73_f51b4ffd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 848,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-01-12T14:05:52Z",
+      "side": 1,
+      "message": "no",
+      "revId": "7e354f40a62daf9c2441113b43d1939388af4742",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
