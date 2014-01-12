@@ -45,9 +45,15 @@ package org.eclipse.jgit.api;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.io.File;
+
+import org.eclipse.jgit.api.ResetCommand.ResetType;
 import org.eclipse.jgit.blame.BlameResult;
 import org.eclipse.jgit.junit.RepositoryTestCase;
+import org.eclipse.jgit.lib.ConfigConstants;
+import org.eclipse.jgit.lib.CoreConfig.AutoCRLF;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.junit.Test;
 
 /**
@@ -324,5 +330,60 @@ public class BlameCommandTest extends RepositoryTestCase {
 		assertEquals(commit3, lines.getSourceCommit(0));
 		assertEquals(commit3, lines.getSourceCommit(1));
 		assertEquals(commit3, lines.getSourceCommit(2));
+	}
+
+	@Test
+	public void testCoreAutoCrlf1() throws Exception {
+		testCoreAutoCrlf(AutoCRLF.INPUT, AutoCRLF.FALSE);
+	}
+
+	@Test
+	public void testCoreAutoCrlf2() throws Exception {
+		testCoreAutoCrlf(AutoCRLF.FALSE, AutoCRLF.FALSE);
+	}
+
+	@Test
+	public void testCoreAutoCrlf3() throws Exception {
+		testCoreAutoCrlf(AutoCRLF.INPUT, AutoCRLF.INPUT);
+	}
+
+	@Test
+	public void testCoreAutoCrlf4() throws Exception {
+		testCoreAutoCrlf(AutoCRLF.FALSE, AutoCRLF.INPUT);
+	}
+
+	@Test
+	public void testCoreAutoCrlf5() throws Exception {
+		testCoreAutoCrlf(AutoCRLF.INPUT, AutoCRLF.TRUE);
+	}
+
+	private void testCoreAutoCrlf(AutoCRLF modeForCommitting,
+			AutoCRLF modeForReset) throws Exception {
+		Git git = new Git(db);
+		FileBasedConfig config = db.getConfig();
+		config.setEnum(ConfigConstants.CONFIG_CORE_SECTION, null,
+				ConfigConstants.CONFIG_KEY_AUTOCRLF, modeForCommitting);
+		config.save();
+
+		String joinedCrlf = "a\r\nb\r\nc\r\n";
+		File trashFile = writeTrashFile("file.txt", joinedCrlf);
+		git.add().addFilepattern("file.txt").call();
+		RevCommit commit = git.commit().setMessage("create file").call();
+
+		// re-create file from the repo
+		trashFile.delete();
+		config.setEnum(ConfigConstants.CONFIG_CORE_SECTION, null,
+				ConfigConstants.CONFIG_KEY_AUTOCRLF, modeForReset);
+		config.save();
+		git.reset().setMode(ResetType.HARD).call();
+
+		BlameCommand command = new BlameCommand(db);
+		command.setFilePath("file.txt");
+		BlameResult lines = command.call();
+
+		assertEquals(3, lines.getResultContents().size());
+		assertEquals(commit, lines.getSourceCommit(0));
+		assertEquals(commit, lines.getSourceCommit(1));
+		assertEquals(commit, lines.getSourceCommit(2));
 	}
 }
