@@ -43,7 +43,10 @@
 package org.eclipse.jgit.api;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -60,6 +63,10 @@ import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.CoreConfig.AutoCRLF;
+import org.eclipse.jgit.treewalk.WorkingTreeOptions;
+import org.eclipse.jgit.util.IO;
+import org.eclipse.jgit.util.io.EolCanonicalizingInputStream;
 
 /**
  * Blame command for building a {@link BlameResult} for a file path.
@@ -215,8 +222,10 @@ public class BlameCommand extends GitCommand<BlameResult> {
 						gen.push(null, dc.getEntry(entry).getObjectId());
 
 					File inTree = new File(repo.getWorkTree(), path);
-					if (inTree.isFile())
-						gen.push(null, new RawText(inTree));
+					if (inTree.isFile()) {
+						RawText rawText = getRawText(inTree);
+						gen.push(null, rawText);
+					}
 				}
 			}
 			return gen.computeBlameResult();
@@ -224,6 +233,50 @@ public class BlameCommand extends GitCommand<BlameResult> {
 			throw new JGitInternalException(e.getMessage(), e);
 		} finally {
 			gen.release();
+		}
+	}
+
+	private RawText getRawText(File inTree) throws IOException,
+			FileNotFoundException {
+		RawText rawText;
+
+		WorkingTreeOptions workingTreeOptions = getRepository().getConfig()
+				.get(WorkingTreeOptions.KEY);
+		AutoCRLF autoCRLF = workingTreeOptions.getAutoCRLF();
+		switch (autoCRLF) {
+		case FALSE:
+		case INPUT: // we don't canonicalize for INPUT, because the repo may
+					// contain CRLF, which shall not appear as local changes
+			rawText = new RawText(inTree);
+			break;
+		case TRUE:
+			EolCanonicalizingInputStream in = new EolCanonicalizingInputStream(
+					new FileInputStream(inTree), true);
+			// Canonicalization should lead to same or shorter length
+			// (CRLF to LF), so the file size on disk is an upper size bound
+			rawText = new RawText(toByteArray(in, (int) inTree.length()));
+			break;
+		default:
+			throw new IllegalArgumentException(
+					"Unknown autocrlf option " + autoCRLF); //$NON-NLS-1$
+		}
+		return rawText;
+	}
+
+	private static byte[] toByteArray(InputStream source, int upperSizeLimit)
+			throws IOException {
+		byte[] buffer = new byte[upperSizeLimit];
+		try {
+			int read = IO.readFully(source, buffer, 0);
+			if (read == upperSizeLimit)
+				return buffer;
+			else {
+				byte[] copy = new byte[read];
+				System.arraycopy(buffer, 0, copy, 0, read);
+				return copy;
+			}
+		} finally {
+			source.close();
 		}
 	}
 }
