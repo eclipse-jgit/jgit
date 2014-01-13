@@ -1,0 +1,9 @@
+Code-Review+2: Shawn Pearce <sop@google.com>
+Verified+1: Hudson CI
+IP-Clean+1: Colby Ranger <cranger@google.com>
+Verified+1: Colby Ranger <cranger@google.com>
+Submitted-by: Shawn Pearce <sop@google.com>
+Submitted-at: Mon, 13 Jan 2014 15:15:15 -0500
+Reviewed-on: https://git.eclipse.org/r/19450
+Project: jgit/jgit
+Branch: refs/heads/master
