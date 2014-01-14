@@ -53,7 +53,7 @@ import org.eclipse.jgit.util.NB;
  * An implementation of {@link DataOutput} that only handles
  * {@link #writeInt(int)} and {@link #writeLong(long)} using the Git conversion
  * utilities for network byte order handling. This is needed to write
- * {@link javaewah.EWAHCompressedBitmap}s.
+ * {@link com.googlecode.javaewah.EWAHCompressedBitmap}s.
  */
 class SimpleDataOutput implements DataOutput {
 	private final OutputStream fd;
