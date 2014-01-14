@@ -45,15 +45,11 @@ package org.eclipse.jgit.revwalk;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
-import org.eclipse.jgit.lib.AnyObjectId;
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectIdSubclassMap;
 import org.eclipse.jgit.lib.Ref;
 
 /**
@@ -156,11 +152,8 @@ public final class RevWalkUtils {
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
 
+		revWalk.reset();
 		List<Ref> result = new ArrayList<Ref>();
-		// searches from branches can be cut off early if any parent of the
-		// search-for commit is found. This is quite likely, so optimize for this.
-		revWalk.markStart(Arrays.asList(commit.getParents()));
-		ObjectIdSubclassMap<ObjectId> cutOff = new ObjectIdSubclassMap<ObjectId>();
 
 		final int SKEW = 24*3600; // one day clock skew
 
@@ -176,26 +169,8 @@ public final class RevWalkUtils {
 			if (headCommit.getCommitTime() + SKEW < commit.getCommitTime())
 				continue;
 
-			List<ObjectId> maybeCutOff = new ArrayList<ObjectId>(cutOff.size()); // guess rough size
-			revWalk.resetRetain();
-			revWalk.markStart(headCommit);
-			RevCommit current;
-			Ref found = null;
-			while ((current = revWalk.next()) != null) {
-				if (AnyObjectId.equals(current, commit)) {
-					found = ref;
-					break;
-				}
-				if (cutOff.contains(current))
-					break;
-				maybeCutOff.add(current.toObjectId());
-			}
-			if (found != null)
+			if (revWalk.isMergedInto(commit, headCommit))
 				result.add(ref);
-			else
-				for (ObjectId id : maybeCutOff)
-					cutOff.addIfAbsent(id);
-
 		}
 		return result;
 	}
