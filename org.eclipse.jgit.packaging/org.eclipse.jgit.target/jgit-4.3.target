@@ -47,8 +47,8 @@
       <unit id="org.objenesis.source" version="1.0.0.v201105211943"/>
       <unit id="org.mockito" version="1.8.4.v201303031500"/>
       <unit id="org.mockito.source" version="1.8.4.v201303031500"/>
-      <unit id="com.jcraft.jsch" version="0.1.46.v201205102330"/>
-      <unit id="com.jcraft.jsch.source" version="0.1.46.v201205102330"/>
+      <unit id="com.jcraft.jsch" version="0.1.50.v201310081430"/>
+      <unit id="com.jcraft.jsch.source" version="0.1.50.v201310081430"/>
       <unit id="org.junit" version="4.11.0.v201303080030"/>
       <unit id="org.junit.source" version="4.11.0.v201303080030"/>
       <unit id="javax.servlet" version="2.5.0.v201103041518"/>
