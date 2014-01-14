@@ -53,7 +53,7 @@ import org.eclipse.jgit.util.NB;
 /**
  * An implementation of DataInput that only handles readInt() and readLong()
  * using the Git conversion utilities for network byte order handling. This is
- * needed to read {@link javaewah.EWAHCompressedBitmap}s.
+ * needed to read {@link com.googlecode.javaewah.EWAHCompressedBitmap}s.
  */
 class SimpleDataInput implements DataInput {
 	private final InputStream fd;
