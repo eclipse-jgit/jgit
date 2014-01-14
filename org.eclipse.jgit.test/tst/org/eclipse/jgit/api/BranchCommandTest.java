@@ -197,6 +197,20 @@ public class BranchCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testListBranchesWithContains() throws Exception {
+		git.branchCreate().setName("foo").setStartPoint(secondCommit).call();
+
+		List<Ref> refs = git.branchList().call();
+		assertEquals(2, refs.size());
+
+		List<Ref> refsContainingSecond = git.branchList()
+				.setContains(secondCommit.name()).call();
+		assertEquals(1, refsContainingSecond.size());
+		// master is on initial commit, so it should not be returned
+		assertEquals("refs/heads/foo", refsContainingSecond.get(0).getName());
+	}
+
+	@Test
 	public void testCreateFromCommit() throws Exception {
 		Ref branch = git.branchCreate().setName("FromInitial").setStartPoint(
 				initialCommit).call();
