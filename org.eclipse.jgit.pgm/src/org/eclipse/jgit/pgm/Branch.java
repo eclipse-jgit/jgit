@@ -43,16 +43,18 @@
 
 package org.eclipse.jgit.pgm;
 
-import static org.eclipse.jgit.lib.RefDatabase.ALL;
-
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.ListBranchCommand;
+import org.eclipse.jgit.api.ListBranchCommand.ListMode;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -60,8 +62,8 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefComparator;
 import org.eclipse.jgit.lib.RefRename;
 import org.eclipse.jgit.lib.RefUpdate;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RefUpdate.Result;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.pgm.internal.CLIText;
 import org.eclipse.jgit.pgm.opt.CmdLineParser;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -77,6 +79,9 @@ class Branch extends TextBuiltin {
 
 	@Option(name = "--all", aliases = { "-a" }, usage = "usage_listBothRemoteTrackingAndLocalBranches")
 	private boolean all = false;
+
+	@Option(name = "--contains", metaVar = "metaVar_commitish", usage = "usage_printOnlyBranchesThatContainTheCommit")
+	private String containsCommitish;
 
 	@Option(name = "--delete", aliases = { "-d" }, usage = "usage_deleteFullyMergedBranch")
 	private boolean delete = false;
@@ -177,15 +182,27 @@ class Branch extends TextBuiltin {
 	}
 
 	private void list() throws Exception {
-		Map<String, Ref> refs = db.getRefDatabase().getRefs(ALL);
-		Ref head = refs.get(Constants.HEAD);
+		Ref head = db.getRef(Constants.HEAD);
 		// This can happen if HEAD is stillborn
 		if (head != null) {
 			String current = head.getLeaf().getName();
-			if (current.equals(Constants.HEAD))
-				addRef("(no branch)", head); //$NON-NLS-1$
-			addRefs(refs, Constants.R_HEADS, !remote);
-			addRefs(refs, Constants.R_REMOTES, remote);
+			ListBranchCommand command = new Git(db).branchList();
+			if (all)
+				command.setListMode(ListMode.ALL);
+			else if (remote)
+				command.setListMode(ListMode.REMOTE);
+
+			if (containsCommitish != null)
+				command.setContains(containsCommitish);
+
+			List<Ref> refs = command.call();
+			for (Ref ref : refs) {
+				if (ref.getName().equals(Constants.HEAD))
+					addRef("(no branch)", head); //$NON-NLS-1$
+			}
+
+			addRefs(refs, Constants.R_HEADS);
+			addRefs(refs, Constants.R_REMOTES);
 
 			ObjectReader reader = db.newObjectReader();
 			try {
@@ -200,14 +217,11 @@ class Branch extends TextBuiltin {
 		}
 	}
 
-	private void addRefs(final Map<String, Ref> allRefs, final String prefix,
-			final boolean add) {
-		if (all || add) {
-			for (final Ref ref : RefComparator.sort(allRefs.values())) {
-				final String name = ref.getName();
-				if (name.startsWith(prefix))
-					addRef(name.substring(name.indexOf('/', 5) + 1), ref);
-			}
+	private void addRefs(final Collection<Ref> refs, final String prefix) {
+		for (final Ref ref : RefComparator.sort(refs)) {
+			final String name = ref.getName();
+			if (name.startsWith(prefix))
+				addRef(name.substring(name.indexOf('/', 5) + 1), ref);
 		}
 	}
 

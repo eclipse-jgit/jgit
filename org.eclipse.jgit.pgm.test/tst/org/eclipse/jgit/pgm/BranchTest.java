@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012, IBM Corporation and others.
+ * Copyright (C) 2012, 2014 IBM Corporation and others.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -46,6 +46,9 @@ import static org.junit.Assert.assertEquals;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.CLIRepositoryTestCase;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -61,6 +64,26 @@ public class BranchTest extends CLIRepositoryTestCase {
 	public void testList() throws Exception {
 		assertEquals("* master 6fd41be initial commit",
 				execute("git branch -v")[0]);
+	}
+
+	@Test
+	public void testListDetached() throws Exception {
+		RefUpdate updateRef = db.updateRef(Constants.HEAD, true);
+		updateRef.setNewObjectId(db.resolve("6fd41be"));
+		updateRef.update();
+		assertEquals("* (no branch) 6fd41be initial commit",
+				execute("git branch -v")[0]);
+	}
+
+	@Test
+	public void testListContains() throws Exception {
+		new Git(db).branchCreate().setName("initial").call();
+		RevCommit second = new Git(db).commit().setMessage("second commit")
+				.call();
+		assertArrayOfLinesEquals(new String[] { "  initial", "* master", "" },
+				execute("git branch --contains 6fd41be"));
+		assertArrayOfLinesEquals(new String[] { "* master", "" },
+				execute("git branch --contains " + second.name()));
 	}
 
 	@Test
