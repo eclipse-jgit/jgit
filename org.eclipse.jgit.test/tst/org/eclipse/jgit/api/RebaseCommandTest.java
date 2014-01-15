@@ -1737,6 +1737,45 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		assertEquals("file1", diffs.get(0).getOldPath());
 	}
 
+	@Test
+	public void testFastForwardRebaseWithAutoStash() throws Exception {
+		// create file0, add and commit
+		db.getConfig().setBoolean(ConfigConstants.CONFIG_REBASE_SECTION, null,
+				ConfigConstants.CONFIG_KEY_AUTOSTASH, true);
+		writeTrashFile("file0", "file0");
+		git.add().addFilepattern("file0").call();
+		git.commit().setMessage("commit0").call();
+		// create file1, add and commit
+		writeTrashFile(FILE1, "file1");
+		git.add().addFilepattern(FILE1).call();
+		RevCommit commit = git.commit().setMessage("commit1").call();
+
+		// create topic branch
+		createBranch(commit, "refs/heads/topic");
+
+		// checkout master branch / modify file1, add and commit
+		checkoutBranch("refs/heads/master");
+		writeTrashFile(FILE1, "modified file1");
+		git.add().addFilepattern(FILE1).call();
+		git.commit().setMessage("commit3").call();
+
+		// checkout topic branch / modify file0
+		checkoutBranch("refs/heads/topic");
+		writeTrashFile("file0", "unstaged modified file0");
+
+		// rebase
+		assertEquals(Status.FAST_FORWARD,
+				git.rebase().setUpstream("refs/heads/master")
+				.call().getStatus());
+		checkFile(new File(db.getWorkTree(), "file0"),
+				"unstaged modified file0");
+		checkFile(new File(db.getWorkTree(), FILE1), "modified file1");
+		assertEquals("[file0, mode:100644, content:file0]"
+				+ "[file1, mode:100644, content:modified file1]",
+				indexState(CONTENT));
+		assertEquals(RepositoryState.SAFE, db.getRepositoryState());
+	}
+
 	private List<DiffEntry> getStashedDiff() throws AmbiguousObjectException,
 			IncorrectObjectTypeException, IOException, MissingObjectException {
 		ObjectId stashId = db.resolve("stash@{0}");
