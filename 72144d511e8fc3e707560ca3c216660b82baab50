@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67591f73_8201ec7d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-01-16T07:57:51Z",
+      "side": 1,
+      "message": "unrelated change. Please leave this lines untouched.",
+      "revId": "72144d511e8fc3e707560ca3c216660b82baab50",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_ee2eb2c7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-01-16T07:57:51Z",
+      "side": 1,
+      "message": "Optional: Took quite some time to understand this check. Shouldn\u0027t we check that we don\u0027t specify orphan AND pathes. That should not be allowed.",
+      "revId": "72144d511e8fc3e707560ca3c216660b82baab50",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
