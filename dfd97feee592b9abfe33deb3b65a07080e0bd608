@@ -33,6 +33,24 @@
       "revId": "dfd97feee592b9abfe33deb3b65a07080e0bd608",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_2569ca17",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/IndexDiffFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-01-18T23:47:16Z",
+      "side": 1,
+      "message": "you are right, now using WorkingTreeIterator.isEntryIgnored()",
+      "parentUuid": "AABOPX//388\u003d",
+      "revId": "dfd97feee592b9abfe33deb3b65a07080e0bd608",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
