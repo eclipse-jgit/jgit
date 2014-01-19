@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67591f73_77f9b98d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-01-19T00:05:25Z",
+      "side": 1,
+      "message": "I don\u0027t see a good reason to change the type from boolean to Boolean here",
+      "revId": "90e56f3600356098d8592f2ed1cbc3c16527b062",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_57fc757d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-01-19T00:05:25Z",
+      "side": 1,
+      "message": "style nit: start javadoc with an uppercase letter\n\ns/explcitly/explicitly/",
+      "revId": "90e56f3600356098d8592f2ed1cbc3c16527b062",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_f79ae979",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-01-19T00:05:25Z",
+      "side": 1,
+      "message": "wrong license header, jgit is licensed under EDL",
+      "revId": "90e56f3600356098d8592f2ed1cbc3c16527b062",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_37a581b6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-01-19T00:05:25Z",
+      "side": 1,
+      "message": "missing @since 3.3 tag",
+      "revId": "90e56f3600356098d8592f2ed1cbc3c16527b062",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_d795254a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-01-19T00:05:25Z",
+      "side": 1,
+      "message": "s/fastfForwardMode/fastForwardMode/",
+      "revId": "90e56f3600356098d8592f2ed1cbc3c16527b062",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_b7035119",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-01-19T00:05:25Z",
+      "side": 1,
+      "message": "s/getFastfForwardMode/getFastForwardMode/",
+      "revId": "90e56f3600356098d8592f2ed1cbc3c16527b062",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
