@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "67591f73_a4ecb205",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-01-19T23:58:14Z",
+      "side": 1,
+      "message": "this makes sense",
+      "parentUuid": "67591f73_267c2d90",
+      "revId": "90e56f3600356098d8592f2ed1cbc3c16527b062",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67591f73_57fc757d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
         "patchSetId": 2
@@ -101,6 +119,24 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "67591f73_f79ae979",
+      "revId": "90e56f3600356098d8592f2ed1cbc3c16527b062",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_84e7ee1e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-01-19T23:58:14Z",
+      "side": 1,
+      "message": "this is still the wrong header, the Eclipse foundation decided we need to use a special header since jgit doesn\u0027t use EPL, copy the correct license header from another existing jgit source file",
+      "parentUuid": "67591f73_663c65ef",
       "revId": "90e56f3600356098d8592f2ed1cbc3c16527b062",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
