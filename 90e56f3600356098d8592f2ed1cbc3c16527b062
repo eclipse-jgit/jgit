@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "67591f73_267c2d90",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 2957
+      },
+      "writtenOn": "2014-01-19T12:03:39Z",
+      "side": 1,
+      "message": "My idea was to make the \"squash\" and \"commit\" field tri-state to see if they have been explicitly set via the setter methods.\nIf they have not been set (i.e. are null) the call to fallBackToConfiguration() would recognize this and set the fields to a value determined from the configuration.",
+      "parentUuid": "67591f73_77f9b98d",
+      "revId": "90e56f3600356098d8592f2ed1cbc3c16527b062",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67591f73_57fc757d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2014-01-19T00:05:25Z",
       "side": 1,
       "message": "style nit: start javadoc with an uppercase letter\n\ns/explcitly/explicitly/",
+      "revId": "90e56f3600356098d8592f2ed1cbc3c16527b062",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_2618ada7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 2957
+      },
+      "writtenOn": "2014-01-19T12:03:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67591f73_57fc757d",
       "revId": "90e56f3600356098d8592f2ed1cbc3c16527b062",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "67591f73_663c65ef",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 2957
+      },
+      "writtenOn": "2014-01-19T12:03:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67591f73_f79ae979",
+      "revId": "90e56f3600356098d8592f2ed1cbc3c16527b062",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67591f73_37a581b6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeConfig.java",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2014-01-19T00:05:25Z",
       "side": 1,
       "message": "missing @since 3.3 tag",
+      "revId": "90e56f3600356098d8592f2ed1cbc3c16527b062",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_a6b15dfd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 2957
+      },
+      "writtenOn": "2014-01-19T12:03:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67591f73_37a581b6",
       "revId": "90e56f3600356098d8592f2ed1cbc3c16527b062",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "67591f73_86b419ec",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 2957
+      },
+      "writtenOn": "2014-01-19T12:03:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67591f73_d795254a",
+      "revId": "90e56f3600356098d8592f2ed1cbc3c16527b062",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67591f73_b7035119",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeConfig.java",
         "patchSetId": 2
@@ -98,6 +188,24 @@
       "writtenOn": "2014-01-19T00:05:25Z",
       "side": 1,
       "message": "s/getFastfForwardMode/getFastForwardMode/",
+      "revId": "90e56f3600356098d8592f2ed1cbc3c16527b062",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_e69a357a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 2957
+      },
+      "writtenOn": "2014-01-19T12:03:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67591f73_b7035119",
       "revId": "90e56f3600356098d8592f2ed1cbc3c16527b062",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
