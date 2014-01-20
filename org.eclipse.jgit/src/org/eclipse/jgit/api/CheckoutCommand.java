@@ -564,6 +564,7 @@ public class CheckoutCommand extends GitCommand<Ref> {
 	 *            if <code>true</code> a orphan branch will be created as part
 	 *            of the checkout to the specified start point
 	 * @return this instance
+	 * @since 3.3
 	 */
 	public CheckoutCommand setOrphan(boolean orphan) {
 		checkCallable();

@@ -287,7 +287,11 @@ public final class Constants {
 	/** The environment variable that contains the commiter's email */
 	public static final String GIT_COMMITTER_EMAIL_KEY = "GIT_COMMITTER_EMAIL";
 
-	/** The environment variable that blocks use of the system config file */
+	/**
+	 * The environment variable that blocks use of the system config file
+	 *
+	 * @since 3.3
+	 */
 	public static final String GIT_CONFIG_NOSYSTEM_KEY = "GIT_CONFIG_NOSYSTEM";
 
 	/**
