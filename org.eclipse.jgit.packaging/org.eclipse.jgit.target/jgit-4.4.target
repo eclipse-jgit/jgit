@@ -30,7 +30,7 @@
       <unit id="org.eclipse.jetty.util.source" version="7.6.14.v20131031"/>
     </location>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
-      <repository location="http://download.eclipse.org/tools/orbit/downloads/drops/I20140114130914/repository/"/>
+      <repository location="http://download.eclipse.org/tools/orbit/downloads/drops/S20140116105218/repository/"/>
       <unit id="org.apache.ant.source" version="1.9.2.v201307241445"/>
       <unit id="org.apache.ant" version="1.9.2.v201307241445"/>
       <unit id="org.apache.commons.compress" version="1.6.0.v201310281400"/>
