@@ -143,6 +143,24 @@
     },
     {
       "key": {
+        "uuid": "67591f73_24c26200",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-01-20T00:00:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67591f73_84e7ee1e",
+      "revId": "90e56f3600356098d8592f2ed1cbc3c16527b062",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67591f73_37a581b6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeConfig.java",
         "patchSetId": 2
