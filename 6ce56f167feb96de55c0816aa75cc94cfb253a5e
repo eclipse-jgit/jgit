@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "67591f73_ef3cb7f0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-01-21T08:02:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67591f73_53d63a38",
+      "revId": "6ce56f167feb96de55c0816aa75cc94cfb253a5e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67591f73_9319f2af",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CoreConfig.java",
         "patchSetId": 31
