@@ -92,6 +92,8 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 
 	private boolean ignoreRepositoryState;
 
+	private MergeStrategy strategy = MergeStrategy.RECURSIVE;
+
 	/**
 	 * Create command to apply the changes of a stashed commit
 	 *
@@ -181,8 +183,7 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 					.getParent(1));
 			ObjectId stashHeadCommit = stashCommit.getParent(0);
 
-			ResolveMerger merger = (ResolveMerger) MergeStrategy.RECURSIVE
-					.newMerger(repo);
+			ResolveMerger merger = (ResolveMerger) strategy.newMerger(repo);
 			merger.setCommitNames(new String[] { "stashed HEAD", "HEAD",
 					"stash" });
 			merger.setBase(stashHeadCommit);
@@ -194,7 +195,7 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 				dco.setFailOnConflict(true);
 				dco.checkout(); // Ignoring failed deletes....
 				if (applyIndex) {
-					ResolveMerger ixMerger = (ResolveMerger) MergeStrategy.RECURSIVE
+					ResolveMerger ixMerger = (ResolveMerger) strategy
 							.newMerger(repo, true);
 					ixMerger.setCommitNames(new String[] { "stashed HEAD",
 							"HEAD", "stashed index" });
@@ -229,6 +230,17 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 	 */
 	public void setApplyIndex(boolean applyIndex) {
 		this.applyIndex = applyIndex;
+	}
+
+	/**
+	 * @param strategy
+	 *            The merge strategy to use in order to merge during the
+	 *            execution of this command.
+	 * @return {@code this}
+	 */
+	public StashApplyCommand setStrategy(MergeStrategy strategy) {
+		this.strategy = strategy;
+		return this;
 	}
 
 	private void resetIndex(RevTree tree) throws IOException {

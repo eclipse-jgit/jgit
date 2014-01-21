@@ -93,6 +93,7 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
@@ -210,6 +211,8 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	private RevCommit newHead;
 
 	private boolean lastStepWasForward;
+
+	private MergeStrategy strategy = MergeStrategy.RECURSIVE;
 
 	/**
 	 * @param repo
@@ -375,7 +378,8 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			String stash = rebaseState.readFile(AUTOSTASH);
 			try {
 				Git.wrap(repo).stashApply().setStashRef(stash)
-						.ignoreRepositoryState(true).call();
+						.ignoreRepositoryState(true).setStrategy(strategy)
+						.call();
 			} catch (StashApplyFailureException e) {
 				conflicts = true;
 				RevWalk rw = new RevWalk(repo);
@@ -474,7 +478,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 				String ourCommitName = getOurCommitName();
 				CherryPickResult cherryPickResult = new Git(repo).cherryPick()
 						.include(commitToPick).setOurCommitName(ourCommitName)
-						.setReflogPrefix("rebase:").call(); //$NON-NLS-1$
+						.setReflogPrefix("rebase:").setStrategy(strategy).call(); //$NON-NLS-1$
 				switch (cherryPickResult.getStatus()) {
 				case FAILED:
 					if (operation == Operation.BEGIN)
@@ -1299,6 +1303,17 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			final boolean stopAfterRebaseInteractiveInitialization) {
 		this.stopAfterInitialization = stopAfterRebaseInteractiveInitialization;
 		this.interactiveHandler = handler;
+		return this;
+	}
+
+	/**
+	 * @param strategy
+	 *            The merge strategy to use in order to merge during the
+	 *            execution of the inner-merges of this rebase operation.
+	 * @return {@code this}
+	 */
+	public RebaseCommand setStrategy(MergeStrategy strategy) {
+		this.strategy = strategy;
 		return this;
 	}
 
