@@ -66,6 +66,7 @@ import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryState;
+import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.transport.FetchResult;
 
 /**
@@ -85,6 +86,8 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 	private String remote;
 
 	private String remoteBranchName;
+
+	private MergeStrategy strategy = MergeStrategy.RECURSIVE;
 
 	private enum PullRebaseMode {
 		USE_CONFIG,
@@ -299,13 +302,14 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 		if (doRebase) {
 			RebaseCommand rebase = new RebaseCommand(repo);
 			RebaseResult rebaseRes = rebase.setUpstream(commitToMerge)
-					.setUpstreamName(upstreamName)
-					.setProgressMonitor(monitor).setOperation(Operation.BEGIN)
+					.setUpstreamName(upstreamName).setProgressMonitor(monitor)
+					.setOperation(Operation.BEGIN).setStrategy(strategy)
 					.call();
 			result = new PullResult(fetchRes, remote, rebaseRes);
 		} else {
 			MergeCommand merge = new MergeCommand(repo);
 			merge.include(upstreamName, commitToMerge);
+			merge.setStrategy(strategy);
 			MergeResult mergeRes = merge.call();
 			monitor.update(1);
 			result = new PullResult(fetchRes, remote, mergeRes);
@@ -362,5 +366,16 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 	 */
 	public String getRemoteBranchName() {
 		return remoteBranchName;
+	}
+
+	/**
+	 * @param strategy
+	 *            The merge strategy to use during this pull operation.
+	 * @return {@code this}
+	 * @since 3.4
+	 */
+	public PullCommand setStrategy(MergeStrategy strategy) {
+		this.strategy = strategy;
+		return this;
 	}
 }
