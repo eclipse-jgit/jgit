@@ -65,6 +65,7 @@ import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.submodule.SubmoduleWalk;
@@ -83,6 +84,8 @@ public class SubmoduleUpdateCommand extends
 	private ProgressMonitor monitor;
 
 	private final Collection<String> paths;
+
+	private MergeStrategy strategy = MergeStrategy.RECURSIVE;
 
 	/**
 	 * @param repo
@@ -172,12 +175,14 @@ public class SubmoduleUpdateCommand extends
 
 					String update = generator.getConfigUpdate();
 					if (ConfigConstants.CONFIG_KEY_MERGE.equals(update)) {
-						MergeCommand merge = new MergeCommand(submoduleRepo);
+						MergeCommand merge = new Git(submoduleRepo).merge();
 						merge.include(commit);
+						merge.setStrategy(strategy);
 						merge.call();
 					} else if (ConfigConstants.CONFIG_KEY_REBASE.equals(update)) {
-						RebaseCommand rebase = new RebaseCommand(submoduleRepo);
+						RebaseCommand rebase = new Git(submoduleRepo).rebase();
 						rebase.setUpstream(commit);
+						rebase.setStrategy(strategy);
 						rebase.call();
 					} else {
 						// Checkout commit referenced in parent repository's
@@ -203,5 +208,17 @@ public class SubmoduleUpdateCommand extends
 		} catch (ConfigInvalidException e) {
 			throw new InvalidConfigurationException(e.getMessage(), e);
 		}
+	}
+
+	/**
+	 * @param strategy
+	 *            The merge strategy to use in order to merge during the
+	 *            execution of the inner-merges of this update operation.
+	 * @return {@code this}
+	 * @since 3.4
+	 */
+	public SubmoduleUpdateCommand setStrategy(MergeStrategy strategy) {
+		this.strategy = strategy;
+		return this;
 	}
 }
