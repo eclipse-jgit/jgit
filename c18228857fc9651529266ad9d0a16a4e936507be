@@ -16,6 +16,24 @@
       "revId": "c18228857fc9651529266ad9d0a16a4e936507be",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_0fbf6bf9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-01-23T05:01:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67591f73_f3e66e21",
+      "revId": "c18228857fc9651529266ad9d0a16a4e936507be",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
