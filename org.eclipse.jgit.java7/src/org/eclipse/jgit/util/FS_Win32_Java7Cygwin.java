@@ -127,4 +127,12 @@ public class FS_Win32_Java7Cygwin extends FS_Win32_Cygwin {
 	public void createSymLink(File path, String target) throws IOException {
 		FileUtil.createSymLink(path, target);
 	}
+
+	/**
+	 * @since 3.3
+	 */
+	@Override
+	public Attributes getAttributes(File path) {
+		return FileUtil.getFileAttributesBasic(this, path);
+	}
 }
