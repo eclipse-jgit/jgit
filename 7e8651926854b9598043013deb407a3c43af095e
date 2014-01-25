@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67591f73_e0d5b2b2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ValidRefNameTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2014-01-25T15:16:18Z",
+      "side": 1,
+      "message": "It would be better if this test was also run on non-Windows, faking it like this:\n\n\t\tSystemReader originalReader \u003d SystemReader.getInstance();\n\t\ttry {\n\t\t\tMockSystemReader mockReader \u003d new MockSystemReader();\n\t\t\tmockReader.setWindows();\n\t\t\tSystemReader.setInstance(mockReader);\n\t\t\t// re-using code from DirCacheCheckoutTest, hence\n\t\t\t// only testing for one of the special names.\n\t\t\tassertValid(false, \"refs/heads/con\");\n\t\t\tassertValid(false, \"refs/con/x\");\n\t\t\tassertValid(false, \"con/heads/x\");\n\t\t\tassertValid(true, \"refs/heads/conx\");\n\t\t\tassertValid(true, \"refs/heads/xcon\");\n\t\t} finally {\n\t\t\tSystemReader.setInstance(originalReader);\n\t\t}",
+      "revId": "7e8651926854b9598043013deb407a3c43af095e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_e06932ed",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1173,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2014-01-25T15:16:18Z",
+      "side": 1,
+      "message": "\"Check of\" -\u003e \"Check if\"",
+      "revId": "7e8651926854b9598043013deb407a3c43af095e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_a000da0d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1188,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2014-01-25T15:16:18Z",
+      "side": 1,
+      "message": "How about also throwing an InvalidPathException in this case?",
+      "revId": "7e8651926854b9598043013deb407a3c43af095e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_a04d7a48",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1205,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2014-01-25T15:16:18Z",
+      "side": 1,
+      "message": "I had some trouble understanding this and tried to improve it. What do you think about this?:\n\n\t\tint segmentStart \u003d 0;\n\t\tfor (int i \u003d 0; i \u003c bytes.length; i++) {\n\t\t\tif (bytes[i] \u003d\u003d \u0027/\u0027) {\n\t\t\t\tcheckValidPathSegment(isWindows, ignCase, bytes, segmentStart,\n\t\t\t\t\t\ti, path);\n\t\t\t\tsegmentStart \u003d i + 1;\n\t\t\t}\n\t\t}\n\t\tif (segmentStart \u003c bytes.length)\n\t\t\tcheckValidPathSegment(isWindows, ignCase, bytes, segmentStart,\n\t\t\t\t\tbytes.length, path);",
+      "revId": "7e8651926854b9598043013deb407a3c43af095e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
