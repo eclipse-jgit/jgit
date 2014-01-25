@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67591f73_8fb4e93c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-01-25T09:29:57Z",
+      "side": 1,
+      "message": "These three lines, I do not understand. newParentCount is always newParents.length, unless we throw an exception. \n\nIt might be a good idea, however, to make it safe, so that if we throw and exception, then parentId\u0027s will not be changed. In this patch we\u0027ll wind up with a partially initialized parentIds array.",
+      "revId": "fc9a27557b48fc34bd9dbca45cc2fc1d61fc10d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
