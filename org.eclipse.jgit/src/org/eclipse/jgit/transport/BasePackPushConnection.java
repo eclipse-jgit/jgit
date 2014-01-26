@@ -283,8 +283,12 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 				local.newObjectReader());
 		try {
 
-			for (final Ref r : getRefs())
-				remoteObjects.add(r.getObjectId());
+			for (final Ref r : getRefs()) {
+				// only add objects that we actually have
+				ObjectId oid = r.getObjectId();
+				if (local.hasObject(oid))
+					remoteObjects.add(oid);
+			}
 			remoteObjects.addAll(additionalHaves);
 			for (final RemoteRefUpdate r : refUpdates.values()) {
 				if (!ObjectId.zeroId().equals(r.getNewObjectId()))
