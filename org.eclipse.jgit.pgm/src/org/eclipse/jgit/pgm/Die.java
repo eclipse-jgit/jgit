@@ -54,6 +54,8 @@ package org.eclipse.jgit.pgm;
 public class Die extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 
+	private boolean aborted;
+
 	/**
 	 * Construct a new message explaining what has gone wrong.
 	 *
@@ -74,5 +76,25 @@ public class Die extends RuntimeException {
 	 */
 	public Die(final String why, final Throwable cause) {
 		super(why, cause);
+	}
+
+	/**
+	 * Construct a new exception to simply abort the execution.
+	 *
+	 * @param aborted boolean indicating the fact the execution should be aborted
+	 * @since 3.4
+	 */
+	public Die(boolean aborted) {
+		this.aborted = aborted;
+	}
+
+	/**
+	 * Check if this exception should cause the execution to be aborted.
+	 *
+	 * @return boolean indicating that the execution should be aborted
+	 * @since 3.4
+	 */
+	public boolean isAborted() {
+		return aborted;
 	}
 }
