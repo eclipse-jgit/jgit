@@ -50,10 +50,13 @@ import static org.eclipse.jgit.lib.Constants.R_TAGS;
 
 import java.io.BufferedWriter;
 import java.io.FileDescriptor;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.text.MessageFormat;
 import java.util.ResourceBundle;
@@ -85,6 +88,13 @@ public abstract class TextBuiltin {
 	private boolean help;
 
 	/**
+	 * Input stream, typically this is standard input.
+	 *
+	 * @since 3.4
+	 */
+	protected InputStream ins;
+
+	/**
 	 * Writer to output to, typically this is standard output.
 	 *
 	 * @since 2.2
@@ -105,6 +115,20 @@ public abstract class TextBuiltin {
 	 */
 	@Deprecated
 	protected PrintWriter out;
+
+    /**
+	 * Error writer, typically this is standard error.
+	 *
+	 * @since 3.4
+	 */
+	protected ThrowingPrintWriter errw;
+
+	/**
+	 * Error output stream, typically this is standard error.
+	 *
+	 * @since 3.4
+	 */
+	protected OutputStream errs;
 
 	/** Git repository the command was invoked within. */
 	protected Repository db;
@@ -137,16 +161,27 @@ public abstract class TextBuiltin {
 		try {
 			final String outputEncoding = repository != null ? repository
 					.getConfig().getString("i18n", null, "logOutputEncoding") : null; //$NON-NLS-1$ //$NON-NLS-2$
+			if (ins == null)
+				ins = new FileInputStream(FileDescriptor.in);
 			if (outs == null)
 				outs = new FileOutputStream(FileDescriptor.out);
-			BufferedWriter bufw;
+			if (errs == null)
+				errs = new FileOutputStream(FileDescriptor.err);
+			BufferedWriter outbufw;
 			if (outputEncoding != null)
-				bufw = new BufferedWriter(new OutputStreamWriter(outs,
+				outbufw = new BufferedWriter(new OutputStreamWriter(outs,
 						outputEncoding));
 			else
-				bufw = new BufferedWriter(new OutputStreamWriter(outs));
-			out = new PrintWriter(bufw);
-			outw = new ThrowingPrintWriter(bufw);
+				outbufw = new BufferedWriter(new OutputStreamWriter(outs));
+			out = new PrintWriter(outbufw);
+			outw = new ThrowingPrintWriter(outbufw);
+			BufferedWriter errbufw;
+			if (outputEncoding != null)
+				errbufw = new BufferedWriter(new OutputStreamWriter(errs,
+						outputEncoding));
+			else
+				errbufw = new BufferedWriter(new OutputStreamWriter(errs));
+			errw = new ThrowingPrintWriter(errbufw);
 		} catch (IOException e) {
 			throw die(CLIText.get().cannotCreateOutputStream);
 		}
@@ -185,13 +220,13 @@ public abstract class TextBuiltin {
 	 * @param args
 	 *            the arguments supplied on the command line, if any.
 	 */
-	protected void parseArguments(final String[] args) {
+	protected void parseArguments(final String[] args) throws IOException {
 		final CmdLineParser clp = new CmdLineParser(this);
 		try {
 			clp.parseArgument(args);
 		} catch (CmdLineException err) {
 			if (!help) {
-				System.err.println(MessageFormat.format(CLIText.get().fatalError, err.getMessage()));
+				this.errw.println(MessageFormat.format(CLIText.get().fatalError, err.getMessage()));
 				System.exit(1);
 			}
 		}
@@ -208,7 +243,7 @@ public abstract class TextBuiltin {
 	 *
 	 * @param clp
 	 */
-	public void printUsageAndExit(final CmdLineParser clp) {
+	public void printUsageAndExit(final CmdLineParser clp) throws IOException {
 		printUsageAndExit("", clp); //$NON-NLS-1$
 	}
 
@@ -218,19 +253,18 @@ public abstract class TextBuiltin {
 	 * @param message
 	 * @param clp
 	 */
-	public void printUsageAndExit(final String message, final CmdLineParser clp) {
-		PrintWriter writer = new PrintWriter(System.err);
-		writer.println(message);
-		writer.print("jgit "); //$NON-NLS-1$
-		writer.print(commandName);
-		clp.printSingleLineUsage(writer, getResourceBundle());
-		writer.println();
+	public void printUsageAndExit(final String message, final CmdLineParser clp) throws IOException {
+		errw.println(message);
+		errw.print("jgit "); //$NON-NLS-1$
+		errw.print(commandName);
+		clp.printSingleLineUsage(errw, getResourceBundle());
+		errw.println();
 
-		writer.println();
-		clp.printUsage(writer, getResourceBundle());
-		writer.println();
+		errw.println();
+		clp.printUsage(errw, getResourceBundle());
+		errw.println();
 
-		writer.flush();
+		errw.flush();
 		System.exit(1);
 	}
 
