@@ -253,7 +253,7 @@ public abstract class TextBuiltin {
 		writer.println();
 
 		writer.flush();
-		System.exit(1);
+        throw die(true);
 	}
 
 	/**
@@ -309,6 +309,14 @@ public abstract class TextBuiltin {
 	protected static Die die(final String why, final Throwable cause) {
 		return new Die(why, cause);
 	}
+
+    /**
+     * @param aborted
+     * @return a runtime exception the caller is expected to throw
+     */
+    protected static Die die(boolean aborted) {
+        return new Die(aborted);
+    }
 
 	String abbreviateRef(String dst, boolean abbreviateRemote) {
 		if (dst.startsWith(R_HEADS))
