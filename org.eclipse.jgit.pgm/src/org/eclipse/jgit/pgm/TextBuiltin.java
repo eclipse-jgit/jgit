@@ -213,7 +213,7 @@ public abstract class TextBuiltin {
 		} catch (CmdLineException err) {
 			if (!help) {
 				this.err.println(MessageFormat.format(CLIText.get().fatalError, err.getMessage()));
-				System.exit(1);
+				throw die(true);
 			}
 		}
 
@@ -252,7 +252,7 @@ public abstract class TextBuiltin {
 		writer.println();
 
 		writer.flush();
-		System.exit(1);
+		throw die(true);
 	}
 
 	/**
@@ -307,6 +307,16 @@ public abstract class TextBuiltin {
 	 */
 	protected static Die die(final String why, final Throwable cause) {
 		return new Die(why, cause);
+	}
+
+	/**
+	 * @param aborted
+     *            boolean indicating that the exception should be aborted
+	 * @return a runtime exception the caller is expected to throw
+     * @since 3.4
+	 */
+	protected static Die die(boolean aborted) {
+		return new Die(aborted);
 	}
 
 	String abbreviateRef(String dst, boolean abbreviateRemote) {
