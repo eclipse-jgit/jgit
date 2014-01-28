@@ -82,6 +82,6 @@ class UploadPack extends TextBuiltin {
 		up = new org.eclipse.jgit.transport.UploadPack(db);
 		if (0 <= timeout)
 			up.setTimeout(timeout);
-		up.upload(System.in, outs, System.err);
+		up.upload(ins, outs, err);
 	}
 }
