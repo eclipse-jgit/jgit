@@ -50,10 +50,13 @@ import static org.eclipse.jgit.lib.Constants.R_TAGS;
 
 import java.io.BufferedWriter;
 import java.io.FileDescriptor;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.text.MessageFormat;
 import java.util.ResourceBundle;
@@ -84,7 +87,14 @@ public abstract class TextBuiltin {
 	@Option(name = "--help", usage = "usage_displayThisHelpText", aliases = { "-h" })
 	private boolean help;
 
-	/**
+    /**
+     * Input stream, typically the is standard input.
+     *
+     * @since 3.3
+     */
+    protected InputStream ins;
+
+    /**
 	 * Writer to output to, typically this is standard output.
 	 *
 	 * @since 2.2
@@ -105,7 +115,14 @@ public abstract class TextBuiltin {
 	 */
 	protected PrintWriter out;
 
-	/** Git repository the command was invoked within. */
+    /**
+     * Error output stream, typically this is standard error.
+     *
+     * @since 3.3
+     */
+    protected PrintStream err;
+
+    /** Git repository the command was invoked within. */
 	protected Repository db;
 
 	/** Directory supplied via --git-dir command line option. */
@@ -136,6 +153,9 @@ public abstract class TextBuiltin {
 		try {
 			final String outputEncoding = repository != null ? repository
 					.getConfig().getString("i18n", null, "logOutputEncoding") : null; //$NON-NLS-1$ //$NON-NLS-2$
+            if (ins == null) {
+                ins = new FileInputStream(FileDescriptor.in);
+            }
 			if (outs == null)
 				outs = new FileOutputStream(FileDescriptor.out);
 			BufferedWriter bufw;
@@ -146,6 +166,9 @@ public abstract class TextBuiltin {
 				bufw = new BufferedWriter(new OutputStreamWriter(outs));
 			out = new PrintWriter(bufw);
 			outw = new ThrowingPrintWriter(bufw);
+            if (err == null) {
+                err = System.err;
+            }
 		} catch (IOException e) {
 			throw die(CLIText.get().cannotCreateOutputStream);
 		}
@@ -190,8 +213,8 @@ public abstract class TextBuiltin {
 			clp.parseArgument(args);
 		} catch (CmdLineException err) {
 			if (!help) {
-				System.err.println(MessageFormat.format(CLIText.get().fatalError, err.getMessage()));
-				System.exit(1);
+				this.err.println(MessageFormat.format(CLIText.get().fatalError, err.getMessage()));
+				throw die(true);
 			}
 		}
 
@@ -218,7 +241,7 @@ public abstract class TextBuiltin {
 	 * @param clp
 	 */
 	public void printUsageAndExit(final String message, final CmdLineParser clp) {
-		PrintWriter writer = new PrintWriter(System.err);
+		PrintWriter writer = new PrintWriter(err);
 		writer.println(message);
 		writer.print("jgit "); //$NON-NLS-1$
 		writer.print(commandName);

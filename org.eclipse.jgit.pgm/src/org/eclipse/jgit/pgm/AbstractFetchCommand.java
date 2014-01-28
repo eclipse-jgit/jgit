@@ -50,6 +50,7 @@ package org.eclipse.jgit.pgm;
 import static java.lang.Character.valueOf;
 
 import java.io.IOException;
+import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.text.MessageFormat;
 
@@ -92,11 +93,11 @@ abstract class AbstractFetchCommand extends TextBuiltin {
 		} finally {
 			reader.release();
 		}
-		showRemoteMessages(r.getMessages());
+		showRemoteMessages(err, r.getMessages());
 	}
 
-	static void showRemoteMessages(String pkt) {
-		PrintWriter writer = new PrintWriter(System.err);
+	static void showRemoteMessages(PrintStream err, String pkt) {
+		PrintWriter writer = new PrintWriter(err);
 		while (0 < pkt.length()) {
 			final int lf = pkt.indexOf('\n');
 			final int cr = pkt.indexOf('\r');
