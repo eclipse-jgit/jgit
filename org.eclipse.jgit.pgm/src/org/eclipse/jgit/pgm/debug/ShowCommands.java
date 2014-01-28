@@ -43,8 +43,11 @@
 
 package org.eclipse.jgit.pgm.debug;
 
+import java.io.IOException;
+import java.io.PrintStream;
 import java.net.URL;
 
+import org.eclipse.jgit.util.io.ThrowingPrintWriter;
 import org.kohsuke.args4j.Option;
 import org.eclipse.jgit.pgm.Command;
 import org.eclipse.jgit.pgm.CommandCatalog;
@@ -67,39 +70,39 @@ class ShowCommands extends TextBuiltin {
 		width += 2;
 
 		for (final CommandRef c : list) {
-			System.err.print(c.isCommon() ? '*' : ' ');
-			System.err.print(' ');
+			errw.print(c.isCommon() ? '*' : ' ');
+			errw.print(' ');
 
-			System.err.print(c.getName());
+			errw.print(c.getName());
 			for (int i = c.getName().length(); i < width; i++)
-				System.err.print(' ');
+				errw.print(' ');
 
-			pretty.print(c);
-			System.err.println();
+			pretty.print(errw, c);
+			errw.println();
 		}
-		System.err.println();
+		errw.println();
 	}
 
 	static enum Format {
 		/** */
 		USAGE {
-			void print(final CommandRef c) {
+			void print(ThrowingPrintWriter err, final CommandRef c) throws IOException {
 				String usage = c.getUsage();
 				if (usage != null && usage.length() > 0)
-					System.err.print(CLIText.get().resourceBundle().getString(usage));
+					err.print(CLIText.get().resourceBundle().getString(usage));
 			}
 		},
 
 		/** */
 		CLASSES {
-			void print(final CommandRef c) {
-				System.err.print(c.getImplementationClassName());
+			void print(ThrowingPrintWriter err, final CommandRef c) throws IOException {
+				err.print(c.getImplementationClassName());
 			}
 		},
 
 		/** */
 		URLS {
-			void print(final CommandRef c) {
+			void print(ThrowingPrintWriter err, final CommandRef c) throws IOException {
 				final ClassLoader ldr = c.getImplementationClassLoader();
 
 				String cn = c.getImplementationClassName();
@@ -107,7 +110,7 @@ class ShowCommands extends TextBuiltin {
 
 				final URL url = ldr.getResource(cn);
 				if (url == null) {
-					System.err.print(CLIText.get().notFound);
+					err.print(CLIText.get().notFound);
 					return;
 				}
 
@@ -115,10 +118,10 @@ class ShowCommands extends TextBuiltin {
 				if (rn.endsWith(cn))
 					rn = rn.substring(0, rn.length() - cn.length());
 
-				System.err.print(rn);
+				err.print(rn);
 			}
 		};
 
-		abstract void print(CommandRef c);
+		abstract void print(ThrowingPrintWriter err, CommandRef c) throws IOException;
 	}
 }
