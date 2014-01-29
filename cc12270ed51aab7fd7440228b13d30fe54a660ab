@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67591f73_150a782b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HttpTransport.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-01-29T22:13:04Z",
+      "side": 1,
+      "message": "next release is 3.3 -\u003e need to update the since tags to @since 3.3",
+      "revId": "cc12270ed51aab7fd7440228b13d30fe54a660ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_95d048f5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/HttpConnection.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-01-29T22:13:04Z",
+      "side": 1,
+      "message": "s/3.2/3.3/",
+      "revId": "cc12270ed51aab7fd7440228b13d30fe54a660ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_d5eda0b2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/HttpConnection.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-01-29T22:13:04Z",
+      "side": 1,
+      "message": "missing parameter description",
+      "revId": "cc12270ed51aab7fd7440228b13d30fe54a660ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_35e85c9f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/HttpConnectionFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-01-29T22:13:04Z",
+      "side": 1,
+      "message": "s/3.2/3.3/",
+      "revId": "cc12270ed51aab7fd7440228b13d30fe54a660ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_15e398c3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/JDKHttpConnection.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-01-29T22:13:04Z",
+      "side": 1,
+      "message": "s/3.2/3.3/",
+      "revId": "cc12270ed51aab7fd7440228b13d30fe54a660ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_75de54fe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/JDKHttpConnectionFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-01-29T22:13:04Z",
+      "side": 1,
+      "message": "s/3.2/3.3/",
+      "revId": "cc12270ed51aab7fd7440228b13d30fe54a660ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_b59f4c3e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/HttpSupport.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-01-29T22:13:04Z",
+      "side": 1,
+      "message": "missing @since 3.3 tag",
+      "revId": "cc12270ed51aab7fd7440228b13d30fe54a660ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
