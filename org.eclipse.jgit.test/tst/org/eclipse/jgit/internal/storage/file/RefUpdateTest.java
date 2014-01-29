@@ -455,7 +455,6 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 
 		// now update that ref
 		updateRef = db.updateRef(Constants.HEAD);
-		updateRef.setForceUpdate(true);
 		updateRef.setNewObjectId(oldValue);
 		update = updateRef.update();
 		assertEquals(Result.FAST_FORWARD, update);
