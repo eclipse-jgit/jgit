@@ -16,6 +16,24 @@
       "revId": "ce5fd525be80d664db5f7263f8a4c961e320940e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_e8cd74ab",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1353,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-01-29T01:07:53Z",
+      "side": 0,
+      "message": "Argh, yes you are correct we cannot use bitmaps if the client is shallow. Its going to assume the client has things it does not have.",
+      "parentUuid": "67591f73_0d855a5e",
+      "revId": "ce5fd525be80d664db5f7263f8a4c961e320940e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "67591f73_a8c7fc8a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1323,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-01-29T01:07:53Z",
+      "side": 1,
+      "message": "Right, I think we can drop these two lines.",
+      "parentUuid": "67591f73_2d05be87",
+      "revId": "b8294dde6fe655e0f9da755d4db117e39821c422",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67591f73_adc38e9e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2014-01-29T00:50:37Z",
       "side": 1,
       "message": "What prevents finding a delta base the client doesn\u0027t have in the depth !\u003d 0 case?",
+      "revId": "b8294dde6fe655e0f9da755d4db117e39821c422",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_88c2f878",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 688,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-01-29T01:07:53Z",
+      "side": 1,
+      "message": "IIRC when depth !\u003d 0 this is passed into the PackWriter which builds its own list of of what to send using a DepthWalk instead of the classical algorithm. I should double check my assumptions but I don\u0027t think we need to pass in the shallow commit list.",
+      "parentUuid": "67591f73_adc38e9e",
       "revId": "b8294dde6fe655e0f9da755d4db117e39821c422",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
