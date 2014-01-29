@@ -1314,6 +1314,7 @@ public class RevWalk implements Iterable<RevCommit> {
 	 * @param ids
 	 *            commits that should be treated as shallow commits, in addition
 	 *            to any commits already known to be shallow by the repository.
+	 * @since 3.3
 	 */
 	public void assumeShallow(Collection<? extends ObjectId> ids) {
 		for (ObjectId id : ids)
