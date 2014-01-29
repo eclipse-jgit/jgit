@@ -620,13 +620,14 @@ public abstract class RefUpdate {
 			if (newObj == oldObj && !detachingSymbolicRef)
 				return store.execute(Result.NO_CHANGE);
 
+			if (isForceUpdate())
+				return store.execute(Result.FORCED);
+
 			if (newObj instanceof RevCommit && oldObj instanceof RevCommit) {
 				if (walk.isMergedInto((RevCommit) oldObj, (RevCommit) newObj))
 					return store.execute(Result.FAST_FORWARD);
 			}
 
-			if (isForceUpdate())
-				return store.execute(Result.FORCED);
 			return Result.REJECTED;
 		} finally {
 			unlock();
