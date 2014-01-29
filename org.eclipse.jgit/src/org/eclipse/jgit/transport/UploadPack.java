@@ -684,6 +684,8 @@ public class UploadPack {
 
 			if (depth != 0)
 				processShallow();
+			else if (!clientShallowCommits.isEmpty())
+				walk.assumeShallow(clientShallowCommits);
 			sendPack = negotiate();
 		} catch (PackProtocolException err) {
 			reportErrorDuringNegotiate(err.getMessage());
