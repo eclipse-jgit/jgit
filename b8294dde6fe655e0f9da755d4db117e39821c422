@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67591f73_2d05be87",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1323,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2014-01-29T00:47:10Z",
+      "side": 1,
+      "message": "I think handling fetches from a server that has its own shallow commits will take more work (see v1.9-rc0~3^2~17, \"upload-pack: make sure deepening preserves shallow roots\", 2013-12-05). Are the above two lines needed here?",
+      "revId": "b8294dde6fe655e0f9da755d4db117e39821c422",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
