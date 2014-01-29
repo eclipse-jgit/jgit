@@ -1308,6 +1308,18 @@ public class RevWalk implements Iterable<RevCommit> {
 			RevCommit.carryFlags(c, carry);
 	}
 
+	/**
+	 * Assume additional commits are shallow (have no parents).
+	 *
+	 * @param ids
+	 *            commits that should be treated as shallow commits, in addition
+	 *            to any commits already known to be shallow by the repository.
+	 */
+	public void assumeShallow(Collection<? extends ObjectId> ids) {
+		for (ObjectId id : ids)
+			lookupCommit(id).parents = RevCommit.NO_PARENTS;
+	}
+
 	void initializeShallowCommits() throws IOException {
 		if (shallowCommitsInitialized)
 			throw new IllegalStateException(
