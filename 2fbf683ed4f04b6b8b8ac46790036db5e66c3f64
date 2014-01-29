@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67591f73_d5cc8033",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-01-29T23:28:07Z",
+      "side": 1,
+      "message": "s/the the/the/",
+      "revId": "2fbf683ed4f04b6b8b8ac46790036db5e66c3f64",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_15955810",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/apache/HttpClientConnection.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-01-29T23:28:07Z",
+      "side": 1,
+      "message": "s/3.2/3.3/",
+      "revId": "2fbf683ed4f04b6b8b8ac46790036db5e66c3f64",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_7590141f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/apache/HttpClientConnection.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-01-29T23:28:07Z",
+      "side": 1,
+      "message": "ignore or convert to runtime exception ?",
+      "revId": "2fbf683ed4f04b6b8b8ac46790036db5e66c3f64",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_95c68811",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/apache/HttpClientConnection.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-01-29T23:28:07Z",
+      "side": 1,
+      "message": "?",
+      "revId": "2fbf683ed4f04b6b8b8ac46790036db5e66c3f64",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_f5c9c422",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/apache/HttpClientConnectionFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-01-29T23:28:07Z",
+      "side": 1,
+      "message": "s/3.2/3.3/",
+      "revId": "2fbf683ed4f04b6b8b8ac46790036db5e66c3f64",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
