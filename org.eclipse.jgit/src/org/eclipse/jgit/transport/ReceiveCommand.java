@@ -157,7 +157,7 @@ public class ReceiveCommand {
 
 	private Ref ref;
 
-	private Result status;
+	private Result status = Result.NOT_ATTEMPTED;
 
 	private String message;
 
@@ -186,7 +186,6 @@ public class ReceiveCommand {
 			type = Type.CREATE;
 		if (ObjectId.zeroId().equals(newId))
 			type = Type.DELETE;
-		status = Result.NOT_ATTEMPTED;
 	}
 
 	/**
