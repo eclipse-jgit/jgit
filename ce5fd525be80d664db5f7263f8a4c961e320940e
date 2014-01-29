@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67591f73_0d855a5e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1353,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2014-01-29T00:57:46Z",
+      "side": 0,
+      "message": "Is this safe when !clientShallowCommits.isEmpty()?\n\nThe PackWriter knows not to use bitmaps in the shallowPack case, but up only calls setShallowPack for depth requests.",
+      "revId": "ce5fd525be80d664db5f7263f8a4c961e320940e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
