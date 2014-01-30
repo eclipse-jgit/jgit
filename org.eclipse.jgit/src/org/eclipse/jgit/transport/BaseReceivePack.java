@@ -65,6 +65,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.PackProtocolException;
+import org.eclipse.jgit.errors.TooLargePackException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.PackLock;
 import org.eclipse.jgit.lib.BatchRefUpdate;
@@ -233,6 +234,9 @@ public abstract class BaseReceivePack {
 
 	/** Git object size limit */
 	private long maxObjectSizeLimit;
+
+	/** Total pack size limit */
+	private long maxPackSizeLimit;
 
 	/**
 	 * Create a new pack receive for an open repository.
@@ -622,6 +626,21 @@ public abstract class BaseReceivePack {
 		maxObjectSizeLimit = limit;
 	}
 
+
+	/**
+	 * Set the maximum allowed pack size.
+	 * <p>
+	 * A pack exceeding this size will be rejected.
+	 *
+	 * @param limit
+	 *            the pack size limit, in bytes. If zero then there is no limit.
+	 *
+	 * @since 3.3
+	 */
+	public void setMaxPackSizeLimit(final long limit) {
+		maxPackSizeLimit = limit;
+	}
+
 	/**
 	 * Check whether the client expects a side-band stream.
 	 *
@@ -740,6 +759,14 @@ public abstract class BaseReceivePack {
 			rawIn = timeoutIn;
 			rawOut = o;
 		}
+
+		if (maxPackSizeLimit > 0)
+			rawIn = new LimitedInputStream(rawIn, maxPackSizeLimit) {
+				@Override
+				protected void limitExceeded() throws TooLargePackException {
+					throw new TooLargePackException(limit);
+				}
+			};
 
 		pckIn = new PacketLineIn(rawIn);
 		pckOut = new PacketLineOut(rawOut);
