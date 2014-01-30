@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67591f73_ee5f2bf0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/errors/TooLargePackException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-01-30T17:14:21Z",
+      "side": 1,
+      "message": "We need a \"@since 3.3\" annotation here. We annotate which new public classes/methods/.. get introduced and Eclipse gives warnings here.",
+      "revId": "899fcfa8edb6fa362c8b78e520fc19c7ad0dfa46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_6e5afb56",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 632,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-01-30T17:14:21Z",
+      "side": 1,
+      "message": "that sentence is not correct. Please rephrase",
+      "revId": "899fcfa8edb6fa362c8b78e520fc19c7ad0dfa46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_2e6643c9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 635,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-01-30T17:14:21Z",
+      "side": 1,
+      "message": "We need a \"@since 3.3\" annotation here. We annotate which new public classes/methods/.. get introduced. Eclipse complains about the missing since tag.",
+      "revId": "899fcfa8edb6fa362c8b78e520fc19c7ad0dfa46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_ee656b0f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LimitedInputStream.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-01-30T17:14:21Z",
+      "side": 1,
+      "message": "There is no description what this class will do. I think we should add a link to original description or even copy also the description here. If it was modified then you could explain what was modified.",
+      "revId": "899fcfa8edb6fa362c8b78e520fc19c7ad0dfa46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_ce4ea742",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LimitedInputStream.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-01-30T17:14:21Z",
+      "side": 1,
+      "message": "We need a \"@since 3.3\" annotation here. We annotate which new public classes/methods/.. get introduced. Eclipse complains about the missing since tag.",
+      "revId": "899fcfa8edb6fa362c8b78e520fc19c7ad0dfa46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
