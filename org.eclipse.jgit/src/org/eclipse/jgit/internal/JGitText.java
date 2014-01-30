@@ -465,6 +465,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String readTimedOut;
 	/***/ public String receivePackObjectTooLarge1;
 	/***/ public String receivePackObjectTooLarge2;
+	/***/ public String receivePackTooLarge;
 	/***/ public String receivingObjects;
 	/***/ public String refAlreadyExists;
 	/***/ public String refAlreadyExists1;
