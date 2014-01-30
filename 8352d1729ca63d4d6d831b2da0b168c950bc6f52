@@ -16,6 +16,24 @@
       "revId": "8352d1729ca63d4d6d831b2da0b168c950bc6f52",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_ac089e67",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-01-30T15:11:25Z",
+      "side": 1,
+      "message": "Easy to solve. Download\n  \n  http://download.eclipse.org/egit/updates-3.2/org.eclipse.egit.repository-3.2.0.201312181205-r.zip\n\nunzip it, and in eclipse Preferences \"Plug-in Development/API Baselines\" add a baseline. The location can be the folder where you unzipped the downloaded file.",
+      "parentUuid": "67591f73_118d658e",
+      "revId": "8352d1729ca63d4d6d831b2da0b168c950bc6f52",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
