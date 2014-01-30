@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "67591f73_74fe4c77",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/errors/TooLargePackException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-01-30T21:29:37Z",
+      "side": 1,
+      "message": "mention the unit for this size (I guess it\u0027s byte)",
+      "revId": "899fcfa8edb6fa362c8b78e520fc19c7ad0dfa46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67591f73_6e5afb56",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
         "patchSetId": 1
@@ -53,6 +70,23 @@
     },
     {
       "key": {
+        "uuid": "67591f73_d4011812",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 635,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-01-30T21:29:37Z",
+      "side": 1,
+      "message": "mention unit for this size",
+      "revId": "899fcfa8edb6fa362c8b78e520fc19c7ad0dfa46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67591f73_ee656b0f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LimitedInputStream.java",
         "patchSetId": 1
@@ -70,6 +104,23 @@
     },
     {
       "key": {
+        "uuid": "67591f73_14c1d026",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LimitedInputStream.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-01-30T21:29:37Z",
+      "side": 1,
+      "message": "I think you copied from Guava 16.0, see your CQ 7896",
+      "revId": "899fcfa8edb6fa362c8b78e520fc19c7ad0dfa46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67591f73_ce4ea742",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LimitedInputStream.java",
         "patchSetId": 1
@@ -81,6 +132,57 @@
       "writtenOn": "2014-01-30T17:14:21Z",
       "side": 1,
       "message": "We need a \"@since 3.3\" annotation here. We annotate which new public classes/methods/.. get introduced. Eclipse complains about the missing since tag.",
+      "revId": "899fcfa8edb6fa362c8b78e520fc19c7ad0dfa46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_54dea8fd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LimitedInputStream.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-01-30T21:29:37Z",
+      "side": 1,
+      "message": "this class doesn\u0027t need to be public, it\u0027s only used within the transport package, if it\u0027s not public we also don\u0027t need the @since annotation",
+      "revId": "899fcfa8edb6fa362c8b78e520fc19c7ad0dfa46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_34d97413",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LimitedInputStream.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-01-30T21:29:37Z",
+      "side": 1,
+      "message": "style nit: we usually put annotations in the line before the one being annotated",
+      "revId": "899fcfa8edb6fa362c8b78e520fc19c7ad0dfa46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_b41bc476",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LimitedInputStream.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-01-30T21:29:37Z",
+      "side": 1,
+      "message": "style nit: we don\u0027t use curly braces around single line blocks, more below",
       "revId": "899fcfa8edb6fa362c8b78e520fc19c7ad0dfa46",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
