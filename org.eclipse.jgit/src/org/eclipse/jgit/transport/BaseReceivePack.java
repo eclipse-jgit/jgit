@@ -234,6 +234,9 @@ public abstract class BaseReceivePack {
 	/** Git object size limit */
 	private long maxObjectSizeLimit;
 
+	/** Total pack size limit */
+	private long maxPackSizeLimit;
+
 	/**
 	 * Create a new pack receive for an open repository.
 	 *
@@ -622,6 +625,19 @@ public abstract class BaseReceivePack {
 		maxObjectSizeLimit = limit;
 	}
 
+
+	/**
+	 * Set the maximum allowed pack size.
+	 * <p>
+	 * A pack exceeding this size the receive-pack operation will abort.
+	 *
+	 * @param limit
+	 *            the pack size limit. If zero then there is no limit.
+	 */
+	public void setMaxPackSizeLimit(final long limit) {
+		maxPackSizeLimit = limit;
+	}
+
 	/**
 	 * Check whether the client expects a side-band stream.
 	 *
@@ -740,6 +756,9 @@ public abstract class BaseReceivePack {
 			rawIn = timeoutIn;
 			rawOut = o;
 		}
+
+		if (maxPackSizeLimit > 0)
+			rawIn = new LimitedInputStream(rawIn, maxPackSizeLimit);
 
 		pckIn = new PacketLineIn(rawIn);
 		pckOut = new PacketLineOut(rawOut);
