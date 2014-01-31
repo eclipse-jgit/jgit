@@ -74,61 +74,6 @@ abstract class FileObjectDatabase extends ObjectDatabase {
 		return new ObjectDirectoryInserter(this, getConfig());
 	}
 
-	/**
-	 * Does the requested object exist in this database?
-	 * <p>
-	 * Alternates (if present) are searched automatically.
-	 *
-	 * @param objectId
-	 *            identity of the object to test for existence of.
-	 * @return true if the specified object is stored in this database, or any
-	 *         of the alternate databases.
-	 */
-	public boolean has(final AnyObjectId objectId) {
-		return hasObjectImpl1(objectId) || hasObjectImpl2(objectId.name());
-	}
-
-	/**
-	 * Compute the location of a loose object file.
-	 *
-	 * @param objectId
-	 *            identity of the loose object to map to the directory.
-	 * @return location of the object, if it were to exist as a loose object.
-	 */
-	File fileFor(final AnyObjectId objectId) {
-		return fileFor(objectId.name());
-	}
-
-	File fileFor(final String objectName) {
-		final String d = objectName.substring(0, 2);
-		final String f = objectName.substring(2);
-		return new File(new File(getDirectory(), d), f);
-	}
-
-	final boolean hasObjectImpl1(final AnyObjectId objectId) {
-		if (hasObject1(objectId))
-			return true;
-
-		for (final AlternateHandle alt : myAlternates()) {
-			if (alt.db.hasObjectImpl1(objectId))
-				return true;
-		}
-
-		return tryAgain1() && hasObject1(objectId);
-	}
-
-	final boolean hasObjectImpl2(final String objectId) {
-		if (hasObject2(objectId))
-			return true;
-
-		for (final AlternateHandle alt : myAlternates()) {
-			if (alt.db.hasObjectImpl2(objectId))
-				return true;
-		}
-
-		return false;
-	}
-
 	abstract void resolve(Set<ObjectId> matches, AbbreviatedObjectId id)
 			throws IOException;
 
@@ -138,180 +83,26 @@ abstract class FileObjectDatabase extends ObjectDatabase {
 
 	abstract Set<ObjectId> getShallowCommits() throws IOException;
 
-	/**
-	 * Open an object from this database.
-	 * <p>
-	 * Alternates (if present) are searched automatically.
-	 *
-	 * @param curs
-	 *            temporary working space associated with the calling thread.
-	 * @param objectId
-	 *            identity of the object to open.
-	 * @return a {@link ObjectLoader} for accessing the data of the named
-	 *         object, or null if the object does not exist.
-	 * @throws IOException
-	 */
-	ObjectLoader openObject(final WindowCursor curs, final AnyObjectId objectId)
-			throws IOException {
-		ObjectLoader ldr;
-
-		ldr = openObjectImpl1(curs, objectId);
-		if (ldr != null)
-			return ldr;
-
-		ldr = openObjectImpl2(curs, objectId.name(), objectId);
-		if (ldr != null)
-			return ldr;
-
-		return null;
-	}
-
-	final ObjectLoader openObjectImpl1(final WindowCursor curs,
-			final AnyObjectId objectId) throws IOException {
-		ObjectLoader ldr;
-
-		ldr = openObject1(curs, objectId);
-		if (ldr != null)
-			return ldr;
-
-		for (final AlternateHandle alt : myAlternates()) {
-			ldr = alt.db.openObjectImpl1(curs, objectId);
-			if (ldr != null)
-				return ldr;
-		}
-
-		if (tryAgain1()) {
-			ldr = openObject1(curs, objectId);
-			if (ldr != null)
-				return ldr;
-		}
-
-		return null;
-	}
-
-	final ObjectLoader openObjectImpl2(final WindowCursor curs,
-			final String objectName, final AnyObjectId objectId)
-			throws IOException {
-		ObjectLoader ldr;
-
-		ldr = openObject2(curs, objectName, objectId);
-		if (ldr != null)
-			return ldr;
-
-		for (final AlternateHandle alt : myAlternates()) {
-			ldr = alt.db.openObjectImpl2(curs, objectName, objectId);
-			if (ldr != null)
-				return ldr;
-		}
-
-		return null;
-	}
-
-	long getObjectSize(WindowCursor curs, AnyObjectId objectId)
-			throws IOException {
-		long sz = getObjectSizeImpl1(curs, objectId);
-		if (0 <= sz)
-			return sz;
-		return getObjectSizeImpl2(curs, objectId.name(), objectId);
-	}
-
-	final long getObjectSizeImpl1(final WindowCursor curs,
-			final AnyObjectId objectId) throws IOException {
-		long sz;
-
-		sz = getObjectSize1(curs, objectId);
-		if (0 <= sz)
-			return sz;
-
-		for (final AlternateHandle alt : myAlternates()) {
-			sz = alt.db.getObjectSizeImpl1(curs, objectId);
-			if (0 <= sz)
-				return sz;
-		}
-
-		if (tryAgain1()) {
-			sz = getObjectSize1(curs, objectId);
-			if (0 <= sz)
-				return sz;
-		}
-
-		return -1;
-	}
-
-	final long getObjectSizeImpl2(final WindowCursor curs,
-			final String objectName, final AnyObjectId objectId)
-			throws IOException {
-		long sz;
-
-		sz = getObjectSize2(curs, objectName, objectId);
-		if (0 <= sz)
-			return sz;
-
-		for (final AlternateHandle alt : myAlternates()) {
-			sz = alt.db.getObjectSizeImpl2(curs, objectName, objectId);
-			if (0 <= sz)
-				return sz;
-		}
-
-		return -1;
-	}
-
 	abstract void selectObjectRepresentation(PackWriter packer,
 			ObjectToPack otp, WindowCursor curs) throws IOException;
 
 	abstract File getDirectory();
 
-	abstract AlternateHandle[] myAlternates();
+	abstract File fileFor(AnyObjectId id);
 
-	abstract boolean tryAgain1();
-
-	abstract boolean hasObject1(AnyObjectId objectId);
-
-	abstract boolean hasObject2(String objectId);
-
-	abstract ObjectLoader openObject1(WindowCursor curs, AnyObjectId objectId)
+	abstract ObjectLoader openObject(WindowCursor curs, AnyObjectId objectId)
 			throws IOException;
 
-	abstract ObjectLoader openObject2(WindowCursor curs, String objectName,
-			AnyObjectId objectId) throws IOException;
-
-	abstract long getObjectSize1(WindowCursor curs, AnyObjectId objectId)
+	abstract long getObjectSize(WindowCursor curs, AnyObjectId objectId)
 			throws IOException;
 
-	abstract long getObjectSize2(WindowCursor curs, String objectName,
-			AnyObjectId objectId) throws IOException;
+	abstract ObjectLoader openLooseObject(WindowCursor curs, AnyObjectId id)
+			throws IOException;
 
 	abstract InsertLooseObjectResult insertUnpackedObject(File tmp,
 			ObjectId id, boolean createDuplicate) throws IOException;
 
 	abstract PackFile openPack(File pack) throws IOException;
 
-	abstract FileObjectDatabase newCachedFileObjectDatabase();
-
 	abstract Collection<PackFile> getPacks();
-
-	static class AlternateHandle {
-		final FileObjectDatabase db;
-
-		AlternateHandle(FileObjectDatabase db) {
-			this.db = db;
-		}
-
-		void close() {
-			db.close();
-		}
-	}
-
-	static class AlternateRepository extends AlternateHandle {
-		final FileRepository repository;
-
-		AlternateRepository(FileRepository r) {
-			super(r.getObjectDatabase());
-			repository = r;
-		}
-
-		void close() {
-			repository.close();
-		}
-	}
 }

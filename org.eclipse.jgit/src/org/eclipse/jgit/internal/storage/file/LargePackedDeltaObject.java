@@ -173,7 +173,7 @@ class LargePackedDeltaObject extends ObjectLoader {
 		//
 		final ObjectId myId = getObjectId();
 		final WindowCursor wc = new WindowCursor(db);
-		ObjectLoader ldr = db.openObject2(wc, myId.name(), myId);
+		ObjectLoader ldr = db.openLooseObject(wc, myId);
 		if (ldr != null)
 			return ldr.openStream();
 
