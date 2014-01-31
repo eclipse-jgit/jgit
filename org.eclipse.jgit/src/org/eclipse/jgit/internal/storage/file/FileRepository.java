@@ -59,8 +59,8 @@ import org.eclipse.jgit.events.ConfigChangedEvent;
 import org.eclipse.jgit.events.ConfigChangedListener;
 import org.eclipse.jgit.events.IndexChangedEvent;
 import org.eclipse.jgit.internal.JGitText;
-import org.eclipse.jgit.internal.storage.file.FileObjectDatabase.AlternateHandle;
-import org.eclipse.jgit.internal.storage.file.FileObjectDatabase.AlternateRepository;
+import org.eclipse.jgit.internal.storage.file.ObjectDirectory.AlternateHandle;
+import org.eclipse.jgit.internal.storage.file.ObjectDirectory.AlternateRepository;
 import org.eclipse.jgit.lib.BaseRepositoryBuilder;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
@@ -368,7 +368,7 @@ public class FileRepository extends Repository {
 	 */
 	public Set<ObjectId> getAdditionalHaves() {
 		HashSet<ObjectId> r = new HashSet<ObjectId>();
-		for (AlternateHandle d : objectDatabase. myAlternates()) {
+		for (AlternateHandle d : objectDatabase.myAlternates()) {
 			if (d instanceof AlternateRepository) {
 				Repository repo;
 
