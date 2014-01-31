@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67591f73_7f71fc83",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/CachedObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2014-01-31T23:44:03Z",
+      "side": 1,
+      "message": "I don\u0027t understand this line. If the object was found by the last scan, then open it. If not, do another scan. But why not try to open again? And why retry exactly once instead of zero or \u003e1 times?",
+      "revId": "b286c59b49c536ff8ee7b778551f5f8fd0e61462",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_5fc6b813",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2014-01-31T23:44:03Z",
+      "side": 1,
+      "message": "Is this protecting against PackList instances being shared against multiple ObjectDirectory instances, or multiple threads sharing this single ObjectDirectory? The latter seems less sane in that we shouldn\u0027t have one thread calling close() before the other thread is done, they should be using some external synchronization.",
+      "revId": "b286c59b49c536ff8ee7b778551f5f8fd0e61462",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_ff2fcc3e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2014-01-31T23:44:03Z",
+      "side": 1,
+      "message": "I think this could just be:\n\n if (searchPacksAgain(pList))\n   continue SEARCH;",
+      "revId": "b286c59b49c536ff8ee7b778551f5f8fd0e61462",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_9f1e901e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2014-01-31T23:44:03Z",
+      "side": 1,
+      "message": "Optional: SEARCH is the next loop at this point, break; would be sufficient I think.",
+      "revId": "b286c59b49c536ff8ee7b778551f5f8fd0e61462",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_1f7c4026",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2014-01-31T23:44:03Z",
+      "side": 1,
+      "message": "Better names for this and the Packed equivalents. AFAICT the difference between getLooseSize and getLooseObjectSize is that the former considers alternates and the latter does not.",
+      "revId": "b286c59b49c536ff8ee7b778551f5f8fd0e61462",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_7f4e1c16",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 500,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2014-01-31T23:44:03Z",
+      "side": 1,
+      "message": "Same as above: could use searchPacksAgain",
+      "revId": "b286c59b49c536ff8ee7b778551f5f8fd0e61462",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_5f5198ae",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2014-01-31T23:44:03Z",
+      "side": 1,
+      "message": "Same as above: optionally drop SEARCH",
+      "revId": "b286c59b49c536ff8ee7b778551f5f8fd0e61462",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_bfe0b489",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 900,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2014-01-31T23:44:03Z",
+      "side": 1,
+      "message": "Do these actually need to be separate classes instead of just using an ObjectDirectory[] everywhere? (The close() method of AlternateRepository closes the whole repository, not just the object database, but are you actually depending on that behavior?)",
+      "revId": "b286c59b49c536ff8ee7b778551f5f8fd0e61462",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
