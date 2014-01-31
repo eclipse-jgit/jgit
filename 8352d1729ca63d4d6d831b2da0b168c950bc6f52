@@ -70,6 +70,24 @@
       "revId": "8352d1729ca63d4d6d831b2da0b168c950bc6f52",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_4e6a8c64",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-01-31T17:18:00Z",
+      "side": 1,
+      "message": "Ah, I am running Juno. I should upgrade.",
+      "parentUuid": "67591f73_835ac053",
+      "revId": "8352d1729ca63d4d6d831b2da0b168c950bc6f52",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
