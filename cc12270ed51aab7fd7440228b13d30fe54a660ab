@@ -89,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "67591f73_b77f4657",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/HttpConnection.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-01-31T00:10:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67591f73_d5eda0b2",
+      "revId": "cc12270ed51aab7fd7440228b13d30fe54a660ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67591f73_35e85c9f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/HttpConnectionFactory.java",
         "patchSetId": 5
