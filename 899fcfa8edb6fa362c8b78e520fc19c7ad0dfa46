@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "67591f73_b82292d7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/errors/TooLargePackException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2014-01-31T12:44:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67591f73_ee5f2bf0",
+      "revId": "899fcfa8edb6fa362c8b78e520fc19c7ad0dfa46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67591f73_74fe4c77",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/errors/TooLargePackException.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "67591f73_98250ee3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/errors/TooLargePackException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2014-01-31T12:44:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67591f73_74fe4c77",
+      "revId": "899fcfa8edb6fa362c8b78e520fc19c7ad0dfa46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67591f73_6e5afb56",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2014-01-30T17:14:21Z",
       "side": 1,
       "message": "that sentence is not correct. Please rephrase",
+      "revId": "899fcfa8edb6fa362c8b78e520fc19c7ad0dfa46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_18fa9eab",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 632,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2014-01-31T12:44:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67591f73_6e5afb56",
       "revId": "899fcfa8edb6fa362c8b78e520fc19c7ad0dfa46",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +141,42 @@
     },
     {
       "key": {
+        "uuid": "67591f73_782c7ad0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 635,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2014-01-31T12:44:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67591f73_2e6643c9",
+      "revId": "899fcfa8edb6fa362c8b78e520fc19c7ad0dfa46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_582ff6c3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 635,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2014-01-31T12:44:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67591f73_d4011812",
+      "revId": "899fcfa8edb6fa362c8b78e520fc19c7ad0dfa46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67591f73_ee656b0f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LimitedInputStream.java",
         "patchSetId": 1
@@ -121,6 +211,42 @@
     },
     {
       "key": {
+        "uuid": "67591f73_c38af86c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LimitedInputStream.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2014-01-31T12:44:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67591f73_ee656b0f",
+      "revId": "899fcfa8edb6fa362c8b78e520fc19c7ad0dfa46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_63ee8c2c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LimitedInputStream.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2014-01-31T12:44:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67591f73_14c1d026",
+      "revId": "899fcfa8edb6fa362c8b78e520fc19c7ad0dfa46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67591f73_ce4ea742",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LimitedInputStream.java",
         "patchSetId": 1
@@ -132,6 +258,24 @@
       "writtenOn": "2014-01-30T17:14:21Z",
       "side": 1,
       "message": "We need a \"@since 3.3\" annotation here. We annotate which new public classes/methods/.. get introduced. Eclipse complains about the missing since tag.",
+      "revId": "899fcfa8edb6fa362c8b78e520fc19c7ad0dfa46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_2375b4ed",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LimitedInputStream.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2014-01-31T12:44:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67591f73_ce4ea742",
       "revId": "899fcfa8edb6fa362c8b78e520fc19c7ad0dfa46",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "67591f73_a3c38402",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LimitedInputStream.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2014-01-31T12:44:10Z",
+      "side": 1,
+      "message": "From the class name it is more a util class than a transport specific class. Therefore, I would move it to the util.io package.\n\nA bigger problem here was that this (util) class throws the TooLargePackException which is transport specific. To solve this problem, this class will provide an abstract raiseError method.",
+      "parentUuid": "67591f73_54dea8fd",
+      "revId": "899fcfa8edb6fa362c8b78e520fc19c7ad0dfa46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67591f73_34d97413",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LimitedInputStream.java",
         "patchSetId": 1
@@ -172,6 +334,24 @@
     },
     {
       "key": {
+        "uuid": "67591f73_434d48c0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LimitedInputStream.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2014-01-31T12:44:10Z",
+      "side": 1,
+      "message": "I knew that but thought to keep the code as similar as possible with the original.\n\nDone, as you suggested.",
+      "parentUuid": "67591f73_34d97413",
+      "revId": "899fcfa8edb6fa362c8b78e520fc19c7ad0dfa46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67591f73_b41bc476",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LimitedInputStream.java",
         "patchSetId": 1
@@ -183,6 +363,24 @@
       "writtenOn": "2014-01-30T21:29:37Z",
       "side": 1,
       "message": "style nit: we don\u0027t use curly braces around single line blocks, more below",
+      "revId": "899fcfa8edb6fa362c8b78e520fc19c7ad0dfa46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_75b3e335",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/LimitedInputStream.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2014-01-31T12:44:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67591f73_b41bc476",
       "revId": "899fcfa8edb6fa362c8b78e520fc19c7ad0dfa46",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
