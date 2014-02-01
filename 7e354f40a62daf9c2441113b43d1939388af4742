@@ -34,6 +34,24 @@
       "revId": "7e354f40a62daf9c2441113b43d1939388af4742",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_51686413",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 848,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-02-01T23:40:05Z",
+      "side": 1,
+      "message": "Forgot what this was about....",
+      "parentUuid": "67591f73_2f7bf664",
+      "revId": "7e354f40a62daf9c2441113b43d1939388af4742",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
