@@ -50,6 +50,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
 import java.security.MessageDigest;
 
 import org.eclipse.jgit.api.Git;
@@ -71,6 +73,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.treewalk.WorkingTreeIterator.MetadataDiff;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.eclipse.jgit.util.FileUtils;
+import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -96,6 +99,19 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 			writeTrashFile(s, s);
 			mtime[i] = new File(trash, s).lastModified();
 		}
+	}
+
+	@Test
+	public void testGetEntryContentLength() throws Exception {
+		final FileTreeIterator fti = new FileTreeIterator(db);
+		fti.next(1);
+		assertEquals(3, fti.getEntryContentLength());
+		fti.back(1);
+		assertEquals(2, fti.getEntryContentLength());
+		fti.next(1);
+		assertEquals(3, fti.getEntryContentLength());
+		fti.reset();
+		assertEquals(2, fti.getEntryContentLength());
 	}
 
 	@Test
