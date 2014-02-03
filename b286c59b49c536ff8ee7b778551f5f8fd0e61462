@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "67591f73_35cdc7ab",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/CachedObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-02-03T22:19:55Z",
+      "side": 1,
+      "message": "If wrapped.openLooseObject() fails here the object file does not exist on disk. We would not expect to see it in unpackedObjects after the scanLoose method. The most likely cause is the earlier scan was done before a `git gc` but now this open attempt fails because the loose object was pruned after being put into a pack file.\n\nopenLooseObject is called from two code paths.\n\nAbove in openObject() at line 190. When this method returns null the caller will look in pack files for the object. Since we just checked for the loose file on disk and could not open it, the only other place to find the object is in a pack or in an alternate. No need to retry looking at our loose object directory, its probably not going to succeed.\n\nThe other caller is in LargePackedDeltaObject. The stream tries to open the object as a loose object first. If that fails by returning null it goes into a slower path where the large delta is inflated on the fly using a stream based delta inflater, which is not efficient. But the caller is prepared for returning null and doing its own form of retry. Again like the openObject() call I just explained, the file was opened but returned ENOENT because it doesn\u0027t exist. Retry after scan won\u0027t work.",
+      "parentUuid": "67591f73_7f71fc83",
+      "revId": "b286c59b49c536ff8ee7b778551f5f8fd0e61462",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67591f73_5fc6b813",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2014-01-31T23:44:03Z",
       "side": 1,
       "message": "Is this protecting against PackList instances being shared against multiple ObjectDirectory instances, or multiple threads sharing this single ObjectDirectory? The latter seems less sane in that we shouldn\u0027t have one thread calling close() before the other thread is done, they should be using some external synchronization.",
+      "revId": "b286c59b49c536ff8ee7b778551f5f8fd0e61462",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_55db1b62",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-02-03T22:19:55Z",
+      "side": 1,
+      "message": "Protecting multiple threads from calling close on the same ObjectDirectory concurrently.\n\nAs it happens Repository.close() already tries with a reference counter. But I think its a little easier to follow the code saying we atomically swap in the \"no pack list\" and then close anything known only to this thread.",
+      "parentUuid": "67591f73_5fc6b813",
       "revId": "b286c59b49c536ff8ee7b778551f5f8fd0e61462",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "67591f73_b50b9762",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-02-03T22:19:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67591f73_ff2fcc3e",
+      "revId": "b286c59b49c536ff8ee7b778551f5f8fd0e61462",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67591f73_9f1e901e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2014-01-31T23:44:03Z",
       "side": 1,
       "message": "Optional: SEARCH is the next loop at this point, break; would be sufficient I think.",
+      "revId": "b286c59b49c536ff8ee7b778551f5f8fd0e61462",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_952773e9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-02-03T22:19:55Z",
+      "side": 1,
+      "message": "Although break is sufficient by language rules I find the label slightly improves readability given the nested inner loop and that the inner loop uses \"continue SEARCH\". I also happen to like my bikesheds a tan color.",
+      "parentUuid": "67591f73_9f1e901e",
       "revId": "b286c59b49c536ff8ee7b778551f5f8fd0e61462",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "67591f73_958bf329",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-02-03T22:19:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67591f73_1f7c4026",
+      "revId": "b286c59b49c536ff8ee7b778551f5f8fd0e61462",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67591f73_7f4e1c16",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
         "patchSetId": 1
@@ -98,6 +188,24 @@
       "writtenOn": "2014-01-31T23:44:03Z",
       "side": 1,
       "message": "Same as above: could use searchPacksAgain",
+      "revId": "b286c59b49c536ff8ee7b778551f5f8fd0e61462",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_f51b4fa5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 500,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-02-03T22:19:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67591f73_7f4e1c16",
       "revId": "b286c59b49c536ff8ee7b778551f5f8fd0e61462",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "67591f73_d518cbab",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-02-03T22:19:55Z",
+      "side": 1,
+      "message": "Ack but sticking with break SEARCH.",
+      "parentUuid": "67591f73_5f5198ae",
+      "revId": "b286c59b49c536ff8ee7b778551f5f8fd0e61462",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67591f73_bfe0b489",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
         "patchSetId": 1
@@ -132,6 +258,24 @@
       "writtenOn": "2014-01-31T23:44:03Z",
       "side": 1,
       "message": "Do these actually need to be separate classes instead of just using an ObjectDirectory[] everywhere? (The close() method of AlternateRepository closes the whole repository, not just the object database, but are you actually depending on that behavior?)",
+      "revId": "b286c59b49c536ff8ee7b778551f5f8fd0e61462",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_3516677d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 900,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-02-03T22:19:55Z",
+      "side": 1,
+      "message": "Yes the distinction is relevant between these two. FileRepository uses AlternateRepository to check if an alternate ObjectDirectory has refs associated with it. If so FileRepository advertises those ObjectIds over ReceivePack so clients can avoid pushing branches that the alternate contains.\n\nSince a Repository was opened, we want to close the Repository. But not all alternates are full repositories, it is legal in Git to point the alternate to a random directory that has no \"../refs/\" tree.",
+      "parentUuid": "67591f73_bfe0b489",
       "revId": "b286c59b49c536ff8ee7b778551f5f8fd0e61462",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
