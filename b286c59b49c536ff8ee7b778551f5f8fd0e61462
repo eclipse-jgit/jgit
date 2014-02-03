@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "67591f73_35ddc7d9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/CachedObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2014-02-03T23:05:49Z",
+      "side": 1,
+      "message": "Ok. The part I was missing was that the race is not against new loose object creation (which is kind of pointless to try to handle), it\u0027s against gc (which is important).",
+      "parentUuid": "67591f73_35cdc7ab",
+      "revId": "b286c59b49c536ff8ee7b778551f5f8fd0e61462",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67591f73_5fc6b813",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
         "patchSetId": 1
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "Protecting multiple threads from calling close on the same ObjectDirectory concurrently.\n\nAs it happens Repository.close() already tries with a reference counter. But I think its a little easier to follow the code saying we atomically swap in the \"no pack list\" and then close anything known only to this thread.",
       "parentUuid": "67591f73_5fc6b813",
+      "revId": "b286c59b49c536ff8ee7b778551f5f8fd0e61462",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_15f1a356",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2014-02-03T23:05:49Z",
+      "side": 1,
+      "message": "If thread A calls close while thread B is still working, wouldn\u0027t thread B possibly rescan, essentially \"reopening\" the instance? That\u0027s probably safe, I guess, but it still seems to me like concurrent calls to close() is actually a smell that you\u0027re lacking synchronization somewhere else.",
+      "parentUuid": "67591f73_55db1b62",
       "revId": "b286c59b49c536ff8ee7b778551f5f8fd0e61462",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -171,6 +207,24 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "67591f73_1f7c4026",
+      "revId": "b286c59b49c536ff8ee7b778551f5f8fd0e61462",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_55167b0a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2014-02-03T23:05:49Z",
+      "side": 1,
+      "message": "Thanks. This also makes it clear that alternates are searched recursively (which I guess is intuitive but I think I missed last time).",
+      "parentUuid": "67591f73_958bf329",
       "revId": "b286c59b49c536ff8ee7b778551f5f8fd0e61462",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
