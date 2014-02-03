@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "67591f73_691db16b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/LimitedInputStream.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2014-02-03T10:05:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67591f73_6ed8171c",
+      "revId": "07c7076effefc8965d2bf12a534bbb862d3b97cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67591f73_cee323c3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/LimitedInputStream.java",
         "patchSetId": 6
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "67591f73_a9b989c3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/LimitedInputStream.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2014-02-03T10:05:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67591f73_cee323c3",
+      "revId": "07c7076effefc8965d2bf12a534bbb862d3b97cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67591f73_aee06fb7",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/LimitedInputStream.java",
         "patchSetId": 6
@@ -47,6 +83,24 @@
       "writtenOn": "2014-02-03T08:12:48Z",
       "side": 1,
       "message": "Guess what, a uncommented protected member ...",
+      "revId": "07c7076effefc8965d2bf12a534bbb862d3b97cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_499b8d53",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/LimitedInputStream.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2014-02-03T10:05:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67591f73_aee06fb7",
       "revId": "07c7076effefc8965d2bf12a534bbb862d3b97cb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
