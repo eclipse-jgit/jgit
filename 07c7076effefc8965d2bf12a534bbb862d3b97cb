@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67591f73_6ed8171c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/LimitedInputStream.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-02-03T08:12:48Z",
+      "side": 1,
+      "message": "You are not using Eclipse, right? This line produces errors in eclipse because of uncommented protected variables.",
+      "revId": "07c7076effefc8965d2bf12a534bbb862d3b97cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_cee323c3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/LimitedInputStream.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-02-03T08:12:48Z",
+      "side": 1,
+      "message": "Again, a protected member which has no javadoc produces errors in eclipse.",
+      "revId": "07c7076effefc8965d2bf12a534bbb862d3b97cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_aee06fb7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/LimitedInputStream.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-02-03T08:12:48Z",
+      "side": 1,
+      "message": "Guess what, a uncommented protected member ...",
+      "revId": "07c7076effefc8965d2bf12a534bbb862d3b97cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
