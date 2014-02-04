@@ -244,8 +244,9 @@ public class ResolveMerger extends ThreeWayMerger {
 				String fileName = toBeDeleted.get(i);
 				File f = new File(db.getWorkTree(), fileName);
 				if (!f.delete())
-					failingPaths.put(fileName,
-							MergeFailureReason.COULD_NOT_DELETE);
+					if (!f.isDirectory())
+						failingPaths.put(fileName,
+								MergeFailureReason.COULD_NOT_DELETE);
 				modifiedFiles.add(fileName);
 			}
 		} finally {

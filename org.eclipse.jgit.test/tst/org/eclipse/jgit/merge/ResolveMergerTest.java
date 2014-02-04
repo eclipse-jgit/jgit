@@ -43,7 +43,6 @@
 package org.eclipse.jgit.merge;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -79,7 +78,7 @@ public class ResolveMergerTest extends RepositoryTestCase {
 	public static MergeStrategy recursive = MergeStrategy.RECURSIVE;
 
 	@Theory
-	public void failingPathsShouldNotResultInOKReturnValue(
+	public void failingDeleteOfDirectoryWithUntrackedContent(
 			MergeStrategy strategy) throws Exception {
 		File folder1 = new File(db.getWorkTree(), "folder1");
 		FileUtils.mkdir(folder1);
@@ -107,6 +106,7 @@ public class ResolveMergerTest extends RepositoryTestCase {
 		RevCommit head = git.commit().setMessage("Adding another file").call();
 
 		// Untracked file to cause failing path for delete() of folder1
+		// but that's ok.
 		file = new File(folder1, "file3.txt");
 		write(file, "folder1--file3.txt");
 
@@ -114,9 +114,8 @@ public class ResolveMergerTest extends RepositoryTestCase {
 		merger.setCommitNames(new String[] { "BASE", "HEAD", "other" });
 		merger.setWorkingTreeIterator(new FileTreeIterator(db));
 		boolean ok = merger.merge(head.getId(), other.getId());
-
-		assertFalse(merger.getFailingPaths().isEmpty());
-		assertFalse(ok);
+		assertTrue(ok);
+		assertTrue(file.exists());
 	}
 
 	/**
