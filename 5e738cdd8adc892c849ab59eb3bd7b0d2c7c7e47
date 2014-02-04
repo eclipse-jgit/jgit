@@ -16,6 +16,24 @@
       "revId": "5e738cdd8adc892c849ab59eb3bd7b0d2c7c7e47",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_9cb4b7ec",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/ResolveMergerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2014-02-04T15:04:01Z",
+      "side": 1,
+      "message": "+1.\n\nApart from that, I\u0027m not sure how to add another test case that tests the problem that https://git.eclipse.org/r/#/c/6326/2 fixed, as we would have to make deleting the file fail somehow. The original problem from bug 354099 has a test case in MergeCommandTest.java, so I think it\u0027s ok.",
+      "parentUuid": "67591f73_68c4810b",
+      "revId": "5e738cdd8adc892c849ab59eb3bd7b0d2c7c7e47",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
