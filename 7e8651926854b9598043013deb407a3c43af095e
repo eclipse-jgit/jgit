@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "67591f73_fd8fadb3",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ValidRefNameTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-02-04T21:55:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67591f73_e0d5b2b2",
+      "revId": "7e8651926854b9598043013deb407a3c43af095e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67591f73_e06932ed",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 2
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "67591f73_302b79ba",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1188,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-02-04T21:55:08Z",
+      "side": 1,
+      "message": "Can*t happen",
+      "parentUuid": "67591f73_a000da0d",
+      "revId": "7e8651926854b9598043013deb407a3c43af095e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67591f73_a04d7a48",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 2
@@ -64,6 +100,24 @@
       "writtenOn": "2014-01-25T15:16:18Z",
       "side": 1,
       "message": "I had some trouble understanding this and tried to improve it. What do you think about this?:\n\n\t\tint segmentStart \u003d 0;\n\t\tfor (int i \u003d 0; i \u003c bytes.length; i++) {\n\t\t\tif (bytes[i] \u003d\u003d \u0027/\u0027) {\n\t\t\t\tcheckValidPathSegment(isWindows, ignCase, bytes, segmentStart,\n\t\t\t\t\t\ti, path);\n\t\t\t\tsegmentStart \u003d i + 1;\n\t\t\t}\n\t\t}\n\t\tif (segmentStart \u003c bytes.length)\n\t\t\tcheckValidPathSegment(isWindows, ignCase, bytes, segmentStart,\n\t\t\t\t\tbytes.length, path);",
+      "revId": "7e8651926854b9598043013deb407a3c43af095e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_bde3754d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1205,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-02-04T21:55:08Z",
+      "side": 1,
+      "message": "Done.\nI\u0027ll blame this on you... :)",
+      "parentUuid": "67591f73_a04d7a48",
       "revId": "7e8651926854b9598043013deb407a3c43af095e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
