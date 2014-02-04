@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67591f73_3122f42d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/HttpConnection.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-02-04T14:27:22Z",
+      "side": 1,
+      "message": "style nit: trailing whitespace",
+      "revId": "9a268f21d53045d84ae720748735eb3dba2c01a5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
