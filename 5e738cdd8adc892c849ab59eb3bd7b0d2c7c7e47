@@ -34,6 +34,24 @@
       "revId": "5e738cdd8adc892c849ab59eb3bd7b0d2c7c7e47",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_fde96df5",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/ResolveMergerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-02-04T20:18:34Z",
+      "side": 1,
+      "message": "Maybe write-protecting the directory containing the file could help.",
+      "parentUuid": "67591f73_9cb4b7ec",
+      "revId": "5e738cdd8adc892c849ab59eb3bd7b0d2c7c7e47",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
