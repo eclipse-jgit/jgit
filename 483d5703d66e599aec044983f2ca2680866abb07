@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "67591f73_3987729b",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 8
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2014-02-05T13:55:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67591f73_919ca0f4",
+      "revId": "483d5703d66e599aec044983f2ca2680866abb07",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67591f73_4b489782",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
         "patchSetId": 8
@@ -30,6 +48,24 @@
       "writtenOn": "2014-02-04T09:49:03Z",
       "side": 1,
       "message": "why is this field initialized with -1 and not with 0. The javadoc of  setsetMaxPackSizeLimit() says a 0 means \"there is no limit\". And by default we want no limit.",
+      "revId": "483d5703d66e599aec044983f2ca2680866abb07",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_99079ea8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2014-02-05T13:55:43Z",
+      "side": 1,
+      "message": "The 0 \u003d\u003d no limit was valid in the PS7 but this was changed in this patch set and the javadoc of the setMaxPackSizeLimit was  updated. The zero means really zero, and the -1 means that a limit was not set (i.e. no limit).",
+      "parentUuid": "67591f73_4b489782",
       "revId": "483d5703d66e599aec044983f2ca2680866abb07",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "67591f73_b9e8a22a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 645,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2014-02-05T13:55:43Z",
+      "side": 1,
+      "message": "Done as you proposed to keep the style compatible with the rest of the JGit code.",
+      "parentUuid": "67591f73_a88cd98a",
+      "revId": "483d5703d66e599aec044983f2ca2680866abb07",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67591f73_abd5f32c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
         "patchSetId": 8
@@ -64,6 +118,24 @@
       "writtenOn": "2014-02-04T09:49:03Z",
       "side": 1,
       "message": "According to the javadoc of setMaxObjectSizeLimi() a value of 0 means \"there should not be a limit\"\n\nIf maxPackSizeLimit is 0 (means: we don\u0027t want a limit) then I would simply avoid the overhead to create a LimitedInputStream. This can be achieved by s/\u003e\u003d/\u003e/\n\nOr is that javadoc of setMaxObjectSizeLimit() wrong and setting the limit to 0 means we don\u0027t want to receive a single byte?",
+      "revId": "483d5703d66e599aec044983f2ca2680866abb07",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_19cd4edd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 768,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2014-02-05T13:55:43Z",
+      "side": 1,
+      "message": "The maxPackSizeLimit has nothing to do with the setMaxObjectSizeLimit, they are two different properties :-)",
+      "parentUuid": "67591f73_abd5f32c",
       "revId": "483d5703d66e599aec044983f2ca2680866abb07",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "67591f73_f9c97ad0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/LimitedInputStream.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2014-02-05T13:55:43Z",
+      "side": 1,
+      "message": "0 means really zero (not a single byte can be read). This is changed from the previous patch set where 0 meant \"no limit\".",
+      "parentUuid": "67591f73_8b28efbd",
+      "revId": "483d5703d66e599aec044983f2ca2680866abb07",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67591f73_c8e30d4d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/LimitedInputStream.java",
         "patchSetId": 8
@@ -98,6 +188,24 @@
       "writtenOn": "2014-02-04T09:49:03Z",
       "side": 1,
       "message": "Missing javadoc for the IOException. In Eclipse you see this. I wouldn\u0027t complain (because I don\u0027t expect something useful from this javadoc) if this would not cause red error markers for all those JGit developers who choose to develop with Eclipse.",
+      "revId": "483d5703d66e599aec044983f2ca2680866abb07",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_f9bb3a28",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/LimitedInputStream.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2014-02-05T13:55:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67591f73_c8e30d4d",
       "revId": "483d5703d66e599aec044983f2ca2680866abb07",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
