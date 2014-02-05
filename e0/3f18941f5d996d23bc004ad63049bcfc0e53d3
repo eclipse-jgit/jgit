@@ -1,0 +1,11 @@
+Code-Review+1: Matthias Sohn <matthias.sohn@sap.com>
+IP-Clean+1: Matthias Sohn <matthias.sohn@sap.com>
+Code-Review+2: Robin Stocker <robin@nibor.org>
+IP-Clean+1: Robin Stocker <robin@nibor.org>
+Verified+1: Robin Stocker <robin@nibor.org>
+Verified+1: Hudson CI
+Submitted-by: Robin Stocker <robin@nibor.org>
+Submitted-at: Wed, 05 Feb 2014 17:04:31 -0500
+Reviewed-on: https://git.eclipse.org/r/20176
+Project: jgit/jgit
+Branch: refs/heads/master
