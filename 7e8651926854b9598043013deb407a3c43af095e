@@ -121,6 +121,24 @@
       "revId": "7e8651926854b9598043013deb407a3c43af095e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_7f7707ac",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1205,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2014-02-05T22:03:58Z",
+      "side": 1,
+      "message": "Heh, ok, I guess that\u0027s only fair :)",
+      "parentUuid": "67591f73_bde3754d",
+      "revId": "7e8651926854b9598043013deb407a3c43af095e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
