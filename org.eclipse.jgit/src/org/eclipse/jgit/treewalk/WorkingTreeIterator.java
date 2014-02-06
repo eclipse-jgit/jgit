@@ -801,7 +801,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	 * @deprecated Use {@link #isModified(DirCacheEntry, boolean, ObjectReader)}
 	 */
 	public boolean isModified(DirCacheEntry entry, boolean forceContentCheck) {
-		return isModified(entry, false, null);
+		return isModified(entry, forceContentCheck, null);
 	}
 
 	/**
