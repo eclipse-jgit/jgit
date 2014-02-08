@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67591f73_d75ed648",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CoreConfig.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2014-02-08T23:21:52Z",
+      "side": 1,
+      "message": "Probably \"Hide ALL .files\"?",
+      "revId": "8f0182225e1784387be36805ab44563e782e525d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
