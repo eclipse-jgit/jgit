@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67591f73_d787f61c",
+        "filename": "org.eclipse.jgit.java7/src/org/eclipse/jgit/util/FileUtil.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2014-02-08T23:39:49Z",
+      "side": 1,
+      "message": "I wonder if we should check File.exists() first, and not let Java throw NoSuchFileException each time file is missing. I think about two use cases where it can be not nice: debugging and of course scalability.",
+      "revId": "66bd97ff56e113f90577cc7ffb26d25c7678d2ae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_b78a4224",
+        "filename": "org.eclipse.jgit.java7/src/org/eclipse/jgit/util/FileUtil.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2014-02-08T23:39:49Z",
+      "side": 1,
+      "message": "Same as above: might be we should check for File.exists() first?",
+      "revId": "66bd97ff56e113f90577cc7ffb26d25c7678d2ae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_3711125b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 646,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2014-02-08T23:39:49Z",
+      "side": 1,
+      "message": ".. \"of a a directory\"",
+      "revId": "66bd97ff56e113f90577cc7ffb26d25c7678d2ae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
