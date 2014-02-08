@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67591f73_77da6a5f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 921,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2014-02-08T23:14:41Z",
+      "side": 1,
+      "message": "I would put a note that File constructor always normalizes it\u0027s argument, so that we doing a check of links in normalized form, independently of their original state.",
+      "revId": "f7c79683bbfb1252b8130369fe737b2cd3899057",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
