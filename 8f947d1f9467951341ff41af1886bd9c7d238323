@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67591f73_c176f8ae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-02-10T22:46:17Z",
+      "side": 1,
+      "message": "s/suport/support/",
+      "revId": "8f947d1f9467951341ff41af1886bd9c7d238323",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_218ed43d",
+        "filename": "org.eclipse.jgit.java7/src/org/eclipse/jgit/util/FS_Win32_Java7.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-02-10T22:46:17Z",
+      "side": 1,
+      "message": "s/dectedSupportSymlinks/supportsSymlinks/",
+      "revId": "8f947d1f9467951341ff41af1886bd9c7d238323",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_01911058",
+        "filename": "org.eclipse.jgit.java7/src/org/eclipse/jgit/util/FS_Win32_Java7.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-02-10T22:46:17Z",
+      "side": 1,
+      "message": "s/dectedSymlinkSupport()/detectSymlinkSupport()/",
+      "revId": "8f947d1f9467951341ff41af1886bd9c7d238323",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
