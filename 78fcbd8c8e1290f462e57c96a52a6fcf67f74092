@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67591f73_a4815209",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-02-10T23:34:29Z",
+      "side": 1,
+      "message": "this since tag looks wrong, ConfigConstants is around since a long time",
+      "revId": "78fcbd8c8e1290f462e57c96a52a6fcf67f74092",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
