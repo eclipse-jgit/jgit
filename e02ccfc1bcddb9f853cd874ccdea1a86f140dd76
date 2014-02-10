@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "67591f73_de49b987",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 35
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-02-10T20:23:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67591f73_3ab44867",
+      "revId": "e02ccfc1bcddb9f853cd874ccdea1a86f140dd76",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67591f73_9a1594cd",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CleanCommand.java",
         "patchSetId": 35
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "67591f73_be44c56d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CleanCommand.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-02-10T20:23:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67591f73_9a1594cd",
+      "revId": "e02ccfc1bcddb9f853cd874ccdea1a86f140dd76",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67591f73_0deaec15",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
         "patchSetId": 35
@@ -47,6 +83,24 @@
       "writtenOn": "2014-02-10T12:27:55Z",
       "side": 1,
       "message": "I think there is no need to declare throws IOException here since\n\n isModified(entry, forceContentCheck, null)\n\ndoesn\u0027t throw IOException",
+      "revId": "e02ccfc1bcddb9f853cd874ccdea1a86f140dd76",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_1ea7b1c5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 812,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-02-10T20:23:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67591f73_0deaec15",
       "revId": "e02ccfc1bcddb9f853cd874ccdea1a86f140dd76",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
