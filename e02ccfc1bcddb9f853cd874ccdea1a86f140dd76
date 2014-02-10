@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67591f73_3ab44867",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 35
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-02-10T12:27:55Z",
+      "side": 1,
+      "message": "s/turs/turns/",
+      "revId": "e02ccfc1bcddb9f853cd874ccdea1a86f140dd76",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_9a1594cd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CleanCommand.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-02-10T12:27:55Z",
+      "side": 1,
+      "message": "no braces here ?",
+      "revId": "e02ccfc1bcddb9f853cd874ccdea1a86f140dd76",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_0deaec15",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 812,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-02-10T12:27:55Z",
+      "side": 1,
+      "message": "I think there is no need to declare throws IOException here since\n\n isModified(entry, forceContentCheck, null)\n\ndoesn\u0027t throw IOException",
+      "revId": "e02ccfc1bcddb9f853cd874ccdea1a86f140dd76",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
