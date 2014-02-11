@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "67591f73_85ca5615",
+        "filename": "org.eclipse.jgit.java7/src/org/eclipse/jgit/util/FileUtil.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-02-11T00:12:39Z",
+      "side": 1,
+      "message": "File.exists() on a dangling symlink returns false, but the symlink exists.",
+      "parentUuid": "67591f73_d787f61c",
+      "revId": "66bd97ff56e113f90577cc7ffb26d25c7678d2ae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67591f73_b78a4224",
         "filename": "org.eclipse.jgit.java7/src/org/eclipse/jgit/util/FileUtil.java",
         "patchSetId": 26
@@ -47,6 +65,24 @@
       "writtenOn": "2014-02-08T23:39:49Z",
       "side": 1,
       "message": ".. \"of a a directory\"",
+      "revId": "66bd97ff56e113f90577cc7ffb26d25c7678d2ae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_040c7eca",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 646,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-02-11T00:12:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67591f73_3711125b",
       "revId": "66bd97ff56e113f90577cc7ffb26d25c7678d2ae",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
