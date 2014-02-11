@@ -113,6 +113,20 @@ public class CoreConfig {
 		TRUE
 	}
 
+	/**
+	 * Options for hiding files whose names start with a period
+	 *
+	 * @since 3.5
+	 */
+	public static enum HideDotFiles {
+		/** Do not hide .files */
+		FALSE,
+		/** Hide add .files */
+		TRUE,
+		/** Hide only .git */
+		DOTGITONLY
+	}
+
 	private CoreConfig(final Config rc) {
 		compression = rc.getInt(ConfigConstants.CONFIG_CORE_SECTION,
 				ConfigConstants.CONFIG_KEY_COMPRESSION, DEFAULT_COMPRESSION);
