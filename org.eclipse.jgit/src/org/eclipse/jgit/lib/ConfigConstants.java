@@ -214,6 +214,13 @@ public class ConfigConstants {
 	/** The "indexversion" key */
 	public static final String CONFIG_KEY_INDEXVERSION = "indexversion";
 
+	/**
+	 * The "hidedotfiles" key
+	 *
+	 * @since 3.3
+	 */
+	public static final String CONFIG_KEY_HIDEDOTFILES = "hidedotfiles";
+
 	/** The "precomposeunicode" key */
 	public static final String CONFIG_KEY_PRECOMPOSEUNICODE = "precomposeunicode";
 
