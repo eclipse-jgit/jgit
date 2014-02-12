@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67591f73_9d156aff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-02-12T22:36:14Z",
+      "side": 1,
+      "message": "style nit: move the bug number to a commit message footer\n\nBug: 413522",
+      "revId": "880d740c92a06335946bc68c0b50cbf8bbf2aa50",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_fd1c662a",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Die.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-02-12T22:36:14Z",
+      "side": 1,
+      "message": "missing since tag",
+      "revId": "880d740c92a06335946bc68c0b50cbf8bbf2aa50",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_dd1fe21a",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Main.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-02-12T22:36:14Z",
+      "side": 1,
+      "message": "style nit: no braces around single line blocks",
+      "revId": "880d740c92a06335946bc68c0b50cbf8bbf2aa50",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_3d06ded8",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/TextBuiltin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-02-12T22:36:14Z",
+      "side": 1,
+      "message": "missing since tag",
+      "revId": "880d740c92a06335946bc68c0b50cbf8bbf2aa50",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
