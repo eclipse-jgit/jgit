@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67591f73_4ccfb124",
+        "filename": "org.eclipse.jgit.java7/src/org/eclipse/jgit/util/FS_POSIX_Java7.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-02-12T00:35:05Z",
+      "side": 1,
+      "message": "missing since tag",
+      "revId": "ee66336d5846c7a17940c3458f9e6c0515954543",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_acde4dd3",
+        "filename": "org.eclipse.jgit.java7/src/org/eclipse/jgit/util/FS_Win32_Java7.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-02-12T00:35:05Z",
+      "side": 1,
+      "message": "missing since tag",
+      "revId": "ee66336d5846c7a17940c3458f9e6c0515954543",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_8cd9c9ed",
+        "filename": "org.eclipse.jgit.java7/src/org/eclipse/jgit/util/FS_Win32_Java7Cygwin.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-02-12T00:35:05Z",
+      "side": 1,
+      "message": "missing since tag",
+      "revId": "ee66336d5846c7a17940c3458f9e6c0515954543",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_cc3c6180",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 646,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-02-12T00:35:05Z",
+      "side": 1,
+      "message": "s/is/are/\n\nwrong javadoc",
+      "revId": "ee66336d5846c7a17940c3458f9e6c0515954543",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_6c78b536",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 681,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-02-12T00:35:05Z",
+      "side": 1,
+      "message": "the epoch starts 1970-01-01",
+      "revId": "ee66336d5846c7a17940c3458f9e6c0515954543",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
