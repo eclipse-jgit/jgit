@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67591f73_7d105607",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-02-12T22:39:22Z",
+      "side": 1,
+      "message": "move the bug number to footer",
+      "revId": "eb6f8d0e71d3eed159abc74c1307e1e13915b126",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_5d0bd2dd",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/EmbeddedCommandRunner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-02-12T22:39:22Z",
+      "side": 1,
+      "message": "missing since tag",
+      "revId": "eb6f8d0e71d3eed159abc74c1307e1e13915b126",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
