@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "67591f73_1dcf9a25",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-02-12T22:34:17Z",
+      "side": 1,
+      "message": "we put the bug number as a footer in the last paragraph just before the change-id in the format\n\nBug: 413522",
+      "revId": "ebbe459808cceb8631741598902952c8cebbaaf1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67591f73_3d97fe1b",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/TextBuiltin.java",
         "patchSetId": 1
