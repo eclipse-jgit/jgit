@@ -50,6 +50,24 @@
       "revId": "ec965e27a444028b98597a3151964e5f60a847f9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_16601f28",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 927,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-02-12T16:39:09Z",
+      "side": 1,
+      "message": "Rebase error\nDone",
+      "parentUuid": "67591f73_1b6fad74",
+      "revId": "ec965e27a444028b98597a3151964e5f60a847f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
