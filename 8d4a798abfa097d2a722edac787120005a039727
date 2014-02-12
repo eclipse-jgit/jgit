@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67591f73_5d12b287",
+        "filename": "org.eclipse.jgit.java7.test/src/org/eclipse/jgit/symlinks/SymlinksTest.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-02-12T22:15:31Z",
+      "side": 1,
+      "message": "s/contains/contain/\n\nmore of these below",
+      "revId": "8d4a798abfa097d2a722edac787120005a039727",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
