@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67591f73_467ca891",
+        "filename": "org.eclipse.jgit.java7/src/org/eclipse/jgit/util/FS_POSIX_Java7.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-02-12T10:28:13Z",
+      "side": 1,
+      "message": "missing since tag",
+      "revId": "ec965e27a444028b98597a3151964e5f60a847f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_6681ec06",
+        "filename": "org.eclipse.jgit.java7/src/org/eclipse/jgit/util/FS_POSIX_Java7.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-02-12T10:28:13Z",
+      "side": 1,
+      "message": "missing since tag",
+      "revId": "ec965e27a444028b98597a3151964e5f60a847f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_1b6fad74",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 927,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-02-12T10:28:13Z",
+      "side": 1,
+      "message": "why again the same condition ? if mode is symlink you will never reach line 928",
+      "revId": "ec965e27a444028b98597a3151964e5f60a847f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
