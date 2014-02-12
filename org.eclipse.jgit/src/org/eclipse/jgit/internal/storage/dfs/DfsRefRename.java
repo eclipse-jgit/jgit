@@ -49,8 +49,8 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefRename;
 import org.eclipse.jgit.lib.RefUpdate.Result;
 
-final class DfsRefRename extends RefRename {
-	DfsRefRename(DfsRefUpdate src, DfsRefUpdate dst) {
+public class DfsRefRename extends RefRename {
+	public DfsRefRename(DfsRefUpdate src, DfsRefUpdate dst) {
 		super(src, dst);
 	}
 
