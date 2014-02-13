@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "67591f73_1fbe671a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/HttpConnection.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-02-13T15:55:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67591f73_3c25ab36",
+      "revId": "3994ace75e22e2c42c9b9512815ea5795a846cc8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67591f73_d15e1871",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/apache/HttpClientConnection.java",
         "patchSetId": 9
@@ -30,6 +48,24 @@
       "writtenOn": "2014-02-04T16:02:17Z",
       "side": 1,
       "message": "shouldn\u0027t we allow to configure which algorithm to use ?",
+      "revId": "3994ace75e22e2c42c9b9512815ea5795a846cc8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_5f761ff8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/apache/HttpClientConnection.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-02-13T15:55:22Z",
+      "side": 1,
+      "message": "Currently I don\u0027t see a usecase that we need something different than TLS. We need this context only when we set hostnameverifiers or keystores for https connections. I think there we need TLS.",
+      "parentUuid": "67591f73_d15e1871",
       "revId": "3994ace75e22e2c42c9b9512815ea5795a846cc8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "67591f73_bf665b46",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/apache/TemporaryBufferEntity.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-02-13T15:55:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67591f73_5cde9f8b",
+      "revId": "3994ace75e22e2c42c9b9512815ea5795a846cc8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67591f73_fcccd3e2",
         "filename": "pom.xml",
         "patchSetId": 9
@@ -64,6 +118,24 @@
       "writtenOn": "2014-02-04T16:02:17Z",
       "side": 1,
       "message": "unnecessary change ?",
+      "revId": "3994ace75e22e2c42c9b9512815ea5795a846cc8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_11cf7ba0",
+        "filename": "pom.xml",
+        "patchSetId": 9
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-02-13T15:55:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67591f73_fcccd3e2",
       "revId": "3994ace75e22e2c42c9b9512815ea5795a846cc8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
