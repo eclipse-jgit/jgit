@@ -633,7 +633,7 @@ public class DiffFormatter {
 		format(res.header, res.a, res.b);
 	}
 
-	private void writeGitLinkDiffText(OutputStream o, DiffEntry ent)
+	private static void writeGitLinkDiffText(OutputStream o, DiffEntry ent)
 			throws IOException {
 		if (ent.getOldMode() == GITLINK) {
 			o.write(encodeASCII("-Subproject commit " + ent.getOldId().name() //$NON-NLS-1$
@@ -757,7 +757,7 @@ public class DiffFormatter {
 		writeLine(' ', text, line);
 	}
 
-	private boolean isEndOfLineMissing(final RawText text, final int line) {
+	private static boolean isEndOfLineMissing(RawText text, int line) {
 		return line + 1 == text.size() && text.isMissingNewlineAtEnd();
 	}
 
