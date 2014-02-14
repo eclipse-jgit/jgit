@@ -971,9 +971,6 @@ public class DiffFormatter {
 		if (entry.getMode(side).getObjectType() != Constants.OBJ_BLOB)
 			return EMPTY;
 
-		if (isBinary())
-			return BINARY;
-
 		AbbreviatedObjectId id = entry.getId(side);
 		if (!id.isComplete()) {
 			Collection<ObjectId> ids = reader.resolve(id);
@@ -1010,10 +1007,6 @@ public class DiffFormatter {
 			tooBig.setObjectId(id.toObjectId());
 			throw tooBig;
 		}
-	}
-
-	private boolean isBinary() {
-		return false;
 	}
 
 	/**
