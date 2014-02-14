@@ -1044,6 +1044,17 @@ public class DiffFormatter {
 
 		formatGitDiffFirstHeaderLine(o, type, oldp, newp);
 
+		if ((type == MODIFY || type == COPY || type == RENAME)
+				&& !oldMode.equals(newMode)) {
+			o.write(encodeASCII("old mode ")); //$NON-NLS-1$
+			oldMode.copyTo(o);
+			o.write('\n');
+
+			o.write(encodeASCII("new mode ")); //$NON-NLS-1$
+			newMode.copyTo(o);
+			o.write('\n');
+		}
+
 		switch (type) {
 		case ADD:
 			o.write(encodeASCII("new file mode ")); //$NON-NLS-1$
@@ -1077,12 +1088,6 @@ public class DiffFormatter {
 
 			o.write(encode("copy to " + quotePath(newp))); //$NON-NLS-1$
 			o.write('\n');
-
-			if (!oldMode.equals(newMode)) {
-				o.write(encodeASCII("new file mode ")); //$NON-NLS-1$
-				newMode.copyTo(o);
-				o.write('\n');
-			}
 			break;
 
 		case MODIFY:
@@ -1092,16 +1097,6 @@ public class DiffFormatter {
 				o.write('\n');
 			}
 			break;
-		}
-
-		if ((type == MODIFY || type == RENAME) && !oldMode.equals(newMode)) {
-			o.write(encodeASCII("old mode ")); //$NON-NLS-1$
-			oldMode.copyTo(o);
-			o.write('\n');
-
-			o.write(encodeASCII("new mode ")); //$NON-NLS-1$
-			newMode.copyTo(o);
-			o.write('\n');
 		}
 
 		if (ent.getOldId() != null && !ent.getOldId().equals(ent.getNewId())) {
