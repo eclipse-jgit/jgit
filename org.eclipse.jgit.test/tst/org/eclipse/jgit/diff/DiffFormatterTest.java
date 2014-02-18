@@ -60,6 +60,7 @@ import org.eclipse.jgit.patch.FileHeader;
 import org.eclipse.jgit.patch.HunkHeader;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
+import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
 import org.eclipse.jgit.util.io.SafeBufferedOutputStream;
@@ -312,7 +313,7 @@ public class DiffFormatterTest extends RepositoryTestCase {
 	public void testDiff() throws Exception {
 		write(new File(db.getDirectory().getParent(), "test.txt"), "test");
 		File folder = new File(db.getDirectory().getParent(), "folder");
-		folder.mkdir();
+		FileUtils.mkdir(folder);
 		write(new File(folder, "folder.txt"), "folder");
 		Git git = new Git(db);
 		git.add().addFilepattern(".").call();
