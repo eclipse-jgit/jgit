@@ -337,7 +337,7 @@ public class DiffFormatterTest extends RepositoryTestCase {
 				+ "\\ No newline at end of file\n" + "+folder change\n"
 				+ "\\ No newline at end of file\n";
 
-		assertEquals(expected.toString(), actual);
+		assertEquals(expected, actual);
 	}
 
 	private static String makeDiffHeader(String pathA, String pathB,
