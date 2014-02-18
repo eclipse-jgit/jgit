@@ -263,6 +263,10 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		}
 		http = local.getConfig().get(HTTP_KEY);
 		proxySelector = ProxySelector.getDefault();
+
+		if (getCredentialsProvider() == null) {
+			setCredentialsProvider(new NetRCCredentialsProvider());
+		}
 	}
 
 	/**
