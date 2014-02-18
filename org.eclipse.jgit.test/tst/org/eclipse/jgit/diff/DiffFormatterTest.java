@@ -328,7 +328,7 @@ public class DiffFormatterTest extends RepositoryTestCase {
 		df.format(oldTree, newTree);
 		df.flush();
 
-		String actual = os.toString();
+		String actual = os.toString("UTF-8");
 		String expected =
  "diff --git a/folder/folder.txt b/folder/folder.txt\n"
 				+ "index 0119635..95c4c65 100644\n"
