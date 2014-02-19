@@ -121,6 +121,23 @@
     },
     {
       "key": {
+        "uuid": "67591f73_7a8f6303",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-02-19T08:12:30Z",
+      "side": 1,
+      "message": ".netrc should be ignored if file permissions aren\u0027t 600 (on posix)\n* on Java7 we can read permissions using NIO2 [1], this should go into the org.eclipse.jgit.java7 bundle\n* on older Java versions we could use FS.runInShell to read permissions by spawning a shell\n* no idea how this could be done on Windows\n\n[1] http://docs.oracle.com/javase/7/docs/api/java/nio/file/Files.html#getPosixFilePermissions(java.nio.file.Path, java.nio.file.LinkOption...)",
+      "revId": "c16fa03becdf41e834d185f12a71035024a2ecd0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67591f73_6684f094",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRC.java",
         "patchSetId": 2
