@@ -1,0 +1,259 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67591f73_660990e4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-02-19T01:00:30Z",
+      "side": 1,
+      "message": "missing license header, have a look at other sources in jgit",
+      "revId": "c16fa03becdf41e834d185f12a71035024a2ecd0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_c63b3c85",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-02-19T01:00:30Z",
+      "side": 1,
+      "message": "style nit: we don\u0027t use author tags",
+      "revId": "c16fa03becdf41e834d185f12a71035024a2ecd0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_266f9821",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-02-19T01:00:30Z",
+      "side": 1,
+      "message": "it\u0027s a parser so maybe better NetRCParser ?",
+      "revId": "c16fa03becdf41e834d185f12a71035024a2ecd0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_86c824bb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-02-19T01:00:30Z",
+      "side": 1,
+      "message": "style nit: we don\u0027t use author tags",
+      "revId": "c16fa03becdf41e834d185f12a71035024a2ecd0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_06bff449",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-02-19T01:00:30Z",
+      "side": 1,
+      "message": "passwords should be stored in char[] see implementation of UsernamePasswordCredentialsProvider and http://stackoverflow.com/questions/8881291/why-is-char-preferred-over-string-for-passwords",
+      "revId": "c16fa03becdf41e834d185f12a71035024a2ecd0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_26cb18c9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-02-19T01:00:30Z",
+      "side": 1,
+      "message": "this should better be done in the default constructor only, the other constructor receives the netrc file as a parameter",
+      "revId": "c16fa03becdf41e834d185f12a71035024a2ecd0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_0611b4de",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-02-19T01:00:30Z",
+      "side": 1,
+      "message": "we prefer an empty javadoc instead of obvious trivial text",
+      "revId": "c16fa03becdf41e834d185f12a71035024a2ecd0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_6684f094",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-02-19T01:00:30Z",
+      "side": 1,
+      "message": "shouldn\u0027t we call parse() here as well ?",
+      "revId": "c16fa03becdf41e834d185f12a71035024a2ecd0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_a6b1e84d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-02-19T01:00:30Z",
+      "side": 1,
+      "message": "style nit: start sentence with an uppercase letter",
+      "revId": "c16fa03becdf41e834d185f12a71035024a2ecd0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_c6dcdc94",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-02-19T01:00:30Z",
+      "side": 1,
+      "message": "I don\u0027t get the purpose of this comment",
+      "revId": "c16fa03becdf41e834d185f12a71035024a2ecd0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_868944b0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-02-19T01:00:30Z",
+      "side": 1,
+      "message": "style nit: we don\u0027t use braces around single line blocks",
+      "revId": "c16fa03becdf41e834d185f12a71035024a2ecd0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_26bdd81d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-02-19T01:00:30Z",
+      "side": 1,
+      "message": "I think close should be called in a finally block",
+      "revId": "c16fa03becdf41e834d185f12a71035024a2ecd0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_e689207a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRCCredentialsProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-02-19T01:00:30Z",
+      "side": 1,
+      "message": "missing license header",
+      "revId": "c16fa03becdf41e834d185f12a71035024a2ecd0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_46744cf1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRCCredentialsProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-02-19T01:00:30Z",
+      "side": 1,
+      "message": "style nit: we don\u0027t use author tags",
+      "revId": "c16fa03becdf41e834d185f12a71035024a2ecd0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_66c3509d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRCCredentialsProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-02-19T01:00:30Z",
+      "side": 1,
+      "message": "there is no need for this variable, instead inline this",
+      "revId": "c16fa03becdf41e834d185f12a71035024a2ecd0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
