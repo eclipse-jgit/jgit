@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-   Copyright (C) 2009-2012, Matthias Sohn <matthias.sohn@sap.com>
+   Copyright (C) 2009,2014, Matthias Sohn <matthias.sohn@sap.com>
    and other copyright owners as documented in the project's IP log.
 
    This program and the accompanying materials are made available
@@ -64,6 +64,11 @@
       <artifactId>org.eclipse.jgit</artifactId>
       <version>${project.version}</version>
     </dependency>
+	<dependency>
+	  <groupId>org.eclipse.jgit</groupId>
+	  <artifactId>org.eclipse.jgit.http.apache</artifactId>
+	  <version>${project.version}</version>
+	</dependency>
 	<dependency>
 	  <groupId>org.eclipse.jgit</groupId>
 	  <artifactId>org.eclipse.jgit.java7</artifactId>
