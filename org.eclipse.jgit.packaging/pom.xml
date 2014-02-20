@@ -73,6 +73,7 @@
   <modules>
     <module>org.eclipse.jgit.target</module>
     <module>org.eclipse.jgit.feature</module>
+    <module>org.eclipse.jgit.http.apache.feature</module>
     <module>org.eclipse.jgit.java7.feature</module>
     <module>org.eclipse.jgit.pgm.feature</module>
     <module>org.eclipse.jgit.source.feature</module>
