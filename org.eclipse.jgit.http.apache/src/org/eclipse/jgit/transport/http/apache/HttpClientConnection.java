@@ -87,8 +87,8 @@ import org.apache.http.conn.ssl.X509HostnameVerifier;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.CoreConnectionPNames;
 import org.apache.http.params.HttpParams;
-import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.transport.http.HttpConnection;
+import org.eclipse.jgit.transport.http.apache.internal.HttpApacheText;
 import org.eclipse.jgit.util.TemporaryBuffer;
 import org.eclipse.jgit.util.TemporaryBuffer.LocalFile;
 
@@ -159,7 +159,7 @@ public class HttpClientConnection implements HttpConnection {
 				ctx = SSLContext.getInstance("TLS"); //$NON-NLS-1$
 			} catch (NoSuchAlgorithmException e) {
 				throw new IllegalStateException(
-						JGitText.get().unexpectedSSLContextException, e);
+						HttpApacheText.get().unexpectedSSLContextException, e);
 			}
 		}
 		return ctx;

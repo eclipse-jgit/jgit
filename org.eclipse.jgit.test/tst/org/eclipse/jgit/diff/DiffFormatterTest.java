@@ -60,6 +60,7 @@ import org.eclipse.jgit.patch.FileHeader;
 import org.eclipse.jgit.patch.HunkHeader;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
+import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
 import org.eclipse.jgit.util.io.SafeBufferedOutputStream;
@@ -312,7 +313,7 @@ public class DiffFormatterTest extends RepositoryTestCase {
 	public void testDiff() throws Exception {
 		write(new File(db.getDirectory().getParent(), "test.txt"), "test");
 		File folder = new File(db.getDirectory().getParent(), "folder");
-		folder.mkdir();
+		FileUtils.mkdir(folder);
 		write(new File(folder, "folder.txt"), "folder");
 		Git git = new Git(db);
 		git.add().addFilepattern(".").call();
@@ -328,7 +329,7 @@ public class DiffFormatterTest extends RepositoryTestCase {
 		df.format(oldTree, newTree);
 		df.flush();
 
-		String actual = os.toString();
+		String actual = os.toString("UTF-8");
 		String expected =
  "diff --git a/folder/folder.txt b/folder/folder.txt\n"
 				+ "index 0119635..95c4c65 100644\n"
@@ -337,7 +338,7 @@ public class DiffFormatterTest extends RepositoryTestCase {
 				+ "\\ No newline at end of file\n" + "+folder change\n"
 				+ "\\ No newline at end of file\n";
 
-		assertEquals(expected.toString(), actual);
+		assertEquals(expected, actual);
 	}
 
 	private static String makeDiffHeader(String pathA, String pathB,
