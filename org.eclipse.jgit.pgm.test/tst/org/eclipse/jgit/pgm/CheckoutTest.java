@@ -42,14 +42,21 @@
  */
 package org.eclipse.jgit.pgm;
 
+import static org.junit.Assert.assertNotNull;
+
 import java.io.File;
+import java.util.List;
 
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.errors.CheckoutConflictException;
+import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.lib.CLIRepositoryTestCase;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.FileTreeIterator.FileEntry;
+import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.FileUtils;
 import org.junit.Assert;
 import org.junit.Test;
@@ -183,6 +190,439 @@ public class CheckoutTest extends CLIRepositoryTestCase {
 		entry = new FileTreeIterator.FileEntry(new File(db.getWorkTree(), "a"),
 				db.getFS());
 		assertEquals(FileMode.REGULAR_FILE, entry.getMode());
+	}
+
+	/**
+	 * Steps:
+	 * <p>
+	 * 1.Add file 'a'
+	 * <p>
+	 * 2.Commit
+	 * <p>
+	 * 3.Create branch '1'
+	 * <p>
+	 * 4.Replace file 'a' by file 'a'
+	 * <p>
+	 * 5.Commit
+	 * <p>
+	 * 6.Delete file 'a' & in the working tree
+	 * <p>
+	 * 7.Checkout branch '1'
+	 * <p>
+	 * The working tree should contain 'a' with FileMode.REGULAR_FILE after the
+	 * checkout.
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void fileModeTestWithMissingInWorkingTree() throws Exception {
+		Git git = new Git(db);
+		writeTrashFile("b", "Hello world b");
+		writeTrashFile("a", "b");
+		git.add().addFilepattern(".").call();
+		git.commit().setMessage("add file b & file a").call();
+		Ref branch_1 = git.branchCreate().setName("branch_1").call();
+		git.rm().addFilepattern("a").call();
+		File fileA = writeTrashFile("a", "Hello world a");
+		git.add().addFilepattern("a").call();
+		git.commit().setMessage("add file a").call();
+
+		FileEntry entry = new FileTreeIterator.FileEntry(new File(
+				db.getWorkTree(), "a"), db.getFS());
+		assertEquals(FileMode.REGULAR_FILE, entry.getMode());
+
+		FileUtils.delete(fileA);
+
+		git.checkout().setName(branch_1.getName()).call();
+
+		entry = new FileTreeIterator.FileEntry(new File(db.getWorkTree(), "a"),
+				db.getFS());
+		assertEquals(FileMode.REGULAR_FILE, entry.getMode());
+	}
+
+	/**
+	 * Steps:
+	 * <p>
+	 * 1.Add file 'b'
+	 * <p>
+	 * 2.Commit
+	 * <p>
+	 * 3.Create branch '1'
+	 * <p>
+	 * 4.Add folder 'a'
+	 * <p>
+	 * 5.Commit
+	 * <p>
+	 * 6.Replace folder 'a' by file 'a' in the working tree
+	 * <p>
+	 * 6.Checkout branch '1'
+	 * <p>
+	 * The working tree should contain 'a' with FileMode.REGULAR_FILE after the
+	 * checkout.
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void fileModeTestMissingThenFolderWithFileInWorkingTree()
+			throws Exception {
+		Git git = new Git(db);
+		writeTrashFile("b", "Hello world b");
+		git.add().addFilepattern(".").call();
+		git.commit().setMessage("add file b").call();
+		Ref branch_1 = git.branchCreate().setName("branch_1").call();
+		File folderA = new File(db.getWorkTree(), "a");
+		FileUtils.mkdirs(folderA);
+		writeTrashFile("a/c", "Hello world c");
+		git.add().addFilepattern(".").call();
+		git.commit().setMessage("add folder a").call();
+
+		FileEntry entry = new FileTreeIterator.FileEntry(new File(
+				db.getWorkTree(), "a"), db.getFS());
+		assertEquals(FileMode.TREE, entry.getMode());
+
+		FileUtils.delete(folderA, FileUtils.RECURSIVE);
+		writeTrashFile("a", "b");
+
+		entry = new FileTreeIterator.FileEntry(new File(db.getWorkTree(), "a"),
+				db.getFS());
+		assertEquals(FileMode.REGULAR_FILE, entry.getMode());
+
+		git.checkout().setName(branch_1.getName()).call();
+
+		entry = new FileTreeIterator.FileEntry(new File(db.getWorkTree(), "a"),
+				db.getFS());
+		assertEquals(FileMode.REGULAR_FILE, entry.getMode());
+	}
+
+	/**
+	 * Steps:
+	 * <p>
+	 * 1.Add file 'a'
+	 * <p>
+	 * 2.Commit
+	 * <p>
+	 * 3.Create branch '1'
+	 * <p>
+	 * 4.Replace file 'a' by folder 'a'
+	 * <p>
+	 * 5.Commit
+	 * <p>
+	 * 6.Delete folder 'a' in the working tree
+	 * <p>
+	 * 7.Checkout branch '1'
+	 * <p>
+	 * The working tree should contain 'a' with FileMode.REGULAR_FILE after the
+	 * checkout.
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void fileModeTestFolderWithMissingInWorkingTree() throws Exception {
+		Git git = new Git(db);
+		writeTrashFile("b", "Hello world b");
+		writeTrashFile("a", "b");
+		git.add().addFilepattern(".").call();
+		git.commit().setMessage("add file b & file a").call();
+		Ref branch_1 = git.branchCreate().setName("branch_1").call();
+		git.rm().addFilepattern("a").call();
+		File folderA = new File(db.getWorkTree(), "a");
+		FileUtils.mkdirs(folderA);
+		writeTrashFile("a/c", "Hello world c");
+		git.add().addFilepattern(".").call();
+		git.commit().setMessage("add folder a").call();
+
+		FileEntry entry = new FileTreeIterator.FileEntry(new File(
+				db.getWorkTree(), "a"), db.getFS());
+		assertEquals(FileMode.TREE, entry.getMode());
+
+		FileUtils.delete(folderA, FileUtils.RECURSIVE);
+
+		git.checkout().setName(branch_1.getName()).call();
+
+		entry = new FileTreeIterator.FileEntry(new File(db.getWorkTree(), "a"),
+				db.getFS());
+		assertEquals(FileMode.REGULAR_FILE, entry.getMode());
+	}
+
+	/**
+	 * Steps:
+	 * <p>
+	 * 1.Add file 'a'
+	 * <p>
+	 * 2.Commit
+	 * <p>
+	 * 3.Create branch '1'
+	 * <p>
+	 * 4.Delete file 'a'
+	 * <p>
+	 * 5.Commit
+	 * <p>
+	 * 6.Add folder 'a' in the working tree
+	 * <p>
+	 * 7.Checkout branch '1'
+	 * <p>
+	 * The checkout command should raise an error. The conflicting paths are 'a'
+	 * and 'a/c'.
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void fileModeTestMissingWithFolderInWorkingTree() throws Exception {
+		Git git = new Git(db);
+		writeTrashFile("b", "Hello world b");
+		writeTrashFile("a", "b");
+		git.add().addFilepattern(".").call();
+		git.commit().setMessage("add file b & file a").call();
+		Ref branch_1 = git.branchCreate().setName("branch_1").call();
+		git.rm().addFilepattern("a").call();
+		git.commit().setMessage("delete file a").call();
+
+		FileUtils.mkdirs(new File(db.getWorkTree(), "a"));
+		writeTrashFile("a/c", "Hello world c");
+
+		FileEntry entry = new FileTreeIterator.FileEntry(new File(
+				db.getWorkTree(), "a"), db.getFS());
+		assertEquals(FileMode.TREE, entry.getMode());
+
+		CheckoutConflictException exception = null;
+		try {
+			git.checkout().setName(branch_1.getName()).call();
+		} catch (CheckoutConflictException e) {
+			exception = e;
+		}
+		assertNotNull(exception);
+		assertEquals(2, exception.getConflictingPaths().size());
+		assertEquals("a", exception.getConflictingPaths().get(0));
+		assertEquals("a/c", exception.getConflictingPaths().get(1));
+	}
+
+	/**
+	 * Steps:
+	 * <p>
+	 * 1.Add folder 'a'
+	 * <p>
+	 * 2.Commit
+	 * <p>
+	 * 3.Create branch '1'
+	 * <p>
+	 * 4.Delete folder 'a'
+	 * <p>
+	 * 5.Commit
+	 * <p>
+	 * 6.Add file 'a' in the working tree
+	 * <p>
+	 * 7.Checkout branch '1'
+	 * <p>
+	 * The checkout command should raise an error. The conflicting path is 'a'.
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void fileModeTestFolderThenMissingWithFileInWorkingTree()
+			throws Exception {
+		Git git = new Git(db);
+		FileUtils.mkdirs(new File(db.getWorkTree(), "a"));
+		writeTrashFile("a/c", "Hello world c");
+		writeTrashFile("b", "Hello world b");
+		git.add().addFilepattern(".").call();
+		RevCommit commit1 = git.commit().setMessage("add folder a & file b")
+				.call();
+		Ref branch_1 = git.branchCreate().setName("branch_1").call();
+		git.rm().addFilepattern("a").call();
+		RevCommit commit2 = git.commit().setMessage("delete folder a").call();
+
+		TreeWalk tw = new TreeWalk(db);
+		tw.addTree(commit1.getTree());
+		tw.addTree(commit2.getTree());
+		List<DiffEntry> scan = DiffEntry.scan(tw);
+		assertEquals(1, scan.size());
+		assertEquals(FileMode.MISSING, scan.get(0).getNewMode());
+		assertEquals(FileMode.TREE, scan.get(0).getOldMode());
+
+		writeTrashFile("a", "b");
+
+		FileEntry entry = new FileTreeIterator.FileEntry(new File(
+				db.getWorkTree(), "a"), db.getFS());
+		assertEquals(FileMode.REGULAR_FILE, entry.getMode());
+
+		CheckoutConflictException exception = null;
+		try {
+			git.checkout().setName(branch_1.getName()).call();
+		} catch (CheckoutConflictException e) {
+			exception = e;
+		}
+		assertNotNull(exception);
+		assertEquals(1, exception.getConflictingPaths().size());
+		assertEquals("a", exception.getConflictingPaths().get(0));
+	}
+
+	/**
+	 * Steps:
+	 * <p>
+	 * 1.Add folder 'a'
+	 * <p>
+	 * 2.Commit
+	 * <p>
+	 * 3.Create branch '1'
+	 * <p>
+	 * 4.Replace folder 'a'by file 'a'
+	 * <p>
+	 * 5.Commit
+	 * <p>
+	 * 6.Delete file 'a' in the working tree
+	 * <p>
+	 * 7.Checkout branch '1'
+	 * <p>
+	 * The working tree should contain 'a' with FileMode.TREE after the
+	 * checkout.
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void fileModeTestFolderThenFileWithMissingInWorkingTree()
+			throws Exception {
+		Git git = new Git(db);
+		FileUtils.mkdirs(new File(db.getWorkTree(), "a"));
+		writeTrashFile("a/c", "Hello world c");
+		writeTrashFile("b", "Hello world b");
+		git.add().addFilepattern(".").call();
+		git.commit().setMessage("add folder a & file b").call();
+		Ref branch_1 = git.branchCreate().setName("branch_1").call();
+		git.rm().addFilepattern("a").call();
+		File symlinkA = new File(db.getWorkTree(), "a");
+		writeTrashFile("a", "b");
+		git.add().addFilepattern("a").call();
+		git.commit().setMessage("add file a").call();
+
+		FileEntry entry = new FileTreeIterator.FileEntry(new File(
+				db.getWorkTree(), "a"), db.getFS());
+		assertEquals(FileMode.REGULAR_FILE, entry.getMode());
+
+		FileUtils.delete(symlinkA);
+
+		git.checkout().setName(branch_1.getName()).call();
+
+		entry = new FileTreeIterator.FileEntry(new File(db.getWorkTree(), "a"),
+				db.getFS());
+		assertEquals(FileMode.TREE, entry.getMode());
+	}
+
+	/**
+	 * Steps:
+	 * <p>
+	 * 1.Add file 'a'
+	 * <p>
+	 * 2.Commit
+	 * <p>
+	 * 3.Create branch '1'
+	 * <p>
+	 * 4.Replace file 'a' by file 'a'
+	 * <p>
+	 * 5.Commit
+	 * <p>
+	 * 6.Delete file 'a' & replace by folder 'a' in the working tree & index
+	 * <p>
+	 * 6.Checkout branch '1'
+	 * <p>
+	 * The checkout command should raise an error. The conflicting path is 'a'.
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void fileModeTestFileThenFileWithFolderInIndex() throws Exception {
+		Git git = new Git(db);
+		writeTrashFile("a", "Hello world a");
+		writeTrashFile("b", "Hello world b");
+		git.add().addFilepattern(".").call();
+		git.commit().setMessage("add files a & b").call();
+		Ref branch_1 = git.branchCreate().setName("branch_1").call();
+		git.rm().addFilepattern("a").call();
+		writeTrashFile("a", "b");
+		git.add().addFilepattern("a").call();
+		git.commit().setMessage("add file a").call();
+
+		FileEntry entry = new FileTreeIterator.FileEntry(new File(
+				db.getWorkTree(), "a"), db.getFS());
+		assertEquals(FileMode.REGULAR_FILE, entry.getMode());
+
+		git.rm().addFilepattern("a").call();
+		FileUtils.mkdirs(new File(db.getWorkTree(), "a"));
+		writeTrashFile("a/c", "Hello world c");
+		git.add().addFilepattern(".").call();
+
+		entry = new FileTreeIterator.FileEntry(new File(db.getWorkTree(), "a"),
+				db.getFS());
+		assertEquals(FileMode.TREE, entry.getMode());
+
+		CheckoutConflictException exception = null;
+		try {
+			git.checkout().setName(branch_1.getName()).call();
+		} catch (CheckoutConflictException e) {
+			exception = e;
+		}
+		assertNotNull(exception);
+		assertEquals(1, exception.getConflictingPaths().size());
+		assertEquals("a", exception.getConflictingPaths().get(0));
+	}
+
+	/**
+	 * Steps:
+	 * <p>
+	 * 1.Add file 'a'
+	 * <p>
+	 * 2.Commit
+	 * <p>
+	 * 3.Create branch '1'
+	 * <p>
+	 * 4.Replace file 'a' by file 'a'
+	 * <p>
+	 * 5.Commit
+	 * <p>
+	 * 6.Delete file 'a' & replace by folder 'a' in the working tree & index
+	 * <p>
+	 * 7.Checkout branch '1'
+	 * <p>
+	 * The checkout command should raise an error. The conflicting paths are 'a'
+	 * and 'a/c'.
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void fileModeTestFileWithFolderInIndex() throws Exception {
+		Git git = new Git(db);
+		writeTrashFile("b", "Hello world b");
+		writeTrashFile("a", "b");
+		git.add().addFilepattern(".").call();
+		git.commit().setMessage("add file b & file a").call();
+		Ref branch_1 = git.branchCreate().setName("branch_1").call();
+		git.rm().addFilepattern("a").call();
+		writeTrashFile("a", "Hello world a");
+		git.add().addFilepattern("a").call();
+		git.commit().setMessage("add file a").call();
+
+		FileEntry entry = new FileTreeIterator.FileEntry(new File(
+				db.getWorkTree(), "a"), db.getFS());
+		assertEquals(FileMode.REGULAR_FILE, entry.getMode());
+
+		git.rm().addFilepattern("a").call();
+		FileUtils.mkdirs(new File(db.getWorkTree(), "a"));
+		writeTrashFile("a/c", "Hello world c");
+		git.add().addFilepattern(".").call();
+
+		entry = new FileTreeIterator.FileEntry(new File(db.getWorkTree(), "a"),
+				db.getFS());
+		assertEquals(FileMode.TREE, entry.getMode());
+
+		CheckoutConflictException exception = null;
+		try {
+			git.checkout().setName(branch_1.getName()).call();
+		} catch (CheckoutConflictException e) {
+			exception = e;
+		}
+		assertNotNull(exception);
+		assertEquals(2, exception.getConflictingPaths().size());
+		assertEquals("a", exception.getConflictingPaths().get(0));
+		assertEquals("a/c", exception.getConflictingPaths().get(1));
 	}
 
 	static private void assertEquals(Object expected, Object actual) {
