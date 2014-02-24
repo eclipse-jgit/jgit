@@ -52,6 +52,7 @@ import static org.eclipse.jgit.util.HttpSupport.HDR_CONTENT_ENCODING;
 import static org.eclipse.jgit.util.HttpSupport.HDR_CONTENT_TYPE;
 import static org.eclipse.jgit.util.HttpSupport.HDR_PRAGMA;
 import static org.eclipse.jgit.util.HttpSupport.HDR_USER_AGENT;
+import static org.eclipse.jgit.util.HttpSupport.HDR_WWW_AUTHENTICATE;
 import static org.eclipse.jgit.util.HttpSupport.METHOD_GET;
 import static org.eclipse.jgit.util.HttpSupport.METHOD_POST;
 
@@ -460,6 +461,14 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 				final int status = HttpSupport.response(conn);
 				switch (status) {
 				case HttpConnection.HTTP_OK:
+					// Check if HttpConnection did some authentication in the
+					// background (e.g Kerberos/SPNEGO).
+					// That may not work for streaming requests and jgit
+					// explicit authentication would be required
+					if (authMethod == HttpAuthMethod.NONE
+							&& conn.getHeaderField(HDR_WWW_AUTHENTICATE) != null) {
+						authMethod = HttpAuthMethod.scanResponse(conn);
+					}
 					return conn;
 
 				case HttpConnection.HTTP_NOT_FOUND:
@@ -504,7 +513,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 
 	/**
 	 * Open an HTTP connection.
-	 * 
+	 *
 	 * @param method
 	 * @param u
 	 * @return the connection
