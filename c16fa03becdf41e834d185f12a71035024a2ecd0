@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "67591f73_55deb04c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 3910
+      },
+      "writtenOn": "2014-02-24T23:01:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67591f73_660990e4",
+      "revId": "c16fa03becdf41e834d185f12a71035024a2ecd0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67591f73_c63b3c85",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRC.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2014-02-19T01:00:30Z",
       "side": 1,
       "message": "style nit: we don\u0027t use author tags",
+      "revId": "c16fa03becdf41e834d185f12a71035024a2ecd0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_b5046c54",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 3910
+      },
+      "writtenOn": "2014-02-24T23:01:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67591f73_c63b3c85",
       "revId": "c16fa03becdf41e834d185f12a71035024a2ecd0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "67591f73_f50a645d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 3910
+      },
+      "writtenOn": "2014-02-24T23:01:25Z",
+      "side": 1,
+      "message": "When you are working with NetRC file in java you are reffering to the type \u0027NetRC\u0027. Parsing, reading, storing data from .netrc file is only private functions of NetRC type.\n\nI prefer to keep types clean exactly to its purpose. It is not a parser, but NetRC file in memory easy to access from java.",
+      "parentUuid": "67591f73_266f9821",
+      "revId": "c16fa03becdf41e834d185f12a71035024a2ecd0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67591f73_86c824bb",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRC.java",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2014-02-19T01:00:30Z",
       "side": 1,
       "message": "style nit: we don\u0027t use author tags",
+      "revId": "c16fa03becdf41e834d185f12a71035024a2ecd0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_d50da076",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 3910
+      },
+      "writtenOn": "2014-02-24T23:01:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67591f73_86c824bb",
       "revId": "c16fa03becdf41e834d185f12a71035024a2ecd0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "67591f73_5510707d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 3910
+      },
+      "writtenOn": "2014-02-24T23:01:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67591f73_06bff449",
+      "revId": "c16fa03becdf41e834d185f12a71035024a2ecd0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67591f73_26cb18c9",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRC.java",
         "patchSetId": 2
@@ -98,6 +188,24 @@
       "writtenOn": "2014-02-19T01:00:30Z",
       "side": 1,
       "message": "this should better be done in the default constructor only, the other constructor receives the netrc file as a parameter",
+      "revId": "c16fa03becdf41e834d185f12a71035024a2ecd0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_b5562c30",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 3910
+      },
+      "writtenOn": "2014-02-24T23:01:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67591f73_26cb18c9",
       "revId": "c16fa03becdf41e834d185f12a71035024a2ecd0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "67591f73_356a1ce1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 3910
+      },
+      "writtenOn": "2014-02-24T23:01:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67591f73_0611b4de",
+      "revId": "c16fa03becdf41e834d185f12a71035024a2ecd0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67591f73_7a8f6303",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRC.java",
         "patchSetId": 2
@@ -132,6 +258,24 @@
       "writtenOn": "2014-02-19T08:12:30Z",
       "side": 1,
       "message": ".netrc should be ignored if file permissions aren\u0027t 600 (on posix)\n* on Java7 we can read permissions using NIO2 [1], this should go into the org.eclipse.jgit.java7 bundle\n* on older Java versions we could use FS.runInShell to read permissions by spawning a shell\n* no idea how this could be done on Windows\n\n[1] http://docs.oracle.com/javase/7/docs/api/java/nio/file/Files.html#getPosixFilePermissions(java.nio.file.Path, java.nio.file.LinkOption...)",
+      "revId": "c16fa03becdf41e834d185f12a71035024a2ecd0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_757014cb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 3910
+      },
+      "writtenOn": "2014-02-24T23:01:25Z",
+      "side": 1,
+      "message": "git does not follow your description. it reads 777 file as well. So I do not agree.",
+      "parentUuid": "67591f73_7a8f6303",
       "revId": "c16fa03becdf41e834d185f12a71035024a2ecd0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "67591f73_556b50e1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 3910
+      },
+      "writtenOn": "2014-02-24T23:01:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67591f73_6684f094",
+      "revId": "c16fa03becdf41e834d185f12a71035024a2ecd0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67591f73_a6b1e84d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRC.java",
         "patchSetId": 2
@@ -166,6 +328,24 @@
       "writtenOn": "2014-02-19T01:00:30Z",
       "side": 1,
       "message": "style nit: start sentence with an uppercase letter",
+      "revId": "c16fa03becdf41e834d185f12a71035024a2ecd0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_15971852",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 3910
+      },
+      "writtenOn": "2014-02-24T23:01:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67591f73_a6b1e84d",
       "revId": "c16fa03becdf41e834d185f12a71035024a2ecd0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "67591f73_b58f4c38",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 3910
+      },
+      "writtenOn": "2014-02-24T23:01:25Z",
+      "side": 1,
+      "message": "That is use cases. When and why I check for #.. Here are potential examples of lines in .netrc file.\n\nSomething like unit test in comment, explanation to reader how it works.",
+      "parentUuid": "67591f73_c6dcdc94",
+      "revId": "c16fa03becdf41e834d185f12a71035024a2ecd0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67591f73_868944b0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRC.java",
         "patchSetId": 2
@@ -200,6 +398,24 @@
       "writtenOn": "2014-02-19T01:00:30Z",
       "side": 1,
       "message": "style nit: we don\u0027t use braces around single line blocks",
+      "revId": "c16fa03becdf41e834d185f12a71035024a2ecd0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_9592085b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 3910
+      },
+      "writtenOn": "2014-02-24T23:01:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67591f73_868944b0",
       "revId": "c16fa03becdf41e834d185f12a71035024a2ecd0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -223,6 +439,24 @@
     },
     {
       "key": {
+        "uuid": "67591f73_d588002f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 3910
+      },
+      "writtenOn": "2014-02-24T23:01:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67591f73_26bdd81d",
+      "revId": "c16fa03becdf41e834d185f12a71035024a2ecd0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67591f73_e689207a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRCCredentialsProvider.java",
         "patchSetId": 2
@@ -234,6 +468,24 @@
       "writtenOn": "2014-02-19T01:00:30Z",
       "side": 1,
       "message": "missing license header",
+      "revId": "c16fa03becdf41e834d185f12a71035024a2ecd0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_95a16880",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRCCredentialsProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 3910
+      },
+      "writtenOn": "2014-02-24T23:01:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67591f73_e689207a",
       "revId": "c16fa03becdf41e834d185f12a71035024a2ecd0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -257,6 +509,24 @@
     },
     {
       "key": {
+        "uuid": "67591f73_35833c11",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRCCredentialsProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 3910
+      },
+      "writtenOn": "2014-02-24T23:01:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67591f73_46744cf1",
+      "revId": "c16fa03becdf41e834d185f12a71035024a2ecd0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67591f73_66c3509d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRCCredentialsProvider.java",
         "patchSetId": 2
@@ -268,6 +538,24 @@
       "writtenOn": "2014-02-19T01:00:30Z",
       "side": 1,
       "message": "there is no need for this variable, instead inline this",
+      "revId": "c16fa03becdf41e834d185f12a71035024a2ecd0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_f517044a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRCCredentialsProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 3910
+      },
+      "writtenOn": "2014-02-24T23:01:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67591f73_66c3509d",
       "revId": "c16fa03becdf41e834d185f12a71035024a2ecd0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
