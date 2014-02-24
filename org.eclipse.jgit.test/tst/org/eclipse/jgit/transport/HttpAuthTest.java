@@ -64,22 +64,31 @@ public class HttpAuthTest {
 
 	private static String bearerHeader = "WWW-Authenticate: Bearer";
 
+	private static String negotiateHeader = "WWW-Authenticate: Negotiate";
+
 	private static String URL_SAMPLE = "http://everyones.loves.git/u/2";
 
 	private static String BASIC = "Basic";
 
 	private static String DIGEST = "Digest";
 
+	private static String NEGOTIATE = "Negotiate";
+
 	@Test
 	public void testHttpAuthScanResponse() {
 		checkResponse(new String[] { basicHeader }, BASIC);
 		checkResponse(new String[] { digestHeader }, DIGEST);
+		checkResponse(new String[] { negotiateHeader }, NEGOTIATE);
 		checkResponse(new String[] { basicHeader, digestHeader }, DIGEST);
 		checkResponse(new String[] { digestHeader, basicHeader }, DIGEST);
+		checkResponse(new String[] { digestHeader, negotiateHeader }, NEGOTIATE);
+		checkResponse(new String[] { negotiateHeader, digestHeader }, NEGOTIATE);
 		checkResponse(new String[] { ntlmHeader, basicHeader, digestHeader,
 				bearerHeader }, DIGEST);
 		checkResponse(new String[] { ntlmHeader, basicHeader, bearerHeader },
 				BASIC);
+		checkResponse(new String[] { ntlmHeader, basicHeader, digestHeader,
+				negotiateHeader, bearerHeader }, NEGOTIATE);
 	}
 
 	private static void checkResponse(String[] headers,
