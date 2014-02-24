@@ -54,6 +54,7 @@ import org.eclipse.jgit.util.FileUtils;
 public class PackLock {
 	private final File keepFile;
 	private final FS fs;
+	private final File packFile;
 
 	/**
 	 * Create a new lock for a pack file.
@@ -68,6 +69,7 @@ public class PackLock {
 		final String n = packFile.getName();
 		keepFile = new File(p, n.substring(0, n.length() - 5) + ".keep"); //$NON-NLS-1$
 		this.fs = fs;
+		this.packFile = packFile;
 	}
 
 	/**
@@ -99,5 +101,12 @@ public class PackLock {
 	 */
 	public void unlock() throws IOException {
 		FileUtils.delete(keepFile);
+	}
+
+	/**
+	 * @return the pack file being held by this lock
+	 */
+	public File getPackFile() {
+		return packFile;
 	}
 }
