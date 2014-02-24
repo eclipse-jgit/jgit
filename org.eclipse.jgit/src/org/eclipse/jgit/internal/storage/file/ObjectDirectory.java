@@ -557,11 +557,11 @@ public class ObjectDirectory extends FileObjectDatabase {
 		// If the object is already in the repository, remove temporary file.
 		//
 		if (unpackedObjectCache.isUnpacked(id)) {
-			FileUtils.delete(tmp);
+			FileUtils.delete(tmp, FileUtils.RETRY);
 			return InsertLooseObjectResult.EXISTS_LOOSE;
 		}
 		if (!createDuplicate && has(id)) {
-			FileUtils.delete(tmp);
+			FileUtils.delete(tmp, FileUtils.RETRY);
 			return InsertLooseObjectResult.EXISTS_PACKED;
 		}
 
@@ -571,7 +571,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 			// that already exists. We can't be sure renameTo() would
 			// fail on all platforms if dst exists, so we check first.
 			//
-			FileUtils.delete(tmp);
+			FileUtils.delete(tmp, FileUtils.RETRY);
 			return InsertLooseObjectResult.EXISTS_LOOSE;
 		}
 		if (tmp.renameTo(dst)) {
@@ -592,7 +592,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 		}
 
 		if (!createDuplicate && has(id)) {
-			FileUtils.delete(tmp);
+			FileUtils.delete(tmp, FileUtils.RETRY);
 			return InsertLooseObjectResult.EXISTS_PACKED;
 		}
 
@@ -601,7 +601,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 		// either. We really don't know what went wrong, so
 		// fail.
 		//
-		FileUtils.delete(tmp);
+		FileUtils.delete(tmp, FileUtils.RETRY);
 		return InsertLooseObjectResult.FAILURE;
 	}
 
