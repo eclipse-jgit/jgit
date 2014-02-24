@@ -45,6 +45,7 @@ package org.eclipse.jgit.transport;
 
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_REPORT_STATUS;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -69,6 +70,9 @@ public class ReceivePack extends BaseReceivePack {
 	private boolean reportStatus;
 
 	private boolean echoCommandFailures;
+
+	/** The pack file that was created by this receive pack */
+	private File packFile;
 
 	/**
 	 * Create a new pack receive for an open repository.
@@ -167,6 +171,15 @@ public class ReceivePack extends BaseReceivePack {
 		}
 	}
 
+	/**
+	 * @return the pack file that was created by the
+	 *         {@link #receive(InputStream, OutputStream, OutputStream)} method
+	 * @since 3.3
+	 */
+	public File getPackFile() {
+		return packFile;
+	}
+
 	@Override
 	protected void enableCapabilities() {
 		reportStatus = isCapabilityEnabled(CAPABILITY_REPORT_STATUS);
@@ -203,7 +216,7 @@ public class ReceivePack extends BaseReceivePack {
 				preReceive.onPreReceive(this, filterCommands(Result.NOT_ATTEMPTED));
 				executeCommands();
 			}
-			unlockPack();
+			packFile = unlockPack();
 
 			if (reportStatus) {
 				if (echoCommandFailures && msgOut != null) {

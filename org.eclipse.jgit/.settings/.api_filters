@@ -8,6 +8,14 @@
             </message_arguments>
         </filter>
     </resource>
+    <resource path="src/org/eclipse/jgit/transport/BaseReceivePack.java" type="org.eclipse.jgit.transport.BaseReceivePack">
+        <filter comment="Method is only used by those subclassing BaseReceivePack, minor version are allowed to break implementer API according to OSGi semantic versioning (http://www.osgi.org/wiki/uploads/Links/SemanticVersioning.pdf)" id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.transport.BaseReceivePack"/>
+                <message_argument value="unlockPack()"/>
+            </message_arguments>
+        </filter>
+    </resource>
     <resource path="src/org/eclipse/jgit/transport/TransportHttp.java" type="org.eclipse.jgit.transport.TransportHttp">
         <filter comment="Method is only used by implementers of TransportHttp's API, minor version are allowed to break implementer API according to OSGi semantic versioning (http://www.osgi.org/wiki/uploads/Links/SemanticVersioning.pdf)" id="338792546">
             <message_arguments>
