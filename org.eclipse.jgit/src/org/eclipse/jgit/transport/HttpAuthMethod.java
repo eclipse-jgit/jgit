@@ -61,6 +61,12 @@ import java.util.Random;
 
 import org.eclipse.jgit.transport.http.HttpConnection;
 import org.eclipse.jgit.util.Base64;
+import org.eclipse.jgit.util.GSSManagerFactory;
+import org.ietf.jgss.GSSContext;
+import org.ietf.jgss.GSSException;
+import org.ietf.jgss.GSSManager;
+import org.ietf.jgss.GSSName;
+import org.ietf.jgss.Oid;
 
 /**
  * Support class to populate user authentication data on a connection.
@@ -90,6 +96,12 @@ abstract class HttpAuthMethod {
 			@Override
 			public HttpAuthMethod method(String hdr) {
 				return new Digest(hdr);
+			}
+		},
+		NEGOTIATE {
+			@Override
+			public HttpAuthMethod method(String hdr) {
+				return new Negotiate(hdr);
 			}
 		};
 		/**
@@ -456,6 +468,57 @@ abstract class HttpAuthMethod {
 				p.put(name, value);
 			}
 			return p;
+		}
+	}
+
+	private static class Negotiate extends HttpAuthMethod {
+		private static final GSSManagerFactory GSS_MANAGER_FACTORY = GSSManagerFactory
+				.detect();
+
+		private static final Oid OID;
+		static {
+			try {
+				// OID for SPNEGO
+				OID = new Oid("1.3.6.1.5.5.2"); //$NON-NLS-1$
+			} catch (GSSException e) {
+				throw new Error("Cannot create NEGOTIATE oid.", e); //$NON-NLS-1$
+			}
+		}
+
+		private final byte[] prevToken;
+
+		public Negotiate(String hdr) {
+			super(Type.NEGOTIATE);
+			prevToken = Base64.decode(hdr);
+		}
+
+		@Override
+		void authorize(String user, String pass) {
+			// not used
+		}
+
+		@Override
+		void configureRequest(HttpConnection conn) throws IOException {
+			GSSManager gssManager = GSS_MANAGER_FACTORY.newInstance(conn
+					.getURL());
+			String host = conn.getURL().getHost();
+			String peerName = "HTTP@" + host.toLowerCase(); //$NON-NLS-1$
+			try {
+				GSSName gssName = gssManager.createName(peerName,
+						GSSName.NT_HOSTBASED_SERVICE);
+				GSSContext context = gssManager.createContext(gssName, OID,
+						null, GSSContext.DEFAULT_LIFETIME);
+				// Respect delegation policy in HTTP/SPNEGO.
+				context.requestCredDeleg(true);
+
+				byte[] token = context.initSecContext(prevToken, 0,
+						prevToken.length);
+
+				conn.setRequestProperty(HDR_AUTHORIZATION, getType().name()
+						+ " " + Base64.encodeBytes(token)); //$NON-NLS-1$
+			} catch (GSSException e) {
+				throw new IOException(e);
+			}
 		}
 	}
 }
