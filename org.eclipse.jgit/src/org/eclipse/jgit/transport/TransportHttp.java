@@ -246,7 +246,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 
 	private boolean useSmartHttp = true;
 
-	private HttpAuthMethod authMethod = HttpAuthMethod.NONE;
+	private HttpAuthMethod authMethod = HttpAuthMethod.Type.NONE.method(null);
 
 	TransportHttp(final Repository local, final URIish uri)
 			throws NotSupportedException {
@@ -465,7 +465,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 					// background (e.g Kerberos/SPNEGO).
 					// That may not work for streaming requests and jgit
 					// explicit authentication would be required
-					if (authMethod == HttpAuthMethod.NONE
+					if (authMethod.getType() == HttpAuthMethod.Type.NONE
 							&& conn.getHeaderField(HDR_WWW_AUTHENTICATE) != null) {
 						authMethod = HttpAuthMethod.scanResponse(conn);
 					}
@@ -477,7 +477,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 
 				case HttpConnection.HTTP_UNAUTHORIZED:
 					authMethod = HttpAuthMethod.scanResponse(conn);
-					if (authMethod == HttpAuthMethod.NONE)
+					if (authMethod.getType() == HttpAuthMethod.Type.NONE)
 						throw new TransportException(uri, MessageFormat.format(
 								JGitText.get().authenticationNotSupported, uri));
 					if (1 < authAttempts
