@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67591f73_3e49ff09",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-02-25T22:19:36Z",
+      "side": 1,
+      "message": "maybe better:\n\nDon\u0027t raise checkout conflict for file missing in working tree",
+      "revId": "97200d44da1198e4ad63b23003810f794ef7e1b6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_5e44b3f1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-02-25T22:19:36Z",
+      "side": 1,
+      "message": "s/wheter/whether/",
+      "revId": "97200d44da1198e4ad63b23003810f794ef7e1b6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_1e4a3b01",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-02-25T22:19:36Z",
+      "side": 1,
+      "message": "s/conflict it/conflict if/",
+      "revId": "97200d44da1198e4ad63b23003810f794ef7e1b6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_fe4e6713",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-02-25T22:19:36Z",
+      "side": 1,
+      "message": "s/that/if/",
+      "revId": "97200d44da1198e4ad63b23003810f794ef7e1b6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_3ee8df28",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/CheckoutTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-02-25T22:19:36Z",
+      "side": 1,
+      "message": "can we format this using \u003col\u003e to save a couple of lines and improve readability ?\n\n\t/**\n\t * Steps:\n\t * \u003col\u003e\n\t * \u003cli\u003eAdd file \u0027a\u0027\n\t * \u003cli\u003eCommit\n\t * \u003cli\u003eCreate branch \u00271\u0027\n\t * \u003cli\u003emodify file \u0027a\u0027\n\t * \u003cli\u003eCommit\n\t * \u003cli\u003eDelete file \u0027a\u0027 in the working tree\n\t * \u003cli\u003eCheckout branch \u00271\u0027\n\t * \u003c/ol\u003e",
+      "revId": "97200d44da1198e4ad63b23003810f794ef7e1b6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_1eab5be2",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/CheckoutTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-02-25T22:19:36Z",
+      "side": 1,
+      "message": "you are also adding file \u0027b\u0027",
+      "revId": "97200d44da1198e4ad63b23003810f794ef7e1b6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_7e54174d",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/CheckoutTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-02-25T22:19:36Z",
+      "side": 1,
+      "message": "I don\u0027t understand this weird method name",
+      "revId": "97200d44da1198e4ad63b23003810f794ef7e1b6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_feaf87ea",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/CheckoutTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-02-25T22:19:36Z",
+      "side": 1,
+      "message": "why is \"git rm a\" needed here ?",
+      "revId": "97200d44da1198e4ad63b23003810f794ef7e1b6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_be9cefbc",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/CheckoutTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-02-25T22:19:36Z",
+      "side": 1,
+      "message": "s/add file a/modify file a/",
+      "revId": "97200d44da1198e4ad63b23003810f794ef7e1b6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_9e576b52",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/CheckoutTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-02-25T22:19:36Z",
+      "side": 1,
+      "message": "shouldn\u0027t we also assert content of file a ?",
+      "revId": "97200d44da1198e4ad63b23003810f794ef7e1b6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
