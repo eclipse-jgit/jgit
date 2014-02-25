@@ -1,5 +1,4 @@
-/*
- * Copyright (C) 2012, Robin Rosenberg <robin.rosenberg@dewire.com>
+/*******************************************************************************
  * Copyright (C) 2014, Obeo
  * and other copyright owners as documented in the project's IP log.
  *
@@ -40,105 +39,21 @@
  * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
-
+ *******************************************************************************/
 package org.eclipse.jgit.util;
 
-import java.io.File;
-import java.io.IOException;
-
 /**
- * FS for Java7 on Windows with Cygwin
+ * Interface that can be implemented to perform matching operations against
+ * paths.
  */
-public class FS_Win32_Java7Cygwin extends FS_Win32_Cygwin {
-
-	FS_Win32_Java7Cygwin(FS src) {
-		super(src);
-	}
-
-	FS_Win32_Java7Cygwin() {
-	}
-
-	@Override
-	public FS newInstance() {
-		return new FS_Win32_Java7Cygwin(this);
-	}
-
-	@Override
-	public boolean supportsSymlinks() {
-		return true;
-	}
-
-	@Override
-	public boolean isSymLink(File path) throws IOException {
-		return FileUtil.isSymlink(path);
-	}
-
-	@Override
-	public long lastModified(File path) throws IOException {
-		return FileUtil.lastModified(path);
-	}
-
-	@Override
-	public void setLastModified(File path, long time) throws IOException {
-		FileUtil.setLastModified(path, time);
-	}
-
-	@Override
-	public void delete(File path) throws IOException {
-		FileUtil.delete(path);
-	}
-
-	@Override
-	public long length(File f) throws IOException {
-		return FileUtil.getLength(f);
-	}
-
-	@Override
-	public boolean exists(File path) {
-		return FileUtil.exists(path);
-	}
-
-	@Override
-	public boolean isDirectory(File path) {
-		return FileUtil.isDirectory(path);
-	}
-
-	@Override
-	public boolean isFile(File path) {
-		return FileUtil.isFile(path);
-	}
-
-	@Override
-	public boolean isHidden(File path) throws IOException {
-		return FileUtil.isHidden(path);
-	}
-
-	@Override
-	public void setHidden(File path, boolean hidden) throws IOException {
-		FileUtil.setHidden(path, hidden);
-	}
-
-	@Override
-	public String readSymLink(File path) throws IOException {
-		return FileUtil.readSymlink(path);
-	}
-
-	@Override
-	public void createSymLink(File path, String target) throws IOException {
-		FileUtil.createSymLink(path, target);
-	}
-
+public interface PathMatcher {
 	/**
-	 * @since 3.3
+	 * Checks whether the given path matches this matcher's pattern.
+	 *
+	 * @param path
+	 *            The path to match.
+	 * @return <code>true</code> if <code>path</code> matches this matcher's
+	 *         pattern, <code>false</code> otherwise.
 	 */
-	@Override
-	public Attributes getAttributes(File path) {
-		return FileUtil.getFileAttributesBasic(this, path);
-	}
-
-	@Override
-	public PathMatcher getPathMatcher(String globPattern) {
-		return new PathMatcher_Java7(globPattern);
-	}
+	boolean matches(String path);
 }
