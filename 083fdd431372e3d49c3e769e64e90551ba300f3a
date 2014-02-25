@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67591f73_62c3df2d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 643,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-02-25T12:04:47Z",
+      "side": 1,
+      "message": "I am not sure whether this is a problem. But by exposing the raw byte array to the outside world you cannot prevent that the path can be modified externally.\n\nE.g.\n\n  DirCacheEntry e\u003d.....\n  e.getRawPath()[0]\u003d\u0027a\u0027\n\ncould really break a lot of stuff. Before we had only getter methods return immutable objects like String.\n\nEither we all accept this risk. Or we use different solutions like returning in getRawPath() a copy the array. But that\u0027s not as performant as this solution",
+      "revId": "083fdd431372e3d49c3e769e64e90551ba300f3a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
