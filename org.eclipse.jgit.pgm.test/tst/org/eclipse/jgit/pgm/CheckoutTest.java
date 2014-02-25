@@ -46,6 +46,10 @@ import java.io.File;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.CLIRepositoryTestCase;
+import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.treewalk.FileTreeIterator;
+import org.eclipse.jgit.treewalk.FileTreeIterator.FileEntry;
 import org.eclipse.jgit.util.FileUtils;
 import org.junit.Assert;
 import org.junit.Test;
@@ -131,6 +135,58 @@ public class CheckoutTest extends CLIRepositoryTestCase {
 				"error: Your local changes to the following files would be overwritten by checkout:",
 				execute[0]);
 		Assert.assertEquals("\ta", execute[1]);
+	}
+
+	/**
+	 * Steps:
+	 * <p>
+	 * 1.Add file 'a'
+	 * <p>
+	 * 2.Commit
+	 * <p>
+	 * 3.Create branch '1'
+	 * <p>
+	 * 4.modify file 'a'
+	 * <p>
+	 * 5.Commit
+	 * <p>
+	 * 6.Delete file 'a' in the working tree
+	 * <p>
+	 * 7.Checkout branch '1'
+	 * <p>
+	 * The working tree should contain 'a' with FileMode.REGULAR_FILE after the
+	 * checkout.
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void fileModeTestFileWithMissingInWorkingTree() throws Exception {
+		Git git = new Git(db);
+		File fileA = writeTrashFile("a", "Hello world a");
+		writeTrashFile("b", "Hello world b");
+		git.add().addFilepattern(".").call();
+		git.commit().setMessage("add files a & b").call();
+		Ref branch_1 = git.branchCreate().setName("branch_1").call();
+		git.rm().addFilepattern("a").call();
+		writeTrashFile("a", "b");
+		git.add().addFilepattern("a").call();
+		git.commit().setMessage("add file a").call();
+
+		FileEntry entry = new FileTreeIterator.FileEntry(new File(
+				db.getWorkTree(), "a"), db.getFS());
+		assertEquals(FileMode.REGULAR_FILE, entry.getMode());
+
+		FileUtils.delete(fileA);
+
+		git.checkout().setName(branch_1.getName()).call();
+
+		entry = new FileTreeIterator.FileEntry(new File(db.getWorkTree(), "a"),
+				db.getFS());
+		assertEquals(FileMode.REGULAR_FILE, entry.getMode());
+	}
+
+	static private void assertEquals(Object expected, Object actual) {
+		Assert.assertEquals(expected, actual);
 	}
 
 	static private void assertEquals(String expected, String[] actual) {
