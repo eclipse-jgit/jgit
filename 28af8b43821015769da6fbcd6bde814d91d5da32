@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67591f73_e2fecfdb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-02-25T12:46:11Z",
+      "side": 1,
+      "message": "You should mention that not all Implementations of JGit\u0027s ObjectDatabase will work with java.io.File and can return something different from null here. What you suggest here works with FileObjectDatabase but not with DfsObjDatabase. See the different implementations of PackParser.parse(). DfsPackParser will return always null instead of a PackLock instance. Only ObjectDirectoryPackParser will use the constructor which you have modified in this change.",
+      "revId": "28af8b43821015769da6fbcd6bde814d91d5da32",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
