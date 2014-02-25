@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
+ * Copyright (C) 2014, Obeo
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -626,6 +627,19 @@ public abstract class FS {
 	 *         populating directory, environment, and then start the process.
 	 */
 	public abstract ProcessBuilder runInShell(String cmd, String[] args);
+
+	/**
+	 * Returns an implementation-dependent {@link PathMatcher path matcher} that
+	 * will match file paths against the given glob pattern.
+	 * 
+	 * @param globPattern
+	 *            The pattern for which we need a matcher.
+	 * @return A matcher that will match paths against the given pattern.
+	 * @since 3.4
+	 */
+	public PathMatcher getPathMatcher(String globPattern) {
+		return new PathMatcher_Java5(globPattern);
+	}
 
 	private static class Holder<V> {
 		final V value;
