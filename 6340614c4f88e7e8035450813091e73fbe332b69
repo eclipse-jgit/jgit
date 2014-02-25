@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67591f73_0468306a",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/CheckoutTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-02-25T17:07:44Z",
+      "side": 1,
+      "message": "What does \u0027Replace file \u0027a\u0027 by file \u0027a\u0027 mean? I took over this test into a bugfix commit which is now a predecessor of this change. There I renamed this comment to \"modify file \u0027a\u0027\"",
+      "revId": "6340614c4f88e7e8035450813091e73fbe332b69",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_04baf059",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/CheckoutTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-02-25T17:07:44Z",
+      "side": 1,
+      "message": "why is it called \u0027symlinkA\u0027 . This test doesn\u0027t create symlinks. I took over this test into a bugfix commit which is now a predecessor of this change. There I changed this variable name to fileA",
+      "revId": "6340614c4f88e7e8035450813091e73fbe332b69",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
