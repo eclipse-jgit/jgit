@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67591f73_8d7c6393",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackLock.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-02-25T17:09:34Z",
+      "side": 1,
+      "message": "missing @since tag",
+      "revId": "685333d70dc3d298166fa6b31bc74cc9929ce8e9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_8de0e3b7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 812,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-02-25T17:09:34Z",
+      "side": 1,
+      "message": "Eclipse raises an incompatible change here, I think we can suppress it since it\u0027s only affecting those subclassing BaseReceivePack which is ok, minor versions are allowed to break implementer API according to OSGi semantic versioning http://www.osgi.org/wiki/uploads/Links/SemanticVersioning.pdf",
+      "revId": "685333d70dc3d298166fa6b31bc74cc9929ce8e9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_ad3167f3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-02-25T17:09:34Z",
+      "side": 1,
+      "message": "missing @since tag",
+      "revId": "685333d70dc3d298166fa6b31bc74cc9929ce8e9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
