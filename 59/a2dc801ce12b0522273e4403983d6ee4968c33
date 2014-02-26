@@ -1,0 +1,10 @@
+Code-Review+2: Matthias Sohn <matthias.sohn@sap.com>
+Code-Review+1: Robin Rosenberg <robin.rosenberg@dewire.com>
+IP-Clean+1: Robin Rosenberg <robin.rosenberg@dewire.com>
+Code-Review+1: Marc Strapetz <marc.strapetz@syntevo.com>
+Verified+1: Hudson CI
+Submitted-by: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-at: Wed, 26 Feb 2014 08:49:17 -0500
+Reviewed-on: https://git.eclipse.org/r/22461
+Project: jgit/jgit
+Branch: refs/heads/master
