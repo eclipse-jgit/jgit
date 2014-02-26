@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "67591f73_8238a28b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-02-26T14:41:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67591f73_3e49ff09",
+      "revId": "97200d44da1198e4ad63b23003810f794ef7e1b6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67591f73_5e44b3f1",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2014-02-25T22:19:36Z",
       "side": 1,
       "message": "s/wheter/whether/",
+      "revId": "97200d44da1198e4ad63b23003810f794ef7e1b6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_624d8e17",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-02-26T14:41:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67591f73_5e44b3f1",
       "revId": "97200d44da1198e4ad63b23003810f794ef7e1b6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "67591f73_c2445af4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-02-26T14:41:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67591f73_1e4a3b01",
+      "revId": "97200d44da1198e4ad63b23003810f794ef7e1b6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67591f73_fe4e6713",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2014-02-25T22:19:36Z",
       "side": 1,
       "message": "s/that/if/",
+      "revId": "97200d44da1198e4ad63b23003810f794ef7e1b6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_025e52bf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-02-26T14:41:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67591f73_fe4e6713",
       "revId": "97200d44da1198e4ad63b23003810f794ef7e1b6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "67591f73_e2587ed3",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/CheckoutTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-02-26T14:41:52Z",
+      "side": 1,
+      "message": "Done\n\nI simply copied an existing test from the open change 22160 . So this comments here will apply to alot of other thests there.",
+      "parentUuid": "67591f73_3ee8df28",
+      "revId": "97200d44da1198e4ad63b23003810f794ef7e1b6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67591f73_1eab5be2",
         "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/CheckoutTest.java",
         "patchSetId": 1
@@ -98,6 +188,24 @@
       "writtenOn": "2014-02-25T22:19:36Z",
       "side": 1,
       "message": "you are also adding file \u0027b\u0027",
+      "revId": "97200d44da1198e4ad63b23003810f794ef7e1b6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_620aaeb1",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/CheckoutTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-02-26T14:41:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67591f73_1eab5be2",
       "revId": "97200d44da1198e4ad63b23003810f794ef7e1b6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "67591f73_e2c7deb9",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/CheckoutTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-02-26T14:41:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67591f73_7e54174d",
+      "revId": "97200d44da1198e4ad63b23003810f794ef7e1b6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67591f73_feaf87ea",
         "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/CheckoutTest.java",
         "patchSetId": 1
@@ -132,6 +258,24 @@
       "writtenOn": "2014-02-25T22:19:36Z",
       "side": 1,
       "message": "why is \"git rm a\" needed here ?",
+      "revId": "97200d44da1198e4ad63b23003810f794ef7e1b6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_42ee8a2c",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/CheckoutTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-02-26T14:41:52Z",
+      "side": 1,
+      "message": "Done\n\nThe original test which I copied (in change 22160) had a javadoc saying \"replace file \u0027a\u0027 by file \u0027a\u0027\" and consequently it was first removing file \u0027a\u0027 and then readding it. When I took it over I changed the javadoc and forgot to remove the \u0027git rm\u0027. Maybe there was some hidden value in first deleting from the index and then readding it - but I couldn\u0027t find a good reason for this. \n\n@Alex, @Robin : have I overlooked something?",
+      "parentUuid": "67591f73_feaf87ea",
       "revId": "97200d44da1198e4ad63b23003810f794ef7e1b6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "67591f73_65b2b832",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/CheckoutTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-02-26T14:41:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67591f73_be9cefbc",
+      "revId": "97200d44da1198e4ad63b23003810f794ef7e1b6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67591f73_9e576b52",
         "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/CheckoutTest.java",
         "patchSetId": 1
@@ -166,6 +328,24 @@
       "writtenOn": "2014-02-25T22:19:36Z",
       "side": 1,
       "message": "shouldn\u0027t we also assert content of file a ?",
+      "revId": "97200d44da1198e4ad63b23003810f794ef7e1b6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_c5b90416",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/CheckoutTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-02-26T14:41:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67591f73_9e576b52",
       "revId": "97200d44da1198e4ad63b23003810f794ef7e1b6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
