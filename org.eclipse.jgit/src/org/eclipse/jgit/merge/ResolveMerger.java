@@ -797,9 +797,24 @@ public class ResolveMerger extends ThreeWayMerger {
 			throws IOException {
 		MergeDriver driver = MergeDriverRegistry.findMergeDriver(filePath);
 		if (driver == null) {
-			driver = new TextMergeDriver();
+			// if any of the three versions is binary, use the binary merge
+			// driver
+			if (isBinaryEntry(repository, ours)
+					|| isBinaryEntry(repository, theirs)
+					|| isBinaryEntry(repository, base))
+				driver = new BinaryMergeDriver();
+			else
+				driver = new TextMergeDriver();
 		}
 		return driver;
+	}
+
+	private static boolean isBinaryEntry(Repository repository,
+			CanonicalTreeParser tree) throws IOException {
+		if (tree != null && !tree.getEntryObjectId().equals(ObjectId.zeroId()))
+			return RawText.isBinary(repository.open(tree.getEntryObjectId(),
+					Constants.OBJ_BLOB).getCachedBytes());
+		return false;
 	}
 
 	/**
