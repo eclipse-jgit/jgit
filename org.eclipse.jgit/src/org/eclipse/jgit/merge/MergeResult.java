@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2009, Christian Halstrick <christian.halstrick@sap.com>
+ * Copyright (C) 2014, Obeo
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -84,6 +85,17 @@ public class MergeResult<S extends Sequence> implements Iterable<MergeChunk> {
 	 */
 	public MergeResult(List<S> sequences) {
 		this.sequences = sequences;
+		/*
+		 * FIXME an "empty" sequence means a conflict on file modes or a binary
+		 * conflict. In such "non textual" cases, we still need the "API"
+		 * MergeResult to know there are conflicts (see
+		 * org.eclipse.jgit.api.MergeResult.addConflict(String, MergeResult<?>)
+		 * which considers that there is no conflict if "containsConflict" is
+		 * false... even though the ResolveMerger simply uses an empty list for
+		 * the sequences when the conflict is not "textual").
+		 */
+		if (sequences.isEmpty())
+			containsConflicts = true;
 	}
 
 	/**
