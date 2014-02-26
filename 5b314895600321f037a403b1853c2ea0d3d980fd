@@ -16,6 +16,24 @@
       "revId": "5b314895600321f037a403b1853c2ea0d3d980fd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_8b543dd3",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/CheckoutTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1013
+      },
+      "writtenOn": "2014-02-26T16:55:48Z",
+      "side": 1,
+      "message": "I agree",
+      "parentUuid": "67591f73_4bc7c53a",
+      "revId": "5b314895600321f037a403b1853c2ea0d3d980fd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
