@@ -1,0 +1,9 @@
+Code-Review+2: Christian Halstrick <christian.halstrick@sap.com>
+IP-Clean+1: Christian Halstrick <christian.halstrick@sap.com>
+Code-Review+1: Marc Strapetz <marc.strapetz@syntevo.com>
+Verified+1: Hudson CI
+Submitted-by: Christian Halstrick <christian.halstrick@sap.com>
+Submitted-at: Wed, 26 Feb 2014 05:34:42 -0500
+Reviewed-on: https://git.eclipse.org/r/22456
+Project: jgit/jgit
+Branch: refs/heads/master
