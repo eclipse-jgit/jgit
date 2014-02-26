@@ -282,6 +282,24 @@
     },
     {
       "key": {
+        "uuid": "67591f73_7c3b7186",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/CheckoutTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-02-26T21:34:18Z",
+      "side": 1,
+      "message": "I am not sure they see your comment here hence I\u0027ll add them as reviewers",
+      "parentUuid": "67591f73_42ee8a2c",
+      "revId": "97200d44da1198e4ad63b23003810f794ef7e1b6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67591f73_be9cefbc",
         "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/CheckoutTest.java",
         "patchSetId": 1
