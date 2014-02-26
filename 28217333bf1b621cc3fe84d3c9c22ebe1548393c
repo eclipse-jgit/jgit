@@ -229,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "67591f73_27af36cf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeDriver.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2014-02-26T13:36:57Z",
+      "side": 1,
+      "message": "I actually had a \"canHandle\" method in here originally... before realizing that it is not the driver\u0027s responsibility. Merge drivers are associated with file paths/extensions within the registry, and they are expected to be able to handle the files which paths they match.",
+      "parentUuid": "8748d3a1_c9ac2976",
+      "revId": "28217333bf1b621cc3fe84d3c9c22ebe1548393c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_e9af6567",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeDriver.java",
         "patchSetId": 6
@@ -240,6 +258,24 @@
       "writtenOn": "2013-12-02T20:32:57Z",
       "side": 1,
       "message": "The contract for merge drivers should also explain where to put the result of the merge.\n\nAs I understood it In native git a merge driver get\u0027s 3 strings as input (base,current,other). These strings should be interpreted as pathes in the filesystem. The merge driver is expected to write the result into the file referred by \"current\".\n\nFor a Java API we don\u0027t want Strings, but as discussed in other comments I suggest to have 3 InputStreams. And a fourth parameter is the outputstream where the mergedriver should write his result.\n\nI was not sure whether we need the repository. This gives merge drivers more rights than they need. They can also write to the repo. Do merge drivers realy create new git objects or change refs, ... . Maybe it\u0027s safer to give the merge driver only the Config object so he can look up parameters which control him. On the other hand: there may be merge drivers which really look up other objects from the object database. Do you already have a use case in mind for merge drivers which need more than the config?",
+      "revId": "28217333bf1b621cc3fe84d3c9c22ebe1548393c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_472d0a19",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeDriver.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2014-02-26T13:36:57Z",
+      "side": 1,
+      "message": "I\u0027m back on this issue after a while; if I recall correctly, the consensus here was to try and avoid writing temporary files as much as possible. On my end, I think that exposing the CanonicalTreeParsers and the index here seems too dangerous for an API (and too complex for implementers).\n\nExposing the repository offers some level of potential breakages too... and indeed I can\u0027t think of a driver that would need more than the config (and even that should only be needed by the textual merge driver). A shame that using the config also requires some knowledge about JGit innards though (and its constants).\n\nI\u0027ve put in your suggestion of Input|OutputStreams in practice... seems flexible enough for the different use cases I could think of. I really don\u0027t like the idea of an \"in/out\" parameter though, but creating a specific Object for the driver result seems overkill. The next patch set implements the solution with streams, this discussion might probably be better suited there.",
+      "parentUuid": "8748d3a1_e9af6567",
       "revId": "28217333bf1b621cc3fe84d3c9c22ebe1548393c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -292,6 +328,24 @@
       "writtenOn": "2013-12-02T20:32:57Z",
       "side": 1,
       "message": "I know that this is also not handle by native git merge drivers, but have you thought about exposing the occurred conflicts here? The merge driver is the one who will decide which conflicts occur. But he has no way to tell that in this contract.",
+      "revId": "28217333bf1b621cc3fe84d3c9c22ebe1548393c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_0733127e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeDriver.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2014-02-26T13:36:57Z",
+      "side": 1,
+      "message": "The merge driver will decide which conflicts occur, yes... but I can\u0027t think of an API to properly return the information \"up\"... and I don\u0027t want to end up with another... sub-optimal... way of returning this such as the \"low level results\" that the text merge driver creates since \"Sequences\" are totally unrelated to other mergers.\n\nThe binary merger will not have \"sequences\" in conflict, just complete files. The text merge driver will have individual sequences in conflict. A model would not have sequences either, it would have \"objects\" in conflicts, but the model itself doesn\u0027t know how he is serialized, so all it can tell is that the whole file is in conflict. xml mergers might also want to take the conflict to a higher level, to whole tags, though these can be converted back into a text sequence...\n\nThen again, even if we have this information... How to use it? We would also need specific editors or widgets to make use of any such info. That can even be seen with the text chunks the TextMergeDriver returns : they are totally unused outside of the unit tests.\n\nI\u0027ve opted for a single boolean that tells the merge strategy whether there was a conflict on this file or not. I\u0027m open to suggestions if this can be handled better though (or if you disagree with my earlier analysis :)).",
+      "parentUuid": "8748d3a1_4973f98c",
       "revId": "28217333bf1b621cc3fe84d3c9c22ebe1548393c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -578,6 +632,24 @@
     },
     {
       "key": {
+        "uuid": "67591f73_b58fe502",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2014-02-26T13:36:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_03eef279",
+      "revId": "28217333bf1b621cc3fe84d3c9c22ebe1548393c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_b9b966b2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
         "patchSetId": 6
@@ -701,6 +773,24 @@
     },
     {
       "key": {
+        "uuid": "67591f73_15e5f198",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 782,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2014-02-26T13:36:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8748d3a1_29daede0",
+      "revId": "28217333bf1b621cc3fe84d3c9c22ebe1548393c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_49177905",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
         "patchSetId": 6
@@ -712,6 +802,24 @@
       "writtenOn": "2013-12-02T20:32:57Z",
       "side": 1,
       "message": "One question: do we plan to handle renames? Maybe there is no single \"filePath\" but in base that file was call \"src/a.txt\", in ours it was renamed to \"demo/x\" and in theirs it was renamed to \"ssh.bin\". I am wondering whether we should simply only give three CanonicalTreeParsers into this method (you can ask them for the current path they are looking at). Then we would be prepared for situations where there is no single filepath.",
+      "revId": "28217333bf1b621cc3fe84d3c9c22ebe1548393c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_75f9cd41",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 783,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2014-02-26T13:36:57Z",
+      "side": 1,
+      "message": "This is a private method, so it can always change in the future if we need to handle renames. I don\u0027t think it is necessary to change it for now?",
+      "parentUuid": "8748d3a1_49177905",
       "revId": "28217333bf1b621cc3fe84d3c9c22ebe1548393c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
