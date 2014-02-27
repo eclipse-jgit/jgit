@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67591f73_ce1478d1",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/ResolveMergerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-02-27T15:16:50Z",
+      "side": 1,
+      "message": "why are you writing again the same content into this file. This call will not change the content of \"crlf.txt\". It maybe updates the last-modified time ... but you can\u0027t be sure about that on filesystems with long timer-ticks. Maybe the filesystem timer has not increased since the last time you wrote the file.\n\nI would vote for either dropping this line or adding fsTick() call to wait until you are sure that the filesystem timer has increased. Like:\n\n  File f \u003d writeTrashFile(\"crlf.txt\", \"some\\r\\ndata\\r\\ntoo\\r\\n\");  // line 285\n  ...\n  fsTick(f);\n  writeTrashFile(\"crlf.txt\", \"some\\r\\ndata\\r\\ntoo\\r\\n\");\n\nThe fsTick may lead to a runtime of multiple seconds for this test on linux. So, maybe we should simply drop the line.",
+      "revId": "e7cb37e5f6af3f9b00b05deef7ea0cf0a3a5c6f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_90b9fe16",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 636,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-02-27T15:16:50Z",
+      "side": 1,
+      "message": "On the first glance this change looked suspicious. Before your change we where comparing in this method the worktree file with OURS. With this change you introduce that we are now comparing against a different state: we should compare now the worktree file against the INDEX.\n\nOn a second look this doesn\u0027t look so bad because in most cases INDEX and OURS will be the same. If this would be always the case then this change would be ok. This method is only called from processEntry. There we make sure in line 404 that INDEX matches OURS or Index is missing. If index is missing we construct a fake DirCacheEntry and assign it to ourDce. The fake entry has no length and the objectID\nis for content which was created with different settings of autocrlf as now. I expect some issues in this case.\n\nBut for now I don\u0027t see that this change makes things worse and there are definite situations where this change improves the situation. So +1 for me for this change (only look at my comment in the tests)",
+      "revId": "e7cb37e5f6af3f9b00b05deef7ea0cf0a3a5c6f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
