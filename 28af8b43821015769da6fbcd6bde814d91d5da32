@@ -16,6 +16,24 @@
       "revId": "28af8b43821015769da6fbcd6bde814d91d5da32",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_dded54b3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-02-27T07:43:40Z",
+      "side": 1,
+      "message": "Have you overlooked this comment? Googles gerrit instances (I think they use DfsObjDatabase) will not be able to make use of this and that should be documented.",
+      "parentUuid": "67591f73_e2fecfdb",
+      "revId": "28af8b43821015769da6fbcd6bde814d91d5da32",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
