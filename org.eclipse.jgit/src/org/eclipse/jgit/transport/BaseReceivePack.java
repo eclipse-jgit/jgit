@@ -240,6 +240,9 @@ public abstract class BaseReceivePack {
 	/** Total pack size limit */
 	private long maxPackSizeLimit = -1;
 
+	/** The size of the received pack, including index size */
+	private Long packSize;
+
 	/**
 	 * Create a new pack receive for an open repository.
 	 *
@@ -720,6 +723,22 @@ public abstract class BaseReceivePack {
 		return msgOutWrapper;
 	}
 
+	/**
+	 * Get the size of the received pack file including the index size.
+	 *
+	 * This can only be called if the pack is already received.
+	 *
+	 * @return the size of the received pack including index size
+	 * @throws IllegalStateException
+	 *             if called before the pack has been received
+	 * @since 3.3
+	 */
+	public long getPackSize() {
+		if (packSize != null)
+			return packSize.longValue();
+		throw new IllegalStateException(JGitText.get().packSizeNotSetYet);
+	}
+
 	/** @return true if any commands to be executed have been read. */
 	protected boolean hasCommands() {
 		return !commands.isEmpty();
@@ -968,6 +987,7 @@ public abstract class BaseReceivePack {
 			parser.setLockMessage(lockMsg);
 			parser.setMaxObjectSizeLimit(maxObjectSizeLimit);
 			packLock = parser.parse(receiving, resolving);
+			packSize = Long.valueOf(parser.getPackSize());
 			ins.flush();
 		} finally {
 			ins.release();
