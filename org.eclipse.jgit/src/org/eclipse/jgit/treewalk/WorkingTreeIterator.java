@@ -207,22 +207,13 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	}
 
 	/**
-	 * @return the repository this iterator works with
-	 *
-	 * @since 3.3
-	 */
-	public Repository getRepository() {
-		return repository;
-	}
-
-	/**
 	 * Define the matching {@link DirCacheIterator}, to optimize ObjectIds.
-	 *
+	 * 
 	 * Once the DirCacheIterator has been set this iterator must only be
 	 * advanced by the TreeWalk that is supplied, as it assumes that itself and
 	 * the corresponding DirCacheIterator are positioned on the same file path
 	 * whenever {@link #idBuffer()} is invoked.
-	 *
+	 * 
 	 * @param walk
 	 *            the walk that will be advancing this iterator.
 	 * @param treeId
@@ -972,9 +963,10 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		}
 	}
 
-	private String readContentAsNormalizedString(DirCacheEntry entry)
+	private static String readContentAsNormalizedString(DirCacheEntry entry,
+			ObjectReader reader)
 			throws MissingObjectException, IOException {
-		ObjectLoader open = repository.open(entry.getObjectId());
+		ObjectLoader open = reader.open(entry.getObjectId());
 		byte[] cachedBytes = open.getCachedBytes();
 		return FS.detect().normalize(RawParseUtils.decode(cachedBytes));
 	}
