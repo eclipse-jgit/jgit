@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67591f73_3052a760",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-02-28T09:57:16Z",
+      "side": 1,
+      "message": "revert this trailing whitespace",
+      "revId": "b7304d44d900c3d883034d5658f95fb5d51ff383",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_d0524b60",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 966,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-02-28T09:57:16Z",
+      "side": 1,
+      "message": "this ended up in the wrong commit and should go into https://git.eclipse.org/r/#/c/22652/ to fix the compilation error there",
+      "revId": "b7304d44d900c3d883034d5658f95fb5d51ff383",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
