@@ -401,11 +401,11 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		}
 	}
 
-	private boolean isBinary(byte[] content, int sz) {
+	private static boolean isBinary(byte[] content, int sz) {
 		return RawText.isBinary(content, sz);
 	}
 
-	private boolean isBinary(Entry entry) throws IOException {
+	private static boolean isBinary(Entry entry) throws IOException {
 		InputStream in = entry.openInputStream();
 		try {
 			return RawText.isBinary(in);
@@ -414,7 +414,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		}
 	}
 
-	private ByteBuffer filterClean(byte[] src, int n)
+	private static ByteBuffer filterClean(byte[] src, int n)
 			throws IOException {
 		InputStream in = new ByteArrayInputStream(src);
 		try {
@@ -424,7 +424,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		}
 	}
 
-	private InputStream filterClean(InputStream in) {
+	private static InputStream filterClean(InputStream in) {
 		return new EolCanonicalizingInputStream(in, true);
 	}
 
@@ -980,7 +980,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		return FS.detect().normalize(RawParseUtils.decode(content));
 	}
 
-	private long computeLength(InputStream in) throws IOException {
+	private static long computeLength(InputStream in) throws IOException {
 		// Since we only care about the length, use skip. The stream
 		// may be able to more efficiently wade through its data.
 		//
@@ -1183,7 +1183,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 			return r.getRules().isEmpty() ? null : r;
 		}
 
-		private void loadRulesFromFile(IgnoreNode r, File exclude)
+		private static void loadRulesFromFile(IgnoreNode r, File exclude)
 				throws FileNotFoundException, IOException {
 			if (FS.DETECTED.exists(exclude)) {
 				FileInputStream in = new FileInputStream(exclude);
