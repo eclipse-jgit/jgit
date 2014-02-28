@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67591f73_3c31e074",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-02-28T15:32:01Z",
+      "side": 1,
+      "message": "I don\u0027t understand this restriction \"do not need user intervention\". Do you mean that it will not work when user intervention is required? Please rephrase",
+      "revId": "c53980f2a49d0b5b2fb3c43452fb9965ff9eb043",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_dccc24e3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-02-28T15:32:01Z",
+      "side": 1,
+      "message": "I read this sentence multiple times before I think I understood. Maybe replacing \"disable explicitly\" by \"explicitly disabling\" would make it easier. Or \"... no way to disable implicit authentication of HttpURLConnection ...\" .",
+      "revId": "c53980f2a49d0b5b2fb3c43452fb9965ff9eb043",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_5cabf4e0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-02-28T15:32:01Z",
+      "side": 1,
+      "message": "After reading the commit message I was expecting a much bigger implementation :-)",
+      "revId": "c53980f2a49d0b5b2fb3c43452fb9965ff9eb043",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_1ed7b137",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-02-28T15:32:01Z",
+      "side": 1,
+      "message": "I am wondering whether for this thing we could write tests. We do start in some of our unit tests our own git server, push/fetch to it, inspect the requests this server got, ... By that it should be possible to see/test this change in behaviour you introduce here.\nLook at SimpleHttpServer.java or in EGit in PushTest.java.",
+      "revId": "c53980f2a49d0b5b2fb3c43452fb9965ff9eb043",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
