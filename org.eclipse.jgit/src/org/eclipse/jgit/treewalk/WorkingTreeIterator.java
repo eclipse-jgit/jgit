@@ -207,15 +207,6 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	}
 
 	/**
-	 * @return the repository this iterator works with
-	 *
-	 * @since 3.3
-	 */
-	public Repository getRepository() {
-		return repository;
-	}
-
-	/**
 	 * Define the matching {@link DirCacheIterator}, to optimize ObjectIds.
 	 *
 	 * Once the DirCacheIterator has been set this iterator must only be
