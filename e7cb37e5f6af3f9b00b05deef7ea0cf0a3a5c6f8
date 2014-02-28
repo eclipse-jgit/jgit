@@ -33,6 +33,24 @@
       "revId": "e7cb37e5f6af3f9b00b05deef7ea0cf0a3a5c6f8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_ba5e986f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 636,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-02-28T06:23:15Z",
+      "side": 1,
+      "message": "Well I felt I was out on thin ice when making this change.",
+      "parentUuid": "67591f73_90b9fe16",
+      "revId": "e7cb37e5f6af3f9b00b05deef7ea0cf0a3a5c6f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
