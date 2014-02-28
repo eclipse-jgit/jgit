@@ -169,6 +169,21 @@ public class ObjectDirectoryPackParser extends PackParser {
 	}
 
 	@Override
+	public long getPackSize() {
+		if (newPack == null)
+			return super.getPackSize();
+
+		File pack = newPack.getPackFile();
+		long size = pack.length();
+		String p = pack.getAbsolutePath();
+		String i = p.substring(0, p.length() - ".pack".length()) + ".idx"; //$NON-NLS-1$ //$NON-NLS-2$
+		File idx = new File(i);
+		if (idx.exists() && idx.isFile())
+			size += idx.length();
+		return size;
+	}
+
+	@Override
 	public PackLock parse(ProgressMonitor receiving, ProgressMonitor resolving)
 			throws IOException {
 		tmpPack = File.createTempFile("incoming_", ".pack", db.getDirectory()); //$NON-NLS-1$ //$NON-NLS-2$

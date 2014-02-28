@@ -440,6 +440,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String packingCancelledDuringObjectsWriting;
 	/***/ public String packObjectCountMismatch;
 	/***/ public String packRefs;
+	/***/ public String packSizeNotSetYet;
 	/***/ public String packTooLargeForIndexVersion1;
 	/***/ public String packWriterStatistics;
 	/***/ public String panicCantRenameIndexFile;
