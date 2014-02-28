@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67591f73_862b7905",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 976,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-02-28T12:04:47Z",
+      "side": 1,
+      "message": "Theoretically also reader could be null. Look at line 806 (deprecated method, I know. But it may still be used) which could cause that we end up here with reader\u003d\u003dnull. I would add if reader is null and repository not null then to get a a reader from the repo.\n\n  ObjectLoader open \u003d (reader !\u003d null) ? reader.open(entry.getObjectId()) : repository.open(entry.getObjectId());\n\nIf both reader and repo are null then we are out of luck.",
+      "revId": "7b01a5369210ef68dd2934db72861b3145495d3f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
