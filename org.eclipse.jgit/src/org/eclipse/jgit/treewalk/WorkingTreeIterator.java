@@ -803,7 +803,8 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	 */
 	public boolean isModified(DirCacheEntry entry, boolean forceContentCheck) {
 		try {
-			return isModified(entry, forceContentCheck, null);
+			return isModified(entry, forceContentCheck,
+					repository.newObjectReader());
 		} catch (IOException e) {
 			throw new JGitInternalException(e.getMessage(), e);
 		}
