@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "67591f73_a1164e7a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/ResolveMergerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-03-02T13:29:06Z",
+      "side": 1,
+      "message": "Dropping.",
+      "parentUuid": "67591f73_ce1478d1",
+      "revId": "e7cb37e5f6af3f9b00b05deef7ea0cf0a3a5c6f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67591f73_90b9fe16",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
         "patchSetId": 1
