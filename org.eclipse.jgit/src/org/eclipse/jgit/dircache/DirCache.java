@@ -731,13 +731,7 @@ public class DirCache {
 
 	/**
 	 * Locate the position a path's entry is at in the index.
-	 * <p>
-	 * If there is at least one entry in the index for this path the position of
-	 * the lowest stage is returned. Subsequent stages can be identified by
-	 * testing consecutive entries until the path differs.
-	 * <p>
-	 * If no path matches the entry -(position+1) is returned, where position is
-	 * the location it would have gone within the index.
+	 * For details refer to #findEntry(byte[], int).
 	 *
 	 * @param path
 	 *            the path to search for.
@@ -750,7 +744,25 @@ public class DirCache {
 		return findEntry(p, p.length);
 	}
 
-	int findEntry(final byte[] p, final int pLen) {
+	/**
+	 * Locate the position a path's entry is at in the index.
+	 * <p>
+	 * If there is at least one entry in the index for this path the position of
+	 * the lowest stage is returned. Subsequent stages can be identified by
+	 * testing consecutive entries until the path differs.
+	 * <p>
+	 * If no path matches the entry -(position+1) is returned, where position is
+	 * the location it would have gone within the index.
+	 *
+	 * @param p
+	 *            the byte array starting with the path to search for.
+	 * @param pLen
+	 *            the length of the path in bytes
+	 * @return if >= 0 then the return value is the position of the entry in the
+	 *         index; pass to {@link #getEntry(int)} to obtain the entry
+	 *         information. If < 0 the entry does not exist in the index.
+	 */
+	public int findEntry(final byte[] p, final int pLen) {
 		int low = 0;
 		int high = entryCnt;
 		while (low < high) {
