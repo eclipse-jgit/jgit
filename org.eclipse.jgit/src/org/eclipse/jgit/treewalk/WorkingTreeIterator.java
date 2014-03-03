@@ -810,6 +810,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	 * @return true if content is most likely different.
 	 * @deprecated Use {@link #isModified(DirCacheEntry, boolean, ObjectReader)}
 	 */
+	@Deprecated
 	public boolean isModified(DirCacheEntry entry, boolean forceContentCheck) {
 		try {
 			return isModified(entry, forceContentCheck, null);
