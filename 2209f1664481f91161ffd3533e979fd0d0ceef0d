@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67591f73_4d367d68",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-03-03T13:47:47Z",
+      "side": 1,
+      "message": "missing since tag. To see such things in eclipse follow https://wiki.eclipse.org/EGit/Contributor_Guide#Checking_for_JGit_API_Changes_using_API_Baseline\n\nPlease add a tag \"@since 3.4\"",
+      "revId": "2209f1664481f91161ffd3533e979fd0d0ceef0d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_addab994",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1313,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-03-03T13:47:47Z",
+      "side": 1,
+      "message": "missing since tag. To see such things in eclipse follow https://wiki.eclipse.org/EGit/Contributor_Guide#Checking_for_JGit_API_Changes_using_API_Baseline\n\nPlease add a tag \"@since 3.4\"",
+      "revId": "2209f1664481f91161ffd3533e979fd0d0ceef0d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_8db1b54e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RevertCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-03-03T13:47:47Z",
+      "side": 1,
+      "message": "missing since tag. To see such things in eclipse follow https://wiki.eclipse.org/EGit/Contributor_Guide#Checking_for_JGit_API_Changes_using_API_Baseline\n\nPlease add a tag \"@since 3.4\"",
+      "revId": "2209f1664481f91161ffd3533e979fd0d0ceef0d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67591f73_4de83d1d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/StashApplyCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-03-03T13:47:47Z",
+      "side": 1,
+      "message": "missing since tag. To see such things in eclipse follow https://wiki.eclipse.org/EGit/Contributor_Guide#Checking_for_JGit_API_Changes_using_API_Baseline\n\nPlease add a tag \"@since 3.4\"",
+      "revId": "2209f1664481f91161ffd3533e979fd0d0ceef0d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
