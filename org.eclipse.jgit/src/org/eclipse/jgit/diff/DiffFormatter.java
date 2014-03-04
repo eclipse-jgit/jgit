@@ -72,6 +72,7 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.CoreConfig;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
@@ -86,7 +87,6 @@ import org.eclipse.jgit.patch.HunkHeader;
 import org.eclipse.jgit.revwalk.FollowFilter;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.treewalk.TreeWalk;
@@ -103,8 +103,6 @@ import org.eclipse.jgit.util.io.DisabledOutputStream;
  * Format a Git style patch script.
  */
 public class DiffFormatter {
-	private static final int DEFAULT_BINARY_FILE_THRESHOLD = PackConfig.DEFAULT_BIG_FILE_THRESHOLD;
-
 	private static final byte[] noNewLine = encodeASCII("\\ No newline at end of file\n"); //$NON-NLS-1$
 
 	/** Magic return content indicating it is empty or no content present. */
@@ -129,7 +127,7 @@ public class DiffFormatter {
 
 	private RawTextComparator comparator = RawTextComparator.DEFAULT;
 
-	private int binaryFileThreshold = DEFAULT_BINARY_FILE_THRESHOLD;
+	private int binaryFileThreshold = CoreConfig.getDefaultStreamFileThreshold();
 
 	private String oldPrefix = "a/"; //$NON-NLS-1$
 
@@ -254,7 +252,7 @@ public class DiffFormatter {
 	 * Set maximum file size for text files.
 	 *
 	 * Files larger than this size will be treated as though they are binary and
-	 * not text. Default is {@value #DEFAULT_BINARY_FILE_THRESHOLD} .
+	 * not text. Default is {@link org.eclipse.jgit.lib.CoreConfig#getDefaultStreamFileThreshold()} .
 	 *
 	 * @param threshold
 	 *            the limit, in bytes. Files larger than this size will be
