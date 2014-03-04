@@ -34,7 +34,7 @@ def get_passphrase(prompt="Enter your GPG Passphrase")
    ask(prompt) {|q| q.echo = false}
 end
 
-version = '3.1.0.201310021548-r'.freeze
+version = '3.3.0.201403021825-r'.freeze
 url = 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
 repositoryId = 'sonatype-nexus-staging'
 puts "gpg passphrase ?"
@@ -45,6 +45,7 @@ artifacts = [group,
              group + '.ant',
              group + '.archive',
              group + '.console',
+			 group + '.http.apache',
              group + '.http.server',
              group + '.java7',
              group + '.junit',
