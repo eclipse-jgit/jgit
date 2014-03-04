@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67591f73_9b5281ad",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/BranchTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-03-04T14:20:43Z",
+      "side": 1,
+      "message": "is this test related to the feature? You can let it in, but I just want to understand whether the feature influences this situation.",
+      "revId": "0d4e4be844aa2a57b0bd31aefda226991d7133a7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
