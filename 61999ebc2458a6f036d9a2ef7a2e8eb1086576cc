@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2753a756_b897191a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-03-05T23:56:58Z",
+      "side": 1,
+      "message": "Maybe this method should set the binaryFileThreshold to match the CoreConfig associated with this repository?",
+      "revId": "61999ebc2458a6f036d9a2ef7a2e8eb1086576cc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2753a756_58835de1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CoreConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-03-05T23:56:58Z",
+      "side": 1,
+      "message": "Access to this int should be synchronized to ensure all threads see the change after the setter was invoked.",
+      "revId": "61999ebc2458a6f036d9a2ef7a2e8eb1086576cc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2753a756_9894d516",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CoreConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-03-05T23:56:58Z",
+      "side": 1,
+      "message": "Why doesn\u0027t creating a process wide Config object that the system config and the user config and the repository config inherit from work?\n\nThis is what we do in Gerrit and in some JGit based code at Google. We set a process wide config in our software and then have the other Config objects inherit from that. This lets us set a process wide default for something like core.streamFileThreshold and still override it at the user or repository level.",
+      "revId": "61999ebc2458a6f036d9a2ef7a2e8eb1086576cc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
