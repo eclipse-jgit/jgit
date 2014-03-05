@@ -16,6 +16,24 @@
       "revId": "0d4e4be844aa2a57b0bd31aefda226991d7133a7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "475c1b64_fcc8654c",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/BranchTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2014-03-05T14:39:15Z",
+      "side": 1,
+      "message": "Yes, because this change changes the logic for that in Branch.java and there was no test at all for this before.",
+      "parentUuid": "67591f73_9b5281ad",
+      "revId": "0d4e4be844aa2a57b0bd31aefda226991d7133a7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
