@@ -176,7 +176,7 @@
     <bundle-manifest>${project.build.directory}/META-INF/MANIFEST.MF</bundle-manifest>
 
     <jgit-last-release-version>3.2.0.201312181205-r</jgit-last-release-version>
-    <jsch-version>0.1.46</jsch-version>
+    <jsch-version>0.1.50</jsch-version>
     <javaewah-version>0.7.9</javaewah-version>
     <junit-version>4.11</junit-version>
     <!-- TODO: update Maven dependency for args4j to 2.0.21 as soon as available on Maven Central -->
