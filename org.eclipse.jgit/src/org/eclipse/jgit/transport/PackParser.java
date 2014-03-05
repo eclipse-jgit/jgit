@@ -419,6 +419,20 @@ public abstract class PackParser {
 	}
 
 	/**
+	 * Get the size of the parsed pack.
+	 *
+	 * This will also include the pack index size if an index was created. This
+	 * method should only be called after pack parsing is finished.
+	 *
+	 * @return the pack size (including the index size) or -1 if the size cannot
+	 *         be determined
+	 * @since 3.3
+	 */
+	public long getPackSize() {
+		return -1;
+	}
+
+	/**
 	 * Parse the pack stream.
 	 *
 	 * @param progress

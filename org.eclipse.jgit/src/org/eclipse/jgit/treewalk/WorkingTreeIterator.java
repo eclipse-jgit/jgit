@@ -207,15 +207,6 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	}
 
 	/**
-	 * @return the repository this iterator works with
-	 *
-	 * @since 3.3
-	 */
-	public Repository getRepository() {
-		return repository;
-	}
-
-	/**
 	 * Define the matching {@link DirCacheIterator}, to optimize ObjectIds.
 	 *
 	 * Once the DirCacheIterator has been set this iterator must only be
@@ -813,7 +804,8 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	@Deprecated
 	public boolean isModified(DirCacheEntry entry, boolean forceContentCheck) {
 		try {
-			return isModified(entry, forceContentCheck, null);
+			return isModified(entry, forceContentCheck,
+					repository.newObjectReader());
 		} catch (IOException e) {
 			throw new JGitInternalException(e.getMessage(), e);
 		}
@@ -923,7 +915,8 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		} else {
 			if (mode == FileMode.SYMLINK.getBits())
 				return !new File(readContentAsNormalizedString(current()))
-						.equals(new File((readContentAsNormalizedString(entry))));
+						.equals(new File((readContentAsNormalizedString(entry,
+								reader))));
 			// Content differs: that's a real change, perhaps
 			if (reader == null) // deprecated use, do no further checks
 				return true;
@@ -972,9 +965,9 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		}
 	}
 
-	private String readContentAsNormalizedString(DirCacheEntry entry)
-			throws MissingObjectException, IOException {
-		ObjectLoader open = repository.open(entry.getObjectId());
+	private static String readContentAsNormalizedString(DirCacheEntry entry,
+			ObjectReader reader) throws MissingObjectException, IOException {
+		ObjectLoader open = reader.open(entry.getObjectId());
 		byte[] cachedBytes = open.getCachedBytes();
 		return FS.detect().normalize(RawParseUtils.decode(cachedBytes));
 	}

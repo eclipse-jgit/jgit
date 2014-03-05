@@ -1,10 +1,11 @@
 #!/usr/bin/env ruby
-version = '3.1.0.201310021548-r'.freeze
+version = '3.3.0.201403021825-r'.freeze
 group = 'org.eclipse.jgit'
 artifacts = [group,
              group + '.ant',
              group + '.archive',
              group + '.console',
+			 group + '.http.apache',
              group + '.http.server',
              group + '.java7',
              group + '.junit',
