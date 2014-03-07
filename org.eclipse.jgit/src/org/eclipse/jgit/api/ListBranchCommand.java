@@ -173,7 +173,7 @@ public class ListBranchCommand extends GitCommand<List<Ref>> {
 	 * @param containsCommitish
 	 *            a commit ID or ref name
 	 * @return this instance
-	 * @since 3.3
+	 * @since 3.4
 	 */
 	public ListBranchCommand setContains(String containsCommitish) {
 		checkCallable();
