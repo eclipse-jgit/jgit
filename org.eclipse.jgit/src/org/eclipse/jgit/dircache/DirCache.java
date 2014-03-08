@@ -761,6 +761,7 @@ public class DirCache {
 	 * @return if >= 0 then the return value is the position of the entry in the
 	 *         index; pass to {@link #getEntry(int)} to obtain the entry
 	 *         information. If < 0 the entry does not exist in the index.
+	 * @since 3.4
 	 */
 	public int findEntry(final byte[] p, final int pLen) {
 		int low = 0;
