@@ -627,6 +627,7 @@ public class DirCacheCheckout {
 					keep(dce); // 5 6
 				else
 					conflict(name, dce, h, m); // 5b 6b
+				break;
 			case 0xFDD: // 10 11
 				// TODO: make use of tree extension as soon as available in jgit
 				// we would like to do something like
