@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2753a756_4d027981",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 756,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-03-08T21:19:47Z",
+      "side": 1,
+      "message": "trailing whitespace",
+      "revId": "193fb5e178c4628109e36536540b24d3a1457fdc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
