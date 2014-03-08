@@ -67,7 +67,7 @@ public class Status {
 
 	private final boolean clean;
 
-	private final boolean hasUncommittedChanges;;
+	private final boolean hasUncommittedChanges;
 
 	/**
 	 * @param diff
