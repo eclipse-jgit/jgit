@@ -105,42 +105,63 @@ public abstract class AbstractPlotRenderer<TLane extends PlotLane, TColor> {
 			maxCenter = Math.max(maxCenter, cx);
 		}
 
-		final int nParent = commit.getParentCount();
-		for (int i = 0; i < nParent; i++) {
-			final PlotCommit<TLane> p;
-			final TLane pLane;
-			final TColor pColor;
-			final int cx;
-
-			p = (PlotCommit<TLane>) commit.getParent(i);
-			pLane = p.getLane();
-			if (pLane == null)
-				continue;
-
-			pColor = laneColor(pLane);
-			cx = laneC(pLane);
-
-			if (Math.abs(myLaneX - cx) > LANE_WIDTH) {
-				if (myLaneX < cx) {
-					final int ix = cx - LANE_WIDTH / 2;
-					drawLine(pColor, myLaneX, h / 2, ix, h / 2, LINE_WIDTH);
-					drawLine(pColor, ix, h / 2, cx, h, LINE_WIDTH);
-				} else {
-					final int ix = cx + LANE_WIDTH / 2;
-					drawLine(pColor, myLaneX, h / 2, ix, h / 2, LINE_WIDTH);
-					drawLine(pColor, ix, h / 2, cx, h, LINE_WIDTH);
-				}
-			} else {
-				drawLine(pColor, myLaneX, h / 2, cx, h, LINE_WIDTH);
-			}
-			maxCenter = Math.max(maxCenter, cx);
-		}
-
 		final int dotX = myLaneX - dotSize / 2 - 1;
 		final int dotY = (h - dotSize) / 2;
 
-		if (commit.getChildCount() > 0)
-			drawLine(myColor, myLaneX, 0, myLaneX, dotY, LINE_WIDTH);
+		final int nParent = commit.getParentCount();
+		if (nParent > 0) {
+			drawLine(myColor, myLaneX, h, myLaneX, (h + dotSize) / 2,
+					LINE_WIDTH);
+
+			for (int i = 0; i < commit.mergingLanes.length; i++) {
+				@SuppressWarnings("unchecked")
+				final TLane pLane = (TLane) commit.mergingLanes[i];
+				final TColor pColor = laneColor(pLane);
+				final int cx = laneC(pLane);
+
+				if (Math.abs(myLaneX - cx) > LANE_WIDTH) {
+					final int ix;
+					if (myLaneX < cx)
+						ix = cx - LANE_WIDTH / 2;
+					else
+						ix = cx + LANE_WIDTH / 2;
+
+					drawLine(pColor, myLaneX, h / 2, ix, h / 2, LINE_WIDTH);
+					drawLine(pColor, ix, h / 2, cx, h, LINE_WIDTH);
+				} else
+					drawLine(pColor, myLaneX, h / 2, cx, h, LINE_WIDTH);
+
+				maxCenter = Math.max(maxCenter, cx);
+			}
+		}
+
+
+		if (commit.getChildCount() > 0) {
+			for (int i = 0; i < commit.forkingOffLanes.length; i++) {
+				@SuppressWarnings("unchecked")
+				final TLane childLane = (TLane) commit.forkingOffLanes[i];
+				final TColor cColor = laneColor(childLane);
+				final int cx = laneC(childLane);
+				if (Math.abs(myLaneX - cx) > LANE_WIDTH) {
+					final int ix;
+					if (myLaneX < cx)
+						ix = cx - LANE_WIDTH / 2;
+					else
+						ix = cx + LANE_WIDTH / 2;
+
+					drawLine(cColor, myLaneX, h / 2, ix, h / 2, LINE_WIDTH);
+					drawLine(cColor, ix, h / 2, cx, 0, LINE_WIDTH);
+				} else {
+					drawLine(cColor, myLaneX, h / 2, cx, 0, LINE_WIDTH);
+				}
+				maxCenter = Math.max(maxCenter, cx);
+			}
+
+			int nonForkingChildren = commit.getChildCount()
+					- commit.forkingOffLanes.length;
+			if (nonForkingChildren > 0)
+						drawLine(myColor, myLaneX, 0, myLaneX, dotY, LINE_WIDTH);
+		}
 
 		if (commit.has(RevFlag.UNINTERESTING))
 			drawBoundaryDot(dotX, dotY, dotSize, dotSize);
