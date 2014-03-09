@@ -80,7 +80,7 @@ public class FS_Win32_Java7 extends FS_Win32 {
 			FileUtil.createSymLink(linkName, tempFile.getPath());
 			supportSymlinks = Boolean.TRUE;
 			linkName.delete();
-		} catch (IOException e) {
+		} catch (IOException | UnsupportedOperationException e) {
 			supportSymlinks = Boolean.FALSE;
 		} finally {
 			if (tempFile != null)
