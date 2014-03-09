@@ -16,6 +16,24 @@
       "revId": "0f118ee01c599e37cecd96079bfe80f996093743",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2753a756_9fb154fe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRC.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 3910
+      },
+      "writtenOn": "2014-03-09T21:00:38Z",
+      "side": 1,
+      "message": "1) I did not know about FS.userHome. Thanks to let me know.\n\nIf it possible we can keep this file non jgit dependent, so others can use it some where else...\n\n2) _netrc - for Windows only, you are right.",
+      "parentUuid": "2753a756_9fbb140d",
+      "revId": "0f118ee01c599e37cecd96079bfe80f996093743",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
