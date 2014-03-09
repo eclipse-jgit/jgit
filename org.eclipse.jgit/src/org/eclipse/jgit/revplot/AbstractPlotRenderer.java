@@ -97,7 +97,7 @@ public abstract class AbstractPlotRenderer<TLane extends PlotLane, TColor> {
 		final int myLaneX = laneC(myLane);
 		final TColor myColor = laneColor(myLane);
 
-		int maxCenter = 0;
+		int maxCenter = myLaneX;
 		for (final TLane passingLane : (TLane[]) commit.passingLanes) {
 			final int cx = laneC(passingLane);
 			final TColor c = laneColor(passingLane);
@@ -150,11 +150,11 @@ public abstract class AbstractPlotRenderer<TLane extends PlotLane, TColor> {
 		int textx = Math.max(maxCenter + LANE_WIDTH / 2, dotX + dotSize) + 8;
 		int n = commit.refs.length;
 		for (int i = 0; i < n; ++i) {
-			textx += drawLabel(textx + dotSize, h/2, commit.refs[i]);
+			textx += drawLabel(textx + dotSize, h / 2, commit.refs[i]);
 		}
 
 		final String msg = commit.getShortMessage();
-		drawText(msg, textx + dotSize + n*2, h / 2);
+		drawText(msg, textx + dotSize, h / 2);
 	}
 
 	/**
