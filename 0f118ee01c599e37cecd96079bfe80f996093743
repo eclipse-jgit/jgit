@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2753a756_9fbb140d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRC.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-03-09T09:57:05Z",
+      "side": 1,
+      "message": "Are you sure you don\u0027t want FS.userHome()? (just asking....)\n\nIsn\u0027t _netrc for Windows only?",
+      "revId": "0f118ee01c599e37cecd96079bfe80f996093743",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
