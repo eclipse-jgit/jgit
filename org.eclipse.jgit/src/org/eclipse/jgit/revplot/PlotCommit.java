@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
+ * Copyright (C) 2008, 2014 Shawn O. Pearce <spearce@spearce.org>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -61,7 +61,11 @@ public class PlotCommit<L extends PlotLane> extends RevCommit {
 
 	static final Ref[] NO_REFS = {};
 
+	PlotLane[] forkingOffLanes;
+
 	PlotLane[] passingLanes;
+
+	PlotLane[] mergingLanes;
 
 	PlotLane lane;
 
@@ -77,23 +81,38 @@ public class PlotCommit<L extends PlotLane> extends RevCommit {
 	 */
 	protected PlotCommit(final AnyObjectId id) {
 		super(id);
+		forkingOffLanes = NO_LANES;
 		passingLanes = NO_LANES;
+		mergingLanes = NO_LANES;
 		children = NO_CHILDREN;
 		refs = NO_REFS;
 	}
 
+	void addForkingOffLane(final PlotLane f) {
+		forkingOffLanes = addLane(f, forkingOffLanes);
+	}
+
 	void addPassingLane(final PlotLane c) {
-		final int cnt = passingLanes.length;
+		passingLanes = addLane(c, passingLanes);
+	}
+
+	void addMergingLane(final PlotLane m) {
+		mergingLanes = addLane(m, mergingLanes);
+	}
+
+	private static PlotLane[] addLane(final PlotLane l, PlotLane[] lanes) {
+		final int cnt = lanes.length;
 		if (cnt == 0)
-			passingLanes = new PlotLane[] { c };
+			lanes = new PlotLane[] { l };
 		else if (cnt == 1)
-			passingLanes = new PlotLane[] { passingLanes[0], c };
+			lanes = new PlotLane[] { lanes[0], l };
 		else {
 			final PlotLane[] n = new PlotLane[cnt + 1];
-			System.arraycopy(passingLanes, 0, n, 0, cnt);
-			n[cnt] = c;
-			passingLanes = n;
+			System.arraycopy(lanes, 0, n, 0, cnt);
+			n[cnt] = l;
+			lanes = n;
 		}
+		return lanes;
 	}
 
 	void addChild(final PlotCommit c) {
@@ -185,7 +204,9 @@ public class PlotCommit<L extends PlotLane> extends RevCommit {
 
 	@Override
 	public void reset() {
+		forkingOffLanes = NO_LANES;
 		passingLanes = NO_LANES;
+		mergingLanes = NO_LANES;
 		children = NO_CHILDREN;
 		lane = null;
 		super.reset();
