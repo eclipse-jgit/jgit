@@ -52,6 +52,24 @@
       "revId": "17c99a5d378c800293bdb4f8847025066c285026",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2753a756_d8812209",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/BlameCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 2957
+      },
+      "writtenOn": "2014-03-10T18:15:02Z",
+      "side": 1,
+      "message": "I see, thanks for explaining!",
+      "parentUuid": "2753a756_6213071b",
+      "revId": "17c99a5d378c800293bdb4f8847025066c285026",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
