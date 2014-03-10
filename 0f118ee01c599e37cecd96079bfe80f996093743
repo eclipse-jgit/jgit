@@ -34,6 +34,24 @@
       "revId": "0f118ee01c599e37cecd96079bfe80f996093743",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2753a756_422523b2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRC.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-03-10T10:40:52Z",
+      "side": 1,
+      "message": "It\u0027s more important that it is correct than re-usable as-is. Anyone can link with JGit. So the question is whether the property user.home is the correct one or if something like FS.userHome is needed to provide compatibility with msysgit/curl. FS.userHome is there for two reasons. One is to make JGit compatible with Git for Windows, the other one is to provide compatibility with cygwin.",
+      "parentUuid": "2753a756_9fb154fe",
+      "revId": "0f118ee01c599e37cecd96079bfe80f996093743",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
