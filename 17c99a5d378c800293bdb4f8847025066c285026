@@ -34,6 +34,24 @@
       "revId": "17c99a5d378c800293bdb4f8847025066c285026",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2753a756_6213071b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/BlameCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-03-10T11:13:44Z",
+      "side": 1,
+      "message": "JGit does that on checkout, but the reason INPUT exists is because some editors does not. So we don\u0027t know the format.",
+      "parentUuid": "67591f73_90bf81f8",
+      "revId": "17c99a5d378c800293bdb4f8847025066c285026",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
