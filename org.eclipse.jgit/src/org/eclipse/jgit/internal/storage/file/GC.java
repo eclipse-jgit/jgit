@@ -714,26 +714,27 @@ public class GC {
 						JGitText.get().cannotCreateIndexfile, tmpIdx.getPath()));
 
 			// write the packfile
-			@SuppressWarnings("resource" /* java 7 */)
-			FileChannel channel = new FileOutputStream(tmpPack).getChannel();
+			FileOutputStream fos = new FileOutputStream(tmpPack);
+			FileChannel channel = fos.getChannel();
 			OutputStream channelStream = Channels.newOutputStream(channel);
 			try {
 				pw.writePack(pm, pm, channelStream);
 			} finally {
 				channel.force(true);
 				channelStream.close();
-				channel.close();
+				fos.close();
 			}
 
 			// write the packindex
-			FileChannel idxChannel = new FileOutputStream(tmpIdx).getChannel();
+			fos = new FileOutputStream(tmpIdx);
+			FileChannel idxChannel = fos.getChannel();
 			OutputStream idxStream = Channels.newOutputStream(idxChannel);
 			try {
 				pw.writeIndex(idxStream);
 			} finally {
 				idxChannel.force(true);
 				idxStream.close();
-				idxChannel.close();
+				fos.close();
 			}
 
 			if (pw.prepareBitmapIndex(pm)) {
@@ -745,14 +746,15 @@ public class GC {
 							JGitText.get().cannotCreateIndexfile,
 							tmpBitmapIdx.getPath()));
 
-				idxChannel = new FileOutputStream(tmpBitmapIdx).getChannel();
+				fos = new FileOutputStream(tmpBitmapIdx);
+				idxChannel = fos.getChannel();
 				idxStream = Channels.newOutputStream(idxChannel);
 				try {
 					pw.writeBitmapIndex(idxStream);
 				} finally {
 					idxChannel.force(true);
 					idxStream.close();
-					idxChannel.close();
+					fos.close();
 				}
 			}
 
