@@ -16,6 +16,24 @@
       "revId": "a09acd12e8abfde22b607571dfb816e794be2961",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2753a756_842903c0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-03-12T02:21:47Z",
+      "side": 1,
+      "message": "Probably not. Does git-core accept a tree with \"0040000\"?",
+      "parentUuid": "2753a756_642aefb6",
+      "revId": "a09acd12e8abfde22b607571dfb816e794be2961",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
