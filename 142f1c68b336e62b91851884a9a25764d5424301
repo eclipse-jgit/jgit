@@ -16,6 +16,24 @@
       "revId": "142f1c68b336e62b91851884a9a25764d5424301",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2753a756_8ddbe79a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-03-12T22:51:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2753a756_2d257b5d",
+      "revId": "142f1c68b336e62b91851884a9a25764d5424301",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
