@@ -1109,6 +1109,14 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
+	public void testAcceptTreeModeWithZero() throws CorruptObjectException {
+		StringBuilder b = new StringBuilder();
+		entry(b, "040000 a");
+		checker.setAllowLeadingZeroFileMode(true);
+		checker.checkTree(Constants.encodeASCII(b.toString()));
+	}
+
+	@Test
 	public void testInvalidTreeModeStartsWithZero1() {
 		final StringBuilder b = new StringBuilder();
 		entry(b, "0 a");
