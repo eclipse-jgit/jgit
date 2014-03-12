@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2753a756_24a597b6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2014-03-12T06:11:17Z",
+      "side": 1,
+      "message": "Not needed, since windows implies ignoreCase (unless someone has explicitly chosen to setIgnoreCase(false) after setSafeForWindows(true)).",
+      "revId": "c862fd2e1089320777555c190d2ceb3b57adb980",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
