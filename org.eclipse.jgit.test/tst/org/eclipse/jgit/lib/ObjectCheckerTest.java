@@ -49,6 +49,7 @@ import static java.lang.Long.valueOf;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import java.io.UnsupportedEncodingException;
 import java.text.MessageFormat;
 
 import org.eclipse.jgit.errors.CorruptObjectException;
@@ -1442,6 +1443,61 @@ public class ObjectCheckerTest {
 		entry(b, "100644 zoo");
 		final byte[] data = Constants.encodeASCII(b.toString());
 		try {
+			checker.checkTree(data);
+			fail("incorrectly accepted an invalid tree");
+		} catch (CorruptObjectException e) {
+			assertEquals("duplicate entry names", e.getMessage());
+		}
+	}
+
+	@Test
+	public void testInvalidTreeDuplicateNames5()
+			throws UnsupportedEncodingException {
+		StringBuilder b = new StringBuilder();
+		entry(b, "100644 a");
+		entry(b, "100644 A");
+		byte[] data = b.toString().getBytes("UTF-8");
+		try {
+			checker.setSafeForWindows(true);
+			checker.checkTree(data);
+			fail("incorrectly accepted an invalid tree");
+		} catch (CorruptObjectException e) {
+			assertEquals("duplicate entry names", e.getMessage());
+		}
+	}
+
+	@Test
+	public void testInvalidTreeDuplicateNames6()
+			throws UnsupportedEncodingException {
+		StringBuilder b = new StringBuilder();
+		entry(b, "100644 a");
+		entry(b, "100644 A");
+		byte[] data = b.toString().getBytes("UTF-8");
+		try {
+			checker.setSafeForMacOS(true);
+			checker.checkTree(data);
+			fail("incorrectly accepted an invalid tree");
+		} catch (CorruptObjectException e) {
+			assertEquals("duplicate entry names", e.getMessage());
+		}
+	}
+
+	@Test
+	public void testInvalidTreeDuplicateNames7()
+			throws UnsupportedEncodingException {
+		try {
+			Class.forName("java.text.Normalizer");
+		} catch (ClassNotFoundException e) {
+			// Ignore this test on Java 5 platform.
+			return;
+		}
+
+		StringBuilder b = new StringBuilder();
+		entry(b, "100644 \u00C1");
+		entry(b, "100644 \u004a\u0301");
+		byte[] data = b.toString().getBytes("UTF-8");
+		try {
+			checker.setSafeForMacOS(true);
 			checker.checkTree(data);
 			fail("incorrectly accepted an invalid tree");
 		} catch (CorruptObjectException e) {
