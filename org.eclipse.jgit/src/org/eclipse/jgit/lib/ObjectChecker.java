@@ -403,7 +403,16 @@ public class ObjectChecker {
 		}
 	}
 
-	private void checkPathSegment(byte[] raw, int ptr, int end)
+	/**
+	 * Check tree path entry for validity.
+	 *
+	 * @param raw buffer to scan.
+	 * @param ptr offset to first byte of the name.
+	 * @param end offset to one past last byte of name.
+	 * @throws CorruptObjectException name is invalid.
+	 * @since 3.4
+	 */
+	public void checkPathSegment(byte[] raw, int ptr, int end)
 			throws CorruptObjectException {
 		if (ptr == end)
 			throw new CorruptObjectException("zero length name");
