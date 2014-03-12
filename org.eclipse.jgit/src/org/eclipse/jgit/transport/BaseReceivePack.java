@@ -74,6 +74,7 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Config.SectionParser;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
+import org.eclipse.jgit.lib.ObjectChecker;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdSubclassMap;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -160,7 +161,7 @@ public abstract class BaseReceivePack {
 	private boolean expectDataAfterPackFooter;
 
 	/** Should an incoming transfer validate objects? */
-	private boolean checkReceivedObjects;
+	private ObjectChecker objectChecker;
 
 	/** Should an incoming transfer permit create requests? */
 	private boolean allowCreates;
@@ -254,7 +255,7 @@ public abstract class BaseReceivePack {
 		walk = new RevWalk(db);
 
 		final ReceiveConfig cfg = db.getConfig().get(ReceiveConfig.KEY);
-		checkReceivedObjects = cfg.checkReceivedObjects;
+		objectChecker = cfg.checkReceivedObjects ? new ObjectChecker() : null;
 		allowCreates = cfg.allowCreates;
 		allowDeletes = cfg.allowDeletes;
 		allowNonFastForwards = cfg.allowNonFastForwards;
@@ -481,16 +482,29 @@ public abstract class BaseReceivePack {
 	 *         of the connection.
 	 */
 	public boolean isCheckReceivedObjects() {
-		return checkReceivedObjects;
+		return objectChecker != null;
 	}
 
 	/**
 	 * @param check
 	 *            true to enable checking received objects; false to assume all
 	 *            received objects are valid.
+	 * @see #setObjectChecker(ObjectChecker)
 	 */
 	public void setCheckReceivedObjects(final boolean check) {
-		checkReceivedObjects = check;
+		if (check && objectChecker == null)
+			setObjectChecker(new ObjectChecker());
+		else if (!check && objectChecker != null)
+			setObjectChecker(null);
+	}
+
+	/**
+	 * @param impl if non-null the object checking instance to verify each
+	 *        received object with; null to disable object checking.
+	 * @since 3.4
+	 */
+	public void setObjectChecker(ObjectChecker impl) {
+		objectChecker = impl;
 	}
 
 	/** @return true if the client can request refs to be created. */
@@ -983,7 +997,7 @@ public abstract class BaseReceivePack {
 			parser.setCheckEofAfterPackFooter(!biDirectionalPipe
 					&& !isExpectDataAfterPackFooter());
 			parser.setExpectDataAfterPackFooter(isExpectDataAfterPackFooter());
-			parser.setObjectChecking(isCheckReceivedObjects());
+			parser.setObjectChecker(objectChecker);
 			parser.setLockMessage(lockMsg);
 			parser.setMaxObjectSizeLimit(maxObjectSizeLimit);
 			packLock = parser.parse(receiving, resolving);
