@@ -420,10 +420,68 @@ public class ObjectChecker {
 			}
 		}
 
-		// Windows ignores space and dot at end of file name.
-		if (windows && (raw[end - 1] == ' ' || raw[end - 1] == '.'))
-			throw new CorruptObjectException("invalid name ends with '"
-					+ ((char) raw[end - 1]) + "'");
+		if (windows) {
+			// Windows ignores space and dot at end of file name.
+			if (raw[end - 1] == ' ' || raw[end - 1] == '.')
+				throw new CorruptObjectException("invalid name ends with '"
+						+ ((char) raw[end - 1]) + "'");
+			if (end - ptr > 2)
+				checkNotWindowsDevice(raw, ptr, end);
+		}
+	}
+
+	private static void checkNotWindowsDevice(byte[] raw, int ptr, int end)
+			throws CorruptObjectException {
+		switch (toLower(raw[ptr])) {
+		case 'a': // AUX
+			if (end - ptr >= 3
+					&& toLower(raw[ptr + 1]) == 'u'
+					&& toLower(raw[ptr + 2]) == 'x'
+					&& (end - ptr == 3 || raw[ptr + 3] == '.'))
+				throw new CorruptObjectException("invalid name 'AUX'");
+			break;
+
+		case 'c': // CON, COM[1-9]
+			if (end - ptr >= 3
+					&& toLower(raw[ptr + 1]) == 'o'
+					&& toLower(raw[ptr + 2]) == 'n'
+					&& (end - ptr == 3 || raw[ptr + 3] == '.'))
+				throw new CorruptObjectException("invalid name 'CON'");
+			if (end - ptr >= 4
+					&& toLower(raw[ptr + 1]) == 'o'
+					&& toLower(raw[ptr + 2]) == 'm'
+					&& isDigit(raw[ptr + 3])
+					&& (end - ptr == 4 || raw[ptr + 4] == '.'))
+				throw new CorruptObjectException("invalid name 'COM"
+						+ ((char) raw[ptr + 3]) + "'");
+			break;
+
+		case 'l': // LPT[1-9]
+			if (end - ptr >= 4
+					&& toLower(raw[ptr + 1]) == 'p'
+					&& toLower(raw[ptr + 2]) == 't'
+					&& isDigit(raw[ptr + 3])
+					&& (end - ptr == 4 || raw[ptr + 4] == '.'))
+				throw new CorruptObjectException("invalid name 'LPT"
+						+ ((char) raw[ptr + 3]) + "'");
+			break;
+
+		case 'n': // NUL
+			if (end - ptr >= 3
+					&& toLower(raw[ptr + 1]) == 'u'
+					&& toLower(raw[ptr + 2]) == 'l'
+					&& (end - ptr == 3 || raw[ptr + 3] == '.'))
+				throw new CorruptObjectException("invalid name 'NUL'");
+			break;
+
+		case 'p': // PRN
+			if (end - ptr >= 3
+					&& toLower(raw[ptr + 1]) == 'r'
+					&& toLower(raw[ptr + 2]) == 'n'
+					&& (end - ptr == 3 || raw[ptr + 3] == '.'))
+				throw new CorruptObjectException("invalid name 'PRN'");
+			break;
+		}
 	}
 
 	private static boolean isInvalidOnWindows(byte c) {
@@ -454,6 +512,10 @@ public class ObjectChecker {
 		if ('A' <= b && b <= 'Z')
 			return (byte) (b + ('a' - 'A'));
 		return b;
+	}
+
+	private static boolean isDigit(byte b) {
+		return '1' <= b && b <= '9';
 	}
 
 	/**

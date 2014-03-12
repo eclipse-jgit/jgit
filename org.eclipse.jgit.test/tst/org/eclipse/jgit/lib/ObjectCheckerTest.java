@@ -1039,6 +1039,7 @@ public class ObjectCheckerTest {
 		checkOneName("a<b>c:d|e");
 		checkOneName("test ");
 		checkOneName("test.");
+		checkOneName("NUL");
 	}
 
 	@Test
@@ -1453,6 +1454,29 @@ public class ObjectCheckerTest {
 			fail("incorrectly accepted dot at end");
 		} catch (CorruptObjectException e) {
 			assertEquals("invalid name ends with '.'", e.getMessage());
+		}
+	}
+
+	@Test
+	public void testRejectDevicesOnWindows() {
+		checker.setSafeForWindows(true);
+
+		String[] bad = { "CON", "PRN", "AUX", "NUL", "COM1", "COM2", "COM3",
+				"COM4", "COM5", "COM6", "COM7", "COM8", "COM9", "LPT1", "LPT2",
+				"LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9" };
+		for (String b : bad) {
+			try {
+				checkOneName(b);
+				fail("incorrectly accepted " + b);
+			} catch (CorruptObjectException e) {
+				assertEquals("invalid name '" + b + "'", e.getMessage());
+			}
+			try {
+				checkOneName(b + ".txt");
+				fail("incorrectly accepted " + b + ".txt");
+			} catch (CorruptObjectException e) {
+				assertEquals("invalid name '" + b + "'", e.getMessage());
+			}
 		}
 	}
 
