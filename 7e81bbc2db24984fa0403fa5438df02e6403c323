@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2753a756_4ddf0fd2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2014-03-12T21:20:47Z",
+      "side": 1,
+      "message": "(optional) isPositiveDigit, to clarify that isDigit((byte) \u00270\u0027) is false?",
+      "revId": "7e81bbc2db24984fa0403fa5438df02e6403c323",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
