@@ -100,6 +100,7 @@ public class ObjectChecker {
 
 	private boolean allowZeroMode;
 	private boolean ignoreCase;
+	private boolean windows;
 
 	/**
 	 * Enable accepting leading zero mode in tree entries.
@@ -128,6 +129,20 @@ public class ObjectChecker {
 	public ObjectChecker setIgnoreCase(boolean ignore) {
 		ignoreCase = ignore;
 		return this;
+	}
+
+	/**
+	 * Restrict trees to only names legal on Windows platforms.
+	 * <p>
+	 * Also sets {@link #setIgnoreCase(boolean)} to true.
+	 *
+	 * @param win true if Windows name checking should be performed.
+	 * @return {@code this}.
+	 * @since 3.4
+	 */
+	public ObjectChecker setSafeForWindows(boolean win) {
+		windows = win;
+		return setIgnoreCase(true);
 	}
 
 	/**
@@ -359,6 +374,13 @@ public class ObjectChecker {
 					break;
 				if (c == '/')
 					throw new CorruptObjectException("name contains '/'");
+				if (windows && isInvalidOnWindows(c)) {
+					if (c > 31)
+						throw new CorruptObjectException(String.format(
+								"name contains '%c'", c));
+					throw new CorruptObjectException(String.format(
+							"name contains byte 0x%x", c & 0xff));
+				}
 			}
 			checkPathSegment(raw, thisNameB, ptr - 1);
 			if (duplicateName(raw, thisNameB, ptr - 1))
@@ -397,10 +419,31 @@ public class ObjectChecker {
 						RawParseUtils.decode(raw, ptr, end)));
 			}
 		}
+
+		// Windows ignores space and dot at end of file name.
+		if (windows && (raw[end - 1] == ' ' || raw[end - 1] == '.'))
+			throw new CorruptObjectException("invalid name ends with '"
+					+ ((char) raw[end - 1]) + "'");
+	}
+
+	private static boolean isInvalidOnWindows(byte c) {
+		// Windows disallows "special" characters in a path component.
+		switch (c) {
+		case '"':
+		case '*':
+		case ':':
+		case '<':
+		case '>':
+		case '?':
+		case '\\':
+		case '|':
+			return true;
+		}
+		return 1 <= c && c <= 31;
 	}
 
 	private boolean isDotGit(byte[] buf, int p) {
-		if (ignoreCase)
+		if (ignoreCase || windows)
 			return toLower(buf[p]) == 'g'
 					&& toLower(buf[p + 1]) == 'i'
 					&& toLower(buf[p + 2]) == 't';
