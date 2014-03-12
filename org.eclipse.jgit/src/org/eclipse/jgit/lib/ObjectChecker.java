@@ -48,7 +48,12 @@ import static org.eclipse.jgit.util.RawParseUtils.match;
 import static org.eclipse.jgit.util.RawParseUtils.nextLF;
 import static org.eclipse.jgit.util.RawParseUtils.parseBase10;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.text.MessageFormat;
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Set;
 
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.internal.JGitText;
@@ -348,6 +353,9 @@ public class ObjectChecker {
 		final int sz = raw.length;
 		int ptr = 0;
 		int lastNameB = 0, lastNameE = 0, lastMode = 0;
+		Set<String> normalized = windows || macosx
+				? new HashSet<String>()
+				: null;
 
 		while (ptr < sz) {
 			int thisMode = 0;
@@ -373,7 +381,10 @@ public class ObjectChecker {
 			if (ptr == sz || raw[ptr] != 0)
 				throw new CorruptObjectException("truncated in name");
 			checkPathSegment2(raw, thisNameB, ptr);
-			if (duplicateName(raw, thisNameB, ptr))
+			if (normalized != null) {
+				if (normalized.add(normalize(raw, thisNameB, ptr)))
+					throw new CorruptObjectException("duplicate entry names");
+			} else if (duplicateName(raw, thisNameB, ptr))
 				throw new CorruptObjectException("duplicate entry names");
 
 			if (lastNameB != 0) {
@@ -557,5 +568,62 @@ public class ObjectChecker {
 	 */
 	public void checkBlob(final byte[] raw) throws CorruptObjectException {
 		// We can always assume the blob is valid.
+	}
+
+	private String normalize(byte[] raw, int ptr, int end) {
+		String n = RawParseUtils.decode(raw, ptr, end).toLowerCase(Locale.US);
+		return macosx ? Normalizer.normalize(n) : n;
+	}
+
+	private static class Normalizer {
+		// TODO Simplify invocation to Normalizer after dropping Java 5.
+		private static final Method normalize;
+		private static final Object nfc;
+		static {
+			Method method;
+			Object formNfc;
+			try {
+				Class<?> formClazz = Class.forName("java.text.Normalizer$Form"); //$NON-NLS-1$
+				formNfc = formClazz.getField("NFC").get(null); //$NON-NLS-1$
+				method = Class.forName("java.text.Normalizer") //$NON-NLS-1$
+					.getMethod("normalize", CharSequence.class, formClazz); //$NON-NLS-1$
+			} catch (ClassNotFoundException e) {
+				method = null;
+				formNfc = null;
+			} catch (NoSuchFieldException e) {
+				method = null;
+				formNfc = null;
+			} catch (NoSuchMethodException e) {
+				method = null;
+				formNfc = null;
+			} catch (SecurityException e) {
+				method = null;
+				formNfc = null;
+			} catch (IllegalArgumentException e) {
+				method = null;
+				formNfc = null;
+			} catch (IllegalAccessException e) {
+				method = null;
+				formNfc = null;
+			}
+			normalize = method;
+			nfc = formNfc;
+		}
+
+		static String normalize(String in) {
+			if (normalize == null)
+				return in;
+			try {
+				return (String) normalize.invoke(null, in, nfc);
+			} catch (IllegalAccessException e) {
+				return in;
+			} catch (InvocationTargetException e) {
+				if (e.getCause() instanceof RuntimeException)
+					throw (RuntimeException) e.getCause();
+				if (e.getCause() instanceof Error)
+					throw (Error) e.getCause();
+				return in;
+			}
+		}
 	}
 }
