@@ -1035,6 +1035,13 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
+	public void testValidPosixTree() throws CorruptObjectException {
+		checkOneName("a<b>c:d|e");
+		checkOneName("test ");
+		checkOneName("test.");
+	}
+
+	@Test
 	public void testValidTreeSorting1() throws CorruptObjectException {
 		final StringBuilder b = new StringBuilder();
 		entry(b, "100644 fooaaa");
@@ -1286,6 +1293,20 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
+	public void testInvalidTreeNameIsMixedCaseGit() {
+		StringBuilder b = new StringBuilder();
+		entry(b, "100644 .GiT");
+		byte[] data = Constants.encodeASCII(b.toString());
+		try {
+			checker.setSafeForWindows(true);
+			checker.checkTree(data);
+			fail("incorrectly accepted an invalid tree");
+		} catch (CorruptObjectException e) {
+			assertEquals("invalid name '.GiT'", e.getMessage());
+		}
+	}
+
+	@Test
 	public void testInvalidTreeTruncatedInName() {
 		final StringBuilder b = new StringBuilder();
 		b.append("100644 b");
@@ -1411,6 +1432,70 @@ public class ObjectCheckerTest {
 		} catch (CorruptObjectException e) {
 			assertEquals("duplicate entry names", e.getMessage());
 		}
+	}
+
+	@Test
+	public void testRejectSpaceAtEndOnWindows() {
+		checker.setSafeForWindows(true);
+		try {
+			checkOneName("test ");
+			fail("incorrectly accepted space at end");
+		} catch (CorruptObjectException e) {
+			assertEquals("invalid name ends with ' '", e.getMessage());
+		}
+	}
+
+	@Test
+	public void testRejectDotAtEndOnWindows() {
+		checker.setSafeForWindows(true);
+		try {
+			checkOneName("test.");
+			fail("incorrectly accepted dot at end");
+		} catch (CorruptObjectException e) {
+			assertEquals("invalid name ends with '.'", e.getMessage());
+		}
+	}
+
+	@Test
+	public void testRejectInvalidWindowsCharacters() {
+		checker.setSafeForWindows(true);
+		rejectName('<');
+		rejectName('>');
+		rejectName(':');
+		rejectName('"');
+		rejectName('/');
+		rejectName('\\');
+		rejectName('|');
+		rejectName('?');
+		rejectName('*');
+
+		for (int i = 1; i <= 31; i++)
+			rejectName((byte) i);
+	}
+
+	private void rejectName(char c) {
+		try {
+			checkOneName("te" + c + "st");
+			fail("incorrectly accepted with " + c);
+		} catch (CorruptObjectException e) {
+			assertEquals("name contains '" + c + "'", e.getMessage());
+		}
+	}
+
+	private void rejectName(byte c) {
+		String h = Integer.toHexString(c);
+		try {
+			checkOneName("te" + ((char) c) + "st");
+			fail("incorrectly accepted with 0x" + h);
+		} catch (CorruptObjectException e) {
+			assertEquals("name contains byte 0x" + h, e.getMessage());
+		}
+	}
+
+	private void checkOneName(String name) throws CorruptObjectException {
+		StringBuilder b = new StringBuilder();
+		entry(b, "100644 " + name);
+		checker.checkTree(Constants.encodeASCII(b.toString()));
 	}
 
 	private static void entry(final StringBuilder b, final String modeName) {

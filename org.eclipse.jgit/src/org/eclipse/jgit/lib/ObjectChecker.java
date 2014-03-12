@@ -99,6 +99,7 @@ public class ObjectChecker {
 	private final MutableInteger ptrout = new MutableInteger();
 
 	private boolean allowZeroMode;
+	private boolean windows;
 
 	/**
 	 * Enable accepting leading zero mode in tree entries.
@@ -114,6 +115,20 @@ public class ObjectChecker {
 	 */
 	public ObjectChecker setAllowLeadingZeroFileMode(boolean allow) {
 		allowZeroMode = allow;
+		return this;
+	}
+
+	/**
+	 * Restrict trees to only names legal on Windows platforms.
+	 * <p>
+	 * Also rejects any mixed case forms of reserved names ({@code .git}).
+	 *
+	 * @param win true if Windows name checking should be performed.
+	 * @return {@code this}.
+	 * @since 3.4
+	 */
+	public ObjectChecker setSafeForWindows(boolean win) {
+		windows = win;
 		return this;
 	}
 
@@ -346,6 +361,13 @@ public class ObjectChecker {
 					break;
 				if (c == '/')
 					throw new CorruptObjectException("name contains '/'");
+				if (windows && isInvalidOnWindows(c)) {
+					if (c > 31)
+						throw new CorruptObjectException(String.format(
+								"name contains '%c'", c));
+					throw new CorruptObjectException(String.format(
+							"name contains byte 0x%x", c & 0xff));
+				}
 			}
 			checkPathSegment(raw, thisNameB, ptr - 1);
 			if (duplicateName(raw, thisNameB, ptr - 1))
@@ -368,7 +390,7 @@ public class ObjectChecker {
 		}
 	}
 
-	private static void checkPathSegment(byte[] raw, int ptr, int end)
+	private void checkPathSegment(byte[] raw, int ptr, int end)
 			throws CorruptObjectException {
 		if (ptr == end)
 			throw new CorruptObjectException("zero length name");
@@ -387,10 +409,41 @@ public class ObjectChecker {
 							RawParseUtils.decode(raw, ptr, end)));
 			}
 		}
+
+		// Windows ignores space and dot at end of file name.
+		if (windows && (raw[end - 1] == ' ' || raw[end - 1] == '.'))
+			throw new CorruptObjectException("invalid name ends with '"
+					+ ((char) raw[end - 1]) + "'");
 	}
 
-	private static boolean isDotGit(byte[] buf, int p) {
+	private static boolean isInvalidOnWindows(byte c) {
+		// Windows disallows "special" characters in a path component.
+		switch (c) {
+		case '"':
+		case '*':
+		case ':':
+		case '<':
+		case '>':
+		case '?':
+		case '\\':
+		case '|':
+			return true;
+		}
+		return 1 <= c && c <= 31;
+	}
+
+	private boolean isDotGit(byte[] buf, int p) {
+		if (windows)
+			return toLower(buf[p]) == 'g'
+					&& toLower(buf[p + 1]) == 'i'
+					&& toLower(buf[p + 2]) == 't';
 		return buf[p] == 'g' && buf[p + 1] == 'i' && buf[p + 2] == 't';
+	}
+
+	private static char toLower(byte b) {
+		if ('A' <= b && b <= 'Z')
+			return (char) (b + ('a' - 'A'));
+		return (char) b;
 	}
 
 	/**
