@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2753a756_ed40a3bc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1171,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-03-12T22:49:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2753a756_4d838fa6",
+      "revId": "548131bfeabae417a1e05fac482e40ac98262dc5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2753a756_8d4c871e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2014-03-12T22:04:10Z",
       "side": 1,
       "message": "Likewise.",
+      "revId": "548131bfeabae417a1e05fac482e40ac98262dc5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2753a756_4d3eef42",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1186,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-03-12T22:49:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2753a756_8d4c871e",
       "revId": "548131bfeabae417a1e05fac482e40ac98262dc5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
