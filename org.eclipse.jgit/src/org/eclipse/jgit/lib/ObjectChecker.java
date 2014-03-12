@@ -53,6 +53,7 @@ import java.text.MessageFormat;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.util.MutableInteger;
+import org.eclipse.jgit.util.RawParseUtils;
 
 /**
  * Verifies that an object is formatted correctly.
@@ -98,6 +99,7 @@ public class ObjectChecker {
 	private final MutableInteger ptrout = new MutableInteger();
 
 	private boolean allowZeroMode;
+	private boolean ignoreCase;
 
 	/**
 	 * Enable accepting leading zero mode in tree entries.
@@ -113,6 +115,18 @@ public class ObjectChecker {
 	 */
 	public ObjectChecker setAllowLeadingZeroFileMode(boolean allow) {
 		allowZeroMode = allow;
+		return this;
+	}
+
+	/**
+	 * Assume working directory filesystems are not case sensitive.
+	 *
+	 * @param ignore true if JGit should reject problems with case.
+	 * @return {@code this}.
+	 * @since 3.4
+	 */
+	public ObjectChecker setIgnoreCase(boolean ignore) {
+		ignoreCase = ignore;
 		return this;
 	}
 
@@ -367,7 +381,7 @@ public class ObjectChecker {
 		}
 	}
 
-	private static void checkPathSegment(byte[] raw, int ptr, int end)
+	private void checkPathSegment(byte[] raw, int ptr, int end)
 			throws CorruptObjectException {
 		if (ptr == end)
 			throw new CorruptObjectException("zero length name");
@@ -375,9 +389,28 @@ public class ObjectChecker {
 			int nameLen = end - ptr;
 			if (nameLen == 1)
 				throw new CorruptObjectException("invalid name '.'");
-			if (nameLen == 2 && raw[ptr + 1] == '.')
+			else if (nameLen == 2 && raw[ptr + 1] == '.')
 				throw new CorruptObjectException("invalid name '..'");
+			else if (nameLen == 4 && isDotGit(raw, ptr + 1)) {
+				throw new CorruptObjectException(String.format(
+						"invalid name '%s'",
+						RawParseUtils.decode(raw, ptr, end)));
+			}
 		}
+	}
+
+	private boolean isDotGit(byte[] buf, int p) {
+		if (ignoreCase)
+			return toLower(buf[p]) == 'g'
+					&& toLower(buf[p + 1]) == 'i'
+					&& toLower(buf[p + 2]) == 't';
+		return buf[p] == 'g' && buf[p + 1] == 'i' && buf[p + 2] == 't';
+	}
+
+	private static byte toLower(byte b) {
+		if ('A' <= b && b <= 'Z')
+			return (byte) (b + ('a' - 'A'));
+		return b;
 	}
 
 	/**

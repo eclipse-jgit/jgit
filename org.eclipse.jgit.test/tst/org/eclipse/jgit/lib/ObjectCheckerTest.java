@@ -1273,6 +1273,33 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
+	public void testInvalidTreeNameIsGit() {
+		StringBuilder b = new StringBuilder();
+		entry(b, "100644 .git");
+		byte[] data = Constants.encodeASCII(b.toString());
+		try {
+			checker.checkTree(data);
+			fail("incorrectly accepted an invalid tree");
+		} catch (CorruptObjectException e) {
+			assertEquals("invalid name '.git'", e.getMessage());
+		}
+	}
+
+	@Test
+	public void testInvalidTreeNameIsGitUpper() {
+		StringBuilder b = new StringBuilder();
+		entry(b, "100644 .GiT");
+		byte[] data = Constants.encodeASCII(b.toString());
+		try {
+			checker.setIgnoreCase(true);
+			checker.checkTree(data);
+			fail("incorrectly accepted an invalid tree");
+		} catch (CorruptObjectException e) {
+			assertEquals("invalid name '.GiT'", e.getMessage());
+		}
+	}
+
+	@Test
 	public void testInvalidTreeTruncatedInName() {
 		final StringBuilder b = new StringBuilder();
 		b.append("100644 b");
