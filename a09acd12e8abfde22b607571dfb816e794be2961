@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2753a756_642aefb6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2014-03-12T01:22:51Z",
+      "side": 1,
+      "message": "Should a tree containing \"0040000\" be accepted in allow-zero mode?",
+      "revId": "a09acd12e8abfde22b607571dfb816e794be2961",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
