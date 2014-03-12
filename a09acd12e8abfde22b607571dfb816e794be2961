@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "2753a756_0414d349",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-03-12T22:24:32Z",
+      "side": 1,
+      "message": "looks like this is fixing bug 307291 if that\u0027s true reference this bug from the commit message",
+      "revId": "a09acd12e8abfde22b607571dfb816e794be2961",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2753a756_642aefb6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectChecker.java",
         "patchSetId": 2
