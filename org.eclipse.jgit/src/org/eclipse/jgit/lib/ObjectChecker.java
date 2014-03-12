@@ -369,44 +369,67 @@ public class ObjectChecker {
 				throw new CorruptObjectException("invalid mode " + thisMode);
 
 			final int thisNameB = ptr;
-			for (;;) {
-				if (ptr == sz)
-					throw new CorruptObjectException("truncated in name");
-				final byte c = raw[ptr++];
-				if (c == 0)
-					break;
-				if (c == '/')
-					throw new CorruptObjectException("name contains '/'");
-				if (windows && isInvalidOnWindows(c)) {
-					if (c > 31)
-						throw new CorruptObjectException(String.format(
-								"name contains '%c'", c));
-					throw new CorruptObjectException(String.format(
-							"name contains byte 0x%x", c & 0xff));
-				}
-			}
-			checkPathSegment(raw, thisNameB, ptr - 1);
-			if (duplicateName(raw, thisNameB, ptr - 1))
+			ptr = scanPathSegment(raw, ptr, sz);
+			if (ptr == sz || raw[ptr] != 0)
+				throw new CorruptObjectException("truncated in name");
+			checkPathSegment2(raw, thisNameB, ptr);
+			if (duplicateName(raw, thisNameB, ptr))
 				throw new CorruptObjectException("duplicate entry names");
 
 			if (lastNameB != 0) {
 				final int cmp = pathCompare(raw, lastNameB, lastNameE,
-						lastMode, thisNameB, ptr - 1, thisMode);
+						lastMode, thisNameB, ptr, thisMode);
 				if (cmp > 0)
 					throw new CorruptObjectException("incorrectly sorted");
 			}
 
 			lastNameB = thisNameB;
-			lastNameE = ptr - 1;
+			lastNameE = ptr;
 			lastMode = thisMode;
 
-			ptr += Constants.OBJECT_ID_LENGTH;
+			ptr += 1 + Constants.OBJECT_ID_LENGTH;
 			if (ptr > sz)
 				throw new CorruptObjectException("truncated in object id");
 		}
 	}
 
-	private void checkPathSegment(byte[] raw, int ptr, int end)
+	private int scanPathSegment(byte[] raw, int ptr, int end)
+			throws CorruptObjectException {
+		for (; ptr < end; ptr++) {
+			byte c = raw[ptr];
+			if (c == 0)
+				return ptr;
+			if (c == '/')
+				throw new CorruptObjectException("name contains '/'");
+			if (windows && isInvalidOnWindows(c)) {
+				if (c > 31)
+					throw new CorruptObjectException(String.format(
+							"name contains '%c'", c));
+				throw new CorruptObjectException(String.format(
+						"name contains byte 0x%x", c & 0xff));
+			}
+		}
+		return ptr;
+	}
+
+	/**
+	 * Check tree path entry for validity.
+	 *
+	 * @param raw buffer to scan.
+	 * @param ptr offset to first byte of the name.
+	 * @param end offset to one past last byte of name.
+	 * @throws CorruptObjectException name is invalid.
+	 * @since 3.4
+	 */
+	public void checkPathSegment(byte[] raw, int ptr, int end)
+			throws CorruptObjectException {
+		int e = scanPathSegment(raw, ptr, end);
+		if (e < end && raw[e] == 0)
+			throw new CorruptObjectException("name contains byte 0x00");
+		checkPathSegment2(raw, ptr, end);
+	}
+
+	private void checkPathSegment2(byte[] raw, int ptr, int end)
 			throws CorruptObjectException {
 		if (ptr == end)
 			throw new CorruptObjectException("zero length name");
