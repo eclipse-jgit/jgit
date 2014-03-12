@@ -97,6 +97,25 @@ public class ObjectChecker {
 
 	private final MutableInteger ptrout = new MutableInteger();
 
+	private boolean allowZeroMode;
+
+	/**
+	 * Enable accepting leading zero mode in tree entries.
+	 * <p>
+	 * Some broken Git libraries generated leading zeros in the mode part of
+	 * tree entries. This is technically incorrect but gracefully allowed by
+	 * git-core. JGit rejects such trees by default, but may need to accept
+	 * them on broken histories.
+	 *
+	 * @param allow allow leading zero mode.
+	 * @return {@code this}.
+	 * @since 3.4
+	 */
+	public ObjectChecker setAllowLeadingZeroFileMode(boolean allow) {
+		allowZeroMode = allow;
+		return this;
+	}
+
 	/**
 	 * Check an object for parsing errors.
 	 *
@@ -308,7 +327,7 @@ public class ObjectChecker {
 					break;
 				if (c < '0' || c > '7')
 					throw new CorruptObjectException("invalid mode character");
-				if (thisMode == 0 && c == '0')
+				if (thisMode == 0 && c == '0' && !allowZeroMode)
 					throw new CorruptObjectException("mode starts with '0'");
 				thisMode <<= 3;
 				thisMode += c - '0';
