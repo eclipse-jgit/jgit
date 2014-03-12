@@ -34,6 +34,24 @@
       "revId": "c862fd2e1089320777555c190d2ceb3b57adb980",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2753a756_a41a4773",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2014-03-12T08:11:49Z",
+      "side": 1,
+      "message": "Ah.\n\nIsn\u0027t the simplest behavior to do what the caller asked and not ignore case?\n\nAlternatively, setIgnoreCase could check the windows flag:\n\n  if (windows \u0026\u0026 !ignore)\n    throw new IllegalArgumentException(...);\n\nOr a helper function could make it easier to remember to consistently ignore case on windows as other checks are introduced, too:\n\n  private byte toLowerIfIgnoringCase(byte b) {\n    // Always ignore case in repositories meant to be used on Windows.\n    if (!ignoreCase \u0026\u0026 !windows)\n      return b;\n\n    if (\u0027A\u0027 \u003c\u003d b \u0026\u0026 b \u003c\u003d \u0027Z\u0027)\n      return (byte) (b + (\u0027a\u0027 - \u0027A\u0027));\n    return b;\n  }\n\nSince ignoreCase is only used in one place, what you currently have seems fine, too. Comments in isDotGit and where ignoreCase is declared could save confused people like me some head-scratching.",
+      "parentUuid": "2753a756_648e6f3f",
+      "revId": "c862fd2e1089320777555c190d2ceb3b57adb980",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
