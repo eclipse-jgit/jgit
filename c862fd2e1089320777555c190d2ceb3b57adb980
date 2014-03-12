@@ -16,6 +16,24 @@
       "revId": "c862fd2e1089320777555c190d2ceb3b57adb980",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2753a756_648e6f3f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-03-12T06:17:50Z",
+      "side": 1,
+      "message": "That was exactly what I was defensively coding against.",
+      "parentUuid": "2753a756_24a597b6",
+      "revId": "c862fd2e1089320777555c190d2ceb3b57adb980",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
