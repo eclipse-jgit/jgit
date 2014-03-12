@@ -34,6 +34,24 @@
       "revId": "a09acd12e8abfde22b607571dfb816e794be2961",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2753a756_6455cf25",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2014-03-12T02:40:50Z",
+      "side": 1,
+      "message": "It probably shouldn\u0027t accept that, but it does.\n\nOnly having to use 1 bit to count the leading zeroes would be useful for alternate index or packfile formats. But \"git fsck\" just checks whether the first character of the mode is \u00270\u0027 (emitting a warning if it is) and then uses the normal tree entry parsing machinery that doesn\u0027t care about such things.\n\nI\u0027ll try a weather balloon patch to see if people are ok with tightening to always reject the 00... thing. Best not to make jgit stricter until it\u0027s been tried out in git-core.",
+      "parentUuid": "2753a756_842903c0",
+      "revId": "a09acd12e8abfde22b607571dfb816e794be2961",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
