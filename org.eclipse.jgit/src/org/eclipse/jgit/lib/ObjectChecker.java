@@ -100,6 +100,7 @@ public class ObjectChecker {
 
 	private boolean allowZeroMode;
 	private boolean windows;
+	private boolean macosx;
 
 	/**
 	 * Enable accepting leading zero mode in tree entries.
@@ -129,6 +130,21 @@ public class ObjectChecker {
 	 */
 	public ObjectChecker setSafeForWindows(boolean win) {
 		windows = win;
+		return this;
+	}
+
+	/**
+	 * Restrict trees to only names legal on Mac OS X platforms.
+	 * <p>
+	 * Rejects any mixed case forms of reserved names ({@code .git})
+	 * for users working on HFS+ in case-insensitive (default) mode.
+	 *
+	 * @param mac true if Mac OS X name checking should be performed.
+	 * @return {@code this}.
+	 * @since 3.4
+	 */
+	public ObjectChecker setSafeForMacOS(boolean mac) {
+		macosx = mac;
 		return this;
 	}
 
@@ -491,7 +507,7 @@ public class ObjectChecker {
 	}
 
 	private boolean isDotGit(byte[] buf, int p) {
-		if (windows)
+		if (windows || macosx)
 			return toLower(buf[p]) == 'g'
 					&& toLower(buf[p + 1]) == 'i'
 					&& toLower(buf[p + 2]) == 't';
