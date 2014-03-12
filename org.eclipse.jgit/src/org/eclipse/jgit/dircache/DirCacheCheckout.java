@@ -62,6 +62,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.CoreConfig.AutoCRLF;
 import org.eclipse.jgit.lib.CoreConfig.SymLinks;
 import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.lib.ObjectChecker;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -1164,26 +1165,13 @@ public class DirCacheCheckout {
 			entry.setLength((int) ol.getSize());
 	}
 
-	private static byte[][] forbidden;
-	static {
-		String[] list = getSortedForbiddenFileNames();
-		forbidden = new byte[list.length][];
-		for (int i = 0; i < list.length; ++i)
-			forbidden[i] = Constants.encodeASCII(list[i]);
-	}
-
-	static String[] getSortedForbiddenFileNames() {
-		String[] list = new String[] { "AUX", "COM1", "COM2", "COM3", "COM4", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
-				"COM5", "COM6", "COM7", "COM8", "COM9", "CON", "LPT1", "LPT2", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$
-				"LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9", "NUL", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$
-				"PRN" }; //$NON-NLS-1$
-		return list;
-	}
-
 	private static void checkValidPath(CanonicalTreeParser t)
 			throws InvalidPathException {
+		ObjectChecker chk = new ObjectChecker()
+			.setSafeForWindows(SystemReader.getInstance().isWindows())
+			.setSafeForMacOS(SystemReader.getInstance().isMacOS());
 		for (CanonicalTreeParser i = t; i != null; i = i.getParent())
-			checkValidPathSegment(i);
+			checkValidPathSegment(chk, i);
 	}
 
 	/**
@@ -1195,119 +1183,36 @@ public class DirCacheCheckout {
 	 * @since 3.3
 	 */
 	public static void checkValidPath(String path) throws InvalidPathException {
-		boolean isWindows = SystemReader.getInstance().isWindows();
-		boolean isOSX = SystemReader.getInstance().isMacOS();
-		boolean ignCase = isOSX || isWindows;
+		ObjectChecker chk = new ObjectChecker()
+			.setSafeForWindows(SystemReader.getInstance().isWindows())
+			.setSafeForMacOS(SystemReader.getInstance().isMacOS());
 
 		byte[] bytes = Constants.encode(path);
 		int segmentStart = 0;
-		for (int i = 0; i < bytes.length; i++) {
-			if (bytes[i] == '/') {
-				checkValidPathSegment(isWindows, ignCase, bytes, segmentStart,
-						i, path);
-				segmentStart = i + 1;
-			}
-		}
-		if (segmentStart < bytes.length)
-			checkValidPathSegment(isWindows, ignCase, bytes, segmentStart,
-					bytes.length, path);
-	}
-
-	private static void checkValidPathSegment(CanonicalTreeParser t)
-			throws InvalidPathException {
-		boolean isWindows = SystemReader.getInstance().isWindows();
-		boolean isOSX = SystemReader.getInstance().isMacOS();
-		boolean ignCase = isOSX || isWindows;
-
-		int ptr = t.getNameOffset();
-		byte[] raw = t.getEntryPathBuffer();
-		int end = ptr + t.getNameLength();
-
-		checkValidPathSegment(isWindows, ignCase, raw, ptr, end,
-				t.getEntryPathString());
-	}
-
-	private static void checkValidPathSegment(boolean isWindows,
-			boolean ignCase, byte[] raw, int ptr, int end, String path) {
-		// Validate path component at this level of the tree
-		int start = ptr;
-		while (ptr < end) {
-			if (raw[ptr] == '/')
-				throw new InvalidPathException(
-						JGitText.get().invalidPathContainsSeparator, "/", path); //$NON-NLS-1$
-			if (isWindows) {
-				if (raw[ptr] == '\\')
-					throw new InvalidPathException(
-							JGitText.get().invalidPathContainsSeparator,
-							"\\", path); //$NON-NLS-1$
-				if (raw[ptr] == ':')
-					throw new InvalidPathException(
-							JGitText.get().invalidPathContainsSeparator,
-							":", path); //$NON-NLS-1$
-			}
-			ptr++;
-		}
-		// '.' and '..' are invalid here
-		if (ptr - start == 1) {
-			if (raw[start] == '.')
-				throw new InvalidPathException(path);
-		} else if (ptr - start == 2) {
-			if (raw[start] == '.')
-				if (raw[start + 1] == '.')
-					throw new InvalidPathException(path);
-		} else if (ptr - start == 4) {
-			// .git (possibly case insensitive) is disallowed
-			if (raw[start] == '.')
-				if (raw[start + 1] == 'g' || (ignCase && raw[start + 1] == 'G'))
-					if (raw[start + 2] == 'i'
-							|| (ignCase && raw[start + 2] == 'I'))
-						if (raw[start + 3] == 't'
-								|| (ignCase && raw[start + 3] == 'T'))
-							throw new InvalidPathException(path);
-		}
-		if (isWindows) {
-			// Space or period at end of file name is ignored by Windows.
-			// Treat this as a bad path for now. We may want to handle
-			// this as case insensitivity in the future.
-			if (ptr > 0) {
-				if (raw[ptr - 1] == '.')
-					throw new InvalidPathException(
-							JGitText.get().invalidPathPeriodAtEndWindows, path);
-				if (raw[ptr - 1] == ' ')
-					throw new InvalidPathException(
-							JGitText.get().invalidPathSpaceAtEndWindows, path);
-			}
-
-			int i;
-			// Bad names, eliminate suffix first
-			for (i = start; i < ptr; ++i)
-				if (raw[i] == '.')
-					break;
-			int len = i - start;
-			if (len == 3 || len == 4) {
-				for (int j = 0; j < forbidden.length; ++j) {
-					if (forbidden[j].length == len) {
-						if (toUpper(raw[start]) < forbidden[j][0])
-							break;
-						int k;
-						for (k = 0; k < len; ++k) {
-							if (toUpper(raw[start + k]) != forbidden[j][k])
-								break;
-						}
-						if (k == len)
-							throw new InvalidPathException(
-									JGitText.get().invalidPathReservedOnWindows,
-									RawParseUtils.decode(forbidden[j]), path);
-					}
+		try {
+			for (int i = 0; i < bytes.length; i++) {
+				if (bytes[i] == '/') {
+					chk.checkPathSegment(bytes, segmentStart, i);
+					segmentStart = i + 1;
 				}
 			}
+			chk.checkPathSegment(bytes, segmentStart, bytes.length);
+		} catch (CorruptObjectException e) {
+			throw new InvalidPathException(e.getMessage());
 		}
 	}
 
-	private static byte toUpper(byte b) {
-		if (b >= 'a' && b <= 'z')
-			return (byte) (b - ('a' - 'A'));
-		return b;
+	private static void checkValidPathSegment(ObjectChecker chk,
+			CanonicalTreeParser t) throws InvalidPathException {
+		try {
+			int ptr = t.getNameOffset();
+			int end = ptr + t.getNameLength();
+			chk.checkPathSegment(t.getEntryPathBuffer(), ptr, end);
+		} catch (CorruptObjectException err) {
+			String path = t.getEntryPathString();
+			InvalidPathException i = new InvalidPathException(path);
+			i.initCause(err);
+			throw i;
+		}
 	}
-
 }
