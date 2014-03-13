@@ -1036,6 +1036,12 @@ public abstract class BaseReceivePack {
 	private void checkConnectivity() throws IOException {
 		ObjectIdSubclassMap<ObjectId> baseObjects = null;
 		ObjectIdSubclassMap<ObjectId> providedObjects = null;
+		ProgressMonitor checking = NullProgressMonitor.INSTANCE;
+		if (sideBand) {
+			SideBandProgressMonitor m = new SideBandProgressMonitor(msgOut);
+			m.setDelayStart(750, TimeUnit.MILLISECONDS);
+			checking = m;
+		}
 
 		if (checkReferencedIsReachable) {
 			baseObjects = parser.getBaseObjectIds();
@@ -1071,8 +1077,10 @@ public abstract class BaseReceivePack {
 			}
 		}
 
+		checking.beginTask(JGitText.get().countingObjects, ProgressMonitor.UNKNOWN);
 		RevCommit c;
 		while ((c = ow.next()) != null) {
+			checking.update(1);
 			if (providedObjects != null //
 					&& !c.has(RevFlag.UNINTERESTING) //
 					&& !providedObjects.contains(c))
@@ -1081,6 +1089,7 @@ public abstract class BaseReceivePack {
 
 		RevObject o;
 		while ((o = ow.nextObject()) != null) {
+			checking.update(1);
 			if (o.has(RevFlag.UNINTERESTING))
 				continue;
 
@@ -1094,6 +1103,7 @@ public abstract class BaseReceivePack {
 			if (o instanceof RevBlob && !db.hasObject(o))
 				throw new MissingObjectException(o, Constants.TYPE_BLOB);
 		}
+		checking.endTask();
 
 		if (baseObjects != null) {
 			for (ObjectId id : baseObjects) {
