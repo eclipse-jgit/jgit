@@ -1,0 +1,9 @@
+Code-Review+2: Shawn Pearce <sop@google.com>
+IP-Clean+1: Shawn Pearce <sop@google.com>
+Verified+1: Hudson CI
+Code-Review+1: Jonathan Nieder <jrn@google.com>
+Submitted-by: Shawn Pearce <sop@google.com>
+Submitted-at: Wed, 12 Mar 2014 23:17:02 -0400
+Reviewed-on: https://git.eclipse.org/r/23297
+Project: jgit/jgit
+Branch: refs/heads/master
