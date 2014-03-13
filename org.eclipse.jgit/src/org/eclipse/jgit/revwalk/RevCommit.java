@@ -63,6 +63,8 @@ import org.eclipse.jgit.util.StringUtils;
 
 /** A commit reference to a commit in the DAG. */
 public class RevCommit extends RevObject {
+	private static final int STACK_DEPTH = 500;
+
 	/**
 	 * Parse a commit from its canonical format.
 	 *
@@ -213,27 +215,72 @@ public class RevCommit extends RevObject {
 		return Constants.OBJ_COMMIT;
 	}
 
-	static void carryFlags(RevCommit c, final int carry) {
-		for (;;) {
-			final RevCommit[] pList = c.parents;
-			if (pList == null)
-				return;
-			final int n = pList.length;
-			if (n == 0)
-				return;
+	static void carryFlags(RevCommit c, int carry) {
+		FIFORevQueue q = carryFlags1(c, carry, 0);
+		if (q != null)
+			slowCarryFlags(q, carry);
+	}
 
-			for (int i = 1; i < n; i++) {
-				final RevCommit p = pList[i];
-				if ((p.flags & carry) == carry)
-					continue;
-				p.flags |= carry;
-				carryFlags(p, carry);
+	private static FIFORevQueue carryFlags1(RevCommit c, int carry, int depth) {
+		for(;;) {
+			RevCommit[] pList = c.parents;
+			if (pList == null || pList.length == 0)
+				return null;
+			if (pList.length != 1) {
+				if (depth == STACK_DEPTH)
+					return new FIFORevQueue();
+				for (int i = 1; i < pList.length; i++) {
+					RevCommit p = pList[i];
+					if ((p.flags & carry) == carry)
+						continue;
+					p.flags |= carry;
+					FIFORevQueue q = carryFlags1(c, carry, depth + 1);
+					if (q != null)
+						return defer(q, carry, pList, i);
+				}
 			}
 
 			c = pList[0];
 			if ((c.flags & carry) == carry)
-				return;
+				return null;
 			c.flags |= carry;
+		}
+	}
+
+	private static FIFORevQueue defer(FIFORevQueue q, int carry,
+			RevCommit[] pList, int i) {
+		// In normal case the caller will run pList[0] in a tail recursive
+		// fashion by updating the variable. However the caller is unwinding
+		// the stack and will skip that pList[0] execution step.
+		carryOneStep(q, carry, pList[0]);
+
+		// Attempting to recurse into pList[i] failed as this commit was
+		// verified to be a merge commit too deep in the recursion graph.
+		// Its flags were already verified and set, but the children must
+		// be visited after unwinding.
+		q.add(pList[i]);
+
+		// Remaining parents (if any) need to have flags checked and be
+		// enqueued if they have ancestors.
+		for (i++; i < pList.length; i++)
+			carryOneStep(q, carry, pList[i]);
+		return q;
+	}
+
+	private static void slowCarryFlags(FIFORevQueue q, int carry) {
+		// Commits in q have non-null parent arrays and have set all
+		// flags in carry. This loop finishes copying over the graph.
+		for (RevCommit c; (c = q.next()) != null;) {
+			for (RevCommit p : c.parents)
+				carryOneStep(q, carry, p);
+		}
+	}
+
+	private static void carryOneStep(FIFORevQueue q, int carry, RevCommit c) {
+		if ((c.flags & carry) != carry) {
+			c.flags |= carry;
+			if (c.parents != null)
+				q.add(c);
 		}
 	}
 
