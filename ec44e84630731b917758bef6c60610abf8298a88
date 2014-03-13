@@ -16,6 +16,24 @@
       "revId": "ec44e84630731b917758bef6c60610abf8298a88",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2753a756_f9d4e1b7",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revplot/AbstractPlotRendererTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-03-13T22:40:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2753a756_595b4d02",
+      "revId": "ec44e84630731b917758bef6c60610abf8298a88",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
