@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2753a756_993b25f4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-03-13T19:58:52Z",
+      "side": 1,
+      "message": "This could be the wrong commit. pList[i] may have been the top of a strand of pearls with a merge commit further back. Its the merge commit that the recursive invocation aborted on.",
+      "revId": "55f8ce7e42188a200b8d59fb25871c702e7f58dc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
