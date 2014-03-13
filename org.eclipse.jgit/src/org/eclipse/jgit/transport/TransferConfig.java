@@ -63,7 +63,7 @@ public class TransferConfig {
 		}
 	};
 
-	private final boolean fsckObjects;
+	private final boolean fetchFsck;
 	private final boolean allowTipSha1InWant;
 	private final String[] hideRefs;
 
@@ -72,7 +72,10 @@ public class TransferConfig {
 	}
 
 	private TransferConfig(final Config rc) {
-		fsckObjects = rc.getBoolean("receive", "fsckobjects", false); //$NON-NLS-1$ //$NON-NLS-2$
+		fetchFsck = rc.getBoolean(
+				"fetch", "fsckobjects", //$NON-NLS-1$ //$NON-NLS-2$
+				rc.getBoolean("transfer", "fsckobjects", false)); //$NON-NLS-1$ //$NON-NLS-2$
+
 		allowTipSha1InWant = rc.getBoolean(
 				"uploadpack", "allowtipsha1inwant", false); //$NON-NLS-1$ //$NON-NLS-2$
 		hideRefs = rc.getStringList("uploadpack", null, "hiderefs"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -82,7 +85,7 @@ public class TransferConfig {
 	 * @return strictly verify received objects?
 	 */
 	public boolean isFsckObjects() {
-		return fsckObjects;
+		return fetchFsck;
 	}
 
 	/**

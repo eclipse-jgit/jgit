@@ -48,11 +48,17 @@ import static org.eclipse.jgit.util.RawParseUtils.match;
 import static org.eclipse.jgit.util.RawParseUtils.nextLF;
 import static org.eclipse.jgit.util.RawParseUtils.parseBase10;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.text.MessageFormat;
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Set;
 
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.util.MutableInteger;
+import org.eclipse.jgit.util.RawParseUtils;
 
 /**
  * Verifies that an object is formatted correctly.
@@ -96,6 +102,56 @@ public class ObjectChecker {
 	private final MutableObjectId tempId = new MutableObjectId();
 
 	private final MutableInteger ptrout = new MutableInteger();
+
+	private boolean allowZeroMode;
+	private boolean windows;
+	private boolean macosx;
+
+	/**
+	 * Enable accepting leading zero mode in tree entries.
+	 * <p>
+	 * Some broken Git libraries generated leading zeros in the mode part of
+	 * tree entries. This is technically incorrect but gracefully allowed by
+	 * git-core. JGit rejects such trees by default, but may need to accept
+	 * them on broken histories.
+	 *
+	 * @param allow allow leading zero mode.
+	 * @return {@code this}.
+	 * @since 3.4
+	 */
+	public ObjectChecker setAllowLeadingZeroFileMode(boolean allow) {
+		allowZeroMode = allow;
+		return this;
+	}
+
+	/**
+	 * Restrict trees to only names legal on Windows platforms.
+	 * <p>
+	 * Also rejects any mixed case forms of reserved names ({@code .git}).
+	 *
+	 * @param win true if Windows name checking should be performed.
+	 * @return {@code this}.
+	 * @since 3.4
+	 */
+	public ObjectChecker setSafeForWindows(boolean win) {
+		windows = win;
+		return this;
+	}
+
+	/**
+	 * Restrict trees to only names legal on Mac OS X platforms.
+	 * <p>
+	 * Rejects any mixed case forms of reserved names ({@code .git})
+	 * for users working on HFS+ in case-insensitive (default) mode.
+	 *
+	 * @param mac true if Mac OS X name checking should be performed.
+	 * @return {@code this}.
+	 * @since 3.4
+	 */
+	public ObjectChecker setSafeForMacOS(boolean mac) {
+		macosx = mac;
+		return this;
+	}
 
 	/**
 	 * Check an object for parsing errors.
@@ -297,6 +353,9 @@ public class ObjectChecker {
 		final int sz = raw.length;
 		int ptr = 0;
 		int lastNameB = 0, lastNameE = 0, lastMode = 0;
+		Set<String> normalized = windows || macosx
+				? new HashSet<String>()
+				: null;
 
 		while (ptr < sz) {
 			int thisMode = 0;
@@ -308,7 +367,7 @@ public class ObjectChecker {
 					break;
 				if (c < '0' || c > '7')
 					throw new CorruptObjectException("invalid mode character");
-				if (thisMode == 0 && c == '0')
+				if (thisMode == 0 && c == '0' && !allowZeroMode)
 					throw new CorruptObjectException("mode starts with '0'");
 				thisMode <<= 3;
 				thisMode += c - '0';
@@ -318,42 +377,185 @@ public class ObjectChecker {
 				throw new CorruptObjectException("invalid mode " + thisMode);
 
 			final int thisNameB = ptr;
-			for (;;) {
-				if (ptr == sz)
-					throw new CorruptObjectException("truncated in name");
-				final byte c = raw[ptr++];
-				if (c == 0)
-					break;
-				if (c == '/')
-					throw new CorruptObjectException("name contains '/'");
-			}
-			if (thisNameB + 1 == ptr)
-				throw new CorruptObjectException("zero length name");
-			if (raw[thisNameB] == '.') {
-				final int nameLen = (ptr - 1) - thisNameB;
-				if (nameLen == 1)
-					throw new CorruptObjectException("invalid name '.'");
-				if (nameLen == 2 && raw[thisNameB + 1] == '.')
-					throw new CorruptObjectException("invalid name '..'");
-			}
-			if (duplicateName(raw, thisNameB, ptr - 1))
+			ptr = scanPathSegment(raw, ptr, sz);
+			if (ptr == sz || raw[ptr] != 0)
+				throw new CorruptObjectException("truncated in name");
+			checkPathSegment2(raw, thisNameB, ptr);
+			if (normalized != null) {
+				if (normalized.add(normalize(raw, thisNameB, ptr)))
+					throw new CorruptObjectException("duplicate entry names");
+			} else if (duplicateName(raw, thisNameB, ptr))
 				throw new CorruptObjectException("duplicate entry names");
 
 			if (lastNameB != 0) {
 				final int cmp = pathCompare(raw, lastNameB, lastNameE,
-						lastMode, thisNameB, ptr - 1, thisMode);
+						lastMode, thisNameB, ptr, thisMode);
 				if (cmp > 0)
 					throw new CorruptObjectException("incorrectly sorted");
 			}
 
 			lastNameB = thisNameB;
-			lastNameE = ptr - 1;
+			lastNameE = ptr;
 			lastMode = thisMode;
 
-			ptr += Constants.OBJECT_ID_LENGTH;
+			ptr += 1 + Constants.OBJECT_ID_LENGTH;
 			if (ptr > sz)
 				throw new CorruptObjectException("truncated in object id");
 		}
+	}
+
+	private int scanPathSegment(byte[] raw, int ptr, int end)
+			throws CorruptObjectException {
+		for (; ptr < end; ptr++) {
+			byte c = raw[ptr];
+			if (c == 0)
+				return ptr;
+			if (c == '/')
+				throw new CorruptObjectException("name contains '/'");
+			if (windows && isInvalidOnWindows(c)) {
+				if (c > 31)
+					throw new CorruptObjectException(String.format(
+							"name contains '%c'", c));
+				throw new CorruptObjectException(String.format(
+						"name contains byte 0x%x", c & 0xff));
+			}
+		}
+		return ptr;
+	}
+
+	/**
+	 * Check tree path entry for validity.
+	 *
+	 * @param raw buffer to scan.
+	 * @param ptr offset to first byte of the name.
+	 * @param end offset to one past last byte of name.
+	 * @throws CorruptObjectException name is invalid.
+	 * @since 3.4
+	 */
+	public void checkPathSegment(byte[] raw, int ptr, int end)
+			throws CorruptObjectException {
+		int e = scanPathSegment(raw, ptr, end);
+		if (e < end && raw[e] == 0)
+			throw new CorruptObjectException("name contains byte 0x00");
+		checkPathSegment2(raw, ptr, end);
+	}
+
+	private void checkPathSegment2(byte[] raw, int ptr, int end)
+			throws CorruptObjectException {
+		if (ptr == end)
+			throw new CorruptObjectException("zero length name");
+		if (raw[ptr] == '.') {
+			switch (end - ptr) {
+			case 1:
+				throw new CorruptObjectException("invalid name '.'");
+			case 2:
+				if (raw[ptr + 1] == '.')
+					throw new CorruptObjectException("invalid name '..'");
+				break;
+			case 4:
+				if (isDotGit(raw, ptr + 1))
+					throw new CorruptObjectException(String.format(
+							"invalid name '%s'",
+							RawParseUtils.decode(raw, ptr, end)));
+			}
+		}
+
+		if (windows) {
+			// Windows ignores space and dot at end of file name.
+			if (raw[end - 1] == ' ' || raw[end - 1] == '.')
+				throw new CorruptObjectException("invalid name ends with '"
+						+ ((char) raw[end - 1]) + "'");
+			if (end - ptr >= 3)
+				checkNotWindowsDevice(raw, ptr, end);
+		}
+	}
+
+	private static void checkNotWindowsDevice(byte[] raw, int ptr, int end)
+			throws CorruptObjectException {
+		switch (toLower(raw[ptr])) {
+		case 'a': // AUX
+			if (end - ptr >= 3
+					&& toLower(raw[ptr + 1]) == 'u'
+					&& toLower(raw[ptr + 2]) == 'x'
+					&& (end - ptr == 3 || raw[ptr + 3] == '.'))
+				throw new CorruptObjectException("invalid name 'AUX'");
+			break;
+
+		case 'c': // CON, COM[1-9]
+			if (end - ptr >= 3
+					&& toLower(raw[ptr + 2]) == 'n'
+					&& toLower(raw[ptr + 1]) == 'o'
+					&& (end - ptr == 3 || raw[ptr + 3] == '.'))
+				throw new CorruptObjectException("invalid name 'CON'");
+			if (end - ptr >= 4
+					&& toLower(raw[ptr + 2]) == 'm'
+					&& toLower(raw[ptr + 1]) == 'o'
+					&& isPositiveDigit(raw[ptr + 3])
+					&& (end - ptr == 4 || raw[ptr + 4] == '.'))
+				throw new CorruptObjectException("invalid name 'COM"
+						+ ((char) raw[ptr + 3]) + "'");
+			break;
+
+		case 'l': // LPT[1-9]
+			if (end - ptr >= 4
+					&& toLower(raw[ptr + 1]) == 'p'
+					&& toLower(raw[ptr + 2]) == 't'
+					&& isPositiveDigit(raw[ptr + 3])
+					&& (end - ptr == 4 || raw[ptr + 4] == '.'))
+				throw new CorruptObjectException("invalid name 'LPT"
+						+ ((char) raw[ptr + 3]) + "'");
+			break;
+
+		case 'n': // NUL
+			if (end - ptr >= 3
+					&& toLower(raw[ptr + 1]) == 'u'
+					&& toLower(raw[ptr + 2]) == 'l'
+					&& (end - ptr == 3 || raw[ptr + 3] == '.'))
+				throw new CorruptObjectException("invalid name 'NUL'");
+			break;
+
+		case 'p': // PRN
+			if (end - ptr >= 3
+					&& toLower(raw[ptr + 1]) == 'r'
+					&& toLower(raw[ptr + 2]) == 'n'
+					&& (end - ptr == 3 || raw[ptr + 3] == '.'))
+				throw new CorruptObjectException("invalid name 'PRN'");
+			break;
+		}
+	}
+
+	private static boolean isInvalidOnWindows(byte c) {
+		// Windows disallows "special" characters in a path component.
+		switch (c) {
+		case '"':
+		case '*':
+		case ':':
+		case '<':
+		case '>':
+		case '?':
+		case '\\':
+		case '|':
+			return true;
+		}
+		return 1 <= c && c <= 31;
+	}
+
+	private boolean isDotGit(byte[] buf, int p) {
+		if (windows || macosx)
+			return toLower(buf[p]) == 'g'
+					&& toLower(buf[p + 1]) == 'i'
+					&& toLower(buf[p + 2]) == 't';
+		return buf[p] == 'g' && buf[p + 1] == 'i' && buf[p + 2] == 't';
+	}
+
+	private static char toLower(byte b) {
+		if ('A' <= b && b <= 'Z')
+			return (char) (b + ('a' - 'A'));
+		return (char) b;
+	}
+
+	private static boolean isPositiveDigit(byte b) {
+		return '1' <= b && b <= '9';
 	}
 
 	/**
@@ -366,5 +568,62 @@ public class ObjectChecker {
 	 */
 	public void checkBlob(final byte[] raw) throws CorruptObjectException {
 		// We can always assume the blob is valid.
+	}
+
+	private String normalize(byte[] raw, int ptr, int end) {
+		String n = RawParseUtils.decode(raw, ptr, end).toLowerCase(Locale.US);
+		return macosx ? Normalizer.normalize(n) : n;
+	}
+
+	private static class Normalizer {
+		// TODO Simplify invocation to Normalizer after dropping Java 5.
+		private static final Method normalize;
+		private static final Object nfc;
+		static {
+			Method method;
+			Object formNfc;
+			try {
+				Class<?> formClazz = Class.forName("java.text.Normalizer$Form"); //$NON-NLS-1$
+				formNfc = formClazz.getField("NFC").get(null); //$NON-NLS-1$
+				method = Class.forName("java.text.Normalizer") //$NON-NLS-1$
+					.getMethod("normalize", CharSequence.class, formClazz); //$NON-NLS-1$
+			} catch (ClassNotFoundException e) {
+				method = null;
+				formNfc = null;
+			} catch (NoSuchFieldException e) {
+				method = null;
+				formNfc = null;
+			} catch (NoSuchMethodException e) {
+				method = null;
+				formNfc = null;
+			} catch (SecurityException e) {
+				method = null;
+				formNfc = null;
+			} catch (IllegalArgumentException e) {
+				method = null;
+				formNfc = null;
+			} catch (IllegalAccessException e) {
+				method = null;
+				formNfc = null;
+			}
+			normalize = method;
+			nfc = formNfc;
+		}
+
+		static String normalize(String in) {
+			if (normalize == null)
+				return in;
+			try {
+				return (String) normalize.invoke(null, in, nfc);
+			} catch (IllegalAccessException e) {
+				return in;
+			} catch (InvocationTargetException e) {
+				if (e.getCause() instanceof RuntimeException)
+					throw (RuntimeException) e.getCause();
+				if (e.getCause() instanceof Error)
+					throw (Error) e.getCause();
+				return in;
+			}
+		}
 	}
 }
