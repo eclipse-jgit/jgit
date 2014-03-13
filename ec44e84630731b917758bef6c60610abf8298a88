@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2753a756_595b4d02",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revplot/AbstractPlotRendererTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-03-13T22:39:31Z",
+      "side": 1,
+      "message": "style nit: we don\u0027t use braces around single line blocks",
+      "revId": "ec44e84630731b917758bef6c60610abf8298a88",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
