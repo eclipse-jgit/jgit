@@ -67,6 +67,24 @@
       "revId": "c53980f2a49d0b5b2fb3c43452fb9965ff9eb043",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2753a756_90adbaf7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 4056
+      },
+      "writtenOn": "2014-03-13T06:28:29Z",
+      "side": 1,
+      "message": "Do you have any suggestion on how I could achieve this? I tried several approaches but it only works with SPNego which is not really easy to mock.\n\nI tried for example to check what happens if auth info is provided using Java Authenticator, but it won\u0027t work in this case because basic auth doesn\u0027t send again WWW-Authenticate header once authenticated. SPNego will send it as per http://www.ietf.org/rfc/rfc4559.txt",
+      "parentUuid": "67591f73_1ed7b137",
+      "revId": "c53980f2a49d0b5b2fb3c43452fb9965ff9eb043",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
