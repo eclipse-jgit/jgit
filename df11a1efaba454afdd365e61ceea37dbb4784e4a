@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2753a756_99da0513",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-03-13T21:19:40Z",
+      "side": 0,
+      "message": "style nit: remove this unrelated change introducing a trailing whitespace",
+      "revId": "df11a1efaba454afdd365e61ceea37dbb4784e4a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
