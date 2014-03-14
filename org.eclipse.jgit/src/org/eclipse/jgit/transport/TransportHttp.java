@@ -75,6 +75,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
@@ -246,6 +248,8 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	private boolean useSmartHttp = true;
 
 	private HttpAuthMethod authMethod = HttpAuthMethod.NONE;
+
+	private HashMap<String, String> headers;
 
 	TransportHttp(final Repository local, final URIish uri)
 			throws NotSupportedException {
@@ -425,6 +429,18 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		// No explicit connections are maintained.
 	}
 
+	/**
+	 * Set additional header on the HTTP connection
+	 *
+	 * @param headers
+	 *            a map of name:values that are to be set as headers on the HTTP
+	 *            connection
+	 *
+	 */
+	public void setAdditionalHeaders(HashMap<String, String> headers) {
+		this.headers = headers;
+	}
+
 	private HttpConnection connect(final String service)
 			throws TransportException, NotSupportedException {
 		final URL u;
@@ -504,7 +520,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 
 	/**
 	 * Open an HTTP connection.
-	 * 
+	 *
 	 * @param method
 	 * @param u
 	 * @return the connection
@@ -530,6 +546,15 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 			int effTimeOut = timeOut * 1000;
 			conn.setConnectTimeout(effTimeOut);
 			conn.setReadTimeout(effTimeOut);
+		}
+		// go through additional headers and set them on conn
+		if (this.headers != null && !this.headers.isEmpty()) {
+			for (Iterator iterator = this.headers.keySet().iterator(); iterator
+					.hasNext();) {
+				String key = (String) iterator.next();
+				String value = this.headers.get(key);
+				conn.setRequestProperty(key, value);
+			}
 		}
 		authMethod.configureRequest(conn);
 		return conn;
