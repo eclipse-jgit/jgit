@@ -148,6 +148,9 @@ public abstract class JschConfigSessionFactory extends SshSessionFactory {
 			FS fs, String user, final String pass, String host, int port,
 			final OpenSshConfig.Host hc) throws JSchException {
 		final Session session = createSession(hc, user, host, port, fs);
+		// We retry already in getSession() method. JSch must not retry
+		// on its own.
+		session.setConfig("MaxAuthTries", "1"); //$NON-NLS-1$ //$NON-NLS-2$
 		if (pass != null)
 			session.setPassword(pass);
 		final String strictHostKeyCheckingPolicy = hc
