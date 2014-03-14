@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2753a756_bf2a4901",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 2957
+      },
+      "writtenOn": "2014-03-14T22:50:28Z",
+      "side": 1,
+      "message": "You could use\nfor(Map.Entry\u003cString, String\u003e entry : this.headers.entrySet())\nso you don\u0027t need an additional map lookup for the value",
+      "revId": "fe88887cfca61db535da55933f52ceb3d291a23b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
