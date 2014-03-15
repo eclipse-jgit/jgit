@@ -651,7 +651,8 @@ public class DirCacheCheckout {
 					else
 						update(name, mId, mMode); // 7
 				} else if (!isModified(name)) {
-					if (walk.isDirectoryFileConflict())
+					if (walk.isDirectoryFileConflict()
+							&& !f.getEntryObjectId().equals(ObjectId.zeroId()))
 						conflict(name, dce, h, m);
 					else
 						update(name, mId, mMode); // 9
