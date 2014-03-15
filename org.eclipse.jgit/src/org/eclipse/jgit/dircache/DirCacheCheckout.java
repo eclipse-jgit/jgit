@@ -609,7 +609,7 @@ public class DirCacheCheckout {
 			// switch processes all relevant cases.
 			switch (ffMask) {
 			case 0xDDF: // 1 2
-				if (isModified(name)) {
+				if (f != null && isModified(name)) {
 					conflict(name, dce, h, m); // 1
 				} else {
 					update(name, mId, mMode); // 2
@@ -650,9 +650,12 @@ public class DirCacheCheckout {
 						conflict(name, dce, h, m); // 8
 					else
 						update(name, mId, mMode); // 7
-				} else if (!isModified(name))
-					update(name, mId, mMode); // 9
-				else
+				} else if (!isModified(name)) {
+					if (walk.isDirectoryFileConflict())
+						conflict(name, dce, h, m);
+					else
+						update(name, mId, mMode); // 9
+				} else
 					// To be confirmed - this case is not in the table.
 					conflict(name, dce, h, m);
 				break;
@@ -661,8 +664,10 @@ public class DirCacheCheckout {
 				break;
 			case 0xFFD: // 12 13 14
 				if (equalIdAndMode(hId, hMode, iId, iMode))
-					if (f == null
-							|| f.isModified(dce, true,
+					if (f == null && walk.isDirectoryFileConflict())
+						conflict(name, dce, h, m);
+					else if (f != null
+							&& f.isModified(dce, true,
 									this.walk.getObjectReader()))
 						conflict(name, dce, h, m);
 					else
@@ -683,12 +688,16 @@ public class DirCacheCheckout {
 		}
 
 		// if we have no file at all then there is nothing to do
-		if ((ffMask & 0x222) == 0)
+		if ((ffMask & 0x222) == 0) {
+			if (m != null && walk.isDirectoryFileConflict())
+				conflict(name, dce, h, m);
 			return;
+		}
 
 		if ((ffMask == 0x00F) && f != null && FileMode.TREE.equals(f.getEntryFileMode())) {
 			// File/Directory conflict case #20
 			conflict(name, null, h, m);
+			return;
 		}
 
 		if (i == null) {
@@ -721,14 +730,15 @@ public class DirCacheCheckout {
 			 * </pre>
 			 */
 
-			if (h == null)
+			if (h == null) {
 				// Nothing in Head
 				// Nothing in Index
 				// At least one of Head, Index, Merge is not empty
 				// -> only Merge contains something for this path. Use it!
 				// Potentially update the file
-				update(name, mId, mMode); // 1
-			else if (m == null)
+				if (f == null || !walk.isDirectoryFileConflict())
+					update(name, mId, mMode); // 1
+			} else if (m == null)
 				// Nothing in Merge
 				// Something in Head
 				// Nothing in Index
@@ -845,8 +855,8 @@ public class DirCacheCheckout {
 						// Something different from a submodule in Index
 						// Nothing in Merge
 						// Something in Head
-						if (f == null
-								|| f.isModified(dce, true,
+						if (f != null
+								&& f.isModified(dce, true,
 										this.walk.getObjectReader()))
 							// file is dirty
 							// Index contains the same as Head
