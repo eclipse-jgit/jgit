@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2753a756_b1039d4b",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/CheckoutTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 2957
+      },
+      "writtenOn": "2014-03-15T12:21:57Z",
+      "side": 1,
+      "message": "You could check that we are still at branch_1 and file b exists/has the right content. Otherwise the checkout may have just completely ignored the specified path.",
+      "revId": "b03b25306e35b13128064b34d8ef95784f8e74db",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
