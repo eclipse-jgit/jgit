@@ -2,6 +2,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "2753a756_ca749a45",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-03-17T21:40:58Z",
+      "side": 1,
+      "message": "style nit: add a blank line here to separate the commit message header line from the commit message body, see https://wiki.eclipse.org/EGit/Contributor_Guide#Commit_message_guidelines",
+      "revId": "fe88887cfca61db535da55933f52ceb3d291a23b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2753a756_6a83cea6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-03-17T21:40:58Z",
+      "side": 1,
+      "message": "s/header/headers/",
+      "revId": "fe88887cfca61db535da55933f52ceb3d291a23b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2753a756_2a79d63a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-03-17T21:40:58Z",
+      "side": 1,
+      "message": "missing @since 3.4 tag",
+      "revId": "fe88887cfca61db535da55933f52ceb3d291a23b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2753a756_bf2a4901",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
         "patchSetId": 1
