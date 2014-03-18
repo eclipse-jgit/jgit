@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2753a756_dbe58a53",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-03-18T23:27:24Z",
+      "side": 1,
+      "message": "move bug number to footer\n\nyou pushed 4 commits with identical header line this renders shortlog less useful so try to use different header lines for these 4 commits providing subject of each change",
+      "revId": "192008f96c8102a46ebc32e76560d9b6a6eda9e8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
