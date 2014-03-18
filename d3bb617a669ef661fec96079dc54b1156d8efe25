@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2753a756_9bdb129b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-03-18T23:23:23Z",
+      "side": 1,
+      "message": "don\u0027t put the bug number in the first line but move it to a footer in last paragraph immediately above Change-Id in the following format\n\nBug: 413522",
+      "revId": "d3bb617a669ef661fec96079dc54b1156d8efe25",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
