@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2753a756_966f67a5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-03-19T07:07:33Z",
+      "side": 1,
+      "message": "1. attempt is done without credentials -\u003e server responds with header WWW-Authenticate if authentication is required\n\n2. we may have used outdated credentials persisted e.g. in secure store\n\n3. and 4. two more chances in case the user did a typo (during ssh authentication we have 3 tries but there we always provide credentials with HTTP this is different due to the way basic/digest authentication works [1])\n\n[1] https://tools.ietf.org/html/rfc2617#page-5, https://tools.ietf.org/html/rfc2617#page-8",
+      "parentUuid": "2753a756_5b7dfad3",
+      "revId": "2ce5da13ebb7b05479179a680b6f1ffad720bc2e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2753a756_3b7ac6dc",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2014-03-19T03:42:53Z",
       "side": 1,
       "message": "Why should it be retried after the Credentials are reset?",
+      "revId": "2ce5da13ebb7b05479179a680b6f1ffad720bc2e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2753a756_f694e316",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-03-19T07:07:33Z",
+      "side": 1,
+      "message": "if credentials changed on the server side we need to reset otherwise we will try to reuse credentials stored in secure store (when using EGitCredentialsProvider) and should allow the user to try again",
+      "parentUuid": "2753a756_3b7ac6dc",
       "revId": "2ce5da13ebb7b05479179a680b6f1ffad720bc2e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
