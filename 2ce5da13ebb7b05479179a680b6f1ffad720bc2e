@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2753a756_5b7dfad3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2014-03-19T03:42:53Z",
+      "side": 1,
+      "message": "why 4?",
+      "revId": "2ce5da13ebb7b05479179a680b6f1ffad720bc2e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2753a756_3b7ac6dc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2014-03-19T03:42:53Z",
+      "side": 1,
+      "message": "Why should it be retried after the Credentials are reset?",
+      "revId": "2ce5da13ebb7b05479179a680b6f1ffad720bc2e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
