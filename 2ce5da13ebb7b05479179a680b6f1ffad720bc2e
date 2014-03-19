@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "2753a756_5498284a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-03-19T16:23:11Z",
+      "side": 1,
+      "message": "Hmm, and what is with attempt 5? Even if \"4 \u003c authAttempts\" is false we will again try to evaluate \"authMethod.authorize(uri, credentialsProvider)\" and try it a last time. Not a problem, but I am not sure if you intendet that authorization is tried even if authAttempts is 5.\n\nThe old code said \"1 \u003c authAttempts\" meant that we do max 2 attempts to connect. One without any credentials and one where we ask the credentials provider. So \"4 \u003c ...\" means we try it at max 5 times.",
+      "parentUuid": "2753a756_966f67a5",
+      "revId": "2ce5da13ebb7b05479179a680b6f1ffad720bc2e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2753a756_3b7ac6dc",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
         "patchSetId": 2
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "if credentials changed on the server side we need to reset otherwise we will try to reuse credentials stored in secure store (when using EGitCredentialsProvider) and should allow the user to try again",
       "parentUuid": "2753a756_3b7ac6dc",
+      "revId": "2ce5da13ebb7b05479179a680b6f1ffad720bc2e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2753a756_f4d05cc4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-03-19T16:23:11Z",
+      "side": 1,
+      "message": "what would be wrong if we always reset here (not only when authAttempts is 2). If a authorization failed isn\u0027t it always good to reset the credentialsProvider which has given wrong credentials the last time?\n\nImagine:\n  attempt 1: without credentials -\u003e auth fails\n  attempt 2: with credentials from the provider. The provider got the credentials from the secure store. Auth fails. We reset the credentials provider to let him forget the data from the secure store\n  attempt 3: with credentials from the provider. The provider now asks the user. The user enters wrong credentials and sets the option to \"store in secure store\". Authorization fails. Since attempt !\u003d 2 we don\u0027t reset the provider\n  attempt 4: with credentials from the provider. Will the provider not use again the credentials which failed already last time?",
+      "parentUuid": "2753a756_f694e316",
       "revId": "2ce5da13ebb7b05479179a680b6f1ffad720bc2e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
