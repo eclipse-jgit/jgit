@@ -123,6 +123,24 @@
       "revId": "2ce5da13ebb7b05479179a680b6f1ffad720bc2e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2753a756_17ccf231",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-03-20T00:01:09Z",
+      "side": 1,
+      "message": "I could follow your proposal by introducing https://git.eclipse.org/r/#/c/23643/ in EGit",
+      "parentUuid": "2753a756_f4d05cc4",
+      "revId": "2ce5da13ebb7b05479179a680b6f1ffad720bc2e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
