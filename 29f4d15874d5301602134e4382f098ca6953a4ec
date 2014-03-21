@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2753a756_23d618f1",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/EmbeddedCommandRunnerTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-03-21T20:43:29Z",
+      "side": 1,
+      "message": "If catching a Die, then coming here is fail()",
+      "revId": "29f4d15874d5301602134e4382f098ca6953a4ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2753a756_83c6043c",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/EmbeddedCommandRunner.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-03-21T20:43:29Z",
+      "side": 1,
+      "message": "I think you should use a Writer, here and only invoke streams for communication with the real world, which is the level above. PrintWriter eats execptions and everbody forgets to check",
+      "revId": "29f4d15874d5301602134e4382f098ca6953a4ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
