@@ -98,14 +98,6 @@ public abstract class TextBuiltin {
 	 */
 	protected OutputStream outs;
 
-	/**
-	 * Stream to output to, typically this is standard output.
-	 *
-	 * @deprecated Use outw instead
-	 */
-	@Deprecated
-	protected PrintWriter out;
-
 	/** Git repository the command was invoked within. */
 	protected Repository db;
 
@@ -145,7 +137,6 @@ public abstract class TextBuiltin {
 						outputEncoding));
 			else
 				bufw = new BufferedWriter(new OutputStreamWriter(outs));
-			out = new PrintWriter(bufw);
 			outw = new ThrowingPrintWriter(bufw);
 		} catch (IOException e) {
 			throw die(CLIText.get().cannotCreateOutputStream);
