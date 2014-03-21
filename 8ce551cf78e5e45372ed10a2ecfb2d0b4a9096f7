@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2753a756_5dab2b0d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/TextBuiltin.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-03-21T07:54:32Z",
+      "side": 1,
+      "message": "Ugly indentation",
+      "revId": "8ce551cf78e5e45372ed10a2ecfb2d0b4a9096f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
