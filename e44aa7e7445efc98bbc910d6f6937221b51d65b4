@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2753a756_633490e2",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Die.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-03-21T20:35:22Z",
+      "side": 1,
+      "message": "it\u0027s not that \"simpy\". Abort execution of what?",
+      "revId": "e44aa7e7445efc98bbc910d6f6937221b51d65b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2753a756_a32ea891",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/TextBuiltin.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-03-21T20:35:22Z",
+      "side": 1,
+      "message": "\"exception\"?",
+      "revId": "e44aa7e7445efc98bbc910d6f6937221b51d65b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
