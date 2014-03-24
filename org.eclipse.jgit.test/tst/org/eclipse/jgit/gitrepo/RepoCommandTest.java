@@ -43,6 +43,7 @@
 package org.eclipse.jgit.gitrepo;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedReader;
@@ -57,16 +58,45 @@ import org.junit.Test;
 
 public class RepoCommandTest extends RepositoryTestCase {
 
-	private Git remoteGit;
+	private Git defaultGit;
+	private Git notDefaultGit;
+	private Git groupAGit;
+	private Git groupBGit;
+
+	private String rootUri;
+	private String defaultUri;
+	private String notDefaultUri;
+	private String groupAUri;
+	private String groupBUri;
 
 	public void setUp() throws Exception {
 		super.setUp();
 
 		Repository remoteDb = createWorkRepository();
-		remoteGit = new Git(remoteDb);
+		defaultGit = new Git(remoteDb);
 		JGitTestUtil.writeTrashFile(remoteDb, "hello.txt", "world");
-		remoteGit.add().addFilepattern("hello.txt").call();
-		remoteGit.commit().setMessage("Initial commit").call();
+		defaultGit.add().addFilepattern("hello.txt").call();
+		defaultGit.commit().setMessage("Initial commit").call();
+
+		remoteDb = createWorkRepository();
+		notDefaultGit = new Git(remoteDb);
+		JGitTestUtil.writeTrashFile(remoteDb, "world.txt", "hello");
+		notDefaultGit.add().addFilepattern("world.txt").call();
+		notDefaultGit.commit().setMessage("Initial commit").call();
+
+		remoteDb = createWorkRepository();
+		groupAGit = new Git(remoteDb);
+		JGitTestUtil.writeTrashFile(remoteDb, "a.txt", "world");
+		groupAGit.add().addFilepattern("a.txt").call();
+		groupAGit.commit().setMessage("Initial commit").call();
+
+		remoteDb = createWorkRepository();
+		groupBGit = new Git(remoteDb);
+		JGitTestUtil.writeTrashFile(remoteDb, "b.txt", "world");
+		groupBGit.add().addFilepattern("b.txt").call();
+		groupBGit.commit().setMessage("Initial commit").call();
+
+		resolveRelativeUris();
 	}
 
 	@Test
@@ -76,12 +106,14 @@ public class RepoCommandTest extends RepositoryTestCase {
 			.append("<manifest>")
 			.append("<remote name=\"remote1\" fetch=\".\" />")
 			.append("<default revision=\"master\" remote=\"remote1\" />")
-			.append("<project path=\"foo\" name=\".\" />")
+			.append("<project path=\"foo\" name=\"")
+			.append(defaultUri)
+			.append("\" />")
 			.append("</manifest>");
 		writeTrashFile("manifest.xml", xmlContent.toString());
 		RepoCommand command = new RepoCommand(db);
 		command.setPath(db.getWorkTree().getAbsolutePath() + "/manifest.xml")
-			.setURI(remoteGit.getRepository().getDirectory().toURI().toString())
+			.setURI(rootUri)
 			.call();
 		File hello = new File(db.getWorkTree(), "foo/hello.txt");
 		assertTrue("submodule was checked out", hello.exists());
@@ -89,5 +121,85 @@ public class RepoCommandTest extends RepositoryTestCase {
 		String content = reader.readLine();
 		reader.close();
 		assertEquals("submodule content is as expected.", "world", content);
+	}
+
+	@Test
+	public void testRepoManifestGroups() throws Exception {
+		StringBuilder xmlContent = new StringBuilder();
+		xmlContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+			.append("<manifest>")
+			.append("<remote name=\"remote1\" fetch=\".\" />")
+			.append("<default revision=\"master\" remote=\"remote1\" />")
+			.append("<project path=\"foo\" name=\"")
+			.append(defaultUri)
+			.append("\" groups=\"a,test\" />")
+			.append("<project path=\"bar\" name=\"")
+			.append(notDefaultUri)
+			.append("\" groups=\"notdefault\" />")
+			.append("<project path=\"a\" name=\"")
+			.append(groupAUri)
+			.append("\" groups=\"a\" />")
+			.append("<project path=\"b\" name=\"")
+			.append(groupBUri)
+			.append("\" groups=\"b\" />")
+			.append("</manifest>");
+
+		// default should have foo, a & b
+		Repository localDb = createWorkRepository();
+		JGitTestUtil.writeTrashFile(localDb, "manifest.xml", xmlContent.toString());
+		RepoCommand command = new RepoCommand(localDb);
+		command.setPath(localDb.getWorkTree().getAbsolutePath() + "/manifest.xml")
+			.setURI(rootUri)
+			.call();
+		File file = new File(localDb.getWorkTree(), "foo/hello.txt");
+		assertTrue("default has foo", file.exists());
+		file = new File(localDb.getWorkTree(), "bar/world.txt");
+		assertFalse("default doesn't have bar", file.exists());
+		file = new File(localDb.getWorkTree(), "a/a.txt");
+		assertTrue("default has a", file.exists());
+		file = new File(localDb.getWorkTree(), "b/b.txt");
+		assertTrue("default has b", file.exists());
+
+		// all,-a should have bar & b
+		localDb = createWorkRepository();
+		JGitTestUtil.writeTrashFile(localDb, "manifest.xml", xmlContent.toString());
+		command = new RepoCommand(localDb);
+		command.setPath(localDb.getWorkTree().getAbsolutePath() + "/manifest.xml")
+			.setURI(rootUri)
+			.setGroups("all,-a")
+			.call();
+		file = new File(localDb.getWorkTree(), "foo/hello.txt");
+		assertFalse("\"all,-a\" doesn't have foo", file.exists());
+		file = new File(localDb.getWorkTree(), "bar/world.txt");
+		assertTrue("\"all,-a\" has bar", file.exists());
+		file = new File(localDb.getWorkTree(), "a/a.txt");
+		assertFalse("\"all,-a\" doesn't have a", file.exists());
+		file = new File(localDb.getWorkTree(), "b/b.txt");
+		assertTrue("\"all,-a\" has have b", file.exists());
+	}
+
+	private void resolveRelativeUris() {
+		// Find the longest common prefix ends with "/" as rootUri.
+		defaultUri = defaultGit.getRepository().getDirectory().toURI().toString();
+		notDefaultUri = notDefaultGit.getRepository().getDirectory().toURI().toString();
+		groupAUri = groupAGit.getRepository().getDirectory().toURI().toString();
+		groupBUri = groupBGit.getRepository().getDirectory().toURI().toString();
+		int start = 0;
+		while (start <= defaultUri.length()) {
+			int newStart = defaultUri.indexOf('/', start + 1);
+			String prefix = defaultUri.substring(0, newStart);
+			if (!notDefaultUri.startsWith(prefix) ||
+					!groupAUri.startsWith(prefix) ||
+					!groupBUri.startsWith(prefix)) {
+				start++;
+				rootUri = defaultUri.substring(0, start);
+				defaultUri = defaultUri.substring(start);
+				notDefaultUri = notDefaultUri.substring(start);
+				groupAUri = groupAUri.substring(start);
+				groupBUri = groupBUri.substring(start);
+				return;
+			}
+			start = newStart;
+		}
 	}
 }
