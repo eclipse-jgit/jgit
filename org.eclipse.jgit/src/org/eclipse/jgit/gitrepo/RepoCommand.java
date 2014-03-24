@@ -48,9 +48,12 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.jgit.api.GitCommand;
 import org.eclipse.jgit.api.SubmoduleAddCommand;
@@ -79,18 +82,22 @@ import org.xml.sax.helpers.XMLReaderFactory;
 public class RepoCommand extends GitCommand<Void> {
 
 	private String path;
-
 	private String uri;
+	private String groups;
 
 	private ProgressMonitor monitor;
 
 	private static class Project {
 		final String name;
 		final String path;
+		final Set<String> groups;
 
-		Project(String name, String path) {
+		Project(String name, String path, String groups) {
 			this.name = name;
 			this.path = path;
+			this.groups = new HashSet<String>();
+			if (groups != null && groups.length() > 0)
+				this.groups.addAll(Arrays.asList(groups.split(","))); //$NON-NLS-1$
 		}
 	}
 
@@ -100,14 +107,29 @@ public class RepoCommand extends GitCommand<Void> {
 		private final String baseUrl;
 		private final Map<String, String> remotes;
 		private final List<Project> projects;
+		private final Set<String> plusGroups;
+		private final Set<String> minusGroups;
 		private String defaultRemote;
 
-		XmlManifest(RepoCommand command, String filename, String baseUrl) {
+		XmlManifest(RepoCommand command, String filename, String baseUrl, String groups) {
 			this.command = command;
 			this.filename = filename;
 			this.baseUrl = baseUrl;
 			remotes = new HashMap<String, String>();
 			projects = new ArrayList<Project>();
+			plusGroups = new HashSet<String>();
+			minusGroups = new HashSet<String>();
+			if (groups == null || groups.length() == 0 || groups.equals("default")) { //$NON-NLS-1$
+				// default means "all,-notdefault"
+				minusGroups.add("notdefault"); //$NON-NLS-1$
+			} else {
+				for (String group : groups.split(",")) { //$NON-NLS-1$
+					if (group.startsWith("-")) //$NON-NLS-1$
+						minusGroups.add(group.substring(1));
+					else
+						plusGroups.add(group);
+				}
+			}
 		}
 
 		void read() throws IOException {
@@ -137,13 +159,17 @@ public class RepoCommand extends GitCommand<Void> {
 				String localName,
 				String qName,
 				Attributes attributes) throws SAXException {
-			if ("project".equals(qName)) //$NON-NLS-1$
-				projects.add(new Project(attributes.getValue("name"), attributes.getValue("path"))); //$NON-NLS-1$ //$NON-NLS-2$
-			else if ("remote".equals(qName)) //$NON-NLS-1$
-				remotes.put(attributes.getValue("name"), attributes.getValue("fetch")); //$NON-NLS-1$ //$NON-NLS-2$
-			else if ("default".equals(qName)) //$NON-NLS-1$
+			if ("project".equals(qName)) { //$NON-NLS-1$
+				projects.add(new Project( //$NON-NLS-1$
+							attributes.getValue("name"), //$NON-NLS-1$
+							attributes.getValue("path"), //$NON-NLS-1$
+							attributes.getValue("groups"))); //$NON-NLS-1$
+			} else if ("remote".equals(qName)) { //$NON-NLS-1$
+				remotes.put(attributes.getValue("name"), //$NON-NLS-1$
+						attributes.getValue("fetch")); //$NON-NLS-1$
+			} else if ("default".equals(qName)) { //$NON-NLS-1$
 				defaultRemote = attributes.getValue("remote"); //$NON-NLS-1$
-			else if ("copyfile".equals(qName)) { //$NON-NLS-1$
+			} else if ("copyfile".equals(qName)) { //$NON-NLS-1$
 				// TODO(fishywang): Handle copyfile. Do nothing for now.
 			}
 		}
@@ -162,9 +188,29 @@ public class RepoCommand extends GitCommand<Void> {
 				throw new SAXException(e);
 			}
 			for (Project proj : projects) {
-				String url = remoteUrl + proj.name;
-				command.addSubmodule(url, proj.path);
+				if (inGroups(proj)) {
+					String url = remoteUrl + proj.name;
+					command.addSubmodule(url, proj.path);
+				}
 			}
+		}
+
+		boolean inGroups(Project proj) {
+			for (String group : minusGroups) {
+				if (proj.groups.contains(group)) {
+					// minus groups have highest priority.
+					return false;
+				}
+			}
+			if (plusGroups.isEmpty() || plusGroups.contains("all")) { //$NON-NLS-1$
+				// empty plus groups means "all"
+				return true;
+			}
+			for (String group : plusGroups) {
+				if (proj.groups.contains(group))
+					return true;
+			}
+			return false;
 		}
 	}
 
@@ -205,6 +251,17 @@ public class RepoCommand extends GitCommand<Void> {
 	}
 
 	/**
+	 * Set groups to sync
+	 *
+	 * @param groups groups separated by comma, examples: default|all|G1,-G2,-G3
+	 * @return this command
+	 */
+	public RepoCommand setGroups(final String groups) {
+		this.groups = groups;
+		return this;
+	}
+
+	/**
 	 * The progress monitor associated with the clone operation. By default,
 	 * this is set to <code>NullProgressMonitor</code>
 	 *
@@ -225,7 +282,7 @@ public class RepoCommand extends GitCommand<Void> {
 		if (uri == null || uri.length() == 0)
 			throw new IllegalArgumentException(JGitText.get().uriNotConfigured);
 
-		XmlManifest manifest = new XmlManifest(this, path, uri);
+		XmlManifest manifest = new XmlManifest(this, path, uri, groups);
 		try {
 			manifest.read();
 		} catch (IOException e) {
@@ -236,11 +293,13 @@ public class RepoCommand extends GitCommand<Void> {
 	}
 
 	private void addSubmodule(String url, String name) throws SAXException {
-		SubmoduleAddCommand add = new SubmoduleAddCommand(repo);
+		SubmoduleAddCommand add = new SubmoduleAddCommand(repo)
+			.setPath(name)
+			.setURI(url);
 		if (monitor != null)
 			add.setProgressMonitor(monitor);
 		try {
-			add.setPath(name).setURI(url).call();
+			add.call();
 		} catch (GitAPIException e) {
 			throw new SAXException(e);
 		}
