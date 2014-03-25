@@ -43,9 +43,11 @@
 package org.eclipse.jgit.gitrepo;
 
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.channels.FileChannel;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -55,6 +57,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.jgit.api.AddCommand;
 import org.eclipse.jgit.api.GitCommand;
 import org.eclipse.jgit.api.SubmoduleAddCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -87,10 +90,32 @@ public class RepoCommand extends GitCommand<Void> {
 
 	private ProgressMonitor monitor;
 
+	private static class CopyFile {
+		final String src;
+		final String dest;
+		final String relativeDest;
+
+		CopyFile(Repository repo, String path, String src, String dest) {
+			this.src = repo.getWorkTree() + "/" + path + "/" + src; //$NON-NLS-1$ //$NON-NLS-2$
+			this.relativeDest = dest;
+			this.dest = repo.getWorkTree() + "/" + dest; //$NON-NLS-1$
+		}
+
+		void copy() throws IOException {
+			FileInputStream input = new FileInputStream(src);
+			FileOutputStream output = new FileOutputStream(dest);
+			FileChannel channel = input.getChannel();
+			output.getChannel().transferFrom(channel, 0, channel.size());
+			input.close();
+			output.close();
+		}
+	}
+
 	private static class Project {
 		final String name;
 		final String path;
 		final Set<String> groups;
+		final List<CopyFile> copyfiles;
 
 		Project(String name, String path, String groups) {
 			this.name = name;
@@ -98,6 +123,11 @@ public class RepoCommand extends GitCommand<Void> {
 			this.groups = new HashSet<String>();
 			if (groups != null && groups.length() > 0)
 				this.groups.addAll(Arrays.asList(groups.split(","))); //$NON-NLS-1$
+			copyfiles = new ArrayList<CopyFile>();
+		}
+
+		void addCopyFile(CopyFile copyfile) {
+			copyfiles.add(copyfile);
 		}
 	}
 
@@ -110,6 +140,7 @@ public class RepoCommand extends GitCommand<Void> {
 		private final Set<String> plusGroups;
 		private final Set<String> minusGroups;
 		private String defaultRemote;
+		private Project currentProject;
 
 		XmlManifest(RepoCommand command, String filename, String baseUrl, String groups) {
 			this.command = command;
@@ -160,17 +191,34 @@ public class RepoCommand extends GitCommand<Void> {
 				String qName,
 				Attributes attributes) throws SAXException {
 			if ("project".equals(qName)) { //$NON-NLS-1$
-				projects.add(new Project( //$NON-NLS-1$
-							attributes.getValue("name"), //$NON-NLS-1$
-							attributes.getValue("path"), //$NON-NLS-1$
-							attributes.getValue("groups"))); //$NON-NLS-1$
+				currentProject = new Project( //$NON-NLS-1$
+						attributes.getValue("name"), //$NON-NLS-1$
+						attributes.getValue("path"), //$NON-NLS-1$
+						attributes.getValue("groups")); //$NON-NLS-1$
 			} else if ("remote".equals(qName)) { //$NON-NLS-1$
 				remotes.put(attributes.getValue("name"), //$NON-NLS-1$
 						attributes.getValue("fetch")); //$NON-NLS-1$
 			} else if ("default".equals(qName)) { //$NON-NLS-1$
 				defaultRemote = attributes.getValue("remote"); //$NON-NLS-1$
 			} else if ("copyfile".equals(qName)) { //$NON-NLS-1$
-				// TODO(fishywang): Handle copyfile. Do nothing for now.
+				if (currentProject == null)
+					throw new SAXException(RepoText.get().invalidManifest);
+				currentProject.addCopyFile(new CopyFile(
+							command.repo,
+							currentProject.path,
+							attributes.getValue("src"), //$NON-NLS-1$
+							attributes.getValue("dest"))); //$NON-NLS-1$
+			}
+		}
+
+		@Override
+		public void endElement(
+				String uri,
+				String localName,
+				String qName) throws SAXException {
+			if ("project".equals(qName)) { //$NON-NLS-1$
+				projects.add(currentProject);
+				currentProject = null;
 			}
 		}
 
@@ -191,6 +239,21 @@ public class RepoCommand extends GitCommand<Void> {
 				if (inGroups(proj)) {
 					String url = remoteUrl + proj.name;
 					command.addSubmodule(url, proj.path);
+					for (CopyFile copyfile : proj.copyfiles) {
+						try {
+							copyfile.copy();
+						} catch (IOException e) {
+							throw new SAXException(
+									RepoText.get().copyFileFailed, e);
+						}
+						AddCommand add = new AddCommand(command.repo)
+							.addFilepattern(copyfile.relativeDest);
+						try {
+							add.call();
+						} catch (GitAPIException e) {
+							throw new SAXException(e);
+						}
+					}
 				}
 			}
 		}
