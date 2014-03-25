@@ -2,24 +2,24 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %plugin_name
 Bundle-SymbolicName: org.eclipse.jgit.pgm.test
-Bundle-Version: 3.3.1.201403241930-r
+Bundle-Version: 3.3.2.qualifier
 Bundle-Vendor: %provider_name
 Bundle-Localization: plugin
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Import-Package: org.eclipse.jgit.api;version="[3.3.1,3.4.0)",
- org.eclipse.jgit.dircache;version="[3.3.1,3.4.0)",
- org.eclipse.jgit.junit;version="[3.3.1,3.4.0)",
- org.eclipse.jgit.lib;version="[3.3.1,3.4.0)",
- org.eclipse.jgit.merge;version="[3.3.1,3.4.0)",
- org.eclipse.jgit.pgm;version="[3.3.1,3.4.0)",
- org.eclipse.jgit.pgm.internal;version="[3.3.1,3.4.0)",
- org.eclipse.jgit.pgm.opt;version="[3.3.1,3.4.0)",
- org.eclipse.jgit.revwalk;version="[3.3.1,3.4.0)",
- org.eclipse.jgit.storage.file;version="[3.3.1,3.4.0)",
- org.eclipse.jgit.transport;version="[3.3.1,3.4.0)",
- org.eclipse.jgit.util;version="[3.3.1,3.4.0)",
- org.eclipse.jgit.util.io;version="[3.3.1,3.4.0)",
+Import-Package: org.eclipse.jgit.api;version="[3.3.2,3.4.0)",
+ org.eclipse.jgit.dircache;version="[3.3.2,3.4.0)",
+ org.eclipse.jgit.junit;version="[3.3.2,3.4.0)",
+ org.eclipse.jgit.lib;version="[3.3.2,3.4.0)",
+ org.eclipse.jgit.merge;version="[3.3.2,3.4.0)",
+ org.eclipse.jgit.pgm;version="[3.3.2,3.4.0)",
+ org.eclipse.jgit.pgm.internal;version="[3.3.2,3.4.0)",
+ org.eclipse.jgit.pgm.opt;version="[3.3.2,3.4.0)",
+ org.eclipse.jgit.revwalk;version="[3.3.2,3.4.0)",
+ org.eclipse.jgit.storage.file;version="[3.3.2,3.4.0)",
+ org.eclipse.jgit.transport;version="[3.3.2,3.4.0)",
+ org.eclipse.jgit.util;version="[3.3.2,3.4.0)",
+ org.eclipse.jgit.util.io;version="[3.3.2,3.4.0)",
  org.hamcrest.core;bundle-version="[1.1.0,2.0.0)",
  org.junit;version="[4.4.0,5.0.0)",
  org.kohsuke.args4j;version="[2.0.12,2.1.0)"
