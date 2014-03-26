@@ -481,7 +481,7 @@ public class GC {
 	 * @throws IOException
 	 */
 	public void packRefs() throws IOException {
-		Collection<Ref> refs = repo.getRefDatabase().getRefs(ALL).values();
+		Collection<Ref> refs = repo.getRefDatabase().getRefs(Constants.R_REFS).values();
 		List<String> refsToBePacked = new ArrayList<String>(refs.size());
 		pm.beginTask(JGitText.get().packRefs, refs.size());
 		try {
