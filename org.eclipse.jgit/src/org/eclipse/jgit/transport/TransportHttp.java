@@ -75,8 +75,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
@@ -249,7 +247,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 
 	private HttpAuthMethod authMethod = HttpAuthMethod.NONE;
 
-	private HashMap<String, String> headers;
+	private Map<String, String> headers;
 
 	TransportHttp(final Repository local, final URIish uri)
 			throws NotSupportedException {
@@ -430,14 +428,14 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	}
 
 	/**
-	 * Set additional header on the HTTP connection
-	 *
+	 * Set additional headers on the HTTP connection
+	 * 
 	 * @param headers
 	 *            a map of name:values that are to be set as headers on the HTTP
 	 *            connection
-	 *
+	 * @since 3.4
 	 */
-	public void setAdditionalHeaders(HashMap<String, String> headers) {
+	public void setAdditionalHeaders(Map<String, String> headers) {
 		this.headers = headers;
 	}
 
@@ -549,11 +547,8 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		}
 		// go through additional headers and set them on conn
 		if (this.headers != null && !this.headers.isEmpty()) {
-			for (Iterator iterator = this.headers.keySet().iterator(); iterator
-					.hasNext();) {
-				String key = (String) iterator.next();
-				String value = this.headers.get(key);
-				conn.setRequestProperty(key, value);
+			for (Map.Entry<String, String> entry : this.headers.entrySet()) {
+				conn.setRequestProperty(entry.getKey(), entry.getValue());
 			}
 		}
 		authMethod.configureRequest(conn);
