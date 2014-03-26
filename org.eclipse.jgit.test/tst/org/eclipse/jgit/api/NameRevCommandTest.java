@@ -44,6 +44,7 @@
 package org.eclipse.jgit.api;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Map;
 
@@ -106,6 +107,19 @@ public class NameRevCommandTest extends RepositoryTestCase {
 		tr.update("refs/tags/tag1", c);
 		tr.update("refs/tags/tag2", tr.tag("tag2", c));
 		assertOneResult("tag2", git.nameRev().addAnnotatedTags(), c);
+	}
+
+	@Test
+	public void annotatedTagsNoResult() throws Exception {
+		RevCommit c = tr.commit().create();
+		tr.update("refs/heads/master", c);
+		tr.update("refs/tags/tag1", c);
+		tr.update("refs/tags/tag2", c);
+		Map<ObjectId, String> result = git.nameRev()
+				.add(c)
+				.addAnnotatedTags()
+				.call();
+		assertTrue(result.toString(), result.isEmpty());
 	}
 
 	@Test
