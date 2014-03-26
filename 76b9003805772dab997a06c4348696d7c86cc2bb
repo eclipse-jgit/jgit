@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2753a756_66701450",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-03-26T23:59:16Z",
+      "side": 1,
+      "message": "style nit: add a blank line after the commit message header",
+      "revId": "76b9003805772dab997a06c4348696d7c86cc2bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2753a756_066b1869",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/SetAdditionalHeadersTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-03-26T23:59:16Z",
+      "side": 1,
+      "message": "missing license header",
+      "revId": "76b9003805772dab997a06c4348696d7c86cc2bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2753a756_e68384a4",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/SetAdditionalHeadersTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-03-26T23:59:16Z",
+      "side": 1,
+      "message": "I think there is no need to repeat this comment here",
+      "revId": "76b9003805772dab997a06c4348696d7c86cc2bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2753a756_4675103e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-03-26T23:59:16Z",
+      "side": 1,
+      "message": "style nit: trailing whitespace",
+      "revId": "76b9003805772dab997a06c4348696d7c86cc2bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2753a756_a6798c3c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 548,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-03-26T23:59:16Z",
+      "side": 1,
+      "message": "this comment doesn\u0027t add additional value",
+      "revId": "76b9003805772dab997a06c4348696d7c86cc2bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2753a756_86760848",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 550,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-03-26T23:59:16Z",
+      "side": 1,
+      "message": "style nit: we don\u0027t use braces around single line blocks",
+      "revId": "76b9003805772dab997a06c4348696d7c86cc2bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
