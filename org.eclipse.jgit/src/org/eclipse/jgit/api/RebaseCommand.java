@@ -621,6 +621,9 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		sb.setLength(0);
 		sb.append("# This is a combination of ").append(count)
 				.append(" commits.\n");
+		// Add the previous message without header (i.e first line)
+		sb.append(currSquashMessage.substring(currSquashMessage.indexOf("\n") + 1));
+		sb.append("\n");
 		if (isSquash) {
 			sb.append("# This is the ").append(count).append(ordinal)
 					.append(" commit message:\n");
@@ -631,9 +634,6 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			sb.append(commitToPick.getFullMessage().replaceAll("([\n\r])",
 					"$1# "));
 		}
-		// Add the previous message without header (i.e first line)
-		sb.append("\n");
-		sb.append(currSquashMessage.substring(currSquashMessage.indexOf("\n") + 1));
 		return sb.toString();
 	}
 
