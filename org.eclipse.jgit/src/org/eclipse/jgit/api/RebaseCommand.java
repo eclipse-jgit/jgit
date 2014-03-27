@@ -162,7 +162,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 
 	private static final String AUTOSTASH = "autostash"; //$NON-NLS-1$
 
-	private static final String AUTOSTASH_MSG = "On {0}: autostash";
+	private static final String AUTOSTASH_MSG = "On {0}: autostash"; //$NON-NLS-1$
 
 	/**
 	 * The available operations
