@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2753a756_ef7cf792",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ValidRefNameTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2014-03-27T15:21:04Z",
+      "side": 1,
+      "message": "How about testing both windows and non-windows code paths regardless of platform by mocking the system reader (see testWindowsReservedNames)?",
+      "revId": "633beae7ec2d479c0e8dce4bb91d315c18008408",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
