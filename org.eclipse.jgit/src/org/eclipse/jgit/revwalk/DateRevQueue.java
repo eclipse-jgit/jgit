@@ -45,33 +45,31 @@
 package org.eclipse.jgit.revwalk;
 
 import java.io.IOException;
+import java.util.Comparator;
+import java.util.Iterator;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.util.BucketQueue;
 
 /** A queue of commits sorted by commit time order. */
 public class DateRevQueue extends AbstractRevQueue {
-	private static final int REBUILD_INDEX_COUNT = 1000;
-
-	private Entry head;
-
-	private Entry free;
-
-	private int inQueue;
-
-	private int sinceLastIndex;
-
-	private Entry[] index;
-
-	private int first;
-
-	private int last = -1;
+	BucketQueue<RevCommit> bucketQueue = new BucketQueue<RevCommit>(
+			new RevCommitTimeComparator());
 
 	/** Create an empty date queue. */
 	public DateRevQueue() {
 		super();
 	}
 
+	/**
+	 * Construct from generator
+	 *
+	 * @param s
+	 * @throws MissingObjectException
+	 * @throws IncorrectObjectTypeException
+	 * @throws IOException
+	 */
 	DateRevQueue(final Generator s) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
 		for (;;) {
@@ -82,74 +80,9 @@ public class DateRevQueue extends AbstractRevQueue {
 		}
 	}
 
-	public void add(final RevCommit c) {
-		sinceLastIndex++;
-		if (++inQueue > REBUILD_INDEX_COUNT
-				&& sinceLastIndex > REBUILD_INDEX_COUNT)
-			buildIndex();
-
-		Entry q = head;
-		final long when = c.commitTime;
-
-		if (first <= last && index[first].commit.commitTime > when) {
-			int low = first, high = last;
-			while (low <= high) {
-				int mid = (low + high) >>> 1;
-				int t = index[mid].commit.commitTime;
-				if (t < when)
-					high = mid - 1;
-				else if (t > when)
-					low = mid + 1;
-				else {
-					low = mid - 1;
-					break;
-				}
-			}
-			low = Math.min(low, high);
-			while (low > first && when == index[low].commit.commitTime)
-				--low;
-			q = index[low];
-		}
-
-		final Entry n = newEntry(c);
-		if (q == null || (q == head && when > q.commit.commitTime)) {
-			n.next = q;
-			head = n;
-		} else {
-			Entry p = q.next;
-			while (p != null && p.commit.commitTime >= when) {
-				q = p;
-				p = q.next;
-			}
-			n.next = q.next;
-			q.next = n;
-		}
-	}
-
-	public RevCommit next() {
-		final Entry q = head;
-		if (q == null)
-			return null;
-
-		if (index != null && q == index[first])
-			index[first++] = null;
-		inQueue--;
-
-		head = q.next;
-		freeEntry(q);
-		return q.commit;
-	}
-
-	private void buildIndex() {
-		sinceLastIndex = 0;
-		first = 0;
-		index = new Entry[inQueue / 100 + 1];
-		int qi = 0, ii = 0;
-		for (Entry q = head; q != null; q = q.next) {
-			if (++qi % 100 == 0)
-				index[ii++] = q;
-		}
-		last = ii - 1;
+	@Override
+	public void add(RevCommit c) {
+		bucketQueue.add(c);
 	}
 
 	/**
@@ -158,30 +91,45 @@ public class DateRevQueue extends AbstractRevQueue {
 	 * @return the next available commit; null if there are no commits left.
 	 */
 	public RevCommit peek() {
-		return head != null ? head.commit : null;
+		return bucketQueue.peek();
 	}
 
+	/**
+	 * Clears queue
+	 */
+	@Override
 	public void clear() {
-		head = null;
-		free = null;
-		index = null;
-		inQueue = 0;
-		sinceLastIndex = 0;
-		last = -1;
+		bucketQueue.clear();
 	}
 
-	boolean everbodyHasFlag(final int f) {
-		for (Entry q = head; q != null; q = q.next) {
-			if ((q.commit.flags & f) == 0)
-				return false;
+	/**
+	 * Pops and returns minimum RevCommit
+	 *
+	 * @return minimum RevCommit
+	 */
+	@Override
+	public RevCommit next() {
+		return bucketQueue.pop();
+	}
+
+	@Override
+	boolean everbodyHasFlag(int f) {
+		for (Iterator<RevCommit> it : bucketQueue.getIterators()) {
+			while (it.hasNext()) {
+				if ((it.next().flags & f) == 0)
+					return false;
+			}
 		}
 		return true;
 	}
 
-	boolean anybodyHasFlag(final int f) {
-		for (Entry q = head; q != null; q = q.next) {
-			if ((q.commit.flags & f) != 0)
-				return true;
+	@Override
+	boolean anybodyHasFlag(int f) {
+		for (Iterator<RevCommit> it : bucketQueue.getIterators()) {
+			while (it.hasNext()) {
+				if ((it.next().flags & f) != 0)
+					return true;
+			}
 		}
 		return false;
 	}
@@ -191,31 +139,28 @@ public class DateRevQueue extends AbstractRevQueue {
 		return outputType | SORT_COMMIT_TIME_DESC;
 	}
 
+	/**
+	 * @return total number of commits
+	 */
+	public int size() {
+		return bucketQueue.size();
+	}
+
+	@Override
 	public String toString() {
-		final StringBuilder s = new StringBuilder();
-		for (Entry q = head; q != null; q = q.next)
-			describe(s, q.commit);
-		return s.toString();
+		return bucketQueue.toString();
 	}
 
-	private Entry newEntry(final RevCommit c) {
-		Entry r = free;
-		if (r == null)
-			r = new Entry();
-		else
-			free = r.next;
-		r.commit = c;
-		return r;
-	}
-
-	private void freeEntry(final Entry e) {
-		e.next = free;
-		free = e;
-	}
-
-	static class Entry {
-		Entry next;
-
-		RevCommit commit;
+	/**
+	 * Compares two RevCommits
+	 */
+	public class RevCommitTimeComparator implements Comparator<RevCommit> {
+		public int compare(RevCommit o1, RevCommit o2) {
+			if (o1.commitTime > o2.commitTime)
+				return -1;
+			if (o1.commitTime < o2.commitTime)
+				return 1;
+			return 0;
+		}
 	}
 }
