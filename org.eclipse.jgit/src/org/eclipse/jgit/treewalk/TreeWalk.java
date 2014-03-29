@@ -777,7 +777,7 @@ public class TreeWalk {
 	 *            end with '/' prior to invocation.
 	 * @param pLen
 	 *            number of bytes from <code>buf</code> to test.
-	 * @return < 0 if p is before the current path; 0 if p matches the current
+	 * @return &lt; 0 if p is before the current path; 0 if p matches the current
 	 *         path; 1 if the current path is past p and p will never match
 	 *         again on this tree walk.
 	 */

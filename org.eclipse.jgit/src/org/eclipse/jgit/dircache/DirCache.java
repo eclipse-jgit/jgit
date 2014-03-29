@@ -730,14 +730,14 @@ public class DirCache {
 	}
 
 	/**
-	 * Locate the position a path's entry is at in the index.
-	 * For details refer to #findEntry(byte[], int).
+	 * Locate the position a path's entry is at in the index. For details refer
+	 * to #findEntry(byte[], int).
 	 *
 	 * @param path
 	 *            the path to search for.
-	 * @return if >= 0 then the return value is the position of the entry in the
-	 *         index; pass to {@link #getEntry(int)} to obtain the entry
-	 *         information. If < 0 the entry does not exist in the index.
+	 * @return if &gt;= 0 then the return value is the position of the entry in
+	 *         the index; pass to {@link #getEntry(int)} to obtain the entry
+	 *         information. If &lt; 0 the entry does not exist in the index.
 	 */
 	public int findEntry(final String path) {
 		final byte[] p = Constants.encode(path);
@@ -758,9 +758,9 @@ public class DirCache {
 	 *            the byte array starting with the path to search for.
 	 * @param pLen
 	 *            the length of the path in bytes
-	 * @return if >= 0 then the return value is the position of the entry in the
-	 *         index; pass to {@link #getEntry(int)} to obtain the entry
-	 *         information. If < 0 the entry does not exist in the index.
+	 * @return if &gt;= 0 then the return value is the position of the entry in
+	 *         the index; pass to {@link #getEntry(int)} to obtain the entry
+	 *         information. If &lt; 0 the entry does not exist in the index.
 	 * @since 3.4
 	 */
 	public int findEntry(final byte[] p, final int pLen) {
@@ -917,7 +917,7 @@ public class DirCache {
 	 *            returned tree identity.
 	 * @return identity for the root tree.
 	 * @throws UnmergedPathException
-	 *             one or more paths contain higher-order stages (stage > 0),
+	 *             one or more paths contain higher-order stages (stage &gt; 0),
 	 *             which cannot be stored in a tree object.
 	 * @throws IllegalStateException
 	 *             one or more paths contain an invalid mode which should never

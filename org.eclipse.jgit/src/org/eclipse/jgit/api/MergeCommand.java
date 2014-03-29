@@ -107,7 +107,7 @@ public class MergeCommand extends GitCommand<MergeResult> {
 	/**
 	 * The modes available for fast forward merges corresponding to the
 	 * <code>--ff</code>, <code>--no-ff</code> and <code>--ff-only</code>
-	 * options under <code>branch.<name>.mergeoptions</code>.
+	 * options under <code>branch.&lt;name&gt;.mergeoptions</code>.
 	 */
 	public enum FastForwardMode implements ConfigEnum {
 		/**
@@ -162,7 +162,7 @@ public class MergeCommand extends GitCommand<MergeResult> {
 			 *
 			 * @param ffMode
 			 *            the <code>FastForwardMode</code> value to be mapped
-			 * @return the mapped code>FastForwardMode.Merge</code> value
+			 * @return the mapped <code>FastForwardMode.Merge</code> value
 			 */
 			public static Merge valueOf(FastForwardMode ffMode) {
 				switch (ffMode) {
@@ -182,7 +182,7 @@ public class MergeCommand extends GitCommand<MergeResult> {
 		 *
 		 * @param ffMode
 		 *            the <code>FastForwardMode.Merge</code> value to be mapped
-		 * @return the mapped code>FastForwardMode</code> value
+		 * @return the mapped <code>FastForwardMode</code> value
 		 */
 		public static FastForwardMode valueOf(FastForwardMode.Merge ffMode) {
 			switch (ffMode) {

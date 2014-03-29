@@ -464,32 +464,36 @@ public class MergeResult {
 	 * file to a two-dimensional int-array of line-numbers telling where in the
 	 * file conflict markers for which merged commit can be found.
 	 * <p>
-	 * If the returned value contains a mapping "path"->[x][y]=z then this means
+	 * If the returned value contains a mapping "path"-&gt;[x][y]=z then this
+	 * means
 	 * <ul>
 	 * <li>the file with path "path" contains conflicts</li>
-	 * <li>if y < "number of merged commits": for conflict number x in this file
-	 * the chunk which was copied from commit number y starts on line number z.
-	 * All numberings and line numbers start with 0.</li>
+	 * <li>if y &lt; "number of merged commits": for conflict number x in this
+	 * file the chunk which was copied from commit number y starts on line
+	 * number z. All numberings and line numbers start with 0.</li>
 	 * <li>if y == "number of merged commits": the first non-conflicting line
 	 * after conflict number x starts at line number z</li>
 	 * </ul>
 	 * <p>
 	 * Example code how to parse this data:
-	 * <pre> MergeResult m=...;
-	 * Map<String, int[][]> allConflicts = m.getConflicts();
+	 *
+	 * <pre>
+	 * MergeResult m=...;
+	 * Map&lt;String, int[][]&gt; allConflicts = m.getConflicts();
 	 * for (String path : allConflicts.keySet()) {
 	 * 	int[][] c = allConflicts.get(path);
 	 * 	System.out.println("Conflicts in file " + path);
 	 * 	for (int i = 0; i < c.length; ++i) {
 	 * 		System.out.println("  Conflict #" + i);
-	 * 		for (int j = 0; j < (c[i].length) - 1; ++j) {
+	 * 		for (int j = 0; j &lt;	 (c[i].length) - 1; ++j) {
 	 * 			if (c[i][j] >= 0)
 	 * 				System.out.println("    Chunk for "
 	 * 						+ m.getMergedCommits()[j] + " starts on line #"
 	 * 						+ c[i][j]);
 	 * 		}
 	 * 	}
-	 * }</pre>
+	 * }
+	 * </pre>
 	 *
 	 * @return the conflicts or <code>null</code> if no conflict occurred
 	 */

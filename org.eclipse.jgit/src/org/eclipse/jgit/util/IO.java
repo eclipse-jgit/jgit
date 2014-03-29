@@ -317,7 +317,7 @@ public class IO {
 	 * @param fd
 	 *            the stream to skip bytes from.
 	 * @param toSkip
-	 *            total number of bytes to be discarded. Must be >= 0.
+	 *            total number of bytes to be discarded. Must be &gt;= 0.
 	 * @throws EOFException
 	 *             the stream ended before the requested number of bytes were
 	 *             skipped.

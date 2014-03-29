@@ -81,7 +81,7 @@ public class Tree extends TreeEntry {
 	 * @param lasta '/' if a is a tree, else NUL
 	 * @param lastb '/' if b is a tree, else NUL
 	 *
-	 * @return < 0 if a is sorted before b, 0 if they are the same, else b
+	 * @return &lt; 0 if a is sorted before b, 0 if they are the same, else b
 	 */
 	public static final int compareNames(final byte[] a, final byte[] b, final int lasta,final int lastb) {
 		return compareNames(a, b, 0, b.length, lasta, lastb);
