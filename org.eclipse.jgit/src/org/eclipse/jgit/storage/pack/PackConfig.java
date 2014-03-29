@@ -599,7 +599,7 @@ public class PackConfig {
 	 * Default setting: 0 (auto-detect processors)
 	 *
 	 * @param threads
-	 *            number of threads to use. If <= 0 the number of available
+	 *            number of threads to use. If &lt;= 0 the number of available
 	 *            processors for this JVM is used.
 	 */
 	public void setThreads(int threads) {

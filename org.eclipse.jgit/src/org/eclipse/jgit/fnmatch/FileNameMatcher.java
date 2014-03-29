@@ -80,7 +80,6 @@ import org.eclipse.jgit.errors.NoClosingBracketException;
  * </ul>
  * e. g. [[:xdigit:]]</li>
  * </ul>
- * </p>
  * Any character can be escaped by prepending it with a \
  */
 public class FileNameMatcher {

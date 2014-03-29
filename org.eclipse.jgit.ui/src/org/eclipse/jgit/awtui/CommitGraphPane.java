@@ -74,7 +74,7 @@ import org.eclipse.jgit.revplot.PlotCommitList;
  * <li>Commit graph and short message</li>
  * <li>Author name and email address</li>
  * <li>Author date and time</li>
- * </ul>
+ * </ol>
  */
 public class CommitGraphPane extends JTable {
 	private static final long serialVersionUID = 1L;
