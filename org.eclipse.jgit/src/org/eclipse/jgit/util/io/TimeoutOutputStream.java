@@ -80,7 +80,7 @@ public class TimeoutOutputStream extends OutputStream {
 
 	/**
 	 * @param millis
-	 *            number of milliseconds before aborting a write. Must be > 0.
+	 *            number of milliseconds before aborting a write. Must be &gt; 0.
 	 */
 	public void setTimeout(final int millis) {
 		if (millis < 0)

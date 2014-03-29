@@ -113,7 +113,7 @@ public final class InterruptTimer {
 	 *
 	 * @param timeout
 	 *            number of milliseconds before the interrupt should trigger.
-	 *            Must be > 0.
+	 *            Must be &gt; 0.
 	 */
 	public void begin(final int timeout) {
 		if (timeout <= 0)

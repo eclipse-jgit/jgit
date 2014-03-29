@@ -44,7 +44,7 @@
 
 package org.eclipse.jgit.util;
 
-/** A more efficient List<Integer> using a primitive integer array. */
+/** A more efficient List&lt;Integer&gt; using a primitive integer array. */
 public class IntList {
 	private int[] entries;
 

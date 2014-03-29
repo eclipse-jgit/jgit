@@ -132,11 +132,13 @@ import org.eclipse.jgit.util.TemporaryBuffer;
  * <li>by providing iterator of {@link RevObject} specifying exact list and
  * order of objects in pack</li>
  * </ul>
+ * <p>
  * Typical usage consists of creating instance intended for some pack,
  * configuring options, preparing the list of objects by calling
  * {@link #preparePack(Iterator)} or
  * {@link #preparePack(ProgressMonitor, Collection, Collection)}, and finally
- * producing the stream with {@link #writePack(ProgressMonitor, ProgressMonitor, OutputStream)}.
+ * producing the stream with
+ * {@link #writePack(ProgressMonitor, ProgressMonitor, OutputStream)}.
  * </p>
  * <p>
  * Class provide set of configurable options and {@link ProgressMonitor}

@@ -56,7 +56,7 @@ public final class NB {
 	 *            the first value to compare.
 	 * @param b
 	 *            the second value to compare.
-	 * @return < 0 if a < b; 0 if a == b; > 0 if a > b.
+	 * @return &lt; 0 if a &lt; b; 0 if a == b; &gt; 0 if a &gt; b.
 	 */
 	public static int compareUInt32(final int a, final int b) {
 		final int cmp = (a >>> 1) - (b >>> 1);

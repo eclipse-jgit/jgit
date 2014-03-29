@@ -64,13 +64,13 @@ public class CoreConfig {
 
 	/** Permissible values for {@code core.autocrlf}. */
 	public static enum AutoCRLF {
-		/** Automatic CRLF->LF conversion is disabled. */
+		/** Automatic CRLF-&gt;LF conversion is disabled. */
 		FALSE,
 
-		/** Automatic CRLF->LF conversion is enabled. */
+		/** Automatic CRLF-&gt;LF conversion is enabled. */
 		TRUE,
 
-		/** CRLF->LF performed, but no LF->CRLF. */
+		/** CRLF-&gt;LF performed, but no LF-&gt;CRLF. */
 		INPUT;
 	}
 

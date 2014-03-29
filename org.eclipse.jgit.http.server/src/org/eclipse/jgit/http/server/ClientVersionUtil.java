@@ -131,7 +131,7 @@ public class ClientVersionUtil {
 	 *            first parsed version string.
 	 * @param b
 	 *            second parsed version string.
-	 * @return <0 if a is before b; 0 if a equals b; >0 if a is after b.
+	 * @return &lt; 0 if a is before b; 0 if a equals b; &gt;0 if a is after b.
 	 */
 	public static int compare(int[] a, int[] b) {
 		for (int i = 0; i < a.length && i < b.length; i++) {

@@ -167,11 +167,21 @@ public class MyersDiff<S extends Sequence> {
 	}
 
 	/**
-	 * Calculates the differences between a given part of A against another given part of B
-	 * @param beginA start of the part of A which should be compared (0<=beginA<sizeof(A))
-	 * @param endA end of the part of A which should be compared (beginA<=endA<sizeof(A))
-	 * @param beginB start of the part of B which should be compared (0<=beginB<sizeof(B))
-	 * @param endB end of the part of B which should be compared (beginB<=endB<sizeof(B))
+	 * Calculates the differences between a given part of A against another
+	 * given part of B
+	 *
+	 * @param beginA
+	 *            start of the part of A which should be compared
+	 *            (0&lt;=beginA&lt;sizeof(A))
+	 * @param endA
+	 *            end of the part of A which should be compared
+	 *            (beginA&lt;=endA&lt;sizeof(A))
+	 * @param beginB
+	 *            start of the part of B which should be compared
+	 *            (0&lt;=beginB&lt;sizeof(B))
+	 * @param endB
+	 *            end of the part of B which should be compared
+	 *            (beginB&lt;=endB&lt;sizeof(B))
 	 */
 	protected void calculateEdits(int beginA, int endA,
 			int beginB, int endB) {

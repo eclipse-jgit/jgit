@@ -65,8 +65,8 @@ import org.eclipse.jgit.util.StringUtils;
 /**
  * This URI like construct used for referencing Git archives over the net, as
  * well as locally stored archives. It is similar to RFC 2396 URI's, but also
- * support SCP and the malformed file://<path> syntax (as opposed to the correct
- * file:<path> syntax.
+ * support SCP and the malformed file://&lt;path&gt; syntax (as opposed to the correct
+ * file:&lt;path&gt; syntax.
  */
 public class URIish implements Serializable {
 	/**
@@ -660,7 +660,7 @@ public class URIish implements Serializable {
 	/**
 	 * Get the "humanish" part of the path. Some examples of a 'humanish' part
 	 * for a full path:
-	 * <table>
+	 * <table summary="path vs humanish path" border="1">
 	 * <tr>
 	 * <th>Path</th>
 	 * <th>Humanish part</th>
