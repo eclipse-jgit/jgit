@@ -64,7 +64,7 @@
     <profile>
       <id>jgit.java7</id>
       <activation>
-	<jdk>1.7</jdk>
+	<jdk>[1.7,)</jdk>
       </activation>
       <dependencies>
 	<dependency>
