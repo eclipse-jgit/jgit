@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2753a756_26b731f1",
+        "filename": "org.eclipse.jgit.java7.test/org.eclipse.jgit.java7 -- Java7 feature test (Java 8).launch",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2014-03-29T17:38:22Z",
+      "side": 1,
+      "message": "This should not be the OS X specific type, but rather the generic \"StandardVMType/JavaSE-1.8\"",
+      "revId": "0d943a2cec41606149775bcd5b7e549466bc69ac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
