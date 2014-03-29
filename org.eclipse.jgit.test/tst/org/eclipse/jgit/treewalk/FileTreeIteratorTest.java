@@ -277,6 +277,11 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 		git.add().addFilepattern("file").call();
 		writeTrashFile("file", "conten2");
 		f.setLastModified(lastModified);
+		// We cannot trust this to go fast enough on
+		// a system with less than one-second lastModified
+		// resolution, so we force the index to have the
+		// same timestamp as the file we look at.
+		db.getIndexFile().setLastModified(lastModified);
 		DirCacheEntry dce = db.readDirCache().getEntry("file");
 		FileTreeIterator fti = new FileTreeIterator(trash, db.getFS(), db
 				.getConfig().get(WorkingTreeOptions.KEY));
