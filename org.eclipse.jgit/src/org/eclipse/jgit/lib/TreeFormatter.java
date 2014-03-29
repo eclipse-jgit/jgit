@@ -111,7 +111,7 @@ public class TreeFormatter {
 	}
 
 	/**
-	 * Add a link to a submodule commit, mode is {@link #GITLINK}.
+	 * Add a link to a submodule commit, mode is {@link FileMode#GITLINK}.
 	 *
 	 * @param name
 	 *            name of the entry.
@@ -123,7 +123,7 @@ public class TreeFormatter {
 	}
 
 	/**
-	 * Add a subtree, mode is {@link #TREE}.
+	 * Add a subtree, mode is {@link FileMode#TREE}.
 	 *
 	 * @param name
 	 *            name of the entry.
@@ -135,7 +135,7 @@ public class TreeFormatter {
 	}
 
 	/**
-	 * Add a regular file, mode is {@link #REGULAR_FILE}.
+	 * Add a regular file, mode is {@link FileMode#REGULAR_FILE}.
 	 *
 	 * @param name
 	 *            name of the entry.

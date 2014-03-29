@@ -79,7 +79,7 @@ public class TimeoutInputStream extends FilterInputStream {
 
 	/**
 	 * @param millis
-	 *            number of milliseconds before aborting a read. Must be > 0.
+	 *            number of milliseconds before aborting a read. Must be &gt; 0.
 	 */
 	public void setTimeout(final int millis) {
 		if (millis < 0)

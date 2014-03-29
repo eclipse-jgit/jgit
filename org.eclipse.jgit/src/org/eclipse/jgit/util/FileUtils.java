@@ -193,7 +193,7 @@ public class FileUtils {
 	 * the method fails. Furthermore if the destination exists and is a file
 	 * then the file will be deleted and then the rename is retried.
 	 * <p>
-	 * This operation is <em>not</me> atomic.
+	 * This operation is <em>not</em> atomic.
 	 *
 	 * @see FS#retryFailedLockFileCommit()
 	 * @param src

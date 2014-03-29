@@ -982,7 +982,7 @@ public final class RawParseUtils {
 	 * Decode a region of the buffer under the ISO-8859-1 encoding.
 	 *
 	 * Each byte is treated as a single character in the 8859-1 character
-	 * encoding, performing a raw binary->char conversion.
+	 * encoding, performing a raw binary-&gt;char conversion.
 	 *
 	 * @param buffer
 	 *            buffer to pull raw bytes from.

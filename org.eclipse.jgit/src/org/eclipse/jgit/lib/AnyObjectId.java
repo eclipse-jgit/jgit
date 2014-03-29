@@ -156,8 +156,8 @@ public abstract class AnyObjectId implements Comparable<AnyObjectId> {
 	 *
 	 * @param other
 	 *            the other id to compare to. Must not be null.
-	 * @return < 0 if this id comes before other; 0 if this id is equal to
-	 *         other; > 0 if this id comes after other.
+	 * @return &lt; 0 if this id comes before other; 0 if this id is equal to
+	 *         other; &gt; 0 if this id comes after other.
 	 */
 	public final int compareTo(final AnyObjectId other) {
 		if (this == other)

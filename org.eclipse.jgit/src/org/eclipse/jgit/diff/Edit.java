@@ -51,16 +51,16 @@ package org.eclipse.jgit.diff;
  * Regions should be specified using 0 based notation, so add 1 to the start and
  * end marks for line numbers in a file.
  * <p>
- * An edit where <code>beginA == endA && beginB < endB</code> is an insert edit,
- * that is sequence B inserted the elements in region
+ * An edit where <code>beginA == endA && beginB &lt; endB</code> is an insert
+ * edit, that is sequence B inserted the elements in region
  * <code>[beginB, endB)</code> at <code>beginA</code>.
  * <p>
- * An edit where <code>beginA < endA && beginB == endB</code> is a delete edit,
- * that is sequence B has removed the elements between
+ * An edit where <code>beginA &lt; endA && beginB == endB</code> is a delete
+ * edit, that is sequence B has removed the elements between
  * <code>[beginA, endA)</code>.
  * <p>
- * An edit where <code>beginA < endA && beginB < endB</code> is a replace edit,
- * that is sequence B has replaced the range of elements between
+ * An edit where <code>beginA &lt; endA && beginB &lt; endB</code> is a replace
+ * edit, that is sequence B has replaced the range of elements between
  * <code>[beginA, endA)</code> with those found in <code>[beginB, endB)</code>.
  */
 public class Edit {
@@ -105,11 +105,11 @@ public class Edit {
 	 * @param as
 	 *            beginA: start of region in sequence A; 0 based.
 	 * @param ae
-	 *            endA: end of region in sequence A; must be >= as.
+	 *            endA: end of region in sequence A; must be &gt;= as.
 	 * @param bs
 	 *            beginB: start of region in sequence B; 0 based.
 	 * @param be
-	 *            endB: end of region in sequence B; must be >= bs.
+	 *            endB: end of region in sequence B; must be &gt; = bs.
 	 */
 	public Edit(final int as, final int ae, final int bs, final int be) {
 		beginA = as;
