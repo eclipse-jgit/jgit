@@ -42,15 +42,15 @@
  */
 package org.eclipse.jgit.pgm;
 
-import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.CLIRepositoryTestCase;
+import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.SystemReader;
 import org.junit.Before;
 import org.junit.Test;
@@ -77,28 +77,12 @@ public class ConfigTest extends CLIRepositoryTestCase {
 		if (isMac)
 			expect.add("core.precomposeunicode=true");
 		expect.add("core.repositoryformatversion=0");
-		if (SystemReader.getInstance().isWindows() && osVersion() < 6
-				|| javaVersion() < 1.7) {
+		if (!FS.DETECTED.supportsSymlinks())
 			expect.add("core.symlinks=false");
-		}
 		expect.add(""); // ends with LF (last line empty)
-		assertArrayEquals("expected default configuration", expect.toArray(),
-				output);
+		assertEquals("expected default configuration",
+				Arrays.asList(expect.toArray()).toString(),
+				Arrays.asList(output).toString());
 	}
 
-	private static float javaVersion() {
-		String versionString = System.getProperty("java.version");
-		Matcher matcher = Pattern.compile("(\\d+\\.\\d+).*").matcher(
-				versionString);
-		matcher.matches();
-		return Float.parseFloat(matcher.group(1));
-	}
-
-	private static float osVersion() {
-		String versionString = System.getProperty("os.version");
-		Matcher matcher = Pattern.compile("(\\d+\\.\\d+).*").matcher(
-				versionString);
-		matcher.matches();
-		return Float.parseFloat(matcher.group(1));
-	}
 }
