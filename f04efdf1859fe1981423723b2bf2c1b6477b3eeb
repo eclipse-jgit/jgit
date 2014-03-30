@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2753a756_46fd05e0",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/AbstractFetchCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-03-30T21:27:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2753a756_66cc89e0",
+      "revId": "f04efdf1859fe1981423723b2bf2c1b6477b3eeb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2753a756_c6d9159e",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/TextBuiltin.java",
         "patchSetId": 5
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "2753a756_2602917d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/TextBuiltin.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-03-30T21:27:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2753a756_c6d9159e",
+      "revId": "f04efdf1859fe1981423723b2bf2c1b6477b3eeb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2753a756_86cf1dd5",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/ShowCommands.java",
         "patchSetId": 5
@@ -47,6 +83,24 @@
       "writtenOn": "2014-03-30T21:24:53Z",
       "side": 1,
       "message": "PrintStream isn\u0027t used",
+      "revId": "f04efdf1859fe1981423723b2bf2c1b6477b3eeb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2753a756_86f6fd00",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/ShowCommands.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-03-30T21:27:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2753a756_86cf1dd5",
       "revId": "f04efdf1859fe1981423723b2bf2c1b6477b3eeb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
