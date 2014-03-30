@@ -832,6 +832,8 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	 */
 	public boolean isModified(DirCacheEntry entry, boolean forceContentCheck,
 			ObjectReader reader) throws IOException {
+		if (entry == null)
+			return !FileMode.MISSING.equals(getEntryFileMode());
 		MetadataDiff diff = compareMetadata(entry);
 		switch (diff) {
 		case DIFFER_BY_TIMESTAMP:
