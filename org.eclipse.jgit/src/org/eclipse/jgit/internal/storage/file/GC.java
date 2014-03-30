@@ -338,7 +338,8 @@ public class GC {
 						String fName = f.getName();
 						if (fName.length() != Constants.OBJECT_ID_STRING_LENGTH - 2)
 							continue;
-						if (f.lastModified() >= expireDate)
+						if (expireAgeMillis != 0
+								&& f.lastModified() >= expireDate)
 							continue;
 						try {
 							ObjectId id = ObjectId.fromString(d + fName);
@@ -938,6 +939,10 @@ public class GC {
 	 * created or modified in the last <code>expireAgeMillis</code> milliseconds
 	 * will not be pruned. Only older objects may be pruned. If set to 0 then
 	 * every object is a candidate for pruning.
+	 * <p>
+	 * <em>Do not expect a certain result by setting <code>expireAgeMillis</code>
+	 * to a very low value other then zero.</em>. This API is specified in
+	 * milliseconds to confirm to Java API practice rather than precision.
 	 *
 	 * @param expireAgeMillis
 	 *            minimal age of objects to be pruned in milliseconds.
@@ -955,9 +960,17 @@ public class GC {
 	 *
 	 * @param expire
 	 *            instant in time which defines object expiration
-	 *            objects with modification time before this instant are expired
-	 *            objects with modification time newer or equal to this instant
-	 *            are not expired
+	 *            <ul>
+	 *            <li>objects with modification time before this instant are
+	 *            expired
+	 *            <li>objects with modification time newer or equal to this
+	 *            instant are not expired
+	 *            </ul>
+	 *            <em>Do not expect a certain result by setting <code>expire</code>
+	 *            to <i>now</i> or something very very close</em>. To attempt to
+	 *            prune all loose objects, call
+	 *            {@link #setExpireAgeMillis(long)} with the value
+	 *            <code>0L</code> instead.
 	 */
 	public void setExpire(Date expire) {
 		this.expire = expire;
