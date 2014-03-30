@@ -61,7 +61,7 @@ public class GcPruneNonReferencedTest extends GcTestCase {
 	@Test
 	public void nonReferencedNonExpiredObject_notPruned() throws Exception {
 		RevBlob a = tr.blob("a");
-		gc.setExpire(new Date(lastModified(a)));
+		gc.setExpire(new Date(lastModified(a) - 1000));
 		gc.prune(Collections.<ObjectId> emptySet());
 		assertTrue(repo.hasObject(a));
 	}
@@ -91,7 +91,7 @@ public class GcPruneNonReferencedTest extends GcTestCase {
 		RevBlob a = tr.blob("a");
 		gc.setExpire(new Date(lastModified(a) + 1));
 
-		fsTick();
+		Thread.sleep(1000);
 		RevBlob b = tr.blob("b");
 
 		gc.prune(Collections.<ObjectId> emptySet());
