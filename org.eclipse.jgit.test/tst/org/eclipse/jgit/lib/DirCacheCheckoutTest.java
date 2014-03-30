@@ -619,7 +619,7 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 	@Test
 	public void testDirectoryFileConflicts_9() throws Exception {
 		// 9
-		doit(mk("DF"), mkmap("DF", "QP"), mk("DF/DF"));
+		doit(mkmap("DF", "QP"), mkmap("DF", "DF"), mkmap("DF/DF", "DF/DF"));
 		assertRemoved("DF/DF");
 		assertUpdated("DF");
 	}
