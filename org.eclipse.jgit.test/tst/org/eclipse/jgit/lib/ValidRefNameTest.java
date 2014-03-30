@@ -51,7 +51,47 @@ import org.junit.Test;
 
 public class ValidRefNameTest {
 	private static void assertValid(final boolean exp, final String name) {
-		assertEquals("\"" + name + "\"", exp, Repository.isValidRefName(name));
+		SystemReader instance = SystemReader.getInstance();
+		try {
+			setUnixSystemReader();
+			assertEquals("\"" + name + "\"", exp,
+					Repository.isValidRefName(name));
+			setWindowsSystemReader();
+			assertEquals("\"" + name + "\"", exp,
+					Repository.isValidRefName(name));
+		} finally {
+			SystemReader.setInstance(instance);
+		}
+	}
+
+	private static void setWindowsSystemReader() {
+		SystemReader.setInstance(new MockSystemReader() {
+			{
+				setWindows();
+			}
+		});
+	}
+
+	private static void setUnixSystemReader() {
+		SystemReader.setInstance(new MockSystemReader() {
+			{
+				setUnix();
+			}
+		});
+	}
+
+	private static void assertInvalidOnWindows(final String name) {
+		SystemReader instance = SystemReader.getInstance();
+		try {
+			setUnixSystemReader();
+			assertEquals("\"" + name + "\"", true,
+					Repository.isValidRefName(name));
+			setWindowsSystemReader();
+			assertEquals("\"" + name + "\"", false,
+					Repository.isValidRefName(name));
+		} finally {
+			SystemReader.setInstance(instance);
+		}
 	}
 
 	@Test
@@ -153,9 +193,8 @@ public class ValidRefNameTest {
 	}
 
 	@Test
-	public void testValidSpecialCharacters() {
+	public void testValidSpecialCharacterUnixs() {
 		assertValid(true, "refs/heads/!");
-		assertValid(true, "refs/heads/\"");
 		assertValid(true, "refs/heads/#");
 		assertValid(true, "refs/heads/$");
 		assertValid(true, "refs/heads/%");
@@ -167,21 +206,24 @@ public class ValidRefNameTest {
 		assertValid(true, "refs/heads/,");
 		assertValid(true, "refs/heads/-");
 		assertValid(true, "refs/heads/;");
-		assertValid(true, "refs/heads/<");
 		assertValid(true, "refs/heads/=");
-		assertValid(true, "refs/heads/>");
 		assertValid(true, "refs/heads/@");
 		assertValid(true, "refs/heads/]");
 		assertValid(true, "refs/heads/_");
 		assertValid(true, "refs/heads/`");
 		assertValid(true, "refs/heads/{");
-		assertValid(true, "refs/heads/|");
 		assertValid(true, "refs/heads/}");
 
 		// This is valid on UNIX, but not on Windows
 		// hence we make in invalid due to non-portability
 		//
 		assertValid(false, "refs/heads/\\");
+
+		// More invalid characters on Windows, but we allow them
+		assertInvalidOnWindows("refs/heads/\"");
+		assertInvalidOnWindows("refs/heads/<");
+		assertInvalidOnWindows("refs/heads/>");
+		assertInvalidOnWindows("refs/heads/|");
 	}
 
 	@Test
@@ -197,22 +239,12 @@ public class ValidRefNameTest {
 
 	@Test
 	public void testWindowsReservedNames() {
-		SystemReader original = SystemReader.getInstance();
-		try {
-			SystemReader.setInstance(new MockSystemReader() {
-				public boolean isWindows() {
-					return true;
-				}
-			});
-			// re-using code from DirCacheCheckoutTest, hence
-			// only testing for one of the special names.
-			assertValid(false, "refs/heads/con");
-			assertValid(false, "refs/con/x");
-			assertValid(false, "con/heads/x");
-			assertValid(true, "refs/heads/conx");
-			assertValid(true, "refs/heads/xcon");
-		} finally {
-			SystemReader.setInstance(original);
-		}
+		// re-using code from DirCacheCheckoutTest, hence
+		// only testing for one of the special names.
+		assertInvalidOnWindows("refs/heads/con");
+		assertInvalidOnWindows("refs/con/x");
+		assertInvalidOnWindows("con/heads/x");
+		assertValid(true, "refs/heads/conx");
+		assertValid(true, "refs/heads/xcon");
 	}
 }
