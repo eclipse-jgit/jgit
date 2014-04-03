@@ -1017,7 +1017,8 @@ public abstract class PackParser {
 				throw new CorruptObjectException(MessageFormat.format(
 						JGitText.get().invalidObject,
 						Constants.typeString(type),
-						id.name(), e.getMessage()), e);
+						readCurs.abbreviate(id, 10).name(),
+						e.getMessage()), e);
 			}
 		}
 
