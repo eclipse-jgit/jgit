@@ -1493,8 +1493,8 @@ public class ObjectCheckerTest {
 		}
 
 		StringBuilder b = new StringBuilder();
-		entry(b, "100644 \u00C1");
-		entry(b, "100644 \u004a\u0301");
+		entry(b, "100644 \u0065\u0301");
+		entry(b, "100644 \u00e9");
 		byte[] data = b.toString().getBytes("UTF-8");
 		try {
 			checker.setSafeForMacOS(true);
@@ -1503,6 +1503,15 @@ public class ObjectCheckerTest {
 		} catch (CorruptObjectException e) {
 			assertEquals("duplicate entry names", e.getMessage());
 		}
+	}
+
+	@Test
+	public void testInvalidTreeDuplicateNames8()
+			throws UnsupportedEncodingException, CorruptObjectException {
+		StringBuilder b = new StringBuilder();
+		entry(b, "100644 A");
+		checker.setSafeForMacOS(true);
+		checker.checkTree(b.toString().getBytes("UTF-8"));
 	}
 
 	@Test

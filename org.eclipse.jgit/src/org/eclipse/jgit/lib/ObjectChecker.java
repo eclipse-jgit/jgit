@@ -382,7 +382,7 @@ public class ObjectChecker {
 				throw new CorruptObjectException("truncated in name");
 			checkPathSegment2(raw, thisNameB, ptr);
 			if (normalized != null) {
-				if (normalized.add(normalize(raw, thisNameB, ptr)))
+				if (!normalized.add(normalize(raw, thisNameB, ptr)))
 					throw new CorruptObjectException("duplicate entry names");
 			} else if (duplicateName(raw, thisNameB, ptr))
 				throw new CorruptObjectException("duplicate entry names");
