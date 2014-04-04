@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "2753a756_ea35f090",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-04-04T05:28:06Z",
+      "side": 1,
+      "message": "This reference is wrong",
+      "revId": "916b4fe0d6eff7b1f4b92fa06f21cd6dd20122b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2753a756_c1813809",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsRefRename.java",
         "patchSetId": 4
