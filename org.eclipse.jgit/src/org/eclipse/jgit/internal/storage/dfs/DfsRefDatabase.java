@@ -56,6 +56,7 @@ import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.RefRename;
+import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.SymbolicRef;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTag;
@@ -211,7 +212,7 @@ public abstract class DfsRefDatabase extends RefDatabase {
 	}
 
 	@Override
-	public DfsRefUpdate newUpdate(String refName, boolean detach)
+	public RefUpdate newUpdate(String refName, boolean detach)
 			throws IOException {
 		boolean detachingSymbolicRef = false;
 		Ref ref = getOneRef(refName);
@@ -233,8 +234,8 @@ public abstract class DfsRefDatabase extends RefDatabase {
 	@Override
 	public RefRename newRename(String fromName, String toName)
 			throws IOException {
-		DfsRefUpdate src = newUpdate(fromName, true);
-		DfsRefUpdate dst = newUpdate(toName, true);
+		RefUpdate src = newUpdate(fromName, true);
+		RefUpdate dst = newUpdate(toName, true);
 		return new DfsRefRename(src, dst);
 	}
 
