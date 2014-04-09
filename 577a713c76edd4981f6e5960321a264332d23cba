@@ -104,6 +104,23 @@
     },
     {
       "key": {
+        "uuid": "0756a345_36b2f151",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-04-09T22:09:13Z",
+      "side": 1,
+      "message": "mark texts not to be externalized with // NON-NLS-\u003cn\u003e\n\nsee http://help.eclipse.org/kepler/index.jsp?topic\u003d%2Forg.eclipse.jdt.doc.user%2Fconcepts%2Fconcept-string-externalization.htm",
+      "revId": "577a713c76edd4981f6e5960321a264332d23cba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_96981dfe",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
         "patchSetId": 1
