@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0756a345_76eaa923",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/internal/CLIText.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-04-09T21:46:17Z",
+      "side": 1,
+      "message": "this is hard to understand",
+      "revId": "51615e53cb40875362dee89d75518e0dcc554d73",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_d6ce15d9",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/internal/CLIText.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-04-09T21:46:17Z",
+      "side": 1,
+      "message": "s/XML/XML file/ or leave out XML",
+      "revId": "51615e53cb40875362dee89d75518e0dcc554d73",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_762f4913",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Repo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-04-09T21:46:17Z",
+      "side": 1,
+      "message": "this package needs to be imported in MANIFEST.MF otherwise this isn\u0027t accessible when run in OSGi container",
+      "revId": "51615e53cb40875362dee89d75518e0dcc554d73",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
