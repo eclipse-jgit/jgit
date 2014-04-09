@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0756a345_16d9ad9c",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/internal/CLIText.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-04-09T21:59:50Z",
+      "side": 1,
+      "message": "how are these groups defined ?\n\nwhy are some groups prefixed with \"-\" ?",
+      "revId": "f01eb00a70fe3a755367e370d33b0c0a3c8f99c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_f6d51960",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-04-09T21:59:50Z",
+      "side": 1,
+      "message": "we don\u0027t use braces around single line blocks",
+      "revId": "f01eb00a70fe3a755367e370d33b0c0a3c8f99c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
