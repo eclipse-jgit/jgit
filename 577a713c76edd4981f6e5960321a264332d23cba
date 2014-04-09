@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0756a345_d6fbb539",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/gitrepo/internal/RepoText.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-04-09T21:38:15Z",
+      "side": 1,
+      "message": "s/from/of/ ?",
+      "revId": "577a713c76edd4981f6e5960321a264332d23cba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_76c629e3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-04-09T21:38:15Z",
+      "side": 1,
+      "message": "gitrepo looks strange, can we use repo instead ?\n\nthis class is extending GitCommand and raising GitAPIExceptions why is it not under the api package ?",
+      "revId": "577a713c76edd4981f6e5960321a264332d23cba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_96e2dd90",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-04-09T21:38:15Z",
+      "side": 1,
+      "message": "missing @since 3.4 tag to be used for new API\n\ncould you add an explanation what the repo command does as it is not a standard git command, I\u0027d also add a link to https://code.google.com/p/git-repo/",
+      "revId": "577a713c76edd4981f6e5960321a264332d23cba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_16b52d64",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-04-09T21:38:15Z",
+      "side": 1,
+      "message": "monitor isn\u0027t used",
+      "revId": "577a713c76edd4981f6e5960321a264332d23cba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_769d89eb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-04-09T21:38:15Z",
+      "side": 1,
+      "message": "this constructor isn\u0027t available in Java 5",
+      "revId": "577a713c76edd4981f6e5960321a264332d23cba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_b619e107",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-04-09T21:38:15Z",
+      "side": 1,
+      "message": "we don\u0027t use braces around singe line blocks",
+      "revId": "577a713c76edd4981f6e5960321a264332d23cba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_96981dfe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-04-09T21:38:15Z",
+      "side": 1,
+      "message": "raises warning type cannot be resolved in Eclipse, -\u003e add package name",
+      "revId": "577a713c76edd4981f6e5960321a264332d23cba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_560965bb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-04-09T21:38:15Z",
+      "side": 1,
+      "message": "@Override",
+      "revId": "577a713c76edd4981f6e5960321a264332d23cba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_168c0dbe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-04-09T21:38:15Z",
+      "side": 1,
+      "message": "unused local variable",
+      "revId": "577a713c76edd4981f6e5960321a264332d23cba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_9613fde7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/internal/RepoText.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-04-09T21:38:15Z",
+      "side": 1,
+      "message": "s/JGit//",
+      "revId": "577a713c76edd4981f6e5960321a264332d23cba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
