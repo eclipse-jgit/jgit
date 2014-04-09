@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2007, Robin Rosenberg <robin.rosenberg@dewire.com>
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
+ * Copyright (C) 2014, Gustaf Lundh <gustaf.lundh@sonymobile.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -388,7 +389,11 @@ public class RevWalk implements Iterable<RevCommit> {
 			treeFilter = TreeFilter.ALL;
 			markStart(tip);
 			markStart(base);
-			return next() == base;
+			RevCommit mergeBase;
+			while ((mergeBase = next()) != null)
+				if (mergeBase == base)
+					return true;
+			return false;
 		} finally {
 			filter = oldRF;
 			treeFilter = oldTF;
