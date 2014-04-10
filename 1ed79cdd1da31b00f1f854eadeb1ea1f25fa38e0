@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_2a83a2a7",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/gitrepo/internal/RepoText.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2014-04-10T21:40:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_76010978",
+      "revId": "1ed79cdd1da31b00f1f854eadeb1ea1f25fa38e0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_d6f575f7",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2014-04-09T22:06:34Z",
       "side": 1,
       "message": "mark texts not to be externalized with // NON-NLS-\u003cn\u003e",
+      "revId": "1ed79cdd1da31b00f1f854eadeb1ea1f25fa38e0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_aa4692f8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2014-04-10T21:40:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_d6f575f7",
       "revId": "1ed79cdd1da31b00f1f854eadeb1ea1f25fa38e0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
