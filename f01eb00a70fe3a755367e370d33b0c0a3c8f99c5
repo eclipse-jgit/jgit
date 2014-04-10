@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_0a0e9eee",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/internal/CLIText.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2014-04-10T21:40:00Z",
+      "side": 1,
+      "message": "Done. Groups are defined in the manifest file.",
+      "parentUuid": "0756a345_16d9ad9c",
+      "revId": "f01eb00a70fe3a755367e370d33b0c0a3c8f99c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_16f08d02",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Repo.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_4a3ff672",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Repo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2014-04-10T21:40:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_16f08d02",
+      "revId": "f01eb00a70fe3a755367e370d33b0c0a3c8f99c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_f6d51960",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2014-04-09T21:59:50Z",
       "side": 1,
       "message": "we don\u0027t use braces around single line blocks",
+      "revId": "f01eb00a70fe3a755367e370d33b0c0a3c8f99c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_aa34d294",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2014-04-10T21:40:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_f6d51960",
       "revId": "f01eb00a70fe3a755367e370d33b0c0a3c8f99c5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
