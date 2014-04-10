@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_aa7e925b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-04-10T20:31:39Z",
+      "side": 1,
+      "message": "The repo project is actually named \"git-repo\" (https://code.google.com/p/git-repo/) as repo is very ambiguous on its own. - is not allowed in a package name so I suggested gitrepo.\n\nI didn\u0027t want this under api package as its not something we expect to keep forever in JGit. I am looking at about 2 years for this code as we try to transition people away from git-repo and its XML files to git submodule.",
+      "parentUuid": "0756a345_76c629e3",
+      "revId": "577a713c76edd4981f6e5960321a264332d23cba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_96e2dd90",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
         "patchSetId": 1
@@ -81,6 +99,24 @@
       "writtenOn": "2014-04-09T21:38:15Z",
       "side": 1,
       "message": "this constructor isn\u0027t available in Java 5",
+      "revId": "577a713c76edd4981f6e5960321a264332d23cba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_8a83cee0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-04-10T20:31:39Z",
+      "side": 1,
+      "message": "Yuxuan, please fix as the code has to build under Java 5.",
+      "parentUuid": "0756a345_769d89eb",
       "revId": "577a713c76edd4981f6e5960321a264332d23cba",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
