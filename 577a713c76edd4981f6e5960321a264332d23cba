@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_d6a73507",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/gitrepo/internal/RepoText.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2014-04-10T21:39:31Z",
+      "side": 1,
+      "message": "Since parse is a transitive verb, I\u0027ll just say parse file.",
+      "parentUuid": "0756a345_d6fbb539",
+      "revId": "577a713c76edd4981f6e5960321a264332d23cba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_76c629e3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
         "patchSetId": 1
@@ -71,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_16540d4b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2014-04-10T21:39:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_96e2dd90",
+      "revId": "577a713c76edd4981f6e5960321a264332d23cba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_16b52d64",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
         "patchSetId": 1
@@ -82,6 +118,24 @@
       "writtenOn": "2014-04-09T21:38:15Z",
       "side": 1,
       "message": "monitor isn\u0027t used",
+      "revId": "577a713c76edd4981f6e5960321a264332d23cba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_0a15fe6e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2014-04-10T21:39:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_16b52d64",
       "revId": "577a713c76edd4981f6e5960321a264332d23cba",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -123,6 +177,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_b9e8b2f0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2014-04-10T21:39:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_769d89eb",
+      "revId": "577a713c76edd4981f6e5960321a264332d23cba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_b619e107",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
         "patchSetId": 1
@@ -134,6 +206,24 @@
       "writtenOn": "2014-04-09T21:38:15Z",
       "side": 1,
       "message": "we don\u0027t use braces around singe line blocks",
+      "revId": "577a713c76edd4981f6e5960321a264332d23cba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_0afe9ea0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2014-04-10T21:39:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_b619e107",
       "revId": "577a713c76edd4981f6e5960321a264332d23cba",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -157,6 +247,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_aab172fd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2014-04-10T21:39:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_36b2f151",
+      "revId": "577a713c76edd4981f6e5960321a264332d23cba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_96981dfe",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
         "patchSetId": 1
@@ -168,6 +276,24 @@
       "writtenOn": "2014-04-09T21:38:15Z",
       "side": 1,
       "message": "raises warning type cannot be resolved in Eclipse, -\u003e add package name",
+      "revId": "577a713c76edd4981f6e5960321a264332d23cba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_4a5a5657",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2014-04-10T21:39:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_96981dfe",
       "revId": "577a713c76edd4981f6e5960321a264332d23cba",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -191,6 +317,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_6a559a25",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2014-04-10T21:39:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_560965bb",
+      "revId": "577a713c76edd4981f6e5960321a264332d23cba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_168c0dbe",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
         "patchSetId": 1
@@ -208,6 +352,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_aa5fb244",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2014-04-10T21:39:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_168c0dbe",
+      "revId": "577a713c76edd4981f6e5960321a264332d23cba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_9613fde7",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/internal/RepoText.java",
         "patchSetId": 1
@@ -219,6 +381,24 @@
       "writtenOn": "2014-04-09T21:38:15Z",
       "side": 1,
       "message": "s/JGit//",
+      "revId": "577a713c76edd4981f6e5960321a264332d23cba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_ca65c610",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/internal/RepoText.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2014-04-10T21:39:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_9613fde7",
       "revId": "577a713c76edd4981f6e5960321a264332d23cba",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
