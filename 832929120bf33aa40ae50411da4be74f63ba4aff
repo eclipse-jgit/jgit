@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0756a345_6a663a4a",
+        "filename": "org.eclipse.jgit/META-INF/MANIFEST.MF",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-04-10T22:45:06Z",
+      "side": 1,
+      "message": "I think you need the matching import in org.eclipse.jgit.pgm/META-INF/MANIFEST.MF",
+      "revId": "832929120bf33aa40ae50411da4be74f63ba4aff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
