@@ -50,6 +50,24 @@
       "revId": "51615e53cb40875362dee89d75518e0dcc554d73",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_ca94a617",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Repo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-04-10T20:32:16Z",
+      "side": 1,
+      "message": "Do we ever run pgm in an OSGi container?",
+      "parentUuid": "0756a345_762f4913",
+      "revId": "51615e53cb40875362dee89d75518e0dcc554d73",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
