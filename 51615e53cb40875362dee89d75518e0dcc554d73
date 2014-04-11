@@ -140,6 +140,24 @@
       "revId": "51615e53cb40875362dee89d75518e0dcc554d73",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_ef7ed789",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Repo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-04-11T22:30:52Z",
+      "side": 1,
+      "message": "I found this since Eclipse raised warnings that RepoCommand isn\u0027t accessible, looks good now",
+      "parentUuid": "0756a345_4ad096f4",
+      "revId": "51615e53cb40875362dee89d75518e0dcc554d73",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
