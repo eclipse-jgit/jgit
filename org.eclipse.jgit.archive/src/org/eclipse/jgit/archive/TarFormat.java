@@ -61,7 +61,7 @@ import org.eclipse.jgit.lib.ObjectLoader;
 /**
  * Unix TAR format (ustar + some PAX extensions).
  */
-public class TarFormat implements ArchiveCommand.Format<ArchiveOutputStream> {
+public final class TarFormat implements ArchiveCommand.Format<ArchiveOutputStream> {
 	private static final List<String> SUFFIXES = Collections
 			.unmodifiableList(Arrays.asList(".tar")); //$NON-NLS-1$
 
@@ -117,5 +117,15 @@ public class TarFormat implements ArchiveCommand.Format<ArchiveOutputStream> {
 
 	public Iterable<String> suffixes() {
 		return SUFFIXES;
+	}
+
+	@Override
+	public boolean equals(Object other) {
+		return (other instanceof TarFormat);
+	}
+
+	@Override
+	public int hashCode() {
+		return getClass().hashCode();
 	}
 }

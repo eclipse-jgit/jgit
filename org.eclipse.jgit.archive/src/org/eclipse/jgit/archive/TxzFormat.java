@@ -57,7 +57,7 @@ import org.eclipse.jgit.lib.ObjectLoader;
 /**
  * Xz-compressed tar (tar.xz) format.
  */
-public class TxzFormat implements ArchiveCommand.Format<ArchiveOutputStream> {
+public final class TxzFormat implements ArchiveCommand.Format<ArchiveOutputStream> {
 	private static final List<String> SUFFIXES = Collections
 			.unmodifiableList(Arrays.asList(".tar.xz", ".txz")); //$NON-NLS-1$ //$NON-NLS-2$
 
@@ -77,5 +77,15 @@ public class TxzFormat implements ArchiveCommand.Format<ArchiveOutputStream> {
 
 	public Iterable<String> suffixes() {
 		return SUFFIXES;
+	}
+
+	@Override
+	public boolean equals(Object other) {
+		return (other instanceof TxzFormat);
+	}
+
+	@Override
+	public int hashCode() {
+		return getClass().hashCode();
 	}
 }
