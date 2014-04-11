@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0756a345_8f8e3b3c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 655,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-04-11T22:39:32Z",
+      "side": 1,
+      "message": "This modification is not covered by a test. If I remove this the tests still succeed. Please add a test.\n\nOn the other hand I think that if statement is not needed. The mask is \"FDF\" means we have files in HEAD and MERGE and a directory in INDEX. This means: there will always be a DirectoryFileConflict. No chance that walk.isDirectoryFileConflict() is false.",
+      "revId": "13b527800d78e27162141d52dfc3c1f9d4a80fc0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_6f93e761",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 669,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-04-11T22:39:32Z",
+      "side": 1,
+      "message": "Same argument as before: how can walk.isDirectoryFileConflict() be false if the mask is FFD?",
+      "revId": "13b527800d78e27162141d52dfc3c1f9d4a80fc0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_8ff91b91",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-04-11T22:39:32Z",
+      "side": 1,
+      "message": "hmmm. For the current path we only see files in HEAD,MERGE,INDEX. Means for these three states we definitly don\u0027t have a file/directory conflict and also not for the pathes of the parents (any prefixes of the current path). If we see files here then all our parent pathes must be directories. So they also don\u0027t face a file/directory conflict.\n\nBut: there could be a folder in the working tree for the current path or for any parent path. walk.isDirectoryFileConflict() is checking for the workingtree while our ffMask is ignoring the working tree.\n\nTo understand better what we gain with this change we need a test.",
+      "revId": "13b527800d78e27162141d52dfc3c1f9d4a80fc0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_ef09b738",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 701,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-04-11T22:39:32Z",
+      "side": 1,
+      "message": "yes!",
+      "revId": "13b527800d78e27162141d52dfc3c1f9d4a80fc0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_2f472f73",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 741,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-04-11T22:39:32Z",
+      "side": 1,
+      "message": "We need some else block here. You sorrounded the previous statement \"update(...)\" with a new if statement. But if you don\u0027t provide an else here and \"f!\u003dnull\" then we jump to 743 or 750. These blocks are not meant to handle situations where we have nothing in HEAD (check the comments). I would add an explicit else here.",
+      "revId": "13b527800d78e27162141d52dfc3c1f9d4a80fc0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_cf36730c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 860,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-04-11T22:39:32Z",
+      "side": 1,
+      "message": "I agree to this change. Only with your change we are doing what is described in the javadoc.\n\nBut I am wondering why this is not hit by any test. If I take this change and replace this file (DirCacheCheckout.java) with the previous version ... then all new tests are still green. It seems we  don\u0027t need any modification in DirCacheCheckout.java to let the tests succeed.\n\nWe should add tests which cover the modifications in this file.",
+      "revId": "13b527800d78e27162141d52dfc3c1f9d4a80fc0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
