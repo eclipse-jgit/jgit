@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_af221f5f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 655,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-04-12T04:51:11Z",
+      "side": 1,
+      "message": "Without this  CheckoutTest.fileModeTestFileThenFileWithFolderInIndex\nand  CheckoutTest.fileModeTestFileWithFolderInIndex fails (in the pgm bundle tests)",
+      "parentUuid": "0756a345_8f8e3b3c",
+      "revId": "13b527800d78e27162141d52dfc3c1f9d4a80fc0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_6f93e761",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 9
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_cf1dd326",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 669,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-04-12T04:51:11Z",
+      "side": 1,
+      "message": "CheckoutTest.fileModeTestFolderThenFileWithMissingInWorkingTree fals if I unchange this. Is the test wong?",
+      "parentUuid": "0756a345_6f93e761",
+      "revId": "13b527800d78e27162141d52dfc3c1f9d4a80fc0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_8ff91b91",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 9
@@ -47,6 +83,24 @@
       "writtenOn": "2014-04-11T22:39:32Z",
       "side": 1,
       "message": "hmmm. For the current path we only see files in HEAD,MERGE,INDEX. Means for these three states we definitly don\u0027t have a file/directory conflict and also not for the pathes of the parents (any prefixes of the current path). If we see files here then all our parent pathes must be directories. So they also don\u0027t face a file/directory conflict.\n\nBut: there could be a folder in the working tree for the current path or for any parent path. walk.isDirectoryFileConflict() is checking for the workingtree while our ffMask is ignoring the working tree.\n\nTo understand better what we gain with this change we need a test.",
+      "revId": "13b527800d78e27162141d52dfc3c1f9d4a80fc0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_4f11c30a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-04-12T04:51:11Z",
+      "side": 1,
+      "message": "Without this CheckoutTest.fileModeTestFolderThenMissingWithFileInWorkingTree fails",
+      "parentUuid": "0756a345_8ff91b91",
       "revId": "13b527800d78e27162141d52dfc3c1f9d4a80fc0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +141,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_2f0e0fef",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 741,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-04-12T04:51:11Z",
+      "side": 1,
+      "message": "I added the braces around the surrounding if, so no; we will not jump to 743 or 750",
+      "parentUuid": "0756a345_2f472f73",
+      "revId": "13b527800d78e27162141d52dfc3c1f9d4a80fc0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_cf36730c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 9
@@ -98,6 +170,24 @@
       "writtenOn": "2014-04-11T22:39:32Z",
       "side": 1,
       "message": "I agree to this change. Only with your change we are doing what is described in the javadoc.\n\nBut I am wondering why this is not hit by any test. If I take this change and replace this file (DirCacheCheckout.java) with the previous version ... then all new tests are still green. It seems we  don\u0027t need any modification in DirCacheCheckout.java to let the tests succeed.\n\nWe should add tests which cover the modifications in this file.",
+      "revId": "13b527800d78e27162141d52dfc3c1f9d4a80fc0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_cf34b396",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 860,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-04-12T04:51:11Z",
+      "side": 1,
+      "message": "See CheckoutTest.fileModeTestFolderWithMissingInWorkingTree\nand CheckoutTest.fileModeTestMissingThenFolderWithFileInWorkingTree",
+      "parentUuid": "0756a345_cf36730c",
       "revId": "13b527800d78e27162141d52dfc3c1f9d4a80fc0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
