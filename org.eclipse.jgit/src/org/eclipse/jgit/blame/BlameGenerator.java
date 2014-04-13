@@ -121,7 +121,7 @@ public class BlameGenerator {
 	/** Revision pool used to acquire commits from. */
 	private RevWalk revPool;
 
-	/** Indicates the commit has already been processed. */
+	/** Indicates the commit was put into the queue at least once. */
 	private RevFlag SEEN;
 
 	private ObjectReader reader;
@@ -146,7 +146,7 @@ public class BlameGenerator {
 	/**
 	 * Create a blame generator for the repository and path (relative to
 	 * repository)
-	 * 
+	 *
 	 * @param repository
 	 *            repository to access revision data from.
 	 * @param path
@@ -532,6 +532,7 @@ public class BlameGenerator {
 	private void push(BlobCandidate toInsert) {
 		Candidate c = queue;
 		if (c != null) {
+			c.remove(SEEN); // will be pushed by toInsert
 			c.regionList = null;
 			toInsert.parent = c;
 		}
@@ -539,8 +540,24 @@ public class BlameGenerator {
 	}
 
 	private void push(Candidate toInsert) {
-		// Mark sources to ensure they get discarded (above) if
-		// another path to the same commit.
+		if (toInsert.has(SEEN)) {
+			// We have already added a Candidate for this commit to the queue,
+			// this can happen if the commit is a merge base for two or more
+			// parallel branches that were merged together.
+			//
+			// It is likely the candidate was not yet processed. The queue
+			// sorts descending by commit time and usually descendant commits
+			// have higher timestamps than the ancestors.
+			//
+			// Find the existing candidate and merge the new candidate's
+			// region list into it.
+			for (Candidate p = queue; p != null; p = p.queueNext) {
+				if (p.canMergeRegions(toInsert)) {
+					p.mergeRegions(toInsert);
+					return;
+				}
+			}
+		}
 		toInsert.add(SEEN);
 
 		// Insert into the queue using descending commit time, so
@@ -567,8 +584,6 @@ public class BlameGenerator {
 		RevCommit parent = n.getParent(0);
 		if (parent == null)
 			return split(n.getNextCandidate(0), n);
-		if (parent.has(SEEN))
-			return false;
 		revPool.parseHeaders(parent);
 
 		if (find(parent, n.sourcePath)) {
@@ -636,20 +651,12 @@ public class BlameGenerator {
 	private boolean processMerge(Candidate n) throws IOException {
 		int pCnt = n.getParentCount();
 
-		for (int pIdx = 0; pIdx < pCnt; pIdx++) {
-			RevCommit parent = n.getParent(pIdx);
-			if (parent.has(SEEN))
-				continue;
-			revPool.parseHeaders(parent);
-		}
-
 		// If any single parent exactly matches the merge, follow only
 		// that one parent through history.
 		ObjectId[] ids = null;
 		for (int pIdx = 0; pIdx < pCnt; pIdx++) {
 			RevCommit parent = n.getParent(pIdx);
-			if (parent.has(SEEN))
-				continue;
+			revPool.parseHeaders(parent);
 			if (!find(parent, n.sourcePath))
 				continue;
 			if (!(n instanceof ReverseCandidate) && idBuf.equals(n.sourceBlob)) {
@@ -668,8 +675,6 @@ public class BlameGenerator {
 			renames = new DiffEntry[pCnt];
 			for (int pIdx = 0; pIdx < pCnt; pIdx++) {
 				RevCommit parent = n.getParent(pIdx);
-				if (parent.has(SEEN))
-					continue;
 				if (ids != null && ids[pIdx] != null)
 					continue;
 
@@ -702,8 +707,6 @@ public class BlameGenerator {
 		Candidate[] parents = new Candidate[pCnt];
 		for (int pIdx = 0; pIdx < pCnt; pIdx++) {
 			RevCommit parent = n.getParent(pIdx);
-			if (parent.has(SEEN))
-				continue;
 
 			Candidate p;
 			if (renames != null && renames[pIdx] != null) {
