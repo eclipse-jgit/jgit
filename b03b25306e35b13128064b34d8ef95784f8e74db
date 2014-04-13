@@ -16,6 +16,24 @@
       "revId": "b03b25306e35b13128064b34d8ef95784f8e74db",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_52b5e862",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/CheckoutTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-04-13T23:17:28Z",
+      "side": 1,
+      "message": "done, forgot to checkout branch_1",
+      "parentUuid": "2753a756_b1039d4b",
+      "revId": "b03b25306e35b13128064b34d8ef95784f8e74db",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
