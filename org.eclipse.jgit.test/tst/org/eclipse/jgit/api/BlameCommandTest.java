@@ -386,4 +386,74 @@ public class BlameCommandTest extends RepositoryTestCase {
 		assertEquals(commit, lines.getSourceCommit(1));
 		assertEquals(commit, lines.getSourceCommit(2));
 	}
+
+	@Test
+	public void testConflictingMerge1() throws Exception {
+		Git git = new Git(db);
+
+		RevCommit base = commitFile("file.txt", join("0", "1", "2", "3", "4"),
+				"master");
+
+		git.checkout().setName("side").setCreateBranch(true)
+				.setStartPoint(base).call();
+		RevCommit side = commitFile("file.txt",
+				join("0", "1 side", "2", "3 on side", "4"), "side");
+
+		commitFile("file.txt", join("0", "1", "2"), "master");
+
+		checkoutBranch("refs/heads/master");
+		git.merge().include(side).call();
+
+		// The merge results in a conflict, which we resolve using mostly the
+		// side branch contents. Especially the "4" survives.
+		RevCommit merge = commitFile("file.txt",
+				join("0", "1 side", "2", "3 resolved", "4"), "master");
+
+		BlameCommand command = new BlameCommand(db);
+		command.setFilePath("file.txt");
+		BlameResult lines = command.call();
+
+		assertEquals(5, lines.getResultContents().size());
+		assertEquals(base, lines.getSourceCommit(0));
+		assertEquals(side, lines.getSourceCommit(1));
+		assertEquals(base, lines.getSourceCommit(2));
+		assertEquals(merge, lines.getSourceCommit(3));
+		assertEquals(base, lines.getSourceCommit(4));
+	}
+
+	// this test inverts the order of the master and side commit and is
+	// otherwise identical to testConflictingMerge1
+	@Test
+	public void testConflictingMerge2() throws Exception {
+		Git git = new Git(db);
+
+		RevCommit base = commitFile("file.txt", join("0", "1", "2", "3", "4"),
+				"master");
+
+		commitFile("file.txt", join("0", "1", "2"), "master");
+
+		git.checkout().setName("side").setCreateBranch(true)
+				.setStartPoint(base).call();
+		RevCommit side = commitFile("file.txt",
+				join("0", "1 side", "2", "3 on side", "4"), "side");
+
+		checkoutBranch("refs/heads/master");
+		git.merge().include(side).call();
+
+		// The merge results in a conflict, which we resolve using mostly the
+		// side branch contents. Especially the "4" survives.
+		RevCommit merge = commitFile("file.txt",
+				join("0", "1 side", "2", "3 resolved", "4"), "master");
+
+		BlameCommand command = new BlameCommand(db);
+		command.setFilePath("file.txt");
+		BlameResult lines = command.call();
+
+		assertEquals(5, lines.getResultContents().size());
+		assertEquals(base, lines.getSourceCommit(0));
+		assertEquals(side, lines.getSourceCommit(1));
+		assertEquals(base, lines.getSourceCommit(2));
+		assertEquals(merge, lines.getSourceCommit(3));
+		assertEquals(base, lines.getSourceCommit(4));
+	}
 }
