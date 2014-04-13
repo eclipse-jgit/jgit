@@ -105,6 +105,52 @@ class Region {
 		length -= d;
 	}
 
+	/**
+	 * Merges the input regions into a result region list, maintaining the
+	 * resultStart order in the result.
+	 * <p>
+	 * Both input region lists must refer to the same source commit and must
+	 * refer to a disjoint sets of result lines.
+	 *
+	 * @param a
+	 *            region list, will be modified by this method
+	 * @param b
+	 *            region list, will be modified by this method
+	 *
+	 * @return a merged region list
+	 */
+	static Region merge(Region a, Region b) {
+		// Assign the input regions, so that
+		// a.resultStart < b.resultStart
+		if (a.resultStart > b.resultStart) {
+			Region o = a;
+			a = b;
+			b = o;
+		}
+
+		final Region result = a;
+		// Merge b into a, which will become the result
+		while (b != null) {
+			if (a.next != null && a.resultStart < b.resultStart
+					&& a.next.resultStart < b.resultStart) {
+				// Skip "a" regions until we find the first that should be
+				// followed by the head of b
+				a = a.next;
+			} else {
+				// At this point we have: a head < b head < a tail
+				Region bNext = b.next;
+
+				// Insert the b head and advance the a pointer to it
+				b.next = a.next;
+				a.next = b;
+				a = b;
+
+				b = bNext;
+			}
+		}
+		return result;
+	}
+
 	Region deepCopy() {
 		Region head = new Region(resultStart, sourceStart, length);
 		Region tail = head;
