@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011, Google Inc.
+ * Copyright (C) 2011, 2014, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -103,6 +103,59 @@ class Region {
 		resultStart += d;
 		sourceStart += d;
 		length -= d;
+	}
+
+	/**
+	 * Merges the input regions into a result region list, maintaining the
+	 * resultStart order in the result.<br>
+	 *
+	 * Both input region lists must refer to the same source commit and must
+	 * refer to a disjoint sets of result lines.
+	 *
+	 * @param a
+	 *            region list
+	 * @param b
+	 *            region list
+	 *
+	 * @return a merged region list
+	 */
+	static Region merge(Region a, Region b) {
+		Region resultRegion;
+		Region otherRegion;
+
+		// assign the input regions, so that
+		// resultRegion.resultStart < otherRegion.resultStart
+		if (a.resultStart < b.resultStart) {
+			resultRegion = a.deepCopy();
+			otherRegion = b.deepCopy();
+		} else {
+			resultRegion = b.deepCopy();
+			otherRegion = a.deepCopy();
+		}
+
+		final Region result = resultRegion;
+		while (otherRegion != null) {
+			if (resultRegion.next != null
+					&& resultRegion.resultStart < otherRegion.resultStart
+					&& resultRegion.next.resultStart < otherRegion.resultStart) {
+				// Skip regions until we find the first that should be followed
+				// by the next otherRegion
+				resultRegion = resultRegion.next;
+			} else {
+				// At this point we have:
+				// resultRegion head < otherRegion head < resultregion tail
+				Region otherNext = otherRegion.next;
+
+				// Insert the otherRegion head and advance the resultRegion
+				// pointer to it
+				otherRegion.next = resultRegion.next;
+				resultRegion.next = otherRegion;
+				resultRegion = otherRegion;
+
+				otherRegion = otherNext;
+			}
+		}
+		return result;
 	}
 
 	Region deepCopy() {

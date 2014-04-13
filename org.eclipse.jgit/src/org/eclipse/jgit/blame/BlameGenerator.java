@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011, Google Inc.
+ * Copyright (C) 2011, 2014, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -121,7 +121,10 @@ public class BlameGenerator {
 	/** Revision pool used to acquire commits from. */
 	private RevWalk revPool;
 
-	/** Indicates the commit has already been processed. */
+	/**
+	 * Indicates the commit has been submitted to the {@link #queue} for
+	 * processing or is already processed.
+	 */
 	private RevFlag SEEN;
 
 	private ObjectReader reader;
@@ -146,7 +149,7 @@ public class BlameGenerator {
 	/**
 	 * Create a blame generator for the repository and path (relative to
 	 * repository)
-	 * 
+	 *
 	 * @param repository
 	 *            repository to access revision data from.
 	 * @param path
@@ -532,6 +535,7 @@ public class BlameGenerator {
 	private void push(BlobCandidate toInsert) {
 		Candidate c = queue;
 		if (c != null) {
+			c.remove(SEEN); // will be pushed by toInsert
 			c.regionList = null;
 			toInsert.parent = c;
 		}
@@ -539,15 +543,39 @@ public class BlameGenerator {
 	}
 
 	private void push(Candidate toInsert) {
-		// Mark sources to ensure they get discarded (above) if
+		// Mark sources to ensure they get only blamed once, even if there is
 		// another path to the same commit.
-		toInsert.add(SEEN);
+		boolean isNew = toInsert.add(SEEN);
+		if (!isNew) {
+			// We've already added a Candidate for this commit to the queue.
+			// This can happen if the commit has multiple children.
+
+			// The candidate pushed previously has not been processed yet,
+			// because the child that is currently processed and which
+			// called push() with this parent is newer than this parent and the
+			// queue is sorted descending by commit time.
+
+			// Find the existing candidate and merge the new cadidate's
+			// region list into it.
+			for (Candidate p = queue;; p = p.queueNext) {
+				if (p.sourceCommit.equals(toInsert.sourceCommit)) {
+					p.regionList = Region.merge(p.regionList,
+							toInsert.regionList);
+					return;
+				}
+			}
+		}
 
 		// Insert into the queue using descending commit time, so
-		// the most recent commit will pop next.
+		// the most recent commit will pop next. If there is a tie regarding
+		// commit times, the candidate is inserted at the last possible
+		// position, but before any of its ancestors.
 		int time = toInsert.getTime();
 		Candidate n = queue;
-		if (n == null || time >= n.getTime()) {
+		if (n == null
+				|| time > n.getTime()
+				|| (time == n.getTime() && isAncestor(n.sourceCommit,
+						toInsert.sourceCommit))) {
 			toInsert.queueNext = n;
 			queue = toInsert;
 			return;
@@ -555,7 +583,10 @@ public class BlameGenerator {
 
 		for (Candidate p = n;; p = n) {
 			n = p.queueNext;
-			if (n == null || time >= n.getTime()) {
+			if (n == null
+					|| time > n.getTime()
+					|| (time == n.getTime() && isAncestor(n.sourceCommit,
+							toInsert.sourceCommit))) {
 				toInsert.queueNext = n;
 				p.queueNext = toInsert;
 				return;
@@ -563,12 +594,20 @@ public class BlameGenerator {
 		}
 	}
 
+	private boolean isAncestor(RevCommit parent, RevCommit child) {
+		try {
+			return revPool.isMergedInto(parent, child);
+		} catch (IOException e) {
+			// failing to establish the ancestor relationship
+			// does not warrant an exception
+			return false;
+		}
+	}
+
 	private boolean processOne(Candidate n) throws IOException {
 		RevCommit parent = n.getParent(0);
 		if (parent == null)
 			return split(n.getNextCandidate(0), n);
-		if (parent.has(SEEN))
-			return false;
 		revPool.parseHeaders(parent);
 
 		if (find(parent, n.sourcePath)) {
@@ -638,8 +677,6 @@ public class BlameGenerator {
 
 		for (int pIdx = 0; pIdx < pCnt; pIdx++) {
 			RevCommit parent = n.getParent(pIdx);
-			if (parent.has(SEEN))
-				continue;
 			revPool.parseHeaders(parent);
 		}
 
@@ -648,8 +685,6 @@ public class BlameGenerator {
 		ObjectId[] ids = null;
 		for (int pIdx = 0; pIdx < pCnt; pIdx++) {
 			RevCommit parent = n.getParent(pIdx);
-			if (parent.has(SEEN))
-				continue;
 			if (!find(parent, n.sourcePath))
 				continue;
 			if (!(n instanceof ReverseCandidate) && idBuf.equals(n.sourceBlob)) {
@@ -668,8 +703,6 @@ public class BlameGenerator {
 			renames = new DiffEntry[pCnt];
 			for (int pIdx = 0; pIdx < pCnt; pIdx++) {
 				RevCommit parent = n.getParent(pIdx);
-				if (parent.has(SEEN))
-					continue;
 				if (ids != null && ids[pIdx] != null)
 					continue;
 
@@ -702,8 +735,6 @@ public class BlameGenerator {
 		Candidate[] parents = new Candidate[pCnt];
 		for (int pIdx = 0; pIdx < pCnt; pIdx++) {
 			RevCommit parent = n.getParent(pIdx);
-			if (parent.has(SEEN))
-				continue;
 
 			Candidate p;
 			if (renames != null && renames[pIdx] != null) {
