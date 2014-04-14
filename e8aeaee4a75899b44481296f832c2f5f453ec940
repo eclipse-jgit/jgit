@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0756a345_c3464cfa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ArchiveCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2014-04-14T20:51:02Z",
+      "side": 1,
+      "message": "If you use a do loop, like you do in unregisterFormat, you don\u0027t need this initialization outside the loop I don\u0027t think.",
+      "revId": "e8aeaee4a75899b44481296f832c2f5f453ec940",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
