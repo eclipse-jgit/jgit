@@ -189,12 +189,48 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 		}
 	}
 
+	private static class FormatEntry {
+		final Format<?> format;
+		/** Number of times this format has been registered. */
+		final int refcnt;
+
+		public FormatEntry(Format<?> format, int refcnt) {
+			if (format == null)
+				throw new NullPointerException();
+			this.format = format;
+			this.refcnt = refcnt;
+		}
+	};
+
 	/**
 	 * Available archival formats (corresponding to values for
 	 * the --format= option)
 	 */
-	private static final ConcurrentMap<String, Format<?>> formats =
-			new ConcurrentHashMap<String, Format<?>>();
+	private static final ConcurrentMap<String, FormatEntry> formats =
+			new ConcurrentHashMap<String, FormatEntry>();
+
+	/**
+	 * Replaces the entry for a key only if currently mapped to a given
+	 * value.
+	 *
+	 * @param map a map
+	 * @param key key with which the specified value is associated
+	 * @param oldValue expected value for the key (null if should be absent).
+	 * @param newValue value to be associated with the key (null to remove).
+	 * @return true if the value was replaced
+	 */
+	private static <K, V> boolean replace(ConcurrentMap<K, V> map,
+			K key, V oldValue, V newValue) {
+		if (oldValue == null && newValue == null) // Nothing to do.
+			return true;
+
+		if (oldValue == null)
+			return map.putIfAbsent(key, newValue) == null;
+		else if (newValue == null)
+			return map.remove(key, oldValue);
+		else
+			return map.replace(key, oldValue, newValue);
+	}
 
 	/**
 	 * Adds support for an additional archival format.  To avoid
@@ -204,50 +240,82 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 	 * OSGi plugins providing formats should call this function at
 	 * bundle activation time.
 	 *
+	 * It is okay to register the same archive format with the same
+	 * name multiple times, but don't forget to unregister it that
+	 * same number of times, too.
+	 *
 	 * @param name name of a format (e.g., "tar" or "zip").
 	 * @param fmt archiver for that format
 	 * @throws JGitInternalException
-	 *              An archival format with that name was already registered.
+	 *              A different archival format with that name was
+	 *              already registered.
 	 */
 	public static void registerFormat(String name, Format<?> fmt) {
+		if (fmt == null)
+			throw new NullPointerException();
+
 		// TODO(jrn): Check that suffixes don't overlap.
 
-		if (formats.putIfAbsent(name, fmt) != null)
-			throw new JGitInternalException(MessageFormat.format(
-					JGitText.get().archiveFormatAlreadyRegistered,
-					name));
+		FormatEntry old, entry;
+		do {
+			old = formats.get(name);
+			if (old == null) {
+				entry = new FormatEntry(fmt, 1);
+				continue;
+			}
+			if (!old.format.equals(fmt))
+				throw new JGitInternalException(MessageFormat.format(
+						JGitText.get().archiveFormatAlreadyRegistered,
+						name));
+			entry = new FormatEntry(old.format, old.refcnt + 1);
+		} while (!replace(formats, name, old, entry));
 	}
 
 	/**
-	 * Removes support for an archival format so its Format can be
-	 * garbage collected.
+	 * Marks support for an archival format as no longer needed so its
+	 * Format can be garbage collected if no one else is using it either.
+	 *
+	 * In other words, this decrements the reference count for an
+	 * archival format.  If the reference count becomes zero, removes
+	 * support for that format.
 	 *
 	 * @param name name of format (e.g., "tar" or "zip").
 	 * @throws JGitInternalException
 	 *              No such archival format was registered.
 	 */
 	public static void unregisterFormat(String name) {
-		if (formats.remove(name) == null)
-			throw new JGitInternalException(MessageFormat.format(
-					JGitText.get().archiveFormatAlreadyAbsent,
-					name));
+		FormatEntry old, entry;
+		do {
+			old = formats.get(name);
+			if (old == null)
+				throw new JGitInternalException(MessageFormat.format(
+						JGitText.get().archiveFormatAlreadyAbsent,
+						name));
+			if (old.refcnt == 1) {
+				entry = null;
+				continue;
+			}
+			entry = new FormatEntry(old.format, old.refcnt - 1);
+		} while (!replace(formats, name, old, entry));
 	}
 
 	private static Format<?> formatBySuffix(String filenameSuffix)
 			throws UnsupportedFormatException {
 		if (filenameSuffix != null)
-			for (Format<?> fmt : formats.values())
+			for (FormatEntry entry : formats.values()) {
+				Format<?> fmt = entry.format;
 				for (String sfx : fmt.suffixes())
 					if (filenameSuffix.endsWith(sfx))
 						return fmt;
+			}
 		return lookupFormat("tar"); //$NON-NLS-1$
 	}
 
 	private static Format<?> lookupFormat(String formatName) throws UnsupportedFormatException {
-		Format<?> fmt = formats.get(formatName);
-		if (fmt == null)
+		FormatEntry entry = formats.get(formatName);
+		if (entry == null)
 			throw new UnsupportedFormatException(formatName);
-		return fmt;
+		return entry.format;
 	}
 
 	private OutputStream out;
