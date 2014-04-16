@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0756a345_dcfc62e7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ArchiveCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2014-04-16T18:05:38Z",
+      "side": 1,
+      "message": "Do you think this needs to return the actual Format in case it\u0027s different from fmt? If I hold on to the fmt I passed in, because of the way the classes are written, it will behave identically, so I think that\u0027s ok. But it would still be a reference to the class, in case that matters.",
+      "revId": "e68d8c59329c72fe1b8e97f363a009518252d1b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
