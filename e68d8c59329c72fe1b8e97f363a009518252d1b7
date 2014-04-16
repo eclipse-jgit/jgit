@@ -69,6 +69,24 @@
       "revId": "e68d8c59329c72fe1b8e97f363a009518252d1b7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_7c843663",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ArchiveCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2014-04-16T18:59:42Z",
+      "side": 1,
+      "message": "Ok to not fix this now.\n\nThrowing an error on overlapping suffixes does nothing to help the caller choose an appropriate name.",
+      "parentUuid": "0756a345_1ca89ad7",
+      "revId": "e68d8c59329c72fe1b8e97f363a009518252d1b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
