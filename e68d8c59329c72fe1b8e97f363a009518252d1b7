@@ -33,6 +33,42 @@
       "revId": "e68d8c59329c72fe1b8e97f363a009518252d1b7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_1ca89ad7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ArchiveCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2014-04-16T18:43:00Z",
+      "side": 1,
+      "message": "That\u0027s what the TODO below is about. I\u0027d rather leave it for a separate change.\n\nAdding a note to the javadoc now, though.",
+      "parentUuid": "0756a345_dc8e228b",
+      "revId": "e68d8c59329c72fe1b8e97f363a009518252d1b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_fca4c604",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ArchiveCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2014-04-16T18:43:00Z",
+      "side": 1,
+      "message": "Not sure it matters, but can\u0027t hurt.",
+      "parentUuid": "0756a345_dcfc62e7",
+      "revId": "e68d8c59329c72fe1b8e97f363a009518252d1b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
