@@ -66,7 +66,6 @@ public class ArchiveFormats {
 	 * Register all included archive formats so they can be used
 	 * as arguments to the ArchiveCommand.setFormat() method.
 	 *
-	 * Should not be called twice without a call to stop() in between.
 	 * Not thread-safe.
 	 */
 	public static void registerAll() {
