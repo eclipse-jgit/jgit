@@ -1,0 +1,8 @@
+Code-Review+2: Dave Borowitz <dborowitz@google.com>
+Verified+1: Dave Borowitz <dborowitz@google.com>
+Verified+1: Hudson CI
+Submitted-by: Dave Borowitz <dborowitz@google.com>
+Submitted-at: Wed, 16 Apr 2014 17:04:37 -0400
+Reviewed-on: https://git.eclipse.org/r/24887
+Project: jgit/jgit
+Branch: refs/heads/master
