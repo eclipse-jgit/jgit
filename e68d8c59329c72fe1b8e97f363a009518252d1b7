@@ -16,6 +16,23 @@
       "revId": "e68d8c59329c72fe1b8e97f363a009518252d1b7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_dc8e228b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ArchiveCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2014-04-16T18:39:27Z",
+      "side": 1,
+      "message": "It seems like we have undefined behavior in terms of which entry is used if multiple callers register the same format with different names; formatBySuffix just does a linear search till it finds a matching suffix.\n\nIn fact, other than a couple of hard-coded examples and constants, how is a caller supposed to know what name to register a given format with at all?\n\nThis comes up because I just noticed I\u0027m actually, unintentionally, registering uppercase format names.",
+      "revId": "e68d8c59329c72fe1b8e97f363a009518252d1b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
