@@ -34,6 +34,57 @@
       "revId": "0304257e9e035626f0bdbb69399ed83bc95d8512",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_99b5d766",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Blame.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 2957
+      },
+      "writtenOn": "2014-04-17T22:15:24Z",
+      "side": 1,
+      "message": "the source commit may be null if blaming the working copy or the index",
+      "revId": "0304257e9e035626f0bdbb69399ed83bc95d8512",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_b9bc1b57",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Blame.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 2957
+      },
+      "writtenOn": "2014-04-17T22:15:24Z",
+      "side": 1,
+      "message": "It would make sense to move this block to the end of the loop and only skip calculations that solely depend on the commit (author, date, abbrev) but not others that may be different within a commit (path, line)",
+      "revId": "0304257e9e035626f0bdbb69399ed83bc95d8512",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_19c267ce",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Blame.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 2957
+      },
+      "writtenOn": "2014-04-17T22:15:24Z",
+      "side": 1,
+      "message": "If there is more than one block blamed to a commit, only the lines of the first block would be considered by this",
+      "revId": "0304257e9e035626f0bdbb69399ed83bc95d8512",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
