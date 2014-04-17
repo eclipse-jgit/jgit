@@ -16,6 +16,24 @@
       "revId": "ffe35ed4eddefd4aacf27eb74e0fe3fb357d7dc0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_d9846fee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Candidate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-04-17T21:00:53Z",
+      "side": 1,
+      "message": "Good question. I almost used add() here but then didn\u0027t because of the sourceStart compare. But I think you are right, we should be comparing by sourceStart too.\n\nI will fix this and upload a new version.",
+      "parentUuid": "0756a345_992e7792",
+      "revId": "ffe35ed4eddefd4aacf27eb74e0fe3fb357d7dc0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
