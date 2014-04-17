@@ -50,7 +50,7 @@
   <parent>
     <groupId>org.eclipse.jgit</groupId>
     <artifactId>jgit.tycho.parent</artifactId>
-    <version>3.3.2-SNAPSHOT</version>
+    <version>3.3.2.201404171909-r</version>
   </parent>
 
   <groupId>org.eclipse.jgit.feature</groupId>
