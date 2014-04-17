@@ -73,6 +73,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.treewalk.filter.AndTreeFilter;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 
@@ -599,19 +600,19 @@ public class BlameGenerator {
 			return split(n.getNextCandidate(0), n);
 		revPool.parseHeaders(parent);
 
-		if (find(parent, n.sourcePath)) {
-			if (idBuf.equals(n.sourceBlob)) {
-				// The common case of the file not being modified in
-				// a simple string-of-pearls history. Blame parent.
-				n.sourceCommit = parent;
-				push(n);
-				return false;
+		if (n.sourceCommit != null && n.recursivePath) {
+			treeWalk.setFilter(AndTreeFilter.create(n.sourcePath, ID_DIFF));
+			treeWalk.reset(n.sourceCommit.getTree(), parent.getTree());
+			if (!treeWalk.next())
+				return blameEntireRegionOnParent(n, parent);
+			if (isFile(treeWalk.getRawMode(1))) {
+				treeWalk.getObjectId(idBuf, 1);
+				return splitBlameWithParent(n, parent);
 			}
-
-			Candidate next = n.create(parent, n.sourcePath);
-			next.sourceBlob = idBuf.toObjectId();
-			next.loadText(reader);
-			return split(next, n);
+		} else if (find(parent, n.sourcePath)) {
+			if (idBuf.equals(n.sourceBlob))
+				return blameEntireRegionOnParent(n, parent);
+			return splitBlameWithParent(n, parent);
 		}
 
 		if (n.sourceCommit == null)
@@ -625,7 +626,7 @@ public class BlameGenerator {
 			// A 100% rename without any content change can also
 			// skip directly to the parent.
 			n.sourceCommit = parent;
-			n.sourcePath = PathFilter.create(r.getOldPath());
+			n.setSourcePath(PathFilter.create(r.getOldPath()));
 			push(n);
 			return false;
 		}
@@ -633,6 +634,21 @@ public class BlameGenerator {
 		Candidate next = n.create(parent, PathFilter.create(r.getOldPath()));
 		next.sourceBlob = r.getOldId().toObjectId();
 		next.renameScore = r.getScore();
+		next.loadText(reader);
+		return split(next, n);
+	}
+
+	private boolean blameEntireRegionOnParent(Candidate n, RevCommit parent) {
+		// File was not modified, blame parent.
+		n.sourceCommit = parent;
+		push(n);
+		return false;
+	}
+
+	private boolean splitBlameWithParent(Candidate n, RevCommit parent)
+			throws IOException {
+		Candidate next = n.create(parent, n.sourcePath);
+		next.sourceBlob = idBuf.toObjectId();
 		next.loadText(reader);
 		return split(next, n);
 	}
@@ -673,9 +689,7 @@ public class BlameGenerator {
 			if (!find(parent, n.sourcePath))
 				continue;
 			if (!(n instanceof ReverseCandidate) && idBuf.equals(n.sourceBlob)) {
-				n.sourceCommit = parent;
-				push(n);
-				return false;
+				return blameEntireRegionOnParent(n, parent);
 			}
 			if (ids == null)
 				ids = new ObjectId[pCnt];
@@ -707,7 +721,7 @@ public class BlameGenerator {
 					// we choose to follow the one parent over trying to do
 					// possibly both parents.
 					n.sourceCommit = parent;
-					n.sourcePath = PathFilter.create(r.getOldPath());
+					n.setSourcePath(PathFilter.create(r.getOldPath()));
 					push(n);
 					return false;
 				}
@@ -974,4 +988,26 @@ public class BlameGenerator {
 		return ent.getChangeType() == ChangeType.RENAME
 				|| ent.getChangeType() == ChangeType.COPY;
 	}
+
+	private static final TreeFilter ID_DIFF = new TreeFilter() {
+		@Override
+		public boolean include(TreeWalk tw) {
+			return !tw.idEqual(0, 1);
+		}
+
+		@Override
+		public boolean shouldBeRecursive() {
+			return false;
+		}
+
+		@Override
+		public TreeFilter clone() {
+			return this;
+		}
+
+		@Override
+		public String toString() {
+			return "ID_DIFF"; //$NON-NLS-1$
+		}
+	};
 }
