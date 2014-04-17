@@ -34,6 +34,24 @@
       "revId": "1715e838f994508bf187db48bde072a51b29b55f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_19354790",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Blame.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2014-04-17T21:41:31Z",
+      "side": 1,
+      "message": "Is it so bad to keep a HashSet of commits and run it once per commit after this loop? You\u0027re already looping through the whole file multiple times...",
+      "parentUuid": "0756a345_9911570e",
+      "revId": "1715e838f994508bf187db48bde072a51b29b55f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
