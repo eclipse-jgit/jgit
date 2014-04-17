@@ -143,6 +143,7 @@ class Blame extends TextBuiltin {
 			revision = null;
 		}
 
+		boolean autoAbbrev = abbrev == 0;
 		if (abbrev == 0)
 			abbrev = db.getConfig().getInt("core", "abbrev", 7); //$NON-NLS-1$ //$NON-NLS-2$
 		if (!showBlankBoundary)
@@ -156,6 +157,7 @@ class Blame extends TextBuiltin {
 			dateFmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ZZZZ"); //$NON-NLS-1$
 
 		BlameGenerator generator = new BlameGenerator(db, file);
+		RevFlag scanned = generator.newFlag("SCANNED"); //$NON-NLS-1$
 		reader = db.newObjectReader();
 		try {
 			generator.setTextComparator(comparator);
@@ -198,9 +200,17 @@ class Blame extends TextBuiltin {
 			int pathWidth = 1;
 			int maxSourceLine = 1;
 			for (int line = begin; line < end; line++) {
-				authorWidth = Math.max(authorWidth, author(line).length());
-				dateWidth = Math.max(dateWidth, date(line).length());
-				pathWidth = Math.max(pathWidth, path(line).length());
+				RevCommit c = blame.getSourceCommit(line);
+				if (c != null && !c.has(scanned)) {
+					c.add(scanned);
+					if (autoAbbrev)
+						abbrev = Math.max(abbrev, uniqueAbbrevLen(c));
+					authorWidth = Math.max(authorWidth, author(line).length());
+					dateWidth = Math.max(dateWidth, date(line).length());
+					pathWidth = Math.max(pathWidth, path(line).length());
+				}
+				while (line + 1 < end && blame.getSourceCommit(line + 1) == c)
+					line++;
 				maxSourceLine = Math.max(maxSourceLine, blame.getSourceLine(line));
 			}
 
@@ -230,6 +240,10 @@ class Blame extends TextBuiltin {
 			generator.release();
 			reader.release();
 		}
+	}
+
+	private int uniqueAbbrevLen(RevCommit commit) throws IOException {
+		return reader.abbreviate(commit, abbrev).length();
 	}
 
 	private void parseLineRangeOption() {

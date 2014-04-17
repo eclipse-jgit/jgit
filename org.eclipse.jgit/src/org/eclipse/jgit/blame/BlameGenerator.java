@@ -423,6 +423,18 @@ public class BlameGenerator {
 	}
 
 	/**
+	 * Allocate a new RevFlag for use by the caller.
+	 *
+	 * @param name
+	 *            unique name of the flag in the blame context.
+	 * @return the newly allocated flag.
+	 * @since 3.4
+	 */
+	public RevFlag newFlag(String name) {
+		return revPool.newFlag(name);
+	}
+
+	/**
 	 * Execute the generator in a blocking fashion until all data is ready.
 	 *
 	 * @return the complete result. Null if no file exists for the given path.
