@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_f92fb310",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Blame.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-04-17T22:53:40Z",
+      "side": 1,
+      "message": "Fixed.",
+      "parentUuid": "0756a345_99b5d766",
+      "revId": "0304257e9e035626f0bdbb69399ed83bc95d8512",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_b9bc1b57",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Blame.java",
         "patchSetId": 2
@@ -71,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_5944dfcf",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Blame.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-04-17T22:53:40Z",
+      "side": 1,
+      "message": "Fixed.",
+      "parentUuid": "0756a345_b9bc1b57",
+      "revId": "0304257e9e035626f0bdbb69399ed83bc95d8512",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_19c267ce",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Blame.java",
         "patchSetId": 2
@@ -82,6 +118,24 @@
       "writtenOn": "2014-04-17T22:15:24Z",
       "side": 1,
       "message": "If there is more than one block blamed to a commit, only the lines of the first block would be considered by this",
+      "revId": "0304257e9e035626f0bdbb69399ed83bc95d8512",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_39412bbf",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Blame.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-04-17T22:53:40Z",
+      "side": 1,
+      "message": "Fixed.",
+      "parentUuid": "0756a345_19c267ce",
       "revId": "0304257e9e035626f0bdbb69399ed83bc95d8512",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
