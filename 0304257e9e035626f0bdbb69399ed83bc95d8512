@@ -16,6 +16,24 @@
       "revId": "0304257e9e035626f0bdbb69399ed83bc95d8512",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_d99e2feb",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Blame.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-04-17T22:12:01Z",
+      "side": 1,
+      "message": "this seems to be caused by leading ./ if I run\n\n$ jgit blame gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java\n\nit works like a charm :-)",
+      "parentUuid": "0756a345_f9c693e0",
+      "revId": "0304257e9e035626f0bdbb69399ed83bc95d8512",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
