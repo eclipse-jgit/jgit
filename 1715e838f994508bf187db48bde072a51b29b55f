@@ -16,6 +16,24 @@
       "revId": "1715e838f994508bf187db48bde072a51b29b55f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_9911570e",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Blame.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-04-17T21:38:33Z",
+      "side": 1,
+      "message": "Eh, yea, sort of. What if I remember the last commit and don\u0027t repeat this per line within a span of a commit? If the commit has more than one region it would compute again, but wouldn\u0027t compute for consecutive lines on the same commit.",
+      "parentUuid": "0756a345_191ee721",
+      "revId": "1715e838f994508bf187db48bde072a51b29b55f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
