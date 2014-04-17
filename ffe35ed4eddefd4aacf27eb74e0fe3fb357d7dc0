@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0756a345_992e7792",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Candidate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 2957
+      },
+      "writtenOn": "2014-04-17T20:34:31Z",
+      "side": 1,
+      "message": "Candidate.add(Region, Candidate, Region) has region merge code that also compares sourceStart Should we look at sourceStart here, too?",
+      "revId": "ffe35ed4eddefd4aacf27eb74e0fe3fb357d7dc0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
