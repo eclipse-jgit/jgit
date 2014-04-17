@@ -48,6 +48,42 @@
     },
     {
       "key": {
+        "uuid": "0756a345_963e4640",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 2957
+      },
+      "writtenOn": "2014-04-17T19:51:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_77a3b12f",
+      "revId": "fc9d7376918804c5c2c53da8b645b07051a380bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_f6186205",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 2957
+      },
+      "writtenOn": "2014-04-17T19:51:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_d798bdfe",
+      "revId": "fc9d7376918804c5c2c53da8b645b07051a380bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_179235da",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -71,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_763bb250",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 2957
+      },
+      "writtenOn": "2014-04-17T19:51:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_179235da",
+      "revId": "fc9d7376918804c5c2c53da8b645b07051a380bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_77357160",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
         "patchSetId": 1
@@ -82,6 +136,24 @@
       "writtenOn": "2014-04-17T06:56:36Z",
       "side": 1,
       "message": "See my comment in Candidate.java.",
+      "revId": "fc9d7376918804c5c2c53da8b645b07051a380bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_967da6d7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 2957
+      },
+      "writtenOn": "2014-04-17T19:51:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_77357160",
       "revId": "fc9d7376918804c5c2c53da8b645b07051a380bb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -111,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_16e6b65e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 2957
+      },
+      "writtenOn": "2014-04-17T19:51:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_573e6d42",
+      "revId": "fc9d7376918804c5c2c53da8b645b07051a380bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_379f79b2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
         "patchSetId": 1
@@ -122,6 +212,24 @@
       "writtenOn": "2014-04-17T06:56:36Z",
       "side": 1,
       "message": "toInsert is discarded at this point, and regionList replaces itself. Is it really necessary to deepCopy these in the merge method?",
+      "revId": "fc9d7376918804c5c2c53da8b645b07051a380bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_79cc43ae",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 563,
+      "author": {
+        "id": 2957
+      },
+      "writtenOn": "2014-04-17T19:51:25Z",
+      "side": 1,
+      "message": "Done. I totally agree with you on p.regionList, but the regionList of toInsert is harder to keep track of. I added JavaDoc to push() so callers also give up on toInsert and verified that all existing callers do.",
+      "parentUuid": "0756a345_379f79b2",
       "revId": "fc9d7376918804c5c2c53da8b645b07051a380bb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -145,6 +253,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_7970c3ca",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 577,
+      "author": {
+        "id": 2957
+      },
+      "writtenOn": "2014-04-17T19:51:25Z",
+      "side": 1,
+      "message": "Done. Indeed this whole ancestor-ordering-on-tie is \"contrived from a unit test\".\n\nAs you suggested, I now add a Candidate if the previous matching one is already processed. This way we combine Candidates in the common case and it still works for repositories where ancestor relationship and commit time sometimes don\u0027t align.",
+      "parentUuid": "0756a345_97664547",
+      "revId": "fc9d7376918804c5c2c53da8b645b07051a380bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_17cfd5d6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
         "patchSetId": 1
@@ -156,6 +282,24 @@
       "writtenOn": "2014-04-17T06:56:36Z",
       "side": 1,
       "message": "This is a pretty slow function. It has to go back to the merge base of parent and child. BlameGenerator is already slow enough. Breaking ties by checking merge base isn\u0027t going to win us any performance awards. :-)\n\nCorrectness is more important than speed. But I wonder if we can do better.\n\nIn the graph C-\u003eP (C has P as parent), you are relying on C.time \u003e P.time to get the desired ordering in the queue. This is not necessarily true. Malformed segments of some real world graphs can have the time inverted.\n\nI have the suspicion we can just restate a commit a second time if we find more to blame onto it through a second path in the graph. IIRC this is exactly how the incremental topo sort and incremental blame work in git-core. A higher level caller might need to combine neighboring Region instances that were reported at different times but for the same commit.",
+      "revId": "fc9d7376918804c5c2c53da8b645b07051a380bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_59697feb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 2957
+      },
+      "writtenOn": "2014-04-17T19:51:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_17cfd5d6",
       "revId": "fc9d7376918804c5c2c53da8b645b07051a380bb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -185,6 +329,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_96d9269f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 681,
+      "author": {
+        "id": 2957
+      },
+      "writtenOn": "2014-04-17T19:51:25Z",
+      "side": 1,
+      "message": "Done. Moved it down to the next loop, making this shorter yet :-)",
+      "parentUuid": "0756a345_f7cb41c6",
+      "revId": "fc9d7376918804c5c2c53da8b645b07051a380bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_578cadbe",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Candidate.java",
         "patchSetId": 1
@@ -196,6 +358,24 @@
       "writtenOn": "2014-04-17T06:56:36Z",
       "side": 1,
       "message": "Given that Google didn\u0027t contribute this change I think its wrong to change the date on our copyright notice line.\n\nDrop this and either leave it alone (its fine as-is, copyright is valid from 2011 until 70 years after I or Google dies) or insert your own line.",
+      "revId": "fc9d7376918804c5c2c53da8b645b07051a380bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_b6070a8f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Candidate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 2957
+      },
+      "writtenOn": "2014-04-17T19:51:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_578cadbe",
       "revId": "fc9d7376918804c5c2c53da8b645b07051a380bb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -225,6 +405,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_f6018279",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Candidate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 2957
+      },
+      "writtenOn": "2014-04-17T19:51:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_378939ae",
+      "revId": "fc9d7376918804c5c2c53da8b645b07051a380bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_970925bf",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Region.java",
         "patchSetId": 1
@@ -236,6 +434,24 @@
       "writtenOn": "2014-04-17T06:56:36Z",
       "side": 1,
       "message": "See my note in Candidate.java.",
+      "revId": "fc9d7376918804c5c2c53da8b645b07051a380bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_56f66e03",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Region.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 2957
+      },
+      "writtenOn": "2014-04-17T19:51:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_970925bf",
       "revId": "fc9d7376918804c5c2c53da8b645b07051a380bb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -265,6 +481,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_36f3fa12",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Region.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 2957
+      },
+      "writtenOn": "2014-04-17T19:51:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_171d15f3",
+      "revId": "fc9d7376918804c5c2c53da8b645b07051a380bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_97300573",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Region.java",
         "patchSetId": 1
@@ -288,6 +522,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_d9d8ef68",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Region.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 2957
+      },
+      "writtenOn": "2014-04-17T19:51:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_97300573",
+      "revId": "fc9d7376918804c5c2c53da8b645b07051a380bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_f7198106",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Region.java",
         "patchSetId": 1
@@ -305,6 +557,24 @@
         "endLine": 134,
         "endChar": 3
       },
+      "revId": "fc9d7376918804c5c2c53da8b645b07051a380bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_96cbe6b6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Region.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 2957
+      },
+      "writtenOn": "2014-04-17T19:51:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_f7198106",
       "revId": "fc9d7376918804c5c2c53da8b645b07051a380bb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
