@@ -119,6 +119,7 @@ perl -pi~ -e '
 	s/^(Bundle-Version:\s*).*$/${1}'"$OSGI_V"'/;
 	s/(org.eclipse.jgit.*;version=")[^"[(]*(")/${1}'"$API_V"'${2}/;
 	s/(org.eclipse.jgit.*;version="\[)[^"]*(\)")/${1}'"$API_V,$API_N"'${2}/;
+	s/^(Eclipse-SourceBundle:\s*org.eclipse.jgit.*;version=\").*(\";roots=\"\.\")$/${1}'"$OSGI_V"'${2}/;
 	' $(git ls-files | grep META-INF/SOURCE-MANIFEST.MF)
 
 perl -pi~ -e '
