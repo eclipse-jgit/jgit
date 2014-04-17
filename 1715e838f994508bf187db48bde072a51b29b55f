@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0756a345_191ee721",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Blame.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2014-04-17T21:33:37Z",
+      "side": 1,
+      "message": "Are you concerned that this is running once per line rather than once per unique commit?",
+      "revId": "1715e838f994508bf187db48bde072a51b29b55f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
