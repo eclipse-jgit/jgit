@@ -16,6 +16,24 @@
       "revId": "a53a18e988714cd87934d1a7e29b3331b37542a8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_39700bfc",
+        "filename": "org.eclipse.jgit.pgm/META-INF/SOURCE-MANIFEST.MF",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-04-17T23:51:28Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "0756a345_f9bcd325",
+      "revId": "a53a18e988714cd87934d1a7e29b3331b37542a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
