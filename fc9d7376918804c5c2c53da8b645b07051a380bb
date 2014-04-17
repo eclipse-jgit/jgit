@@ -1,0 +1,313 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0756a345_d798bdfe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-04-17T06:56:36Z",
+      "side": 1,
+      "message": "Ending with comma is weird.",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 10
+      },
+      "revId": "fc9d7376918804c5c2c53da8b645b07051a380bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_77a3b12f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-04-17T06:56:36Z",
+      "side": 1,
+      "message": "I think I understand this, but an ASCII diagram would make this even easier to follow.",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 10
+      },
+      "revId": "fc9d7376918804c5c2c53da8b645b07051a380bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_179235da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-04-17T06:56:36Z",
+      "side": 1,
+      "message": "\"most recent\" might be a more explicit way to state S has a newer time stamp and is processed first.",
+      "range": {
+        "startLine": 28,
+        "startChar": 64,
+        "endLine": 28,
+        "endChar": 69
+      },
+      "revId": "fc9d7376918804c5c2c53da8b645b07051a380bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_77357160",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-04-17T06:56:36Z",
+      "side": 1,
+      "message": "See my comment in Candidate.java.",
+      "revId": "fc9d7376918804c5c2c53da8b645b07051a380bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_573e6d42",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-04-17T06:56:36Z",
+      "side": 1,
+      "message": "typo",
+      "range": {
+        "startLine": 558,
+        "startChar": 52,
+        "endLine": 558,
+        "endChar": 60
+      },
+      "revId": "fc9d7376918804c5c2c53da8b645b07051a380bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_379f79b2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 563,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-04-17T06:56:36Z",
+      "side": 1,
+      "message": "toInsert is discarded at this point, and regionList replaces itself. Is it really necessary to deepCopy these in the merge method?",
+      "revId": "fc9d7376918804c5c2c53da8b645b07051a380bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_97664547",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 577,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-04-17T06:56:36Z",
+      "side": 1,
+      "message": "Is this tie break necessary?\n\nI guess my rationale here to process the newly discovered commit first is it is directly reachable from the previously most recent timestamp. Its probably the most \"next thing\" in time that anything else in the repository, except clock skew.\n\nClock skew happens more than just on ties in commit time. This doesn\u0027t do anything to solve clock skew except in a specific corner case where multiple commits happen within the same second and the graph was somehow ambiguous due to a merge having two paths to two children with slightly different times while one child had the same time as the ancestor. That is already a WTF graph but sounds contrived from a unit test.\n\nReal world has even more WTF graphs where a descendant is hours older than its parent. When side branches are present that parent is very likely to be processed first. I think that is the sort of case you are trying to catch and fix up here, but its so uncommon based on time equality alone that it isn\u0027t going to be right often enough.\n\nIIRC git-core and JGit both try to handle this sort of clock skew by having a \"slop window\" where commits within a sliding window of 10 commits are popped and buffered from the priority queue. If an ordering violation is identified (time goes the wrong way) within the slop window of 10 commits, its fixable by reinserting and repopping those 10 commits, as the caller has not yet seen them.\n\nI don\u0027t think the slop window trick is necessary for blame. The caller is getting an incremental stream from us of regions of lines that were caused by a commit. We might have to reconsider a parent twice from two descendants, but that is already necessary to correctly compute the blame from the descendants.",
+      "revId": "fc9d7376918804c5c2c53da8b645b07051a380bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_17cfd5d6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-04-17T06:56:36Z",
+      "side": 1,
+      "message": "This is a pretty slow function. It has to go back to the merge base of parent and child. BlameGenerator is already slow enough. Breaking ties by checking merge base isn\u0027t going to win us any performance awards. :-)\n\nCorrectness is more important than speed. But I wonder if we can do better.\n\nIn the graph C-\u003eP (C has P as parent), you are relying on C.time \u003e P.time to get the desired ordering in the queue. This is not necessarily true. Malformed segments of some real world graphs can have the time inverted.\n\nI have the suspicion we can just restate a commit a second time if we find more to blame onto it through a second path in the graph. IIRC this is exactly how the incremental topo sort and incremental blame work in git-core. A higher level caller might need to combine neighboring Region instances that were reported at different times but for the same commit.",
+      "revId": "fc9d7376918804c5c2c53da8b645b07051a380bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_f7cb41c6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 681,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-04-17T06:56:36Z",
+      "side": 1,
+      "message": "Now that you simplified the loop, make it even shorter:\n\n for (int pIdx \u003d 0; p Idx \u003c pCnt; pIdx++)\n   revPool.parseHeaders(n.getParent(pIdx));",
+      "range": {
+        "startLine": 678,
+        "startChar": 2,
+        "endLine": 681,
+        "endChar": 3
+      },
+      "revId": "fc9d7376918804c5c2c53da8b645b07051a380bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_578cadbe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Candidate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-04-17T06:56:36Z",
+      "side": 1,
+      "message": "Given that Google didn\u0027t contribute this change I think its wrong to change the date on our copyright notice line.\n\nDrop this and either leave it alone (its fine as-is, copyright is valid from 2011 until 70 years after I or Google dies) or insert your own line.",
+      "revId": "fc9d7376918804c5c2c53da8b645b07051a380bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_378939ae",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Candidate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-04-17T06:56:36Z",
+      "side": 1,
+      "message": "style nit: use the early return above to avoid the need for else {} here for the two statements in the else case.",
+      "range": {
+        "startLine": 136,
+        "startChar": 2,
+        "endLine": 136,
+        "endChar": 8
+      },
+      "revId": "fc9d7376918804c5c2c53da8b645b07051a380bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_970925bf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Region.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-04-17T06:56:36Z",
+      "side": 1,
+      "message": "See my note in Candidate.java.",
+      "revId": "fc9d7376918804c5c2c53da8b645b07051a380bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_171d15f3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Region.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-04-17T06:56:36Z",
+      "side": 1,
+      "message": "style nit: i think we prefer \u003cp\u003e on a line by itself:\n\n * resultStart order in the result.\n * \u003cp\u003e\n * Both input region lists ...\n\nSee the outer class javadoc for an example. If we do deviate from style guidelines we still try to conform to existing uses within a single source file.",
+      "range": {
+        "startLine": 110,
+        "startChar": 36,
+        "endLine": 111,
+        "endChar": 3
+      },
+      "revId": "fc9d7376918804c5c2c53da8b645b07051a380bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_97300573",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Region.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-04-17T06:56:36Z",
+      "side": 1,
+      "message": "Is a deepCopy even necessary? See my comment in BlameGenerator. It looks like the two Region instances are discarded by the caller so a deep copy is unnecessary.",
+      "range": {
+        "startLine": 129,
+        "startChar": 18,
+        "endLine": 129,
+        "endChar": 30
+      },
+      "revId": "fc9d7376918804c5c2c53da8b645b07051a380bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_f7198106",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Region.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-04-17T06:56:36Z",
+      "side": 1,
+      "message": "This may be shorter:\n\n a \u003d a.deepCopy();\n b \u003d b.deepCopy();\n\n if (a.resultStart \u003e b.resultStart) {\n   Region o \u003d a;\n   a \u003d b;\n   b \u003d o;\n }\n\nWe are OK with overwriting parameters entering a method, especially when the parameter isn\u0027t ever used again. Here a and b are dead once the function starts. Its less confusing to just overwrite them and reuse the names.",
+      "range": {
+        "startLine": 123,
+        "startChar": 0,
+        "endLine": 134,
+        "endChar": 3
+      },
+      "revId": "fc9d7376918804c5c2c53da8b645b07051a380bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
