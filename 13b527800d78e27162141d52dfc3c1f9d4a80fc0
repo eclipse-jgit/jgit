@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "0756a345_32ccb4ad",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 613,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-04-17T10:35:34Z",
+      "side": 1,
+      "message": "Imagine f\u003dnull but the index contains some uncommitted subtree. With your change you would update and overwrite the index. Won\u0027t we loose uncommited data?\n\nOn the other hand if index and workingtree differ just because the workingtree is null ... then we don\u0027t want to report an error.\n\nI\u0027ll suggest to move the f\u003d\u003dnull check inside the isModified.",
+      "revId": "13b527800d78e27162141d52dfc3c1f9d4a80fc0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_8f8e3b3c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 9
@@ -31,6 +48,24 @@
       "side": 1,
       "message": "Without this  CheckoutTest.fileModeTestFileThenFileWithFolderInIndex\nand  CheckoutTest.fileModeTestFileWithFolderInIndex fails (in the pgm bundle tests)",
       "parentUuid": "0756a345_8f8e3b3c",
+      "revId": "13b527800d78e27162141d52dfc3c1f9d4a80fc0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_92d82068",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 655,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-04-17T10:35:34Z",
+      "side": 1,
+      "message": "Regarding my complaints about missing tests: Right, I overlooked it. I reverted the DirCacheCheckout modifications and run the tests with maven on commandline (just \"mvn clean install\") - but then the CheckoutTest is not executed but skipped. Don\u0027t know yet why.\n\nAnyhow: I still don\u0027t think we need this.How can walk.isDirectoryFileConflict() be true of mask is FDF? No need to check.",
+      "parentUuid": "0756a345_af221f5f",
       "revId": "13b527800d78e27162141d52dfc3c1f9d4a80fc0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -153,6 +188,24 @@
       "side": 1,
       "message": "I added the braces around the surrounding if, so no; we will not jump to 743 or 750",
       "parentUuid": "0756a345_2f472f73",
+      "revId": "13b527800d78e27162141d52dfc3c1f9d4a80fc0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_93a5b8b8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 741,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-04-17T10:35:34Z",
+      "side": 1,
+      "message": "Right, we will not go to 743 or 750. But before, whenever we entered this block we were sure we take a decision here. Now you surrounded the decision with an if. If the if condition is not met we will not take a decision here. I am not sure that rest of this method is prepared to this. If you don\u0027t decide here explicitly what we should do with this path then the default action will take place: remove the path from the index and leave the working tree as it is. Is that what you wanted?",
+      "parentUuid": "0756a345_2f0e0fef",
       "revId": "13b527800d78e27162141d52dfc3c1f9d4a80fc0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
