@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0756a345_f9c693e0",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Blame.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-04-17T22:06:45Z",
+      "side": 1,
+      "message": "this can fail with an NPE \n\nwhen I run this on current gerrit repository (67f9b1c3)\n\n[d029788@wdfm00337334a gerrit (master)]$ jgit blame ./gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java\njava.lang.NullPointerException\n\tat org.eclipse.jgit.pgm.Blame.run(Blame.java:204)\n\tat org.eclipse.jgit.pgm.TextBuiltin.execute(TextBuiltin.java:209)\n\tat org.eclipse.jgit.pgm.Main.execute(Main.java:223)\n\tat org.eclipse.jgit.pgm.Main.run(Main.java:124)\n\tat org.eclipse.jgit.pgm.Main.main(Main.java:98)",
+      "revId": "0304257e9e035626f0bdbb69399ed83bc95d8512",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
