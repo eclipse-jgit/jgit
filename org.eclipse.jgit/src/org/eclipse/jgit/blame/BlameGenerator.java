@@ -44,6 +44,7 @@
 package org.eclipse.jgit.blame;
 
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
+import static org.eclipse.jgit.lib.FileMode.TYPE_FILE;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -942,18 +943,15 @@ public class BlameGenerator {
 	private boolean find(RevCommit commit, PathFilter path) throws IOException {
 		treeWalk.setFilter(path);
 		treeWalk.reset(commit.getTree());
-		while (treeWalk.next()) {
-			if (path.isDone(treeWalk)) {
-				if (treeWalk.getFileMode(0).getObjectType() != OBJ_BLOB)
-					return false;
-				treeWalk.getObjectId(idBuf, 0);
-				return true;
-			}
-
-			if (treeWalk.isSubtree())
-				treeWalk.enterSubtree();
+		if (treeWalk.next() && isFile(treeWalk.getRawMode(0))) {
+			treeWalk.getObjectId(idBuf, 0);
+			return true;
 		}
 		return false;
+	}
+
+	private static final boolean isFile(int rawMode) {
+		return (rawMode & TYPE_FILE) == TYPE_FILE;
 	}
 
 	private DiffEntry findRename(RevCommit parent, RevCommit commit,
