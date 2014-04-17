@@ -143,6 +143,7 @@ class Blame extends TextBuiltin {
 			revision = null;
 		}
 
+		boolean autoAbbrev = abbrev == 0;
 		if (abbrev == 0)
 			abbrev = db.getConfig().getInt("core", "abbrev", 7); //$NON-NLS-1$ //$NON-NLS-2$
 		if (!showBlankBoundary)
@@ -198,6 +199,10 @@ class Blame extends TextBuiltin {
 			int pathWidth = 1;
 			int maxSourceLine = 1;
 			for (int line = begin; line < end; line++) {
+				if (autoAbbrev)
+					abbrev = Math.max(
+						abbrev,
+						uniqueAbbrevLen(blame.getSourceCommit(line)));
 				authorWidth = Math.max(authorWidth, author(line).length());
 				dateWidth = Math.max(dateWidth, date(line).length());
 				pathWidth = Math.max(pathWidth, path(line).length());
@@ -230,6 +235,10 @@ class Blame extends TextBuiltin {
 			generator.release();
 			reader.release();
 		}
+	}
+
+	private int uniqueAbbrevLen(RevCommit commit) throws IOException {
+		return reader.abbreviate(commit, abbrev).length();
 	}
 
 	private void parseLineRangeOption() {
