@@ -61,6 +61,8 @@ import org.eclipse.jgit.diff.HistogramDiff;
 import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.diff.RawTextComparator;
 import org.eclipse.jgit.diff.RenameDetector;
+import org.eclipse.jgit.diff.Subsequence;
+import org.eclipse.jgit.diff.SubsequenceComparator;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.MutableObjectId;
@@ -655,8 +657,25 @@ public class BlameGenerator {
 
 	private boolean split(Candidate parent, Candidate source)
 			throws IOException {
-		EditList editList = diffAlgorithm.diff(textComparator,
-				parent.sourceText, source.sourceText);
+		EditList editList;
+
+		int start = source.regionList.sourceStart;
+		int tail = source.sourceText.size() - source.sourceEnd();
+		if (start == 0 && tail == 0)
+			editList = diffAlgorithm.diff(textComparator,
+					parent.sourceText, source.sourceText);
+		else {
+			Subsequence<RawText> sa = new Subsequence<RawText>(
+					parent.sourceText,
+					start, parent.sourceText.size() - tail);
+			Subsequence<RawText> sb = new Subsequence<RawText>(
+					source.sourceText,
+					start, source.sourceText.size() - tail);
+			editList = Subsequence.toBase(diffAlgorithm.diff(
+					new SubsequenceComparator<RawText>(textComparator),
+					sa, sb), sa, sb);
+		}
+
 		if (editList.isEmpty()) {
 			// Ignoring whitespace (or some other special comparator) can
 			// cause non-identical blobs to have an empty edit list. In
