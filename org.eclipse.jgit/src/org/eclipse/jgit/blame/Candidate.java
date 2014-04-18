@@ -80,6 +80,7 @@ class Candidate {
 
 	/** Path of the candidate file in {@link #sourceCommit}. */
 	PathFilter sourcePath;
+	boolean recursivePath;
 
 	/** Unique name of the candidate blob in {@link #sourceCommit}. */
 	ObjectId sourceBlob;
@@ -110,6 +111,7 @@ class Candidate {
 	Candidate(RevCommit commit, PathFilter path) {
 		sourceCommit = commit;
 		sourcePath = path;
+		recursivePath = path.shouldBeRecursive();
 	}
 
 	int getParentCount() {
@@ -124,8 +126,16 @@ class Candidate {
 		return null;
 	}
 
+	boolean has(RevFlag flag) {
+		return sourceCommit.has(flag);
+	}
+
 	void add(RevFlag flag) {
 		sourceCommit.add(flag);
+	}
+
+	void remove(RevFlag flag) {
+		sourceCommit.remove(flag);
 	}
 
 	int getTime() {
@@ -134,6 +144,11 @@ class Candidate {
 
 	PersonIdent getAuthor() {
 		return sourceCommit.getAuthorIdent();
+	}
+
+	void setSourcePath(PathFilter path) {
+		sourcePath = path;
+		recursivePath = path.shouldBeRecursive();
 	}
 
 	Candidate create(RevCommit commit, PathFilter path) {
@@ -275,6 +290,42 @@ class Candidate {
 		return r;
 	}
 
+	boolean canMergeRegions(Candidate other) {
+		return sourceCommit == other.sourceCommit
+				&& sourcePath.getPath().equals(other.sourcePath.getPath());
+	}
+
+	void mergeRegions(Candidate other) {
+		// regionList is always sorted by resultStart. Merge join two
+		// linked lists, preserving the ordering. Combine neighboring
+		// regions to reduce the number of results seen by callers.
+		Region a = clearRegionList();
+		Region b = other.clearRegionList();
+		Region t = null;
+
+		while (a != null && b != null) {
+			if (a.resultStart < b.resultStart) {
+				Region n = a.next;
+				t = add(t, this, a);
+				a = n;
+			} else {
+				Region n = b.next;
+				t = add(t, this, b);
+				b = n;
+			}
+		}
+
+		if (a != null) {
+			Region n = a.next;
+			t = add(t, this, a);
+			t.next = n;
+		} else /* b != null */{
+			Region n = b.next;
+			t = add(t, this, b);
+			t.next = n;
+		}
+	}
+
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {
@@ -370,7 +421,18 @@ class Candidate {
 		}
 
 		@Override
+		boolean has(RevFlag flag) {
+			return true; // Pretend flag was added; sourceCommit is null.
+		}
+
+		@Override
 		void add(RevFlag flag) {
+			// Do nothing, sourceCommit is null.
+		}
+
+		@Override
+
+		void remove(RevFlag flag) {
 			// Do nothing, sourceCommit is null.
 		}
 

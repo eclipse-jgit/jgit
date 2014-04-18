@@ -192,7 +192,10 @@ public class HistogramDiff extends LowLevelDiffAlgorithm {
 				break;
 
 			case REPLACE:
-				diffReplace(r);
+				if (r.getLengthA() == 1 && r.getLengthB() == 1)
+					edits.add(r);
+				else
+					diffReplace(r);
 				break;
 
 			case EMPTY:
