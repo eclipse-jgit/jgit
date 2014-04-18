@@ -114,6 +114,9 @@ public abstract class DiffAlgorithm {
 			return EditList.singleton(region);
 
 		case REPLACE: {
+			if (region.getLengthA() == 1 || region.getLengthB() == 1)
+				return EditList.singleton(region);
+
 			SubsequenceComparator<S> cs = new SubsequenceComparator<S>(cmp);
 			Subsequence<S> as = Subsequence.a(a, region);
 			Subsequence<S> bs = Subsequence.b(b, region);
