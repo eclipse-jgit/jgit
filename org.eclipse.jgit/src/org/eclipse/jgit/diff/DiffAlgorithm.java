@@ -107,42 +107,31 @@ public abstract class DiffAlgorithm {
 	public <S extends Sequence> EditList diff(
 			SequenceComparator<? super S> cmp, S a, S b) {
 		Edit region = cmp.reduceCommonStartEnd(a, b, coverEdit(a, b));
-
-		switch (region.getType()) {
-		case INSERT:
-		case DELETE:
+		if (region.isEmpty())
+			return new EditList(0);
+		if (region.getLengthA() <= 1 || region.getLengthB() <= 1)
 			return EditList.singleton(region);
 
-		case REPLACE: {
-			SubsequenceComparator<S> cs = new SubsequenceComparator<S>(cmp);
-			Subsequence<S> as = Subsequence.a(a, region);
-			Subsequence<S> bs = Subsequence.b(b, region);
-			EditList e = Subsequence.toBase(diffNonCommon(cs, as, bs), as, bs);
+		SubsequenceComparator<S> cs = new SubsequenceComparator<S>(cmp);
+		Subsequence<S> as = Subsequence.a(a, region);
+		Subsequence<S> bs = Subsequence.b(b, region);
+		EditList e = Subsequence.toBase(diffNonCommon(cs, as, bs), as, bs);
 
-			// The last insertion may need to be shifted later if it
-			// inserts elements that were previously reduced out as
-			// common at the end.
-			//
-			Edit last = e.get(e.size() - 1);
-			if (last.getType() == Edit.Type.INSERT) {
-				while (last.endB < b.size()
-						&& cmp.equals(b, last.beginB, b, last.endB)) {
-					last.beginA++;
-					last.endA++;
-					last.beginB++;
-					last.endB++;
-				}
+		// The last insertion may need to be shifted later if it
+		// inserts elements that were previously reduced out as
+		// common at the end.
+		//
+		Edit last = e.get(e.size() - 1);
+		if (last.getType() == Edit.Type.INSERT) {
+			while (last.endB < b.size()
+					&& cmp.equals(b, last.beginB, b, last.endB)) {
+				last.beginA++;
+				last.endA++;
+				last.beginB++;
+				last.endB++;
 			}
-
-			return e;
 		}
-
-		case EMPTY:
-			return new EditList(0);
-
-		default:
-			throw new IllegalStateException();
-		}
+		return e;
 	}
 
 	private static <S extends Sequence> Edit coverEdit(S a, S b) {
