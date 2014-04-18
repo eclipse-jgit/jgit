@@ -58,6 +58,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.jgit.api.AddCommand;
+import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.GitCommand;
 import org.eclipse.jgit.api.SubmoduleAddCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -65,6 +66,7 @@ import org.eclipse.jgit.gitrepo.internal.RepoText;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
@@ -82,12 +84,13 @@ import org.xml.sax.helpers.XMLReaderFactory;
  * @see <a href="https://code.google.com/p/git-repo/">git-repo project page</a>
  * @since 3.4
  */
-public class RepoCommand extends GitCommand<Void> {
+public class RepoCommand extends GitCommand<RevCommit> {
 
 	private String path;
 	private String uri;
 	private String groups;
 
+	private Git git;
 	private ProgressMonitor monitor;
 
 	private static class CopyFile {
@@ -252,7 +255,8 @@ public class RepoCommand extends GitCommand<Void> {
 							throw new SAXException(
 									RepoText.get().copyFileFailed, e);
 						}
-						AddCommand add = new AddCommand(command.repo)
+						AddCommand add = command.git
+							.add()
 							.addFilepattern(copyfile.relativeDest);
 						try {
 							add.call();
@@ -344,13 +348,14 @@ public class RepoCommand extends GitCommand<Void> {
 	}
 
 	@Override
-	public Void call() throws GitAPIException {
+	public RevCommit call() throws GitAPIException {
 		checkCallable();
 		if (path == null || path.length() == 0)
 			throw new IllegalArgumentException(JGitText.get().pathNotConfigured);
 		if (uri == null || uri.length() == 0)
 			throw new IllegalArgumentException(JGitText.get().uriNotConfigured);
 
+		git = new Git(repo);
 		XmlManifest manifest = new XmlManifest(this, path, uri, groups);
 		try {
 			manifest.read();
@@ -358,11 +363,15 @@ public class RepoCommand extends GitCommand<Void> {
 			throw new ManifestErrorException(e);
 		}
 
-		return null;
+		return git
+			.commit()
+			.setMessage(RepoText.get().repoCommitMessage)
+			.call();
 	}
 
 	private void addSubmodule(String url, String name) throws SAXException {
-		SubmoduleAddCommand add = new SubmoduleAddCommand(repo)
+		SubmoduleAddCommand add = git
+			.submoduleAdd()
 			.setPath(name)
 			.setURI(url);
 		if (monitor != null)
