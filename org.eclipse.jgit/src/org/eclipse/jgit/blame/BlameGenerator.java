@@ -61,6 +61,8 @@ import org.eclipse.jgit.diff.HistogramDiff;
 import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.diff.RawTextComparator;
 import org.eclipse.jgit.diff.RenameDetector;
+import org.eclipse.jgit.diff.Subsequence;
+import org.eclipse.jgit.diff.SubsequenceComparator;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.MutableObjectId;
@@ -655,8 +657,7 @@ public class BlameGenerator {
 
 	private boolean split(Candidate parent, Candidate source)
 			throws IOException {
-		EditList editList = diffAlgorithm.diff(textComparator,
-				parent.sourceText, source.sourceText);
+		EditList editList = diff(parent, source);
 		if (editList.isEmpty()) {
 			// Ignoring whitespace (or some other special comparator) can
 			// cause non-identical blobs to have an empty edit list. In
@@ -675,6 +676,27 @@ public class BlameGenerator {
 			return result(source);
 		}
 		return false;
+	}
+
+	private EditList diff(Candidate parent, Candidate source) {
+		RawText p = parent.sourceText;
+		RawText s = source.sourceText;
+
+		int start = source.regionList.sourceStart;
+		int tail = s.size() - source.sourceEnd();
+		if (start == 0 && tail == 0)
+			return diffAlgorithm.diff(textComparator, p, s);
+
+		Subsequence<RawText> pSub = subseq(p, start, tail);
+		Subsequence<RawText> sSub = subseq(s, start, tail);
+		return Subsequence.toBase(diffAlgorithm.diff(
+				new SubsequenceComparator<RawText>(textComparator),
+				pSub, sSub), pSub, sSub);
+	}
+
+	private static final Subsequence<RawText> subseq(
+			RawText s, int start, int tail) {
+		return new Subsequence<RawText>(s, start, s.size() - tail);
 	}
 
 	private boolean processMerge(Candidate n) throws IOException {
@@ -756,8 +778,7 @@ public class BlameGenerator {
 				editList = new EditList(0);
 			} else {
 				p.loadText(reader);
-				editList = diffAlgorithm.diff(textComparator,
-						p.sourceText, n.sourceText);
+				editList = diff(p, n);
 			}
 
 			if (editList.isEmpty()) {

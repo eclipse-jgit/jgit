@@ -50,8 +50,11 @@ import static java.lang.Integer.valueOf;
 import static java.lang.Long.valueOf;
 import static org.eclipse.jgit.lib.Constants.OBJECT_ID_STRING_LENGTH;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -71,6 +74,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.pgm.internal.CLIText;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
+import org.eclipse.jgit.util.io.ThrowingPrintWriter;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
@@ -222,6 +226,13 @@ class Blame extends TextBuiltin {
 			String authorFmt = MessageFormat.format(" (%-{0}s %{1}s", //$NON-NLS-1$
 					valueOf(authorWidth), valueOf(dateWidth));
 
+			if (time) {
+				outs = new BufferedOutputStream(new FileOutputStream(
+						"blame.jgit"));
+				outw = new ThrowingPrintWriter(new OutputStreamWriter(outs,
+						"UTF-8"));
+			}
+
 			for (int line = begin; line < end; line++) {
 				outw.print(abbreviate(blame.getSourceCommit(line)));
 				if (showSourcePath)
@@ -235,6 +246,12 @@ class Blame extends TextBuiltin {
 				blame.getResultContents().writeLine(outs, line);
 				outs.flush();
 				outw.print('\n');
+			}
+			if (time) {
+				long ns = System.nanoTime() - start;
+				errw.println(String.format("time %d ms",
+						TimeUnit.NANOSECONDS.toMillis(ns)));
+				errw.flush();
 			}
 		} finally {
 			generator.release();
