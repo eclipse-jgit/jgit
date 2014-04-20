@@ -16,6 +16,24 @@
       "revId": "1cb45719d489de7bef92a1594d020bccb9935d98",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_0d84e1e7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameResult.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-04-20T22:01:30Z",
+      "side": 1,
+      "message": "Documentation is incorrect; implementation is correct. So change the documentation.",
+      "parentUuid": "0756a345_4daed96d",
+      "revId": "1cb45719d489de7bef92a1594d020bccb9935d98",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
