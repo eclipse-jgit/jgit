@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0756a345_4daed96d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameResult.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 2957
+      },
+      "writtenOn": "2014-04-20T21:35:27Z",
+      "side": 1,
+      "message": "Only tangentially related to the change: According to the implementation this is 1 past the last index to examine. Should we update the javadoc or the implementation to match?",
+      "revId": "1cb45719d489de7bef92a1594d020bccb9935d98",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
