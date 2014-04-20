@@ -224,6 +224,12 @@ public class Main {
 		} finally {
 			if (cmd.outw != null)
 				cmd.outw.flush();
+			if (cmd.outs != null)
+				cmd.outs.flush();
+			if (cmd.errw != null)
+				cmd.errw.flush();
+			if (cmd.errs != null)
+				cmd.errs.flush();
 		}
 	}
 
