@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0756a345_0dad0172",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Main.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 2957
+      },
+      "writtenOn": "2014-04-20T21:20:56Z",
+      "side": 1,
+      "message": "I think we only need to flush the writers (outw, errw), because they always write to the streams (outs, errs) and flushing the writers also flushes the streams",
+      "revId": "831b5ca9d4f6280972f223e5df50b137d05e021a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
