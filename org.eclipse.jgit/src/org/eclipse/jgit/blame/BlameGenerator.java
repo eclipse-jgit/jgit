@@ -720,10 +720,8 @@ public class BlameGenerator {
 					// have an exact content match. For performance reasons
 					// we choose to follow the one parent over trying to do
 					// possibly both parents.
-					n.sourceCommit = parent;
 					n.setSourcePath(PathFilter.create(r.getOldPath()));
-					push(n);
-					return false;
+					return blameEntireRegionOnParent(n, parent);
 				}
 
 				renames[pIdx] = r;
