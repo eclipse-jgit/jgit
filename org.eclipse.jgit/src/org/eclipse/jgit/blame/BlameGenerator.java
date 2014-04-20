@@ -689,9 +689,8 @@ public class BlameGenerator {
 			revPool.parseHeaders(parent);
 			if (!find(parent, n.sourcePath))
 				continue;
-			if (!(n instanceof ReverseCandidate) && idBuf.equals(n.sourceBlob)) {
+			if (!(n instanceof ReverseCandidate) && idBuf.equals(n.sourceBlob))
 				return blameEntireRegionOnParent(n, parent);
-			}
 			if (ids == null)
 				ids = new ObjectId[pCnt];
 			ids[pIdx] = idBuf.toObjectId();
