@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0756a345_083a0f80",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-04-21T19:06:11Z",
+      "side": 1,
+      "message": "This should reflect Google not Chris.",
+      "revId": "f44be719ace9013eb484ccf134e53efee4f309c9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_c86ad763",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-04-21T19:06:11Z",
+      "side": 1,
+      "message": "I think you could have just used + to join the string literals together. javac will use a StringBuilder for you.",
+      "revId": "f44be719ace9013eb484ccf134e53efee4f309c9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_88257f5f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-04-21T19:06:11Z",
+      "side": 1,
+      "message": "assertTrue(\"submodule was checked out\", hello.exist())\n\nThis way if the test fails we have a bit more indication what went wrong in the message.",
+      "revId": "f44be719ace9013eb484ccf134e53efee4f309c9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_a8284337",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-04-21T19:06:11Z",
+      "side": 1,
+      "message": "close this reader when you are done with it.",
+      "revId": "f44be719ace9013eb484ccf134e53efee4f309c9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_e8651b95",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-04-21T19:06:11Z",
+      "side": 1,
+      "message": "assertEquals(\"world\", content)?",
+      "revId": "f44be719ace9013eb484ccf134e53efee4f309c9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
