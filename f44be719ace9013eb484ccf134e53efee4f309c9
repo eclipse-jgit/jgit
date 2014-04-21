@@ -54,6 +54,29 @@
     },
     {
       "key": {
+        "uuid": "0756a345_485d27c1",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-04-21T19:14:46Z",
+      "side": 1,
+      "message": "new File(db.getWorkTree(), \"foo/hello.txt\") would be preferred.",
+      "range": {
+        "startLine": 85,
+        "startChar": 15,
+        "endLine": 85,
+        "endChar": 60
+      },
+      "revId": "f44be719ace9013eb484ccf134e53efee4f309c9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_88257f5f",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
         "patchSetId": 4
