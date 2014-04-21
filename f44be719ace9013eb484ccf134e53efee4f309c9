@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_8880df99",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2014-04-21T20:34:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_083a0f80",
+      "revId": "f44be719ace9013eb484ccf134e53efee4f309c9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_c86ad763",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
         "patchSetId": 4
@@ -77,6 +95,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_a8b5e365",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2014-04-21T20:34:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_485d27c1",
+      "revId": "f44be719ace9013eb484ccf134e53efee4f309c9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_88257f5f",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
         "patchSetId": 4
@@ -88,6 +124,24 @@
       "writtenOn": "2014-04-21T19:06:11Z",
       "side": 1,
       "message": "assertTrue(\"submodule was checked out\", hello.exist())\n\nThis way if the test fails we have a bit more indication what went wrong in the message.",
+      "revId": "f44be719ace9013eb484ccf134e53efee4f309c9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_c85137b2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2014-04-21T20:34:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_88257f5f",
       "revId": "f44be719ace9013eb484ccf134e53efee4f309c9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -111,6 +165,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_284713f8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2014-04-21T20:34:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_a8284337",
+      "revId": "f44be719ace9013eb484ccf134e53efee4f309c9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_e8651b95",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
         "patchSetId": 4
@@ -122,6 +194,24 @@
       "writtenOn": "2014-04-21T19:06:11Z",
       "side": 1,
       "message": "assertEquals(\"world\", content)?",
+      "revId": "f44be719ace9013eb484ccf134e53efee4f309c9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_08c7afde",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2014-04-21T20:34:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_e8651b95",
       "revId": "f44be719ace9013eb484ccf134e53efee4f309c9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
