@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_68cf4bd6",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2014-04-21T20:35:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_084ccf18",
+      "revId": "27d29c338cb0bec9b95b0296fbb9b928b03e6fa3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_e84cfb1e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
         "patchSetId": 5
@@ -42,6 +60,24 @@
         "endLine": 110,
         "endChar": 18
       },
+      "revId": "27d29c338cb0bec9b95b0296fbb9b928b03e6fa3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_281433cf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2014-04-21T20:35:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_e84cfb1e",
       "revId": "27d29c338cb0bec9b95b0296fbb9b928b03e6fa3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
