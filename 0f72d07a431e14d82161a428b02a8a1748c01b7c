@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0756a345_bcb1a42f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-04-21T22:49:59Z",
+      "side": 1,
+      "message": "Actually you need two levels of try/finally here as the input should be closed if the FileOutputStream fails to create.",
+      "range": {
+        "startLine": 110,
+        "startChar": 3,
+        "endLine": 113,
+        "endChar": 4
+      },
+      "revId": "0f72d07a431e14d82161a428b02a8a1748c01b7c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
