@@ -143,7 +143,8 @@ public class BlameGenerator {
 	private int remaining;
 
 	/** Blame is currently assigned to this source. */
-	private Candidate currentSource;
+	private Candidate outCandidate;
+	private Region outRegion;
 
 	/**
 	 * Create a blame generator for the repository and path (relative to
@@ -466,19 +467,19 @@ public class BlameGenerator {
 	 */
 	public boolean next() throws IOException {
 		// If there is a source still pending, produce the next region.
-		if (currentSource != null) {
-			Region r = currentSource.regionList;
-			Region n = r.next;
+		if (outRegion != null) {
+			Region r = outRegion;
 			remaining -= r.length;
-			if (n != null) {
-				currentSource.regionList = n;
+			if (r.next != null) {
+				outRegion = r.next;
 				return true;
 			}
 
-			if (currentSource.queueNext != null)
-				return result(currentSource.queueNext);
+			if (outCandidate.queueNext != null)
+				return result(outCandidate.queueNext);
 
-			currentSource = null;
+			outCandidate = null;
+			outRegion = null;
 		}
 
 		// If there are no lines remaining, the entire result is done,
@@ -518,9 +519,9 @@ public class BlameGenerator {
 	}
 
 	private boolean result(Candidate n) throws IOException {
-		if (n.sourceCommit != null)
-			revPool.parseBody(n.sourceCommit);
-		currentSource = n;
+		n.beginResult(revPool);
+		outCandidate = n;
+		outRegion = n.regionList;
 		return true;
 	}
 
@@ -688,9 +689,8 @@ public class BlameGenerator {
 			revPool.parseHeaders(parent);
 			if (!find(parent, n.sourcePath))
 				continue;
-			if (!(n instanceof ReverseCandidate) && idBuf.equals(n.sourceBlob)) {
+			if (!(n instanceof ReverseCandidate) && idBuf.equals(n.sourceBlob))
 				return blameEntireRegionOnParent(n, parent);
-			}
 			if (ids == null)
 				ids = new ObjectId[pCnt];
 			ids[pIdx] = idBuf.toObjectId();
@@ -720,10 +720,8 @@ public class BlameGenerator {
 					// have an exact content match. For performance reasons
 					// we choose to follow the one parent over trying to do
 					// possibly both parents.
-					n.sourceCommit = parent;
 					n.setSourcePath(PathFilter.create(r.getOldPath()));
-					push(n);
-					return false;
+					return blameEntireRegionOnParent(n, parent);
 				}
 
 				renames[pIdx] = r;
@@ -847,12 +845,12 @@ public class BlameGenerator {
 	 * @return current revision being blamed.
 	 */
 	public RevCommit getSourceCommit() {
-		return currentSource.sourceCommit;
+		return outCandidate.sourceCommit;
 	}
 
 	/** @return current author being blamed. */
 	public PersonIdent getSourceAuthor() {
-		return currentSource.getAuthor();
+		return outCandidate.getAuthor();
 	}
 
 	/** @return current committer being blamed. */
@@ -863,12 +861,12 @@ public class BlameGenerator {
 
 	/** @return path of the file being blamed. */
 	public String getSourcePath() {
-		return currentSource.sourcePath.getPath();
+		return outCandidate.sourcePath.getPath();
 	}
 
 	/** @return rename score if a rename occurred in {@link #getSourceCommit}. */
 	public int getRenameScore() {
-		return currentSource.renameScore;
+		return outCandidate.renameScore;
 	}
 
 	/**
@@ -878,7 +876,7 @@ public class BlameGenerator {
 	 *         {@link #getSourcePath()}.
 	 */
 	public int getSourceStart() {
-		return currentSource.regionList.sourceStart;
+		return outRegion.sourceStart;
 	}
 
 	/**
@@ -888,7 +886,7 @@ public class BlameGenerator {
 	 *         {@link #getSourcePath()}.
 	 */
 	public int getSourceEnd() {
-		Region r = currentSource.regionList;
+		Region r = outRegion;
 		return r.sourceStart + r.length;
 	}
 
@@ -897,7 +895,7 @@ public class BlameGenerator {
 	 *         blamed for providing. Line numbers use 0 based indexing.
 	 */
 	public int getResultStart() {
-		return currentSource.regionList.resultStart;
+		return outRegion.resultStart;
 	}
 
 	/**
@@ -908,7 +906,7 @@ public class BlameGenerator {
 	 *         than {@link #getResultStart()}.
 	 */
 	public int getResultEnd() {
-		Region r = currentSource.regionList;
+		Region r = outRegion;
 		return r.resultStart + r.length;
 	}
 
@@ -919,7 +917,7 @@ public class BlameGenerator {
 	 *         {@code getSourceEnd() - getSourceStart()}.
 	 */
 	public int getRegionLength() {
-		return currentSource.regionList.length;
+		return outRegion.length;
 	}
 
 	/**
@@ -930,7 +928,7 @@ public class BlameGenerator {
 	 *         applications will want the result contents for display to users.
 	 */
 	public RawText getSourceContents() {
-		return currentSource.sourceText;
+		return outCandidate.sourceText;
 	}
 
 	/**
@@ -951,7 +949,8 @@ public class BlameGenerator {
 	public void release() {
 		revPool.release();
 		queue = null;
-		currentSource = null;
+		outCandidate = null;
+		outRegion = null;
 	}
 
 	private boolean find(RevCommit commit, PathFilter path) throws IOException {
