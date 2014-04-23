@@ -1,0 +1,9 @@
+Code-Review+2: Shawn Pearce <sop@google.com>
+Code-Review+1: Robin Rosenberg <robin.rosenberg@dewire.com>
+Verified+1: Hudson CI
+Code-Review+1: Konrad Kügler <swamblumat-eclipsebugs@yahoo.de>
+Submitted-by: Shawn Pearce <sop@google.com>
+Submitted-at: Wed, 23 Apr 2014 16:33:16 -0400
+Reviewed-on: https://git.eclipse.org/r/25309
+Project: jgit/jgit
+Branch: refs/heads/master
