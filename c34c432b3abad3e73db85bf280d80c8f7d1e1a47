@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0756a345_ae50412a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackFileTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-04-24T18:30:25Z",
+      "side": 1,
+      "message": "This test now checks for really big delta objects throwing an exception because they cannot be handled in a Java byte[].",
+      "revId": "c34c432b3abad3e73db85bf280d80c8f7d1e1a47",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
