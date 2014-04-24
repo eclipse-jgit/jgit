@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0756a345_65d3ec48",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 737,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-04-24T04:00:11Z",
+      "side": 1,
+      "message": "This can be a cause of failures for delta inflation now.\n\nWhen sz \u003e\u003d streamFileThreshold data is left null and that throws below. I think we need to add a delta !\u003d null || to the first conditional so we force the data to try decompressing even if its above the threshold, but a delta exists.",
+      "range": {
+        "startLine": 730,
+        "startChar": 0,
+        "endLine": 737,
+        "endChar": 0
+      },
+      "revId": "e8fbbeef5c2a5d8241a78931666cd7d37cff7c84",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
