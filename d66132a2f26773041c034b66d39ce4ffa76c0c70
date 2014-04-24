@@ -16,6 +16,24 @@
       "revId": "d66132a2f26773041c034b66d39ce4ffa76c0c70",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_0b083f9e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackFileTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-04-24T17:05:44Z",
+      "side": 1,
+      "message": "Right, this part of the test is now quite wrong.\n\nThis entire test method was only about the DeltaStream case that you are now deleting. So we may just need to delete the method.\n\nThe test to put in its place is to verify we throw LargeObjectException when the delta is going to be larger than 2 GiB. That is going to require some work to setup. I\u0027ll write you a test case today and upload a new patch set to this change that includes such a test.",
+      "parentUuid": "0756a345_e88cf1c0",
+      "revId": "d66132a2f26773041c034b66d39ce4ffa76c0c70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
