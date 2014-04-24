@@ -22,6 +22,57 @@
       "revId": "e8fbbeef5c2a5d8241a78931666cd7d37cff7c84",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_c5fe38a0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 814,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-04-24T04:32:37Z",
+      "side": 1,
+      "message": "This really should be LargeObjectException.OutOfMemory()",
+      "revId": "e8fbbeef5c2a5d8241a78931666cd7d37cff7c84",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_a5f7c4c5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 819,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-04-24T04:32:37Z",
+      "side": 1,
+      "message": "Maybe LargeObjectException.ExceedsByteArrayLimit() is better?",
+      "revId": "e8fbbeef5c2a5d8241a78931666cd7d37cff7c84",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_e501bc3e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 826,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-04-24T04:32:37Z",
+      "side": 1,
+      "message": "Maybe LargeObjectException.OutOfMemory(tooBig) is better?",
+      "revId": "e8fbbeef5c2a5d8241a78931666cd7d37cff7c84",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
