@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0756a345_ee923927",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-04-24T20:04:09Z",
+      "side": 1,
+      "message": "style nit: add a blank line after the commit message header",
+      "revId": "a68596e3aa7d533247e73e0593b92515a7d023ef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_ae98414b",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/SetAdditionalHeadersTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-04-24T20:04:09Z",
+      "side": 1,
+      "message": "looking at your email address this copyright header seems wrong, probably you meant IBM ?",
+      "revId": "a68596e3aa7d533247e73e0593b92515a7d023ef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
