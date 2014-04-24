@@ -796,7 +796,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 			// (Whole objects with no deltas to apply return early above.)
 
 			if (data == null)
-				return delta.large(this, curs);
+				throw new IOException(JGitText.get().inMemoryBufferLimitExceeded);
 
 			do {
 				// Cache only the base immediately before desired object.
@@ -811,19 +811,19 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 						delta.deltaSize, curs);
 				if (cmds == null) {
 					data = null; // Discard base in case of OutOfMemoryError
-					return delta.large(this, curs);
+					throw new IOException(JGitText.get().inMemoryBufferLimitExceeded);
 				}
 
 				final long sz = BinaryDelta.getResultSize(cmds);
 				if (Integer.MAX_VALUE <= sz)
-					return delta.large(this, curs);
+					throw new IOException(JGitText.get().inMemoryBufferLimitExceeded);
 
 				final byte[] result;
 				try {
 					result = new byte[(int) sz];
 				} catch (OutOfMemoryError tooBig) {
 					data = null; // Discard base in case of OutOfMemoryError
-					return delta.large(this, curs);
+					throw new IOException(JGitText.get().inMemoryBufferLimitExceeded);
 				}
 
 				BinaryDelta.apply(data, cmds, result);
@@ -874,18 +874,6 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 			this.deltaSize = sz;
 			this.hdrLen = hdrLen;
 			this.basePos = baseOffset;
-		}
-
-		ObjectLoader large(PackFile pack, WindowCursor wc) {
-			Delta d = this;
-			while (d.next != null)
-				d = d.next;
-			return d.newLargeLoader(pack, wc);
-		}
-
-		private ObjectLoader newLargeLoader(PackFile pack, WindowCursor wc) {
-			return new LargePackedDeltaObject(deltaPos, basePos, hdrLen,
-					pack, wc.db);
 		}
 	}
 
