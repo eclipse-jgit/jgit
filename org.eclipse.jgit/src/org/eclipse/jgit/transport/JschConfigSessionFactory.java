@@ -117,6 +117,9 @@ public abstract class JschConfigSessionFactory extends SshSessionFactory {
 				} catch (JSchException e) {
 					session.disconnect();
 					session = null;
+					// Make sure our known_hosts is not outdated
+					knownHosts(getJSch(hc, fs), fs);
+
 					// if authentication failed maybe credentials changed at the
 					// remote end therefore reset credentials and retry
 					if (credentialsProvider != null && e.getCause() == null
