@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0756a345_e88cf1c0",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackFileTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 5648
+      },
+      "writtenOn": "2014-04-24T13:50:13Z",
+      "side": 1,
+      "message": "Not sure I really like this change to the test, but it will pass...",
+      "revId": "d66132a2f26773041c034b66d39ce4ffa76c0c70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
