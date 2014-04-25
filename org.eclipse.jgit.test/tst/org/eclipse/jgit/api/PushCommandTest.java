@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010, Chris Aniszczyk <caniszczyk@gmail.com>
+ * Copyright (C) 2010, 2014 Chris Aniszczyk <caniszczyk@gmail.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -44,13 +44,16 @@ package org.eclipse.jgit.api;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.Properties;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
+import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.Ref;
@@ -267,5 +270,71 @@ public class PushCommandTest extends RepositoryTestCase {
 				.resolve("refs/heads/not-pushed"));
 		assertEquals(null, git2.getRepository().resolve("refs/heads/master"));
 
+	}
+
+	/**
+	 * Check that missing refs don't cause errors during push
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testPushAfterGC() throws Exception {
+		// create other repository
+		Repository db2 = createWorkRepository();
+
+		// setup the first repository
+		final StoredConfig config = db.getConfig();
+		RemoteConfig remoteConfig = new RemoteConfig(config, "test");
+		URIish uri = new URIish(db2.getDirectory().toURI().toURL());
+		remoteConfig.addURI(uri);
+		remoteConfig.update(config);
+		config.save();
+
+		Git git1 = new Git(db);
+		Git git2 = new Git(db2);
+
+		// push master (with a new commit) to the remote
+		git1.commit().setMessage("initial commit").call();
+
+		RefSpec spec = new RefSpec("refs/heads/*:refs/heads/*");
+		git1.push().setRemote("test").setRefSpecs(spec).call();
+
+		// create an unrelated ref and a commit on our remote
+		git2.branchCreate().setName("refs/heads/other").call();
+		git2.checkout().setName("refs/heads/other").call();
+
+		writeTrashFile("a", "content of a");
+		git2.add().addFilepattern("a").call();
+		RevCommit commit2 = git2.commit().setMessage("adding a").call();
+
+		// run a gc to ensure we have a bitmap index
+		Properties res = git1.gc().setExpire(null).call();
+		assertEquals(7, res.size());
+
+		// create another commit so we have something else to push
+		writeTrashFile("b", "content of b");
+		git1.add().addFilepattern("b").call();
+		RevCommit commit3 = git1.commit().setMessage("adding b").call();
+
+		try {
+			// Re-run the push.  Failure may happen here.
+			git1.push().setRemote("test").setRefSpecs(spec).call();
+		} catch (TransportException e) {
+			assertTrue("should be caused by a MissingObjectException", e
+					.getCause().getCause() instanceof MissingObjectException);
+			fail("caught MissingObjectException for a change we don't have");
+		}
+
+		// Remote will have both a and b.  Master will have only b
+		try {
+			db.resolve(commit2.getId().getName() + "^{commit}");
+			fail("id shouldn't exist locally");
+		} catch (MissingObjectException e) {
+			// we should get here
+		}
+		assertEquals(commit2.getId(),
+				db2.resolve(commit2.getId().getName() + "^{commit}"));
+		assertEquals(commit3.getId(),
+				db2.resolve(commit3.getId().getName() + "^{commit}"));
 	}
 }
