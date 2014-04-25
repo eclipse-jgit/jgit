@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0756a345_8e63b8bb",
+        "filename": "pom.xml",
+        "patchSetId": 8
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-04-25T22:33:48Z",
+      "side": 1,
+      "message": "the current version is 0.7.0.201403182114 I\u0027ll push a new patchset",
+      "revId": "04cfea323fe5fc216f51515b78b993052df800c1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
