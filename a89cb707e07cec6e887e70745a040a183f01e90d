@@ -34,6 +34,24 @@
       "revId": "a89cb707e07cec6e887e70745a040a183f01e90d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_d128b138",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/PushCommandTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 5648
+      },
+      "writtenOn": "2014-04-26T15:48:03Z",
+      "side": 1,
+      "message": "Understandable. I\u0027m all for the simplest case that still reproduces the issue. I just wanted to mention this was unnecessary, then. Once you push the new patch, I\u0027ll be happy to +1",
+      "parentUuid": "0756a345_912e3944",
+      "revId": "a89cb707e07cec6e887e70745a040a183f01e90d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
