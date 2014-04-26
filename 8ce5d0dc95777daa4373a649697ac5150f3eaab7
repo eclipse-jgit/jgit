@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0756a345_11aea9f1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-04-26T22:03:06Z",
+      "side": 1,
+      "message": "s/compution/computation/\n\ns/sugested/suggested/\n\nI think we should better throw an exception for a broken remote tracking branch missing a valid remote",
+      "revId": "8ce5d0dc95777daa4373a649697ac5150f3eaab7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_f1b21550",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-04-26T22:03:06Z",
+      "side": 1,
+      "message": "move the bug links to the last paragraph",
+      "revId": "8ce5d0dc95777daa4373a649697ac5150f3eaab7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
