@@ -246,12 +246,11 @@ public class CreateBranchCommand extends GitCommand<Ref> {
 
 			if (doConfigure) {
 				StoredConfig config = repo.getConfig();
-				String[] tokens = baseBranch.split("/", 4); //$NON-NLS-1$
-				boolean isRemote = tokens[1].equals("remotes"); //$NON-NLS-1$
-				if (isRemote) {
-					// refs/remotes/<remote name>/<branch>
-					String remoteName = tokens[2];
-					String branchName = tokens[3];
+
+				String remoteName = repo.getRemoteName(baseBranch);
+				if (remoteName != null) {
+					String branchName = repo
+							.shortenRemoteBranchName(baseBranch);
 					config
 							.setString(ConfigConstants.CONFIG_BRANCH_SECTION,
 									name, ConfigConstants.CONFIG_KEY_REMOTE,
