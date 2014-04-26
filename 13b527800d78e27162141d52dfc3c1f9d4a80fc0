@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_665777a0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 655,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-04-26T11:33:55Z",
+      "side": 1,
+      "message": "Because CheckoutTest is in the pgm.test package not jgit.test ?",
+      "parentUuid": "0756a345_92d82068",
+      "revId": "13b527800d78e27162141d52dfc3c1f9d4a80fc0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_6f93e761",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 9
