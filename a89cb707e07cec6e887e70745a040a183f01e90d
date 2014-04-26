@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0756a345_71d285ca",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/PushCommandTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 5648
+      },
+      "writtenOn": "2014-04-26T13:05:10Z",
+      "side": 1,
+      "message": "This is now unused.  (The remote branch was created by the push refspec of refs/heads/*).",
+      "revId": "a89cb707e07cec6e887e70745a040a183f01e90d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
