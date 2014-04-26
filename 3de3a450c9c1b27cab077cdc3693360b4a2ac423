@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0756a345_71f3a511",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RefTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-04-26T21:56:53Z",
+      "side": 1,
+      "message": "add a test for a local branch which should return null",
+      "revId": "3de3a450c9c1b27cab077cdc3693360b4a2ac423",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_d1f0b105",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RefTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-04-26T21:56:53Z",
+      "side": 1,
+      "message": "how about tests for the other 2 new methods ?",
+      "revId": "3de3a450c9c1b27cab077cdc3693360b4a2ac423",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_b1d6dd69",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1294,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-04-26T21:56:53Z",
+      "side": 1,
+      "message": "no, I think you meant something like \"the remote name contained in refName if refName is a remote tracking branch, null otherwise\"",
+      "revId": "3de3a450c9c1b27cab077cdc3693360b4a2ac423",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_3102cd7d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1648,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-04-26T21:56:53Z",
+      "side": 1,
+      "message": "s/knows/known/",
+      "revId": "3de3a450c9c1b27cab077cdc3693360b4a2ac423",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
