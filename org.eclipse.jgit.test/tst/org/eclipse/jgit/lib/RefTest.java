@@ -61,6 +61,7 @@ import java.util.Map;
 
 import org.eclipse.jgit.lib.Ref.Storage;
 import org.eclipse.jgit.lib.RefUpdate.Result;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.test.resources.SampleDataRepositoryTestCase;
 import org.junit.Test;
 
@@ -80,6 +81,24 @@ public class RefTest extends SampleDataRepositoryTestCase {
 		default:
 			fail("link " + src + " to " + dst);
 		}
+	}
+
+	@Test
+	public void testRemoteNames() throws Exception {
+		FileBasedConfig config = db.getConfig();
+		config.setBoolean(ConfigConstants.CONFIG_REMOTE_SECTION,
+				"origin", "dummy", true);
+		config.setBoolean(ConfigConstants.CONFIG_REMOTE_SECTION,
+				"ab/c", "dummy", true);
+		config.save();
+		assertEquals("master",
+				db.shortenRemoteBranchName("refs/remotes/origin/master"));
+		assertEquals("masta/r",
+				db.shortenRemoteBranchName("refs/remotes/origin/masta/r"));
+		assertEquals("xmaster",
+				db.shortenRemoteBranchName("refs/remotes/ab/c/xmaster"));
+		assertEquals("xmasta/r",
+				db.shortenRemoteBranchName("refs/remotes/ab/c/xmasta/r"));
 	}
 
 	@Test
