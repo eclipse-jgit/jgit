@@ -16,6 +16,24 @@
       "revId": "a89cb707e07cec6e887e70745a040a183f01e90d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_912e3944",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/PushCommandTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 3309
+      },
+      "writtenOn": "2014-04-26T15:45:08Z",
+      "side": 1,
+      "message": "Yes, I missed the fact that git1 stayed on master, so master is the common branch (never mind that had it been test, the push would still have failed for not being fast-forward).\nMy point was that the bug appeared even for branches without a local equivalent, not only if the local equivalent was behind.",
+      "parentUuid": "0756a345_71d285ca",
+      "revId": "a89cb707e07cec6e887e70745a040a183f01e90d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
