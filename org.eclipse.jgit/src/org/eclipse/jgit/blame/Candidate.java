@@ -82,7 +82,6 @@ class Candidate {
 
 	/** Path of the candidate file in {@link #sourceCommit}. */
 	PathFilter sourcePath;
-	boolean recursivePath;
 
 	/** Unique name of the candidate blob in {@link #sourceCommit}. */
 	ObjectId sourceBlob;
@@ -113,7 +112,6 @@ class Candidate {
 	Candidate(RevCommit commit, PathFilter path) {
 		sourceCommit = commit;
 		sourcePath = path;
-		recursivePath = path.shouldBeRecursive();
 	}
 
 	void beginResult(RevWalk rw) throws MissingObjectException, IOException {
@@ -150,11 +148,6 @@ class Candidate {
 
 	PersonIdent getAuthor() {
 		return sourceCommit.getAuthorIdent();
-	}
-
-	void setSourcePath(PathFilter path) {
-		sourcePath = path;
-		recursivePath = path.shouldBeRecursive();
 	}
 
 	Candidate create(RevCommit commit, PathFilter path) {
