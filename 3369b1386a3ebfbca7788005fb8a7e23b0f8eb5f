@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0756a345_c473d1d6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-04-27T08:42:40Z",
+      "side": 1,
+      "message": "very few or only?",
+      "revId": "3369b1386a3ebfbca7788005fb8a7e23b0f8eb5f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_a4705dcb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-04-27T08:42:40Z",
+      "side": 1,
+      "message": "s/time/performance/\ns/,/;/",
+      "revId": "3369b1386a3ebfbca7788005fb8a7e23b0f8eb5f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
