@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_e4089569",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RefTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-04-27T08:36:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_71f3a511",
+      "revId": "3de3a450c9c1b27cab077cdc3693360b4a2ac423",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_d1f0b105",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RefTest.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2014-04-26T21:56:53Z",
       "side": 1,
       "message": "how about tests for the other 2 new methods ?",
+      "revId": "3de3a450c9c1b27cab077cdc3693360b4a2ac423",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_440ea174",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RefTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-04-27T08:36:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_d1f0b105",
       "revId": "3de3a450c9c1b27cab077cdc3693360b4a2ac423",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_04566932",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1294,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-04-27T08:36:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_b1d6dd69",
+      "revId": "3de3a450c9c1b27cab077cdc3693360b4a2ac423",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_3102cd7d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2014-04-26T21:56:53Z",
       "side": 1,
       "message": "s/knows/known/",
+      "revId": "3de3a450c9c1b27cab077cdc3693360b4a2ac423",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_a415fd70",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1648,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-04-27T08:36:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_3102cd7d",
       "revId": "3de3a450c9c1b27cab077cdc3693360b4a2ac423",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
