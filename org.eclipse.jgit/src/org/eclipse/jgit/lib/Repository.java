@@ -1276,6 +1276,40 @@ public abstract class Repository {
 
 	/**
 	 * @param refName
+	 * @return the remote branch name part of <code>refName</code>, i.e. without
+	 *         the <code>refs/remotes/&lt;remote&gt;</code> prefix, if
+	 *         <code>refName</code> represents a remote tracking branch;
+	 *         otherwise null.
+	 * @since 3.4
+	 */
+	public String shortenRemoteBranchName(String refName) {
+		for (String remote : getRemoteNames()) {
+			String remotePrefix = Constants.R_REMOTES + remote + "/"; //$NON-NLS-1$
+			if (refName.startsWith(remotePrefix))
+				return refName.substring(remotePrefix.length());
+		}
+		return null;
+	}
+
+	/**
+	 * @param refName
+	 * @return the remote name part of <code>refName</code>, i.e. without the
+	 *         <code>refs/remotes/&lt;remote&gt;</code> prefix, if
+	 *         <code>refName</code> represents a remote tracking branch;
+	 *         otherwise null.
+	 * @since 3.4
+	 */
+	public String getRemoteName(String refName) {
+		for (String remote : getRemoteNames()) {
+			String remotePrefix = Constants.R_REMOTES + remote + "/"; //$NON-NLS-1$
+			if (refName.startsWith(remotePrefix))
+				return remote;
+		}
+		return null;
+	}
+
+	/**
+	 * @param refName
 	 * @return a {@link ReflogReader} for the supplied refname, or null if the
 	 *         named ref does not exist.
 	 * @throws IOException
@@ -1612,5 +1646,14 @@ public abstract class Repository {
 			boolean append)
 			throws IOException {
 		new RebaseTodoFile(this).writeRebaseTodoFile(path, steps, append);
+	}
+
+	/**
+	 * @return the names of all known remotes
+	 * @since 3.4
+	 */
+	public Set<String> getRemoteNames() {
+		return getConfig()
+				.getSubsections(ConfigConstants.CONFIG_REMOTE_SECTION);
 	}
 }
