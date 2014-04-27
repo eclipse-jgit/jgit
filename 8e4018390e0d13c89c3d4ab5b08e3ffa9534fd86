@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0756a345_07d94b6a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revplot/PlotCommitList.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-04-27T22:03:35Z",
+      "side": 0,
+      "message": "How is this related?",
+      "revId": "8e4018390e0d13c89c3d4ab5b08e3ffa9534fd86",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
