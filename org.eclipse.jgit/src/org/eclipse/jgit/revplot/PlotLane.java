@@ -63,12 +63,4 @@ public class PlotLane implements Serializable {
 	public int getPosition() {
 		return position;
 	}
-
-	public int hashCode() {
-		return position;
-	}
-
-	public boolean equals(final Object o) {
-		return o == this;
-	}
 }
