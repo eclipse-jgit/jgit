@@ -50,9 +50,11 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 
+import org.eclipse.jgit.api.CloneCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.RepositoryTestCase;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.Test;
 
@@ -211,6 +213,45 @@ public class RepoCommandTest extends RepositoryTestCase {
 		content = reader.readLine();
 		reader.close();
 		assertEquals("The destination file has expected content", "world", content);
+	}
+
+	@Test
+	public void testBareRepo() throws Exception {
+		Repository remoteDb = createBareRepository();
+		Repository tempDb = createWorkRepository();
+		StringBuilder xmlContent = new StringBuilder();
+		xmlContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+			.append("<manifest>")
+			.append("<remote name=\"remote1\" fetch=\".\" />")
+			.append("<default revision=\"master\" remote=\"remote1\" />")
+			.append("<project path=\"foo\" name=\"")
+			.append(defaultUri)
+			.append("\" />")
+			.append("</manifest>");
+		JGitTestUtil.writeTrashFile(tempDb, "manifest.xml", xmlContent.toString());
+		RepoCommand command = new RepoCommand(remoteDb);
+		command.setPath(tempDb.getWorkTree().getAbsolutePath() + "/manifest.xml")
+			.setURI(rootUri)
+			.call();
+		// Clone it
+		File directory = createTempDirectory("testBareRepo");
+		CloneCommand clone = Git.cloneRepository();
+		clone.setDirectory(directory);
+		clone.setURI(remoteDb.getDirectory().toURI().toString());
+		Repository localDb = clone.call().getRepository();
+		// The .gitmodules file should exist
+		File gitmodules = new File(localDb.getWorkTree(), ".gitmodules");
+		assertTrue("The .gitmodules file exists", gitmodules.exists());
+		// The first line of .gitmodules file should be expected
+		BufferedReader reader = new BufferedReader(new FileReader(gitmodules));
+		String content = reader.readLine();
+		reader.close();
+		assertEquals("The first line of .gitmodules file is as expected.",
+				"[submodule \"foo\"]", content);
+		// The gitlink should be the same of remote head sha1
+		String gitlink = localDb.resolve(Constants.HEAD + ":foo").name();
+		String remote = defaultDb.resolve(Constants.HEAD).name();
+		assertEquals("The gitlink is same as remote head", remote, gitlink);
 	}
 
 	private void resolveRelativeUris() {
