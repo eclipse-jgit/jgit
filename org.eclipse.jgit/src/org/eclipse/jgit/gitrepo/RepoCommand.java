@@ -48,9 +48,11 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.channels.FileChannel;
+import java.nio.charset.Charset;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -58,15 +60,32 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.jgit.api.AddCommand;
+import org.eclipse.jgit.api.LsRemoteCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.GitCommand;
 import org.eclipse.jgit.api.SubmoduleAddCommand;
+import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.api.errors.JGitInternalException;
+import org.eclipse.jgit.dircache.DirCache;
+import org.eclipse.jgit.dircache.DirCacheBuilder;
+import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.gitrepo.internal.RepoText;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.ProgressMonitor;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
@@ -89,9 +108,39 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	private String path;
 	private String uri;
 	private String groups;
+	private PersonIdent author;
+	private GetHeadFromUri callback;
 
+	private List<Project> bareProjects;
 	private Git git;
 	private ProgressMonitor monitor;
+
+	/**
+	 * A callback to get head sha1 of a repository from its uri.
+	 *
+	 * We provided a default implementation {@link #DefaultGetHeadFromUri} to
+	 * use ls-remote command to read the head sha1 from the repository. Callers
+	 * may have its own quicker implementations.
+	 */
+	public interface GetHeadFromUri {
+		public ObjectId sha1(String uri) throws GitAPIException;
+	}
+
+	/** A default implementation of {@link GetHeadFromUri} callback. */
+	public static class DefaultGetHeadFromUri implements GetHeadFromUri {
+		@Override
+		public ObjectId sha1(String uri) throws GitAPIException {
+			Collection<Ref> refs = Git
+					.lsRemoteRepository()
+					.setRemote(uri)
+					.call();
+			for (Ref ref : refs) {
+				if (Constants.HEAD.equals(ref.getName()))
+					return ref.getObjectId();
+			}
+			return null;
+		}
+	}
 
 	private static class CopyFile {
 		final String src;
@@ -293,6 +342,12 @@ public class RepoCommand extends GitCommand<RevCommit> {
 		}
 	}
 
+	private static class RemoteUnavailableException extends GitAPIException {
+		RemoteUnavailableException(String uri, Throwable cause) {
+			super(MessageFormat.format(RepoText.get().errorRemoteUnavailable, uri), cause);
+		}
+	}
+
 	/**
 	 * @param repo
 	 */
@@ -347,6 +402,32 @@ public class RepoCommand extends GitCommand<RevCommit> {
 		return this;
 	}
 
+	/**
+	 * Set the author/committer for the bare repository commit.
+	 *
+	 * For non-bare repositories, the current user will be used and this will be ignored.
+	 *
+	 * @param author
+	 * @return this command
+	 */
+	public RepoCommand setAuthor(final PersonIdent author) {
+		this.author = author;
+		return this;
+	}
+
+	/**
+	 * Set the GetHeadFromUri callback.
+	 *
+	 * This is only used in bare repositories.
+	 *
+	 * @param callback
+	 * @return this command
+	 */
+	public RepoCommand setGetHeadFromUri(final GetHeadFromUri callback) {
+		this.callback = callback;
+		return this;
+	}
+
 	@Override
 	public RevCommit call() throws GitAPIException {
 		checkCallable();
@@ -355,7 +436,15 @@ public class RepoCommand extends GitCommand<RevCommit> {
 		if (uri == null || uri.length() == 0)
 			throw new IllegalArgumentException(JGitText.get().uriNotConfigured);
 
-		git = new Git(repo);
+		if (repo.isBare()) {
+			bareProjects = new ArrayList<Project>();
+			if (author == null)
+				author = new PersonIdent(repo);
+			if (callback == null)
+				callback = new DefaultGetHeadFromUri();
+		} else
+			git = new Git(repo);
+
 		XmlManifest manifest = new XmlManifest(this, path, uri, groups);
 		try {
 			manifest.read();
@@ -363,23 +452,113 @@ public class RepoCommand extends GitCommand<RevCommit> {
 			throw new ManifestErrorException(e);
 		}
 
-		return git
-			.commit()
-			.setMessage(RepoText.get().repoCommitMessage)
-			.call();
+		if (repo.isBare()) {
+			DirCache index = DirCache.newInCore();
+			DirCacheBuilder builder = index.builder();
+			ObjectInserter inserter = repo.newObjectInserter();
+
+			try {
+				Config cfg = new Config();
+				for (Project proj : bareProjects) {
+					String name = proj.path;
+					String uri = proj.name;
+					cfg.setString("submodule", name, "path", name); //$NON-NLS-1$ //$NON-NLS-2$
+					cfg.setString("submodule", name, "url", uri); //$NON-NLS-1$ //$NON-NLS-2$
+					// create gitlink
+					final DirCacheEntry dcEntry = new DirCacheEntry(name);
+					ObjectId objectId;
+					try {
+						objectId = callback.sha1(uri);
+					} catch (GitAPIException e) {
+						// Something wrong getting the head sha1
+						throw new RemoteUnavailableException(uri, e);
+					} catch (IllegalArgumentException e) {
+						// The revision from the manifest is malformed.
+						throw new ManifestErrorException(e);
+					}
+					if (objectId == null)
+						throw new RemoteUnavailableException(uri, null);
+					dcEntry.setObjectId(objectId);
+					dcEntry.setFileMode(FileMode.GITLINK);
+					builder.add(dcEntry);
+				}
+				String content = cfg.toText();
+
+				// create a new DirCacheEntry for .gitmodules file.
+				final DirCacheEntry dcEntry = new DirCacheEntry(Constants.DOT_GIT_MODULES);
+				ObjectId objectId = inserter.insert(Constants.OBJ_BLOB,
+						content.getBytes(Charset.forName(Constants.CHARACTER_ENCODING)));
+				dcEntry.setObjectId(objectId);
+				dcEntry.setFileMode(FileMode.REGULAR_FILE);
+				builder.add(dcEntry);
+
+				builder.finish();
+				ObjectId treeId = index.writeTree(inserter);
+
+				// Create a Commit object, populate it and write it
+				ObjectId headId = repo.resolve(Constants.HEAD + "^{commit}"); //$NON-NLS-1$
+				CommitBuilder commit = new CommitBuilder();
+				commit.setTreeId(treeId);
+				if (headId != null)
+					commit.setParentIds(headId);
+				commit.setAuthor(author);
+				commit.setCommitter(author);
+				commit.setMessage(RepoText.get().repoCommitMessage);
+
+				ObjectId commitId = inserter.insert(commit);
+				inserter.flush();
+				RevWalk rw = new RevWalk(repo);
+
+				RefUpdate ru = repo.updateRef(Constants.HEAD);
+				ru.setNewObjectId(commitId);
+				ru.setExpectedOldObjectId(headId != null ? headId : ObjectId.zeroId());
+				Result rc = ru.update(rw);
+
+				switch (rc) {
+					case NEW:
+					case FORCED:
+					case FAST_FORWARD:
+						// Successful. Do nothing.
+						break;
+					case REJECTED:
+					case LOCK_FAILURE:
+						throw new ConcurrentRefUpdateException(
+								JGitText.get().couldNotLockHEAD, ru.getRef(),
+								rc);
+					default:
+						throw new JGitInternalException(MessageFormat.format(
+								JGitText.get().updatingRefFailed,
+								Constants.HEAD, commitId.name(), rc));
+				}
+
+				return rw.parseCommit(commitId);
+			} catch (IOException e) {
+				throw new ManifestErrorException(e);
+			}
+		} else {
+			return git
+				.commit()
+				.setMessage(RepoText.get().repoCommitMessage)
+				.call();
+		}
 	}
 
 	private void addSubmodule(String url, String name) throws SAXException {
-		SubmoduleAddCommand add = git
-			.submoduleAdd()
-			.setPath(name)
-			.setURI(url);
-		if (monitor != null)
-			add.setProgressMonitor(monitor);
-		try {
-			add.call();
-		} catch (GitAPIException e) {
-			throw new SAXException(e);
+		if (repo.isBare()) {
+			Project proj = new Project(url, name, null);
+			bareProjects.add(proj);
+		} else {
+			SubmoduleAddCommand add = git
+				.submoduleAdd()
+				.setPath(name)
+				.setURI(url);
+			if (monitor != null)
+				add.setProgressMonitor(monitor);
+			try {
+				add.call();
+			} catch (GitAPIException e) {
+				throw new SAXException(e);
+			}
 		}
 	}
 }
