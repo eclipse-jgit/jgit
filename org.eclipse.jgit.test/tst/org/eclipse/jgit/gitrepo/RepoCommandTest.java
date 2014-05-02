@@ -55,10 +55,14 @@ import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.Test;
 
 public class RepoCommandTest extends RepositoryTestCase {
+
+	private static final String BRANCH = "branch";
+	private static final String TAG = "release";
 
 	private Repository defaultDb;
 	private Repository notDefaultDb;
@@ -71,14 +75,22 @@ public class RepoCommandTest extends RepositoryTestCase {
 	private String groupAUri;
 	private String groupBUri;
 
+	private ObjectId oldCommitId;
+
 	public void setUp() throws Exception {
 		super.setUp();
 
 		defaultDb = createWorkRepository();
 		Git git = new Git(defaultDb);
-		JGitTestUtil.writeTrashFile(defaultDb, "hello.txt", "world");
+		JGitTestUtil.writeTrashFile(defaultDb, "hello.txt", "branch world");
 		git.add().addFilepattern("hello.txt").call();
-		git.commit().setMessage("Initial commit").call();
+		oldCommitId = git.commit().setMessage("Initial commit").call().getId();
+		git.checkout().setName(BRANCH).setCreateBranch(true).call();
+		git.checkout().setName("master").call();
+		git.tag().setName(TAG).call();
+		JGitTestUtil.writeTrashFile(defaultDb, "hello.txt", "master world");
+		git.add().addFilepattern("hello.txt").call();
+		git.commit().setMessage("Second commit").call();
 
 		notDefaultDb = createWorkRepository();
 		git = new Git(notDefaultDb);
@@ -122,7 +134,7 @@ public class RepoCommandTest extends RepositoryTestCase {
 		BufferedReader reader = new BufferedReader(new FileReader(hello));
 		String content = reader.readLine();
 		reader.close();
-		assertEquals("submodule content is as expected.", "world", content);
+		assertEquals("submodule content is as expected.", "master world", content);
 	}
 
 	@Test
@@ -205,14 +217,14 @@ public class RepoCommandTest extends RepositoryTestCase {
 		BufferedReader reader = new BufferedReader(new FileReader(hello));
 		String content = reader.readLine();
 		reader.close();
-		assertEquals("The original file has expected content", "world", content);
+		assertEquals("The original file has expected content", "master world", content);
 		// The dest file should also exist
 		hello = new File(localDb.getWorkTree(), "Hello");
 		assertTrue("The destination file exists", hello.exists());
 		reader = new BufferedReader(new FileReader(hello));
 		content = reader.readLine();
 		reader.close();
-		assertEquals("The destination file has expected content", "world", content);
+		assertEquals("The destination file has expected content", "master world", content);
 	}
 
 	@Test
@@ -248,10 +260,117 @@ public class RepoCommandTest extends RepositoryTestCase {
 		reader.close();
 		assertEquals("The first line of .gitmodules file is as expected.",
 				"[submodule \"foo\"]", content);
-		// The gitlink should be the same of remote head sha1
+		// The gitlink should be the same as remote head sha1
 		String gitlink = localDb.resolve(Constants.HEAD + ":foo").name();
 		String remote = defaultDb.resolve(Constants.HEAD).name();
 		assertEquals("The gitlink is same as remote head", remote, gitlink);
+	}
+
+	@Test
+	public void testRevision() throws Exception {
+		StringBuilder xmlContent = new StringBuilder();
+		xmlContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+			.append("<manifest>")
+			.append("<remote name=\"remote1\" fetch=\".\" />")
+			.append("<default revision=\"master\" remote=\"remote1\" />")
+			.append("<project path=\"foo\" name=\"")
+			.append(defaultUri)
+			.append("\" revision=\"")
+			.append(oldCommitId.name())
+			.append("\" />")
+			.append("</manifest>");
+		writeTrashFile("manifest.xml", xmlContent.toString());
+		RepoCommand command = new RepoCommand(db);
+		command.setPath(db.getWorkTree().getAbsolutePath() + "/manifest.xml")
+			.setURI(rootUri)
+			.call();
+		File hello = new File(db.getWorkTree(), "foo/hello.txt");
+		BufferedReader reader = new BufferedReader(new FileReader(hello));
+		String content = reader.readLine();
+		reader.close();
+		assertEquals("submodule content is as expected.", "branch world", content);
+	}
+
+	@Test
+	public void testRevisionBranch() throws Exception {
+		StringBuilder xmlContent = new StringBuilder();
+		xmlContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+			.append("<manifest>")
+			.append("<remote name=\"remote1\" fetch=\".\" />")
+			.append("<default revision=\"")
+			.append(BRANCH)
+			.append("\" remote=\"remote1\" />")
+			.append("<project path=\"foo\" name=\"")
+			.append(defaultUri)
+			.append("\" />")
+			.append("</manifest>");
+		writeTrashFile("manifest.xml", xmlContent.toString());
+		RepoCommand command = new RepoCommand(db);
+		command.setPath(db.getWorkTree().getAbsolutePath() + "/manifest.xml")
+			.setURI(rootUri)
+			.call();
+		File hello = new File(db.getWorkTree(), "foo/hello.txt");
+		BufferedReader reader = new BufferedReader(new FileReader(hello));
+		String content = reader.readLine();
+		reader.close();
+		assertEquals("submodule content is as expected.", "branch world", content);
+	}
+
+	@Test
+	public void testRevisionTag() throws Exception {
+		StringBuilder xmlContent = new StringBuilder();
+		xmlContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+			.append("<manifest>")
+			.append("<remote name=\"remote1\" fetch=\".\" />")
+			.append("<default revision=\"master\" remote=\"remote1\" />")
+			.append("<project path=\"foo\" name=\"")
+			.append(defaultUri)
+			.append("\" revision=\"")
+			.append(TAG)
+			.append("\" />")
+			.append("</manifest>");
+		writeTrashFile("manifest.xml", xmlContent.toString());
+		RepoCommand command = new RepoCommand(db);
+		command.setPath(db.getWorkTree().getAbsolutePath() + "/manifest.xml")
+			.setURI(rootUri)
+			.call();
+		File hello = new File(db.getWorkTree(), "foo/hello.txt");
+		BufferedReader reader = new BufferedReader(new FileReader(hello));
+		String content = reader.readLine();
+		reader.close();
+		assertEquals("submodule content is as expected.", "branch world", content);
+	}
+
+	@Test
+	public void testRevisionBare() throws Exception {
+		Repository remoteDb = createBareRepository();
+		Repository tempDb = createWorkRepository();
+		StringBuilder xmlContent = new StringBuilder();
+		xmlContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+			.append("<manifest>")
+			.append("<remote name=\"remote1\" fetch=\".\" />")
+			.append("<default revision=\"")
+			.append(BRANCH)
+			.append("\" remote=\"remote1\" />")
+			.append("<project path=\"foo\" name=\"")
+			.append(defaultUri)
+			.append("\" />")
+			.append("</manifest>");
+		JGitTestUtil.writeTrashFile(tempDb, "manifest.xml", xmlContent.toString());
+		RepoCommand command = new RepoCommand(remoteDb);
+		command.setPath(tempDb.getWorkTree().getAbsolutePath() + "/manifest.xml")
+			.setURI(rootUri)
+			.call();
+		// Clone it
+		File directory = createTempDirectory("testRevisionBare");
+		CloneCommand clone = Git.cloneRepository();
+		clone.setDirectory(directory);
+		clone.setURI(remoteDb.getDirectory().toURI().toString());
+		Repository localDb = clone.call().getRepository();
+		// The gitlink should be the same as oldCommitId
+		String gitlink = localDb.resolve(Constants.HEAD + ":foo").name();
+		assertEquals("The gitlink is same as remote head",
+				oldCommitId.name(), gitlink);
 	}
 
 	private void resolveRelativeUris() {

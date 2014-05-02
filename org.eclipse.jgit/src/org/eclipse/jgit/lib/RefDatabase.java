@@ -271,4 +271,26 @@ public abstract class RefDatabase {
 	public void refresh() {
 		// nothing
 	}
+
+	/**
+	 * Try to find the specified name in the ref map using {@link #SEARCH_PATH}.
+	 *
+	 * @param map
+	 *            map of refs to search within. Names should be fully qualified,
+	 *            e.g. "refs/heads/master".
+	 * @param name
+	 *            short name of ref to find, e.g. "master" to find
+	 *            "refs/heads/master" in map.
+	 * @return The first ref matching the name, or null if not found.
+	 * @since 3.4
+	 */
+	public static Ref findRef(Map<String, Ref> map, String name) {
+		for (String prefix : SEARCH_PATH) {
+			String fullname = prefix + name;
+			Ref ref = map.get(fullname);
+			if (ref != null)
+				return ref;
+		}
+		return null;
+	}
 }
