@@ -51,6 +51,24 @@
       "revId": "8e4018390e0d13c89c3d4ab5b08e3ffa9534fd86",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_9ea8f495",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revplot/PlotCommitList.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-05-02T14:19:15Z",
+      "side": 0,
+      "message": "There is a bugzilla bug which explains why this remove() went int. See https://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d365460 . But now, with Konrads change we don\u0027t need that anymore.",
+      "parentUuid": "0756a345_67e927f3",
+      "revId": "8e4018390e0d13c89c3d4ab5b08e3ffa9534fd86",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
