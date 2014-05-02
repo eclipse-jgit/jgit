@@ -53,6 +53,7 @@ import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
+import org.eclipse.jgit.util.QuotedString;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.spi.StopOptionHandler;
@@ -90,7 +91,7 @@ class LsTree extends TextBuiltin {
 			outw.print(walk.getObjectId(0).name());
 
 			outw.print('\t');
-			outw.print(walk.getPathString());
+			outw.print(QuotedString.GIT_PATH.quote(walk.getPathString()));
 			outw.println();
 		}
 	}
