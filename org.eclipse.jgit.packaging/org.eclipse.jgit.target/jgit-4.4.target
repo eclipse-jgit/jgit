@@ -30,9 +30,9 @@
       <unit id="org.eclipse.jetty.util.source" version="7.6.14.v20131031"/>
     </location>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
-      <repository location="http://download.eclipse.org/tools/orbit/downloads/drops/S20140116105218/repository/"/>
-      <unit id="org.apache.ant.source" version="1.9.2.v201307241445"/>
-      <unit id="org.apache.ant" version="1.9.2.v201307241445"/>
+      <repository location="http://download.eclipse.org/tools/orbit/downloads/drops/S20140428023358/repository/"/>
+      <unit id="org.apache.ant.source" version="1.9.2.v201404171502"/>
+      <unit id="org.apache.ant" version="1.9.2.v201404171502"/>
       <unit id="org.apache.commons.compress" version="1.6.0.v201310281400"/>
       <unit id="org.apache.commons.compress.source" version="1.6.0.v201310281400"/>
       <unit id="org.apache.commons.logging" version="1.1.1.v201101211721"/>
@@ -53,8 +53,8 @@
       <unit id="org.objenesis.source" version="1.0.0.v201105211943"/>
       <unit id="org.mockito" version="1.8.4.v201303031500"/>
       <unit id="org.mockito.source" version="1.8.4.v201303031500"/>
-      <unit id="com.jcraft.jsch" version="0.1.50.v201310081430"/>
-      <unit id="com.jcraft.jsch.source" version="0.1.50.v201310081430"/>
+      <unit id="com.jcraft.jsch" version="0.1.50.v201403120620"/>
+      <unit id="com.jcraft.jsch.source" version="0.1.50.v201403120620"/>
       <unit id="org.junit" version="4.11.0.v201303080030"/>
       <unit id="org.junit.source" version="4.11.0.v201303080030"/>
       <unit id="javax.servlet" version="2.5.0.v201103041518"/>
