@@ -768,8 +768,9 @@ public class BlameGenerator {
 				}
 
 				p.regionList = n.regionList;
-				push(p);
-				return false;
+				n.regionList = null;
+				parents[pIdx] = p;
+				break;
 			}
 
 			p.takeBlame(editList, n);
