@@ -47,8 +47,10 @@ import static org.junit.Assert.assertNotNull;
 
 import java.io.File;
 
+import org.eclipse.jgit.api.MergeCommand.FastForwardMode;
 import org.eclipse.jgit.api.ResetCommand.ResetType;
 import org.eclipse.jgit.blame.BlameResult;
+import org.eclipse.jgit.diff.RawTextComparator;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.CoreConfig.AutoCRLF;
@@ -455,5 +457,34 @@ public class BlameCommandTest extends RepositoryTestCase {
 		assertEquals(base, lines.getSourceCommit(2));
 		assertEquals(merge, lines.getSourceCommit(3));
 		assertEquals(base, lines.getSourceCommit(4));
+	}
+
+	@Test
+	public void testWhitespaceMerge() throws Exception {
+		Git git = new Git(db);
+		RevCommit base = commitFile("file.txt", join("0", "1", "2"), "master");
+		RevCommit side = commitFile("file.txt", join("0", "1", "   2 side  "),
+				"side");
+
+		checkoutBranch("refs/heads/master");
+		git.merge().setFastForward(FastForwardMode.NO_FF).include(side).call();
+
+		// change whitespace, so the merge content is not identical to side, but
+		// is the same when ignoring whitespace
+		writeTrashFile("file.txt", join("0", "1", "2 side"));
+		RevCommit merge = git.commit().setAll(true).setMessage("merge")
+				.setAmend(true)
+				.call();
+
+		BlameCommand command = new BlameCommand(db);
+		command.setFilePath("file.txt")
+				.setTextComparator(RawTextComparator.WS_IGNORE_ALL)
+				.setStartCommit(merge.getId());
+		BlameResult lines = command.call();
+
+		assertEquals(3, lines.getResultContents().size());
+		assertEquals(base, lines.getSourceCommit(0));
+		assertEquals(base, lines.getSourceCommit(1));
+		assertEquals(side, lines.getSourceCommit(2));
 	}
 }
