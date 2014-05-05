@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0756a345_519f6ae7",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/RevWalkTextBuiltin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-05-05T22:44:49Z",
+      "side": 1,
+      "message": "I think this breaks the graphical viewer tool. You may need to set true in that program, which IIRC is a subclass of this class.",
+      "revId": "5a8b53dad3bb3fcb01be7ccabdf67b7899c01062",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
