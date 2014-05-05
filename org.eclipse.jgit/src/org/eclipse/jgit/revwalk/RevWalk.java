@@ -190,6 +190,8 @@ public class RevWalk implements Iterable<RevCommit> {
 
 	private boolean retainBody;
 
+	private boolean rewriteParents = true;
+
 	boolean shallowCommitsInitialized;
 
 	/**
@@ -533,8 +535,9 @@ public class RevWalk implements Iterable<RevCommit> {
 	 * will not be simplified.
 	 * <p>
 	 * If non-null and not {@link TreeFilter#ALL} then the tree filter will be
-	 * installed and commits will have their ancestry simplified to hide commits
-	 * that do not contain tree entries matched by the filter.
+	 * installed. Commits will have their ancestry simplified to hide commits that
+	 * that do not contain tree entries matched by the filter, unless
+	 * {@code setRewriteParents(false)} is called.
 	 * <p>
 	 * Usually callers should be inserting a filter graph including
 	 * {@link TreeFilter#ANY_DIFF} along with one or more
@@ -548,6 +551,27 @@ public class RevWalk implements Iterable<RevCommit> {
 	public void setTreeFilter(final TreeFilter newFilter) {
 		assertNotStarted();
 		treeFilter = newFilter != null ? newFilter : TreeFilter.ALL;
+	}
+
+	/**
+	 * Set whether to rewrite parent pointers when filtering by modified paths.
+	 * <p>
+	 * By default, when {@link #setTreeFilter(TreeFilter)} is called with non-
+	 * null and non-{@link TreeFilter#ALL} filter, commits will have their
+	 * ancestry simplified and parents rewritten to hide commits that do not match
+	 * the filter.
+	 * <p>
+	 * This behavior can be bypassed by passing false to this method.
+	 *
+	 * @param rewrite
+	 *            whether to rewrite parents; defaults to true.
+	 */
+	public void setRewriteParents(boolean rewrite) {
+		rewriteParents = rewrite;
+	}
+
+	boolean getRewriteParents() {
+		return rewriteParents;
 	}
 
 	/**
