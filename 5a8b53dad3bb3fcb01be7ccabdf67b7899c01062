@@ -16,6 +16,24 @@
       "revId": "5a8b53dad3bb3fcb01be7ccabdf67b7899c01062",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_712eee17",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/RevWalkTextBuiltin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2014-05-05T22:58:50Z",
+      "side": 1,
+      "message": "Glog overrides createWalk to return a PlotWalk, it doesn\u0027t call the super method.",
+      "parentUuid": "0756a345_519f6ae7",
+      "revId": "5a8b53dad3bb3fcb01be7ccabdf67b7899c01062",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
