@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_f1783ee5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 539,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2014-05-05T23:41:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_918aa26d",
+      "revId": "239d4ac55a8cb64c082705930350ba696d24fac5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_b16ec622",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2014-05-05T23:39:15Z",
       "side": 1,
       "message": "missing @since 3.4 tag",
+      "revId": "239d4ac55a8cb64c082705930350ba696d24fac5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_51676a44",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2014-05-05T23:41:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_b16ec622",
       "revId": "239d4ac55a8cb64c082705930350ba696d24fac5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
