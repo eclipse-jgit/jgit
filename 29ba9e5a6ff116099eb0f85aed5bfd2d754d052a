@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0756a345_31bbd65f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-05-05T22:43:36Z",
+      "side": 1,
+      "message": "inconsistent whitespace at start of line compared to sibling lines in this javadoc block.",
+      "revId": "29ba9e5a6ff116099eb0f85aed5bfd2d754d052a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
