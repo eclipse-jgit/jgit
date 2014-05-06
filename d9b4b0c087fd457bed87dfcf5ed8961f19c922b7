@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0756a345_9a2597e4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-05-06T13:46:46Z",
+      "side": 1,
+      "message": "Why do you added that we instantiate a new Git object?",
+      "revId": "d9b4b0c087fd457bed87dfcf5ed8961f19c922b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_ba197baf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-05-06T13:46:46Z",
+      "side": 1,
+      "message": "Same question as above. Why a new Git instance?",
+      "revId": "d9b4b0c087fd457bed87dfcf5ed8961f19c922b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_5a565f33",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleUpdateCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-05-06T13:46:46Z",
+      "side": 1,
+      "message": "why do we need an additional Git instance?",
+      "revId": "d9b4b0c087fd457bed87dfcf5ed8961f19c922b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
