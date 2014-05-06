@@ -129,6 +129,25 @@ public class RevWalkPathFilter1Test extends RevWalkTestCase {
 	}
 
 	@Test
+	public void testStringOfPearls_FilePath1_NoParentRewriting()
+			throws Exception {
+		final RevCommit a = commit(tree(file("d/f", blob("a"))));
+		final RevCommit b = commit(tree(file("d/f", blob("a"))), a);
+		final RevCommit c = commit(tree(file("d/f", blob("b"))), b);
+		filter("d/f");
+		markStart(c);
+		rw.setRewriteParents(false);
+
+		assertCommit(c, rw.next());
+		assertEquals(1, c.getParentCount());
+		assertCommit(b, c.getParent(0));
+
+		assertCommit(a, rw.next()); // b was skipped
+		assertEquals(0, a.getParentCount());
+		assertNull(rw.next());
+	}
+
+	@Test
 	public void testStringOfPearls_FilePath2() throws Exception {
 		final RevCommit a = commit(tree(file("d/f", blob("a"))));
 		final RevCommit b = commit(tree(file("d/f", blob("a"))), a);
@@ -148,6 +167,28 @@ public class RevWalkPathFilter1Test extends RevWalkTestCase {
 	}
 
 	@Test
+	public void testStringOfPearls_FilePath2_NoParentRewriting()
+	throws Exception {
+		final RevCommit a = commit(tree(file("d/f", blob("a"))));
+		final RevCommit b = commit(tree(file("d/f", blob("a"))), a);
+		final RevCommit c = commit(tree(file("d/f", blob("b"))), b);
+		final RevCommit d = commit(tree(file("d/f", blob("b"))), c);
+		filter("d/f");
+		markStart(d);
+		rw.setRewriteParents(false);
+
+		// d was skipped
+		assertCommit(c, rw.next());
+		assertEquals(1, c.getParentCount());
+		assertCommit(b, c.getParent(0));
+
+		// b was skipped
+		assertCommit(a, rw.next());
+		assertEquals(0, a.getParentCount());
+		assertNull(rw.next());
+	}
+
+	@Test
 	public void testStringOfPearls_DirPath2() throws Exception {
 		final RevCommit a = commit(tree(file("d/f", blob("a"))));
 		final RevCommit b = commit(tree(file("d/f", blob("a"))), a);
@@ -161,6 +202,28 @@ public class RevWalkPathFilter1Test extends RevWalkTestCase {
 		assertEquals(1, c.getParentCount());
 		assertCommit(a, c.getParent(0)); // b was skipped
 
+		assertCommit(a, rw.next());
+		assertEquals(0, a.getParentCount());
+		assertNull(rw.next());
+	}
+
+	@Test
+	public void testStringOfPearls_DirPath2_NoParentRewriting()
+			throws Exception {
+		final RevCommit a = commit(tree(file("d/f", blob("a"))));
+		final RevCommit b = commit(tree(file("d/f", blob("a"))), a);
+		final RevCommit c = commit(tree(file("d/f", blob("b"))), b);
+		final RevCommit d = commit(tree(file("d/f", blob("b"))), c);
+		filter("d");
+		markStart(d);
+		rw.setRewriteParents(false);
+
+		// d was skipped
+		assertCommit(c, rw.next());
+		assertEquals(1, c.getParentCount());
+		assertCommit(b, c.getParent(0));
+
+		// b was skipped
 		assertCommit(a, rw.next());
 		assertEquals(0, a.getParentCount());
 		assertNull(rw.next());
@@ -188,6 +251,37 @@ public class RevWalkPathFilter1Test extends RevWalkTestCase {
 		assertEquals(1, c.getParentCount());
 		assertCommit(a, c.getParent(0)); // b was skipped
 
+		assertCommit(a, rw.next());
+		assertEquals(0, a.getParentCount());
+		assertNull(rw.next());
+	}
+
+	@Test
+	public void testStringOfPearls_FilePath3_NoParentRewriting()
+			throws Exception {
+		final RevCommit a = commit(tree(file("d/f", blob("a"))));
+		final RevCommit b = commit(tree(file("d/f", blob("a"))), a);
+		final RevCommit c = commit(tree(file("d/f", blob("b"))), b);
+		final RevCommit d = commit(tree(file("d/f", blob("b"))), c);
+		final RevCommit e = commit(tree(file("d/f", blob("b"))), d);
+		final RevCommit f = commit(tree(file("d/f", blob("b"))), e);
+		final RevCommit g = commit(tree(file("d/f", blob("b"))), f);
+		final RevCommit h = commit(tree(file("d/f", blob("b"))), g);
+		final RevCommit i = commit(tree(file("d/f", blob("c"))), h);
+		filter("d/f");
+		markStart(i);
+		rw.setRewriteParents(false);
+
+		assertCommit(i, rw.next());
+		assertEquals(1, i.getParentCount());
+		assertCommit(h, i.getParent(0));
+
+		// h..d was skipped
+		assertCommit(c, rw.next());
+		assertEquals(1, c.getParentCount());
+		assertCommit(b, c.getParent(0));
+
+		// b was skipped
 		assertCommit(a, rw.next());
 		assertEquals(0, a.getParentCount());
 		assertNull(rw.next());
