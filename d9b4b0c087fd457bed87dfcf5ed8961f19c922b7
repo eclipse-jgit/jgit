@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_da50af2b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2014-05-06T13:55:16Z",
+      "side": 1,
+      "message": "I don\u0027t have a reason other than I changed this to what is used everywhere else... it just seemed a waste since these are the only places where the commands are instantiated other that from the tests.\n\nShould I change these three places back?",
+      "parentUuid": "0756a345_9a2597e4",
+      "revId": "d9b4b0c087fd457bed87dfcf5ed8961f19c922b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_ba197baf",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
         "patchSetId": 3
