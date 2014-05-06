@@ -72,6 +72,23 @@
     },
     {
       "key": {
+        "uuid": "0756a345_dae6efd3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1312,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-05-06T14:19:33Z",
+      "side": 1,
+      "message": "I would simplify to \"The merge strategy to use during this rebase operation\". I would do the same for the other javadocs of setStrategy() which you introduced",
+      "revId": "d9b4b0c087fd457bed87dfcf5ed8961f19c922b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_5a565f33",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleUpdateCommand.java",
         "patchSetId": 3
