@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_1ae187b9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2014-05-06T14:24:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_5acc9f64",
+      "revId": "d9b4b0c087fd457bed87dfcf5ed8961f19c922b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_ba197baf",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
         "patchSetId": 3
@@ -89,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_1abce79f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1312,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2014-05-06T14:24:47Z",
+      "side": 1,
+      "message": "Done for all \"setStrategy(...)\" introduced by this patch",
+      "parentUuid": "0756a345_dae6efd3",
+      "revId": "d9b4b0c087fd457bed87dfcf5ed8961f19c922b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_5a565f33",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleUpdateCommand.java",
         "patchSetId": 3
@@ -106,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_fab653be",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleUpdateCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2014-05-06T14:24:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_5a565f33",
+      "revId": "d9b4b0c087fd457bed87dfcf5ed8961f19c922b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_fa29338a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleUpdateCommand.java",
         "patchSetId": 3
@@ -117,6 +171,24 @@
       "writtenOn": "2014-05-06T14:14:43Z",
       "side": 1,
       "message": "forgot this one!",
+      "revId": "d9b4b0c087fd457bed87dfcf5ed8961f19c922b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_5a85bfe6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleUpdateCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2014-05-06T14:24:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_fa29338a",
       "revId": "d9b4b0c087fd457bed87dfcf5ed8961f19c922b7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
