@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_bd1b3078",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ArchiveCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 5963
+      },
+      "writtenOn": "2014-05-07T19:27:07Z",
+      "side": 1,
+      "message": "Yes, it is supposed to match the \"-- \u003cpath\u003e...\" arguments to git archive.\n\nThe paths are indeed a list of paths to match against - paths could be either files or directories, for the latter the all files and directories are selected recursively.\nThe addition of paths uses similar logic as does org.eclipse.jgit.api.AddCommand by using org.eclipse.jgit.treewalk.TreeWalk.setFilter\n\nPlease see the following patch for updated documentation.",
+      "parentUuid": "0756a345_7a807e4f",
+      "revId": "cfa2e0c9925f8059a6e2c6095f846b13646b81fd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_7a035e84",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ArchiveCommand.java",
         "patchSetId": 3
