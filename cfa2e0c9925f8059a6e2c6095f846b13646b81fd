@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0756a345_7a807e4f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ArchiveCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2014-05-07T18:03:45Z",
+      "side": 1,
+      "message": "Is this supposed to match the \"-- \u003cpath\u003e...\" arguments to git archive? Those are patterns (pathspecs):\n\n $ git archive HEAD -- \u0027:(glob)\u0027 \u0027*.c\u0027 |tar -tf - | head -6\n .gitattributes\n .gitignore\n .mailmap\n COPYING\n Documentation/\n Documentation/.gitattributes\n\nLooking around, it seems that jgit has some support for fnmatch patterns in org.eclipse.jgit.fnmatch.FileNameMatcher but it is only currently used for .gitignore handling.\n\nWhat should the documented semantics of this be? Is it a list of literal paths to match against, even if they contain glob special characters and globs would use a different method if support is added for them later? Or should it check for glob special characters and error out to make it possible to introduce that behavior later?\n\nI think just doing literal paths should be fine and could be controlled by a flag later, but it seems worth documenting here that the paths are literal and relative to the root of the tree (not e.g. relative to the cwd).",
+      "revId": "cfa2e0c9925f8059a6e2c6095f846b13646b81fd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_7a035e84",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ArchiveCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2014-05-07T18:03:45Z",
+      "side": 1,
+      "message": "Line should start with a tab.",
+      "revId": "cfa2e0c9925f8059a6e2c6095f846b13646b81fd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
