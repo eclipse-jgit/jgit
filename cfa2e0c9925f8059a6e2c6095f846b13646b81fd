@@ -51,6 +51,24 @@
       "revId": "cfa2e0c9925f8059a6e2c6095f846b13646b81fd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_1d24dc5f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ArchiveCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 5963
+      },
+      "writtenOn": "2014-05-07T20:58:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_7a035e84",
+      "revId": "cfa2e0c9925f8059a6e2c6095f846b13646b81fd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
