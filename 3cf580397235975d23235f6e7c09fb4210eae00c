@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0756a345_ddca64c3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-05-07T22:00:29Z",
+      "side": 1,
+      "message": "style nit: commit message header should be shorter than 70 characters and followed by a blank line, see https://wiki.eclipse.org/EGit/Contributor_Guide#Commit_message_guidelines",
+      "revId": "3cf580397235975d23235f6e7c09fb4210eae00c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
