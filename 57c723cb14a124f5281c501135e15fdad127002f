@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0756a345_66646e3d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-05-07T14:30:19Z",
+      "side": 1,
+      "message": "remove \u0027#\u0027 in front of the interface name otherwise javadoc can\u0027t resolve this",
+      "revId": "57c723cb14a124f5281c501135e15fdad127002f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_86b8a231",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-05-07T14:30:19Z",
+      "side": 1,
+      "message": "s/its/their/",
+      "revId": "57c723cb14a124f5281c501135e15fdad127002f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_c65a9a7a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-05-07T14:30:19Z",
+      "side": 1,
+      "message": "missing javadoc for public method",
+      "revId": "57c723cb14a124f5281c501135e15fdad127002f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_e64fdeb8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-05-07T14:30:19Z",
+      "side": 1,
+      "message": "Java 5 doesn\u0027t understand @Override on methods defined in an interface",
+      "revId": "57c723cb14a124f5281c501135e15fdad127002f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_7ab23e33",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-05-07T14:30:19Z",
+      "side": 1,
+      "message": "String.getBytes() isn\u0027t available in Java 5 it was added in Java 6",
+      "revId": "57c723cb14a124f5281c501135e15fdad127002f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_668d8e85",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 510,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-05-07T14:30:19Z",
+      "side": 1,
+      "message": "the walk should be released in a finally block",
+      "revId": "57c723cb14a124f5281c501135e15fdad127002f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
