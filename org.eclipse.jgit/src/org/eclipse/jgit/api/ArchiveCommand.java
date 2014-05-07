@@ -46,6 +46,9 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -60,6 +63,7 @@ import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
 
 /**
  * Create an archive of files from a named tree.
@@ -324,6 +328,7 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 	private ObjectId tree;
 	private String prefix;
 	private String format;
+	private List<String> paths = new ArrayList<String>();
 
 	/** Filename suffix, for automatically choosing a format. */
 	private String suffix;
@@ -347,6 +352,9 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 				final RevWalk rw = new RevWalk(walk.getObjectReader());
 
 				walk.reset(rw.parseTree(tree));
+				if (!paths.isEmpty())
+					walk.setFilter(PathFilterGroup.createFromStrings(paths));
+
 				while (walk.next()) {
 					final String name = pfx + walk.getPathString();
 					FileMode mode = walk.getFileMode(0);
@@ -460,6 +468,20 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 	 */
 	public ArchiveCommand setFormat(String fmt) {
 		this.format = fmt;
+		return this;
+	}
+
+	/**
+	 * @param paths
+	 *            Set an optional parameter path.
+     *            without an optional path parameter, all files and
+	 *            subdirectories of the current working directory are included
+	 *            in the archive. If one or more paths are specified, only these
+	 *            are included.
+	 * @return this
+	 */
+	public ArchiveCommand setPaths(String... paths) {
+		this.paths = Arrays.asList(paths);
 		return this;
 	}
 }
