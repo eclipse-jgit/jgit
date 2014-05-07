@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0756a345_5a693a6e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/ArchiveCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-05-07T16:51:21Z",
+      "side": 1,
+      "message": "Code in JGit is only accepted under the EDL. This is the EPL.",
+      "range": {
+        "startLine": 3,
+        "startChar": 1,
+        "endLine": 7,
+        "endChar": 0
+      },
+      "revId": "4d300916ad8b1513b2a708193cca5dfa072ab6ca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_7a66bea1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ArchiveCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-05-07T16:51:21Z",
+      "side": 1,
+      "message": "!paths.isEmpty()",
+      "range": {
+        "startLine": 355,
+        "startChar": 8,
+        "endLine": 355,
+        "endChar": 25
+      },
+      "revId": "4d300916ad8b1513b2a708193cca5dfa072ab6ca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_da29ca3c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ArchiveCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-05-07T16:51:21Z",
+      "side": 1,
+      "message": "nit: we try to avoid curly braces around simple conditionals",
+      "range": {
+        "startLine": 355,
+        "startChar": 4,
+        "endLine": 357,
+        "endChar": 5
+      },
+      "revId": "4d300916ad8b1513b2a708193cca5dfa072ab6ca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_3a29e63a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ArchiveCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-05-07T16:51:21Z",
+      "side": 1,
+      "message": "nit: unnecessary empty line",
+      "revId": "4d300916ad8b1513b2a708193cca5dfa072ab6ca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
