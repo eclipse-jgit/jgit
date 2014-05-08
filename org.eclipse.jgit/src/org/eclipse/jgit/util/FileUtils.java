@@ -362,4 +362,40 @@ public class FileUtils {
 	public static String readSymLink(File path) throws IOException {
 		return FS.DETECTED.readSymLink(path);
 	}
+
+	/**
+	 * Create a temporary directory
+	 * @param prefix
+	 * @param suffix
+	 * @param dir
+	 *            The parent dir, can be null to use system default temp dir.
+	 * @param retry
+	 *            The count of retries, or -1 for unlimited retry.
+	 * @return the temp dir created.
+	 * @throws IOException
+	 * @since 3.4
+	 */
+	public static File createTempDir(String prefix, String suffix, File dir,
+			int retry) throws IOException {
+		File tmp;
+		int i = 0;
+		while ((retry < 0) || (i < retry)) {
+			i++;
+			if (dir == null) {
+				tmp = File.createTempFile(prefix, suffix);
+			} else {
+				tmp = File.createTempFile(prefix, suffix, dir);
+			}
+			if (!tmp.delete())
+				continue;
+			try {
+				mkdirs(tmp);
+			} catch (IOException e) {
+				continue;
+			}
+			return tmp;
+		}
+		throw new IOException(MessageFormat.format(
+				JGitText.get().cannotCreateTempDir, retry));
+	}
 }
