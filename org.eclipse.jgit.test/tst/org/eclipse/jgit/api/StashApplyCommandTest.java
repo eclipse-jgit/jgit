@@ -648,4 +648,91 @@ public class StashApplyCommandTest extends RepositoryTestCase {
 
 		assertFalse(file.exists());
 	}
+
+	@Test
+	public void untrackedFileNotIncluded() throws Exception {
+		String untrackedPath = "untracked.txt";
+		File untrackedFile = writeTrashFile(untrackedPath, "content");
+		// at least one modification needed
+		writeTrashFile(PATH, "content2");
+		git.add().addFilepattern(PATH).call();
+		git.stashCreate().call();
+		assertTrue(untrackedFile.exists());
+
+		git.stashApply().setStashRef("stash@{0}").call();
+		assertTrue(untrackedFile.exists());
+
+		Status status = git.status().call();
+		assertEquals(1, status.getUntracked().size());
+		assertTrue(status.getUntracked().contains(untrackedPath));
+		assertEquals(1, status.getChanged().size());
+		assertTrue(status.getChanged().contains(PATH));
+		assertTrue(status.getAdded().isEmpty());
+		assertTrue(status.getConflicting().isEmpty());
+		assertTrue(status.getMissing().isEmpty());
+		assertTrue(status.getRemoved().isEmpty());
+		assertTrue(status.getModified().isEmpty());
+	}
+
+	@Test
+	public void untrackedFileIncluded() throws Exception {
+		String path = "a/b/untracked.txt";
+		File untrackedFile = writeTrashFile(path, "content");
+		RevCommit stashedCommit = git.stashCreate().setIncludeUntracked(true)
+				.call();
+		assertNotNull(stashedCommit);
+		assertFalse(untrackedFile.exists());
+		deleteTrashFile("a/b"); // checkout should create parent dirs
+
+		git.stashApply().setStashRef("stash@{0}").call();
+		assertTrue(untrackedFile.exists());
+		assertEquals("content", read(path));
+
+		Status status = git.status().call();
+		assertEquals(1, status.getUntracked().size());
+		assertTrue(status.getAdded().isEmpty());
+		assertTrue(status.getChanged().isEmpty());
+		assertTrue(status.getConflicting().isEmpty());
+		assertTrue(status.getMissing().isEmpty());
+		assertTrue(status.getRemoved().isEmpty());
+		assertTrue(status.getModified().isEmpty());
+		assertTrue(status.getUntracked().contains(path));
+	}
+
+	@Test
+	public void untrackedFileConflictsWithCommit() throws Exception {
+		String path = "untracked.txt";
+		writeTrashFile(path, "untracked");
+		git.stashCreate().setIncludeUntracked(true).call();
+
+		writeTrashFile(path, "committed");
+		head = git.commit().setMessage("add file").call();
+		git.add().addFilepattern(path).call();
+		git.commit().setMessage("conflicting commit").call();
+
+		try {
+			git.stashApply().setStashRef("stash@{0}").call();
+			fail("StashApplyFailureException should be thrown.");
+		} catch (StashApplyFailureException e) {
+			assertEquals(e.getMessage(), JGitText.get().stashApplyConflict);
+		}
+		assertEquals("committed", read(path));
+	}
+
+	@Test
+	public void untrackedFileConflictsWithWorkingDirectory()
+			throws Exception {
+		String path = "untracked.txt";
+		writeTrashFile(path, "untracked");
+		git.stashCreate().setIncludeUntracked(true).call();
+
+		writeTrashFile(path, "working-directory");
+		try {
+			git.stashApply().setStashRef("stash@{0}").call();
+			fail("StashApplyFailureException should be thrown.");
+		} catch (StashApplyFailureException e) {
+			assertEquals(e.getMessage(), JGitText.get().stashApplyConflict);
+		}
+		assertEquals("working-directory", read(path));
+	}
 }
