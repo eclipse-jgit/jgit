@@ -113,6 +113,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String cannotCreateDirectory;
 	/***/ public String cannotCreateHEAD;
 	/***/ public String cannotCreateIndexfile;
+	/***/ public String cannotCreateTempDir;
 	/***/ public String cannotDeleteCheckedOutBranch;
 	/***/ public String cannotDeleteFile;
 	/***/ public String cannotDeleteStaleTrackingRef;
