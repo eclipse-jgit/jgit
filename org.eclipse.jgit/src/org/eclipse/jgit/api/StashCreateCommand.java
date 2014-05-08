@@ -42,6 +42,7 @@
  */
 package org.eclipse.jgit.api;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.MessageFormat;
@@ -54,6 +55,7 @@ import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.NoHeadException;
 import org.eclipse.jgit.api.errors.UnmergedPathsException;
 import org.eclipse.jgit.dircache.DirCache;
+import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEditor;
 import org.eclipse.jgit.dircache.DirCacheEditor.DeletePath;
 import org.eclipse.jgit.dircache.DirCacheEditor.PathEdit;
@@ -80,6 +82,7 @@ import org.eclipse.jgit.treewalk.WorkingTreeIterator;
 import org.eclipse.jgit.treewalk.filter.AndTreeFilter;
 import org.eclipse.jgit.treewalk.filter.IndexDiffFilter;
 import org.eclipse.jgit.treewalk.filter.SkipWorkTreeFilter;
+import org.eclipse.jgit.util.FileUtils;
 
 /**
  * Command class to stash changes in the working directory and index in a
@@ -93,6 +96,8 @@ public class StashCreateCommand extends GitCommand<RevCommit> {
 
 	private static final String MSG_INDEX = "index on {0}: {1} {2}";
 
+	private static final String MSG_UNTRACKED = "untracked files on {0}: {1} {2}";
+
 	private static final String MSG_WORKING_DIR = "WIP on {0}: {1} {2}";
 
 	private String indexMessage = MSG_INDEX;
@@ -102,6 +107,8 @@ public class StashCreateCommand extends GitCommand<RevCommit> {
 	private String ref = Constants.R_STASH;
 
 	private PersonIdent person;
+
+	private boolean includeUntracked;
 
 	/**
 	 * Create a command to stash changes in the working directory and index
@@ -166,6 +173,18 @@ public class StashCreateCommand extends GitCommand<RevCommit> {
 		return this;
 	}
 
+	/**
+	 * Whether to include untracked files in the stash.
+	 *
+	 * @param includeUntracked
+	 * @return {@code this}
+	 * @since 3.4
+	 */
+	public StashCreateCommand setIncludeUntracked(boolean includeUntracked) {
+		this.includeUntracked = includeUntracked;
+		return this;
+	}
+
 	private RevCommit parseCommit(final ObjectReader reader,
 			final ObjectId headId) throws IOException {
 		final RevWalk walk = new RevWalk(reader);
@@ -173,14 +192,13 @@ public class StashCreateCommand extends GitCommand<RevCommit> {
 		return walk.parseCommit(headId);
 	}
 
-	private CommitBuilder createBuilder(ObjectId headId) {
+	private CommitBuilder createBuilder() {
 		CommitBuilder builder = new CommitBuilder();
 		PersonIdent author = person;
 		if (author == null)
 			author = new PersonIdent(repo);
 		builder.setAuthor(author);
 		builder.setCommitter(author);
-		builder.setParentId(headId);
 		return builder;
 	}
 
@@ -244,6 +262,7 @@ public class StashCreateCommand extends GitCommand<RevCommit> {
 				MutableObjectId id = new MutableObjectId();
 				List<PathEdit> wtEdits = new ArrayList<PathEdit>();
 				List<String> wtDeletes = new ArrayList<String>();
+				List<DirCacheEntry> untracked = new ArrayList<DirCacheEntry>();
 				boolean hasChanges = false;
 				do {
 					AbstractTreeIterator headIter = treeWalk.getTree(0,
@@ -258,7 +277,8 @@ public class StashCreateCommand extends GitCommand<RevCommit> {
 								new UnmergedPathException(
 										indexIter.getDirCacheEntry()));
 					if (wtIter != null) {
-						if (indexIter == null && headIter == null)
+						if (indexIter == null && headIter == null
+								&& !includeUntracked)
 							continue;
 						hasChanges = true;
 						if (indexIter != null && wtIter.idEqual(indexIter))
@@ -279,11 +299,15 @@ public class StashCreateCommand extends GitCommand<RevCommit> {
 						} finally {
 							in.close();
 						}
-						wtEdits.add(new PathEdit(entry) {
-							public void apply(DirCacheEntry ent) {
-								ent.copyMetaData(entry);
-							}
-						});
+
+						if (indexIter == null && headIter == null)
+							untracked.add(entry);
+						else
+							wtEdits.add(new PathEdit(entry) {
+								public void apply(DirCacheEntry ent) {
+									ent.copyMetaData(entry);
+								}
+							});
 					}
 					hasChanges = true;
 					if (wtIter == null && headIter != null)
@@ -297,12 +321,31 @@ public class StashCreateCommand extends GitCommand<RevCommit> {
 						.getName());
 
 				// Commit index changes
-				CommitBuilder builder = createBuilder(headCommit);
+				CommitBuilder builder = createBuilder();
+				builder.setParentId(headCommit);
 				builder.setTreeId(cache.writeTree(inserter));
 				builder.setMessage(MessageFormat.format(indexMessage, branch,
 						headCommit.abbreviate(7).name(),
 						headCommit.getShortMessage()));
 				ObjectId indexCommit = inserter.insert(builder);
+
+				// Commit untracked changes
+				ObjectId untrackedCommit = null;
+				if (!untracked.isEmpty()) {
+					DirCache untrackedDirCache = DirCache.newInCore();
+					DirCacheBuilder untrackedBuilder = untrackedDirCache
+							.builder();
+					for (DirCacheEntry entry : untracked)
+						untrackedBuilder.add(entry);
+					untrackedBuilder.finish();
+
+					builder.setParentIds(new ObjectId[0]);
+					builder.setTreeId(untrackedDirCache.writeTree(inserter));
+					builder.setMessage(MessageFormat.format(MSG_UNTRACKED,
+							branch, headCommit.abbreviate(7).name(),
+							headCommit.getShortMessage()));
+					untrackedCommit = inserter.insert(builder);
+				}
 
 				// Commit working tree changes
 				if (!wtEdits.isEmpty() || !wtDeletes.isEmpty()) {
@@ -313,7 +356,10 @@ public class StashCreateCommand extends GitCommand<RevCommit> {
 						editor.add(new DeletePath(path));
 					editor.finish();
 				}
+				builder.setParentId(headCommit);
 				builder.addParentId(indexCommit);
+				if (untrackedCommit != null)
+					builder.addParentId(untrackedCommit);
 				builder.setMessage(MessageFormat.format(
 						workingDirectoryMessage, branch,
 						headCommit.abbreviate(7).name(),
@@ -324,6 +370,16 @@ public class StashCreateCommand extends GitCommand<RevCommit> {
 
 				updateStashRef(commitId, builder.getAuthor(),
 						builder.getMessage());
+
+				// Remove untracked files
+				if (includeUntracked) {
+					for (DirCacheEntry entry : untracked) {
+						File file = new File(repo.getWorkTree(),
+								entry.getPathString());
+						FileUtils.delete(file);
+					}
+				}
+
 			} finally {
 				inserter.release();
 				cache.unlock();

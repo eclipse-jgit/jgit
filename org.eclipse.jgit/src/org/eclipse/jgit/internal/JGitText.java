@@ -538,7 +538,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String stashApplyFailed;
 	/***/ public String stashApplyWithoutHead;
 	/***/ public String stashApplyOnUnsafeRepository;
-	/***/ public String stashCommitMissingTwoParents;
+	/***/ public String stashCommitIncorrectNumberOfParents;
 	/***/ public String stashDropDeleteRefFailed;
 	/***/ public String stashDropFailed;
 	/***/ public String stashDropMissingReflog;
