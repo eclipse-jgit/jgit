@@ -42,13 +42,13 @@
  */
 package org.eclipse.jgit.gitrepo;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.channels.FileChannel;
-import java.nio.charset.Charset;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -59,8 +59,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.jgit.api.AddCommand;
-import org.eclipse.jgit.api.LsRemoteCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.GitCommand;
 import org.eclipse.jgit.api.SubmoduleAddCommand;
@@ -78,6 +76,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
@@ -87,6 +86,7 @@ import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.util.FileUtils;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
@@ -121,8 +121,11 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	 * A callback to get ref sha1 of a repository from its uri.
 	 *
 	 * We provided a default implementation {@link DefaultRemoteReader} to
-	 * use ls-remote command to read the sha1 from the repository. Callers may
-	 * have their own quicker implementation.
+	 * use ls-remote command to read the sha1 from the repository and clone the
+	 * repository to read the file. Callers may have their own quicker
+	 * implementation.
+	 *
+	 * @since 3.4
 	 */
 	public interface RemoteReader {
 		/**
@@ -135,6 +138,20 @@ public class RepoCommand extends GitCommand<RevCommit> {
 		 * @return the sha1 of the remote repository
 		 */
 		public ObjectId sha1(String uri, String ref) throws GitAPIException;
+
+		/**
+		 * Read a file from a remote repository.
+		 *
+		 * @param uri
+		 *            The URI of the remote repository
+		 * @param ref
+		 *            The ref (branch/tag/etc.) to read
+		 * @param path
+		 *            The relative path (inside the repo) to the file to read
+		 * @return the file content.
+		 */
+		public byte[] readFile(String uri, String ref, String path)
+				throws GitAPIException, IOException;
 	}
 
 	/** A default implementation of {@link RemoteReader} callback. */
@@ -153,23 +170,50 @@ public class RepoCommand extends GitCommand<RevCommit> {
 			Ref r = RefDatabase.findRef(map, ref);
 			return r != null ? r.getObjectId() : null;
 		}
+
+		public byte[] readFile(String uri, String ref, String path)
+				throws GitAPIException, IOException {
+			File dir = FileUtils.createTempDir("jgit_", ".git", null); //$NON-NLS-1$ //$NON-NLS-2$
+			Repository repo = Git
+					.cloneRepository()
+					.setBare(true)
+					.setDirectory(dir)
+					.setURI(uri)
+					.call()
+					.getRepository();
+			ObjectReader reader = repo.newObjectReader();
+			byte[] result;
+			try {
+				ObjectId oid = repo.resolve(ref + ":" + path); //$NON-NLS-1$
+				result = reader.open(oid).getBytes(Integer.MAX_VALUE);
+			} finally {
+				reader.release();
+				FileUtils.delete(dir, FileUtils.RECURSIVE);
+			}
+			return result;
+		}
 	}
 
 	private static class CopyFile {
+		final Repository repo;
+		final String path;
 		final String src;
 		final String dest;
-		final String relativeDest;
 
 		CopyFile(Repository repo, String path, String src, String dest) {
-			this.src = repo.getWorkTree() + "/" + path + "/" + src; //$NON-NLS-1$ //$NON-NLS-2$
-			this.relativeDest = dest;
-			this.dest = repo.getWorkTree() + "/" + dest; //$NON-NLS-1$
+			this.repo = repo;
+			this.path = path;
+			this.src = src;
+			this.dest = dest;
 		}
 
 		void copy() throws IOException {
-			FileInputStream input = new FileInputStream(src);
+			File srcFile = new File(repo.getWorkTree(),
+					path + "/" + src); //$NON-NLS-1$
+			File destFile = new File(repo.getWorkTree(), dest);
+			FileInputStream input = new FileInputStream(srcFile);
 			try {
-				FileOutputStream output = new FileOutputStream(dest);
+				FileOutputStream output = new FileOutputStream(destFile);
 				try {
 					FileChannel channel = input.getChannel();
 					output.getChannel().transferFrom(channel, 0, channel.size());
@@ -185,9 +229,9 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	private static class Project {
 		final String name;
 		final String path;
+		final String revision;
 		final Set<String> groups;
 		final List<CopyFile> copyfiles;
-		String revision;
 
 		Project(String name, String path, String revision, String groups) {
 			this.name = name;
@@ -315,26 +359,11 @@ public class RepoCommand extends GitCommand<RevCommit> {
 			}
 			for (Project proj : projects) {
 				if (inGroups(proj)) {
-					if (proj.revision == null)
-						proj.revision = defaultRevision;
-					String url = remoteUrl + proj.name;
-					command.addSubmodule(url, proj.path, proj.revision);
-					for (CopyFile copyfile : proj.copyfiles) {
-						try {
-							copyfile.copy();
-						} catch (IOException e) {
-							throw new SAXException(
-									RepoText.get().copyFileFailed, e);
-						}
-						AddCommand add = command.git
-							.add()
-							.addFilepattern(copyfile.relativeDest);
-						try {
-							add.call();
-						} catch (GitAPIException e) {
-							throw new SAXException(e);
-						}
-					}
+					command.addSubmodule(remoteUrl + proj.name,
+							proj.path,
+							proj.revision == null ?
+									defaultRevision : proj.revision,
+							proj.copyfiles);
 				}
 			}
 		}
@@ -503,7 +532,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 					cfg.setString("submodule", name, "path", name); //$NON-NLS-1$ //$NON-NLS-2$
 					cfg.setString("submodule", name, "url", uri); //$NON-NLS-1$ //$NON-NLS-2$
 					// create gitlink
-					final DirCacheEntry dcEntry = new DirCacheEntry(name);
+					DirCacheEntry dcEntry = new DirCacheEntry(name);
 					ObjectId objectId;
 					if (ObjectId.isId(proj.revision))
 						objectId = ObjectId.fromString(proj.revision);
@@ -515,6 +544,16 @@ public class RepoCommand extends GitCommand<RevCommit> {
 					dcEntry.setObjectId(objectId);
 					dcEntry.setFileMode(FileMode.GITLINK);
 					builder.add(dcEntry);
+
+					for (CopyFile copyfile : proj.copyfiles) {
+						byte[] src = callback.readFile(
+								uri, proj.revision, copyfile.src);
+						objectId = inserter.insert(Constants.OBJ_BLOB, src);
+						dcEntry = new DirCacheEntry(copyfile.dest);
+						dcEntry.setObjectId(objectId);
+						dcEntry.setFileMode(FileMode.REGULAR_FILE);
+						builder.add(dcEntry);
+					}
 				}
 				String content = cfg.toText();
 
@@ -578,9 +617,11 @@ public class RepoCommand extends GitCommand<RevCommit> {
 		}
 	}
 
-	private void addSubmodule(String url, String name, String revision) throws SAXException {
+	private void addSubmodule(String url, String name, String revision,
+			List<CopyFile> copyfiles) throws SAXException {
 		if (repo.isBare()) {
 			Project proj = new Project(url, name, revision, null);
+			proj.copyfiles.addAll(copyfiles);
 			bareProjects.add(proj);
 		} else {
 			SubmoduleAddCommand add = git
@@ -596,6 +637,10 @@ public class RepoCommand extends GitCommand<RevCommit> {
 					Git sub = new Git(subRepo);
 					sub.checkout().setName(findRef(revision, subRepo)).call();
 					git.add().addFilepattern(name).call();
+				}
+				for (CopyFile copyfile : copyfiles) {
+					copyfile.copy();
+					git.add().addFilepattern(copyfile.dest).call();
 				}
 			} catch (GitAPIException e) {
 				throw new SAXException(e);
