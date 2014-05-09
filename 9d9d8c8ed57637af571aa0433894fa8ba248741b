@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0756a345_61b3ae04",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-05-09T23:44:17Z",
+      "side": 1,
+      "message": "Wrap in a try/finally to recursively delete dir?",
+      "range": {
+        "startLine": 177,
+        "startChar": 3,
+        "endLine": 186,
+        "endChar": 51
+      },
+      "revId": "9d9d8c8ed57637af571aa0433894fa8ba248741b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_41b66af4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-05-09T23:44:17Z",
+      "side": 1,
+      "message": "IIRC you should release this reader.",
+      "range": {
+        "startLine": 186,
+        "startChar": 3,
+        "endLine": 186,
+        "endChar": 25
+      },
+      "revId": "9d9d8c8ed57637af571aa0433894fa8ba248741b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_a19ca677",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-05-09T23:44:17Z",
+      "side": 1,
+      "message": "The ObjectLoader returned has a method getBytes(int). Call getBytes(Integer.MAX_VALUE) to get a byte array without the mess of the ByteArrayOutputStream.",
+      "range": {
+        "startLine": 185,
+        "startChar": 3,
+        "endLine": 186,
+        "endChar": 50
+      },
+      "revId": "9d9d8c8ed57637af571aa0433894fa8ba248741b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_c1a1daa9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 637,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-05-09T23:44:17Z",
+      "side": 1,
+      "message": "this. is unnecessary",
+      "range": {
+        "startLine": 637,
+        "startChar": 5,
+        "endLine": 637,
+        "endChar": 10
+      },
+      "revId": "9d9d8c8ed57637af571aa0433894fa8ba248741b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
