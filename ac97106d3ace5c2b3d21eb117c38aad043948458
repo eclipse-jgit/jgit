@@ -1,0 +1,198 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0756a345_5ecda52d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-05-09T18:18:51Z",
+      "side": 1,
+      "message": "I don\u0027t think you can have a null suffix on some platforms. Use \".git\" for the bare repository?",
+      "revId": "ac97106d3ace5c2b3d21eb117c38aad043948458",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_1ec32d05",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-05-09T18:18:51Z",
+      "side": 1,
+      "message": "Clone the repository bare, and then open it with FileRepository and use an ObjectReader to pull the contents out.",
+      "range": {
+        "startLine": 190,
+        "startChar": 3,
+        "endLine": 195,
+        "endChar": 68
+      },
+      "revId": "ac97106d3ace5c2b3d21eb117c38aad043948458",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_fec59907",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-05-09T18:18:51Z",
+      "side": 1,
+      "message": "When the InputStream here is closed, you should delete that temporary repository.",
+      "revId": "ac97106d3ace5c2b3d21eb117c38aad043948458",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_bedb21e3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-05-09T18:18:51Z",
+      "side": 1,
+      "message": "src might be a shorter and more descriptive name than result.",
+      "range": {
+        "startLine": 553,
+        "startChar": 21,
+        "endLine": 553,
+        "endChar": 27
+      },
+      "revId": "ac97106d3ace5c2b3d21eb117c38aad043948458",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_3ed0b1c1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 555,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-05-09T18:18:51Z",
+      "side": 1,
+      "message": "You need to close result.stream.",
+      "revId": "ac97106d3ace5c2b3d21eb117c38aad043948458",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_5ee4859d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-05-09T18:18:51Z",
+      "side": 1,
+      "message": "This doesn\u0027t fit on one line? It looks like it would still be shorter than line 555 if it was one line.",
+      "range": {
+        "startLine": 557,
+        "startChar": 6,
+        "endLine": 558,
+        "endChar": 23
+      },
+      "revId": "ac97106d3ace5c2b3d21eb117c38aad043948458",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_3ee711a3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 649,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-05-09T18:18:51Z",
+      "side": 1,
+      "message": "unnecessary",
+      "range": {
+        "startLine": 649,
+        "startChar": 5,
+        "endLine": 649,
+        "endChar": 10
+      },
+      "revId": "ac97106d3ace5c2b3d21eb117c38aad043948458",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_be69619b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-05-09T18:18:51Z",
+      "side": 1,
+      "message": "If retry \u003d 0 you never try, just always fail. That is a bug.\n\nI think retry more than once is unnecessary here. Historically we have never observed this method of temporary directory creation failing. Just write the method with at most one retry in it and call it \"good enough\".",
+      "revId": "ac97106d3ace5c2b3d21eb117c38aad043948458",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_fe5ab9fc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-05-09T18:18:51Z",
+      "side": 1,
+      "message": "If you pass null to the other form, it does what you want. So you don\u0027t need the conditional here.",
+      "revId": "ac97106d3ace5c2b3d21eb117c38aad043948458",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_5e52c5e4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-05-09T18:18:51Z",
+      "side": 1,
+      "message": "mkdirs is overkill. The parent directory must already exist for createTempFile() to work. So you can just use:\n\n  if (!tmp.mkdir())\n    it failed :(",
+      "revId": "ac97106d3ace5c2b3d21eb117c38aad043948458",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
