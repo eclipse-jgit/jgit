@@ -271,6 +271,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_8197e250",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 649,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-05-09T23:43:56Z",
+      "side": 1,
+      "message": "No I meant the \"this.\" part. git here is this.git. So you don\u0027t have to say \"this.git\". You can just write \"git\".",
+      "parentUuid": "0756a345_c1fd5aa5",
+      "revId": "ac97106d3ace5c2b3d21eb117c38aad043948458",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_be69619b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
         "patchSetId": 3
