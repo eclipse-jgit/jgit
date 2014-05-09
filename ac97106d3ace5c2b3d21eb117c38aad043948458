@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_fe50f9ad",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2014-05-09T22:42:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_5ecda52d",
+      "revId": "ac97106d3ace5c2b3d21eb117c38aad043948458",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_1ec32d05",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
         "patchSetId": 3
@@ -42,6 +60,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_a1f826b7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2014-05-09T22:42:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_1ec32d05",
+      "revId": "ac97106d3ace5c2b3d21eb117c38aad043948458",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_fec59907",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
         "patchSetId": 3
@@ -53,6 +89,24 @@
       "writtenOn": "2014-05-09T18:18:51Z",
       "side": 1,
       "message": "When the InputStream here is closed, you should delete that temporary repository.",
+      "revId": "ac97106d3ace5c2b3d21eb117c38aad043948458",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_81f362d8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2014-05-09T22:42:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_fec59907",
       "revId": "ac97106d3ace5c2b3d21eb117c38aad043948458",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -82,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_7e5ce9c5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2014-05-09T22:42:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_bedb21e3",
+      "revId": "ac97106d3ace5c2b3d21eb117c38aad043948458",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_3ed0b1c1",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
         "patchSetId": 3
@@ -93,6 +165,24 @@
       "writtenOn": "2014-05-09T18:18:51Z",
       "side": 1,
       "message": "You need to close result.stream.",
+      "revId": "ac97106d3ace5c2b3d21eb117c38aad043948458",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_9e61fd7d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 555,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2014-05-09T22:42:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_3ed0b1c1",
       "revId": "ac97106d3ace5c2b3d21eb117c38aad043948458",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -122,6 +212,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_3e4b9103",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2014-05-09T22:42:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_5ee4859d",
+      "revId": "ac97106d3ace5c2b3d21eb117c38aad043948458",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_3ee711a3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
         "patchSetId": 3
@@ -145,6 +253,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_c1fd5aa5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 649,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2014-05-09T22:42:55Z",
+      "side": 1,
+      "message": "That will leave the copied file dirty at super-project work tree. Since we\u0027ll commit it for bare super-projects, we should commit it here, too.",
+      "parentUuid": "0756a345_3ee711a3",
+      "revId": "ac97106d3ace5c2b3d21eb117c38aad043948458",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_be69619b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
         "patchSetId": 3
@@ -156,6 +282,24 @@
       "writtenOn": "2014-05-09T18:18:51Z",
       "side": 1,
       "message": "If retry \u003d 0 you never try, just always fail. That is a bug.\n\nI think retry more than once is unnecessary here. Historically we have never observed this method of temporary directory creation failing. Just write the method with at most one retry in it and call it \"good enough\".",
+      "revId": "ac97106d3ace5c2b3d21eb117c38aad043948458",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_012f52c5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2014-05-09T22:42:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_be69619b",
       "revId": "ac97106d3ace5c2b3d21eb117c38aad043948458",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -179,6 +323,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_61260ef0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2014-05-09T22:42:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_fe5ab9fc",
+      "revId": "ac97106d3ace5c2b3d21eb117c38aad043948458",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_5e52c5e4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
         "patchSetId": 3
@@ -190,6 +352,24 @@
       "writtenOn": "2014-05-09T18:18:51Z",
       "side": 1,
       "message": "mkdirs is overkill. The parent directory must already exist for createTempFile() to work. So you can just use:\n\n  if (!tmp.mkdir())\n    it failed :(",
+      "revId": "ac97106d3ace5c2b3d21eb117c38aad043948458",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_41294abc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2014-05-09T22:42:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_5e52c5e4",
       "revId": "ac97106d3ace5c2b3d21eb117c38aad043948458",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
