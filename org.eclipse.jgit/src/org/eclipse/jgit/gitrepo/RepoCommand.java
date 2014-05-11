@@ -136,12 +136,13 @@ public class RepoCommand extends GitCommand<RevCommit> {
 		 * @param ref
 		 *            The ref (branch/tag/etc.) to read
 		 * @return the sha1 of the remote repository
+		 * @throws GitAPIException
 		 */
 		public ObjectId sha1(String uri, String ref) throws GitAPIException;
 
 		/**
 		 * Read a file from a remote repository.
-		 *
+		 * 
 		 * @param uri
 		 *            The URI of the remote repository
 		 * @param ref
@@ -149,6 +150,8 @@ public class RepoCommand extends GitCommand<RevCommit> {
 		 * @param path
 		 *            The relative path (inside the repo) to the file to read
 		 * @return the file content.
+		 * @throws GitAPIException
+		 * @throws IOException
 		 */
 		public byte[] readFile(String uri, String ref, String path)
 				throws GitAPIException, IOException;
