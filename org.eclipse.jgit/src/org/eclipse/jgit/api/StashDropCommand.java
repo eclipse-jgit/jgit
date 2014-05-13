@@ -219,7 +219,7 @@ public class StashDropCommand extends GitCommand<ObjectId> {
 				FileUtils.delete(stashFile);
 				if (!stashLockFile.renameTo(stashFile))
 					throw new JGitInternalException(MessageFormat.format(
-							JGitText.get().couldNotWriteFile,
+							JGitText.get().renameFileFailed,
 							stashLockFile.getPath(), stashFile.getPath()));
 			}
 		} catch (IOException e) {

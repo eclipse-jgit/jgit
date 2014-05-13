@@ -1154,7 +1154,7 @@ public class DirCacheCheckout {
 				FileUtils.rename(tmpFile, f);
 			} catch (IOException e) {
 				throw new IOException(MessageFormat.format(
-						JGitText.get().couldNotWriteFile, tmpFile.getPath(),
+						JGitText.get().renameFileFailed, tmpFile.getPath(),
 						f.getPath()));
 			}
 		}
