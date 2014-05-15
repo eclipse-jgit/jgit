@@ -237,7 +237,7 @@ public class ReflogWriter {
 		r.append(' ');
 		r.append(ident.toExternalString());
 		r.append('\t');
-		r.append(message);
+		r.append(message.replace("\n", " "));
 		r.append('\n');
 		return Constants.encode(r.toString());
 	}
