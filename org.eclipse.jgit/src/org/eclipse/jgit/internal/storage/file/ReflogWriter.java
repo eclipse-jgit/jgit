@@ -237,7 +237,7 @@ public class ReflogWriter {
 		r.append(' ');
 		r.append(ident.toExternalString());
 		r.append('\t');
-		r.append(message);
+		r.append(message.replace("\r\n", " ").replace("\n", " ")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		r.append('\n');
 		return Constants.encode(r.toString());
 	}
