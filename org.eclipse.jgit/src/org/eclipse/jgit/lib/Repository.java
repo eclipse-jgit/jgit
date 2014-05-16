@@ -1393,7 +1393,7 @@ public abstract class Repository {
 	 *            $GIT_DIR/MERGE_HEAD or <code>null</code> to delete the file
 	 * @throws IOException
 	 */
-	public void writeMergeHeads(List<ObjectId> heads) throws IOException {
+	public void writeMergeHeads(List<? extends ObjectId> heads) throws IOException {
 		writeHeadsFile(heads, Constants.MERGE_HEAD);
 	}
 
@@ -1590,7 +1590,7 @@ public abstract class Repository {
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
-	private void writeHeadsFile(List<ObjectId> heads, String filename)
+	private void writeHeadsFile(List<? extends ObjectId> heads, String filename)
 			throws FileNotFoundException, IOException {
 		File headsFile = new File(getDirectory(), filename);
 		if (heads != null) {
