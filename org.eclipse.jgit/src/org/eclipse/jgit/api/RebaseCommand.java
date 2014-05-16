@@ -145,6 +145,8 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 
 	private static final String INTERACTIVE = "interactive"; //$NON-NLS-1$
 
+	private static final String QUIET = "quiet"; //$NON-NLS-1$
+
 	private static final String MESSAGE = "message"; //$NON-NLS-1$
 
 	private static final String ONTO = "onto"; //$NON-NLS-1$
@@ -928,6 +930,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		rebaseState.createFile(ONTO, upstreamCommit.name());
 		rebaseState.createFile(ONTO_NAME, upstreamCommitName);
 		rebaseState.createFile(INTERACTIVE, ""); //$NON-NLS-1$
+		rebaseState.createFile(QUIET, ""); //$NON-NLS-1$
 
 		ArrayList<RebaseTodoLine> toDoSteps = new ArrayList<RebaseTodoLine>();
 		toDoSteps.add(new RebaseTodoLine("# Created by EGit: rebasing " + headId.name() //$NON-NLS-1$
