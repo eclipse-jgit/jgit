@@ -1,0 +1,8 @@
+Code-Review+2: Matthias Sohn <matthias.sohn@sap.com>
+Verified+1: Hudson CI
+Code-Review+1: Konrad Kügler <swamblumat-eclipsebugs@yahoo.de>
+Submitted-by: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-at: Fri, 16 May 2014 16:50:41 -0400
+Reviewed-on: https://git.eclipse.org/r/23086
+Project: jgit/jgit
+Branch: refs/heads/master
