@@ -46,6 +46,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;
@@ -60,6 +61,7 @@ import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ReflogReader;
 import org.eclipse.jgit.lib.RepositoryState;
 import org.eclipse.jgit.merge.ResolveMerger.MergeFailureReason;
@@ -335,5 +337,61 @@ public class CherryPickCommandTest extends RepositoryTestCase {
 			assertTrue(reader.getLastEntry().getComment()
 					.startsWith("cherry-pick: "));
 		}
+	}
+
+	/**
+	 * Cherry-picking merge commit M onto T
+	 * 
+	 * <pre>
+	 *    M
+	 *    |\
+	 *    C D
+	 *    |/
+	 * T  B
+	 * | /
+	 * A
+	 * </pre>
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	public void testCherryPickMerge() throws Exception {
+		Git git = new Git(db);
+
+		commitFile("file", "1\n2\n3\n", "master");
+		commitFile("file", "1\n2\n3\n", "side");
+		checkoutBranch("refs/heads/side");
+		RevCommit commitD = commitFile("file", "1\n2\n3\n4\n5\n", "side2");
+		commitFile("file", "a\n2\n3\n", "side");
+		MergeResult mergeResult = git.merge().include(commitD).call();
+		ObjectId commitM = mergeResult.getNewHead();
+		checkoutBranch("refs/heads/master");
+		RevCommit commitT = commitFile("another", "t", "master");
+
+		try {
+			git.cherryPick().include(commitM).call();
+			fail("merges should not be cherry-picked by default");
+		} catch (GitAPIException e) {
+			// expected
+		}
+		try {
+			git.cherryPick().include(commitM).setMainlineParentNumber(3).call();
+			fail("specifying a non-existent parent should fail");
+		} catch (Exception e) {
+			// expected
+		}
+
+		CherryPickResult result = git.cherryPick().include(commitM)
+				.setMainlineParentNumber(1).call();
+		assertEquals(CherryPickStatus.OK, result.getStatus());
+		checkFile(new File(db.getWorkTree(), "file"), "1\n2\n3\n4\n5\n");
+
+
+		git.reset().setMode(ResetType.HARD).setRef(commitT.getName()).call();
+
+		result = git.cherryPick().include(commitM).setMainlineParentNumber(2)
+				.call();
+		assertEquals(CherryPickStatus.OK, result.getStatus());
+		checkFile(new File(db.getWorkTree(), "file"), "a\n2\n3\n");
 	}
 }
