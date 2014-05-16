@@ -147,6 +147,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String cannotWorkWithOtherStagesThanZeroRightNow;
 	/***/ public String canOnlyCherryPickCommitsWithOneParent;
 	/***/ public String canOnlyRevertCommitsWithOneParent;
+	/***/ public String commitDoesNotHaveGivenParent;
 	/***/ public String cantFindObjectInReversePackIndexForTheSpecifiedOffset;
 	/***/ public String cantPassMeATree;
 	/***/ public String channelMustBeInRange0_255;
