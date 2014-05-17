@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0756a345_41f3f8d8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CherryPickCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-05-17T08:08:04Z",
+      "side": 1,
+      "message": "Try to be more specific. It is way too common to catch the wrong exception. GitAPIException could be anything.",
+      "revId": "458ec697b7090b6689e34e4fe90d7a7cf70d0975",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_a102d43f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CherryPickCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-05-17T08:08:04Z",
+      "side": 1,
+      "message": "Again... an NPE is not expected here, but that is what Exception would catch, among other things.",
+      "revId": "458ec697b7090b6689e34e4fe90d7a7cf70d0975",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_2126c4ee",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CherryPickCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-05-17T08:08:04Z",
+      "side": 1,
+      "message": "It\u0027d be nice to test cherry-picking either parent. Not just one",
+      "revId": "458ec697b7090b6689e34e4fe90d7a7cf70d0975",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_81fd10a6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-05-17T08:08:04Z",
+      "side": 1,
+      "message": "This allows cherrry-picking of merges",
+      "revId": "458ec697b7090b6689e34e4fe90d7a7cf70d0975",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
