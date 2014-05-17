@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_c159c862",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CherryPickCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 2957
+      },
+      "writtenOn": "2014-05-17T09:07:39Z",
+      "side": 1,
+      "message": "Do you think an new subclass of GitAPIException would make sense here, or should I just catch JGitInternalException (and maybe check the exception message)?",
+      "parentUuid": "0756a345_a102d43f",
+      "revId": "458ec697b7090b6689e34e4fe90d7a7cf70d0975",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_2126c4ee",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CherryPickCommandTest.java",
         "patchSetId": 2
@@ -47,6 +65,24 @@
       "writtenOn": "2014-05-17T08:08:04Z",
       "side": 1,
       "message": "It\u0027d be nice to test cherry-picking either parent. Not just one",
+      "revId": "458ec697b7090b6689e34e4fe90d7a7cf70d0975",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_e1568c31",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CherryPickCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 2957
+      },
+      "writtenOn": "2014-05-17T09:07:39Z",
+      "side": 1,
+      "message": "I\u0027m not sure I understand. The test covers both C and D as mainline of M.",
+      "parentUuid": "0756a345_2126c4ee",
       "revId": "458ec697b7090b6689e34e4fe90d7a7cf70d0975",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
