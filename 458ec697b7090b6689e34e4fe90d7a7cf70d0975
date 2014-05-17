@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_a1e134bb",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CherryPickCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 2957
+      },
+      "writtenOn": "2014-05-17T17:24:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_41f3f8d8",
+      "revId": "458ec697b7090b6689e34e4fe90d7a7cf70d0975",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_a102d43f",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CherryPickCommandTest.java",
         "patchSetId": 2
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "The latter is ok, I think. This is not an exception anyone should take any action other than reporting.",
       "parentUuid": "0756a345_c159c862",
+      "revId": "458ec697b7090b6689e34e4fe90d7a7cf70d0975",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_81dcf004",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CherryPickCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 2957
+      },
+      "writtenOn": "2014-05-17T17:24:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_61c0bc23",
       "revId": "458ec697b7090b6689e34e4fe90d7a7cf70d0975",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -136,6 +172,24 @@
       "writtenOn": "2014-05-17T08:08:04Z",
       "side": 1,
       "message": "This allows cherrry-picking of merges",
+      "revId": "458ec697b7090b6689e34e4fe90d7a7cf70d0975",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_41e2d8bf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 2957
+      },
+      "writtenOn": "2014-05-17T17:24:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_81fd10a6",
       "revId": "458ec697b7090b6689e34e4fe90d7a7cf70d0975",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
