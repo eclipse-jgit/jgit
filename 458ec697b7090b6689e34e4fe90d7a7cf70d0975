@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_61c0bc23",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CherryPickCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-05-17T16:55:54Z",
+      "side": 1,
+      "message": "The latter is ok, I think. This is not an exception anyone should take any action other than reporting.",
+      "parentUuid": "0756a345_c159c862",
+      "revId": "458ec697b7090b6689e34e4fe90d7a7cf70d0975",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_2126c4ee",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CherryPickCommandTest.java",
         "patchSetId": 2
@@ -83,6 +101,24 @@
       "side": 1,
       "message": "I\u0027m not sure I understand. The test covers both C and D as mainline of M.",
       "parentUuid": "0756a345_2126c4ee",
+      "revId": "458ec697b7090b6689e34e4fe90d7a7cf70d0975",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_01daa013",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CherryPickCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-05-17T16:55:54Z",
+      "side": 1,
+      "message": "I skimmed this too quickly. I\u0027m sorry. You\u0027re right.",
+      "parentUuid": "0756a345_e1568c31",
       "revId": "458ec697b7090b6689e34e4fe90d7a7cf70d0975",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
