@@ -130,11 +130,6 @@ public class PlotCommitList<L extends PlotLane> extends
 			// Stay in the same lane as the child.
 			//
 			final PlotCommit c = currCommit.children[0];
-			if (c.lane == null) {
-				// Hmmph. This child must be the first along this lane.
-				//
-				c.lane = nextFreeLane();
-			}
 			for (int r = index - 1; r >= 0; r--) {
 				final PlotCommit rObj = get(r);
 				if (rObj == c)
@@ -169,15 +164,7 @@ public class PlotCommitList<L extends PlotLane> extends
 
 			for (int i = 0; i < nChildren; i++) {
 				final PlotCommit c = currCommit.children[i];
-				// don't forget to position all of your children if they are
-				// not already positioned.
-				if (c.lane == null) {
-					c.lane = nextFreeLane();
-					if (reservedLane != null)
-						closeLane(c.lane);
-					else
-						reservedLane = c.lane;
-				} else if (reservedLane == null && activeLanes.contains(c.lane))
+				if (reservedLane == null && activeLanes.contains(c.lane))
 					reservedLane = c.lane;
 				else
 					closeLane(c.lane);
