@@ -562,6 +562,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_827fce1b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRCCredentialsProvider.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-05-19T20:48:54Z",
+      "side": 1,
+      "message": "using a String to store a password isn\u0027t the safest way to handle passwords sinceit\u0027s hard to get rid of Strings in Java.\n\nUsernamePasswordCredentialsProvider should also support CharArrayType. Though in order to not break compatibility we should support both types so that applications which prefer to use char arrays for storing password in memory can do so but we don\u0027t break applications already using StringType. I think we could do the same here since it would be surprising if one credentials provider supports String and char array and the other one doesn\u0027t.",
+      "parentUuid": "0756a345_fc8c6f43",
+      "revId": "e2d9f825ddf62b01ab985faba6001a7ab5cfc49f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_a135f962",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
         "patchSetId": 6
