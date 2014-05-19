@@ -56,6 +56,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -78,6 +79,7 @@ import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RebaseTodoLine;
 import org.eclipse.jgit.lib.RebaseTodoLine.Action;
@@ -86,6 +88,7 @@ import org.eclipse.jgit.lib.ReflogEntry;
 import org.eclipse.jgit.lib.RepositoryState;
 import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
@@ -319,6 +322,281 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	static void assertDerivedFrom(RevCommit derived, RevCommit original) {
 		assertThat(derived, not(equalTo(original)));
 		assertEquals(original.getFullMessage(), derived.getFullMessage());
+	}
+
+	@Test
+	public void testRebasePreservingMerges1() throws Exception {
+		doTestRebasePreservingMerges(true);
+	}
+
+	@Test
+	public void testRebasePreservingMerges2() throws Exception {
+		doTestRebasePreservingMerges(false);
+	}
+
+	/**
+	 * Transforms the same before-state as in
+	 * {@link #testRebaseShouldIgnoreMergeCommits()} to the following.
+	 * <p>
+	 * This test should always rewrite E.
+	 *
+	 * <pre>
+	 * A - B (master) - - -  C' - D' - F' (topic')
+	 *   \                    \       /
+	 *    C - D - F (topic)      - E'
+	 *     \     /
+	 *       - E (side)
+	 * </pre>
+	 *
+	 * @param testConflict
+	 * @throws Exception
+	 */
+	private void doTestRebasePreservingMerges(boolean testConflict)
+			throws Exception {
+		RevWalk rw = new RevWalk(db);
+
+		// create file1 on master
+		writeTrashFile(FILE1, FILE1);
+		git.add().addFilepattern(FILE1).call();
+		RevCommit a = git.commit().setMessage("commit a").call();
+
+		// create a topic branch
+		createBranch(a, "refs/heads/topic");
+
+		// update FILE1 on master
+		writeTrashFile(FILE1, "blah");
+		writeTrashFile("conflict", "b");
+		git.add().addFilepattern(".").call();
+		RevCommit b = git.commit().setMessage("commit b").call();
+
+		checkoutBranch("refs/heads/topic");
+		writeTrashFile("file3", "more changess");
+		git.add().addFilepattern("file3").call();
+		RevCommit c = git.commit().setMessage("commit c").call();
+
+		// create a branch from the topic commit
+		createBranch(c, "refs/heads/side");
+
+		// second commit on topic
+		writeTrashFile("file2", "file2");
+		if (testConflict)
+			writeTrashFile("conflict", "d");
+		git.add().addFilepattern(".").call();
+		RevCommit d = git.commit().setMessage("commit d").call();
+		assertTrue(new File(db.getWorkTree(), "file2").exists());
+
+		// switch to side branch and update file2
+		checkoutBranch("refs/heads/side");
+		writeTrashFile("file3", "more change");
+		if (testConflict)
+			writeTrashFile("conflict", "e");
+		git.add().addFilepattern(".").call();
+		RevCommit e = git.commit().setMessage("commit e").call();
+
+		// switch back to topic and merge in side, creating f
+		checkoutBranch("refs/heads/topic");
+		MergeResult result = git.merge().include(e.getId())
+				.setStrategy(MergeStrategy.RESOLVE).call();
+		final RevCommit f;
+		if (testConflict) {
+			assertEquals(MergeStatus.CONFLICTING, result.getMergeStatus());
+			assertEquals(Collections.singleton("conflict"), git.status().call()
+					.getConflicting());
+			// resolve
+			writeTrashFile("conflict", "f resolved");
+			git.add().addFilepattern("conflict").call();
+			f = git.commit().setMessage("commit f").call();
+		} else {
+			assertEquals(MergeStatus.MERGED, result.getMergeStatus());
+			f = rw.parseCommit(result.getNewHead());
+		}
+
+		RebaseResult res = git.rebase().setUpstream("refs/heads/master")
+				.setPreserveMerges(true).call();
+		if (testConflict) {
+			// first there is a conflict whhen applying d
+			assertEquals(Status.STOPPED, res.getStatus());
+			assertEquals(Collections.singleton("conflict"), git.status().call()
+					.getConflicting());
+			assertTrue(read("conflict").contains("\nb\n=======\nd\n"));
+			// resolve
+			writeTrashFile("conflict", "d new");
+			git.add().addFilepattern("conflict").call();
+			res = git.rebase().setOperation(Operation.CONTINUE).call();
+
+			// then there is a conflict when applying e
+			assertEquals(Status.STOPPED, res.getStatus());
+			assertEquals(Collections.singleton("conflict"), git.status().call()
+					.getConflicting());
+			assertTrue(read("conflict").contains("\nb\n=======\ne\n"));
+			// resolve
+			writeTrashFile("conflict", "e new");
+			git.add().addFilepattern("conflict").call();
+			res = git.rebase().setOperation(Operation.CONTINUE).call();
+
+			// finally there is a conflict merging e'
+			assertEquals(Status.STOPPED, res.getStatus());
+			assertEquals(Collections.singleton("conflict"), git.status().call()
+					.getConflicting());
+			assertTrue(read("conflict").contains("\nd new\n=======\ne new\n"));
+			// resolve
+			writeTrashFile("conflict", "f new resolved");
+			git.add().addFilepattern("conflict").call();
+			res = git.rebase().setOperation(Operation.CONTINUE).call();
+		}
+		assertEquals(Status.OK, res.getStatus());
+
+		if (testConflict)
+			assertEquals("f new resolved", read("conflict"));
+		assertEquals("blah", read(FILE1));
+		assertEquals("file2", read("file2"));
+		assertEquals("more change", read("file3"));
+
+		rw.markStart(rw.parseCommit(db.resolve("refs/heads/topic")));
+		RevCommit newF = rw.next();
+		assertDerivedFrom(newF, f);
+		assertEquals(2, newF.getParentCount());
+		RevCommit newD = rw.next();
+		assertDerivedFrom(newD, d);
+		if (testConflict)
+			assertEquals("d new", readFile("conflict", newD));
+		RevCommit newE = rw.next();
+		assertDerivedFrom(newE, e);
+		if (testConflict)
+			assertEquals("e new", readFile("conflict", newE));
+		assertEquals(newD, newF.getParent(0));
+		assertEquals(newE, newF.getParent(1));
+		assertDerivedFrom(rw.next(), c);
+		assertEquals(b, rw.next());
+		assertEquals(a, rw.next());
+	}
+
+	private String readFile(String path, RevCommit commit) throws IOException {
+		TreeWalk walk = TreeWalk.forPath(db, path, commit.getTree());
+		ObjectLoader loader = db.open(walk.getObjectId(0), Constants.OBJ_BLOB);
+		String result = RawParseUtils.decode(loader.getCachedBytes());
+		walk.release();
+		return result;
+	}
+
+	@Test
+	public void testRebasePreservingMergesWithUnrelatedSide1() throws Exception {
+		doTestRebasePreservingMergesWithUnrelatedSide(true);
+	}
+
+	@Test
+	public void testRebasePreservingMergesWithUnrelatedSide2() throws Exception {
+		doTestRebasePreservingMergesWithUnrelatedSide(false);
+	}
+
+	/**
+	 * Rebase topic onto master, not rewriting E. The merge resulting in D is
+	 * confliicting to show that the manual merge resolution survives the
+	 * rebase.
+	 *
+	 * <pre>
+	 * A - B - G (master)
+	 *  \   \
+	 *   \   C - D - F (topic)
+	 *    \     /
+	 *      E (side)
+	 * </pre>
+	 *
+	 * <pre>
+	 * A - B - G (master)
+	 *  \       \
+	 *   \       C' - D' - F' (topic')
+	 *    \          /
+	 *      E (side)
+	 * </pre>
+	 *
+	 * @param testConflict
+	 * @throws Exception
+	 */
+	private void doTestRebasePreservingMergesWithUnrelatedSide(
+			boolean testConflict) throws Exception {
+		RevWalk rw = new RevWalk(db);
+		rw.sort(RevSort.TOPO);
+
+		writeTrashFile(FILE1, FILE1);
+		git.add().addFilepattern(FILE1).call();
+		RevCommit a = git.commit().setMessage("commit a").call();
+
+		writeTrashFile("file2", "blah");
+		git.add().addFilepattern("file2").call();
+		RevCommit b = git.commit().setMessage("commit b").call();
+
+		// create a topic branch
+		createBranch(b, "refs/heads/topic");
+		checkoutBranch("refs/heads/topic");
+
+		writeTrashFile("file3", "more changess");
+		writeTrashFile(FILE1, "preparing conflict");
+		git.add().addFilepattern("file3").addFilepattern(FILE1).call();
+		RevCommit c = git.commit().setMessage("commit c").call();
+
+		createBranch(a, "refs/heads/side");
+		checkoutBranch("refs/heads/side");
+		writeTrashFile("conflict", "e");
+		writeTrashFile(FILE1, FILE1 + "\n" + "line 2");
+		git.add().addFilepattern(".").call();
+		RevCommit e = git.commit().setMessage("commit e").call();
+
+		// switch back to topic and merge in side, creating d
+		checkoutBranch("refs/heads/topic");
+		MergeResult result = git.merge().include(e)
+				.setStrategy(MergeStrategy.RESOLVE).call();
+
+		assertEquals(MergeStatus.CONFLICTING, result.getMergeStatus());
+		assertEquals(result.getConflicts().keySet(),
+				Collections.singleton(FILE1));
+		writeTrashFile(FILE1, "merge resolution");
+		git.add().addFilepattern(FILE1).call();
+		RevCommit d = git.commit().setMessage("commit d").call();
+
+		RevCommit f = commitFile("file2", "new content two", "topic");
+
+		checkoutBranch("refs/heads/master");
+		writeTrashFile("fileg", "fileg");
+		if (testConflict)
+			writeTrashFile("conflict", "g");
+		git.add().addFilepattern(".").call();
+		RevCommit g = git.commit().setMessage("commit g").call();
+
+		checkoutBranch("refs/heads/topic");
+		RebaseResult res = git.rebase().setUpstream("refs/heads/master")
+				.setPreserveMerges(true).call();
+		if (testConflict) {
+			assertEquals(Status.STOPPED, res.getStatus());
+			assertEquals(Collections.singleton("conflict"), git.status().call()
+					.getConflicting());
+			// resolve
+			writeTrashFile("conflict", "e");
+			git.add().addFilepattern("conflict").call();
+			res = git.rebase().setOperation(Operation.CONTINUE).call();
+		}
+		assertEquals(Status.OK, res.getStatus());
+
+		assertEquals("merge resolution", read(FILE1));
+		assertEquals("new content two", read("file2"));
+		assertEquals("more changess", read("file3"));
+		assertEquals("fileg", read("fileg"));
+
+		rw.markStart(rw.parseCommit(db.resolve("refs/heads/topic")));
+		RevCommit newF = rw.next();
+		assertDerivedFrom(newF, f);
+		RevCommit newD = rw.next();
+		assertDerivedFrom(newD, d);
+		assertEquals(2, newD.getParentCount());
+		RevCommit newC = rw.next();
+		assertDerivedFrom(newC, c);
+		RevCommit newE = rw.next();
+		assertEquals(e, newE);
+		assertEquals(newC, newD.getParent(0));
+		assertEquals(e, newD.getParent(1));
+		assertEquals(g, rw.next());
+		assertEquals(b, rw.next());
+		assertEquals(a, rw.next());
 	}
 
 	@Test
