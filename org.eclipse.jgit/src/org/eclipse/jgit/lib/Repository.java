@@ -1133,6 +1133,16 @@ public abstract class Repository {
 			return RepositoryState.REVERTING;
 		}
 
+		try {
+			if (readDirCache().hasUnmergedPaths()) {
+				// happens with cherry-pick --no-commit,
+				// but not for merge --no-commit
+				return RepositoryState.CHERRY_PICKING;
+			}
+		} catch (IOException e) {
+			// fall through to SAFE
+		}
+
 		return RepositoryState.SAFE;
 	}
 
