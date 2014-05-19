@@ -52,6 +52,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -77,6 +78,7 @@ import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheCheckout;
 import org.eclipse.jgit.dircache.DirCacheIterator;
+import org.eclipse.jgit.errors.RevisionSyntaxException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
@@ -96,6 +98,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.eclipse.jgit.util.FileUtils;
@@ -168,6 +171,20 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	private static final String AUTOSTASH_MSG = "On {0}: autostash"; //$NON-NLS-1$
 
 	/**
+	 * The folder containing the hashes of (potentially) rewritten commits when
+	 * --preserve-merges is used.
+	 */
+	private static final String REWRITTEN = "rewritten"; //$NON-NLS-1$
+
+	/**
+	 * File containing the current commit(s) to cherry pick when --preserve-merges
+	 * is used.
+	 */
+	private static final String CURRENT_COMMIT = "current-commit"; //$NON-NLS-1$
+
+	private static final String REFLOG_PREFIX = "rebase:"; //$NON-NLS-1$
+
+	/**
 	 * The available operations
 	 */
 	public enum Operation {
@@ -215,6 +232,8 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	private boolean lastStepWasForward;
 
 	private MergeStrategy strategy = MergeStrategy.RECURSIVE;
+
+	private boolean preserveMerges = false;
 
 	/**
 	 * @param repo
@@ -266,6 +285,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 				}
 				this.upstreamCommit = walk.parseCommit(repo
 						.resolve(upstreamCommitId));
+				preserveMerges = rebaseState.getRewrittenDir().exists();
 				break;
 			case BEGIN:
 				autoStash();
@@ -412,6 +432,12 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			throws IOException, GitAPIException {
 		if (Action.COMMENT.equals(step.getAction()))
 			return null;
+		if (preserveMerges
+				&& shouldPick
+				&& (Action.EDIT.equals(step.getAction()) || Action.PICK
+						.equals(step.getAction()))) {
+			writeRewrittenHashes();
+		}
 		ObjectReader or = repo.newObjectReader();
 
 		Collection<ObjectId> ids = or.resolve(step.getCommit());
@@ -468,6 +494,8 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			monitor.beginTask(MessageFormat.format(
 					JGitText.get().applyingCommit,
 					commitToPick.getShortMessage()), ProgressMonitor.UNKNOWN);
+			if (preserveMerges)
+				return cherryPickCommitPreservingMerges(commitToPick);
 			// if the first parent of commitToPick is the current HEAD,
 			// we do a fast-forward instead of cherry-pick to avoid
 			// unnecessary object rewriting
@@ -480,7 +508,8 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 				String ourCommitName = getOurCommitName();
 				CherryPickResult cherryPickResult = new Git(repo).cherryPick()
 						.include(commitToPick).setOurCommitName(ourCommitName)
-						.setReflogPrefix("rebase:").setStrategy(strategy).call(); //$NON-NLS-1$
+						.setReflogPrefix(REFLOG_PREFIX).setStrategy(strategy)
+						.call();
 				switch (cherryPickResult.getStatus()) {
 				case FAILED:
 					if (operation == Operation.BEGIN)
@@ -498,6 +527,139 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		} finally {
 			monitor.endTask();
 		}
+	}
+
+	private RebaseResult cherryPickCommitPreservingMerges(RevCommit commitToPick)
+			throws IOException, GitAPIException, NoMessageException,
+			UnmergedPathsException, ConcurrentRefUpdateException,
+			WrongRepositoryStateException, NoHeadException {
+
+		writeCurrentCommit(commitToPick);
+
+		List<RevCommit> newParents = getNewParents(commitToPick);
+		boolean otherParentsUnchanged = true;
+		for (int i = 1; i < commitToPick.getParentCount(); i++)
+			otherParentsUnchanged &= newParents.get(i).equals(
+					commitToPick.getParent(i));
+		// if the first parent of commitToPick is the current HEAD,
+		// we do a fast-forward instead of cherry-pick to avoid
+		// unnecessary object rewriting
+		newHead = otherParentsUnchanged ? tryFastForward(commitToPick) : null;
+		lastStepWasForward = newHead != null;
+		if (!lastStepWasForward) {
+			ObjectId headId = getHead().getObjectId();
+			if (!AnyObjectId.equals(headId, newParents.get(0)))
+				checkoutCommit(headId.getName(), newParents.get(0));
+
+			// Use the cherry-pick strategy if all non-first parents did not change
+			if (otherParentsUnchanged) {
+				boolean isMerge = commitToPick.getParentCount() > 1;
+				String ourCommitName = getOurCommitName();
+				CherryPickCommand pickCommand = new Git(repo).cherryPick()
+						.include(commitToPick).setOurCommitName(ourCommitName)
+						.setReflogPrefix(REFLOG_PREFIX).setStrategy(strategy);
+				if (isMerge) {
+					pickCommand.setMainlineParentNumber(1);
+					// We write a MERGE_HEAD and later commit explicitly
+					pickCommand.setNoCommit(true);
+					writeMergeInfo(commitToPick, newParents);
+				}
+				CherryPickResult cherryPickResult = pickCommand.call();
+				switch (cherryPickResult.getStatus()) {
+				case FAILED:
+					if (operation == Operation.BEGIN)
+						return abort(RebaseResult.failed(cherryPickResult
+								.getFailingPaths()));
+					else
+						return stop(commitToPick, Status.STOPPED);
+				case CONFLICTING:
+					return stop(commitToPick, Status.STOPPED);
+				case OK:
+					if (isMerge) {
+						// Commit the merge (setup above using writeMergeInfo())
+						CommitCommand commit = new Git(repo).commit();
+						commit.setAuthor(commitToPick.getAuthorIdent());
+						commit.setReflogComment(REFLOG_PREFIX + " " //$NON-NLS-1$
+								+ commitToPick.getShortMessage());
+						newHead = commit.call();
+					} else
+						newHead = cherryPickResult.getNewHead();
+					break;
+				}
+			} else {
+				// Use the merge strategy to redo merges, which had some of
+				// their non-first parents rewritten
+				MergeCommand merge = new Git(repo).merge()
+						.setFastForward(MergeCommand.FastForwardMode.NO_FF)
+						.setCommit(false);
+				for (int i = 1; i < commitToPick.getParentCount(); i++)
+					merge.include(newParents.get(i));
+				MergeResult mergeResult = merge.call();
+				if (mergeResult.getMergeStatus().isSuccessful()) {
+					CommitCommand commit = new Git(repo).commit();
+					commit.setAuthor(commitToPick.getAuthorIdent());
+					commit.setMessage(commitToPick.getFullMessage());
+					commit.setReflogComment(REFLOG_PREFIX + " " //$NON-NLS-1$
+							+ commitToPick.getShortMessage());
+					newHead = commit.call();
+				} else {
+					if (operation == Operation.BEGIN
+							&& mergeResult.getMergeStatus() == MergeResult.MergeStatus.FAILED)
+						return abort(RebaseResult.failed(mergeResult
+								.getFailingPaths()));
+					return stop(commitToPick, Status.STOPPED);
+				}
+			}
+		}
+		return null;
+	}
+
+	// Prepare MERGE_HEAD and message for the next commit
+	private void writeMergeInfo(RevCommit commitToPick,
+			List<RevCommit> newParents) throws IOException {
+		repo.writeMergeHeads(newParents.subList(1, newParents.size()));
+		repo.writeMergeCommitMsg(commitToPick.getFullMessage());
+	}
+
+	// Get the rewritten equivalents for the parents of the given commit
+	private List<RevCommit> getNewParents(RevCommit commitToPick)
+			throws IOException {
+		List<RevCommit> newParents = new ArrayList<RevCommit>();
+		for (int p = 0; p < commitToPick.getParentCount(); p++) {
+			String parentHash = commitToPick.getParent(p).getName();
+			if (!new File(rebaseState.getRewrittenDir(), parentHash).exists())
+				newParents.add(commitToPick.getParent(p));
+			else {
+				String newParent = RebaseState.readFile(
+						rebaseState.getRewrittenDir(), parentHash);
+				if (newParent.length() == 0)
+					newParents.add(walk.parseCommit(repo
+							.resolve(Constants.HEAD)));
+				else
+					newParents.add(walk.parseCommit(ObjectId
+							.fromString(newParent)));
+			}
+		}
+		return newParents;
+	}
+
+	private void writeCurrentCommit(RevCommit commit) throws IOException {
+		RebaseState.appendToFile(rebaseState.getFile(CURRENT_COMMIT),
+				commit.name());
+	}
+
+	private void writeRewrittenHashes() throws RevisionSyntaxException,
+			IOException {
+		File currentCommitFile = rebaseState.getFile(CURRENT_COMMIT);
+		if (!currentCommitFile.exists())
+			return;
+
+		String head = repo.resolve(Constants.HEAD).getName();
+		String currentCommits = rebaseState.readFile(CURRENT_COMMIT);
+		for (String current : currentCommits.split("\n")) //$NON-NLS-1$
+			RebaseState
+					.createFile(rebaseState.getRewrittenDir(), current, head);
+		FileUtils.delete(currentCommitFile);
 	}
 
 	private RebaseResult finishRebase(RevCommit newHead,
@@ -908,19 +1070,6 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		monitor.beginTask(JGitText.get().obtainingCommitsForCherryPick,
 				ProgressMonitor.UNKNOWN);
 
-		// determine the commits to be applied
-		LogCommand cmd = new Git(repo).log().addRange(upstreamCommit,
-				headCommit);
-		Iterable<RevCommit> commitsToUse = cmd.call();
-
-		List<RevCommit> cherryPickList = new ArrayList<RevCommit>();
-		for (RevCommit commit : commitsToUse) {
-			if (commit.getParentCount() != 1)
-				continue;
-			cherryPickList.add(commit);
-		}
-
-		Collections.reverse(cherryPickList);
 		// create the folder for the meta information
 		FileUtils.mkdir(rebaseState.getDir(), true);
 
@@ -935,6 +1084,8 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		ArrayList<RebaseTodoLine> toDoSteps = new ArrayList<RebaseTodoLine>();
 		toDoSteps.add(new RebaseTodoLine("# Created by EGit: rebasing " + headId.name() //$NON-NLS-1$
 						+ " onto " + upstreamCommit.name())); //$NON-NLS-1$
+		// determine the commits to be applied
+		List<RevCommit> cherryPickList = calculatePickList(headCommit);
 		ObjectReader reader = walk.getObjectReader();
 		for (RevCommit commit : cherryPickList)
 			toDoSteps.add(new RebaseTodoLine(Action.PICK, reader
@@ -957,6 +1108,50 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		monitor.endTask();
 
 		return null;
+	}
+
+	private List<RevCommit> calculatePickList(RevCommit headCommit)
+			throws GitAPIException, NoHeadException, IOException {
+		LogCommand cmd = new Git(repo).log().addRange(upstreamCommit,
+				headCommit);
+		Iterable<RevCommit> commitsToUse = cmd.call();
+		List<RevCommit> cherryPickList = new ArrayList<RevCommit>();
+		for (RevCommit commit : commitsToUse) {
+			if (preserveMerges || commit.getParentCount() == 1)
+				cherryPickList.add(commit);
+		}
+		Collections.reverse(cherryPickList);
+
+		if (preserveMerges) {
+			// When preserving merges we only rewrite commits which have at
+			// least one parent that is itself rewritten (or a merge base)
+			File rewrittenDir = rebaseState.getRewrittenDir();
+			FileUtils.mkdir(rewrittenDir, false);
+			walk.reset();
+			walk.setRevFilter(RevFilter.MERGE_BASE);
+			walk.markStart(upstreamCommit);
+			walk.markStart(headCommit);
+			RevCommit base;
+			while ((base = walk.next()) != null)
+				RebaseState.createFile(rewrittenDir, base.getName(),
+						upstreamCommit.getName());
+
+			Iterator<RevCommit> iterator = cherryPickList.iterator();
+			pickLoop: while(iterator.hasNext()){
+				RevCommit commit = iterator.next();
+				for (int i = 0; i < commit.getParentCount(); i++) {
+					boolean parentRewritten = new File(rewrittenDir, commit
+							.getParent(i).getName()).exists();
+					if (parentRewritten) {
+						new File(rewrittenDir, commit.getName()).createNewFile();
+						continue pickLoop;
+					}
+				}
+				// commit is only merged in, needs not be rewritten
+				iterator.remove();
+			}
+		}
+		return cherryPickList;
 	}
 
 	private static String getHeadName(Ref head) {
@@ -1139,6 +1334,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			// cleanup the files
 			FileUtils.delete(rebaseState.getDir(), FileUtils.RECURSIVE);
 			repo.writeCherryPickHead(null);
+			repo.writeMergeHeads(null);
 			if (stashConflicts)
 				return RebaseResult.STASH_APPLY_CONFLICTS_RESULT;
 			return result;
@@ -1321,6 +1517,18 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	}
 
 	/**
+	 * @param preserve
+	 *            True to re-create merges during rebase. Defaults to false, a
+	 *            flattening rebase.
+	 * @return {@code this}
+	 * @since 3.5
+	 */
+	public RebaseCommand setPreserveMerges(boolean preserve) {
+		this.preserveMerges = preserve;
+		return this;
+	}
+
+	/**
 	 * Allows configure rebase interactive process and modify commit message
 	 */
 	public interface InteractiveHandler {
@@ -1408,6 +1616,14 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			return dir;
 		}
 
+		/**
+		 * @return Directory with rewritten commit hashes, usually exists if
+		 *         {@link RebaseCommand#preserveMerges} is true
+		 **/
+		public File getRewrittenDir() {
+			return new File(getDir(), REWRITTEN);
+		}
+
 		public String readFile(String name) throws IOException {
 			return readFile(getDir(), name);
 		}
@@ -1437,6 +1653,17 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 				throws IOException {
 			File file = new File(parentDir, name);
 			FileOutputStream fos = new FileOutputStream(file);
+			try {
+				fos.write(content.getBytes(Constants.CHARACTER_ENCODING));
+				fos.write('\n');
+			} finally {
+				fos.close();
+			}
+		}
+
+		private static void appendToFile(File file, String content)
+				throws IOException {
+			FileOutputStream fos = new FileOutputStream(file, true);
 			try {
 				fos.write(content.getBytes(Constants.CHARACTER_ENCODING));
 				fos.write('\n');
