@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_3c4c2797",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/NetRCTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 3910
+      },
+      "writtenOn": "2014-05-19T06:58:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_2176094a",
+      "revId": "e2d9f825ddf62b01ab985faba6001a7ab5cfc49f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_e12ff110",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/NetRCTest.java",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2014-04-24T00:26:01Z",
       "side": 1,
       "message": "don\u0027t use real domain, user name as test data instead use artificial test data, e.g. machine my.host login testuser password 5555",
+      "revId": "e2d9f825ddf62b01ab985faba6001a7ab5cfc49f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_9c4bb37e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/NetRCTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 3910
+      },
+      "writtenOn": "2014-05-19T06:58:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_e12ff110",
       "revId": "e2d9f825ddf62b01ab985faba6001a7ab5cfc49f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_1cd7a3ed",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/NetRCTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 3910
+      },
+      "writtenOn": "2014-05-19T06:58:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_c1dbcd99",
+      "revId": "e2d9f825ddf62b01ab985faba6001a7ab5cfc49f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_61800199",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRC.java",
         "patchSetId": 6
@@ -64,6 +118,24 @@
       "writtenOn": "2014-04-24T00:26:01Z",
       "side": 1,
       "message": "missing @since 3.4 tag for new public class",
+      "revId": "e2d9f825ddf62b01ab985faba6001a7ab5cfc49f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_7c469f76",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRC.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 3910
+      },
+      "writtenOn": "2014-05-19T06:58:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_61800199",
       "revId": "e2d9f825ddf62b01ab985faba6001a7ab5cfc49f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_7ca17fa7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRC.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 3910
+      },
+      "writtenOn": "2014-05-19T06:58:18Z",
+      "side": 1,
+      "message": "Here is no way I can make it private, this structure returned by public getEntry() method.",
+      "parentUuid": "0756a345_61b2c17c",
+      "revId": "e2d9f825ddf62b01ab985faba6001a7ab5cfc49f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_c19e2deb",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRC.java",
         "patchSetId": 6
@@ -98,6 +188,24 @@
       "writtenOn": "2014-04-24T00:26:01Z",
       "side": 1,
       "message": "members should be private",
+      "revId": "e2d9f825ddf62b01ab985faba6001a7ab5cfc49f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_dca88b96",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRC.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 3910
+      },
+      "writtenOn": "2014-05-19T06:58:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_c19e2deb",
       "revId": "e2d9f825ddf62b01ab985faba6001a7ab5cfc49f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_dc8feb37",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRC.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 3910
+      },
+      "writtenOn": "2014-05-19T06:58:18Z",
+      "side": 1,
+      "message": "parse will raise the expection. here is no delayed problem as well. so no point of double checking it.",
+      "parentUuid": "0756a345_618921ad",
+      "revId": "e2d9f825ddf62b01ab985faba6001a7ab5cfc49f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_c1090dbe",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRC.java",
         "patchSetId": 6
@@ -132,6 +258,24 @@
       "writtenOn": "2014-04-24T00:26:01Z",
       "side": 1,
       "message": "no need to declare this here, instead declare the type in line 141",
+      "revId": "e2d9f825ddf62b01ab985faba6001a7ab5cfc49f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_bcab178f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRC.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 3910
+      },
+      "writtenOn": "2014-05-19T06:58:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_c1090dbe",
       "revId": "e2d9f825ddf62b01ab985faba6001a7ab5cfc49f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_1cb32305",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRC.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 3910
+      },
+      "writtenOn": "2014-05-19T06:58:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_a10e99c2",
+      "revId": "e2d9f825ddf62b01ab985faba6001a7ab5cfc49f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_411dfdf1",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRC.java",
         "patchSetId": 6
@@ -166,6 +328,24 @@
       "writtenOn": "2014-04-24T00:26:01Z",
       "side": 1,
       "message": "s/entries/getEntries/",
+      "revId": "e2d9f825ddf62b01ab985faba6001a7ab5cfc49f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_fcb58fe7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRC.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 3910
+      },
+      "writtenOn": "2014-05-19T06:58:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_411dfdf1",
       "revId": "e2d9f825ddf62b01ab985faba6001a7ab5cfc49f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_5c9c7b76",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRC.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 3910
+      },
+      "writtenOn": "2014-05-19T06:58:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_e19d31ed",
+      "revId": "e2d9f825ddf62b01ab985faba6001a7ab5cfc49f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_41921ddb",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRC.java",
         "patchSetId": 6
@@ -200,6 +398,24 @@
       "writtenOn": "2014-04-24T00:26:01Z",
       "side": 1,
       "message": "this method should be private",
+      "revId": "e2d9f825ddf62b01ab985faba6001a7ab5cfc49f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_3c970753",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRC.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 3910
+      },
+      "writtenOn": "2014-05-19T06:58:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_41921ddb",
       "revId": "e2d9f825ddf62b01ab985faba6001a7ab5cfc49f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -223,6 +439,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_9ca613c1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRC.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 3910
+      },
+      "writtenOn": "2014-05-19T06:58:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_218f29b6",
+      "revId": "e2d9f825ddf62b01ab985faba6001a7ab5cfc49f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_a15179b2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRCCredentialsProvider.java",
         "patchSetId": 6
@@ -234,6 +468,24 @@
       "writtenOn": "2014-04-24T00:26:01Z",
       "side": 1,
       "message": "missing since tag",
+      "revId": "e2d9f825ddf62b01ab985faba6001a7ab5cfc49f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_bc92f75a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRCCredentialsProvider.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 3910
+      },
+      "writtenOn": "2014-05-19T06:58:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_a15179b2",
       "revId": "e2d9f825ddf62b01ab985faba6001a7ab5cfc49f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -257,6 +509,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_1c8a0327",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRCCredentialsProvider.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 3910
+      },
+      "writtenOn": "2014-05-19T06:58:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_211a89fa",
+      "revId": "e2d9f825ddf62b01ab985faba6001a7ab5cfc49f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_c130ed73",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRCCredentialsProvider.java",
         "patchSetId": 6
@@ -274,6 +544,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_fc8c6f43",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRCCredentialsProvider.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 3910
+      },
+      "writtenOn": "2014-05-19T06:58:18Z",
+      "side": 1,
+      "message": "I get this part of code from UsernamePasswordCredentialsProvider.java. Is it wrong as well?",
+      "parentUuid": "0756a345_c130ed73",
+      "revId": "e2d9f825ddf62b01ab985faba6001a7ab5cfc49f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_a135f962",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
         "patchSetId": 6
@@ -285,6 +573,24 @@
       "writtenOn": "2014-04-24T00:26:01Z",
       "side": 1,
       "message": "style nit: we don\u0027t use braces around single line blocks",
+      "revId": "e2d9f825ddf62b01ab985faba6001a7ab5cfc49f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_5c83db0f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 3910
+      },
+      "writtenOn": "2014-05-19T06:58:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_a135f962",
       "revId": "e2d9f825ddf62b01ab985faba6001a7ab5cfc49f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
