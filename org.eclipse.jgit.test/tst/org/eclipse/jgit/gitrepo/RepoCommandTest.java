@@ -411,6 +411,80 @@ public class RepoCommandTest extends RepositoryTestCase {
 		assertEquals("The Hello file has expected content", "branch world", content);
 	}
 
+	@Test
+	public void testReplaceManifestBare () throws Exception {
+		Repository remoteDb = createBareRepository();
+		Repository tempDb = createWorkRepository();
+		StringBuilder xmlContent = new StringBuilder();
+		xmlContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+			.append("<manifest>")
+			.append("<remote name=\"remote1\" fetch=\".\" />")
+			.append("<default revision=\"master\" remote=\"remote1\" />")
+			.append("<project path=\"foo\" name=\"")
+			.append(defaultUri)
+			.append("\" revision=\"")
+			.append(BRANCH)
+			.append("\" >")
+			.append("<copyfile src=\"hello.txt\" dest=\"Hello\" />")
+			.append("</project>")
+			.append("</manifest>");
+		JGitTestUtil.writeTrashFile(tempDb, "old.xml", xmlContent.toString());
+		RepoCommand command = new RepoCommand(remoteDb);
+		command.setPath(tempDb.getWorkTree().getAbsolutePath() + "/old.xml")
+			.setURI(rootUri)
+			.call();
+		xmlContent = new StringBuilder();
+		xmlContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+			.append("<manifest>")
+			.append("<remote name=\"remote1\" fetch=\".\" />")
+			.append("<default revision=\"master\" remote=\"remote1\" />")
+			.append("<project path=\"bar\" name=\"")
+			.append(defaultUri)
+			.append("\" revision=\"")
+			.append(BRANCH)
+			.append("\" >")
+			.append("<copyfile src=\"hello.txt\" dest=\"Hello.txt\" />")
+			.append("</project>")
+			.append("</manifest>");
+		JGitTestUtil.writeTrashFile(tempDb, "new.xml", xmlContent.toString());
+		command = new RepoCommand(remoteDb);
+		command.setPath(tempDb.getWorkTree().getAbsolutePath() + "/new.xml")
+			.setOldPath(tempDb.getWorkTree().getAbsolutePath() + "/old.xml")
+			.setURI(rootUri)
+			.call();
+		// Clone it
+		File directory = createTempDirectory("testReplaceManifestBare");
+		CloneCommand clone = Git.cloneRepository();
+		clone.setDirectory(directory);
+		clone.setURI(remoteDb.getDirectory().toURI().toString());
+		Repository localDb = clone.call().getRepository();
+		// The Hello file should not exist
+		File hello = new File(localDb.getWorkTree(), "Hello");
+		assertFalse("The Hello file doesn't exist", hello.exists());
+		// The Hello.txt file should exist
+		File hellotxt = new File(localDb.getWorkTree(), "Hello.txt");
+		assertTrue("The Hello.txt file exists", hellotxt.exists());
+		// The .gitmodules file should have 'submodule "bar"' and shouldn't have
+		// 'submodule "foo"' lines.
+		File dotmodules = new File(localDb.getWorkTree(),
+				Constants.DOT_GIT_MODULES);
+		BufferedReader reader = new BufferedReader(new FileReader(dotmodules));
+		boolean foo = false;
+		boolean bar = false;
+		while (true) {
+			String line = reader.readLine();
+			if (line == null)
+				break;
+			if (line.contains("submodule \"foo\""))
+				foo = true;
+			if (line.contains("submodule \"bar\""))
+				bar = true;
+		}
+		reader.close();
+		assertTrue("The bar submodule exists", bar);
+		assertFalse("The foo submodule doesn't exist", foo);
+	}
+
 	private void resolveRelativeUris() {
 		// Find the longest common prefix ends with "/" as rootUri.
 		defaultUri = defaultDb.getDirectory().toURI().toString();
