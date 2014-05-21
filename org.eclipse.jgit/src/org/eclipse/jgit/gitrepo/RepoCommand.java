@@ -65,11 +65,15 @@ import org.eclipse.jgit.api.SubmoduleAddCommand;
 import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
+import org.eclipse.jgit.dircache.DirCacheEditor;
+import org.eclipse.jgit.dircache.DirCacheEditor.DeletePath;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.gitrepo.internal.RepoText;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.BlobBasedConfig;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
@@ -107,6 +111,7 @@ import org.xml.sax.helpers.XMLReaderFactory;
 public class RepoCommand extends GitCommand<RevCommit> {
 
 	private String path;
+	private String oldPath;
 	private String uri;
 	private String groups;
 	private String branch;
@@ -114,6 +119,8 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	private RemoteReader callback;
 
 	private List<Project> bareProjects;
+	private List<String> reverseDeletes;
+	private List<String> reverseProjects;
 	private Git git;
 	private ProgressMonitor monitor;
 
@@ -259,6 +266,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 		private final List<Project> projects;
 		private final Set<String> plusGroups;
 		private final Set<String> minusGroups;
+		private boolean reverse;
 		private String defaultRemote;
 		private String defaultRevision;
 		private Project currentProject;
@@ -267,6 +275,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 			this.command = command;
 			this.filename = filename;
 			this.baseUrl = baseUrl;
+			reverse = false;
 			remotes = new HashMap<String, String>();
 			projects = new ArrayList<Project>();
 			plusGroups = new HashSet<String>();
@@ -282,6 +291,11 @@ public class RepoCommand extends GitCommand<RevCommit> {
 						plusGroups.add(group);
 				}
 			}
+		}
+
+		XmlManifest setReverse(boolean reverse) {
+			this.reverse = reverse;
+			return this;
 		}
 
 		void read() throws IOException {
@@ -364,9 +378,10 @@ public class RepoCommand extends GitCommand<RevCommit> {
 				if (inGroups(proj)) {
 					command.addSubmodule(remoteUrl + proj.name,
 							proj.path,
-							proj.revision == null ?
-									defaultRevision : proj.revision,
-							proj.copyfiles);
+							proj.revision == null
+									? defaultRevision : proj.revision,
+							proj.copyfiles,
+							reverse);
 				}
 			}
 		}
@@ -418,6 +433,22 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	 */
 	public RepoCommand setPath(final String path) {
 		this.path = path;
+		return this;
+	}
+
+	/**
+	 * Set path to the old manifest XML file to be updated.
+	 * <p>
+	 * Since the clean up of the submodule directory at a working tree is
+	 * dangerous, this option is only exposed to bare repos and is not available
+	 * to the pgm.
+	 *
+	 * @param oldPath
+	 *            (with <code>/</code> as separator)
+	 * @return this command
+	 */
+	public RepoCommand setOldPath(final String oldPath) {
+		this.oldPath = oldPath;
 		return this;
 	}
 
@@ -474,7 +505,8 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	/**
 	 * Set the author/committer for the bare repository commit.
 	 *
-	 * For non-bare repositories, the current user will be used and this will be ignored.
+	 * For non-bare repositories, the current user will be used and this will be
+	 * ignored.
 	 *
 	 * @param author
 	 * @return this command
@@ -523,12 +555,50 @@ public class RepoCommand extends GitCommand<RevCommit> {
 
 		if (repo.isBare()) {
 			DirCache index = DirCache.newInCore();
+			Config cfg;
+			ObjectId oid;
+			try {
+				oid = repo.resolve(
+						Constants.HEAD + ":" + Constants.DOT_GIT_MODULES); //$NON-NLS-1$
+				if (oid == null)
+					cfg = new Config();
+				else
+					cfg = new BlobBasedConfig(null, repo, oid);
+			} catch (IOException e) {
+				throw new ManifestErrorException(e);
+			} catch (ConfigInvalidException e) {
+				throw new ManifestErrorException(e);
+			}
+
+			if (oldPath != null) {
+				// This is not a new file, we need to reverse the old manifest
+				// file first.
+				reverseProjects = new ArrayList<String>();
+				reverseDeletes = new ArrayList<String>();
+				manifest = new XmlManifest(this, oldPath, uri, groups);
+				manifest.setReverse(true);
+				try {
+					manifest.read();
+				} catch (IOException e) {
+					throw new ManifestErrorException(e);
+				}
+
+				for (String name : reverseProjects)
+					cfg.unsetSection("submodule", name); //$NON-NLS-1$
+
+				DirCacheEditor editor = index.editor();
+				for (String path : reverseDeletes) {
+					DeletePath delete = new DeletePath(path);
+					editor.add(delete);
+				}
+				editor.finish();
+			}
+
 			DirCacheBuilder builder = index.builder();
 			ObjectInserter inserter = repo.newObjectInserter();
 			RevWalk rw = new RevWalk(repo);
 
 			try {
-				Config cfg = new Config();
 				for (Project proj : bareProjects) {
 					String name = proj.path;
 					String uri = proj.name;
@@ -621,11 +691,18 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	}
 
 	private void addSubmodule(String url, String name, String revision,
-			List<CopyFile> copyfiles) throws SAXException {
+			List<CopyFile> copyfiles, boolean reverse) throws SAXException {
 		if (repo.isBare()) {
-			Project proj = new Project(url, name, revision, null);
-			proj.copyfiles.addAll(copyfiles);
-			bareProjects.add(proj);
+			if (reverse) {
+				reverseProjects.add(name);
+				reverseDeletes.add(name);
+				for (CopyFile f : copyfiles)
+					reverseDeletes.add(f.dest);
+			} else {
+				Project proj = new Project(url, name, revision, null);
+				proj.copyfiles.addAll(copyfiles);
+				bareProjects.add(proj);
+			}
 		} else {
 			SubmoduleAddCommand add = git
 				.submoduleAdd()
