@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_bbdcb493",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/StashCreateCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 966
+      },
+      "writtenOn": "2014-05-22T07:27:26Z",
+      "side": 1,
+      "message": "Ok. I removed one method.",
+      "parentUuid": "0756a345_2d1fdb1e",
+      "revId": "a83ca933316e95bdf3eaa5ffca00ac9c117aa932",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_8df26759",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/StashCreateCommandTest.java",
         "patchSetId": 1
@@ -47,6 +65,24 @@
       "writtenOn": "2014-05-15T20:39:37Z",
       "side": 1,
       "message": "this is already included in validateCoreStashedCommit()",
+      "revId": "a83ca933316e95bdf3eaa5ffca00ac9c117aa932",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_9bdf3086",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/StashCreateCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 966
+      },
+      "writtenOn": "2014-05-22T07:27:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_8df26759",
       "revId": "a83ca933316e95bdf3eaa5ffca00ac9c117aa932",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_fbe62c5d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/StashCreateCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 966
+      },
+      "writtenOn": "2014-05-22T07:27:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_ed14c303",
+      "revId": "a83ca933316e95bdf3eaa5ffca00ac9c117aa932",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_2de4fb9c",
         "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
         "patchSetId": 1
@@ -81,6 +135,24 @@
       "writtenOn": "2014-05-15T20:39:37Z",
       "side": 1,
       "message": "This message is also used if there are too many parents, in which case it is not correct.",
+      "revId": "a83ca933316e95bdf3eaa5ffca00ac9c117aa932",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_fbfd8ce1",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 966
+      },
+      "writtenOn": "2014-05-22T07:27:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_2de4fb9c",
       "revId": "a83ca933316e95bdf3eaa5ffca00ac9c117aa932",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -104,6 +176,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_db008876",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/StashApplyCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 966
+      },
+      "writtenOn": "2014-05-22T07:27:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_8ddb87e3",
+      "revId": "a83ca933316e95bdf3eaa5ffca00ac9c117aa932",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_ede96379",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/StashApplyCommand.java",
         "patchSetId": 1
@@ -115,6 +205,24 @@
       "writtenOn": "2014-05-15T20:39:37Z",
       "side": 1,
       "message": "remove braces from if and else",
+      "revId": "a83ca933316e95bdf3eaa5ffca00ac9c117aa932",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_3bf70400",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/StashApplyCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 966
+      },
+      "writtenOn": "2014-05-22T07:27:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_ede96379",
       "revId": "a83ca933316e95bdf3eaa5ffca00ac9c117aa932",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -138,6 +246,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_1bf2000d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/StashApplyCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 966
+      },
+      "writtenOn": "2014-05-22T07:27:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_0dd017c1",
+      "revId": "a83ca933316e95bdf3eaa5ffca00ac9c117aa932",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_4dd16fc3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/StashApplyCommand.java",
         "patchSetId": 1
@@ -149,6 +275,24 @@
       "writtenOn": "2014-05-15T20:39:37Z",
       "side": 1,
       "message": "superfluous newline",
+      "revId": "a83ca933316e95bdf3eaa5ffca00ac9c117aa932",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_7bf17c06",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/StashApplyCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 966
+      },
+      "writtenOn": "2014-05-22T07:27:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_4dd16fc3",
       "revId": "a83ca933316e95bdf3eaa5ffca00ac9c117aa932",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -172,6 +316,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_bbae74ef",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/StashApplyCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 966
+      },
+      "writtenOn": "2014-05-22T07:27:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_4d468f28",
+      "revId": "a83ca933316e95bdf3eaa5ffca00ac9c117aa932",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_4d5faff2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/StashCreateCommand.java",
         "patchSetId": 1
@@ -189,6 +351,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_fbb8ec31",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/StashCreateCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 966
+      },
+      "writtenOn": "2014-05-22T07:27:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_4d5faff2",
+      "revId": "a83ca933316e95bdf3eaa5ffca00ac9c117aa932",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_cd5a9ffd",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/StashCreateCommand.java",
         "patchSetId": 1
@@ -200,6 +380,24 @@
       "writtenOn": "2014-05-15T20:39:37Z",
       "side": 1,
       "message": "this already happens in createBuilder(), but maybe you can remove it there, so assigning the parents happens in one place",
+      "revId": "a83ca933316e95bdf3eaa5ffca00ac9c117aa932",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_7bccdcce",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/StashCreateCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 966
+      },
+      "writtenOn": "2014-05-22T07:27:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_cd5a9ffd",
       "revId": "a83ca933316e95bdf3eaa5ffca00ac9c117aa932",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
