@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_aaf45f7e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/ReflogWriterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 966
+      },
+      "writtenOn": "2014-05-22T13:23:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_4a45c367",
+      "revId": "f1ff6d8dea89be43056403921f6cedeebcf088eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_aaa9ff99",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ReflogWriter.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2014-05-22T12:54:34Z",
       "side": 1,
       "message": "how about \\r\\n on Windows ?",
+      "revId": "f1ff6d8dea89be43056403921f6cedeebcf088eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_4ac4a334",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ReflogWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 966
+      },
+      "writtenOn": "2014-05-22T13:23:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_aaa9ff99",
       "revId": "f1ff6d8dea89be43056403921f6cedeebcf088eb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
