@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_16e5b2c6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LsRemoteCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-05-23T22:26:08Z",
+      "side": 1,
+      "message": "this can\u0027t be done by chaining method calls since call() returns Collection\u003cRef\u003e and not LsRemoteCommand\n\ninstead we could do it this way:\n\n LsRemoteCommand c \u003d new LsRemoteCommand(\"origin\");\n c.call();\n Map m \u003d c.getMap();",
+      "parentUuid": "0756a345_30e8be9f",
+      "revId": "0efd7cde0419c869c9e90583e658feb7b7168832",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_b0320e78",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LsRemoteCommand.java",
         "patchSetId": 1
