@@ -44,6 +44,7 @@ package org.eclipse.jgit.api;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
@@ -52,6 +53,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.concurrent.Callable;
 
 import org.eclipse.jgit.api.CreateBranchCommand.SetupUpstreamMode;
 import org.eclipse.jgit.api.MergeResult.MergeStatus;
@@ -64,6 +66,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryState;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
@@ -295,6 +298,210 @@ public class PullCommandTest extends RepositoryTestCase {
 		String message = "Merge branch 'other' of "
 				+ db.getWorkTree().getAbsolutePath() + " into other";
 		assertEquals(message, mergeCommit.getShortMessage());
+	}
+
+	private enum TestPullMode {
+		MERGE, REBASE, REBASE_PREASERVE
+	}
+
+	@Test
+	/** global rebase config should be respected */
+	public void testPullWithRebasePreserve1Config() throws Exception {
+		Callable<PullResult> setup = new Callable<PullResult>() {
+			public PullResult call() throws Exception {
+				StoredConfig config = dbTarget.getConfig();
+				config.setString("pull", null, "rebase", "preserve");
+				config.save();
+				return target.pull().call();
+			}
+		};
+		doTestPullWithRebase(setup, TestPullMode.REBASE_PREASERVE);
+	}
+
+	@Test
+	/** the branch-local config should win over the global config */
+	public void testPullWithRebasePreserveConfig2() throws Exception {
+		Callable<PullResult> setup = new Callable<PullResult>() {
+			public PullResult call() throws Exception {
+				StoredConfig config = dbTarget.getConfig();
+				config.setString("pull", null, "rebase", "false");
+				config.setString("branch", "master", "rebase", "preserve");
+				config.save();
+				return target.pull().call();
+			}
+		};
+		doTestPullWithRebase(setup, TestPullMode.REBASE_PREASERVE);
+	}
+
+	@Test
+	/** the branch-local config should be respected */
+	public void testPullWithRebasePreserveConfig3() throws Exception {
+		Callable<PullResult> setup = new Callable<PullResult>() {
+			public PullResult call() throws Exception {
+				StoredConfig config = dbTarget.getConfig();
+				config.setString("branch", "master", "rebase", "preserve");
+				config.save();
+				return target.pull().call();
+			}
+		};
+		doTestPullWithRebase(setup, TestPullMode.REBASE_PREASERVE);
+	}
+
+	@Test
+	/** global rebase config should be respected */
+	public void testPullWithRebaseConfig1() throws Exception {
+		Callable<PullResult> setup = new Callable<PullResult>() {
+			public PullResult call() throws Exception {
+				StoredConfig config = dbTarget.getConfig();
+				config.setString("pull", null, "rebase", "true");
+				config.save();
+				return target.pull().call();
+			}
+		};
+		doTestPullWithRebase(setup, TestPullMode.REBASE);
+	}
+
+	@Test
+	/** the branch-local config should win over the global config */
+	public void testPullWithRebaseConfig2() throws Exception {
+		Callable<PullResult> setup = new Callable<PullResult>() {
+			public PullResult call() throws Exception {
+				StoredConfig config = dbTarget.getConfig();
+				config.setString("pull", null, "rebase", "preserve");
+				config.setString("branch", "master", "rebase", "true");
+				config.save();
+				return target.pull().call();
+			}
+		};
+		doTestPullWithRebase(setup, TestPullMode.REBASE);
+	}
+
+	@Test
+	/** the branch-local config should be respected */
+	public void testPullWithRebaseConfig3() throws Exception {
+		Callable<PullResult> setup = new Callable<PullResult>() {
+			public PullResult call() throws Exception {
+				StoredConfig config = dbTarget.getConfig();
+				config.setString("branch", "master", "rebase", "true");
+				config.save();
+				return target.pull().call();
+			}
+		};
+		doTestPullWithRebase(setup, TestPullMode.REBASE);
+	}
+
+	@Test
+	/** without config it should merge */
+	public void testPullWithoutConfig() throws Exception {
+		Callable<PullResult> setup = new Callable<PullResult>() {
+			public PullResult call() throws Exception {
+				return target.pull().call();
+			}
+		};
+		doTestPullWithRebase(setup, TestPullMode.MERGE);
+	}
+
+	@Test
+	/** the branch local config should win over the global config */
+	public void testPullWithMergeConfig() throws Exception {
+		Callable<PullResult> setup = new Callable<PullResult>() {
+			public PullResult call() throws Exception {
+				StoredConfig config = dbTarget.getConfig();
+				config.setString("pull", null, "rebase", "true");
+				config.setString("branch", "master", "rebase", "false");
+				config.save();
+				return target.pull().call();
+			}
+		};
+		doTestPullWithRebase(setup, TestPullMode.MERGE);
+	}
+
+	@Test
+	/** the branch local config should win over the global config */
+	public void testPullWithMergeConfig2() throws Exception {
+		Callable<PullResult> setup = new Callable<PullResult>() {
+			public PullResult call() throws Exception {
+				StoredConfig config = dbTarget.getConfig();
+				config.setString("pull", null, "rebase", "false");
+				config.save();
+				return target.pull().call();
+			}
+		};
+		doTestPullWithRebase(setup, TestPullMode.MERGE);
+	}
+
+	private void doTestPullWithRebase(Callable<PullResult> pullSetup,
+			TestPullMode expectedPullMode) throws Exception {
+		// simple upstream change
+		writeToFile(sourceFile, "content");
+		source.add().addFilepattern(sourceFile.getName()).call();
+		RevCommit sourceCommit = source.commit().setMessage("source commit")
+				.call();
+
+		// create a merge commit in target
+		File loxalFile = new File(dbTarget.getWorkTree(), "local.txt");
+		writeToFile(loxalFile, "initial\n");
+		target.add().addFilepattern("local.txt").call();
+		RevCommit t1 = target.commit().setMessage("target commit 1").call();
+
+		target.checkout().setCreateBranch(true).setName("side").call();
+
+		String newContent = "initial\n" + "and more\n";
+		writeToFile(loxalFile, newContent);
+		target.add().addFilepattern("local.txt").call();
+		RevCommit t2 = target.commit().setMessage("target commit 2").call();
+
+		target.checkout().setName("master").call();
+
+		MergeResult mergeResult = target.merge()
+				.setFastForward(MergeCommand.FastForwardMode.NO_FF).include(t2)
+				.call();
+		assertEquals(MergeStatus.MERGED, mergeResult.getMergeStatus());
+		assertFileContentsEqual(loxalFile, newContent);
+		ObjectId merge = mergeResult.getNewHead();
+
+		// pull
+		PullResult res = pullSetup.call();
+		assertNotNull(res.getFetchResult());
+
+		if (expectedPullMode == TestPullMode.MERGE) {
+			assertEquals(MergeStatus.MERGED, res.getMergeResult()
+					.getMergeStatus());
+			assertNull(res.getRebaseResult());
+		} else {
+			assertNull(res.getMergeResult());
+			assertEquals(RebaseResult.OK_RESULT, res.getRebaseResult());
+		}
+		assertFileContentsEqual(sourceFile, "content");
+
+		RevWalk rw = new RevWalk(dbTarget);
+		rw.sort(RevSort.TOPO);
+		rw.markStart(rw.parseCommit(dbTarget.resolve("refs/heads/master")));
+
+		RevCommit next;
+		if (expectedPullMode == TestPullMode.MERGE) {
+			next = rw.next();
+			assertEquals(2, next.getParentCount());
+			assertEquals(merge, next.getParent(0));
+			assertEquals(sourceCommit, next.getParent(1));
+			// since both parents are known do no further checks here
+		} else {
+			if (expectedPullMode == TestPullMode.REBASE_PREASERVE) {
+				next = rw.next();
+				assertEquals(2, next.getParentCount());
+			}
+			next = rw.next();
+			assertEquals(t2.getShortMessage(), next.getShortMessage());
+			next = rw.next();
+			assertEquals(t1.getShortMessage(), next.getShortMessage());
+			next = rw.next();
+			assertEquals(sourceCommit, next);
+			next = rw.next();
+			assertEquals("Initial commit for source", next.getShortMessage());
+			next = rw.next();
+			assertNull(next);
+		}
+		rw.release();
 	}
 
 	@Override
