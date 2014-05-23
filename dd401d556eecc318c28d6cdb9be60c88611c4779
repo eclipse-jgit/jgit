@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0756a345_36b396d3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LsRemoteCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-05-23T22:29:59Z",
+      "side": 1,
+      "message": "this change will not reach 3.4 but 3.5",
+      "revId": "dd401d556eecc318c28d6cdb9be60c88611c4779",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_16b012c3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LsRemoteCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-05-23T22:29:59Z",
+      "side": 1,
+      "message": "can we find a better name ? Maybe callAsMap() or call2()",
+      "revId": "dd401d556eecc318c28d6cdb9be60c88611c4779",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
