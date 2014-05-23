@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_fb1107e0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LsRemoteCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2014-05-23T17:49:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_ad04798c",
+      "revId": "0efd7cde0419c869c9e90583e658feb7b7168832",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_30e8be9f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LsRemoteCommand.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_1b1cbbf4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LsRemoteCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2014-05-23T17:49:54Z",
+      "side": 1,
+      "message": "Maybe getMap is a bad name. This is not a getter and it doesn\u0027t make much sense to be a getter. Do you think map is a better name?",
+      "parentUuid": "0756a345_30e8be9f",
+      "revId": "0efd7cde0419c869c9e90583e658feb7b7168832",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_b0320e78",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LsRemoteCommand.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2014-05-23T12:18:20Z",
       "side": 1,
       "message": "the returned map should be an unmodifiable map to prevent that the caller can tamper with the internal representation",
+      "revId": "0efd7cde0419c869c9e90583e658feb7b7168832",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_7b25f734",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LsRemoteCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2014-05-23T17:49:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_b0320e78",
       "revId": "0efd7cde0419c869c9e90583e658feb7b7168832",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
