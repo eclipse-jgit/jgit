@@ -81,7 +81,7 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 
 	private ProgressMonitor monitor = NullProgressMonitor.INSTANCE;
 
-	private PullRebaseMode pullRebaseMode = PullRebaseMode.USE_CONFIG;
+	private PullRebaseMode pullRebaseMode = null;
 
 	private String remote;
 
@@ -89,10 +89,31 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 
 	private MergeStrategy strategy = MergeStrategy.RECURSIVE;
 
-	private enum PullRebaseMode {
-		USE_CONFIG,
-		REBASE,
-		NO_REBASE
+	private enum PullRebaseMode implements Config.ConfigEnum {
+		REBASE_PRESERVE("preserve", true, true), //$NON-NLS-1$
+		REBASE("true", true, false), //$NON-NLS-1$
+		NO_REBASE("false", false, false); //$NON-NLS-1$
+
+		private final String configValue;
+
+		private final boolean rebase;
+
+		private final boolean preserveMerges;
+
+		PullRebaseMode(String configValue, boolean rebase,
+				boolean preserveMerges) {
+			this.configValue = configValue;
+			this.rebase = rebase;
+			this.preserveMerges = preserveMerges;
+		}
+
+		public String toConfigValue() {
+			return configValue;
+		}
+
+		public boolean matchConfigValue(String in) {
+			return in.equals(configValue);
+		}
 	}
 
 	/**
@@ -205,23 +226,10 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 					ConfigConstants.CONFIG_BRANCH_SECTION, branchName,
 					ConfigConstants.CONFIG_KEY_MERGE);
 
-        // determines whether rebase should be used after fetching
-        boolean doRebase = false;
-        switch (pullRebaseMode) {
-            case REBASE:
-                doRebase = true;
-                break;
-            case NO_REBASE:
-                doRebase = false;
-                break;
-            case USE_CONFIG:
-            default:
-                // check if the branch is configured for pull-rebase
-                doRebase = repoConfig.getBoolean(
-                        ConfigConstants.CONFIG_BRANCH_SECTION, branchName,
-                        ConfigConstants.CONFIG_KEY_REBASE, false);
-                break;
-        }
+		// determines whether rebase should be used after fetching
+		if (pullRebaseMode == null) {
+			pullRebaseMode = getRebaseMode(branchName, repoConfig);
+		}
 
 		if (remoteBranchName == null)
 			remoteBranchName = branchName;
@@ -299,11 +307,12 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 				+ remoteUri;
 
 		PullResult result;
-		if (doRebase) {
+		if (pullRebaseMode.rebase) {
 			RebaseCommand rebase = new RebaseCommand(repo);
 			RebaseResult rebaseRes = rebase.setUpstream(commitToMerge)
 					.setUpstreamName(upstreamName).setProgressMonitor(monitor)
 					.setOperation(Operation.BEGIN).setStrategy(strategy)
+					.setPreserveMerges(pullRebaseMode.preserveMerges)
 					.call();
 			result = new PullResult(fetchRes, remote, rebaseRes);
 		} else {
@@ -377,5 +386,15 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 	public PullCommand setStrategy(MergeStrategy strategy) {
 		this.strategy = strategy;
 		return this;
+	}
+
+	private static PullRebaseMode getRebaseMode(String branchName, Config config) {
+		PullRebaseMode mode = config.getEnum(PullRebaseMode.values(),
+				ConfigConstants.CONFIG_PULL_SECTION, null,
+				ConfigConstants.CONFIG_KEY_REBASE, PullRebaseMode.NO_REBASE);
+		mode = config.getEnum(PullRebaseMode.values(),
+				ConfigConstants.CONFIG_BRANCH_SECTION,
+				branchName, ConfigConstants.CONFIG_KEY_REBASE, mode);
+		return mode;
 	}
 }
