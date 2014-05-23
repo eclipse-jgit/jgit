@@ -16,6 +16,24 @@
       "revId": "a0e79577e6d2eb2d578e91a09e277e0885e66e07",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_d6ce9a29",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2014-05-23T23:51:33Z",
+      "side": 1,
+      "message": "Although these delete operations are upon an empty index, they\u0027ll be executed upon real tree when writeTree() is called. Or that\u0027s what I understand it.\n\nThis will be useful when there were something in the old manifest but no longer in the new manifest, like removed copyfile, or removed/renamed project (gitlink). I have a unit test to make sure that the removal of copyfile works.",
+      "parentUuid": "0756a345_96c8a220",
+      "revId": "a0e79577e6d2eb2d578e91a09e277e0885e66e07",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
