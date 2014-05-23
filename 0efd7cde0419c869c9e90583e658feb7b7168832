@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "0756a345_ad04798c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LsRemoteCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-05-23T12:18:20Z",
+      "side": 1,
+      "message": "missing since tag",
+      "revId": "0efd7cde0419c869c9e90583e658feb7b7168832",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_30e8be9f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LsRemoteCommand.java",
         "patchSetId": 1
@@ -13,6 +30,23 @@
       "writtenOn": "2014-05-23T09:04:38Z",
       "side": 1,
       "message": "I like the idea of this change. I am not sure about how it is implemented. Normally our getter\u0027s don\u0027t have side effects. They are cheap and return either what you have explicitly set with a \"setXXX()\" method or they return something based on the result of the last call() (see CheckoutCommand.getResult()). Before you do \"call()\" nothing expensive will happen.\n\nI would suggest to implement it in the same manner. Store the map you determine in call() in a field and implement getMap() as a getter for this field.\n\nYou would then have to call:\n\n  new LsRemoteCommand(\"origin\").call().getMap();",
+      "revId": "0efd7cde0419c869c9e90583e658feb7b7168832",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_b0320e78",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LsRemoteCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-05-23T12:18:20Z",
+      "side": 1,
+      "message": "the returned map should be an unmodifiable map to prevent that the caller can tamper with the internal representation",
       "revId": "0efd7cde0419c869c9e90583e658feb7b7168832",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
