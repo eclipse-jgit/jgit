@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0756a345_96c8a220",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-05-23T23:35:07Z",
+      "side": 1,
+      "message": "This is entirely unnecessary. You create an empty index on line 558. There is nothing to read from .gitmodules. There is nothing to delete from the index.\n\nYou then proceed to write all new content out to the index, and commit that. You \"update\" by just \"replacing it all\". Which is actually pretty damn simple.\n\nSo I\u0027m confused about why you need this change.",
+      "revId": "a0e79577e6d2eb2d578e91a09e277e0885e66e07",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
