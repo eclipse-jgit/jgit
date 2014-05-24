@@ -34,6 +34,24 @@
       "revId": "a0e79577e6d2eb2d578e91a09e277e0885e66e07",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_d6e5fa99",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-05-24T00:40:12Z",
+      "side": 1,
+      "message": "That is not how writeTree works. :)\n\nThe DirCache (aka index) has a complete list of the files in the repository. writeTree just copies that into the commit. If you pass an empty DirCache into writeTree, you get an empty repository.",
+      "parentUuid": "0756a345_d6ce9a29",
+      "revId": "a0e79577e6d2eb2d578e91a09e277e0885e66e07",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
