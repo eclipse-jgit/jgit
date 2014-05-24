@@ -16,6 +16,24 @@
       "revId": "4b5d4c4292cf740c8fc008728ed8e4bdb9447933",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_c1a9b699",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LsRemoteCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2014-05-24T19:21:43Z",
+      "side": 1,
+      "message": "Done. Actually I think making the return value of callAsMap() is not that important as it\u0027s just a map generated in each call and modifying it won\u0027t affect anyone. But well.",
+      "parentUuid": "0756a345_f6fabee7",
+      "revId": "4b5d4c4292cf740c8fc008728ed8e4bdb9447933",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
