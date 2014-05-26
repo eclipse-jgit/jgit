@@ -16,6 +16,24 @@
       "revId": "e242198f7f66df76cd99be59aa5f8200de70c626",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_a11002dd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HttpAuthMethod.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-05-26T08:16:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_4165a6be",
+      "revId": "e242198f7f66df76cd99be59aa5f8200de70c626",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
