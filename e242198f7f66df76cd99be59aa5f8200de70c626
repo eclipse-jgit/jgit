@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0756a345_4165a6be",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HttpAuthMethod.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-05-26T06:49:22Z",
+      "side": 1,
+      "message": "Have you forgot this .name() call? This line set\u0027s the \"Authorization\" header and from what I read from the specs it should also be named \"Basic\", \"Digest\", ...",
+      "revId": "e242198f7f66df76cd99be59aa5f8200de70c626",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
