@@ -63,9 +63,9 @@ import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.lib.RepositoryBuilder;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.treewalk.TreeWalk;
@@ -203,7 +203,7 @@ public class SubmoduleWalk {
 			return null;
 		File workTree = new File(parent, path);
 		try {
-			return new RepositoryBuilder() //
+			return new FileRepositoryBuilder() //
 					.setMustExist(true) //
 					.setFS(FS.DETECTED) //
 					.setWorkTree(workTree) //

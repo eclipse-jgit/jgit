@@ -83,10 +83,9 @@ import org.eclipse.jgit.util.SystemReader;
  *            type of the repository builder.
  * @param <R>
  *            type of the repository that is constructed.
- * @see RepositoryBuilder
  * @see FileRepositoryBuilder
  */
-public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Repository> {
+public abstract class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Repository> {
 	private static boolean isSymRef(byte[] ref) {
 		if (ref.length < 9)
 			return false;
@@ -569,12 +568,7 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 	 *             the builder's parameters.
 	 */
 	@SuppressWarnings("unchecked")
-	public R build() throws IOException {
-		R repo = (R) new FileRepository(setup());
-		if (isMustExist() && !repo.getObjectDatabase().exists())
-			throw new RepositoryNotFoundException(getGitDir());
-		return repo;
-	}
+	public abstract R build() throws IOException;
 
 	/** Require either {@code gitDir} or {@code workTree} to be set. */
 	protected void requireGitDirOrWorkTree() {

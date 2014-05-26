@@ -47,8 +47,8 @@ import java.io.File;
 import java.io.IOException;
 
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.lib.RepositoryBuilder;
 import org.eclipse.jgit.lib.RepositoryCache;
+import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.util.FS;
 
 /**
@@ -110,7 +110,7 @@ public class Git {
 		RepositoryCache.FileKey key;
 
 		key = RepositoryCache.FileKey.lenient(dir, fs);
-		return wrap(new RepositoryBuilder().setFS(fs).setGitDir(key.getFile())
+		return wrap(new FileRepositoryBuilder().setFS(fs).setGitDir(key.getFile())
 				.setMustExist(true).build());
 	}
 

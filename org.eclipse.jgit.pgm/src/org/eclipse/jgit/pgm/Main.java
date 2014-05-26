@@ -58,10 +58,10 @@ import org.eclipse.jgit.awtui.AwtAuthenticator;
 import org.eclipse.jgit.awtui.AwtCredentialsProvider;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.lib.RepositoryBuilder;
 import org.eclipse.jgit.pgm.internal.CLIText;
 import org.eclipse.jgit.pgm.opt.CmdLineParser;
 import org.eclipse.jgit.pgm.opt.SubcommandHandler;
+import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.util.CachedAuthenticator;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
@@ -240,7 +240,7 @@ public class Main {
 	 *             the repository cannot be opened.
 	 */
 	protected Repository openGitDir(String gitdir) throws IOException {
-		RepositoryBuilder rb = new RepositoryBuilder() //
+		FileRepositoryBuilder rb = new FileRepositoryBuilder() //
 				.setGitDir(gitdir != null ? new File(gitdir) : null) //
 				.readEnvironment() //
 				.findGitDir();
