@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0756a345_893c004a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-05-27T16:10:45Z",
+      "side": 1,
+      "message": "when this does what?",
+      "revId": "72cd196de4fb76ae3d8717e5a07e32242c8010b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_c9327879",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCursor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-05-27T16:10:45Z",
+      "side": 1,
+      "message": "iirc we import static before we import classes. So this should be at the top of the import list.",
+      "revId": "72cd196de4fb76ae3d8717e5a07e32242c8010b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_a9374468",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileRepositoryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-05-27T16:10:45Z",
+      "side": 1,
+      "message": "Public methods need Javadoc and @since tags.",
+      "revId": "72cd196de4fb76ae3d8717e5a07e32242c8010b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
