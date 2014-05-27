@@ -162,7 +162,7 @@ public class FileRepository extends Repository {
 	 *             the user configuration file or repository configuration file
 	 *             cannot be accessed.
 	 */
-	public FileRepository(final BaseRepositoryBuilder options) throws IOException {
+	public FileRepository(final FileRepositoryBuilder options) throws IOException {
 		super(options);
 
 		if (StringUtils.isEmptyOrNull(SystemReader.getInstance().getenv(
@@ -201,7 +201,8 @@ public class FileRepository extends Repository {
 				options.getObjectDirectory(), //
 				options.getAlternateObjectDirectories(), //
 				getFS(), //
-				new File(getDirectory(), Constants.SHALLOW));
+				new File(getDirectory(), Constants.SHALLOW),
+				options.getWindowCache());
 
 		if (objectDatabase.exists()) {
 			final long repositoryFormatVersion = getConfig().getLong(

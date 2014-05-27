@@ -45,9 +45,11 @@ package org.eclipse.jgit.storage.file;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
+import org.eclipse.jgit.internal.storage.file.WindowCache;
 import org.eclipse.jgit.lib.BaseRepositoryBuilder;
 import org.eclipse.jgit.lib.Repository;
 
@@ -72,6 +74,33 @@ import org.eclipse.jgit.lib.Repository;
  */
 public class FileRepositoryBuilder extends
 		BaseRepositoryBuilder<FileRepositoryBuilder, Repository> {
+
+	private AtomicReference<WindowCache> windowCache;
+
+	public FileRepositoryBuilder setWindowCache(WindowCacheConfig cfg) {
+		setWindowCache(new AtomicReference<WindowCache>(new WindowCache(cfg)));
+		return self();
+	}
+
+	public FileRepositoryBuilder setWindowCache(
+			AtomicReference<WindowCache> wc) {
+		windowCache = wc;
+		return self();
+	}
+
+	public AtomicReference<WindowCache> getWindowCache() {
+		return windowCache;
+	}
+
+	@Override
+	public FileRepositoryBuilder setup()
+			throws IllegalArgumentException, IOException {
+		super.setup();
+		if (windowCache == null)
+			windowCache = WindowCache.getDefaultCache();
+		return self();
+	}
+
 	/**
 	 * Create a repository matching the configuration in this builder.
 	 * <p>
