@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_93c9cfc0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HttpAuthMethod.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-05-27T08:21:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_d3b98767",
+      "revId": "7f168640b910e96da0cc0ac77d3e15685c9c6b1d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_d34ea714",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HttpAuthMethod.java",
         "patchSetId": 3
@@ -42,6 +60,24 @@
         "endLine": 136,
         "endChar": 17
       },
+      "revId": "7f168640b910e96da0cc0ac77d3e15685c9c6b1d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_73c6bbae",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HttpAuthMethod.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-05-27T08:21:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_d34ea714",
       "revId": "7f168640b910e96da0cc0ac77d3e15685c9c6b1d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
