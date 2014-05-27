@@ -1,0 +1,10 @@
+Code-Review+2: Matthias Sohn <matthias.sohn@sap.com>
+Code-Review+1: Christian Halstrick <christian.halstrick@sap.com>
+Code-Review+1: Stefan Lay <stefan.lay@sap.com>
+Verified+1: Hudson CI
+Code-Review+1: Markus Knauer <mknauer@eclipsesource.com>
+Submitted-by: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-at: Tue, 27 May 2014 18:06:13 -0400
+Reviewed-on: https://git.eclipse.org/r/27249
+Project: jgit/jgit
+Branch: refs/heads/stable-3.4
