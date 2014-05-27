@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0756a345_c90b98b3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-05-27T15:55:11Z",
+      "side": 0,
+      "message": "Killing this is going to force the next release of JGit to be 4.0.",
+      "revId": "568df19845bdb736642e723444362028523afab8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
