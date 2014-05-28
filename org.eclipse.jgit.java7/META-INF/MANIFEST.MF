@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Fragment-Host: org.eclipse.jgit;bundle-version="3.1.1"
 Bundle-Name: %plugin_name
 Bundle-SymbolicName: org.eclipse.jgit.java7
-Bundle-Version: 3.4.0.201405281120-rc2
+Bundle-Version: 3.4.0.qualifier
 Bundle-Localization: plugin
 Bundle-Vendor: %provider_name
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
