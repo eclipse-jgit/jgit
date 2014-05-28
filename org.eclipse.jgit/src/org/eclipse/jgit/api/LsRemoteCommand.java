@@ -177,7 +177,7 @@ public class LsRemoteCommand extends
 		return Collections.unmodifiableMap(execute());
 	}
 
-	protected Map<String, Ref> execute() throws GitAPIException,
+	private Map<String, Ref> execute() throws GitAPIException,
 			InvalidRemoteException,
 			org.eclipse.jgit.api.errors.TransportException {
 		checkCallable();
