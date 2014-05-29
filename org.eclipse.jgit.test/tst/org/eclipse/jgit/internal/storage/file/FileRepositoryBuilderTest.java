@@ -43,6 +43,7 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
+import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -52,16 +53,66 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import org.eclipse.jgit.errors.LargeObjectException;
+import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
+import org.eclipse.jgit.junit.TestRng;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
+import org.eclipse.jgit.storage.file.WindowCacheConfig;
 import org.eclipse.jgit.util.FileUtils;
 import org.junit.Test;
 
 public class FileRepositoryBuilderTest extends LocalDiskRepositoryTestCase {
+
+	@Test
+	public void shouldAllowIndependentlyConfiguredWindowCache()
+			throws IOException {
+		Repository srcRepo = createBareRepository();
+		TestRng rng = new TestRng(JGitTestUtil.getName());
+		ObjectInserter inserter = srcRepo.getObjectDatabase().newInserter();
+		ObjectId largeObject = inserter.insert(OBJ_BLOB, rng.nextBytes(4096));
+		ObjectId smallObject = inserter.insert(OBJ_BLOB, rng.nextBytes(512));
+		inserter.release();
+
+		FileRepositoryBuilder builder =
+			new FileRepositoryBuilder().setGitDir(srcRepo.getDirectory());
+		Repository repoWithHighThreshold =
+			builder.setWindowCache(configForStreamingThreshold(8192)).build();
+		Repository repoWithLowThreshold =
+			builder.setWindowCache(configForStreamingThreshold(1024)).build();
+
+		assertCanRead(repoWithHighThreshold, smallObject);
+		assertCanRead(repoWithHighThreshold, largeObject);
+
+		assertCanRead(repoWithLowThreshold, smallObject);
+		assertCanNotRead(repoWithLowThreshold, largeObject);
+	}
+
+	private void assertCanNotRead(Repository repo, ObjectId objectId) throws IOException {
+		try {
+			assertCanRead(repo, objectId);
+			fail();
+		} catch (LargeObjectException loe) {
+			// pass
+		}
+	}
+
+	private void assertCanRead(Repository repo, ObjectId objectId) throws IOException {
+		repo.getObjectDatabase().newReader().open(objectId).getBytes();
+	}
+
+	private static WindowCacheConfig configForStreamingThreshold(int limit) {
+		WindowCacheConfig cfg = new WindowCacheConfig();
+		cfg.setStreamFileThreshold(limit);
+		return cfg;
+	}
+
 	@Test
 	public void testShouldAutomagicallyDetectGitDirectory() throws Exception {
 		Repository r = createWorkRepository();

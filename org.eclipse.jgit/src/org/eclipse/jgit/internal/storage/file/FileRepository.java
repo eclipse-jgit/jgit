@@ -53,6 +53,7 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.events.ConfigChangedEvent;
@@ -161,8 +162,36 @@ public class FileRepository extends Repository {
 	 * @throws IOException
 	 *             the user configuration file or repository configuration file
 	 *             cannot be accessed.
+	 * @deprecated to be removed in 4.0; use the FileRepositoryBuilder version
+	 *             of this method.
 	 */
+	@Deprecated
 	public FileRepository(final BaseRepositoryBuilder options) throws IOException {
+		this(options, WindowCache.getDefaultCache());
+	}
+
+	/**
+	 * Create a repository using the local file system.
+	 *
+	 * @param options
+	 *            description of the repository's important paths.
+	 * @throws IOException
+	 *             the user configuration file or repository configuration file
+	 *             cannot be accessed.
+	 * @since 3.5
+	 */
+	public FileRepository(final FileRepositoryBuilder options) throws IOException {
+		this(options, options.getWindowCache());
+	}
+
+	/**
+	 * Constructor necessary to support both the legacy 'BaseRepositoryBuilder'
+	 * constructor and the new constructor that accepts the
+	 * FileRepositoryBuilder. Can be folded back into a single constructor
+	 * once BaseRepositoryBuilder is removed with JGit 4.0.
+	 */
+	private FileRepository(final BaseRepositoryBuilder options,
+		final AtomicReference<WindowCache> windowCache) throws IOException {
 		super(options);
 
 		if (StringUtils.isEmptyOrNull(SystemReader.getInstance().getenv(
@@ -201,7 +230,8 @@ public class FileRepository extends Repository {
 				options.getObjectDirectory(), //
 				options.getAlternateObjectDirectories(), //
 				getFS(), //
-				new File(getDirectory(), Constants.SHALLOW));
+				new File(getDirectory(), Constants.SHALLOW),
+				windowCache);
 
 		if (objectDatabase.exists()) {
 			final long repositoryFormatVersion = getConfig().getLong(

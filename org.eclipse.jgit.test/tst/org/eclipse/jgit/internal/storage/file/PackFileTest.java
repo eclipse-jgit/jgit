@@ -296,7 +296,8 @@ public class PackFileTest extends LocalDiskRepositoryTestCase {
 			f.close();
 		}
 
-		PackFile packFile = new PackFile(packName, PackExt.INDEX.getBit());
+		PackFile packFile = new PackFile(packName, PackExt.INDEX.getBit(),
+				repo.getObjectDatabase().getWindowCache());
 		try {
 			packFile.get(wc, b);
 			fail("expected LargeObjectException.ExceedsByteArrayLimit");
