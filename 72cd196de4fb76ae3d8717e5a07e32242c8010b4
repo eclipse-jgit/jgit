@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_bc813b9f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 102
+      },
+      "writtenOn": "2014-05-29T09:14:30Z",
+      "side": 1,
+      "message": "...fixed as \"the cache to be purged when this PackFile is closed\"",
+      "parentUuid": "0756a345_893c004a",
+      "revId": "72cd196de4fb76ae3d8717e5a07e32242c8010b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_c9327879",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCursor.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_9c7ef71e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCursor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 102
+      },
+      "writtenOn": "2014-05-29T09:14:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_c9327879",
+      "revId": "72cd196de4fb76ae3d8717e5a07e32242c8010b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_a9374468",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileRepositoryBuilder.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2014-05-27T16:10:45Z",
       "side": 1,
       "message": "Public methods need Javadoc and @since tags.",
+      "revId": "72cd196de4fb76ae3d8717e5a07e32242c8010b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_5c78df34",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileRepositoryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 102
+      },
+      "writtenOn": "2014-05-29T09:14:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_a9374468",
       "revId": "72cd196de4fb76ae3d8717e5a07e32242c8010b4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
