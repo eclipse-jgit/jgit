@@ -43,7 +43,11 @@
 
 package org.eclipse.jgit.lib;
 
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.internal.storage.file.FileRepository;
+
 import java.io.File;
+import java.io.IOException;
 
 /**
  * Base class to support constructing a {@link Repository}.
@@ -63,10 +67,20 @@ import java.io.File;
  * 		.findGitDir() // scan up the file system tree
  * 		.build()
  * </pre>
- * 
- * @see org.eclipse.jgit.storage.file.FileRepositoryBuilder
+ *
+ * @deprecated to be removed in 4.0;
+ *             use org.eclipse.jgit.storage.file.FileRepositoryBuilder
  */
+@Deprecated
 public class RepositoryBuilder extends
 		BaseRepositoryBuilder<RepositoryBuilder, Repository> {
-	// Empty implementation, everything is inherited.
+
+	@Override
+	public Repository build() throws IOException {
+		Repository repo = new FileRepository(setup());
+		if (isMustExist() && !repo.getObjectDatabase().exists())
+			throw new RepositoryNotFoundException(getGitDir());
+		return repo;
+	}
+
 }

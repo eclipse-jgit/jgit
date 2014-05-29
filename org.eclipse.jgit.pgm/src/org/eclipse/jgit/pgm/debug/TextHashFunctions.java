@@ -62,12 +62,12 @@ import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.lib.RepositoryBuilder;
 import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.pgm.Command;
 import org.eclipse.jgit.pgm.TextBuiltin;
 import org.eclipse.jgit.pgm.internal.CLIText;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.NB;
@@ -270,7 +270,7 @@ class TextHashFunctions extends TextBuiltin {
 	@Override
 	protected void run() throws Exception {
 		if (gitDirs.isEmpty()) {
-			RepositoryBuilder rb = new RepositoryBuilder() //
+			FileRepositoryBuilder rb = new FileRepositoryBuilder()
 					.setGitDir(new File(gitdir)) //
 					.readEnvironment() //
 					.findGitDir();
@@ -280,7 +280,7 @@ class TextHashFunctions extends TextBuiltin {
 		}
 
 		for (File dir : gitDirs) {
-			RepositoryBuilder rb = new RepositoryBuilder();
+			FileRepositoryBuilder rb = new FileRepositoryBuilder();
 			if (RepositoryCache.FileKey.isGitRepository(dir, FS.DETECTED))
 				rb.setGitDir(dir);
 			else

@@ -50,7 +50,7 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.lib.RepositoryBuilder;
+import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 
 /**
  * Create an empty git repository or reinitalize an existing one
@@ -70,7 +70,7 @@ public class InitCommand implements Callable<Git> {
 	 */
 	public Git call() throws GitAPIException {
 		try {
-			RepositoryBuilder builder = new RepositoryBuilder();
+			FileRepositoryBuilder builder = new FileRepositoryBuilder();
 			if (bare)
 				builder.setBare();
 			builder.readEnvironment();
