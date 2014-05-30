@@ -54,25 +54,25 @@ import org.eclipse.jgit.errors.TranslationStringMissingException;
 /**
  * Base class for all translation bundles that provides injection of translated
  * texts into public String fields.
- *
+ * 
  * <p>
  * The usage pattern is shown with the following example. First define a new
  * translation bundle:
- *
+ * 
  * <pre>
  * public class TransportText extends TranslationBundle {
  * 	public static TransportText get() {
  * 		return NLS.getBundleFor(TransportText.class);
  * 	}
- *
+ * 
  * 	public String repositoryNotFound;
- *
+ * 
  * 	public String transportError;
  * }
  * </pre>
- *
+ * 
  * Second, define one or more resource bundle property files.
- *
+ * 
  * <pre>
  * TransportText_en_US.properties:
  * 		repositoryNotFound=repository {0} not found
@@ -82,15 +82,15 @@ import org.eclipse.jgit.errors.TranslationStringMissingException;
  * 		transportError=unbekannter Fehler während der Kommunikation mit {0}
  * ...
  * </pre>
- *
+ * 
  * Then make use of it:
- *
+ * 
  * <pre>
  * NLS.setLocale(Locale.GERMAN); // or skip this call to stick to the JVM default locale
  * ...
  * throw new TransportException(uri, TransportText.get().transportError);
  * </pre>
- *
+ * 
  * The translated text is automatically injected into the public String fields
  * according to the locale set with {@link NLS#setLocale(Locale)}. However, the
  * {@link NLS#setLocale(Locale)} method defines only prefered locale which will
@@ -99,15 +99,15 @@ import org.eclipse.jgit.errors.TranslationStringMissingException;
  * {@link ResourceBundle#getBundle(String, Locale)} method to load a resource
  * bundle. See the documentation of this method for a detailed explanation of
  * resource bundle loading strategy. After a bundle is created the
- * {@link #effectiveLocale()} method can be used to determine whether the
- * bundle really corresponds to the requested locale or is a fallback.
- *
+ * {@link #effectiveLocale()} method can be used to determine whether the bundle
+ * really corresponds to the requested locale or is a fallback.
+ * 
  * <p>
  * To load a String from a resource bundle property file this class uses the
  * {@link ResourceBundle#getString(String)}. This method can throw the
  * {@link MissingResourceException} and this class is not making any effort to
  * catch and/or translate this exception.
- *
+ * 
  * <p>
  * To define a concrete translation bundle one has to:
  * <ul>
@@ -153,13 +153,17 @@ public abstract class TranslationBundle {
 	 *
 	 * @param locale
 	 *            defines the locale to be used when loading the resource bundle
-	 * @exception TranslationBundleLoadingException see {@link TranslationBundleLoadingException}
-	 * @exception TranslationStringMissingException see {@link TranslationStringMissingException}
+	 * @exception TranslationBundleLoadingException
+	 *                see {@link TranslationBundleLoadingException}
+	 * @exception TranslationStringMissingException
+	 *                see {@link TranslationStringMissingException}
 	 */
-	void load(Locale locale) throws TranslationBundleLoadingException {
+	void load(Locale locale)
+			throws TranslationBundleLoadingException {
 		Class bundleClass = getClass();
 		try {
-			resourceBundle = ResourceBundle.getBundle(bundleClass.getName(), locale);
+			resourceBundle = ResourceBundle.getBundle(bundleClass.getName(),
+					locale, bundleClass.getClassLoader());
 		} catch (MissingResourceException e) {
 			throw new TranslationBundleLoadingException(bundleClass, locale, e);
 		}
