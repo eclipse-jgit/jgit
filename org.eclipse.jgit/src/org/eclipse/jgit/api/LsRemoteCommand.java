@@ -146,6 +146,8 @@ public class LsRemoteCommand extends
 	 * of the command. Don't call this method twice on an instance.
 	 *
 	 * @return a collection of references in the remote repository
+	 * @throws GitAPIException
+	 *             or subclass thereof when an error occurs
 	 * @throws InvalidRemoteException
 	 *             when called with an invalid remote uri
 	 * @throws org.eclipse.jgit.api.errors.TransportException
@@ -161,6 +163,8 @@ public class LsRemoteCommand extends
 	 * Same as {@link #call()}, but return Map instead of Collection.
 	 *
 	 * @return a map from names to references in the remote repository
+	 * @throws GitAPIException
+	 *             or subclass thereof when an error occurs
 	 * @throws InvalidRemoteException
 	 *             when called with an invalid remote uri
 	 * @throws org.eclipse.jgit.api.errors.TransportException
