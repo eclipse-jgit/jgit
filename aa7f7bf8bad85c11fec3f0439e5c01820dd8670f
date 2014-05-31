@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0756a345_88d4f163",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 2957
+      },
+      "writtenOn": "2014-05-31T17:34:01Z",
+      "side": 1,
+      "message": "passes -\u003e pass",
+      "revId": "aa7f7bf8bad85c11fec3f0439e5c01820dd8670f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_e8048d8d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/nls/TranslationBundle.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 2957
+      },
+      "writtenOn": "2014-05-31T17:34:01Z",
+      "side": 1,
+      "message": "Please remove the spaces/line break changes in the JavaDoc, as this is unrelated to the actual change.",
+      "revId": "aa7f7bf8bad85c11fec3f0439e5c01820dd8670f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
