@@ -69,6 +69,24 @@
       "revId": "aa7f7bf8bad85c11fec3f0439e5c01820dd8670f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_13cf7227",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/nls/TranslationBundle.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 2957
+      },
+      "writtenOn": "2014-06-01T17:06:35Z",
+      "side": 1,
+      "message": "Yeah, happens to me too. See also the contributor guide [1], which mentions a bug report regarding newlines in JavaDoc. The case mentioned there has been fixed, but there seem to remain cases, where it does not work.\n\n[1] https://wiki.eclipse.org/EGit/Contributor_Guide#Removing_trailing_whitespace",
+      "parentUuid": "0756a345_53972a19",
+      "revId": "aa7f7bf8bad85c11fec3f0439e5c01820dd8670f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
