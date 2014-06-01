@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_b3904620",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 983
+      },
+      "writtenOn": "2014-06-01T10:09:52Z",
+      "side": 1,
+      "message": "Good catch. Done",
+      "parentUuid": "0756a345_88d4f163",
+      "revId": "aa7f7bf8bad85c11fec3f0439e5c01820dd8670f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_e8048d8d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/nls/TranslationBundle.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2014-05-31T17:34:01Z",
       "side": 1,
       "message": "Please remove the spaces/line break changes in the JavaDoc, as this is unrelated to the actual change.",
+      "revId": "aa7f7bf8bad85c11fec3f0439e5c01820dd8670f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_53972a19",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/nls/TranslationBundle.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 983
+      },
+      "writtenOn": "2014-06-01T10:09:52Z",
+      "side": 1,
+      "message": "This is annoying. It seems that the trailing spaces are inserted by the code format save action - respectively a bug in the formatter. Just make a one-char-change, save it and you\u0027ll see the spaces added.\n\nAnyway, they removed now.",
+      "parentUuid": "0756a345_e8048d8d",
       "revId": "aa7f7bf8bad85c11fec3f0439e5c01820dd8670f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
