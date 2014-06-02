@@ -45,6 +45,7 @@ package org.eclipse.jgit.blame;
 
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.eclipse.jgit.lib.FileMode.TYPE_FILE;
+import static org.eclipse.jgit.lib.FileMode.TYPE_MASK;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -951,7 +952,7 @@ public class BlameGenerator {
 	}
 
 	private static final boolean isFile(int rawMode) {
-		return (rawMode & TYPE_FILE) == TYPE_FILE;
+		return (rawMode & TYPE_MASK) == TYPE_FILE;
 	}
 
 	private DiffEntry findRename(RevCommit parent, RevCommit commit,
