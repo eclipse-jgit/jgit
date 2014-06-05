@@ -66,4 +66,15 @@ public abstract class TcpTransport extends Transport {
 	protected TcpTransport(Repository local, URIish uri) {
 		super(local, uri);
 	}
+
+	/**
+	 * Create a new transport instance without a local repository.
+	 *
+	 * @param uri the URI used to access the remote repository. This must be the
+	 *            URI passed to {@link #open(URIish)}.
+	 * @since 3.5
+	 */
+	protected TcpTransport(URIish uri) {
+		super(uri);
+	}
 }
