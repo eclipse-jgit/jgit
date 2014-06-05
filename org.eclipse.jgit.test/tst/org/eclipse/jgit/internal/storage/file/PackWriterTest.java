@@ -263,6 +263,17 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 	}
 
 	/**
+	 * Test pack writing with delta compress, delta-base first rule. Pack
+	 * content/preparation as in {@link #testWritePack2()}.
+	 *
+	 * @throws IOException
+	 */
+	@Test
+	public void testWritePack2DeltaCompress() throws IOException {
+		writeVerifyPack2(false, true);
+	}
+
+	/**
 	 * Test pack writing with deltas reuse, delta-base first rule. Pack
 	 * content/preparation as in {@link #testWritePack2()}.
 	 *
@@ -360,6 +371,25 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 	@Test
 	public void testWritePack4ThinPack() throws IOException {
 		writeVerifyPack4(true);
+	}
+
+	/**
+	 * Compare sizes of packs created using {@link #testWritePack2()} and
+	 * {@link #testWritePack2DeltaCompress()}. The pack using delta compression should
+	 * be smaller.
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testWritePack2SizeDeltaCompressVsNoDeltas() throws Exception {
+		testWritePack2();
+		final long sizePack2NoDeltas = os.size();
+		tearDown();
+		setUp();
+		testWritePack2DeltaCompress();
+		final long sizePack2DeltasRefs = os.size();
+
+		assertTrue(sizePack2NoDeltas > sizePack2DeltasRefs);
 	}
 
 	/**
