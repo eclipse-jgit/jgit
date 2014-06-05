@@ -260,8 +260,7 @@ final class DeltaWindow {
 			throws IOException {
 		// Objects must use only the same type as their delta base.
 		if (src.type() != res.type()) {
-			keepInWindow();
-			return NEXT_RES;
+			return NEXT_SRC;
 		}
 
 		// If the sizes are radically different, this is a bad pairing.
