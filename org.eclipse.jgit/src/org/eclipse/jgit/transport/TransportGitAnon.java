@@ -101,18 +101,18 @@ class TransportGitAnon extends TcpTransport implements PackTransport {
 			return new TransportGitAnon(local, uri);
 		}
 
-        @Override
-        public Transport open(URIish uri) throws NotSupportedException, TransportException {
-            return new TransportGitAnon(uri);
-        }
+		@Override
+		public Transport open(URIish uri) throws NotSupportedException, TransportException {
+			return new TransportGitAnon(uri);
+		}
 	};
 
 	TransportGitAnon(final Repository local, final URIish uri) {
 		super(local, uri);
-    }
+	}
 
-    TransportGitAnon(final URIish uri) {
-        super(uri);
+	TransportGitAnon(final URIish uri) {
+		super(uri);
 	}
 
 	@Override
