@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0756a345_2267af9d",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/gitrepo/internal/RepoText.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2014-06-06T23:09:24Z",
+      "side": 1,
+      "message": "It seems like we\u0027re losing information that\u0027s potentially useful for debugging. Would it make more sense to have two variants of each message?",
+      "revId": "e53f55c178ea38856a699ec1038696811ae21849",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_026c2b7e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2014-06-06T23:09:24Z",
+      "side": 1,
+      "message": "Document as you have below that this will cause an InputStream to be ignored.",
+      "revId": "e53f55c178ea38856a699ec1038696811ae21849",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
