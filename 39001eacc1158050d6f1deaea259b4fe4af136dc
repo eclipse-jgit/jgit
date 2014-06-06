@@ -70,6 +70,24 @@
       "revId": "39001eacc1158050d6f1deaea259b4fe4af136dc",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_82903bd1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2014-06-06T23:57:57Z",
+      "side": 1,
+      "message": "No, I don\u0027t think they\u0027re user error. But let\u0027s leave this for a separate change. :)",
+      "parentUuid": "0756a345_22a04f22",
+      "revId": "39001eacc1158050d6f1deaea259b4fe4af136dc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
