@@ -34,6 +34,24 @@
       "revId": "39001eacc1158050d6f1deaea259b4fe4af136dc",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_42490308",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2014-06-06T23:16:20Z",
+      "side": 1,
+      "message": "Eh, this is way better than the status quo anyway.\n\nI think as a follow-up change it would be nice to either strip off the trailing / or diagnose it with an exception. I don\u0027t remember whether repo does other normalization (e.g., does it strip off a trailing /.git?).",
+      "parentUuid": "0756a345_02538bb9",
+      "revId": "39001eacc1158050d6f1deaea259b4fe4af136dc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
