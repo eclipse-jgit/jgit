@@ -121,7 +121,7 @@ final class DeltaTask implements Callable<Object> {
 			ArrayList<WeightedPath> topPaths = computeTopPaths();
 			Iterator<WeightedPath> topPathItr = topPaths.iterator();
 			int nextTop = 0;
-			long weightPerThread = totalWeight / threads;
+			long weightPerThread = Math.max(totalWeight / threads, 1);
 			for (int i = beginIndex; i < endIndex;) {
 				DeltaTask task = new DeltaTask(this);
 				long w = 0;
