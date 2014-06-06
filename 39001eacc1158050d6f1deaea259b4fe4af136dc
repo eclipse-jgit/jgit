@@ -52,6 +52,24 @@
       "revId": "39001eacc1158050d6f1deaea259b4fe4af136dc",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_22a04f22",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2014-06-06T23:50:40Z",
+      "side": 1,
+      "message": "These kind of normalizations are just trying to correct some common errors on the user\u0027s side if I understood correctly? I think it should be OK to be more strict on user\u0027s errors, as long as we work as expected if user was correct?\n\nAlso \".git\" at the end shouldn\u0027t be a problem, but I\u0027m not sure why people would add \"/.git\" :(",
+      "parentUuid": "0756a345_42490308",
+      "revId": "39001eacc1158050d6f1deaea259b4fe4af136dc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
