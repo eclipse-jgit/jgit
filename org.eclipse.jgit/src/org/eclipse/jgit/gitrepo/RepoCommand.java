@@ -351,8 +351,8 @@ public class RepoCommand extends GitCommand<RevCommit> {
 			}
 			final String remoteUrl;
 			try {
-				URI uri = new URI(String.format("%s/%s/", baseUrl, remotes.get(defaultRemote))); //$NON-NLS-1$
-				remoteUrl = uri.normalize().toString();
+				URI uri = new URI(baseUrl);
+				remoteUrl = uri.resolve(remotes.get(defaultRemote)).toString();
 			} catch (URISyntaxException e) {
 				throw new SAXException(e);
 			}
