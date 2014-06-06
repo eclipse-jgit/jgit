@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_825e7bbc",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/gitrepo/internal/RepoText.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2014-06-06T23:41:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_2267af9d",
+      "revId": "e53f55c178ea38856a699ec1038696811ae21849",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_026c2b7e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "0756a345_e257779e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2014-06-06T23:41:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_026c2b7e",
+      "revId": "e53f55c178ea38856a699ec1038696811ae21849",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_626d277a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2014-06-06T23:09:24Z",
       "side": 1,
       "message": "Can this be in the context of a try { } finally block to make sure the input stream is always closed?",
+      "revId": "e53f55c178ea38856a699ec1038696811ae21849",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_42c463d8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 522,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2014-06-06T23:41:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0756a345_626d277a",
       "revId": "e53f55c178ea38856a699ec1038696811ae21849",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
