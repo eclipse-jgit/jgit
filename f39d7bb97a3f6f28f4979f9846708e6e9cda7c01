@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0756a345_0c4102f2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SshTransport.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-06-06T11:50:08Z",
+      "side": 1,
+      "message": "@since 3.5 missing",
+      "revId": "f39d7bb97a3f6f28f4979f9846708e6e9cda7c01",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_4c201a58",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SshTransport.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-06-06T11:50:08Z",
+      "side": 1,
+      "message": "Should be TAB here too",
+      "revId": "f39d7bb97a3f6f28f4979f9846708e6e9cda7c01",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_4c377a97",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TcpTransport.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-06-06T11:50:08Z",
+      "side": 1,
+      "message": "Add @since 3.5",
+      "revId": "f39d7bb97a3f6f28f4979f9846708e6e9cda7c01",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
