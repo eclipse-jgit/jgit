@@ -34,6 +34,24 @@
       "revId": "8f89d65120c0486f47f54edf9b3d6b49480eca60",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_80e3134d",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/RepoTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2014-06-09T19:22:36Z",
+      "side": 1,
+      "message": "specify defaultUri to fetch will work for the single project cases, but won\u0027t work for multiple projects cases, so I\u0027m not very sure why should we do that.",
+      "parentUuid": "0756a345_e0380f55",
+      "revId": "8f89d65120c0486f47f54edf9b3d6b49480eca60",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
