@@ -149,7 +149,7 @@ public class RepoTest extends CLIRepositoryTestCase {
 					!groupAUri.startsWith(prefix) ||
 					!groupBUri.startsWith(prefix)) {
 				start++;
-				rootUri = defaultUri.substring(0, start);
+				rootUri = defaultUri.substring(0, start) + "manifest";
 				defaultUri = defaultUri.substring(start);
 				notDefaultUri = notDefaultUri.substring(start);
 				groupAUri = groupAUri.substring(start);
