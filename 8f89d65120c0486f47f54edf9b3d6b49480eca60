@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0756a345_602d1f19",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/RepoTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2014-06-09T19:13:30Z",
+      "side": 1,
+      "message": "Maybe this could say fetch\u003d\\\" + defaultDb.getWorkTree().getName() + \\\". Except that has a hidden assumption about File.createTempFile not using any special characters. Is there an easy way to escape a filename for xml?",
+      "revId": "8f89d65120c0486f47f54edf9b3d6b49480eca60",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
