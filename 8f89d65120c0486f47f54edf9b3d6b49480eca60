@@ -52,6 +52,41 @@
       "revId": "8f89d65120c0486f47f54edf9b3d6b49480eca60",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_00d70369",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/RepoTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2014-06-09T19:31:14Z",
+      "side": 1,
+      "message": "Yeah, my suggestion was probably half-baked. More precisely, my thought is\n\nThe normal use case is that --base-uri represents that URL for the repository that contained the manifest.\n\nfetch\u003d\".\" in a manifest means that paths are relative to the parent directory to the repository.\n\nI was thinking that we wanted paths relative to the manifest repo instead, which would be fetch\u003d\"$(basename manifestrepo)\". But now that I look more closely, I think the base-uri here was pointing to a common parent to all the subprojects, so my suggestion didn\u0027t make a lot of sense.\n\nI think you made the right change. Thinking now about how to rephrase the comment to save the next reader from having to think this through again.",
+      "parentUuid": "0756a345_80e3134d",
+      "revId": "8f89d65120c0486f47f54edf9b3d6b49480eca60",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_40045b8b",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/RepoTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2014-06-09T19:31:14Z",
+      "side": 1,
+      "message": "How about something like\n\n  // Pretend the manifest came from an immediate subdirectory\n  // of rootUri so relative URLs resolve correctly.\n  rootUri \u003d defaultUri.substring(0, start) + \"manifest\";\n\n? Otherwise it sounds like stripping the trailing / is a bug that this test is working around.",
+      "revId": "8f89d65120c0486f47f54edf9b3d6b49480eca60",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
