@@ -123,6 +123,24 @@
       "revId": "8f89d65120c0486f47f54edf9b3d6b49480eca60",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e76c2f17_76d2b045",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/RepoTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2014-06-09T20:47:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e76c2f17_96c14c79",
+      "revId": "8f89d65120c0486f47f54edf9b3d6b49480eca60",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
