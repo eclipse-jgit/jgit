@@ -267,7 +267,8 @@ public class RepoCommand extends GitCommand<RevCommit> {
 			this.command = command;
 			this.inputStream = inputStream;
 			this.filename = filename;
-			this.baseUrl = baseUrl;
+			// Strip trailing /s to match repo behavior.
+			this.baseUrl = baseUrl.replaceAll("/+$", "");
 			remotes = new HashMap<String, String>();
 			projects = new ArrayList<Project>();
 			plusGroups = new HashSet<String>();
