@@ -379,7 +379,8 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 		FS fs = FS.DETECTED;
 		if (lastFile != null && !fs.exists(lastFile))
 			throw new FileNotFoundException(lastFile.getPath());
-		File tmp = File.createTempFile("FileTreeIteratorWithTimeControl", null);
+		File tmp = File.createTempFile("FileTreeIteratorWithTimeControl", null,
+				lastFile != null ? lastFile.getParentFile() : null);
 		try {
 			long startTime = (lastFile == null) ? fs.lastModified(tmp) : fs
 					.lastModified(lastFile);
