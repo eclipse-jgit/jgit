@@ -87,6 +87,24 @@
       "revId": "8f89d65120c0486f47f54edf9b3d6b49480eca60",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e76c2f17_16b6dc25",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/RepoTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2014-06-09T20:35:03Z",
+      "side": 1,
+      "message": "This doesn\u0027t feel technically right. Yes in this case (File.createTempFile) the manifest comes from an immediate subdirectory of rootUri, but that\u0027s not the cause.\nMaybe just change \"deadbeef\" to \"manifest\" and removing the comments to avoid confusing people?",
+      "parentUuid": "0756a345_40045b8b",
+      "revId": "8f89d65120c0486f47f54edf9b3d6b49480eca60",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
