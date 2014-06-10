@@ -1,0 +1,8 @@
+Code-Review+2: Robin Rosenberg <robin.rosenberg@dewire.com>
+Verified+1: Hudson CI
+Code-Review+1: Anton bannykh <anton.bannykh@gmail.com>
+Submitted-by: Robin Rosenberg <robin.rosenberg@dewire.com>
+Submitted-at: Tue, 10 Jun 2014 15:49:29 -0400
+Reviewed-on: https://git.eclipse.org/r/28048
+Project: jgit/jgit
+Branch: refs/heads/master
