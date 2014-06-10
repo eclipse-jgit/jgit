@@ -427,11 +427,12 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	/**
 	 * Set the input stream to the manifest XML.
 	 *
-	 * Setting inputStream will ignore the path set.
-	 * It will be closed in {@link #call}.
+	 * Setting inputStream will ignore the path set. It will be closed in
+	 * {@link #call}.
 	 *
 	 * @param inputStream
 	 * @return this command
+	 * @since 3.5
 	 */
 	public RepoCommand setInputStream(final InputStream inputStream) {
 		this.inputStream = inputStream;
