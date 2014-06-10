@@ -182,6 +182,13 @@ public class RepoCommand extends GitCommand<RevCommit> {
 					.setURI(uri)
 					.call()
 					.getRepository();
+			byte[] result = readFileFromRepo(repo, ref, path);
+			FileUtils.delete(dir, FileUtils.RECURSIVE);
+			return result;
+		}
+
+		protected byte[] readFileFromRepo(Repository repo,
+				String ref, String path) throws GitAPIException, IOException {
 			ObjectReader reader = repo.newObjectReader();
 			byte[] result;
 			try {
@@ -189,7 +196,6 @@ public class RepoCommand extends GitCommand<RevCommit> {
 				result = reader.open(oid).getBytes(Integer.MAX_VALUE);
 			} finally {
 				reader.release();
-				FileUtils.delete(dir, FileUtils.RECURSIVE);
 			}
 			return result;
 		}
