@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e76c2f17_9fcb1fc8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2014-06-10T23:30:52Z",
+      "side": 1,
+      "message": "OT for this change, but seems like you could just fetch ref instead of cloning. Also could do --depth 1 but I don\u0027t think JGit supports that on the client side.",
+      "revId": "afa2154e45a9bcb3cad886ca9a5c52c1dc786f0a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
