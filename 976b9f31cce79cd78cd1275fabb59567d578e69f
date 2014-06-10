@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e76c2f17_3f092bbd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2014-06-10T22:58:58Z",
+      "side": 1,
+      "message": "This is a behavior change in that dir is no longer deleted if there is an error thrown in readFileFromRepo. Intentional?\n\nOr should this be in a finally block? The following should preserve the existing behavior:\n\n try {\n   return readFilefromRepo(repo, ref, path);\n } finally {\n   FileUtils.delete(dir, FileUtils.RECURSIVE);\n }",
+      "revId": "976b9f31cce79cd78cd1275fabb59567d578e69f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
