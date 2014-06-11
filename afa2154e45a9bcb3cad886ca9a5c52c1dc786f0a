@@ -34,6 +34,24 @@
       "revId": "afa2154e45a9bcb3cad886ca9a5c52c1dc786f0a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e76c2f17_abc17978",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2014-06-11T23:10:24Z",
+      "side": 1,
+      "message": "Just as in C git you would replace\n\n $ git clone --bare uri dir.git\n\nwith\n\n $ git init --bare dir.git\n $ git --git-dir\u003ddir.git fetch uri ref\n\nthis would be an InitCommand followed by CloneCommand. So I\u0027m not sure that\u0027s \"much more complex\".\n\nNot a big deal, just a future optimization.",
+      "parentUuid": "e76c2f17_3fadabf5",
+      "revId": "afa2154e45a9bcb3cad886ca9a5c52c1dc786f0a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
