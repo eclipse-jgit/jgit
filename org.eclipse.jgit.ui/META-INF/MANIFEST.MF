@@ -3,7 +3,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %plugin_name
 Bundle-SymbolicName: org.eclipse.jgit.ui
-Bundle-Version: 3.4.0.qualifier
+Bundle-Version: 3.4.0.201406110918-r
 Bundle-Vendor: %provider_name
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: org.eclipse.jgit.awtui;version="3.4.0"

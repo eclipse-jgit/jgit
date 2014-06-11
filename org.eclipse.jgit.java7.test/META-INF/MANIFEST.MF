@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %plugin_name
 Bundle-SymbolicName: org.eclipse.jgit.java7.test
-Bundle-Version: 3.4.0.qualifier
+Bundle-Version: 3.4.0.201406110918-r
 Bundle-Vendor: %provider_name
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Import-Package: org.eclipse.jgit.api;version="[3.4.0,3.5.0)",
