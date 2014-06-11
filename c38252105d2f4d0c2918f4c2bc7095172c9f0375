@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e76c2f17_ebe2510c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2014-06-11T23:26:11Z",
+      "side": 1,
+      "message": "This is pretty inefficient, the way you would normally do this in JGit is:\n\n while (baseUrl.charAt(baseUrl.length() - 1) \u003d\u003d \u0027/\u0027)\n   baseUrl \u003d baseUrl.substring(0, baseUrl.length() - 1);",
+      "revId": "c38252105d2f4d0c2918f4c2bc7095172c9f0375",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
