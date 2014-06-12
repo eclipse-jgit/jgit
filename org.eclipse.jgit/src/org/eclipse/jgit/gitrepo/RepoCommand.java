@@ -169,7 +169,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 					.setRemote(uri)
 					.callAsMap();
 			Ref r = RefDatabase.findRef(map, ref);
-			return r != null ? r.getObjectId() : null;
+			return resolveObjectId(r);
 		}
 
 		public byte[] readFile(String uri, String ref, String path)
@@ -214,6 +214,23 @@ public class RepoCommand extends GitCommand<RevCommit> {
 				reader.release();
 			}
 			return result;
+		}
+
+		/**
+		 * Resolve object id from a ref.
+		 *
+		 * @param ref
+		 *            The ref to resolve
+		 * @return object id if ref is peeled, or peeled object id if it's not,
+		 *         or null if ref is null.
+		 */
+		protected ObjectId resolveObjectId(Ref ref) {
+			if (ref == null)
+				return null;
+			if (ref.isPeeled())
+				return ref.getObjectId();
+			else
+				return ref.getPeeledObjectId();
 		}
 	}
 
