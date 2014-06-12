@@ -52,6 +52,23 @@
       "revId": "afa2154e45a9bcb3cad886ca9a5c52c1dc786f0a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e76c2f17_c065af10",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2014-06-12T16:47:52Z",
+      "side": 1,
+      "message": "Eclipse is now complaining that this method is missing a javadoc comment.",
+      "revId": "afa2154e45a9bcb3cad886ca9a5c52c1dc786f0a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
