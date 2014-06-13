@@ -57,6 +57,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.RepositoryBuilder;
 import org.eclipse.jgit.util.FS;
 
 /**
@@ -170,7 +171,7 @@ public class FileTreeIterator extends WorkingTreeIterator {
 			if (attributes.isSymbolicLink())
 				mode = FileMode.SYMLINK;
 			else if (attributes.isDirectory()) {
-				if (new File(f, Constants.DOT_GIT).exists())
+				if (directoryIsValidGitRepo(f))
 					mode = FileMode.GITLINK;
 				else
 					mode = FileMode.TREE;
@@ -178,6 +179,25 @@ public class FileTreeIterator extends WorkingTreeIterator {
 				mode = FileMode.EXECUTABLE_FILE;
 			else
 				mode = FileMode.REGULAR_FILE;
+		}
+
+		private static boolean directoryIsValidGitRepo(File f) {
+			Repository subRepo = null;
+			try {
+				File gitDir = new File(f, Constants.DOT_GIT);
+				if (gitDir.isDirectory()) {
+					subRepo = new RepositoryBuilder().setGitDir(gitDir)
+							.setMustExist(true).build();
+					subRepo.resolve(Constants.HEAD);
+					return true;
+				} else
+					return false;
+			} catch (IOException e) {
+				return false;
+			} finally {
+				if (subRepo != null)
+					subRepo.close();
+			}
 		}
 
 		@Override
