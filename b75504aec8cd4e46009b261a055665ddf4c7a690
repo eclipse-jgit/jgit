@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e76c2f17_7130ef71",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2014-06-13T19:12:56Z",
+      "side": 1,
+      "message": "isPeeled() means \"is this ref the result of calling {repo,revwalk}.peel()?\" You need to actually call one of those methods from this method.",
+      "revId": "b75504aec8cd4e46009b261a055665ddf4c7a690",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
