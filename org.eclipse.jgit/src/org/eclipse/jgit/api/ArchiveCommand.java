@@ -204,7 +204,7 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 			this.format = format;
 			this.refcnt = refcnt;
 		}
-	};
+	}
 
 	/**
 	 * Available archival formats (corresponding to values for
