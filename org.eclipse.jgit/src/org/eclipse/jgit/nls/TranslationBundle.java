@@ -99,8 +99,8 @@ import org.eclipse.jgit.errors.TranslationStringMissingException;
  * {@link ResourceBundle#getBundle(String, Locale)} method to load a resource
  * bundle. See the documentation of this method for a detailed explanation of
  * resource bundle loading strategy. After a bundle is created the
- * {@link #effectiveLocale()} method can be used to determine whether the
- * bundle really corresponds to the requested locale or is a fallback.
+ * {@link #effectiveLocale()} method can be used to determine whether the bundle
+ * really corresponds to the requested locale or is a fallback.
  *
  * <p>
  * To load a String from a resource bundle property file this class uses the
@@ -153,13 +153,17 @@ public abstract class TranslationBundle {
 	 *
 	 * @param locale
 	 *            defines the locale to be used when loading the resource bundle
-	 * @exception TranslationBundleLoadingException see {@link TranslationBundleLoadingException}
-	 * @exception TranslationStringMissingException see {@link TranslationStringMissingException}
+	 * @exception TranslationBundleLoadingException
+	 *                see {@link TranslationBundleLoadingException}
+	 * @exception TranslationStringMissingException
+	 *                see {@link TranslationStringMissingException}
 	 */
-	void load(Locale locale) throws TranslationBundleLoadingException {
+	void load(Locale locale)
+			throws TranslationBundleLoadingException {
 		Class bundleClass = getClass();
 		try {
-			resourceBundle = ResourceBundle.getBundle(bundleClass.getName(), locale);
+			resourceBundle = ResourceBundle.getBundle(bundleClass.getName(),
+					locale, bundleClass.getClassLoader());
 		} catch (MissingResourceException e) {
 			throw new TranslationBundleLoadingException(bundleClass, locale, e);
 		}
