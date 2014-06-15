@@ -332,7 +332,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 				String qName,
 				Attributes attributes) throws SAXException {
 			if ("project".equals(qName)) { //$NON-NLS-1$
-				currentProject = new Project( //$NON-NLS-1$
+				currentProject = new Project(
 						attributes.getValue("name"), //$NON-NLS-1$
 						attributes.getValue("path"), //$NON-NLS-1$
 						attributes.getValue("revision"), //$NON-NLS-1$
