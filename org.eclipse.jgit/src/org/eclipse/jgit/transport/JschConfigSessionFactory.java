@@ -110,7 +110,7 @@ public abstract class JschConfigSessionFactory extends SshSessionFactory {
 					pass, host, port, hc);
 
 			int retries = 0;
-			while (!session.isConnected() && retries < 3) {
+			while (!session.isConnected()) {
 				try {
 					retries++;
 					session.connect(tms);
@@ -122,14 +122,24 @@ public abstract class JschConfigSessionFactory extends SshSessionFactory {
 
 					// if authentication failed maybe credentials changed at the
 					// remote end therefore reset credentials and retry
-					if (credentialsProvider != null && e.getCause() == null
-							&& e.getMessage().equals("Auth fail") //$NON-NLS-1$
+					if (credentialsProvider != null
+							&& isAuthenticationFailed(e)
 							&& retries < 3) {
 						credentialsProvider.reset(uri);
 						session = createSession(credentialsProvider, fs, user,
 								pass, host, port, hc);
-					} else {
+					} else if (retries >= hc.getConnectionAttempts()) {
 						throw e;
+					} else {
+						try {
+							Thread.sleep(1000);
+							session = createSession(credentialsProvider, fs,
+									user, pass, host, port, hc);
+						} catch (InterruptedException e1) {
+							throw new TransportException(
+									JGitText.get().transportSSHRetryInterrupt,
+									e1);
+						}
 					}
 				}
 			}
@@ -145,6 +155,10 @@ public abstract class JschConfigSessionFactory extends SshSessionFactory {
 			throw new TransportException(uri, je.getMessage(), je);
 		}
 
+	}
+
+	private static boolean isAuthenticationFailed(JSchException e) {
+		return e.getCause() == null && e.getMessage().equals("Auth fail"); //$NON-NLS-1$
 	}
 
 	private Session createSession(CredentialsProvider credentialsProvider,
