@@ -7,6 +7,12 @@
                 <message_argument value="3.2.0"/>
             </message_arguments>
         </filter>
+        <filter comment="minor addition" id="924844039">
+            <message_arguments>
+                <message_argument value="3.4.0"/>
+                <message_argument value="3.4.0"/>
+            </message_arguments>
+        </filter>
     </resource>
     <resource path="src/org/eclipse/jgit/transport/TransportHttp.java" type="org.eclipse.jgit.transport.TransportHttp">
         <filter comment="Method is only used by implementers of TransportHttp's API, minor version are allowed to break implementer API according to OSGi semantic versioning (http://www.osgi.org/wiki/uploads/Links/SemanticVersioning.pdf)" id="338792546">
