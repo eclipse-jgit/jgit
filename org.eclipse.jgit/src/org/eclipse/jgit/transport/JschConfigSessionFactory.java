@@ -129,7 +129,16 @@ public abstract class JschConfigSessionFactory extends SshSessionFactory {
 						session = createSession(credentialsProvider, fs, user,
 								pass, host, port, hc);
 					} else {
-						throw e;
+						if (retries >= hc.getConnectionAttempts())
+							throw e;
+						try {
+							Thread.sleep(1000);
+							session = createSession(credentialsProvider, fs,
+									user, pass, host, port, hc);
+						} catch (InterruptedException e1) {
+							throw new TransportException(
+									"Interrupt during wait for retry", e1); //$NON-NLS-1$
+						}
 					}
 				}
 			}

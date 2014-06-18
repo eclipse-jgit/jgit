@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2009, Google Inc.
+ * Copyright (C) 2008, 2014, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -148,6 +148,8 @@ public class OpenSshConfig {
 			h.user = OpenSshConfig.userName();
 		if (h.port == 0)
 			h.port = OpenSshConfig.SSH_PORT;
+		if (h.connectionAttempts == 0)
+			h.connectionAttempts = 1;
 		h.patternsApplied = true;
 		return h;
 	}
@@ -244,6 +246,18 @@ public class OpenSshConfig {
 				for (final Host c : current)
 					if (c.strictHostKeyChecking == null)
 						c.strictHostKeyChecking = value;
+			} else if (StringUtils.equalsIgnoreCase(
+					"ConnectionAttempts", keyword)) { //$NON-NLS-1$
+				try {
+					final int connectionAttempts = Integer.parseInt(dequote(argValue));
+					if (connectionAttempts > 0) {
+						for (final Host c : current)
+							if (c.connectionAttempts == 0)
+								c.connectionAttempts = connectionAttempts;
+					}
+				} catch (NumberFormatException nfe) {
+					// ignore bad values
+				}
 			}
 		}
 
@@ -331,6 +345,8 @@ public class OpenSshConfig {
 
 		String strictHostKeyChecking;
 
+		int connectionAttempts;
+
 		void copyFrom(final Host src) {
 			if (hostName == null)
 				hostName = src.hostName;
@@ -346,6 +362,8 @@ public class OpenSshConfig {
 				batchMode = src.batchMode;
 			if (strictHostKeyChecking == null)
 				strictHostKeyChecking = src.strictHostKeyChecking;
+			if (connectionAttempts == 0)
+				connectionAttempts = src.connectionAttempts;
 		}
 
 		/**
@@ -401,6 +419,17 @@ public class OpenSshConfig {
 		 */
 		public boolean isBatchMode() {
 			return batchMode != null && batchMode.booleanValue();
+		}
+
+		/**
+		 * @return the number of tries (one per second) to connect before
+		 *         exiting. The argument must be an integer. This may be useful
+		 *         in scripts if the connection sometimes fails. The default is
+		 *         1.
+		 * @since 3.4
+		 */
+		public int getConnectionAttempts() {
+			return connectionAttempts;
 		}
 	}
 }
