@@ -99,6 +99,8 @@ public class RevertCommandTest extends RepositoryTestCase {
 
 		git.revert().include(fixingA).call();
 
+		assertEquals(RepositoryState.SAFE, db.getRepositoryState());
+
 		assertTrue(new File(db.getWorkTree(), "b").exists());
 		checkFile(new File(db.getWorkTree(), "a"),
 				"first line\nsec. line\nthird line\nfourth line\n");
@@ -112,6 +114,104 @@ public class RevertCommandTest extends RepositoryTestCase {
 		assertEquals("enlarged a", history.next().getFullMessage());
 		assertEquals("create b", history.next().getFullMessage());
 		assertEquals("create a", history.next().getFullMessage());
+		assertFalse(history.hasNext());
+
+		ReflogReader reader = db.getReflogReader(Constants.HEAD);
+		assertTrue(reader.getLastEntry().getComment()
+				.startsWith("revert: Revert \""));
+		reader = db.getReflogReader(db.getBranch());
+		assertTrue(reader.getLastEntry().getComment()
+				.startsWith("revert: Revert \""));
+
+	}
+
+	@Test
+	public void testRevertMultiple() throws IOException, JGitInternalException,
+			GitAPIException {
+		Git git = new Git(db);
+
+		writeTrashFile("a", "first\n");
+		git.add().addFilepattern("a").call();
+		git.commit().setMessage("add first").call();
+
+		writeTrashFile("a", "first\nsecond\n");
+		git.add().addFilepattern("a").call();
+		RevCommit secondCommit = git.commit().setMessage("add second").call();
+
+		writeTrashFile("a", "first\nsecond\nthird\n");
+		git.add().addFilepattern("a").call();
+		RevCommit thirdCommit = git.commit().setMessage("add third").call();
+
+		git.revert().include(thirdCommit).include(secondCommit).call();
+
+		assertEquals(RepositoryState.SAFE, db.getRepositoryState());
+
+		checkFile(new File(db.getWorkTree(), "a"), "first\n");
+		Iterator<RevCommit> history = git.log().call().iterator();
+		RevCommit revertCommit = history.next();
+		String expectedMessage = "Revert \"add second\"\n\n"
+				+ "This reverts commit "
+				+ secondCommit.getId().getName() + ".\n";
+		assertEquals(expectedMessage, revertCommit.getFullMessage());
+		revertCommit = history.next();
+		expectedMessage = "Revert \"add third\"\n\n"
+				+ "This reverts commit " + thirdCommit.getId().getName()
+				+ ".\n";
+		assertEquals(expectedMessage, revertCommit.getFullMessage());
+		assertEquals("add third", history.next().getFullMessage());
+		assertEquals("add second", history.next().getFullMessage());
+		assertEquals("add first", history.next().getFullMessage());
+		assertFalse(history.hasNext());
+
+		ReflogReader reader = db.getReflogReader(Constants.HEAD);
+		assertTrue(reader.getLastEntry().getComment()
+				.startsWith("revert: Revert \""));
+		reader = db.getReflogReader(db.getBranch());
+		assertTrue(reader.getLastEntry().getComment()
+				.startsWith("revert: Revert \""));
+
+	}
+
+	@Test
+	public void testRevertMultipleWithFail() throws IOException,
+			JGitInternalException, GitAPIException {
+		Git git = new Git(db);
+
+		writeTrashFile("a", "first\n");
+		git.add().addFilepattern("a").call();
+		git.commit().setMessage("add first").call();
+
+		writeTrashFile("a", "first\nsecond\n");
+		git.add().addFilepattern("a").call();
+		RevCommit secondCommit = git.commit().setMessage("add second").call();
+
+		writeTrashFile("a", "first\nsecond\nthird\n");
+		git.add().addFilepattern("a").call();
+		git.commit().setMessage("add third").call();
+
+		writeTrashFile("a", "first\nsecond\nthird\nfourth\n");
+		git.add().addFilepattern("a").call();
+		RevCommit fourthCommit = git.commit().setMessage("add fourth").call();
+
+		git.revert().include(fourthCommit).include(secondCommit).call();
+
+		// not SAFE because it failed
+		assertEquals(RepositoryState.REVERTING, db.getRepositoryState());
+
+		checkFile(new File(db.getWorkTree(), "a"), "first\n"
+				+ "<<<<<<< master\n" + "second\n" + "third\n" + "=======\n"
+				+ ">>>>>>> " + secondCommit.getId().abbreviate(7).name()
+				+ " add second\n");
+		Iterator<RevCommit> history = git.log().call().iterator();
+		RevCommit revertCommit = history.next();
+		String expectedMessage = "Revert \"add fourth\"\n\n"
+				+ "This reverts commit " + fourthCommit.getId().getName()
+				+ ".\n";
+		assertEquals(expectedMessage, revertCommit.getFullMessage());
+		assertEquals("add fourth", history.next().getFullMessage());
+		assertEquals("add third", history.next().getFullMessage());
+		assertEquals("add second", history.next().getFullMessage());
+		assertEquals("add first", history.next().getFullMessage());
 		assertFalse(history.hasNext());
 
 		ReflogReader reader = db.getReflogReader(Constants.HEAD);
