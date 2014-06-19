@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e76c2f17_0e1b4aa7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschConfigSessionFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2014-06-19T14:08:09Z",
+      "side": 1,
+      "message": "If hc.getConnectionAttempts() \u003e 3 and there are more than 3 failed attemps the code would just silently do nothing after three attempts because in line 113 no retry would be done if retries \u003d\u003d 3.\n\nI think we should remove the check retries \u003c 3 from line 113 and change the logi in line 127.",
+      "range": {
+        "startLine": 132,
+        "startChar": 24,
+        "endLine": 132,
+        "endChar": 45
+      },
+      "revId": "91d9d4e56facd99cb6fb56d2fbc9e293321aa752",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
