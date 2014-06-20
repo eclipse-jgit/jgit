@@ -22,6 +22,24 @@
       "revId": "da92b5b51c162bc4ff8b02f72b3f46de8e42e255",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e76c2f17_a1306772",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschConfigSessionFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-06-20T09:49:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e76c2f17_41dcf3db",
+      "revId": "da92b5b51c162bc4ff8b02f72b3f46de8e42e255",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
