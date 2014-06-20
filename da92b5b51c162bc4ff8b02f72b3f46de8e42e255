@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e76c2f17_41dcf3db",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschConfigSessionFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2014-06-20T04:46:17Z",
+      "side": 1,
+      "message": "if isAuthenticationFailed(e) und retries \u003d\u003d3 there should be no retry anymore, it does not make sense to retry with the same credentials",
+      "range": {
+        "startLine": 126,
+        "startChar": 34,
+        "endLine": 126,
+        "endChar": 35
+      },
+      "revId": "da92b5b51c162bc4ff8b02f72b3f46de8e42e255",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
