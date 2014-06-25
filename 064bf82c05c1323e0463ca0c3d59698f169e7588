@@ -1,0 +1,344 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0756a345_93da62de",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/MergeDriverTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-06-25T16:22:27Z",
+      "side": 1,
+      "message": "Maybe you can add a test where ask the registry for multiple pathes and get back different MergeDrivers. I would like to see that I get ours for one path and theirs for another.",
+      "revId": "064bf82c05c1323e0463ca0c3d59698f169e7588",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_b3dde6da",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/MergeDriverTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-06-25T16:22:27Z",
+      "side": 1,
+      "message": "interesting test case. I was expecting that if both sides add a file then git would consider this as \"tivial merge\".Learned something.",
+      "revId": "064bf82c05c1323e0463ca0c3d59698f169e7588",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_f3eabe6b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/MergeDriverTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-06-25T16:22:27Z",
+      "side": 1,
+      "message": "No test for a driver throwing a IOException?",
+      "revId": "064bf82c05c1323e0463ca0c3d59698f169e7588",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_ba4b3b7f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeDriver.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-06-25T16:22:27Z",
+      "side": 1,
+      "message": "trailing whitespace!",
+      "revId": "064bf82c05c1323e0463ca0c3d59698f169e7588",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_7a3a43f1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeDriver.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-06-25T16:22:27Z",
+      "side": 1,
+      "message": "What is if both versions have changed but they have the same content. Then we will also not call this merge driver, or?",
+      "revId": "064bf82c05c1323e0463ca0c3d59698f169e7588",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_d3efba7a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeDriverRegistry.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-06-25T16:22:27Z",
+      "side": 1,
+      "message": "please remove the trailing blank",
+      "revId": "064bf82c05c1323e0463ca0c3d59698f169e7588",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e76c2f17_4e47f723",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeDriverRegistry.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-06-25T16:22:27Z",
+      "side": 1,
+      "message": "This registry works with static methods. An application using jgit may want to deal with multiple repositories. With your code we have only one big registry for merge drivers regardless with how many git repositories I am dealing. Can this work? I thought that the registry for merge drivers must be something specific for a repository. I would have expected a registry to be retriveable from a Repository object.\n\nE.g. in my Java App I do\n\n   Git.open(\"/git/a\");\n   Git.open(\"/git/b\");\n\nBut the config /git/a/.git/config contains a different merge driver for \"*.txt\" than the one in /git/b/.git/config . How can my java program find out which driver is there for /git/b ?",
+      "revId": "064bf82c05c1323e0463ca0c3d59698f169e7588",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_53fbaa39",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeDriverRegistry.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-06-25T16:22:27Z",
+      "side": 1,
+      "message": "And if not? I would say \"... or null if no driver was registered ...\"",
+      "revId": "064bf82c05c1323e0463ca0c3d59698f169e7588",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_73feae2c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeDriverRegistry.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-06-25T16:22:27Z",
+      "side": 1,
+      "message": "Can I associate a pattern explicitly with the default merge driver? E.g. I write a merge driver for everything but java files. For *.java files I would like to use the default merge driver. If you would allow to specify a \"default driver\" then I could say\n\n  associate(\"*\", \"myDriver\");\n  associate(\"*.java\", DEFAULT);",
+      "revId": "064bf82c05c1323e0463ca0c3d59698f169e7588",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0756a345_f33c7e80",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeDriverRegistry.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-06-25T16:22:27Z",
+      "side": 1,
+      "message": "If the given path contains \"/\" then you completely ignore everything before the last \"/\". You only take the last segment of the path into account and give it to the PathMatcher. How will PathMatcher be able to differentiate between \"src1/a.txt\" and \"src2/a.txt\". This code will handle \"src1/a.txt\" in the same manner as \"src2/a.txt\" and this can\u0027t be intendet, or?\n\nLook at this test which fails where he shouldn\u0027t:\n\n\t\tMergeDriverRegistry.clear();\n\t\tMergeDriverRegistry.associate(\"src1/*.txt\", ours.getName());\n\t\tMergeDriverRegistry.associate(\"src2/*.txt\", theirs.getName());\n\t\tMergeDriverRegistry.associate(\"**/*.bin\", failing.getName());\n\t\tassertSame(failing, MergeDriverRegistry.findMergeDriver(\"src1/a.bin\"));\n\t\tassertSame(ours, MergeDriverRegistry.findMergeDriver(\"src1/a.txt\"));\n\t\tassertSame(theirs, MergeDriverRegistry.findMergeDriver(\"src2/a.txt\"));",
+      "revId": "064bf82c05c1323e0463ca0c3d59698f169e7588",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e76c2f17_3dc2b77b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeResult.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-06-25T16:22:27Z",
+      "side": 1,
+      "message": "But what do we do if the MergeResult is created for merging two empty sequences? This is definitly no conflict and still sequences is empty.\n\nI would suggest to add an explict setter for containsConflicts. Optionally we could also add a constructor which takes \"containsConflicts\" as parameter.",
+      "revId": "064bf82c05c1323e0463ca0c3d59698f169e7588",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e76c2f17_bdac07a9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-06-25T16:22:27Z",
+      "side": 1,
+      "message": "Previously this method processEntry() was not dealing directly with content merges. It did all non-content-merge operations direclty in this method and factored out everything dealing with content merge (File I/O, Streams) into own methods. \n\nYou now inlined reading and writing content into this method making it eaven bigger. I suggest that you factor out all content merge topics into own methods? One method triggering the content merge (finding the right driver, opening closing content streams) and one writing the merge result.",
+      "revId": "064bf82c05c1323e0463ca0c3d59698f169e7588",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e76c2f17_bdd087f5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 574,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-06-25T16:22:27Z",
+      "side": 1,
+      "message": "the javadoc about TreeWalk.getPathString() warns about the bad performance of this method and that it shouldn\u0027t be called more then once for the same path. The old code failed to do so and was calling getPathString() often. Now you introduced a variable to store this. Maybe you can add this to the beginning of processEntry() and let all other calls to getPathString use this.",
+      "revId": "064bf82c05c1323e0463ca0c3d59698f169e7588",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e76c2f17_9dc94b51",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 578,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-06-25T16:22:27Z",
+      "side": 1,
+      "message": "That will create internally an array with initially 32 bytes. The array will be increased as need with costly copy operations. I would help java and specify a size when creating the ByteArrayOutputStream. 1.5*max(len(ours), len(theirs)) or something like that.",
+      "revId": "064bf82c05c1323e0463ca0c3d59698f169e7588",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e76c2f17_ee2083a5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 649,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-06-25T16:22:27Z",
+      "side": 1,
+      "message": "I agree.",
+      "revId": "064bf82c05c1323e0463ca0c3d59698f169e7588",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e76c2f17_0e84dfe7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 655,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-06-25T16:22:27Z",
+      "side": 1,
+      "message": "I would give another name to the mergeAlgorithm variable. It hides a field and maybe other readers of this code get confused in the later parts of the code and think you still use the mergeAlgorithm from the field",
+      "revId": "064bf82c05c1323e0463ca0c3d59698f169e7588",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e76c2f17_6e98f34a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 692,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-06-25T16:22:27Z",
+      "side": 1,
+      "message": "same argument as in the other isWorkTreeDirty method. Please choose a different parameter name.",
+      "revId": "064bf82c05c1323e0463ca0c3d59698f169e7588",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e76c2f17_2eed5bb3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 703,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-06-25T16:22:27Z",
+      "side": 1,
+      "message": "That\u0027s tricky. You introduced a new parameter to this method but choosed a parameter name which matches a field name. So the parameter hides the field. I would make it more explicit that you don\u0027t want to work with the field by choosing a different name.",
+      "revId": "064bf82c05c1323e0463ca0c3d59698f169e7588",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e76c2f17_bd2527b5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 793,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-06-25T16:22:27Z",
+      "side": 1,
+      "message": "Why do you need parameters repository,ours,theirs,base? You only need the path to find the right driver.",
+      "revId": "064bf82c05c1323e0463ca0c3d59698f169e7588",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e76c2f17_4e2b7734",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 899,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-06-25T16:22:27Z",
+      "side": 1,
+      "message": "Right. Returning merge results is becoming more complicated by introducing merge drivers. There may be no good generic way to return it from a resolve merge.\nOn the other hand: do you really think that a resolve merger using textual merge should not somehow be able to present his merge results also on chunk-level. In file A.txt I found a conflict beginning at line X in the common ancestor. Ours wants to add \"xxx\", theirs want \"y\".\n\nBut you are right, maybe it should be the responsibilty of the Mergers to present low-level merge results.",
+      "revId": "064bf82c05c1323e0463ca0c3d59698f169e7588",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
