@@ -203,10 +203,8 @@ public class RecursiveMerger extends ResolveMerger {
 					throw new NoMergeBaseException(
 							NoMergeBaseException.MergeBaseFailureReason.CONFLICTS_DURING_MERGE_BASE_CALCULATION,
 							MessageFormat.format(
-									JGitText.get().mergeRecursiveTooManyMergeBasesFor,
-									Integer.valueOf(MAX_BASES), a.name(),
-									b.name(),
-									Integer.valueOf(baseCommits.size())));
+									JGitText.get().mergeRecursiveConflictsWhenMergingCommonAncestors,
+									currentBase.getName(), nextBase.getName()));
 			}
 		} finally {
 			inCore = oldIncore;
