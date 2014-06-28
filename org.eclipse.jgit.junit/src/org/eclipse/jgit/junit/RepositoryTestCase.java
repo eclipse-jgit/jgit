@@ -375,7 +375,7 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	 */
 	public static long fsTick(File lastFile) throws InterruptedException,
 			IOException {
-		long sleepTime = 1;
+		long sleepTime = 64;
 		FS fs = FS.DETECTED;
 		if (lastFile != null && !fs.exists(lastFile))
 			throw new FileNotFoundException(lastFile.getPath());
@@ -386,11 +386,13 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 			long actTime = fs.lastModified(tmp);
 			while (actTime <= startTime) {
 				Thread.sleep(sleepTime);
-				sleepTime *= 5;
-				fs.setLastModified(tmp, System.currentTimeMillis());
+				sleepTime *= 2;
+				FileOutputStream fos = new FileOutputStream(tmp);
+				fos.close();
 				actTime = fs.lastModified(tmp);
 			}
 			return actTime;
+			
 		} finally {
 			FileUtils.delete(tmp);
 		}
