@@ -387,8 +387,15 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 			while (actTime <= startTime) {
 				Thread.sleep(sleepTime);
 				sleepTime *= 5;
-				fs.setLastModified(tmp, System.currentTimeMillis());
+				fs.delete(tmp);
+				tmp = File.createTempFile("FileTreeIteratorWithTimeControl",
+						null);
 				actTime = fs.lastModified(tmp);
+				// If system clock is not ahead of fs clock, wait for it too
+				fs.setLastModified(tmp, System.currentTimeMillis());
+				long readModifiedLast = fs.lastModified(tmp);
+				if (actTime > readModifiedLast)
+					actTime = readModifiedLast;
 			}
 			return actTime;
 		} finally {
