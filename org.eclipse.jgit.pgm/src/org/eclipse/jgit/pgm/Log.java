@@ -272,7 +272,7 @@ class Log extends RevWalkTextBuiltin {
 		if (showNotes(c))
 			outw.println();
 
-		if (c.getParentCount() == 1 && (showNameAndStatusOnly || showPatch))
+		if (c.getParentCount() <= 1 && (showNameAndStatusOnly || showPatch))
 			showDiff(c);
 		outw.flush();
 	}
@@ -345,7 +345,8 @@ class Log extends RevWalkTextBuiltin {
 	}
 
 	private void showDiff(RevCommit c) throws IOException {
-		final RevTree a = c.getParent(0).getTree();
+		final RevTree a = c.getParentCount() > 0 ? c.getParent(0).getTree()
+				: null;
 		final RevTree b = c.getTree();
 
 		if (showNameAndStatusOnly)
