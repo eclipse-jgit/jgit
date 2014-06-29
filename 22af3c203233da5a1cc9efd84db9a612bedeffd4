@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e76c2f17_5a896eac",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2014-06-29T05:50:03Z",
+      "side": 1,
+      "message": "I\u0027m a bit worried that we do too much here if `.git` doesn\u0027t exist (which is probably the most frequent case). Maybe add a short path for when we don\u0027t have a `.git`?",
+      "revId": "22af3c203233da5a1cc9efd84db9a612bedeffd4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e76c2f17_ba09a2be",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2014-06-29T05:50:03Z",
+      "side": 1,
+      "message": "How about extracting this into its own method? Kind of hard to read with having both mode and dirMode here.",
+      "revId": "22af3c203233da5a1cc9efd84db9a612bedeffd4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
