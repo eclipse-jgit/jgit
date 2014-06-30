@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e76c2f17_957c7792",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-06-30T07:24:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e76c2f17_5a896eac",
+      "revId": "22af3c203233da5a1cc9efd84db9a612bedeffd4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e76c2f17_ba09a2be",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2014-06-29T05:50:03Z",
       "side": 1,
       "message": "How about extracting this into its own method? Kind of hard to read with having both mode and dirMode here.",
+      "revId": "22af3c203233da5a1cc9efd84db9a612bedeffd4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e76c2f17_7579db9e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-06-30T07:24:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e76c2f17_ba09a2be",
       "revId": "22af3c203233da5a1cc9efd84db9a612bedeffd4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
