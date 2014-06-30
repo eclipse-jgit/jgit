@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e76c2f17_75c6fb3e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-06-30T08:14:12Z",
+      "side": 1,
+      "message": "How is it with .git files (not directories). Text files named \u0027.git\u0027 which content is line containing the path in the local filesystem where the real .git file should be located.\n\nE.g.\n\n  cd /tmp\n  git clone --recursive https://gerrit.googlesource.com/gerrit\n  ls -la /tmp/gerrit/plugins/download-commands\n  cat /tmp/gerrit/plugins/download-commands/.git\n  jgit debug-show-dir-cache | grep download-commands",
+      "revId": "90ead7761493addc1eb6cd1a3b8a5e57e0bf3099",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
