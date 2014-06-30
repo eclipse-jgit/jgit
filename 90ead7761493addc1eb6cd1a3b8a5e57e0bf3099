@@ -34,6 +34,24 @@
       "revId": "90ead7761493addc1eb6cd1a3b8a5e57e0bf3099",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e76c2f17_b5c6d311",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2014-06-30T09:05:18Z",
+      "side": 1,
+      "message": "Why not just use .exists here (the same as before), that works for files and directories.",
+      "parentUuid": "e76c2f17_15a86761",
+      "revId": "90ead7761493addc1eb6cd1a3b8a5e57e0bf3099",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
