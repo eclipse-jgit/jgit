@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e76c2f17_958c77c0",
+        "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/RepositoryTestCase.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-06-30T12:00:03Z",
+      "side": 1,
+      "message": "I think there is a misunderstanding here. Maybe the first implementation I did led to a wrong understanding.\n\nLook at the javadoc: this method should wait long enough until the filesystem clock has advanced so much that it is behind the lastmodified time of a given file (lastFile). Why at all do we have to look at the System clock for that? No need to compare Filesystem and System clock and deal with problems if they don\u0027t match.\n\nTo sketch the algorithm:\n\n  while(f.lastmodified \u003c\u003d lastFile.lastmodified) {\n    sleep();\n    f.touch();\n  }\n\nNow comes my fault: I implement f.touch() by f.setLastModified(System.currentTimeMillis()). I didn\u0027t intended to set the lastModified to anything specific, I just wanted to touch the file.\n\nInstead of creating new temp-files in each run through this loop I would just implement the \"touch\". Looked it up from http://stackoverflow.com/a/17840038 how touch could be implemented by just opening a FileOutPutStream. The full method would look like:\n\n\tpublic static long fsTick(File lastFile) throws InterruptedException,\n\t\t\tIOException {\n\t\tlong sleepTime \u003d 64;\n\t\tFS fs \u003d FS.DETECTED;\n\t\tif (lastFile !\u003d null \u0026\u0026 !fs.exists(lastFile))\n\t\t\tthrow new FileNotFoundException(lastFile.getPath());\n\t\tFile tmp \u003d File.createTempFile(\"FileTreeIteratorWithTimeControl\", null);\n\t\ttry {\n\t\t\tlong startTime \u003d (lastFile \u003d\u003d null) ? fs.lastModified(tmp) : fs\n\t\t\t\t\t.lastModified(lastFile);\n\t\t\tlong actTime \u003d fs.lastModified(tmp);\n\t\t\twhile (actTime \u003c\u003d startTime) {\n\t\t\t\tThread.sleep(sleepTime);\n\t\t\t\tsleepTime *\u003d 2;\n\t\t\t\tFileOutputStream fos \u003d new FileOutputStream(tmp);\n\t\t\t\tfos.close();\n\t\t\t\tactTime \u003d fs.lastModified(tmp);\n\t\t\t}\n\t\t\treturn actTime;\n\t\t\t\n\t\t} finally {\n\t\t\tFileUtils.delete(tmp);\n\t\t}\n\t}",
+      "revId": "a326d2ab23f6c13bcf6e143b06831d218e5bcd21",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
