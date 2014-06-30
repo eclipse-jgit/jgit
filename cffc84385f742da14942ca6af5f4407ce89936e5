@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e76c2f17_f53b2bf2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/DiffFormatterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-06-30T06:48:19Z",
+      "side": 1,
+      "message": "Minor thing: this line gives a warning in my eclipse because df is hiding a field. If you would rename this local var this would go away. Similar in the other added tests.",
+      "revId": "cffc84385f742da14942ca6af5f4407ce89936e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
