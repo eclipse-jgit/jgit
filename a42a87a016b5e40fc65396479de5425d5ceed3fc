@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "e76c2f17_621474d0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsInserter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2014-07-02T18:07:01Z",
+      "side": 1,
+      "message": "Unlike flushBlock(), this doesn\u0027t put the newly written data in the DfsBlockCache. That seems good because otherwise we\u0027d be asking a lot of the block cache by putting partial blocks there. Am I right in assuming that DfsOutputStream#read is meant to be fast already so this shouldn\u0027t hurt anything?",
+      "revId": "a42a87a016b5e40fc65396479de5425d5ceed3fc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e76c2f17_627f545a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsInserter.java",
         "patchSetId": 8
@@ -13,6 +30,23 @@
       "writtenOn": "2014-07-02T16:36:28Z",
       "side": 1,
       "message": "This comment is confusing me. currPtr is an offset in currPtr?\n\n(optional) The patch would be easier to review (and merges touching the same code would be less scary) if neither of the new variables were named currPtr.",
+      "revId": "a42a87a016b5e40fc65396479de5425d5ceed3fc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e76c2f17_a21decf4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsInserter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2014-07-02T18:07:01Z",
+      "side": 1,
+      "message": "(optional) Probably worth a comment that the DfsObjectInserter doesn\u0027t make deltas so this should never happen.",
       "revId": "a42a87a016b5e40fc65396479de5425d5ceed3fc",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
