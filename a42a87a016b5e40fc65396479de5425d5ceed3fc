@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "e76c2f17_2231dc75",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsInserterTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2014-07-02T18:18:29Z",
+      "side": 1,
+      "message": "(optional) Might also be worth testing ins.release() (i.e., the case where the pack is never committed but gets discarded instead).",
+      "revId": "a42a87a016b5e40fc65396479de5425d5ceed3fc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e76c2f17_621474d0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsInserter.java",
         "patchSetId": 8
