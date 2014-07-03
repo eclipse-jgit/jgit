@@ -16,6 +16,24 @@
       "revId": "cffc84385f742da14942ca6af5f4407ce89936e5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e76c2f17_25f2838f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/DiffFormatterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-07-03T20:14:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e76c2f17_f53b2bf2",
+      "revId": "cffc84385f742da14942ca6af5f4407ce89936e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
