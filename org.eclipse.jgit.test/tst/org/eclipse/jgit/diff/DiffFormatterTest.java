@@ -321,13 +321,13 @@ public class DiffFormatterTest extends RepositoryTestCase {
 		write(new File(folder, "folder.txt"), "folder change");
 
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
-		DiffFormatter df = new DiffFormatter(new SafeBufferedOutputStream(os));
-		df.setRepository(db);
-		df.setPathFilter(PathFilter.create("folder"));
+		DiffFormatter dfmt = new DiffFormatter(new SafeBufferedOutputStream(os));
+		dfmt.setRepository(db);
+		dfmt.setPathFilter(PathFilter.create("folder"));
 		DirCacheIterator oldTree = new DirCacheIterator(db.readDirCache());
 		FileTreeIterator newTree = new FileTreeIterator(db);
-		df.format(oldTree, newTree);
-		df.flush();
+		dfmt.format(oldTree, newTree);
+		dfmt.flush();
 
 		String actual = os.toString("UTF-8");
 		String expected =
