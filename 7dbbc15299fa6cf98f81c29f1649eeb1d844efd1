@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e76c2f17_591b2aa6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-07-06T16:46:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e76c2f17_03a81f93",
+      "revId": "7dbbc15299fa6cf98f81c29f1649eeb1d844efd1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e76c2f17_839b8f7e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2014-07-04T14:40:08Z",
       "side": 1,
       "message": "Please, DRY. Extract this into a method and call it two times, it\u0027s quite hard to read like this.",
+      "revId": "7dbbc15299fa6cf98f81c29f1649eeb1d844efd1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e76c2f17_9915c271",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-07-06T16:46:56Z",
+      "side": 1,
+      "message": "Nitty-picky.\nDone",
+      "parentUuid": "e76c2f17_839b8f7e",
       "revId": "7dbbc15299fa6cf98f81c29f1649eeb1d844efd1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
