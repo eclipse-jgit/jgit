@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e76c2f17_18d6c5be",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 122
+      },
+      "writtenOn": "2014-07-09T05:58:36Z",
+      "side": 1,
+      "message": "This is more than cgit does. It only checks whether .git/HEAD exists. I\u0027m not saying that I like the cgit behavior better just pointing out that it is different. Both have advantages/disadvantages. I think the main advantage of the cgit approach is performance.",
+      "revId": "dbe43cdd40756ba923776833c7c15ff5cb50b7f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
