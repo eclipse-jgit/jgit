@@ -60,7 +60,7 @@ public class WorkingTreeOptions {
 		}
 	};
 
-	private final boolean fileMode;
+	private boolean fileMode;
 
 	private final AutoCRLF autoCRLF;
 
@@ -107,6 +107,7 @@ public class WorkingTreeOptions {
 	 * @param fs
 	 */
 	public void updateBasedOnFSLameness(final FS fs) {
+		fileMode &= fs.supportsExecute();
 		jgitFSAbstractionCanHandleSymlinks &= fs.supportsSymlinks();
 	}
 
