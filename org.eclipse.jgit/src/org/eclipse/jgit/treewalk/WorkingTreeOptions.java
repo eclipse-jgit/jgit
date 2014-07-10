@@ -49,6 +49,7 @@ import org.eclipse.jgit.lib.Config.SectionParser;
 import org.eclipse.jgit.lib.CoreConfig.AutoCRLF;
 import org.eclipse.jgit.lib.CoreConfig.CheckStat;
 import org.eclipse.jgit.lib.CoreConfig.SymLinks;
+import org.eclipse.jgit.util.FS;
 
 /** Options used by the {@link WorkingTreeIterator}. */
 public class WorkingTreeOptions {
@@ -67,6 +68,20 @@ public class WorkingTreeOptions {
 
 	private final SymLinks symlinks;
 
+	/*
+	 * Unlike the above four vars, jgitFSAbstractionCanHandleSymlinks does not
+	 * come from a core.<varname> setting in the .git/config file. This just
+	 * states whether we (jgit) can handle symlinks.
+	 *
+	 * Odds are high that the system we are running on CAN handle symlinks
+	 * (cygwin, macosx, linux) but we can't (stuck with java6 or
+	 * org.eclipse.jgit.java7 not included). Unless the user has set
+	 * core.symlinks to false (and thus the 'symlinks' aren't actually checked
+	 * out as such), we need to be cautious in what we claim about the status of
+	 * symlinks.
+	 */
+	private boolean jgitFSAbstractionCanHandleSymlinks;
+
 	private WorkingTreeOptions(final Config rc) {
 		fileMode = rc.getBoolean(ConfigConstants.CONFIG_CORE_SECTION,
 				ConfigConstants.CONFIG_KEY_FILEMODE, true);
@@ -76,6 +91,23 @@ public class WorkingTreeOptions {
 				ConfigConstants.CONFIG_KEY_CHECKSTAT, CheckStat.DEFAULT);
 		symlinks = rc.getEnum(ConfigConstants.CONFIG_CORE_SECTION, null,
 				ConfigConstants.CONFIG_KEY_SYMLINKS, SymLinks.TRUE);
+		/* Innocent until proven guilty */
+		jgitFSAbstractionCanHandleSymlinks = true;
+	}
+
+	/**
+	 * If we 'broke' the git spec due to our filesystem abstractions not
+	 * supporting certain features, we need to be careful about what we claim
+	 * relative to files that use those features. Incorrectly reading files due
+	 * to technical limitations of Java6, for example, shouldn't result in users
+	 * being told their files have been modified. This function should be called
+	 * so we can handle technical limitations in jgit's filesystem wrapper with
+	 * appropriate care.
+	 *
+	 * @param fs
+	 */
+	public void updateBasedOnFSLameness(final FS fs) {
+		jgitFSAbstractionCanHandleSymlinks &= fs.supportsSymlinks();
 	}
 
 	/** @return true if the execute bit on working files should be trusted. */
@@ -102,5 +134,24 @@ public class WorkingTreeOptions {
 	 */
 	public SymLinks getSymLinks() {
 		return symlinks;
+	}
+
+	/**
+	 * @return whether jgit cannot correctly handle symlinks
+	 * @since 3.5
+	 */
+	public boolean cannotHandleSymlinksProperly() {
+		/*
+		 * If the FS abstraction can handle symlinks, then we can handle
+		 * symlinks without a problem. Also, if someone set core.symlinks to
+		 * false in .git/config then git/jgit will deal with the symlinks in a
+		 * degraded mode where they are checked out as normal files. In such a
+		 * degraded mode, we can also handle symlinks. But, if the FS
+		 * abstraction cannot handle symlinks and core.symlinks is true (or not
+		 * set and thus defaults to true) then we will be unable to handle
+		 * symlinks appropriately.
+		 */
+		return !jgitFSAbstractionCanHandleSymlinks
+				&& (symlinks == SymLinks.TRUE);
 	}
 }

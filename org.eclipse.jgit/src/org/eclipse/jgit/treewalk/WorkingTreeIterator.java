@@ -851,6 +851,10 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		case EQUAL:
 			return false;
 		case DIFFER_BY_METADATA:
+			if (getOptions().cannotHandleSymlinksProperly()
+					&& entry.getFileMode() == FileMode.SYMLINK) {
+				return false;
+			}
 			if (mode == FileMode.SYMLINK.getBits())
 				return contentCheck(entry, reader);
 			return true;

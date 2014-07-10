@@ -104,6 +104,7 @@ public class FileTreeIterator extends WorkingTreeIterator {
 	 */
 	public FileTreeIterator(final File root, FS fs, WorkingTreeOptions options) {
 		super(options);
+		options.updateBasedOnFSLameness(fs);
 		directory = root;
 		this.fs = fs;
 		init(entries());
