@@ -184,7 +184,7 @@ public class ResolveMergerTest extends RepositoryTestCase {
 		MergeResult mergeRes = git.merge().setStrategy(strategy)
 				.include(masterCommit).call();
 		assertEquals(MergeStatus.MERGED, mergeRes.getMergeStatus());
-		assertEquals("[d/1, mode:100644, content:1master\n2\n3side\n]",
+		assertEquals("[d/1, mode:100644, content:1master\n2\n3side]",
 				indexState(CONTENT));
 	}
 
@@ -561,7 +561,7 @@ public class ResolveMergerTest extends RepositoryTestCase {
 			assertEquals(MergeStrategy.RECURSIVE, strategy);
 			assertEquals(MergeResult.MergeStatus.MERGED,
 					mergeResult.getMergeStatus());
-			assertEquals("1master2\n2\n3side2\n", read("1"));
+			assertEquals("1master2\n2\n3side2", read("1"));
 		} catch (JGitInternalException e) {
 			assertEquals(MergeStrategy.RESOLVE, strategy);
 			assertTrue(e.getCause() instanceof NoMergeBaseException);
@@ -697,7 +697,7 @@ public class ResolveMergerTest extends RepositoryTestCase {
 		assertEquals(
 				"[0, mode:100644, content:master]" //
 						+ "[1, mode:100644, content:side]" //
-						+ "[2, mode:100644, content:1master\n2\n3side\n]" //
+						+ "[2, mode:100644, content:1master\n2\n3side]" //
 						+ "[3, mode:100644, stage:1, content:orig][3, mode:100644, stage:2, content:side][3, mode:100644, stage:3, content:master]" //
 						+ "[4, mode:100644, content:orig]", //
 				indexState(CONTENT));

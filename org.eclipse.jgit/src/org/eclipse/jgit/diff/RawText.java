@@ -135,11 +135,42 @@ public class RawText extends Sequence {
 	 */
 	public void writeLine(final OutputStream out, final int i)
 			throws IOException {
+		writeLine(out, i, true);
+	}
+
+	/**
+	 * Write a specific line to the output stream.
+	 * <p>
+	 * The specified line is copied as-is, with no character encoding
+	 * translation performed.
+	 * 
+	 * @param out
+	 *            stream to copy the line data onto.
+	 * @param i
+	 *            index of the line to extract. Note this is 0-based, so line
+	 *            number 1 is actually index 0.
+	 * @param ignoreNewline
+	 *            If the specified line ends with an LF ('\n'), the LF is
+	 *            <b>not</b> copied. It is up to the caller to write the LF, if
+	 *            desired, between output lines.
+	 * @return true if the last character was an LF; false otherwise.
+	 * @throws IOException
+	 *             the stream write operation failed.
+	 */
+	public boolean writeLine(final OutputStream out, final int i,
+			boolean ignoreNewline) throws IOException {
 		int start = getStart(i);
 		int end = getEnd(i);
-		if (content[end - 1] == '\n')
-			end--;
+		boolean lastNewline = false;
+		if (content[end - 1] == '\n') {
+			if (ignoreNewline) {
+				end--;
+			} else {
+				lastNewline = true;
+			}
+		}
 		out.write(content, start, end - start);
+		return lastNewline;
 	}
 
 	/**

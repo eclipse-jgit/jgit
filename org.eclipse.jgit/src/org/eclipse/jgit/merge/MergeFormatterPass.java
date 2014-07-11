@@ -68,6 +68,8 @@ class MergeFormatterPass {
 		this.charsetName = charsetName;
 	}
 
+	boolean lineBegin = true;
+
 	void formatMerge() throws IOException {
 		String lastConflictingName = null; // is set to non-null whenever we are
 		// in a conflict
@@ -77,13 +79,12 @@ class MergeFormatterPass {
 			if (lastConflictingName != null
 					&& chunk.getConflictState() != ConflictState.NEXT_CONFLICTING_RANGE) {
 				// found the end of an conflict
-				out.write((">>>>>>> " + lastConflictingName + "\n").getBytes(charsetName)); //$NON-NLS-1$ //$NON-NLS-2$
+				writeln(">>>>>>> " + lastConflictingName); //$NON-NLS-1$
 				lastConflictingName = null;
 			}
 			if (chunk.getConflictState() == ConflictState.FIRST_CONFLICTING_RANGE) {
 				// found the start of an conflict
-				out.write(("<<<<<<< " + seqName.get(chunk.getSequenceIndex()) + //$NON-NLS-1$
-				"\n").getBytes(charsetName)); //$NON-NLS-1$
+				writeln("<<<<<<< " + seqName.get(chunk.getSequenceIndex())); //$NON-NLS-1$
 				lastConflictingName = seqName.get(chunk.getSequenceIndex());
 			} else if (chunk.getConflictState() == ConflictState.NEXT_CONFLICTING_RANGE) {
 				// found another conflicting chunk
@@ -96,19 +97,25 @@ class MergeFormatterPass {
 				 * present non-three-way merges - feel free to correct here.
 				 */
 				lastConflictingName = seqName.get(chunk.getSequenceIndex());
-				out.write((threeWayMerge ? "=======\n" : "======= " //$NON-NLS-1$ //$NON-NLS-2$
-						+ lastConflictingName + "\n").getBytes(charsetName)); //$NON-NLS-1$
+				writeln(threeWayMerge ? "=======" : "======= " //$NON-NLS-1$ //$NON-NLS-2$
+						+ lastConflictingName);
 			}
 			// the lines with conflict-metadata are written. Now write the chunk
 			for (int i = chunk.getBegin(); i < chunk.getEnd(); i++) {
-				seq.writeLine(out, i);
-				out.write('\n');
+				lineBegin = seq.writeLine(out, i, false);
 			}
 		}
 		// one possible leftover: if the merge result ended with a conflict we
 		// have to close the last conflict here
 		if (lastConflictingName != null) {
-			out.write((">>>>>>> " + lastConflictingName + "\n").getBytes(charsetName)); //$NON-NLS-1$ //$NON-NLS-2$
+			writeln(">>>>>>> " + lastConflictingName); //$NON-NLS-1$
 		}
+	}
+
+	private void writeln(String s) throws IOException {
+		if (!lineBegin)
+			out.write('\n');
+		out.write((s + "\n").getBytes(charsetName)); //$NON-NLS-1$
+		lineBegin = true;
 	}
 }
