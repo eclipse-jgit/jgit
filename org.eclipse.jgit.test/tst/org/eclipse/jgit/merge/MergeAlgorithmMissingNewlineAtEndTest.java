@@ -46,7 +46,7 @@ package org.eclipse.jgit.merge;
 import org.junit.Ignore;
 
 @Ignore
-public class MergeAlgorithmMissingNewlineAtEndTest extends MergeAlgorithmTest {
+public class MergeAlgorithmMissingNewlineAtEndTest extends MergeAlgorithmTestCase {
 
 	public MergeAlgorithmMissingNewlineAtEndTest() {
 		newlineAtEnd = false;
