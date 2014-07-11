@@ -43,10 +43,31 @@
 
 package org.eclipse.jgit.merge;
 
+import static org.junit.Assert.assertEquals;
+
+import java.io.IOException;
+
+import org.junit.Test;
+
 public class MergeAlgorithmTest extends MergeAlgorithmTestCase {
 
 	public MergeAlgorithmTest() {
 		newlineAtEnd = true;
+	}
+
+	/**
+	 * Test merging two contents which do one similar modification and one
+	 * insertion is only done by one side, at the end. Between modification and
+	 * insertion is a block which is common between the two contents and the
+	 * common base
+	 *
+	 * @throws IOException
+	 */
+	@Test
+	public void testTwoSimilarModsAndOneInsertAtEnd() throws IOException {
+		assertEquals(t("IAAJ"), merge("iA", "IA", "IAAJ"));
+		assertEquals(t("IAJ"), merge("iA", "IA", "IAJ"));
+		assertEquals(t("IAAAJ"), merge("iA", "IA", "IAAAJ"));
 	}
 
 }
