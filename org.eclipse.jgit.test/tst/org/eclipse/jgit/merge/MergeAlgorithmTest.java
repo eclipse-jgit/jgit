@@ -56,6 +56,8 @@ import org.junit.Test;
 public class MergeAlgorithmTest {
 	MergeFormatter fmt=new MergeFormatter();
 
+	boolean newlineAtEnd = true;
+
 	/**
 	 * Check for a conflict where the second text was changed similar to the
 	 * first one, but the second texts modification covers one more line.
@@ -174,7 +176,7 @@ public class MergeAlgorithmTest {
 	}
 
 	@Test
-	public void testSeperateModifications() throws IOException {
+	public void testSeparateModifications() throws IOException {
 		assertEquals(t("aZcYe"), merge("abcde", "aZcde", "abcYe"));
 	}
 
@@ -225,7 +227,7 @@ public class MergeAlgorithmTest {
 		return new String(bo.toByteArray(), Constants.CHARACTER_ENCODING);
 	}
 
-	public static String t(String text) {
+	public String t(String text) {
 		StringBuilder r = new StringBuilder();
 		for (int i = 0; i < text.length(); i++) {
 			char c = text.charAt(i);
@@ -241,13 +243,14 @@ public class MergeAlgorithmTest {
 				break;
 			default:
 				r.append(c);
-				r.append('\n');
+				if (newlineAtEnd || i < text.length() - 1)
+					r.append('\n');
 			}
 		}
 		return r.toString();
 	}
 
-	public static RawText T(String text) {
+	public RawText T(String text) {
 		return new RawText(Constants.encode(t(text)));
 	}
 }
