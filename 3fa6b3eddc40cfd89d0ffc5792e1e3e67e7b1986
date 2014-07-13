@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e76c2f17_6cd9f11e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-07-13T20:15:10Z",
+      "side": 1,
+      "message": "Not sure this behavior in JGit is correct, but nobody has really challenged it. It comes from the fact that Windows programs tend to set the executable \"bit\" (ACL actually) by default, hence we do what C Git does on Windows (or did, haven\u0027t checked for a while).\n\nAs for Cygwin. we don\u0027t seem to have anyone supporting it. The code still hangs around until it becomes a burden.",
+      "revId": "3fa6b3eddc40cfd89d0ffc5792e1e3e67e7b1986",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e76c2f17_8cd60def",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeOptions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-07-13T20:15:10Z",
+      "side": 1,
+      "message": "Only fix FTI/WTI",
+      "range": {
+        "startLine": 110,
+        "startChar": 17,
+        "endLine": 110,
+        "endChar": 32
+      },
+      "revId": "3fa6b3eddc40cfd89d0ffc5792e1e3e67e7b1986",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
