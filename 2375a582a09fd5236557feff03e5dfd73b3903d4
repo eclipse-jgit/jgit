@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e76c2f17_cc0da546",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-07-13T20:06:51Z",
+      "side": 1,
+      "message": "No it doesn\u0027t on my machine. JGit tests the filesystem to see whether it support symlinks or not. Only if the file system does not support symlinks it set core.symlinks to false. \n\nIf that doesn\u0027t work there\u0027s a bug somewhere",
+      "revId": "2375a582a09fd5236557feff03e5dfd73b3903d4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e76c2f17_ec12215e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-07-13T20:06:51Z",
+      "side": 1,
+      "message": "Not so sure about that. Users should use compatible Git implementations/settings now that is possible. I might have agreed prior to symlink support being available.\n\nIf you have symlinks in the file system, don\u0027t bother using JGit with Java6 or missing SeCreateSymlinkPrivilege.\n\nIt\u0027s like trying to work on the Linux kernel on a Mac default file system. It\u0027s not Gits job to fix the issues.",
+      "revId": "2375a582a09fd5236557feff03e5dfd73b3903d4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e76c2f17_cc3485e4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 855,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-07-13T20:06:51Z",
+      "side": 1,
+      "message": "Testing for symlinks in two different ways as you do in the case is confusing. Only do it one way. You may even nest the ifs since both ifs handle symlinks",
+      "revId": "2375a582a09fd5236557feff03e5dfd73b3903d4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e76c2f17_ac2f898f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeOptions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-07-13T20:06:51Z",
+      "side": 1,
+      "message": "org.eclipse.jgit.java7 not included with Java 7 is a configuration error and need not be bothered with. It\u0027s just that we solved the problem this way. That probably has no practical difference though, but it\u0027s not a motive.\n\nDon\u0027t bothere with the strange initialization sequence. Doing the work inside WTI/FTI is enough.",
+      "revId": "2375a582a09fd5236557feff03e5dfd73b3903d4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
