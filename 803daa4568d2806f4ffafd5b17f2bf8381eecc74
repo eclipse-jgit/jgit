@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e76c2f17_cc63e5ba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-07-14T06:08:56Z",
+      "side": 1,
+      "message": "The forgotten git-rerere ;-)",
+      "revId": "803daa4568d2806f4ffafd5b17f2bf8381eecc74",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e76c2f17_6c7d7157",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-07-14T06:08:56Z",
+      "side": 1,
+      "message": "This approach sound sane. Have you discussed changing C Git to match?",
+      "revId": "803daa4568d2806f4ffafd5b17f2bf8381eecc74",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e76c2f17_ac5e69f4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-07-14T06:08:56Z",
+      "side": 1,
+      "message": "nit-pick: An empty line would be nice here or break out the \"else\" into a method too",
+      "revId": "803daa4568d2806f4ffafd5b17f2bf8381eecc74",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e76c2f17_0c6e7da3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 544,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-07-14T06:08:56Z",
+      "side": 1,
+      "message": "Capitalize If",
+      "revId": "803daa4568d2806f4ffafd5b17f2bf8381eecc74",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e76c2f17_ec686197",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-07-14T06:08:56Z",
+      "side": 1,
+      "message": "Metioning the difference to C Git might be worthwhile here (too).",
+      "revId": "803daa4568d2806f4ffafd5b17f2bf8381eecc74",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
