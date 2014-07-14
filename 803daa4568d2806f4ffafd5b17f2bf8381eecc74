@@ -36,6 +36,23 @@
     },
     {
       "key": {
+        "uuid": "e76c2f17_2c5a59fe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-07-14T06:09:41Z",
+      "side": 1,
+      "message": "mention the bugzilla issue you opened",
+      "revId": "803daa4568d2806f4ffafd5b17f2bf8381eecc74",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e76c2f17_ac5e69f4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
         "patchSetId": 1
