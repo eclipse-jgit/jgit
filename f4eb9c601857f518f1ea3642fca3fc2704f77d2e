@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e76c2f17_d29b7e7d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 2957
+      },
+      "writtenOn": "2014-07-14T18:03:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e76c2f17_ec8d010b",
+      "revId": "f4eb9c601857f518f1ea3642fca3fc2704f77d2e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e76c2f17_4c707581",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickCommand.java",
         "patchSetId": 4
@@ -36,6 +54,24 @@
         "endLine": 317,
         "endChar": 72
       },
+      "revId": "f4eb9c601857f518f1ea3642fca3fc2704f77d2e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e76c2f17_b296c253",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 2957
+      },
+      "writtenOn": "2014-07-14T18:03:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e76c2f17_4c707581",
       "revId": "f4eb9c601857f518f1ea3642fca3fc2704f77d2e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
