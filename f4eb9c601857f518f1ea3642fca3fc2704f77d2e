@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e76c2f17_ec8d010b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-07-14T05:49:26Z",
+      "side": 1,
+      "message": "nit-pick: I think it reads better without the comma before if.",
+      "revId": "f4eb9c601857f518f1ea3642fca3fc2704f77d2e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e76c2f17_4c707581",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-07-14T05:49:26Z",
+      "side": 1,
+      "message": "I think you can shorten this to avoid confusion. What happens to the index and working copy is not changed using this option and therefore should not be documented here.",
+      "range": {
+        "startLine": 317,
+        "startChar": 65,
+        "endLine": 317,
+        "endChar": 72
+      },
+      "revId": "f4eb9c601857f518f1ea3642fca3fc2704f77d2e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
