@@ -254,17 +254,17 @@ public class RecursiveMerger extends ResolveMerger {
 	 */
 	private DirCache dircacheFromTree(ObjectId treeId) throws IOException {
 		DirCache ret = DirCache.newInCore();
-		DirCacheBuilder builder = ret.builder();
-		TreeWalk tw = new TreeWalk(db);
-		tw.addTree(treeId);
-		tw.setRecursive(true);
-		while (tw.next()) {
-			DirCacheEntry e = new DirCacheEntry(tw.getRawPath());
-			e.setFileMode(tw.getFileMode(0));
-			e.setObjectId(tw.getObjectId(0));
-			builder.add(e);
+		DirCacheBuilder aBuilder = ret.builder();
+		TreeWalk atw = new TreeWalk(db);
+		atw.addTree(treeId);
+		atw.setRecursive(true);
+		while (atw.next()) {
+			DirCacheEntry e = new DirCacheEntry(atw.getRawPath());
+			e.setFileMode(atw.getFileMode(0));
+			e.setObjectId(atw.getObjectId(0));
+			aBuilder.add(e);
 		}
-		builder.finish();
+		aBuilder.finish();
 		return ret;
 	}
 }

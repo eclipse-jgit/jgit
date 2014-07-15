@@ -591,26 +591,26 @@ public class RepoCommand extends GitCommand<RevCommit> {
 				Config cfg = new Config();
 				for (Project proj : bareProjects) {
 					String name = proj.path;
-					String uri = proj.name;
+					String nameUri = proj.name;
 					cfg.setString("submodule", name, "path", name); //$NON-NLS-1$ //$NON-NLS-2$
-					cfg.setString("submodule", name, "url", uri); //$NON-NLS-1$ //$NON-NLS-2$
+					cfg.setString("submodule", name, "url", nameUri); //$NON-NLS-1$ //$NON-NLS-2$
 					// create gitlink
 					DirCacheEntry dcEntry = new DirCacheEntry(name);
 					ObjectId objectId;
 					if (ObjectId.isId(proj.revision))
 						objectId = ObjectId.fromString(proj.revision);
 					else {
-						objectId = callback.sha1(uri, proj.revision);
+						objectId = callback.sha1(nameUri, proj.revision);
 					}
 					if (objectId == null)
-						throw new RemoteUnavailableException(uri);
+						throw new RemoteUnavailableException(nameUri);
 					dcEntry.setObjectId(objectId);
 					dcEntry.setFileMode(FileMode.GITLINK);
 					builder.add(dcEntry);
 
 					for (CopyFile copyfile : proj.copyfiles) {
 						byte[] src = callback.readFile(
-								uri, proj.revision, copyfile.src);
+								nameUri, proj.revision, copyfile.src);
 						objectId = inserter.insert(Constants.OBJ_BLOB, src);
 						dcEntry = new DirCacheEntry(copyfile.dest);
 						dcEntry.setObjectId(objectId);
