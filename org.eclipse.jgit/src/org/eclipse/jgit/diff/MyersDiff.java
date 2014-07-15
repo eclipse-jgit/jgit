@@ -109,6 +109,7 @@ import org.eclipse.jgit.util.LongList;
  * @param <S>
  *            type of sequence.
  */
+@SuppressWarnings("hiding")
 public class MyersDiff<S extends Sequence> {
 	/** Singleton instance of MyersDiff. */
 	public static final DiffAlgorithm INSTANCE = new LowLevelDiffAlgorithm() {
