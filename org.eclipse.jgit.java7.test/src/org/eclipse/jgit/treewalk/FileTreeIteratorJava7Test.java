@@ -152,7 +152,8 @@ public class FileTreeIteratorJava7Test extends RepositoryTestCase {
 		assertEquals("link", dci.getEntryPathString());
 
 		// test
-		assertFalse(fti.isModified(dci.getDirCacheEntry(), true));
+		assertFalse(fti.isModified(dci.getDirCacheEntry(), true,
+				db.newObjectReader()));
 	}
 
 	/**
