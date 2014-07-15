@@ -198,6 +198,7 @@ public class PlotCommit<L extends PlotLane> extends RevCommit {
 	 *
 	 * @return the assigned lane for this commit.
 	 */
+	@SuppressWarnings("unchecked")
 	public final L getLane() {
 		return (L) lane;
 	}

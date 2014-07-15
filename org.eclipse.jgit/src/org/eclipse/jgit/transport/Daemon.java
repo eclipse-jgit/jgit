@@ -103,6 +103,7 @@ public class Daemon {
 	 *            address to listen for connections on. If null, any available
 	 *            port will be chosen on all network interfaces.
 	 */
+	@SuppressWarnings("unchecked")
 	public Daemon(final InetSocketAddress addr) {
 		myAddress = addr;
 		processors = new ThreadGroup("Git-Daemon"); //$NON-NLS-1$
