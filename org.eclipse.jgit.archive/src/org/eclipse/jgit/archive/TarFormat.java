@@ -87,11 +87,11 @@ public final class TarFormat implements ArchiveCommand.Format<ArchiveOutputStrea
 
 		// TarArchiveEntry detects directories by checking
 		// for '/' at the end of the filename.
-		if (path.endsWith("/") && mode != FileMode.TREE)
+		if (path.endsWith("/") && mode != FileMode.TREE) //$NON-NLS-1$
 			throw new IllegalArgumentException(MessageFormat.format(
 					ArchiveText.get().pathDoesNotMatchMode, path, mode));
-		if (!path.endsWith("/") && mode == FileMode.TREE)
-			path = path + "/";
+		if (!path.endsWith("/") && mode == FileMode.TREE) //$NON-NLS-1$
+			path = path + "/"; //$NON-NLS-1$
 
 		final TarArchiveEntry entry = new TarArchiveEntry(path);
 		if (mode == FileMode.TREE) {

@@ -368,7 +368,7 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 						mode = FileMode.TREE;
 
 					if (mode == FileMode.TREE) {
-						fmt.putEntry(outa, name + "/", mode, null);
+						fmt.putEntry(outa, name + "/", mode, null); //$NON-NLS-1$
 						continue;
 					}
 					walk.getObjectId(idBuf, 0);
