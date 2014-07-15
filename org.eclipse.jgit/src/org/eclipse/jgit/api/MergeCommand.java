@@ -480,35 +480,35 @@ public class MergeCommand extends GitCommand<MergeResult> {
 	}
 
 	/**
-	 * @param commit
+	 * @param aCommit
 	 *            a reference to a commit which is merged with the current head
 	 * @return {@code this}
 	 */
-	public MergeCommand include(Ref commit) {
+	public MergeCommand include(Ref aCommit) {
 		checkCallable();
-		commits.add(commit);
+		commits.add(aCommit);
 		return this;
 	}
 
 	/**
-	 * @param commit
+	 * @param aCommit
 	 *            the Id of a commit which is merged with the current head
 	 * @return {@code this}
 	 */
-	public MergeCommand include(AnyObjectId commit) {
-		return include(commit.getName(), commit);
+	public MergeCommand include(AnyObjectId aCommit) {
+		return include(aCommit.getName(), aCommit);
 	}
 
 	/**
 	 * @param name
 	 *            a name given to the commit
-	 * @param commit
+	 * @param aCommit
 	 *            the Id of a commit which is merged with the current head
 	 * @return {@code this}
 	 */
-	public MergeCommand include(String name, AnyObjectId commit) {
+	public MergeCommand include(String name, AnyObjectId aCommit) {
 		return include(new ObjectIdRef.Unpeeled(Storage.LOOSE, name,
-				commit.copy()));
+				aCommit.copy()));
 	}
 
 	/**
