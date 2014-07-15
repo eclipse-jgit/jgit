@@ -82,6 +82,7 @@ class GlobalBundleCache {
 	 * @exception TranslationBundleLoadingException see {@link TranslationBundle#load(Locale)}
 	 * @exception TranslationStringMissingException see {@link TranslationBundle#load(Locale)}
 	 */
+	@SuppressWarnings("unchecked")
 	static synchronized <T extends TranslationBundle> T lookupBundle(Locale locale, Class<T> type) {
 		try {
 			Map<Class, TranslationBundle> bundles = cachedBundles.get(locale);
