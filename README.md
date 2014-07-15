@@ -6,18 +6,38 @@ An implementation of the Git version control system in pure Java.
 This package is licensed under the EDL (Eclipse Distribution
 License).
 
+JGit can be imported straight into Eclipse, built and tested from
+there, but the automated builds use Maven.
+
 - org.eclipse.jgit
 
     A pure Java library capable of being run standalone, with no
     additional support libraries. It provides classes to read and
     write a Git repository and operate on a working directory.
 
-    All portions of jgit are covered by the EDL. Absolutely no GPL,
+    All portions of JGit are covered by the EDL. Absolutely no GPL,
     LGPL or EPL contributions are accepted within this package.
+
+- org.eclipse.jgit.java7
+
+    Extensions for users of Java 7.
 
 - org.eclipse.jgit.ant
 
     Ant tasks based on JGit.
+
+- org.eclipse.jgit.archive
+
+    Support for exporting to various archive formats (zip etc).
+
+- org.eclipse.jgit.console
+
+    Support for reading passwords from the console without
+    echoing them. Requires Java 6.
+
+- org.eclipse.jgit.http.apache
+
+    Apache httpclient support
 
 - org.eclipse.jgit.http.server
 
@@ -28,19 +48,44 @@ License).
     Command-line interface Git commands implemented using JGit
     ("pgm" stands for program).
 
+- org.eclipse.jgit.packaging
+
+    Production of Eclipse features and p2 repository for JGit. See the JGit
+    Wiki on why and how to use this module.
+
+Tests
+-----
+
+- org.eclipse.jgit.junit
+
+    Helpers for unit testing
+
 - org.eclipse.jgit.test
 
-    Unit tests for org.eclipse.jgit and the same licensing rules.
+    Unit tests for org.eclipse.jgit
 
+- org.eclipse.jgit.java7.test
+
+    Unit tests for Java 7 specific features
+
+- org.eclipse.jgit.ant.test
+- org.eclipse.jgit.pgm.test
+- org.eclipse.jgit.http.test
+- org.eclipse.jgit.junit.test
+
+    No further description needed
 
 Warnings/Caveats
 ----------------
 
-- Symbolic links are not supported because java does not support it.
-  Such links could be damaged.
+- Native smbolic links are supported, but only if you are using Java 7
+  or newer and include the org.eclipse.jgit.java7 jar/bundle in the
+  classpath, provided the file system supports them. For Windows you
+  must have Windows Vista/Windows 2008 or newer, use a
+  non-administrator account and have the SeCreateSymbolicLinkPrivilege.
 
-- Only the timestamp of the index is used by jgit check if  the index
-  is dirty.
+- Only the timestamp of the index is used by jgit if the index is
+  dirty.
 
 - Don't try the library with a JDK other than 1.6 (Java 6) unless you
   are prepared to investigate problems yourself. JDK 1.5.0_11 and later
@@ -59,12 +104,12 @@ Warnings/Caveats
   Git is installed. Make sure Git can be found via the PATH
   environment variable. When installing Git for Windows check the "Run
   Git from the Windows Command Prompt" option. There are other options
-  like the jgit.gitprefix system propety or Eclipse settings that can
+  like the jgit.gitprefix system property or Eclipse settings that can
   be used for pointing out where C Git is installed. Modifying PATH is
   the recommended option if C Git is installed.
 
 - We try to use the same notation of $HOME as C Git does. On Windows
-  this is often not same value as the user.home system property.
+  this is often not the same value as the user.home system property.
 
 
 Package Features
@@ -105,11 +150,40 @@ Package Features
       Push via ssh, git and Amazon S3. JGit does not yet deltify
       the pushed packs so they may be a lot larger than C Git packs.
 
+    * Garbage collection
+
+    * Merge
+
+    * Rebase
+
+    * And much more
+
 - org.eclipse.jgit.pgm/
 
     * Assorted set of command line utilities. Mostly for ad-hoc testing of jgit
       log, glog, fetch etc.
 
+- org.eclipse.jgit.java7/
+
+    * Support for symbolic links.
+
+    * Optimizations for reading file system attributes
+
+- org.eclipse.jgit.ant/
+
+    * Ant tasks
+
+- org.eclipse.jgit.archive/
+
+    * Support for Zip/Tar and other formats
+
+- org.eclipse.jgit.console/
+
+    * Reads passwords from the console
+
+- org.eclipse.http.*/
+
+    * HTTP client and server support
 
 Missing Features
 ----------------
