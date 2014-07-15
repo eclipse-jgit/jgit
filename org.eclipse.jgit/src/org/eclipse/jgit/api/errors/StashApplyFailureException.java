@@ -7,6 +7,8 @@ import org.eclipse.jgit.api.errors.GitAPIException;
  */
 public class StashApplyFailureException extends GitAPIException {
 
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * Create a StashApplyFailedException
 	 *
