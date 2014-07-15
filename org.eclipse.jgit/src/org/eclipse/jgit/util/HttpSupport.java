@@ -170,7 +170,7 @@ public class HttpSupport {
 			final String host = c.getURL().getHost();
 			// The standard J2SE error message is not very useful.
 			//
-			if ("Connection timed out: connect".equals(ce.getMessage()))
+			if ("Connection timed out: connect".equals(ce.getMessage())) //$NON-NLS-1$
 				throw new ConnectException(MessageFormat.format(JGitText.get().connectionTimeOut, host));
 			throw new ConnectException(ce.getMessage() + " " + host); //$NON-NLS-1$
 		}
@@ -197,7 +197,7 @@ public class HttpSupport {
 			final String host = c.getURL().getHost();
 			// The standard J2SE error message is not very useful.
 			//
-			if ("Connection timed out: connect".equals(ce.getMessage()))
+			if ("Connection timed out: connect".equals(ce.getMessage())) //$NON-NLS-1$
 				throw new ConnectException(MessageFormat.format(
 						JGitText.get().connectionTimeOut, host));
 			throw new ConnectException(ce.getMessage() + " " + host); //$NON-NLS-1$
