@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e76c2f17_07792be7",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RevertCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-07-17T21:40:29Z",
+      "side": 1,
+      "message": "Could you also add a test to assert the state when the second revert fails",
+      "revId": "c14a2a25e93fc6ceb098b4d8e37dd64169610f78",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
