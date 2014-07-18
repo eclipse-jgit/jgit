@@ -229,6 +229,11 @@ public abstract class JGitTestUtil {
 		return read(file);
 	}
 
+	public static boolean check(final Repository db, final String name) {
+		File file = new File(db.getWorkTree(), name);
+		return file.exists();
+	}
+
 	public static void deleteTrashFile(final Repository db,
 			final String name) throws IOException {
 		File path = new File(db.getWorkTree(), name);
