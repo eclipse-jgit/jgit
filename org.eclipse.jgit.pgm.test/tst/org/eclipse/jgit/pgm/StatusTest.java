@@ -63,16 +63,16 @@ public class StatusTest extends CLIRepositoryTestCase {
 		writeTrashFile("untracked", "untracked");
 		// Test untracked
 		assertArrayOfLinesEquals(new String[] { // git status output
-						"# On branch master", //
-						"# Untracked files:", //
-						"# ",//
-						"# \tstagedDeleted", //
-						"# \tstagedModified", //
-						"# \tstagedNew", //
-						"# \ttracked", //
-						"# \ttrackedDeleted", //
-						"# \ttrackedModified", //
-						"# \tuntracked", //
+				"On branch master", //
+						"Untracked files:", //
+						"",//
+						"\tstagedDeleted", //
+						"\tstagedModified", //
+						"\tstagedNew", //
+						"\ttracked", //
+						"\ttrackedDeleted", //
+						"\ttrackedModified", //
+						"\tuntracked", //
 						"" //
 				}, execute("git status")); //
 		// Add to index
@@ -83,30 +83,30 @@ public class StatusTest extends CLIRepositoryTestCase {
 		git.add().addFilepattern("trackedDeleted").call();
 		// Test staged count
 		assertArrayOfLinesEquals(new String[] { // git status output
-						"# On branch master", //
-						"# Changes to be committed:", //
-						"# ", //
-						"# \tnew file:   stagedDeleted", //
-						"# \tnew file:   stagedModified", //
-						"# \tnew file:   tracked", //
-						"# \tnew file:   trackedDeleted", //
-						"# \tnew file:   trackedModified", //
-						"# ", //
-						"# Untracked files:", //
-						"# ", //
-						"# \tstagedNew", //
-						"# \tuntracked", //
+				"On branch master", //
+						"Changes to be committed:", //
+						"", //
+						"\tnew file:   stagedDeleted", //
+						"\tnew file:   stagedModified", //
+						"\tnew file:   tracked", //
+						"\tnew file:   trackedDeleted", //
+						"\tnew file:   trackedModified", //
+						"", //
+						"Untracked files:", //
+						"", //
+						"\tstagedNew", //
+						"\tuntracked", //
 						"" //
 				}, execute("git status")); //
 		// Commit
 		git.commit().setMessage("initial commit")
 				.call();
 		assertArrayOfLinesEquals(new String[] { // git status output
-						"# On branch master", //
-						"# Untracked files:", //
-						"# ", //
-						"# \tstagedNew", //
-						"# \tuntracked", //
+				"On branch master", //
+						"Untracked files:", //
+						"", //
+						"\tstagedNew", //
+						"\tuntracked", //
 						"" //
 				}, execute("git status")); //
 		// Make some changes and stage them
@@ -119,21 +119,21 @@ public class StatusTest extends CLIRepositoryTestCase {
 		git.add().addFilepattern("stagedNew").call();
 		// Test staged/not-staged status
 		assertArrayOfLinesEquals(new String[] { // git status output
-						"# On branch master", //
-						"# Changes to be committed:", //
-						"# ", //
-						"# \tdeleted:    stagedDeleted", //
-						"# \tmodified:   stagedModified", //
-						"# \tnew file:   stagedNew", //
-						"# ", //
-						"# Changes not staged for commit:", //
-						"# ", //
-						"# \tdeleted:    trackedDeleted", //
-						"# \tmodified:   trackedModified", //
-						"# ", //
-						"# Untracked files:", //
-						"# ", //
-						"# \tuntracked", //
+				"On branch master", //
+						"Changes to be committed:", //
+						"", //
+						"\tdeleted:    stagedDeleted", //
+						"\tmodified:   stagedModified", //
+						"\tnew file:   stagedNew", //
+						"", //
+						"Changes not staged for commit:", //
+						"", //
+						"\tdeleted:    trackedDeleted", //
+						"\tmodified:   trackedModified", //
+						"", //
+						"Untracked files:", //
+						"", //
+						"\tuntracked", //
 						"" //
 				}, execute("git status")); //
 		// Create unmerged file
@@ -144,20 +144,20 @@ public class StatusTest extends CLIRepositoryTestCase {
 		git.rm().addFilepattern("trackedDeleted").call();
 		git.commit().setMessage("commit before branching").call();
 		assertArrayOfLinesEquals(new String[] { // git status output
-						"# On branch master", //
-						"# Untracked files:", //
-						"# ", //
-						"# \tuntracked", //
+				"On branch master", //
+						"Untracked files:", //
+						"", //
+						"\tuntracked", //
 						"" //
 				}, execute("git status")); //
 		// Checkout new branch
 		git.checkout().setCreateBranch(true).setName("test").call();
 		// Test branch status
 		assertArrayOfLinesEquals(new String[] { // git status output
-						"# On branch test", //
-						"# Untracked files:", //
-						"# ", //
-						"# \tuntracked", //
+				"On branch test", //
+						"Untracked files:", //
+						"", //
+						"\tuntracked", //
 						"" //
 				}, execute("git status")); //
 		// Commit change and checkout master again
@@ -166,10 +166,10 @@ public class StatusTest extends CLIRepositoryTestCase {
 		RevCommit testBranch = git.commit()
 				.setMessage("changed unmerged in test branch").call();
 		assertArrayOfLinesEquals(new String[] { // git status output
-						"# On branch test", //
-						"# Untracked files:", //
-						"# ", //
-						"# \tuntracked", //
+				"On branch test", //
+						"Untracked files:", //
+						"", //
+						"\tuntracked", //
 						"" //
 				}, execute("git status")); //
 		git.checkout().setName("master").call();
@@ -178,38 +178,38 @@ public class StatusTest extends CLIRepositoryTestCase {
 		git.add().addFilepattern("unmerged").call();
 		git.commit().setMessage("changed unmerged in master branch").call();
 		assertArrayOfLinesEquals(new String[] { // git status output
-						"# On branch master", //
-						"# Untracked files:", //
-						"# ", //
-						"# \tuntracked", //
+				"On branch master", //
+						"Untracked files:", //
+						"", //
+						"\tuntracked", //
 						"" //
 				}, execute("git status")); //
 		// Merge test branch into master
 		git.merge().include(testBranch.getId()).call();
 		// Test unmerged status
 		assertArrayOfLinesEquals(new String[] { // git status output
-						"# On branch master", //
-						"# Unmerged paths:", //
-						"# ", //
-						"# \tboth modified:      unmerged", //
-						"# ", //
-						"# Untracked files:", //
-						"# ", //
-						"# \tuntracked", //
+				"On branch master", //
+						"Unmerged paths:", //
+						"", //
+						"\tboth modified:      unmerged", //
+						"", //
+						"Untracked files:", //
+						"", //
+						"\tuntracked", //
 						"" //
 				}, execute("git status")); //
 		// Test detached head
 		String commitId = db.getRef(Constants.MASTER).getObjectId().name();
 		git.checkout().setName(commitId).call();
 		assertArrayOfLinesEquals(new String[] { // git status output
-						"# Not currently on any branch.", //
-						"# Unmerged paths:", //
-						"# ", //
-						"# \tboth modified:      unmerged", //
-						"# ", //
-						"# Untracked files:", //
-						"# ", //
-						"# \tuntracked", //
+				"Not currently on any branch.", //
+						"Unmerged paths:", //
+						"", //
+						"\tboth modified:      unmerged", //
+						"", //
+						"Untracked files:", //
+						"", //
+						"\tuntracked", //
 						"" //
 				}, execute("git status")); //
 	}
