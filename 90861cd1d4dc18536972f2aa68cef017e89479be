@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e76c2f17_c240be0a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-07-19T12:03:16Z",
+      "side": 1,
+      "message": "Ouch, I\u0027m allergic to the word \"fix\", even worse in a very short summary.\n\nMaybe: \nFix problem in RecursiveMerge due to internal use of merge\nOr:",
+      "revId": "90861cd1d4dc18536972f2aa68cef017e89479be",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e76c2f17_22c37205",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-07-19T12:03:16Z",
+      "side": 1,
+      "message": "successful\nleft-over",
+      "revId": "90861cd1d4dc18536972f2aa68cef017e89479be",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
