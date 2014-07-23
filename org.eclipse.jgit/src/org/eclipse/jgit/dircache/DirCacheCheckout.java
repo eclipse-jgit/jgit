@@ -110,6 +110,8 @@ public class DirCacheCheckout {
 
 	private ArrayList<String> toBeDeleted = new ArrayList<String>();
 
+	private boolean emptyDirCache;
+
 	/**
 	 * @return a list of updated paths and objectIds
 	 */
@@ -168,6 +170,7 @@ public class DirCacheCheckout {
 		this.headCommitTree = headCommitTree;
 		this.mergeCommitTree = mergeCommitTree;
 		this.workingTree = workingTree;
+		this.emptyDirCache = (dc == null) || (dc.getEntryCount() == 0);
 	}
 
 	/**
@@ -716,7 +719,8 @@ public class DirCacheCheckout {
 			 * 	        0 nothing    nothing  nothing        (does not happen)
 			 * 	        1 nothing    nothing  exists         use M
 			 * 	        2 nothing    exists   nothing        remove path from index
-			 * 	        3 nothing    exists   exists   yes   keep index
+			 * 	        3 nothing    exists   exists   yes   keep index if not in initial checkout
+			 *                                               , otherwise use M
 			 * 	          nothing    exists   exists   no    fail
 			 * </pre>
 			 */
@@ -744,7 +748,10 @@ public class DirCacheCheckout {
 				// called before). Ignore the cached deletion and use what we
 				// find in Merge. Potentially updates the file.
 				if (equalIdAndMode(hId, hMode, mId, mMode))
-					keep(dce);
+					if (emptyDirCache)
+						update(name, mId, mMode);
+					else
+						keep(dce);
 				else
 					conflict(name, dce, h, m);
 			}
