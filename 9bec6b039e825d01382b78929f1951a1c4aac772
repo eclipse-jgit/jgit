@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "c7672b30_e378b138",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/HistogramDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-07-25T16:33:58Z",
+      "side": 1,
+      "message": "Pushing/popping from the front of an ArrayList is O(N^2) time. That may be a lot worse than the memory impact of LinkedList given how often we run the push+pop steps.\n\nIf you think LinkedList is too costly here it may be better to write our own little queue type.",
+      "parentUuid": "c7672b30_a36fd972",
+      "revId": "9bec6b039e825d01382b78929f1951a1c4aac772",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7672b30_a3e23990",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/HistogramDiff.java",
         "patchSetId": 1
