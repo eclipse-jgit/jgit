@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "c7672b30_2383c9a7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/HistogramDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2014-07-25T16:34:58Z",
+      "side": 1,
+      "message": "Right, that\u0027s why I said push/pop from the back in O(1) time :)",
+      "parentUuid": "c7672b30_e378b138",
+      "revId": "9bec6b039e825d01382b78929f1951a1c4aac772",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7672b30_a3e23990",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/HistogramDiff.java",
         "patchSetId": 1
