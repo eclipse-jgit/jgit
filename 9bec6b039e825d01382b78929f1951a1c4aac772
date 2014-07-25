@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "c7672b30_a36fd972",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/HistogramDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2014-07-25T16:31:49Z",
+      "side": 1,
+      "message": "True, forgot about that, it\u0027s been so long :)\n\nYou can still do this with an ArrayList by pushing/popping from the end instead of the beginning. You need to reverse tmp to maintain the same ordering but it\u0027s small enough to not matter.",
+      "parentUuid": "c7672b30_e32d514a",
+      "revId": "9bec6b039e825d01382b78929f1951a1c4aac772",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7672b30_a3e23990",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/HistogramDiff.java",
         "patchSetId": 1
