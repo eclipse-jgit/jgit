@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7672b30_a3c199cb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/HistogramDiff.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-07-25T16:57:26Z",
+      "side": 1,
+      "message": "This is the test failure. We add a recursion to held, then an edit to edits. Then \"recurse\" on held. The edit that comes out of that recursion is sorted too late in edits, resulting in a test failure from testEdit_DuplicateAButCommonUniqueInB.",
+      "range": {
+        "startLine": 206,
+        "startChar": 0,
+        "endLine": 209,
+        "endChar": 17
+      },
+      "revId": "96d51de88be545d34bcded9e041dc5e13d7bb779",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
