@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7672b30_83e73da1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/HistogramDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2014-07-25T15:52:18Z",
+      "side": 1,
+      "message": "Don\u0027t LinkedLists have high allocation costs and memory overhead? Would an ArrayDeque make more sense?",
+      "revId": "9bec6b039e825d01382b78929f1951a1c4aac772",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_a3e23990",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/HistogramDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2014-07-25T15:52:18Z",
+      "side": 1,
+      "message": "Do you want to clear tmp here too?",
+      "revId": "9bec6b039e825d01382b78929f1951a1c4aac772",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
