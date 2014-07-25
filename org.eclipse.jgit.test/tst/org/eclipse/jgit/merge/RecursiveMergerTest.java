@@ -345,6 +345,89 @@ public class RecursiveMergerTest extends RepositoryTestCase {
 
 	@Theory
 	/**
+	 * Merging m2,s2 from the following topology. m1 and s1 are not mergeable
+	 * without conflicts. The same file is modified in both branches. The
+	 * modifications should be mergeable but only if the merge result of
+	 * merging m1 and s1 is choosen as parent (including the conflict markers).
+	 *
+	 * <pre>
+	 * m0--m1--m2
+	 *   \   \/
+	 *    \  /\
+	 *     s1--s2
+	 * </pre>
+	 */
+	public void crissCrossMerge_ParentsNotMergeable(MergeStrategy strategy,
+			IndexState indexState, WorktreeState worktreeState)
+			throws Exception {
+		if (!validateStates(indexState, worktreeState))
+			return;
+
+		BranchBuilder master = db_t.branch("master");
+		RevCommit m0 = master.commit().add("f", "1\n2\n3\n").message("m0")
+				.create();
+		RevCommit m1 = master.commit().add("f", "1\nx(master)\n2\n3\n")
+				.message("m1").create();
+		db_t.getRevWalk().parseCommit(m1);
+
+		BranchBuilder side = db_t.branch("side");
+		RevCommit s1 = side.commit().parent(m0)
+				.add("f", "1\nx(side)\n2\n3\ny(side)\n")
+				.message("s1").create();
+		RevCommit s2 = side.commit().parent(m1)
+				.add("f", "1\nx(side)\n2\n3\ny(side-again)\n")
+				.message("s2(merge)")
+				.create();
+		RevCommit m2 = master.commit().parent(s1)
+				.add("f", "1\nx(side)\n2\n3\ny(side)\n").message("m2(merge)")
+				.create();
+
+		Git git = Git.wrap(db);
+		git.checkout().setName("master").call();
+		modifyWorktree(worktreeState, "f", "side");
+		modifyIndex(indexState, "f", "side");
+
+		ResolveMerger merger = (ResolveMerger) strategy.newMerger(db,
+				worktreeState == WorktreeState.Bare);
+		if (worktreeState != WorktreeState.Bare)
+			merger.setWorkingTreeIterator(new FileTreeIterator(db));
+		try {
+			boolean expectSuccess = true;
+			if (!(indexState == IndexState.Bare
+					|| indexState == IndexState.Missing || indexState == IndexState.SameAsHead))
+				// index is dirty
+				expectSuccess = false;
+			else if (worktreeState == WorktreeState.DifferentFromHeadAndOther
+					|| worktreeState == WorktreeState.SameAsOther)
+				expectSuccess = false;
+			assertEquals("Merge didn't return as expected: strategy:"
+					+ strategy.getName() + ", indexState:" + indexState
+					+ ", worktreeState:" + worktreeState + " . ",
+					Boolean.valueOf(expectSuccess),
+					Boolean.valueOf(merger.merge(new RevCommit[] { m2, s2 })));
+			assertEquals(MergeStrategy.RECURSIVE, strategy);
+			if (!expectSuccess)
+				// if the merge was not successful skip testing the state of
+				// index and workingtree
+				return;
+			assertEquals("1\nx(side)\n2\n3\ny(side-again)",
+					contentAsString(db, merger.getResultTreeId(), "f"));
+			if (indexState != IndexState.Bare)
+				assertEquals(
+						"[f, mode:100644, content:1\nx(side)\n2\n3\ny(side-again)\n]",
+						indexState(RepositoryTestCase.CONTENT));
+			if (worktreeState != WorktreeState.Bare
+					&& worktreeState != WorktreeState.Missing)
+				assertEquals("1\nx(side)\n2\n3\ny(side-again)\n", read("f"));
+		} catch (NoMergeBaseException e) {
+			assertEquals(MergeStrategy.RESOLVE, strategy);
+			assertEquals(e.getReason(),
+					MergeBaseFailureReason.MULTIPLE_MERGE_BASES_NOT_SUPPORTED);
+		}
+	}
+
+	@Theory
+	/**
 	 * Merging m2,s2 from the following topology. The same file is modified
 	 * in both branches. The modifications should be mergeable but only if the automerge of m1 and s1
 	 * is choosen as parent. On both branches delete and modify files untouched on the other branch.

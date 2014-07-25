@@ -161,4 +161,16 @@ public class MergeResult<S extends Sequence> implements Iterable<MergeChunk> {
 	public boolean containsConflicts() {
 		return containsConflicts;
 	}
+
+	/**
+	 * Sets explicitly whether this merge should be seen as containing a
+	 * conflict or not. Needed because during RecursiveMerger we want to do
+	 * content-merges and take the resulting content (even with conflict
+	 * markers!) as new conflict-free content
+	 *
+	 * @param containsConflicts
+	 */
+	protected void setContainsConflicts(boolean containsConflicts) {
+		this.containsConflicts = containsConflicts;
+	}
 }

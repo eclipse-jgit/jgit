@@ -196,8 +196,7 @@ public class RecursiveMerger extends ResolveMerger {
 				if (mergeTrees(
 						openTree(getBaseCommit(currentBase, nextBase,
 								callDepth + 1).getTree()),
-						currentBase.getTree(),
-						nextBase.getTree()))
+						currentBase.getTree(), nextBase.getTree(), true))
 					currentBase = createCommitForTree(resultTree, parents);
 				else
 					throw new NoMergeBaseException(
