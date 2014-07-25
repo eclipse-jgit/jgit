@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "c7672b30_634ca11d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/HistogramDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-07-25T16:36:09Z",
+      "side": 1,
+      "message": "Oh, I missed the \"from the back\" part of your comment. Need more coffee. :)",
+      "parentUuid": "c7672b30_2383c9a7",
+      "revId": "9bec6b039e825d01382b78929f1951a1c4aac772",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7672b30_a3e23990",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/HistogramDiff.java",
         "patchSetId": 1
