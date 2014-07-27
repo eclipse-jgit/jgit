@@ -269,6 +269,28 @@ public class DiffEntryTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void shouldNotListMoreEntriesAsRequested() throws Exception {
+		// given
+		Git git = new Git(db);
+		RevCommit c1 = git.commit().setMessage("initial commit").call();
+		for (int i = 1; i <= 8; i++) {
+			writeTrashFile(i + ".txt", "content");
+			git.add().addFilepattern(i + ".txt").call();
+		}
+		RevCommit c2 = git.commit().setMessage("second commit").call();
+
+		// when
+		TreeWalk walk = new TreeWalk(db);
+		walk.addTree(c1.getTree());
+		walk.addTree(c2.getTree());
+		List<DiffEntry> result = DiffEntry.scan(walk, false, null, 4);
+
+		// then
+		assertThat(result, notNullValue());
+		assertThat(Integer.valueOf(result.size()), is(Integer.valueOf(4)));
+	}
+
+	@Test
 	public void shouldMarkEntriesWhenGivenMarkTreeFilter() throws Exception {
 		// given
 		Git git = new Git(db);
