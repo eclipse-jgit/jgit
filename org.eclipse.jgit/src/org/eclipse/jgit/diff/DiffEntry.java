@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2013, Google Inc.
+ * Copyright (C) 2008-2014, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -95,6 +95,21 @@ public class DiffEntry {
 	}
 
 	/**
+	 * The magical DiffEntry can be used for various purposes
+	 *
+	 * @since 3.5
+	 */
+	public static final DiffEntry NULL;
+
+	static {
+		NULL = new DiffEntry();
+		NULL.changeType = ChangeType.MODIFY;
+		NULL.oldId = NULL.newId = A_ZERO;
+		NULL.oldPath = NULL.newPath = DEV_NULL;
+		NULL.oldMode = NULL.newMode = FileMode.MISSING;
+	}
+
+	/**
 	 * Create an empty DiffEntry
 	 */
 	protected DiffEntry(){
@@ -166,6 +181,40 @@ public class DiffEntry {
 	public static List<DiffEntry> scan(TreeWalk walk, boolean includeTrees,
 			TreeFilter[] markTreeFilters)
 			throws IOException {
+		return scan(walk, includeTrees, markTreeFilters, 0);
+	}
+
+	/**
+	 * Convert the TreeWalk into DiffEntry headers, depending on
+	 * {@code includeTrees} it will add tree objects into result or not.
+	 *
+	 * @param walk
+	 *            the TreeWalk to walk through. Must have exactly two trees and
+	 *            when {@code includeTrees} parameter is {@code true} it can't
+	 *            be recursive.
+	 * @param includeTrees
+	 *            include tree objects.
+	 * @param markTreeFilters
+	 *            array of tree filters which will be tested for each entry. If
+	 *            an entry matches, the entry will later return true when
+	 *            queried through {{@link #isMarked(int)} (with the index from
+	 *            this passed array).
+	 * @param maxNumberOfEntries
+	 *            only the first maxNumberOfEntries are returned. If
+	 *            maxNumberOfEntries is 0 the walk is pumped until the the end
+	 *            of the walk is reached.
+	 * @return headers describing the changed files.
+	 * @throws IOException
+	 *             the repository cannot be accessed.
+	 * @throws IllegalArgumentException
+	 *             when {@code includeTrees} is true and given TreeWalk is
+	 *             recursive. Or when given TreeWalk doesn't have exactly two
+	 *             trees
+	 * @since 3.5
+	 */
+	public static List<DiffEntry> scan(TreeWalk walk, boolean includeTrees,
+			TreeFilter[] markTreeFilters, int maxNumberOfEntries)
+			throws IOException {
 		if (walk.getTreeCount() != 2)
 			throw new IllegalArgumentException(
 					JGitText.get().treeWalkMustHaveExactlyTwoTrees);
@@ -216,6 +265,12 @@ public class DiffEntry {
 			} else if (entry.oldMode != entry.newMode) {
 				entry.changeType = ChangeType.MODIFY;
 				r.add(entry);
+			}
+
+			if (maxNumberOfEntries > 0 && r.size() > maxNumberOfEntries) {
+				while (r.size() > maxNumberOfEntries)
+					r.remove(r.size() - 1);
+				break;
 			}
 
 			if (includeTrees && walk.isSubtree())
