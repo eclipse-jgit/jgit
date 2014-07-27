@@ -483,10 +483,10 @@ public class MergeResult {
 	 * for (String path : allConflicts.keySet()) {
 	 * 	int[][] c = allConflicts.get(path);
 	 * 	System.out.println("Conflicts in file " + path);
-	 * 	for (int i = 0; i < c.length; ++i) {
+	 * 	for (int i = 0; i &lt; c.length; ++i) {
 	 * 		System.out.println("  Conflict #" + i);
-	 * 		for (int j = 0; j &lt;	 (c[i].length) - 1; ++j) {
-	 * 			if (c[i][j] >= 0)
+	 * 		for (int j = 0; j &lt; (c[i].length) - 1; ++j) {
+	 * 			if (c[i][j] &gt;= 0)
 	 * 				System.out.println("    Chunk for "
 	 * 						+ m.getMergedCommits()[j] + " starts on line #"
 	 * 						+ c[i][j]);
