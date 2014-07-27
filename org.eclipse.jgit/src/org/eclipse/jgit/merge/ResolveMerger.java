@@ -444,6 +444,7 @@ public class ResolveMerger extends ThreeWayMerger {
 	 * conflict is detected the content-merge algorithm will try to write a
 	 * merged version into the working-tree. If the file is dirty we would
 	 * override unsaved data.</li>
+	 * </ul>
 	 *
 	 * @param base
 	 *            the common base for ours and theirs
