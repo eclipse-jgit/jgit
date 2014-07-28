@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7672b30_4927033f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/RecursiveMergerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2014-07-28T12:44:32Z",
+      "side": 1,
+      "message": "returned -\u003e return",
+      "revId": "048921325bdc404adc8d138013a8ce512e703741",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
