@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7672b30_c91313e7",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2014-07-28T12:35:04Z",
+      "side": 1,
+      "message": "Shouldn\u0027t the key have an \"s\" at the end (mergeRecursiveConflictsWhenMergingCommonAncestors)?\n\nAlso, just a minor thing, but I think it would be better if the long IDs were at the end of the message, otherwise what happened (the conflict) is at the very end of the message. Maybe:\n\nMultiple common ancestors were found and merging them resulted in a conflict: {0}, {1}",
+      "revId": "9f9c8758be0a5570620ae038cb9dac025942a529",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
