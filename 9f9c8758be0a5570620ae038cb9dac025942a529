@@ -16,6 +16,24 @@
       "revId": "9f9c8758be0a5570620ae038cb9dac025942a529",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_c9fcb3e7",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-07-28T12:49:00Z",
+      "side": 1,
+      "message": "I agree on both remarks. Done",
+      "parentUuid": "c7672b30_c91313e7",
+      "revId": "9f9c8758be0a5570620ae038cb9dac025942a529",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
