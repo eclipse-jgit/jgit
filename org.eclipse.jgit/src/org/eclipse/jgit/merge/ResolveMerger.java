@@ -297,7 +297,8 @@ public class ResolveMerger extends ThreeWayMerger {
 			dircache = getRepository().lockDirCache();
 
 		try {
-			return mergeTrees(mergeBase(), sourceTrees[0], sourceTrees[1]);
+			return mergeTrees(mergeBase(), sourceTrees[0], sourceTrees[1],
+					false);
 		} finally {
 			if (implicitDirCache)
 				dircache.unlock();
@@ -457,6 +458,9 @@ public class ResolveMerger extends ThreeWayMerger {
 	 *            the index entry
 	 * @param work
 	 *            the file in the working tree
+	 * @param ignoreConflicts
+	 *            see
+	 *            {@link ResolveMerger#mergeTrees(AbstractTreeIterator, RevTree, RevTree, boolean)}
 	 * @return <code>false</code> if the merge will fail because the index entry
 	 *         didn't match ours or the working-dir file was dirty and a
 	 *         conflict occurred
@@ -468,7 +472,8 @@ public class ResolveMerger extends ThreeWayMerger {
 	 */
 	protected boolean processEntry(CanonicalTreeParser base,
 			CanonicalTreeParser ours, CanonicalTreeParser theirs,
-			DirCacheBuildIterator index, WorkingTreeIterator work)
+			DirCacheBuildIterator index, WorkingTreeIterator work,
+			boolean ignoreConflicts)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			CorruptObjectException, IOException {
 		enterSubtree = true;
@@ -627,9 +632,11 @@ public class ResolveMerger extends ThreeWayMerger {
 			}
 
 			MergeResult<RawText> result = contentMerge(base, ours, theirs);
+			if (ignoreConflicts)
+				result.setContainsConflicts(false);
 			File of = writeMergedFile(result);
 			updateIndex(base, ours, theirs, result, of);
-			if (result.containsConflicts())
+			if (result.containsConflicts() && !ignoreConflicts)
 				unmergedPaths.add(tw.getPathString());
 			modifiedFiles.add(tw.getPathString());
 		} else if (modeO != modeT) {
@@ -993,12 +1000,32 @@ public class ResolveMerger extends ThreeWayMerger {
 	 * @param baseTree
 	 * @param headTree
 	 * @param mergeTree
+	 * @param ignoreConflicts
+	 *            Controls what to do in case a content-merge is done and a
+	 *            conflict is detected. The default setting for this should be
+	 *            <code>false</code>. In this case the working tree file is
+	 *            filled with new content (containing conflict markers) and the
+	 *            index is filled with multiple stages containing BASE, OURS and
+	 *            THEIRS content. Having such non-0 stages is the sign to git
+	 *            tools that there are still conflicts for that path.
+	 *            <p>
+	 *            If <code>true</code> is specified the behavior is different.
+	 *            In case a conflict is detected the working tree file is again
+	 *            filled with new content (containing conflict markers). But
+	 *            also stage 0 of the index is filled with that content. No
+	 *            other stages are filled. Means: there is no conflict on that
+	 *            path but the new content (including conflict markers) is
+	 *            stored as successful merge result. This is needed in the
+	 *            context of {@link RecursiveMerger} where when determining
+	 *            merge bases we don't want to deal with content-merge
+	 *            conflicts.
 	 * @return whether the trees merged cleanly
 	 * @throws IOException
 	 * @since 3.0
 	 */
 	protected boolean mergeTrees(AbstractTreeIterator baseTree,
-			RevTree headTree, RevTree mergeTree) throws IOException {
+			RevTree headTree, RevTree mergeTree, boolean ignoreConflicts)
+			throws IOException {
 
 		builder = dircache.builder();
 		DirCacheBuildIterator buildIt = new DirCacheBuildIterator(builder);
@@ -1011,7 +1038,7 @@ public class ResolveMerger extends ThreeWayMerger {
 		if (workingTreeIterator != null)
 			tw.addTree(workingTreeIterator);
 
-		if (!mergeTreeWalk(tw)) {
+		if (!mergeTreeWalk(tw, ignoreConflicts)) {
 			return false;
 		}
 
@@ -1050,11 +1077,15 @@ public class ResolveMerger extends ThreeWayMerger {
 	 *
 	 * @param treeWalk
 	 *            The walk to iterate over.
+	 * @param ignoreConflicts
+	 *            see
+	 *            {@link ResolveMerger#mergeTrees(AbstractTreeIterator, RevTree, RevTree, boolean)}
 	 * @return Whether the trees merged cleanly.
 	 * @throws IOException
 	 * @since 3.4
 	 */
-	protected boolean mergeTreeWalk(TreeWalk treeWalk) throws IOException {
+	protected boolean mergeTreeWalk(TreeWalk treeWalk, boolean ignoreConflicts)
+			throws IOException {
 		boolean hasWorkingTreeIterator = tw.getTreeCount() > T_FILE;
 		while (treeWalk.next()) {
 			if (!processEntry(
@@ -1063,7 +1094,7 @@ public class ResolveMerger extends ThreeWayMerger {
 					treeWalk.getTree(T_THEIRS, CanonicalTreeParser.class),
 					treeWalk.getTree(T_INDEX, DirCacheBuildIterator.class),
 					hasWorkingTreeIterator ? treeWalk.getTree(T_FILE,
-							WorkingTreeIterator.class) : null)) {
+							WorkingTreeIterator.class) : null, ignoreConflicts)) {
 				cleanUp();
 				return false;
 			}
