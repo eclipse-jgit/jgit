@@ -1,0 +1,8 @@
+Code-Review+2: Christian Halstrick <christian.halstrick@sap.com>
+Code-Review+1: Robin Stocker <robin@nibor.org>
+Verified+1: Hudson CI
+Submitted-by: Christian Halstrick <christian.halstrick@sap.com>
+Submitted-at: Tue, 29 Jul 2014 03:46:52 -0400
+Reviewed-on: https://git.eclipse.org/r/30562
+Project: jgit/jgit
+Branch: refs/heads/master
