@@ -8,4 +8,24 @@
             </message_arguments>
         </filter>
     </resource>
+    <resource path="src/org/eclipse/jgit/merge/ResolveMerger.java" type="org.eclipse.jgit.merge.ResolveMerger">
+        <filter comment="Doesn't break consumers. Breaking providers is allowed also in minor versions." id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.merge.ResolveMerger"/>
+                <message_argument value="mergeTreeWalk(TreeWalk)"/>
+            </message_arguments>
+        </filter>
+        <filter comment="Doesn't break consumers. Breaking providers is allowed also in minor versions." id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.merge.ResolveMerger"/>
+                <message_argument value="mergeTrees(AbstractTreeIterator, RevTree, RevTree)"/>
+            </message_arguments>
+        </filter>
+        <filter comment="Doesn't break consumers. Breaking providers is allowed also in minor versions." id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.merge.ResolveMerger"/>
+                <message_argument value="processEntry(CanonicalTreeParser, CanonicalTreeParser, CanonicalTreeParser, DirCacheBuildIterator, WorkingTreeIterator)"/>
+            </message_arguments>
+        </filter>
+    </resource>
 </component>

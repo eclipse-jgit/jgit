@@ -468,7 +468,7 @@ public class ResolveMerger extends ThreeWayMerger {
 	 * @throws IncorrectObjectTypeException
 	 * @throws CorruptObjectException
 	 * @throws IOException
-	 * @since 3.4
+	 * @since 3.5
 	 */
 	protected boolean processEntry(CanonicalTreeParser base,
 			CanonicalTreeParser ours, CanonicalTreeParser theirs,
@@ -1021,7 +1021,7 @@ public class ResolveMerger extends ThreeWayMerger {
 	 *            conflicts.
 	 * @return whether the trees merged cleanly
 	 * @throws IOException
-	 * @since 3.0
+	 * @since 3.5
 	 */
 	protected boolean mergeTrees(AbstractTreeIterator baseTree,
 			RevTree headTree, RevTree mergeTree, boolean ignoreConflicts)
@@ -1082,7 +1082,7 @@ public class ResolveMerger extends ThreeWayMerger {
 	 *            {@link ResolveMerger#mergeTrees(AbstractTreeIterator, RevTree, RevTree, boolean)}
 	 * @return Whether the trees merged cleanly.
 	 * @throws IOException
-	 * @since 3.4
+	 * @since 3.5
 	 */
 	protected boolean mergeTreeWalk(TreeWalk treeWalk, boolean ignoreConflicts)
 			throws IOException {
