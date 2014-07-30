@@ -297,6 +297,11 @@ public class RepoCommand extends GitCommand<RevCommit> {
 			return false;
 		}
 
+		@Override
+		public int hashCode() {
+			return this.getPathWithSlash().hashCode();
+		}
+
 		public int compareTo(Project that) {
 			return this.getPathWithSlash().compareTo(that.getPathWithSlash());
 		}
