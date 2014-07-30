@@ -56,4 +56,9 @@ final class RestrictedWildCardHead extends AbstractHead {
 	protected final boolean matches(final char c) {
 		return c != excludedCharacter;
 	}
+
+	@Override
+	public String toString() {
+		return isStar() ? "*" : "?"; //$NON-NLS-1$ //$NON-NLS-2$
+	}
 }
