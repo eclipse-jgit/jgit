@@ -34,6 +34,24 @@
       "revId": "d731a2d3e98b680cdaef51fc4a9170c2b050d03f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_8f747676",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/fnmatch/CharacterHead.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2014-07-30T14:14:17Z",
+      "side": 1,
+      "message": "I think I prefer \"String.valueOf\" because it reads more like natural language (\"give me the string value of the character\"). How it\u0027s currently looks a bit too complicated to me. Please change, I\u0027ll submit then.",
+      "parentUuid": "c7672b30_6fbbdaa9",
+      "revId": "d731a2d3e98b680cdaef51fc4a9170c2b050d03f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
