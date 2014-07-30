@@ -169,6 +169,7 @@ public class MergeResult<S extends Sequence> implements Iterable<MergeChunk> {
 	 * markers!) as new conflict-free content
 	 *
 	 * @param containsConflicts
+	 * @since 3.5
 	 */
 	protected void setContainsConflicts(boolean containsConflicts) {
 		this.containsConflicts = containsConflicts;
