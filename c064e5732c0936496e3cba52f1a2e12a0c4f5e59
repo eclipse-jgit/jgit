@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7672b30_e28ee18a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/IgnoreRule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-07-30T21:36:59Z",
+      "side": 1,
+      "message": "style nit: trailing whitespace",
+      "revId": "c064e5732c0936496e3cba52f1a2e12a0c4f5e59",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
