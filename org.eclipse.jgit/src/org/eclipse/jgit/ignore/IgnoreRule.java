@@ -191,6 +191,9 @@ public class IgnoreRule {
 				final String[] segments = target.split("/"); //$NON-NLS-1$
 				for (int idx = 0; idx < segments.length; idx++) {
 					final String segmentName = segments[idx];
+					// String.split("/") creates empty segment for leading slash
+					if (segmentName.length() == 0)
+						continue;
 					if (segmentName.equals(pattern) &&
 							doesMatchDirectoryExpectations(isDirectory, idx, segments.length))
 						return true;
@@ -207,6 +210,9 @@ public class IgnoreRule {
 			if (nameOnly) {
 				for (int idx = 0; idx < segments.length; idx++) {
 					final String segmentName = segments[idx];
+					// String.split("/") creates empty segment for leading slash
+					if (segmentName.length() == 0)
+						continue;
 					//Iterate through each sub-directory
 					matcher.reset();
 					matcher.append(segmentName);
@@ -218,13 +224,16 @@ public class IgnoreRule {
 				//TODO: This is the slowest operation
 				//This matches e.g. "/src/ne?" to "/src/new/file.c"
 				matcher.reset();
+
 				for (int idx = 0; idx < segments.length; idx++) {
 					final String segmentName = segments[idx];
-					if (segmentName.length() > 0) {
-						matcher.append("/" + segmentName); //$NON-NLS-1$
-					}
+					// String.split("/") creates empty segment for leading slash
+					if (segmentName.length() == 0)
+						continue;
 
-					if (matcher.isMatch() &&
+					matcher.append("/" + segmentName); //$NON-NLS-1$
+
+					if (matcher.isMatch() && 
 							doesMatchDirectoryExpectations(isDirectory, idx, segments.length))
 						return true;
 				}
