@@ -139,9 +139,13 @@ public class IndexDiffFilter extends TreeFilter {
 		DirCacheIterator di = tw.getTree(dirCache, DirCacheIterator.class);
 		if (di != null) {
 			DirCacheEntry dce = di.getDirCacheEntry();
-			if (dce != null)
+			if (dce != null) {
 				if (dce.isAssumeValid())
 					return false;
+				// Never filter index entries with a stage different from 0
+				if (dce.getStage() != 0)
+					return true;
+			}
 		}
 
 		if (!tw.isPostOrderTraversal()) {
