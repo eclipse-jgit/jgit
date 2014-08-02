@@ -1,0 +1,8 @@
+Code-Review+2: Robin Rosenberg <robin.rosenberg@dewire.com>
+Code-Review+2: Dave Borowitz <dborowitz@google.com>
+Verified+1: Hudson CI
+Submitted-by: Robin Rosenberg <robin.rosenberg@dewire.com>
+Submitted-at: Sat, 02 Aug 2014 05:35:18 -0400
+Reviewed-on: https://git.eclipse.org/r/30526
+Project: jgit/jgit
+Branch: refs/heads/master
