@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7672b30_02231466",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-08-02T22:53:20Z",
+      "side": 1,
+      "message": "nit-pick: trailing ws",
+      "revId": "83d7180640b51c9d53b60a80289d36b721a93baf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_620768d5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-08-02T22:53:20Z",
+      "side": 1,
+      "message": "We avoid braces around single-line statements",
+      "revId": "83d7180640b51c9d53b60a80289d36b721a93baf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
