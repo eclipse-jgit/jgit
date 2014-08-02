@@ -16,6 +16,24 @@
       "revId": "78fcbd8c8e1290f462e57c96a52a6fcf67f74092",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_4276ac4a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-08-02T23:15:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67591f73_a4815209",
+      "revId": "78fcbd8c8e1290f462e57c96a52a6fcf67f74092",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
