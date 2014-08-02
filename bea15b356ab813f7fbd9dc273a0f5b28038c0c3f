@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e76c2f17_d941fa63",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-08-02T23:01:27Z",
+      "side": 1,
+      "message": "This part is well known and changes to internal APIs need not be motivated in this way, so I\u0027m fine with shortening the commit message",
+      "revId": "bea15b356ab813f7fbd9dc273a0f5b28038c0c3f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
