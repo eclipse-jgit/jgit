@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7672b30_62fc8833",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/MergeAlgorithmMissingNewlineAtEndTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-08-02T22:42:18Z",
+      "side": 1,
+      "message": "Chris is the author?",
+      "revId": "0f70c4cfb3a7bc09ef7b66988688119b4d8481bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_42f98c40",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/MergeAlgorithmMissingNewlineAtEndTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-08-02T22:42:18Z",
+      "side": 1,
+      "message": "Parameterized tests is another variant, but this way has some advantages when it comes to debugging. So ok, I think.",
+      "revId": "0f70c4cfb3a7bc09ef7b66988688119b4d8481bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
