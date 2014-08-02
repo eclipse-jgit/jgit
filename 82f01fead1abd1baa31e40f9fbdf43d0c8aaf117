@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7672b30_8225645f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NetRC.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-08-02T23:06:13Z",
+      "side": 1,
+      "message": "There are some quirks regarding getting the home directory in a C Git compatible way. Use FS.userHome instead, unless there is a specific reason not to.",
+      "revId": "82f01fead1abd1baa31e40f9fbdf43d0c8aaf117",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
