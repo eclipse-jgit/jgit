@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7672b30_c2ed9c85",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-08-02T22:35:53Z",
+      "side": 1,
+      "message": "More like: Refactor MergeFormatter for reuse",
+      "revId": "e6e5a84afc0d94a0c4b675d764c6a8dfe659a915",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
