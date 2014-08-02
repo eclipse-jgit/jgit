@@ -43,6 +43,9 @@
 
 package org.eclipse.jgit.diff;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * An extended form of Bram Cohen's patience diff algorithm.
  * <p>
@@ -130,15 +133,14 @@ public class HistogramDiff extends LowLevelDiffAlgorithm {
 	public <S extends Sequence> void diffNonCommon(EditList edits,
 			HashedSequenceComparator<S> cmp, HashedSequence<S> a,
 			HashedSequence<S> b, Edit region) {
-		new State<S>(edits, cmp, a, b).diffReplace(region);
+		new State<S>(edits, cmp, a, b).diffRegion(region);
 	}
 
 	private class State<S extends Sequence> {
 		private final HashedSequenceComparator<S> cmp;
-
 		private final HashedSequence<S> a;
-
 		private final HashedSequence<S> b;
+		private final List<Edit> queue = new ArrayList<Edit>();
 
 		/** Result edits we have determined that must be made to convert a to b. */
 		final EditList edits;
@@ -151,7 +153,13 @@ public class HistogramDiff extends LowLevelDiffAlgorithm {
 			this.edits = edits;
 		}
 
-		void diffReplace(Edit r) {
+		void diffRegion(Edit r) {
+			diffReplace(r);
+			while (!queue.isEmpty())
+				diff(queue.remove(queue.size() - 1));
+		}
+
+		private void diffReplace(Edit r) {
 			Edit lcs = new HistogramDiffIndex<S>(maxChainLength, cmp, a, b, r)
 					.findLongestCommonSequence();
 			if (lcs != null) {
@@ -163,8 +171,8 @@ public class HistogramDiff extends LowLevelDiffAlgorithm {
 					//
 					edits.add(r);
 				} else {
-					diff(r.before(lcs));
-					diff(r.after(lcs));
+					queue.add(r.after(lcs));
+					queue.add(r.before(lcs));
 				}
 
 			} else if (fallback instanceof LowLevelDiffAlgorithm) {
