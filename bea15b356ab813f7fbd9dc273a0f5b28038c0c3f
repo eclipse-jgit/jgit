@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c7672b30_4de37dc3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 102
+      },
+      "writtenOn": "2014-08-03T13:07:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e76c2f17_d941fa63",
+      "revId": "bea15b356ab813f7fbd9dc273a0f5b28038c0c3f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7672b30_8da2b5ab",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2014-08-03T11:42:52Z",
       "side": 1,
       "message": "Avoid speculative comments since there is no decision on this, even though it\u0027s likely",
+      "revId": "bea15b356ab813f7fbd9dc273a0f5b28038c0c3f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_ed9d2948",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 102
+      },
+      "writtenOn": "2014-08-03T13:07:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7672b30_8da2b5ab",
       "revId": "bea15b356ab813f7fbd9dc273a0f5b28038c0c3f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
