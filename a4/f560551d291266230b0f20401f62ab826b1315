@@ -1,0 +1,9 @@
+Code-Review+1: Matthias Sohn <matthias.sohn@sap.com>
+Code-Review+2: Robin Rosenberg <robin.rosenberg@dewire.com>
+Verified+1: Hudson CI
+Code-Review+1: Alexey Kuznetsov <ak@axet.ru>
+Submitted-by: Robin Rosenberg <robin.rosenberg@dewire.com>
+Submitted-at: Sun, 03 Aug 2014 04:50:33 -0400
+Reviewed-on: https://git.eclipse.org/r/22194
+Project: jgit/jgit
+Branch: refs/heads/master
