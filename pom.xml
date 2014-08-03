@@ -180,6 +180,7 @@
     <javaewah-version>0.7.9</javaewah-version>
     <junit-version>4.11</junit-version>
     <test-fork-count>1C</test-fork-count>
+    <tmp-dir>${project.build.directory}</tmp-dir>
     <!-- TODO: update Maven dependency for args4j to 2.0.21 as soon as available on Maven Central -->
     <args4j-version>2.0.12</args4j-version>
     <commons-compress-version>1.6</commons-compress-version>

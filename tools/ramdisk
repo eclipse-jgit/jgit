@@ -1,0 +1,6 @@
+#!/bin/sh
+# script to create and mount a ramdisk of size 625MB
+unamestr=`uname`
+if [[ "$unamestr" == 'Darwin' ]]; then
+  diskutil erasevolume HFS+ "ramdisk" `hdiutil attach -nomount ram://1280000`
+fi
