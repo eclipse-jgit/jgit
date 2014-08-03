@@ -45,9 +45,11 @@ package org.eclipse.jgit.storage.file;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
+import org.eclipse.jgit.internal.storage.file.WindowCache;
 import org.eclipse.jgit.lib.BaseRepositoryBuilder;
 import org.eclipse.jgit.lib.Repository;
 
@@ -72,6 +74,53 @@ import org.eclipse.jgit.lib.Repository;
  */
 public class FileRepositoryBuilder extends
 		BaseRepositoryBuilder<FileRepositoryBuilder, Repository> {
+
+	private AtomicReference<WindowCache> windowCache;
+
+	/**
+	 * Supply config to define the WindowCache used by this repository.
+	 *
+	 * @param cfg the WindowCache config
+	 * @return {@code this} (for chaining calls).
+	 * @since 3.5
+	 */
+	public FileRepositoryBuilder setWindowCache(WindowCacheConfig cfg) {
+		setWindowCache(new AtomicReference<WindowCache>(new WindowCache(cfg)));
+		return self();
+	}
+
+	/**
+	 * Set the atomic-reference defining the WindowCache used by this
+	 * repository. The value of the atomic-reference may be updated later to
+	 * provide a differently-configured WindowCache.
+	 *
+	 * @param wc the atomic-reference
+	 * @return {@code this} (for chaining calls).
+	 * @since 3.5
+	 */
+	public FileRepositoryBuilder setWindowCache(
+			AtomicReference<WindowCache> wc) {
+		windowCache = wc;
+		return self();
+	}
+
+	/**
+	 * @return the atomic-reference to the WindowCache, or null if not set.
+	 * @since 3.5
+	 */
+	public AtomicReference<WindowCache> getWindowCache() {
+		return windowCache;
+	}
+
+	@Override
+	public FileRepositoryBuilder setup()
+			throws IllegalArgumentException, IOException {
+		super.setup();
+		if (windowCache == null)
+			windowCache = WindowCache.getDefaultCache();
+		return self();
+	}
+
 	/**
 	 * Create a repository matching the configuration in this builder.
 	 * <p>

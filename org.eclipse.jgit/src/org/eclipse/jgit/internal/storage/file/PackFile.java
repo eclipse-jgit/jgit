@@ -60,6 +60,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.zip.CRC32;
 import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
@@ -98,6 +99,8 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	};
 
 	private final File packFile;
+
+	private final AtomicReference<WindowCache> windowCache;
 
 	private final int extensions;
 
@@ -148,11 +151,15 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	 *            path of the <code>.pack</code> file holding the data.
 	 * @param extensions
 	 *            additional pack file extensions with the same base as the pack
+	 * @param windowCache
+	 *            the cache to be purged when this PackFile is closed
 	 */
-	public PackFile(final File packFile, int extensions) {
+	public PackFile(final File packFile, int extensions,
+			AtomicReference<WindowCache> windowCache) {
 		this.packFile = packFile;
 		this.packLastModified = (int) (packFile.lastModified() >> 10);
 		this.extensions = extensions;
+		this.windowCache = windowCache;
 
 		// Multiply by 31 here so we can more directly combine with another
 		// value in WindowCache.hash(), without doing the multiply there.
@@ -257,6 +264,20 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 		return 0 < offset && !isCorrupt(offset) ? load(curs, offset) : null;
 	}
 
+	ByteWindow getWindow(final long offset) throws IOException {
+		WindowCache c = windowCache.get();
+		ByteWindow window = c.get(this, offset);
+		if (c != windowCache.get()) {
+			// The cache was reconfigured while we were using the old one
+			// to load this window. The window is still valid, but our
+			// cache may think its still live. Ensure the window is removed
+			// from the old cache so resources can be released.
+			//
+			c.removeAll();
+		}
+		return window;
+	}
+
 	void resolve(Set<ObjectId> matches, AbbreviatedObjectId id, int matchLimit)
 			throws IOException {
 		idx().resolve(matches, id, matchLimit);
@@ -266,7 +287,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	 * Close the resources utilized by this repository
 	 */
 	public void close() {
-		WindowCache.purge(this);
+		windowCache.get().removeAll(this);
 		synchronized (this) {
 			loadedIdx = null;
 			reverseIdx = null;

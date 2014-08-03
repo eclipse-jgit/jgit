@@ -47,6 +47,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
@@ -80,6 +81,8 @@ abstract class FileObjectDatabase extends ObjectDatabase {
 	abstract Config getConfig();
 
 	abstract FS getFS();
+
+	abstract AtomicReference<WindowCache> getWindowCache();
 
 	abstract Set<ObjectId> getShallowCommits() throws IOException;
 
