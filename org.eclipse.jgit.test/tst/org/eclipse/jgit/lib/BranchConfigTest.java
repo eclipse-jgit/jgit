@@ -45,7 +45,9 @@
 package org.eclipse.jgit.lib;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.junit.Test;
@@ -142,6 +144,20 @@ public class BranchConfigTest {
 		BranchConfig branchConfig = new BranchConfig(c, "master");
 		assertEquals("refs/remotes/origin/master",
 				branchConfig.getTrackingBranch());
+	}
+
+	@Test
+	public void isRebase() {
+		Config c = parse("" //
+				+ "[branch \"undefined\"]\n"
+				+ "[branch \"false\"]\n"
+				+ "  rebase = false\n"
+				+ "[branch \"true\"]\n"
+				+ "  rebase = true\n");
+
+		assertFalse(new BranchConfig(c, "undefined").isRebase());
+		assertFalse(new BranchConfig(c, "false").isRebase());
+		assertTrue(new BranchConfig(c, "true").isRebase());
 	}
 
 	private static Config parse(final String content) {

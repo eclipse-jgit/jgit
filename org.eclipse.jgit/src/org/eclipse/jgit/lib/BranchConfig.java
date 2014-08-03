@@ -134,9 +134,17 @@ public class BranchConfig {
 	 * @since 3.5
 	 */
 	public String getMerge() {
-		return config.getString(
-				ConfigConstants.CONFIG_BRANCH_SECTION, branchName,
-				ConfigConstants.CONFIG_KEY_MERGE);
+		return config.getString(ConfigConstants.CONFIG_BRANCH_SECTION,
+				branchName, ConfigConstants.CONFIG_KEY_MERGE);
+	}
+
+	/**
+	 * @return {@code true} if the branch is configured to be rebased
+	 * @since 3.5
+	 */
+	public boolean isRebase() {
+		return config.getBoolean(ConfigConstants.CONFIG_BRANCH_SECTION,
+				branchName, ConfigConstants.CONFIG_KEY_REBASE, false);
 	}
 
 	/**
