@@ -1,0 +1,10 @@
+#!/bin/sh
+# script to create and mount a ramdisk of size 625MiB
+unamestr=`uname`
+if [[ "$unamestr" == 'Darwin' ]]; then
+  # size is given in 512 byte blocks
+  diskutil erasevolume HFS+ "ramdisk" `hdiutil attach -nomount ram://1280000`
+elif [[ "$unamestr" == 'Linux' ]]; then
+  mkdir -p /mnt/ramdisk
+  mount -t tmpfs -o size=625m tmpfs /mnt/ramdisk
+fi
