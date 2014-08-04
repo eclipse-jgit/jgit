@@ -1351,7 +1351,7 @@ public class RevWalk implements Iterable<RevCommit> {
 			lookupCommit(id).parents = RevCommit.NO_PARENTS;
 	}
 
-	void initializeShallowCommits() throws IOException {
+	void initializeShallowCommits(RevCommit revCommit) throws IOException {
 		if (shallowCommitsInitialized)
 			throw new IllegalStateException(
 					JGitText.get().shallowCommitsAlreadyInitialized);
@@ -1361,7 +1361,11 @@ public class RevWalk implements Iterable<RevCommit> {
 		if (reader == null)
 			return;
 
-		for (ObjectId id : reader.getShallowCommits())
-			lookupCommit(id).parents = RevCommit.NO_PARENTS;
+		for (ObjectId id : reader.getShallowCommits()) {
+			if (ObjectId.equals(id, revCommit))
+				revCommit.parents = RevCommit.NO_PARENTS;
+			else
+				lookupCommit(id).parents = RevCommit.NO_PARENTS;
+		}
 	}
 }
