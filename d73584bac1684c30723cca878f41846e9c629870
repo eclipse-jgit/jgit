@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7672b30_05d679f0",
+        "filename": "pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-08-05T05:09:36Z",
+      "side": 1,
+      "message": "Only set ramdisk in the profile.",
+      "revId": "d73584bac1684c30723cca878f41846e9c629870",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
