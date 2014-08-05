@@ -232,7 +232,7 @@ public class ObjectWalk extends RevWalk {
 		}
 
 		if (o instanceof RevCommit)
-			super.markUninteresting((RevCommit) o);
+			markUninteresting((RevCommit) o);
 		else if (o instanceof RevTree)
 			markTreeUninteresting((RevTree) o);
 		else
@@ -240,6 +240,13 @@ public class ObjectWalk extends RevWalk {
 
 		if (o.getType() != OBJ_COMMIT && boundary)
 			addObject(o);
+	}
+
+	@Override
+	public void markUninteresting(RevCommit c) throws MissingObjectException,
+			IncorrectObjectTypeException, IOException {
+		super.markUninteresting(c);
+		markTreeUninteresting(c.getTree());
 	}
 
 	@Override
