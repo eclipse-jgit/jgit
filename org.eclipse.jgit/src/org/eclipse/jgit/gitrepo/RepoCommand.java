@@ -420,15 +420,22 @@ public class RepoCommand extends GitCommand<RevCommit> {
 			}
 			final String remoteUrl;
 			try {
-				URI uri = new URI(baseUrl);
-				remoteUrl = uri.resolve(remotes.get(defaultRemote)).toString();
+				URI uri = new URI(remotes.get(defaultRemote));
+				if (uri.getHost() != null) {
+					// This is not relative path, no need for baseUrl.
+					remoteUrl = uri.toString();
+				} else {
+					uri = new URI(baseUrl);
+					remoteUrl = uri.resolve(
+							remotes.get(defaultRemote)).toString();
+				}
 			} catch (URISyntaxException e) {
 				throw new SAXException(e);
 			}
 			removeNotInGroup();
 			removeOverlaps();
 			for (Project proj : projects) {
-				command.addSubmodule(remoteUrl + proj.name,
+				command.addSubmodule(remoteUrl + "/" + proj.name,
 						proj.path,
 						proj.revision == null
 								? defaultRevision : proj.revision,
