@@ -60,6 +60,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.GitCommand;
@@ -123,6 +124,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	private PersonIdent author;
 	private RemoteReader callback;
 	private InputStream inputStream;
+	private IncludedFileReader includedReader;
 
 	private List<Project> bareProjects;
 	private Git git;
@@ -163,6 +165,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 		 * @return the file content.
 		 * @throws GitAPIException
 		 * @throws IOException
+		 * @since 3.5
 		 */
 		public byte[] readFile(String uri, String ref, String path)
 				throws GitAPIException, IOException;
@@ -222,6 +225,25 @@ public class RepoCommand extends GitCommand<RevCommit> {
 			}
 			return result;
 		}
+	}
+
+	/**
+	 * A callback to read included xml files.
+	 *
+	 * @since 3.5
+	 */
+	public interface IncludedFileReader {
+		/**
+		 * Read a file from the same base dir of the manifest xml file.
+		 *
+		 * @param path
+		 *            The relative path to the file to read
+		 * @return the {@code InputStream} of the file.
+		 * @throws GitAPIException
+		 * @throws IOException
+		 */
+		public InputStream readIncludeFile(String path)
+				throws GitAPIException, IOException;
 	}
 
 	private static class CopyFile {
@@ -309,7 +331,6 @@ public class RepoCommand extends GitCommand<RevCommit> {
 
 	private static class XmlManifest extends DefaultHandler {
 		private final RepoCommand command;
-		private final InputStream inputStream;
 		private final String filename;
 		private final String baseUrl;
 		private final Map<String, String> remotes;
@@ -318,13 +339,16 @@ public class RepoCommand extends GitCommand<RevCommit> {
 		private List<Project> projects;
 		private String defaultRemote;
 		private String defaultRevision;
+		private IncludedFileReader includedReader;
+		private AtomicInteger xmlInRead;
 		private Project currentProject;
 
-		XmlManifest(RepoCommand command, InputStream inputStream,
+		XmlManifest(RepoCommand command, IncludedFileReader includedReader,
 				String filename, String baseUrl, String groups) {
 			this.command = command;
-			this.inputStream = inputStream;
+			this.includedReader = includedReader;
 			this.filename = filename;
+			this.xmlInRead = new AtomicInteger(0);
 
 			// Strip trailing /s to match repo behavior.
 			int lastIndex = baseUrl.length() - 1;
@@ -349,7 +373,8 @@ public class RepoCommand extends GitCommand<RevCommit> {
 			}
 		}
 
-		void read() throws IOException {
+		void read(InputStream inputStream) throws IOException {
+			xmlInRead.incrementAndGet();
 			final XMLReader xr;
 			try {
 				xr = XMLReaderFactory.createXMLReader();
@@ -395,6 +420,35 @@ public class RepoCommand extends GitCommand<RevCommit> {
 							currentProject.path,
 							attributes.getValue("src"), //$NON-NLS-1$
 							attributes.getValue("dest"))); //$NON-NLS-1$
+			} else if ("include".equals(qName)) { //$NON_NLS-1$
+				String name = attributes.getValue("name");
+				InputStream is = null;
+				if (includedReader != null) {
+					try {
+						is = includedReader.readIncludeFile(name);
+					} catch (Exception e) {
+						throw new SAXException(MessageFormat.format(
+								RepoText.get().errorIncludeFile, name), e);
+					}
+				} else if (filename != null) {
+					int index = filename.lastIndexOf('/');
+					String path = filename.substring(0, index + 1) + name;
+					try {
+						is = new FileInputStream(path);
+					} catch (IOException e) {
+						throw new SAXException(MessageFormat.format(
+								RepoText.get().errorIncludeFile, path), e);
+					}
+				}
+				if (is == null) {
+					throw new SAXException(
+							RepoText.get().errorIncludeNotImplemented);
+				}
+				try {
+					read(is);
+				} catch (IOException e) {
+					throw new SAXException(e);
+				}
 			}
 		}
 
@@ -411,6 +465,9 @@ public class RepoCommand extends GitCommand<RevCommit> {
 
 		@Override
 		public void endDocument() throws SAXException {
+			if (xmlInRead.decrementAndGet() != 0)
+				return;
+			// Only do the following after we finished reading everything.
 			if (defaultRemote == null) {
 				if (filename != null)
 					throw new SAXException(MessageFormat.format(
@@ -604,6 +661,17 @@ public class RepoCommand extends GitCommand<RevCommit> {
 		return this;
 	}
 
+	/**
+	 * Set the IncludedFileReader callback.
+	 *
+	 * @param callback
+	 * @return this command
+	 */
+	public RepoCommand setIncludedFileReader(final IncludedFileReader reader) {
+		this.includedReader = reader;
+		return this;
+	}
+
 	@Override
 	public RevCommit call() throws GitAPIException {
 		try {
@@ -633,9 +701,9 @@ public class RepoCommand extends GitCommand<RevCommit> {
 				git = new Git(repo);
 
 			XmlManifest manifest = new XmlManifest(
-					this, inputStream, path, uri, groups);
+					this, includedReader, path, uri, groups);
 			try {
-				manifest.read();
+				manifest.read(inputStream);
 			} catch (IOException e) {
 				throw new ManifestErrorException(e);
 			}
