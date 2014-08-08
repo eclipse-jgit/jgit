@@ -635,8 +635,7 @@ public class ResolveMerger extends ThreeWayMerger {
 			MergeResult<RawText> result = contentMerge(base, ours, theirs);
 			if (ignoreConflicts)
 				result.setContainsConflicts(false);
-			File of = writeMergedFile(result);
-			updateIndex(base, ours, theirs, result, of);
+			updateIndex(base, ours, theirs, result);
 			if (result.containsConflicts() && !ignoreConflicts)
 				unmergedPaths.add(tw.getPathString());
 			modifiedFiles.add(tw.getPathString());
@@ -750,14 +749,14 @@ public class ResolveMerger extends ThreeWayMerger {
 	 * @param ours
 	 * @param theirs
 	 * @param result
-	 * @param of
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
 	private void updateIndex(CanonicalTreeParser base,
 			CanonicalTreeParser ours, CanonicalTreeParser theirs,
-			MergeResult<RawText> result, File of) throws FileNotFoundException,
+			MergeResult<RawText> result) throws FileNotFoundException,
 			IOException {
+		File of = writeMergedFile(result);
 		if (result.containsConflicts()) {
 			// a conflict occurred, the file will contain conflict markers
 			// the index will be populated with the three stages and only the
