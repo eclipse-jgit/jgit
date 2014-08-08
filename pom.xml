@@ -186,7 +186,7 @@
     <osgi-core-version>4.3.1</osgi-core-version>
     <servlet-api-version>2.5</servlet-api-version>
     <jetty-version>7.6.14.v20131031</jetty-version>
-    <clirr-version>2.4</clirr-version>
+    <clirr-version>2.6.1</clirr-version>
     <httpclient-version>4.1.3</httpclient-version>
 
     <!-- Properties to enable jacoco code coverage analysis -->
@@ -246,7 +246,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-shade-plugin</artifactId>
-          <version>2.1</version>
+          <version>2.3</version>
         </plugin>
 
         <plugin>
@@ -276,7 +276,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.16</version>
+          <version>2.17</version>
           <configuration>
             <forkCount>${test-fork-count}</forkCount>
             <reuseForks>true</reuseForks>
@@ -286,13 +286,13 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>build-helper-maven-plugin</artifactId>
-          <version>1.8</version>
+          <version>1.9</version>
         </plugin>
 
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>findbugs-maven-plugin</artifactId>
-          <version>2.5.2</version>
+          <version>3.0.0</version>
           <configuration>
             <findbugsXmlOutput>true</findbugsXmlOutput>
             <failOnError>false</failOnError>
@@ -309,7 +309,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-pmd-plugin</artifactId>
-          <version>3.0.1</version>
+          <version>3.2</version>
           <configuration>
             <sourceEncoding>utf-8</sourceEncoding>
             <minimumTokens>100</minimumTokens>
@@ -354,7 +354,7 @@
         <plugin>
           <groupId>org.jacoco</groupId>
           <artifactId>jacoco-maven-plugin</artifactId>
-          <version>0.7.0.201403182114</version>
+          <version>0.7.1.201405082137</version>
         </plugin>
       </plugins>
     </pluginManagement>

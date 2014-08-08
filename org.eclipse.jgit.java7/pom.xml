@@ -176,14 +176,6 @@
             </execution>
           </executions>
         </plugin>
-
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>findbugs-maven-plugin</artifactId>
-          <configuration>
-            <excludeFilterFile>findBugs/FindBugsExcludeFilter.xml</excludeFilterFile>
-          </configuration>
-        </plugin>
       </plugins>
     </pluginManagement>
   </build>
