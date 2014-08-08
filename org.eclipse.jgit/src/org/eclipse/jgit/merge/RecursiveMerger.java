@@ -52,7 +52,9 @@ package org.eclipse.jgit.merge;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
@@ -62,7 +64,6 @@ import org.eclipse.jgit.errors.NoMergeBaseException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -89,8 +90,6 @@ public class RecursiveMerger extends ResolveMerger {
 	 * of merge bases exceeds this value
 	 */
 	public final int MAX_BASES = 200;
-
-	private PersonIdent ident = new PersonIdent(db);
 
 	/**
 	 * Normal recursive merge when you want a choice of DirCache placement
@@ -137,7 +136,9 @@ public class RecursiveMerger extends ResolveMerger {
 	 *            the second commit to be merged
 	 * @param callDepth
 	 *            the callDepth when this method is called recursively
-	 * @return the merge base of two commits
+	 * @return the merge base of two commits. If a criss-cross merge required a
+	 *         synthetic merge base this commit is visible only the merger's
+	 *         RevWalk and will not be in the repository.
 	 * @throws IOException
 	 * @throws IncorrectObjectTypeException
 	 *             one of the input objects is not a commit.
@@ -228,22 +229,28 @@ public class RecursiveMerger extends ResolveMerger {
 	 *            the tree this commit should capture
 	 * @param parents
 	 *            the list of parent commits
-	 * @return a new (persisted) commit
+	 * @return a new commit visible only within this merger's RevWalk.
 	 * @throws IOException
 	 */
 	private RevCommit createCommitForTree(ObjectId tree, List<RevCommit> parents)
 			throws IOException {
 		CommitBuilder c = new CommitBuilder();
-		c.setParentIds(parents);
 		c.setTreeId(tree);
-		c.setAuthor(ident);
-		c.setCommitter(ident);
-		ObjectInserter odi = db.newObjectInserter();
-		ObjectId newCommitId = odi.insert(c);
-		odi.flush();
-		RevCommit ret = walk.lookupCommit(newCommitId);
-		walk.parseHeaders(ret);
-		return ret;
+		c.setParentIds(parents);
+		c.setAuthor(mockAuthor(parents));
+		c.setCommitter(c.getAuthor());
+		return RevCommit.parse(walk, c.build());
+	}
+
+	private static PersonIdent mockAuthor(List<RevCommit> parents) {
+		String name = RecursiveMerger.class.getSimpleName();
+		int time = 0;
+		for (RevCommit p : parents)
+			time = Math.max(time, p.getCommitTime());
+		return new PersonIdent(
+				name, name + "@JGit", //$NON-NLS-1$
+				new Date((time + 1) * 1000L),
+				TimeZone.getTimeZone("GMT+0000")); //$NON-NLS-1$
 	}
 
 	/**
