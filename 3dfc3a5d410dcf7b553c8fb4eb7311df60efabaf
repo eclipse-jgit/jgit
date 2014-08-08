@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c7672b30_4637c908",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-08-08T19:59:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7672b30_a6705dcb",
+      "revId": "3dfc3a5d410dcf7b553c8fb4eb7311df60efabaf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7672b30_063dd1ea",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
         "patchSetId": 1
@@ -47,6 +65,24 @@
       "writtenOn": "2014-08-08T18:26:42Z",
       "side": 1,
       "message": "Making the author stable is orthogonal to switching to RevCommit.parse, maybe mention it in the commit message?",
+      "revId": "3dfc3a5d410dcf7b553c8fb4eb7311df60efabaf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_862e0144",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/RecursiveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-08-08T19:59:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7672b30_c673d9d6",
       "revId": "3dfc3a5d410dcf7b553c8fb4eb7311df60efabaf",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
