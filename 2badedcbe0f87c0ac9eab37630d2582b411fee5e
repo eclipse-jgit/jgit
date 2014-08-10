@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7672b30_e4c6cd12",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 771,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-08-10T08:10:19Z",
+      "side": 1,
+      "message": "This control flow change made the patch harder to read.\n\nOther than that, I actually like early returns",
+      "revId": "2badedcbe0f87c0ac9eab37630d2582b411fee5e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_a441750e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 783,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-08-10T08:10:19Z",
+      "side": 1,
+      "message": "(Formatting inconsistent with formatting settings)",
+      "revId": "2badedcbe0f87c0ac9eab37630d2582b411fee5e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_04c2e9ff",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 791,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-08-10T08:10:19Z",
+      "side": 1,
+      "message": "Unrelated: Is this consistent with autocrlf settings?",
+      "revId": "2badedcbe0f87c0ac9eab37630d2582b411fee5e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
