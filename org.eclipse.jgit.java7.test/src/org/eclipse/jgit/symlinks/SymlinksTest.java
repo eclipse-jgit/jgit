@@ -282,7 +282,6 @@ public class SymlinksTest extends RepositoryTestCase {
 		data = read(new File(db.getWorkTree(), "link"));
 		assertEquals("target",
 				FileUtils.readSymLink(new File(db.getWorkTree(), "link")));
-		;
 		assertEquals("someData", data);
 	}
 
