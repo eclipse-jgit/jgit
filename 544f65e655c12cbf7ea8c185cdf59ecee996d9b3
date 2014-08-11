@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7672b30_d5353d62",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/BranchCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-08-11T20:23:38Z",
+      "side": 1,
+      "message": "Good catch",
+      "revId": "544f65e655c12cbf7ea8c185cdf59ecee996d9b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
