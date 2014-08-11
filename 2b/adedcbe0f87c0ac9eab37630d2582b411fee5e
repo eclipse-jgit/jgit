@@ -1,0 +1,9 @@
+Code-Review+2: Shawn Pearce <sop@google.com>
+Code-Review+1: Robin Rosenberg <robin.rosenberg@dewire.com>
+Code-Review+1: Dave Borowitz <dborowitz@google.com>
+Verified+1: Hudson CI
+Submitted-by: Shawn Pearce <sop@google.com>
+Submitted-at: Mon, 11 Aug 2014 12:42:10 -0400
+Reviewed-on: https://git.eclipse.org/r/31336
+Project: jgit/jgit
+Branch: refs/heads/master
