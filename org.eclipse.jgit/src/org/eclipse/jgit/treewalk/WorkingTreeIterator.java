@@ -70,8 +70,8 @@ import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.NoWorkTreeException;
+import org.eclipse.jgit.ignore.FastIgnoreRule;
 import org.eclipse.jgit.ignore.IgnoreNode;
-import org.eclipse.jgit.ignore.IgnoreRule;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.CoreConfig;
@@ -1132,7 +1132,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		final Entry entry;
 
 		PerDirectoryIgnoreNode(Entry entry) {
-			super(Collections.<IgnoreRule> emptyList());
+			super(Collections.<FastIgnoreRule> emptyList());
 			this.entry = entry;
 		}
 

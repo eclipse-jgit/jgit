@@ -71,11 +71,11 @@ public class IgnoreNode {
 	}
 
 	/** The rules that have been parsed into this node. */
-	private final List<IgnoreRule> rules;
+	private final List<FastIgnoreRule> rules;
 
 	/** Create an empty ignore node with no rules. */
 	public IgnoreNode() {
-		rules = new ArrayList<IgnoreRule>();
+		rules = new ArrayList<FastIgnoreRule>();
 	}
 
 	/**
@@ -84,7 +84,7 @@ public class IgnoreNode {
 	 * @param rules
 	 *            list of rules.
 	 **/
-	public IgnoreNode(List<IgnoreRule> rules) {
+	public IgnoreNode(List<FastIgnoreRule> rules) {
 		this.rules = rules;
 	}
 
@@ -103,7 +103,7 @@ public class IgnoreNode {
 		while ((txt = br.readLine()) != null) {
 			txt = txt.trim();
 			if (txt.length() > 0 && !txt.startsWith("#") && !txt.equals("/")) //$NON-NLS-1$ //$NON-NLS-2$
-				rules.add(new IgnoreRule(txt));
+				rules.add(new FastIgnoreRule(txt));
 		}
 	}
 
@@ -112,7 +112,7 @@ public class IgnoreNode {
 	}
 
 	/** @return list of all ignore rules held by this node. */
-	public List<IgnoreRule> getRules() {
+	public List<FastIgnoreRule> getRules() {
 		return Collections.unmodifiableList(rules);
 	}
 
@@ -133,7 +133,7 @@ public class IgnoreNode {
 
 		// Parse rules in the reverse order that they were read
 		for (int i = rules.size() - 1; i > -1; i--) {
-			IgnoreRule rule = rules.get(i);
+			FastIgnoreRule rule = rules.get(i);
 			if (rule.isMatch(entryPath, isDirectory)) {
 				if (rule.getResult())
 					return MatchResult.IGNORED;
