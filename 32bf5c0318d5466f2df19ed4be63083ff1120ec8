@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7672b30_9d076b25",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/Merger.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2014-08-11T22:57:44Z",
+      "side": 1,
+      "message": "Would it make sense to add another protected constructor that just passes all three of these in? Could they remain final in that case? (Probably not without changing the newMerger method signatures, sigh...)",
+      "revId": "32bf5c0318d5466f2df19ed4be63083ff1120ec8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_bd04e722",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/Merger.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2014-08-11T22:57:44Z",
+      "side": 1,
+      "message": "I think the reason it was the way it was was that for the common case of setObjectInserter immediately after creation:\n\n Merger m \u003d MergeStrategy.RESOLVE.newMerger(...);\n m.setObjectInserter(oldInserter);\n\nwe wouldn\u0027t create and then immediately throw away an inserter.\n\nThis change does simplify the code by removing a whole bunch of null checks, so if you\u0027re confident that creating inserters and readers is sufficiently cheap in every implementation then this is fine.",
+      "revId": "32bf5c0318d5466f2df19ed4be63083ff1120ec8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
