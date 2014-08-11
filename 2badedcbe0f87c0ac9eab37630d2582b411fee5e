@@ -72,6 +72,23 @@
     },
     {
       "key": {
+        "uuid": "c7672b30_1a9ec2e8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 787,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2014-08-11T16:14:49Z",
+      "side": 1,
+      "message": "My first reaction is this should be !inCore and the writeMergedFile call should be inside this block.\n\nBut IIUC it\u0027s at the top so the file in the workdir is written out even if there\u0027s a conflict, is that right?",
+      "revId": "2badedcbe0f87c0ac9eab37630d2582b411fee5e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7672b30_04c2e9ff",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
         "patchSetId": 1
