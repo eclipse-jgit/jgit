@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c7672b30_1d135b64",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/Merger.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-08-11T23:04:26Z",
+      "side": 1,
+      "message": "Yea, we were trying to avoid changing those newMerger method signatures, which is how we grew setObjectInserter().\n\nI wanted to drop the final part because I\u0027m considering swapping in a different ObjectInserter/ObjectReader in RecursiveMerger that tries hard to buffer the virtual base stuff in-memory without ever leaking it into the repository as a stored object.\n\nUnclear what happens with a conflict and we try to load the higher stages with virtual ObjectIds. I guess we would then be forced to write those virtual bases out to the repository. But we could at least delay it until the top level pass, and avoid all intermediate stages.\n\nI\u0027m not set on that approach. I may need to finish out the reader-from-inserter to really fix RecursiveMerger. But an in-memory wrapper for the virtual base might be sufficient.",
+      "parentUuid": "c7672b30_9d076b25",
+      "revId": "32bf5c0318d5466f2df19ed4be63083ff1120ec8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7672b30_bd04e722",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/Merger.java",
         "patchSetId": 7
@@ -30,6 +48,24 @@
       "writtenOn": "2014-08-11T22:57:44Z",
       "side": 1,
       "message": "I think the reason it was the way it was was that for the common case of setObjectInserter immediately after creation:\n\n Merger m \u003d MergeStrategy.RESOLVE.newMerger(...);\n m.setObjectInserter(oldInserter);\n\nwe wouldn\u0027t create and then immediately throw away an inserter.\n\nThis change does simplify the code by removing a whole bunch of null checks, so if you\u0027re confident that creating inserters and readers is sufficiently cheap in every implementation then this is fine.",
+      "revId": "32bf5c0318d5466f2df19ed4be63083ff1120ec8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_7d21afa6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/Merger.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-08-11T23:04:26Z",
+      "side": 1,
+      "message": "Fortunately they are fairly cheap to create in either storage backend. Deferring their allocation would eliminate any issue, but makes for a mess in the code trying to ensure they are created first.",
+      "parentUuid": "c7672b30_bd04e722",
       "revId": "32bf5c0318d5466f2df19ed4be63083ff1120ec8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
