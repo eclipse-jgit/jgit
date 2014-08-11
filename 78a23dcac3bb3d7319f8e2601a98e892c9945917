@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7672b30_ba922e26",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-08-11T14:46:50Z",
+      "side": 1,
+      "message": "Should be another commit. Separating them isn\u0027t hard",
+      "revId": "78a23dcac3bb3d7319f8e2601a98e892c9945917",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
