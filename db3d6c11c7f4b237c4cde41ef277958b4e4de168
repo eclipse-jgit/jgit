@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7672b30_7abff6a7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2014-08-11T14:13:22Z",
+      "side": 1,
+      "message": "parrser :)",
+      "revId": "db3d6c11c7f4b237c4cde41ef277958b4e4de168",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_5abcbab1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2014-08-11T14:13:22Z",
+      "side": 1,
+      "message": "\"Bug\" -\u003e \"Bug:\" (both lines)",
+      "revId": "db3d6c11c7f4b237c4cde41ef277958b4e4de168",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
