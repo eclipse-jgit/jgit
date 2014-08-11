@@ -89,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "c7672b30_da356a62",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 787,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-08-11T16:24:20Z",
+      "side": 1,
+      "message": "Correct. We want the file written if !inCore and there is a conflict. We just can\u0027t add the file to the index, and that is why we early return.",
+      "parentUuid": "c7672b30_1a9ec2e8",
+      "revId": "2badedcbe0f87c0ac9eab37630d2582b411fee5e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7672b30_04c2e9ff",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
         "patchSetId": 1
