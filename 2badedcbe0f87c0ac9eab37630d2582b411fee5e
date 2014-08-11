@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c7672b30_ba5a2ec7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 771,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-08-11T15:53:48Z",
+      "side": 1,
+      "message": "Agreed. I realized about halfway through this change that it was too large and may need to be broken up into two commits.\n\nI can try to rebuild this as two commits; one to implement the early return flow control change, and another to handle the in-memory processing.",
+      "parentUuid": "c7672b30_e4c6cd12",
+      "revId": "2badedcbe0f87c0ac9eab37630d2582b411fee5e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7672b30_a441750e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "c7672b30_9a57729f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 783,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-08-11T15:53:48Z",
+      "side": 1,
+      "message": "I don\u0027t always follow the standard formatting settings. Eclipse does some stupid things.",
+      "parentUuid": "c7672b30_a441750e",
+      "revId": "2badedcbe0f87c0ac9eab37630d2582b411fee5e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7672b30_04c2e9ff",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2014-08-10T08:10:19Z",
       "side": 1,
       "message": "Unrelated: Is this consistent with autocrlf settings?",
+      "revId": "2badedcbe0f87c0ac9eab37630d2582b411fee5e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_fab78670",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 791,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-08-11T15:53:48Z",
+      "side": 1,
+      "message": "No. But neither was the old code I am replacing. Either way the autocrlf is broken during merges. If we are going to fix that, I would prefer to do it during a follow-up commit.",
+      "parentUuid": "c7672b30_04c2e9ff",
       "revId": "2badedcbe0f87c0ac9eab37630d2582b411fee5e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
