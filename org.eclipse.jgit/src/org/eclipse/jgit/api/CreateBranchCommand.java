@@ -133,7 +133,7 @@ public class CreateBranchCommand extends GitCommand<Ref> {
 				throw new RefAlreadyExistsException(MessageFormat.format(
 						JGitText.get().refAlreadyExists1, name));
 
-			ObjectId startAt = getStartPoint();
+			ObjectId startAt = getStartPointObjectId();
 			String startPointFullName = null;
 			if (startPoint != null) {
 				Ref baseRef = repo.getRef(startPoint);
@@ -151,7 +151,7 @@ public class CreateBranchCommand extends GitCommand<Ref> {
 					baseCommit = startCommit.getShortMessage();
 				else {
 					RevCommit commit = revWalk.parseCommit(repo
-							.resolve(startPoint));
+							.resolve(getStartPointOrHead()));
 					baseCommit = commit.getShortMessage();
 				}
 				if (exists)
@@ -275,22 +275,20 @@ public class CreateBranchCommand extends GitCommand<Ref> {
 		}
 	}
 
-	private ObjectId getStartPoint() throws AmbiguousObjectException,
+	private ObjectId getStartPointObjectId() throws AmbiguousObjectException,
 			RefNotFoundException, IOException {
 		if (startCommit != null)
 			return startCommit.getId();
-		ObjectId result = null;
-		try {
-			result = repo.resolve((startPoint == null) ? Constants.HEAD
-					: startPoint);
-		} catch (AmbiguousObjectException e) {
-			throw e;
-		}
+		String startPointOrHead = getStartPointOrHead();
+		ObjectId result = repo.resolve(startPointOrHead);
 		if (result == null)
 			throw new RefNotFoundException(MessageFormat.format(
-					JGitText.get().refNotResolved,
-					startPoint != null ? startPoint : Constants.HEAD));
+					JGitText.get().refNotResolved, startPointOrHead));
 		return result;
+	}
+
+	private String getStartPointOrHead() {
+		return startPoint != null ? startPoint : Constants.HEAD;
 	}
 
 	private void processOptions() throws InvalidRefNameException {

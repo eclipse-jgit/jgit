@@ -213,7 +213,10 @@ public class CheckoutCommand extends GitCommand<Ref> {
 				Git git = new Git(repo);
 				CreateBranchCommand command = git.branchCreate();
 				command.setName(name);
-				command.setStartPoint(getStartPoint().name());
+				if (startCommit != null)
+					command.setStartPoint(startCommit);
+				else
+					command.setStartPoint(startPoint);
 				if (upstreamMode != null)
 					command.setUpstreamMode(upstreamMode);
 				command.call();
@@ -234,7 +237,7 @@ public class CheckoutCommand extends GitCommand<Ref> {
 					this.status = CheckoutResult.NOT_TRIED_RESULT;
 					return repo.getRef(Constants.HEAD);
 				}
-				branch = getStartPoint();
+				branch = getStartPointObjectId();
 			} else {
 				branch = repo.resolve(name);
 				if (branch == null)
@@ -386,7 +389,7 @@ public class CheckoutCommand extends GitCommand<Ref> {
 				if (isCheckoutIndex())
 					checkoutPathsFromIndex(treeWalk, dc);
 				else {
-					RevCommit commit = revWalk.parseCommit(getStartPoint());
+					RevCommit commit = revWalk.parseCommit(getStartPointObjectId());
 					checkoutPathsFromCommit(treeWalk, dc, commit);
 				}
 			} finally {
@@ -468,21 +471,17 @@ public class CheckoutCommand extends GitCommand<Ref> {
 		return startCommit == null && startPoint == null;
 	}
 
-	private ObjectId getStartPoint() throws AmbiguousObjectException,
+	private ObjectId getStartPointObjectId() throws AmbiguousObjectException,
 			RefNotFoundException, IOException {
 		if (startCommit != null)
 			return startCommit.getId();
-		ObjectId result = null;
-		try {
-			result = repo.resolve((startPoint == null) ? Constants.HEAD
-					: startPoint);
-		} catch (AmbiguousObjectException e) {
-			throw e;
-		}
+
+		String startPointOrHead = (startPoint != null) ? startPoint
+				: Constants.HEAD;
+		ObjectId result = repo.resolve(startPointOrHead);
 		if (result == null)
 			throw new RefNotFoundException(MessageFormat.format(
-					JGitText.get().refNotResolved,
-					startPoint != null ? startPoint : Constants.HEAD));
+					JGitText.get().refNotResolved, startPointOrHead));
 		return result;
 	}
 
