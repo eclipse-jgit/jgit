@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c7672b30_03649ac2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2014-08-12T18:13:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7672b30_bb3b5d4f",
+      "revId": "6c01d2ec205de70088322181134464e7c57b9924",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7672b30_5be6895f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2014-08-07T15:48:07Z",
       "side": 1,
       "message": "I think we we should use the RemoteReader implementation instead of a new IncludedReader interface. If we know our manifest URL and ref, it can read from the manifest repo.\n\nThe DefaultReader should know how to read from the filesystem when the URI and ref match the manifest that was checked out and is being read by the command.",
+      "revId": "6c01d2ec205de70088322181134464e7c57b9924",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_83b8aa63",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2014-08-12T18:13:20Z",
+      "side": 1,
+      "message": "I have considered that, but there are some differences between RemoteReader and IncludedReader: IncludedReader is to read a file from the manifest repository, while RemoteReader is to read files from some other repositories. Also there\u0027s no suitable \"default implementation\" of IncludedReader, caller will always need to implement it themselves. The default behavior here requires the filename is set, which may not be the case for most callers.",
+      "parentUuid": "c7672b30_5be6895f",
       "revId": "6c01d2ec205de70088322181134464e7c57b9924",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
