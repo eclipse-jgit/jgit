@@ -119,7 +119,7 @@ public class DfsInserter extends ObjectInserter {
 	@Override
 	public ObjectId insert(int type, long len, InputStream in)
 			throws IOException {
-		byte[] buf = buffer();
+		byte[] buf = insertBuffer(len);
 		if (len <= buf.length) {
 			IO.readFully(in, buf, 0, (int) len);
 			return insert(type, buf, 0, (int) len);
@@ -142,6 +142,20 @@ public class DfsInserter extends ObjectInserter {
 		}
 		packOut.compress.finish();
 		return endObject(ObjectId.fromRaw(md.digest()), offset);
+	}
+
+	private byte[] insertBuffer(long len) {
+		byte[] buf = buffer();
+		if (len <= buf.length)
+			return buf;
+		if (len < db.getReaderOptions().getStreamFileThreshold()) {
+			try {
+				return new byte[(int) len];
+			} catch (OutOfMemoryError noMem) {
+				return buf;
+			}
+		}
+		return buf;
 	}
 
 	@Override
