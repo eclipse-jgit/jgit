@@ -1,0 +1,293 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7672b30_20cb8c97",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/ignore/internal/FastIgnoreRuleTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-08-12T08:52:41Z",
+      "side": 1,
+      "message": "The package name for the unit test should be the same as that of the class being tested",
+      "revId": "9470c41b57d6361dc632bb087096b1d589104fe1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_bd8a276d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/ignore/internal/FastIgnoreRuleTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-08-12T08:52:41Z",
+      "side": 1,
+      "message": "if\u003cspace\u003e(..)\u003cspace\u003e{\nhere and everywhere",
+      "revId": "9470c41b57d6361dc632bb087096b1d589104fe1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_9d8dab88",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/ignore/internal/FastIgnoreRuleTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-08-12T08:52:41Z",
+      "side": 1,
+      "message": "//\u003cspace\u003e\nHere and elsewhere.\n\nThe Eclipse formatting settings included in the project should fix this (assuming you use Eclipse)",
+      "revId": "9470c41b57d6361dc632bb087096b1d589104fe1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_5d83135b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/ignore/internal/FastIgnoreRuleTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 504,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-08-12T08:52:41Z",
+      "side": 1,
+      "message": "nit-pick: No braces around single-statements",
+      "revId": "9470c41b57d6361dc632bb087096b1d589104fe1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_e0e7d41d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/ignore/internal/IgnoreRuleSpecialCasesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-08-12T08:52:41Z",
+      "side": 1,
+      "message": "Correct?",
+      "revId": "9470c41b57d6361dc632bb087096b1d589104fe1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_1d507b55",
+        "filename": "org.eclipse.jgit/META-INF/MANIFEST.MF",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-08-12T08:52:41Z",
+      "side": 1,
+      "message": "Why was this reformatted?",
+      "revId": "9470c41b57d6361dc632bb087096b1d589104fe1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_c0d3b846",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/FastIgnoreRule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-08-12T08:52:41Z",
+      "side": 1,
+      "message": "JGit is distributed under the EDL, not EPL.",
+      "revId": "9470c41b57d6361dc632bb087096b1d589104fe1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_a0bf9cf7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/FastIgnoreRule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-08-12T08:52:41Z",
+      "side": 1,
+      "message": "indent properly: here and elswehee",
+      "revId": "9470c41b57d6361dc632bb087096b1d589104fe1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_3df1f707",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/IgnoreRule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-08-12T08:52:41Z",
+      "side": 1,
+      "message": "nit-pick: whitespace",
+      "revId": "9470c41b57d6361dc632bb087096b1d589104fe1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_7daecff2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/internal/AbstractMatcher.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-08-12T08:52:41Z",
+      "side": 1,
+      "message": "Our style is to not have braces for around single line statements",
+      "revId": "9470c41b57d6361dc632bb087096b1d589104fe1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_1decfb30",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/internal/AbstractMatcher.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-08-12T08:52:41Z",
+      "side": 1,
+      "message": "equals should test dirOnly too.",
+      "revId": "9470c41b57d6361dc632bb087096b1d589104fe1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_5db1534b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/internal/IMatcher.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-08-12T08:52:41Z",
+      "side": 1,
+      "message": "nit-pick: trailing white space",
+      "revId": "9470c41b57d6361dc632bb087096b1d589104fe1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_bdb86731",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/internal/NameMatcher.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-08-12T08:52:41Z",
+      "side": 1,
+      "message": "nit-pick: no braces around single line statements",
+      "revId": "9470c41b57d6361dc632bb087096b1d589104fe1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_fdc13f98",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/internal/NameMatcher.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-08-12T08:52:41Z",
+      "side": 1,
+      "message": "Just pattern.substring(1) is enough",
+      "revId": "9470c41b57d6361dc632bb087096b1d589104fe1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_9dbbeb2b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/internal/NameMatcher.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-08-12T08:52:41Z",
+      "side": 1,
+      "message": "initialize i in for-statement",
+      "revId": "9470c41b57d6361dc632bb087096b1d589104fe1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_ddbc4324",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/internal/NameMatcher.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-08-12T08:52:41Z",
+      "side": 1,
+      "message": "nit-pick: no braces around single line statements",
+      "revId": "9470c41b57d6361dc632bb087096b1d589104fe1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_1d799be7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/internal/WildCardMatcher.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-08-12T08:52:41Z",
+      "side": 1,
+      "message": "I assume this comes from some measurements?",
+      "revId": "9470c41b57d6361dc632bb087096b1d589104fe1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
