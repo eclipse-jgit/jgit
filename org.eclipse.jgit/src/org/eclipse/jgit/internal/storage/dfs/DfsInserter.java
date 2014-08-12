@@ -120,6 +120,9 @@ public class DfsInserter extends ObjectInserter {
 	public ObjectId insert(int type, long len, InputStream in)
 			throws IOException {
 		byte[] buf = buffer();
+		if (buf.length < len
+				&& len < db.getReaderOptions().getStreamFileThreshold())
+			buf = new byte[(int) len];
 		if (len <= buf.length) {
 			IO.readFully(in, buf, 0, (int) len);
 			return insert(type, buf, 0, (int) len);
