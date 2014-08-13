@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "c7672b30_f73f983c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-08-13T17:27:20Z",
+      "side": 1,
+      "message": "Do you care that I am blaming you for the complicated buffering logic?",
+      "revId": "d8fa0750fa733082d3acf341780c2629079ea056",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7672b30_17edf400",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsInserterTest.java",
         "patchSetId": 10
@@ -13,6 +30,24 @@
       "writtenOn": "2014-08-13T15:10:40Z",
       "side": 1,
       "message": "Similar test when writing more than the stream buffer threshold, otherwise I don\u0027t think StreamLoader has any test coverage.",
+      "revId": "d8fa0750fa733082d3acf341780c2629079ea056",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_373ab04c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsInserterTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-08-13T17:27:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7672b30_17edf400",
       "revId": "d8fa0750fa733082d3acf341780c2629079ea056",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -36,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "c7672b30_171e94ef",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsInserter.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-08-13T17:27:20Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "c7672b30_b711a090",
+      "revId": "d8fa0750fa733082d3acf341780c2629079ea056",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7672b30_57192cab",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsInserter.java",
         "patchSetId": 10
@@ -47,6 +100,24 @@
       "writtenOn": "2014-08-13T15:10:40Z",
       "side": 1,
       "message": "Or an implicit flush due to exceeding the stream file threshold, right?",
+      "revId": "d8fa0750fa733082d3acf341780c2629079ea056",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_1745f4cb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsInserter.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 628,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-08-13T17:27:20Z",
+      "side": 1,
+      "message": "No. This code path only triggers after the inserter has closed and nulled packOut and we can no longer use packOut to read back.\n\nIts hedging against the caller doing this with a really big object:\n\n  ObjectInserter ins \u003d ...;\n  ObjectLoader ldr \u003d ins.newReader(ins.insert(...))\n  ins.flush();\n  ins.release();\n  ObjectStream data \u003d ldr.openStream();",
+      "parentUuid": "c7672b30_57192cab",
       "revId": "d8fa0750fa733082d3acf341780c2629079ea056",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -70,6 +141,24 @@
     },
     {
       "key": {
+        "uuid": "c7672b30_f7183803",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsInserter.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 631,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-08-13T17:27:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7672b30_37147072",
+      "revId": "d8fa0750fa733082d3acf341780c2629079ea056",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7672b30_97562431",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsInserter.java",
         "patchSetId": 10
@@ -81,6 +170,24 @@
       "writtenOn": "2014-08-13T15:10:40Z",
       "side": 1,
       "message": "I think nested anonymous classes are a bit tough to read, mind factoring out the InputStream?",
+      "revId": "d8fa0750fa733082d3acf341780c2629079ea056",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_3723d032",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsInserter.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 658,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-08-13T17:27:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7672b30_97562431",
       "revId": "d8fa0750fa733082d3acf341780c2629079ea056",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
