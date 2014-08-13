@@ -335,7 +335,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 			return null;
 		}
 
-		if (curs.inflate(this, position, dstbuf, 0) != sz)
+		if (curs.inflate(this, position, dstbuf, false) != sz)
 			throw new EOFException(MessageFormat.format(
 					JGitText.get().shortCompressedStreamAt,
 					Long.valueOf(position)));
@@ -886,7 +886,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 		// the longest delta instruction header.
 		//
 		final byte[] hdr = new byte[18];
-		wc.inflate(this, pos, hdr, 0);
+		wc.inflate(this, pos, hdr, true /* headerOnly */);
 		return hdr;
 	}
 
