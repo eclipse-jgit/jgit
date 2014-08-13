@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "c7672b30_776a680d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 598,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2014-08-13T19:30:51Z",
+      "side": 1,
+      "message": "Duh, yes :(\nDone.",
+      "parentUuid": "c7672b30_d78a5c6e",
+      "revId": "898acdf185fd0640a5e34fbbbcf586cd69e17961",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7672b30_7783885b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
         "patchSetId": 2
@@ -48,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "c7672b30_f755d849",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2014-08-13T19:30:51Z",
+      "side": 1,
+      "message": "depth might not be accurate. it might be the main xml file included 3 files directly, that doesn\u0027t mean the depth is 3 (they are flat).",
+      "parentUuid": "c7672b30_7783885b",
+      "revId": "898acdf185fd0640a5e34fbbbcf586cd69e17961",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7672b30_b79240a9",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
         "patchSetId": 2
@@ -59,6 +95,24 @@
       "writtenOn": "2014-08-13T17:35:51Z",
       "side": 1,
       "message": "0 is the default value for an int field. We do not make assignments to default values in constructors.",
+      "revId": "898acdf185fd0640a5e34fbbbcf586cd69e17961",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_3750f055",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2014-08-13T19:30:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7672b30_b79240a9",
       "revId": "898acdf185fd0640a5e34fbbbcf586cd69e17961",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -88,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "c7672b30_92b2b230",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2014-08-13T19:30:51Z",
+      "side": 1,
+      "message": "I tried to avoid that as I always forgot which is which.",
+      "parentUuid": "c7672b30_57a3ecf9",
+      "revId": "898acdf185fd0640a5e34fbbbcf586cd69e17961",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7672b30_9780e450",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
         "patchSetId": 2
@@ -105,6 +177,24 @@
         "endLine": 677,
         "endChar": 47
       },
+      "revId": "898acdf185fd0640a5e34fbbbcf586cd69e17961",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_72b55618",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 677,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2014-08-13T19:30:51Z",
+      "side": 1,
+      "message": "Done.\n\nDo we need to remove all the finals in the setters?",
+      "parentUuid": "c7672b30_9780e450",
       "revId": "898acdf185fd0640a5e34fbbbcf586cd69e17961",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
