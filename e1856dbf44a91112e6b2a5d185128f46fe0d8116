@@ -16,6 +16,24 @@
       "revId": "e1856dbf44a91112e6b2a5d185128f46fe0d8116",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_577e4cd2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsInserter.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-08-13T17:39:05Z",
+      "side": 1,
+      "message": "It needs a reference to the packOut. Do you want me to explicitly add a reference to the enclosing DfsInserter? Or pass in the packOut to the constructor?\n\nIts likely cleaner as its own named class, rather than being anonymous in the constructing method. So I am actually happier with it being hoisted out and named.",
+      "parentUuid": "c7672b30_57cc8cce",
+      "revId": "e1856dbf44a91112e6b2a5d185128f46fe0d8116",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
