@@ -34,6 +34,24 @@
       "revId": "e1856dbf44a91112e6b2a5d185128f46fe0d8116",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_d761bc2e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsInserter.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2014-08-13T17:39:37Z",
+      "side": 1,
+      "message": "Ack, missed the packOut reference.",
+      "parentUuid": "c7672b30_577e4cd2",
+      "revId": "e1856dbf44a91112e6b2a5d185128f46fe0d8116",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
