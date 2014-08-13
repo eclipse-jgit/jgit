@@ -418,24 +418,19 @@ public class RepoCommand extends GitCommand<RevCommit> {
 				else
 					throw new SAXException(RepoText.get().errorNoDefault);
 			}
-			final String remoteUrl;
+			String remoteUrl;
 			try {
-				URI uri = new URI(remotes.get(defaultRemote));
-				if (uri.getHost() != null) {
-					// This is not relative path, no need for baseUrl.
-					remoteUrl = uri.toString();
-				} else {
-					uri = new URI(baseUrl);
-					remoteUrl = uri.resolve(
-							remotes.get(defaultRemote)).toString();
-				}
+				URI uri = new URI(baseUrl);
+				remoteUrl = uri.resolve(remotes.get(defaultRemote)).toString();
+				if (!remoteUrl.endsWith("/"))
+					remoteUrl = remoteUrl + "/";
 			} catch (URISyntaxException e) {
 				throw new SAXException(e);
 			}
 			removeNotInGroup();
 			removeOverlaps();
 			for (Project proj : projects) {
-				command.addSubmodule(remoteUrl + "/" + proj.name,
+				command.addSubmodule(remoteUrl + proj.name,
 						proj.path,
 						proj.revision == null
 								? defaultRevision : proj.revision,
