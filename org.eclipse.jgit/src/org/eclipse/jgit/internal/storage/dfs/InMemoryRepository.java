@@ -1,5 +1,6 @@
 package org.eclipse.jgit.internal.storage.dfs;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -116,7 +117,7 @@ public class InMemoryRepository extends DfsRepository {
 		protected DfsOutputStream writeFile(
 				DfsPackDescription desc, final PackExt ext) throws IOException {
 			final MemPack memPack = (MemPack) desc;
-			return new InMemoryOutputStream() {
+			return new Out() {
 				@Override
 				public void flush() {
 					memPack.fileMap.put(ext, getData());
@@ -132,6 +133,43 @@ public class InMemoryRepository extends DfsRepository {
 		MemPack(String name, DfsRepositoryDescription repoDesc) {
 			super(repoDesc, name);
 		}
+	}
+
+	private abstract static class Out extends DfsOutputStream {
+		private final ByteArrayOutputStream dst = new ByteArrayOutputStream();
+
+		private byte[] data;
+
+		@Override
+		public void write(byte[] buf, int off, int len) {
+			data = null;
+			dst.write(buf, off, len);
+		}
+
+		@Override
+		public int read(long position, ByteBuffer buf) {
+			byte[] d = getData();
+			int n = Math.min(buf.remaining(), d.length - (int) position);
+			if (n == 0)
+				return -1;
+			buf.put(d, (int) position, n);
+			return n;
+		}
+
+		byte[] getData() {
+			if (data == null)
+				data = dst.toByteArray();
+			return data;
+		}
+
+		@Override
+		public abstract void flush();
+
+		@Override
+		public void close() {
+			flush();
+		}
+
 	}
 
 	private static class ByteArrayReadableChannel implements ReadableChannel {
