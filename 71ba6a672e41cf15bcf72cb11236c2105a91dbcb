@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7672b30_d799bc01",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/internal/PathMatcher.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-08-13T17:09:55Z",
+      "side": 1,
+      "message": "Sometimes you use \"/\" and sometimes a variable/constant...",
+      "revId": "71ba6a672e41cf15bcf72cb11236c2105a91dbcb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
