@@ -1653,24 +1653,19 @@ public abstract class PackParser {
 				int n = 0;
 				while (n < cnt) {
 					int r = inf.inflate(dst, pos + n, cnt - n);
-					if (r == 0) {
-						if (inf.finished())
-							break;
-						if (inf.needsInput()) {
-							onObjectData(src, buf, p, bAvail);
-							use(bAvail);
+					n += r;
+					if (inf.finished())
+						break;
+					if (inf.needsInput()) {
+						onObjectData(src, buf, p, bAvail);
+						use(bAvail);
 
-							p = fill(src, 1);
-							inf.setInput(buf, p, bAvail);
-						} else {
-							throw new CorruptObjectException(
-									MessageFormat
-											.format(
-													JGitText.get().packfileCorruptionDetected,
-													JGitText.get().unknownZlibError));
-						}
-					} else {
-						n += r;
+						p = fill(src, 1);
+						inf.setInput(buf, p, bAvail);
+					} else if (r == 0) {
+						throw new CorruptObjectException(MessageFormat.format(
+								JGitText.get().packfileCorruptionDetected,
+								JGitText.get().unknownZlibError));
 					}
 				}
 				actualSize += n;
