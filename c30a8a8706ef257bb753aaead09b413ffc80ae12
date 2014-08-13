@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7672b30_110864e3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackIndexV2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2014-08-13T08:53:04Z",
+      "side": 1,
+      "message": "Isn\u0027t the convention for the else to be on the same line as the } if it exists?",
+      "revId": "c30a8a8706ef257bb753aaead09b413ffc80ae12",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
