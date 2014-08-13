@@ -16,6 +16,24 @@
       "revId": "474aab76cd05ea70de5cdb95ad118576a9b09023",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_46550047",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-08-13T01:50:07Z",
+      "side": 1,
+      "message": "Actually, this should be the configured streamFileThreshold. DfsPackFile uses that to determine if its OK to hold the entire file contents in a byte[], or attempt to stream. Since this is also DFS code, that same configuration parameter should be used.\n\nSo really this should be:\n\n  buf.length \u003c len \u0026\u0026 len \u003c db.getReaderOptions().getStreamFileThreshold()\n\nor somesuch expression. I\u0027ll fix that and upload a new version later.\n\nThe merger code can\u0027t use that same logic, because its not DFS code and that value isn\u0027t shared between DFS code and core library code. That might also be another WTF, but not something I plan to fix anytime soon.",
+      "parentUuid": "c7672b30_2679e4e7",
+      "revId": "474aab76cd05ea70de5cdb95ad118576a9b09023",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
