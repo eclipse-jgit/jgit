@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c7672b30_a39206a9",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsInserterTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-08-13T05:48:17Z",
+      "side": 1,
+      "message": "No, 2013 is correct. The first version of this test was written and published in 2013. The fact that it took our project more than a year to accept the code doesn\u0027t change the year it came into existence.",
+      "parentUuid": "e76c2f17_7de379c3",
+      "revId": "a42a87a016b5e40fc65396479de5425d5ceed3fc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e76c2f17_2231dc75",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsInserterTest.java",
         "patchSetId": 8
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "c7672b30_6383ce5b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsInserterTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-08-13T05:48:17Z",
+      "side": 1,
+      "message": "Done, added testInserterDiscardsPack",
+      "parentUuid": "e76c2f17_2231dc75",
+      "revId": "a42a87a016b5e40fc65396479de5425d5ceed3fc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e76c2f17_621474d0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsInserter.java",
         "patchSetId": 8
@@ -47,6 +83,24 @@
       "writtenOn": "2014-07-02T18:07:01Z",
       "side": 1,
       "message": "Unlike flushBlock(), this doesn\u0027t put the newly written data in the DfsBlockCache. That seems good because otherwise we\u0027d be asking a lot of the block cache by putting partial blocks there. Am I right in assuming that DfsOutputStream#read is meant to be fast already so this shouldn\u0027t hurt anything?",
+      "revId": "a42a87a016b5e40fc65396479de5425d5ceed3fc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_03749af0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsInserter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-08-13T05:48:17Z",
+      "side": 1,
+      "message": "Basically, yes. Partial block storage isn\u0027t well supported by DfsBlockCache. We also assume the caller is going to do a burst of inserts followed by a few (if any) reads. The burst of inserts may fill out most if not all of a block; the next read will load that block into the cache if required. If no read happens, no cache activity occurs.\n\nDfsOutputStream.read() is assumed to run at reasonable latencies (\u003c200 ms). So incurring that periodically at block size intervals when the caller transitions from insert activity to read activity should be acceptable performance.\n\nFWIW DfsPackParser sort of suffers from the same problem during delta chain resolution when the incoming pack is larger than what the block cache can support. Implementations do really need reasonable response time from read.\n\nBut I don\u0027t think we should be flushing after every object. Instead flushes should happen no more frequently than during transitions between inserting and reading.",
+      "parentUuid": "e76c2f17_621474d0",
       "revId": "a42a87a016b5e40fc65396479de5425d5ceed3fc",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -115,6 +169,24 @@
       "writtenOn": "2014-07-02T22:38:59Z",
       "side": 1,
       "message": "missing @since 3.5 tag",
+      "revId": "a42a87a016b5e40fc65396479de5425d5ceed3fc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_63346e65",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectInserter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-08-13T05:48:17Z",
+      "side": 1,
+      "message": "I am just going to break the API here. Nobody outside of JGit should be implementing ObjectInserter, unless they are also building a storage backend. Storage backends are internal API, we can change them at any time.\n\nPassing an argument to this function is useless. The inserter always has sufficient context to make a reader, otherwise it can\u0027t do its job properly. Its just buried in the subclasses because its implementation specific.\n\nScrew the API rules. We are adding an abstract method. If that means our next release _MUST_ be 4.0 to appease the mythical implementation that doesn\u0027t exist, so be it.",
+      "parentUuid": "e76c2f17_9db135cc",
       "revId": "a42a87a016b5e40fc65396479de5425d5ceed3fc",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
