@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7672b30_57cc8cce",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsInserter.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2014-08-13T17:31:06Z",
+      "side": 1,
+      "message": "I would have been ok with two consecutive anonymous classes in the same method, it was just the nesting I was having trouble with :)\n\nGiven that you\u0027ve factored it out, it should probably be static.",
+      "revId": "e1856dbf44a91112e6b2a5d185128f46fe0d8116",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
