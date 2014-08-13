@@ -290,11 +290,11 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 	 *            position within the file to read from.
 	 * @param dstbuf
 	 *            destination buffer the inflater should output decompressed
-	 *            data to.
-	 * @param dstoff
-	 *            current offset within <code>dstbuf</code> to inflate into.
-	 * @return updated <code>dstoff</code> based on the number of bytes
-	 *         successfully inflated into <code>dstbuf</code>.
+	 *            data to. Must be large enough to store the entire stream,
+	 *            unless headerOnly is true.
+	 * @param headerOnly
+	 *            if true the caller wants only {@code dstbuf.length} bytes.
+	 * @return number of bytes inflated into <code>dstbuf</code>.
 	 * @throws IOException
 	 *             this cursor does not match the provider or id and the proper
 	 *             window could not be acquired through the provider's cache.
@@ -303,24 +303,21 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 	 *             stream corruption is likely.
 	 */
 	int inflate(final PackFile pack, long position, final byte[] dstbuf,
-			int dstoff) throws IOException, DataFormatException {
+			boolean headerOnly) throws IOException, DataFormatException {
 		prepareInflater();
 		pin(pack, position);
 		position += window.setInput(position, inf);
-		do {
+		for (int dstoff = 0;;) {
 			int n = inf.inflate(dstbuf, dstoff, dstbuf.length - dstoff);
-			if (n == 0) {
-				if (inf.needsInput()) {
-					pin(pack, position);
-					position += window.setInput(position, inf);
-				} else if (inf.finished())
-					return dstoff;
-				else
-					throw new DataFormatException();
-			}
 			dstoff += n;
-		} while (dstoff < dstbuf.length);
-		return dstoff;
+			if (inf.finished() || (headerOnly && dstoff == dstbuf.length))
+				return dstoff;
+			if (inf.needsInput()) {
+				pin(pack, position);
+				position += window.setInput(position, inf);
+			} else if (n == 0)
+				throw new DataFormatException();
+		}
 	}
 
 	ByteArrayWindow quickCopy(PackFile p, long pos, long cnt)
