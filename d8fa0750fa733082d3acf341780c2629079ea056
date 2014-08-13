@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7672b30_17edf400",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsInserterTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2014-08-13T15:10:40Z",
+      "side": 1,
+      "message": "Similar test when writing more than the stream buffer threshold, otherwise I don\u0027t think StreamLoader has any test coverage.",
+      "revId": "d8fa0750fa733082d3acf341780c2629079ea056",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_b711a090",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsInserter.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2014-08-13T15:10:40Z",
+      "side": 1,
+      "message": "I understand that this is a true statement but not why this comment was added to this method.",
+      "revId": "d8fa0750fa733082d3acf341780c2629079ea056",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_57192cab",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsInserter.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 628,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2014-08-13T15:10:40Z",
+      "side": 1,
+      "message": "Or an implicit flush due to exceeding the stream file threshold, right?",
+      "revId": "d8fa0750fa733082d3acf341780c2629079ea056",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_37147072",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsInserter.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 631,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2014-08-13T15:10:40Z",
+      "side": 1,
+      "message": "Space before finally.",
+      "revId": "d8fa0750fa733082d3acf341780c2629079ea056",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_97562431",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsInserter.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 658,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2014-08-13T15:10:40Z",
+      "side": 1,
+      "message": "I think nested anonymous classes are a bit tough to read, mind factoring out the InputStream?",
+      "revId": "d8fa0750fa733082d3acf341780c2629079ea056",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
