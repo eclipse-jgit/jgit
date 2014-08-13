@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7672b30_2679e4e7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2014-08-13T01:02:47Z",
+      "side": 1,
+      "message": "Would be nice if we could share a constant here to match the buffer sizes.",
+      "revId": "474aab76cd05ea70de5cdb95ad118576a9b09023",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
