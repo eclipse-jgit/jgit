@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c7672b30_b7bb602b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2014-08-13T17:31:24Z",
+      "side": 1,
+      "message": "I don\u0027t care that you didn\u0027t change the author :)\n\nI do care that you blame me for the buffering logic insofar as my original implementation just held on to a side map of object buffers, and you were the one who suggested reading it back from the in-progress pack buffer.",
+      "parentUuid": "c7672b30_f73f983c",
+      "revId": "d8fa0750fa733082d3acf341780c2629079ea056",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7672b30_17edf400",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsInserterTest.java",
         "patchSetId": 10
