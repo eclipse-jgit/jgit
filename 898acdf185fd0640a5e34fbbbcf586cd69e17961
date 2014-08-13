@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7672b30_d78a5c6e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 598,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-08-13T17:35:51Z",
+      "side": 1,
+      "message": "Did you mean _include.xml here?",
+      "range": {
+        "startLine": 598,
+        "startChar": 12,
+        "endLine": 598,
+        "endChar": 26
+      },
+      "revId": "898acdf185fd0640a5e34fbbbcf586cd69e17961",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_7783885b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-08-13T17:35:51Z",
+      "side": 1,
+      "message": "includeDepth may be a better name for this field.",
+      "range": {
+        "startLine": 342,
+        "startChar": 14,
+        "endLine": 342,
+        "endChar": 23
+      },
+      "revId": "898acdf185fd0640a5e34fbbbcf586cd69e17961",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_b79240a9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-08-13T17:35:51Z",
+      "side": 1,
+      "message": "0 is the default value for an int field. We do not make assignments to default values in constructors.",
+      "revId": "898acdf185fd0640a5e34fbbbcf586cd69e17961",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_57a3ecf9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-08-13T17:35:51Z",
+      "side": 1,
+      "message": "This is also acceptable:\n\n  if (--xmlInRead !\u003d 0)\n    return;",
+      "range": {
+        "startLine": 467,
+        "startChar": 3,
+        "endLine": 469,
+        "endChar": 11
+      },
+      "revId": "898acdf185fd0640a5e34fbbbcf586cd69e17961",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_9780e450",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 677,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-08-13T17:35:51Z",
+      "side": 1,
+      "message": "nit: final is not necessary here",
+      "range": {
+        "startLine": 677,
+        "startChar": 42,
+        "endLine": 677,
+        "endChar": 47
+      },
+      "revId": "898acdf185fd0640a5e34fbbbcf586cd69e17961",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
