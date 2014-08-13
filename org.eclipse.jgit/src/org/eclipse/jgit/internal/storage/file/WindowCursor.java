@@ -307,7 +307,7 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 		prepareInflater();
 		pin(pack, position);
 		position += window.setInput(position, inf);
-		do {
+		while (dstoff < dstbuf.length) {
 			int n = inf.inflate(dstbuf, dstoff, dstbuf.length - dstoff);
 			if (n == 0) {
 				if (inf.needsInput()) {
@@ -319,7 +319,7 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 					throw new DataFormatException();
 			}
 			dstoff += n;
-		} while (dstoff < dstbuf.length);
+		};
 		return dstoff;
 	}
 
