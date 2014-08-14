@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7672b30_e9d33846",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1665,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-08-14T00:27:56Z",
+      "side": 1,
+      "message": "should be r, not n",
+      "range": {
+        "startLine": 1665,
+        "startChar": 12,
+        "endLine": 1665,
+        "endChar": 23
+      },
+      "revId": "b6004912476fd071506a7515dc25e2694c8fb5c3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
