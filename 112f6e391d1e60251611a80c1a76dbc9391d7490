@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c7672b30_101a15a2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlock.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-08-14T19:37:40Z",
+      "side": 1,
+      "message": "Make them consistent with WindowCache. The two classes have basically the same API, but reversed the arguments between them.",
+      "parentUuid": "c7672b30_15a7a740",
+      "revId": "112f6e391d1e60251611a80c1a76dbc9391d7490",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7672b30_95bbb75d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2014-08-14T18:34:44Z",
       "side": 1,
       "message": "Same comment as other javadoc.",
+      "revId": "112f6e391d1e60251611a80c1a76dbc9391d7490",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_1065f50e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 603,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-08-14T19:37:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7672b30_95bbb75d",
       "revId": "112f6e391d1e60251611a80c1a76dbc9391d7490",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "c7672b30_306ab1e1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-08-14T19:37:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7672b30_d5c52fd6",
+      "revId": "112f6e391d1e60251611a80c1a76dbc9391d7490",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7672b30_155cc7c4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCursor.java",
         "patchSetId": 3
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "c7672b30_7019c9ab",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCursor.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-08-14T19:37:40Z",
+      "side": 1,
+      "message": "Yes, that is what I meant. Done.",
+      "parentUuid": "c7672b30_155cc7c4",
+      "revId": "112f6e391d1e60251611a80c1a76dbc9391d7490",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7672b30_75b6db71",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCursor.java",
         "patchSetId": 3
@@ -81,6 +153,24 @@
       "writtenOn": "2014-08-14T18:34:44Z",
       "side": 1,
       "message": "Explain what dstoff is, since it\u0027s no longer a param.",
+      "revId": "112f6e391d1e60251611a80c1a76dbc9391d7490",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_d0637d0b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCursor.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-08-14T19:37:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7672b30_75b6db71",
       "revId": "112f6e391d1e60251611a80c1a76dbc9391d7490",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
