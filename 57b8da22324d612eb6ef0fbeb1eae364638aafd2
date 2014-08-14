@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7672b30_fc649814",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-08-14T09:12:39Z",
+      "side": 1,
+      "message": "We put the bug number in the footer. See any other commit",
+      "revId": "57b8da22324d612eb6ef0fbeb1eae364638aafd2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_7c40885e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCursor.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-08-14T09:12:39Z",
+      "side": 1,
+      "message": "No ; here",
+      "revId": "57b8da22324d612eb6ef0fbeb1eae364638aafd2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
