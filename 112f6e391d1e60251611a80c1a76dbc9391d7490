@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7672b30_15a7a740",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlock.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2014-08-14T18:34:44Z",
+      "side": 1,
+      "message": "Why switch the order of args?",
+      "revId": "112f6e391d1e60251611a80c1a76dbc9391d7490",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_95bbb75d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 603,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2014-08-14T18:34:44Z",
+      "side": 1,
+      "message": "Same comment as other javadoc.",
+      "revId": "112f6e391d1e60251611a80c1a76dbc9391d7490",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_d5c52fd6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2014-08-14T18:34:44Z",
+      "side": 1,
+      "message": "Same comment as other javadoc.",
+      "revId": "112f6e391d1e60251611a80c1a76dbc9391d7490",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_155cc7c4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCursor.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2014-08-14T18:34:44Z",
+      "side": 1,
+      "message": "Did you mean, \"Must be large enough to store the entire stream, unless headerOnly is true.\"?\n\nIf not, this doesn\u0027t really make sense: headerOnly\u003dtrue would read up to dstbuf.length bytes, which is the entire stream, not just the header.",
+      "revId": "112f6e391d1e60251611a80c1a76dbc9391d7490",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_75b6db71",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCursor.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2014-08-14T18:34:44Z",
+      "side": 1,
+      "message": "Explain what dstoff is, since it\u0027s no longer a param.",
+      "revId": "112f6e391d1e60251611a80c1a76dbc9391d7490",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
