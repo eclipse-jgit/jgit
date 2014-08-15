@@ -16,6 +16,24 @@
       "revId": "ac957b999046f02e28966fc69f77099dd3dd426b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_0e5b11ce",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 873,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-08-15T17:28:37Z",
+      "side": 1,
+      "message": "Yup. Fixed in a later patch set.",
+      "parentUuid": "c7672b30_ee7e951f",
+      "revId": "ac957b999046f02e28966fc69f77099dd3dd426b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
