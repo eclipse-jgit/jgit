@@ -43,13 +43,40 @@
 
 package org.eclipse.jgit.util;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+import java.nio.file.attribute.PosixFilePermission;
 
 /**
  * FS implementation for Java7 on unix like systems
  */
 public class FS_POSIX_Java7 extends FS_POSIX {
+
+	/*
+	 * True if the current user "umask" allows to set execute bit for "others".
+	 * Can be null if "umask" is not supported (or returns unexpected values) by
+	 * current user shell. See
+	 * https://bugs.eclipse.org/bugs/show_bug.cgi?id=424395
+	 */
+	private static final Boolean EXECUTE_FOR_OTHERS;
+
+	static {
+		String umask = readUmask();
+
+		// umask return value consists or 3 or 4 digits, like "002" or "0002"
+		if (umask != null && umask.length() > 0 && umask.matches("\\d{3,4}")) //$NON-NLS-1$
+			// If "ownerOnly" is set to "true", File.setExecutable(executable,
+			// ownerOnly) seems to derive right *group* rights automagically
+			// from the umask, the extra work is needed for "others" bit only.
+			EXECUTE_FOR_OTHERS = isSet(PosixFilePermission.OTHERS_EXECUTE,
+					umask);
+		else
+			EXECUTE_FOR_OTHERS = null;
+
+	}
 
 	FS_POSIX_Java7(FS_POSIX_Java7 src) {
 		super(src);
@@ -76,7 +103,76 @@ public class FS_POSIX_Java7 extends FS_POSIX {
 
 	@Override
 	public boolean setExecute(File f, boolean canExecute) {
+		// only if the execute has to be set, and we know the umask
+		if (canExecute && EXECUTE_FOR_OTHERS != null) {
+			if (!isFile(f))
+				return false;
+			boolean ownerOnly = !EXECUTE_FOR_OTHERS.booleanValue();
+			return f.setExecutable(canExecute, ownerOnly);
+		}
+		// default implementation sets the execute bit for user and group only
 		return FileUtil.setExecute(f, canExecute);
+	}
+
+	/**
+	 * Derives requested permission from given octal umask value as defined e.g.
+	 * in http://linux.die.net/man/2/umask.
+	 *
+	 * @param p
+	 *            not null
+	 * @param umask
+	 *            not null, not empty
+	 * @return true if the requested permission is set according to given umask
+	 */
+	private static Boolean isSet(PosixFilePermission p, String umask) {
+		char val;
+		switch (p) {
+		case OTHERS_EXECUTE:
+			// Read last digit, because umask is ordered as: User/Group/Others.
+			val = umask.charAt(umask.length() - 1);
+			return fromExecuteBit(val);
+		default:
+			throw new UnsupportedOperationException(
+					"isSet() for " + p + " is not implemented!"); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+	}
+
+	private static String readUmask() {
+		Process p;
+		try {
+			p = Runtime.getRuntime().exec(
+					new String[] { "sh", "-c", "umask" }, null, null); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			final BufferedReader lineRead = new BufferedReader(
+					new InputStreamReader(p.getInputStream(), Charset
+							.defaultCharset().name()));
+			p.waitFor();
+			return lineRead.readLine();
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	/**
+	 * <pre>
+	 * Octal value : Permission
+	 *          0 : read, write and execute
+	 *          1 : read and write
+	 *          2 : read and execute
+	 *          3 : read only
+	 *          4 : write and execute
+	 *          5 : write only
+	 *          6 : execute only
+	 *          7 : no permissions
+	 * </pre>
+	 * 
+	 * @param val
+	 *            digit
+	 * @return true if the execute bit is set
+	 */
+	private static Boolean fromExecuteBit(char val) {
+		if (val == '0' || val == '2' || val == '4' || val == '6')
+			return Boolean.TRUE;
+		return Boolean.FALSE;
 	}
 
 	@Override
