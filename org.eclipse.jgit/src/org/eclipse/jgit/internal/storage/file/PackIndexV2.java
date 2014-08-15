@@ -45,6 +45,7 @@ package org.eclipse.jgit.internal.storage.file;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -113,7 +114,10 @@ class PackIndexV2 extends PackIndex {
 				offset32[k] = NO_BYTES;
 				crc32[k] = NO_BYTES;
 				continue;
-			}
+			} else if (bucketCnt < 0)
+				throw new IOException(MessageFormat.format(
+						JGitText.get().indexFileCorruptedNegativeBucketCount,
+						Long.valueOf(bucketCnt)));
 
 			final long nameLen = bucketCnt * Constants.OBJECT_ID_LENGTH;
 			if (nameLen > Integer.MAX_VALUE - 8) // see http://stackoverflow.com/a/8381338
