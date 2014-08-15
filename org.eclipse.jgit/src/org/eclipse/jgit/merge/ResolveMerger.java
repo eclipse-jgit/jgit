@@ -81,6 +81,7 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
@@ -682,11 +683,11 @@ public class ResolveMerger extends ThreeWayMerger {
 			CanonicalTreeParser ours, CanonicalTreeParser theirs)
 			throws IOException {
 		RawText baseText = base == null ? RawText.EMPTY_TEXT : getRawText(
-				base.getEntryObjectId(), db);
+				base.getEntryObjectId(), reader);
 		RawText ourText = ours == null ? RawText.EMPTY_TEXT : getRawText(
-				ours.getEntryObjectId(), db);
+				ours.getEntryObjectId(), reader);
 		RawText theirsText = theirs == null ? RawText.EMPTY_TEXT : getRawText(
-				theirs.getEntryObjectId(), db);
+				theirs.getEntryObjectId(), reader);
 		return (mergeAlgorithm.merge(RawTextComparator.DEFAULT, baseText,
 				ourText, theirsText));
 	}
@@ -866,11 +867,11 @@ public class ResolveMerger extends ThreeWayMerger {
 		return FileMode.MISSING.getBits();
 	}
 
-	private static RawText getRawText(ObjectId id, Repository db)
+	private static RawText getRawText(ObjectId id, ObjectReader reader)
 			throws IOException {
 		if (id.equals(ObjectId.zeroId()))
 			return new RawText(new byte[] {});
-		return new RawText(db.open(id, OBJ_BLOB).getCachedBytes());
+		return new RawText(reader.open(id, OBJ_BLOB).getCachedBytes());
 	}
 
 	private static boolean nonTree(final int mode) {
@@ -1028,7 +1029,7 @@ public class ResolveMerger extends ThreeWayMerger {
 		builder = dircache.builder();
 		DirCacheBuildIterator buildIt = new DirCacheBuildIterator(builder);
 
-		tw = new NameConflictTreeWalk(db);
+		tw = new NameConflictTreeWalk(reader);
 		tw.addTree(baseTree);
 		tw.addTree(headTree);
 		tw.addTree(mergeTree);
