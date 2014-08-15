@@ -265,7 +265,7 @@ public class RecursiveMerger extends ResolveMerger {
 	private DirCache dircacheFromTree(ObjectId treeId) throws IOException {
 		DirCache ret = DirCache.newInCore();
 		DirCacheBuilder builder = ret.builder();
-		TreeWalk tw = new TreeWalk(db);
+		TreeWalk tw = new TreeWalk(reader);
 		tw.addTree(treeId);
 		tw.setRecursive(true);
 		while (tw.next()) {
