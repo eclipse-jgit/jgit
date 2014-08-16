@@ -16,6 +16,24 @@
       "revId": "3e9ef576f9b20a8259d3b9a550c852e5124a867f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_31df5288",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-08-16T02:42:05Z",
+      "side": 1,
+      "message": "I don\u0027t know who did this. I just found a random commit in a MapReduce tonight with insufficient context to answer \"who\". :)\n\nI think you are right, we should handle that bad encoding differently here.",
+      "parentUuid": "c7672b30_f1395a58",
+      "revId": "3e9ef576f9b20a8259d3b9a550c852e5124a867f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
