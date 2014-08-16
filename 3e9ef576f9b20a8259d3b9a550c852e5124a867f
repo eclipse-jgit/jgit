@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7672b30_f1395a58",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2014-08-16T02:37:24Z",
+      "side": 1,
+      "message": "Weird. What repository does this?\n\nI don\u0027t think native git supports this (the glibc-supported aliases for ISO-8859-1 are\n\n ISO-IR-100\n ISO_8859-1:1987\n ISO_8859-1\n ISO8859-1\n ISO88591\n LATIN1\n L1\n IBM819\n CP819\n CSISOLATIN1\n 8859_1\n OSF00010001\n\n). When it sees an unrecognized encoding git just gives up and prints things as is.",
+      "revId": "3e9ef576f9b20a8259d3b9a550c852e5124a867f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
