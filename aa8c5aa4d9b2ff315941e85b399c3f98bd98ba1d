@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7672b30_14f7a44d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackIndexV2.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2014-08-17T06:58:28Z",
+      "side": 1,
+      "message": "Please use Long.valueOf here",
+      "revId": "aa8c5aa4d9b2ff315941e85b399c3f98bd98ba1d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
