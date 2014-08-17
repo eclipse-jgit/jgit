@@ -34,6 +34,24 @@
       "revId": "3e9ef576f9b20a8259d3b9a550c852e5124a867f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_74c538d4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-08-17T08:47:06Z",
+      "side": 1,
+      "message": "latin-1 is a actually a good default for anything we don\u0027t understand since it\u0027s pass-through. Reading anything as latin-1 into unicode and writing as latin-1 it again never destroys the content. The intermediate unicode might be gibberish though.",
+      "parentUuid": "c7672b30_31df5288",
+      "revId": "3e9ef576f9b20a8259d3b9a550c852e5124a867f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
