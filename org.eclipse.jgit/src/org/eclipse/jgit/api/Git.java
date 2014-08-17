@@ -701,4 +701,8 @@ public class Git {
 		return repo;
 	}
 
+	@Override
+	public String toString() {
+		return "Git[" + repo + "]"; //$NON-NLS-1$//$NON-NLS-2$
+	}
 }
