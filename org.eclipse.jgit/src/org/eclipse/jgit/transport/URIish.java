@@ -252,6 +252,15 @@ public class URIish implements Serializable {
 		throw new URISyntaxException(s, JGitText.get().cannotParseGitURIish);
 	}
 
+	private static byte parseHexByte(byte c1, byte c2) {
+		try {
+			return (byte) ((RawParseUtils.parseHexInt4(c1) << 4)
+					| RawParseUtils.parseHexInt4(c2));
+		} catch (ArrayIndexOutOfBoundsException e) {
+			throw new URISyntaxException(s, JGitText.get().cannotParseGitURIish);
+		}
+	}
+
 	private static String unescape(String s) throws URISyntaxException {
 		if (s == null)
 			return null;
@@ -272,9 +281,7 @@ public class URIish implements Serializable {
 			if (c == '%') {
 				if (i + 2 >= bytes.length)
 					throw new URISyntaxException(s, JGitText.get().cannotParseGitURIish);
-				int val = (RawParseUtils.parseHexInt4(bytes[i + 1]) << 4)
-						| RawParseUtils.parseHexInt4(bytes[i + 2]);
-				os[j++] = (byte) val;
+				os[j++] = parseHexByte(bytes[i + 1], bytes[i + 2]);;
 				i += 2;
 			} else
 				os[j++] = c;
