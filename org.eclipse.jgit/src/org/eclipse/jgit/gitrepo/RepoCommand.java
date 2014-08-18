@@ -281,13 +281,16 @@ public class RepoCommand extends GitCommand<RevCommit> {
 		final String name;
 		final String path;
 		final String revision;
+		final String remote;
 		final Set<String> groups;
 		final List<CopyFile> copyfiles;
 
-		Project(String name, String path, String revision, String groups) {
+		Project(String name, String path, String revision,
+				String remote, String groups) {
 			this.name = name;
 			this.path = path;
 			this.revision = revision;
+			this.remote = remote;
 			this.groups = new HashSet<String>();
 			if (groups != null && groups.length() > 0)
 				this.groups.addAll(Arrays.asList(groups.split(","))); //$NON-NLS-1$
@@ -401,6 +404,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 						attributes.getValue("name"), //$NON-NLS-1$
 						attributes.getValue("path"), //$NON-NLS-1$
 						attributes.getValue("revision"), //$NON-NLS-1$
+						attributes.getValue("remote"), //$NON-NLS-1$
 						attributes.getValue("groups")); //$NON-NLS-1$
 			} else if ("remote".equals(qName)) { //$NON-NLS-1$
 				remotes.put(attributes.getValue("name"), //$NON-NLS-1$
@@ -474,18 +478,28 @@ public class RepoCommand extends GitCommand<RevCommit> {
 				else
 					throw new SAXException(RepoText.get().errorNoDefault);
 			}
-			String remoteUrl;
+			removeNotInGroup();
+			removeOverlaps();
+
+			Map<String, String> remoteUrls = new HashMap<String, String>();
+			URI baseUri;
 			try {
-				URI uri = new URI(baseUrl);
-				remoteUrl = uri.resolve(remotes.get(defaultRemote)).toString();
-				if (!remoteUrl.endsWith("/"))
-					remoteUrl = remoteUrl + "/";
+				baseUri = new URI(baseUrl);
 			} catch (URISyntaxException e) {
 				throw new SAXException(e);
 			}
-			removeNotInGroup();
-			removeOverlaps();
 			for (Project proj : projects) {
+				String remote = proj.remote;
+				if (remote == null)
+					remote = defaultRemote;
+				String remoteUrl = remoteUrls.get(remote);
+				if (remoteUrl == null) {
+					remoteUrl = baseUri.resolve(remotes.get(remote)).toString();
+					if (!remoteUrl.endsWith("/"))
+						remoteUrl = remoteUrl + "/";
+					remoteUrls.put(remote, remoteUrl);
+				}
+
 				command.addSubmodule(remoteUrl + proj.name,
 						proj.path,
 						proj.revision == null
@@ -819,7 +833,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	private void addSubmodule(String url, String name, String revision,
 			List<CopyFile> copyfiles) throws SAXException {
 		if (repo.isBare()) {
-			Project proj = new Project(url, name, revision, null);
+			Project proj = new Project(url, name, revision, null, null);
 			proj.copyfiles.addAll(copyfiles);
 			bareProjects.add(proj);
 		} else {
