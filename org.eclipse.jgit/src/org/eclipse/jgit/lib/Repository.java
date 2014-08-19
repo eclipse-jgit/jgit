@@ -1154,7 +1154,7 @@ public abstract class Repository {
 		if (refName.endsWith(".lock")) //$NON-NLS-1$
 			return false;
 
-		// Borrow logic for filterig out invalid paths. These
+		// Borrow logic for filtering out invalid paths. These
 		// are also invalid ref
 		try {
 			DirCacheCheckout.checkValidPath(refName);
