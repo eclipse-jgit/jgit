@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7672b30_23453b1a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2014-08-20T11:34:56Z",
+      "side": 1,
+      "message": "Please separate them into two lines, much easier to read.",
+      "revId": "e4d4aaa60e2e74888d978ea3c394ce9f9df384d6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_43c5d705",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2014-08-20T11:34:56Z",
+      "side": 1,
+      "message": "Could you extract that into a function? That way, you can just write `byte val \u003d parseHexByte(c1, c2);` and in the function have a single return.",
+      "revId": "e4d4aaa60e2e74888d978ea3c394ce9f9df384d6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
