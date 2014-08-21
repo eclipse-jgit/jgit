@@ -180,7 +180,7 @@ public class UserConfig {
 			username = system().getenv(envKey);
 		}
 
-		return username;
+		return stripInvalidCharacters(username);
 	}
 
 	/**
@@ -204,7 +204,11 @@ public class UserConfig {
 			email = system().getenv(envKey);
 		}
 
-		return email;
+		return stripInvalidCharacters(email);
+	}
+
+	private static String stripInvalidCharacters(String s) {
+		return s == null ? null : s.replaceAll("<|>|\n", ""); //$NON-NLS-1$//$NON-NLS-2$
 	}
 
 	/**

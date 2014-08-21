@@ -214,6 +214,20 @@ public class ConfigTest {
 	}
 
 	@Test
+	public void testReadUserConfigWithInvalidCharactersStripped() {
+		final MockSystemReader mockSystemReader = new MockSystemReader();
+		final Config localConfig = new Config(mockSystemReader.openUserConfig(
+				null, FS.DETECTED));
+
+		localConfig.setString("user", null, "name", "foo<bar");
+		localConfig.setString("user", null, "email", "baz>\nqux@example.com");
+
+		UserConfig userConfig = localConfig.get(UserConfig.KEY);
+		assertEquals("foobar", userConfig.getAuthorName());
+		assertEquals("bazqux@example.com", userConfig.getAuthorEmail());
+	}
+
+	@Test
 	public void testReadBoolean_TrueFalse1() throws ConfigInvalidException {
 		final Config c = parse("[s]\na = true\nb = false\n");
 		assertEquals("true", c.getString("s", null, "a"));
