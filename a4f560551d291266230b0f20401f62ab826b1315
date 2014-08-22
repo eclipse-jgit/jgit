@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7672b30_3090da54",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 454
+      },
+      "writtenOn": "2014-08-22T08:03:23Z",
+      "side": 1,
+      "message": "This is actually evil and breaks backward compatibility :-O\nSee https://groups.google.com/forum/#!topic/repo-discuss/t_yYD2IGYS0\n\nThe password in the URIish (that was used to work before as credential for HTTP BasicAuth) would not be used anymore and there\u0027s no way to use it as the credential provider would not be null anymore (as it is getting always replaced with NetRCCredentialsProvider.\n\nMoreover the NetRCCredentialsProvider is used as well if the user has no .netrc at all :-O which is wrong IMHO.",
+      "revId": "a4f560551d291266230b0f20401f62ab826b1315",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
