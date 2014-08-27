@@ -16,6 +16,24 @@
       "revId": "467ddf5665ee88b9cdeeb1b5db33dba2fa0378f9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_83407809",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 782,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-08-27T19:44:39Z",
+      "side": 1,
+      "message": "Depends on the server configuration.\n\nIf the server has fsck enabled, connectivity checking will fail. The server will barf and nothing goes wrong.\n\nIf the server has fsck off (default, yay!), the server repository will be corrupted. Note this is the old behavior. We haven\u0027t really fixed the bug.",
+      "parentUuid": "c7672b30_8369989b",
+      "revId": "467ddf5665ee88b9cdeeb1b5db33dba2fa0378f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
