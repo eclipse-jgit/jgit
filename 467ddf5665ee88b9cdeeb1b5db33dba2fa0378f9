@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7672b30_8369989b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 782,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2014-08-27T19:40:51Z",
+      "side": 1,
+      "message": "What happens when the client pushes from a branch with shallow commits that the server doesn\u0027t have? E.g., what should happen if I do\n\n git clone https://android.googlesource.com/platform/frameworks/base\n cd base\n ... hack hack hack, including making some commits\n\n cd ..\n git clone --depth\u003d1 file://$(pwd)/base base-clone\n cd base-clone\n git push https://android.googlesource.com/platform/frameworks/base HEAD:somewhere",
+      "revId": "467ddf5665ee88b9cdeeb1b5db33dba2fa0378f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
