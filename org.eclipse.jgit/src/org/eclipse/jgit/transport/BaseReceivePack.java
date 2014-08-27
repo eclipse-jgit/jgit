@@ -222,7 +222,7 @@ public abstract class BaseReceivePack {
 
 	/** Capabilities requested by the client. */
 	private Set<String> enabledCapabilities;
-
+	private Set<ObjectId> clientShallowCommits;
 	private List<ReceiveCommand> commands;
 
 	private StringBuilder advertiseError;
@@ -263,6 +263,7 @@ public abstract class BaseReceivePack {
 		advertiseRefsHook = AdvertiseRefsHook.DEFAULT;
 		refFilter = RefFilter.DEFAULT;
 		advertisedHaves = new HashSet<ObjectId>();
+		clientShallowCommits = new HashSet<ObjectId>();
 	}
 
 	/** Configuration for receive operations. */
@@ -770,6 +771,18 @@ public abstract class BaseReceivePack {
 		throw new IllegalStateException(JGitText.get().packSizeNotSetYet);
 	}
 
+	/**
+	 * Get the commits from the client's shallow file.
+	 *
+	 * @return if the client is a shallow repository, the list of edge commits
+	 *     that define the client's shallow boundary. Empty set if the client
+	 *     is earlier than Git 1.9, or is a full clone.
+	 * @since 3.5
+	 */
+	protected Set<ObjectId> getClientShallowCommits() {
+		return clientShallowCommits;
+	}
+
 	/** @return true if any commands to be executed have been read. */
 	protected boolean hasCommands() {
 		return !commands.isEmpty();
@@ -923,6 +936,11 @@ public abstract class BaseReceivePack {
 			if (line == PacketLineIn.END)
 				break;
 
+			if (line.length() >= 48 && line.startsWith("shallow ")) { //$NON-NLS-1$
+				clientShallowCommits.add(ObjectId.fromString(line.substring(8, 48)));
+				continue;
+			}
+
 			if (commands.isEmpty()) {
 				final FirstLine firstLine = new FirstLine(line);
 				enabledCapabilities = firstLine.getCapabilities();
@@ -1030,7 +1048,8 @@ public abstract class BaseReceivePack {
 
 	private boolean needCheckConnectivity() {
 		return isCheckReceivedObjects()
-				|| isCheckReferencedObjectsAreReachable();
+				|| isCheckReferencedObjectsAreReachable()
+				|| !getClientShallowCommits().isEmpty();
 	}
 
 	private void checkConnectivity() throws IOException {
