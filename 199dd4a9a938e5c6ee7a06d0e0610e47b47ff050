@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7672b30_2336c49c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 939,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2014-08-27T20:25:17Z",
+      "side": 1,
+      "message": "git receive-pack isn\u0027t this permissive, but I don\u0027t mind.",
+      "range": {
+        "startLine": 939,
+        "startChar": 7,
+        "endLine": 939,
+        "endChar": 26
+      },
+      "revId": "199dd4a9a938e5c6ee7a06d0e0610e47b47ff050",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
