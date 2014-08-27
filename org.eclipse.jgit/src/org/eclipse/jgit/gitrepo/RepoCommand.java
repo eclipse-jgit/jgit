@@ -473,14 +473,8 @@ public class RepoCommand extends GitCommand<RevCommit> {
 			xmlInRead--;
 			if (xmlInRead != 0)
 				return;
+
 			// Only do the following after we finished reading everything.
-			if (defaultRemote == null) {
-				if (filename != null)
-					throw new SAXException(MessageFormat.format(
-							RepoText.get().errorNoDefaultFilename, filename));
-				else
-					throw new SAXException(RepoText.get().errorNoDefault);
-			}
 			removeNotInGroup();
 			removeOverlaps();
 
@@ -493,8 +487,18 @@ public class RepoCommand extends GitCommand<RevCommit> {
 			}
 			for (Project proj : projects) {
 				String remote = proj.remote;
-				if (remote == null)
+				if (remote == null) {
+					if (defaultRemote == null) {
+						if (filename != null)
+							throw new SAXException(MessageFormat.format(
+									RepoText.get().errorNoDefaultFilename,
+									filename));
+						else
+							throw new SAXException(
+									RepoText.get().errorNoDefault);
+					}
 					remote = defaultRemote;
+				}
 				String remoteUrl = remoteUrls.get(remote);
 				if (remoteUrl == null) {
 					remoteUrl = baseUri.resolve(remotes.get(remote)).toString();
