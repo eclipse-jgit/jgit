@@ -22,6 +22,30 @@
       "revId": "199dd4a9a938e5c6ee7a06d0e0610e47b47ff050",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_e3668c9f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 939,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-08-27T20:34:48Z",
+      "side": 1,
+      "message": "Heh. Right so. receive-pack says the line is 48 long. Its actually 49 long because we use readStringRaw() above which includes the undocumented LF.",
+      "parentUuid": "c7672b30_2336c49c",
+      "range": {
+        "startLine": 939,
+        "startChar": 7,
+        "endLine": 939,
+        "endChar": 26
+      },
+      "revId": "199dd4a9a938e5c6ee7a06d0e0610e47b47ff050",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
