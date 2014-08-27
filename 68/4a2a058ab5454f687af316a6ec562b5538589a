@@ -1,0 +1,7 @@
+Code-Review+2: Shawn Pearce <sop@google.com>
+Verified+1: Hudson CI
+Submitted-by: Shawn Pearce <sop@google.com>
+Submitted-at: Wed, 27 Aug 2014 19:42:30 -0400
+Reviewed-on: https://git.eclipse.org/r/32444
+Project: jgit/jgit
+Branch: refs/heads/master
