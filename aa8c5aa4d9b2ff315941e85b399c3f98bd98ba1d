@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "c7672b30_b8cf9e57",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackIndexV2.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-08-28T23:52:50Z",
+      "side": 1,
+      "message": "We don\u0027t import *. Import the classes you need.",
+      "range": {
+        "startLine": 48,
+        "startChar": 16,
+        "endLine": 48,
+        "endChar": 18
+      },
+      "revId": "aa8c5aa4d9b2ff315941e85b399c3f98bd98ba1d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7672b30_14f7a44d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackIndexV2.java",
         "patchSetId": 3
@@ -13,6 +36,24 @@
       "writtenOn": "2014-08-17T06:58:28Z",
       "side": 1,
       "message": "Please use Long.valueOf here",
+      "revId": "aa8c5aa4d9b2ff315941e85b399c3f98bd98ba1d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_18d7b2ed",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackIndexV2.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-08-28T23:52:50Z",
+      "side": 1,
+      "message": "Yes, Long.valueOf() is preferred unless we absolutely need to force allocation. Which we don\u0027t here.",
+      "parentUuid": "c7672b30_14f7a44d",
       "revId": "aa8c5aa4d9b2ff315941e85b399c3f98bd98ba1d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
