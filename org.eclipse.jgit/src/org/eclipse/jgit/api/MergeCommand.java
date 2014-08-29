@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2010, Christian Halstrick <christian.halstrick@sap.com>
- * Copyright (C) 2010-2012, Stefan Lay <stefan.lay@sap.com>
+ * Copyright (C) 2010-2014, Stefan Lay <stefan.lay@sap.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -103,6 +103,8 @@ public class MergeCommand extends GitCommand<MergeResult> {
 	private Boolean squash;
 
 	private FastForwardMode fastForwardMode;
+
+	private String message;
 
 	/**
 	 * The modes available for fast forward merges corresponding to the
@@ -313,7 +315,10 @@ public class MergeCommand extends GitCommand<MergeResult> {
 				}
 				String mergeMessage = ""; //$NON-NLS-1$
 				if (!squash) {
-					mergeMessage = new MergeMessageFormatter().format(
+					if (message != null)
+						mergeMessage = message;
+					else
+						mergeMessage = new MergeMessageFormatter().format(
 							commits, head);
 					repo.writeMergeCommitMsg(mergeMessage);
 					repo.writeMergeHeads(Arrays.asList(ref.getObjectId()));
@@ -563,6 +568,20 @@ public class MergeCommand extends GitCommand<MergeResult> {
 	 */
 	public MergeCommand setCommit(boolean commit) {
 		this.commit = Boolean.valueOf(commit);
+		return this;
+	}
+
+	/**
+	 * Set the commit message to be used for the merge commit (in case one is
+	 * created)
+	 *
+	 * @param message
+	 *            the message to be used for the merge commit
+	 * @return {@code this}
+	 * @since 3.5
+	 */
+	public MergeCommand setMessage(String message) {
+		this.message = message;
 		return this;
 	}
 }

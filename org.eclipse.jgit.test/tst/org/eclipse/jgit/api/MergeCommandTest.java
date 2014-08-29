@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2010, Stefan Lay <stefan.lay@sap.com>
- * Copyright (C) 2010-2012, Christian Halstrick <christian.halstrick@sap.com>
+ * Copyright (C) 2010-2014, Christian Halstrick <christian.halstrick@sap.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -1564,6 +1564,69 @@ public class MergeCommandTest extends RepositoryTestCase {
 		MergeResult result = git.merge().setStrategy(MergeStrategy.RECURSIVE)
 				.include("side", s2).call();
 		assertEquals(MergeStatus.CONFLICTING, result.getMergeStatus());
+	}
+
+	@Test
+	public void testMergeWithMessageOption() throws Exception {
+		Git git = new Git(db);
+
+		writeTrashFile("a", "1\na\n3\n");
+		git.add().addFilepattern("a").call();
+		RevCommit initialCommit = git.commit().setMessage("initial").call();
+
+		createBranch(initialCommit, "refs/heads/side");
+		checkoutBranch("refs/heads/side");
+
+		writeTrashFile("b", "1\nb\n3\n");
+		git.add().addFilepattern("b").call();
+		git.commit().setMessage("side").call();
+
+		checkoutBranch("refs/heads/master");
+
+		writeTrashFile("c", "1\nc\n3\n");
+		git.add().addFilepattern("c").call();
+		git.commit().setMessage("main").call();
+
+		Ref sideBranch = db.getRef("side");
+
+		git.merge().include(sideBranch).setStrategy(MergeStrategy.RESOLVE)
+				.setMessage("user message").call();
+
+		assertNull(db.readMergeCommitMsg());
+
+		Iterator<RevCommit> it = git.log().call().iterator();
+		RevCommit newHead = it.next();
+		assertEquals("user message", newHead.getFullMessage());
+	}
+
+	@Test
+	public void testMergeConflictWithMessageOption() throws Exception {
+		Git git = new Git(db);
+
+		writeTrashFile("a", "1\na\n3\n");
+		git.add().addFilepattern("a").call();
+		RevCommit initialCommit = git.commit().setMessage("initial").call();
+
+		createBranch(initialCommit, "refs/heads/side");
+		checkoutBranch("refs/heads/side");
+
+		writeTrashFile("a", "1\na(side)\n3\n");
+		git.add().addFilepattern("a").call();
+		git.commit().setMessage("side").call();
+
+		checkoutBranch("refs/heads/master");
+
+		writeTrashFile("a", "1\na(main)\n3\n");
+		git.add().addFilepattern("a").call();
+		git.commit().setMessage("main").call();
+
+		Ref sideBranch = db.getRef("side");
+
+		git.merge().include(sideBranch).setStrategy(MergeStrategy.RESOLVE)
+				.setMessage("user message").call();
+
+		assertEquals("user message\n\nConflicts:\n\ta\n",
+				db.readMergeCommitMsg());
 	}
 
 	private static void setExecutable(Git git, String path, boolean executable) {
