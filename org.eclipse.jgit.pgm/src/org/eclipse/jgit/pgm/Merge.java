@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011, Christian Halstrick <christian.halstrick@sap.com>
+ * Copyright (C) 2011, 2014 Christian Halstrick <christian.halstrick@sap.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -98,6 +98,9 @@ class Merge extends TextBuiltin {
 		ff = FastForwardMode.FF_ONLY;
 	}
 
+	@Option(name = "-m", usage = "usage_message")
+	private String message;
+
 	@Override
 	protected void run() throws Exception {
 		if (squash && ff == FastForwardMode.NO_FF)
@@ -125,6 +128,10 @@ class Merge extends TextBuiltin {
 			mergeCmd.include(srcRef);
 		else
 			mergeCmd.include(src);
+
+		if (message != null)
+			mergeCmd.setMessage(message);
+
 		MergeResult result;
 		try {
 			result = mergeCmd.call();
