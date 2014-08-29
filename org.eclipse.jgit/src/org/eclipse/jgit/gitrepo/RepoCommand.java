@@ -288,7 +288,10 @@ public class RepoCommand extends GitCommand<RevCommit> {
 		Project(String name, String path, String revision,
 				String remote, String groups) {
 			this.name = name;
-			this.path = path;
+			if (path != null)
+				this.path = path;
+			else
+				this.path = name;
 			this.revision = revision;
 			this.remote = remote;
 			this.groups = new HashSet<String>();
