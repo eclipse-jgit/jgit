@@ -128,11 +128,8 @@ public class PlotCommitList<L extends PlotLane> extends
 		final int nChildren = currCommit.getChildCount();
 		if (nChildren == 0) {
 			currCommit.lane = nextFreeLane();
-			continueActiveLanes(currCommit);
-			return;
-		}
-
-		if (nChildren == 1 && currCommit.children[0].getParentCount() < 2) {
+		} else if (nChildren == 1
+				&& currCommit.children[0].getParentCount() < 2) {
 			// Only one child, child has only us as their parent.
 			// Stay in the same lane as the child.
 
@@ -195,7 +192,10 @@ public class PlotCommitList<L extends PlotLane> extends
 					closeLane(c.lane);
 			}
 		}
+
 		continueActiveLanes(currCommit);
+		if (currCommit.getParentCount() == 0)
+			closeLane(currCommit.lane);
 	}
 
 	private void continueActiveLanes(final PlotCommit currCommit) {
