@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7672b30_8b6d2126",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2014-09-02T21:38:21Z",
+      "side": 1,
+      "message": "I would personally have a commit message that is more declarative, rather than opinionated. The \"It\u0027s only\" and \"...\" can probably be removed to improve the message.",
+      "revId": "d306f2329df9e0e674660d58ef9211c7ddd05b72",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_eb5e5570",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/TextHashFunctions.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2014-09-02T21:38:21Z",
+      "side": 1,
+      "message": "The trailing single-line comment prevents an IDE from flowing the following lines up in a reformat, so should be left in.",
+      "revId": "d306f2329df9e0e674660d58ef9211c7ddd05b72",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_cb639933",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2014-09-02T21:38:21Z",
+      "side": 1,
+      "message": "Suggest breaking line after the setFS(fs) and put a single line comment // at the end to prevent reflowing",
+      "revId": "d306f2329df9e0e674660d58ef9211c7ddd05b72",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_0b591185",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BaseRepositoryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2014-09-02T21:38:21Z",
+      "side": 1,
+      "message": "This is potentially an API breaking change for clients that may be instantiating it directly. I don\u0027t think it\u0027s safe to just change this here without a suitable bounce in API.",
+      "revId": "d306f2329df9e0e674660d58ef9211c7ddd05b72",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_6b524561",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2014-09-02T21:38:21Z",
+      "side": 1,
+      "message": "This build method is not necessary if BaseRepositoryBuilder is not changed. If this is removed in 4.0 the BaseRepositoryBuilder can be marked as abstract as well.",
+      "revId": "d306f2329df9e0e674660d58ef9211c7ddd05b72",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_4b4f89ba",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportLocal.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2014-09-02T21:38:21Z",
+      "side": 1,
+      "message": "Maybe line break before setGitDir()?",
+      "revId": "d306f2329df9e0e674660d58ef9211c7ddd05b72",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_aeb3cb34",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportLocal.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2014-09-02T21:38:21Z",
+      "side": 1,
+      "message": "Maybe line break before setGitDir()?",
+      "revId": "d306f2329df9e0e674660d58ef9211c7ddd05b72",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
