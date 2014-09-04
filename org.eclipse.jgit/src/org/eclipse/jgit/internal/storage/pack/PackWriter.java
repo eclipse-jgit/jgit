@@ -1029,43 +1029,44 @@ public class PackWriter {
 		stats.totalObjects = objCnt;
 		beginPhase(PackingPhase.WRITING, writeMonitor, objCnt);
 		long writeStart = System.currentTimeMillis();
+		try {
+			out.writeFileHeader(PACK_VERSION_GENERATED, objCnt);
+			out.flush();
 
-		out.writeFileHeader(PACK_VERSION_GENERATED, objCnt);
-		out.flush();
+			writeObjects(out);
+			if (!edgeObjects.isEmpty() || !cachedPacks.isEmpty()) {
+				for (Statistics.ObjectType typeStat : stats.objectTypes) {
+					if (typeStat == null)
+						continue;
+					stats.thinPackBytes += typeStat.bytes;
+				}
+			}
 
-		writeObjects(out);
-		if (!edgeObjects.isEmpty() || !cachedPacks.isEmpty()) {
+			stats.reusedPacks = Collections.unmodifiableList(cachedPacks);
+			for (CachedPack pack : cachedPacks) {
+				long deltaCnt = pack.getDeltaCount();
+				stats.reusedObjects += pack.getObjectCount();
+				stats.reusedDeltas += deltaCnt;
+				stats.totalDeltas += deltaCnt;
+				reuseSupport.copyPackAsIs(out, pack, reuseValidate);
+			}
+			writeChecksum(out);
+			out.flush();
+		} finally {
+			stats.timeWriting = System.currentTimeMillis() - writeStart;
+			stats.depth = depth;
+
 			for (Statistics.ObjectType typeStat : stats.objectTypes) {
 				if (typeStat == null)
 					continue;
-				stats.thinPackBytes += typeStat.bytes;
+				typeStat.cntDeltas += typeStat.reusedDeltas;
+				stats.reusedObjects += typeStat.reusedObjects;
+				stats.reusedDeltas += typeStat.reusedDeltas;
+				stats.totalDeltas += typeStat.cntDeltas;
 			}
 		}
 
-		for (CachedPack pack : cachedPacks) {
-			long deltaCnt = pack.getDeltaCount();
-			stats.reusedObjects += pack.getObjectCount();
-			stats.reusedDeltas += deltaCnt;
-			stats.totalDeltas += deltaCnt;
-			reuseSupport.copyPackAsIs(out, pack, reuseValidate);
-		}
-		writeChecksum(out);
-		out.flush();
-		stats.timeWriting = System.currentTimeMillis() - writeStart;
 		stats.totalBytes = out.length();
-		stats.reusedPacks = Collections.unmodifiableList(cachedPacks);
-		stats.depth = depth;
-
-		for (Statistics.ObjectType typeStat : stats.objectTypes) {
-			if (typeStat == null)
-				continue;
-			typeStat.cntDeltas += typeStat.reusedDeltas;
-
-			stats.reusedObjects += typeStat.reusedObjects;
-			stats.reusedDeltas += typeStat.reusedDeltas;
-			stats.totalDeltas += typeStat.cntDeltas;
-		}
-
 		reader.release();
 		endPhase(writeMonitor);
 	}
