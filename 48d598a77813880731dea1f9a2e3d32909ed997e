@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7672b30_b8b82812",
+        "filename": "org.eclipse.jgit.java7.test/src/org/eclipse/jgit/util/FSJava7Test.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-09-07T02:55:25Z",
+      "side": 1,
+      "message": "Shouldn\u0027t you close some streams here?",
+      "revId": "48d598a77813880731dea1f9a2e3d32909ed997e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_18bafc08",
+        "filename": "org.eclipse.jgit.java7/src/org/eclipse/jgit/util/FS_POSIX_Java7.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-09-07T02:55:25Z",
+      "side": 1,
+      "message": "State the problem right here and/or the commit message, rather than forcing the reader to read all comments in the bug report.",
+      "revId": "48d598a77813880731dea1f9a2e3d32909ed997e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_f8be20fb",
+        "filename": "org.eclipse.jgit.java7/src/org/eclipse/jgit/util/FS_POSIX_Java7.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-09-07T02:55:25Z",
+      "side": 1,
+      "message": "I think readers are well versed in the concept of bitmasks, so use that in the comment and  !(val\u00262) would be fine in code, with a note that the umask is the inverse mask so we are checking for \"execute not turned off\" actually",
+      "revId": "48d598a77813880731dea1f9a2e3d32909ed997e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
