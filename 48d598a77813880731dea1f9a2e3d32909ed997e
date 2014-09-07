@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "c7672b30_38c41886",
+        "filename": "org.eclipse.jgit.java7.test/src/org/eclipse/jgit/util/FSJava7Test.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-09-07T03:06:42Z",
+      "side": 1,
+      "message": "hmm. We do care and should test this case below.\n\nI have no good idea on how to test both cases without using JNI/JNA though.",
+      "revId": "48d598a77813880731dea1f9a2e3d32909ed997e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7672b30_b8b82812",
         "filename": "org.eclipse.jgit.java7.test/src/org/eclipse/jgit/util/FSJava7Test.java",
         "patchSetId": 1
