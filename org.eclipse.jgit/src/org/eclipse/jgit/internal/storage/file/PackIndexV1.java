@@ -54,6 +54,7 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 
 import org.eclipse.jgit.errors.CorruptObjectException;
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
@@ -88,7 +89,11 @@ class PackIndexV1 extends PackIndex {
 				n = (int) (idxHeader[k] - idxHeader[k - 1]);
 			}
 			if (n > 0) {
-				idxdata[k] = new byte[n * (Constants.OBJECT_ID_LENGTH + 4)];
+				final long len = n * (Constants.OBJECT_ID_LENGTH + 4);
+				if (len > Integer.MAX_VALUE - 8) // http://stackoverflow.com/a/8381338
+					throw new IOException(JGitText.get().indexFileIsTooLargeForJgit);
+
+				idxdata[k] = new byte[(int) len];
 				IO.readFully(fd, idxdata[k], 0, idxdata[k].length);
 			}
 		}
