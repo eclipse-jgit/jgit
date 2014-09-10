@@ -56,6 +56,8 @@ import org.junit.Test;
 public class MergeAlgorithmTest {
 	MergeFormatter fmt=new MergeFormatter();
 
+	boolean newlineAtEnd = true;
+
 	/**
 	 * Check for a conflict where the second text was changed similar to the
 	 * first one, but the second texts modification covers one more line.
@@ -66,6 +68,13 @@ public class MergeAlgorithmTest {
 	public void testTwoConflictingModifications() throws IOException {
 		assertEquals(t("a<b=Z>Zdefghij"),
 				merge("abcdefghij", "abZdefghij", "aZZdefghij"));
+	}
+
+	@Test
+	public void testTwoConflictingModificationsNoNewlineAtEnd()
+			throws IOException {
+		newlineAtEnd = false;
+		testTwoConflictingModifications();
 	}
 
 	/**
@@ -117,6 +126,13 @@ public class MergeAlgorithmTest {
 				merge("abcdefghij", "aZZZZfZhZj", "abYdYYYYiY"));
 	}
 
+	@Test
+	public void testTwoComplicatedModificationsNoNewlineAtEnd()
+			throws IOException {
+		newlineAtEnd = false;
+		testTwoComplicatedModifications();
+	}
+
 	/**
 	 * Test a conflicting region at the very start of the text.
 	 *
@@ -139,6 +155,12 @@ public class MergeAlgorithmTest {
 				merge("abcdefghij", "abcdefghiZ", "abcdefghiY"));
 	}
 
+	@Test
+	public void testConflictAtEndNoNewlineAtEnd() throws IOException {
+		newlineAtEnd = false;
+		testConflictAtEnd();
+	}
+
 	/**
 	 * Check for a conflict where the second text was changed similar to the
 	 * first one, but the second texts modification covers one more line.
@@ -149,6 +171,12 @@ public class MergeAlgorithmTest {
 	public void testSameModification() throws IOException {
 		assertEquals(t("abZdefghij"),
 				merge("abcdefghij", "abZdefghij", "abZdefghij"));
+	}
+
+	@Test
+	public void testSameModificationNoNewlineAtEnd() throws IOException {
+		newlineAtEnd = false;
+		testSameModification();
 	}
 
 	/**
@@ -164,6 +192,12 @@ public class MergeAlgorithmTest {
 	}
 
 	@Test
+	public void testDeleteVsModifyNoNewlineAtEnd() throws IOException {
+		newlineAtEnd = false;
+		testDeleteVsModify();
+	}
+
+	@Test
 	public void testInsertVsModify() throws IOException {
 		assertEquals(t("a<bZ=XY>"), merge("ab", "abZ", "aXY"));
 	}
@@ -174,28 +208,64 @@ public class MergeAlgorithmTest {
 	}
 
 	@Test
-	public void testSeperateModifications() throws IOException {
+	public void testSeparateModifications() throws IOException {
 		assertEquals(t("aZcYe"), merge("abcde", "aZcde", "abcYe"));
+	}
+
+	@Test
+	public void testSeparateModificationsNoNewlineAtEnd() throws IOException {
+		newlineAtEnd = false;
+		testSeparateModifications();
 	}
 
 	/**
 	 * Test merging two contents which do one similar modification and one
-	 * insertion is only done by one side. Between modification and insertion is
-	 * a block which is common between the two contents and the common base
+	 * insertion is only done by one side, in the middle. Between modification
+	 * and insertion is a block which is common between the two contents and the
+	 * common base
 	 *
 	 * @throws IOException
 	 */
 	@Test
 	public void testTwoSimilarModsAndOneInsert() throws IOException {
-		assertEquals(t("IAAJ"), merge("iA", "IA", "IAAJ"));
 		assertEquals(t("aBcDde"), merge("abcde", "aBcde", "aBcDde"));
-		assertEquals(t("IAJ"), merge("iA", "IA", "IAJ"));
-		assertEquals(t("IAAAJ"), merge("iA", "IA", "IAAAJ"));
 		assertEquals(t("IAAAJCAB"), merge("iACAB", "IACAB", "IAAAJCAB"));
 		assertEquals(t("HIAAAJCAB"), merge("HiACAB", "HIACAB", "HIAAAJCAB"));
 		assertEquals(t("AGADEFHIAAAJCAB"),
 				merge("AGADEFHiACAB", "AGADEFHIACAB", "AGADEFHIAAAJCAB"));
 
+	}
+
+	/**
+	 * Test merging two contents which do one similar modification and one
+	 * insertion is only done by one side, at the end. Between modification and
+	 * insertion is a block which is common between the two contents and the
+	 * common base
+	 *
+	 * @throws IOException
+	 */
+	@Test
+	public void testTwoSimilarModsAndOneInsertAtEnd() throws IOException {
+		assertEquals(t("IAAJ"), merge("iA", "IA", "IAAJ"));
+		assertEquals(t("IAJ"), merge("iA", "IA", "IAJ"));
+		assertEquals(t("IAAAJ"), merge("iA", "IA", "IAAAJ"));
+	}
+
+	/**
+	 * Test merging two contents which do one similar modification and one
+	 * insertion is only done by one side, at the end. Between modification and
+	 * insertion is a block which is common between the two contents and the
+	 * common base
+	 *
+	 * @throws IOException
+	 */
+	@Test
+	public void testTwoSimilarModsAndOneInsertAtEndNoNewlineAtEnd()
+			throws IOException {
+		newlineAtEnd = false;
+		assertEquals(t("I<A=AAJ>"), merge("iA", "IA", "IAAJ"));
+		assertEquals(t("I<A=AJ>"), merge("iA", "IA", "IAJ"));
+		assertEquals(t("I<A=AAAJ>"), merge("iA", "IA", "IAAAJ"));
 	}
 
 	/**
@@ -225,7 +295,7 @@ public class MergeAlgorithmTest {
 		return new String(bo.toByteArray(), Constants.CHARACTER_ENCODING);
 	}
 
-	public static String t(String text) {
+	public String t(String text) {
 		StringBuilder r = new StringBuilder();
 		for (int i = 0; i < text.length(); i++) {
 			char c = text.charAt(i);
@@ -241,13 +311,14 @@ public class MergeAlgorithmTest {
 				break;
 			default:
 				r.append(c);
-				r.append('\n');
+				if (newlineAtEnd || i < text.length() - 1)
+					r.append('\n');
 			}
 		}
 		return r.toString();
 	}
 
-	public static RawText T(String text) {
+	public RawText T(String text) {
 		return new RawText(Constants.encode(t(text)));
 	}
 }
