@@ -53,6 +53,23 @@
     },
     {
       "key": {
+        "uuid": "c7672b30_c231aa25",
+        "filename": "org.eclipse.jgit.java7/src/org/eclipse/jgit/util/FS_POSIX_Java7.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-09-10T12:33:49Z",
+      "side": 1,
+      "message": "nit: trailing whitespace",
+      "revId": "48d598a77813880731dea1f9a2e3d32909ed997e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7672b30_f8be20fb",
         "filename": "org.eclipse.jgit.java7/src/org/eclipse/jgit/util/FS_POSIX_Java7.java",
         "patchSetId": 1
