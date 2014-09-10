@@ -49,7 +49,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jgit.diff.RawText;
-import org.eclipse.jgit.merge.MergeChunk.ConflictState;
 
 /**
  * A class to convert merge results into a Git conformant textual presentation
@@ -78,47 +77,7 @@ public class MergeFormatter {
 	 */
 	public void formatMerge(OutputStream out, MergeResult<RawText> res,
 			List<String> seqName, String charsetName) throws IOException {
-		String lastConflictingName = null; // is set to non-null whenever we are
-		// in a conflict
-		boolean threeWayMerge = (res.getSequences().size() == 3);
-		for (MergeChunk chunk : res) {
-			RawText seq = res.getSequences().get(chunk.getSequenceIndex());
-			if (lastConflictingName != null
-					&& chunk.getConflictState() != ConflictState.NEXT_CONFLICTING_RANGE) {
-				// found the end of an conflict
-				out.write((">>>>>>> " + lastConflictingName + "\n").getBytes(charsetName)); //$NON-NLS-1$ //$NON-NLS-2$
-				lastConflictingName = null;
-			}
-			if (chunk.getConflictState() == ConflictState.FIRST_CONFLICTING_RANGE) {
-				// found the start of an conflict
-				out.write(("<<<<<<< " + seqName.get(chunk.getSequenceIndex()) + //$NON-NLS-1$
-						"\n").getBytes(charsetName)); //$NON-NLS-1$
-				lastConflictingName = seqName.get(chunk.getSequenceIndex());
-			} else if (chunk.getConflictState() == ConflictState.NEXT_CONFLICTING_RANGE) {
-				// found another conflicting chunk
-
-				/*
-				 * In case of a non-three-way merge I'll add the name of the
-				 * conflicting chunk behind the equal signs. I also append the
-				 * name of the last conflicting chunk after the ending
-				 * greater-than signs. If somebody knows a better notation to
-				 * present non-three-way merges - feel free to correct here.
-				 */
-				lastConflictingName = seqName.get(chunk.getSequenceIndex());
-				out.write((threeWayMerge ? "=======\n" : "======= " //$NON-NLS-1$ //$NON-NLS-2$
-						+ lastConflictingName + "\n").getBytes(charsetName)); //$NON-NLS-1$
-			}
-			// the lines with conflict-metadata are written. Now write the chunk
-			for (int i = chunk.getBegin(); i < chunk.getEnd(); i++) {
-				seq.writeLine(out, i);
-				out.write('\n');
-			}
-		}
-		// one possible leftover: if the merge result ended with a conflict we
-		// have to close the last conflict here
-		if (lastConflictingName != null) {
-			out.write((">>>>>>> " + lastConflictingName + "\n").getBytes(charsetName)); //$NON-NLS-1$ //$NON-NLS-2$
-		}
+		new MergeFormatterPass(out, res, seqName, charsetName).formatMerge();
 	}
 
 	/**
