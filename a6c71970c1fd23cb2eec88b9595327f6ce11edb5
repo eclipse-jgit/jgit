@@ -36,6 +36,40 @@
     },
     {
       "key": {
+        "uuid": "c7672b30_a2162e7a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-09-10T12:36:44Z",
+      "side": 1,
+      "message": "missing @since tag for new API",
+      "revId": "a6c71970c1fd23cb2eec88b9595327f6ce11edb5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7672b30_622096cf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MvCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-09-10T12:36:44Z",
+      "side": 1,
+      "message": "missing @since tag for new API",
+      "revId": "a6c71970c1fd23cb2eec88b9595327f6ce11edb5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABODH///i8\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MvCommand.java",
         "patchSetId": 1
