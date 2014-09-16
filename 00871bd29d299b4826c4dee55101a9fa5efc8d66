@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a766b734_7118ef03",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/MergeAlgorithmTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2014-09-16T12:06:05Z",
+      "side": 1,
+      "message": "I think this would be a good use case for the Theories runner, instead of duplicating the methods. See GitDateParserBadlyFormattedTest.",
+      "revId": "00871bd29d299b4826c4dee55101a9fa5efc8d66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_712f4f13",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeFormatterPass.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2014-09-16T12:06:05Z",
+      "side": 1,
+      "message": "bol? Is the condition missing a ! (not)?",
+      "revId": "00871bd29d299b4826c4dee55101a9fa5efc8d66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_d143c3c6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/EolAwareOutputStream.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2014-09-16T12:06:05Z",
+      "side": 1,
+      "message": "As this is not in an internal package, it\u0027s API and needs a \"@since 3.6\". But I\u0027m not sure we want it to be API, consider moving it as package-private to merge.",
+      "revId": "00871bd29d299b4826c4dee55101a9fa5efc8d66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
