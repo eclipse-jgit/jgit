@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a766b734_65d82967",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-09-17T16:31:40Z",
+      "side": 1,
+      "message": "can we use the standard pack config option names instead ?",
+      "revId": "7fc34a9e6b211dec5112ed24fec842c93614c0e8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_45dd2d55",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-09-17T16:31:40Z",
+      "side": 1,
+      "message": "nit: trailing whitespace",
+      "revId": "7fc34a9e6b211dec5112ed24fec842c93614c0e8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_05ccd5ac",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 989,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-09-17T16:31:40Z",
+      "side": 1,
+      "message": "missing since tag for new API",
+      "revId": "7fc34a9e6b211dec5112ed24fec842c93614c0e8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
