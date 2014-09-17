@@ -93,6 +93,7 @@ import org.eclipse.jgit.lib.ReflogEntry;
 import org.eclipse.jgit.revwalk.ObjectWalk;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.eclipse.jgit.util.FileUtils;
@@ -116,6 +117,8 @@ public class GC {
 	private long expireAgeMillis = -1;
 
 	private Date expire;
+
+	private PackConfig pconfig = null;
 
 	/**
 	 * the refs which existed during the last call to {@link #repack()}. This is
@@ -686,7 +689,7 @@ public class GC {
 					}
 
 				});
-		PackWriter pw = new PackWriter(repo);
+		PackWriter pw = new PackWriter((pconfig == null) ? new PackConfig(repo) : pconfig, repo.newObjectReader());
 		try {
 			// prepare the PackWriter
 			pw.setDeltaBaseAsOffset(true);
@@ -945,6 +948,19 @@ public class GC {
 	public void setExpireAgeMillis(long expireAgeMillis) {
 		this.expireAgeMillis = expireAgeMillis;
 		expire = null;
+	}
+
+	/**
+	 * Set the PackConfig used when (re-)writing packfiles. This allows to
+	 * influence how packs are written and to implement something similar to
+	 * "git gc --aggressive"
+	 *
+	 * @since 3.6
+	 * @param pconfig
+	 *            the {@link PackConfig} used when writing packs
+	 */
+	public void setPackConfig(PackConfig pconfig) {
+		this.pconfig = pconfig;
 	}
 
 	/**
