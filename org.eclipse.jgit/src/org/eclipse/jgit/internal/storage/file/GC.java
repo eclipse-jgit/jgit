@@ -93,6 +93,8 @@ import org.eclipse.jgit.lib.ReflogEntry;
 import org.eclipse.jgit.revwalk.ObjectWalk;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.eclipse.jgit.util.FileUtils;
@@ -107,6 +109,18 @@ import org.eclipse.jgit.util.SystemReader;
  * adapted to FileRepositories.
  */
 public class GC {
+	/**
+	 * Default value of maximum delta chain depth during aggressive garbage
+	 * collection: {@value}
+	 */
+	public static final int DEFAULT_GC_AGGRESSIVE_DEPTH = 250;
+
+	/**
+	 * Default window size during packing during aggressive garbage collection:
+	 * * {@value}
+	 */
+	public static final int DEFAULT_GC_AGGRESSIVE_WINDOW = 250;
+
 	private static final String PRUNE_EXPIRE_DEFAULT = "2.weeks.ago"; //$NON-NLS-1$
 
 	private final FileRepository repo;
@@ -116,6 +130,8 @@ public class GC {
 	private long expireAgeMillis = -1;
 
 	private Date expire;
+
+	private boolean aggressive = false;
 
 	/**
 	 * the refs which existed during the last call to {@link #repack()}. This is
@@ -686,7 +702,20 @@ public class GC {
 					}
 
 				});
-		PackWriter pw = new PackWriter(repo);
+		FileBasedConfig repoConfig = repo.getConfig();
+		PackConfig config = new PackConfig(repo);
+		if (aggressive) {
+			config.setDeltaSearchWindowSize(repoConfig.getInt(
+					ConfigConstants.CONFIG_GC_SECTION,
+					ConfigConstants.CONFIG_KEY_AGGRESSIVE_WINDOW,
+					DEFAULT_GC_AGGRESSIVE_WINDOW));
+			config.setMaxDeltaDepth(repoConfig.getInt(
+					ConfigConstants.CONFIG_GC_SECTION,
+					ConfigConstants.CONFIG_KEY_AGGRESSIVE_DEPTH,
+					DEFAULT_GC_AGGRESSIVE_DEPTH));
+			config.setReuseObjects(false);
+		}
+		PackWriter pw = new PackWriter(config, repo.newObjectReader());
 		try {
 			// prepare the PackWriter
 			pw.setDeltaBaseAsOffset(true);
@@ -945,6 +974,20 @@ public class GC {
 	public void setExpireAgeMillis(long expireAgeMillis) {
 		this.expireAgeMillis = expireAgeMillis;
 		expire = null;
+	}
+
+	/**
+	 * When writing new packs setting this aggressive flag to true forces JGit
+	 * to behave like native git "git gc --aggressive". If set to
+	 * <code>true</code> compressed objects found in old packs are not reused
+	 * but every object is compressed again. Configuration variables pack.window
+	 * and pack.depth are set to 250 for this GC.
+	 *
+	 * @param aggressive
+	 *            whether to turn on aggressive mode or off
+	 */
+	public void setAggressive(boolean aggressive) {
+		this.aggressive = aggressive;
 	}
 
 	/**

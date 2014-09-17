@@ -63,7 +63,7 @@ import org.eclipse.jgit.util.GitDateParser;
  * supported options and arguments of this command and a {@link #call()} method
  * to finally execute the command. Each instance of this class should only be
  * used for one invocation of the command (means: one call to {@link #call()})
- * 
+ *
  * @since 2.2
  * @see <a href="http://www.kernel.org/pub/software/scm/git/docs/git-gc.html"
  *      >Git documentation about gc</a>
@@ -73,6 +73,8 @@ public class GarbageCollectCommand extends GitCommand<Properties> {
 	private ProgressMonitor monitor;
 
 	private Date expire;
+
+	private boolean aggressive = false;
 
 	/**
 	 * @param repo
@@ -110,11 +112,26 @@ public class GarbageCollectCommand extends GitCommand<Properties> {
 		return this;
 	}
 
+	/**
+	 * Whether to use aggressive mode or not. If set to true JGit behaves more
+	 * similar to native git's "git gc --aggressive"
+	 *
+	 * @see GC#setAggressive(boolean)
+	 * @param aggressive
+	 *            whether to turn on or off aggressive mode
+	 * @return this instance
+	 */
+	public GarbageCollectCommand setAggressive(boolean aggressive) {
+		this.aggressive = aggressive;
+		return this;
+	}
+
 	@Override
 	public Properties call() throws GitAPIException {
 		checkCallable();
 
 		GC gc = new GC((FileRepository) repo);
+		gc.setAggressive(aggressive);
 		gc.setProgressMonitor(monitor);
 		if (this.expire != null)
 			gc.setExpire(expire);
@@ -140,6 +157,7 @@ public class GarbageCollectCommand extends GitCommand<Properties> {
 	public Properties getStatistics() throws GitAPIException {
 		try {
 			GC gc = new GC((FileRepository) repo);
+			gc.setAggressive(aggressive);
 			return toProperties(gc.getStatistics());
 		} catch (IOException e) {
 			throw new JGitInternalException(
