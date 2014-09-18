@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_e0a70707",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-09-18T13:34:11Z",
+      "side": 1,
+      "message": "that\u0027s why I named them like that - that are the standard names. See http://git-scm.com/docs/git-config",
+      "parentUuid": "a766b734_65d82967",
+      "revId": "7fc34a9e6b211dec5112ed24fec842c93614c0e8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_45dd2d55",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2014-09-17T16:31:40Z",
       "side": 1,
       "message": "nit: trailing whitespace",
+      "revId": "7fc34a9e6b211dec5112ed24fec842c93614c0e8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_c0a48b05",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-09-18T13:34:11Z",
+      "side": 1,
+      "message": "Can\u0027t fix it. In my commit message locally there is no whitespace here.",
+      "parentUuid": "a766b734_45dd2d55",
       "revId": "7fc34a9e6b211dec5112ed24fec842c93614c0e8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
