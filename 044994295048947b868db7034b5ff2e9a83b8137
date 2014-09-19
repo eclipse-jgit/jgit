@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a766b734_e997f34f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/GarbageCollectCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-09-19T05:50:14Z",
+      "side": 1,
+      "message": "missing @since tag",
+      "revId": "044994295048947b868db7034b5ff2e9a83b8137",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_49a547b5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/GarbageCollectCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-09-19T05:50:14Z",
+      "side": 1,
+      "message": "missing @since tag",
+      "revId": "044994295048947b868db7034b5ff2e9a83b8137",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_29a28bad",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/GarbageCollectCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-09-19T05:50:14Z",
+      "side": 1,
+      "message": "I think this isn\u0027t necessary here since getStatistics() doesn\u0027t need the configuration",
+      "revId": "044994295048947b868db7034b5ff2e9a83b8137",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_898e3f3c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 957,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-09-19T05:50:14Z",
+      "side": 1,
+      "message": "style nit: trailing whitespace",
+      "revId": "044994295048947b868db7034b5ff2e9a83b8137",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
