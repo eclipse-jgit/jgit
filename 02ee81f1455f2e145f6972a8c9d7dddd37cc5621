@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a766b734_eff8933f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/MergeAlgorithmTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2014-09-20T05:51:31Z",
+      "side": 1,
+      "message": "Please change this to `private final boolean newlineAtEnd;`",
+      "revId": "02ee81f1455f2e145f6972a8c9d7dddd37cc5621",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_4ff6e751",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/MergeAlgorithmTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2014-09-20T05:51:31Z",
+      "side": 1,
+      "message": "static public -\u003e public static",
+      "revId": "02ee81f1455f2e145f6972a8c9d7dddd37cc5621",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
