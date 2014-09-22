@@ -1,0 +1,9 @@
+Code-Review+2: Matthias Sohn <matthias.sohn@sap.com>
+Code-Review+1: Christian Halstrick <christian.halstrick@sap.com>
+Verified+1: Hudson CI
+Code-Review+1: Luca Milanesio <luca@milanesio.org>
+Submitted-by: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-at: Mon, 22 Sep 2014 04:33:31 -0400
+Reviewed-on: https://git.eclipse.org/r/33510
+Project: jgit/jgit
+Branch: refs/heads/stable-3.5
