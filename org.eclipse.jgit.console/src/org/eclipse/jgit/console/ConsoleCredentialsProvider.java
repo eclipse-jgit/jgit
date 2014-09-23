@@ -48,8 +48,10 @@ package org.eclipse.jgit.console;
 import java.io.Console;
 
 import org.eclipse.jgit.errors.UnsupportedCredentialItem;
+import org.eclipse.jgit.transport.ChainingCredentialsProvider;
 import org.eclipse.jgit.transport.CredentialItem;
 import org.eclipse.jgit.transport.CredentialsProvider;
+import org.eclipse.jgit.transport.NetRCCredentialsProvider;
 import org.eclipse.jgit.transport.URIish;
 
 /** Interacts with the user during authentication by using the text console. */
@@ -60,7 +62,9 @@ public class ConsoleCredentialsProvider extends CredentialsProvider {
 		if (c.cons == null)
 			throw new NoClassDefFoundError(
 					ConsoleText.get().noSystemConsoleAvailable);
-		CredentialsProvider.setDefault(c);
+		CredentialsProvider cp = new ChainingCredentialsProvider(
+				new NetRCCredentialsProvider(), c);
+		CredentialsProvider.setDefault(cp);
 	}
 
 	private final Console cons = System.console();
