@@ -1,0 +1,8 @@
+Code-Review+2: Matthias Sohn <matthias.sohn@sap.com>
+Code-Review+1: Robin Stocker <robin@nibor.org>
+Verified+1: Hudson CI
+Submitted-by: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-at: Tue, 23 Sep 2014 16:42:30 -0400
+Reviewed-on: https://git.eclipse.org/r/33734
+Project: jgit/jgit
+Branch: refs/heads/stable-3.5
