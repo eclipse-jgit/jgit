@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a766b734_06e331c4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ChainingCredentialsProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2014-09-24T04:47:50Z",
+      "side": 1,
+      "message": "Why not use `credentialsProviders \u003d new ArrayList\u003cCredentialsProvider\u003e(Arrays.asList(providers))` instead of a LinkedList? Not that it matters here, but see: http://stackoverflow.com/q/322715/305973",
+      "revId": "f3448ac2a25952f7103910ee75d3096fa64fc28a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
