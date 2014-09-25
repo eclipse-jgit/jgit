@@ -78,7 +78,7 @@ final class PackWriterBitmapWalker {
 		this.pm = (pm == null) ? NullProgressMonitor.INSTANCE : pm;
 	}
 
-	BitmapBuilder findObjects(Set<? extends ObjectId> start, BitmapBuilder seen)
+	BitmapBuilder findObjects(Set<? extends ObjectId> start, BitmapBuilder seen, boolean ignoreMissingStart)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
 		final BitmapBuilder bitmapResult = bitmapIndex.newBitmapBuilder();
@@ -91,9 +91,15 @@ final class PackWriterBitmapWalker {
 
 		boolean marked = false;
 		for (ObjectId obj : start) {
-			if (!bitmapResult.contains(obj)) {
-				walker.markStart(walker.parseAny(obj));
-				marked = true;
+			try {
+				if (!bitmapResult.contains(obj)) {
+					walker.markStart(walker.parseAny(obj));
+					marked = true;
+				}
+			} catch (MissingObjectException e) {
+				if (ignoreMissingStart)
+					continue;
+				throw e;
 			}
 		}
 
