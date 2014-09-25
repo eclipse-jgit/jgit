@@ -54,6 +54,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -221,6 +222,25 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 				.fromString("0000000000000000000000000000000000000001");
 		createVerifyOpenPack(EMPTY_SET_OBJECT, Collections.singleton(
 				nonExisting), false, true);
+		// shouldn't throw anything
+	}
+
+	/**
+	 * Try to pass non-existing object as uninteresting, with ignoring setting.
+	 * Use a repo with bitmap indexes because then PackWriter will use
+	 * PackWriterBitmapWalker which had problems with this situation.
+	 *
+	 * @throws IOException
+	 * @throws ParseException
+	 */
+	@Test
+	public void testIgnoreNonExistingObjectsWithBitmaps() throws IOException,
+			ParseException {
+		final ObjectId nonExisting = ObjectId
+				.fromString("0000000000000000000000000000000000000001");
+		new GC(db).gc();
+		createVerifyOpenPack(EMPTY_SET_OBJECT,
+				Collections.singleton(nonExisting), false, true, true);
 		// shouldn't throw anything
 	}
 
@@ -604,8 +624,17 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 			final Set<ObjectId> uninterestings, final boolean thin,
 			final boolean ignoreMissingUninteresting)
 			throws MissingObjectException, IOException {
+		createVerifyOpenPack(interestings, uninterestings, thin,
+				ignoreMissingUninteresting, false);
+	}
+
+	private void createVerifyOpenPack(final Set<ObjectId> interestings,
+			final Set<ObjectId> uninterestings, final boolean thin,
+			final boolean ignoreMissingUninteresting, boolean useBitmaps)
+			throws MissingObjectException, IOException {
 		NullProgressMonitor m = NullProgressMonitor.INSTANCE;
 		writer = new PackWriter(config, db.newObjectReader());
+		writer.setUseBitmaps(useBitmaps);
 		writer.setThin(thin);
 		writer.setIgnoreMissingUninteresting(ignoreMissingUninteresting);
 		writer.preparePack(m, interestings, uninterestings);
