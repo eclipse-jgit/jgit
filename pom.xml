@@ -168,6 +168,7 @@
   <properties>
     <jgit-url>http://www.eclipse.org/jgit/</jgit-url>
     <jgit-copyright>Copyright (c) 2005, 2009 Shawn Pearce, Robin Rosenberg, et.al.</jgit-copyright>
+    <jgit.website.url>scp://build.eclipse.org/home/data/httpd/download.eclipse.org/jgit/site/${project.version}/</jgit.website.url>
 
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -355,6 +356,18 @@
           <groupId>org.jacoco</groupId>
           <artifactId>jacoco-maven-plugin</artifactId>
           <version>0.7.1.201405082137</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-site-plugin</artifactId>
+          <version>3.4</version>
+          <dependencies>
+            <dependency><!-- add support for ssh/scp -->
+              <groupId>org.apache.maven.wagon</groupId>
+              <artifactId>wagon-ssh</artifactId>
+              <version>2.7</version>
+            </dependency>
+          </dependencies>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -544,6 +557,11 @@
       <url>https://repo.eclipse.org/content/repositories/jgit-snapshots/</url>
       <uniqueVersion>true</uniqueVersion>
     </snapshotRepository>
+    <site>
+      <id>jgit.website</id>
+      <name>JGit Website</name>
+      <url>${jgit.website.url}</url>
+    </site>
   </distributionManagement>
 
   <profiles>
@@ -655,6 +673,12 @@
           </plugin>
         </plugins>
       </build>
+    </profile>
+    <profile>
+      <id>build-server</id>
+      <properties>
+        <jgit.website.url>file:///home/data/httpd/download.eclipse.org/jgit/site/${project.version}/</jgit.website.url>
+      </properties>
     </profile>
   </profiles>
 
