@@ -1,0 +1,7 @@
+Code-Review+2: Shawn Pearce <sop@google.com>
+Verified+1: Hudson CI
+Submitted-by: Shawn Pearce <sop@google.com>
+Submitted-at: Thu, 25 Sep 2014 19:12:11 -0400
+Reviewed-on: https://git.eclipse.org/r/33906
+Project: jgit/jgit
+Branch: refs/heads/stable-3.5
