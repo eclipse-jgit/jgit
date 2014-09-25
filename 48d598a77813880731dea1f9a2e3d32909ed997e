@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_a18ea73b",
+        "filename": "org.eclipse.jgit.java7.test/src/org/eclipse/jgit/util/FSJava7Test.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2014-09-25T09:16:06Z",
+      "side": 1,
+      "message": "I also don\u0027t know how one can spawn a process with a different umask from Java and run test inside it. I will add second branch for the case the umask is wrong and let the test fail.",
+      "parentUuid": "c7672b30_38c41886",
+      "revId": "48d598a77813880731dea1f9a2e3d32909ed997e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7672b30_b8b82812",
         "filename": "org.eclipse.jgit.java7.test/src/org/eclipse/jgit/util/FSJava7Test.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2014-09-07T02:55:25Z",
       "side": 1,
       "message": "Shouldn\u0027t you close some streams here?",
+      "revId": "48d598a77813880731dea1f9a2e3d32909ed997e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_c1b643f3",
+        "filename": "org.eclipse.jgit.java7.test/src/org/eclipse/jgit/util/FSJava7Test.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2014-09-25T09:16:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7672b30_b8b82812",
       "revId": "48d598a77813880731dea1f9a2e3d32909ed997e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_e1889f30",
+        "filename": "org.eclipse.jgit.java7/src/org/eclipse/jgit/util/FS_POSIX_Java7.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2014-09-25T09:16:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7672b30_18bafc08",
+      "revId": "48d598a77813880731dea1f9a2e3d32909ed997e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7672b30_c231aa25",
         "filename": "org.eclipse.jgit.java7/src/org/eclipse/jgit/util/FS_POSIX_Java7.java",
         "patchSetId": 1
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_81744b76",
+        "filename": "org.eclipse.jgit.java7/src/org/eclipse/jgit/util/FS_POSIX_Java7.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2014-09-25T09:16:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7672b30_c231aa25",
+      "revId": "48d598a77813880731dea1f9a2e3d32909ed997e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7672b30_f8be20fb",
         "filename": "org.eclipse.jgit.java7/src/org/eclipse/jgit/util/FS_POSIX_Java7.java",
         "patchSetId": 1
@@ -81,6 +153,24 @@
       "writtenOn": "2014-09-07T02:55:25Z",
       "side": 1,
       "message": "I think readers are well versed in the concept of bitmasks, so use that in the comment and  !(val\u00262) would be fine in code, with a note that the umask is the inverse mask so we are checking for \"execute not turned off\" actually",
+      "revId": "48d598a77813880731dea1f9a2e3d32909ed997e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_e1ec1fb9",
+        "filename": "org.eclipse.jgit.java7/src/org/eclipse/jgit/util/FS_POSIX_Java7.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2014-09-25T09:16:06Z",
+      "side": 1,
+      "message": "Sorry, I can\u0027t understand what do you mean by !(val\u00262). We have characters here.\n\nWe check (by character comparison) if we see *either* \u00270\u0027, \u00272\u0027, \u00274\u0027 and \u00276\u0027 as a permission bit for the \"others\". We can\u0027t \"and 2\" bit-wise here, or I didn\u0027t get what do you mean by !(val\u00262).\n\nI could also write (val % 2) \u003d\u003d 0 but I will restrict the code to the explicit character values of \u00270\u0027, \u00272\u0027, \u00274\u0027 and \u00276\u0027.\n\nSo I would like to keep the code as is, especially as it helps to understand \"expected\" bit values by just looking at chars and without doing char to bit conversions in head.",
+      "parentUuid": "c7672b30_f8be20fb",
       "revId": "48d598a77813880731dea1f9a2e3d32909ed997e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
