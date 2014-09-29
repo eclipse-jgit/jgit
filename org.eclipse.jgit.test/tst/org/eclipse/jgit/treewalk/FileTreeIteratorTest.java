@@ -145,6 +145,43 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testEmptyIteratorOnEmptyDirectory() throws Exception {
+		String nonExistingFileName = "not-existing-file";
+		final File r = new File(trash, nonExistingFileName);
+		assertFalse(r.exists());
+		FileUtils.mkdir(r);
+
+		final FileTreeIterator parent = new FileTreeIterator(db);
+
+		while (!parent.getEntryPathString().equals(nonExistingFileName))
+			parent.next(1);
+
+		final FileTreeIterator childIter = new FileTreeIterator(parent, r,
+				db.getFS());
+		assertTrue(childIter.first());
+		assertTrue(childIter.eof());
+
+		String parentPath = parent.getEntryPathString();
+		assertEquals(nonExistingFileName, parentPath);
+
+		// must be "not-existing-file/", but getEntryPathString() was broken by
+		// 445363 too
+		String childPath = childIter.getEntryPathString();
+
+		// in bug 445363 the iterator wrote garbage to the parent "path" field
+		EmptyTreeIterator e = childIter.createEmptyTreeIterator();
+		assertNotNull(e);
+
+		// check if parent path is not overridden by empty iterator (bug 445363)
+		// due bug 445363 this was "/ot-existing-file" instead of
+		// "not-existing-file"
+		assertEquals(parentPath, parent.getEntryPathString());
+		assertEquals(parentPath + "/", childPath);
+		assertEquals(parentPath + "/", childIter.getEntryPathString());
+		assertEquals(childPath + "/", e.getEntryPathString());
+	}
+
+	@Test
 	public void testSimpleIterate() throws Exception {
 		final FileTreeIterator top = new FileTreeIterator(trash, db.getFS(),
 				db.getConfig().get(WorkingTreeOptions.KEY));
