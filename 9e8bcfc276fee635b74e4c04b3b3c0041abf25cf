@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a766b734_87739f09",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-10-07T06:13:12Z",
+      "side": 1,
+      "message": "Isn\u0027t the proper test here to check whether core.bare is true, rather than looking at the name, which may be a hint to humans, but not to git itself.",
+      "revId": "9e8bcfc276fee635b74e4c04b3b3c0041abf25cf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
