@@ -16,6 +16,24 @@
       "revId": "9e8bcfc276fee635b74e4c04b3b3c0041abf25cf",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_8aec4606",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-10-07T07:30:01Z",
+      "side": 1,
+      "message": "you are right, this is what native git does, it doesn\u0027t hide bare repositories not regarding if their name starts with a dot or not\n\ndone",
+      "parentUuid": "a766b734_87739f09",
+      "revId": "9e8bcfc276fee635b74e4c04b3b3c0041abf25cf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
