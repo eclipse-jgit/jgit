@@ -246,7 +246,11 @@ public class ObjectWalk extends RevWalk {
 	public void markUninteresting(RevCommit c) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
 		super.markUninteresting(c);
-		markTreeUninteresting(c.getTree());
+		try {
+			markTreeUninteresting(c.getTree());
+		} catch (MissingObjectException e) {
+			// we don't care if the tree of the commit does not exist locally
+		}
 	}
 
 	@Override
