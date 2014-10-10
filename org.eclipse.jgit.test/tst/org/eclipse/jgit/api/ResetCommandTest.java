@@ -48,7 +48,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;
@@ -155,20 +154,14 @@ public class ResetCommandTest extends RepositoryTestCase {
 		assertEquals(prevHead, db.readOrigHead());
 	}
 
-	@Test
+	@Test(expected = JGitInternalException.class)
 	public void testResetToNonexistingHEAD() throws JGitInternalException,
 			AmbiguousObjectException, IOException, GitAPIException {
 
 		// create a file in the working tree of a fresh repo
 		git = new Git(db);
 		writeTrashFile("f", "content");
-
-		try {
-			git.reset().setRef(Constants.HEAD).call();
-			fail("Expected JGitInternalException didn't occur");
-		} catch (JGitInternalException e) {
-			// got the expected exception
-		}
+		git.reset().setRef(Constants.HEAD).setMode(HARD).call();
 	}
 
 	@Test
@@ -422,6 +415,14 @@ public class ResetCommandTest extends RepositoryTestCase {
 		writeTrashFile("a.txt", "content");
 		git.add().addFilepattern("a.txt").call();
 		git.reset().setRef("doesnotexist").addPath("a.txt").call();
+	}
+
+	@Test(expected = IllegalStateException.class)
+	public void testResetNoPathNoMode() throws Exception {
+		git = new Git(db);
+		writeTrashFile("a.txt", "content");
+		git.add().addFilepattern("a.txt").call();
+		git.reset().call();
 	}
 
 	@Test
