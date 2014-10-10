@@ -34,6 +34,24 @@
       "revId": "a8e0a7f5a9e13d2fdd1a6a13ca58a4f6d54d50c8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_10517c2d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/ObjectWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2014-10-10T10:31:34Z",
+      "side": 1,
+      "message": "\u003e That would be a severe inconsistency \n\nYes, I see... this must not happen. So this change looks good to me.",
+      "parentUuid": "a766b734_f0e7a01d",
+      "revId": "a8e0a7f5a9e13d2fdd1a6a13ca58a4f6d54d50c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
