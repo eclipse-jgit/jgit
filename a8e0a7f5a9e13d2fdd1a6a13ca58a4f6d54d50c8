@@ -16,6 +16,24 @@
       "revId": "a8e0a7f5a9e13d2fdd1a6a13ca58a4f6d54d50c8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_f0e7a01d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/ObjectWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-10-10T09:35:15Z",
+      "side": 1,
+      "message": "That would be a severe inconsistency in the server repo which exists even before the push. The server would have advertised a ref to commit where the tree is missing. The server should only have refs where he knows the object and all it\u0027s dependent objects.\n\nDo you know about such cases?\n\nRecently I explained how a commit without the tree can occur in the area of unreferenced objects. Those object which can be garbage collected. But I have no explanation for how such a situation can occur in a gerrit server repo in the area of referenced objects.\n\nTo answer your question: The client side can\u0027t detect that problem (because he doesn\u0027t know which trees exist on server side). But the server should have detected in one of the previous pushes that he is moving a ref to a commit where some dependent objects are missing. Is gerrit doing that even with this change beeing active?",
+      "parentUuid": "a766b734_854d501b",
+      "revId": "a8e0a7f5a9e13d2fdd1a6a13ca58a4f6d54d50c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
