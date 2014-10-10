@@ -129,12 +129,14 @@ public class ResetCommand extends GitCommand<Ref> {
 	 */
 	public ResetCommand(Repository repo) {
 		super(repo);
+		setCallable(false);
 	}
 
 	/**
 	 * Executes the {@code Reset} command. Each instance of this class should
 	 * only be used for one invocation of the command. Don't call this method
-	 * twice on an instance.
+	 * twice on an instance. Either {@code setMode()} or {@code addPath()} needs
+	 * to be called before executing the command.
 	 *
 	 * @return the Ref after reset
 	 * @throws GitAPIException
@@ -275,6 +277,7 @@ public class ResetCommand extends GitCommand<Ref> {
 					JGitText.get().illegalCombinationOfArguments,
 					"[--mixed | --soft | --hard]", "<paths>...")); //$NON-NLS-1$
 		this.mode = mode;
+		setCallable(true);
 		return this;
 	}
 
@@ -290,6 +293,7 @@ public class ResetCommand extends GitCommand<Ref> {
 					JGitText.get().illegalCombinationOfArguments, "<paths>...",
 					"[--mixed | --soft | --hard]")); //$NON-NLS-1$
 		filepaths.add(path);
+		setCallable(true);
 		return this;
 	}
 
