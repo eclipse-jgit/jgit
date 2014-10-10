@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a766b734_854d501b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/ObjectWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2014-10-10T07:44:47Z",
+      "side": 1,
+      "message": "Will the push succeed when the locally missing tree is also missing in Gerrit?",
+      "revId": "a8e0a7f5a9e13d2fdd1a6a13ca58a4f6d54d50c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
