@@ -425,6 +425,21 @@ public class ResetCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testResetDefaultMode() throws Exception {
+		git = new Git(db);
+		writeTrashFile("a.txt", "content");
+		git.add().addFilepattern("a.txt").call();
+		writeTrashFile("a.txt", "modified");
+		// should use default mode MIXED
+		git.reset().call();
+
+		DirCache cache = db.readDirCache();
+		DirCacheEntry aEntry = cache.getEntry("a.txt");
+		assertNull(aEntry);
+		assertEquals("modified", read("a.txt"));
+	}
+
+	@Test
 	public void testHardResetOnTag() throws Exception {
 		setupRepository();
 		String tagName = "initialtag";
