@@ -199,9 +199,8 @@
   <repositories>
     <repository>
       <id>jgit-repository</id>
-      <url>http://download.eclipse.org/jgit/maven</url>
+      <url>https://repo.eclipse.org/content/repositories/jgit-releases/</url>
     </repository>
-
   </repositories>
 
   <pluginRepositories>
