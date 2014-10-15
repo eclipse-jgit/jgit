@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a766b734_0d5cbec4",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/ignore/FastIgnoreRuleTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-10-15T23:10:51Z",
+      "side": 1,
+      "message": "shouldn\u0027t this be named testAsteriskDot ? other method names seem also to be flipped",
+      "revId": "c9f5cd5a5cf412ecf5108d9bf81ef2aa3e0360a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_0da79e40",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/ignore/IgnoreRuleSpecialCasesTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-10-15T23:10:51Z",
+      "side": 1,
+      "message": "was this class implemented by Florian ?\n \nwhy twice with different spelling ?",
+      "revId": "c9f5cd5a5cf412ecf5108d9bf81ef2aa3e0360a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_6db61272",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/ignore/IgnoreRuleSpecialCasesTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-10-15T23:10:51Z",
+      "side": 1,
+      "message": "s/Wird/Wild/",
+      "revId": "c9f5cd5a5cf412ecf5108d9bf81ef2aa3e0360a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_ad9f8ae6",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/ignore/IgnoreRuleSpecialCasesTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 678,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-10-15T23:10:51Z",
+      "side": 1,
+      "message": "s/roup/Group/\n\nmore of these below",
+      "revId": "c9f5cd5a5cf412ecf5108d9bf81ef2aa3e0360a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_2d937adf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/FastIgnoreRule.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-10-15T23:10:51Z",
+      "side": 1,
+      "message": "s/must be not null/must not be null/",
+      "revId": "c9f5cd5a5cf412ecf5108d9bf81ef2aa3e0360a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_ad314a77",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/internal/WildCardMatcher.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-10-15T23:10:51Z",
+      "side": 1,
+      "message": "s/build/built/",
+      "revId": "c9f5cd5a5cf412ecf5108d9bf81ef2aa3e0360a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_4d235631",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/internal/WildCardMatcher.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-10-15T23:10:51Z",
+      "side": 1,
+      "message": "style nit: trailing whitespace",
+      "revId": "c9f5cd5a5cf412ecf5108d9bf81ef2aa3e0360a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_8d344e66",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/internal/WildMatcher.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-10-15T23:10:51Z",
+      "side": 1,
+      "message": "style nit: trailing whitespace",
+      "revId": "c9f5cd5a5cf412ecf5108d9bf81ef2aa3e0360a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
