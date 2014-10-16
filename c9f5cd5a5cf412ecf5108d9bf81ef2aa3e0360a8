@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_316ab00c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/ignore/IgnoreRuleSpecialCasesTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-10-16T21:03:20Z",
+      "side": 1,
+      "message": "ok",
+      "parentUuid": "a766b734_28c08822",
+      "revId": "c9f5cd5a5cf412ecf5108d9bf81ef2aa3e0360a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_6db61272",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/ignore/IgnoreRuleSpecialCasesTest.java",
         "patchSetId": 5
