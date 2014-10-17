@@ -79,6 +79,31 @@ import org.eclipse.jgit.util.FS;
 public class SubmoduleWalk {
 
 	/**
+	 * The values for the config param submodule.<name>.ignore
+	 */
+	public enum IgnoreSubmoduleMode {
+		/**
+		 * Ignore all modifications to submodules
+		 */
+		ALL,
+
+		/**
+		 * Ignore changes to the working tree of a submodule
+		 */
+		DIRTY,
+
+		/**
+		 * Ignore changes to untracked files in the working tree of a submodule
+		 */
+		UNTRACKED,
+
+		/**
+		 * Ignore nothing. That's the default
+		 */
+		NONE;
+	}
+
+	/**
 	 * Create a generator to walk over the submodule entries currently in the
 	 * index
 	 *
@@ -597,6 +622,25 @@ public class SubmoduleWalk {
 		return modulesConfig.getString(
 				ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
 				ConfigConstants.CONFIG_KEY_UPDATE);
+	}
+
+	/**
+	 * Get the configured ignore field for the current entry. This will be the
+	 * value from the .gitmodules file in the current repository's working tree.
+	 *
+	 * @return ignore value
+	 * @throws ConfigInvalidException
+	 * @throws IOException
+	 */
+	public IgnoreSubmoduleMode getModulesIgnore() throws IOException,
+			ConfigInvalidException {
+		lazyLoadModulesConfig();
+		String name = modulesConfig.getString(
+				ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
+				ConfigConstants.CONFIG_KEY_IGNORE);
+		if (name == null)
+			return null;
+		return IgnoreSubmoduleMode.valueOf(name.trim().toUpperCase());
 	}
 
 	/**
