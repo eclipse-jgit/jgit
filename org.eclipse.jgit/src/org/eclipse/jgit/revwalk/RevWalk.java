@@ -174,6 +174,7 @@ public class RevWalk implements Iterable<RevCommit> {
 
 	private int delayFreeFlags;
 
+	private int retainOnReset;
 	int carryFlags = UNINTERESTING;
 
 	final ArrayList<RevCommit> roots;
@@ -1093,6 +1094,24 @@ public class RevWalk implements Iterable<RevCommit> {
 	}
 
 	/**
+	 * Preserve a RevFlag during all {@code reset} methods.
+	 * <p>
+	 * Calling {@code retainOnReset(flag)} avoids needing to pass the flag
+	 * during each {@code resetRetain()} invocation on this instance.
+	 *
+	 * @param flag
+	 *            the flag to retain during all resets.
+	 * @since 3.6
+	 */
+	public final void retainOnReset(RevFlag flag) {
+		if ((freeFlags & flag.mask) != 0)
+			throw new IllegalArgumentException(MessageFormat.format(JGitText.get().flagIsDisposed, flag.name));
+		if (flag.walker != this)
+			throw new IllegalArgumentException(MessageFormat.format(JGitText.get().flagNotFromThis, flag.name));
+		retainOnReset |= flag.mask;
+	}
+
+	/**
 	 * Allow a flag to be recycled for a different use.
 	 * <p>
 	 * Recycled flags always come back as a different Java object instance when
@@ -1110,6 +1129,7 @@ public class RevWalk implements Iterable<RevCommit> {
 	}
 
 	void freeFlag(final int mask) {
+		retainOnReset &= ~mask;
 		if (isNotStarted()) {
 			freeFlags |= mask;
 			carryFlags &= ~mask;
@@ -1158,6 +1178,9 @@ public class RevWalk implements Iterable<RevCommit> {
 	 * Unlike {@link #dispose()} previously acquired RevObject (and RevCommit)
 	 * instances are not invalidated. RevFlag instances are not invalidated, but
 	 * are removed from all RevObjects.
+	 * <p>
+	 * See {@link #retainOnReset(RevFlag)} for an alternative that does not
+	 * require passing the flags during each reset.
 	 *
 	 * @param retainFlags
 	 *            application flags that should <b>not</b> be cleared from
@@ -1183,7 +1206,7 @@ public class RevWalk implements Iterable<RevCommit> {
 	 */
 	protected void reset(int retainFlags) {
 		finishDelayedFreeFlags();
-		retainFlags |= PARSED;
+		retainFlags |= PARSED | retainOnReset;
 		final int clearFlags = ~retainFlags;
 
 		final FIFORevQueue q = new FIFORevQueue();
