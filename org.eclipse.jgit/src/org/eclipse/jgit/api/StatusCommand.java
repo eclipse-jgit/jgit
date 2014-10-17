@@ -51,6 +51,7 @@ import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.IndexDiff;
+import org.eclipse.jgit.lib.IndexDiff.IgnoreSubmoduleMode;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
@@ -72,11 +73,22 @@ public class StatusCommand extends GitCommand<Status> {
 	private List<String> paths = null;
 	private ProgressMonitor progressMonitor = null;
 
+	private IgnoreSubmoduleMode ignoreSubmoduleMode = null;
+
 	/**
 	 * @param repo
 	 */
 	protected StatusCommand(Repository repo) {
 		super(repo);
+	}
+
+	/**
+	 * @param mode
+	 * @return {@code this}
+	 */
+	public StatusCommand setIgnoreSubmodules(IgnoreSubmoduleMode mode) {
+		ignoreSubmoduleMode = mode;
+		return this;
 	}
 
 	/**
@@ -127,6 +139,8 @@ public class StatusCommand extends GitCommand<Status> {
 
 		try {
 			IndexDiff diff = new IndexDiff(repo, Constants.HEAD, workingTreeIt);
+			if (ignoreSubmoduleMode != null)
+				diff.setIgnoreSubmoduleMode(ignoreSubmoduleMode);
 			if (paths != null)
 				diff.setFilter(PathFilterGroup.createFromStrings(paths));
 			if (progressMonitor == null)

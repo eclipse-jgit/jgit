@@ -60,6 +60,7 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.lib.IndexDiff.IgnoreSubmoduleMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -597,6 +598,25 @@ public class SubmoduleWalk {
 		return modulesConfig.getString(
 				ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
 				ConfigConstants.CONFIG_KEY_UPDATE);
+	}
+
+	/**
+	 * Get the configured ignore field for current entry. This will be the value
+	 * from the .gitmodules file in the current repository's working tree.
+	 *
+	 * @return ignore value
+	 * @throws ConfigInvalidException
+	 * @throws IOException
+	 */
+	public IgnoreSubmoduleMode getModulesIgnore() throws IOException,
+			ConfigInvalidException {
+		lazyLoadModulesConfig();
+		String name = modulesConfig.getString(
+				ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
+				ConfigConstants.CONFIG_KEY_IGNORE);
+		if (name == null)
+			return null;
+		return IgnoreSubmoduleMode.valueOf(name.trim().toUpperCase());
 	}
 
 	/**
