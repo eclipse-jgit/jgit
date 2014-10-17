@@ -208,6 +208,9 @@ public class ConfigConstants {
 	/** The "update" key */
 	public static final String CONFIG_KEY_UPDATE = "update";
 
+	/** The "update" key */
+	public static final String CONFIG_KEY_IGNORE = "ignore";
+
 	/** The "compression" key */
 	public static final String CONFIG_KEY_COMPRESSION = "compression";
 
