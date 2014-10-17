@@ -90,6 +90,7 @@ import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.RebaseTodoLine;
+import org.eclipse.jgit.lib.IndexDiff.IgnoreSubmoduleMode;
 import org.eclipse.jgit.lib.RebaseTodoLine.Action;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -294,7 +295,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 								walk.parseCommit(repo.resolve(Constants.HEAD)),
 								upstreamCommit)) {
 					org.eclipse.jgit.api.Status status = Git.wrap(repo)
-							.status().call();
+							.status().setIgnoreSubmodules(IgnoreSubmoduleMode.ALL).call();
 					if (status.hasUncommittedChanges()) {
 						List<String> list = new ArrayList<String>();
 						list.addAll(status.getUncommittedChanges());
