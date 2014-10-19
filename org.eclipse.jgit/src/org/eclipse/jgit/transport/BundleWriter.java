@@ -128,7 +128,8 @@ public class BundleWriter {
 	 *            object to pack. Multiple refs may point to the same object.
 	 */
 	public void include(final String name, final AnyObjectId id) {
-		if (!Repository.isValidRefName(name))
+		boolean validRefName = Repository.isValidRefName(name) || Constants.HEAD.equals(name);
+		if (!validRefName)
 			throw new IllegalArgumentException(MessageFormat.format(JGitText.get().invalidRefName, name));
 		if (include.containsKey(name))
 			throw new IllegalStateException(JGitText.get().duplicateRef + name);
