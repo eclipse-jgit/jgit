@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a766b734_a255d04a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/FileTreeIteratorTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2014-10-19T03:56:10Z",
+      "side": 1,
+      "message": "Could you either remove this or check the right thing?",
+      "revId": "2120867fe9c7a1e297717a1f1d544ec735ae935a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
