@@ -451,6 +451,28 @@ public class SubmoduleWalk {
 		return this;
 	}
 
+	/**
+	 * Checks whether the working tree (or the index in case of a bare repo)
+	 * contains a .gitmodules file. That's a hint that the repo contains
+	 * submodules.
+	 *
+	 * @param repository
+	 *            the repository to check
+	 * @return <code>true</code> if the repo contains a .gitmodules file
+	 * @throws IOException
+	 * @throws CorruptObjectException
+	 */
+	public static boolean containsGitModulesFile(Repository repository)
+			throws IOException {
+		if (repository.isBare()) {
+			DirCache dc = repository.readDirCache();
+			return (dc.findEntry(Constants.DOT_GIT_MODULES) >= 0);
+		}
+		File modulesFile = new File(repository.getWorkTree(),
+				Constants.DOT_GIT_MODULES);
+		return (modulesFile.exists());
+	}
+
 	private void lazyLoadModulesConfig() throws IOException, ConfigInvalidException {
 		if (modulesConfig == null)
 			loadModulesConfig();
