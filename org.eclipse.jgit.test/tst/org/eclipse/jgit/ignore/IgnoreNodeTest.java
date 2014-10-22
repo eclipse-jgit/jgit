@@ -44,13 +44,16 @@ package org.eclipse.jgit.ignore;
 
 import static org.eclipse.jgit.junit.Assert.assertEquals;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 import org.eclipse.jgit.errors.CorruptObjectException;
+import org.eclipse.jgit.ignore.IgnoreNode.MatchResult;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
@@ -110,14 +113,25 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 		assertEntry(F, ignored, "src/config/lex.out");
 		assertEntry(D, tracked, "src/config/old");
 		assertEntry(F, ignored, "src/config/old/lex.out");
+		endWalk();
 	}
 
 	@Test
 	public void testNegation() throws IOException {
-		writeIgnoreFile(".gitignore", "*.o");
+		// ignore all *.o files and ignore all "d" directories
+		writeIgnoreFile(".gitignore", "*.o", "d");
+
+		// negate "ignore" for a/b/keep.o file only
 		writeIgnoreFile("src/a/b/.gitignore", "!keep.o");
 		writeTrashFile("src/a/b/keep.o", "");
 		writeTrashFile("src/a/b/nothere.o", "");
+
+		// negate "ignore" for "d"
+		writeIgnoreFile("src/c/.gitignore", "!d");
+		// negate "ignore" for c/d/keep.o file only
+		writeIgnoreFile("src/c/d/.gitignore", "!keep.o");
+		writeTrashFile("src/c/d/keep.o", "");
+		writeTrashFile("src/c/d/nothere.o", "");
 
 		beginWalk();
 		assertEntry(F, tracked, ".gitignore");
@@ -127,6 +141,186 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 		assertEntry(F, tracked, "src/a/b/.gitignore");
 		assertEntry(F, tracked, "src/a/b/keep.o");
 		assertEntry(F, ignored, "src/a/b/nothere.o");
+
+		assertEntry(D, tracked, "src/c");
+		assertEntry(F, tracked, "src/c/.gitignore");
+		assertEntry(D, tracked, "src/c/d");
+		assertEntry(F, tracked, "src/c/d/.gitignore");
+		assertEntry(F, tracked, "src/c/d/keep.o");
+		// must be ignored: "!d" should not negate *both* "d" and *.o rules!
+		assertEntry(F, ignored, "src/c/d/nothere.o");
+		endWalk();
+	}
+
+	/*
+	 * See https://bugs.eclipse.org/bugs/show_bug.cgi?id=407475
+	 */
+	@Test
+	public void testNegateAllExceptJavaInSrc() throws IOException {
+		// ignore all files except from src directory
+		writeIgnoreFile(".gitignore", "/*", "!/src/");
+		writeTrashFile("nothere.o", "");
+
+		// ignore all files except java
+		writeIgnoreFile("src/.gitignore", "*", "!*.java");
+
+		writeTrashFile("src/keep.java", "");
+		writeTrashFile("src/nothere.o", "");
+		writeTrashFile("src/a/nothere.o", "");
+
+		beginWalk();
+		assertEntry(F, ignored, ".gitignore");
+		assertEntry(F, ignored, "nothere.o");
+		assertEntry(D, tracked, "src");
+		assertEntry(F, ignored, "src/.gitignore");
+		assertEntry(D, ignored, "src/a");
+		assertEntry(F, ignored, "src/a/nothere.o");
+		assertEntry(F, tracked, "src/keep.java");
+		assertEntry(F, ignored, "src/nothere.o");
+		endWalk();
+	}
+
+	/*
+	 * See https://bugs.eclipse.org/bugs/show_bug.cgi?id=407475
+	 */
+	@Test
+	public void testNegationAllExceptJavaInSrcAndExceptChildDirInSrc()
+			throws IOException {
+		// ignore all files except from src directory
+		writeIgnoreFile(".gitignore", "/*", "!/src/");
+		writeTrashFile("nothere.o", "");
+
+		// ignore all files except java in src folder and all children folders.
+		// Last ignore rule breaks old jgit via bug 407475
+		writeIgnoreFile("src/.gitignore", "*", "!*.java", "!*/");
+
+		writeTrashFile("src/keep.java", "");
+		writeTrashFile("src/nothere.o", "");
+		writeTrashFile("src/a/keep.java", "");
+		writeTrashFile("src/a/keep.o", "");
+
+		beginWalk();
+		assertEntry(F, ignored, ".gitignore");
+		assertEntry(F, ignored, "nothere.o");
+		assertEntry(D, tracked, "src");
+		assertEntry(F, ignored, "src/.gitignore");
+		assertEntry(D, tracked, "src/a");
+		assertEntry(F, tracked, "src/a/keep.java");
+		assertEntry(F, tracked, "src/a/keep.o");
+		assertEntry(F, tracked, "src/keep.java");
+		assertEntry(F, ignored, "src/nothere.o");
+		endWalk();
+	}
+
+	/*
+	 * See https://bugs.eclipse.org/bugs/show_bug.cgi?id=448094
+	 */
+	@Test
+	public void testRepeatedNegation() throws IOException {
+		writeIgnoreFile(".gitignore", "e", "!e", "e", "!e", "e");
+
+		writeTrashFile("e/nothere.o", "");
+
+		beginWalk();
+		assertEntry(F, tracked, ".gitignore");
+		assertEntry(D, ignored, "e");
+		assertEntry(F, ignored, "e/nothere.o");
+		endWalk();
+	}
+
+	/*
+	 * See https://bugs.eclipse.org/bugs/show_bug.cgi?id=448094
+	 */
+	@Test
+	public void testRepeatedNegationInDifferentFiles1() throws IOException {
+		writeIgnoreFile(".gitignore", "*.o", "e");
+
+		writeIgnoreFile("e/.gitignore", "!e");
+		writeTrashFile("e/nothere.o", "");
+
+		beginWalk();
+		assertEntry(F, tracked, ".gitignore");
+		assertEntry(D, ignored, "e");
+		assertEntry(F, ignored, "e/.gitignore");
+		assertEntry(F, ignored, "e/nothere.o");
+		endWalk();
+	}
+
+	/*
+	 * See https://bugs.eclipse.org/bugs/show_bug.cgi?id=448094
+	 */
+	@Test
+	public void testRepeatedNegationInDifferentFiles2() throws IOException {
+		writeIgnoreFile(".gitignore", "*.o", "e");
+
+		writeIgnoreFile("a/.gitignore", "!e");
+		writeTrashFile("a/e/nothere.o", "");
+
+		beginWalk();
+		assertEntry(F, tracked, ".gitignore");
+		assertEntry(D, tracked, "a");
+		assertEntry(F, tracked, "a/.gitignore");
+		assertEntry(D, tracked, "a/e");
+		assertEntry(F, ignored, "a/e/nothere.o");
+		endWalk();
+	}
+
+	/*
+	 * See https://bugs.eclipse.org/bugs/show_bug.cgi?id=448094
+	 */
+	@Test
+	public void testRepeatedNegationInDifferentFiles3() throws IOException {
+		writeIgnoreFile(".gitignore", "*.o");
+
+		writeIgnoreFile("a/.gitignore", "e");
+		writeIgnoreFile("a/b/.gitignore", "!e");
+		writeTrashFile("a/b/e/nothere.o", "");
+
+		beginWalk();
+		assertEntry(F, tracked, ".gitignore");
+		assertEntry(D, tracked, "a");
+		assertEntry(F, tracked, "a/.gitignore");
+		assertEntry(D, tracked, "a/b");
+		assertEntry(F, tracked, "a/b/.gitignore");
+		assertEntry(D, tracked, "a/b/e");
+		assertEntry(F, ignored, "a/b/e/nothere.o");
+		endWalk();
+	}
+
+	@Test
+	public void testRepeatedNegationInDifferentFiles4() throws IOException {
+		writeIgnoreFile(".gitignore", "*.o");
+
+		writeIgnoreFile("a/.gitignore", "e");
+		// Rules are never empty: WorkingTreeIterator optimizes empty rules away
+		// paranoia check in case this optimization will be removed
+		writeIgnoreFile("a/b/.gitignore", "#");
+		writeIgnoreFile("a/b/c/.gitignore", "!e");
+		writeTrashFile("a/b/c/e/nothere.o", "");
+
+		beginWalk();
+		assertEntry(F, tracked, ".gitignore");
+		assertEntry(D, tracked, "a");
+		assertEntry(F, tracked, "a/.gitignore");
+		assertEntry(D, tracked, "a/b");
+		assertEntry(F, tracked, "a/b/.gitignore");
+		assertEntry(D, tracked, "a/b/c");
+		assertEntry(F, tracked, "a/b/c/.gitignore");
+		assertEntry(D, tracked, "a/b/c/e");
+		assertEntry(F, ignored, "a/b/c/e/nothere.o");
+		endWalk();
+	}
+
+	@Test
+	public void testEmptyIgnoreNode() {
+		// Rules are never empty: WorkingTreeIterator optimizes empty files away
+		// So we have to test it manually in case third party clients use
+		// IgnoreNode directly.
+		IgnoreNode node = new IgnoreNode();
+		assertEquals(MatchResult.CHECK_PARENT, node.isIgnored("", false));
+		assertEquals(MatchResult.CHECK_PARENT, node.isIgnored("", false, false));
+		assertEquals(MatchResult.CHECK_PARENT_NEGATE_FIRST_MATCH,
+				node.isIgnored("", false, true));
 	}
 
 	@Test
@@ -145,6 +339,7 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 		assertEntry(F, tracked, ".gitignore");
 		assertEntry(D, ignored, "out");
 		assertEntry(F, ignored, "out/foo");
+		endWalk();
 	}
 
 	@Test
@@ -164,6 +359,7 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 		assertEntry(D, tracked, "src/a");
 		assertEntry(F, tracked, "src/a/a");
 		assertEntry(F, tracked, "src/a/b");
+		endWalk();
 	}
 
 	@Test
@@ -175,11 +371,24 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 		assertEntry(F, tracked, ".gitignore");
 		assertEntry(D, tracked, "a");
 		assertEntry(F, tracked, "a/a");
+		endWalk();
+	}
+
+	@Test
+	public void testToString() throws Exception {
+		assertEquals(Arrays.asList("").toString(), new IgnoreNode().toString());
+		assertEquals(Arrays.asList("hello").toString(),
+				new IgnoreNode(Arrays.asList(new FastIgnoreRule("hello")))
+						.toString());
 	}
 
 	private void beginWalk() throws CorruptObjectException {
 		walk = new TreeWalk(db);
 		walk.addTree(new FileTreeIterator(db));
+	}
+
+	private void endWalk() throws IOException {
+		assertFalse("Not all files tested", walk.next());
 	}
 
 	private void assertEntry(FileMode type, boolean entryIgnored,
