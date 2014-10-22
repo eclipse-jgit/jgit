@@ -44,11 +44,14 @@
 package org.eclipse.jgit.util;
 
 import java.io.File;
+import java.io.PrintStream;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import org.eclipse.jgit.lib.Repository;
 
 
 /**
@@ -134,5 +137,32 @@ public class FS_Win32_Cygwin extends FS_Win32 {
 		ProcessBuilder proc = new ProcessBuilder();
 		proc.command(argv);
 		return proc;
+	}
+
+	@Override
+	public boolean canRunHooks() {
+		return true;
+	}
+
+	@Override
+	public int runIfPresent(Repository repository, Hook hook, String[] args,
+			PrintStream outRedirect, PrintStream errRedirect)
+			throws UnsupportedOperationException {
+		final File hookFile = tryFindHook(repository, hook);
+		if (hookFile == null)
+			return 0;
+
+		final String hookPath = hookFile.getAbsolutePath();
+		final File runDirectory;
+		if (repository.isBare())
+			runDirectory = repository.getDirectory();
+		else
+			runDirectory = repository.getWorkTree();
+		String cmd = FileUtils.relativize(runDirectory.getAbsolutePath(),
+				hookPath);
+		cmd = cmd.replace(File.separatorChar, '/');
+		ProcessBuilder hookProcess = runInShell(cmd, args);
+		hookProcess.directory(runDirectory);
+		return runHook(hookProcess, outRedirect, errRedirect);
 	}
 }

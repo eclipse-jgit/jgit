@@ -44,10 +44,13 @@ package org.eclipse.jgit.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import org.eclipse.jgit.lib.Repository;
 
 
 /**
@@ -120,5 +123,31 @@ public abstract class FS_POSIX extends FS {
 		ProcessBuilder proc = new ProcessBuilder();
 		proc.command(argv);
 		return proc;
+	}
+
+	@Override
+	public boolean canRunHooks() {
+		return true;
+	}
+
+	@Override
+	public int runIfPresent(Repository repository, Hook hook, String[] args,
+			PrintStream outRedirect, PrintStream errRedirect)
+			throws UnsupportedOperationException {
+		final File hookFile = tryFindHook(repository, hook);
+		if (hookFile == null)
+			return 0;
+
+		final String hookPath = hookFile.getAbsolutePath();
+		final File runDirectory;
+		if (repository.isBare())
+			runDirectory = repository.getDirectory();
+		else
+			runDirectory = repository.getWorkTree();
+		final String cmd = FileUtils.relativize(runDirectory.getAbsolutePath(),
+				hookPath);
+		ProcessBuilder hookProcess = runInShell(cmd, args);
+		hookProcess.directory(runDirectory);
+		return runHook(hookProcess, outRedirect, errRedirect);
 	}
 }

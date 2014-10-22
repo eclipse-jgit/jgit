@@ -45,6 +45,10 @@ package org.eclipse.jgit.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+import org.eclipse.jgit.lib.Repository;
 
 /**
  * FS implementation for Java7 on unix like systems
@@ -171,5 +175,15 @@ public class FS_POSIX_Java7 extends FS_POSIX {
 	@Override
 	public String normalize(String name) {
 		return FileUtil.normalize(name);
+	}
+
+	@Override
+	protected File tryFindHook(Repository repository, Hook hook) {
+		final File gitdir = repository.getDirectory();
+		final Path hookPath = gitdir.toPath().resolve("hooks") //$NON-NLS-1$
+				.resolve(hook.getName());
+		if (Files.isExecutable(hookPath))
+			return hookPath.toFile();
+		return null;
 	}
 }

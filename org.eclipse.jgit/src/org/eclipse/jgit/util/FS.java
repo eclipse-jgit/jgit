@@ -45,17 +45,23 @@ package org.eclipse.jgit.util;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintStream;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.text.MessageFormat;
 import java.util.Arrays;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.eclipse.jgit.errors.SymlinksNotSupportedException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.Repository;
 
 /** Abstraction to support various file system operations not in Java. */
 public abstract class FS {
@@ -614,6 +620,174 @@ public abstract class FS {
 	}
 
 	/**
+	 * Determines whether this platform is capable of running hooks.
+	 * <p>
+	 * Hooks are command line scripts located in the repositories. Not all
+	 * platforms are capable of running them. Typically, hooks are disabled on
+	 * Windows machines, unless cygwin is detected on the path.
+	 * </p>
+	 *
+	 * @return <code>true</code> if this FS can run command line hooks,
+	 *         <code>false</code> otherwise.
+	 */
+	public boolean canRunHooks() {
+		return false;
+	}
+
+	/**
+	 * Checks whether the given hook is defined for the given repository, then
+	 * runs it with the given arguments.
+	 * <p>
+	 * By default, the hook's standard output and error will be redirected to
+	 * System.out and System.err respectively.
+	 * </p>
+	 *
+	 * @param repository
+	 *            The repository from which a hook should be run.
+	 * @param hook
+	 *            The particular hook we wish to execute.
+	 * @param args
+	 *            Arguments to pass to this hook.
+	 * @return The exit value of the hook. <code>0</code> if the hook has no
+	 *         exit value.
+	 * @throws UnsupportedOperationException
+	 *             Thrown if this FS is not capable of executing hooks (i.e.
+	 *             {@link #canRunHooks()} returns <code>false</code>).
+	 */
+	public int runIfPresent(Repository repository, final Hook hook,
+			String[] args) throws UnsupportedOperationException {
+		return runIfPresent(repository, hook, args, System.out, System.err);
+	}
+
+	/**
+	 * Checks whether the given hook is defined for the given repository, then
+	 * runs it with the given arguments.
+	 *
+	 * @param repository
+	 *            The repository from which a hook should be run.
+	 * @param hook
+	 *            The particular hook we wish to execute.
+	 * @param args
+	 *            Arguments to pass to this hook.
+	 * @param outRedirect
+	 *            A print stream on which to redirect the hook's stdout.
+	 * @param errRedirect
+	 *            A print stream on which to redirect the hook's stderr.
+	 * @return The exit value of the hook. <code>0</code> if the hook has no
+	 *         exit value.
+	 * @throws UnsupportedOperationException
+	 *             Thrown if this FS is not capable of executing hooks (i.e.
+	 *             {@link #canRunHooks()} returns <code>false</code>).
+	 */
+	public int runIfPresent(Repository repository, final Hook hook,
+			String[] args, PrintStream outRedirect, PrintStream errRedirect)
+			throws UnsupportedOperationException {
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * Tries and find a hook matching the given one in the given repository.
+	 *
+	 * @param repository
+	 *            The repository within which to find a hook.
+	 * @param hook
+	 *            The hook we're trying to find.
+	 * @return The {@link File} containing this particular hook if it exists in
+	 *         the given repository, <code>null</code> otherwise.
+	 */
+	protected File tryFindHook(Repository repository, final Hook hook) {
+		final File gitDir = repository.getDirectory();
+		final File[] hookDirCandidates = gitDir.listFiles(new FileFilter() {
+			public boolean accept(File pathname) {
+				return pathname.isDirectory()
+						&& pathname.getName().equals("hooks"); //$NON-NLS-1$
+			}
+		});
+		if (hookDirCandidates.length < 1)
+			return null;
+
+		final File[] matchingHooks = hookDirCandidates[0]
+				.listFiles(new FileFilter() {
+					public boolean accept(File pathname) {
+						return pathname.isFile()
+								&& pathname.getName().equals(hook.getName());
+					}
+				});
+		if (matchingHooks.length < 1)
+			return null;
+		return matchingHooks[0];
+	}
+
+	/**
+	 * Runs the given process until termination, clearing its stdout and stderr
+	 * streams on-the-fly.
+	 *
+	 * @param hookProcessBuilder
+	 *            The process builder configured for this hook.
+	 * @param outRedirect
+	 *            A print stream on which to redirect the hook's stdout.
+	 * @param errRedirect
+	 *            A print stream on which to redirect the hook's stderr.
+	 * @return the exit value of this hook.
+	 */
+	protected int runHook(ProcessBuilder hookProcessBuilder,
+			PrintStream outRedirect, PrintStream errRedirect) {
+		final ExecutorService executor = Executors.newFixedThreadPool(2);
+		try {
+			final Process process = hookProcessBuilder.start();
+			final Runnable errorGobbler = new StreamGobbler(
+					process.getErrorStream(), errRedirect);
+			final Runnable outputGobbler = new StreamGobbler(
+					process.getInputStream(), outRedirect);
+			executor.submit(errorGobbler);
+			executor.submit(outputGobbler);
+			return process.waitFor();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} finally {
+			shutdownAndAwaitTermination(executor);
+		}
+		return -1;
+	}
+
+	/**
+	 * Shuts down an {@link ExecutorService} in two phases, first by calling
+	 * {@link ExecutorService#shutdown() shutdown} to reject incoming tasks, and
+	 * then calling {@link ExecutorService#shutdownNow() shutdownNow}, if
+	 * necessary, to cancel any lingering tasks. Returns true if the pool has
+	 * been properly shutdown, false otherwise.
+	 * <p>
+	 *
+	 * @param pool
+	 *            the pool to shutdown
+	 * @return <code>true</code> if the pool has been properly shutdown,
+	 *         <code>false</code> otherwise.
+	 */
+	static boolean shutdownAndAwaitTermination(ExecutorService pool) {
+		boolean hasShutdown = true;
+		pool.shutdown(); // Disable new tasks from being submitted
+		try {
+			// Wait a while for existing tasks to terminate
+			if (!pool.awaitTermination(5, TimeUnit.SECONDS)) {
+				pool.shutdownNow(); // Cancel currently executing tasks
+				// Wait a while for tasks to respond to being canceled
+				if (!pool.awaitTermination(5, TimeUnit.SECONDS)) {
+					hasShutdown = false;
+				}
+			}
+		} catch (InterruptedException ie) {
+			// (Re-)Cancel if current thread also interrupted
+			pool.shutdownNow();
+			// Preserve interrupt status
+			Thread.currentThread().interrupt();
+			hasShutdown = false;
+		}
+		return hasShutdown;
+	}
+
+	/**
 	 * Initialize a ProcesssBuilder to run a command using the system shell.
 	 *
 	 * @param cmd
@@ -801,5 +975,28 @@ public abstract class FS {
 	 */
 	public String normalize(String name) {
 		return name;
+	}
+
+	static class StreamGobbler implements Runnable {
+		private final InputStream stream;
+
+		private final PrintStream output;
+
+		public StreamGobbler(InputStream stream, PrintStream output) {
+			this.stream = stream;
+			this.output = output;
+		}
+
+		public void run() {
+			try {
+				final BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+				String line = null;
+				while ((line = reader.readLine()) != null) {
+					output.println(line);
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }
