@@ -114,10 +114,20 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 
 	@Test
 	public void testNegation() throws IOException {
-		writeIgnoreFile(".gitignore", "*.o");
+		// ignore all *.o files and ignore all "d" directories
+		writeIgnoreFile(".gitignore", "*.o", "d");
+
+		// negate "ignore" for a/b/keep.o file only
 		writeIgnoreFile("src/a/b/.gitignore", "!keep.o");
 		writeTrashFile("src/a/b/keep.o", "");
 		writeTrashFile("src/a/b/nothere.o", "");
+
+		// negate "ignore" for "d"
+		writeIgnoreFile("src/c/.gitignore", "!d");
+		// negate "ignore" for c/d/keep.o file only
+		writeIgnoreFile("src/c/d/.gitignore", "!keep.o");
+		writeTrashFile("src/c/d/keep.o", "");
+		writeTrashFile("src/c/d/nothere.o", "");
 
 		beginWalk();
 		assertEntry(F, tracked, ".gitignore");
@@ -127,6 +137,76 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 		assertEntry(F, tracked, "src/a/b/.gitignore");
 		assertEntry(F, tracked, "src/a/b/keep.o");
 		assertEntry(F, ignored, "src/a/b/nothere.o");
+
+		assertEntry(D, tracked, "src/c");
+		assertEntry(F, tracked, "src/c/.gitignore");
+		assertEntry(D, tracked, "src/c/d");
+		assertEntry(F, tracked, "src/c/d/.gitignore");
+		assertEntry(F, tracked, "src/c/d/keep.o");
+		// must be ignored: "!d" should not negate *both* "d" and *.o rules!
+		assertEntry(F, ignored, "src/c/d/nothere.o");
+	}
+
+	/*
+	 * See https://bugs.eclipse.org/bugs/show_bug.cgi?id=407475
+	 */
+	@Test
+	public void testNegateAllExceptJavaInSrc() throws IOException {
+		// ignore all files except from src directory
+		writeIgnoreFile(".gitignore", "/*", "!/src/");
+		writeTrashFile("nothere.o", "");
+
+		// ignore all files except java
+		writeIgnoreFile("src/.gitignore", "*", "!*.java");
+
+		writeTrashFile("src/keep.java", "");
+		writeTrashFile("src/nothere.o", "");
+		writeTrashFile("src/a/nothere.o", "");
+
+		beginWalk();
+		assertEntry(F, ignored, ".gitignore");
+		assertEntry(F, ignored, "nothere.o");
+		assertEntry(D, false, "src");
+		assertEntry(F, ignored, "src/.gitignore");
+		assertEntry(D, ignored, "src/a");
+		assertEntry(F, ignored, "src/a/nothere.o");
+		assertEntry(F, tracked, "src/keep.java");
+	}
+
+	/*
+	 * See https://bugs.eclipse.org/bugs/show_bug.cgi?id=407475
+	 */
+	@Test
+	public void testNegationAllExceptJavaInSrcAndExceptChildDirInSrc()
+			throws IOException {
+		// ignore all files except from src directory
+		writeIgnoreFile(".gitignore", "/*", "!/src/");
+		writeTrashFile("nothere.o", "");
+
+		// ignore all files except java in src folder.
+		// Last ignore rule breaks jgit and my mind too.
+		// CLI git shows untracked *directory* src/a/ which is at least strange
+		// CLI git also ignores everything in child directories too, recursively
+		writeIgnoreFile("src/.gitignore", "*", "!*.java", "!*/");
+
+		writeTrashFile("src/keep.java", "");
+		writeTrashFile("src/nothere.o", "");
+		writeTrashFile("src/a/nothere.java", "");
+		writeTrashFile("src/a/nothere.o", "");
+
+		beginWalk();
+		assertEntry(F, ignored, ".gitignore");
+		assertEntry(F, ignored, "nothere.o");
+		assertEntry(D, false, "src");
+		assertEntry(F, ignored, "src/.gitignore");
+		assertEntry(D, tracked, "src/a");
+
+		// this two cases below differ between CLI git and jgit.
+		// CLI git shows both as ignored.
+		assertEntry(F, tracked, "src/a/nothere.java");
+		assertEntry(F, tracked, "src/a/nothere.o");
+
+		assertEntry(F, tracked, "src/keep.java");
 	}
 
 	@Test

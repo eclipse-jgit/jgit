@@ -67,7 +67,15 @@ public class IgnoreNode {
 		IGNORED,
 
 		/** The ignore status is unknown, check inherited rules. */
-		CHECK_PARENT;
+		CHECK_PARENT,
+
+		/**
+		 * The first previous (parent) ignore rule match (if any) should be
+		 * negated, and then inherited rules applied.
+		 *
+		 * @since 3.6
+		 */
+		NEGATE_PREVIOUS;
 	}
 
 	/** The rules that have been parsed into this node. */
@@ -128,6 +136,25 @@ public class IgnoreNode {
 	 * @return status of the path.
 	 */
 	public MatchResult isIgnored(String entryPath, boolean isDirectory) {
+		return isIgnored(entryPath, isDirectory, false);
+	}
+
+	/**
+	 * Determine if an entry path matches an ignore rule.
+	 *
+	 * @param entryPath
+	 *            the path to test. The path must be relative to this ignore
+	 *            node's own repository path, and in repository path format
+	 *            (uses '/' and not '\').
+	 * @param isDirectory
+	 *            true if the target item is a directory.
+	 * @param negatePrevious
+	 *            true if the first match should be negated
+	 * @return status of the path.
+	 * @since 3.6
+	 */
+	public MatchResult isIgnored(String entryPath, boolean isDirectory,
+			boolean negatePrevious) {
 		if (rules.isEmpty())
 			return MatchResult.CHECK_PARENT;
 
@@ -135,12 +162,34 @@ public class IgnoreNode {
 		for (int i = rules.size() - 1; i > -1; i--) {
 			IgnoreRule rule = rules.get(i);
 			if (rule.isMatch(entryPath, isDirectory)) {
-				if (rule.getResult())
-					return MatchResult.IGNORED;
-				else
-					return MatchResult.NOT_IGNORED;
+				if (rule.getResult()) {
+					// rule matches: path could be ignored
+					if (negatePrevious)
+						// ignore current match, reset "negate" flag, continue
+						negatePrevious = false;
+					else
+						// valid match, just return
+						return MatchResult.IGNORED;
+				} else {
+					// found negated rule
+					if (negatePrevious)
+						// not possible to re-include excluded ignore rule
+						return MatchResult.NOT_IGNORED;
+					else
+						// set the flag and continue
+						negatePrevious = true;
+				}
 			}
 		}
+		if (negatePrevious)
+			// negated rule found but there is no previous rule in *this* file
+			return MatchResult.NEGATE_PREVIOUS;
+		// *this* file has no matching rules
 		return MatchResult.CHECK_PARENT;
+	}
+
+	@Override
+	public String toString() {
+		return rules.toString();
 	}
 }
