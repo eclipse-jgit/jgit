@@ -101,7 +101,8 @@ import org.eclipse.jgit.util.io.EolCanonicalizingInputStream;
  *
  * @see FileTreeIterator
  */
-public abstract class WorkingTreeIterator extends AbstractTreeIterator {
+public abstract class WorkingTreeIterator extends AbstractTreeIterator
+		implements AttributeNodeProvider {
 	/** An empty entry array, suitable for {@link #init(Entry[])}. */
 	protected static final Entry[] EOF = {};
 
@@ -658,7 +659,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	/**
 	 * Retrieves the {@link AttributesNode} that holds the information located
 	 * in system-wide file.
-	 * 
+	 *
 	 * @return the {@link AttributesNode} that holds the information located in
 	 *         system-wide file.
 	 * @throws IOException
