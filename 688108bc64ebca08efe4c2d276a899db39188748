@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a766b734_e3a340f8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ObjectInserterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2014-10-23T21:45:06Z",
+      "side": 1,
+      "message": "There is already a class,ObjectInserter.Formatter, you can use instead of mocking your own",
+      "revId": "688108bc64ebca08efe4c2d276a899db39188748",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
