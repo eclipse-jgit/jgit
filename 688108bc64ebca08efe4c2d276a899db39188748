@@ -16,6 +16,23 @@
       "revId": "688108bc64ebca08efe4c2d276a899db39188748",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_638bb073",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectInserter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-10-23T22:01:00Z",
+      "side": 1,
+      "message": "Look at this javadoc. The length parameter should determine how many bytes should be read from the stream. It doesn\u0027t tell that the stream must be empty afterwards. If you tell we should read 10 bytes but the stream is empty after 8 bytes then this is worth an exception. But if the streams contains more bytes then this should be ok.\n\nImagine you are receiving git objects over the network. For the network connection you have one inputstream over which you receive the git objects. You know the next objects which you receive are a blob of 200 bytes and then a blob of 300 bytes. In such a case it should be possible to say \"idFor(blob, 200, netInputStream); idFor(blob, 300, netInputStream);\". Your change would let the first call fail.",
+      "revId": "688108bc64ebca08efe4c2d276a899db39188748",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
