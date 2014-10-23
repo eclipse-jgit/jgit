@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a766b734_e0185682",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/ignore/IgnoreNodeTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2014-10-23T10:46:54Z",
+      "side": 1,
+      "message": "This doesn\u0027t seem to be included in the `assertEntry` below.",
+      "revId": "94067e051bac6b14f35364c13a17531e6972fe58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_20fb6e88",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/ignore/IgnoreNodeTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2014-10-23T10:46:54Z",
+      "side": 1,
+      "message": "Should be `tracked`, right?",
+      "revId": "94067e051bac6b14f35364c13a17531e6972fe58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_a0c01e24",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/ignore/IgnoreNodeTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2014-10-23T10:46:54Z",
+      "side": 1,
+      "message": "\"... and except all directories\", right?",
+      "revId": "94067e051bac6b14f35364c13a17531e6972fe58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_40daea14",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/ignore/IgnoreNodeTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2014-10-23T10:46:54Z",
+      "side": 1,
+      "message": "Isn\u0027t this just due to JGit iterating into untracked directories as well (e.g. staging view lists all the files as untracked, whereas C Git stops at the directory)?\n\nGiven that, from the assertions below for src/a and children, it looks like C Git and JGit behave the same with regards to the directory and all its children *not* being ignored.",
+      "revId": "94067e051bac6b14f35364c13a17531e6972fe58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_c0139a61",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/ignore/IgnoreNodeTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2014-10-23T10:46:54Z",
+      "side": 1,
+      "message": "This doesn\u0027t seem to be included in the `assertEntry` below.",
+      "revId": "94067e051bac6b14f35364c13a17531e6972fe58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_6005661d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/ignore/IgnoreNodeTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2014-10-23T10:46:54Z",
+      "side": 1,
+      "message": "Other use of false instead of tracked.",
+      "revId": "94067e051bac6b14f35364c13a17531e6972fe58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_a035bedf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/IgnoreNode.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2014-10-23T10:46:54Z",
+      "side": 1,
+      "message": "I\u0027m not sure if this is handled correctly with regards to negatePrevious. Running IgnoreNodeTest with coverage shows that this line is never hit.",
+      "revId": "94067e051bac6b14f35364c13a17531e6972fe58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
