@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a766b734_a083fe0e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/FileTreeIteratorTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2014-10-23T10:12:58Z",
+      "side": 1,
+      "message": "The line is still commented.",
+      "revId": "794fd979260700789edd8f240609ed7431d37d4f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
