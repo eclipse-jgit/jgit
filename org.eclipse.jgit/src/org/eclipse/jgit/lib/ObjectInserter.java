@@ -263,10 +263,12 @@ public abstract class ObjectInserter {
 		while (length > 0) {
 			int n = in.read(buf, 0, (int) Math.min(length, buf.length));
 			if (n < 0)
-				throw new EOFException("Unexpected end of input");
+				throw new EOFException("Unexpected end of input"); //$NON-NLS-1$
 			md.update(buf, 0, n);
 			length -= n;
 		}
+		if (in.read() != -1)
+			throw new IOException("Input not fully read"); //$NON-NLS-1$
 		return ObjectId.fromRaw(md.digest());
 	}
 
