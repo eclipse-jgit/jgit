@@ -104,6 +104,40 @@
     },
     {
       "key": {
+        "uuid": "a766b734_e0bcd6a2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/IgnoreNode.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2014-10-23T11:03:06Z",
+      "side": 1,
+      "message": "Should this maybe be called CHECK_PARENT_NEGATE_FIRST_MATCH?",
+      "revId": "94067e051bac6b14f35364c13a17531e6972fe58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_c0b71aba",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/IgnoreNode.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2014-10-23T11:03:06Z",
+      "side": 1,
+      "message": "I had some trouble understanding the meaning of \"negatePrevious\". Maybe it should be \"negateFirstMatch\" instead? It depends on how you look at it, I guess. The confusion comes from the fact that it\u0027s a previous rule in the file, but as this method goes through the rules in reverse order, it\u0027s the next rule in the order in which they are checked..\n\nIs there a word that is unambiguous in this context? Maybe \"negateHigherMatch\"?",
+      "revId": "94067e051bac6b14f35364c13a17531e6972fe58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_a035bedf",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/IgnoreNode.java",
         "patchSetId": 4
