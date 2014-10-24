@@ -68,6 +68,29 @@
       "revId": "e384b76775151c2ac89afa6f6a2f34a3a9009842",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_a94be92f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2014-10-24T13:34:16Z",
+      "side": 1,
+      "message": "Please add the bug number.",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 6
+      },
+      "revId": "e384b76775151c2ac89afa6f6a2f34a3a9009842",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
