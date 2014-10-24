@@ -42,8 +42,16 @@
  */
 package org.eclipse.jgit.api;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileFilter;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintStream;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -56,6 +64,7 @@ import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.NoFilepatternException;
 import org.eclipse.jgit.api.errors.NoHeadException;
 import org.eclipse.jgit.api.errors.NoMessageException;
+import org.eclipse.jgit.api.errors.RejectedCommitException;
 import org.eclipse.jgit.api.errors.UnmergedPathsException;
 import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 import org.eclipse.jgit.dircache.DirCache;
@@ -84,6 +93,8 @@ import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.ChangeIdUtil;
+import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.Hook;
 
 /**
  * A class used to execute a {@code Commit} command. It has setters for all
@@ -118,6 +129,12 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	private List<ObjectId> parents = new LinkedList<ObjectId>();
 
 	private String reflogComment;
+
+	/**
+	 * Setting this option bypasses the {@link Hook#PRE_COMMIT pre-commit} and
+	 * {@link Hook#COMMIT_MSG} hooks.
+	 */
+	private boolean noVerify;
 
 	/**
 	 * @param repo
@@ -160,13 +177,26 @@ public class CommitCommand extends GitCommand<RevCommit> {
 				throw new WrongRepositoryStateException(MessageFormat.format(
 						JGitText.get().cannotCommitOnARepoWithState,
 						state.name()));
+
+			if (!noVerify) {
+				final ByteArrayOutputStream errorByteArray = new ByteArrayOutputStream();
+				final PrintStream hookErrRedirect = new PrintStream(
+						errorByteArray);
+				int preCommitHookResult = FS.DETECTED.runIfPresent(repo,
+						Hook.PRE_COMMIT, new String[0], System.out,
+						hookErrRedirect);
+				final String errorDetails = errorByteArray.toString();
+				if (preCommitHookResult != 0) {
+					commitRejectedByHook(Hook.PRE_COMMIT, errorDetails);
+				}
+			}
+
 			processOptions(state, rw);
 
 			if (all && !repo.isBare() && repo.getWorkTree() != null) {
 				Git git = new Git(repo);
 				try {
-					git.add()
-							.addFilepattern(".") //$NON-NLS-1$
+					git.add().addFilepattern(".") //$NON-NLS-1$
 							.setUpdate(true).call();
 				} catch (NoFilepatternException e) {
 					// should really not happen
@@ -196,7 +226,36 @@ public class CommitCommand extends GitCommand<RevCommit> {
 					parents.add(0, headId);
 				}
 
+			if (!noVerify) {
+				// FIXME this message should have been saved beforehand, since
+				// the prepare-commit-msg hook also works on it
+				exportPreparedMessage(message);
+				final ByteArrayOutputStream errorByteArray = new ByteArrayOutputStream();
+				final PrintStream hookErrRedirect = new PrintStream(
+						errorByteArray);
+				String messageFilePath = getMessageFile(false)
+						.getAbsolutePath();
+				// TODO we know the hooks can only run on unix or
+				// windows-cygwin... both of which need their argument in unix
+				// format ('/' as path separator, not '\'). Windows generally
+				// accepts '/' as a path separator... having this conversion
+				// here shouldn't be an issue, but might hurt if we wish to
+				// somehow add support for git hooks on windows without cygwin
+				// and this support doesn't accept '/' as a path separator.
+				messageFilePath = messageFilePath.replace(File.separatorChar,
+						'/');
+				int commitMsgHookResult = FS.DETECTED.runIfPresent(repo,
+						Hook.COMMIT_MSG, new String[] { messageFilePath, },
+						System.out, hookErrRedirect);
+				final String errorDetails = errorByteArray.toString();
+				if (commitMsgHookResult != 0) {
+					commitRejectedByHook(Hook.COMMIT_MSG, errorDetails);
+				}
+				message = readPreparedMessage();
+			}
+
 			// lock the index
+			boolean commitSuccessful = false;
 			DirCache index = repo.lockDirCache();
 			try {
 				if (!only.isEmpty())
@@ -258,6 +317,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 							repo.writeMergeCommitMsg(null);
 							repo.writeRevertHead(null);
 						}
+						commitSuccessful = true;
 						return revCommit;
 					}
 					case REJECTED:
@@ -275,6 +335,21 @@ public class CommitCommand extends GitCommand<RevCommit> {
 				}
 			} finally {
 				index.unlock();
+
+				if (commitSuccessful) {
+					final ByteArrayOutputStream errorByteArray = new ByteArrayOutputStream();
+					final PrintStream hookErrRedirect = new PrintStream(
+							errorByteArray);
+					int postCommitHookResult = FS.DETECTED.runIfPresent(repo,
+							Hook.POST_COMMIT, new String[0], System.out,
+							hookErrRedirect);
+					final String errorDetails = errorByteArray.toString();
+					if (postCommitHookResult != 0) {
+						// TODO do we wish to log? The post-commit hook cannot
+						// reject a commit, but the user might want to be told
+						// his hook failed...
+					}
+				}
 			}
 		} catch (UnmergedPathException e) {
 			throw new UnmergedPathsException(e);
@@ -733,4 +808,85 @@ public class CommitCommand extends GitCommand<RevCommit> {
 		return this;
 	}
 
+	/**
+	 * Sets the {@link #noVerify} option on this commit command.
+	 *
+	 * @param noVerify
+	 *            Whether this commit should be verified.
+	 * @return {@code this}
+	 */
+	public CommitCommand setNoVerify(boolean noVerify) {
+		this.noVerify = noVerify;
+		return this;
+	}
+
+	private void exportPreparedMessage(String msg) throws IOException {
+		final File messageFile = getMessageFile(true);
+		if (messageFile == null)
+			// FIXME
+			throw new RuntimeException("Couldn't create message file "
+					+ repo.getDirectory().getAbsolutePath()
+					+ Constants.COMMIT_EDITMSG + '.');
+		BufferedWriter writer = null;
+		try {
+			writer = new BufferedWriter(new FileWriter(messageFile));
+			writer.write(msg);
+		} finally {
+			if (writer != null)
+				writer.close();
+		}
+	}
+
+	private String readPreparedMessage() throws IOException {
+		final File messageFile = getMessageFile(false);
+		if (messageFile == null)
+			return "";
+		BufferedReader reader = null;
+		try {
+			reader = new BufferedReader(new FileReader(messageFile));
+			StringBuilder builder = new StringBuilder();
+			String line = null;
+			while ((line = reader.readLine()) != null) {
+				// TODO do we wish to respect OS line separator in the commit
+				// message?
+				builder.append(line).append('\n');
+			}
+			return builder.toString();
+		}finally {
+			if (reader != null)
+				reader.close();
+		}
+	}
+
+	private File getMessageFile(boolean createOnDemand) throws IOException {
+		final File gitdir = repo.getDirectory();
+		final File[] messageFileCandidates = gitdir.listFiles(new FileFilter() {
+			public boolean accept(File pathname) {
+				return pathname.isFile()
+						&& pathname.getName().equals(Constants.COMMIT_EDITMSG);
+			}
+		});
+		final File messageFile;
+		if (messageFileCandidates.length > 0)
+			messageFile = messageFileCandidates[0];
+		else if (createOnDemand) {
+			messageFile = new File(gitdir.getAbsolutePath(),
+					Constants.COMMIT_EDITMSG);
+			messageFile.createNewFile();
+		} else
+			messageFile = null;
+		return messageFile;
+	}
+
+	private void commitRejectedByHook(Hook cause, String errorDetails)
+			throws RejectedCommitException {
+		final String defaultMessage = "Commit rejected by " + cause.getName()
+				+ " hook";
+		final String errorMessage;
+		if (errorDetails.length() > 0)
+			errorMessage = defaultMessage + ":\n" + errorDetails;
+		else
+			errorMessage = defaultMessage + '.';
+		throw new RejectedCommitException(errorMessage);
+	}
 }
