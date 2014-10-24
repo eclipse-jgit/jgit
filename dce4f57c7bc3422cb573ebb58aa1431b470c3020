@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a766b734_29cd1961",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/IndexDiffSubmoduleTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2014-10-24T13:12:21Z",
+      "side": 1,
+      "message": "Please use another variable name as in the method parameters below?",
+      "range": {
+        "startLine": 75,
+        "startChar": 35,
+        "endLine": 75,
+        "endChar": 39
+      },
+      "revId": "dce4f57c7bc3422cb573ebb58aa1431b470c3020",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_a935a9df",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/IndexDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2014-10-24T13:12:21Z",
+      "side": 1,
+      "message": "I think this enum belongs more to the getModulesIgnore() in the SubmoduleWalk class. I would move it there.",
+      "range": {
+        "startLine": 196,
+        "startChar": 13,
+        "endLine": 196,
+        "endChar": 32
+      },
+      "revId": "dce4f57c7bc3422cb573ebb58aa1431b470c3020",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_8930aded",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/IndexDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2014-10-24T13:12:21Z",
+      "side": 1,
+      "message": "Why is such a factory needed?",
+      "range": {
+        "startLine": 350,
+        "startChar": 18,
+        "endLine": 350,
+        "endChar": 44
+      },
+      "revId": "dce4f57c7bc3422cb573ebb58aa1431b470c3020",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_e92fa18d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/IndexDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2014-10-24T13:12:21Z",
+      "side": 1,
+      "message": "Why is this needed?",
+      "range": {
+        "startLine": 369,
+        "startChar": 13,
+        "endLine": 369,
+        "endChar": 36
+      },
+      "revId": "dce4f57c7bc3422cb573ebb58aa1431b470c3020",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_c92aa57d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 604,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2014-10-24T13:12:21Z",
+      "side": 1,
+      "message": "s/current entry/the current entry/",
+      "range": {
+        "startLine": 604,
+        "startChar": 39,
+        "endLine": 604,
+        "endChar": 40
+      },
+      "revId": "dce4f57c7bc3422cb573ebb58aa1431b470c3020",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
