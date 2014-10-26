@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a766b734_afac8925",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/ignore/IgnoreNodeTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2014-10-26T04:52:55Z",
+      "side": 1,
+      "message": "Nit: trailing whitespace",
+      "revId": "8242c01c7d34c5508ca537233a215d14ab3ecab0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
