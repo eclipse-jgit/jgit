@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a766b734_5a3bf1f3",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/IndexDiffSubmoduleTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-10-27T08:32:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_29cd1961",
+      "range": {
+        "startLine": 75,
+        "startChar": 35,
+        "endLine": 75,
+        "endChar": 39
+      },
+      "revId": "dce4f57c7bc3422cb573ebb58aa1431b470c3020",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_a935a9df",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/IndexDiff.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2014-10-24T13:12:21Z",
       "side": 1,
       "message": "I think this enum belongs more to the getModulesIgnore() in the SubmoduleWalk class. I would move it there.",
+      "range": {
+        "startLine": 196,
+        "startChar": 13,
+        "endLine": 196,
+        "endChar": 32
+      },
+      "revId": "dce4f57c7bc3422cb573ebb58aa1431b470c3020",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_ba51652f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/IndexDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-10-27T08:32:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_a935a9df",
       "range": {
         "startLine": 196,
         "startChar": 13,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "a766b734_9a4c6999",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/IndexDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-10-27T08:32:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_09a2dd82",
+      "range": {
+        "startLine": 203,
+        "startChar": 27,
+        "endLine": 203,
+        "endChar": 38
+      },
+      "revId": "dce4f57c7bc3422cb573ebb58aa1431b470c3020",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_69a9d165",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/IndexDiff.java",
         "patchSetId": 1
@@ -82,6 +154,30 @@
       "writtenOn": "2014-10-24T13:15:48Z",
       "side": 1,
       "message": "s/workingtree/working tree/",
+      "range": {
+        "startLine": 208,
+        "startChar": 46,
+        "endLine": 208,
+        "endChar": 57
+      },
+      "revId": "dce4f57c7bc3422cb573ebb58aa1431b470c3020",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_fa4bdd7c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/IndexDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-10-27T08:32:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_69a9d165",
       "range": {
         "startLine": 208,
         "startChar": 46,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "a766b734_da46e174",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/IndexDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-10-27T08:32:40Z",
+      "side": 1,
+      "message": "This is needed when EGit wants to use IndexDiff. Since this change instances of IndexDiff are not only created by higher layers but also implicitly during IndexDiff.diff() (line 545). When we are implicitly creating such instances we want to give the higher layers the chance to determine what kind of WorkingTreeIterator to use. In pure JGit environments (e.g. gerrit) we want to work with FileTreeIterators. In Eclipse environments (e.g. EGit) we want to use AdaptableFileTreeIterator. So I expect that when EGit instantiates IndexDiff instances it will call setWorkingTreeItFactory() specifying a factory constructing AdaptableFileTreeIterator instances.",
+      "parentUuid": "a766b734_8930aded",
+      "range": {
+        "startLine": 350,
+        "startChar": 18,
+        "endLine": 350,
+        "endChar": 44
+      },
+      "revId": "dce4f57c7bc3422cb573ebb58aa1431b470c3020",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_e92fa18d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/IndexDiff.java",
         "patchSetId": 1
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "a766b734_3aa9d598",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/IndexDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-10-27T08:32:40Z",
+      "side": 1,
+      "message": "see above",
+      "parentUuid": "a766b734_e92fa18d",
+      "range": {
+        "startLine": 369,
+        "startChar": 13,
+        "endLine": 369,
+        "endChar": 36
+      },
+      "revId": "dce4f57c7bc3422cb573ebb58aa1431b470c3020",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_c92aa57d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleWalk.java",
         "patchSetId": 1
@@ -151,6 +295,30 @@
       "writtenOn": "2014-10-24T13:12:21Z",
       "side": 1,
       "message": "s/current entry/the current entry/",
+      "range": {
+        "startLine": 604,
+        "startChar": 39,
+        "endLine": 604,
+        "endChar": 40
+      },
+      "revId": "dce4f57c7bc3422cb573ebb58aa1431b470c3020",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_1aacd9a6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 604,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-10-27T08:32:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_c92aa57d",
       "range": {
         "startLine": 604,
         "startChar": 39,
