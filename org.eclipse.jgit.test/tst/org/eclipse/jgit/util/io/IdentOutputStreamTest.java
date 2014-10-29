@@ -1,6 +1,5 @@
 /*
- * Copyright (C) 2011, 2013 Robin Rosenberg
- * Copyright (C) 2013 Robin Stocker
+ * Copyright (C) 2014, Arthur Daussy <arthur.daussy@obeo.fr>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -41,7 +40,6 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 package org.eclipse.jgit.util.io;
 
 import java.io.ByteArrayInputStream;
@@ -54,52 +52,96 @@ import org.eclipse.jgit.junit.JGitTestUtil;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class AutoCRLFOutputStreamTest {
+/**
+ * Test class for {@link IdentOutputStream}.
+ */
+public class IdentOutputStreamTest {
+
+	private static final String BLOB_NAME_VALUE = "azertyuiopqsdfghjklmwxcvbnAZERTYUIOPQSDF";
 
 	@Test
-	public void test() throws IOException {
-		assertNoCrLf("", "");
-		assertNoCrLf("\r", "\r");
-		assertNoCrLf("\r\n", "\n");
-		assertNoCrLf("\r\n", "\r\n");
-		assertNoCrLf("\r\r", "\r\r");
-		assertNoCrLf("\r\n\r", "\n\r");
-		assertNoCrLf("\r\n\r\r", "\r\n\r\r");
-		assertNoCrLf("\r\n\r\n", "\r\n\r\n");
-		assertNoCrLf("\r\n\r\n\r", "\n\r\n\r");
-		assertNoCrLf("\0\n", "\0\n");
+	public void testEmptyStream() throws IOException {
+		String empty = "";
+		assertExpectedOutput(empty, empty);
 	}
 
 	@Test
-	public void testBoundary() throws IOException {
-		for (int i = AutoCRLFOutputStream.BUFFER_SIZE - 10; i < AutoCRLFOutputStream.BUFFER_SIZE + 10; i++) {
-			String s1 = Strings.repeat("a", i);
-			assertNoCrLf(s1, s1);
-			String s2 = Strings.repeat("\0", i);
-			assertNoCrLf(s2, s2);
+	public void testNoChange() throws IOException {
+		String noPatternText = "azertyuiopqsdfghjklmwxcvbn";
+		assertExpectedOutput(noPatternText, noPatternText);
+	}
+
+	@Test
+	public void testBasicUseCase() throws IOException {
+		assertExpectedOutput("$Id: " + BLOB_NAME_VALUE + " $", "$Id$");
+	}
+
+	@Test
+	public void testBasicUseCaseInfBuffSize() throws IOException {
+		String extraText = Strings.repeat("x", 100);
+		String pattern = "$Id: " + BLOB_NAME_VALUE + " $";
+		assertExpectedOutput(extraText + pattern + extraText, extraText
+				+ "$Id$" + extraText);
+	}
+
+	@Test
+	public void testBasicUseCaseSupBuffSize() throws IOException {
+		String extraText = Strings.repeat("x",
+				IdentOutputStream.BUFFER_SIZE / 2);
+		String pattern = "$Id: " + BLOB_NAME_VALUE + " $";
+		StringBuilder input = new StringBuilder();
+		input.append(extraText);
+		input.append(pattern);
+		input.append(extraText);
+		StringBuilder expected = new StringBuilder();
+		expected.append(extraText);
+		expected.append("$Id$");
+		expected.append(extraText);
+		assertExpectedOutput(input.toString(), expected.toString());
+	}
+
+	/**
+	 * Test {@link IdentOutputStream} with an input text with several "iden"
+	 * pattern.
+	 *
+	 * @throws IOException
+	 */
+	@Test
+	public void testNPattern() throws IOException {
+		String pattern = "$Id$";
+		String expectedPattern = "$Id: " + BLOB_NAME_VALUE + " $";
+
+		StringBuilder input = new StringBuilder();
+		StringBuilder expected = new StringBuilder();
+		for (int separatorSize = 1; separatorSize < 11; separatorSize++) {
+			String separator = Strings.repeat("x", separatorSize);
+			for (int i = 1; i < 10; i++) {
+				input.append(separator).append(pattern).append(separator);
+				expected.append(separator).append(expectedPattern)
+						.append(separator);
+			}
+			assertExpectedOutput(expected.toString(), input.toString());
 		}
 	}
 
-	private void assertNoCrLf(String string, String string2) throws IOException {
-		assertNoCrLfHelper(string, string2);
-		// \u00e5 = LATIN SMALL LETTER A WITH RING ABOVE
-		// the byte value is negative
-		assertNoCrLfHelper("\u00e5" + string, "\u00e5" + string2);
-		assertNoCrLfHelper("\u00e5" + string + "\u00e5", "\u00e5" + string2
-				+ "\u00e5");
-		assertNoCrLfHelper(string + "\u00e5", string2 + "\u00e5");
-	}
-
-	private void assertNoCrLfHelper(String expect, String input)
+	/**
+	 * Inspired by {@link AutoCRLFOutputStreamTest#assertNoCrLfHelper}
+	 *
+	 * @param expect
+	 * @param input
+	 * @throws IOException
+	 */
+	private void assertExpectedOutput(String expect, String input)
 			throws IOException {
-		byte[] inbytes = input.getBytes();
-		byte[] expectBytes = expect.getBytes();
-		for (int i = -4; i < 5; ++i) {
+		byte[] inbytes = input.getBytes("UTF-8");
+		byte[] expectBytes = expect.getBytes("UTF-8");
+		for (int i = -10; i < 10; ++i) {
 			int size = Math.abs(i);
 			byte[] buf = new byte[size];
 			InputStream in = new ByteArrayInputStream(inbytes);
 			ByteArrayOutputStream bos = new ByteArrayOutputStream();
-			OutputStream out = new AutoCRLFOutputStream(bos);
+			OutputStream out = new IdentOutputStream(bos,
+					BLOB_NAME_VALUE.getBytes());
 			if (i > 0) {
 				int n;
 				while ((n = in.read(buf)) >= 0) {
@@ -121,7 +163,7 @@ public class AutoCRLFOutputStreamTest {
 			in.close();
 			out.close();
 			byte[] actualBytes = bos.toByteArray();
-			Assert.assertEquals("bufsize=" + size,
+			Assert.assertEquals("bufsize=" + i,
 					JGitTestUtil.encode(expectBytes),
 					JGitTestUtil.encode(actualBytes));
 		}
