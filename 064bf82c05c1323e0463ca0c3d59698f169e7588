@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "e76c2f17_340e4c74",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/MergeDriverTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2014-10-29T13:03:16Z",
+      "side": 1,
+      "message": "I think the basis on this decision was that in the case of \"one deleted, one changed\", there can be no data loss in taking the \"changed\" side... whereas in the case of \"both added\", there _is_ a loss of data, except if both added files are binary identical, but I doubt that the decision making tests that far :).",
+      "parentUuid": "0756a345_b3dde6da",
+      "revId": "064bf82c05c1323e0463ca0c3d59698f169e7588",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_f3eabe6b",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/MergeDriverTest.java",
         "patchSetId": 9
@@ -47,6 +65,24 @@
       "writtenOn": "2014-06-25T16:22:27Z",
       "side": 1,
       "message": "No test for a driver throwing a IOException?",
+      "revId": "064bf82c05c1323e0463ca0c3d59698f169e7588",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e76c2f17_74f724c7",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/MergeDriverTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2014-10-29T13:03:16Z",
+      "side": 1,
+      "message": "Hummm, looking at this now, did I even test this failure? We need to add tests for both this driver and one throwing an IOE.",
+      "parentUuid": "0756a345_f3eabe6b",
       "revId": "064bf82c05c1323e0463ca0c3d59698f169e7588",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +123,24 @@
     },
     {
       "key": {
+        "uuid": "e76c2f17_b4189ca9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeDriver.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2014-10-29T13:03:16Z",
+      "side": 1,
+      "message": "_If_ I am correct, the decision making doesn\u0027t test the content before deciding to call the drivers. We should probably add a test to check and enforce whichever behavior feels the best (IMHO, the merge driver should be called in such a case : it is its decision to conclude for a pseudo conflict and what to do in such cases).",
+      "parentUuid": "0756a345_7a3a43f1",
+      "revId": "064bf82c05c1323e0463ca0c3d59698f169e7588",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_d3efba7a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeDriverRegistry.java",
         "patchSetId": 9
@@ -115,6 +169,24 @@
       "writtenOn": "2014-06-25T16:22:27Z",
       "side": 1,
       "message": "This registry works with static methods. An application using jgit may want to deal with multiple repositories. With your code we have only one big registry for merge drivers regardless with how many git repositories I am dealing. Can this work? I thought that the registry for merge drivers must be something specific for a repository. I would have expected a registry to be retriveable from a Repository object.\n\nE.g. in my Java App I do\n\n   Git.open(\"/git/a\");\n   Git.open(\"/git/b\");\n\nBut the config /git/a/.git/config contains a different merge driver for \"*.txt\" than the one in /git/b/.git/config . How can my java program find out which driver is there for /git/b ?",
+      "revId": "064bf82c05c1323e0463ca0c3d59698f169e7588",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e76c2f17_7469e4eb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeDriverRegistry.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2014-10-29T13:03:16Z",
+      "side": 1,
+      "message": "You are totally right... This needs to be revised...",
+      "parentUuid": "e76c2f17_4e47f723",
       "revId": "064bf82c05c1323e0463ca0c3d59698f169e7588",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
