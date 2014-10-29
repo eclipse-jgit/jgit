@@ -48,6 +48,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.eclipse.jgit.junit.JGitTestUtil;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -110,24 +111,11 @@ public class AutoCRLFInputStreamTest {
 			in.close();
 			out.close();
 			byte[] actualBytes = out.toByteArray();
-			Assert.assertEquals("bufsize=" + i, encode(expectBytes),
-					encode(actualBytes));
+			Assert.assertEquals("bufsize=" + i,
+					JGitTestUtil.encode(expectBytes),
+					JGitTestUtil.encode(actualBytes));
 		}
 	}
 
-	String encode(byte[] in) {
-		StringBuilder str = new StringBuilder();
-		for (byte b : in) {
-			if (b < 32)
-				str.append(0xFF & b);
-			else {
-				str.append("'");
-				str.append((char) b);
-				str.append("'");
-			}
-			str.append(' ');
-		}
-		return str.toString();
-	}
 
 }
