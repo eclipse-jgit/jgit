@@ -79,8 +79,11 @@ class SimilarityIndex {
 	/** Maximum value of the count field, also mask to extract the count. */
 	private static final long MAX_COUNT = (1L << KEY_SHIFT) - 1;
 
-	/** Total size of the file we hashed into the structure. */
-	private long fileSize;
+	/**
+	 * Total amount of bytes hashed into the structure, including \n. This is
+	 * usually the size of the file minus number of CRLF encounters.
+	 */
+	private long hashedCnt;
 
 	/** Number of non-zero entries in {@link #idHash}. */
 	private int idSize;
@@ -108,48 +111,59 @@ class SimilarityIndex {
 		idGrowAt = growAt(idHashBits);
 	}
 
-	long getFileSize() {
-		return fileSize;
-	}
-
-	void setFileSize(long size) {
-		fileSize = size;
-	}
-
 	void hash(ObjectLoader obj) throws MissingObjectException, IOException,
 			TableFullException {
 		if (obj.isLarge()) {
-			ObjectStream in = obj.openStream();
-			try {
-				setFileSize(in.getSize());
-				hash(in, fileSize);
-			} finally {
-				in.close();
-			}
+			hashLargeObject(obj);
 		} else {
 			byte[] raw = obj.getCachedBytes();
-			setFileSize(raw.length);
 			hash(raw, 0, raw.length);
 		}
 	}
 
+	private void hashLargeObject(ObjectLoader obj) throws IOException,
+			TableFullException {
+		ObjectStream in1 = obj.openStream();
+		boolean text;
+		try {
+			text = !RawText.isBinary(in1);
+		} finally {
+			in1.close();
+		}
+
+		ObjectStream in2 = obj.openStream();
+		try {
+			hash(in2, in2.getSize(), text);
+		} finally {
+			in2.close();
+		}
+	}
+
 	void hash(byte[] raw, int ptr, final int end) throws TableFullException {
+		final boolean text = !RawText.isBinary(raw);
+		hashedCnt = 0;
 		while (ptr < end) {
 			int hash = 5381;
+			int blockHashedCnt = 0;
 			int start = ptr;
 
 			// Hash one line, or one block, whichever occurs first.
 			do {
 				int c = raw[ptr++] & 0xff;
+				// Ignore CR in CRLF sequence if text
+				if (text && c == '\r' && ptr < end && raw[ptr] == '\n')
+					continue;
+				blockHashedCnt++;
 				if (c == '\n')
 					break;
 				hash = (hash << 5) + hash + c;
 			} while (ptr < end && ptr - start < 64);
-			add(hash, ptr - start);
+			hashedCnt += blockHashedCnt;
+			add(hash, blockHashedCnt);
 		}
 	}
 
-	void hash(InputStream in, long remaining) throws IOException,
+	void hash(InputStream in, long remaining, boolean text) throws IOException,
 			TableFullException {
 		byte[] buf = new byte[4096];
 		int ptr = 0;
@@ -157,6 +171,7 @@ class SimilarityIndex {
 
 		while (0 < remaining) {
 			int hash = 5381;
+			int blockHashedCnt = 0;
 
 			// Hash one line, or one block, whichever occurs first.
 			int n = 0;
@@ -170,11 +185,16 @@ class SimilarityIndex {
 
 				n++;
 				int c = buf[ptr++] & 0xff;
+				// Ignore CR in CRLF sequence if text
+				if (text && c == '\r' && ptr < cnt && buf[ptr] == '\n')
+					continue;
+				blockHashedCnt++;
 				if (c == '\n')
 					break;
 				hash = (hash << 5) + hash + c;
 			} while (n < 64 && n < remaining);
-			add(hash, n);
+			hashedCnt += blockHashedCnt;
+			add(hash, blockHashedCnt);
 			remaining -= n;
 		}
 	}
@@ -193,7 +213,7 @@ class SimilarityIndex {
 	}
 
 	int score(SimilarityIndex dst, int maxScore) {
-		long max = Math.max(fileSize, dst.fileSize);
+		long max = Math.max(hashedCnt, dst.hashedCnt);
 		if (max == 0)
 			return maxScore;
 		return (int) ((common(dst) * maxScore) / max);
