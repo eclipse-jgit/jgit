@@ -83,7 +83,7 @@ public class SimilarityIndexTest {
 				+ "B\n" //
 				+ "B\n").getBytes("UTF-8");
 		SimilarityIndex si = new SimilarityIndex();
-		si.hash(new ByteArrayInputStream(in), in.length);
+		si.hash(new ByteArrayInputStream(in), in.length, false);
 		assertEquals(2, si.size());
 	}
 
@@ -96,6 +96,48 @@ public class SimilarityIndexTest {
 				+ "B\n";
 		SimilarityIndex src = hash(text);
 		SimilarityIndex dst = hash(text);
+		assertEquals(8, src.common(dst));
+		assertEquals(8, dst.common(src));
+
+		assertEquals(100, src.score(dst, 100));
+		assertEquals(100, dst.score(src, 100));
+	}
+
+	@Test
+	public void testCommonScore_SameFiles_CR_canonicalization()
+			throws TableFullException {
+		String text = "" //
+				+ "A\r\n" //
+				+ "B\r\n" //
+				+ "D\r\n" //
+				+ "B\r\n";
+		SimilarityIndex src = hash(text);
+		SimilarityIndex dst = hash(text.replace("\r", ""));
+		assertEquals(8, src.common(dst));
+		assertEquals(8, dst.common(src));
+
+		assertEquals(100, src.score(dst, 100));
+		assertEquals(100, dst.score(src, 100));
+	}
+
+	@Test
+	public void testCommonScoreLargeObject_SameFiles_CR_canonicalization()
+			throws TableFullException, IOException {
+		String text = "" //
+				+ "A\r\n" //
+				+ "B\r\n" //
+				+ "D\r\n" //
+				+ "B\r\n";
+		SimilarityIndex src = new SimilarityIndex();
+		byte[] bytes1 = text.getBytes("UTF-8");
+		src.hash(new ByteArrayInputStream(bytes1), bytes1.length, true);
+		src.sort();
+
+		SimilarityIndex dst = new SimilarityIndex();
+		byte[] bytes2 = text.replace("\r", "").getBytes("UTF-8");
+		dst.hash(new ByteArrayInputStream(bytes2), bytes2.length, true);
+		dst.sort();
+
 		assertEquals(8, src.common(dst));
 		assertEquals(8, dst.common(src));
 
@@ -132,24 +174,8 @@ public class SimilarityIndexTest {
 	}
 
 	private static SimilarityIndex hash(String text) throws TableFullException {
-		SimilarityIndex src = new SimilarityIndex() {
-			@Override
-			void hash(byte[] raw, int ptr, final int end)
-					throws TableFullException {
-				while (ptr < end) {
-					int hash = raw[ptr] & 0xff;
-					int start = ptr;
-					do {
-						int c = raw[ptr++] & 0xff;
-						if (c == '\n')
-							break;
-					} while (ptr < end && ptr - start < 64);
-					add(hash, ptr - start);
-				}
-			}
-		};
+		SimilarityIndex src = new SimilarityIndex();
 		byte[] raw = Constants.encode(text);
-		src.setFileSize(raw.length);
 		src.hash(raw, 0, raw.length);
 		src.sort();
 		return src;
