@@ -109,4 +109,12 @@ public class ProcessResult {
 	public Status getStatus() {
 		return status;
 	}
+
+	/**
+	 * @return <code>true</code> if the execution occurred and resulted in an
+	 *         error code (a non-zero value), <code>false</code> otherwise.
+	 */
+	public boolean isExecutedWithError() {
+		return getStatus() == ProcessResult.Status.OK && getExitCode() != 0;
+	}
 }
