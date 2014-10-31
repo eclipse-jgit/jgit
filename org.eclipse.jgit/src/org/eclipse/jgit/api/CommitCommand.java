@@ -42,8 +42,10 @@
  */
 package org.eclipse.jgit.api;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintStream;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -56,6 +58,7 @@ import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.NoFilepatternException;
 import org.eclipse.jgit.api.errors.NoHeadException;
 import org.eclipse.jgit.api.errors.NoMessageException;
+import org.eclipse.jgit.api.errors.RejectedCommitException;
 import org.eclipse.jgit.api.errors.UnmergedPathsException;
 import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 import org.eclipse.jgit.dircache.DirCache;
@@ -84,6 +87,8 @@ import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.ChangeIdUtil;
+import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.Hook;
 
 /**
  * A class used to execute a {@code Commit} command. It has setters for all
@@ -118,6 +123,12 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	private List<ObjectId> parents = new LinkedList<ObjectId>();
 
 	private String reflogComment;
+
+	/**
+	 * Setting this option bypasses the {@link Hook#PRE_COMMIT pre-commit} and
+	 * {@link Hook#COMMIT_MSG} hooks.
+	 */
+	private boolean noVerify;
 
 	/**
 	 * @param repo
@@ -160,13 +171,26 @@ public class CommitCommand extends GitCommand<RevCommit> {
 				throw new WrongRepositoryStateException(MessageFormat.format(
 						JGitText.get().cannotCommitOnARepoWithState,
 						state.name()));
+
+			if (!noVerify) {
+				final ByteArrayOutputStream errorByteArray = new ByteArrayOutputStream();
+				final PrintStream hookErrRedirect = new PrintStream(
+						errorByteArray);
+				int preCommitHookResult = FS.DETECTED.runIfPresent(repo,
+						Hook.PRE_COMMIT, new String[0], System.out,
+						hookErrRedirect, null);
+				final String errorDetails = errorByteArray.toString();
+				if (preCommitHookResult != 0) {
+					commitRejectedByHook(Hook.PRE_COMMIT, errorDetails);
+				}
+			}
+
 			processOptions(state, rw);
 
 			if (all && !repo.isBare() && repo.getWorkTree() != null) {
 				Git git = new Git(repo);
 				try {
-					git.add()
-							.addFilepattern(".") //$NON-NLS-1$
+					git.add().addFilepattern(".") //$NON-NLS-1$
 							.setUpdate(true).call();
 				} catch (NoFilepatternException e) {
 					// should really not happen
@@ -733,4 +757,24 @@ public class CommitCommand extends GitCommand<RevCommit> {
 		return this;
 	}
 
+	/**
+	 * Sets the {@link #noVerify} option on this commit command.
+	 *
+	 * @param noVerify
+	 *            Whether this commit should be verified.
+	 * @return {@code this}
+	 */
+	public CommitCommand setNoVerify(boolean noVerify) {
+		this.noVerify = noVerify;
+		return this;
+	}
+
+	private void commitRejectedByHook(Hook cause, String errorDetails)
+			throws RejectedCommitException {
+		String errorMessage = MessageFormat.format(
+				JGitText.get().commitRejectedByHook, cause.getName());
+		if (errorDetails.length() > 0)
+			errorMessage += '\n' + errorDetails;
+		throw new RejectedCommitException(errorMessage);
+	}
 }
