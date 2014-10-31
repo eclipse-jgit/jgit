@@ -387,6 +387,13 @@ public final class Constants {
 	public static final String MODULES = "modules";
 
 	/**
+	 * Name of the folder (inside gitDir) where the hooks are stored.
+	 *
+	 * @since 3.7
+	 */
+	public static final String HOOKS = "hooks";
+
+	/**
 	 * Create a new digest function for objects.
 	 *
 	 * @return a new digest object.
