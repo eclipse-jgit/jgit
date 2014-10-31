@@ -42,8 +42,10 @@
  */
 package org.eclipse.jgit.api;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintStream;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -56,6 +58,7 @@ import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.NoFilepatternException;
 import org.eclipse.jgit.api.errors.NoHeadException;
 import org.eclipse.jgit.api.errors.NoMessageException;
+import org.eclipse.jgit.api.errors.RejectedCommitException;
 import org.eclipse.jgit.api.errors.UnmergedPathsException;
 import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 import org.eclipse.jgit.dircache.DirCache;
@@ -84,6 +87,9 @@ import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.ChangeIdUtil;
+import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.Hook;
+import org.eclipse.jgit.util.ProcessResult;
 
 /**
  * A class used to execute a {@code Commit} command. It has setters for all
@@ -120,6 +126,12 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	private String reflogComment;
 
 	/**
+	 * Setting this option bypasses the {@link Hook#PRE_COMMIT pre-commit} and
+	 * {@link Hook#COMMIT_MSG commit-msg} hooks.
+	 */
+	private boolean noVerify;
+
+	/**
 	 * @param repo
 	 */
 	protected CommitCommand(Repository repo) {
@@ -144,11 +156,14 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	 *             else
 	 * @throws WrongRepositoryStateException
 	 *             when repository is not in the right state for committing
+	 * @throws RejectedCommitException
+	 *             if there are either pre-commit or commit-msg hooks present in
+	 *             the repository and at least one of them rejects the commit.
 	 */
 	public RevCommit call() throws GitAPIException, NoHeadException,
 			NoMessageException, UnmergedPathsException,
-			ConcurrentRefUpdateException,
-			WrongRepositoryStateException {
+			ConcurrentRefUpdateException, WrongRepositoryStateException,
+			RejectedCommitException {
 		checkCallable();
 		Collections.sort(only);
 
@@ -160,13 +175,28 @@ public class CommitCommand extends GitCommand<RevCommit> {
 				throw new WrongRepositoryStateException(MessageFormat.format(
 						JGitText.get().cannotCommitOnARepoWithState,
 						state.name()));
+
+			if (!noVerify) {
+				final ByteArrayOutputStream errorByteArray = new ByteArrayOutputStream();
+				final PrintStream hookErrRedirect = new PrintStream(
+						errorByteArray);
+				ProcessResult preCommitHookResult = FS.DETECTED.runIfPresent(
+						repo,
+						Hook.PRE_COMMIT, new String[0], System.out,
+						hookErrRedirect, null);
+				if (preCommitHookResult.getStatus() == ProcessResult.Status.OK
+						&& preCommitHookResult.getExitCode() != 0) {
+					commitRejectedByHook(Hook.PRE_COMMIT,
+							errorByteArray.toString());
+				}
+			}
+
 			processOptions(state, rw);
 
 			if (all && !repo.isBare() && repo.getWorkTree() != null) {
 				Git git = new Git(repo);
 				try {
-					git.add()
-							.addFilepattern(".") //$NON-NLS-1$
+					git.add().addFilepattern(".") //$NON-NLS-1$
 							.setUpdate(true).call();
 				} catch (NoFilepatternException e) {
 					// should really not happen
@@ -733,4 +763,30 @@ public class CommitCommand extends GitCommand<RevCommit> {
 		return this;
 	}
 
+	/**
+	 * Sets the {@link #noVerify} option on this commit command.
+	 * <p>
+	 * Both the {@link Hook#PRE_COMMIT pre-commit} and {@link Hook#COMMIT_MSG
+	 * commit-msg} hooks can block a commit by their return value; setting this
+	 * option to <code>true</code> will bypass these two hooks.
+	 * </p>
+	 *
+	 * @param noVerify
+	 *            Whether this commit should be verified by the pre-commit and
+	 *            commit-msg hooks.
+	 * @return {@code this}
+	 * @since 3.7
+	 */
+	public CommitCommand setNoVerify(boolean noVerify) {
+		this.noVerify = noVerify;
+		return this;
+	}
+
+	private void commitRejectedByHook(Hook cause, String errorDetails)
+			throws RejectedCommitException {
+		String errorMessage = MessageFormat.format(
+				JGitText.get().commitRejectedByHook, cause.getName(),
+				errorDetails);
+		throw new RejectedCommitException(errorMessage);
+	}
 }
