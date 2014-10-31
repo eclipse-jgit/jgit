@@ -169,7 +169,8 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 								.setMessage(srcCommit.getFullMessage())
 								.setReflogComment(reflogPrefix + " " //$NON-NLS-1$
 										+ srcCommit.getShortMessage())
-								.setAuthor(srcCommit.getAuthorIdent()).call();
+								.setAuthor(srcCommit.getAuthorIdent())
+								.setNoVerify(true).call();
 					cherryPickedRefs.add(src);
 				} else {
 					if (merger.failed())
