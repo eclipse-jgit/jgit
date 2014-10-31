@@ -44,12 +44,15 @@ package org.eclipse.jgit.util;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.errors.RejectCommitException;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.junit.Assume;
@@ -89,6 +92,33 @@ public class HookTest extends RepositoryTestCase {
 		assertEquals("unexpected exit code", 0, res.getExitCode());
 		assertEquals("unexpected process status", ProcessResult.Status.OK,
 				res.getStatus());
+	}
+
+	@Test
+	public void testPreCommitHook() throws Exception {
+		assumeSupportedPlatform();
+
+		Hook h = Hook.PRE_COMMIT;
+		writeHookFile(h.getName(),
+				"#!/bin/sh\necho \"test\"\n\necho 1>&2 \"stderr\"\nexit 1");
+		Git git = Git.wrap(db);
+		String path = "a.txt";
+		writeTrashFile(path, "content");
+		git.add().addFilepattern(path).call();
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		try {
+			git.commit().setMessage("commit")
+					.setHookOutputStream(new PrintStream(out)).call();
+			fail("expected pre-commit hook to abort commit");
+		} catch (RejectCommitException e) {
+			assertEquals("unexpected error message from pre-commit hook",
+					"Commit rejected by \"pre-commit\" hook.\nstderr\n",
+					e.getMessage());
+			assertEquals("unexpected output from pre-commit hook", "test\n",
+					out.toString());
+		} catch (Throwable e) {
+			fail("unexpected exception thrown by pre-commit hook: " + e);
+		}
 	}
 
 	private File writeHookFile(final String name, final String data)
