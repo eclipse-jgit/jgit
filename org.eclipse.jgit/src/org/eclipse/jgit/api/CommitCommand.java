@@ -146,6 +146,12 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	private HookFailureHandler hookFailureHandler;
 
 	/**
+	 * Setting this option bypasses the {@link Hook#POST_REWRITE post-rewrite}
+	 * hook.
+	 */
+	private boolean noPostRewrite;
+
+	/**
 	 * @param repo
 	 */
 	protected CommitCommand(Repository repo) {
@@ -315,6 +321,8 @@ public class CommitCommand extends GitCommand<RevCommit> {
 
 			executePostCommitHookWithFailureHandler();
 
+			executePostRewriteCommitHookWithFailureHandler(headId, revCommit);
+
 			return revCommit;
 		} catch (UnmergedPathException e) {
 			throw new UnmergedPathsException(e);
@@ -400,6 +408,39 @@ public class CommitCommand extends GitCommand<RevCommit> {
 				Hook.POST_COMMIT, new String[0], hookOutRedirect, errorStream,
 				null);
 		return postCommitHookResult;
+	}
+
+	private void executePostRewriteCommitHookWithFailureHandler(ObjectId oldId,
+			RevCommit revCommit) {
+		if (!amend || oldId == null || noPostRewrite) {
+			return;
+		}
+
+		final ObjectId newId = revCommit.getId();
+		final String rewritten = oldId.getName() + ' ' + newId.getName() + '\n';
+
+		if (hookFailureHandler == null) {
+			executePostRewriteCommitHook(rewritten, System.err);
+		} else {
+			final ByteArrayOutputStream errorByteArray = new ByteArrayOutputStream();
+			final PrintStream hookErrRedirect = new PrintStream(errorByteArray);
+
+			ProcessResult postRewriteHookResult = executePostRewriteCommitHook(
+					rewritten, hookErrRedirect);
+
+			if (postRewriteHookResult.isExecutedWithError()) {
+				hookFailureHandler.hookExecutionFailed(Hook.POST_REWRITE,
+						postRewriteHookResult, errorByteArray.toString());
+			}
+		}
+	}
+
+	private ProcessResult executePostRewriteCommitHook(String stdinArgs,
+			PrintStream errorStream) {
+		ProcessResult result = FS.DETECTED.runIfPresent(repo,
+				Hook.POST_REWRITE, new String[] { "amend" }, hookOutRedirect, //$NON-NLS-1$
+				errorStream, stdinArgs);
+		return result;
 	}
 
 	private void insertChangeId(ObjectId treeId) throws IOException {
@@ -956,6 +997,19 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	public CommitCommand setHookErrorHandler(
 			HookFailureHandler hookFailureHandler) {
 		this.hookFailureHandler = hookFailureHandler;
+		return this;
+	}
+
+	/**
+	 * Sets the {@link #noPostRewrite} option on this commit command.
+	 *
+	 * @param noPostRewrite
+	 *            Whether this commit should bypass the
+	 *            {@link Hook#POST_REWRITE post-rewrite} hook.
+	 * @return {@code this}
+	 */
+	public CommitCommand setNoPostRewrite(boolean noPostRewrite) {
+		this.noPostRewrite = noPostRewrite;
 		return this;
 	}
 }
