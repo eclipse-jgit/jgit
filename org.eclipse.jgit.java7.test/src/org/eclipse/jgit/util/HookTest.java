@@ -55,6 +55,7 @@ import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.RejectCommitException;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.RepositoryTestCase;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Assume;
 import org.junit.Test;
 
@@ -134,6 +135,63 @@ public class HookTest extends RepositoryTestCase {
 		git.add().addFilepattern(path).call();
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		git.commit().setMessage("commit")
+				.setHookOutputStream(new PrintStream(out)).call();
+		assertEquals("test\n", out.toString("UTF-8"));
+	}
+
+	@Test
+	public void testPostRewriteHook() throws Exception {
+		assumeSupportedPlatform();
+
+		Git git = Git.wrap(db);
+		String path = "a.txt";
+		writeTrashFile(path, "content");
+		git.add().addFilepattern(path).call();
+		git.commit().setMessage("to amend");
+
+		Hook h = Hook.POST_REWRITE;
+		writeHookFile(h.getName(),
+				"#!/bin/sh\necho \"test\"\n\necho 1>&2 \"stderr\"\nexit 1");
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		git.commit().setAmend(true).setMessage("amended commit msg.")
+				.setHookOutputStream(new PrintStream(out)).call();
+		assertEquals("test\n", out.toString("UTF-8"));
+	}
+
+	@Test
+	public void testPostRewriteHookCanBeIgnored() throws Exception {
+		assumeSupportedPlatform();
+
+		Git git = Git.wrap(db);
+		String path = "a.txt";
+		writeTrashFile(path, "content");
+		git.add().addFilepattern(path).call();
+		git.commit().setMessage("to amend");
+
+		Hook h = Hook.POST_REWRITE;
+		writeHookFile(h.getName(),
+				"#!/bin/sh\necho \"test\"\n\necho 1>&2 \"stderr\"\nexit 1");
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		git.commit().setAmend(true).setNoPostRewrite(true)
+				.setMessage("amended commit msg.")
+				.setHookOutputStream(new PrintStream(out)).call();
+		assertEquals("", out.toString("UTF-8")); // Hook has not been run
+	}
+
+	@Test
+	public void testPostRewriteHookOnRebase() throws Exception {
+		assumeSupportedPlatform();
+
+		Hook h = Hook.POST_REWRITE;
+		writeHookFile(h.getName(),
+				"#!/bin/sh\necho \"test\"\n\necho 1>&2 \"stderr\"\nexit 1");
+		Git git = Git.wrap(db);
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		RevCommit first = git.commit().setMessage("test1").call();
+		createBranch(first, "refs/heads/branch1");
+		git.commit().setMessage("test2").call();
+		checkoutBranch("refs/heads/branch1");
+		git.rebase().setUpstream("refs/heads/master")
 				.setHookOutputStream(new PrintStream(out)).call();
 		assertEquals("test\n", out.toString("UTF-8"));
 	}
