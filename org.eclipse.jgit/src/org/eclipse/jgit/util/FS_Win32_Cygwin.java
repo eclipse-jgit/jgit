@@ -44,11 +44,19 @@
 package org.eclipse.jgit.util;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import org.eclipse.jgit.api.errors.JGitInternalException;
+import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.util.ProcessResult.Status;
 
 
 /**
@@ -134,5 +142,42 @@ public class FS_Win32_Cygwin extends FS_Win32 {
 		ProcessBuilder proc = new ProcessBuilder();
 		proc.command(argv);
 		return proc;
+	}
+
+	/**
+	 * @since 3.6
+	 */
+	@Override
+	public ProcessResult runIfPresent(Repository repository, Hook hook,
+			String[] args,
+			PrintStream outRedirect, PrintStream errRedirect, String stdinArgs)
+			throws UnsupportedOperationException {
+		final File hookFile = tryFindHook(repository, hook);
+		if (hookFile == null)
+			return new ProcessResult(Status.NOT_PRESENT);
+
+		final String hookPath = hookFile.getAbsolutePath();
+		final File runDirectory;
+		if (repository.isBare())
+			runDirectory = repository.getDirectory();
+		else
+			runDirectory = repository.getWorkTree();
+		String cmd = FileUtils.relativize(runDirectory.getAbsolutePath(),
+				hookPath);
+		cmd = cmd.replace(File.separatorChar, '/');
+		ProcessBuilder hookProcess = runInShell(cmd, args);
+		hookProcess.directory(runDirectory);
+		try {
+			return new ProcessResult(runProcess(hookProcess, outRedirect,
+					errRedirect, stdinArgs), Status.OK);
+		} catch (IOException e) {
+			throw new JGitInternalException(MessageFormat.format(
+					JGitText.get().exceptionCaughtDuringExecutionOfHook,
+					hook.getName()), e);
+		} catch (InterruptedException e) {
+			throw new JGitInternalException(MessageFormat.format(
+					JGitText.get().exceptionHookExecutionInterrupted,
+					hook.getName()), e);
+		}
 	}
 }
