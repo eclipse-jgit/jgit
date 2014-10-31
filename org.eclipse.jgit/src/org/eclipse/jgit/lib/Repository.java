@@ -83,6 +83,7 @@ import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
+import org.eclipse.jgit.treewalk.AttributesNodeProvider;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
@@ -208,6 +209,16 @@ public abstract class Repository implements AutoCloseable {
 	 * @return the configuration of this repository
 	 */
 	public abstract StoredConfig getConfig();
+
+	/**
+	 * @return a new {@link AttributesNodeProvider}. This
+	 *         {@link AttributesNodeProvider} is lazy loaded only once. It means
+	 *         that it will not be updated after loading. Prefer creating new
+	 *         instance for each use.
+	 * @since 4.2
+	 */
+	public abstract AttributesNodeProvider newAttributesNodeProvider();
+
 
 	/**
 	 * @return the used file system abstraction
