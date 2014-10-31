@@ -101,8 +101,11 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
+import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
+import org.eclipse.jgit.util.Hook;
 import org.eclipse.jgit.util.IO;
+import org.eclipse.jgit.util.ProcessResult;
 import org.eclipse.jgit.util.RawParseUtils;
 
 /**
@@ -236,6 +239,18 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	private boolean preserveMerges = false;
 
 	/**
+	 * The list of commits rewritten by the current rebase operation (in the
+	 * form "&lt;old SHA1> &lt;new SHA1>LF").
+	 */
+	private StringBuilder rewrittenList;
+
+	/**
+	 * The list of commits (SHA1) that have been processed but not yet comitted
+	 * because they're waiting for a squash or fixup operation.
+	 */
+	private List<String> rewritePending = new ArrayList<String>();
+
+	/**
 	 * @param repo
 	 */
 	protected RebaseCommand(Repository repo) {
@@ -316,6 +331,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			if (monitor.isCancelled())
 				return abort(RebaseResult.ABORTED_RESULT);
 
+			rewrittenList = new StringBuilder();
 			if (operation == Operation.CONTINUE) {
 				newHead = continueRebase();
 				List<RebaseTodoLine> doneLines = repo.readRebaseTodo(
@@ -327,7 +343,11 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 							step.getAction(),
 							AbbreviatedObjectId.fromObjectId(newHead),
 							step.getShortMessage());
-					RebaseResult result = processStep(newStep, false);
+					List<RebaseTodoLine> steps = repo.readRebaseTodo(
+							rebaseState.getPath(GIT_REBASE_TODO), false);
+					RebaseTodoLine nextStep = steps.size() > 0 ? steps.get(0)
+							: null;
+					RebaseResult result = processStep(newStep, false, nextStep);
 					if (result != null)
 						return result;
 				}
@@ -363,11 +383,14 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			for (int i = 0; i < steps.size(); i++) {
 				RebaseTodoLine step = steps.get(i);
 				popSteps(1);
-				RebaseResult result = processStep(step, true);
+				RebaseTodoLine peekNextStep = steps.size() > (i + 1) ? steps
+						.get(i + 1) : null;
+				RebaseResult result = processStep(step, true, peekNextStep);
 				if (result != null) {
 					return result;
 				}
 			}
+
 			return finishRebase(newHead, lastStepWasForward);
 		} catch (CheckoutConflictException cce) {
 			return RebaseResult.conflicts(cce.getConflictingPaths());
@@ -428,7 +451,8 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		refUpdate.forceUpdate();
 	}
 
-	private RebaseResult processStep(RebaseTodoLine step, boolean shouldPick)
+	private RebaseResult processStep(RebaseTodoLine step, boolean shouldPick,
+			RebaseTodoLine nextStep)
 			throws IOException, GitAPIException {
 		if (Action.COMMENT.equals(step.getAction()))
 			return null;
@@ -449,6 +473,15 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			if (monitor.isCancelled())
 				return RebaseResult.result(Status.STOPPED, commitToPick);
 			RebaseResult result = cherryPickCommit(commitToPick);
+			// if this is not a fixup/squash, list it as a rewrite
+			if (!isFixupOrSquash(step)) {
+				// but not if its a fast-forward, unless it's the first of a
+				// squash/fixup series
+				final String oldSHA = commitToPick.getName();
+				final String newSHA = repo.resolve(Constants.HEAD).getName();
+				if (!oldSHA.equals(newSHA) || isFixupOrSquash(nextStep))
+					recordRewrite(oldSHA, nextStep);
+			}
 			if (result != null)
 				return result;
 		}
@@ -461,7 +494,8 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			String newMessage = interactiveHandler
 					.modifyCommitMessage(oldMessage);
 			newHead = new Git(repo).commit().setMessage(newMessage)
-					.setAmend(true).setNoVerify(true).call();
+					.setAmend(true).setNoVerify(true).setNoPostRewrite(true)
+					.call();
 			return null;
 		case EDIT:
 			rebaseState.createFile(AMEND, commitToPick.name());
@@ -473,17 +507,32 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			//$FALL-THROUGH$
 		case FIXUP:
 			resetSoftToParent();
-			List<RebaseTodoLine> steps = repo.readRebaseTodo(
-					rebaseState.getPath(GIT_REBASE_TODO), false);
-			RebaseTodoLine nextStep = steps.size() > 0 ? steps.get(0) : null;
 			File messageFixupFile = rebaseState.getFile(MESSAGE_FIXUP);
 			File messageSquashFile = rebaseState.getFile(MESSAGE_SQUASH);
 			if (isSquash && messageFixupFile.exists())
 				messageFixupFile.delete();
 			newHead = doSquashFixup(isSquash, commitToPick, nextStep,
 					messageFixupFile, messageSquashFile);
+			recordRewrite(commitToPick.getName(), nextStep);
 		}
 		return null;
+	}
+
+	private void recordRewrite(String sha1, RebaseTodoLine nextStep)
+			throws IOException {
+		rewritePending.add(sha1);
+		if (!isFixupOrSquash(nextStep)) {
+			final String headSHA1 = repo.resolve(Constants.HEAD).getName();
+			for (String pending : rewritePending) {
+				rewrittenList.append(pending + ' ' + headSHA1 + '\n');
+			}
+			rewritePending.clear();
+		}
+	}
+
+	private boolean isFixupOrSquash(RebaseTodoLine step) {
+		return step != null
+				&& (step.getAction() == Action.FIXUP || step.getAction() == Action.SQUASH);
 	}
 
 	private RebaseResult cherryPickCommit(RevCommit commitToPick)
@@ -674,6 +723,18 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 
 	private RebaseResult finishRebase(RevCommit finalHead,
 			boolean lastStepIsForward) throws IOException, GitAPIException {
+		if (rewrittenList.length() > 0) {
+			ProcessResult postRewriteHookResult = FS.DETECTED.runIfPresent(
+					repo, Hook.POST_REWRITE, new String[] { "rebase" },//$NON-NLS-1$
+					System.out, System.err, rewrittenList.toString());
+			if (postRewriteHookResult.getStatus() == ProcessResult.Status.OK
+					&& postRewriteHookResult.getExitCode() != 0) {
+				// TODO This hook's return value holds no meaning, but the
+				// user might want to be told that his hook failed somehow.
+			}
+			rewrittenList = null;
+		}
+
 		String headName = rebaseState.readFile(HEAD_NAME);
 		updateHead(headName, finalHead, upstreamCommit);
 		boolean stashConflicts = autoStashApply();
@@ -689,8 +750,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			throws InvalidRebaseStepException, IOException {
 		if (steps.isEmpty())
 			return;
-		if (RebaseTodoLine.Action.SQUASH.equals(steps.get(0).getAction())
-				|| RebaseTodoLine.Action.FIXUP.equals(steps.get(0).getAction())) {
+		if (isFixupOrSquash(steps.get(0))) {
 			if (!rebaseState.getFile(DONE).exists()
 					|| rebaseState.readFile(DONE).trim().length() == 0) {
 				throw new InvalidRebaseStepException(MessageFormat.format(
@@ -757,9 +817,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		String commitMessage = rebaseState
 				.readFile(MESSAGE_SQUASH);
 
-		if (nextStep == null
-				|| ((nextStep.getAction() != Action.FIXUP) && (nextStep
-						.getAction() != Action.SQUASH))) {
+		if (!isFixupOrSquash(nextStep)) {
 			// this is the last step in this sequence
 			if (sequenceContainsSquash) {
 				commitMessage = interactiveHandler
