@@ -461,7 +461,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			String newMessage = interactiveHandler
 					.modifyCommitMessage(oldMessage);
 			newHead = new Git(repo).commit().setMessage(newMessage)
-					.setAmend(true).call();
+					.setAmend(true).setNoVerify(true).call();
 			return null;
 		case EDIT:
 			rebaseState.createFile(AMEND, commitToPick.name());
@@ -767,15 +767,14 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			}
 			retNewHead = new Git(repo).commit()
 					.setMessage(stripCommentLines(commitMessage))
-					.setAmend(true).call();
+					.setAmend(true).setNoVerify(true).call();
 			rebaseState.getFile(MESSAGE_SQUASH).delete();
 			rebaseState.getFile(MESSAGE_FIXUP).delete();
 
 		} else {
 			// Next step is either Squash or Fixup
-			retNewHead = new Git(repo).commit()
-					.setMessage(commitMessage).setAmend(true)
-					.call();
+			retNewHead = new Git(repo).commit().setMessage(commitMessage)
+					.setAmend(true).setNoVerify(true).call();
 		}
 		return retNewHead;
 	}
