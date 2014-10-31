@@ -46,6 +46,10 @@
 
 package org.eclipse.jgit.treewalk;
 
+import static org.eclipse.jgit.attributes.Attributes.hasIdentSet;
+import static org.eclipse.jgit.treewalk.TreeWalk.OperationType.CHECKIN_OP;
+import static org.eclipse.jgit.treewalk.TreeWalk.OperationType.CHECKOUT_OP;
+
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -61,8 +65,11 @@ import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Set;
 
 import org.eclipse.jgit.api.errors.JGitInternalException;
+import org.eclipse.jgit.attributes.Attribute;
+import org.eclipse.jgit.attributes.Attributes;
 import org.eclipse.jgit.attributes.AttributesNode;
 import org.eclipse.jgit.attributes.AttributesRule;
 import org.eclipse.jgit.diff.RawText;
@@ -77,6 +84,7 @@ import org.eclipse.jgit.ignore.IgnoreNode;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.CoreConfig;
+import org.eclipse.jgit.lib.CoreConfig.AutoCRLF;
 import org.eclipse.jgit.lib.CoreConfig.CheckStat;
 import org.eclipse.jgit.lib.CoreConfig.SymLinks;
 import org.eclipse.jgit.lib.FileMode;
@@ -85,6 +93,7 @@ import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.submodule.SubmoduleWalk;
+import org.eclipse.jgit.treewalk.TreeWalk.OperationType;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
@@ -162,6 +171,12 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator
 	private AttributesNode globalAttributeNode;
 
 	/**
+	 * Holds the {@link TreeWalk} that is currently managing this iterator. It
+	 * is mainly used to compute the list of attributes of an entry.
+	 */
+	private TreeWalk treeWalk;
+
+	/**
 	 * Create a new iterator with no parent.
 	 *
 	 * @param options
@@ -204,6 +219,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator
 	protected WorkingTreeIterator(final WorkingTreeIterator p) {
 		super(p);
 		state = p.state;
+		treeWalk = p.treeWalk;
 		infoAttributeNode = p.infoAttributeNode;
 		globalAttributeNode = p.globalAttributeNode;
 	}
@@ -284,12 +300,20 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator
 		case FileMode.TYPE_SYMLINK:
 		case FileMode.TYPE_FILE:
 			contentIdFromPtr = ptr;
-			return contentId = idBufferBlob(entries[ptr]);
+			return contentId = idBufferBlob(entries[ptr],
+					getEntryAttributes(CHECKIN_OP));
 		case FileMode.TYPE_GITLINK:
 			contentIdFromPtr = ptr;
 			return contentId = idSubmodule(entries[ptr]);
 		}
 		return zeroid;
+	}
+
+	@Override
+	public EmptyTreeIterator createEmptyTreeIterator() {
+		// Create a empty tree iterator that is able to retrieve global and info
+		// attributes node
+		return new EmptyWorkingTreeIterator(this);
 	}
 
 	/**
@@ -350,7 +374,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator
 	private static final byte[] hblob = Constants
 			.encodedTypeString(Constants.OBJ_BLOB);
 
-	private byte[] idBufferBlob(final Entry e) {
+	private byte[] idBufferBlob(final Entry e, Set<Attribute> attrs) {
 		try {
 			final InputStream is = e.openInputStream();
 			if (is == null)
@@ -359,7 +383,8 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator
 				state.initializeDigestAndReadBuffer();
 
 				final long len = e.getLength();
-				InputStream filteredIs = possiblyFilteredInputStream(e, is, len);
+				InputStream filteredIs = possiblyFilteredInputStream(e, is,
+						len, attrs);
 				return computeHash(filteredIs, canonLen);
 			} finally {
 				safeClose(is);
@@ -371,8 +396,9 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator
 	}
 
 	private InputStream possiblyFilteredInputStream(final Entry e,
-			final InputStream is, final long len) throws IOException {
-		if (!mightNeedCleaning()) {
+			final InputStream is, final long len, Set<Attribute> attributes)
+			throws IOException {
+		if (!mightNeedCleaning(attributes)) {
 			canonLen = len;
 			return is;
 		}
@@ -382,7 +408,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator
 			byte[] raw = rawbuf.array();
 			int n = rawbuf.limit();
 			if (!isBinary(raw, n)) {
-				rawbuf = filterClean(raw, n);
+				rawbuf = filterClean(raw, n, attributes);
 				raw = rawbuf.array();
 				n = rawbuf.limit();
 			}
@@ -395,13 +421,13 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator
 			return is;
 		}
 
-		final InputStream lenIs = filterClean(e.openInputStream());
+		final InputStream lenIs = filterClean(e.openInputStream(),attributes);
 		try {
 			canonLen = computeLength(lenIs);
 		} finally {
 			safeClose(lenIs);
 		}
-		return filterClean(is);
+		return filterClean(is, attributes);
 	}
 
 	private static void safeClose(final InputStream in) {
@@ -414,7 +440,11 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator
 		}
 	}
 
-	private boolean mightNeedCleaning() {
+	private boolean mightNeedCleaning(Set<Attribute> attributes) {
+		return isAutoCrlf() || hasIdentSet(attributes);
+	}
+
+	private boolean isAutoCrlf() {
 		switch (getOptions().getAutoCRLF()) {
 		case FALSE:
 		default:
@@ -439,17 +469,24 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator
 		}
 	}
 
-	private static ByteBuffer filterClean(byte[] src, int n) throws IOException {
+	private ByteBuffer filterClean(byte[] src, int n, Set<Attribute> attributes) throws IOException {
 		InputStream in = new ByteArrayInputStream(src);
 		try {
-			return IO.readWholeStream(filterClean(in), n);
+			return IO.readWholeStream(filterClean(in, attributes), n);
 		} finally {
 			safeClose(in);
 		}
 	}
 
-	private static InputStream filterClean(InputStream in) {
-		return new EolCanonicalizingInputStream(in, true);
+	private InputStream filterClean(InputStream in, Set<Attribute> attributes) {
+		InputStream auxStream = in;
+		if (hasIdentSet(attributes))
+			auxStream = new org.eclipse.jgit.util.io.IdentInputStream(in, true);
+
+		if (isAutoCrlf())
+			auxStream = new EolCanonicalizingInputStream(auxStream, true);
+
+		return auxStream;
 	}
 
 	/**
@@ -534,7 +571,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator
 			try {
 				// canonLen gets updated here
 				possiblyFilteredInputStream(current(), is, current()
-						.getLength());
+						.getLength(), getEntryAttributes(CHECKIN_OP));
 			} finally {
 				safeClose(is);
 			}
@@ -570,8 +607,9 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator
 	 */
 	public InputStream openEntryStream() throws IOException {
 		InputStream rawis = current().openInputStream();
-		if (mightNeedCleaning())
-			return filterClean(rawis);
+		Set<Attribute> attributes = getEntryAttributes(CHECKIN_OP);
+		if (mightNeedCleaning(attributes))
+			return filterClean(rawis, attributes);
 		else
 			return rawis;
 	}
@@ -913,29 +951,55 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator
 		if (entry == null)
 			return !FileMode.MISSING.equals(getEntryFileMode());
 		MetadataDiff diff = compareMetadata(entry);
+		// Use checkout operation type since we are going to open a stream from
+		// the dirCach entry
+		Set<Attribute> entryAttributes = getEntryAttributes(CHECKOUT_OP);
 		switch (diff) {
 		case DIFFER_BY_TIMESTAMP:
 			if (forceContentCheck)
 				// But we are told to look at content even though timestamps
 				// tell us about modification
-				return contentCheck(entry, reader);
+				return contentCheck(entry, reader, entryAttributes);
 			else
 				// We are told to assume a modification if timestamps differs
 				return true;
 		case SMUDGED:
 			// The file is clean by timestamps but the entry was smudged.
 			// Lets do a content check
-			return contentCheck(entry, reader);
+			return contentCheck(entry, reader, entryAttributes);
 		case EQUAL:
-			return false;
+			// Even if the metadata are equals, if the ident attributes has
+			// changed between the index and the working tree, the entry can be
+			// considered as modified. For example, if we change the value from
+			// "ident" (in the index) to -"ident" (in the working tree), the
+			// file with a "$Id: blobId $" pattern should be considered as
+			// modified since it does not match the index file content (which
+			// most likely would be "$Id$"). That's why we still need to check
+			// the content in that case.
+			if (hasIdentAttrChanged(entryAttributes,
+					getEntryAttributes(CHECKIN_OP)))
+				return contentCheck(entry, reader, entryAttributes);
+			else
+				return false;
 		case DIFFER_BY_METADATA:
 			if (mode == FileMode.SYMLINK.getBits())
-				return contentCheck(entry, reader);
+				return contentCheck(entry, reader, entryAttributes);
 			return true;
 		default:
 			throw new IllegalStateException(MessageFormat.format(
 					JGitText.get().unexpectedCompareResult, diff.name()));
 		}
+	}
+
+	private boolean hasIdentAttrChanged(Set<Attribute> indexAttrs,
+			Set<Attribute> workingTreeAttrs) {
+		Attribute workingIdentAttr = Attributes
+				.getIdentAttribute(workingTreeAttrs);
+		Attribute indexIdentAttr = Attributes.getIdentAttribute(indexAttrs);
+		if (workingIdentAttr == null)
+			return indexIdentAttr != null;
+		else
+			return !workingIdentAttr.equals(indexIdentAttr);
 	}
 
 	/**
@@ -971,14 +1035,18 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator
 	 * @param entry
 	 *            the entry to be checked
 	 * @param reader
-	 *            acccess to repository data if necessary
+	 *            access to repository data if necessary
+	 * @param attrs
+	 *            Set of attributes of the {@link DirCacheEntry}.
 	 * @return <code>true</code> if the content doesn't match,
 	 *         <code>false</code> if it matches
 	 * @throws IOException
 	 */
-	private boolean contentCheck(DirCacheEntry entry, ObjectReader reader)
+	private boolean contentCheck(DirCacheEntry entry, ObjectReader reader,
+			Set<Attribute> attrs)
 			throws IOException {
-		if (getEntryObjectId().equals(entry.getObjectId())) {
+		ObjectId entryObjectId = getEntryObjectId();
+		if (entryObjectId.equals(entry.getObjectId())) {
 			// Content has not changed
 
 			// We know the entry can't be racily clean because it's still clean.
@@ -1000,48 +1068,45 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator
 			// Content differs: that's a real change, perhaps
 			if (reader == null) // deprecated use, do no further checks
 				return true;
-			switch (getOptions().getAutoCRLF()) {
-			case INPUT:
-			case TRUE:
-				InputStream dcIn = null;
+
+			AutoCRLF autoCRLF = getOptions().getAutoCRLF();
+			boolean hasIdentSet = hasIdentSet(attrs);
+			if (autoCRLF == AutoCRLF.FALSE && !hasIdentSet) {
+				return true;
+			}
+
+			InputStream dcIn = null;
+			try {
+				ObjectLoader loader = reader.open(entry.getObjectId());
+				if (loader == null)
+					return true;
+
+				dcIn = filterClean(loader.openStream(), attrs);
+
+				long dcInLen;
 				try {
-					ObjectLoader loader = reader.open(entry.getObjectId());
-					if (loader == null)
-						return true;
-
-					// We need to compute the length, but only if it is not
-					// a binary stream.
-					dcIn = new EolCanonicalizingInputStream(
-							loader.openStream(), true, true /* abort if binary */);
-					long dcInLen;
-					try {
-						dcInLen = computeLength(dcIn);
-					} catch (EolCanonicalizingInputStream.IsBinaryException e) {
-						return true;
-					} finally {
-						dcIn.close();
-					}
-
-					dcIn = new EolCanonicalizingInputStream(
-							loader.openStream(), true);
-					byte[] autoCrLfHash = computeHash(dcIn, dcInLen);
-					boolean changed = getEntryObjectId().compareTo(
-							autoCrLfHash, 0) != 0;
-					return changed;
-				} catch (IOException e) {
+					dcInLen = computeLength(dcIn);
+				} catch (EolCanonicalizingInputStream.IsBinaryException e) {
 					return true;
 				} finally {
-					if (dcIn != null)
-						try {
-							dcIn.close();
-						} catch (IOException e) {
-							// empty
-						}
+					dcIn.close();
 				}
-			case FALSE:
-				break;
+
+				dcIn = filterClean(loader.openStream(), attrs);
+
+				byte[] autoCrLfHash = computeHash(dcIn, dcInLen);
+				boolean changed = entryObjectId.compareTo(autoCrLfHash, 0) != 0;
+				return changed;
+			} catch (IOException e) {
+				return true;
+			} finally {
+				if (dcIn != null)
+					try {
+						dcIn.close();
+					} catch (IOException e) {
+						// empty
+					}
 			}
-			return true;
 		}
 	}
 
@@ -1073,6 +1138,36 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator
 			length += n;
 		}
 		return length;
+	}
+
+	/**
+	 * Sets the treeWalk for this iterator.
+	 *
+	 * @param treeWalk
+	 *            {@link TreeWalk} managing this iterator.
+	 */
+	void setTreeWalk(TreeWalk treeWalk) {
+		this.treeWalk = treeWalk;
+	}
+
+	/**
+	 * Gets the list of attributes for this entry.
+	 *
+	 * <p>
+	 * This method requires the {@link #treeWalk} field to be set
+	 * </p>
+	 *
+	 * @param type
+	 *            {@link OperationType} to retrieve the attribute for.
+	 *
+	 * @return {@link Set} of {@link Attribute} for this entry.
+	 * @since 3.6
+	 */
+	protected Set<Attribute> getEntryAttributes(OperationType type) {
+		if (treeWalk != null && matches == treeWalk.currentHead) {
+			return treeWalk.getAttributes(type);
+		}
+		return Collections.emptySet();
 	}
 
 	private byte[] computeHash(InputStream in, long length) throws IOException {
@@ -1392,4 +1487,35 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator
 			}
 		}
 	}
+
+	/**
+	 * {@link EmptyTreeIterator} that implements {@link AttributeNodeProvider}
+	 *
+	 */
+	private class EmptyWorkingTreeIterator extends EmptyTreeIterator implements
+			AttributeNodeProvider {
+
+		public EmptyWorkingTreeIterator(WorkingTreeIterator p) {
+			super(p);
+		}
+
+		public EmptyWorkingTreeIterator(EmptyTreeIterator p) {
+			super(p);
+		}
+
+		public AttributesNode getInfoAttributesNode() throws IOException {
+			return ((WorkingTreeIterator) parent).getInfoAttributesNode();
+		}
+
+		public AttributesNode getGlobalAttributesNode() throws IOException {
+			return ((WorkingTreeIterator) parent).getGlobalAttributesNode();
+		}
+
+		@Override
+		public EmptyTreeIterator createEmptyTreeIterator() {
+			return new EmptyWorkingTreeIterator(this);
+		}
+
+	}
+
 }

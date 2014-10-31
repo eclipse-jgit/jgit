@@ -56,6 +56,7 @@ package org.eclipse.jgit.attributes;
  * class</li>
  * </ul>
  * </p>
+ * <p> Any instance of this class is immutable </p>
  *
  * @since 3.6
  */
@@ -78,6 +79,9 @@ public final class Attribute {
 	private final String key;
 	private final State state;
 	private final String value;
+
+	/** Cache the hash code since it likely to be called really often. */
+	private int hashCode;
 
 	/**
 	 * Creates a new instance
@@ -160,11 +164,15 @@ public final class Attribute {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + key.hashCode();
-		result = prime * result + state.hashCode();
-		result = prime * result + ((value == null) ? 0 : value.hashCode());
+		int result = hashCode;
+		if (result == 0) {
+			final int prime = 31;
+			result = 17;
+			result = prime * result + key.hashCode();
+			result = prime * result + state.hashCode();
+			result = prime * result + ((value == null) ? 0 : value.hashCode());
+			hashCode = result;
+		}
 		return result;
 	}
 

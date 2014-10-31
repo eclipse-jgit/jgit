@@ -46,7 +46,7 @@ package org.eclipse.jgit.merge;
 
 import static org.eclipse.jgit.lib.Constants.CHARACTER_ENCODING;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
-
+import static org.eclipse.jgit.attributes.Attributes.hasIdentSet;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -61,7 +61,9 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import org.eclipse.jgit.attributes.Attribute;
 import org.eclipse.jgit.diff.DiffAlgorithm;
 import org.eclipse.jgit.diff.DiffAlgorithm.SupportedAlgorithm;
 import org.eclipse.jgit.diff.RawText;
@@ -88,6 +90,7 @@ import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.treewalk.NameConflictTreeWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.treewalk.TreeWalk.OperationType;
 import org.eclipse.jgit.treewalk.WorkingTreeIterator;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
@@ -195,6 +198,11 @@ public class ResolveMerger extends ThreeWayMerger {
 	 * @since 3.4
 	 */
 	protected Map<String, DirCacheEntry> toBeCheckedOut = new HashMap<String, DirCacheEntry>();
+
+	/**
+	 * Keeps track of the attributes to be use for a path.
+	 */
+	private Map<String, Set<Attribute>> toBeCheckedOutAttributes = new HashMap<String, Set<Attribute>>();
 
 	/**
 	 * Paths in this list will be deleted from the local copy at the end of the
@@ -313,7 +321,8 @@ public class ResolveMerger extends ThreeWayMerger {
 				.entrySet()) {
 			File f = new File(db.getWorkTree(), entry.getKey());
 			createDir(f.getParentFile());
-			DirCacheCheckout.checkoutEntry(db, f, entry.getValue(), reader);
+			DirCacheCheckout.checkoutEntry(db, f, entry.getValue(), reader,
+					toBeCheckedOutAttributes.get(entry.getKey()));
 			modifiedFiles.add(entry.getKey());
 		}
 		// Iterate in reverse so that "folder/file" is deleted before
@@ -528,6 +537,7 @@ public class ResolveMerger extends ThreeWayMerger {
 						DirCacheEntry e = add(tw.getRawPath(), theirs,
 								DirCacheEntry.STAGE_0, 0, 0);
 						toBeCheckedOut.put(tw.getPathString(), e);
+						toBeCheckedOutAttributes.put(tw.getPathString(),tw.getAttributes(OperationType.CHECKOUT_OP));
 					}
 					return true;
 				} else {
@@ -632,10 +642,26 @@ public class ResolveMerger extends ThreeWayMerger {
 			MergeResult<RawText> result = contentMerge(base, ours, theirs);
 			if (ignoreConflicts)
 				result.setContainsConflicts(false);
-			updateIndex(base, ours, theirs, result);
+			DirCacheEntry dce = updateIndex(base, ours, theirs, result);
 			if (result.containsConflicts() && !ignoreConflicts)
 				unmergedPaths.add(tw.getPathString());
 			modifiedFiles.add(tw.getPathString());
+			// Checks if the attributes can be computed. In some use cases the
+			// working tree iterator is not set in the treeWalk. This iterator
+			// is required to compute the full list of attributes
+			if (tw.canGetAttributes()) {
+				Set<Attribute> attrs = tw
+						.getAttributes(OperationType.CHECKOUT_OP);
+				if (dce != null && hasIdentSet(attrs)) {
+					// If the index entry is updated and it is impacted by
+					// a ident attribute, we force it to be checkouted to
+					// update the blob id
+					toBeCheckedOut.put(tw.getPathString(), dce);
+					toBeCheckedOutAttributes.put(tw.getPathString(),
+							tw.getAttributes(OperationType.CHECKOUT_OP));
+				}
+			}
+
 		} else if (modeO != modeT) {
 			// OURS or THEIRS has been deleted
 			if (((modeO != 0 && !tw.idEqual(T_BASE, T_OURS)) || (modeT != 0 && !tw
@@ -746,10 +772,12 @@ public class ResolveMerger extends ThreeWayMerger {
 	 * @param ours
 	 * @param theirs
 	 * @param result
+	 * @return the updated {@link DirCacheEntry} or <code>null</code>
+	 *         if there is some conflicts.
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
-	private void updateIndex(CanonicalTreeParser base,
+	private DirCacheEntry updateIndex(CanonicalTreeParser base,
 			CanonicalTreeParser ours, CanonicalTreeParser theirs,
 			MergeResult<RawText> result) throws FileNotFoundException,
 			IOException {
@@ -762,7 +790,8 @@ public class ResolveMerger extends ThreeWayMerger {
 			add(tw.getRawPath(), ours, DirCacheEntry.STAGE_2, 0, 0);
 			add(tw.getRawPath(), theirs, DirCacheEntry.STAGE_3, 0, 0);
 			mergeResults.put(tw.getPathString(), result);
-			return;
+			// No new DirCacheEntry
+			return null;
 		}
 
 		// No conflict occurred, the file will contain fully merged content.
@@ -791,6 +820,7 @@ public class ResolveMerger extends ThreeWayMerger {
 		} else
 			dce.setObjectId(insertMergeResult(result));
 		builder.add(dce);
+		return dce;
 	}
 
 	/**
