@@ -134,6 +134,12 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	private PrintStream hookOutRedirect;
 
 	/**
+	 * If set, this will be called when the execution of a non-rejecting hook
+	 * (such as post-commit) fails.
+	 */
+	private HookFailureHandler hookFailureHandler;
+
+	/**
 	 * @param repo
 	 */
 	protected CommitCommand(Repository repo) {
@@ -232,6 +238,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 				}
 
 			// lock the index
+			RevCommit revCommit = null;
 			DirCache index = repo.lockDirCache();
 			try {
 				if (!only.isEmpty())
@@ -258,7 +265,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 					ObjectId commitId = odi.insert(commit);
 					odi.flush();
 
-					RevCommit revCommit = rw.parseCommit(commitId);
+					revCommit = rw.parseCommit(commitId);
 					RefUpdate ru = repo.updateRef(Constants.HEAD);
 					ru.setNewObjectId(commitId);
 					if (reflogComment != null) {
@@ -293,7 +300,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 							repo.writeMergeCommitMsg(null);
 							repo.writeRevertHead(null);
 						}
-						return revCommit;
+						break;
 					}
 					case REJECTED:
 					case LOCK_FAILURE:
@@ -311,6 +318,28 @@ public class CommitCommand extends GitCommand<RevCommit> {
 			} finally {
 				index.unlock();
 			}
+
+			if (hookFailureHandler != null) {
+				final ByteArrayOutputStream errorByteArray = new ByteArrayOutputStream();
+				final PrintStream hookErrRedirect = new PrintStream(
+						errorByteArray);
+				ProcessResult postCommitHookResult = FS.DETECTED.runIfPresent(
+						repo, Hook.POST_COMMIT, new String[0], hookOutRedirect,
+						hookErrRedirect, null);
+				if (postCommitHookResult.getStatus() == ProcessResult.Status.OK
+						&& postCommitHookResult.getExitCode() != 0) {
+					if (hookFailureHandler != null) {
+						hookFailureHandler.hookExecutionFailed(
+								Hook.POST_COMMIT, postCommitHookResult,
+								errorByteArray.toString());
+					}
+				}
+			} else {
+				FS.DETECTED.runIfPresent(repo, Hook.POST_COMMIT, new String[0],
+						hookOutRedirect, System.err, null);
+			}
+
+			return revCommit;
 		} catch (UnmergedPathException e) {
 			throw new UnmergedPathsException(e);
 		} catch (IOException e) {
@@ -798,6 +827,20 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	 */
 	public CommitCommand setHookOutputStream(PrintStream hookStdOut) {
 		this.hookOutRedirect = hookStdOut;
+		return this;
+	}
+
+	/**
+	 * Sets the handled that should be called back if hooks that don't reject
+	 * operations (such as post-commit) fail.
+	 *
+	 * @param hookFailureHandler
+	 *            The hook failure callback.
+	 * @return {@code this}
+	 */
+	public CommitCommand setHookErrorHandler(
+			HookFailureHandler hookFailureHandler) {
+		this.hookFailureHandler = hookFailureHandler;
 		return this;
 	}
 }

@@ -121,6 +121,23 @@ public class HookTest extends RepositoryTestCase {
 		}
 	}
 
+	@Test
+	public void testPostCommitHook() throws Exception {
+		assumeSupportedPlatform();
+
+		Hook h = Hook.POST_COMMIT;
+		writeHookFile(h.getName(),
+				"#!/bin/sh\necho \"test\"\n\necho 1>&2 \"stderr\"\nexit 1");
+		Git git = Git.wrap(db);
+		String path = "a.txt";
+		writeTrashFile(path, "content");
+		git.add().addFilepattern(path).call();
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		git.commit().setMessage("commit")
+				.setHookOutputStream(new PrintStream(out)).call();
+		assertEquals("test\n", out.toString("UTF-8"));
+	}
+
 	private File writeHookFile(final String name, final String data)
 			throws IOException {
 		File path = new File(db.getWorkTree() + "/.git/hooks/", name);
