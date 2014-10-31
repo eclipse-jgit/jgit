@@ -44,18 +44,31 @@
 package org.eclipse.jgit.util;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.text.MessageFormat;
 import java.util.Arrays;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.errors.SymlinksNotSupportedException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.Repository;
 
 /** Abstraction to support various file system operations not in Java. */
 public abstract class FS {
@@ -614,6 +627,222 @@ public abstract class FS {
 	}
 
 	/**
+	 * Checks whether the given hook is defined for the given repository, then
+	 * runs it with the given arguments.
+	 * <p>
+	 * By default, the hook's standard output and error will be redirected to
+	 * <code>System.out</code> and <code>System.err</code> respectively. The
+	 * hook will have no stdin.
+	 * </p>
+	 *
+	 * @param repository
+	 *            The repository from which a hook should be run.
+	 * @param hook
+	 *            The particular hook we wish to execute.
+	 * @param args
+	 *            Arguments to pass to this hook.
+	 * @return The exit value of the hook. Defaults to <code>0</code> if the
+	 *         hook has no exit value, does not exist or cannot be run on this
+	 *         {@link FS}.
+	 * @throws JGitInternalException
+	 *             if we fail to run the hook somehow. Causes may include an
+	 *             interrupted process or I/O errors.
+	 */
+	public int runIfPresent(Repository repository, final Hook hook,
+			String[] args) throws JGitInternalException {
+		return runIfPresent(repository, hook, args, System.out, System.err,
+				null);
+	}
+
+	/**
+	 * Checks whether the given hook is defined for the given repository, then
+	 * runs it with the given arguments.
+	 *
+	 * @param repository
+	 *            The repository from which a hook should be run.
+	 * @param hook
+	 *            The particular hook we wish to execute.
+	 * @param args
+	 *            Arguments to pass to this hook.
+	 * @param outRedirect
+	 *            A print stream on which to redirect the hook's stdout. Can be
+	 *            <code>null</code>, in which case the hook's standard output
+	 *            will be lost.
+	 * @param errRedirect
+	 *            A print stream on which to redirect the hook's stderr. Can be
+	 *            <code>null</code>, in which case the hook's standard error
+	 *            will be lost.
+	 * @param stdinArgs
+	 *            A string to pass on to the standard input of the hook. May be
+	 *            <code>null</code>.
+	 * @return The exit value of the hook. Defaults to <code>0</code> if the
+	 *         hook has no exit value, does not exist or cannot be run on this
+	 *         {@link FS}.
+	 * @throws JGitInternalException
+	 *             if we fail to run the hook somehow. Causes may include an
+	 *             interrupted process or I/O errors.
+	 */
+	public int runIfPresent(Repository repository, final Hook hook,
+			String[] args, PrintStream outRedirect, PrintStream errRedirect,
+			String stdinArgs) throws JGitInternalException {
+		return 0;
+	}
+
+	/**
+	 * Tries and find a hook matching the given one in the given repository.
+	 *
+	 * @param repository
+	 *            The repository within which to find a hook.
+	 * @param hook
+	 *            The hook we're trying to find.
+	 * @return The {@link File} containing this particular hook if it exists in
+	 *         the given repository, <code>null</code> otherwise.
+	 */
+	protected File tryFindHook(Repository repository, final Hook hook) {
+		final File gitDir = repository.getDirectory();
+		final File[] hookDirCandidates = gitDir.listFiles(new FileFilter() {
+			public boolean accept(File pathname) {
+				return pathname.isDirectory()
+						&& pathname.getName().equals("hooks"); //$NON-NLS-1$
+			}
+		});
+		if (hookDirCandidates.length < 1)
+			return null;
+
+		final File[] matchingHooks = hookDirCandidates[0]
+				.listFiles(new FileFilter() {
+					public boolean accept(File pathname) {
+						return pathname.isFile()
+								&& pathname.getName().equals(hook.getName());
+					}
+				});
+		if (matchingHooks.length < 1)
+			return null;
+		return matchingHooks[0];
+	}
+
+	/**
+	 * Runs the given process until termination, clearing its stdout and stderr
+	 * streams on-the-fly.
+	 *
+	 * @param hookProcessBuilder
+	 *            The process builder configured for this hook.
+	 * @param outRedirect
+	 *            A print stream on which to redirect the hook's stdout. Can be
+	 *            <code>null</code>, in which case the hook's standard output
+	 *            will be lost.
+	 * @param errRedirect
+	 *            A print stream on which to redirect the hook's stderr. Can be
+	 *            <code>null</code>, in which case the hook's standard error
+	 *            will be lost.
+	 * @param stdinArgs
+	 *            A string to pass on to the standard input of the hook. Can be
+	 *            <code>null</code>.
+	 * @return the exit value of this hook.
+	 * @throws IOException
+	 *             if an I/O error occurs while executing this hook.
+	 * @throws InterruptedException
+	 *             if the current thread is interrupted while waiting for the
+	 *             process to end.
+	 */
+	protected int runHook(ProcessBuilder hookProcessBuilder, OutputStream outRedirect, OutputStream errRedirect, String stdinArgs) throws IOException, InterruptedException {
+		final ExecutorService executor = Executors.newFixedThreadPool(2);
+		Process process = null;
+		// We'll record the first I/O exception that occurs, but keep on trying
+		// to dispose of our open streams and file handles
+		IOException ioException = null;
+		try {
+			process = hookProcessBuilder.start();
+			final Callable<Void> errorGobbler = new StreamGobbler(
+					process.getErrorStream(), errRedirect);
+			final Callable<Void> outputGobbler = new StreamGobbler(
+					process.getInputStream(), outRedirect);
+			executor.submit(errorGobbler);
+			executor.submit(outputGobbler);
+			if (stdinArgs != null) {
+				final PrintWriter stdinWriter = new PrintWriter(
+						process.getOutputStream());
+				stdinWriter.print(stdinArgs);
+				stdinWriter.flush();
+				// We are done with this hook's input. Explicitly close its
+				// stdin now to kick off any blocking read the hook might have.
+				stdinWriter.close();
+			}
+			return process.waitFor();
+		} catch (IOException e) {
+			ioException = e;
+		} finally {
+			shutdownAndAwaitTermination(executor);
+			if (process != null) {
+				try {
+					process.waitFor();
+				} catch (InterruptedException e) {
+					// Thrown by the outer try.
+					// Swallow this one to carry on our cleanup, and clear the
+					// interrupted flag (processes throw the exception without
+					// clearing the flag).
+					Thread.interrupted();
+				}
+				// A process doesn't clean its own resources even when destroyed
+				// Explicitly try and close all three streams, preserving the
+				// outer I/O exception if any.
+				try {
+					process.getErrorStream().close();
+				} catch (IOException e) {
+					ioException = ioException != null ? ioException : e;
+				}
+				try {
+					process.getInputStream().close();
+				} catch (IOException e) {
+					ioException = ioException != null ? ioException : e;
+				}
+				try {
+					process.getOutputStream().close();
+				} catch (IOException e) {
+					ioException = ioException != null ? ioException : e;
+				}
+				process.destroy();
+			}
+		}
+		// We can only be here if the outer try threw an IOException.
+		throw ioException;
+	}
+
+	/**
+	 * Shuts down an {@link ExecutorService} in two phases, first by calling
+	 * {@link ExecutorService#shutdown() shutdown} to reject incoming tasks, and
+	 * then calling {@link ExecutorService#shutdownNow() shutdownNow}, if
+	 * necessary, to cancel any lingering tasks. Returns true if the pool has
+	 * been properly shutdown, false otherwise.
+	 * <p>
+	 *
+	 * @param pool
+	 *            the pool to shutdown
+	 * @return <code>true</code> if the pool has been properly shutdown,
+	 *         <code>false</code> otherwise.
+	 */
+	private static boolean shutdownAndAwaitTermination(ExecutorService pool) {
+		boolean hasShutdown = true;
+		pool.shutdown(); // Disable new tasks from being submitted
+		try {
+			// Wait a while for existing tasks to terminate
+			if (!pool.awaitTermination(5, TimeUnit.SECONDS)) {
+				pool.shutdownNow(); // Cancel currently executing tasks
+				// Wait a while for tasks to respond to being canceled
+				if (!pool.awaitTermination(5, TimeUnit.SECONDS))
+					hasShutdown = false;
+			}
+		} catch (InterruptedException ie) {
+			// (Re-)Cancel if current thread also interrupted
+			pool.shutdownNow();
+			// Preserve interrupt status
+			Thread.currentThread().interrupt();
+			hasShutdown = false;
+		}
+		return hasShutdown;
+	}
+
+	/**
 	 * Initialize a ProcesssBuilder to run a command using the system shell.
 	 *
 	 * @param cmd
@@ -801,5 +1030,52 @@ public abstract class FS {
 	 */
 	public String normalize(String name) {
 		return name;
+	}
+
+	/**
+	 * This runnable will consume an input stream's content into an output
+	 * stream as soon as it gets available.
+	 * <p>
+	 * Typically used to empty processes' standard output and error, preventing
+	 * them to choke.
+	 * </p>
+	 * <p>
+	 * <b>Note</b> that a {@link StreamGobbler} will never close either of its
+	 * streams.
+	 * </p>
+	 */
+	private static class StreamGobbler implements Callable<Void> {
+		private final BufferedReader reader;
+
+		private final BufferedWriter writer;
+
+		public StreamGobbler(InputStream stream, OutputStream output) {
+			this.reader = new BufferedReader(new InputStreamReader(stream));
+			if (output == null)
+				this.writer = new BufferedWriter(new OutputStreamWriter(
+						new ByteArrayOutputStream()));
+			else
+				this.writer = new BufferedWriter(new OutputStreamWriter(output));
+		}
+
+		public Void call() throws IOException {
+			boolean writeFailure = false;
+
+			String line = null;
+			while ((line = reader.readLine()) != null) {
+				// Do not try to write again after a failure, but keep reading
+				// as long as possible to prevent the input stream from choking.
+				if (!writeFailure) {
+					try {
+						writer.write(line);
+						writer.newLine();
+						writer.flush();
+					} catch (IOException e) {
+						writeFailure = true;
+					}
+				}
+			}
+			return null;
+		}
 	}
 }
