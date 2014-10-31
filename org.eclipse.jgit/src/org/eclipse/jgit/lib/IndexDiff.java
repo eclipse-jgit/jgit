@@ -74,6 +74,7 @@ import org.eclipse.jgit.treewalk.EmptyTreeIterator;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.WorkingTreeIterator;
+import org.eclipse.jgit.treewalk.TreeWalk.OperationType;
 import org.eclipse.jgit.treewalk.filter.AndTreeFilter;
 import org.eclipse.jgit.treewalk.filter.IndexDiffFilter;
 import org.eclipse.jgit.treewalk.filter.SkipWorkTreeFilter;
@@ -403,6 +404,7 @@ public class IndexDiff {
 		dirCache = repository.readDirCache();
 
 		try (TreeWalk treeWalk = new TreeWalk(repository)) {
+			treeWalk.setOperationType(OperationType.CHECKIN_OP);
 			treeWalk.setRecursive(true);
 			// add the trees (tree, dirchache, workdir)
 			if (tree != null)
