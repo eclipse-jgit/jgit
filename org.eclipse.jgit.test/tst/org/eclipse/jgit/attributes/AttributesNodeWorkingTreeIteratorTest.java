@@ -76,13 +76,9 @@ public class AttributesNodeWorkingTreeIteratorTest extends RepositoryTestCase {
 
 	private static final FileMode F = FileMode.REGULAR_FILE;
 
-	private static Attribute EOL_CRLF = new Attribute("eol", "crlf");
-
 	private static Attribute EOL_LF = new Attribute("eol", "lf");
 
 	private static Attribute DELTA_UNSET = new Attribute("delta", State.UNSET);
-
-	private static Attribute CUSTOM_VALUE = new Attribute("custom", "value");
 
 	private TreeWalk walk;
 
@@ -112,25 +108,19 @@ public class AttributesNodeWorkingTreeIteratorTest extends RepositoryTestCase {
 		walk = beginWalk();
 
 		assertIteration(F, ".gitattributes");
-		assertIteration(F, "global.txt", asList(EOL_LF), null,
-				asList(CUSTOM_VALUE));
-		assertIteration(F, "readme.txt", asList(EOL_LF), null,
-				asList(CUSTOM_VALUE));
+		assertIteration(F, "global.txt", asList(EOL_LF));
+		assertIteration(F, "readme.txt", asList(EOL_LF));
 
 		assertIteration(D, "src");
 
 		assertIteration(D, "src/config");
 		assertIteration(F, "src/config/.gitattributes");
-		assertIteration(F, "src/config/readme.txt", asList(DELTA_UNSET), null,
-				asList(CUSTOM_VALUE));
-		assertIteration(F, "src/config/windows.file", null, asList(EOL_CRLF),
-				null);
-		assertIteration(F, "src/config/windows.txt", asList(DELTA_UNSET),
-				asList(EOL_CRLF), asList(CUSTOM_VALUE));
+		assertIteration(F, "src/config/readme.txt", asList(DELTA_UNSET));
+		assertIteration(F, "src/config/windows.file", null);
+		assertIteration(F, "src/config/windows.txt", asList(DELTA_UNSET));
 
-		assertIteration(F, "windows.file", null, asList(EOL_CRLF), null);
-		assertIteration(F, "windows.txt", asList(EOL_LF), asList(EOL_CRLF),
-				asList(CUSTOM_VALUE));
+		assertIteration(F, "windows.file", null);
+		assertIteration(F, "windows.txt", asList(EOL_LF));
 
 		endWalk();
 	}
@@ -212,14 +202,11 @@ public class AttributesNodeWorkingTreeIteratorTest extends RepositoryTestCase {
 
 	private void assertIteration(FileMode type, String pathName)
 			throws IOException {
-		assertIteration(type, pathName, Collections.<Attribute> emptyList(),
-				Collections.<Attribute> emptyList(),
-				Collections.<Attribute> emptyList());
+		assertIteration(type, pathName, Collections.<Attribute> emptyList());
 	}
 
 	private void assertIteration(FileMode type, String pathName,
-			List<Attribute> nodeAttrs, List<Attribute> infoAttrs,
-			List<Attribute> globalAttrs)
+			List<Attribute> nodeAttrs)
 			throws IOException {
 		assertTrue("walk has entry", walk.next());
 		assertEquals(pathName, walk.getPathString());
@@ -227,25 +214,21 @@ public class AttributesNodeWorkingTreeIteratorTest extends RepositoryTestCase {
 		WorkingTreeIterator itr = walk.getTree(0, WorkingTreeIterator.class);
 		assertNotNull("has tree", itr);
 
-		AttributesNode attributeNode = itr.getEntryAttributesNode();
-		assertAttributeNode(pathName, attributeNode, nodeAttrs);
-		AttributesNode infoAttributeNode = itr.getInfoAttributesNode();
-		assertAttributeNode(pathName, infoAttributeNode, infoAttrs);
-		AttributesNode globalAttributeNode = itr.getGlobalAttributesNode();
-		assertAttributeNode(pathName, globalAttributeNode, globalAttrs);
+		AttributesNode attributesNode = itr.getEntryAttributesNode();
+		assertAttributesNode(pathName, attributesNode, nodeAttrs);
 		if (D.equals(type))
 			walk.enterSubtree();
 
 	}
 
-	private void assertAttributeNode(String pathName,
-			AttributesNode attributeNode, List<Attribute> nodeAttrs) {
-		if (attributeNode == null)
+	private void assertAttributesNode(String pathName,
+			AttributesNode attributesNode, List<Attribute> nodeAttrs) {
+		if (attributesNode == null)
 			assertTrue(nodeAttrs == null || nodeAttrs.isEmpty());
 		else {
 
 			Map<String, Attribute> entryAttributes = new LinkedHashMap<String, Attribute>();
-			attributeNode.getAttributes(pathName, false, entryAttributes);
+			attributesNode.getAttributes(pathName, false, entryAttributes);
 
 			if (nodeAttrs != null && !nodeAttrs.isEmpty()) {
 				for (Attribute attribute : nodeAttrs) {
