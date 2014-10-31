@@ -43,9 +43,14 @@
 
 package org.eclipse.jgit.util;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -775,13 +780,14 @@ public abstract class FS {
 	 * @param hook
 	 *            The hook we're trying to find.
 	 * @return The {@link File} containing this particular hook if it exists in
-	 *         the given repository, <code>null</code> otherwise.
+	 *         the given repository and can be executed, <code>null</code>
+	 *         otherwise.
 	 * @since 3.7
 	 */
 	public File findHook(Repository repository, final Hook hook) {
 		final File hookFile = new File(new File(repository.getDirectory(),
 				Constants.HOOKS), hook.getName());
-		return hookFile.isFile() ? hookFile : null;
+		return hookFile.isFile() && canExecute(hookFile) ? hookFile : null;
 	}
 
 	/**
@@ -1096,6 +1102,55 @@ public abstract class FS {
 	 */
 	public String normalize(String name) {
 		return name;
+	}
+
+	/**
+	 * Write the given string into the given file, encoding in UTF-8.
+	 *
+	 * @param msg
+	 * @param file
+	 * @throws IOException
+	 * @since 4.0
+	 */
+	public void writeToFile(String msg, File file) throws IOException {
+		BufferedWriter writer = null;
+		try {
+			writer = new BufferedWriter(new OutputStreamWriter(
+					new FileOutputStream(file), "UTF-8")); //$NON-NLS-1$
+			writer.write(msg);
+		} finally {
+			if (writer != null)
+				writer.close();
+		}
+	}
+
+	/**
+	 * Read the commit message from the file where it is supposed to have been
+	 * exported previously, assuming it is encoded in UTF-8.
+	 *
+	 * @param file
+	 *
+	 * @return The current commit message.
+	 * @throws IOException
+	 * @since 4.0
+	 */
+	public String readFileContent(File file) throws IOException {
+		BufferedReader reader = null;
+		try {
+			StringBuilder builder = new StringBuilder();
+			reader = new BufferedReader(new InputStreamReader(
+					new FileInputStream(file), "UTF-8")); //$NON-NLS-1$
+			char[] buf = new char[1024];
+			int numRead = 0;
+			while ((numRead = reader.read(buf)) != -1) {
+				String readData = String.valueOf(buf, 0, numRead);
+				builder.append(readData);
+			}
+			return builder.toString();
+		} finally {
+			if (reader != null)
+				reader.close();
+		}
 	}
 
 	/**
