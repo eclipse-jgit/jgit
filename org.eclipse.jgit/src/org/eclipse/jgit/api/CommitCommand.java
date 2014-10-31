@@ -137,6 +137,12 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	private boolean noVerify;
 
 	/**
+	 * Setting this option bypasses the {@link Hook#POST_REWRITE post-rewrite}
+	 * hook.
+	 */
+	private boolean noPostRewrite;
+
+	/**
 	 * @param repo
 	 */
 	protected CommitCommand(Repository repo) {
@@ -344,6 +350,20 @@ public class CommitCommand extends GitCommand<RevCommit> {
 				// his hook failed...
 			}
 
+			if (amend && headId != null && !noPostRewrite) {
+				final ObjectId oldId = headId;
+				final ObjectId newId = revCommit.getId();
+				final String rewritten = oldId.getName() + ' '
+						+ newId.getName() + '\n';
+				int postRewriteHookResult = FS.DETECTED.runIfPresent(repo,
+						Hook.POST_REWRITE, new String[] { "amend" }, //$NON-NLS-1$
+						System.out, System.err, rewritten);
+				if (postRewriteHookResult != 0) {
+					// TODO as for the post-commit, this hook's return value
+					// holds no meaning, but the user might want to be told that
+					// his hook failed somehow.
+				}
+			}
 			return revCommit;
 		} catch (UnmergedPathException e) {
 			throw new UnmergedPathsException(e);
@@ -811,6 +831,19 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	 */
 	public CommitCommand setNoVerify(boolean noVerify) {
 		this.noVerify = noVerify;
+		return this;
+	}
+
+	/**
+	 * Sets the {@link #noPostRewrite} option on this commit command.
+	 *
+	 * @param noPostRewrite
+	 *            Whether this commit should bypass the
+	 *            {@link Hook#POST_REWRITE post-rewrite} hook.
+	 * @return {@code this}
+	 */
+	public CommitCommand setNoPostRewrite(boolean noPostRewrite) {
+		this.noPostRewrite = noPostRewrite;
 		return this;
 	}
 

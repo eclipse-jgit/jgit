@@ -57,7 +57,22 @@ public enum Hook {
 	 * The exit code of this hook has no significance.
 	 * </p>
 	 */
-	POST_COMMIT("post-commit"); //$NON-NLS-1$
+	POST_COMMIT("post-commit"), //$NON-NLS-1$
+
+	/**
+	 * Literal for the "post-rewrite" git hook.
+	 * <p>
+	 * This hook is invoked after commands that rewrite commits (currently, only
+	 * "git rebase" and "git commit --amend"). It a single argument denoting the
+	 * source of the call (one of <code>rebase</code> or <code>amend</code>). It
+	 * then accepts a list of rewritten commits through stdin, in the form
+	 * <code>&lt;old SHA-1> &lt;new SHA-1>LF</code>.
+	 * </p>
+	 * <p>
+	 * The exit code of this hook has no significance.
+	 * </p>
+	 */
+	POST_REWRITE("post-rewrite"); //$NON-NLS-1$
 
 	private final String name;
 
