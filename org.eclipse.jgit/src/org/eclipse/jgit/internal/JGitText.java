@@ -109,6 +109,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String cannotCommitWriteTo;
 	/***/ public String cannotConnectPipes;
 	/***/ public String cannotConvertScriptToText;
+	/***/ public String cannotCreateCommitMessageFile;
 	/***/ public String cannotCreateConfig;
 	/***/ public String cannotCreateDirectory;
 	/***/ public String cannotCreateHEAD;

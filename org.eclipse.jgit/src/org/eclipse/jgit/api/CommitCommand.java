@@ -42,7 +42,13 @@
  */
 package org.eclipse.jgit.api;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileFilter;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
@@ -222,6 +228,35 @@ public class CommitCommand extends GitCommand<RevCommit> {
 				} else {
 					parents.add(0, headId);
 				}
+
+			if (!noVerify
+					&& FS.DETECTED.tryFindHook(repo, Hook.COMMIT_MSG) != null) {
+				exportPreparedMessage(message);
+				final ByteArrayOutputStream errorByteArray = new ByteArrayOutputStream();
+				final PrintStream hookErrRedirect = new PrintStream(
+						errorByteArray);
+				String messageFilePath = getMessageFile(false)
+						.getAbsolutePath();
+				// We know the hooks can only run on unix or windows-cygwin...
+				// both of which need their argument in unix format ('/' as path
+				// separator, not '\'). Windows generally accepts '/' as a path
+				// separator... so having this conversion here shouldn't be an
+				// issue, but might hurt if we wish to somehow add support for
+				// git hooks on windows without cygwin and this new support
+				// doesn't accept '/' as a path separator.
+				messageFilePath = messageFilePath.replace(File.separatorChar,
+						'/');
+				ProcessResult commitMsgHookResult = FS.DETECTED.runIfPresent(
+						repo,
+						Hook.COMMIT_MSG, new String[] { messageFilePath, },
+						System.out, hookErrRedirect, null);
+				final String errorDetails = errorByteArray.toString();
+				if (commitMsgHookResult.getStatus() == ProcessResult.Status.OK
+						&& commitMsgHookResult.getExitCode() != 0) {
+					commitRejectedByHook(Hook.COMMIT_MSG, errorDetails);
+				}
+				message = readPreparedMessage();
+			}
 
 			// lock the index
 			DirCache index = repo.lockDirCache();
@@ -777,6 +812,69 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	public CommitCommand setNoVerify(boolean noVerify) {
 		this.noVerify = noVerify;
 		return this;
+	}
+
+	private void exportPreparedMessage(String msg) throws IOException {
+		final File messageFile = getMessageFile(true);
+		if (messageFile == null) {
+			final String errorMessage = MessageFormat.format(
+					JGitText.get().cannotCreateCommitMessageFile, repo
+							.getDirectory().getAbsolutePath()
+							+ Constants.COMMIT_EDITMSG);
+			throw new IOException(errorMessage);
+		}
+		BufferedWriter writer = null;
+		try {
+			writer = new BufferedWriter(new FileWriter(messageFile));
+			writer.write(msg);
+		} finally {
+			if (writer != null)
+				writer.close();
+		}
+	}
+
+	private String readPreparedMessage() throws IOException {
+		final File messageFile = getMessageFile(false);
+		if (messageFile == null)
+			return ""; //$NON-NLS-1$
+		BufferedReader reader = null;
+		try {
+			reader = new BufferedReader(new FileReader(messageFile));
+			StringBuilder builder = new StringBuilder();
+			String line = reader.readLine();
+			while (line != null) {
+				builder.append(line);
+				line = reader.readLine();
+				// TODO do we wish to respect OS line separator in the commit
+				// message (we can use a java.util.Scanner in such a case)?
+				if (line != null)
+					builder.append('\n');
+			}
+			return builder.toString();
+		} finally {
+			if (reader != null)
+				reader.close();
+		}
+	}
+
+	private File getMessageFile(boolean createOnDemand) throws IOException {
+		final File gitdir = repo.getDirectory();
+		final File[] messageFileCandidates = gitdir.listFiles(new FileFilter() {
+			public boolean accept(File pathname) {
+				return pathname.isFile()
+						&& pathname.getName().equals(Constants.COMMIT_EDITMSG);
+			}
+		});
+		final File messageFile;
+		if (messageFileCandidates.length > 0)
+			messageFile = messageFileCandidates[0];
+		else if (createOnDemand) {
+			messageFile = new File(gitdir.getAbsolutePath(),
+					Constants.COMMIT_EDITMSG);
+			messageFile.createNewFile();
+		} else
+			messageFile = null;
+		return messageFile;
 	}
 
 	private void commitRejectedByHook(Hook cause, String errorDetails)
