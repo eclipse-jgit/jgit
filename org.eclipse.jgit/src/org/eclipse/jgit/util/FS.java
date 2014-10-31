@@ -46,6 +46,8 @@ package org.eclipse.jgit.util;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -775,13 +777,14 @@ public abstract class FS {
 	 * @param hook
 	 *            The hook we're trying to find.
 	 * @return The {@link File} containing this particular hook if it exists in
-	 *         the given repository, <code>null</code> otherwise.
+	 *         the given repository and can be executed, <code>null</code>
+	 *         otherwise.
 	 * @since 3.7
 	 */
 	public File findHook(Repository repository, final Hook hook) {
 		final File hookFile = new File(new File(repository.getDirectory(),
 				Constants.HOOKS), hook.getName());
-		return hookFile.isFile() ? hookFile : null;
+		return hookFile.isFile() && canExecute(hookFile) ? hookFile : null;
 	}
 
 	/**
@@ -1096,6 +1099,54 @@ public abstract class FS {
 	 */
 	public String normalize(String name) {
 		return name;
+	}
+
+	/**
+	 * Write the given content into the given file.
+	 *
+	 * @param msg
+	 * @param file
+	 * @throws IOException
+	 */
+	public void writeToFile(String msg, File file) throws IOException {
+		BufferedWriter writer = null;
+		try {
+			writer = new BufferedWriter(new FileWriter(file));
+			writer.write(msg);
+		} finally {
+			if (writer != null)
+				writer.close();
+		}
+	}
+
+	/**
+	 * Read the commit message from the file where it is supposed to have been
+	 * exported previously.
+	 * 
+	 * @param file
+	 *
+	 * @return The current commit message.
+	 * @throws IOException
+	 */
+	public String readFileContent(File file) throws IOException {
+		BufferedReader reader = null;
+		try {
+			reader = new BufferedReader(new FileReader(file));
+			StringBuilder builder = new StringBuilder();
+			String line = reader.readLine();
+			while (line != null) {
+				builder.append(line);
+				line = reader.readLine();
+				// TODO do we wish to respect OS line separator in the commit
+				// message (we can use a java.util.Scanner in such a case)?
+				if (line != null)
+					builder.append('\n');
+			}
+			return builder.toString();
+		} finally {
+			if (reader != null)
+				reader.close();
+		}
 	}
 
 	/**

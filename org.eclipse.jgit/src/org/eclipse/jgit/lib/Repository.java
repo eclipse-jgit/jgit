@@ -1655,4 +1655,15 @@ public abstract class Repository {
 		return getConfig()
 				.getSubsections(ConfigConstants.CONFIG_REMOTE_SECTION);
 	}
+
+	/**
+	 * Provides the commit edit message file, without creating it if it does not
+	 * exist. The returned file is never null, but it may return false when
+	 * calling <code>exists()</code>.
+	 *
+	 * @return The commit edit message file, never <code>null</code>.
+	 */
+	public File getCommitEditMessageFile() {
+		return new File(getDirectory(), Constants.COMMIT_EDITMSG);
+	}
 }
