@@ -507,7 +507,9 @@ public class TreeWalk {
 		newTrees[n] = p;
 		p.matches = null;
 		p.matchShift = 0;
-
+		// Sets the treeWalk here to avoid breaking any API.
+		if (p instanceof WorkingTreeIterator)
+			((WorkingTreeIterator) p).setTreeWalk(this);
 		trees = newTrees;
 		return n;
 	}
@@ -1020,6 +1022,18 @@ public class TreeWalk {
 		 * Represents a checkin operation (for example an add operation)
 		 */
 		CHECKIN_OP
+	}
+
+	/**
+	 * @return <code>true</code> if the treewalk can retrieve the set of
+	 *         attributes for the current head entry.
+	 * @see TreeWalk#getAttributes(OperationType)
+	 * @since 3.6
+	 */
+	public boolean canGetAttributes() {
+		// The correct set of attributes can not be computed without
+		// AttributeNodeProvider
+		return getTree(AttributeNodeProvider.class) != null;
 	}
 
 	/**
