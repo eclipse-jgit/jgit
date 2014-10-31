@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_f1501bae",
+        "filename": "org.eclipse.jgit.test/META-INF/MANIFEST.MF",
+        "patchSetId": 14
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1655
+      },
+      "writtenOn": "2014-10-31T13:05:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_fb83dc58",
+      "revId": "f4b2f2e591b73b57644d699ac5100751efd4ff52",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_f6b5b119",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/attributes/AttributesMatcherTest.java",
         "patchSetId": 14
@@ -30,6 +48,24 @@
       "writtenOn": "2014-10-30T17:45:55Z",
       "side": 1,
       "message": "not ignore, but attribute :-)\nBTW might be add link to the original ignore test?",
+      "revId": "f4b2f2e591b73b57644d699ac5100751efd4ff52",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_5148ef05",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/attributes/AttributesMatcherTest.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1655
+      },
+      "writtenOn": "2014-10-31T13:05:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_f6b5b119",
       "revId": "f4b2f2e591b73b57644d699ac5100751efd4ff52",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_4c2698ef",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/attributes/AttributesMatcherTest.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1655
+      },
+      "writtenOn": "2014-10-31T13:05:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_36c0c973",
+      "revId": "f4b2f2e591b73b57644d699ac5100751efd4ff52",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_5b8bf072",
         "filename": "org.eclipse.jgit/META-INF/MANIFEST.MF",
         "patchSetId": 14
@@ -64,6 +118,24 @@
       "writtenOn": "2014-10-30T17:45:55Z",
       "side": 1,
       "message": "\"version\" is missing",
+      "revId": "f4b2f2e591b73b57644d699ac5100751efd4ff52",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_314bb303",
+        "filename": "org.eclipse.jgit/META-INF/MANIFEST.MF",
+        "patchSetId": 14
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1655
+      },
+      "writtenOn": "2014-10-31T13:05:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_5b8bf072",
       "revId": "f4b2f2e591b73b57644d699ac5100751efd4ff52",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_51fe2fde",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesNode.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1655
+      },
+      "writtenOn": "2014-10-31T13:05:31Z",
+      "side": 1,
+      "message": "Ok.\nI have added new tests for those cases.",
+      "parentUuid": "a766b734_3b8ef482",
+      "revId": "f4b2f2e591b73b57644d699ac5100751efd4ff52",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_fb98fcce",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesRule.java",
         "patchSetId": 14
@@ -98,6 +188,24 @@
       "writtenOn": "2014-10-30T17:45:55Z",
       "side": 1,
       "message": "Trailing space. I hate this rule because Eclipse JDT editor always automatically adds one space inside javadocs.",
+      "revId": "f4b2f2e591b73b57644d699ac5100751efd4ff52",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_d1f19f08",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesRule.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1655
+      },
+      "writtenOn": "2014-10-31T13:05:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_fb98fcce",
       "revId": "f4b2f2e591b73b57644d699ac5100751efd4ff52",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_ec596462",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesRule.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1655
+      },
+      "writtenOn": "2014-10-31T13:05:31Z",
+      "side": 1,
+      "message": "I will dot it in a second path set. This way it will be easier for you to follow my modifications",
+      "parentUuid": "a766b734_bbc7a4a8",
+      "revId": "f4b2f2e591b73b57644d699ac5100751efd4ff52",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_3b9394b0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesRule.java",
         "patchSetId": 14
@@ -132,6 +258,24 @@
       "writtenOn": "2014-10-30T17:45:55Z",
       "side": 1,
       "message": "Please check FastIgnoreRule - the code is now a bit simpler compared with the old IgnoreRule, because it moves most of the logic to appropriate matchers.",
+      "revId": "f4b2f2e591b73b57644d699ac5100751efd4ff52",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_2c64fc13",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesRule.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1655
+      },
+      "writtenOn": "2014-10-31T13:05:31Z",
+      "side": 1,
+      "message": "I will dot it in a second path set. This way it will be easier for you to follow my modifications",
+      "parentUuid": "a766b734_3b9394b0",
       "revId": "f4b2f2e591b73b57644d699ac5100751efd4ff52",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_2cd7dc34",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheIterator.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1655
+      },
+      "writtenOn": "2014-10-31T13:05:31Z",
+      "side": 1,
+      "message": "You are right hello.gitattributes is not a valid attribute file.\nI have added an extra test.",
+      "parentUuid": "a766b734_fb6abc0a",
+      "revId": "f4b2f2e591b73b57644d699ac5100751efd4ff52",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_1b685813",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheIterator.java",
         "patchSetId": 14
@@ -166,6 +328,24 @@
       "writtenOn": "2014-10-30T17:45:55Z",
       "side": 1,
       "message": "Trailing space",
+      "revId": "f4b2f2e591b73b57644d699ac5100751efd4ff52",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_51b90f33",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheIterator.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1655
+      },
+      "writtenOn": "2014-10-31T13:05:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_1b685813",
       "revId": "f4b2f2e591b73b57644d699ac5100751efd4ff52",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_8cf8b0b7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1655
+      },
+      "writtenOn": "2014-10-31T13:05:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_3b655439",
+      "revId": "f4b2f2e591b73b57644d699ac5100751efd4ff52",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_bb504457",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
         "patchSetId": 14
@@ -206,6 +404,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_cc02a841",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1655
+      },
+      "writtenOn": "2014-10-31T13:05:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_bb504457",
+      "revId": "f4b2f2e591b73b57644d699ac5100751efd4ff52",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_dba380f8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
         "patchSetId": 14
@@ -217,6 +433,24 @@
       "writtenOn": "2014-10-30T17:45:55Z",
       "side": 1,
       "message": "Trailing space",
+      "revId": "f4b2f2e591b73b57644d699ac5100751efd4ff52",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_acfdaca5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 661,
+      "author": {
+        "id": 1655
+      },
+      "writtenOn": "2014-10-31T13:05:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_dba380f8",
       "revId": "f4b2f2e591b73b57644d699ac5100751efd4ff52",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
