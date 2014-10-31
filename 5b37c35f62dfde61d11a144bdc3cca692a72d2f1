@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_922a867c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/attributes/AttributesMatcherTest.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1655
+      },
+      "writtenOn": "2014-10-31T16:26:37Z",
+      "side": 1,
+      "message": "No. If the negative pattern is found then the rule does not match anything (see org.eclipse.jgit.attributes.AttributesRule line 116). I think you have done the same for the ignore rule ( see FastIgnoreRule line 112). This test make sure of it.",
+      "parentUuid": "a766b734_52f3ced8",
+      "revId": "5b37c35f62dfde61d11a144bdc3cca692a72d2f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_b21982ae",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/attributes/AttributesNodeDirCacheIteratorTest.java",
         "patchSetId": 16
@@ -30,6 +48,24 @@
       "writtenOn": "2014-10-31T14:54:19Z",
       "side": 1,
       "message": "Can you please add the method below and call it at the end of all tests to make sure that all test cases are visited? \n\nI did this in IgnoreNodeTest.java (pending review) from where this test is most likely expired :-)\n\n\tprivate void endWalk() throws IOException {\n\t\tassertFalse(\"Not all files tested\", walk.next());\n\t}",
+      "revId": "5b37c35f62dfde61d11a144bdc3cca692a72d2f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_327bb266",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/attributes/AttributesNodeDirCacheIteratorTest.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1655
+      },
+      "writtenOn": "2014-10-31T16:26:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_b21982ae",
       "revId": "5b37c35f62dfde61d11a144bdc3cca692a72d2f1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_b26ea2a1",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/attributes/AttributesNodeWorkingTreeIteratorTest.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1655
+      },
+      "writtenOn": "2014-10-31T16:26:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_f2565a31",
+      "revId": "5b37c35f62dfde61d11a144bdc3cca692a72d2f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_52658e0d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesNode.java",
         "patchSetId": 16
@@ -64,6 +118,24 @@
       "writtenOn": "2014-10-31T14:54:19Z",
       "side": 1,
       "message": "Trailing whitespace. I highly recommend AnyEdit plugin :-)\nhttp://marketplace.eclipse.org/content/anyedit-tools",
+      "revId": "5b37c35f62dfde61d11a144bdc3cca692a72d2f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_92dba6e3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesNode.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1655
+      },
+      "writtenOn": "2014-10-31T16:26:37Z",
+      "side": 1,
+      "message": "Done.\nThanks for the tip.",
+      "parentUuid": "a766b734_52658e0d",
       "revId": "5b37c35f62dfde61d11a144bdc3cca692a72d2f1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_1222f660",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesRule.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1655
+      },
+      "writtenOn": "2014-10-31T16:26:37Z",
+      "side": 1,
+      "message": "Done.\nI has already simplified but not enough sorry.",
+      "parentUuid": "a766b734_b274e2c0",
+      "revId": "5b37c35f62dfde61d11a144bdc3cca692a72d2f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_926f26ee",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CoreConfig.java",
         "patchSetId": 16
@@ -98,6 +188,24 @@
       "writtenOn": "2014-10-31T14:54:19Z",
       "side": 1,
       "message": "Trailing space",
+      "revId": "5b37c35f62dfde61d11a144bdc3cca692a72d2f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_d2ecfe89",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CoreConfig.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1655
+      },
+      "writtenOn": "2014-10-31T16:26:37Z",
+      "side": 1,
+      "message": "Done.\nReally useful plugin :)",
+      "parentUuid": "a766b734_926f26ee",
       "revId": "5b37c35f62dfde61d11a144bdc3cca692a72d2f1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_121f9665",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 636,
+      "author": {
+        "id": 1655
+      },
+      "writtenOn": "2014-10-31T16:26:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_f23dbaeb",
+      "revId": "5b37c35f62dfde61d11a144bdc3cca692a72d2f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_d2407e60",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
         "patchSetId": 16
@@ -138,6 +264,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_5230eeeb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 652,
+      "author": {
+        "id": 1655
+      },
+      "writtenOn": "2014-10-31T16:26:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_d2407e60",
+      "revId": "5b37c35f62dfde61d11a144bdc3cca692a72d2f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_123b16f5",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
         "patchSetId": 16
@@ -149,6 +293,24 @@
       "writtenOn": "2014-10-31T14:54:19Z",
       "side": 1,
       "message": "Missing \"since\"",
+      "revId": "5b37c35f62dfde61d11a144bdc3cca692a72d2f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_b22fc28e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 669,
+      "author": {
+        "id": 1655
+      },
+      "writtenOn": "2014-10-31T16:26:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_123b16f5",
       "revId": "5b37c35f62dfde61d11a144bdc3cca692a72d2f1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
