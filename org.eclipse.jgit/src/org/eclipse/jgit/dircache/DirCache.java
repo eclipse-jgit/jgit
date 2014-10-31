@@ -76,6 +76,7 @@ import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.treewalk.TreeWalk.OperationType;
 import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.IO;
@@ -963,6 +964,7 @@ public class DirCache {
 	private void updateSmudgedEntries() throws IOException {
 		List<String> paths = new ArrayList<String>(128);
 		try (TreeWalk walk = new TreeWalk(repository)) {
+			walk.setOperationType(OperationType.CHECKIN_OP);
 			for (int i = 0; i < entryCnt; i++)
 				if (sortedEntries[i].isSmudged())
 					paths.add(sortedEntries[i].getPathString());
