@@ -60,7 +60,7 @@ import org.junit.Test;
 /**
  * Test {@link AttributesNode}
  */
-public class AttributeNodeTest {
+public class AttributesNodeTest {
 
 	private static final Attribute A_SET_ATTR = new Attribute("A", SET);
 
