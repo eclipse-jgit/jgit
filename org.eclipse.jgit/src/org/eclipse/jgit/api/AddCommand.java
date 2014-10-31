@@ -63,6 +63,7 @@ import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.treewalk.TreeWalk.OperationType;
 import org.eclipse.jgit.treewalk.WorkingTreeIterator;
 import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
 
@@ -139,6 +140,7 @@ public class AddCommand extends GitCommand<DirCache> {
 
 		try (ObjectInserter inserter = repo.newObjectInserter();
 				final TreeWalk tw = new TreeWalk(repo)) {
+			tw.setOperationType(OperationType.CHECKIN_OP);
 			dc = repo.lockDirCache();
 			DirCacheIterator c;
 
@@ -146,6 +148,7 @@ public class AddCommand extends GitCommand<DirCache> {
 			tw.addTree(new DirCacheBuildIterator(builder));
 			if (workingTreeIterator == null)
 				workingTreeIterator = new FileTreeIterator(repo);
+			workingTreeIterator.setDirCacheIterator(tw, 0);
 			tw.addTree(workingTreeIterator);
 			tw.setRecursive(true);
 			if (!addAll)
