@@ -45,7 +45,16 @@
 package org.eclipse.jgit.treewalk;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
 
+import org.eclipse.jgit.api.errors.JGitInternalException;
+import org.eclipse.jgit.attributes.Attribute;
+import org.eclipse.jgit.attributes.AttributesNode;
+import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -216,6 +225,11 @@ public class TreeWalk {
 
 	AbstractTreeIterator currentHead;
 
+	/** Cached attribute for the current entry */
+	private Set<Attribute> checkinAttrs = null;
+
+	/** Cached attribute for the current entry */
+	private Set<Attribute> checkoutAttrs = null;
 	/**
 	 * Create a new tree walker for a given repository.
 	 *
@@ -346,6 +360,7 @@ public class TreeWalk {
 
 	/** Reset this walker so new tree iterators can be added to it. */
 	public void reset() {
+		resetCachedAttributes();
 		trees = NO_TREES;
 		advance = false;
 		depth = 0;
@@ -389,6 +404,7 @@ public class TreeWalk {
 
 		advance = false;
 		depth = 0;
+		resetCachedAttributes();
 	}
 
 	/**
@@ -438,6 +454,7 @@ public class TreeWalk {
 		trees = r;
 		advance = false;
 		depth = 0;
+		resetCachedAttributes();
 	}
 
 	/**
@@ -534,6 +551,7 @@ public class TreeWalk {
 	public boolean next() throws MissingObjectException,
 			IncorrectObjectTypeException, CorruptObjectException, IOException {
 		try {
+			resetCachedAttributes();
 			if (advance) {
 				advance = false;
 				postChildren = false;
@@ -903,6 +921,7 @@ public class TreeWalk {
 	 */
 	public void enterSubtree() throws MissingObjectException,
 			IncorrectObjectTypeException, CorruptObjectException, IOException {
+		resetCachedAttributes();
 		final AbstractTreeIterator ch = currentHead;
 		final AbstractTreeIterator[] tmp = new AbstractTreeIterator[trees.length];
 		for (int i = 0; i < trees.length; i++) {
@@ -995,5 +1014,272 @@ public class TreeWalk {
 
 	static String pathOf(final byte[] buf, int pos, int end) {
 		return RawParseUtils.decode(Constants.CHARSET, buf, pos, end);
+	}
+
+	/**
+	 * Type of operation you want to retrieve the git attributes for.
+	 *
+	 * @since 3.7
+	 */
+	public static enum OperationType {
+		/**
+		 * Represents a checkout operation (for example a checkout or reset
+		 * operation).
+		 */
+		CHECKOUT_OP,
+		/**
+		 * Represents a checkin operation (for example an add operation)
+		 */
+		CHECKIN_OP
+	}
+
+	/**
+	 * Retrieves the git attributes for the current entry.
+	 *
+	 * <h4>Git attribute computation</h4>
+	 *
+	 * <ul>
+	 * <li>Gets the attributes matching the current path entry from the info
+	 * file ( see {@link WorkingTreeIterator#getInfoAttributesNode()}).</li>
+	 * <li>Completes the list of attributes using the .gitattributes files
+	 * located on the current path (the further the directory that contains
+	 * .gitattributes is from the path in question, the lower its precedence).
+	 * For a checkin operation, it will look first on the working tree. If there
+	 * is no attributes file, it will fallback on the index. For a checkout
+	 * operation, it will first use the index entry and then fallback on the
+	 * working tree if none.</li>
+	 * <li>In the end, complete the list of matching attributes using the global
+	 * attribute file define in the configuration (see
+	 * {@link WorkingTreeIterator#getGlobalAttributesNode()})</li>
+	 *
+	 * </ul>
+	 *
+	 *
+	 * <h4>Iterator constraints</h4>
+	 *
+	 * <p>
+	 * In order to have a correct list of attributes for the current entry, this
+	 * {@link TreeWalk} requires to have at least a {@link WorkingTreeIterator}
+	 * and a {@link DirCacheIterator} set up. The {@link WorkingTreeIterator} is
+	 * used to retrieves the attributes from the info attributes file, the
+	 * global attributes file and the local version of the .gitattributes files.
+	 * The {@link DirCacheIterator} is used to retrieve the .gitattributes files
+	 * stored in the index.
+	 * </p>
+	 *
+	 * @param operationType
+	 *            Type of operation you want to retrieve the git attributes for.
+	 * @return a {@link Set} of {@link Attribute}s that match the current entry.
+	 * @since 3.7
+	 */
+	public Set<Attribute> getAttributes(OperationType operationType) {
+		Set<Attribute> cachedAttributes = getCachedAttribute(operationType);
+		if (cachedAttributes != null)
+			return cachedAttributes;
+
+		AttributeNodeProvider workingTreeAttributeNodeProvider = getTree(AttributeNodeProvider.class);
+		if (workingTreeAttributeNodeProvider == null) {
+			// The work tree should have a AttributeNodeProvider to be able to
+			// retrieve the info and global attributes node
+			throw new IllegalStateException(
+					"The tree walk should have one AttributeNodeProvider"); //$NON-NLS-1$
+		}
+
+		// Gets matching tree iterators. Those iterators are used to retrieve
+		// the attribute node so they need to match the current head.
+		WorkingTreeIterator matchingWorkingTreeIterator = getTree(WorkingTreeIterator.class);
+		if (matchingWorkingTreeIterator != null
+				&& matchingWorkingTreeIterator.matches != currentHead) {
+			matchingWorkingTreeIterator = null;
+		}
+
+		DirCacheIterator matchingDirCacheIterator = getTree(DirCacheIterator.class);
+		if (matchingDirCacheIterator != null
+				&& ((AbstractTreeIterator) matchingDirCacheIterator).matches != currentHead) {
+			// May happen if the entry is not in the index
+			matchingDirCacheIterator = null;
+		}
+
+		if (matchingWorkingTreeIterator == null
+				&& matchingDirCacheIterator == null) {
+			// Can not retrieve the attributes without at least one of the above
+			// iterators.
+			return Collections.<Attribute> emptySet();
+		}
+
+		String path = currentHead.getEntryPathString();
+		final boolean isDir = FileMode.TREE.equals(currentHead.mode);
+		Map<String, Attribute> attributes = new LinkedHashMap<String, Attribute>();
+		try {
+			// Gets the info attributes
+			AttributesNode infoNodeAttr = workingTreeAttributeNodeProvider
+					.getInfoAttributesNode();
+			if (infoNodeAttr != null) {
+				infoNodeAttr.getAttributes(path, isDir, attributes);
+			}
+
+			// Gets the attributes located on the current entry path
+			getPerDirectoryEntryAttributes(path, isDir, operationType,
+					matchingWorkingTreeIterator, matchingDirCacheIterator,
+					attributes);
+
+			// Gets the attributes located in the global attribute file
+			AttributesNode globalNodeAttr = workingTreeAttributeNodeProvider
+					.getGlobalAttributesNode();
+			if (globalNodeAttr != null) {
+				globalNodeAttr.getAttributes(path, isDir, attributes);
+			}
+		} catch (IOException e) {
+			throw new JGitInternalException("Error while parsing attributes", e); //$NON-NLS-1$
+		}
+		final Set<Attribute> result;
+		if (attributes.isEmpty()) {
+			result = Collections.<Attribute> emptySet();
+		} else {
+			result = new HashSet<Attribute>(attributes.values());
+		}
+
+		setCachedAttribute(operationType, result);
+
+		return result;
+	}
+
+	private Set<Attribute> getCachedAttribute(OperationType type) {
+		switch (type) {
+		case CHECKIN_OP:
+			return checkinAttrs;
+		case CHECKOUT_OP:
+			return checkoutAttrs;
+		default:
+			throw new IllegalStateException("No cache for operation type " //$NON-NLS-1$
+					+ type);
+		}
+	}
+
+	private void setCachedAttribute(OperationType type, Set<Attribute> attrs) {
+		switch (type) {
+		case CHECKIN_OP:
+			checkinAttrs = attrs;
+			break;
+		case CHECKOUT_OP:
+			checkoutAttrs = attrs;
+			break;
+		default:
+			throw new IllegalStateException("No cache for operation type " //$NON-NLS-1$
+					+ type);
+		}
+	}
+
+	private void resetCachedAttributes() {
+		checkoutAttrs = null;
+		checkinAttrs = null;
+	}
+
+	/**
+	 * Gets the attributes located on the current entry path.
+	 *
+	 * @param path
+	 *            current entry path
+	 * @param isDir
+	 *            holds true if the current entry is a directory
+	 * @param opType
+	 *            type of operation
+	 * @param workingTreeIterator
+	 *            a {@link WorkingTreeIterator} matching the current entry
+	 * @param dirCacheIterator
+	 *            a {@link DirCacheIterator} matching the current entry
+	 * @param attributes
+	 *            Non null map holding the existing attributes. This map will be
+	 *            augmented with new entry. None entry will be overrided.
+	 * @throws IOException
+	 *             It raises an {@link IOException} if a problem appears while
+	 *             parsing one on the attributes file.
+	 */
+	private void getPerDirectoryEntryAttributes(String path, boolean isDir,
+			OperationType opType, WorkingTreeIterator workingTreeIterator,
+			DirCacheIterator dirCacheIterator, Map<String, Attribute> attributes)
+			throws IOException {
+		// Prevents infinite recurrence
+		if (workingTreeIterator != null || dirCacheIterator != null) {
+			AttributesNode currentAttributeNode = getCurrentAttributesNode(
+					opType, workingTreeIterator, dirCacheIterator);
+			if (currentAttributeNode != null) {
+				currentAttributeNode.getAttributes(path, isDir, attributes);
+			}
+			getPerDirectoryEntryAttributes(path, isDir, opType,
+					getParent(workingTreeIterator, WorkingTreeIterator.class),
+					getParent(dirCacheIterator, DirCacheIterator.class),
+					attributes);
+		}
+	}
+
+	private <T extends AbstractTreeIterator> T getParent(T current,
+			Class<T> type) {
+		if (current != null) {
+			AbstractTreeIterator parent = current.parent;
+			if (type.isInstance(parent)) {
+				return type.cast(parent);
+			}
+		}
+		return null;
+	}
+
+	private <T> T getTree(Class<T> type) {
+		for (int i = 0; i < trees.length; i++) {
+			AbstractTreeIterator tree = trees[i];
+			if (type.isInstance(tree)) {
+				return type.cast(tree);
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Gets the {@link AttributesNode} for the current entry.
+	 * <p>
+	 * This method implement the fallback mechanism between the index and the
+	 * working tree depending on the operation type
+	 * </p>
+	 *
+	 * @param opType
+	 * @param workingTreeIterator
+	 * @param dirCacheIterator
+	 * @return a {@link AttributesNode} of the current entry,
+	 *         {@link NullPointerException} otherwise.
+	 * @throws IOException
+	 *             It raises an {@link IOException} if a problem appears while
+	 *             parsing one on the attributes file.
+	 */
+	private AttributesNode getCurrentAttributesNode(OperationType opType,
+			WorkingTreeIterator workingTreeIterator,
+			DirCacheIterator dirCacheIterator) throws IOException {
+		AttributesNode attributesNode = null;
+		switch (opType) {
+		case CHECKIN_OP:
+			if (workingTreeIterator != null) {
+				attributesNode = workingTreeIterator.getEntryAttributesNode();
+			}
+			if (attributesNode == null && dirCacheIterator != null) {
+				attributesNode = dirCacheIterator
+						.getEntryAttributesNode(getObjectReader());
+			}
+			break;
+		case CHECKOUT_OP:
+			if (dirCacheIterator != null) {
+				attributesNode = dirCacheIterator
+						.getEntryAttributesNode(getObjectReader());
+			}
+			if (attributesNode == null && workingTreeIterator != null) {
+				attributesNode = workingTreeIterator.getEntryAttributesNode();
+			}
+			break;
+		default:
+			throw new IllegalStateException(
+					"The only operation type handled are:" //$NON-NLS-1$
+							+ OperationType.CHECKIN_OP + "," //$NON-NLS-1$
+							+ OperationType.CHECKOUT_OP);
+		}
+
+		return attributesNode;
 	}
 }
