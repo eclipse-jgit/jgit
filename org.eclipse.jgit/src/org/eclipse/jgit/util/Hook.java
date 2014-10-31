@@ -17,7 +17,35 @@ public enum Hook {
 	 * aborted.
 	 * </p>
 	 */
-	PRE_COMMIT("pre-commit"); //$NON-NLS-1$
+	PRE_COMMIT("pre-commit"), //$NON-NLS-1$
+
+	/**
+	 * Literal for the "prepare-commit-msg" git hook.
+	 * <p>
+	 * This hook is invoked by git commit right after preparing the default
+	 * message, and before any editing possibility is displayed to the user.
+	 * </p>
+	 * <p>
+	 * A non-zero exit code from the called hook means that the commit should be
+	 * aborted.
+	 * </p>
+	 */
+	PREPARE_COMMIT_MSG("prepare-commit-msg"), //$NON-NLS-1$
+
+	/**
+	 * Literal for the "commit-msg" git hook.
+	 * <p>
+	 * This hook is invoked by git commit, and can be bypassed with the
+	 * "no-verify" option. Its single parameter is the path to the file
+	 * containing the prepared commit message (typically
+	 * "&lt;gitdir>/COMMIT-EDITMSG").
+	 * </p>
+	 * <p>
+	 * A non-zero exit code from the called hook means that the commit should be
+	 * aborted.
+	 * </p>
+	 */
+	COMMIT_MSG("commit-msg"); //$NON-NLS-1$
 
 	private final String name;
 
