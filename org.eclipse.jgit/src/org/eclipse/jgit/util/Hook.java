@@ -45,7 +45,19 @@ public enum Hook {
 	 * aborted.
 	 * </p>
 	 */
-	COMMIT_MSG("commit-msg"); //$NON-NLS-1$
+	COMMIT_MSG("commit-msg"), //$NON-NLS-1$
+
+	/**
+	 * Literal for the "post-commit" git hook.
+	 * <p>
+	 * This hook is invoked by git commit. It takes no parameter and is invoked
+	 * after a commit has been made.
+	 * </p>
+	 * <p>
+	 * The exit code of this hook has no significance.
+	 * </p>
+	 */
+	POST_COMMIT("post-commit"); //$NON-NLS-1$
 
 	private final String name;
 
