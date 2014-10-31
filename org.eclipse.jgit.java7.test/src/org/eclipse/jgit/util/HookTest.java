@@ -55,6 +55,7 @@ import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.RejectCommitException;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.RepositoryTestCase;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Assume;
 import org.junit.Test;
 
@@ -136,6 +137,75 @@ public class HookTest extends RepositoryTestCase {
 		git.commit().setMessage("commit")
 				.setHookOutputStream(new PrintStream(out)).call();
 		assertEquals("test\n", out.toString("UTF-8"));
+	}
+
+	@Test
+	public void testPostRewriteHookOnAmend() throws Exception {
+		assumeSupportedPlatform();
+
+		Git git = Git.wrap(db);
+		String path = "a.txt";
+		writeTrashFile(path, "content");
+		git.add().addFilepattern(path).call();
+		RevCommit toAmend = git.commit().setMessage("to amend").call();
+
+		Hook h = Hook.POST_REWRITE;
+		// Check that the script receives 1 argument which is the command that caused the rewrite
+		// ("amend" or "rebase") => amend expected here
+		writeHookFile(h.getName(),
+				"#!/bin/sh\necho \"$1/$#\"\nwhile read line ;\necho $line;\ndone\nexit 0");
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		RevCommit amended = git.commit().setAmend(true).setMessage("amended commit msg.")
+				.setHookOutputStream(new PrintStream(out)).call();
+		// Checks that the received parameter is right but also that stdin is
+		// correctly passed.
+		assertEquals("amend\n" + toAmend.getId().name() + " "
+				+ amended.getId().name() + "\n", out.toString("UTF-8"));
+	}
+
+	@Test
+	public void testPostRewriteHookCanBeIgnored() throws Exception {
+		assumeSupportedPlatform();
+
+		Git git = Git.wrap(db);
+		String path = "a.txt";
+		writeTrashFile(path, "content");
+		git.add().addFilepattern(path).call();
+		git.commit().setMessage("to amend").call();
+
+		Hook h = Hook.POST_REWRITE;
+		writeHookFile(h.getName(),
+				"#!/bin/sh\necho \"test\"\nexit 1");
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		git.commit().setAmend(true).setNoPostRewrite(true)
+				.setMessage("amended commit msg.")
+				.setHookOutputStream(new PrintStream(out)).call();
+		assertEquals("", out.toString("UTF-8")); // Hook has not been run
+	}
+
+	@Test
+	public void testPostRewriteHookOnRebase() throws Exception {
+		assumeSupportedPlatform();
+
+		Hook h = Hook.POST_REWRITE;
+		// Check that the script receives 1 argument which is the command that caused the rewrite
+		// ("amend" or "rebase") => rebase expected here
+		writeHookFile(h.getName(),
+				"#!/bin/sh\necho \"$1/$#\"\nwhile read line ;\necho $line;\ndone\nexit 0");
+		Git git = Git.wrap(db);
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		RevCommit first = git.commit().setMessage("test1").call();
+		createBranch(first.getParent(0), "refs/heads/branch1");
+		checkoutBranch("refs/heads/branch1");
+		RevCommit toRebase = git.commit().setMessage("test2").call();
+		git.rebase().setUpstream("refs/heads/master")
+				.setHookOutputStream(new PrintStream(out)).call();
+		// Checks that the received parameter is right but also that stdin is
+		// correctly passed.
+		assertEquals(
+				"rebase\n" + toRebase.getId().name() + " "
+						+ db.getRef("HEAD").getObjectId().name() + "\n",
+				out.toString("UTF-8"));
 	}
 
 	private File writeHookFile(final String name, final String data)
