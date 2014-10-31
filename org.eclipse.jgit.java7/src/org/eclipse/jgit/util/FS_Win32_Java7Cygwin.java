@@ -45,6 +45,11 @@ package org.eclipse.jgit.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.Repository;
 
 /**
  * FS for Java7 on Windows with Cygwin
@@ -134,5 +139,18 @@ public class FS_Win32_Java7Cygwin extends FS_Win32_Cygwin {
 	@Override
 	public Attributes getAttributes(File path) {
 		return FileUtil.getFileAttributesBasic(this, path);
+	}
+
+	/**
+	 * @since 3.7
+	 */
+	@Override
+	public File findHook(Repository repository, Hook hook) {
+		final File gitdir = repository.getDirectory();
+		final Path hookPath = gitdir.toPath().resolve(Constants.HOOKS)
+				.resolve(hook.getName());
+		if (Files.isExecutable(hookPath))
+			return hookPath.toFile();
+		return null;
 	}
 }
