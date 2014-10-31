@@ -44,14 +44,19 @@
 package org.eclipse.jgit.internal.storage.dfs;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.MessageFormat;
+import java.util.Collections;
 
+import org.eclipse.jgit.attributes.AttributesNode;
+import org.eclipse.jgit.attributes.AttributesRule;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.ReflogReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
+import org.eclipse.jgit.treewalk.AttributeNodeProvider;
 
 /** A Git repository on a DFS. */
 public abstract class DfsRepository extends Repository {
@@ -125,5 +130,37 @@ public abstract class DfsRepository extends Repository {
 	@Override
 	public ReflogReader getReflogReader(String refName) throws IOException {
 		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public AttributeNodeProvider newAttributeNodeProvider() {
+		// TODO Check if the implementation used in FileRepository can be used
+		// for this kind of repository
+		return new EmptyAttributeNodeProvider();
+	}
+
+	private static class EmptyAttributeNodeProvider implements
+			AttributeNodeProvider {
+		private EmptyAttributeNode emptyAttributeNode = new EmptyAttributeNode();
+
+		public AttributesNode getInfoAttributesNode() throws IOException {
+			return emptyAttributeNode;
+		}
+
+		public AttributesNode getGlobalAttributesNode() throws IOException {
+			return emptyAttributeNode;
+		}
+
+		private static class EmptyAttributeNode extends AttributesNode {
+
+			public EmptyAttributeNode() {
+				super(Collections.<AttributesRule> emptyList());
+			}
+
+			@Override
+			public void parse(InputStream in) throws IOException {
+				// Do nothing
+			}
+		}
 	}
 }

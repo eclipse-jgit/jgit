@@ -49,11 +49,14 @@ package org.eclipse.jgit.internal.storage.file;
 import static org.eclipse.jgit.lib.RefDatabase.ALL;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.eclipse.jgit.attributes.AttributesNode;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.events.ConfigChangedEvent;
 import org.eclipse.jgit.events.ConfigChangedListener;
@@ -64,6 +67,7 @@ import org.eclipse.jgit.internal.storage.file.ObjectDirectory.AlternateRepositor
 import org.eclipse.jgit.lib.BaseRepositoryBuilder;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.CoreConfig;
 import org.eclipse.jgit.lib.CoreConfig.HideDotFiles;
 import org.eclipse.jgit.lib.CoreConfig.SymLinks;
 import org.eclipse.jgit.lib.ObjectId;
@@ -74,6 +78,7 @@ import org.eclipse.jgit.lib.ReflogReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
+import org.eclipse.jgit.treewalk.AttributeNodeProvider;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.StringUtils;
@@ -479,4 +484,112 @@ public class FileRepository extends Repository {
 			return new ReflogReaderImpl(this, ref.getName());
 		return null;
 	}
+
+	@Override
+	public AttributeNodeProvider newAttributeNodeProvider() {
+		return new AttributeNodeProviderImpl(this);
+	}
+
+	/**
+	 * Implementation a {@link AttributeNodeProvider} for a
+	 * {@link FileRepository}.
+	 *
+	 * @author <a href="mailto:arthur.daussy@obeo.fr">Arthur Daussy</a>
+	 *
+	 */
+	private static class AttributeNodeProviderImpl implements
+			AttributeNodeProvider {
+
+		private AttributesNode infoAttributeNode;
+
+		private AttributesNode globalAttributeNode;
+
+		/**
+		 * Constructor.
+		 *
+		 * @param repo
+		 *            {@link Repository} that will provide the attribute nodes.
+		 */
+		protected AttributeNodeProviderImpl(Repository repo) {
+			infoAttributeNode = new InfoAttributesNode(repo);
+			globalAttributeNode = new GlobalAttributesNode(repo);
+		}
+
+		public AttributesNode getInfoAttributesNode() throws IOException {
+			if (infoAttributeNode instanceof InfoAttributesNode)
+				infoAttributeNode = ((InfoAttributesNode) infoAttributeNode)
+						.load();
+			return infoAttributeNode;
+		}
+
+		public AttributesNode getGlobalAttributesNode() throws IOException {
+			if (globalAttributeNode instanceof GlobalAttributesNode)
+				globalAttributeNode = ((GlobalAttributesNode) globalAttributeNode)
+						.load();
+			return globalAttributeNode;
+		}
+
+		/** Attribute node loaded from the $GIT_DIR/info/attributes file. */
+		private static class InfoAttributesNode extends AttributesNode {
+			final Repository repository;
+
+			InfoAttributesNode(Repository repository) {
+				this.repository = repository;
+			}
+
+			AttributesNode load() throws IOException {
+				AttributesNode r = new AttributesNode();
+
+				FS fs = repository.getFS();
+
+				File attributes = fs.resolve(repository.getDirectory(),
+						"info/attributes"); //$NON-NLS-1$
+				loadRulesFromFile(r, attributes);
+
+				return r.getRules().isEmpty() ? null : r;
+			}
+
+		}
+
+		/** Attribute node loaded from global system-wide file. */
+		private static class GlobalAttributesNode extends AttributesNode {
+			final Repository repository;
+
+			GlobalAttributesNode(Repository repository) {
+				this.repository = repository;
+			}
+
+			AttributesNode load() throws IOException {
+				AttributesNode r = new AttributesNode();
+
+				FS fs = repository.getFS();
+				String path = repository.getConfig().get(CoreConfig.KEY)
+						.getAttributesFile();
+				if (path != null) {
+					File attributesFile;
+					if (path.startsWith("~/")) //$NON-NLS-1$
+						attributesFile = fs.resolve(fs.userHome(),
+								path.substring(2));
+					else
+						attributesFile = fs.resolve(null, path);
+					loadRulesFromFile(r, attributesFile);
+				}
+				return r.getRules().isEmpty() ? null : r;
+			}
+		}
+
+		private static void loadRulesFromFile(AttributesNode r, File attrs)
+				throws FileNotFoundException, IOException {
+			if (attrs.exists()) {
+				FileInputStream in = new FileInputStream(attrs);
+				try {
+					r.parse(in);
+				} finally {
+					in.close();
+				}
+			}
+		}
+
+	}
+
 }

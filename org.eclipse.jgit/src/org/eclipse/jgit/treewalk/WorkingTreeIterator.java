@@ -148,19 +148,6 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	private int contentIdOffset;
 
 	/**
-	 * Holds the {@link AttributesNode} that is stored in
-	 * $GIT_DIR/info/attributes file.
-	 */
-	private AttributesNode infoAttributeNode;
-
-	/**
-	 * Holds the {@link AttributesNode} that is stored in global attribute file.
-	 *
-	 * @see CoreConfig#getAttributesFile()
-	 */
-	private AttributesNode globalAttributeNode;
-
-	/**
 	 * Create a new iterator with no parent.
 	 *
 	 * @param options
@@ -203,8 +190,6 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	protected WorkingTreeIterator(final WorkingTreeIterator p) {
 		super(p);
 		state = p.state;
-		infoAttributeNode = p.infoAttributeNode;
-		globalAttributeNode = p.globalAttributeNode;
 	}
 
 	/**
@@ -224,10 +209,6 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		else
 			entry = null;
 		ignoreNode = new RootIgnoreNode(entry, repo);
-
-		infoAttributeNode = new InfoAttributesNode(repo);
-
-		globalAttributeNode = new GlobalAttributesNode(repo);
 	}
 
 	/**
@@ -663,41 +644,6 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 			attributesNode = ((PerDirectoryAttributesNode) attributesNode)
 					.load();
 		return attributesNode;
-	}
-
-	/**
-	 * Retrieves the {@link AttributesNode} that holds the information located
-	 * in $GIT_DIR/info/attributes file.
-	 *
-	 * @return the {@link AttributesNode} that holds the information located in
-	 *         $GIT_DIR/info/attributes file.
-	 * @throws IOException
-	 *             if an error is raised while parsing the attributes file
-	 * @since 3.7
-	 */
-	public AttributesNode getInfoAttributesNode() throws IOException {
-		if (infoAttributeNode instanceof InfoAttributesNode)
-			infoAttributeNode = ((InfoAttributesNode) infoAttributeNode).load();
-		return infoAttributeNode;
-	}
-
-	/**
-	 * Retrieves the {@link AttributesNode} that holds the information located
-	 * in system-wide file.
-	 *
-	 * @return the {@link AttributesNode} that holds the information located in
-	 *         system-wide file.
-	 * @throws IOException
-	 *             IOException if an error is raised while parsing the
-	 *             attributes file
-	 * @see CoreConfig#getAttributesFile()
-	 * @since 3.7
-	 */
-	public AttributesNode getGlobalAttributesNode() throws IOException {
-		if (globalAttributeNode instanceof GlobalAttributesNode)
-			globalAttributeNode = ((GlobalAttributesNode) globalAttributeNode)
-					.load();
-		return globalAttributeNode;
 	}
 
 	private static final Comparator<Entry> ENTRY_CMP = new Comparator<Entry>() {
@@ -1320,68 +1266,6 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		}
 	}
 
-	/**
-	 * Attributes node loaded from global system-wide file.
-	 */
-	private static class GlobalAttributesNode extends AttributesNode {
-		final Repository repository;
-
-		GlobalAttributesNode(Repository repository) {
-			this.repository = repository;
-		}
-
-		AttributesNode load() throws IOException {
-			AttributesNode r = new AttributesNode();
-
-			FS fs = repository.getFS();
-			String path = repository.getConfig().get(CoreConfig.KEY)
-					.getAttributesFile();
-			if (path != null) {
-				File attributesFile;
-				if (path.startsWith("~/")) //$NON-NLS-1$
-					attributesFile = fs.resolve(fs.userHome(),
-							path.substring(2));
-				else
-					attributesFile = fs.resolve(null, path);
-				loadRulesFromFile(r, attributesFile);
-			}
-			return r.getRules().isEmpty() ? null : r;
-		}
-	}
-
-	/** Magic type indicating there may be rules for the top level. */
-	private static class InfoAttributesNode extends AttributesNode {
-		final Repository repository;
-
-		InfoAttributesNode(Repository repository) {
-			this.repository = repository;
-		}
-
-		AttributesNode load() throws IOException {
-			AttributesNode r = new AttributesNode();
-
-			FS fs = repository.getFS();
-
-			File attributes = fs.resolve(repository.getDirectory(),
-					"info/attributes"); //$NON-NLS-1$
-			loadRulesFromFile(r, attributes);
-
-			return r.getRules().isEmpty() ? null : r;
-		}
-
-	}
-
-	private static void loadRulesFromFile(AttributesNode r, File attrs)
-			throws FileNotFoundException, IOException {
-		if (attrs.exists()) {
-			FileInputStream in = new FileInputStream(attrs);
-			try {
-				r.parse(in);
-			} finally {
-				in.close();
-			}
-		}
-	}
 
 	private static final class IteratorState {
 		/** Options used to process the working tree. */
