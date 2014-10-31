@@ -86,6 +86,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.treewalk.TreeWalk.OperationType;
 import org.eclipse.jgit.util.ChangeIdUtil;
 
 /**
@@ -328,6 +329,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 		boolean emptyCommit = true;
 
 		try (TreeWalk treeWalk = new TreeWalk(repo)) {
+			treeWalk.setOperationType(OperationType.CHECKIN_OP);
 			int dcIdx = treeWalk
 					.addTree(new DirCacheBuildIterator(existingBuilder));
 			int fIdx = treeWalk.addTree(new FileTreeIterator(repo));
