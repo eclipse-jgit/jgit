@@ -190,6 +190,7 @@
     <clirr-version>2.6.1</clirr-version>
     <httpclient-version>4.1.3</httpclient-version>
     <maven-javadoc-plugin-version>2.9.1</maven-javadoc-plugin-version>
+    <easymock-version>3.2</easymock-version>
 
     <!-- Properties to enable jacoco code coverage analysis -->
     <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
@@ -543,6 +544,13 @@
         <artifactId>httpclient</artifactId>
         <version>${httpclient-version}</version>
       </dependency>
+
+      <dependency>
+        <groupId>org.easymock</groupId>
+        <artifactId>easymock</artifactId>
+        <version>${easymock-version}</version>
+      </dependency>
+
     </dependencies>
   </dependencyManagement>
 
