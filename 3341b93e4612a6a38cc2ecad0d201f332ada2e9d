@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a766b734_f503e481",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/SimilarityIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2014-11-01T06:02:06Z",
+      "side": 1,
+      "message": "This is a bit confusing (also the two initializations at the beginning). Could you rename the inner variable to something else, e.g. just `count` or `blockHashedCount`? Same for other method.",
+      "revId": "3341b93e4612a6a38cc2ecad0d201f332ada2e9d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
