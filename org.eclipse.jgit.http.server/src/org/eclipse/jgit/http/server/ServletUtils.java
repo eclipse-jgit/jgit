@@ -225,6 +225,37 @@ public final class ServletUtils {
 		}
 	}
 
+	/**
+	 * Get the path info component of the request. The result is similar to
+	 * {@link HttpServletRequest#getPathInfo()}, but URL-encoded characters are
+	 * not decoded.
+	 *
+	 * @param req
+	 *            the incoming request.
+	 * @return the same value as {@link HttpServletRequest#getPathInfo()}, but
+	 *         without decoding URL-encoded characters.
+	 */
+	public static String getEncodedPathInfo(HttpServletRequest req) {
+		// Based on com.google.guice.ServletDefinition$1#getPathInfo() from:
+		// https://github.com/google/guice/blob/41c126f99d6309886a0ded2ac729033d755e1593/extensions/servlet/src/com/google/inject/servlet/ServletDefinition.java
+		String servletPath = req.getServletPath();
+		int servletPathLength = servletPath.length();
+		String requestUri = req.getRequestURI();
+		String pathInfo = requestUri.substring(req.getContextPath().length())
+				.replaceAll("[/]{2,}", "/");
+		if (pathInfo.startsWith(servletPath)) {
+			pathInfo = pathInfo.substring(servletPathLength);
+			// Corner case: when servlet path & request path match exactly
+			// (without trailing '/'), then pathinfo is null.
+			if (pathInfo.isEmpty() && servletPathLength > 0) {
+				pathInfo = null;
+			}
+		} else {
+			pathInfo = null;
+		}
+		return pathInfo;
+	}
+
 	private static byte[] sendInit(byte[] content,
 			final HttpServletRequest req, final HttpServletResponse rsp)
 			throws IOException {

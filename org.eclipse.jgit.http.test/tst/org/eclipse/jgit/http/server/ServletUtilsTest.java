@@ -48,7 +48,82 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
+import static org.junit.Assert.assertEquals;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 public class ServletUtilsTest {
+	private List<Object> mocks;
+
+	@Before
+	  public void setUp() {
+		mocks = Collections.synchronizedList(new ArrayList<Object>());
+	  }
+
+	@After
+	public void tearDown() {
+		for (Object mock : mocks) {
+			verify(mock);
+		}
+	}
+
+	@Test
+	public void emptyContextPath() {
+		assertEquals("/foo/bar", ServletUtils.getEncodedPathInfo(
+				mockRequest("/s/foo/bar", "", "/s")));
+		assertEquals("/foo%2Fbar", ServletUtils.getEncodedPathInfo(
+				mockRequest("/s/foo%2Fbar", "", "/s")));
+	}
+
+	@Test
+	public void emptyServletPath() {
+		assertEquals("/foo/bar", ServletUtils.getEncodedPathInfo(
+				mockRequest("/c/foo/bar", "/c", "")));
+		assertEquals("/foo%2Fbar", ServletUtils.getEncodedPathInfo(
+				mockRequest("/c/foo%2Fbar", "/c", "")));
+	}
+
+	@Test
+	public void trailingSlashes() {
+		assertEquals("/foo/bar/", ServletUtils.getEncodedPathInfo(
+				mockRequest("/c/s/foo/bar/", "/c", "/s")));
+		assertEquals("/foo/bar/", ServletUtils.getEncodedPathInfo(
+				mockRequest("/c/s/foo/bar///", "/c", "/s")));
+		assertEquals("/foo%2Fbar/", ServletUtils.getEncodedPathInfo(
+				mockRequest("/c/s/foo%2Fbar/", "/c", "/s")));
+		assertEquals("/foo%2Fbar/", ServletUtils.getEncodedPathInfo(
+				mockRequest("/c/s/foo%2Fbar///", "/c", "/s")));
+	}
+
+	@Test
+	public void servletPathMatchesRequestPath() {
+		assertEquals(null, ServletUtils.getEncodedPathInfo(
+				mockRequest("/c/s", "/c", "/s")));
+	}
+
+	private HttpServletRequest mockRequest(String uri, String contextPath,
+			String servletPath) {
+		HttpServletRequest req = createMock(HttpServletRequest.class);
+		expect(req.getRequestURI()).andStubReturn(uri);
+		expect(req.getContextPath()).andStubReturn(contextPath);
+		expect(req.getServletPath()).andStubReturn(servletPath);
+		replay(req);
+		mocks.add(req);
+		return req;
+	}
+
 	@Test
 	public void testAcceptGzip() {
 		assertFalse(ServletUtils.acceptsGzipEncoding((String) null));
