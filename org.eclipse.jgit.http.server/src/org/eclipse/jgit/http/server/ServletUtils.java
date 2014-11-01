@@ -225,6 +225,53 @@ public final class ServletUtils {
 		}
 	}
 
+	/**
+	 * Get the path info component of the request. The result is similar to
+	 * {@link HttpServletRequest#getPathInfo()}, but URL-encoded characters are
+	 * not decoded.
+	 *
+	 * @param req
+	 *            the incoming request.
+	 * @return the same value as {@link HttpServletRequest#getPathInfo()}, but
+	 *         without decoding URL-encoded characters.
+	 */
+	public static String getEncodedPathInfo(HttpServletRequest req) {
+		return getEncodedPathInfo(req.getServletPath(), req.getRequestURI(),
+				req.getContextPath());
+	}
+
+	/**
+	 * Get the path info component of the request. The result is similar to
+	 * {@link HttpServletRequest#getPathInfo()}, but URL-encoded characters are
+	 * not decoded.
+	 *
+	 * @param servletPath
+	 *            the servlet path from the incoming request.
+	 * @param requestUri
+	 *            the request URI from the incoming request.
+	 * @param contextPath
+	 *            the context path from the incoming request.
+	 * @return the same value as {@link HttpServletRequest#getPathInfo()}, but
+	 *         without decoding URL-encoded characters.
+	 */
+	static String getEncodedPathInfo(String servletPath,
+			String requestUri, String contextPath) {
+		String pathInfo = requestUri.substring(contextPath.length())
+				.replaceAll("/{2,}", "/");
+		if (pathInfo.startsWith(servletPath)) {
+			int servletPathLength = servletPath.length();
+			pathInfo = pathInfo.substring(servletPathLength);
+			// Corner case: when servlet path & request path match exactly
+			// (without trailing '/'), then pathinfo is null.
+			if (pathInfo.isEmpty() && servletPathLength > 0) {
+				return null;
+			}
+		} else {
+			return null;
+		}
+		return pathInfo;
+	}
+
 	private static byte[] sendInit(byte[] content,
 			final HttpServletRequest req, final HttpServletResponse rsp)
 			throws IOException {

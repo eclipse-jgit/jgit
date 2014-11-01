@@ -48,7 +48,42 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+
 public class ServletUtilsTest {
+	@Test
+	public void emptyContextPath() {
+		assertEquals("/foo/bar",
+				ServletUtils.getEncodedPathInfo("/s", "/s/foo/bar", ""));
+		assertEquals("/foo%2Fbar",
+				ServletUtils.getEncodedPathInfo("/s", "/s/foo%2Fbar", ""));
+	}
+
+	@Test
+	public void emptyServletPath() {
+		assertEquals("/foo/bar",
+				ServletUtils.getEncodedPathInfo("", "/c/foo/bar", "/c"));
+		assertEquals("/foo%2Fbar",
+				ServletUtils.getEncodedPathInfo("", "/c/foo%2Fbar", "/c"));
+	}
+
+	@Test
+	public void trailingSlashes() {
+		assertEquals("/foo/bar/",
+				ServletUtils.getEncodedPathInfo("/s", "/c/s/foo/bar/", "/c"));
+		assertEquals("/foo/bar/",
+				ServletUtils.getEncodedPathInfo("/s", "/c/s/foo/bar///", "/c"));
+		assertEquals("/foo%2Fbar/",
+				ServletUtils.getEncodedPathInfo("/s", "/c/s/foo%2Fbar/", "/c"));
+		assertEquals("/foo%2Fbar/", ServletUtils.getEncodedPathInfo("/s",
+				"/c/s/foo%2Fbar///", "/c"));
+	}
+
+	@Test
+	public void servletPathMatchesRequestPath() {
+		assertEquals(null, ServletUtils.getEncodedPathInfo("/s", "/c/s", "/c"));
+	}
+
 	@Test
 	public void testAcceptGzip() {
 		assertFalse(ServletUtils.acceptsGzipEncoding((String) null));
