@@ -141,6 +141,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_188337e2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeDriver.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-11-02T21:55:18Z",
+      "side": 1,
+      "message": "Interesting question: I tried it out. The merge algorithm (e.g. recursive-merge) will decide whether a content merge is needed (and therefore a custom merger driver should be called). To decide he will also look at the content. If two branches change a file to the same content and you merge these branches then already the merge algorithm sees that there is no need for content merge. I tried it out with native git: no merge driver is called if both sides changed a file to the same content.",
+      "parentUuid": "e76c2f17_b4189ca9",
+      "revId": "064bf82c05c1323e0463ca0c3d59698f169e7588",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0756a345_d3efba7a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeDriverRegistry.java",
         "patchSetId": 9
