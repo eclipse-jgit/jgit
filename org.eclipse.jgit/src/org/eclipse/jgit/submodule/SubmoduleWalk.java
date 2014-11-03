@@ -80,6 +80,8 @@ public class SubmoduleWalk {
 
 	/**
 	 * The values for the config param submodule.<name>.ignore
+	 *
+	 * @since 3.6
 	 */
 	public enum IgnoreSubmoduleMode {
 		/**
@@ -461,6 +463,7 @@ public class SubmoduleWalk {
 	 * @return <code>true</code> if the repo contains a .gitmodules file
 	 * @throws IOException
 	 * @throws CorruptObjectException
+	 * @since 3.6
 	 */
 	public static boolean containsGitModulesFile(Repository repository)
 			throws IOException {
@@ -653,6 +656,7 @@ public class SubmoduleWalk {
 	 * @return ignore value
 	 * @throws ConfigInvalidException
 	 * @throws IOException
+	 * @since 3.6
 	 */
 	public IgnoreSubmoduleMode getModulesIgnore() throws IOException,
 			ConfigInvalidException {
