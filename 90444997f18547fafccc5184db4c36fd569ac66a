@@ -264,6 +264,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_0608f833",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesNode.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1655
+      },
+      "writtenOn": "2014-11-03T14:00:04Z",
+      "side": 1,
+      "message": "In fact I had to change back this modification (patch set 19). The javadoc of this methods says, \"... If it is not empty, this method will NOT override any existing entry\". So the modification you suggested does not work. I have implemented it this way so we can easily implement the precedence mechanism of the git attributes files (current folder attribute \u003e parent folder attributes \u003e ... \u003einfo/attributes \u003e global attributes). To have a better understanding of the problem you can have a look at he next review https://git.eclipse.org/r/#/c/35377/4 in the treewalk implementation).",
+      "parentUuid": "a766b734_fbf3d593",
+      "revId": "90444997f18547fafccc5184db4c36fd569ac66a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_588e4fb9",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesRule.java",
         "patchSetId": 17
