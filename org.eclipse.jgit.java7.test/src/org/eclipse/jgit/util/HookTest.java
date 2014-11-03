@@ -52,9 +52,13 @@ import java.io.IOException;
 import java.io.PrintStream;
 
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.RebaseResult;
+import org.eclipse.jgit.api.RebaseResult.Status;
 import org.eclipse.jgit.api.errors.RejectCommitException;
+import org.eclipse.jgit.api.errors.RejectRebaseException;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.RepositoryTestCase;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Assume;
 import org.junit.Test;
 
@@ -92,6 +96,92 @@ public class HookTest extends RepositoryTestCase {
 		assertEquals("unexpected exit code", 0, res.getExitCode());
 		assertEquals("unexpected process status", ProcessResult.Status.OK,
 				res.getStatus());
+	}
+
+	@Test
+	public void testFailingPreRebaseHookBlocksRebase() throws Exception {
+		assumeSupportedPlatform();
+
+		Hook h = Hook.PRE_REBASE;
+		writeHookFile(h.getName(),
+				"#!/bin/sh\necho \"test\"\n\necho 1>&2 \"stderr\"\nexit 1");
+
+		Git git = Git.wrap(db);
+		RevCommit first = git.commit().setMessage("initial commit").call();
+		createBranch(first, "refs/heads/branch1");
+		git.commit().setMessage("second commit").call();
+		checkoutBranch("refs/heads/branch1");
+
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		try {
+			git.rebase().setUpstream("refs/heads/master")
+					.setHookOutputStream(new PrintStream(out)).call();
+			fail("expected pre-rebase hook to abort commit");
+		} catch (RejectRebaseException e) {
+			assertEquals("unexpected error message from pre-rebase hook",
+					"Rebase rejected by \"pre-rebase\" hook.\nstderr\n",
+					e.getMessage());
+			assertEquals("unexpected output from pre-rebase hook", "test\n",
+					out.toString());
+		} catch (Throwable e) {
+			fail("unexpected exception thrown by pre-rebase hook: " + e);
+		}
+	}
+
+	@Test
+	public void testFailingPreRebaseHookIgnoredWithNoVerify() throws Exception {
+		assumeSupportedPlatform();
+
+		Hook h = Hook.PRE_REBASE;
+		writeHookFile(h.getName(),
+				"#!/bin/sh\necho \"test\"\n\necho 1>&2 \"stderr\"\nexit 1");
+
+		Git git = Git.wrap(db);
+		String patha = "a.txt";
+		writeTrashFile(patha, "content a");
+		git.add().addFilepattern(patha).call();
+		RevCommit first = git.commit().setMessage("initial commit").call();
+		createBranch(first, "refs/heads/branch1");
+		String pathb = "b.txt";
+		writeTrashFile(pathb, "content b");
+		git.add().addFilepattern(pathb).call();
+		git.commit().setMessage("second commit").call();
+		checkoutBranch("refs/heads/branch1");
+
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		RebaseResult result = git.rebase().setNoVerify(true)
+				.setUpstream("refs/heads/master")
+				.setHookOutputStream(new PrintStream(out)).call();
+		assertEquals("", out.toString("UTF-8")); // The hook has not been run!
+		assertEquals(Status.FAST_FORWARD, result.getStatus());
+	}
+
+	@Test
+	public void testSuccessfulPreRebaseHookDoesNotBlockRebase()
+			throws Exception {
+		assumeSupportedPlatform();
+
+		Hook h = Hook.PRE_REBASE;
+		writeHookFile(h.getName(),
+				"#!/bin/sh\necho \"test\"\n\necho 1>&2 \"stderr\"\nexit 0");
+
+		Git git = Git.wrap(db);
+		String patha = "a.txt";
+		writeTrashFile(patha, "content a");
+		git.add().addFilepattern(patha).call();
+		RevCommit first = git.commit().setMessage("initial commit").call();
+		createBranch(first, "refs/heads/branch1");
+		String pathb = "b.txt";
+		writeTrashFile(pathb, "content b");
+		git.add().addFilepattern(pathb).call();
+		git.commit().setMessage("second commit").call();
+		checkoutBranch("refs/heads/branch1");
+
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		RebaseResult result = git.rebase().setUpstream("refs/heads/master")
+				.setHookOutputStream(new PrintStream(out)).call();
+		assertEquals("test\n", out.toString("UTF-8"));
+		assertEquals(Status.FAST_FORWARD, result.getStatus());
 	}
 
 	@Test
