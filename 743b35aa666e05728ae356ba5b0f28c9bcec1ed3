@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a766b734_6661ec7a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2014-11-03T15:45:16Z",
+      "side": 1,
+      "message": "Should I return a RebaseResult.FAILED (or a new kind of RebaseResult, since \"failed\" seems to expect that the failure came from unmergeable paths) instead of throwing an exception out?",
+      "revId": "743b35aa666e05728ae356ba5b0f28c9bcec1ed3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
