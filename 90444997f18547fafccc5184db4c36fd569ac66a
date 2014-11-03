@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_f8959b96",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attribute.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1655
+      },
+      "writtenOn": "2014-11-03T10:52:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_189df7eb",
+      "revId": "90444997f18547fafccc5184db4c36fd569ac66a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_182fb713",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attribute.java",
         "patchSetId": 17
@@ -30,6 +48,24 @@
       "writtenOn": "2014-11-03T08:14:33Z",
       "side": 1,
       "message": "I would like to see Assert.isNotNull(key) here and also javadoc on the key and state getter methods saying they can never be null.",
+      "revId": "90444997f18547fafccc5184db4c36fd569ac66a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_db409960",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attribute.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1655
+      },
+      "writtenOn": "2014-11-03T10:52:55Z",
+      "side": 1,
+      "message": "Done.\nI have used a !\u003d null since Assert.isNotNull is not available from this plugin.",
+      "parentUuid": "a766b734_182fb713",
       "revId": "90444997f18547fafccc5184db4c36fd569ac66a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_dbab798e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attribute.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1655
+      },
+      "writtenOn": "2014-11-03T10:52:55Z",
+      "side": 1,
+      "message": "Done.\nI have set this class final since this implementation could loose the transitivity (and symmetry) property if the equals method is used with an instance of a subclass of Attribute.",
+      "parentUuid": "a766b734_382c331e",
+      "revId": "90444997f18547fafccc5184db4c36fd569ac66a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_d8341f67",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attribute.java",
         "patchSetId": 17
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_7b9ce576",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attribute.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1655
+      },
+      "writtenOn": "2014-11-03T10:52:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_d8341f67",
+      "revId": "90444997f18547fafccc5184db4c36fd569ac66a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_78450bcb",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attribute.java",
         "patchSetId": 17
@@ -81,6 +153,24 @@
       "writtenOn": "2014-11-03T08:14:33Z",
       "side": 1,
       "message": "null checks on key and state are redundand",
+      "revId": "90444997f18547fafccc5184db4c36fd569ac66a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_5b7e498b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attribute.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1655
+      },
+      "writtenOn": "2014-11-03T10:52:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_78450bcb",
       "revId": "90444997f18547fafccc5184db4c36fd569ac66a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -121,6 +211,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_5bbbe9b9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesNode.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1655
+      },
+      "writtenOn": "2014-11-03T10:52:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_b828430f",
+      "revId": "90444997f18547fafccc5184db4c36fd569ac66a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_f8311b76",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesNode.java",
         "patchSetId": 17
@@ -132,6 +240,24 @@
       "writtenOn": "2014-11-03T08:14:33Z",
       "side": 1,
       "message": "Actually the code can be simplified (it was direct copy from IgnoreNode), because giving two rules in one file (which might be a mistake, but anyway):\n*.txt hello\u003dbla\n*.txt hello\u003dbla2\nthe first one will be simply overriden by the second one if iterating in usual order - so one could remove 2x unusual iteration order (which are hard to read) and skip \"containsKey\" check.",
+      "revId": "90444997f18547fafccc5184db4c36fd569ac66a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_fbf3d593",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesNode.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1655
+      },
+      "writtenOn": "2014-11-03T10:52:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_f8311b76",
       "revId": "90444997f18547fafccc5184db4c36fd569ac66a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -155,6 +281,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_3beeedaf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesRule.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1655
+      },
+      "writtenOn": "2014-11-03T10:52:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_588e4fb9",
+      "revId": "90444997f18547fafccc5184db4c36fd569ac66a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_9888e7aa",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesRule.java",
         "patchSetId": 17
@@ -166,6 +310,24 @@
       "writtenOn": "2014-11-03T08:14:33Z",
       "side": 1,
       "message": "Looks like it also accept invalid \"empty\" attributes like\n*.txt - -text",
+      "revId": "90444997f18547fafccc5184db4c36fd569ac66a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_fb5755d4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesRule.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1655
+      },
+      "writtenOn": "2014-11-03T10:52:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_9888e7aa",
       "revId": "90444997f18547fafccc5184db4c36fd569ac66a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -189,6 +351,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_9bf2a159",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesRule.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1655
+      },
+      "writtenOn": "2014-11-03T10:52:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_381553cc",
+      "revId": "90444997f18547fafccc5184db4c36fd569ac66a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_781eabf0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesRule.java",
         "patchSetId": 17
@@ -200,6 +380,24 @@
       "writtenOn": "2014-11-03T08:14:33Z",
       "side": 1,
       "message": "I would put a note that return value can never be null.",
+      "revId": "90444997f18547fafccc5184db4c36fd569ac66a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_fb147503",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesRule.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1655
+      },
+      "writtenOn": "2014-11-03T10:52:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_781eabf0",
       "revId": "90444997f18547fafccc5184db4c36fd569ac66a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -223,6 +421,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_db3ed975",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesRule.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1655
+      },
+      "writtenOn": "2014-11-03T10:52:55Z",
+      "side": 1,
+      "message": "Done.\nNo it is not but I did not want to impact performances since this method was going to be called really often. However I have added a cache for the computation of the attribute on the next review so it does not matter anymore.\nThx",
+      "parentUuid": "a766b734_18185702",
+      "revId": "90444997f18547fafccc5184db4c36fd569ac66a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_58192f04",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesRule.java",
         "patchSetId": 17
@@ -234,6 +450,24 @@
       "writtenOn": "2014-11-03T08:14:33Z",
       "side": 1,
       "message": "I would put a note that return value can never be null.",
+      "revId": "90444997f18547fafccc5184db4c36fd569ac66a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_1b39718b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesRule.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1655
+      },
+      "writtenOn": "2014-11-03T10:52:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_58192f04",
       "revId": "90444997f18547fafccc5184db4c36fd569ac66a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
