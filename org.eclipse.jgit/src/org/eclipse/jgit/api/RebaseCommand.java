@@ -47,6 +47,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -71,6 +72,7 @@ import org.eclipse.jgit.api.errors.NoHeadException;
 import org.eclipse.jgit.api.errors.NoMessageException;
 import org.eclipse.jgit.api.errors.RefAlreadyExistsException;
 import org.eclipse.jgit.api.errors.RefNotFoundException;
+import org.eclipse.jgit.api.errors.RejectedRebaseException;
 import org.eclipse.jgit.api.errors.StashApplyFailureException;
 import org.eclipse.jgit.api.errors.UnmergedPathsException;
 import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
@@ -250,6 +252,11 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	private List<String> rewritePending = new ArrayList<String>();
 
 	/**
+	 * Setting this option bypasses the {@link Hook#PRE_REBASE pre-rebase} hook.
+	 */
+	private boolean noVerify;
+
+	/**
 	 * @param repo
 	 */
 	protected RebaseCommand(Repository repo) {
@@ -315,6 +322,28 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 						return RebaseResult.uncommittedChanges(list);
 					}
 				}
+
+				if (!noVerify) {
+					final ByteArrayOutputStream errorByteArray = new ByteArrayOutputStream();
+					final PrintStream hookErrRedirect = new PrintStream(
+							errorByteArray);
+
+					final String upstreamName = Repository
+							.shortenRefName(upstreamCommitName);
+					// TODO for now, the rebase command only supports rebasing
+					// 'HEAD' onto something else, so the second argument of the
+					// pre-rebase hook needn't be set. see Hook#PRE_REBASE on
+					// what to pass as argument once we support more complex
+					// rebases.
+
+					int preRebaseHookResult = FS.DETECTED.runIfPresent(repo,
+							Hook.PRE_REBASE, new String[] { upstreamName, },
+							System.out, hookErrRedirect, null);
+					final String errorDetails = errorByteArray.toString();
+					if (preRebaseHookResult != 0)
+						rebaseRejectedByHook(Hook.PRE_REBASE, errorDetails);
+				}
+
 				RebaseResult res = initFilesAndRewind();
 				if (stopAfterInitialization)
 					return RebaseResult.INTERACTIVE_PREPARED_RESULT;
@@ -396,6 +425,15 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		} catch (IOException ioe) {
 			throw new JGitInternalException(ioe.getMessage(), ioe);
 		}
+	}
+
+	private void rebaseRejectedByHook(Hook cause, String errorDetails)
+			throws RejectedRebaseException {
+		String errorMessage = MessageFormat.format(
+				JGitText.get().rebaseRejectedByHook, cause.getName());
+		if (errorDetails.length() > 0)
+			errorMessage += '\n' + errorDetails;
+		throw new RejectedRebaseException(errorMessage);
 	}
 
 	private void autoStash() throws GitAPIException, IOException {
@@ -1657,6 +1695,18 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		if (name != null && email != null)
 			return new PersonIdent(name, email, when, tz);
 		return null;
+	}
+
+	/**
+	 * Sets the {@link #noVerify} option on this rebase command.
+	 *
+	 * @param noVerify
+	 *            Whether this rebase should be verified.
+	 * @return {@code this}
+	 */
+	public RebaseCommand setNoVerify(boolean noVerify) {
+		this.noVerify = noVerify;
+		return this;
 	}
 
 	private static class RebaseState {

@@ -72,7 +72,23 @@ public enum Hook {
 	 * The exit code of this hook has no significance.
 	 * </p>
 	 */
-	POST_REWRITE("post-rewrite"); //$NON-NLS-1$
+	POST_REWRITE("post-rewrite"), //$NON-NLS-1$
+
+	/**
+	 * Literal for the "pre-rebase" git hook.
+	 * <p>
+	 * </p>
+	 * This hook is invoked right before the rebase operation runs. It accepts
+	 * up to two parameters, the first being the upstream from which the branch
+	 * to rebase has been forked. If the tip of the series of commits to rebase
+	 * is HEAD, the other parameter is unset. Otherwise, that tip is passed as
+	 * the second parameter of the script.
+	 * <p>
+	 * A non-zero exit code from the called hook means that the rebase should be
+	 * aborted.
+	 * </p>
+	 */
+	PRE_REBASE("pre-rebase"); //$NON-NLS-1$
 
 	private final String name;
 
