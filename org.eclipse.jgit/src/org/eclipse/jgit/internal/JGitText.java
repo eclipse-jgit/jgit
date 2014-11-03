@@ -477,6 +477,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String rawLogMessageDoesNotParseAsLogEntry;
 	/***/ public String readingObjectsFromLocalRepositoryFailed;
 	/***/ public String readTimedOut;
+	/***/ public String rebaseRejectedByHook;
 	/***/ public String receivePackObjectTooLarge1;
 	/***/ public String receivePackObjectTooLarge2;
 	/***/ public String receivePackInvalidLimit;
