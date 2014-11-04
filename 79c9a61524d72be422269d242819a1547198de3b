@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a766b734_b992025b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1651,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2014-11-04T14:26:50Z",
+      "side": 1,
+      "message": "\"... verified by the pre-rebase hook\"?",
+      "revId": "79c9a61524d72be422269d242819a1547198de3b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_d98ffe37",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1654,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2014-11-04T14:26:50Z",
+      "side": 1,
+      "message": "Missing @since",
+      "revId": "79c9a61524d72be422269d242819a1547198de3b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_198a1627",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/errors/RejectedRebaseException.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2014-11-04T14:26:50Z",
+      "side": 1,
+      "message": "Missing @since",
+      "revId": "79c9a61524d72be422269d242819a1547198de3b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
