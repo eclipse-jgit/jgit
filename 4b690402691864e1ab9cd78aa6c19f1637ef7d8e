@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a766b734_39971253",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2014-11-04T14:22:33Z",
+      "side": 1,
+      "message": "Introduce CommitResult object extending RevCommit and adding \"result\" of the commit OR adding those results to the CommitCommand itself? \nI would not change RevCommit itself by adding \"commit operation results\" to it, but also throwing an exception is not really nice.",
+      "revId": "4b690402691864e1ab9cd78aa6c19f1637ef7d8e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
