@@ -1,0 +1,242 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a766b734_47402aba",
+        "filename": "org.eclipse.jgit.java7/src/org/eclipse/jgit/util/FS_POSIX_Java7.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2014-11-04T13:04:28Z",
+      "side": 1,
+      "message": "Missing @since",
+      "revId": "87cbaa9212454ef68d3f9c4b3482e24bcdeace0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_c7b1da4d",
+        "filename": "org.eclipse.jgit.java7/src/org/eclipse/jgit/util/FS_Win32_Java7Cygwin.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2014-11-04T13:04:28Z",
+      "side": 1,
+      "message": "Missing @since",
+      "revId": "87cbaa9212454ef68d3f9c4b3482e24bcdeace0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_27b9ae34",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 643,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2014-11-04T13:04:28Z",
+      "side": 1,
+      "message": "\"args\" can be null?",
+      "revId": "87cbaa9212454ef68d3f9c4b3482e24bcdeace0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_a7dade8e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 651,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2014-11-04T13:04:28Z",
+      "side": 1,
+      "message": "Missing @since",
+      "revId": "87cbaa9212454ef68d3f9c4b3482e24bcdeace0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_07bc7222",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 666,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2014-11-04T13:04:28Z",
+      "side": 1,
+      "message": "\"args\" can be null?",
+      "revId": "87cbaa9212454ef68d3f9c4b3482e24bcdeace0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_87d52261",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 685,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2014-11-04T13:04:28Z",
+      "side": 1,
+      "message": "Missing @since",
+      "revId": "87cbaa9212454ef68d3f9c4b3482e24bcdeace0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_e7033682",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 701,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2014-11-04T13:04:28Z",
+      "side": 1,
+      "message": "Missing @since",
+      "revId": "87cbaa9212454ef68d3f9c4b3482e24bcdeace0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_27fecedd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 709,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2014-11-04T13:04:28Z",
+      "side": 1,
+      "message": "Fille.listFiles() can return null, so NP check is needed for hookDirCandidates",
+      "revId": "87cbaa9212454ef68d3f9c4b3482e24bcdeace0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_07011278",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 719,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2014-11-04T13:04:28Z",
+      "side": 1,
+      "message": "Same NP check is needed here too.\nDoes it make sense to extract duplicated code to a small method \"getDirectory()\"?",
+      "revId": "87cbaa9212454ef68d3f9c4b3482e24bcdeace0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_a7f13e09",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 748,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2014-11-04T13:04:28Z",
+      "side": 1,
+      "message": "Missing @since",
+      "revId": "87cbaa9212454ef68d3f9c4b3482e24bcdeace0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_873a424a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2014-11-04T13:04:28Z",
+      "side": 1,
+      "message": "Missing @since",
+      "revId": "87cbaa9212454ef68d3f9c4b3482e24bcdeace0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_e7dcd694",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_Win32_Cygwin.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2014-11-04T13:04:28Z",
+      "side": 1,
+      "message": "Missing @since",
+      "revId": "87cbaa9212454ef68d3f9c4b3482e24bcdeace0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_27e7ee5b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2014-11-04T13:04:28Z",
+      "side": 1,
+      "message": "@since 3.4??? Is it a copy/paste from somewhere?",
+      "revId": "87cbaa9212454ef68d3f9c4b3482e24bcdeace0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_07eab221",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/Hook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2014-11-04T13:04:28Z",
+      "side": 1,
+      "message": "Missing @since",
+      "revId": "87cbaa9212454ef68d3f9c4b3482e24bcdeace0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
