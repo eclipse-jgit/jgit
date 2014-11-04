@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_0793d2af",
+        "filename": "org.eclipse.jgit.java7/src/org/eclipse/jgit/util/FS_POSIX_Java7.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2014-11-04T13:26:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_47402aba",
+      "revId": "87cbaa9212454ef68d3f9c4b3482e24bcdeace0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_c7b1da4d",
         "filename": "org.eclipse.jgit.java7/src/org/eclipse/jgit/util/FS_Win32_Java7Cygwin.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2014-11-04T13:04:28Z",
       "side": 1,
       "message": "Missing @since",
+      "revId": "87cbaa9212454ef68d3f9c4b3482e24bcdeace0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_67a9e6db",
+        "filename": "org.eclipse.jgit.java7/src/org/eclipse/jgit/util/FS_Win32_Java7Cygwin.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2014-11-04T13:26:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_c7b1da4d",
       "revId": "87cbaa9212454ef68d3f9c4b3482e24bcdeace0b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_a7a3fef8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 643,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2014-11-04T13:26:17Z",
+      "side": 1,
+      "message": "It cannot. We expect a zero-length array at worst. Made that explicit.",
+      "parentUuid": "a766b734_27b9ae34",
+      "revId": "87cbaa9212454ef68d3f9c4b3482e24bcdeace0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_a7dade8e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
         "patchSetId": 4
@@ -64,6 +118,24 @@
       "writtenOn": "2014-11-04T13:04:28Z",
       "side": 1,
       "message": "Missing @since",
+      "revId": "87cbaa9212454ef68d3f9c4b3482e24bcdeace0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_879ec2b2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 651,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2014-11-04T13:26:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_a7dade8e",
       "revId": "87cbaa9212454ef68d3f9c4b3482e24bcdeace0b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_e7805651",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 666,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2014-11-04T13:26:17Z",
+      "side": 1,
+      "message": "Same as above.",
+      "parentUuid": "a766b734_07bc7222",
+      "revId": "87cbaa9212454ef68d3f9c4b3482e24bcdeace0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_87d52261",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
         "patchSetId": 4
@@ -98,6 +188,24 @@
       "writtenOn": "2014-11-04T13:04:28Z",
       "side": 1,
       "message": "Missing @since",
+      "revId": "87cbaa9212454ef68d3f9c4b3482e24bcdeace0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_c7839a59",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 685,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2014-11-04T13:26:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_87d52261",
       "revId": "87cbaa9212454ef68d3f9c4b3482e24bcdeace0b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_278b6e74",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 701,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2014-11-04T13:26:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_e7033682",
+      "revId": "87cbaa9212454ef68d3f9c4b3482e24bcdeace0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_27fecedd",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
         "patchSetId": 4
@@ -132,6 +258,24 @@
       "writtenOn": "2014-11-04T13:04:28Z",
       "side": 1,
       "message": "Fille.listFiles() can return null, so NP check is needed for hookDirCandidates",
+      "revId": "87cbaa9212454ef68d3f9c4b3482e24bcdeace0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_078e3282",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 709,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2014-11-04T13:26:17Z",
+      "side": 1,
+      "message": "Good catch, thanks.",
+      "parentUuid": "a766b734_27fecedd",
       "revId": "87cbaa9212454ef68d3f9c4b3482e24bcdeace0b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_476f8a20",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 719,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2014-11-04T13:26:17Z",
+      "side": 1,
+      "message": "Not really duplicate : the first filter searches for a directory with a static name, the second searches for a file with a variable name... Could probably be extracted, but I\u0027m unsure of the benefit. Will do if you think it\u0027d be better.\n\nFixed the potential NPE.",
+      "parentUuid": "a766b734_07011278",
+      "revId": "87cbaa9212454ef68d3f9c4b3482e24bcdeace0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_a7f13e09",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
         "patchSetId": 4
@@ -166,6 +328,24 @@
       "writtenOn": "2014-11-04T13:04:28Z",
       "side": 1,
       "message": "Missing @since",
+      "revId": "87cbaa9212454ef68d3f9c4b3482e24bcdeace0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_a77e5ecf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 748,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2014-11-04T13:26:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_a7f13e09",
       "revId": "87cbaa9212454ef68d3f9c4b3482e24bcdeace0b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_c76a7a0b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2014-11-04T13:26:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_873a424a",
+      "revId": "87cbaa9212454ef68d3f9c4b3482e24bcdeace0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_e7dcd694",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_Win32_Cygwin.java",
         "patchSetId": 4
@@ -200,6 +398,24 @@
       "writtenOn": "2014-11-04T13:04:28Z",
       "side": 1,
       "message": "Missing @since",
+      "revId": "87cbaa9212454ef68d3f9c4b3482e24bcdeace0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_07659238",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_Win32_Cygwin.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2014-11-04T13:26:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_e7dcd694",
       "revId": "87cbaa9212454ef68d3f9c4b3482e24bcdeace0b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -223,6 +439,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_47566a56",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2014-11-04T13:26:17Z",
+      "side": 1,
+      "message": "(whoops)\n\nThis is a copy/paste from another of my pending reviews since I didn\u0027t want to create a dependency and would rather handle the conflict if and when one of the two is accepted. This originally came from review I42df8d6ea2a3e91fc07f37a28b3d09e46086339a .\n\nFixed the @since.",
+      "parentUuid": "a766b734_27e7ee5b",
+      "revId": "87cbaa9212454ef68d3f9c4b3482e24bcdeace0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_07eab221",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/Hook.java",
         "patchSetId": 4
@@ -234,6 +468,24 @@
       "writtenOn": "2014-11-04T13:04:28Z",
       "side": 1,
       "message": "Missing @since",
+      "revId": "87cbaa9212454ef68d3f9c4b3482e24bcdeace0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_f9bf5af6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/Hook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2014-11-04T13:26:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_07eab221",
       "revId": "87cbaa9212454ef68d3f9c4b3482e24bcdeace0b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
