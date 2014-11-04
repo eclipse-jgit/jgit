@@ -85,6 +85,7 @@ public class StatusCommand extends GitCommand<Status> {
 	/**
 	 * @param mode
 	 * @return {@code this}
+	 * @since 3.6
 	 */
 	public StatusCommand setIgnoreSubmodules(IgnoreSubmoduleMode mode) {
 		ignoreSubmoduleMode = mode;
