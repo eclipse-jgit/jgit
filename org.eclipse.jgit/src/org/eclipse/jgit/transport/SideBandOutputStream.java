@@ -93,7 +93,7 @@ public class SideBandOutputStream extends OutputStream {
 	 * @param chan
 	 *            channel number to prefix all packets with, so the remote side
 	 *            can demultiplex the stream and get back the original data.
-	 *            Must be in the range [0, 255].
+	 *            Must be in the range [1, 255].
 	 * @param sz
 	 *            maximum size of a data packet within the stream. The remote
 	 *            side needs to agree to the packet size to prevent buffer
@@ -105,7 +105,7 @@ public class SideBandOutputStream extends OutputStream {
 	public SideBandOutputStream(final int chan, final int sz, final OutputStream os) {
 		if (chan <= 0 || chan > 255)
 			throw new IllegalArgumentException(MessageFormat.format(
-					JGitText.get().channelMustBeInRange0_255,
+					JGitText.get().channelMustBeInRange1_255,
 					Integer.valueOf(chan)));
 		if (sz <= HDR_SIZE)
 			throw new IllegalArgumentException(MessageFormat.format(
