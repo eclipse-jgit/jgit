@@ -52,6 +52,24 @@
       "revId": "4b690402691864e1ab9cd78aa6c19f1637ef7d8e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_32e8c7ee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2014-11-05T13:07:31Z",
+      "side": 1,
+      "message": "That might well be a nice solution... would allow us to retrieve not only the standard error but also the standard output, if the hook had some info to relay. The hook can fail in a multiple of ways, JGit determines if that\u0027s a blocking failure, a warning or an information... and EGit can log that to the user.\n\nDo I change the existing commits (I need to introduce the error handler in the first, \"API\" review, then make use of it in all five reviews for individual hooks) or would you rather I do this in separate reviews (which would probably be one review to introduce the error handler and one following every individual hook\u0027s review to introduce the error handling)?",
+      "parentUuid": "a766b734_af83d459",
+      "revId": "4b690402691864e1ab9cd78aa6c19f1637ef7d8e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
