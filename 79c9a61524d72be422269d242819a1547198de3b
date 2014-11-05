@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_af2474b7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1651,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2014-11-05T09:50:05Z",
+      "side": 1,
+      "message": "Done, I\u0027ve made the same kind of modifications here as I did for your comment on the pre-commit support",
+      "parentUuid": "a766b734_b992025b",
+      "revId": "79c9a61524d72be422269d242819a1547198de3b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_d98ffe37",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_0f1c886f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1654,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2014-11-05T09:50:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_d98ffe37",
+      "revId": "79c9a61524d72be422269d242819a1547198de3b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_198a1627",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/errors/RejectedRebaseException.java",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2014-11-04T14:26:50Z",
       "side": 1,
       "message": "Missing @since",
+      "revId": "79c9a61524d72be422269d242819a1547198de3b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_0fee48af",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/errors/RejectedRebaseException.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2014-11-05T09:50:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_198a1627",
       "revId": "79c9a61524d72be422269d242819a1547198de3b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
