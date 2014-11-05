@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_0fbda800",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 764,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2014-11-05T08:53:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_596acee1",
+      "revId": "5d6cb80e1f76821b1d6d7c95a508f9afc8f7f402",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_f963da0a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
         "patchSetId": 4
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_4fc68091",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 767,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2014-11-05T08:53:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_f963da0a",
+      "revId": "5d6cb80e1f76821b1d6d7c95a508f9afc8f7f402",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_3965520f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/errors/RejectedCommitException.java",
         "patchSetId": 4
@@ -47,6 +83,24 @@
       "writtenOn": "2014-11-04T14:05:37Z",
       "side": 1,
       "message": "Missing @since",
+      "revId": "5d6cb80e1f76821b1d6d7c95a508f9afc8f7f402",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_0fd4882e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/errors/RejectedCommitException.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2014-11-05T08:53:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_3965520f",
       "revId": "5d6cb80e1f76821b1d6d7c95a508f9afc8f7f402",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
