@@ -253,6 +253,18 @@
       </properties>
     </profile>
     <profile>
+      <id>platform-mars</id>
+      <activation>
+        <property>
+          <name>platform-version-name</name>
+          <value>mars</value>
+        </property>
+      </activation>
+      <properties>
+        <target-platform>jgit-4.5</target-platform>
+      </properties>
+    </profile>
+    <profile>
       <id>eclipse-sign</id>
       <build>
         <plugins>
@@ -377,4 +389,3 @@
     </profile>
   </profiles>
 </project>
-
