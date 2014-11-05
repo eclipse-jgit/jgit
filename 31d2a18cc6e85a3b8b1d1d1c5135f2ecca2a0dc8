@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a766b734_6f509c56",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/IndexDiff.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 696,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-11-05T13:26:44Z",
+      "side": 1,
+      "message": "I think you should make clear the you get only pathes with the given filemode among those files where differences are found. You can\u0027t use this method to get all symlinks of a repo but only to get all symlinks among the \"dirty\" files.",
+      "range": {
+        "startLine": 696,
+        "startChar": 51,
+        "endLine": 696,
+        "endChar": 55
+      },
+      "revId": "31d2a18cc6e85a3b8b1d1d1c5135f2ecca2a0dc8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
