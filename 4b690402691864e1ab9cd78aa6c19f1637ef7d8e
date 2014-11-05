@@ -16,6 +16,24 @@
       "revId": "4b690402691864e1ab9cd78aa6c19f1637ef7d8e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_2f098437",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2014-11-05T09:40:23Z",
+      "side": 1,
+      "message": "The issue I had with this one is that the user might want to know his hook failed... but this \u0027non-blocking\u0027 failure should go up all the way to EGit before we can log it properly in the error log. And there are way too many possibilities of failure \"down below\" :\n\n- A hook written in python and throwing an exception out (or a syntax error) will have a non-zero exit code.\n- A hook written in shell without strict mode enabled \"may\" have an exit code of 127 the syntax error was on the very last command... but an exit code of \"0\" if the failure happened earlier than the last command\n\nThe \"post-commit\" hook cannot block a commit from happening ... but if it did fail, cgit (in command line) would have at least shown us the stderr with the failure message.\nThe \"pre-commit\" is worse : what if it had an exception or syntax error right in the middle of the script but still exited with 0? The commit goes through and the user has no idea that something went wrong. The commit would also go through using cgit... but with a CLI we would have seen the stderr of the hook, telling us about the error. Here, I only show the errors when the hook as a whole fails (non-zero exit code).\n\nI believe that here, what JGit should do is log a warning... but it should do so in a way that EGit can \"intercept\" to log it in the eclipse error log instead of the console.\n\nWe can\u0027t just throw an exception : the commit didn\u0027t fail. JGit doesn\u0027t have a logger either. So the only way to \"show\" the hooks\u0027 stderr to the user as warnings would be either to redirect to System.err (bleh) or to somehow \"store\" them, as you mention, in either a CommitResult (but we\u0027d need a RebaseResult, CherryPickResult, .... as well, and we need this to be high-level enough for EGit to be able to retrieve them...) or in the commands themselves, which doesn\u0027t feel right : myCommand.getLog()? myCommand.getOutput()?.\n\nAnother option is to just \"swallow\" the errors that happen in hooks that do not fail and expect the clients (writers of the hook) to be strict (\"set -e\" at the beginning of their hook or make sure there aren\u0027t errors arising). That doesn\u0027t feel right either, but I think that this first version could come without support for a logger since support for the hooks is pretty demanded, and failures from the hooks are not the norm.",
+      "parentUuid": "a766b734_39971253",
+      "revId": "4b690402691864e1ab9cd78aa6c19f1637ef7d8e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
