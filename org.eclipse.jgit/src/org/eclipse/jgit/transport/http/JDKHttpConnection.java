@@ -186,7 +186,7 @@ public class JDKHttpConnection implements HttpConnection {
 	public void configure(KeyManager[] km, TrustManager[] tm,
 			SecureRandom random) throws NoSuchAlgorithmException,
 			KeyManagementException {
-		SSLContext ctx = SSLContext.getInstance("SSL"); //$NON-NLS-1$
+		SSLContext ctx = SSLContext.getInstance("TLS"); //$NON-NLS-1$
 		ctx.init(km, tm, random);
 		((HttpsURLConnection) wrappedUrlConnection).setSSLSocketFactory(ctx
 				.getSocketFactory());
