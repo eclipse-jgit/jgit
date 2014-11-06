@@ -258,6 +258,12 @@ public class ConfigConstants {
 	public static final String CONFIG_KEY_RENAMELIMIT = "renamelimit";
 
 	/**
+	 * The "trustfolderstat" key in the "core section"
+	 * @since 3.6
+	 */
+	public static final String CONFIG_KEY_TRUSTFOLDERSTAT = "trustfolderstat";
+
+	/**
 	 * The "noprefix" key in the "diff section"
 	 * @since 3.0
 	 */
