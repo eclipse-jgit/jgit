@@ -232,7 +232,7 @@ public class IndexDiff {
 		@Override
 		public TreeFilter clone() {
 			throw new IllegalStateException(
-					"Do not clone this kind of filter: "
+					"Do not clone this kind of filter: " //$NON-NLS-1$
 							+ getClass().getName());
 		}
 	}
@@ -530,7 +530,7 @@ public class IndexDiff {
 									+ smw.getPath());
 				}
 				Repository subRepo = smw.getRepository();
-				ObjectId subHead = subRepo.resolve("HEAD");
+				ObjectId subHead = subRepo.resolve("HEAD"); //$NON-NLS-1$
 				if (subHead != null && !subHead.equals(smw.getObjectId()))
 					modified.add(smw.getPath());
 				else if (ignoreSubmoduleMode != IgnoreSubmoduleMode.DIRTY) {
