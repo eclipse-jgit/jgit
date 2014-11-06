@@ -986,6 +986,38 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testOverwriteUntrackedIgnoredFile() throws IOException,
+			GitAPIException {
+		String fname="file.txt";
+		Git git = Git.wrap(db);
+
+		// Add a file
+		writeTrashFile(fname, "a");
+		git.add().addFilepattern(fname).call();
+		git.commit().setMessage("create file").call();
+
+		// Create branch
+		git.branchCreate().setName("side").call();
+
+		// Modify file
+		writeTrashFile(fname, "b");
+		git.add().addFilepattern(fname).call();
+		git.commit().setMessage("modify file").call();
+
+		// Switch branches
+		git.checkout().setName("side").call();
+		git.rm().addFilepattern(fname).call();
+		writeTrashFile(".gitignore", fname);
+		git.add().addFilepattern(".gitignore").call();
+		git.commit().setMessage("delete and ignore file").call();
+
+		writeTrashFile(fname, "Something different");
+		git.checkout().setName("master").call();
+		assertWorkDir(mkmap(fname, "b"));
+		assertTrue(git.status().call().isClean());
+	}
+
+	@Test
 	public void testFileModeChangeWithNoContentChangeUpdate() throws Exception {
 		if (!FS.DETECTED.supportsExecute())
 			return;
