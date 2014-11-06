@@ -525,9 +525,11 @@ public class IndexDiff {
 							.equals(localIgnoreSubmoduleMode))
 						continue;
 				} catch (ConfigInvalidException e) {
-					throw new IOException(
+					IOException e1 = new IOException(
 							"Found invalid ignore param for submodule "
 									+ smw.getPath());
+					e1.initCause(e);
+					throw e1;
 				}
 				Repository subRepo = smw.getRepository();
 				ObjectId subHead = subRepo.resolve("HEAD"); //$NON-NLS-1$
