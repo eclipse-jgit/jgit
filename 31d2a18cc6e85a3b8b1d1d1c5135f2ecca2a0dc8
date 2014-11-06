@@ -22,6 +22,41 @@
       "revId": "31d2a18cc6e85a3b8b1d1d1c5135f2ecca2a0dc8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_a8b58a1a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/IndexDiff.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 696,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-11-06T08:28:32Z",
+      "side": 1,
+      "message": "Get the list of paths that IndexDiff has detected to differ and have the given file mode",
+      "parentUuid": "a766b734_6f509c56",
+      "revId": "31d2a18cc6e85a3b8b1d1d1c5135f2ecca2a0dc8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_6d50a456",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/IndexDiff.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 701,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-11-06T08:28:32Z",
+      "side": 1,
+      "message": "missing @since 3.6 tag",
+      "revId": "31d2a18cc6e85a3b8b1d1d1c5135f2ecca2a0dc8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
