@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a766b734_dee99c2e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-11-06T20:27:06Z",
+      "side": 1,
+      "message": "working tree file with this path",
+      "revId": "9c0e4c3726ef827df6d7179a17a976c7b2e20a6a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_fee6185d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-11-06T20:27:06Z",
+      "side": 1,
+      "message": "s/allowed/allow/\n\ns/ignored/ignore/",
+      "revId": "9c0e4c3726ef827df6d7179a17a976c7b2e20a6a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_3ed09070",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-11-06T20:27:06Z",
+      "side": 1,
+      "message": "JGit considered this to be a checkout conflict to prevent overwriting the file in the working tree and raised an error.",
+      "revId": "9c0e4c3726ef827df6d7179a17a976c7b2e20a6a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_1ecb14c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-11-06T20:27:06Z",
+      "side": 1,
+      "message": "This commit fixes this by ensuring that ignored dirty working tree files don\u0027t lead to a checkout conflict.",
+      "revId": "9c0e4c3726ef827df6d7179a17a976c7b2e20a6a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
