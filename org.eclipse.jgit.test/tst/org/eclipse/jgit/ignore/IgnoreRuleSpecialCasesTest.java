@@ -60,19 +60,19 @@ import org.junit.runners.Parameterized.Parameters;
 @SuppressWarnings({ "deprecation", "boxing" })
 public class IgnoreRuleSpecialCasesTest {
 
-	@Parameters(name = "JGit? {0}")
+	@Parameters(name = "OldRule? {0}")
 	public static Iterable<Boolean[]> data() {
 		return Arrays.asList(new Boolean[][] { { Boolean.FALSE },
 				{ Boolean.TRUE } });
 	}
 
 	@Parameter
-	public Boolean useJGitRule;
+	public Boolean useOldRule;
 
 	private void assertMatch(final String pattern, final String input,
 			final boolean matchExpected, Boolean... assume) {
 		boolean assumeDir = input.endsWith("/");
-		if (useJGitRule.booleanValue()) {
+		if (useOldRule.booleanValue()) {
 			final IgnoreRule matcher = new IgnoreRule(pattern);
 			if (assume.length == 0 || !assume[0].booleanValue())
 				assertEquals(matchExpected, matcher.isMatch(input, assumeDir));
@@ -90,7 +90,7 @@ public class IgnoreRuleSpecialCasesTest {
 	private void assertFileNameMatch(final String pattern, final String input,
 			final boolean matchExpected) {
 		boolean assumeDir = input.endsWith("/");
-		if (useJGitRule.booleanValue()) {
+		if (useOldRule.booleanValue()) {
 			final IgnoreRule matcher = new IgnoreRule(pattern);
 			assertEquals(matchExpected, matcher.isMatch(input, assumeDir));
 		} else {
@@ -101,10 +101,10 @@ public class IgnoreRuleSpecialCasesTest {
 
 	@Test
 	public void testVerySimplePatternCase0() throws Exception {
-		if (useJGitRule)
+		if (useOldRule)
 			System.err
 					.println("IgnoreRule can't understand blank lines, skipping");
-		Boolean assume = useJGitRule;
+		Boolean assume = useOldRule;
 		assertMatch("", "", false, assume);
 	}
 
@@ -802,9 +802,14 @@ public class IgnoreRuleSpecialCasesTest {
 
 	@Test
 	public void testSpecialGroupCase9() throws Exception {
-		if (useJGitRule)
+		assertMatch("][", "][", true);
+	}
+
+	@Test
+	public void testSpecialGroupCase10() throws Exception {
+		if (useOldRule)
 			System.err.println("IgnoreRule can't understand [[:], skipping");
-		Boolean assume = useJGitRule;
+		Boolean assume = useOldRule;
 		// Second bracket is threated literally, so both [ and : should match
 		assertMatch("[[:]", ":", true, assume);
 		assertMatch("[[:]", "[", true, assume);
@@ -863,10 +868,10 @@ public class IgnoreRuleSpecialCasesTest {
 
 	@Test
 	public void testEscapedBackslash() throws Exception {
-		if (useJGitRule)
+		if (useOldRule)
 			System.err
 					.println("IgnoreRule can't understand escaped backslashes, skipping");
-		Boolean assume = useJGitRule;
+		Boolean assume = useOldRule;
 		// In Git CLI a\\b matches a\b file
 		assertMatch("a\\\\b", "a\\b", true, assume);
 	}
