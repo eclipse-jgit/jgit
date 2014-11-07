@@ -127,7 +127,7 @@ public abstract class RefAdvertiser {
 	}
 
 	/**
-	 * Add one protocol capability to the initial advertisement.
+	 * Add protocol capabilities to the initial advertisement.
 	 * <p>
 	 * This method must be invoked prior to any of the following:
 	 * <ul>
@@ -135,14 +135,14 @@ public abstract class RefAdvertiser {
 	 * <li>{@link #advertiseHave(AnyObjectId)}
 	 * </ul>
 	 *
-	 * @param name
-	 *            the name of a single protocol capability supported by the
-	 *            caller. The set of capabilities are sent to the client in the
+	 * @param names
+	 *            The names of a protocol capability supported by the caller.
+	 *            The set of capabilities are sent to the client in the
 	 *            advertisement, allowing the client to later selectively enable
 	 *            features it recognizes.
 	 */
-	public void advertiseCapability(String name) {
-		capablities.add(name);
+	public void advertiseCapabilities(Set<String> names) {
+		capablities.addAll(names);
 	}
 
 	/**
