@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a766b734_189165d4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/GitProtocolConstants.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-11-07T23:00:43Z",
+      "side": 1,
+      "message": "nit: blank line between declarations.",
+      "range": {
+        "startLine": 139,
+        "startChar": 1,
+        "endLine": 139,
+        "endChar": 4
+      },
+      "revId": "06664d8a855fc87291c98a0d87a3fad87dbd97d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
