@@ -54,6 +54,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.ReceiveCommand.Result;
 import org.eclipse.jgit.transport.RefAdvertiser.PacketLineOutRefAdvertiser;
+import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_ATOMIC;
 
 /**
  * Implements the server side of a push connection, receiving objects.
@@ -199,8 +200,37 @@ public class ReceivePack extends BaseReceivePack {
 			}
 
 			if (unpackError == null) {
+				// Are we paranoid or could we leave out the double checking and
+				// just rely on isCapabilityEnabled sent by clientside?
+				// if paranoid, then todo make db accessible.
+				// discuss at
+				// https://bugs.eclipse.org/bugs/show_bug.cgi?id=450418
+				boolean performAtomicTransaction =
+						isCapabilityEnabled(OPTION_ATOMIC)
+						&& db.getRefDatabase().performsAtomicTransactions();
 				validateCommands();
+				if (performAtomicTransaction && anyRejects()) {
+					if (msgOut != null)
+						sendStatusReport(false, unpackError, new Reporter() {
+							void sendString(final String s) throws IOException {
+								msgOut.write(Constants.encode(s + "\n")); //$NON-NLS-1$
+							}
+						});
+					return;
+				}
+
+				// todo update doc, discourage doing any commits in the prereceive
+				// hook or check performAtomicTransaction before
 				preReceive.onPreReceive(this, filterCommands(Result.NOT_ATTEMPTED));
+				if (performAtomicTransaction && anyRejects()) {
+					if (msgOut != null)
+						sendStatusReport(false, unpackError, new Reporter() {
+							void sendString(final String s) throws IOException {
+								msgOut.write(Constants.encode(s + "\n")); //$NON-NLS-1$
+							}
+						});
+					return;
+				}
 				executeCommands();
 			}
 			unlockPack();
