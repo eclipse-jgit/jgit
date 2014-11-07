@@ -128,8 +128,16 @@ public class PathMatcher extends AbstractMatcher {
 		if (WildMatcher.WILDMATCH.equals(segment)
 				|| WildMatcher.WILDMATCH2.equals(segment))
 			return WILD;
-		if (isWildCard(segment))
-			return new WildCardMatcher(segment, pathSeparator, dirOnly);
+		if (isWildCard(segment)) {
+			if (hasLeadingAsteriskOnly(segment))
+				return new LeadingAsteriskMatcher(segment, pathSeparator,
+						dirOnly);
+			else if (hasTrailingAsteriskOnly(segment))
+				return new TrailingAsteriskMatcher(segment, pathSeparator,
+						dirOnly);
+			else
+				return new WildCardMatcher(segment, pathSeparator, dirOnly);
+		}
 		return new NameMatcher(segment, pathSeparator, dirOnly);
 	}
 

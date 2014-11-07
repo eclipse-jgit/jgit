@@ -136,6 +136,22 @@ public class Strings {
 				|| pattern.indexOf('\\') != -1 || pattern.indexOf(']') != -1;
 	}
 
+	static boolean isComplexWildcard(String pattern) {
+		return pattern.indexOf('?') != -1 || pattern.indexOf('[') != -1
+				|| pattern.indexOf(']') != -1
+				// required to match escaped backslashes '\\\\'
+				|| pattern.indexOf('\\') != -1;
+	}
+
+	static boolean hasLeadingAsteriskOnly(String pattern) {
+		return pattern.lastIndexOf('*') == 0 && !isComplexWildcard(pattern);
+	}
+
+	static boolean hasTrailingAsteriskOnly(String pattern) {
+		return pattern.indexOf('*') == pattern.length() - 1
+				&& !isComplexWildcard(pattern);
+	}
+
 	final static List<String> POSIX_CHAR_CLASSES = Arrays.asList(
 			"alnum", "alpha", "blank", "cntrl", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 			// [:alnum:] [:alpha:] [:blank:] [:cntrl:]
