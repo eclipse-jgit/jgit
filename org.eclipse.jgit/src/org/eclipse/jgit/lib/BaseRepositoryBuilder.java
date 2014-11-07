@@ -521,6 +521,10 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 					} catch (IOException ignored) {
 						// Continue searching if gitdir ref isn't found
 					}
+				else if (FileKey.isGitRepository(current, tryFS)) {
+					setGitDir(current);
+					break;
+				}
 
 				current = current.getParentFile();
 				if (current != null && ceilingDirectories != null
