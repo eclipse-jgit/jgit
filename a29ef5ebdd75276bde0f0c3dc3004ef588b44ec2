@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a766b734_d82d2d1b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1259,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-11-07T23:43:20Z",
+      "side": 1,
+      "message": "We try to shove this into one line when its this simple:\n\n /** @return true if any commands have been rejected. */",
+      "range": {
+        "startLine": 1257,
+        "startChar": 1,
+        "endLine": 1259,
+        "endChar": 4
+      },
+      "revId": "a29ef5ebdd75276bde0f0c3dc3004ef588b44ec2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_3846e1d8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1261,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-11-07T23:43:20Z",
+      "side": 1,
+      "message": "final is not necessary. Some older code uses it frequently but we have been slowly removing it from newer code.",
+      "range": {
+        "startLine": 1261,
+        "startChar": 7,
+        "endLine": 1261,
+        "endChar": 12
+      },
+      "revId": "a29ef5ebdd75276bde0f0c3dc3004ef588b44ec2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_184325c8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1265,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-11-07T23:43:20Z",
+      "side": 1,
+      "message": "I think the inverse logic makes more sense:\n\n    if (cmd.getResult() !\u003d NOT_ATTEMPTED \u0026\u0026 cmd.getResult() !\u003d OK)\n      return true;\n  }\n  return false;\n\nAn empty set should be \"no rejects\".",
+      "range": {
+        "startLine": 1262,
+        "startChar": 3,
+        "endLine": 1265,
+        "endChar": 14
+      },
+      "revId": "a29ef5ebdd75276bde0f0c3dc3004ef588b44ec2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_b8ddd190",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-11-07T23:43:20Z",
+      "side": 1,
+      "message": "iirc static imports go first in the file.",
+      "revId": "a29ef5ebdd75276bde0f0c3dc3004ef588b44ec2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_d8ffedd6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-11-07T23:43:20Z",
+      "side": 1,
+      "message": "\"atomic\" might be sufficient description here and let you pull in the line length some, possibly avoiding the line wrapping.",
+      "range": {
+        "startLine": 203,
+        "startChar": 12,
+        "endLine": 203,
+        "endChar": 36
+      },
+      "revId": "a29ef5ebdd75276bde0f0c3dc3004ef588b44ec2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_38f8a1ed",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-11-07T23:43:20Z",
+      "side": 1,
+      "message": "Instead of duplicating this logic, force them to fail:\n\n  if (atomic \u0026\u0026 anyRejects())\n    failPendingCommands();\n\nwith:\n\n  private void failPendingCommands() {\n    for (ReceiveCommand cmd : commands) {\n      if (cmd.getResult() \u003d\u003d Result.NOT_ATTEMPTED)\n        cmd.setResult(OTHER_REASON, \"transaction aborted\");\n    }\n  }\n\nThis will gracefully fall through. The .onPreReceive() will get an empty collection from filterCommands() finding no matches with NOT_ATTEMPTED (since it was all changed in failPendingCommands()) and then executeCommands() will do nothing too, and you drop into the existing reportStatus code after unlockPack().",
+      "range": {
+        "startLine": 206,
+        "startChar": 4,
+        "endLine": 214,
+        "endChar": 4
+      },
+      "revId": "a29ef5ebdd75276bde0f0c3dc3004ef588b44ec2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
