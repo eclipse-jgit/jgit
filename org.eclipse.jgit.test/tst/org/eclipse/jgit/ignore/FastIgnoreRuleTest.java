@@ -62,14 +62,14 @@ import org.junit.runners.Parameterized.Parameters;
 @RunWith(Parameterized.class)
 public class FastIgnoreRuleTest {
 
-	@Parameters(name = "JGit? {0}")
+	@Parameters(name = "OldRule? {0}")
 	public static Iterable<Boolean[]> data() {
 		return Arrays.asList(new Boolean[][] { { Boolean.FALSE },
 				{ Boolean.TRUE } });
 	}
 
 	@Parameter
-	public Boolean useJGitRule;
+	public Boolean useOldRule;
 
 	@Test
 	public void testSimpleCharClass() {
@@ -388,11 +388,11 @@ public class FastIgnoreRuleTest {
 	@SuppressWarnings("boxing")
 	@Test
 	public void testWildmatch() {
-		if (useJGitRule)
+		if (useOldRule)
 			System.err
 					.println("IgnoreRule can't understand wildmatch rules, skipping testWildmatch!");
 
-		Boolean assume = useJGitRule;
+		Boolean assume = useOldRule;
 		assertMatched("**/a/b", "a/b", assume);
 		assertMatched("**/a/b", "c/a/b", assume);
 		assertMatched("**/a/b", "c/d/a/b", assume);
@@ -428,11 +428,11 @@ public class FastIgnoreRuleTest {
 	@SuppressWarnings("boxing")
 	@Test
 	public void testWildmatchDoNotMatch() {
-		if (useJGitRule)
+		if (useOldRule)
 			System.err
 					.println("IgnoreRule can't understand wildmatch rules, skipping testWildmatchDoNotMatch!");
 
-		Boolean assume = useJGitRule;
+		Boolean assume = useOldRule;
 		assertNotMatched("**/a/b", "a/c/b", assume);
 		assertNotMatched("!/**/*.zip", "c/a/b.zip", assume);
 		assertNotMatched("!**/*.zip", "c/a/b.zip", assume);
@@ -542,7 +542,7 @@ public class FastIgnoreRuleTest {
 	 */
 	private boolean match(String pattern, String target) {
 		boolean isDirectory = target.endsWith("/");
-		if (useJGitRule.booleanValue()) {
+		if (useOldRule.booleanValue()) {
 			IgnoreRule r = new IgnoreRule(pattern);
 			// If speed of this test is ever an issue, we can use a presetRule
 			// field
