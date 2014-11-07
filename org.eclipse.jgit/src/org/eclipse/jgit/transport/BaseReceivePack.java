@@ -220,7 +220,9 @@ public abstract class BaseReceivePack {
 	/** All SHA-1s shown to the client, which can be possible edges. */
 	private Set<ObjectId> advertisedHaves;
 
-	/** Capabilities requested by the client. */
+	/** Capabilities advertised. */
+	private Set<String> advertisedCapabilities;
+	/** Capabilities requested by the client. Is a subset of {@code advertisedCapabilites} */
 	private Set<String> enabledCapabilities;
 	private Set<ObjectId> clientShallowCommits;
 	private List<ReceiveCommand> commands;
@@ -905,11 +907,12 @@ public abstract class BaseReceivePack {
 		}
 
 		adv.init(db);
-		adv.advertiseCapability(CAPABILITY_SIDE_BAND_64K);
-		adv.advertiseCapability(CAPABILITY_DELETE_REFS);
-		adv.advertiseCapability(CAPABILITY_REPORT_STATUS);
+		advertisedCapabilities = new HashSet<String>();
+		advertisedCapabilities.add(CAPABILITY_SIDE_BAND_64K);
+		advertisedCapabilities.add(CAPABILITY_DELETE_REFS);
+		advertisedCapabilities.add(CAPABILITY_REPORT_STATUS);
 		if (allowOfsDelta)
-			adv.advertiseCapability(CAPABILITY_OFS_DELTA);
+			advertisedCapabilities.add(CAPABILITY_OFS_DELTA);
 		adv.send(getAdvertisedOrDefaultRefs());
 		for (ObjectId obj : advertisedHaves)
 			adv.advertiseHave(obj);
@@ -945,6 +948,11 @@ public abstract class BaseReceivePack {
 				final FirstLine firstLine = new FirstLine(line);
 				enabledCapabilities = firstLine.getCapabilities();
 				line = firstLine.getLine();
+				boolean clientBehavior = advertisedCapabilities.containsAll(enabledCapabilities);
+				if (!clientBehavior) {
+					throw new PackProtocolException(MessageFormat.format(JGitText.get().nonadvertisedCapabilitesRequested,
+							enabledCapabilities.toString(), advertisedCapabilities.toString()));
+				}
 			}
 
 			if (line.length() < 83) {
