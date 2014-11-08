@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a766b734_5329fe87",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/ignore/FastIgnoreRuleTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2014-11-08T06:46:51Z",
+      "side": 1,
+      "message": "If you split the changes in this and the other test off into its own commit, we can game the legal requirement of having a CQ (which starts at 200 changed lines AFAIK) :).",
+      "revId": "06eeec32e6146a91683629ec1579649448878f46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_333602eb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/internal/LeadingAsteriskMatcher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2014-11-08T06:46:51Z",
+      "side": 1,
+      "message": "asterisk:\" -\u003e asterisk: \"",
+      "revId": "06eeec32e6146a91683629ec1579649448878f46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_133306fa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/internal/LeadingAsteriskMatcher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2014-11-08T06:46:51Z",
+      "side": 1,
+      "message": "Could you make j start at `endExcl - 1` and decrement it? May be a bit easier to understand if both go backwards and are indexes.",
+      "revId": "06eeec32e6146a91683629ec1579649448878f46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_732cfa9a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/internal/Strings.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2014-11-08T06:46:51Z",
+      "side": 1,
+      "message": "You could optimize these three methods by only going through the characters of the pattern in one iteration, checking for the special characters, and then returning an enum LEADING_ONLY, TRAILING_ONLY, COMPLEX.",
+      "revId": "06eeec32e6146a91683629ec1579649448878f46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
