@@ -130,6 +130,14 @@ public class GitProtocolConstants {
 	public static final String OPTION_ALLOW_TIP_SHA1_IN_WANT = "allow-tip-sha1-in-want"; //$NON-NLS-1$
 
 	/**
+	 * The client supports atomic pushes. If this option is used, the server
+	 * will update all refs within one atomic transaction.
+	 *
+	 * @since 3.6
+	 */
+	public static final String CAPABILITY_ATOMIC = "atomic-push"; //$NON-NLS-1$
+
+	/**
 	 * The client expects a status report after the server processes the pack.
 	 *
 	 * @since 3.2
