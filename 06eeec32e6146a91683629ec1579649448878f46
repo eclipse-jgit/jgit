@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_93d276fb",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/ignore/FastIgnoreRuleTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2014-11-08T06:57:27Z",
+      "side": 1,
+      "message": "https://www.eclipse.org/legal/committerguidelines.php claims that it requires1000 lines to be significant.",
+      "parentUuid": "a766b734_5329fe87",
+      "revId": "06eeec32e6146a91683629ec1579649448878f46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_333602eb",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/internal/LeadingAsteriskMatcher.java",
         "patchSetId": 1
