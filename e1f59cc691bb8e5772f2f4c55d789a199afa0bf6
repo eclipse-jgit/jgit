@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a766b734_33f9e2ba",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 4
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-11-08T02:43:58Z",
+      "side": 1,
+      "message": "Lowercase with no period:\n\n  \u003dtransaction aborted\n\nOther ref status messages are lowercase and fragment sentence as they show to the right of a branch name in the status report:\n\n  ! master       (transaction aborted)\n  ! v1.0           (exists, cannot replace)",
+      "range": {
+        "startLine": 503,
+        "startChar": 19,
+        "endLine": 503,
+        "endChar": 39
+      },
+      "revId": "e1f59cc691bb8e5772f2f4c55d789a199afa0bf6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
