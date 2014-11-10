@@ -42,15 +42,14 @@
  */
 package org.eclipse.jgit.ignore;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 
-import org.eclipse.jgit.ignore.FastIgnoreRule;
-import org.eclipse.jgit.ignore.IgnoreRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.*;
+import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
 

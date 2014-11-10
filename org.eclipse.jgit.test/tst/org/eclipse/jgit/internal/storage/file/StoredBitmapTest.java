@@ -43,13 +43,13 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
-import static org.junit.Assert.*;
-
-import com.googlecode.javaewah.EWAHCompressedBitmap;
+import static org.junit.Assert.assertEquals;
 
 import org.eclipse.jgit.internal.storage.file.BasePackBitmapIndex.StoredBitmap;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
+
+import com.googlecode.javaewah.EWAHCompressedBitmap;
 
 public class StoredBitmapTest {
 

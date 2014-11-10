@@ -43,14 +43,14 @@
 
 package org.eclipse.jgit.revwalk;
 
+import static org.junit.Assert.assertNull;
+
 import java.io.File;
 import java.io.IOException;
 
 import org.eclipse.jgit.junit.JGitTestUtil;
-import org.eclipse.jgit.lib.*;
-import org.junit.*;
-
-import static org.junit.Assert.*;
+import org.eclipse.jgit.lib.ObjectId;
+import org.junit.Test;
 
 public class RevWalkShallowTest extends RevWalkTestCase {
 

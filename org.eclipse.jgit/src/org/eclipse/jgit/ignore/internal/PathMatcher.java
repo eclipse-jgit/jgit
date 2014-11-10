@@ -42,9 +42,13 @@
  */
 package org.eclipse.jgit.ignore.internal;
 
-import static org.eclipse.jgit.ignore.internal.Strings.*;
+import static org.eclipse.jgit.ignore.internal.Strings.count;
+import static org.eclipse.jgit.ignore.internal.Strings.getPathSeparator;
+import static org.eclipse.jgit.ignore.internal.Strings.isWildCard;
+import static org.eclipse.jgit.ignore.internal.Strings.split;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.jgit.errors.InvalidPatternException;
 import org.eclipse.jgit.ignore.FastIgnoreRule;

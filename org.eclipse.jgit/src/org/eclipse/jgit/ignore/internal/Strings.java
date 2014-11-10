@@ -44,7 +44,9 @@ package org.eclipse.jgit.ignore.internal;
 
 import static java.lang.Character.isLetter;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import org.eclipse.jgit.errors.InvalidPatternException;
