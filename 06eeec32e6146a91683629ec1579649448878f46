@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_eb20125a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/ignore/FastIgnoreRuleTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-11-10T23:28:24Z",
+      "side": 1,
+      "message": "the threshold for CQ was increased from 250 to 1000 added lines some months ago. This is also mentioned in the contributor guide\nhttps://wiki.eclipse.org/EGit/Contributor_Guide#Legal_Paperwork",
+      "parentUuid": "a766b734_93d276fb",
+      "revId": "06eeec32e6146a91683629ec1579649448878f46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_333602eb",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/internal/LeadingAsteriskMatcher.java",
         "patchSetId": 1
