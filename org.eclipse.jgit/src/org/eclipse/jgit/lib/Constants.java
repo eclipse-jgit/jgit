@@ -272,7 +272,14 @@ public final class Constants {
 	 */
 	public static final String INFO_EXCLUDE = "info/exclude";
 
-	/** The environment variable that contains the system user name */
+	/**
+	 * The system property that contains the system user name
+	 *
+	 * @since 3.6
+	 */
+	public static final String OS_USER_DIR = "user.dir";
+
+	/** The system property that contains the system user name */
 	public static final String OS_USER_NAME_KEY = "user.name";
 
 	/** The environment variable that contains the author's name */
