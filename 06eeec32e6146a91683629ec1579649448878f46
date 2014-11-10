@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_7e26816b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/internal/LeadingAsteriskMatcher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2014-11-10T14:15:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_333602eb",
+      "revId": "06eeec32e6146a91683629ec1579649448878f46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_133306fa",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/internal/LeadingAsteriskMatcher.java",
         "patchSetId": 1
@@ -71,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_1e2dcd47",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/internal/LeadingAsteriskMatcher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2014-11-10T14:15:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_133306fa",
+      "revId": "06eeec32e6146a91683629ec1579649448878f46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_732cfa9a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/internal/Strings.java",
         "patchSetId": 1
@@ -82,6 +118,24 @@
       "writtenOn": "2014-11-08T06:46:51Z",
       "side": 1,
       "message": "You could optimize these three methods by only going through the characters of the pattern in one iteration, checking for the special characters, and then returning an enum LEADING_ONLY, TRAILING_ONLY, COMPLEX.",
+      "revId": "06eeec32e6146a91683629ec1579649448878f46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_fe11f1df",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/internal/Strings.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2014-11-10T14:15:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_732cfa9a",
       "revId": "06eeec32e6146a91683629ec1579649448878f46",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
