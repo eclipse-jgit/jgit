@@ -50,6 +50,7 @@ import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.StringUtils;
 import org.eclipse.jgit.util.SystemReader;
 import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.spi.StringArrayOptionHandler;
 
 @Command(common = true, usage = "usage_getAndSetOptions")
 class Config extends TextBuiltin {
@@ -65,6 +66,12 @@ class Config extends TextBuiltin {
 	@Option(name = "--list", aliases = { "-l" }, usage = "usage_configList")
 	private boolean list;
 
+	@Option(name = "--add", handler = StringArrayOptionHandler.class, usage = "usage_configAdd")
+	private String[] add;
+
+	@Option(name = "--get", usage = "usage_configGet")
+	private String get;
+
 	@Option(name = "--file", aliases = { "-f" }, metaVar = "metaVar_file", usage = "usage_configFile")
 	private File configFile;
 
@@ -72,9 +79,62 @@ class Config extends TextBuiltin {
 	protected void run() throws Exception {
 		if (list)
 			list();
+		else if (add != null && add.length == 2)
+			add();
+		else if (!StringUtils.isEmptyOrNull(get))
+			get();
 		else
 			throw new NotSupportedException(
 					"only --list option is currently supported");
+	}
+
+	private void get() {
+		final FS fs = getRepository().getFS();
+		try {
+			if (local) {
+				FileBasedConfig conf = new FileBasedConfig(fs.resolve(
+new File(
+						"C:\\Users\\TelisLT\\Desktop\\blueprint\\.git"),
+						Constants.CONFIG), fs);
+				String[] parts = get.split("\\.");
+				if (parts.length > 1) {
+					conf.load();
+					String section = null, subsection = null, name = null;
+					switch (parts.length) {
+					case 3:
+						name = parts[2];
+					case 2:
+						subsection = parts[1];
+					case 1:
+						section = parts[0];
+						break;
+					default:
+						break;
+					}
+					outw.println(conf.getString(section, subsection, name));
+				}
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+
+	private void add() {
+		final FS fs = getRepository().getFS();
+		try {
+			if (local) {
+				FileBasedConfig conf = new FileBasedConfig(fs.resolve(
+						getRepository().getDirectory(), Constants.CONFIG), fs);
+				String[] parts = add[0].split("\\.");
+				if (parts.length == 3) {
+					conf.load();
+					conf.setString(parts[0], parts[1], parts[2], add[1]);
+					conf.save();
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void list() throws IOException, ConfigInvalidException {
