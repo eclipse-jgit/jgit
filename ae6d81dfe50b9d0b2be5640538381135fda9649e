@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a766b734_e149510a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-11-11T18:13:31Z",
+      "side": 1,
+      "message": "Interesting indentation style. I see its consistent with a few other keys that have broken indentation in this class, but most keys above use the standard indentation style of tab-space for continuation lines in the Javadoc.",
+      "range": {
+        "startLine": 267,
+        "startChar": 0,
+        "endLine": 271,
+        "endChar": 11
+      },
+      "revId": "ae6d81dfe50b9d0b2be5640538381135fda9649e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
