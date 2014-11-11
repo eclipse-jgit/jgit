@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a766b734_eb49320a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/internal/Strings.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2014-11-11T00:06:17Z",
+      "side": 1,
+      "message": "This still goes through the String four times (indexOf). I meant that you could replace it with one loop, checking all the things simultaneously. But it probably doesn\u0027t really matter, as this is done when parsing the rules, not when checking input against them. So no need to do it.",
+      "revId": "215dab04032487c9be5c03898541c6ec4b9f7257",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
