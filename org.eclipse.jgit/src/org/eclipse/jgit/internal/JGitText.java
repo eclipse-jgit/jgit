@@ -150,7 +150,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String commitDoesNotHaveGivenParent;
 	/***/ public String cantFindObjectInReversePackIndexForTheSpecifiedOffset;
 	/***/ public String cantPassMeATree;
-	/***/ public String channelMustBeInRange0_255;
+	/***/ public String channelMustBeInRange1_255;
 	/***/ public String characterClassIsNotSupported;
 	/***/ public String checkoutConflictWithFile;
 	/***/ public String checkoutConflictWithFiles;

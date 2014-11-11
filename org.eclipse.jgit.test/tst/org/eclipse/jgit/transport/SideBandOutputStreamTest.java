@@ -201,21 +201,21 @@ public class SideBandOutputStreamTest {
 			new SideBandOutputStream(-1, MAX_BUF, rawOut);
 			fail("Accepted -1 channel number");
 		} catch (IllegalArgumentException e) {
-			assertEquals("channel -1 must be in range [0, 255]", e.getMessage());
+			assertEquals("channel -1 must be in range [1, 255]", e.getMessage());
 		}
 
 		try {
 			new SideBandOutputStream(0, MAX_BUF, rawOut);
 			fail("Accepted 0 channel number");
 		} catch (IllegalArgumentException e) {
-			assertEquals("channel 0 must be in range [0, 255]", e.getMessage());
+			assertEquals("channel 0 must be in range [1, 255]", e.getMessage());
 		}
 
 		try {
 			new SideBandOutputStream(256, MAX_BUF, rawOut);
 			fail("Accepted 256 channel number");
 		} catch (IllegalArgumentException e) {
-			assertEquals("channel 256 must be in range [0, 255]", e
+			assertEquals("channel 256 must be in range [1, 255]", e
 					.getMessage());
 		}
 	}
