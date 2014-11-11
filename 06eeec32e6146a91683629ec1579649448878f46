@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_cb4ef614",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/ignore/FastIgnoreRuleTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2014-11-11T00:06:11Z",
+      "side": 1,
+      "message": "Ok. Just remember in general not to mix unrelated changes. Having this change on its own would have been pretty much an instant approval, making the second review smaller.",
+      "parentUuid": "a766b734_eb20125a",
+      "revId": "06eeec32e6146a91683629ec1579649448878f46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_333602eb",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/internal/LeadingAsteriskMatcher.java",
         "patchSetId": 1
