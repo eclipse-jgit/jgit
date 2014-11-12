@@ -16,6 +16,24 @@
       "revId": "783dcc3c0c8264c150979067874e48e7068f520b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_a41007dd",
+        "filename": "org.eclipse.jgit.java7/src/org/eclipse/jgit/util/FS_POSIX_Java7.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2014-11-12T07:09:28Z",
+      "side": 1,
+      "message": "Matthias, runInShell() method is not static. By changing to runInShell the code needs to be rewritten to use no static init, constants etc. Is this your intention?",
+      "parentUuid": "a766b734_04ca9b16",
+      "revId": "783dcc3c0c8264c150979067874e48e7068f520b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
