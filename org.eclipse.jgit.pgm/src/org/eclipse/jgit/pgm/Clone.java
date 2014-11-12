@@ -82,6 +82,9 @@ class Clone extends AbstractFetchCommand {
 	@Option(name = "--no-checkout", aliases = { "-n" }, usage = "usage_noCheckoutAfterClone")
 	private boolean noCheckout;
 
+	@Option(name = "--bare", usage = "usage_bareClone")
+	private boolean isBare;
+
 	@Argument(index = 0, required = true, metaVar = "metaVar_uriish")
 	private String sourceUri;
 
@@ -108,13 +111,21 @@ class Clone extends AbstractFetchCommand {
 				throw die(MessageFormat.format(CLIText.get().cannotGuessLocalNameFrom, sourceUri));
 			}
 		}
-		if (gitdir == null)
-			gitdir = new File(localName, Constants.DOT_GIT).getAbsolutePath();
+		if (gitdir == null) {
+			if (isBare) {
+				String targetName = localName;
+				if (!targetName.endsWith(Constants.DOT_GIT))
+					targetName += Constants.DOT_GIT;
+				gitdir = new File(targetName).getAbsolutePath();
+			} else
+				gitdir = new File(localName, Constants.DOT_GIT)
+						.getAbsolutePath();
+		}
 
 		dst = new FileRepositoryBuilder().setGitDir(new File(gitdir)).build();
-		dst.create();
+		dst.create(isBare);
 		final StoredConfig dstcfg = dst.getConfig();
-		dstcfg.setBoolean("core", null, "bare", false); //$NON-NLS-1$ //$NON-NLS-2$
+		dstcfg.setBoolean("core", null, "bare", isBare); //$NON-NLS-1$ //$NON-NLS-2$
 		dstcfg.save();
 		db = dst;
 
@@ -196,9 +207,11 @@ class Clone extends AbstractFetchCommand {
 		u.setNewObjectId(commit);
 		u.forceUpdate();
 
-		DirCache dc = db.lockDirCache();
-		DirCacheCheckout co = new DirCacheCheckout(db, dc, commit.getTree());
-		co.checkout();
+		if (!isBare) {
+			DirCache dc = db.lockDirCache();
+			DirCacheCheckout co = new DirCacheCheckout(db, dc, commit.getTree());
+			co.checkout();
+		}
 	}
 
 	private RevCommit parseCommit(final Ref branch)
