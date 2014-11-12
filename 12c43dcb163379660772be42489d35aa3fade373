@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a766b734_a4b4873d",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/internal/CLIText.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-11-12T08:00:56Z",
+      "side": 1,
+      "message": "trailing blank",
+      "range": {
+        "startLine": 256,
+        "startChar": 153,
+        "endLine": 256,
+        "endChar": 154
+      },
+      "revId": "12c43dcb163379660772be42489d35aa3fade373",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_a40927a5",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Config.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-11-12T08:00:56Z",
+      "side": 1,
+      "message": "if you add \"add\" and \"get\" then this error message has to be changed.",
+      "revId": "12c43dcb163379660772be42489d35aa3fade373",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_84d7cb67",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Config.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-11-12T08:00:56Z",
+      "side": 1,
+      "message": "Really? I think you forgot to remove this hardcoded path here.",
+      "range": {
+        "startLine": 97,
+        "startChar": 51,
+        "endLine": 97,
+        "endChar": 54
+      },
+      "revId": "12c43dcb163379660772be42489d35aa3fade373",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_e4ff9fd6",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Config.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-11-12T08:00:56Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we throw an error if we have \u003e4 parts?",
+      "range": {
+        "startLine": 112,
+        "startChar": 11,
+        "endLine": 112,
+        "endChar": 12
+      },
+      "revId": "12c43dcb163379660772be42489d35aa3fade373",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_c4af03ec",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Config.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-11-12T08:00:56Z",
+      "side": 1,
+      "message": "This doesn\u0027t allow to set values with two parts, or (e.g. core.autocrlf)",
+      "range": {
+        "startLine": 132,
+        "startChar": 14,
+        "endLine": 132,
+        "endChar": 17
+      },
+      "revId": "12c43dcb163379660772be42489d35aa3fade373",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
