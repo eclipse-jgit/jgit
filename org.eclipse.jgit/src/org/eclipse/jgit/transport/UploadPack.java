@@ -251,7 +251,10 @@ public class UploadPack {
 	/** Hook handling the various upload phases. */
 	private PreUploadHook preUploadHook = PreUploadHook.NULL;
 
-	/** Capabilities requested by the client. */
+	/** advertised Capabilities. */
+	private Set<String> advertisedCapabilities;
+
+	/** Capabilities requested by the client. Is a subset of {@code advertisedCapabilities}*/
 	private Set<String> options;
 
 	/** Raw ObjectIds the client has asked for, before validating them. */
@@ -790,22 +793,25 @@ public class UploadPack {
 		}
 
 		adv.init(db);
-		adv.advertiseCapability(OPTION_INCLUDE_TAG);
-		adv.advertiseCapability(OPTION_MULTI_ACK_DETAILED);
-		adv.advertiseCapability(OPTION_MULTI_ACK);
-		adv.advertiseCapability(OPTION_OFS_DELTA);
-		adv.advertiseCapability(OPTION_SIDE_BAND);
-		adv.advertiseCapability(OPTION_SIDE_BAND_64K);
-		adv.advertiseCapability(OPTION_THIN_PACK);
-		adv.advertiseCapability(OPTION_NO_PROGRESS);
-		adv.advertiseCapability(OPTION_SHALLOW);
+		advertisedCapabilities = new HashSet<String>();
+		advertisedCapabilities.add(OPTION_INCLUDE_TAG);
+		advertisedCapabilities.add(OPTION_MULTI_ACK_DETAILED);
+		advertisedCapabilities.add(OPTION_MULTI_ACK);
+		advertisedCapabilities.add(OPTION_OFS_DELTA);
+		advertisedCapabilities.add(OPTION_SIDE_BAND);
+		advertisedCapabilities.add(OPTION_SIDE_BAND_64K);
+		advertisedCapabilities.add(OPTION_THIN_PACK);
+		advertisedCapabilities.add(OPTION_NO_PROGRESS);
+		advertisedCapabilities.add(OPTION_SHALLOW);
 		if (!biDirectionalPipe)
-			adv.advertiseCapability(OPTION_NO_DONE);
+			advertisedCapabilities.add(OPTION_NO_DONE);
+
 		RequestPolicy policy = getRequestPolicy();
 		if (policy == RequestPolicy.TIP
 				|| policy == RequestPolicy.REACHABLE_COMMIT_TIP
 				|| policy == null)
-			adv.advertiseCapability(OPTION_ALLOW_TIP_SHA1_IN_WANT);
+			advertisedCapabilities.add(OPTION_ALLOW_TIP_SHA1_IN_WANT);
+		adv.advertiseCapabilities(advertisedCapabilities);
 		adv.setDerefTags(true);
 		advertised = adv.send(getAdvertisedOrDefaultRefs());
 		if (adv.isEmpty())
@@ -873,6 +879,11 @@ public class UploadPack {
 					FirstLine firstLine = new FirstLine(line);
 					options = firstLine.getOptions();
 					line = firstLine.getLine();
+					/*boolean serverBehavior = advertisedCapabilities.containsAll(
+							options);
+					if (!serverBehavior) {
+						throw new PackProtocolException(MessageFormat.format(JGitText.get().nonadvertisedCapabilitesRequested, options.toString(), advertisedCapabilities.toString()));
+					}*/
 				} else
 					options = Collections.emptySet();
 			}
