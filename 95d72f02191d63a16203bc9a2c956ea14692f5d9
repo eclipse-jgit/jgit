@@ -16,6 +16,24 @@
       "revId": "95d72f02191d63a16203bc9a2c956ea14692f5d9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_95dd33db",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BaseRepositoryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-11-12T22:42:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_8ac87f20",
+      "revId": "95d72f02191d63a16203bc9a2c956ea14692f5d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
