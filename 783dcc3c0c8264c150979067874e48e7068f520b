@@ -34,6 +34,24 @@
       "revId": "783dcc3c0c8264c150979067874e48e7068f520b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_444653d9",
+        "filename": "org.eclipse.jgit.java7/src/org/eclipse/jgit/util/FS_POSIX_Java7.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-11-12T07:34:06Z",
+      "side": 1,
+      "message": "you are right, I didn\u0027t spot this\n\nfound FS.readPipe() looks like this should match your use case",
+      "parentUuid": "a766b734_a41007dd",
+      "revId": "783dcc3c0c8264c150979067874e48e7068f520b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
