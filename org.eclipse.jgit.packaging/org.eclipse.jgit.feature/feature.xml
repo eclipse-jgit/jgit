@@ -22,6 +22,12 @@
       <discovery label="%updateSiteName" url="http://download.eclipse.org/egit/updates"/>
    </url>
 
+   <includes
+         id="org.eclipse.jgit.java7"
+         version="0.0.0"
+         name="Java implementation of Git - optional Java 7 libraries"
+         optional="true"/>
+
    <plugin
          id="org.eclipse.jgit"
          download-size="0"
