@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "a766b734_fd2bd4b6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-11-18T12:14:18Z",
+      "side": 1,
+      "message": "s/has/have/",
+      "revId": "8242c01c7d34c5508ca537233a215d14ab3ecab0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_910ff93c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/ignore/IgnoreNodeTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-11-18T12:14:18Z",
+      "side": 1,
+      "message": "we don\u0027t use wildcard imports in order to not import types we don\u0027t use",
+      "revId": "8242c01c7d34c5508ca537233a215d14ab3ecab0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_afac8925",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/ignore/IgnoreNodeTest.java",
         "patchSetId": 5
