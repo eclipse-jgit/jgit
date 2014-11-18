@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "a766b734_71f69dca",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/internal/PathMatcher.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-11-18T09:57:47Z",
+      "side": 1,
+      "message": "we don\u0027t use wildcard imports",
+      "revId": "215dab04032487c9be5c03898541c6ec4b9f7257",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_eb49320a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/internal/Strings.java",
         "patchSetId": 2
