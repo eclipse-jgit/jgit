@@ -52,6 +52,24 @@
       "revId": "2f5f55a793cb620c83e189d01712acfd46172b4b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_0c06325c",
+        "filename": "org.eclipse.jgit.java7.test/src/org/eclipse/jgit/util/FSJava7Test.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2014-11-18T14:51:34Z",
+      "side": 1,
+      "message": "It is correct, we can\u0027t do anything with umask if it doesn\u0027t \"fit\". Therefore the question again: should we remove the if(badUmask) case? \n\nMy motivation to add this check was that if a developer wants to develop jgit on Linux the developer must run all the tests and therefore the developer has to use \"default\" umask which allows to have full test coverage.",
+      "parentUuid": "a766b734_4cbaea09",
+      "revId": "2f5f55a793cb620c83e189d01712acfd46172b4b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
