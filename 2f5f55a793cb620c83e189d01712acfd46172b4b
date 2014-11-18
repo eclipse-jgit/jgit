@@ -34,6 +34,24 @@
       "revId": "2f5f55a793cb620c83e189d01712acfd46172b4b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_4cbaea09",
+        "filename": "org.eclipse.jgit.java7.test/src/org/eclipse/jgit/util/FSJava7Test.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-11-18T14:40:42Z",
+      "side": 1,
+      "message": "why is umask 027 bad ? The test itself can\u0027t change umask so it should live with what is set on OS level. Of course this means the test can\u0027t cover all cases. Or do I miss something?",
+      "parentUuid": "a766b734_915c1978",
+      "revId": "2f5f55a793cb620c83e189d01712acfd46172b4b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
