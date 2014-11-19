@@ -70,6 +70,24 @@
       "revId": "2f5f55a793cb620c83e189d01712acfd46172b4b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_ab5e01bc",
+        "filename": "org.eclipse.jgit.java7.test/src/org/eclipse/jgit/util/FSJava7Test.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-11-19T21:55:07Z",
+      "side": 1,
+      "message": "I discussed this with Christian and we came to the conclusion that the best way to handle badUmask is to ignore the test and print a warning on the error stream to signal the problem to the developer, this way we don\u0027t enforce changing umask but the problem doesn\u0027t go unnoticed.\n\nI\u0027ll upload a new patchset doing that in a minute",
+      "parentUuid": "a766b734_0c06325c",
+      "revId": "2f5f55a793cb620c83e189d01712acfd46172b4b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
