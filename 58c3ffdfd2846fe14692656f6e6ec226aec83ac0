@@ -43,6 +43,42 @@
     },
     {
       "key": {
+        "uuid": "a766b734_31bede4e",
+        "filename": "org.eclipse.jgit.java7.test/src/org/eclipse/jgit/util/FSJava7Test.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-11-20T14:29:03Z",
+      "side": 1,
+      "message": "that might be caused by the special character \"å\" which maybe isn\u0027t supported on your system\u0027s default locale, we had problems with that on Hudson also which IIRC runs SLES 12, we asked webmaster to set LC_ALL\u003den_US.UTF-8 and this fixed the issues with this test, see https://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d416880",
+      "parentUuid": "a766b734_b1faee33",
+      "revId": "58c3ffdfd2846fe14692656f6e6ec226aec83ac0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_51b9da64",
+        "filename": "org.eclipse.jgit.java7.test/src/org/eclipse/jgit/util/FSJava7Test.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-11-20T14:29:03Z",
+      "side": 1,
+      "message": "on Windows you need the privilege SeCreateSymbolicLinkPrivilege\n\nsee https://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d354367#c41",
+      "parentUuid": "a766b734_91a5328c",
+      "revId": "58c3ffdfd2846fe14692656f6e6ec226aec83ac0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_91c9b224",
         "filename": "org.eclipse.jgit.java7.test/src/org/eclipse/jgit/util/FSJava7Test.java",
         "patchSetId": 5
