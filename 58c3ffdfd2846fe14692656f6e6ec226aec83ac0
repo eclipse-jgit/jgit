@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a766b734_91a5328c",
+        "filename": "org.eclipse.jgit.java7.test/src/org/eclipse/jgit/util/FSJava7Test.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-11-20T13:45:49Z",
+      "side": 1,
+      "message": "Just a comment:\nThis test fails on Windows\u0026Java7 with \n\njava.nio.file.FileSystemException: C:\\Users\\d032780\\AppData\\Local\\Temp\\tmp_7205603528745083091\\ä: A required privilege is not held by the client.\n\n\tat sun.nio.fs.WindowsException.translateToIOException(Unknown Source)\n\tat sun.nio.fs.WindowsException.rethrowAsIOException(Unknown Source)\n\tat sun.nio.fs.WindowsException.rethrowAsIOException(Unknown Source)\n\tat sun.nio.fs.WindowsFileSystemProvider.createSymbolicLink(Unknown Source)\n\tat java.nio.file.Files.createSymbolicLink(Unknown Source)\n\tat org.eclipse.jgit.util.FileUtil.createSymLink(FileUtil.java:96)\n\tat org.eclipse.jgit.util.FS_Win32_Java7.createSymLink(FS_Win32_Java7.java:152)\n\tat \n...\n\n\nI know, you haven\u0027t touched the code.",
+      "range": {
+        "startLine": 97,
+        "startChar": 27,
+        "endLine": 97,
+        "endChar": 30
+      },
+      "revId": "58c3ffdfd2846fe14692656f6e6ec226aec83ac0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_91c9b224",
+        "filename": "org.eclipse.jgit.java7.test/src/org/eclipse/jgit/util/FSJava7Test.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-11-20T13:45:49Z",
+      "side": 1,
+      "message": "Why this fsTick() call? It just waits long enough so that the next filesystem modification would lead to a lastmodification timestamp younger than the modification timestamp of f. Means: It makes sure that a file modified after the fstick call has a younger modification timestamp than f.\n\nWhy is this needed here?",
+      "range": {
+        "startLine": 153,
+        "startChar": 29,
+        "endLine": 153,
+        "endChar": 31
+      },
+      "revId": "58c3ffdfd2846fe14692656f6e6ec226aec83ac0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
