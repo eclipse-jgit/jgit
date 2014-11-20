@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_b1faee33",
+        "filename": "org.eclipse.jgit.java7.test/src/org/eclipse/jgit/util/FSJava7Test.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2014-11-20T14:03:27Z",
+      "side": 1,
+      "message": "I see similar error on RHEL5 \u0026 Java 7:\njava.nio.file.NoSuchFileException: /tmp/tmp_7155677982868437684/å\n\tat sun.nio.fs.UnixException.translateToIOException(UnixException.java:86)\n\tat sun.nio.fs.UnixException.rethrowAsIOException(UnixException.java:102)\n\tat sun.nio.fs.UnixException.rethrowAsIOException(UnixException.java:107)\n\tat sun.nio.fs.UnixFileAttributeViews$Basic.readAttributes(UnixFileAttributeViews.java:55)\n\tat sun.nio.fs.UnixFileSystemProvider.readAttributes(UnixFileSystemProvider.java:143)\n\tat sun.nio.fs.LinuxFileSystemProvider.readAttributes(LinuxFileSystemProvider.java:96)\n\tat java.nio.file.Files.readAttributes(Files.java:1669)\n\tat java.nio.file.Files.getLastModifiedTime(Files.java:2192)\n\tat org.eclipse.jgit.util.FileUtil.lastModified(FileUtil.java:106)\n\tat org.eclipse.jgit.util.FS_POSIX_Java7.lastModified(FS_POSIX_Java7.java:271)\n\tat org.eclipse.jgit.util.FSJava7Test.testSymlinkAttributes(FSJava7Test.java:114)\n\nAnd yes, I didn\u0027t touched this one in the assumption that it\u0027s only me who sees the issue (my RHEL 5.8 system is *really* ancient).",
+      "parentUuid": "a766b734_91a5328c",
+      "revId": "58c3ffdfd2846fe14692656f6e6ec226aec83ac0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_91c9b224",
         "filename": "org.eclipse.jgit.java7.test/src/org/eclipse/jgit/util/FSJava7Test.java",
         "patchSetId": 5
@@ -42,6 +60,24 @@
         "endLine": 153,
         "endChar": 31
       },
+      "revId": "58c3ffdfd2846fe14692656f6e6ec226aec83ac0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_f1f0e653",
+        "filename": "org.eclipse.jgit.java7.test/src/org/eclipse/jgit/util/FSJava7Test.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2014-11-20T14:03:27Z",
+      "side": 1,
+      "message": "Test passes without the code, which was added as \"paranoia\" to separate set/read code by few ticks. Should I remove the line?",
+      "parentUuid": "a766b734_91c9b224",
       "revId": "58c3ffdfd2846fe14692656f6e6ec226aec83ac0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
