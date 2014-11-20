@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_51cd5a5f",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 5
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2014-11-20T13:08:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_ae328ff2",
+      "revId": "56dd20469c205fb68516b491f5ba7b25b9b54be9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_0e2c6399",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
         "patchSetId": 5
@@ -42,6 +60,24 @@
         "endLine": 633,
         "endChar": 14
       },
+      "revId": "56dd20469c205fb68516b491f5ba7b25b9b54be9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_31d25efd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 633,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2014-11-20T13:08:47Z",
+      "side": 1,
+      "message": "True :). Changed that.",
+      "parentUuid": "a766b734_0e2c6399",
       "revId": "56dd20469c205fb68516b491f5ba7b25b9b54be9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -71,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_f18c660f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 647,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2014-11-20T13:08:47Z",
+      "side": 1,
+      "message": "cgit does not differentiate between \"not called\" and \"returned 0\", so I haven\u0027t either.\n\nI wanted to preserve the exit code in case we ever need it... but I guess I could treat \"-1\" as a special case meaning that the hook wasn\u0027t run... Or create a \"ProcessResult\" class to hold the exit code and an enum telling me \"OK\", \"NOT_PRESENT\" or \"NOT_AVAILABLE\"? Though in the present case and with the hooks I\u0027ve implemented so far, I see no use for this information. Should I implement it anyway?",
+      "parentUuid": "a766b734_ee280787",
+      "revId": "56dd20469c205fb68516b491f5ba7b25b9b54be9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_4ecdbb5f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
         "patchSetId": 5
@@ -88,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_91d372ff",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 706,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2014-11-20T13:08:47Z",
+      "side": 1,
+      "message": "Humm... I guess I\u0027m just stupid :). I implemented this in java 7 first and reverted it to java 5 afterwards, so I just didn\u0027t think about the easy way ^^.\n\nChanged to this much simpler implementation.",
+      "parentUuid": "a766b734_4ecdbb5f",
+      "revId": "56dd20469c205fb68516b491f5ba7b25b9b54be9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_6ee87729",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
         "patchSetId": 5
@@ -99,6 +171,24 @@
       "writtenOn": "2014-11-20T12:08:00Z",
       "side": 1,
       "message": "This method is not specific to hooks at all, or?",
+      "revId": "56dd20469c205fb68516b491f5ba7b25b9b54be9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_11c7623b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 754,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2014-11-20T13:08:47Z",
+      "side": 1,
+      "message": "I did try to make it as generic as possible... Though now that you mention it, I did end up with something that\u0027s completely unrelated to the hooks. Would you rather I rename this to \"runProcess\" ?",
+      "parentUuid": "a766b734_6ee87729",
       "revId": "56dd20469c205fb68516b491f5ba7b25b9b54be9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -128,6 +218,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_f1c3c62a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1062,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2014-11-20T13:08:47Z",
+      "side": 1,
+      "message": "Indeed. Done.",
+      "parentUuid": "a766b734_6effd7d8",
+      "revId": "56dd20469c205fb68516b491f5ba7b25b9b54be9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_9118927d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
         "patchSetId": 5
@@ -151,6 +259,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_51f43a7d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2014-11-20T13:08:47Z",
+      "side": 1,
+      "message": "Yes, I seek for a common prefix between the two paths to make the second relative to the \"location\" specified by the first. In the example I give above, if \"project\" is a folder, the relative path will be \"../another_project/pom.xml\". If it is a file, I guess the result should drop the leading \"..\". I\u0027ll change the javadoc to make this assumption explicit.",
+      "parentUuid": "a766b734_9118927d",
+      "revId": "56dd20469c205fb68516b491f5ba7b25b9b54be9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_711df66a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
         "patchSetId": 5
@@ -168,6 +294,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_519f1a3f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2014-11-20T13:08:47Z",
+      "side": 1,
+      "message": "I must admit that I didn\u0027t even think about case sensitivity (this was coded on windows, and still I haven\u0027t noticed the potential issue). Nice catch.\n\nI\u0027ll write a few tests to make the behavior clear then try and fix the implementation to behave well on windows with examples such as what you\u0027ve just given here.",
+      "parentUuid": "a766b734_711df66a",
+      "revId": "56dd20469c205fb68516b491f5ba7b25b9b54be9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_d135eade",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/Hook.java",
         "patchSetId": 5
@@ -179,6 +323,24 @@
       "writtenOn": "2014-11-20T12:08:00Z",
       "side": 1,
       "message": "nit: trailing blank",
+      "revId": "56dd20469c205fb68516b491f5ba7b25b9b54be9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_31a41e8e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/Hook.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2014-11-20T13:08:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_d135eade",
       "revId": "56dd20469c205fb68516b491f5ba7b25b9b54be9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
