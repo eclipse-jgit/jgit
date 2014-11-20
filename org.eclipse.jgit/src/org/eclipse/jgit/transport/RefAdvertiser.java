@@ -43,6 +43,8 @@
 
 package org.eclipse.jgit.transport;
 
+import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SYMREF;
+
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -143,6 +145,27 @@ public abstract class RefAdvertiser {
 	 */
 	public void advertiseCapability(String name) {
 		capablities.add(name);
+	}
+
+	/**
+	 * Add a symbolic ref to capabilities.
+	 * <p>
+	 * This method must be invoked prior to any of the following:
+	 * <ul>
+	 * <li>{@link #send(Map)}
+	 * <li>{@link #advertiseHave(AnyObjectId)}
+	 * </ul>
+	 *
+	 * @param from
+	 *            The symbolic ref, e.g. "HEAD"
+	 * @param to
+	 *            The real ref it points to, e.g. "refs/heads/master"
+	 *
+	 * @since 3.6
+	 */
+	public void addSymref(String from, String to) {
+		String symref = String.format("%s=%s:%s", OPTION_SYMREF, from, to); //$NON-NLS-1$
+		advertiseCapability(symref);
 	}
 
 	/**
