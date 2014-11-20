@@ -130,6 +130,13 @@ public class GitProtocolConstants {
 	public static final String OPTION_ALLOW_TIP_SHA1_IN_WANT = "allow-tip-sha1-in-want"; //$NON-NLS-1$
 
 	/**
+	 * Symbolic reference support for better negotiation.
+	 *
+	 * @since 3.6
+	 */
+	public static final String OPTION_SYMREF = "symref"; //$NON-NLS-1$
+
+	/**
 	 * The client supports atomic pushes. If this option is used, the server
 	 * will update all refs within one atomic transaction.
 	 *
