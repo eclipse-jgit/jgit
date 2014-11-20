@@ -1,0 +1,187 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a766b734_ae328ff2",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 5
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-11-20T12:08:00Z",
+      "side": 1,
+      "message": "The lines in this file seem to be sorted. Please put this line to the correct place",
+      "range": {
+        "startLine": 195,
+        "startChar": 0,
+        "endLine": 195,
+        "endChar": 33
+      },
+      "revId": "56dd20469c205fb68516b491f5ba7b25b9b54be9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_0e2c6399",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 633,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-11-20T12:08:00Z",
+      "side": 1,
+      "message": "Why \"By default\"? This method uses stdout and stderr and I have no chance choosing something different. I would simply say \"The hook\u0027s standard ...\"",
+      "range": {
+        "startLine": 633,
+        "startChar": 7,
+        "endLine": 633,
+        "endChar": 14
+      },
+      "revId": "56dd20469c205fb68516b491f5ba7b25b9b54be9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_ee280787",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 647,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-11-20T12:08:00Z",
+      "side": 1,
+      "message": "Do I have the chance to find out whether a hook was called or  not? Depending on the environment you may want to warn the caller if e.g. a hook was present but couldn\u0027t be executed on this FS. A caller may skip certain steps if he knows that no hook was executed (and therefore nothing has changed in his repo)",
+      "range": {
+        "startLine": 647,
+        "startChar": 21,
+        "endLine": 647,
+        "endChar": 23
+      },
+      "revId": "56dd20469c205fb68516b491f5ba7b25b9b54be9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_4ecdbb5f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 706,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-11-20T12:08:00Z",
+      "side": 1,
+      "message": "you spent so much effort on FileFilter and listFiles calls that I guess I am overlooking something. But why not implement this method as:\n\n  public File findHook(Repository repository, final Hook hook) {\n    File hookf \u003d new File(\n      new File(repository.getDirectory(), \"hooks\"), hook.getName()); //$NON-NLS-1$\n    return hookf.isFile() ? hookf : null;\n  }",
+      "revId": "56dd20469c205fb68516b491f5ba7b25b9b54be9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_6ee87729",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 754,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-11-20T12:08:00Z",
+      "side": 1,
+      "message": "This method is not specific to hooks at all, or?",
+      "revId": "56dd20469c205fb68516b491f5ba7b25b9b54be9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_6effd7d8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1062,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-11-20T12:08:00Z",
+      "side": 1,
+      "message": "why create a buffer to store some content which we want to throw away in the end? If output is \u003cnull\u003e don\u0027t initialize a writer and during the call() method when writer is not initialized just read lines.",
+      "range": {
+        "startLine": 1062,
+        "startChar": 31,
+        "endLine": 1062,
+        "endChar": 36
+      },
+      "revId": "56dd20469c205fb68516b491f5ba7b25b9b54be9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_9118927d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-11-20T12:08:00Z",
+      "side": 1,
+      "message": "Question: are expecting that base is always a folder",
+      "range": {
+        "startLine": 414,
+        "startChar": 26,
+        "endLine": 414,
+        "endChar": 27
+      },
+      "revId": "56dd20469c205fb68516b491f5ba7b25b9b54be9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_711df66a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-11-20T12:08:00Z",
+      "side": 1,
+      "message": "If we interprete base and other as Strings in the current filesystem we maybe should take care about case sensitivity. E.g. on Windows base\u003d\"C:\\git\\jgit\" and ours\u003d\"C:\\Git\\test\\d\\f.txt\" should lead to \"..\\test\\d\\f.txt\". The current implementation would return \"..\\..\\Git\\test\\d\\f.txt\". On Windows \"C:\\Git\" and \"C:\\git\" refer to the same folder. \n\nIt\u0027s a shame we can\u0027t use Java7. There is Path.relativize().\n\nI think we need some tests here.",
+      "revId": "56dd20469c205fb68516b491f5ba7b25b9b54be9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_d135eade",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/Hook.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-11-20T12:08:00Z",
+      "side": 1,
+      "message": "nit: trailing blank",
+      "revId": "56dd20469c205fb68516b491f5ba7b25b9b54be9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
