@@ -807,6 +807,7 @@ public class UploadPack {
 				|| policy == null)
 			adv.advertiseCapability(OPTION_ALLOW_TIP_SHA1_IN_WANT);
 		adv.setDerefTags(true);
+		findSymrefs(adv);
 		advertised = adv.send(getAdvertisedOrDefaultRefs());
 		if (adv.isEmpty())
 			adv.advertiseId(ObjectId.zeroId(), "capabilities^{}"); //$NON-NLS-1$
@@ -1429,5 +1430,12 @@ public class UploadPack {
 
 		if (sideband)
 			pckOut.end();
+	}
+
+	private void findSymrefs(final RefAdvertiser adv) throws IOException {
+		Ref head = db.getRef(Constants.HEAD);
+		if (head != null && head.isSymbolic()) {
+			adv.addSymref(Constants.HEAD, head.getLeaf().getName());
+		}
 	}
 }
