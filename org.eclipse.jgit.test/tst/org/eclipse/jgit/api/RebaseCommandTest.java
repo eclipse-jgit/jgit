@@ -824,7 +824,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 				"<<<<<<< Upstream, based on master\n1master\n=======\n1topic",
 				">>>>>>> e0d1dea change file1 in topic\n2\n3\ntopic4");
 
-		assertEquals(RepositoryState.REBASING_INTERACTIVE, db
+		assertEquals(RepositoryState.REBASING_MERGE, db
 				.getRepositoryState());
 		assertTrue(new File(db.getDirectory(), "rebase-merge").exists());
 		// the first one should be included, so we should have left two picks in
@@ -887,7 +887,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 				"<<<<<<< Upstream, based on master\n1master\n=======\n1topic",
 				">>>>>>> e0d1dea change file1 in topic\n2\n3\ntopic4");
 
-		assertEquals(RepositoryState.REBASING_INTERACTIVE,
+		assertEquals(RepositoryState.REBASING_MERGE,
 				db.getRepositoryState());
 		assertTrue(new File(db.getDirectory(), "rebase-merge").exists());
 		// the first one should be included, so we should have left two picks in
@@ -1009,7 +1009,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		res = git.rebase().setOperation(Operation.CONTINUE).call();
 		assertNotNull(res);
 		assertEquals(Status.NOTHING_TO_COMMIT, res.getStatus());
-		assertEquals(RepositoryState.REBASING_INTERACTIVE,
+		assertEquals(RepositoryState.REBASING_MERGE,
 				db.getRepositoryState());
 
 		git.rebase().setOperation(Operation.SKIP).call();
@@ -1300,7 +1300,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		// user can decide what to do. if he accidentally committed, reset soft,
 		// and continue, if he really has nothing to commit, skip.
 		assertEquals(Status.NOTHING_TO_COMMIT, res.getStatus());
-		assertEquals(RepositoryState.REBASING_INTERACTIVE,
+		assertEquals(RepositoryState.REBASING_MERGE,
 				db.getRepositoryState());
 
 		git.rebase().setOperation(Operation.SKIP).call();
@@ -1401,7 +1401,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		assertEquals(Status.STOPPED, res.getStatus());
 		assertEquals(conflicting, res.getCurrentCommit());
 
-		assertEquals(RepositoryState.REBASING_INTERACTIVE, db
+		assertEquals(RepositoryState.REBASING_MERGE, db
 				.getRepositoryState());
 		assertTrue(new File(db.getDirectory(), "rebase-merge").exists());
 		// the first one should be included, so we should have left two picks in
