@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a766b734_82aa0258",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2014-11-21T11:13:08Z",
+      "side": 1,
+      "message": "Still needs handling as per comments on patch set 3 (https://git.eclipse.org/r/#/c/35791/3/org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java)",
+      "revId": "4e2702099b47dcaa53879415e471877bbf9237ad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
