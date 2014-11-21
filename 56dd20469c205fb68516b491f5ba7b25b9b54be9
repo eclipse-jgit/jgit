@@ -125,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_779166a5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 647,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-11-21T09:05:41Z",
+      "side": 1,
+      "message": "I would spent a return value class and a enum as you suggested. This allows also to write tests which check that behaviour. That\u0027s not needed for our usages in the api package but users which don\u0027t use api may be interested. And ... maybe the CommitCommand may emit a warning if hooks are present but not executed.",
+      "parentUuid": "a766b734_f18c660f",
+      "revId": "56dd20469c205fb68516b491f5ba7b25b9b54be9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_4ecdbb5f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
         "patchSetId": 5
@@ -189,6 +207,24 @@
       "side": 1,
       "message": "I did try to make it as generic as possible... Though now that you mention it, I did end up with something that\u0027s completely unrelated to the hooks. Would you rather I rename this to \"runProcess\" ?",
       "parentUuid": "a766b734_6ee87729",
+      "revId": "56dd20469c205fb68516b491f5ba7b25b9b54be9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_b7a65e09",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 754,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-11-21T09:05:41Z",
+      "side": 1,
+      "message": "Yes, runProcess. You did it already. Done",
+      "parentUuid": "a766b734_11c7623b",
       "revId": "56dd20469c205fb68516b491f5ba7b25b9b54be9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
