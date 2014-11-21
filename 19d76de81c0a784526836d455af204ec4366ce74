@@ -22,6 +22,24 @@
       "revId": "19d76de81c0a784526836d455af204ec4366ce74",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_a20bbe61",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2014-11-21T09:35:19Z",
+      "side": 1,
+      "message": "Didn\u0027t know about Mac specificities, sorry about that. Though from the tests, I don\u0027t know if I can easily \"mock\" the case insensitivity with this. Changing the system property to \"windows\" allowed me to check both behaviors from the same machine, but with the FS, I don\u0027t think I can easily do that (and I don\u0027t really want to add a boolean parameter to relativize only to enable case insensitivity...).\n\nI\u0027ll upload a new patch set as soon as I find a way for this in the tests.",
+      "parentUuid": "a766b734_9787e265",
+      "revId": "19d76de81c0a784526836d455af204ec4366ce74",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
