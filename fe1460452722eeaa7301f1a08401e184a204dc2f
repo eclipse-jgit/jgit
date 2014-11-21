@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a766b734_5d2c4bd0",
+        "filename": "org.eclipse.jgit.java7.test/src/org/eclipse/jgit/util/FSJava7Test.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-11-21T15:09:37Z",
+      "side": 1,
+      "message": "If we introduce later FS_POSIX_Java8 (subclassing FS_POSIX_Java7) then this test would be skipped although being valid. If on my system I have no \"sh\" or one which doesn\u0027t understand the buildin umask command than the test should be skipped. I would\n\n  org.junit.Assume.assumeTrue(fs instanceof FS_POSIX_Java7);\n  String umask \u003d readUmask();\n  org.junit.Assume.assumeTrue(umask !\u003d null);",
+      "range": {
+        "startLine": 125,
+        "startChar": 71,
+        "endLine": 125,
+        "endChar": 74
+      },
+      "revId": "fe1460452722eeaa7301f1a08401e184a204dc2f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_c2907ad2",
+        "filename": "org.eclipse.jgit.java7/src/org/eclipse/jgit/util/FS_POSIX_Java7.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-11-21T15:09:37Z",
+      "side": 1,
+      "message": "/or/of/",
+      "revId": "fe1460452722eeaa7301f1a08401e184a204dc2f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_e2a936dd",
+        "filename": "org.eclipse.jgit.java7/src/org/eclipse/jgit/util/FS_POSIX_Java7.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-11-21T15:09:37Z",
+      "side": 1,
+      "message": "/fail/fall/",
+      "range": {
+        "startLine": 148,
+        "startChar": 73,
+        "endLine": 148,
+        "endChar": 74
+      },
+      "revId": "fe1460452722eeaa7301f1a08401e184a204dc2f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_a2873e65",
+        "filename": "org.eclipse.jgit.java7/src/org/eclipse/jgit/util/FS_POSIX_Java7.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-11-21T15:09:37Z",
+      "side": 1,
+      "message": "Why have you changed this coding? FS.readPipe(..) was smaller. To slow?",
+      "revId": "fe1460452722eeaa7301f1a08401e184a204dc2f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
