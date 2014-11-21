@@ -79,6 +79,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_f17d8624",
+        "filename": "org.eclipse.jgit.java7.test/src/org/eclipse/jgit/util/FSJava7Test.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-11-21T12:30:56Z",
+      "side": 1,
+      "message": "Not sure whether that\u0027s the same problem. For Windows boxes it\u0027s clear. We cannot with normal privileges create symlinks. Even not with java 7. So we should \"assume\" that creating links is supported and by that ignore the tests on platforms which don\u0027t allow creation of symlinks.",
+      "parentUuid": "a766b734_b1faee33",
+      "revId": "58c3ffdfd2846fe14692656f6e6ec226aec83ac0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_91c9b224",
         "filename": "org.eclipse.jgit.java7.test/src/org/eclipse/jgit/util/FSJava7Test.java",
         "patchSetId": 5
@@ -114,6 +132,24 @@
       "side": 1,
       "message": "Test passes without the code, which was added as \"paranoia\" to separate set/read code by few ticks. Should I remove the line?",
       "parentUuid": "a766b734_91c9b224",
+      "revId": "58c3ffdfd2846fe14692656f6e6ec226aec83ac0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_913252a6",
+        "filename": "org.eclipse.jgit.java7.test/src/org/eclipse/jgit/util/FSJava7Test.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-11-21T12:30:56Z",
+      "side": 1,
+      "message": "I would do. fsTick(f) may sometimes wait for 2 seconds which is simply unneeded.",
+      "parentUuid": "a766b734_f1f0e653",
       "revId": "58c3ffdfd2846fe14692656f6e6ec226aec83ac0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
