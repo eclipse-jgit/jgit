@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a766b734_17f47246",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 811,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-11-21T00:44:16Z",
+      "side": 1,
+      "message": "You need to use the HEAD that comes from this collection. Something like:\n\n  Map\u003cString, Ref\u003e refs \u003d getAdvertisedOrDefaultRefs();\n  addSymrefs(adv, refs);\n  advertised \u003d adv.send(refs);",
+      "range": {
+        "startLine": 811,
+        "startChar": 24,
+        "endLine": 811,
+        "endChar": 52
+      },
+      "revId": "cc8d15e95f7a1340f8680ccaec534da0195f5a40",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
