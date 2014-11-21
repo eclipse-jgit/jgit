@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_b7d3fecb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2014-11-21T00:23:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_375d2ef6",
+      "revId": "3284f80ea1a0e7fc62b6fefb1b06dc55c4e0d209",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_775326e7",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefAdvertiser.java",
         "patchSetId": 2
@@ -48,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_1742b211",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefAdvertiser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2014-11-21T00:23:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_775326e7",
+      "revId": "3284f80ea1a0e7fc62b6fefb1b06dc55c4e0d209",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_974ec241",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 2
@@ -65,6 +101,24 @@
         "endLine": 1441,
         "endChar": 57
       },
+      "revId": "3284f80ea1a0e7fc62b6fefb1b06dc55c4e0d209",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_f73e168f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1441,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2014-11-21T00:23:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_974ec241",
       "revId": "3284f80ea1a0e7fc62b6fefb1b06dc55c4e0d209",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
