@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a766b734_9787e265",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-11-21T09:05:55Z",
+      "side": 1,
+      "message": "No, this time it\u0027s not only Windows. Also Mac\u0027s (with HFS+) have specific behavior here which differs from e.g. standard linux filesystems. Instead just ask our FS class: FS.isCaseSensitive(). (Do the same in the tests, don\u0027t rely on windows)",
+      "range": {
+        "startLine": 426,
+        "startChar": 65,
+        "endLine": 426,
+        "endChar": 68
+      },
+      "revId": "19d76de81c0a784526836d455af204ec4366ce74",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
