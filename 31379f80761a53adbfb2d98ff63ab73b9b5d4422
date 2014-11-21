@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a766b734_fdb557b3",
+        "filename": "org.eclipse.jgit.java7/src/org/eclipse/jgit/util/FS_POSIX_Java7.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2014-11-21T16:24:32Z",
+      "side": 1,
+      "message": "In fact I had now to revert FS.readPipe() change from Matthias as this made the test to fail almost always and to pass randomly. \n\nLooking at the code of the FS.readPipe I\u0027m a little bit scared if this all needed to read one line output.",
+      "revId": "31379f80761a53adbfb2d98ff63ab73b9b5d4422",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
