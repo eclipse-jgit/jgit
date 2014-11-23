@@ -58,6 +58,9 @@ import org.kohsuke.args4j.Option;
 
 @Command(common = true, usage = "usage_LsRemote")
 class LsRemote extends TextBuiltin {
+	@Option(name = "--heads", usage = "usage_lsRemoteHeads")
+	private boolean heads;
+
 	@Option(name = "--timeout", metaVar = "metaVar_service", usage = "usage_abortConnectionIfNoActivity")
 	int timeout = -1;
 
@@ -66,7 +69,8 @@ class LsRemote extends TextBuiltin {
 
 	@Override
 	protected void run() throws Exception {
-		LsRemoteCommand command = Git.lsRemoteRepository().setRemote(remote);
+		LsRemoteCommand command = Git.lsRemoteRepository().setRemote(remote)
+				.setHeads(heads);
 		TreeSet<Ref> refs = new TreeSet<Ref>(new Comparator<Ref>() {
 
 			public int compare(Ref r1, Ref r2) {
