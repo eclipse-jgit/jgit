@@ -1,7 +1,5 @@
 /*
- * Copyright (C) 2009, Google Inc.
- * Copyright (C) 2008, Jonas Fonseca <fonseca@diku.dk>
- * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
+ * Copyright (C) 2014, Matthias Sohn <matthias.sohn@sap.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -42,56 +40,57 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 package org.eclipse.jgit.pgm;
 
-import java.io.IOException;
-import java.util.Comparator;
-import java.util.TreeSet;
+import static org.junit.Assert.assertArrayEquals;
+
+import java.util.List;
 
 import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.api.LsRemoteCommand;
-import org.eclipse.jgit.lib.AnyObjectId;
-import org.eclipse.jgit.lib.Ref;
-import org.kohsuke.args4j.Argument;
-import org.kohsuke.args4j.Option;
+import org.eclipse.jgit.lib.CLIRepositoryTestCase;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.RefUpdate;
+import org.junit.Before;
+import org.junit.Test;
 
-@Command(common = true, usage = "usage_LsRemote")
-class LsRemote extends TextBuiltin {
-	@Option(name = "--timeout", metaVar = "metaVar_service", usage = "usage_abortConnectionIfNoActivity")
-	int timeout = -1;
-
-	@Argument(index = 0, metaVar = "metaVar_uriish", required = true)
-	private String remote;
+public class LsRemoteTest extends CLIRepositoryTestCase {
+	private Git git;
 
 	@Override
-	protected void run() throws Exception {
-		LsRemoteCommand command = Git.lsRemoteRepository().setRemote(remote)
-				.setTimeout(timeout);
-		TreeSet<Ref> refs = new TreeSet<Ref>(new Comparator<Ref>() {
+	@Before
+	public void setUp() throws Exception {
+		super.setUp();
+		git = new Git(db);
+		// commit something
+		writeTrashFile("Test.txt", "Hello world");
+		git.add().addFilepattern("Test.txt").call();
+		git.commit().setMessage("Initial commit").call();
 
-			public int compare(Ref r1, Ref r2) {
-				return r1.getName().compareTo(r2.getName());
-			}
-		});
-		refs.addAll(command.call());
-		for (final Ref r : refs) {
-			show(r.getObjectId(), r.getName());
-			if (r.getPeeledObjectId() != null)
-				show(r.getPeeledObjectId(), r.getName() + "^{}"); //$NON-NLS-1$
-		}
+		// create a master branch and switch to it
+		git.branchCreate().setName("test").call();
+		RefUpdate rup = db.updateRef(Constants.HEAD);
+		rup.link("refs/heads/test");
+
+		// tags
+		git.tag().setName("tag1").call();
+		git.tag().setName("tag2").call();
+		git.tag().setName("tag3").call();
 	}
 
-	@Override
-	protected boolean requiresRepository() {
-		return false;
-	}
-
-	private void show(final AnyObjectId id, final String name)
-			throws IOException {
-		outw.print(id.name());
-		outw.print('\t');
-		outw.print(name);
-		outw.println();
+	@Test
+	public void testLsRemote() throws Exception {
+		final List<String> result = CLIGitCommand.execute(
+				"git ls-remote " + db.getDirectory(), db);
+		assertArrayEquals(new String[] {
+				"d0b1ef2b3dea02bb2ca824445c04e6def012c32c	HEAD",
+				"d0b1ef2b3dea02bb2ca824445c04e6def012c32c	refs/heads/master",
+				"d0b1ef2b3dea02bb2ca824445c04e6def012c32c	refs/heads/test",
+				"efc02078d83a5226986ae917323acec7e1e8b7cb	refs/tags/tag1",
+				"d0b1ef2b3dea02bb2ca824445c04e6def012c32c	refs/tags/tag1^{}",
+				"4e4b837e0fd4ba83c003678b03592dc1509a4115	refs/tags/tag2",
+				"d0b1ef2b3dea02bb2ca824445c04e6def012c32c	refs/tags/tag2^{}",
+				"489384bf8ace47522fe32093d2ceb85b65a6cbb1	refs/tags/tag3",
+				"d0b1ef2b3dea02bb2ca824445c04e6def012c32c	refs/tags/tag3^{}",
+				"" }, result.toArray());
 	}
 }
