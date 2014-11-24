@@ -329,9 +329,8 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 
 	private void resetUntracked(RevTree tree) throws CheckoutConflictException,
 			IOException {
-		TreeWalk walk = null;
+		TreeWalk walk = new TreeWalk(repo); // maybe NameConflictTreeWalk;
 		try {
-			walk = new TreeWalk(repo); // maybe NameConflictTreeWalk?
 			walk.addTree(tree);
 			walk.addTree(new FileTreeIterator(repo));
 			walk.setRecursive(true);
@@ -362,8 +361,7 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 				checkoutPath(entry, reader);
 			}
 		} finally {
-			if (walk != null)
-				walk.release();
+			walk.release();
 		}
 	}
 

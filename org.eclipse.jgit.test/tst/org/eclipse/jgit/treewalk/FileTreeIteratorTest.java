@@ -291,13 +291,13 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 		// Modify previously committed DirCacheEntry and write it back to disk
 		DirCacheEntry dce = db.readDirCache().getEntry("symlink");
 		dce.setFileMode(FileMode.SYMLINK);
-		DirCacheCheckout.checkoutEntry(db, f, dce);
+		ObjectReader objectReader = db.newObjectReader();
+		DirCacheCheckout.checkoutEntry(db, f, dce, objectReader);
 
 		FileTreeIterator fti = new FileTreeIterator(trash, db.getFS(), db
 				.getConfig().get(WorkingTreeOptions.KEY));
 		while (!fti.getEntryPathString().equals("symlink"))
 			fti.next(1);
-		ObjectReader objectReader = db.newObjectReader();
 		assertFalse(fti.isModified(dce, false, objectReader));
 		objectReader.release();
 	}
