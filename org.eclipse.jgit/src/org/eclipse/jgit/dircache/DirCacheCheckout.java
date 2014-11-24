@@ -1170,7 +1170,7 @@ public class DirCacheCheckout {
 			DirCacheEntry entry) throws IOException {
 		ObjectReader or = repository.newObjectReader();
 		try {
-			checkoutEntry(repository, f, entry, repository.newObjectReader());
+			checkoutEntry(repository, f, entry, or);
 		} finally {
 			or.release();
 		}
