@@ -187,7 +187,7 @@ class BundleFetchConnection extends BaseFetchConnection {
 			try {
 				PackParser parser = ins.newPackParser(bin);
 				parser.setAllowThin(true);
-				parser.setObjectChecking(transport.isCheckFetchedObjects());
+				parser.setObjectChecker(transport.getObjectChecker());
 				parser.setLockMessage(lockMessage);
 				packLock = parser.parse(NullProgressMonitor.INSTANCE);
 				ins.flush();

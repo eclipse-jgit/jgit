@@ -193,7 +193,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 	WalkFetchConnection(final WalkTransport t, final WalkRemoteObjectDatabase w) {
 		Transport wt = (Transport)t;
 		local = wt.local;
-		objCheck = wt.isCheckFetchedObjects() ? new ObjectChecker() : null;
+		objCheck = wt.getObjectChecker();
 		inserter = local.newObjectInserter();
 		reader = local.newObjectReader();
 
