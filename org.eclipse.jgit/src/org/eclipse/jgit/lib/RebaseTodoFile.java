@@ -43,17 +43,17 @@
 
 package org.eclipse.jgit.lib;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
+import java.io.OutputStream;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.jgit.lib.RebaseTodoLine.Action;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
+import org.eclipse.jgit.util.io.SafeBufferedOutputStream;
 
 /**
  * Offers methods to read and write files formatted like the git-rebase-todo
@@ -216,9 +216,8 @@ public class RebaseTodoFile {
 	 */
 	public void writeRebaseTodoFile(String path, List<RebaseTodoLine> steps,
 			boolean append) throws IOException {
-		BufferedWriter fw = new BufferedWriter(new OutputStreamWriter(
-				new FileOutputStream(new File(repo.getDirectory(), path),
-						append), Constants.CHARACTER_ENCODING));
+		OutputStream fw = new SafeBufferedOutputStream(new FileOutputStream(
+				new File(repo.getDirectory(), path), append));
 		try {
 			StringBuilder sb = new StringBuilder();
 			for (RebaseTodoLine step : steps) {
@@ -232,8 +231,8 @@ public class RebaseTodoFile {
 					sb.append(" "); //$NON-NLS-1$
 					sb.append(step.getShortMessage().trim());
 				}
-				fw.write(sb.toString());
-				fw.newLine();
+				sb.append('\n');
+				fw.write(Constants.encode(sb.toString()));
 			}
 		} finally {
 			fw.close();
