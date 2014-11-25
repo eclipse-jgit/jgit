@@ -56,6 +56,7 @@ import java.security.MessageDigest;
 import java.text.MessageFormat;
 import java.util.Arrays;
 
+import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
@@ -187,6 +188,16 @@ public class DirCacheEntry {
 			skipped = 1; // we already skipped 1 '\0' above to break the loop.
 			md.update(path, 0, pathLen);
 			md.update((byte) 0);
+		}
+
+		try {
+			DirCacheCheckout.checkValidPath(toString(path));
+		} catch (InvalidPathException e) {
+			CorruptObjectException p =
+				new CorruptObjectException(e.getMessage());
+			if (e.getCause() != null)
+				p.initCause(e.getCause());
+			throw p;
 		}
 
 		// Index records are padded out to the next 8 byte alignment
