@@ -213,7 +213,7 @@ public class DirCacheCGitCompatabilityTest extends LocalDiskRepositoryTestCase {
 		assertV3TreeEntry(9, "newfile.txt", false, true, dc);
 
 		final ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		dc.writeTo(bos);
+		dc.writeTo(null, bos);
 		final byte[] indexBytes = bos.toByteArray();
 		final byte[] expectedBytes = IO.readFully(file);
 		assertArrayEquals(expectedBytes, indexBytes);
