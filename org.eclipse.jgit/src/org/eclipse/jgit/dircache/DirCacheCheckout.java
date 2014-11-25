@@ -58,7 +58,6 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.IndexWriteException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.JGitText;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.CoreConfig.AutoCRLF;
 import org.eclipse.jgit.lib.CoreConfig.SymLinks;
 import org.eclipse.jgit.lib.FileMode;
@@ -1285,24 +1284,14 @@ public class DirCacheCheckout {
 	 * @throws InvalidPathException
 	 *             if the path is invalid
 	 * @since 3.3
+	 * @deprecated Use {@link SystemReader#checkPath(String)}.
 	 */
+	@Deprecated
 	public static void checkValidPath(String path) throws InvalidPathException {
-		ObjectChecker chk = new ObjectChecker()
-			.setSafeForWindows(SystemReader.getInstance().isWindows())
-			.setSafeForMacOS(SystemReader.getInstance().isMacOS());
-
-		byte[] bytes = Constants.encode(path);
-		int segmentStart = 0;
 		try {
-			for (int i = 0; i < bytes.length; i++) {
-				if (bytes[i] == '/') {
-					chk.checkPathSegment(bytes, segmentStart, i);
-					segmentStart = i + 1;
-				}
-			}
-			chk.checkPathSegment(bytes, segmentStart, bytes.length);
+			SystemReader.getInstance().checkPath(path);
 		} catch (CorruptObjectException e) {
-			throw new InvalidPathException(e.getMessage());
+			throw new InvalidPathException(path);
 		}
 	}
 

@@ -65,8 +65,6 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.jgit.dircache.DirCache;
-import org.eclipse.jgit.dircache.DirCacheCheckout;
-import org.eclipse.jgit.dircache.InvalidPathException;
 import org.eclipse.jgit.errors.AmbiguousObjectException;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -90,6 +88,7 @@ import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
+import org.eclipse.jgit.util.SystemReader;
 import org.eclipse.jgit.util.io.SafeBufferedOutputStream;
 
 /**
@@ -1154,11 +1153,11 @@ public abstract class Repository {
 		if (refName.endsWith(".lock")) //$NON-NLS-1$
 			return false;
 
-		// Borrow logic for filtering out invalid paths. These
-		// are also invalid ref
+		// Refs may be stored as loose files so invalid paths
+		// on the local system must also be invalid refs.
 		try {
-			DirCacheCheckout.checkValidPath(refName);
-		} catch (InvalidPathException e) {
+			SystemReader.getInstance().checkPath(refName);
+		} catch (CorruptObjectException e) {
 			return false;
 		}
 

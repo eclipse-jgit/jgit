@@ -57,7 +57,9 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ObjectChecker;
 
 /**
  * Interface to read values from the system.
@@ -68,7 +70,14 @@ import org.eclipse.jgit.lib.Config;
  * </p>
  */
 public abstract class SystemReader {
-	private static SystemReader DEFAULT = new SystemReader() {
+	private static final SystemReader DEFAULT;
+	static {
+		SystemReader r = new Default();
+		r.init();
+		DEFAULT = r;
+	}
+
+	private static class Default extends SystemReader {
 		private volatile String hostname;
 
 		public String getenv(String variable) {
@@ -126,7 +135,7 @@ public abstract class SystemReader {
 		public int getTimezone(long when) {
 			return getTimeZone().getOffset(when) / (60 * 1000);
 		}
-	};
+	}
 
 	private static SystemReader INSTANCE = DEFAULT;
 
@@ -143,8 +152,22 @@ public abstract class SystemReader {
 	public static void setInstance(SystemReader newReader) {
 		if (newReader == null)
 			INSTANCE = DEFAULT;
-		else
+		else {
+			newReader.init();
 			INSTANCE = newReader;
+		}
+	}
+
+	private ObjectChecker platformChecker;
+
+	private void init() {
+		// Creating ObjectChecker must be deferred. Unit tests change
+		// behavior of is{Windows,MacOS} in constructor of subclass.
+		if (platformChecker == null) {
+			platformChecker = new ObjectChecker()
+				.setSafeForWindows(isWindows())
+				.setSafeForMacOS(isMacOS());
+		}
 	}
 
 	/**
@@ -286,4 +309,16 @@ public abstract class SystemReader {
 		return "Mac OS X".equals(osDotName) || "Darwin".equals(osDotName); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
+	/**
+	 * Check tree path entry for validity.
+	 * <p>
+	 * Scans a multi-directory path string such as {@code "src/main.c"}.
+	 *
+	 * @param path path string to scan.
+	 * @throws CorruptObjectException path is invalid.
+	 * @since 3.6
+	 */
+	public void checkPath(String path) throws CorruptObjectException {
+		platformChecker.checkPath(path);
+	}
 }

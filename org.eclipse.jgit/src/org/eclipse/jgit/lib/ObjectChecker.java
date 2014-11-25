@@ -425,6 +425,45 @@ public class ObjectChecker {
 
 	/**
 	 * Check tree path entry for validity.
+	 * <p>
+	 * Unlike {@link #checkPathSegment(byte[], int, int)}, this version
+	 * scans a multi-directory path string such as {@code "src/main.c"}.
+	 *
+	 * @param path path string to scan.
+	 * @throws CorruptObjectException path is invalid.
+	 * @since 3.6
+	 */
+	public void checkPath(String path) throws CorruptObjectException {
+		byte[] buf = Constants.encode(path);
+		checkPath(buf, 0, buf.length);
+	}
+
+	/**
+	 * Check tree path entry for validity.
+	 * <p>
+	 * Unlike {@link #checkPathSegment(byte[], int, int)}, this version
+	 * scans a multi-directory path string such as {@code "src/main.c"}.
+	 *
+	 * @param raw buffer to scan.
+	 * @param ptr offset to first byte of the name.
+	 * @param end offset to one past last byte of name.
+	 * @throws CorruptObjectException path is invalid.
+	 * @since 3.6
+	 */
+	public void checkPath(byte[] raw, int ptr, int end)
+			throws CorruptObjectException {
+		int start = ptr;
+		for (; ptr < end; ptr++) {
+			if (raw[ptr] == '/') {
+				checkPathSegment(raw, start, ptr);
+				start = ptr + 1;
+			}
+		}
+		checkPathSegment(raw, start, end);
+	}
+
+	/**
+	 * Check tree path entry for validity.
 	 *
 	 * @param raw buffer to scan.
 	 * @param ptr offset to first byte of the name.
