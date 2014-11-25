@@ -87,6 +87,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_7e22dada",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesNode.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2014-11-25T08:08:40Z",
+      "side": 1,
+      "message": "https://www.kernel.org/pub/software/scm/git/docs/gitattributes.html\n\"The rules how the pattern matches paths are the same as in .gitignore files; see gitignore(5). Unlike .gitignore, negative patterns are forbidden.\"",
+      "parentUuid": "a766b734_65e08d89",
+      "revId": "4647a0bc37bf9e76599755310ebb524e6ecb349c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_05ef197d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesNode.java",
         "patchSetId": 19
@@ -98,6 +116,24 @@
       "writtenOn": "2014-11-25T05:06:21Z",
       "side": 1,
       "message": "Wouldn\u0027t this be much easier/more-readable to achieve with regular expressions?\nSomething like Pattern.compile(\"^(?\u003cpath_pat\u003e\\\\S*)\\\\s+(?\u003cargs\u003e.*)$\").\nMind you - I can\u0027t see any documentation for how gitattributes proposes dealing with whitespace in file names (My guess is you must glob it, if you need to capture it)",
+      "revId": "4647a0bc37bf9e76599755310ebb524e6ecb349c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_3e57c22f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesNode.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2014-11-25T08:08:40Z",
+      "side": 1,
+      "message": "See same url \"That is, a pattern followed by an attributes list, separated by whitespaces\". Unfortunately no hint what whitespaces are - that means, one have to check how the native git CLI works.\nRegarding Patterns: using Pattern API in sensible places *can* affect performance, see for example https://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d450466",
+      "parentUuid": "a766b734_05ef197d",
       "revId": "4647a0bc37bf9e76599755310ebb524e6ecb349c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -132,6 +168,24 @@
       "writtenOn": "2014-11-25T05:06:21Z",
       "side": 1,
       "message": "I think this could really benefit from better regular expressions. The attributes could be split on \"\\\\s\" and then just tested against patterns for set (\"^[^-\u003d][^\u003d]*$\"), unset (\"^-.*$\") and set-value (\"^(?\u003ckey\u003e[^\u003d]+)\u003d(?\u003cvalue\u003e.*)$\")\n(Haven\u0027t tested those patterns, though).",
+      "revId": "4647a0bc37bf9e76599755310ebb524e6ecb349c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_be6ab2de",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesRule.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2014-11-25T08:08:40Z",
+      "side": 1,
+      "message": "I would be very cautious to using Pattern API, see my previous comment. Also the code here isn\u0027t that complicated but proposed patterns are.",
+      "parentUuid": "a766b734_8505e9cc",
       "revId": "4647a0bc37bf9e76599755310ebb524e6ecb349c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
