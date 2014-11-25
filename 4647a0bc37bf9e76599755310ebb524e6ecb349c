@@ -1,0 +1,242 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a766b734_457c715b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attribute.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 7486
+      },
+      "writtenOn": "2014-11-25T05:06:21Z",
+      "side": 1,
+      "message": "I would have thought State.UNSET would be the null-safe default, or possibly CUSTOM/UNSET depending on whether the value parameter is null or not.",
+      "revId": "4647a0bc37bf9e76599755310ebb524e6ecb349c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_856169b4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attribute.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 7486
+      },
+      "writtenOn": "2014-11-25T05:06:21Z",
+      "side": 1,
+      "message": "Just a thought: I don\u0027t suppose it\u0027s possible to us JSE 1.7 Objects#equals() (I think not), or Apache commons ObjectUtils#equals() (Probably also not) or a common local implementation of them?",
+      "revId": "4647a0bc37bf9e76599755310ebb524e6ecb349c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_85fa0934",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesNode.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 7486
+      },
+      "writtenOn": "2014-11-25T05:06:21Z",
+      "side": 1,
+      "message": "I don\u0027t think there\u0027s enough commonality between gitignore and gitattributes to make this statement - They\u0027re two different formats.",
+      "revId": "4647a0bc37bf9e76599755310ebb524e6ecb349c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_a5fd8530",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesNode.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 7486
+      },
+      "writtenOn": "2014-11-25T05:06:21Z",
+      "side": 1,
+      "message": "I don\u0027t think you want to trim the input - e.g. my reading of the gitarrtibutes documentation indicates patterns start at column 0 - stripping leading whitespace may upset something.",
+      "revId": "4647a0bc37bf9e76599755310ebb524e6ecb349c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_65e08d89",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesNode.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 7486
+      },
+      "writtenOn": "2014-11-25T05:06:21Z",
+      "side": 1,
+      "message": "I can\u0027t see any mention of comments or \"negative patterns\" w/r to gitatttributes documentation - I don\u0027t think these tests are needed.",
+      "revId": "4647a0bc37bf9e76599755310ebb524e6ecb349c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_05ef197d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesNode.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 7486
+      },
+      "writtenOn": "2014-11-25T05:06:21Z",
+      "side": 1,
+      "message": "Wouldn\u0027t this be much easier/more-readable to achieve with regular expressions?\nSomething like Pattern.compile(\"^(?\u003cpath_pat\u003e\\\\S*)\\\\s+(?\u003cargs\u003e.*)$\").\nMind you - I can\u0027t see any documentation for how gitattributes proposes dealing with whitespace in file names (My guess is you must glob it, if you need to capture it)",
+      "revId": "4647a0bc37bf9e76599755310ebb524e6ecb349c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_e5f3fd5d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesNode.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 7486
+      },
+      "writtenOn": "2014-11-25T05:06:21Z",
+      "side": 1,
+      "message": "It seems the only reason to iterate in reverse is to test whether the key\u0027s set and not override if so.\nYou could possibly build the lists in reverse using add(0, x), then iterate forwards using for(:) - for a slightly more compact implementation.\nAlternatively if the need to guard against overrides could be eliminated (e.g. by the caller dealing with picking-out its own overrides) then you could just iterate forwards through both lists (As overriding a locally-generated mapping naturally gets you the last value in the end).",
+      "revId": "4647a0bc37bf9e76599755310ebb524e6ecb349c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_8505e9cc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesRule.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 7486
+      },
+      "writtenOn": "2014-11-25T05:06:21Z",
+      "side": 1,
+      "message": "I think this could really benefit from better regular expressions. The attributes could be split on \"\\\\s\" and then just tested against patterns for set (\"^[^-\u003d][^\u003d]*$\"), unset (\"^-.*$\") and set-value (\"^(?\u003ckey\u003e[^\u003d]+)\u003d(?\u003cvalue\u003e.*)$\")\n(Haven\u0027t tested those patterns, though).",
+      "revId": "4647a0bc37bf9e76599755310ebb524e6ecb349c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_65324da9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesRule.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 7486
+      },
+      "writtenOn": "2014-11-25T05:06:21Z",
+      "side": 1,
+      "message": "Why mess-around with endIndex and pattern2 - why not just set pattern \u003d pattern.substring(0, pattern.length() - 1) in this if() block and do-away with the other two variables?",
+      "revId": "4647a0bc37bf9e76599755310ebb524e6ecb349c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_056c397e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesRule.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 7486
+      },
+      "writtenOn": "2014-11-25T05:06:21Z",
+      "side": 1,
+      "message": "Again, I\u0027d suggest Apache commons StringUtils.isBlank() or a local static util class with equivalent behaviour.",
+      "revId": "4647a0bc37bf9e76599755310ebb524e6ecb349c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_c3a999dd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheIterator.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 7486
+      },
+      "writtenOn": "2014-11-25T05:06:21Z",
+      "side": 1,
+      "message": "I can\u0027t get a full context of the source file (I\u0027m not sure of the origin of cep.path, but it seems \"weird\" at least to be comparing string fragments as byte arrays.",
+      "revId": "4647a0bc37bf9e76599755310ebb524e6ecb349c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_a3a61d09",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheIterator.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 7486
+      },
+      "writtenOn": "2014-11-25T05:06:21Z",
+      "side": 1,
+      "message": "Again, I think the lazy-loading should be internalised opaquely into AttributesNode.",
+      "revId": "4647a0bc37bf9e76599755310ebb524e6ecb349c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_65bfed49",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 638,
+      "author": {
+        "id": 7486
+      },
+      "writtenOn": "2014-11-25T05:06:21Z",
+      "side": 1,
+      "message": "IMHO, this dynamic replacement with a base AttributesNode is a bit dicey.\n\nPrimarily the PerDirectoryAttributesNode class\u0027s behaviour could be merged into AttributesNode with a lazy-load test in #getRules().\n\nAlso I think a generic AttributesNode class could be made without custom path-hunting logic for the Info/Global subclasses (And I strongly suspect this could be merged down into the base class too).",
+      "revId": "4647a0bc37bf9e76599755310ebb524e6ecb349c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_45c471d8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 1351,
+      "author": {
+        "id": 7486
+      },
+      "writtenOn": "2014-11-25T05:06:21Z",
+      "side": 1,
+      "message": "I think this belongs inside AttributesNode",
+      "revId": "4647a0bc37bf9e76599755310ebb524e6ecb349c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
