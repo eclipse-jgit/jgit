@@ -51,6 +51,8 @@ import java.util.Properties;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.dfs.DfsGarbageCollector;
+import org.eclipse.jgit.internal.storage.dfs.DfsRepository;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.internal.storage.file.GC;
 import org.eclipse.jgit.internal.storage.file.GC.RepoStatistics;
@@ -99,9 +101,6 @@ public class GarbageCollectCommand extends GitCommand<Properties> {
 	 */
 	protected GarbageCollectCommand(Repository repo) {
 		super(repo);
-		if (!(repo instanceof FileRepository))
-			throw new UnsupportedOperationException(MessageFormat.format(
-					JGitText.get().unsupportedGC, repo.getClass().toString()));
 		pconfig = new PackConfig(repo);
 	}
 
@@ -164,18 +163,32 @@ public class GarbageCollectCommand extends GitCommand<Properties> {
 	public Properties call() throws GitAPIException {
 		checkCallable();
 
-		GC gc = new GC((FileRepository) repo);
-		gc.setPackConfig(pconfig);
-		gc.setProgressMonitor(monitor);
-		if (this.expire != null)
-			gc.setExpire(expire);
-
 		try {
-			gc.gc();
-			return toProperties(gc.getStatistics());
+			if (repo instanceof FileRepository) {
+				GC gc = new GC((FileRepository) repo);
+				gc.setPackConfig(pconfig);
+				gc.setProgressMonitor(monitor);
+				if (this.expire != null)
+					gc.setExpire(expire);
+
+				try {
+					gc.gc();
+					return toProperties(gc.getStatistics());
+				} catch (ParseException e) {
+					throw new JGitInternalException(JGitText.get().gcFailed, e);
+				}
+			} else if (repo instanceof DfsRepository) {
+				DfsGarbageCollector gc =
+					new DfsGarbageCollector((DfsRepository) repo);
+				gc.setPackConfig(pconfig);
+				gc.pack(monitor);
+				return new Properties();
+			} else {
+				throw new UnsupportedOperationException(MessageFormat.format(
+						JGitText.get().unsupportedGC,
+						repo.getClass().toString()));
+			}
 		} catch (IOException e) {
-			throw new JGitInternalException(JGitText.get().gcFailed, e);
-		} catch (ParseException e) {
 			throw new JGitInternalException(JGitText.get().gcFailed, e);
 		}
 	}
@@ -190,8 +203,12 @@ public class GarbageCollectCommand extends GitCommand<Properties> {
 	 */
 	public Properties getStatistics() throws GitAPIException {
 		try {
-			GC gc = new GC((FileRepository) repo);
-			return toProperties(gc.getStatistics());
+			if (repo instanceof FileRepository) {
+				GC gc = new GC((FileRepository) repo);
+				return toProperties(gc.getStatistics());
+			} else {
+				return new Properties();
+			}
 		} catch (IOException e) {
 			throw new JGitInternalException(
 					JGitText.get().couldNotGetRepoStatistics, e);
