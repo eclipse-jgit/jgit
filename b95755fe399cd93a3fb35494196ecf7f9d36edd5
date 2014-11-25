@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a766b734_23e20d4b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2014-11-25T01:27:03Z",
+      "side": 1,
+      "message": "Subtle and underdocumented on the git side. :( Thanks for catching it.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 52
+      },
+      "revId": "b95755fe399cd93a3fb35494196ecf7f9d36edd5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_43dd898d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2014-11-25T01:27:03Z",
+      "side": 1,
+      "message": "This loses information: after\n\n setAllowDeletes(true);\n setAllowBranchDeletes(true);\n setAllowDeletes(false);\n setAllowDeletes(true);\n\nwhat should isAllowBranchDeletes() say?\n\nI\u0027d delete the above two lines and treat them as orthogonal (validateCommands would still prevent deleting branches when allowAnyDeletes is false).",
+      "range": {
+        "startLine": 555,
+        "startChar": 0,
+        "endLine": 556,
+        "endChar": 30
+      },
+      "revId": "b95755fe399cd93a3fb35494196ecf7f9d36edd5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
