@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_1ec8061e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attribute.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1655
+      },
+      "writtenOn": "2014-11-25T17:49:45Z",
+      "side": 1,
+      "message": "This is inherited code from Marc (the first committer on this review).  I agree it might not be the best value to fallback to. However, the only use case when \"state\" can be null is by calling \"new Attribute(\"someKey\",null)\" (the other constructor force the value to CUSTOM). In this case I\u0027m really not sure what the client wants. It can either be SET or UNSET or CUSTOM with a null value. So I would suggest to prevent null value for the \"state\" argument and raise an IllegalArgumentException.",
+      "parentUuid": "a766b734_457c715b",
+      "revId": "4647a0bc37bf9e76599755310ebb524e6ecb349c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_856169b4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attribute.java",
         "patchSetId": 19
@@ -30,6 +48,24 @@
       "writtenOn": "2014-11-25T05:06:21Z",
       "side": 1,
       "message": "Just a thought: I don\u0027t suppose it\u0027s possible to us JSE 1.7 Objects#equals() (I think not), or Apache commons ObjectUtils#equals() (Probably also not) or a common local implementation of them?",
+      "revId": "4647a0bc37bf9e76599755310ebb524e6ecb349c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_def04e54",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attribute.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1655
+      },
+      "writtenOn": "2014-11-25T17:49:45Z",
+      "side": 1,
+      "message": "Apache commons does not belong to the dependencies so I can not use that. Regarding Java7 I think JGit is considering it but I not sure that the final decision has been made. Moreover I really not sure that the current build infrastructure would currently support it. Regarding a local implementation I\u0027m not sure if it will add any interest at this stage of the review.",
+      "parentUuid": "a766b734_856169b4",
       "revId": "4647a0bc37bf9e76599755310ebb524e6ecb349c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_7e1bfa30",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesNode.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1655
+      },
+      "writtenOn": "2014-11-25T17:49:45Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "a766b734_85fa0934",
+      "revId": "4647a0bc37bf9e76599755310ebb524e6ecb349c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_a5fd8530",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesNode.java",
         "patchSetId": 19
@@ -64,6 +118,24 @@
       "writtenOn": "2014-11-25T05:06:21Z",
       "side": 1,
       "message": "I don\u0027t think you want to trim the input - e.g. my reading of the gitarrtibutes documentation indicates patterns start at column 0 - stripping leading whitespace may upset something.",
+      "revId": "4647a0bc37bf9e76599755310ebb524e6ecb349c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_b9c64c8e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesNode.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1655
+      },
+      "writtenOn": "2014-11-25T17:49:45Z",
+      "side": 1,
+      "message": "I agree the documentation is not clear on that. However I have done some tests with CGit using the command \"git check-attr -a\" and the printed result removes all whitespaces before and after an attribute.",
+      "parentUuid": "a766b734_a5fd8530",
       "revId": "4647a0bc37bf9e76599755310ebb524e6ecb349c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -140,6 +212,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_39da3c5f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesNode.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1655
+      },
+      "writtenOn": "2014-11-25T17:49:45Z",
+      "side": 1,
+      "message": "I agree, using Pattern might degrade the performances. Once again this is legacy code from the previous committer.\n\nRegarding the whitespace, after some tests on CGit using git \"check-attr -a\" it appears that it removes all whitespace (and all tab \\t) before and after any attribute.",
+      "parentUuid": "a766b734_3e57c22f",
+      "revId": "4647a0bc37bf9e76599755310ebb524e6ecb349c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_e5f3fd5d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesNode.java",
         "patchSetId": 19
@@ -151,6 +241,24 @@
       "writtenOn": "2014-11-25T05:06:21Z",
       "side": 1,
       "message": "It seems the only reason to iterate in reverse is to test whether the key\u0027s set and not override if so.\nYou could possibly build the lists in reverse using add(0, x), then iterate forwards using for(:) - for a slightly more compact implementation.\nAlternatively if the need to guard against overrides could be eliminated (e.g. by the caller dealing with picking-out its own overrides) then you could just iterate forwards through both lists (As overriding a locally-generated mapping naturally gets you the last value in the end).",
+      "revId": "4647a0bc37bf9e76599755310ebb524e6ecb349c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_f989e4ae",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesNode.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1655
+      },
+      "writtenOn": "2014-11-25T17:49:45Z",
+      "side": 1,
+      "message": "In fact you have to look at the next review [1] to understand why I have implemented this method this way. The gitattributes will be computed in the TreeWalk since it needs both a WorkingTreeIterator and a DirCacheIterator [3]. Moreover to correctly compute the attributes we have to respect the precedence order which is \"$GIT_DIR/info/attributes \u003e .gitattributes files along the path \u003e global and system-wide files\" [4]. $GIT_DIR/info/attributes and system-wide file are only available from the WorkingTreeIterator.\n\nHere is what the TreeWalk do:\n\n1. Creates a new Map\u003cString,Attribute\u003e of attributes.\n\n2. Asks the AttributeNode responsible for $GIT_DIR/info/attributes to fill the hash map.\n\n3. Asks all AttributeNode along the path to fill the map but does not override existing entries.\n\n4. Asks the AttributeNode responsible for the system-wide file to fill but does not override existing entries.\n\nThis implementation iterates only once on each AttributeNode and only creates one Map.\n\nIf I have understood correctly your solution I should take the problem in reverse that is to say:\n\n1. Creates a new Map\u003cString,Attribute\u003e of attributes.\n\n2. Asks the AttributeNode responsible for the system-wide file to fill the map.\n\n3. Asks all AttributeNode along the path (in reverse order) to fill the map and overrides existing entries.\n\n4. Asks the AttributeNode responsible for $GIT_DIR/info/attributes to fill the map and overrides existing entries.\n\nHowever the step 3. is unatural since it does not follow the TreeWalk iterator order.\nMaybe I did not get right what you meant but I would rather not change this piece of code without having a second feedback since it impacts a lot of my code.\n\n\n\n[1] https://git.eclipse.org/r/#/c/35377/\n\n[2] https://www.kernel.org/pub/software/scm/git/docs/gitattributes.html\n\n[3] From [2]  \"When deciding what attributes are assigned to a path, git consults $GIT_DIR/info/attributes file (which has the highest precedence), .gitattributes file in the same directory as the path in question, and its parent directories up to the toplevel of the work tree (the further the directory that contains .gitattributes is from the path in question, the lower its precedence). Finally global and system-wide files are considered (they have the lowest precedence).\"\n\n[4] From [2] \"When the .gitattributes file is missing from the work tree, the path in the index is used as a fall-back. During checkout process, .gitattributes in the index is used and then the file in the working tree is used as a fall-back.\"",
+      "parentUuid": "a766b734_e5f3fd5d",
       "revId": "4647a0bc37bf9e76599755310ebb524e6ecb349c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -192,6 +300,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_99ea70e6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesRule.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1655
+      },
+      "writtenOn": "2014-11-25T17:49:45Z",
+      "side": 1,
+      "message": "I agree with Andrey.",
+      "parentUuid": "a766b734_be6ab2de",
+      "revId": "4647a0bc37bf9e76599755310ebb524e6ecb349c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_65324da9",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesRule.java",
         "patchSetId": 19
@@ -203,6 +329,24 @@
       "writtenOn": "2014-11-25T05:06:21Z",
       "side": 1,
       "message": "Why mess-around with endIndex and pattern2 - why not just set pattern \u003d pattern.substring(0, pattern.length() - 1) in this if() block and do-away with the other two variables?",
+      "revId": "4647a0bc37bf9e76599755310ebb524e6ecb349c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_79af949b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesRule.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1655
+      },
+      "writtenOn": "2014-11-25T17:49:45Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "a766b734_65324da9",
       "revId": "4647a0bc37bf9e76599755310ebb524e6ecb349c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -226,6 +370,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_9999d087",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesRule.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1655
+      },
+      "writtenOn": "2014-11-25T17:49:45Z",
+      "side": 1,
+      "message": "Once again, we have no dependency again Apache common so I can not use your solution. Once again this is legacy code that has already been reviewed so I did not want to change it at this stage of the review. Maybe we can do that in a future review?",
+      "parentUuid": "a766b734_056c397e",
+      "revId": "4647a0bc37bf9e76599755310ebb524e6ecb349c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_c3a999dd",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheIterator.java",
         "patchSetId": 19
@@ -237,6 +399,24 @@
       "writtenOn": "2014-11-25T05:06:21Z",
       "side": 1,
       "message": "I can\u0027t get a full context of the source file (I\u0027m not sure of the origin of cep.path, but it seems \"weird\" at least to be comparing string fragments as byte arrays.",
+      "revId": "4647a0bc37bf9e76599755310ebb524e6ecb349c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_19ae60a0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheIterator.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1655
+      },
+      "writtenOn": "2014-11-25T17:49:45Z",
+      "side": 1,
+      "message": "Cep comes from this line \"final byte[] cep \u003d currentEntry.path;\" which is  already an array of bytes. So I did not want to create 2 new string only to compare them. From my little experience of the JGit project I would say that this is the way a JGit committer would do it but I can be mistaken.",
+      "parentUuid": "a766b734_c3a999dd",
       "revId": "4647a0bc37bf9e76599755310ebb524e6ecb349c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -260,6 +440,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_34c36105",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheIterator.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1655
+      },
+      "writtenOn": "2014-11-25T17:49:45Z",
+      "side": 1,
+      "message": "See comments in the WorkingTreeIterator",
+      "parentUuid": "a766b734_a3a61d09",
+      "revId": "4647a0bc37bf9e76599755310ebb524e6ecb349c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_65bfed49",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
         "patchSetId": 19
@@ -277,6 +475,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_b46491c4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 638,
+      "author": {
+        "id": 1655
+      },
+      "writtenOn": "2014-11-25T17:49:45Z",
+      "side": 1,
+      "message": "Once again this is legacy code from previous committer. It has been reviewed several time by JGit committers that seem to be ok with it. However I would agree with you that their is a smarter way to it. However we have to move forward on this review, Marc started to work on this almost 2 years ago. What I would suggest is to accept the current implementation of the AttributeNode and in future review refactor it to be more clever. Is this something that sounds reasonable to you?",
+      "parentUuid": "a766b734_65bfed49",
+      "revId": "4647a0bc37bf9e76599755310ebb524e6ecb349c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_45c471d8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
         "patchSetId": 19
@@ -288,6 +504,24 @@
       "writtenOn": "2014-11-25T05:06:21Z",
       "side": 1,
       "message": "I think this belongs inside AttributesNode",
+      "revId": "4647a0bc37bf9e76599755310ebb524e6ecb349c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_744e7944",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 1351,
+      "author": {
+        "id": 1655
+      },
+      "writtenOn": "2014-11-25T17:49:45Z",
+      "side": 1,
+      "message": "(See previous commit) Will be changed in a future review that refactor the AttributeNode.",
+      "parentUuid": "a766b734_45c471d8",
       "revId": "4647a0bc37bf9e76599755310ebb524e6ecb349c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
