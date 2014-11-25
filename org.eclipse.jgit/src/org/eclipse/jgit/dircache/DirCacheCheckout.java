@@ -447,19 +447,9 @@ public class DirCacheCheckout {
 				removeEmptyParents(file);
 
 			for (String path : updated.keySet()) {
-				// ... create/overwrite this file ...
-				file = new File(repo.getWorkTree(), path);
-				if (!file.getParentFile().mkdirs()) {
-					// ignore
-				}
-
 				DirCacheEntry entry = dc.getEntry(path);
-
-				// submodules are handled with separate operations
-				if (FileMode.GITLINK.equals(entry.getRawMode()))
-					continue;
-
-				checkoutEntry(repo, file, entry, objectReader);
+				if (!FileMode.GITLINK.equals(entry.getRawMode()))
+					checkoutEntry(repo, entry, objectReader);
 			}
 
 			// commit the index builder - a new index is persisted
@@ -1158,8 +1148,7 @@ public class DirCacheCheckout {
 	 *
 	 * @param repository
 	 * @param f
-	 *            the file to be modified. The parent directory for this file
-	 *            has to exist already
+	 *            this parameter is ignored.
 	 * @param entry
 	 *            the entry containing new mode and content
 	 * @throws IOException
@@ -1190,19 +1179,51 @@ public class DirCacheCheckout {
 	 *
 	 * @param repo
 	 * @param f
-	 *            the file to be modified. The parent directory for this file
-	 *            has to exist already
+	 *            this parameter is ignored.
 	 * @param entry
 	 *            the entry containing new mode and content
 	 * @param or
 	 *            object reader to use for checkout
 	 * @throws IOException
+	 * @deprecated Do not pass File object.
 	 */
+	@Deprecated
 	public static void checkoutEntry(final Repository repo, File f,
 			DirCacheEntry entry, ObjectReader or) throws IOException {
+		if (f == null || repo.getWorkTree() == null)
+			throw new IllegalArgumentException();
+		if (!f.equals(new File(repo.getWorkTree(), entry.getPathString())))
+			throw new IllegalArgumentException();
+		checkoutEntry(repo, entry, or);
+	}
+
+	/**
+	 * Updates the file in the working tree with content and mode from an entry
+	 * in the index. The new content is first written to a new temporary file in
+	 * the same directory as the real file. Then that new file is renamed to the
+	 * final filename.
+	 *
+	 * <p>
+	 * TODO: this method works directly on File IO, we may need another
+	 * abstraction (like WorkingTreeIterator). This way we could tell e.g.
+	 * Eclipse that Files in the workspace got changed
+	 * </p>
+	 *
+	 * @param repo
+	 *            repository managing the destination work tree.
+	 * @param entry
+	 *            the entry containing new mode and content
+	 * @param or
+	 *            object reader to use for checkout
+	 * @throws IOException
+	 * @since 3.6
+	 */
+	public static void checkoutEntry(Repository repo, DirCacheEntry entry,
+			ObjectReader or) throws IOException {
 		ObjectLoader ol = or.open(entry.getObjectId());
+		File f = new File(repo.getWorkTree(), entry.getPathString());
 		File parentDir = f.getParentFile();
-		parentDir.mkdirs();
+		FileUtils.mkdirs(parentDir, true);
 		FS fs = repo.getFS();
 		WorkingTreeOptions opt = repo.getConfig().get(WorkingTreeOptions.KEY);
 		if (entry.getFileMode() == FileMode.SYMLINK

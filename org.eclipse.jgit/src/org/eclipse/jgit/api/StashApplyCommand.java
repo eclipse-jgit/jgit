@@ -42,7 +42,6 @@
  */
 package org.eclipse.jgit.api;
 
-import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
 
@@ -367,8 +366,7 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 
 	private void checkoutPath(DirCacheEntry entry, ObjectReader reader) {
 		try {
-			File file = new File(repo.getWorkTree(), entry.getPathString());
-			DirCacheCheckout.checkoutEntry(repo, file, entry, reader);
+			DirCacheCheckout.checkoutEntry(repo, entry, reader);
 		} catch (IOException e) {
 			throw new JGitInternalException(MessageFormat.format(
 					JGitText.get().checkoutConflictWithFile,
