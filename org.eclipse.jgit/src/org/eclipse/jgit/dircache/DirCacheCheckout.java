@@ -1233,42 +1233,40 @@ public class DirCacheCheckout {
 			fs.createSymLink(f, target);
 			entry.setLength(bytes.length);
 			entry.setLastModified(fs.lastModified(f));
-		} else {
-			File tmpFile = File.createTempFile(
-					"._" + f.getName(), null, parentDir); //$NON-NLS-1$
-			FileOutputStream rawChannel = new FileOutputStream(tmpFile);
-			OutputStream channel;
-			if (opt.getAutoCRLF() == AutoCRLF.TRUE)
-				channel = new AutoCRLFOutputStream(rawChannel);
-			else
-				channel = rawChannel;
-			try {
-				ol.copyTo(channel);
-			} finally {
-				channel.close();
-			}
-			if (opt.isFileMode() && fs.supportsExecute()) {
-				if (FileMode.EXECUTABLE_FILE.equals(entry.getRawMode())) {
-					if (!fs.canExecute(tmpFile))
-						fs.setExecute(tmpFile, true);
-				} else {
-					if (fs.canExecute(tmpFile))
-						fs.setExecute(tmpFile, false);
-				}
-			}
-			try {
-				FileUtils.rename(tmpFile, f);
-			} catch (IOException e) {
-				throw new IOException(MessageFormat.format(
-						JGitText.get().renameFileFailed, tmpFile.getPath(),
-						f.getPath()));
+			return;
+		}
+
+		File tmpFile = File.createTempFile(
+				"._" + f.getName(), null, parentDir); //$NON-NLS-1$
+		OutputStream channel = new FileOutputStream(tmpFile);
+		if (opt.getAutoCRLF() == AutoCRLF.TRUE)
+			channel = new AutoCRLFOutputStream(channel);
+		try {
+			ol.copyTo(channel);
+		} finally {
+			channel.close();
+		}
+		entry.setLength(opt.getAutoCRLF() == AutoCRLF.TRUE
+			? f.length() // AutoCRLF wants on-disk-size
+		    : (int) ol.getSize());
+
+		if (opt.isFileMode() && fs.supportsExecute()) {
+			if (FileMode.EXECUTABLE_FILE.equals(entry.getRawMode())) {
+				if (!fs.canExecute(tmpFile))
+					fs.setExecute(tmpFile, true);
+			} else {
+				if (fs.canExecute(tmpFile))
+					fs.setExecute(tmpFile, false);
 			}
 		}
+		try {
+			FileUtils.rename(tmpFile, f);
+		} catch (IOException e) {
+			throw new IOException(MessageFormat.format(
+					JGitText.get().renameFileFailed, tmpFile.getPath(),
+					f.getPath()));
+		}
 		entry.setLastModified(f.lastModified());
-		if (opt.getAutoCRLF() != AutoCRLF.FALSE)
-			entry.setLength(f.length()); // AutoCRLF wants on-disk-size
-		else
-			entry.setLength((int) ol.getSize());
 	}
 
 	private static void checkValidPath(CanonicalTreeParser t)
