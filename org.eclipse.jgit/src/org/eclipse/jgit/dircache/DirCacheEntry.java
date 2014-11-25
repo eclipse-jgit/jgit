@@ -64,7 +64,6 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.MutableInteger;
 import org.eclipse.jgit.util.NB;
-import org.eclipse.jgit.util.SystemReader;
 
 /**
  * A single file (or stage of a file) in a {@link DirCache}.
@@ -265,8 +264,7 @@ public class DirCacheEntry {
 	 */
 	@SuppressWarnings("boxing")
 	public DirCacheEntry(final byte[] newPath, final int stage) {
-		if (!isValidPath(newPath))
-			throw new InvalidPathException(toString(newPath));
+		DirCacheCheckout.checkValidPath(toString(newPath));
 		if (stage < 0 || 3 < stage)
 			throw new IllegalArgumentException(MessageFormat.format(
 					JGitText.get().invalidStageForPath,
@@ -723,36 +721,6 @@ public class DirCacheEntry {
 
 	private static String toString(final byte[] path) {
 		return Constants.CHARSET.decode(ByteBuffer.wrap(path)).toString();
-	}
-
-	static boolean isValidPath(final byte[] path) {
-		if (path.length == 0)
-			return false; // empty path is not permitted.
-
-		boolean componentHasChars = false;
-		for (final byte c : path) {
-			switch (c) {
-			case 0:
-				return false; // NUL is never allowed within the path.
-
-			case '/':
-				if (componentHasChars)
-					componentHasChars = false;
-				else
-					return false;
-				break;
-			case '\\':
-			case ':':
-				// Tree's never have a backslash in them, not even on Windows
-				// but even there we regard it as an invalid path
-				if (SystemReader.getInstance().isWindows())
-					return false;
-				//$FALL-THROUGH$
-			default:
-				componentHasChars = true;
-			}
-		}
-		return componentHasChars;
 	}
 
 	static int getMaximumInfoLength(boolean extended) {
