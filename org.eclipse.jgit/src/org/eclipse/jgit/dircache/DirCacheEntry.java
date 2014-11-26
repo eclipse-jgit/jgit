@@ -203,7 +203,6 @@ public class DirCacheEntry {
 
 		if (mightBeRacilyClean(smudge_s, smudge_ns))
 			smudgeRacilyClean();
-
 	}
 
 	/**
@@ -217,7 +216,7 @@ public class DirCacheEntry {
 	 *             or DirCache file.
 	 */
 	public DirCacheEntry(final String newPath) {
-		this(Constants.encode(newPath));
+		this(Constants.encode(newPath), STAGE_0);
 	}
 
 	/**
@@ -269,8 +268,9 @@ public class DirCacheEntry {
 		if (!isValidPath(newPath))
 			throw new InvalidPathException(toString(newPath));
 		if (stage < 0 || 3 < stage)
-			throw new IllegalArgumentException(MessageFormat.format(JGitText.get().invalidStageForPath
-					, stage, toString(newPath)));
+			throw new IllegalArgumentException(MessageFormat.format(
+					JGitText.get().invalidStageForPath,
+					stage, toString(newPath)));
 
 		info = new byte[INFO_LEN];
 		infoOffset = 0;
