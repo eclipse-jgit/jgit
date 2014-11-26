@@ -1,0 +1,8 @@
+Code-Review+1: Matthias Sohn <matthias.sohn@sap.com>
+Code-Review+2: Christian Halstrick <christian.halstrick@sap.com>
+Verified+1: Hudson CI
+Submitted-by: Christian Halstrick <christian.halstrick@sap.com>
+Submitted-at: Wed, 26 Nov 2014 07:51:44 -0500
+Reviewed-on: https://git.eclipse.org/r/36969
+Project: jgit/jgit
+Branch: refs/heads/stable-3.4
