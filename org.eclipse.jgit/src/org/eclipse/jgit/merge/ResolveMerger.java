@@ -350,15 +350,8 @@ public class ResolveMerger extends ThreeWayMerger {
 		while(mpathsIt.hasNext()) {
 			String mpath=mpathsIt.next();
 			DirCacheEntry entry = dc.getEntry(mpath);
-			if (entry == null)
-				continue;
-			FileOutputStream fos = new FileOutputStream(new File(
-					db.getWorkTree(), mpath));
-			try {
-				reader.open(entry.getObjectId()).copyTo(fos);
-			} finally {
-				fos.close();
-			}
+			if (entry != null)
+				DirCacheCheckout.checkoutEntry(db, entry, reader);
 			mpathsIt.remove();
 		}
 	}
