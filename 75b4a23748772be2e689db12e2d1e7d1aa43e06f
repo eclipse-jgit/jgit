@@ -16,6 +16,24 @@
       "revId": "75b4a23748772be2e689db12e2d1e7d1aa43e06f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_97aa2d58",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-11-28T21:09:19Z",
+      "side": 1,
+      "message": "The old checkout code deleted a directory if it overlapped with a file. That no longer happens.\n\nI assume that if we are merging from \"src/foo\" existing to \"src\" as a file, \"src/foo\" and \"src\" are listed in toBeDeleted and \"src\" is in toBeCheckedOut.\n\nBy running toBeDeleted first we remove \"src/foo\" and then \"src\" successfully, and now toBeCheckedOut doesn\u0027t have to rmdir \"src\" in order to create \"src\" as a file.\n\nThis is the better way to handle the directory-to-file switch. If things go wrong, the switch will fail and the merge will abort.",
+      "parentUuid": "a766b734_8f67bb9b",
+      "revId": "75b4a23748772be2e689db12e2d1e7d1aa43e06f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
