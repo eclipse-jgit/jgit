@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a766b734_8f67bb9b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-11-28T09:08:42Z",
+      "side": 1,
+      "message": "Was there a specific reason to change the order of steps? Previously we first updated files and then deleted others and now it is reversed.",
+      "revId": "75b4a23748772be2e689db12e2d1e7d1aa43e06f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
