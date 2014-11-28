@@ -174,7 +174,7 @@ public abstract class AbstractPlotRenderer<TLane extends PlotLane, TColor> {
 		}
 
 		final String msg = commit.getShortMessage();
-		drawText(msg, textx + dotSize, h / 2);
+		drawText(msg, textx + dotSize, h);
 	}
 
 	/**
@@ -276,9 +276,9 @@ public abstract class AbstractPlotRenderer<TLane extends PlotLane, TColor> {
 	 *            first pixel from the left that the text can be drawn at.
 	 *            Character data must not appear before this position.
 	 * @param y
-	 *            pixel coordinate of the centerline of the text.
-	 *            Implementations must adjust this coordinate to account for the
-	 *            way their implementation handles font rendering.
+	 *            pixel coordinate of the baseline of the text. Implementations
+	 *            must adjust this coordinate to account for the way their
+	 *            implementation handles font rendering.
 	 */
 	protected abstract void drawText(String msg, int x, int y);
 

@@ -123,7 +123,7 @@ final class AWTPlotRenderer extends AbstractPlotRenderer<SwingLane, Color>
 	@Override
 	protected void drawText(final String msg, final int x, final int y) {
 		final int texth = g.getFontMetrics().getHeight();
-		final int y0 = y - texth/2 + (cell.getHeight() - texth)/2;
+		final int y0 = (y - texth) / 2 + (cell.getHeight() - texth) / 2;
 		g.setColor(cell.getForeground());
 		g.drawString(msg, x, y0 + texth - g.getFontMetrics().getDescent());
 	}
