@@ -190,7 +190,7 @@ public class DirCacheBasicTest extends RepositoryTestCase {
 	public void testBuildThenClear() throws Exception {
 		final DirCache dc = db.readDirCache();
 
-		final String[] paths = { "a.", "a.b", "a/b", "a0b" };
+		final String[] paths = { "a-", "a.b", "a/b", "a0b" };
 		final DirCacheEntry[] ents = new DirCacheEntry[paths.length];
 		for (int i = 0; i < paths.length; i++) {
 			ents[i] = new DirCacheEntry(paths[i]);

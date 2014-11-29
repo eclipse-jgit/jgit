@@ -169,7 +169,7 @@ public class PathFilterGroupTest {
 		}
 
 		// less obvious due to git sorting order
-		filter.include(fakeWalk("d."));
+		filter.include(fakeWalk("d-"));
 
 		// less obvious due to git sorting order
 		try {
