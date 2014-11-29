@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "a766b734_3a81809d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-11-29T18:49:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_c3d07973",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 82
+      },
+      "revId": "b95755fe399cd93a3fb35494196ecf7f9d36edd5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_43dd898d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
         "patchSetId": 1
@@ -59,6 +83,30 @@
       "writtenOn": "2014-11-25T01:27:03Z",
       "side": 1,
       "message": "This loses information: after\n\n setAllowDeletes(true);\n setAllowBranchDeletes(true);\n setAllowDeletes(false);\n setAllowDeletes(true);\n\nwhat should isAllowBranchDeletes() say?\n\nI\u0027d delete the above two lines and treat them as orthogonal (validateCommands would still prevent deleting branches when allowAnyDeletes is false).",
+      "range": {
+        "startLine": 555,
+        "startChar": 0,
+        "endLine": 556,
+        "endChar": 30
+      },
+      "revId": "b95755fe399cd93a3fb35494196ecf7f9d36edd5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_9a725455",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-11-29T18:49:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_43dd898d",
       "range": {
         "startLine": 555,
         "startChar": 0,
