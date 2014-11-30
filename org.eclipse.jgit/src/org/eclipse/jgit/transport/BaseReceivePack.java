@@ -168,7 +168,8 @@ public abstract class BaseReceivePack {
 	private boolean allowCreates;
 
 	/** Should an incoming transfer permit delete requests? */
-	private boolean allowDeletes;
+	private boolean allowAnyDeletes;
+	private boolean allowBranchDeletes;
 
 	/** Should an incoming transfer permit non-fast-forward requests? */
 	private boolean allowNonFastForwards;
@@ -258,7 +259,8 @@ public abstract class BaseReceivePack {
 		final ReceiveConfig cfg = db.getConfig().get(ReceiveConfig.KEY);
 		objectChecker = cfg.newObjectChecker();
 		allowCreates = cfg.allowCreates;
-		allowDeletes = cfg.allowDeletes;
+		allowAnyDeletes = true;
+		allowBranchDeletes = cfg.allowDeletes;
 		allowNonFastForwards = cfg.allowNonFastForwards;
 		allowOfsDelta = cfg.allowOfsDelta;
 		advertiseRefsHook = AdvertiseRefsHook.DEFAULT;
@@ -541,7 +543,7 @@ public abstract class BaseReceivePack {
 
 	/** @return true if the client can request refs to be deleted. */
 	public boolean isAllowDeletes() {
-		return allowDeletes;
+		return allowAnyDeletes;
 	}
 
 	/**
@@ -549,7 +551,25 @@ public abstract class BaseReceivePack {
 	 *            true to permit delete ref commands to be processed.
 	 */
 	public void setAllowDeletes(final boolean canDelete) {
-		allowDeletes = canDelete;
+		allowAnyDeletes = canDelete;
+	}
+
+	/**
+	 * @return true if the client can delete from {@code refs/heads/}.
+	 * @since 3.6
+	 */
+	public boolean isAllowBranchDeletes() {
+		return allowBranchDeletes;
+	}
+
+	/**
+	 * @param canDelete
+	 *            true to permit deletion of branches from the
+	 *            {@code refs/heads/} namespace.
+	 * @since 3.6
+	 */
+	public void setAllowBranchDeletes(boolean canDelete) {
+		allowBranchDeletes = canDelete;
 	}
 
 	/**
@@ -1143,12 +1163,18 @@ public abstract class BaseReceivePack {
 			if (cmd.getResult() != Result.NOT_ATTEMPTED)
 				continue;
 
-			if (cmd.getType() == ReceiveCommand.Type.DELETE
-					&& !isAllowDeletes()) {
-				// Deletes are not supported on this repository.
-				//
-				cmd.setResult(Result.REJECTED_NODELETE);
-				continue;
+			if (cmd.getType() == ReceiveCommand.Type.DELETE) {
+				if (!isAllowDeletes()) {
+					// Deletes are not supported on this repository.
+					cmd.setResult(Result.REJECTED_NODELETE);
+					continue;
+				}
+				if (!isAllowBranchDeletes()
+						&& ref.getName().startsWith(Constants.R_HEADS)) {
+					// Branches cannot be deleted, but other refs can.
+					cmd.setResult(Result.REJECTED_NODELETE);
+					continue;
+				}
 			}
 
 			if (cmd.getType() == ReceiveCommand.Type.CREATE) {
