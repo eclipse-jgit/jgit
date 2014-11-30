@@ -405,14 +405,17 @@ public class CheckoutCommand extends GitCommand<Ref> {
 		DirCacheIterator dci = new DirCacheIterator(dc);
 		treeWalk.addTree(dci);
 
+		String previousPath = null;
+
 		final ObjectReader r = treeWalk.getObjectReader();
 		DirCacheEditor editor = dc.editor();
 		while (treeWalk.next()) {
-			DirCacheEntry entry = dci.getDirCacheEntry();
+			String path = treeWalk.getPathString();
 			// Only add one edit per path
-			if (entry != null && entry.getStage() > DirCacheEntry.STAGE_1)
+			if (path.equals(previousPath))
 				continue;
-			editor.add(new PathEdit(treeWalk.getPathString()) {
+
+			editor.add(new PathEdit(path) {
 				public void apply(DirCacheEntry ent) {
 					int stage = ent.getStage();
 					if (stage > DirCacheEntry.STAGE_0) {
@@ -429,6 +432,8 @@ public class CheckoutCommand extends GitCommand<Ref> {
 					}
 				}
 			});
+
+			previousPath = path;
 		}
 		editor.commit();
 	}

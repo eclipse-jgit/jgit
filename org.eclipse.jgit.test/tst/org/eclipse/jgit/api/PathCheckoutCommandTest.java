@@ -276,6 +276,37 @@ public class PathCheckoutCommandTest extends RepositoryTestCase {
 		assertStageOneToThree(FILE1);
 	}
 
+	@Test
+	public void testCheckoutOursWhenNoBase() throws Exception {
+		String file = "added.txt";
+
+		git.checkout().setCreateBranch(true).setName("side")
+				.setStartPoint(initialCommit).call();
+		writeTrashFile(file, "Added on side");
+		git.add().addFilepattern(file).call();
+		RevCommit side = git.commit().setMessage("Commit on side").call();
+
+		git.checkout().setName("master").call();
+		writeTrashFile(file, "Added on master");
+		git.add().addFilepattern(file).call();
+		git.commit().setMessage("Commit on master").call();
+
+		git.merge().include(side).call();
+		assertEquals(RepositoryState.MERGING, db.getRepositoryState());
+
+		DirCache cache = DirCache.read(db.getIndexFile(), db.getFS());
+		assertEquals("Expected add/add file to not have base stage",
+				DirCacheEntry.STAGE_2, cache.getEntry(file).getStage());
+
+		git.checkout().setStage(Stage.OURS).addPath(file).call();
+
+		assertEquals("Added on master", read(file));
+
+		cache = DirCache.read(db.getIndexFile(), db.getFS());
+		assertEquals("Expected conflict stages to still exist after checkout",
+				DirCacheEntry.STAGE_2, cache.getEntry(file).getStage());
+	}
+
 	@Test(expected = IllegalStateException.class)
 	public void testStageNotPossibleWithBranch() throws Exception {
 		git.checkout().setStage(Stage.OURS).setStartPoint("master").call();
