@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a766b734_9a2d341c",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 8
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-11-30T01:50:48Z",
+      "side": 1,
+      "message": "nonAdvertised",
+      "range": {
+        "startLine": 347,
+        "startChar": 0,
+        "endLine": 347,
+        "endChar": 13
+      },
+      "revId": "a3996df04b94266f10ec1229f7ba405320944ffd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_fa4548cc",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 8
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-11-30T01:50:48Z",
+      "side": 1,
+      "message": "client",
+      "range": {
+        "startLine": 347,
+        "startChar": 38,
+        "endLine": 347,
+        "endChar": 45
+      },
+      "revId": "a3996df04b94266f10ec1229f7ba405320944ffd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_ba28f00a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/JGitText.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-11-30T01:50:48Z",
+      "side": 1,
+      "message": "nonAdvertised",
+      "range": {
+        "startLine": 406,
+        "startChar": 21,
+        "endLine": 406,
+        "endChar": 34
+      },
+      "revId": "a3996df04b94266f10ec1229f7ba405320944ffd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_da420cc2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefAdvertiser.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-11-30T01:50:48Z",
+      "side": 1,
+      "message": "A smaller (and less API breaking) change would be to leave this alone and add an accessor that returns the capabilities collection to the caller on demand.\n\nCallers then can keep their current code to advertise capabilities, then use the new getter to copy the set back from the RefAdvertiser.",
+      "revId": "a3996df04b94266f10ec1229f7ba405320944ffd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_3a3ce047",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 669,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-11-30T01:50:48Z",
+      "side": 1,
+      "message": "This block is a bit of a problem for you.\n\nWhen biDirectionalPipe \u003d\u003d false we are in smart HTTP and the capability list is not built. So we can\u0027t verify against it.",
+      "range": {
+        "startLine": 664,
+        "startChar": 0,
+        "endLine": 669,
+        "endChar": 64
+      },
+      "revId": "a3996df04b94266f10ec1229f7ba405320944ffd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
