@@ -453,7 +453,13 @@ public class ObjectChecker {
 					throw new CorruptObjectException("invalid name '..'");
 				break;
 			case 4:
-				if (isDotGit(raw, ptr + 1))
+				if (isGit(raw, ptr + 1))
+					throw new CorruptObjectException(String.format(
+							"invalid name '%s'",
+							RawParseUtils.decode(raw, ptr, end)));
+				break;
+			default:
+				if (end - ptr > 4 && isNormalizedGit(raw, ptr + 1, end))
 					throw new CorruptObjectException(String.format(
 							"invalid name '%s'",
 							RawParseUtils.decode(raw, ptr, end)));
@@ -540,10 +546,28 @@ public class ObjectChecker {
 		return 1 <= c && c <= 31;
 	}
 
-	private static boolean isDotGit(byte[] buf, int p) {
+	private static boolean isGit(byte[] buf, int p) {
 		return toLower(buf[p]) == 'g'
 				&& toLower(buf[p + 1]) == 'i'
 				&& toLower(buf[p + 2]) == 't';
+	}
+
+	private static boolean isNormalizedGit(byte[] raw, int ptr, int end) {
+		if (isGit(raw, ptr)) {
+			int dots = 0;
+			boolean space = false;
+			int p = end - 1;
+			for (; (ptr + 2) < p; p--) {
+				if (raw[p] == '.')
+					dots++;
+				else if (raw[p] == ' ')
+					space = true;
+				else
+					break;
+			}
+			return p == ptr + 2 && (dots == 1 || space);
+		}
+		return false;
 	}
 
 	private static char toLower(byte b) {
