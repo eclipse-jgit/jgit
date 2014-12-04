@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_6cfa1837",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/MvCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2014-12-04T21:19:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7672b30_071c6b6f",
+      "revId": "a6c71970c1fd23cb2eec88b9595327f6ce11edb5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABODH///jA\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/MvCommandTest.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2011-12-18T12:11:34Z",
       "side": 1,
       "message": "Add a test for renaming a directory too",
+      "revId": "a6c71970c1fd23cb2eec88b9595327f6ce11edb5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_ccf52c45",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/MvCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2014-12-04T21:19:14Z",
+      "side": 1,
+      "message": "in progress",
+      "parentUuid": "AABODH///jA\u003d",
       "revId": "a6c71970c1fd23cb2eec88b9595327f6ce11edb5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_8cffb426",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2014-12-04T21:19:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7672b30_a2162e7a",
+      "revId": "a6c71970c1fd23cb2eec88b9595327f6ce11edb5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7672b30_622096cf",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MvCommand.java",
         "patchSetId": 1
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_ecee287f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MvCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2014-12-04T21:19:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7672b30_622096cf",
+      "revId": "a6c71970c1fd23cb2eec88b9595327f6ce11edb5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABODH///i8\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MvCommand.java",
         "patchSetId": 1
@@ -81,6 +153,24 @@
       "writtenOn": "2011-12-18T12:11:34Z",
       "side": 1,
       "message": "Behavior is very different from C Git here.\n\nIf a flle affected by the source was tracked but not in the index C Git fals. \n\nMv\u0027ing a directory without tracked files fails in C Git.\n\nYou can mv a directory without some untracked files and the whole directory will be renamed.\n\nThe -f and -k options are quite important to handle here.",
+      "revId": "a6c71970c1fd23cb2eec88b9595327f6ce11edb5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_2ce5c098",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MvCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2014-12-04T21:19:14Z",
+      "side": 1,
+      "message": "in progress",
+      "parentUuid": "AABODH///i8\u003d",
       "revId": "a6c71970c1fd23cb2eec88b9595327f6ce11edb5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
