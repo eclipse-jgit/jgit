@@ -358,6 +358,16 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 	}
 
 	/**
+	 * @return the directory associated with the clone operation. If the
+	 *         directory wasn't set, a name associated with the source uri will
+	 *         be used.
+	 * @since 3.6
+	 */
+	public File getDirectory() {
+		return this.directory;
+	}
+
+	/**
 	 * @param gitDir
 	 *            the repository meta directory
 	 * @return this instance
