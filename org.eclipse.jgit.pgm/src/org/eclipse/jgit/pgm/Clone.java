@@ -67,6 +67,9 @@ class Clone extends AbstractFetchCommand {
 	@Option(name = "--no-checkout", aliases = { "-n" }, usage = "usage_noCheckoutAfterClone")
 	private boolean noCheckout;
 
+	@Option(name = "--bare", usage = "usage_bareClone")
+	private boolean isBare;
+
 	@Argument(index = 0, required = true, metaVar = "metaVar_uriish")
 	private String sourceUri;
 
@@ -96,7 +99,7 @@ class Clone extends AbstractFetchCommand {
 			branch = Constants.HEAD;
 
 		CloneCommand command = Git.cloneRepository();
-		command.setURI(sourceUri).setRemote(remoteName)
+		command.setURI(sourceUri).setRemote(remoteName).setBare(isBare)
 				.setNoCheckout(noCheckout).setBranch(branch);
 
 		String dirPath = ""; //$NON-NLS-1$
