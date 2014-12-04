@@ -44,6 +44,7 @@ package org.eclipse.jgit.pgm;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.util.List;
@@ -107,5 +108,25 @@ public class CloneTest extends CLIRepositoryTestCase {
 		Git git2 = Git.open(target);
 		List<Ref> branches = git2.branchList().call();
 		assertEquals("expected 0 branch", 0, branches.size());
+	}
+
+	@Test
+	public void testCloneBare() throws Exception {
+		createInitialCommit();
+
+		File gitDir = db.getDirectory();
+		String sourcePath = gitDir.getAbsolutePath();
+		String targetPath = (new File(sourcePath)).getParentFile()
+				.getParentFile().getAbsolutePath()
+				+ "/target.git";
+		StringBuilder cmd = new StringBuilder("git clone --bare ")
+				.append(sourcePath + " " + targetPath);
+		String[] result = execute(cmd.toString());
+		assertArrayEquals(new String[] {
+				"Cloning into '" + targetPath + "'...", "", "" }, result);
+		Git git2 = Git.open(new File(targetPath));
+		List<Ref> branches = git2.branchList().call();
+		assertEquals("expected 1 branch", 1, branches.size());
+		assertTrue("expected bare repository", git2.getRepository().isBare());
 	}
 }
