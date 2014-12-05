@@ -1,0 +1,135 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a766b734_c27693ae",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 557,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-12-05T12:11:30Z",
+      "side": 1,
+      "message": "?",
+      "revId": "80fe88722660f0e69ccd0469a22c0dc22b553f83",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_82801b03",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 700,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-12-05T12:11:30Z",
+      "side": 1,
+      "message": "nit: remove trailing whitespace",
+      "revId": "80fe88722660f0e69ccd0469a22c0dc22b553f83",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_02952b44",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MvCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-12-05T12:11:30Z",
+      "side": 1,
+      "message": "you should check whether the destination exists. Thats what native git does:\n\n# in the root of the jgit repo:\n$ git mv README.md LICENSE\nfatal: destination exists, source\u003dREADME.md, destination\u003dLICENSE",
+      "revId": "80fe88722660f0e69ccd0469a22c0dc22b553f83",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_2292e75d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MvCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-12-05T12:11:30Z",
+      "side": 1,
+      "message": "I would check the return code. Or even better use out utility function for renaming: org.eclipse.jgit.util.FileUtils.rename()",
+      "revId": "80fe88722660f0e69ccd0469a22c0dc22b553f83",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_c244d36e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MvCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-12-05T12:11:30Z",
+      "side": 1,
+      "message": "I think a file is tracked if it is in the index. Means: as soon as you added it. \nisTracked could be as simple as: repo.readDirCache.get(...)\nThis would solve the problem that with your solution you can rm a path twice. You would allow:\n\n  jgit rm pom.xml\n  jgit rm pom.xml\n\nwhile native git throws an error on the second attempt:\n\n  $ git rm pom.xml\n  rm \u0027pom.xml\u0027\n  $ git rm pom.xml\n  fatal: pathspec \u0027pom.xml\u0027 did not match any files",
+      "range": {
+        "startLine": 138,
+        "startChar": 57,
+        "endLine": 138,
+        "endChar": 58
+      },
+      "revId": "80fe88722660f0e69ccd0469a22c0dc22b553f83",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_428ba329",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/errors/MoveException.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-12-05T12:11:30Z",
+      "side": 1,
+      "message": "nit: remove trailing whitespace",
+      "range": {
+        "startLine": 47,
+        "startChar": 2,
+        "endLine": 47,
+        "endChar": 3
+      },
+      "revId": "80fe88722660f0e69ccd0469a22c0dc22b553f83",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_a2855715",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/errors/MoveException.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-12-05T12:11:30Z",
+      "side": 1,
+      "message": "nit: remove trailing whitespace",
+      "revId": "80fe88722660f0e69ccd0469a22c0dc22b553f83",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
