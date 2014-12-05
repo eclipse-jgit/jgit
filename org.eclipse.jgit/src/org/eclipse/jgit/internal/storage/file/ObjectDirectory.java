@@ -131,14 +131,6 @@ public class ObjectDirectory extends FileObjectDatabase {
 
 	private Set<ObjectId> shallowCommitsIds;
 
-	// Whether to trust the pack folder's modification time. If set
-	// to false we will always scan the .git/objects/pack folder to
-	// check for new pack files. If set to true (default) we use the
-	// lastmodified attribute of the folder and assume that no new
-	// pack files can be in this folder if his modification time has
-	// not changed.
-	private boolean trustFolderStat = true;
-
 	/**
 	 * Initialize a reference to an on-disk object directory.
 	 *
@@ -161,9 +153,6 @@ public class ObjectDirectory extends FileObjectDatabase {
 			File[] alternatePaths, FS fs, File shallowFile) throws IOException {
 		config = cfg;
 		objects = dir;
-		trustFolderStat = config.getBoolean(
-				ConfigConstants.CONFIG_CORE_SECTION,
-				ConfigConstants.CONFIG_KEY_TRUSTFOLDERSTAT, true);
 		infoDirectory = new File(objects, "info"); //$NON-NLS-1$
 		packDirectory = new File(objects, "pack"); //$NON-NLS-1$
 		alternatesFile = new File(infoDirectory, "alternates"); //$NON-NLS-1$
@@ -618,6 +607,16 @@ public class ObjectDirectory extends FileObjectDatabase {
 	}
 
 	private boolean searchPacksAgain(PackList old) {
+		// Whether to trust the pack folder's modification time. If set
+		// to false we will always scan the .git/objects/pack folder to
+		// check for new pack files. If set to true (default) we use the
+		// lastmodified attribute of the folder and assume that no new
+		// pack files can be in this folder if his modification time has
+		// not changed.
+		boolean trustFolderStat = config.getBoolean(
+				ConfigConstants.CONFIG_CORE_SECTION,
+				ConfigConstants.CONFIG_KEY_TRUSTFOLDERSTAT, true);
+
 		return ((!trustFolderStat) || old.snapshot.isModified(packDirectory))
 				&& old != scanPacks(old);
 	}
