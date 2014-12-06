@@ -44,6 +44,10 @@
 package org.eclipse.jgit.internal.storage.file;
 
 import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import org.eclipse.jgit.util.FS;
 
@@ -143,7 +147,7 @@ public class FileSnapshot {
 
 	/**
 	 * Check if the path may have been modified since the snapshot was saved.
-	 * 
+	 *
 	 * @param path
 	 *            the path the snapshot describes.
 	 * @return true if the path needs to be read again.
@@ -205,6 +209,18 @@ public class FileSnapshot {
 		// x.hashCode() == y.hashCode() when x.equals(y) is true.
 		//
 		return (int) lastModified;
+	}
+
+	@Override
+	public String toString() {
+		if (this == DIRTY)
+			return "DIRTY"; //$NON-NLS-1$
+		if (this == MISSING_FILE)
+			return "MISSING_FILE"; //$NON-NLS-1$
+		DateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", //$NON-NLS-1$
+				Locale.US);
+		return "FileSnapshot[modified: " + f.format(new Date(lastModified)) //$NON-NLS-1$
+				+ ", read: " + f.format(new Date(lastRead)) + "]"; //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	private boolean notRacyClean(final long read) {
