@@ -1245,9 +1245,9 @@ public class DirCacheCheckout {
 		} finally {
 			channel.close();
 		}
-		entry.setLength(opt.getAutoCRLF() == AutoCRLF.TRUE
-			? f.length() // AutoCRLF wants on-disk-size
-		    : (int) ol.getSize());
+		entry.setLength(opt.getAutoCRLF() == AutoCRLF.TRUE ? //
+				tmpFile.length() // AutoCRLF wants on-disk-size
+				: (int) ol.getSize());
 
 		if (opt.isFileMode() && fs.supportsExecute()) {
 			if (FileMode.EXECUTABLE_FILE.equals(entry.getRawMode())) {

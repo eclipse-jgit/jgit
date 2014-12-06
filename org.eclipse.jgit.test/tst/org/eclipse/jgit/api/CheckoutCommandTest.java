@@ -43,8 +43,8 @@
  */
 package org.eclipse.jgit.api;
 
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -78,6 +78,7 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.URIish;
@@ -508,4 +509,49 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 		}
 	}
 
+	// TODO: write a faster test which depends less on characteristics of
+	// underlying filesystem/OS.
+	@Test
+	public void testCheckoutAutoCrlfTrue() throws Exception {
+		int nrOfAutoCrlfTestFiles = 200;
+
+		FileBasedConfig c = db.getConfig();
+		c.setString("core", null, "autocrlf", "true");
+		c.save();
+
+		AddCommand add = git.add();
+		for (int i = 100; i < 100 + nrOfAutoCrlfTestFiles; i++) {
+			writeTrashFile("Test_" + i + ".txt", "Hello " + i
+					+ " world\nX\nYU\nJK\n");
+			add.addFilepattern("Test_" + i + ".txt");
+		}
+		fsTick(null);
+		add.call();
+		RevCommit c1 = git.commit().setMessage("add some lines").call();
+
+		add = git.add();
+		for (int i = 100; i < 100 + nrOfAutoCrlfTestFiles; i++) {
+			writeTrashFile("Test_" + i + ".txt", "Hello " + i
+					+ " world\nX\nY\n");
+			add.addFilepattern("Test_" + i + ".txt");
+		}
+		fsTick(null);
+		add.call();
+		git.commit().setMessage("add more").call();
+
+		git.checkout().setName(c1.getName()).call();
+
+		boolean foundUnsmudged = false;
+		DirCache dc = db.readDirCache();
+		for (int i = 100; i < 100 + nrOfAutoCrlfTestFiles; i++) {
+			DirCacheEntry entry = dc.getEntry(
+					"Test_" + i + ".txt");
+			if (!entry.isSmudged()) {
+				foundUnsmudged = true;
+				assertEquals("unexpected file length in git index", 28,
+						entry.getLength());
+			}
+		}
+		org.junit.Assume.assumeTrue(foundUnsmudged);
+	}
 }
