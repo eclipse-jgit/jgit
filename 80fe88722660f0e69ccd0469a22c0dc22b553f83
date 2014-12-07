@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "a766b734_389b36f9",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-12-07T22:32:39Z",
+      "side": 1,
+      "message": "why are you removing the trailing blank ?",
+      "revId": "80fe88722660f0e69ccd0469a22c0dc22b553f83",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_c27693ae",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
         "patchSetId": 2
@@ -36,6 +53,46 @@
     },
     {
       "key": {
+        "uuid": "a766b734_5898b2fb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 706,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-12-07T22:32:39Z",
+      "side": 1,
+      "message": "this change will not reach 3.6 so s/3.6/3.7/",
+      "range": {
+        "startLine": 706,
+        "startChar": 11,
+        "endLine": 706,
+        "endChar": 14
+      },
+      "revId": "80fe88722660f0e69ccd0469a22c0dc22b553f83",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_98952ac4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MvCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-12-07T22:32:39Z",
+      "side": 1,
+      "message": "s/3.6/3.7/",
+      "revId": "80fe88722660f0e69ccd0469a22c0dc22b553f83",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_02952b44",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MvCommand.java",
         "patchSetId": 2
@@ -47,6 +104,24 @@
       "writtenOn": "2014-12-05T12:11:30Z",
       "side": 1,
       "message": "you should check whether the destination exists. Thats what native git does:\n\n# in the root of the jgit repo:\n$ git mv README.md LICENSE\nfatal: destination exists, source\u003dREADME.md, destination\u003dLICENSE",
+      "revId": "80fe88722660f0e69ccd0469a22c0dc22b553f83",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_d88b22a5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MvCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-12-07T22:32:39Z",
+      "side": 1,
+      "message": "for directories you should prevent that directory is moved to itself or is moved to a path matching an already existing file\n\nif a directory is in the index it must be a submodule otherwise fail\n\nif a submodule is moved .gitmodules and .git file need to  be adapted",
+      "parentUuid": "a766b734_02952b44",
       "revId": "80fe88722660f0e69ccd0469a22c0dc22b553f83",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -110,6 +185,23 @@
         "endLine": 47,
         "endChar": 3
       },
+      "revId": "80fe88722660f0e69ccd0469a22c0dc22b553f83",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_78900ed0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/errors/MoveException.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-12-07T22:32:39Z",
+      "side": 1,
+      "message": "s/3.6/3.7/",
       "revId": "80fe88722660f0e69ccd0469a22c0dc22b553f83",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
