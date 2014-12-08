@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a766b734_b821062a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-12-08T00:05:33Z",
+      "side": 1,
+      "message": "Allow explicit configuration of git directory in InitCommand",
+      "revId": "20d599e881bbcf77c4ca9f3e63bafc4b97832ae1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_d8268241",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-12-08T00:05:33Z",
+      "side": 1,
+      "message": "/dir\u0027s/directories/",
+      "range": {
+        "startLine": 12,
+        "startChar": 54,
+        "endLine": 12,
+        "endChar": 59
+      },
+      "revId": "20d599e881bbcf77c4ca9f3e63bafc4b97832ae1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_d83de245",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/InitCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-12-08T00:05:33Z",
+      "side": 1,
+      "message": "teach MockSystemReader to move user.dir to a test directory then we don\u0027t need to ignore these tests",
+      "revId": "20d599e881bbcf77c4ca9f3e63bafc4b97832ae1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_f80ffebd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/InitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-12-08T00:05:33Z",
+      "side": 1,
+      "message": "parameters should be validated already when the corresponding setter methods are called",
+      "range": {
+        "startLine": 88,
+        "startChar": 35,
+        "endLine": 88,
+        "endChar": 41
+      },
+      "revId": "20d599e881bbcf77c4ca9f3e63bafc4b97832ae1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_581392e7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/InitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-12-08T00:05:33Z",
+      "side": 1,
+      "message": "the repository meta directory",
+      "revId": "20d599e881bbcf77c4ca9f3e63bafc4b97832ae1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_381696d7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/InitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-12-08T00:05:33Z",
+      "side": 1,
+      "message": "push this change to stable-3.6 if it should reach 3.6",
+      "revId": "20d599e881bbcf77c4ca9f3e63bafc4b97832ae1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
