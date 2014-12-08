@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a766b734_f86c1e29",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1250,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-12-08T07:59:14Z",
+      "side": 1,
+      "message": "That\u0027s such a severe bug I am wondering why no unit test found it. We need one.",
+      "range": {
+        "startLine": 1250,
+        "startChar": 22,
+        "endLine": 1250,
+        "endChar": 26
+      },
+      "revId": "17a18023d2cb4efa5fe74eb17860b165f0524fe3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
