@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_be060f5a",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2014-12-08T08:23:45Z",
+      "side": 1,
+      "message": "Not me, it\u0027s the editor. I will make sure it doesn\u0027t get committed next time.",
+      "parentUuid": "a766b734_389b36f9",
+      "revId": "80fe88722660f0e69ccd0469a22c0dc22b553f83",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_c27693ae",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2014-12-05T12:11:30Z",
       "side": 1,
       "message": "?",
+      "revId": "80fe88722660f0e69ccd0469a22c0dc22b553f83",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_9e09936d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 557,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2014-12-08T08:23:45Z",
+      "side": 1,
+      "message": "Ooops.",
+      "parentUuid": "a766b734_c27693ae",
       "revId": "80fe88722660f0e69ccd0469a22c0dc22b553f83",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
