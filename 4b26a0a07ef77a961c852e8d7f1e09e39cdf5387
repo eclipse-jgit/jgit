@@ -1,0 +1,147 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a766b734_451ba3fd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-12-09T20:20:41Z",
+      "side": 1,
+      "message": "This is untrue in this change.\n\nJGit wraps the requests created by RegexPipeline. The path info of those requests is encoded and has not been decoded by the container, because this code overrides the container.",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 46
+      },
+      "revId": "4b26a0a07ef77a961c852e8d7f1e09e39cdf5387",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_0516cbd6",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ServletUtils.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-12-09T20:20:41Z",
+      "side": 1,
+      "message": "Missing @since 3.6 javadoc header.",
+      "revId": "4b26a0a07ef77a961c852e8d7f1e09e39cdf5387",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_85af7b15",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ServletUtils.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-12-09T20:20:41Z",
+      "side": 1,
+      "message": "curly braces are unnecessary for single statement blocks inside JGit code",
+      "range": {
+        "startLine": 266,
+        "startChar": 52,
+        "endLine": 268,
+        "endChar": 4
+      },
+      "revId": "4b26a0a07ef77a961c852e8d7f1e09e39cdf5387",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_a5b43768",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ServletUtils.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-12-09T20:20:41Z",
+      "side": 1,
+      "message": "I see you chose not to use early return pattern?",
+      "range": {
+        "startLine": 269,
+        "startChar": 2,
+        "endLine": 271,
+        "endChar": 3
+      },
+      "revId": "4b26a0a07ef77a961c852e8d7f1e09e39cdf5387",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_c5a4d338",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/glue/RegexPipeline.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-12-09T20:20:41Z",
+      "side": 1,
+      "message": "Should we also change SuffixPipeline to use the encoded path?\n\nMaybe its OK its matching on the decoded path info, but do we want to use the encoded pathinfo inside the wrapped request created by service?",
+      "revId": "4b26a0a07ef77a961c852e8d7f1e09e39cdf5387",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_6595ffc0",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/server/ServletUtilsTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-12-09T20:20:41Z",
+      "side": 1,
+      "message": "Add a test for context path of \"/\". I think we have some servers that return that for root rather than \"\".",
+      "revId": "4b26a0a07ef77a961c852e8d7f1e09e39cdf5387",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_4590c3cf",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/server/ServletUtilsTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-12-09T20:20:41Z",
+      "side": 1,
+      "message": "The argument order is... weird.\n\nConsider flipping it around to be:\n\n  contextPath, servletPath, requestUri\n\nThen tests will be:\n\n  \"/c\", \"/s\", \"/c/s/foo/bar/\"\n\nwhich is so much easier to read.",
+      "range": {
+        "startLine": 73,
+        "startChar": 36,
+        "endLine": 73,
+        "endChar": 63
+      },
+      "revId": "4b26a0a07ef77a961c852e8d7f1e09e39cdf5387",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
