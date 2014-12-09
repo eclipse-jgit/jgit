@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a766b734_b8dbbf61",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/InitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-12-09T12:22:11Z",
+      "side": 1,
+      "message": "I think we should first validate and set the member only if the validation succeeded",
+      "revId": "b3212affd2c5bc60bafe90fc6cc2d14d1220ab68",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_f8d1b73f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/InitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-12-09T12:22:11Z",
+      "side": 1,
+      "message": "I think we should first validate and set the member only if the validation succeeded",
+      "revId": "b3212affd2c5bc60bafe90fc6cc2d14d1220ab68",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_98dec350",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/InitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-12-09T12:22:11Z",
+      "side": 1,
+      "message": "I think we should first validate and set the member only if the validation succeeded",
+      "revId": "b3212affd2c5bc60bafe90fc6cc2d14d1220ab68",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
