@@ -205,13 +205,13 @@
             <id>create_jgit</id>
             <phase>package</phase>
             <configuration>
-              <tasks>
+              <target>
                 <concat destfile="${basedir}/target/jgit" force="yes" binary="true">
                   <fileset file="${basedir}/jgit.sh" />
                   <fileset file="${basedir}/target/jgit-cli.jar" />
                 </concat>
                 <chmod file="${basedir}/target/jgit" perm="a+x"/>
-              </tasks>
+              </target>
             </configuration>
             <goals>
               <goal>run</goal>
@@ -221,12 +221,12 @@
             <id>translate-source-qualifier</id>
             <phase>generate-resources</phase>
             <configuration>
-              <tasks>
+              <target>
                 <copy file="META-INF/SOURCE-MANIFEST.MF" tofile="${source-bundle-manifest}" overwrite="true"/>
                 <replace file="${source-bundle-manifest}">
                   <replacefilter token=".qualifier" value=".${maven.build.timestamp}"/>
                 </replace>
-              </tasks>
+              </target>
             </configuration>
             <goals>
               <goal>run</goal>
