@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_4596031e",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ServletUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 15337
+      },
+      "writtenOn": "2014-12-09T20:00:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_12f572bc",
+      "revId": "6116a42003184a6d7a74462751baa18cc9628e3f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_b22d9ece",
         "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ServletUtils.java",
         "patchSetId": 3
@@ -36,6 +54,24 @@
       "writtenOn": "2014-12-09T00:14:40Z",
       "side": 1,
       "message": "Defer computing this until its actually required on the condition below.",
+      "revId": "6116a42003184a6d7a74462751baa18cc9628e3f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_858c9b0e",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ServletUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 15337
+      },
+      "writtenOn": "2014-12-09T20:00:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_b22d9ece",
       "revId": "6116a42003184a6d7a74462751baa18cc9628e3f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -65,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_e572af88",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ServletUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 15337
+      },
+      "writtenOn": "2014-12-09T20:00:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_52fb6aaf",
+      "revId": "6116a42003184a6d7a74462751baa18cc9628e3f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_92306221",
         "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ServletUtils.java",
         "patchSetId": 3
@@ -76,6 +130,24 @@
       "writtenOn": "2014-12-09T00:14:40Z",
       "side": 1,
       "message": "Awkward. I would suggest early return pattern:\n\n  if (!pathInfo.startsWith(servletPath))\n    return null;\n\n  pathInfo \u003d pathInfo.substring(servletPath.length());\n  if (pathInfo.isEmpty() \u0026\u0026 servletPath.length() \u003e 0)\n    return null;\n  return pathInfo;\n\n.length() on a string is essentially free. I see no value in holding it into a local variable the way you originally proposed.",
+      "revId": "6116a42003184a6d7a74462751baa18cc9628e3f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_c575f371",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ServletUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 15337
+      },
+      "writtenOn": "2014-12-09T20:00:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_92306221",
       "revId": "6116a42003184a6d7a74462751baa18cc9628e3f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -99,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_e53d8f7b",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/glue/RegexPipeline.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 15337
+      },
+      "writtenOn": "2014-12-09T20:00:39Z",
+      "side": 1,
+      "message": "I\u0027ve contemplated this suggestion with interest. I lean against doing this because it increases the statefulness (and complexity) of the system for a negligible efficiency gain. I would be more enthusiastic if this cached an expensive computation.",
+      "parentUuid": "a766b734_f22396db",
+      "revId": "6116a42003184a6d7a74462751baa18cc9628e3f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_52e08a03",
         "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/server/ServletUtilsTest.java",
         "patchSetId": 3
@@ -116,6 +206,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_c5ee937f",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/server/ServletUtilsTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 15337
+      },
+      "writtenOn": "2014-12-09T20:00:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_52e08a03",
+      "revId": "6116a42003184a6d7a74462751baa18cc9628e3f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_12ea92e7",
         "filename": "pom.xml",
         "patchSetId": 3
@@ -127,6 +235,24 @@
       "writtenOn": "2014-12-09T00:14:40Z",
       "side": 1,
       "message": "Per http://download.eclipse.org/tools/orbit/downloads/drops/R20140525021250/ only EasyMock 2.4.0 is permitted for use at Eclipse.\n\nIf you want to use 2.4.0, we need to file a CQ to ask for reuse of 2.4.0.\n\nOr we file a CQ to ask for 3.2.\n\nOr you remove EasyMock.",
+      "revId": "6116a42003184a6d7a74462751baa18cc9628e3f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_25e2e791",
+        "filename": "pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 15337
+      },
+      "writtenOn": "2014-12-09T20:00:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_12ea92e7",
       "revId": "6116a42003184a6d7a74462751baa18cc9628e3f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
