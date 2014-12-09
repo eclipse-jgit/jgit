@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_8811525c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 15337
+      },
+      "writtenOn": "2014-12-09T22:53:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_451ba3fd",
+      "revId": "4b26a0a07ef77a961c852e8d7f1e09e39cdf5387",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_0516cbd6",
         "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ServletUtils.java",
         "patchSetId": 5
@@ -36,6 +54,24 @@
       "writtenOn": "2014-12-09T20:20:41Z",
       "side": 1,
       "message": "Missing @since 3.6 javadoc header.",
+      "revId": "4b26a0a07ef77a961c852e8d7f1e09e39cdf5387",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_e5de2f8a",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ServletUtils.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 15337
+      },
+      "writtenOn": "2014-12-09T22:53:11Z",
+      "side": 1,
+      "message": "Done.\n\nIs the standard documented somewhere? No other methods in this class have @since tags and this convention isn\u0027t mentioned in the EGit/JGit contributor guide.\n\nI\u0027m also adding an @since tag to the following method; I don\u0027t know a priori whether it\u0027s required (or forbidden) for package protected methods.",
+      "parentUuid": "a766b734_0516cbd6",
       "revId": "4b26a0a07ef77a961c852e8d7f1e09e39cdf5387",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -65,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_85d3fb79",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ServletUtils.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 15337
+      },
+      "writtenOn": "2014-12-09T22:53:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_85af7b15",
+      "revId": "4b26a0a07ef77a961c852e8d7f1e09e39cdf5387",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_a5b43768",
         "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ServletUtils.java",
         "patchSetId": 5
@@ -88,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_252ae702",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ServletUtils.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 15337
+      },
+      "writtenOn": "2014-12-09T22:53:11Z",
+      "side": 1,
+      "message": "Sorry, I misinterpreted your suggestion. Done.",
+      "parentUuid": "a766b734_a5b43768",
+      "revId": "4b26a0a07ef77a961c852e8d7f1e09e39cdf5387",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_c5a4d338",
         "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/glue/RegexPipeline.java",
         "patchSetId": 5
@@ -99,6 +171,24 @@
       "writtenOn": "2014-12-09T20:20:41Z",
       "side": 1,
       "message": "Should we also change SuffixPipeline to use the encoded path?\n\nMaybe its OK its matching on the decoded path info, but do we want to use the encoded pathinfo inside the wrapped request created by service?",
+      "revId": "4b26a0a07ef77a961c852e8d7f1e09e39cdf5387",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_c8ffca70",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/glue/RegexPipeline.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 15337
+      },
+      "writtenOn": "2014-12-09T22:53:11Z",
+      "side": 1,
+      "message": "For the sake of consistency, I\u0027m glad you brought this to my attention. I don\u0027t know the answers; I\u0027m not familiar with typical usage of SuffixPipeline. I didn\u0027t even know it was there. I\u0027ll assume that the encoded path is fine, and preferable for the sake of consistency. I think we were getting the encoded path (in error) prior to the Guice change, and I\u0027m not aware that it caused any problems.\n\nI substituted getEncodedPathInfo for getRequestPath in SuffixPipeline. I\u0027m assuming the second sentence referred to that class, since we\u0027re already using the encoded path in the wrapped objects created by RegexPipeline.",
+      "parentUuid": "a766b734_c5a4d338",
       "revId": "4b26a0a07ef77a961c852e8d7f1e09e39cdf5387",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -122,6 +212,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_25b78741",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/server/ServletUtilsTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 15337
+      },
+      "writtenOn": "2014-12-09T22:53:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_6595ffc0",
+      "revId": "4b26a0a07ef77a961c852e8d7f1e09e39cdf5387",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_4590c3cf",
         "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/server/ServletUtilsTest.java",
         "patchSetId": 5
@@ -139,6 +247,24 @@
         "endLine": 73,
         "endChar": 63
       },
+      "revId": "4b26a0a07ef77a961c852e8d7f1e09e39cdf5387",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_c5b33353",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/server/ServletUtilsTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 15337
+      },
+      "writtenOn": "2014-12-09T22:53:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_4590c3cf",
       "revId": "4b26a0a07ef77a961c852e8d7f1e09e39cdf5387",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
