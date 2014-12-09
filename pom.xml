@@ -345,12 +345,12 @@
         <plugin>
           <groupId>org.eclipse.tycho.extras</groupId>
           <artifactId>tycho-pack200a-plugin</artifactId>
-          <version>0.21.0</version>
+          <version>0.22.0</version>
         </plugin>
         <plugin>
           <groupId>org.eclipse.tycho.extras</groupId>
           <artifactId>tycho-pack200b-plugin</artifactId>
-          <version>0.21.0</version>
+          <version>0.22.0</version>
         </plugin>
         <plugin>
           <groupId>org.jacoco</groupId>
