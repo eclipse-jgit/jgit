@@ -273,7 +273,8 @@ public class FileRepository extends Repository {
 				ConfigConstants.CONFIG_CORE_SECTION, null,
 				ConfigConstants.CONFIG_KEY_HIDEDOTFILES,
 				HideDotFiles.DOTGITONLY);
-		if (hideDotFiles != HideDotFiles.FALSE && !isBare())
+		if (hideDotFiles != HideDotFiles.FALSE && !isBare()
+				&& getDirectory().getName().startsWith(".")) //$NON-NLS-1$
 			getFS().setHidden(getDirectory(), true);
 		refs.create();
 		objectDatabase.create();
@@ -329,6 +330,25 @@ public class FileRepository extends Repository {
 			// Java has no other way
 			cfg.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
 					ConfigConstants.CONFIG_KEY_PRECOMPOSEUNICODE, true);
+		if (!bare) {
+			File workTree = getWorkTree();
+			if (!getDirectory().getParentFile().equals(workTree)) {
+				cfg.setString(ConfigConstants.CONFIG_CORE_SECTION, null,
+						ConfigConstants.CONFIG_KEY_WORKTREE, getWorkTree()
+								.getAbsolutePath());
+				LockFile dotGitLockFile = new LockFile(new File(workTree,
+						Constants.DOT_GIT), getFS());
+				try {
+					if (dotGitLockFile.lock()) {
+						dotGitLockFile.write(Constants.encode(Constants.GITDIR
+								+ getDirectory().getAbsolutePath()));
+						dotGitLockFile.commit();
+					}
+				} finally {
+					dotGitLockFile.unlock();
+				}
+			}
+		}
 		cfg.save();
 	}
 
