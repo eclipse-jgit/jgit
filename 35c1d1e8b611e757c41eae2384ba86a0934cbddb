@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a766b734_9949a288",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/InitCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2014-12-10T14:31:14Z",
+      "side": 1,
+      "message": "s/seperate/separate",
+      "range": {
+        "startLine": 130,
+        "startChar": 49,
+        "endLine": 130,
+        "endChar": 63
+      },
+      "revId": "35c1d1e8b611e757c41eae2384ba86a0934cbddb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_7944866c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/InitCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2014-12-10T14:31:14Z",
+      "side": 1,
+      "message": "s/seperate/separate",
+      "range": {
+        "startLine": 132,
+        "startChar": 16,
+        "endLine": 132,
+        "endChar": 30
+      },
+      "revId": "35c1d1e8b611e757c41eae2384ba86a0934cbddb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_394e8e90",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/InitCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2014-12-10T14:31:14Z",
+      "side": 1,
+      "message": "s/seperate/separate",
+      "range": {
+        "startLine": 181,
+        "startChar": 16,
+        "endLine": 181,
+        "endChar": 30
+      },
+      "revId": "35c1d1e8b611e757c41eae2384ba86a0934cbddb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
