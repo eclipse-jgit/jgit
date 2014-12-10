@@ -170,9 +170,9 @@ final class AWTPlotRenderer extends AbstractPlotRenderer<SwingLane, Color>
 		}
 		if (ref.getPeeledObjectId() != null) {
 			float[] colorComponents = g.getBackground().getRGBColorComponents(null);
-			colorComponents[0] *= 0.9;
-			colorComponents[1] *= 0.9;
-			colorComponents[2] *= 0.9;
+			colorComponents[0] *= 0.9f;
+			colorComponents[1] *= 0.9f;
+			colorComponents[2] *= 0.9f;
 			g.setBackground(new Color(colorComponents[0],colorComponents[1],colorComponents[2]));
 		}
 		if (txt.length() > 12)
