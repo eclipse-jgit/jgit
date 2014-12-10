@@ -308,6 +308,8 @@ public class JGitText extends TranslationBundle {
 	/***/ public String indexFileIsTooLargeForJgit;
 	/***/ public String indexSignatureIsInvalid;
 	/***/ public String indexWriteException;
+	/***/ public String initFailedBareRepoDifferentDirs;
+	/***/ public String initFailedNonBareRepoSameDirs;
 	/***/ public String inMemoryBufferLimitExceeded;
 	/***/ public String inputStreamMustSupportMark;
 	/***/ public String integerValueOutOfRange;
