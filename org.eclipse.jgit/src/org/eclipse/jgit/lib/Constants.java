@@ -373,6 +373,13 @@ public final class Constants {
 	public static final String GITDIR = "gitdir: ";
 
 	/**
+	 * Name of the folder (inside gitDir) where submodules are stored
+	 *
+	 * @since 3.6
+	 */
+	public static final String MODULES = "modules";
+
+	/**
 	 * Create a new digest function for objects.
 	 *
 	 * @return a new digest object.
