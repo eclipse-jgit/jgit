@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_7b6d9ef4",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ServletUtils.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 15337
+      },
+      "writtenOn": "2014-12-10T05:10:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_68c2f62c",
+      "revId": "6d068e853154d8caab3089be0f1c7bf89fc25e45",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_48bd7aac",
         "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ServletUtils.java",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2014-12-10T00:57:37Z",
       "side": 1,
       "message": "Unnecessary on package methods. Only required for public methods.",
+      "revId": "6d068e853154d8caab3089be0f1c7bf89fc25e45",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_db3f92e1",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ServletUtils.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 15337
+      },
+      "writtenOn": "2014-12-10T05:10:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_48bd7aac",
       "revId": "6d068e853154d8caab3089be0f1c7bf89fc25e45",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
