@@ -441,10 +441,10 @@ public class CloneCommandTest extends RepositoryTestCase {
 		SubmoduleWalk walk = SubmoduleWalk.forIndex(git2.getRepository());
 		assertTrue(walk.next());
 		Repository clonedSub1 = walk.getRepository();
-		addRepoToClose(clonedSub1);
 		assertNotNull(clonedSub1);
 		status = new SubmoduleStatusCommand(clonedSub1);
 		statuses = status.call();
+		clonedSub1.close();
 		pathStatus = statuses.get(path);
 		assertNotNull(pathStatus);
 		assertEquals(SubmoduleStatusType.INITIALIZED, pathStatus.getType());

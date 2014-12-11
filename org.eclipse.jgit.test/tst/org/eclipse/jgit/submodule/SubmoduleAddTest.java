@@ -131,7 +131,8 @@ public class SubmoduleAddTest extends RepositoryTestCase {
 		command.setURI(uri);
 		Repository repo = command.call();
 		assertNotNull(repo);
-		addRepoToClose(repo);
+		ObjectId subCommit = repo.resolve(Constants.HEAD);
+		repo.close();
 
 		SubmoduleWalk generator = SubmoduleWalk.forIndex(db);
 		assertTrue(generator.next());
@@ -141,9 +142,9 @@ public class SubmoduleAddTest extends RepositoryTestCase {
 		assertEquals(path, generator.getModulesPath());
 		assertEquals(uri, generator.getConfigUrl());
 		Repository subModRepo = generator.getRepository();
-		addRepoToClose(subModRepo);
 		assertNotNull(subModRepo);
-		assertEquals(commit, repo.resolve(Constants.HEAD));
+		assertEquals(subCommit, commit);
+		subModRepo.close();
 
 		Status status = Git.wrap(db).status().call();
 		assertTrue(status.getAdded().contains(Constants.DOT_GIT_MODULES));
@@ -206,7 +207,6 @@ public class SubmoduleAddTest extends RepositoryTestCase {
 			fullUri = fullUri.replace('\\', '/');
 		assertEquals(fullUri, generator.getConfigUrl());
 		Repository subModRepo = generator.getRepository();
-		addRepoToClose(subModRepo);
 		assertNotNull(subModRepo);
 		assertEquals(
 				fullUri,
@@ -215,6 +215,7 @@ public class SubmoduleAddTest extends RepositoryTestCase {
 						.getString(ConfigConstants.CONFIG_REMOTE_SECTION,
 								Constants.DEFAULT_REMOTE_NAME,
 								ConfigConstants.CONFIG_KEY_URL));
+		subModRepo.close();
 		assertEquals(commit, repo.resolve(Constants.HEAD));
 
 		Status status = Git.wrap(db).status().call();
