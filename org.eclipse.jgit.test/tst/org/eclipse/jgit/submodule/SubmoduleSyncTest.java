@@ -135,8 +135,8 @@ public class SubmoduleSyncTest extends RepositoryTestCase {
 		assertTrue(generator.next());
 		assertEquals(url, generator.getConfigUrl());
 		Repository subModRepository = generator.getRepository();
-		addRepoToClose(subModRepository);
 		StoredConfig submoduleConfig = subModRepository.getConfig();
+		subModRepository.close();
 		assertEquals(url, submoduleConfig.getString(
 				ConfigConstants.CONFIG_REMOTE_SECTION,
 				Constants.DEFAULT_REMOTE_NAME, ConfigConstants.CONFIG_KEY_URL));
@@ -207,8 +207,8 @@ public class SubmoduleSyncTest extends RepositoryTestCase {
 		assertTrue(generator.next());
 		assertEquals("git://server/sub.git", generator.getConfigUrl());
 		Repository subModRepository1 = generator.getRepository();
-		addRepoToClose(subModRepository1);
 		StoredConfig submoduleConfig = subModRepository1.getConfig();
+		subModRepository1.close();
 		assertEquals("git://server/sub.git", submoduleConfig.getString(
 				ConfigConstants.CONFIG_REMOTE_SECTION,
 				Constants.DEFAULT_REMOTE_NAME, ConfigConstants.CONFIG_KEY_URL));
