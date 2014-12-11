@@ -1018,6 +1018,8 @@ public class DiffFormatter {
 
 		try {
 			ObjectLoader ldr = source.open(side, entry);
+			if (ldr.getSize() > binaryFileThreshold)
+				return BINARY;
 			return ldr.getBytes(binaryFileThreshold);
 
 		} catch (LargeObjectException.ExceedsLimit overLimit) {
