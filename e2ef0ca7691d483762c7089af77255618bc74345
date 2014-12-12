@@ -16,6 +16,24 @@
       "revId": "e2ef0ca7691d483762c7089af77255618bc74345",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_b6b3c401",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CloneCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-12-12T08:58:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_2ae46ec9",
+      "revId": "e2ef0ca7691d483762c7089af77255618bc74345",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
