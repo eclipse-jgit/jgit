@@ -51,8 +51,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.eclipse.jgit.http.server.ServletUtils;
-
 /**
  * Selects requests by matching the suffix of the URI.
  * <p>
@@ -90,14 +88,14 @@ class SuffixPipeline extends UrlPipeline {
 	}
 
 	boolean match(final HttpServletRequest req) {
-		final String pathInfo = ServletUtils.getEncodedPathInfo(req);
+		final String pathInfo = req.getPathInfo();
 		return pathInfo != null && pathInfo.endsWith(suffix);
 	}
 
 	@Override
 	void service(HttpServletRequest req, HttpServletResponse rsp)
 			throws ServletException, IOException {
-		String curInfo = ServletUtils.getEncodedPathInfo(req);
+		String curInfo = req.getPathInfo();
 		String newPath = req.getServletPath() + curInfo;
 		String newInfo = curInfo.substring(0, curInfo.length() - suffixLen);
 		super.service(new WrappedRequest(req, newPath, newInfo), rsp);
