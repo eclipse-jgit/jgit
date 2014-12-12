@@ -56,8 +56,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.eclipse.jgit.http.server.ServletUtils;
-
 /**
  * Selects requests by matching the URI against a regular expression.
  * <p>
@@ -111,14 +109,14 @@ class RegexPipeline extends UrlPipeline {
 	}
 
 	boolean match(final HttpServletRequest req) {
-		final String pathInfo = ServletUtils.getEncodedPathInfo(req);
+		final String pathInfo = req.getPathInfo();
 		return pathInfo != null && pattern.matcher(pathInfo).matches();
 	}
 
 	@Override
 	void service(HttpServletRequest req, HttpServletResponse rsp)
 			throws ServletException, IOException {
-		final String reqInfo = ServletUtils.getEncodedPathInfo(req);
+		final String reqInfo = req.getPathInfo();
 		if (reqInfo == null) {
 			rsp.sendError(SC_NOT_FOUND);
 			return;

@@ -168,7 +168,7 @@ public class RegexPipelineTest extends HttpTestCase {
 		s.serveRegex("^(/c)(/d)$")
 				.through(new RegexGroupFilter(1))
 				.with(new Servlet("test2"));
-		s.serveRegex("^(/e)/f.*(/g)$")
+		s.serveRegex("^(/e)/f(/g)$")
 				.through(new RegexGroupFilter(2))
 				.with(new Servlet("test3"));
 		ctx.addServlet(new ServletHolder(s), "/*");
@@ -197,12 +197,12 @@ public class RegexPipelineTest extends HttpTestCase {
 		assertEquals("/c", r.readLine());
 		assertEquals(null, r.readLine());
 
-		c = ((HttpURLConnection) uri.resolve("/e/f/+/g").toURL()
+		c = ((HttpURLConnection) uri.resolve("/e/f/g").toURL()
 				.openConnection());
 		assertEquals(200, c.getResponseCode());
 		r = new BufferedReader(new InputStreamReader(c.getInputStream()));
 		assertEquals("test3", r.readLine());
-		assertEquals("/e/f/+", r.readLine());
+		assertEquals("/e/f", r.readLine());
 		assertEquals("/g", r.readLine());
 		assertEquals(null, r.readLine());
 	}
