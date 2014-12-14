@@ -217,7 +217,8 @@ public class PathMatcher extends AbstractMatcher {
 						matcher++;
 						match = matches(matcher, path, left, endExcl,
 								assumeDirectory);
-					} else if (dirOnly)
+					} else if (dirOnly && !assumeDirectory)
+						// Directory expectations not met
 						return false;
 				}
 				return match && matcher + 1 == matchers.size();
