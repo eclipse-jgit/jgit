@@ -469,6 +469,11 @@ public class ObjectChecker {
 					RawParseUtils.decode(raw, ptr, end)));
 		}
 
+		if (macosx && isMacHFSGit(raw, ptr, end))
+			throw new CorruptObjectException(String.format(
+					"invalid name '%s' contains ignorable Unicode characters",
+					RawParseUtils.decode(raw, ptr, end)));
+
 		if (windows) {
 			// Windows ignores space and dot at end of file name.
 			if (raw[end - 1] == ' ' || raw[end - 1] == '.')
@@ -477,6 +482,88 @@ public class ObjectChecker {
 			if (end - ptr >= 3)
 				checkNotWindowsDevice(raw, ptr, end);
 		}
+	}
+
+	// Mac's HFS+ folds permutations of ".git" and Unicode ignorable characters
+	// to ".git" therefore we should prevent such names
+	private static boolean isMacHFSGit(byte[] raw, int ptr, int end)
+			throws CorruptObjectException {
+		boolean ignorable = false;
+		byte[] git = new byte[] { '.', 'g', 'i', 't' };
+		int g = 0;
+		while (ptr < end) {
+			switch (raw[ptr]) {
+			case (byte) 0xe2: // http://www.utf8-chartable.de/unicode-utf8-table.pl?start=8192
+				checkTruncatedIgnorableUTF8(raw, ptr, end);
+				switch (raw[ptr + 1]) {
+				case (byte) 0x80:
+					switch (raw[ptr + 2]) {
+					case (byte) 0x8c:	// U+200C 0xe2808c ZERO WIDTH NON-JOINER
+					case (byte) 0x8d:	// U+200D 0xe2808d ZERO WIDTH JOINER
+					case (byte) 0x8e:	// U+200E 0xe2808e LEFT-TO-RIGHT MARK
+					case (byte) 0x8f:	// U+200F 0xe2808f RIGHT-TO-LEFT MARK
+					case (byte) 0xaa:	// U+202A 0xe280aa LEFT-TO-RIGHT EMBEDDING
+					case (byte) 0xab:	// U+202B 0xe280ab RIGHT-TO-LEFT EMBEDDING
+					case (byte) 0xac:	// U+202C 0xe280ac POP DIRECTIONAL FORMATTING
+					case (byte) 0xad:	// U+202D 0xe280ad LEFT-TO-RIGHT OVERRIDE
+					case (byte) 0xae:	// U+202E 0xe280ae RIGHT-TO-LEFT OVERRIDE
+						ignorable = true;
+						ptr += 3;
+						continue;
+					default:
+						return false;
+					}
+				case (byte) 0x81:
+					switch (raw[ptr + 2]) {
+					case (byte) 0xaa:	// U+206A 0xe281aa INHIBIT SYMMETRIC SWAPPING
+					case (byte) 0xab:	// U+206B 0xe281ab ACTIVATE SYMMETRIC SWAPPING
+					case (byte) 0xac:	// U+206C 0xe281ac INHIBIT ARABIC FORM SHAPING
+					case (byte) 0xad:	// U+206D 0xe281ad ACTIVATE ARABIC FORM SHAPING
+					case (byte) 0xae:	// U+206E 0xe281ae NATIONAL DIGIT SHAPES
+					case (byte) 0xaf:	// U+206F 0xe281af NOMINAL DIGIT SHAPES
+						ignorable = true;
+						ptr += 3;
+						continue;
+					default:
+						return false;
+					}
+				}
+				break;
+			case (byte) 0xef: // http://www.utf8-chartable.de/unicode-utf8-table.pl?start=65024
+				checkTruncatedIgnorableUTF8(raw, ptr, end);
+				// U+FEFF 0xefbbbf ZERO WIDTH NO-BREAK SPACE
+				if ((raw[ptr + 1] == (byte) 0xbb)
+						&& (raw[ptr + 2] == (byte) 0xbf)) {
+					ignorable = true;
+					ptr += 3;
+					continue;
+				}
+				return false;
+			default:
+				if (g == 4)
+					return false;
+				if (raw[ptr++] != git[g++])
+					return false;
+			}
+		}
+		if (g == 4 && ignorable)
+			return true;
+		return false;
+	}
+
+	private static void checkTruncatedIgnorableUTF8(byte[] raw, int ptr, int end)
+			throws CorruptObjectException {
+		if ((ptr + 2) >= end)
+			throw new CorruptObjectException(MessageFormat.format(
+				"invalid name contains byte sequence ''{0}'' which is not a valid UTF-8 character",
+					toHexString(raw, ptr, end)));
+	}
+
+	private static String toHexString(byte[] raw, int ptr, int end) {
+		StringBuilder b = new StringBuilder("0x"); //$NON-NLS-1$
+		for (int i = ptr; i < end; i++)
+			b.append(String.format("%02x", Byte.valueOf(raw[i]))); //$NON-NLS-1$
+		return b.toString();
 	}
 
 	private static void checkNotWindowsDevice(byte[] raw, int ptr, int end)
