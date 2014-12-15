@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a766b734_97715f54",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 813,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2014-12-15T18:46:45Z",
+      "side": 1,
+      "message": "I think the fix is a lot more subtle than this.\n\nfindSymrefs() above added a capability symref\u003dHEAD:refs/heads/master if the client can see HEAD and HEAD was packed into the advertisement. Which means !adv.isEmpty() and so this branch is irrelevant anyway.\n\ndb.resolve(HEAD) checks to find a SHA-1 behind HEAD. A repository might be non-empty, but hiding branches, but have a dangling HEAD. So this check fails and we lose the capabilities line.\n\nClients using OPTION_ALLOW_TIP_SHA1_IN_WANT on a repository that is hiding refs by default under refs/changes/ still needs to see capabilities to know OPTION_ALLOW_TIP_SHA1_IN_WANT is possible.\n\nWe may need to do more research here. IMHO its possible the Git client itself is what is broken. If a server is hiding all refs by default to shrink its advertisement and wants clients to use OPTION_ALLOW_TIP_SHA1_IN_WANT, clients cloning the repository will also get this error message.",
+      "revId": "ad17b756273589d9a69299d283203225a98b836e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
