@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_57d187f6",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/CloneTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-12-15T17:26:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_f79d3373",
+      "revId": "7c75a49b64b4b094b70f914175a2b86ac026e54f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_d798f782",
         "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/CloneTest.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2014-12-15T16:31:51Z",
       "side": 1,
       "message": "same suggestion as in testClone().",
+      "revId": "7c75a49b64b4b094b70f914175a2b86ac026e54f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_b7d45be8",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/CloneTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-12-15T17:26:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_d798f782",
       "revId": "7c75a49b64b4b094b70f914175a2b86ac026e54f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_977b1f63",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Clone.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-12-15T17:26:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_179f0f69",
+      "revId": "7c75a49b64b4b094b70f914175a2b86ac026e54f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_5794e747",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Clone.java",
         "patchSetId": 3
@@ -64,6 +118,24 @@
       "writtenOn": "2014-12-15T16:31:51Z",
       "side": 1,
       "message": "I would close db.",
+      "revId": "7c75a49b64b4b094b70f914175a2b86ac026e54f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_f76533c0",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Clone.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-12-15T17:26:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_5794e747",
       "revId": "7c75a49b64b4b094b70f914175a2b86ac026e54f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
