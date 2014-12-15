@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a766b734_f7525330",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/internal/CLIText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-12-15T16:16:18Z",
+      "side": 1,
+      "message": "Is that correct english? Sounds strange. Native git says something similar \"Limit to only refs/heads\". Something like \"Show only refs starting with refs/heads\" would be more clear to me.",
+      "revId": "2b3985c8dfed7c7443420cdf7f2a6d40f7371696",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
