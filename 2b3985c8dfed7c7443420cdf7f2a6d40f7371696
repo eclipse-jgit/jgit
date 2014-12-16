@@ -16,6 +16,24 @@
       "revId": "2b3985c8dfed7c7443420cdf7f2a6d40f7371696",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8761b321_d98813ac",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/internal/CLIText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-12-16T14:35:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_f7525330",
+      "revId": "2b3985c8dfed7c7443420cdf7f2a6d40f7371696",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
