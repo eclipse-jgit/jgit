@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8761b321_f6435e14",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Clone.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-12-16T09:46:11Z",
+      "side": 1,
+      "message": "Possible NPE in next line when command.getDirectory() is null. When cloning into a bare repo it is possible to only specify gitDir.",
+      "revId": "58cedc5dfa472e7339ef78b2fa1067ca54545109",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8761b321_96466a26",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Clone.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-12-16T09:46:11Z",
+      "side": 1,
+      "message": "Just a question: you changed the or of command execution and output to the message. By purpose? Maybe you wanted to use \"db.getDirectory\"",
+      "revId": "58cedc5dfa472e7339ef78b2fa1067ca54545109",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
