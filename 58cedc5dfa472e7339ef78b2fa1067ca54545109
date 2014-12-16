@@ -33,6 +33,24 @@
       "revId": "58cedc5dfa472e7339ef78b2fa1067ca54545109",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8761b321_39302771",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Clone.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2014-12-16T14:57:19Z",
+      "side": 1,
+      "message": "that\u0027s tricky since the computation done in init(URIish u) is only done during CloneCommand.call() and init has side effects. I\u0027ll try to add a callback interface to fix this.",
+      "parentUuid": "8761b321_96466a26",
+      "revId": "58cedc5dfa472e7339ef78b2fa1067ca54545109",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
