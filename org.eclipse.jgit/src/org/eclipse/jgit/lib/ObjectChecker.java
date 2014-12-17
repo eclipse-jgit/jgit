@@ -464,6 +464,9 @@ public class ObjectChecker {
 							"invalid name '%s'",
 							RawParseUtils.decode(raw, ptr, end)));
 			}
+		} else if (isGitTilde1(raw, ptr, end)) {
+			throw new CorruptObjectException(String.format("invalid name '%s'",
+					RawParseUtils.decode(raw, ptr, end)));
 		}
 
 		if (windows) {
@@ -550,6 +553,14 @@ public class ObjectChecker {
 		return toLower(buf[p]) == 'g'
 				&& toLower(buf[p + 1]) == 'i'
 				&& toLower(buf[p + 2]) == 't';
+	}
+
+	private static boolean isGitTilde1(byte[] buf, int p, int end) {
+		if (end - p != 5)
+			return false;
+		return toLower(buf[p]) == 'g' && toLower(buf[p + 1]) == 'i'
+				&& toLower(buf[p + 2]) == 't' && buf[p + 3] == '~'
+				&& buf[p + 4] == '1';
 	}
 
 	private static boolean isNormalizedGit(byte[] raw, int ptr, int end) {

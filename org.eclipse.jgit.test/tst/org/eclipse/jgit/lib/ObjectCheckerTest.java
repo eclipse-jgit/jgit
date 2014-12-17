@@ -1404,6 +1404,40 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
+	public void testInvalidTreeNameIsGITTilde1() {
+		StringBuilder b = new StringBuilder();
+		entry(b, "100644 GIT~1");
+		byte[] data = Constants.encodeASCII(b.toString());
+		try {
+			checker.checkTree(data);
+			fail("incorrectly accepted an invalid tree");
+		} catch (CorruptObjectException e) {
+			assertEquals("invalid name 'GIT~1'", e.getMessage());
+		}
+	}
+
+	@Test
+	public void testInvalidTreeNameIsGiTTilde1() {
+		StringBuilder b = new StringBuilder();
+		entry(b, "100644 GiT~1");
+		byte[] data = Constants.encodeASCII(b.toString());
+		try {
+			checker.checkTree(data);
+			fail("incorrectly accepted an invalid tree");
+		} catch (CorruptObjectException e) {
+			assertEquals("invalid name 'GiT~1'", e.getMessage());
+		}
+	}
+
+	@Test
+	public void testValidTreeNameIsGitTilde11() throws CorruptObjectException {
+		StringBuilder b = new StringBuilder();
+		entry(b, "100644 GIT~11");
+		byte[] data = Constants.encodeASCII(b.toString());
+		checker.checkTree(data);
+	}
+
+	@Test
 	public void testInvalidTreeTruncatedInName() {
 		final StringBuilder b = new StringBuilder();
 		b.append("100644 b");
