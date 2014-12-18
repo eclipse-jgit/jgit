@@ -309,19 +309,19 @@ public class HttpClientConnection implements HttpConnection {
 	public void setFixedLengthStreamingMode(int contentLength) {
 		if (entity != null)
 			throw new IllegalArgumentException();
-		entity = new TemporaryBufferEntity(new LocalFile());
+		entity = new TemporaryBufferEntity(new LocalFile(null));
 		entity.setContentLength(contentLength);
 	}
 
 	public OutputStream getOutputStream() throws IOException {
 		if (entity == null)
-			entity = new TemporaryBufferEntity(new LocalFile());
+			entity = new TemporaryBufferEntity(new LocalFile(null));
 		return entity.getBuffer();
 	}
 
 	public void setChunkedStreamingMode(int chunklen) {
 		if (entity == null)
-			entity = new TemporaryBufferEntity(new LocalFile());
+			entity = new TemporaryBufferEntity(new LocalFile(null));
 		entity.setChunked(true);
 	}
 

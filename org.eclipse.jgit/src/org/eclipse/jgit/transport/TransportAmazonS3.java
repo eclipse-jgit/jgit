@@ -147,7 +147,11 @@ public class TransportAmazonS3 extends HttpTransport implements WalkTransport {
 			throws NotSupportedException {
 		super(local, uri);
 
-		s3 = new AmazonS3(loadProperties());
+		Properties props = loadProperties();
+		if (!props.contains("tmpdir") && local.getDirectory() != null) //$NON-NLS-1$
+			props.put("tmpdir", local.getDirectory().getPath()); //$NON-NLS-1$
+
+		s3 = new AmazonS3(props);
 		bucket = uri.getHost();
 
 		String p = uri.getPath();

@@ -186,10 +186,7 @@ public class DirCacheCheckoutMaliciousPathTest extends RepositoryTestCase {
 
 	@Test
 	public void testMaliciousGitPathEndSpaceUnixOk() throws Exception {
-		if (File.separatorChar == '\\')
-			return; // cannot emulate Unix on Windows for this test
-		((MockSystemReader) SystemReader.getInstance()).setUnix();
-		testMaliciousPathGoodFirstCheckout(".git ", "konfig");
+		testMaliciousPathBadFirstCheckout(".git ", "konfig");
 	}
 
 	@Test
@@ -212,10 +209,7 @@ public class DirCacheCheckoutMaliciousPathTest extends RepositoryTestCase {
 
 	@Test
 	public void testMaliciousGitPathEndDotUnixOk() throws Exception {
-		if (File.separatorChar == '\\')
-			return; // cannot emulate Unix on Windows for this test
-		((MockSystemReader) SystemReader.getInstance()).setUnix();
-		testMaliciousPathGoodFirstCheckout(".git.", "konfig");
+		testMaliciousPathBadFirstCheckout(".git.", "konfig");
 	}
 
 	@Test

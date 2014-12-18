@@ -1281,7 +1281,9 @@ public class DirCacheCheckout {
 			}
 			chk.checkPathSegment(bytes, segmentStart, bytes.length);
 		} catch (CorruptObjectException e) {
-			throw new InvalidPathException(e.getMessage());
+			InvalidPathException p = new InvalidPathException(path);
+			p.initCause(e);
+			throw p;
 		}
 	}
 
