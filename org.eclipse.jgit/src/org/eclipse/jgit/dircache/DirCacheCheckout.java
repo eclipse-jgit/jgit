@@ -1291,7 +1291,9 @@ public class DirCacheCheckout {
 		try {
 			SystemReader.getInstance().checkPath(path);
 		} catch (CorruptObjectException e) {
-			throw new InvalidPathException(path);
+			InvalidPathException p = new InvalidPathException(path);
+			p.initCause(e);
+			throw p;
 		}
 	}
 

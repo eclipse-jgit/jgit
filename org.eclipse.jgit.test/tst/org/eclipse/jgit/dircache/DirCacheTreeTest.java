@@ -92,7 +92,7 @@ public class DirCacheTreeTest extends RepositoryTestCase {
 	public void testSingleSubtree() throws Exception {
 		final DirCache dc = db.readDirCache();
 
-		final String[] paths = { "a.", "a/b", "a/c", "a/d", "a0b" };
+		final String[] paths = { "a-", "a/b", "a/c", "a/d", "a0b" };
 		final DirCacheEntry[] ents = new DirCacheEntry[paths.length];
 		for (int i = 0; i < paths.length; i++) {
 			ents[i] = new DirCacheEntry(paths[i]);
@@ -130,7 +130,7 @@ public class DirCacheTreeTest extends RepositoryTestCase {
 	public void testTwoLevelSubtree() throws Exception {
 		final DirCache dc = db.readDirCache();
 
-		final String[] paths = { "a.", "a/b", "a/c/e", "a/c/f", "a/d", "a0b" };
+		final String[] paths = { "a-", "a/b", "a/c/e", "a/c/f", "a/d", "a0b" };
 		final DirCacheEntry[] ents = new DirCacheEntry[paths.length];
 		for (int i = 0; i < paths.length; i++) {
 			ents[i] = new DirCacheEntry(paths[i]);
@@ -190,7 +190,7 @@ public class DirCacheTreeTest extends RepositoryTestCase {
 
 		final String A = String.format("a%2000s", "a");
 		final String B = String.format("b%2000s", "b");
-		final String[] paths = { A + ".", A + "." + B, A + "/" + B, A + "0" + B };
+		final String[] paths = { A + "-", A + "-" + B, A + "/" + B, A + "0" + B };
 		final DirCacheEntry[] ents = new DirCacheEntry[paths.length];
 		for (int i = 0; i < paths.length; i++) {
 			ents[i] = new DirCacheEntry(paths[i]);

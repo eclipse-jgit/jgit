@@ -607,7 +607,8 @@ public class DirCache {
 		final LockFile tmp = myLock;
 		requireLocked(tmp);
 		try {
-			writeTo(new SafeBufferedOutputStream(tmp.getOutputStream()));
+			writeTo(liveFile.getParentFile(),
+					new SafeBufferedOutputStream(tmp.getOutputStream()));
 		} catch (IOException err) {
 			tmp.unlock();
 			throw err;
@@ -620,7 +621,7 @@ public class DirCache {
 		}
 	}
 
-	void writeTo(final OutputStream os) throws IOException {
+	void writeTo(File dir, final OutputStream os) throws IOException {
 		final MessageDigest foot = Constants.newMessageDigest();
 		final DigestOutputStream dos = new DigestOutputStream(os, foot);
 
@@ -670,14 +671,18 @@ public class DirCache {
 		}
 
 		if (writeTree) {
-			final TemporaryBuffer bb = new TemporaryBuffer.LocalFile();
-			tree.write(tmp, bb);
-			bb.close();
+			TemporaryBuffer bb = new TemporaryBuffer.LocalFile(dir, 5 << 20);
+			try {
+				tree.write(tmp, bb);
+				bb.close();
 
-			NB.encodeInt32(tmp, 0, EXT_TREE);
-			NB.encodeInt32(tmp, 4, (int) bb.length());
-			dos.write(tmp, 0, 8);
-			bb.writeTo(dos, null);
+				NB.encodeInt32(tmp, 0, EXT_TREE);
+				NB.encodeInt32(tmp, 4, (int) bb.length());
+				dos.write(tmp, 0, 8);
+				bb.writeTo(dos, null);
+			} finally {
+				bb.destroy();
+			}
 		}
 		writeIndexChecksum = foot.digest();
 		os.write(writeIndexChecksum);

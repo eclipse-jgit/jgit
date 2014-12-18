@@ -267,7 +267,7 @@ public class FileHeader extends DiffEntry {
 		final TemporaryBuffer[] tmp = new TemporaryBuffer[getParentCount() + 1];
 		try {
 			for (int i = 0; i < tmp.length; i++)
-				tmp[i] = new TemporaryBuffer.LocalFile();
+				tmp[i] = new TemporaryBuffer.Heap(Integer.MAX_VALUE);
 			for (final HunkHeader h : getHunks())
 				h.extractFileLines(tmp);
 
@@ -281,11 +281,6 @@ public class FileHeader extends DiffEntry {
 			return r;
 		} catch (IOException ioe) {
 			throw new RuntimeException(JGitText.get().cannotConvertScriptToText, ioe);
-		} finally {
-			for (final TemporaryBuffer b : tmp) {
-				if (b != null)
-					b.destroy();
-			}
 		}
 	}
 
