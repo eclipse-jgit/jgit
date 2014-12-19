@@ -216,7 +216,7 @@ public class EGitPatchHistoryTest {
 						buf.destroy();
 					}
 					commitId = line.substring("commit ".length());
-					buf = new TemporaryBuffer.LocalFile();
+					buf = new TemporaryBuffer.LocalFile(null);
 				} else if (buf != null) {
 					buf.write(line.getBytes("ISO-8859-1"));
 					buf.write('\n');

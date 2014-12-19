@@ -56,7 +56,7 @@ public class DirCacheFindTest extends RepositoryTestCase {
 	public void testEntriesWithin() throws Exception {
 		final DirCache dc = db.readDirCache();
 
-		final String[] paths = { "a.", "a/b", "a/c", "a/d", "a0b" };
+		final String[] paths = { "a-", "a/b", "a/c", "a/d", "a0b" };
 		final DirCacheEntry[] ents = new DirCacheEntry[paths.length];
 		for (int i = 0; i < paths.length; i++) {
 			ents[i] = new DirCacheEntry(paths[i]);
@@ -96,13 +96,13 @@ public class DirCacheFindTest extends RepositoryTestCase {
 				assertSame(ents[i], aContents[i]);
 		}
 
-		assertNotNull(dc.getEntriesWithin("a."));
-		assertEquals(0, dc.getEntriesWithin("a.").length);
+		assertNotNull(dc.getEntriesWithin("a-"));
+		assertEquals(0, dc.getEntriesWithin("a-").length);
 
 		assertNotNull(dc.getEntriesWithin("a0b"));
-		assertEquals(0, dc.getEntriesWithin("a0b.").length);
+		assertEquals(0, dc.getEntriesWithin("a0b-").length);
 
 		assertNotNull(dc.getEntriesWithin("zoo"));
-		assertEquals(0, dc.getEntriesWithin("zoo.").length);
+		assertEquals(0, dc.getEntriesWithin("zoo-").length);
 	}
 }

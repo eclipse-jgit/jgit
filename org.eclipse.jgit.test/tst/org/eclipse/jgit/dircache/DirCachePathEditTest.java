@@ -113,21 +113,23 @@ public class DirCachePathEditTest {
 		DirCache dc = DirCache.newInCore();
 		DirCacheEditor editor = dc.editor();
 		editor.add(new AddEdit("a/b"));
-		editor.add(new AddEdit("a."));
+		editor.add(new AddEdit("a-"));
 		editor.add(new AddEdit("ab"));
 		editor.finish();
 		assertEquals(3, dc.getEntryCount());
+
 		// Validate sort order
-		assertEquals("a.", dc.getEntry(0).getPathString());
+		assertEquals("a-", dc.getEntry(0).getPathString());
 		assertEquals("a/b", dc.getEntry(1).getPathString());
 		assertEquals("ab", dc.getEntry(2).getPathString());
 
 		editor = dc.editor();
+
 		// Sort order should not confuse DeleteTree
 		editor.add(new DirCacheEditor.DeleteTree("a"));
 		editor.finish();
 		assertEquals(2, dc.getEntryCount());
-		assertEquals("a.", dc.getEntry(0).getPathString());
+		assertEquals("a-", dc.getEntry(0).getPathString());
 		assertEquals("ab", dc.getEntry(1).getPathString());
 	}
 

@@ -45,6 +45,7 @@ package org.eclipse.jgit.api;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -58,6 +59,7 @@ import java.util.Map;
 import org.eclipse.jgit.api.ListBranchCommand.ListMode;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
+import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ConfigConstants;
@@ -133,6 +135,54 @@ public class CloneCommandTest extends RepositoryTestCase {
 				.size());
 		assertEquals(new RefSpec("+refs/heads/*:refs/remotes/origin/*"),
 				fetchRefSpec(git2.getRepository()));
+	}
+
+	@Test
+	public void testCloneRepositoryExplicitGitDir() throws IOException,
+			JGitInternalException, GitAPIException {
+		File directory = createTempDirectory("testCloneRepository");
+		CloneCommand command = Git.cloneRepository();
+		command.setDirectory(directory);
+		command.setGitDir(new File(directory, ".git"));
+		command.setURI(fileUri());
+		Git git2 = command.call();
+		assertEquals(directory, git2.getRepository().getWorkTree());
+		assertEquals(new File(directory, ".git"), git2.getRepository()
+				.getDirectory());
+	}
+
+	@Test
+	public void testCloneRepositoryExplicitGitDirNonStd() throws IOException,
+			JGitInternalException, GitAPIException {
+		File directory = createTempDirectory("testCloneRepository");
+		File gDir = createTempDirectory("testCloneRepository.git");
+		CloneCommand command = Git.cloneRepository();
+		command.setDirectory(directory);
+		command.setGitDir(gDir);
+		command.setURI(fileUri());
+		Git git2 = command.call();
+		assertEquals(directory, git2.getRepository().getWorkTree());
+		assertEquals(gDir, git2.getRepository()
+				.getDirectory());
+		assertTrue(new File(directory, ".git").isFile());
+		assertFalse(new File(gDir, ".git").exists());
+	}
+
+	@Test
+	public void testCloneRepositoryExplicitGitDirBare() throws IOException,
+			JGitInternalException, GitAPIException {
+		File gDir = createTempDirectory("testCloneRepository.git");
+		CloneCommand command = Git.cloneRepository();
+		command.setBare(true);
+		command.setGitDir(gDir);
+		command.setURI(fileUri());
+		Git git2 = command.call();
+		try {
+			assertNull(null, git2.getRepository().getWorkTree());
+			fail("Expected NoWorkTreeException");
+		} catch (NoWorkTreeException e) {
+			assertEquals(gDir, git2.getRepository().getDirectory());
+		}
 	}
 
 	@Test
@@ -360,6 +410,18 @@ public class CloneCommandTest extends RepositoryTestCase {
 		assertEquals(SubmoduleStatusType.INITIALIZED, pathStatus.getType());
 		assertEquals(commit, pathStatus.getHeadId());
 		assertEquals(commit, pathStatus.getIndexId());
+
+		SubmoduleWalk walk = SubmoduleWalk.forIndex(git2.getRepository());
+		assertTrue(walk.next());
+		Repository clonedSub1 = walk.getRepository();
+		addRepoToClose(clonedSub1);
+		assertNotNull(clonedSub1);
+		assertEquals(
+				new File(git2.getRepository().getWorkTree(), walk.getPath()),
+				clonedSub1.getWorkTree());
+		assertEquals(new File(new File(git2.getRepository().getDirectory(),
+				"modules"), walk.getPath()), clonedSub1.getDirectory());
+		walk.release();
 	}
 
 	@Test
@@ -441,10 +503,16 @@ public class CloneCommandTest extends RepositoryTestCase {
 		SubmoduleWalk walk = SubmoduleWalk.forIndex(git2.getRepository());
 		assertTrue(walk.next());
 		Repository clonedSub1 = walk.getRepository();
-		addRepoToClose(clonedSub1);
 		assertNotNull(clonedSub1);
+		assertEquals(
+				new File(git2.getRepository().getWorkTree(), walk.getPath()),
+				clonedSub1.getWorkTree());
+		assertEquals(new File(new File(git2.getRepository().getDirectory(),
+				"modules"), walk.getPath()),
+				clonedSub1.getDirectory());
 		status = new SubmoduleStatusCommand(clonedSub1);
 		statuses = status.call();
+		clonedSub1.close();
 		pathStatus = statuses.get(path);
 		assertNotNull(pathStatus);
 		assertEquals(SubmoduleStatusType.INITIALIZED, pathStatus.getType());

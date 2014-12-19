@@ -47,12 +47,19 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.File;
+import java.text.MessageFormat;
 
+import org.eclipse.jgit.errors.CorruptObjectException;
+import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.junit.MockSystemReader;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.util.SystemReader;
 import org.junit.Test;
 
 public class DirCacheBasicTest extends RepositoryTestCase {
@@ -190,7 +197,7 @@ public class DirCacheBasicTest extends RepositoryTestCase {
 	public void testBuildThenClear() throws Exception {
 		final DirCache dc = db.readDirCache();
 
-		final String[] paths = { "a.", "a.b", "a/b", "a0b" };
+		final String[] paths = { "a-", "a.b", "a/b", "a0b" };
 		final DirCacheEntry[] ents = new DirCacheEntry[paths.length];
 		for (int i = 0; i < paths.length; i++) {
 			ents[i] = new DirCacheEntry(paths[i]);
@@ -233,5 +240,42 @@ public class DirCacheBasicTest extends RepositoryTestCase {
 		final DirCache dc = DirCache.newInCore();
 		final byte[] path = Constants.encode("a");
 		assertEquals(-1, dc.findEntry(path, path.length));
+	}
+
+	@Test
+	public void testRejectInvalidWindowsPaths() throws Exception {
+		SystemReader.setInstance(new MockSystemReader() {
+			{
+				setUnix();
+			}
+		});
+
+		String path = "src/con.txt";
+		DirCache dc = db.lockDirCache();
+		DirCacheBuilder b = dc.builder();
+		DirCacheEntry e = new DirCacheEntry(path);
+		e.setFileMode(FileMode.REGULAR_FILE);
+		e.setObjectId(new ObjectInserter.Formatter().idFor(
+				Constants.OBJ_BLOB,
+				Constants.encode(path)));
+		b.add(e);
+		b.commit();
+		db.readDirCache();
+
+		SystemReader.setInstance(new MockSystemReader() {
+			{
+				setWindows();
+			}
+		});
+
+		try {
+			db.readDirCache();
+			fail("should have rejected " + path);
+		} catch (CorruptObjectException err) {
+			assertEquals(MessageFormat.format(JGitText.get().invalidPath, path),
+					err.getMessage());
+			assertNotNull(err.getCause());
+			assertEquals("invalid name 'CON'", err.getCause().getMessage());
+		}
 	}
 }

@@ -85,7 +85,7 @@ public class DirCacheIteratorTest extends RepositoryTestCase {
 	public void testNoSubtree_NoTreeWalk() throws Exception {
 		final DirCache dc = DirCache.newInCore();
 
-		final String[] paths = { "a.", "a0b" };
+		final String[] paths = { "a-", "a0b" };
 		final DirCacheEntry[] ents = new DirCacheEntry[paths.length];
 		for (int i = 0; i < paths.length; i++) {
 			ents[i] = new DirCacheEntry(paths[i]);
@@ -111,7 +111,7 @@ public class DirCacheIteratorTest extends RepositoryTestCase {
 	public void testNoSubtree_WithTreeWalk() throws Exception {
 		final DirCache dc = DirCache.newInCore();
 
-		final String[] paths = { "a.", "a0b" };
+		final String[] paths = { "a-", "a0b" };
 		final FileMode[] modes = { FileMode.EXECUTABLE_FILE, FileMode.GITLINK };
 		final DirCacheEntry[] ents = new DirCacheEntry[paths.length];
 		for (int i = 0; i < paths.length; i++) {
@@ -144,7 +144,7 @@ public class DirCacheIteratorTest extends RepositoryTestCase {
 	public void testSingleSubtree_NoRecursion() throws Exception {
 		final DirCache dc = DirCache.newInCore();
 
-		final String[] paths = { "a.", "a/b", "a/c", "a/d", "a0b" };
+		final String[] paths = { "a-", "a/b", "a/c", "a/d", "a0b" };
 		final DirCacheEntry[] ents = new DirCacheEntry[paths.length];
 		for (int i = 0; i < paths.length; i++) {
 			ents[i] = new DirCacheEntry(paths[i]);
@@ -156,7 +156,7 @@ public class DirCacheIteratorTest extends RepositoryTestCase {
 			b.add(ents[i]);
 		b.finish();
 
-		final String[] expPaths = { "a.", "a", "a0b" };
+		final String[] expPaths = { "a-", "a", "a0b" };
 		final FileMode[] expModes = { FileMode.REGULAR_FILE, FileMode.TREE,
 				FileMode.REGULAR_FILE };
 		final int expPos[] = { 0, -1, 4 };
@@ -189,7 +189,7 @@ public class DirCacheIteratorTest extends RepositoryTestCase {
 		final DirCache dc = DirCache.newInCore();
 
 		final FileMode mode = FileMode.REGULAR_FILE;
-		final String[] paths = { "a.", "a/b", "a/c", "a/d", "a0b" };
+		final String[] paths = { "a-", "a/b", "a/c", "a/d", "a0b" };
 		final DirCacheEntry[] ents = new DirCacheEntry[paths.length];
 		for (int i = 0; i < paths.length; i++) {
 			ents[i] = new DirCacheEntry(paths[i]);
@@ -224,7 +224,7 @@ public class DirCacheIteratorTest extends RepositoryTestCase {
 		final DirCache dc = DirCache.newInCore();
 
 		final FileMode mode = FileMode.REGULAR_FILE;
-		final String[] paths = { "a.", "a/b", "a/c/e", "a/c/f", "a/d", "a0b" };
+		final String[] paths = { "a-", "a/b", "a/c/e", "a/c/f", "a/d", "a0b" };
 		final DirCacheEntry[] ents = new DirCacheEntry[paths.length];
 		for (int i = 0; i < paths.length; i++) {
 			ents[i] = new DirCacheEntry(paths[i]);
@@ -258,7 +258,7 @@ public class DirCacheIteratorTest extends RepositoryTestCase {
 		final DirCache dc = DirCache.newInCore();
 
 		final FileMode mode = FileMode.REGULAR_FILE;
-		final String[] paths = { "a.", "a/b", "a/c/e", "a/c/f", "a/d", "a0b" };
+		final String[] paths = { "a-", "a/b", "a/c/e", "a/c/f", "a/d", "a0b" };
 		final DirCacheEntry[] ents = new DirCacheEntry[paths.length];
 		for (int i = 0; i < paths.length; i++) {
 			ents[i] = new DirCacheEntry(paths[i]);
@@ -272,7 +272,7 @@ public class DirCacheIteratorTest extends RepositoryTestCase {
 
 		DirCacheIterator dci = new DirCacheIterator(dc);
 		assertFalse(dci.eof());
-		assertEquals("a.", dci.getEntryPathString());
+		assertEquals("a-", dci.getEntryPathString());
 		dci.next(1);
 		assertFalse(dci.eof());
 		assertEquals("a", dci.getEntryPathString());
@@ -285,7 +285,7 @@ public class DirCacheIteratorTest extends RepositoryTestCase {
 		// same entries the second time
 		dci.reset();
 		assertFalse(dci.eof());
-		assertEquals("a.", dci.getEntryPathString());
+		assertEquals("a-", dci.getEntryPathString());
 		dci.next(1);
 		assertFalse(dci.eof());
 		assertEquals("a", dci.getEntryPathString());
@@ -304,12 +304,12 @@ public class DirCacheIteratorTest extends RepositoryTestCase {
 		assertEquals("a", dci.getEntryPathString());
 		dci.back(1);
 		assertFalse(dci.eof());
-		assertEquals("a.", dci.getEntryPathString());
+		assertEquals("a-", dci.getEntryPathString());
 		assertTrue(dci.first());
 
 		// forward
 		assertFalse(dci.eof());
-		assertEquals("a.", dci.getEntryPathString());
+		assertEquals("a-", dci.getEntryPathString());
 		dci.next(1);
 		assertFalse(dci.eof());
 		assertEquals("a", dci.getEntryPathString());
@@ -385,7 +385,7 @@ public class DirCacheIteratorTest extends RepositoryTestCase {
 		final DirCache dc = DirCache.newInCore();
 
 		final FileMode mode = FileMode.REGULAR_FILE;
-		final String[] paths = { "a.", "a/b", "a/c/e", "a/c/f", "a/d", "a0b" };
+		final String[] paths = { "a-", "a/b", "a/c/e", "a/c/f", "a/d", "a0b" };
 		final DirCacheEntry[] ents = new DirCacheEntry[paths.length];
 		for (int i = 0; i < paths.length; i++) {
 			ents[i] = new DirCacheEntry(paths[i]);

@@ -193,6 +193,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 			try {
 				return readFileFromRepo(repo, ref, path);
 			} finally {
+				repo.close();
 				FileUtils.delete(dir, FileUtils.RECURSIVE);
 			}
 		}
@@ -860,6 +861,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 				if (revision != null) {
 					Git sub = new Git(subRepo);
 					sub.checkout().setName(findRef(revision, subRepo)).call();
+					subRepo.close();
 					git.add().addFilepattern(name).call();
 				}
 				for (CopyFile copyfile : copyfiles) {

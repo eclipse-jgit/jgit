@@ -182,6 +182,9 @@ public class AmazonS3 {
 	/** Encryption algorithm, may be a null instance that provides pass-through. */
 	private final WalkEncryption encryption;
 
+	/** Directory for locally buffered content. */
+	private final File tmpDir;
+
 	/**
 	 * Create a new S3 client for the supplied user information.
 	 * <p>
@@ -251,6 +254,9 @@ public class AmazonS3 {
 		maxAttempts = Integer.parseInt(props.getProperty(
 				"httpclient.retry-max", "3")); //$NON-NLS-1$ //$NON-NLS-2$
 		proxySelector = ProxySelector.getDefault();
+
+		String tmp = props.getProperty("tmpdir"); //$NON-NLS-1$
+		tmpDir = tmp != null && tmp.length() > 0 ? new File(tmp) : null;
 	}
 
 	/**
@@ -452,7 +458,7 @@ public class AmazonS3 {
 			final ProgressMonitor monitor, final String monitorTask)
 			throws IOException {
 		final MessageDigest md5 = newMD5();
-		final TemporaryBuffer buffer = new TemporaryBuffer.LocalFile() {
+		final TemporaryBuffer buffer = new TemporaryBuffer.LocalFile(tmpDir) {
 			@Override
 			public void close() throws IOException {
 				super.close();
