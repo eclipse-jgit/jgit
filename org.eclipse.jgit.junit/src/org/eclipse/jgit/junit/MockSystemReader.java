@@ -184,6 +184,7 @@ public class MockSystemReader extends SystemReader {
 		setProperty("file.separator", "\\");
 		setProperty("path.separator", ";");
 		setProperty("line.separator", "\r\n");
+		setPlatformChecker();
 	}
 
 	/**
@@ -194,5 +195,6 @@ public class MockSystemReader extends SystemReader {
 		setProperty("file.separator", "/");
 		setProperty("path.separator", ":");
 		setProperty("line.separator", "\n");
+		setPlatformChecker();
 	}
 }
