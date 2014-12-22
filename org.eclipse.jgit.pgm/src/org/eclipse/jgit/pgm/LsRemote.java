@@ -61,6 +61,9 @@ class LsRemote extends TextBuiltin {
 	@Option(name = "--heads", usage = "usage_lsRemoteHeads")
 	private boolean heads;
 
+	@Option(name = "--tags", usage = "usage_lsRemoteTags", aliases = { "-t" })
+	private boolean tags;
+
 	@Option(name = "--timeout", metaVar = "metaVar_service", usage = "usage_abortConnectionIfNoActivity")
 	int timeout = -1;
 
@@ -70,7 +73,7 @@ class LsRemote extends TextBuiltin {
 	@Override
 	protected void run() throws Exception {
 		LsRemoteCommand command = Git.lsRemoteRepository().setRemote(remote)
-				.setTimeout(timeout).setHeads(heads);
+				.setTimeout(timeout).setHeads(heads).setTags(tags);
 		TreeSet<Ref> refs = new TreeSet<Ref>(new Comparator<Ref>() {
 
 			public int compare(Ref r1, Ref r2) {
