@@ -16,6 +16,24 @@
       "revId": "21d00d0db3c8bb03f5d280165898d165764c0de2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8761b321_465b7702",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2014-12-22T14:21:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8761b321_8612af91",
+      "revId": "21d00d0db3c8bb03f5d280165898d165764c0de2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
