@@ -46,16 +46,24 @@
 package org.eclipse.jgit.pgm;
 
 import java.io.IOException;
+import java.util.Comparator;
+import java.util.TreeSet;
 
-import org.kohsuke.args4j.Argument;
-import org.kohsuke.args4j.Option;
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.LsRemoteCommand;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.transport.FetchConnection;
-import org.eclipse.jgit.transport.Transport;
+import org.kohsuke.args4j.Argument;
+import org.kohsuke.args4j.Option;
 
 @Command(common = true, usage = "usage_LsRemote")
 class LsRemote extends TextBuiltin {
+	@Option(name = "--heads", usage = "usage_lsRemoteHeads")
+	private boolean heads;
+
+	@Option(name = "--tags", usage = "usage_lsRemoteTags", aliases = { "-t" })
+	private boolean tags;
+
 	@Option(name = "--timeout", metaVar = "metaVar_service", usage = "usage_abortConnectionIfNoActivity")
 	int timeout = -1;
 
@@ -64,19 +72,19 @@ class LsRemote extends TextBuiltin {
 
 	@Override
 	protected void run() throws Exception {
-		final Transport tn = Transport.open(db, remote);
-		if (0 <= timeout)
-			tn.setTimeout(timeout);
-		final FetchConnection c = tn.openFetch();
-		try {
-			for (final Ref r : c.getRefs()) {
-				show(r.getObjectId(), r.getName());
-				if (r.getPeeledObjectId() != null)
-					show(r.getPeeledObjectId(), r.getName() + "^{}"); //$NON-NLS-1$
+		LsRemoteCommand command = Git.lsRemoteRepository().setRemote(remote)
+				.setTimeout(timeout).setHeads(heads).setTags(tags);
+		TreeSet<Ref> refs = new TreeSet<Ref>(new Comparator<Ref>() {
+
+			public int compare(Ref r1, Ref r2) {
+				return r1.getName().compareTo(r2.getName());
 			}
-		} finally {
-			c.close();
-			tn.close();
+		});
+		refs.addAll(command.call());
+		for (final Ref r : refs) {
+			show(r.getObjectId(), r.getName());
+			if (r.getPeeledObjectId() != null)
+				show(r.getPeeledObjectId(), r.getName() + "^{}"); //$NON-NLS-1$
 		}
 	}
 
