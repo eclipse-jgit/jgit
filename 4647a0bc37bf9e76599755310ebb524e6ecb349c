@@ -177,6 +177,24 @@
     },
     {
       "key": {
+        "uuid": "a766b734_5e371e97",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesNode.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 7486
+      },
+      "writtenOn": "2015-01-04T10:21:39Z",
+      "side": 1,
+      "message": "Done\nI was following http://git-scm.com/docs/gitattributes (Which I now suspect is not canon)",
+      "parentUuid": "a766b734_7e22dada",
+      "revId": "4647a0bc37bf9e76599755310ebb524e6ecb349c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_05ef197d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesNode.java",
         "patchSetId": 19
@@ -223,6 +241,24 @@
       "writtenOn": "2014-11-25T17:49:45Z",
       "side": 1,
       "message": "I agree, using Pattern might degrade the performances. Once again this is legacy code from the previous committer.\n\nRegarding the whitespace, after some tests on CGit using git \"check-attr -a\" it appears that it removes all whitespace (and all tab \\t) before and after any attribute.",
+      "parentUuid": "a766b734_3e57c22f",
+      "revId": "4647a0bc37bf9e76599755310ebb524e6ecb349c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_7e32daa8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesNode.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 7486
+      },
+      "writtenOn": "2015-01-04T10:21:39Z",
+      "side": 1,
+      "message": "Done",
       "parentUuid": "a766b734_3e57c22f",
       "revId": "4647a0bc37bf9e76599755310ebb524e6ecb349c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
@@ -311,6 +347,24 @@
       "writtenOn": "2014-11-25T17:49:45Z",
       "side": 1,
       "message": "I agree with Andrey.",
+      "parentUuid": "a766b734_be6ab2de",
+      "revId": "4647a0bc37bf9e76599755310ebb524e6ecb349c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_9e2c164d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesRule.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 7486
+      },
+      "writtenOn": "2015-01-04T10:21:39Z",
+      "side": 1,
+      "message": "Done",
       "parentUuid": "a766b734_be6ab2de",
       "revId": "4647a0bc37bf9e76599755310ebb524e6ecb349c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
