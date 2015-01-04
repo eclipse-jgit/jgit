@@ -1,0 +1,284 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8761b321_24e629d5",
+        "filename": "org.eclipse.jgit.test/bin/org/eclipse/jgit/test/resources/excludeTest/src/test.stp",
+        "patchSetId": 21
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-01-04T11:48:23Z",
+      "side": 1,
+      "message": "remove this file which is under bin folder",
+      "revId": "57951c4adc33aee59ed5cd67b95bd8d1f141e9f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8761b321_04e32dc4",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/attributes/AttributeNodeTest.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-01-04T11:48:23Z",
+      "side": 1,
+      "message": "you need to export the new package org.eclipse.jgit.attributes and import it into the test bundle otherwise you can\u0027t import its classes when running in OSGi environment",
+      "revId": "57951c4adc33aee59ed5cd67b95bd8d1f141e9f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8761b321_a4cb594c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attribute.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-01-04T11:48:23Z",
+      "side": 1,
+      "message": "style nit: remove unnecessary extra blank line, more extra blank lines below should be also removed",
+      "revId": "57951c4adc33aee59ed5cd67b95bd8d1f141e9f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8761b321_84d0ddf5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attribute.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-01-04T11:48:23Z",
+      "side": 1,
+      "message": "s/3.6/3.7/",
+      "range": {
+        "startLine": 60,
+        "startChar": 4,
+        "endLine": 60,
+        "endChar": 13
+      },
+      "revId": "57951c4adc33aee59ed5cd67b95bd8d1f141e9f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8761b321_e4d551e5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesNode.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-01-04T11:48:23Z",
+      "side": 1,
+      "message": "missing @since 3.7 tag",
+      "revId": "57951c4adc33aee59ed5cd67b95bd8d1f141e9f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8761b321_c4dad513",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesNode.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-01-04T11:48:23Z",
+      "side": 1,
+      "message": "style nit: we don\u0027t use braces around single line blocks",
+      "range": {
+        "startLine": 153,
+        "startChar": 49,
+        "endLine": 153,
+        "endChar": 50
+      },
+      "revId": "57951c4adc33aee59ed5cd67b95bd8d1f141e9f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8761b321_24bf49a9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheIterator.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-01-04T11:48:23Z",
+      "side": 1,
+      "message": "I think there\u0027s no need to copy the entry part of the array in order to compare it with DOT_GIT_ATTRIBUTES_BYTES. Instead use RawParseUtil.match() to directly compare the entry name",
+      "revId": "57951c4adc33aee59ed5cd67b95bd8d1f141e9f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8761b321_04bccdb0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/internal/IMatcher.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-01-04T11:48:23Z",
+      "side": 1,
+      "message": "missing @since tag",
+      "revId": "57951c4adc33aee59ed5cd67b95bd8d1f141e9f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8761b321_64c9414e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-01-04T11:48:23Z",
+      "side": 1,
+      "message": "s/3.6/3.7/",
+      "range": {
+        "startLine": 119,
+        "startChar": 11,
+        "endLine": 119,
+        "endChar": 14
+      },
+      "revId": "57951c4adc33aee59ed5cd67b95bd8d1f141e9f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8761b321_44c6c53e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-01-04T11:48:23Z",
+      "side": 1,
+      "message": "s/3.6/3.7/",
+      "range": {
+        "startLine": 362,
+        "startChar": 11,
+        "endLine": 362,
+        "endChar": 14
+      },
+      "revId": "57951c4adc33aee59ed5cd67b95bd8d1f141e9f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8761b321_a4f23990",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CoreConfig.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-01-04T11:48:23Z",
+      "side": 1,
+      "message": "missing since tag",
+      "revId": "57951c4adc33aee59ed5cd67b95bd8d1f141e9f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8761b321_84f73d81",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 658,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-01-04T11:48:23Z",
+      "side": 1,
+      "message": "s/3.6/3.7/",
+      "range": {
+        "startLine": 658,
+        "startChar": 11,
+        "endLine": 658,
+        "endChar": 14
+      },
+      "revId": "57951c4adc33aee59ed5cd67b95bd8d1f141e9f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8761b321_e4ec31b9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-01-04T11:48:23Z",
+      "side": 1,
+      "message": "s/3.6/3.7/",
+      "range": {
+        "startLine": 675,
+        "startChar": 11,
+        "endLine": 675,
+        "endChar": 14
+      },
+      "revId": "57951c4adc33aee59ed5cd67b95bd8d1f141e9f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8761b321_c4f1358c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-01-04T11:48:23Z",
+      "side": 1,
+      "message": "s/3.6/3.7/",
+      "range": {
+        "startLine": 693,
+        "startChar": 11,
+        "endLine": 693,
+        "endChar": 14
+      },
+      "revId": "57951c4adc33aee59ed5cd67b95bd8d1f141e9f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
