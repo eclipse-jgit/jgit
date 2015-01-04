@@ -44,6 +44,7 @@
 package org.eclipse.jgit.lib;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Date;
 import java.util.TimeZone;
@@ -83,4 +84,15 @@ public class T0001_PersonIdentTest {
 	public void nullForEmailShouldThrowIllegalArgumentException() {
 		new PersonIdent("A U Thor", null);
 	}
+
+	@Test
+	public void testToExternalStringTrimsNameAndEmail() throws Exception {
+		PersonIdent personIdent = new PersonIdent("  A U Thor  ",
+				"  author@example.com  ");
+
+		String externalString = personIdent.toExternalString();
+
+		assertTrue(externalString.startsWith("A U Thor <author@example.com>"));
+	}
+
 }

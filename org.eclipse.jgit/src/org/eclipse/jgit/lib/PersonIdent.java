@@ -254,9 +254,9 @@ public class PersonIdent implements Serializable {
 	 */
 	public String toExternalString() {
 		final StringBuilder r = new StringBuilder();
-		r.append(getName());
+		r.append(getName().trim());
 		r.append(" <"); //$NON-NLS-1$
-		r.append(getEmailAddress());
+		r.append(getEmailAddress().trim());
 		r.append("> "); //$NON-NLS-1$
 		r.append(when / 1000);
 		r.append(' ');
