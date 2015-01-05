@@ -16,6 +16,24 @@
       "revId": "1d49ddb708847d736f5934c8796bf0ba7e5b8766",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8761b321_3d15986f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/SimilarityIndex.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-01-05T21:28:09Z",
+      "side": 1,
+      "message": "This change doesn\u0027t touch SimilarityIndex ...\nDid you want to comment on a different change ?",
+      "parentUuid": "8761b321_846a9d62",
+      "revId": "1d49ddb708847d736f5934c8796bf0ba7e5b8766",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
