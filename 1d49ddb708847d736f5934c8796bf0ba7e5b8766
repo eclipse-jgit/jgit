@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8761b321_846a9d62",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/SimilarityIndex.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 7486
+      },
+      "writtenOn": "2015-01-05T04:43:42Z",
+      "side": 1,
+      "message": "Aside: Doesn\u0027t seem like a very collision-resistant hash: could cover as little as 1.5% of some text files (64/4096), but perhaps that\u0027s a speed-tradeoff for large files?\n\nHowever given the pre-existing possible flaws in the algorithm, the CRLF fix looks like it should work OK (As the read-stride is 4k, but the scan-length is up-to 64 bytes within that + 1 for CRLF check).",
+      "revId": "1d49ddb708847d736f5934c8796bf0ba7e5b8766",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
