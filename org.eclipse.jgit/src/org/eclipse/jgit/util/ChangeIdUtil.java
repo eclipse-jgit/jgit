@@ -229,6 +229,8 @@ public class ChangeIdUtil {
 	 */
 	public static int indexOfChangeId(String message, String delimiter) {
 		String[] lines = message.split(delimiter);
+		if (lines.length == 0)
+			return -1;
 		int indexOfChangeIdLine = 0;
 		boolean inFooter = false;
 		for (int i = lines.length - 1; i >= 0; --i) {
