@@ -34,6 +34,24 @@
       "revId": "1d49ddb708847d736f5934c8796bf0ba7e5b8766",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8761b321_fd3040ee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/SimilarityIndex.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 7486
+      },
+      "writtenOn": "2015-01-08T03:30:42Z",
+      "side": 1,
+      "message": "Sorry - set PS21 as my reference, not PS22 - please ignore.",
+      "parentUuid": "8761b321_3d15986f",
+      "revId": "1d49ddb708847d736f5934c8796bf0ba7e5b8766",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
