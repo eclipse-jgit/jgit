@@ -110,7 +110,7 @@ class RebuildCommitGraph extends TextBuiltin {
 	@Argument(index = 1, required = true, metaVar = "metaVar_refs", usage = "usage_logAllPretty")
 	File graph;
 
-	private final ProgressMonitor pm = new TextProgressMonitor();
+	private final ProgressMonitor pm = new TextProgressMonitor(errw);
 
 	private Map<ObjectId, ObjectId> rewrites = new HashMap<ObjectId, ObjectId>();
 

@@ -123,7 +123,7 @@ class Fetch extends AbstractFetchCommand {
 		if (thin != null)
 			fetch.setThin(thin.booleanValue());
 		if (quiet == null || !quiet.booleanValue())
-			fetch.setProgressMonitor(new TextProgressMonitor());
+			fetch.setProgressMonitor(new TextProgressMonitor(errw));
 
 		FetchResult result = fetch.call();
 		if (result.getTrackingRefUpdates().isEmpty())
