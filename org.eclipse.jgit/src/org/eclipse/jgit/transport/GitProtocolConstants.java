@@ -137,6 +137,13 @@ public class GitProtocolConstants {
 	public static final String OPTION_SYMREF = "symref"; //$NON-NLS-1$
 
 	/**
+	 * The client will send a push certificate.
+	 *
+	 * @since 3.7
+	 */
+	public static final String OPTION_PUSH_CERT = "push-cert"; //$NON-NLS-1$
+
+	/**
 	 * The client supports atomic pushes. If this option is used, the server
 	 * will update all refs within one atomic transaction.
 	 *
@@ -171,6 +178,13 @@ public class GitProtocolConstants {
 	 * @since 3.2
 	 */
 	public static final String CAPABILITY_SIDE_BAND_64K = "side-band-64k"; //$NON-NLS-1$
+
+	/**
+	 * The server allows recording of push certificates.
+	 *
+	 * @since 3.7
+	 */
+	public static final String CAPABILITY_PUSH_CERT = "push-cert"; //$NON-NLS-1$
 
 	static enum MultiAck {
 		OFF, CONTINUE, DETAILED;
