@@ -142,7 +142,7 @@ public class GitProtocolConstants {
 	 *
 	 * @since 3.6
 	 */
-	public static final String CAPABILITY_ATOMIC = "atomic-push"; //$NON-NLS-1$
+	public static final String CAPABILITY_ATOMIC = "atomic"; //$NON-NLS-1$
 
 	/**
 	 * The client expects a status report after the server processes the pack.
