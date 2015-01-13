@@ -36,4 +36,13 @@
             </message_arguments>
         </filter>
     </resource>
+    <resource path="src/org/eclipse/jgit/transport/GitProtocolConstants.java" type="org.eclipse.jgit.transport.GitProtocolConstants">
+        <filter id="388194388">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.transport.GitProtocolConstants"/>
+                <message_argument value="CAPABILITY_ATOMIC"/>
+                <message_argument value="atomic-push"/>
+            </message_arguments>
+        </filter>
+    </resource>
 </component>
