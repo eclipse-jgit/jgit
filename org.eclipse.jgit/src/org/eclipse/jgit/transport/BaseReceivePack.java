@@ -46,6 +46,7 @@ package org.eclipse.jgit.transport;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_ATOMIC;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_DELETE_REFS;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_OFS_DELTA;
+import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_PUSH_CERT;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_REPORT_STATUS;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_SIDE_BAND_64K;
 import static org.eclipse.jgit.transport.SideBandOutputStream.CH_DATA;
@@ -56,14 +57,20 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
 
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.PackProtocolException;
@@ -246,6 +253,20 @@ public abstract class BaseReceivePack {
 	/** The size of the received pack, including index size */
 	private Long packSize;
 
+	/** The individual certificate which is presented to the client */
+	private String pushCertNonce;
+
+	/** The seed this server is using */
+	private String certNonceSeed;
+
+	/**
+	 * The maximum time difference which is acceptable between
+	 * advertised nonce and received signed nonce.
+	 */
+	private int certNonceSlopLimit;
+
+	private static final long milliSecondsPerSecond = 1000;
+
 	/**
 	 * Create a new pack receive for an open repository.
 	 *
@@ -267,7 +288,98 @@ public abstract class BaseReceivePack {
 		refFilter = RefFilter.DEFAULT;
 		advertisedHaves = new HashSet<ObjectId>();
 		clientShallowCommits = new HashSet<ObjectId>();
+		certNonceSeed = cfg.certNonceSeed;
+		if (!certNonceSeed.isEmpty())
+			pushCertNonce = preparePushCertNonce(
+					into.getDirectory().getPath(),
+					new Date(0).getTime() / milliSecondsPerSecond);
+		certNonceSlopLimit = cfg.certNonceSlopLimit;
 	}
+
+	/**
+	 * @param path the directoy path on the serving side for this repo
+	 * @param secs seconds since the epoch
+	 * @return the nonce to be signed by the pusher
+	 * @throws IllegalStateException
+	 */
+	protected String preparePushCertNonce(String path, long secs)
+		throws IllegalStateException
+	{
+		String key = path + ":" + String.valueOf(secs); //$NON-NLS-1$
+
+		byte[] keyBytes = key.getBytes();
+		SecretKeySpec signingKey = new SecretKeySpec(keyBytes, "HmacSHA1"); //$NON-NLS-1$
+
+		Mac mac = null;
+		try {
+			mac = Mac.getInstance("HmacSHA1"); //$NON-NLS-1$
+			mac.init(signingKey);
+		} catch (InvalidKeyException e) {
+			throw new IllegalStateException(e);
+		} catch (NoSuchAlgorithmException e) {
+			throw new IllegalStateException(e);
+		}
+		byte[] rawHmac = mac.doFinal(certNonceSeed.getBytes());
+		String hexString = String.format("%20X", rawHmac); //$NON-NLS-1$
+		return hexString;
+	}
+
+	private static final String NONCE_UNSOLICITED = "UNSOLICITED"; //$NON-NLS-1$
+	private static final String NONCE_BAD = "BAD"; //$NON-NLS-1$
+	private static final String NONCE_MISSING = "MISSING"; //$NON-NLS-1$
+	private static final String NONCE_OK = "OK"; //$NON-NLS-1$
+	private static final String NONCE_SLOP = "SLOP"; //$NON-NLS-1$
+
+	/**
+	 * @param header
+	 * @return a message explaining the state of the signed nonce by
+	 *         the pusher
+	 */
+	protected String checkNonce(String header) {
+		String nonce = findHeader(header, "nonce"); //$NON-NLS-1$
+
+		if (nonce.isEmpty())
+			return NONCE_MISSING;
+		else if (pushCertNonce.isEmpty())
+			return NONCE_UNSOLICITED;
+		else if (nonce.equals(pushCertNonce))
+			return NONCE_OK;
+
+		// TODO: if (!stateless_rpc) //Does jgit support stateless rpc?
+		// return NONCE_BAD
+
+		/* nonce is concat(<seconds-since-epoch>, "-", <hmac>) */
+		int idxNonce = nonce.indexOf('-');
+		int idxPushCert = pushCertNonce.indexOf('-');
+		if (idxNonce == -1 || idxPushCert == -1)
+			return NONCE_BAD;
+
+		long signedStamp = 0;
+		long advertisedStamp = 0;
+		try {
+			signedStamp = Integer.parseInt(nonce.substring(0, idxNonce));
+			advertisedStamp = Integer.parseInt(
+					pushCertNonce.substring(0, idxPushCert));
+		} catch (Exception e) {
+			return NONCE_BAD;
+		}
+
+		// what we would have signed earlier
+		String expect = preparePushCertNonce("TODO_dir", signedStamp);
+
+		if (!expect.equals(nonce))
+			return NONCE_BAD;
+
+		long nonceStampSlop = Math.abs(advertisedStamp - signedStamp);
+
+		if (certNonceSlopLimit != 0
+				&& nonceStampSlop <= certNonceSlopLimit) {
+			return NONCE_OK;
+		} else {
+			return NONCE_SLOP;
+		}
+	}
+
 
 	/** Configuration for receive operations. */
 	protected static class ReceiveConfig {
@@ -287,6 +399,9 @@ public abstract class BaseReceivePack {
 		final boolean allowNonFastForwards;
 		final boolean allowOfsDelta;
 
+		final String certNonceSeed;
+		final int certNonceSlopLimit;
+
 		ReceiveConfig(final Config config) {
 			checkReceivedObjects = config.getBoolean(
 					"receive", "fsckobjects", //$NON-NLS-1$ //$NON-NLS-2$
@@ -304,6 +419,8 @@ public abstract class BaseReceivePack {
 					"denynonfastforwards", false); //$NON-NLS-1$
 			allowOfsDelta = config.getBoolean("repack", "usedeltabaseoffset", //$NON-NLS-1$ //$NON-NLS-2$
 					true);
+			certNonceSeed = config.getString("receive", "certnonceseed", ""); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			certNonceSlopLimit = config.getInt("receive", "certnonceslop", 0); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
 		ObjectChecker newObjectChecker() {
@@ -929,6 +1046,9 @@ public abstract class BaseReceivePack {
 		adv.advertiseCapability(CAPABILITY_SIDE_BAND_64K);
 		adv.advertiseCapability(CAPABILITY_DELETE_REFS);
 		adv.advertiseCapability(CAPABILITY_REPORT_STATUS);
+		if (!pushCertNonce.isEmpty())
+			adv.advertiseCapability(CAPABILITY_PUSH_CERT
+					+ "=" + pushCertNonce); //$NON-NLS-1$
 		if (db.getRefDatabase().performsAtomicTransactions())
 			adv.advertiseCapability(CAPABILITY_ATOMIC);
 		if (allowOfsDelta)
