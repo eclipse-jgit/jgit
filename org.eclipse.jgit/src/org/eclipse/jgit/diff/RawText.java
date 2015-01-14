@@ -289,7 +289,7 @@ public class RawText extends Sequence {
 		int e = getEnd(0);
 		if (content[e - 1] != '\n')
 			return null;
-		if (content.length > 1 && content[e - 2] == '\r')
+		if (content.length > 1 && e > 1 && content[e - 2] == '\r')
 			return "\r\n"; //$NON-NLS-1$
 		else
 			return "\n"; //$NON-NLS-1$
