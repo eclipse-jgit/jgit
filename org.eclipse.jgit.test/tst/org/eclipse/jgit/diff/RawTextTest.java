@@ -230,6 +230,13 @@ public class RawTextTest {
 		assertFalse(rt.isMissingNewlineAtEnd());
 	}
 
+	@Test
+	public void testLineDelimiter2() throws Exception {
+		RawText rt = new RawText(Constants.encodeASCII("\nfoo"));
+		assertEquals("\n", rt.getLineDelimiter());
+		assertTrue(rt.isMissingNewlineAtEnd());
+	}
+
 	private static RawText t(String text) {
 		StringBuilder r = new StringBuilder();
 		for (int i = 0; i < text.length(); i++) {
