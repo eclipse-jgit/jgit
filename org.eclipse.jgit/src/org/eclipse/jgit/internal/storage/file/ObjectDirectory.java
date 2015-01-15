@@ -330,9 +330,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 				try {
 					p.resolve(matches, id, RESOLVE_ABBREV_LIMIT);
 				} catch (IOException e) {
-					// Assume the pack is corrupted.
+					// log that the pack may be corrupted.
 					logCorruptPackError(e, p);
-					removePack(p);
 				}
 				if (matches.size() > RESOLVE_ABBREV_LIMIT)
 					return;
@@ -419,9 +418,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 						if (searchPacksAgain(pList))
 							continue SEARCH;
 					} catch (IOException e) {
-						// Assume the pack is corrupted.
+						// log that the pack may be corrupted.
 						logCorruptPackError(e, p);
-						removePack(p);
 					}
 				}
 				break SEARCH;
@@ -501,9 +499,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 						if (searchPacksAgain(pList))
 							continue SEARCH;
 					} catch (IOException e) {
-						// Assume the pack is corrupted.
+						// log that the pack may be corrupted.
 						logCorruptPackError(e, p);
-						removePack(p);
 					}
 				}
 				break SEARCH;
@@ -544,9 +541,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 					pList = scanPacks(pList);
 					continue SEARCH;
 				} catch (IOException e) {
-					// Assume the pack is corrupted.
+					// log that the pack may be corrupted.
 					logCorruptPackError(e, p);
-					removePack(p);
 				}
 			}
 			break SEARCH;
