@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67fe7f71_15ac16a7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 563,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2015-01-15T14:26:48Z",
+      "side": 1,
+      "message": "why is the newline needed at the beginning?\n\nIf this line will stay then move it down between 565 and 566",
+      "revId": "ff86945699f993c89300b9256449f45d525854fd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
