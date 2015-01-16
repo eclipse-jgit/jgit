@@ -87,6 +87,24 @@
     },
     {
       "key": {
+        "uuid": "67fe7f71_47db8c9b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2015-01-16T22:04:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67fe7f71_47842cec",
+      "revId": "2b1631b64be8bd6dbc8871185bd4c8ae5699c08c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67fe7f71_27892804",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
         "patchSetId": 4
@@ -132,6 +150,30 @@
       "writtenOn": "2015-01-16T19:36:53Z",
       "side": 1,
       "message": "This is always Jan 1 1970. You want System.currentTimeMills() or something.",
+      "range": {
+        "startLine": 337,
+        "startChar": 5,
+        "endLine": 337,
+        "endChar": 16
+      },
+      "revId": "2b1631b64be8bd6dbc8871185bd4c8ae5699c08c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_c7ce5cd9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2015-01-16T22:04:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67fe7f71_678330e2",
       "range": {
         "startLine": 337,
         "startChar": 5,
@@ -303,6 +345,24 @@
       "writtenOn": "2015-01-16T19:36:53Z",
       "side": 1,
       "message": "equals? The capability splitting above should have left you with exactly \"push-cert\"",
+      "revId": "2b1631b64be8bd6dbc8871185bd4c8ae5699c08c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_59b1b42c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1282,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2015-01-16T22:04:49Z",
+      "side": 1,
+      "message": "So let\u0027s talk about the overall design.\nWe would need \n\n    a PushCertificateParser class handling the parsing,\n    an interface for providing the nonces (different hash functions)\n    a Factory for creating the PushCertificateParser with different NonceHashes\n    and a ParsedPushCertificate which is produced by the PushCertificateParser\n\nOr is that overengineered?",
+      "parentUuid": "67fe7f71_8779f46e",
       "revId": "2b1631b64be8bd6dbc8871185bd4c8ae5699c08c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
