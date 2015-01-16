@@ -185,6 +185,7 @@ public class ReceivePack extends BaseReceivePack {
 		recvCommands();
 		if (hasCommands()) {
 			enableCapabilities();
+			preparePushCertificate();
 
 			Throwable unpackError = null;
 			if (needPack()) {
@@ -239,9 +240,7 @@ public class ReceivePack extends BaseReceivePack {
 					}
 				});
 			}
-
 			postReceive.onPostReceive(this, filterCommands(Result.OK));
-
 			if (unpackError != null)
 				throw new UnpackException(unpackError);
 		}
