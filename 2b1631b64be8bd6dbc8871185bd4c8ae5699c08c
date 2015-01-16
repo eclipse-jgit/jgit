@@ -306,6 +306,23 @@
       "revId": "2b1631b64be8bd6dbc8871185bd4c8ae5699c08c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_c72dbc4a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1283,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-01-16T20:10:39Z",
+      "side": 1,
+      "message": "We can consume the header up to \"\\n\" and buffer that. Then drop out of this conditional and continue to read the next line, which should pick up the commands. If the cert exists we should append the command to the cert and parse it below.\n\nThen you need a conditional in here to look if line resembles the PGP signature start, and direct all future lines until the push-cert-end line into the end of the cert buffer.\n\nI think the wire protocol parser can be a lot simpler to just get the data into a buffer. And then we verify the buffer formatting outside of the wire protocol.\n\nThat verifier may be useful anyway because we are probably going to store push certs somewhere inside the Git repository. And we may want to reread them and reparse their headers. So I really do think we are better off just making the wire protocol code about capturing the data into a contiguous buffer and deferring the actual verification work until after its all captured.",
+      "revId": "2b1631b64be8bd6dbc8871185bd4c8ae5699c08c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
