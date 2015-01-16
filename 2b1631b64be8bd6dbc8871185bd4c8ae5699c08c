@@ -1,0 +1,311 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67fe7f71_07e064b4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-01-16T19:36:53Z",
+      "side": 1,
+      "message": "nit: methods are never declared intermixed with fields",
+      "revId": "2b1631b64be8bd6dbc8871185bd4c8ae5699c08c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_a7e238bd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-01-16T19:36:53Z",
+      "side": 1,
+      "message": "style nit: static fields are always declared at the top of a class",
+      "revId": "2b1631b64be8bd6dbc8871185bd4c8ae5699c08c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_e7dc4006",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-01-16T19:36:53Z",
+      "side": 1,
+      "message": "This is a lot of fields. Maybe creating a new package visible class called ParsedPushCert and put the fields inside of that. Then BaseReceivePack only needs one:\n\n  ParsedPushCert cert;\n\nfield added to it. And you don\u0027t have to prefix every field with \"pushedCert\". It can be referenced with cert.blah",
+      "revId": "2b1631b64be8bd6dbc8871185bd4c8ae5699c08c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_479d4c46",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-01-16T19:36:53Z",
+      "side": 1,
+      "message": "In Java we have java.util.concurrent.TimeUnit. You can translate as:\n\n  TimeUnit.MILLISECONDS.toSeconds(millis)\n\nor:\n\n  TimeUnit.SECONDS.toMillis(secs)",
+      "revId": "2b1631b64be8bd6dbc8871185bd4c8ae5699c08c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_47842cec",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-01-16T19:36:53Z",
+      "side": 1,
+      "message": "use !\u003d null. the config getString(a, b) form returns null if its undefined.",
+      "revId": "2b1631b64be8bd6dbc8871185bd4c8ae5699c08c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_27892804",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-01-16T19:36:53Z",
+      "side": 1,
+      "message": "because of stateless RPC on HTTP this should be done only when the adevertisement is being created",
+      "revId": "2b1631b64be8bd6dbc8871185bd4c8ae5699c08c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_877e145c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-01-16T19:36:53Z",
+      "side": 1,
+      "message": "getDirectory() is null on DFS. :-(",
+      "revId": "2b1631b64be8bd6dbc8871185bd4c8ae5699c08c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_678330e2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-01-16T19:36:53Z",
+      "side": 1,
+      "message": "This is always Jan 1 1970. You want System.currentTimeMills() or something.",
+      "range": {
+        "startLine": 337,
+        "startChar": 5,
+        "endLine": 337,
+        "endChar": 16
+      },
+      "revId": "2b1631b64be8bd6dbc8871185bd4c8ae5699c08c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_8750d4dc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-01-16T19:36:53Z",
+      "side": 1,
+      "message": "Nonce generation should be pulled into an interface and put this into a default implementation of that interface. That way we can swap this with other algorithms easily.\n\nHmacSHA1 may be OK right now for some uses, but I would like to make nonce creation easier to experiment with.",
+      "revId": "2b1631b64be8bd6dbc8871185bd4c8ae5699c08c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_0744e41c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-01-16T19:36:53Z",
+      "side": 1,
+      "message": "\u003d null is not necessary. The compiler can prove the value is assigned, or we leave the method without use because of throws below. In fact leaving it in is more error prone because if you forget a throw the compiler thinks its valid to be null, and then below you assume its non-null.",
+      "revId": "2b1631b64be8bd6dbc8871185bd4c8ae5699c08c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_e740c00a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-01-16T19:36:53Z",
+      "side": 1,
+      "message": "return String.format(...) without the hexString variable is easier to read.",
+      "range": {
+        "startLine": 365,
+        "startChar": 2,
+        "endLine": 366,
+        "endChar": 19
+      },
+      "revId": "2b1631b64be8bd6dbc8871185bd4c8ae5699c08c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_a7ad1872",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-01-16T19:36:53Z",
+      "side": 1,
+      "message": "remove this. you want the 2 arg getString(). The 3 arg is looking for:\n\n  [receive \"certnonceseed\"]\n    \u003d value\n\nWhich isn\u0027t valid config.",
+      "range": {
+        "startLine": 407,
+        "startChar": 62,
+        "endLine": 407,
+        "endChar": 66
+      },
+      "revId": "2b1631b64be8bd6dbc8871185bd4c8ae5699c08c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_07bb44aa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1034,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-01-16T19:36:53Z",
+      "side": 1,
+      "message": "use !\u003d null",
+      "revId": "2b1631b64be8bd6dbc8871185bd4c8ae5699c08c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_07922428",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1036,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-01-16T19:36:53Z",
+      "side": 1,
+      "message": "generate the nonce here",
+      "revId": "2b1631b64be8bd6dbc8871185bd4c8ae5699c08c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_076d04a7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1083,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-01-16T19:36:53Z",
+      "side": 1,
+      "message": "getDirectory() is null on dfs",
+      "revId": "2b1631b64be8bd6dbc8871185bd4c8ae5699c08c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_c762dcb7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1111,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-01-16T19:36:53Z",
+      "side": 1,
+      "message": "This is still seriously obtuse.",
+      "revId": "2b1631b64be8bd6dbc8871185bd4c8ae5699c08c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_8779f46e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1282,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-01-16T19:36:53Z",
+      "side": 1,
+      "message": "equals? The capability splitting above should have left you with exactly \"push-cert\"",
+      "revId": "2b1631b64be8bd6dbc8871185bd4c8ae5699c08c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
