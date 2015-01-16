@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67fe7f71_61c04075",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/AttributeNodeProvider.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-01-16T14:52:06Z",
+      "side": 1,
+      "message": "Why do we have this abstraction? Do you already have different implementors for this interface in mind?",
+      "revId": "1b9b1e80917f881dce69ffd8f21a983e43bb9613",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_2108f866",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-01-16T14:52:06Z",
+      "side": 1,
+      "message": "I don\u0027t get this: Why is the WorkingTreeIterator the one which is responsible to read data which is explicitly not in the workingtree. If the WorkingTreeIterator is the one which reads attributes you cannot support repo\u0027s where we don\u0027t have a WorkingTreeIterator - bare repos. Even in a bare repo you can say \"git diff A B\" and for that we need attributes to control diff output, determine text/binary, ... . JGit even allows to try merges in bare repos (that\u0027s a big gerrit use case) and there you might need merge drivers defined by attributes.\n\nFor me the Repository would be a good candidate. There we have all the other accessors which read data from $GITDIR and from global/system-wide files (e.g. Repository.getConfig())",
+      "revId": "1b9b1e80917f881dce69ffd8f21a983e43bb9613",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
