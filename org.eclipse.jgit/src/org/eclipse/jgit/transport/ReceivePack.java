@@ -185,6 +185,7 @@ public class ReceivePack extends BaseReceivePack {
 		recvCommands();
 		if (hasCommands()) {
 			enableCapabilities();
+			preparePushCertificate();
 
 			Throwable unpackError = null;
 			if (needPack()) {
