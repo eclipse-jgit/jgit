@@ -70,6 +70,24 @@
     },
     {
       "key": {
+        "uuid": "67fe7f71_39d030f4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2015-01-17T00:40:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67fe7f71_479d4c46",
+      "revId": "2b1631b64be8bd6dbc8871185bd4c8ae5699c08c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67fe7f71_47842cec",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
         "patchSetId": 4
@@ -197,6 +215,24 @@
       "writtenOn": "2015-01-16T19:36:53Z",
       "side": 1,
       "message": "Nonce generation should be pulled into an interface and put this into a default implementation of that interface. That way we can swap this with other algorithms easily.\n\nHmacSHA1 may be OK right now for some uses, but I would like to make nonce creation easier to experiment with.",
+      "revId": "2b1631b64be8bd6dbc8871185bd4c8ae5699c08c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_d96804eb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2015-01-17T00:40:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67fe7f71_8750d4dc",
       "revId": "2b1631b64be8bd6dbc8871185bd4c8ae5699c08c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
