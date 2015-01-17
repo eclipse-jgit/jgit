@@ -46,6 +46,7 @@ package org.eclipse.jgit.transport;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_ATOMIC;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_DELETE_REFS;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_OFS_DELTA;
+import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_PUSH_CERT;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_REPORT_STATUS;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_SIDE_BAND_64K;
 import static org.eclipse.jgit.transport.SideBandOutputStream.CH_DATA;
@@ -56,6 +57,8 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -64,6 +67,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
+
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
 
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.PackProtocolException;
@@ -246,6 +253,272 @@ public abstract class BaseReceivePack {
 	/** The size of the received pack, including index size */
 	private Long packSize;
 
+	interface NonceGenerator {
+		/**
+		 * @param seed the seed for the server which must be kept private
+		 * @param prefix the directoy path on the serving side for this repo
+		 * @param time seconds since the epoch
+		 * @return the nonce to be signed by the pusher
+		 * @throws IllegalStateException
+		 */
+		public String createNonce(String seed, String prefix, long time)
+			throws IllegalStateException;
+	}
+
+	class DefaultNonceGenerator implements NonceGenerator {
+		public String createNonce(String seed, String path, long secs)
+			throws IllegalStateException
+		{
+			String key = path + ":" + String.valueOf(secs); //$NON-NLS-1$
+
+			byte[] keyBytes = key.getBytes();
+			SecretKeySpec signingKey = new SecretKeySpec(keyBytes, "HmacSHA1"); //$NON-NLS-1$
+
+			Mac mac = null;
+			try {
+				mac = Mac.getInstance("HmacSHA1"); //$NON-NLS-1$
+				mac.init(signingKey);
+			} catch (InvalidKeyException e) {
+				throw new IllegalStateException(e);
+			} catch (NoSuchAlgorithmException e) {
+				throw new IllegalStateException(e);
+			}
+			byte[] rawHmac = mac.doFinal(seed.getBytes());
+			String hexString = String.format("%20X", rawHmac); //$NON-NLS-1$
+			return hexString;
+		}
+	}
+
+	/**
+	 *
+	 *
+	 */
+	protected class PushCertificateParser {
+		private static final String NONCE_UNSOLICITED = "UNSOLICITED"; //$NON-NLS-1$
+		private static final String NONCE_BAD = "BAD"; //$NON-NLS-1$
+		private static final String NONCE_MISSING = "MISSING"; //$NON-NLS-1$
+		private static final String NONCE_OK = "OK"; //$NON-NLS-1$
+		private static final String NONCE_SLOP = "SLOP"; //$NON-NLS-1$
+		private final Pattern versionPattern = Pattern.compile("version\\s(\\S)$"); //$NON-NLS-1$
+		private final Pattern pusherPattern = Pattern.compile("pusher\\s(\\S)$"); //$NON-NLS-1$
+		private final Pattern pusheePattern = Pattern.compile("pushee\\s(\\S)$"); //$NON-NLS-1$
+		private final Pattern noncePattern = Pattern.compile("nonce\\s(\\S)$"); //$NON-NLS-1$
+
+		/** The seed this server is using */
+		private String seed;
+
+		/** The individual certificate which is presented to the client */
+		private String sentNonce;
+
+		/**
+		 * The nonce the pusher signed. This may vary from pushCertNonce
+		 * See git-core documentation for reasons.
+		 */
+		private String receivedNonce;
+
+		/**
+		 * The maximum time difference which is acceptable between
+		 * advertised nonce and received signed nonce.
+		 */
+		private int nonceSlopLimit;
+
+		/** What we think about the returned signed nonce, see constants below */
+		private String nonceStatus;
+
+		/** The tuple "name <email>" as presented in the push certificate */
+		private String pusher;
+
+		/** The remote URL the signed push goes to */
+		private String pushee;
+
+		NonceGenerator nonceGenerator;
+
+		PushCertificateParser(ReceiveConfig cfg, String dirPath) {
+			seed = cfg.certNonceSeed;
+			if (seed != null)
+				sentNonce = nonceGenerator.createNonce(seed, dirPath,
+						TimeUnit.MILLISECONDS.toSeconds(
+								System.currentTimeMillis()));
+
+			nonceSlopLimit = cfg.certNonceSlopLimit;
+			this.dirPath = dirPath;
+			nonceGenerator = new DefaultNonceGenerator();
+		}
+
+		/**
+		 * @return the pushCertNonceStatus
+		 */
+		public String getNonceStatus() {
+			return nonceStatus;
+		}
+
+		/**
+		 * @return the pushedCertPusher
+		 */
+		public String getPusher() {
+			return pusher;
+		}
+
+		/**
+		 * @return the pushedCertPushee
+		 */
+		public String getPushee() {
+			return pushee;
+		}
+
+		/**
+		 *
+		 */
+		protected String dirPath;
+
+		/**
+		 *
+		 */
+		protected String commandlist;
+
+		/**
+		 *
+		 */
+		protected StringBuilder commandlistBuilder;
+
+		/**
+		 *
+		 */
+		protected String signature;
+
+		/**
+		 * @return a message explaining the state of the signed nonce by
+		 *         the pusher
+		 */
+		protected String checkNonce() {
+			if (receivedNonce.isEmpty())
+				return NONCE_MISSING;
+			else if (sentNonce.isEmpty())
+				return NONCE_UNSOLICITED;
+			else if (receivedNonce.equals(sentNonce))
+				return NONCE_OK;
+
+			// TODO: Do we have a stateless rpc for jgit?
+			// if (!statelessRPC)
+			// 	return NONCE_BAD;
+
+			/* nonce is concat(<seconds-since-epoch>, "-", <hmac>) */
+			int idxSent = sentNonce.indexOf('-');
+			int idxRecv = receivedNonce.indexOf('-');
+			if (idxSent == -1 || idxRecv == -1)
+				return NONCE_BAD;
+
+			long signedStamp = 0;
+			long advertisedStamp = 0;
+			try {
+				signedStamp = Integer.parseInt(
+						receivedNonce.substring(0, idxRecv));
+				advertisedStamp = Integer.parseInt(
+						sentNonce.substring(0, idxSent));
+			} catch (Exception e) {
+				return NONCE_BAD;
+			}
+
+			// what we would have signed earlier
+			String expect = nonceGenerator.createNonce(
+					seed, dirPath, signedStamp);
+
+			if (!expect.equals(receivedNonce))
+				return NONCE_BAD;
+
+			long nonceStampSlop = Math.abs(advertisedStamp - signedStamp);
+
+			if (nonceSlopLimit != 0
+					&& nonceStampSlop <= nonceSlopLimit) {
+				return NONCE_OK;
+			} else {
+				return NONCE_SLOP;
+			}
+		}
+
+		/**
+		 * @return if the server is configured to use signed pushes.
+		 */
+		public boolean enabled() {
+			return seed != null;
+		}
+
+		/**
+		 * @return the whole string for the nonce to be included into
+		 *         the capability advertisement.
+		 */
+		public String getAdvertiseNonce() {
+			return CAPABILITY_PUSH_CERT + "=" + //$NON-NLS-1$
+					nonceGenerator.createNonce(seed, dirPath,
+							TimeUnit.MILLISECONDS.toSeconds(
+									System.currentTimeMillis()));
+		}
+
+		/**
+		 * Receive a list of commands from the input encapsulated in
+		 * a push certificate. This method doesn't deal with the first line
+		 * "push-cert \NUL <capabilities>", but assumes the first line
+		 * including the capabilities has already been dealt with.
+		 *
+		 * @throws IOException
+		 */
+		protected void receiveHeader() throws IOException {
+			try {
+				String version = versionPattern.matcher(pckIn.readStringRaw()).group(1);
+				if (version.equals("0.1")) { //$NON-NLS-1$
+					pusher = pusherPattern.matcher(pckIn.readStringRaw()).group(1);
+					pushee = pusheePattern.matcher(pckIn.readStringRaw()).group(1);
+					receivedNonce = noncePattern.matcher(pckIn.readStringRaw()).group(1);
+					// todo: readStringRaw() once more for an LF
+				} else {
+					throw new IOException(MessageFormat.format(
+							JGitText.get().errorInvalidPushCert,
+							"version not supported")); //$NON-NLS-1$
+				}
+			} catch (EOFException eof) {
+				throw new IOException(MessageFormat.format(
+							JGitText.get().errorInvalidPushCert,
+							"broken push certificate Header")); //$NON-NLS-1$
+			}
+			checkNonce();
+		}
+
+		/**
+		 * @param commandList
+		 * @param signature
+		 * @return if the signature could be verified.
+		 */
+		protected boolean verifySignedPushCommands(String commandList,
+				String signature) {
+			/**
+			 * crypto is hard, if you don't have a library for it.
+			 * We cannot check if the signature is good, so let's
+			 * always fail.
+			 */
+			return false;
+		}
+
+		/**
+		 * @throws IOException
+		 */
+		protected void receiveSignature() throws IOException {
+			try {
+				StringBuilder sig = new StringBuilder();
+				String line = pckIn.readStringRaw();
+				while (!line.equals("-----END PGP SIGNATURE-----")) //$NON-NLS-1$
+					sig.append(line);
+				signature = sig.toString();
+				verifySignedPushCommands(commandlist, signature);
+			} catch (EOFException eof) {
+				throw new IOException(MessageFormat.format(
+						JGitText.get().errorInvalidPushCert,
+						"broken push certificate signature")); //$NON-NLS-1$
+			}
+		}
+	}
+
+	PushCertificateParser pushCertificateParser;
+
 	/**
 	 * Create a new pack receive for an open repository.
 	 *
@@ -267,6 +540,10 @@ public abstract class BaseReceivePack {
 		refFilter = RefFilter.DEFAULT;
 		advertisedHaves = new HashSet<ObjectId>();
 		clientShallowCommits = new HashSet<ObjectId>();
+		String dirPath = db.getDirectory() != null
+				? db.getDirectory().getPath()
+				: "" /*TODO*/; //$NON-NLS-1$
+		pushCertificateParser = new PushCertificateParser(cfg, dirPath);
 	}
 
 	/** Configuration for receive operations. */
@@ -287,6 +564,9 @@ public abstract class BaseReceivePack {
 		final boolean allowNonFastForwards;
 		final boolean allowOfsDelta;
 
+		final String certNonceSeed;
+		final int certNonceSlopLimit;
+
 		ReceiveConfig(final Config config) {
 			checkReceivedObjects = config.getBoolean(
 					"receive", "fsckobjects", //$NON-NLS-1$ //$NON-NLS-2$
@@ -304,6 +584,8 @@ public abstract class BaseReceivePack {
 					"denynonfastforwards", false); //$NON-NLS-1$
 			allowOfsDelta = config.getBoolean("repack", "usedeltabaseoffset", //$NON-NLS-1$ //$NON-NLS-2$
 					true);
+			certNonceSeed = config.getString("receive", "certnonceseed", ""); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			certNonceSlopLimit = config.getInt("receive", "certnonceslop", 0); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
 		ObjectChecker newObjectChecker() {
@@ -929,6 +1211,9 @@ public abstract class BaseReceivePack {
 		adv.advertiseCapability(CAPABILITY_SIDE_BAND_64K);
 		adv.advertiseCapability(CAPABILITY_DELETE_REFS);
 		adv.advertiseCapability(CAPABILITY_REPORT_STATUS);
+		if (pushCertificateParser.enabled())
+			adv.advertiseCapability(
+				pushCertificateParser.getAdvertiseNonce());
 		if (db.getRefDatabase().performsAtomicTransactions())
 			adv.advertiseCapability(CAPABILITY_ATOMIC);
 		if (allowOfsDelta)
@@ -968,7 +1253,15 @@ public abstract class BaseReceivePack {
 				final FirstLine firstLine = new FirstLine(line);
 				enabledCapabilities = firstLine.getCapabilities();
 				line = firstLine.getLine();
+
+				if (line.equals(GitProtocolConstants.OPTION_PUSH_CERT))
+					pushCertificateParser.receiveHeader();
 			}
+
+			// TODO: here we need to check for signature, if so
+			// call pushCertificate.receiveSignature()
+			if (line.equals("-----BEGIN PGP SIGNATURE-----\n")) //$NON-NLS-1$
+				pushCertificateParser.receiveSignature();
 
 			if (line.length() < 83) {
 				final String m = JGitText.get().errorInvalidProtocolWantedOldNewRef;
