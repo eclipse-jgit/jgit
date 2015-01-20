@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "67fe7f71_08b2307b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/AttributeNodeProvider.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1655
+      },
+      "writtenOn": "2015-01-20T08:20:46Z",
+      "side": 1,
+      "message": "You are right, I can remove this. I will do it as soon as I have figure how to correct your second comment.",
+      "parentUuid": "67fe7f71_61c04075",
+      "revId": "1b9b1e80917f881dce69ffd8f21a983e43bb9613",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67fe7f71_2108f866",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
         "patchSetId": 9
@@ -30,6 +48,24 @@
       "writtenOn": "2015-01-16T14:52:06Z",
       "side": 1,
       "message": "I don\u0027t get this: Why is the WorkingTreeIterator the one which is responsible to read data which is explicitly not in the workingtree. If the WorkingTreeIterator is the one which reads attributes you cannot support repo\u0027s where we don\u0027t have a WorkingTreeIterator - bare repos. Even in a bare repo you can say \"git diff A B\" and for that we need attributes to control diff output, determine text/binary, ... . JGit even allows to try merges in bare repos (that\u0027s a big gerrit use case) and there you might need merge drivers defined by attributes.\n\nFor me the Repository would be a good candidate. There we have all the other accessors which read data from $GITDIR and from global/system-wide files (e.g. Repository.getConfig())",
+      "revId": "1b9b1e80917f881dce69ffd8f21a983e43bb9613",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_480ef8c5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1655
+      },
+      "writtenOn": "2015-01-20T08:20:46Z",
+      "side": 1,
+      "message": "Yes I think your are right. This should be moved elsewhere. The repository might be a good candidate however I need to reconcile attributes from DirCacheIterator, WorkingTreeIterator (if any) and now the repository. Currently this is done in the TreeWalk in [1]. However from this location I can not always access the repository. So my question is, Do you think the TreeWalk is a bad place to compute the attributes? Or should I find somewhere else to get the info attribute node and the global attribute node?\n\n[1] org.eclipse.jgit.treewalk.TreeWalk.getAttributes(OperationType)",
+      "parentUuid": "67fe7f71_2108f866",
       "revId": "1b9b1e80917f881dce69ffd8f21a983e43bb9613",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
