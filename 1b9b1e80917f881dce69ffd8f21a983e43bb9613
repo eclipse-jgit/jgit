@@ -69,6 +69,24 @@
       "revId": "1b9b1e80917f881dce69ffd8f21a983e43bb9613",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_43fed977",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-01-20T10:14:04Z",
+      "side": 1,
+      "message": "I think putting it to treewalk is ok.\n\nAs you explained the calculation of the effective gitattribues requires looking at index,workingtree and some global attribute storages (e.g. $GIT_DIR/info/attributes). TreeWalk seems to be the best place. But TreeWalk doesn\u0027t need to have a reference to a repository. Maybe it\u0027s a good idea to stick with your abstraction of an accessor to the global attribute storage and have a setter for such an accessor in TreeWalk. The constructor TreeWalk(Repository) could know that a Repository offers a getAttributeNodeProvider() method (to be implemented) and don\u0027t require the caller do additionally call setAttributeNodeProvider(). But instances created by TreeWalk(ObjectReader) would require a setAttributeNodeProvider() in order to be able to read global attributes.",
+      "parentUuid": "67fe7f71_480ef8c5",
+      "revId": "1b9b1e80917f881dce69ffd8f21a983e43bb9613",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
