@@ -302,6 +302,30 @@
     },
     {
       "key": {
+        "uuid": "67fe7f71_809ef4e9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2015-01-20T20:22:20Z",
+      "side": 1,
+      "message": "done, though as a reason for confusion here: the function getInt takes (section, name, defaultValue) which I assumed here as well.",
+      "parentUuid": "67fe7f71_a7ad1872",
+      "range": {
+        "startLine": 407,
+        "startChar": 62,
+        "endLine": 407,
+        "endChar": 66
+      },
+      "revId": "2b1631b64be8bd6dbc8871185bd4c8ae5699c08c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67fe7f71_07bb44aa",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
         "patchSetId": 4
