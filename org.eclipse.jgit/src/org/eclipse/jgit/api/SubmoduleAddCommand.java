@@ -136,6 +136,17 @@ public class SubmoduleAddCommand extends
 		return SubmoduleWalk.forIndex(repo).setFilter(filter).next();
 	}
 
+	/**
+	 * Executes the {@code SubmoduleAddCommand}
+	 *
+	 * The Repository instance returned by this command needs to be closed by
+	 * the caller to free resources held by the {@link Repository} instance. It
+	 * is recommended to call this method as soon as you don't need a reference
+	 * to this {@link Repository} instance anymore.
+	 *
+	 * @return the newly created {@code Repository}
+	 * @throws GitAPIException
+	 */
 	public Repository call() throws GitAPIException {
 		checkCallable();
 		if (path == null || path.length() == 0)
