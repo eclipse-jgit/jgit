@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67fe7f71_a3da2212",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-01-21T00:55:07Z",
+      "side": 1,
+      "message": "You could factor this out. Arguably uglier because you\u0027d have to use instanceof instead of separate catch blocks, but I think the reduced code duplication would be an overall win.\n\n   } catch (IOException e) {\n     handlePackError(e, p);\n   }\n ...\n \n private void handlePackError(IOexception e, PackFile p) {\n   String tmpl;\n   if ((e instanceof CorruptObjectException)\n       || (e instanceof PackInvalidException)) {\n     tmpl \u003d JGitText.get().corruptPack;\n     // Assume the pack is corrupted, and remove it from the list.\n     removePack(p);\n   } else {\n     tmpl \u003d JGitText.get().exceptionWhileReadingPack;\n     // Don\u0027t remove the pack from the list, as the error may be transient.\n   }\n   StringBuilder buf \u003d new StringBuilder(\n       MessageFormat.format(tmpl, p.getPackFile.getAbsolutePath()));\n   ...\n }",
+      "revId": "7ca8fc30455914a5841e18471840073146315d1b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
