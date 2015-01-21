@@ -52,6 +52,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -64,6 +66,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.eclipse.jgit.errors.CorruptObjectException;
+import org.eclipse.jgit.errors.PackInvalidException;
 import org.eclipse.jgit.errors.PackMismatchException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
@@ -328,9 +332,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 				try {
 					p.resolve(matches, id, RESOLVE_ABBREV_LIMIT);
 				} catch (IOException e) {
-					// Assume the pack is corrupted.
-					//
-					removePack(p);
+					handlePackError(e, p);
 				}
 				if (matches.size() > RESOLVE_ABBREV_LIMIT)
 					return;
@@ -417,8 +419,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 						if (searchPacksAgain(pList))
 							continue SEARCH;
 					} catch (IOException e) {
-						// Assume the pack is corrupted.
-						removePack(p);
+						handlePackError(e, p);
 					}
 				}
 				break SEARCH;
@@ -498,8 +499,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 						if (searchPacksAgain(pList))
 							continue SEARCH;
 					} catch (IOException e) {
-						// Assume the pack is corrupted.
-						removePack(p);
+						handlePackError(e, p);
 					}
 				}
 				break SEARCH;
@@ -540,9 +540,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 					pList = scanPacks(pList);
 					continue SEARCH;
 				} catch (IOException e) {
-					// Assume the pack is corrupted.
-					//
-					removePack(p);
+					handlePackError(e, p);
 				}
 			}
 			break SEARCH;
@@ -550,6 +548,28 @@ public class ObjectDirectory extends FileObjectDatabase {
 
 		for (AlternateHandle h : myAlternates())
 			h.db.selectObjectRepresentation(packer, otp, curs);
+	}
+
+	private void handlePackError(IOException e, PackFile p) {
+		String tmpl;
+		if ((e instanceof CorruptObjectException)
+				|| (e instanceof PackInvalidException)) {
+			tmpl = JGitText.get().corruptPack;
+			// Assume the pack is corrupted, and remove it from the list.
+			removePack(p);
+		} else {
+			tmpl = JGitText.get().exceptionWhileReadingPack;
+			// Don't remove the pack from the list, as the error may be
+			// transient.
+		}
+		StringBuilder buf = new StringBuilder(MessageFormat.format(tmpl,
+				p.getPackFile().getAbsolutePath()));
+		StringWriter sw = new StringWriter();
+		e.printStackTrace(new PrintWriter(sw));
+		buf.append('\n');
+		buf.append(sw.toString());
+		// TODO instead of syserr we should use a logging framework
+		System.err.println(buf.toString());
 	}
 
 	@Override
