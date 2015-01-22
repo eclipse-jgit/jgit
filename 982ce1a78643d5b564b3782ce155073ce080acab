@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67fe7f71_e750afdd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleAddCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-01-22T15:51:12Z",
+      "side": 1,
+      "message": "2 of the 3 references to Repository in this javadoc are @link\u0027s , and this one is a simple String. Maybe we need only one @link. Maybe in the @return class.",
+      "revId": "982ce1a78643d5b564b3782ce155073ce080acab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
