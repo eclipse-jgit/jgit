@@ -1,0 +1,498 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67fe7f71_cf75c73e",
+        "filename": "org.eclipse.jgit.java7/src/org/eclipse/jgit/util/FS_POSIX_Java7.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-01-22T09:56:40Z",
+      "side": 1,
+      "message": "since tag is not required here since the API change is in the super class",
+      "range": {
+        "startLine": 351,
+        "startChar": 11,
+        "endLine": 351,
+        "endChar": 14
+      },
+      "revId": "a3333950b506bdc480194942229533df40f4a6d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_dae2a7be",
+        "filename": "org.eclipse.jgit.java7/src/org/eclipse/jgit/util/FS_POSIX_Java7.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-01-22T09:56:40Z",
+      "side": 1,
+      "message": "define a constant for that in org.eclipse.jgit.lib.Constants",
+      "range": {
+        "startLine": 356,
+        "startChar": 48,
+        "endLine": 356,
+        "endChar": 55
+      },
+      "revId": "a3333950b506bdc480194942229533df40f4a6d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_0f806f97",
+        "filename": "org.eclipse.jgit.java7/src/org/eclipse/jgit/util/FS_Win32_Java7Cygwin.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-01-22T09:56:40Z",
+      "side": 1,
+      "message": "since tag is not required here since the API change is in the super class",
+      "range": {
+        "startLine": 144,
+        "startChar": 11,
+        "endLine": 144,
+        "endChar": 14
+      },
+      "revId": "a3333950b506bdc480194942229533df40f4a6d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_dd8cd194",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 632,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-01-22T09:56:40Z",
+      "side": 1,
+      "message": "s/error will/error streams will/",
+      "range": {
+        "startLine": 632,
+        "startChar": 35,
+        "endLine": 632,
+        "endChar": 45
+      },
+      "revId": "a3333950b506bdc480194942229533df40f4a6d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_bd9115a8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 638,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-01-22T09:56:40Z",
+      "side": 1,
+      "message": "s/from/for/\n\nrepeated below",
+      "range": {
+        "startLine": 638,
+        "startChar": 30,
+        "endLine": 638,
+        "endChar": 34
+      },
+      "revId": "a3333950b506bdc480194942229533df40f4a6d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_fda6ed09",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 640,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-01-22T09:56:40Z",
+      "side": 1,
+      "message": "The hook to be executed\n\nrepeated below",
+      "range": {
+        "startLine": 640,
+        "startChar": 15,
+        "endLine": 640,
+        "endChar": 53
+      },
+      "revId": "a3333950b506bdc480194942229533df40f4a6d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_6f4c9b1d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 648,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-01-22T09:56:40Z",
+      "side": 1,
+      "message": "s/3.6/3.7/",
+      "range": {
+        "startLine": 648,
+        "startChar": 11,
+        "endLine": 648,
+        "endChar": 14
+      },
+      "revId": "a3333950b506bdc480194942229533df40f4a6d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_4f51d7af",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 682,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-01-22T09:56:40Z",
+      "side": 1,
+      "message": "s/3.6/3.7/",
+      "range": {
+        "startLine": 682,
+        "startChar": 11,
+        "endLine": 682,
+        "endChar": 14
+      },
+      "revId": "a3333950b506bdc480194942229533df40f4a6d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_5da0c1ec",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 691,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-01-22T09:56:40Z",
+      "side": 1,
+      "message": "s/and/to/",
+      "range": {
+        "startLine": 691,
+        "startChar": 10,
+        "endLine": 691,
+        "endChar": 13
+      },
+      "revId": "a3333950b506bdc480194942229533df40f4a6d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_af4683f8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 699,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-01-22T09:56:40Z",
+      "side": 1,
+      "message": "s/3.6/3.7/",
+      "range": {
+        "startLine": 699,
+        "startChar": 11,
+        "endLine": 699,
+        "endChar": 14
+      },
+      "revId": "a3333950b506bdc480194942229533df40f4a6d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a766b734_3d9d05b8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 701,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-01-22T09:56:40Z",
+      "side": 1,
+      "message": "maybe shorter findHook",
+      "range": {
+        "startLine": 701,
+        "startChar": 13,
+        "endLine": 701,
+        "endChar": 24
+      },
+      "revId": "a3333950b506bdc480194942229533df40f4a6d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_8fc61fe0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 730,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-01-22T09:56:40Z",
+      "side": 1,
+      "message": "s/3.6/3.7/",
+      "range": {
+        "startLine": 730,
+        "startChar": 11,
+        "endLine": 730,
+        "endChar": 14
+      },
+      "revId": "a3333950b506bdc480194942229533df40f4a6d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_8f4bbf01",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-01-22T09:56:40Z",
+      "side": 1,
+      "message": "since tag is not required here since the API change is in the super class",
+      "range": {
+        "startLine": 133,
+        "startChar": 11,
+        "endLine": 133,
+        "endChar": 14
+      },
+      "revId": "a3333950b506bdc480194942229533df40f4a6d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_ef5febb9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_Win32_Cygwin.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-01-22T09:56:40Z",
+      "side": 1,
+      "message": "since tag is not required here since the API change is in the super class",
+      "range": {
+        "startLine": 148,
+        "startChar": 11,
+        "endLine": 148,
+        "endChar": 14
+      },
+      "revId": "a3333950b506bdc480194942229533df40f4a6d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_2fb57364",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_Win32_Cygwin.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-01-22T09:56:40Z",
+      "side": 1,
+      "message": "this is the only line this method is different from the one for posix, I guess there\u0027s a way to avoid this code duplication, you could add a relativize method to the superclass which is overwritten here in this class",
+      "range": {
+        "startLine": 167,
+        "startChar": 0,
+        "endLine": 167,
+        "endChar": 45
+      },
+      "revId": "a3333950b506bdc480194942229533df40f4a6d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_cf5ca7c8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-01-22T09:56:40Z",
+      "side": 1,
+      "message": "s/3.6/3.7/",
+      "range": {
+        "startLine": 420,
+        "startChar": 11,
+        "endLine": 420,
+        "endChar": 14
+      },
+      "revId": "a3333950b506bdc480194942229533df40f4a6d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_2f5a93c9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/Hook.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-01-22T09:56:40Z",
+      "side": 1,
+      "message": "s/3.6/3.7/",
+      "range": {
+        "startLine": 49,
+        "startChar": 10,
+        "endLine": 49,
+        "endChar": 13
+      },
+      "revId": "a3333950b506bdc480194942229533df40f4a6d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_7a8e1b3f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/Hook.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-01-22T09:56:40Z",
+      "side": 1,
+      "message": "we can\u0027t have an enum without any entry, we could introduce all possible hooks here already in this first patch in the series",
+      "revId": "a3333950b506bdc480194942229533df40f4a6d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_0f57cfa0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/ProcessResult.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-01-22T09:56:40Z",
+      "side": 1,
+      "message": "s/3.6/3.7/",
+      "range": {
+        "startLine": 48,
+        "startChar": 10,
+        "endLine": 48,
+        "endChar": 13
+      },
+      "revId": "a3333950b506bdc480194942229533df40f4a6d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_6fb77b73",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/ProcessResult.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-01-22T09:56:40Z",
+      "side": 1,
+      "message": "I think you mean a script not a process, right ?",
+      "range": {
+        "startLine": 56,
+        "startChar": 9,
+        "endLine": 56,
+        "endChar": 16
+      },
+      "revId": "a3333950b506bdc480194942229533df40f4a6d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_4fbc3756",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/ProcessResult.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-01-22T09:56:40Z",
+      "side": 1,
+      "message": "how can you find a process on disk ? you probably meant script",
+      "range": {
+        "startLine": 61,
+        "startChar": 10,
+        "endLine": 61,
+        "endChar": 39
+      },
+      "revId": "a3333950b506bdc480194942229533df40f4a6d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_afc163cb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/ProcessResult.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-01-22T09:56:40Z",
+      "side": 1,
+      "message": "don\u0027t we also need an error status ?",
+      "revId": "a3333950b506bdc480194942229533df40f4a6d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
