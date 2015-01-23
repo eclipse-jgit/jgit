@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "67fe7f71_40c6c13e",
+        "filename": "org.eclipse.jgit.java7/src/org/eclipse/jgit/util/FS_POSIX_Java7.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2015-01-23T10:20:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67fe7f71_cf75c73e",
+      "revId": "a3333950b506bdc480194942229533df40f4a6d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67fe7f71_dae2a7be",
         "filename": "org.eclipse.jgit.java7/src/org/eclipse/jgit/util/FS_POSIX_Java7.java",
         "patchSetId": 8
@@ -42,6 +60,24 @@
         "endLine": 356,
         "endChar": 55
       },
+      "revId": "a3333950b506bdc480194942229533df40f4a6d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_a0f20d90",
+        "filename": "org.eclipse.jgit.java7/src/org/eclipse/jgit/util/FS_POSIX_Java7.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2015-01-23T10:20:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67fe7f71_dae2a7be",
       "revId": "a3333950b506bdc480194942229533df40f4a6d1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -71,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "67fe7f71_e0ec15b9",
+        "filename": "org.eclipse.jgit.java7/src/org/eclipse/jgit/util/FS_Win32_Java7Cygwin.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2015-01-23T10:20:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67fe7f71_0f806f97",
+      "revId": "a3333950b506bdc480194942229533df40f4a6d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_dd8cd194",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
         "patchSetId": 8
@@ -88,6 +142,24 @@
         "endLine": 632,
         "endChar": 45
       },
+      "revId": "a3333950b506bdc480194942229533df40f4a6d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_60e025b6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 632,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2015-01-23T10:20:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_dd8cd194",
       "revId": "a3333950b506bdc480194942229533df40f4a6d1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -117,6 +189,24 @@
     },
     {
       "key": {
+        "uuid": "67fe7f71_40dd21ff",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 638,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2015-01-23T10:20:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_bd9115a8",
+      "revId": "a3333950b506bdc480194942229533df40f4a6d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a766b734_fda6ed09",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
         "patchSetId": 8
@@ -134,6 +224,24 @@
         "endLine": 640,
         "endChar": 53
       },
+      "revId": "a3333950b506bdc480194942229533df40f4a6d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_a09ded48",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 640,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2015-01-23T10:20:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_fda6ed09",
       "revId": "a3333950b506bdc480194942229533df40f4a6d1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -163,6 +271,24 @@
     },
     {
       "key": {
+        "uuid": "67fe7f71_80a26981",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 648,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2015-01-23T10:20:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67fe7f71_6f4c9b1d",
+      "revId": "a3333950b506bdc480194942229533df40f4a6d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67fe7f71_4f51d7af",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
         "patchSetId": 8
@@ -180,6 +306,24 @@
         "endLine": 682,
         "endChar": 14
       },
+      "revId": "a3333950b506bdc480194942229533df40f4a6d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_c0ac7178",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 682,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2015-01-23T10:20:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67fe7f71_4f51d7af",
       "revId": "a3333950b506bdc480194942229533df40f4a6d1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -209,6 +353,24 @@
     },
     {
       "key": {
+        "uuid": "67fe7f71_20b1fdc9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 691,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2015-01-23T10:20:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a766b734_5da0c1ec",
+      "revId": "a3333950b506bdc480194942229533df40f4a6d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67fe7f71_af4683f8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
         "patchSetId": 8
@@ -226,6 +388,24 @@
         "endLine": 699,
         "endChar": 14
       },
+      "revId": "a3333950b506bdc480194942229533df40f4a6d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_40b881ab",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 699,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2015-01-23T10:20:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67fe7f71_af4683f8",
       "revId": "a3333950b506bdc480194942229533df40f4a6d1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -255,6 +435,24 @@
     },
     {
       "key": {
+        "uuid": "67fe7f71_a084cdec",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 701,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2015-01-23T10:20:31Z",
+      "side": 1,
+      "message": "\"findHook\" doesn\u0027t reflect the fact that this can return null though. I\u0027ve changed it but really prefer the \"tryFind\" wording.",
+      "parentUuid": "a766b734_3d9d05b8",
+      "revId": "a3333950b506bdc480194942229533df40f4a6d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67fe7f71_8fc61fe0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
         "patchSetId": 8
@@ -272,6 +470,24 @@
         "endLine": 730,
         "endChar": 14
       },
+      "revId": "a3333950b506bdc480194942229533df40f4a6d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_db5f4644",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 730,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2015-01-23T10:20:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67fe7f71_8fc61fe0",
       "revId": "a3333950b506bdc480194942229533df40f4a6d1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -301,6 +517,24 @@
     },
     {
       "key": {
+        "uuid": "67fe7f71_6092e529",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2015-01-23T10:20:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67fe7f71_8f4bbf01",
+      "revId": "a3333950b506bdc480194942229533df40f4a6d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67fe7f71_ef5febb9",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_Win32_Cygwin.java",
         "patchSetId": 8
@@ -318,6 +552,24 @@
         "endLine": 148,
         "endChar": 14
       },
+      "revId": "a3333950b506bdc480194942229533df40f4a6d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_4041a10b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_Win32_Cygwin.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2015-01-23T10:20:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67fe7f71_ef5febb9",
       "revId": "a3333950b506bdc480194942229533df40f4a6d1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -347,6 +599,24 @@
     },
     {
       "key": {
+        "uuid": "67fe7f71_6044a51e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_Win32_Cygwin.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2015-01-23T10:20:31Z",
+      "side": 1,
+      "message": "We can\u0027t do that : the only superclass that would be common between these two is \"FS\"... and that FS does not support running a hook.\n\nOr I\u0027d need to override FS_Win32#runIfPresent(...) to return the NOT_SUPPORTED status, then re-override that here, in the Cygwin version, to copy/paste what would now be in \"FS#runIfPresent since Cygwin can properly run hooks even though windows cannot.\n\nI could add a protected \"runIfPresent\" implementation that does the work in FS, and call that from here... but I think this is adding more complexity than we\u0027re removing.\n\nThe subsequent patch set implements that. Do you see a better way?",
+      "parentUuid": "67fe7f71_2fb57364",
+      "revId": "a3333950b506bdc480194942229533df40f4a6d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67fe7f71_cf5ca7c8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
         "patchSetId": 8
@@ -364,6 +634,24 @@
         "endLine": 420,
         "endChar": 14
       },
+      "revId": "a3333950b506bdc480194942229533df40f4a6d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_bb640216",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2015-01-23T10:20:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67fe7f71_cf5ca7c8",
       "revId": "a3333950b506bdc480194942229533df40f4a6d1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -393,6 +681,24 @@
     },
     {
       "key": {
+        "uuid": "67fe7f71_a065ed95",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/Hook.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2015-01-23T10:20:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67fe7f71_2f5a93c9",
+      "revId": "a3333950b506bdc480194942229533df40f4a6d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67fe7f71_7a8e1b3f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/Hook.java",
         "patchSetId": 8
@@ -404,6 +710,24 @@
       "writtenOn": "2015-01-22T09:56:40Z",
       "side": 1,
       "message": "we can\u0027t have an enum without any entry, we could introduce all possible hooks here already in this first patch in the series",
+      "revId": "a3333950b506bdc480194942229533df40f4a6d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_4025215c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/Hook.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2015-01-23T10:20:31Z",
+      "side": 1,
+      "message": "I\u0027ve changed this to include all entries of the hooks I did make suppport for. The others I have not looked into the parameters yet, so I wouldn\u0027t be able to add the literal with proper documentation.",
+      "parentUuid": "67fe7f71_7a8e1b3f",
       "revId": "a3333950b506bdc480194942229533df40f4a6d1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -433,6 +757,24 @@
     },
     {
       "key": {
+        "uuid": "67fe7f71_1b69ceec",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/ProcessResult.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2015-01-23T10:20:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67fe7f71_0f57cfa0",
+      "revId": "a3333950b506bdc480194942229533df40f4a6d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67fe7f71_6fb77b73",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/ProcessResult.java",
         "patchSetId": 8
@@ -450,6 +792,24 @@
         "endLine": 56,
         "endChar": 16
       },
+      "revId": "a3333950b506bdc480194942229533df40f4a6d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_00579952",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/ProcessResult.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2015-01-23T10:20:31Z",
+      "side": 1,
+      "message": "Yes :)",
+      "parentUuid": "67fe7f71_6fb77b73",
       "revId": "a3333950b506bdc480194942229533df40f4a6d1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -479,6 +839,24 @@
     },
     {
       "key": {
+        "uuid": "67fe7f71_9bb13e30",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/ProcessResult.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2015-01-23T10:20:31Z",
+      "side": 1,
+      "message": "yes, as above.",
+      "parentUuid": "67fe7f71_4fbc3756",
+      "revId": "a3333950b506bdc480194942229533df40f4a6d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67fe7f71_afc163cb",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/ProcessResult.java",
         "patchSetId": 8
@@ -490,6 +868,24 @@
       "writtenOn": "2015-01-22T09:56:40Z",
       "side": 1,
       "message": "don\u0027t we also need an error status ?",
+      "revId": "a3333950b506bdc480194942229533df40f4a6d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_5b1876a8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/ProcessResult.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2015-01-23T10:20:31Z",
+      "side": 1,
+      "message": "No : there are actually no errors, or rather, none that we can detect without guesswork.\n\nIf the script is found and executed, then we\u0027ll run it as an external process. All we\u0027ll have as a result of that is an exit code, and all we know about that exit code is that it is stored on 8-bit (*if* cygwin uses the same length as POSIX, since windows itself uses 32-bit signed integers instead).\n\nWe could return an error status if that exit code is not 0... but that\u0027s already guesswork : some people might use other exit values even for successful execution. Or we could use an error status if \"something\" gets printed on the process\u0027 error stream, but once again it might not be the indication of an execution error, it might rather be a warning.\n\nIt will be for each user to know what the exit code means when we properly execute the script... which is also how cgit works.",
+      "parentUuid": "67fe7f71_afc163cb",
       "revId": "a3333950b506bdc480194942229533df40f4a6d1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
