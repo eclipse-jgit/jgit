@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "67fe7f71_9b9dbe49",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2015-01-23T10:49:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67fe7f71_ba79a36e",
+      "revId": "fbb39d8c551296cd751245ac6bc8792ad3d23397",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67fe7f71_7a6f3ba6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
         "patchSetId": 6
@@ -36,6 +54,24 @@
         "endLine": 182,
         "endChar": 48
       },
+      "revId": "fbb39d8c551296cd751245ac6bc8792ad3d23397",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_1be6eed4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2015-01-23T10:49:26Z",
+      "side": 1,
+      "message": "Truth be told, I don\u0027t know. I\u0027ve made sure the API allows for it, but I don\u0027t know if the stream will be useful, and how to make it customizable cleanly.",
+      "parentUuid": "67fe7f71_7a6f3ba6",
       "revId": "fbb39d8c551296cd751245ac6bc8792ad3d23397",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -65,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "67fe7f71_fbe20abe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2015-01-23T10:49:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67fe7f71_5a899702",
+      "revId": "fbb39d8c551296cd751245ac6bc8792ad3d23397",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67fe7f71_5a74f774",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
         "patchSetId": 6
@@ -82,6 +136,24 @@
         "endLine": 775,
         "endChar": 14
       },
+      "revId": "fbb39d8c551296cd751245ac6bc8792ad3d23397",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_7b89fa02",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 775,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2015-01-23T10:49:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67fe7f71_5a74f774",
       "revId": "fbb39d8c551296cd751245ac6bc8792ad3d23397",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -111,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "67fe7f71_5bbb56a9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 787,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2015-01-23T10:49:26Z",
+      "side": 1,
+      "message": "Done. I\u0027ve removed the carriage return, which I think will be less readable...",
+      "parentUuid": "67fe7f71_7ae8db74",
+      "revId": "fbb39d8c551296cd751245ac6bc8792ad3d23397",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67fe7f71_5ac6b714",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/errors/RejectedCommitException.java",
         "patchSetId": 6
@@ -122,6 +212,24 @@
       "writtenOn": "2015-01-22T09:59:11Z",
       "side": 1,
       "message": "missing license header",
+      "revId": "fbb39d8c551296cd751245ac6bc8792ad3d23397",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_bb8362e0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/errors/RejectedCommitException.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2015-01-23T10:49:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67fe7f71_5ac6b714",
       "revId": "fbb39d8c551296cd751245ac6bc8792ad3d23397",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -145,6 +253,24 @@
         "endLine": 8,
         "endChar": 13
       },
+      "revId": "fbb39d8c551296cd751245ac6bc8792ad3d23397",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_db7e265d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/errors/RejectedCommitException.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 934
+      },
+      "writtenOn": "2015-01-23T10:49:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67fe7f71_1a6a6f8e",
       "revId": "fbb39d8c551296cd751245ac6bc8792ad3d23397",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
