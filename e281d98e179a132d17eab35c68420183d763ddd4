@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "67fe7f71_2ee9ebf3",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 8
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-01-25T10:29:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67fe7f71_8c02a27e",
+      "range": {
+        "startLine": 107,
+        "startChar": 51,
+        "endLine": 107,
+        "endChar": 52
+      },
+      "revId": "e281d98e179a132d17eab35c68420183d763ddd4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67fe7f71_115a4d7b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
         "patchSetId": 8
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "67fe7f71_8ee61721",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-01-25T10:29:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67fe7f71_115a4d7b",
+      "revId": "e281d98e179a132d17eab35c68420183d763ddd4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67fe7f71_3151515b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
         "patchSetId": 8
@@ -53,6 +95,24 @@
       "writtenOn": "2015-01-25T10:21:18Z",
       "side": 1,
       "message": "I would inline this",
+      "revId": "e281d98e179a132d17eab35c68420183d763ddd4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_6ee3f311",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 785,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-01-25T10:29:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67fe7f71_3151515b",
       "revId": "e281d98e179a132d17eab35c68420183d763ddd4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
