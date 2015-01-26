@@ -16,6 +16,24 @@
       "revId": "27ee3342136a588adbc1eee4b333179d8f6f1aa7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_91f63a4f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 560,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-01-26T14:04:31Z",
+      "side": 1,
+      "message": "patch: https://git.eclipse.org/r/#/c/40348/",
+      "parentUuid": "67fe7f71_514a122e",
+      "revId": "27ee3342136a588adbc1eee4b333179d8f6f1aa7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
