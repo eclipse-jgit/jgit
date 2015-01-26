@@ -557,6 +557,9 @@ public class ObjectDirectory extends FileObjectDatabase {
 			tmpl = JGitText.get().corruptPack;
 			// Assume the pack is corrupted, and remove it from the list.
 			removePack(p);
+		} else if (e instanceof FileNotFoundException) {
+			tmpl = JGitText.get().packWasDeleted;
+			removePack(p);
 		} else {
 			tmpl = JGitText.get().exceptionWhileReadingPack;
 			// Don't remove the pack from the list, as the error may be
