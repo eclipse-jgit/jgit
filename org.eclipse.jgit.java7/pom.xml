@@ -164,7 +164,7 @@
           <configuration>
             <sourceEncoding>utf-8</sourceEncoding>
             <minimumTokens>100</minimumTokens>
-            <targetJdk>1.5</targetJdk>
+            <targetJdk>1.7</targetJdk>
             <format>xml</format>
             <failOnViolation>false</failOnViolation>
           </configuration>
