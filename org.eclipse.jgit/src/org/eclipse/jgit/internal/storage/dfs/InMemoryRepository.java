@@ -14,8 +14,10 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.jgit.internal.storage.pack.PackExt;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Ref.Storage;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.RefList;
 
 /**
@@ -241,6 +243,17 @@ public class InMemoryRepository extends DfsRepository {
 		@Override
 		protected boolean compareAndPut(Ref oldRef, Ref newRef)
 				throws IOException {
+			ObjectId id = newRef.getObjectId();
+			if (id != null) {
+				RevWalk rw = new RevWalk(getRepository());
+				try {
+					// Validate that the target exists in a new RevWalk, as the RevWalk
+					// from the RefUpdate might be reading back unflushed objects.
+					rw.parseAny(id);
+				} finally {
+					rw.release();
+				}
+			}
 			String name = newRef.getName();
 			if (oldRef == null || oldRef.getStorage() == Storage.NEW)
 				return refs.putIfAbsent(name, newRef) == null;
