@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67fe7f71_514a122e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 560,
+      "author": {
+        "id": 5278
+      },
+      "writtenOn": "2015-01-26T13:42:25Z",
+      "side": 1,
+      "message": "So sorry for the much to late reply...\nOne case that is not handled here is when git gc repacks the git and removes the old pack-file. Then a FileNotFoundException is raised. Since the pack-file is removed on the file system it should be removed in this case as well.",
+      "revId": "27ee3342136a588adbc1eee4b333179d8f6f1aa7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
