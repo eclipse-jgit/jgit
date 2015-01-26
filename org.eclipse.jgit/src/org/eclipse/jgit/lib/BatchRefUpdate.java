@@ -394,4 +394,20 @@ public class BatchRefUpdate {
 			return ru;
 		}
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder r = new StringBuilder();
+		r.append(getClass().getSimpleName()).append('[');
+		if (commands.isEmpty())
+			return r.append(']').toString();
+
+		r.append('\n');
+		for (ReceiveCommand cmd : commands) {
+			r.append("  "); //$NON-NLS-1$
+			r.append(cmd);
+			r.append("  (").append(cmd.getResult()).append(")\n"); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+		return r.append(']').toString();
+	}
 }
