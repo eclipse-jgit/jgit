@@ -64,10 +64,10 @@ public class InMemoryRepository extends DfsRepository {
 		return refdb;
 	}
 
-	private class MemObjDatabase extends DfsObjDatabase {
+	public class MemObjDatabase extends DfsObjDatabase {
 		private List<DfsPackDescription> packs = new ArrayList<DfsPackDescription>();
 
-		MemObjDatabase(DfsRepository repo) {
+		protected MemObjDatabase(DfsRepository repo) {
 			super(repo, new DfsReaderOptions());
 		}
 
@@ -126,16 +126,16 @@ public class InMemoryRepository extends DfsRepository {
 		}
 	}
 
-	private static class MemPack extends DfsPackDescription {
+	public static class MemPack extends DfsPackDescription {
 		private final Map<PackExt, byte[]>
 				fileMap = new HashMap<PackExt, byte[]>();
 
-		MemPack(String name, DfsRepositoryDescription repoDesc) {
+		protected MemPack(String name, DfsRepositoryDescription repoDesc) {
 			super(repoDesc, name);
 		}
 	}
 
-	private abstract static class Out extends DfsOutputStream {
+	public abstract static class Out extends DfsOutputStream {
 		private final ByteArrayOutputStream dst = new ByteArrayOutputStream();
 
 		private byte[] data;
@@ -156,7 +156,7 @@ public class InMemoryRepository extends DfsRepository {
 			return n;
 		}
 
-		byte[] getData() {
+		protected byte[] getData() {
 			if (data == null)
 				data = dst.toByteArray();
 			return data;
@@ -172,14 +172,14 @@ public class InMemoryRepository extends DfsRepository {
 
 	}
 
-	private static class ByteArrayReadableChannel implements ReadableChannel {
+	public static class ByteArrayReadableChannel implements ReadableChannel {
 		private final byte[] data;
 
 		private int position;
 
 		private boolean open = true;
 
-		ByteArrayReadableChannel(byte[] buf) {
+		protected ByteArrayReadableChannel(byte[] buf) {
 			data = buf;
 		}
 
@@ -217,10 +217,10 @@ public class InMemoryRepository extends DfsRepository {
 		}
 	}
 
-	private class MemRefDatabase extends DfsRefDatabase {
+	public class MemRefDatabase extends DfsRefDatabase {
 		private final ConcurrentMap<String, Ref> refs = new ConcurrentHashMap<String, Ref>();
 
-		MemRefDatabase() {
+		protected MemRefDatabase() {
 			super(InMemoryRepository.this);
 		}
 
