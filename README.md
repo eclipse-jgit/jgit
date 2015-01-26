@@ -87,12 +87,8 @@ Warnings/Caveats
 - Only the timestamp of the index is used by jgit if the index is
   dirty.
 
-- Don't try the library with a JDK other than 1.6 (Java 6) unless you
-  are prepared to investigate problems yourself. JDK 1.5.0_11 and later
-  Java 5 versions *may* work. Earlier versions do not. JDK 1.4 is *not*
-  supported. Apple's Java 1.5.0_07 is reported to work acceptably. We
-  have no information about other vendors. Please report your findings
-  if you try.
+- Don't try the library with a JDK other than 1.7 (Java 7) unless you
+  are prepared to investigate problems yourself.
 
 - CRLF conversion is performed depending on the core.autocrlf setting,
   however Git for Windows by default stores that setting during
