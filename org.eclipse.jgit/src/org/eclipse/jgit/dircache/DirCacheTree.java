@@ -425,7 +425,7 @@ public class DirCacheTree {
 	 */
 	void validate(final DirCacheEntry[] cache, final int cCnt, int cIdx,
 			final int pathOff) {
-		if (entrySpan >= 0) {
+		if (entrySpan >= 0 && cIdx + entrySpan <= cCnt) {
 			// If we are valid, our children are also valid.
 			// We have no need to validate them.
 			//
