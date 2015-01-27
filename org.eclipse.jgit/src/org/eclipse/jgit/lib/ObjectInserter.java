@@ -66,7 +66,7 @@ import org.eclipse.jgit.transport.PackParser;
  * {@link #release()} or {@link #flush()} prior to updating references or
  * otherwise making the returned ObjectIds visible to other code.
  */
-public abstract class ObjectInserter {
+public abstract class ObjectInserter implements AutoCloseable {
 	/** An inserter that can be used for formatting and id generation only. */
 	public static class Formatter extends ObjectInserter {
 		@Override
@@ -420,7 +420,21 @@ public abstract class ObjectInserter {
 	 * Release any resources used by this inserter.
 	 * <p>
 	 * An inserter that has been released can be used again, but may need to be
-	 * released after the subsequent usage.
+	 * released after the subsequent usage. Use {@link #close()} instead
 	 */
+	@Deprecated
 	public abstract void release();
+
+	/**
+	 * Release any resources used by this inserter.
+	 * <p>
+	 * An inserter that has been released can be used again, but may need to be
+	 * released after the subsequent usage.
+	 *
+	 * @since 4.0
+	 */
+	@Override
+	public void close() {
+		release();
+	}
 }

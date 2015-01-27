@@ -95,7 +95,7 @@ import org.eclipse.jgit.treewalk.filter.TreeFilter;
  * the same RevWalk at the same time. The Iterator may buffer RevCommits, while
  * {@link #next()} does not.
  */
-public class RevWalk implements Iterable<RevCommit> {
+public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	private static final int MB = 1 << 20;
 
 	/**
@@ -237,10 +237,24 @@ public class RevWalk implements Iterable<RevCommit> {
 	 * Release any resources used by this walker's reader.
 	 * <p>
 	 * A walker that has been released can be used again, but may need to be
-	 * released after the subsequent usage.
+	 * released after the subsequent usage. Use {@link #close()} instead.
 	 */
+	@Deprecated
 	public void release() {
-		reader.release();
+		close();
+	}
+
+	/**
+	 * Release any resources used by this walker's reader.
+	 * <p>
+	 * A walker that has been released can be used again, but may need to be
+	 * released after the subsequent usage.
+	 *
+	 * @since 4.0
+	 */
+	@Override
+	public void close() {
+		reader.close();
 	}
 
 	/**
