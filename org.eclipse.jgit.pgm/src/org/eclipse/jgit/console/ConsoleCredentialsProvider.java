@@ -54,14 +54,20 @@ import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.NetRCCredentialsProvider;
 import org.eclipse.jgit.transport.URIish;
 
-/** Interacts with the user during authentication by using the text console. */
+import org.eclipse.jgit.pgm.internal.CLIText;
+
+/**
+ * Interacts with the user during authentication by using the text console.
+ *
+ * @since 4.0
+ */
 public class ConsoleCredentialsProvider extends CredentialsProvider {
 	/** Install this implementation as the default. */
 	public static void install() {
 		final ConsoleCredentialsProvider c = new ConsoleCredentialsProvider();
 		if (c.cons == null)
 			throw new NoClassDefFoundError(
-					ConsoleText.get().noSystemConsoleAvailable);
+					CLIText.get().noSystemConsoleAvailable);
 		CredentialsProvider cp = new ChainingCredentialsProvider(
 				new NetRCCredentialsProvider(), c);
 		CredentialsProvider.setDefault(cp);
@@ -168,9 +174,9 @@ public class ConsoleCredentialsProvider extends CredentialsProvider {
 
 	private boolean get(CredentialItem.YesNoType item) {
 		String r = cons.readLine("%s [%s/%s]? ", item.getPromptText(), //$NON-NLS-1$
-				ConsoleText.get().answerYes, ConsoleText.get().answerNo);
+				CLIText.get().answerYes, CLIText.get().answerNo);
 		if (r != null) {
-			item.setValue(ConsoleText.get().answerYes.equalsIgnoreCase(r));
+			item.setValue(CLIText.get().answerYes.equalsIgnoreCase(r));
 			return true;
 		} else {
 			return false;
