@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67fe7f71_37cc9edf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-01-27T05:43:20Z",
+      "side": 1,
+      "message": "A batch can be large and any command toString is long due to having 2 SHA-1s and a ref name. It might make more sense to format with LFs:\n\n  r.append(getClass().getSimpleName()).append(\u0027[\u0027);\n  if (commands.isEmpty())\n    return r.append(\u0027]\u0027).toString();\n \n  for (ReceiveCommand cmd : commands) {\n    r.append(\"  \"); // $NON-NLS-1$\n    r.append(cmd);\n    r.append(\"  (\").append(cmd.getResult()).append(\")\\n\");\n  }\n  return r.append(\u0027]\u0027).toString();",
+      "revId": "710b2022b4f14ca045bae3c87661eee1beb67286",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
