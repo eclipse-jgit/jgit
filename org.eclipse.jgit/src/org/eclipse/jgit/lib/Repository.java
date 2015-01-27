@@ -99,7 +99,7 @@ import org.eclipse.jgit.util.io.SafeBufferedOutputStream;
  * <p>
  * This class is thread-safe.
  */
-public abstract class Repository {
+public abstract class Repository implements AutoCloseable {
 	private static final ListenerList globalListeners = new ListenerList();
 
 	/** @return the global listener list observing all events in this JVM. */
