@@ -57,7 +57,7 @@ import java.util.Map;
  * Every {@link Repository} has a single reference database, mapping names to
  * the tips of the object graph contained by the {@link ObjectDatabase}.
  */
-public abstract class RefDatabase {
+public abstract class RefDatabase implements AutoCloseable {
 	/**
 	 * Order of prefixes to search when using non-absolute references.
 	 * <p>

@@ -88,7 +88,7 @@ import org.eclipse.jgit.util.LongList;
  * delta packed format yielding high compression of lots of object where some
  * objects are similar.
  */
-public final class DfsPackFile {
+public final class DfsPackFile implements AutoCloseable {
 	/**
 	 * File offset used to cache {@link #index} in {@link DfsBlockCache}.
 	 * <p>
