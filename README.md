@@ -30,11 +30,6 @@ there, but the automated builds use Maven.
 
     Support for exporting to various archive formats (zip etc).
 
-- org.eclipse.jgit.console
-
-    Support for reading passwords from the console without
-    echoing them. Requires Java 6.
-
 - org.eclipse.jgit.http.apache
 
     Apache httpclient support
@@ -171,10 +166,6 @@ Package Features
 - org.eclipse.jgit.archive/
 
     * Support for Zip/Tar and other formats
-
-- org.eclipse.jgit.console/
-
-    * Reads passwords from the console
 
 - org.eclipse.http.*/
 

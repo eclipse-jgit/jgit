@@ -567,23 +567,10 @@
 
   <profiles>
     <profile>
-      <id>jgit.java6</id>
-      <activation>
-        <jdk>[1.6,)</jdk>
-      </activation>
-      <modules>
-        <module>org.eclipse.jgit.console</module>
-      </modules>
-    </profile>
-    <profile>
       <id>jgit.java7</id>
       <activation>
         <jdk>[1.7,)</jdk>
       </activation>
-      <modules>
-        <module>org.eclipse.jgit.java7</module>
-        <module>org.eclipse.jgit.java7.test</module>
-      </modules>
     </profile>
     <profile>
       <id>jgit.java8</id>
@@ -691,9 +678,11 @@
     <module>org.eclipse.jgit.http.apache</module>
     <module>org.eclipse.jgit.http.server</module>
     <module>org.eclipse.jgit.pgm</module>
+    <module>org.eclipse.jgit.java7</module>
     <module>org.eclipse.jgit.junit</module>
     <module>org.eclipse.jgit.junit.http</module>
 
+    <module>org.eclipse.jgit.java7.test</module>
     <module>org.eclipse.jgit.test</module>
     <module>org.eclipse.jgit.ant.test</module>
     <module>org.eclipse.jgit.http.test</module>
