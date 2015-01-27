@@ -1,0 +1,491 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67fe7f71_e2f9b28f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-01-27T08:18:52Z",
+      "side": 1,
+      "message": "Maybe if we pass the Repository to the NonceGenerator, it can pull out the directory?\n\nDFS implementations could then supply a different NonceGenerator that can pull out getRepositoryName.",
+      "range": {
+        "startLine": 279,
+        "startChar": 2,
+        "endLine": 281,
+        "endChar": 32
+      },
+      "revId": "f830ad68caed6139cdf13b3c072eed611a3ea8b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_82cc26af",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-01-27T08:18:52Z",
+      "side": 1,
+      "message": "nit: use db here",
+      "range": {
+        "startLine": 282,
+        "startChar": 52,
+        "endLine": 282,
+        "endChar": 56
+      },
+      "revId": "f830ad68caed6139cdf13b3c072eed611a3ea8b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_02d83662",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HMACSHA1NonceGenerator.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-01-27T08:18:52Z",
+      "side": 1,
+      "message": "Pass a specific character encoding here, probably \"ISO-8859-1\".",
+      "range": {
+        "startLine": 62,
+        "startChar": 20,
+        "endLine": 62,
+        "endChar": 34
+      },
+      "revId": "f830ad68caed6139cdf13b3c072eed611a3ea8b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_220e1a74",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HMACSHA1NonceGenerator.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-01-27T08:18:52Z",
+      "side": 1,
+      "message": "seed",
+      "range": {
+        "startLine": 63,
+        "startChar": 47,
+        "endLine": 63,
+        "endChar": 55
+      },
+      "revId": "f830ad68caed6139cdf13b3c072eed611a3ea8b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_a2e68a20",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HMACSHA1NonceGenerator.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-01-27T08:18:52Z",
+      "side": 1,
+      "message": "nit: do not assign null to mac; leave the variable unset in its declaration.",
+      "revId": "f830ad68caed6139cdf13b3c072eed611a3ea8b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_02131698",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HMACSHA1NonceGenerator.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-01-27T08:18:52Z",
+      "side": 1,
+      "message": "key.getBytes(\"UTF-8\")",
+      "range": {
+        "startLine": 74,
+        "startChar": 31,
+        "endLine": 74,
+        "endChar": 46
+      },
+      "revId": "f830ad68caed6139cdf13b3c072eed611a3ea8b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_a2a5eab7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HMACSHA1NonceGenerator.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-01-27T08:18:52Z",
+      "side": 1,
+      "message": "nonce needs to include seconds before hmac?",
+      "range": {
+        "startLine": 75,
+        "startChar": 21,
+        "endLine": 75,
+        "endChar": 51
+      },
+      "revId": "f830ad68caed6139cdf13b3c072eed611a3ea8b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_62f782c7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HMACSHA1NonceGenerator.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-01-27T08:18:52Z",
+      "side": 1,
+      "message": "return ...\n\nThere is no need for the hexString variable here",
+      "range": {
+        "startLine": 75,
+        "startChar": 2,
+        "endLine": 75,
+        "endChar": 21
+      },
+      "revId": "f830ad68caed6139cdf13b3c072eed611a3ea8b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_e2d89268",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NonceGenerator.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-01-27T08:18:52Z",
+      "side": 1,
+      "message": "create",
+      "range": {
+        "startLine": 46,
+        "startChar": 31,
+        "endLine": 46,
+        "endChar": 36
+      },
+      "revId": "f830ad68caed6139cdf13b3c072eed611a3ea8b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_c2dd8e57",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NonceGenerator.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-01-27T08:18:52Z",
+      "side": 1,
+      "message": "directory",
+      "range": {
+        "startLine": 55,
+        "startChar": 19,
+        "endLine": 55,
+        "endChar": 27
+      },
+      "revId": "f830ad68caed6139cdf13b3c072eed611a3ea8b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_22d3ba49",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NonceGenerator.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-01-27T08:18:52Z",
+      "side": 1,
+      "message": "when does this throw?",
+      "revId": "f830ad68caed6139cdf13b3c072eed611a3ea8b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_42f4fec0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificate.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-01-27T08:18:52Z",
+      "side": 1,
+      "message": "These constants are not defined. :)\n\nMaybe this should be an enum?",
+      "revId": "f830ad68caed6139cdf13b3c072eed611a3ea8b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_a2016a3f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificate.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-01-27T08:18:52Z",
+      "side": 1,
+      "message": "Comments like this on the fields are better in the public getter methods where callers can better know what to expect in the returned strings.",
+      "range": {
+        "startLine": 67,
+        "startChar": 2,
+        "endLine": 68,
+        "endChar": 38
+      },
+      "revId": "f830ad68caed6139cdf13b3c072eed611a3ea8b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_c22f4ec3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateParser.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-01-27T08:18:52Z",
+      "side": 1,
+      "message": "Consider an enum:\n\n  enum NonceStatus {\n    UNSOLICITIED, BAD, MISSING, OK, SLOP\n  }",
+      "range": {
+        "startLine": 66,
+        "startChar": 1,
+        "endLine": 74,
+        "endChar": 63
+      },
+      "revId": "f830ad68caed6139cdf13b3c072eed611a3ea8b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_e22a52b4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateParser.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-01-27T08:18:52Z",
+      "side": 1,
+      "message": "nonceGenerator is null here, as you initialize it a few lines down. Maybe you mean to move this into getAdvertiseNonce()?",
+      "revId": "f830ad68caed6139cdf13b3c072eed611a3ea8b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_22257ae2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateParser.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-01-27T08:18:52Z",
+      "side": 1,
+      "message": "save the nonce here in sentNonce?",
+      "range": {
+        "startLine": 145,
+        "startChar": 4,
+        "endLine": 146,
+        "endChar": 46
+      },
+      "revId": "f830ad68caed6139cdf13b3c072eed611a3ea8b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_621e6299",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateParser.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-01-27T08:18:52Z",
+      "side": 1,
+      "message": "This doesn\u0027t quite work. You need to call matches() before you can access the group:\n\n  Matcher m \u003d versionPattern.matcher(pckIn.readStringRaw());\n  if (!m.matches()) {\n    throw new IOException(... invalid cert ...)\n  }\n  String version \u003d m.group(1);\n\nThis is one reason we don\u0027t bother with regex. Especially for simple patterns like this. It can be easier to just say:\n\n  private static final String VERSION \u003d \"version \";\n\n  String s \u003d pckIn.readStringRaw();\n  if (!s.startsWith(VERSION))\n    throw ...\n  String version \u003d s.substring(VERSION.length());",
+      "range": {
+        "startLine": 162,
+        "startChar": 3,
+        "endLine": 163,
+        "endChar": 15
+      },
+      "revId": "f830ad68caed6139cdf13b3c072eed611a3ea8b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_82470671",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateParser.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-01-27T08:18:52Z",
+      "side": 1,
+      "message": "Here line can contain a trailing LF. So you need to test for it in the loop condition.",
+      "revId": "f830ad68caed6139cdf13b3c072eed611a3ea8b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_e2a7f2c2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateParser.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-01-27T08:18:52Z",
+      "side": 1,
+      "message": "-\\n\" ?",
+      "range": {
+        "startLine": 196,
+        "startChar": 50,
+        "endLine": 196,
+        "endChar": 52
+      },
+      "revId": "f830ad68caed6139cdf13b3c072eed611a3ea8b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_02b796f0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateParser.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-01-27T08:18:52Z",
+      "side": 1,
+      "message": "Yes. !isBiDirectionalPipe() in BaseReceivePack.",
+      "revId": "f830ad68caed6139cdf13b3c072eed611a3ea8b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_e28ed23c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateParser.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-01-27T08:18:52Z",
+      "side": 1,
+      "message": "hmac sha1 code you supplied doesn\u0027t follow this format :)",
+      "revId": "f830ad68caed6139cdf13b3c072eed611a3ea8b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_028e763a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateParser.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-01-27T08:18:52Z",
+      "side": 1,
+      "message": "I think its awkward to reparse \"now\" out of the nonce string. Instead this should all be a new method inside of the NonceGenerator interface, so a generator is a pair of methods:\n\n  generate\n  verify\n\nand its left up to the generator how to check for OK/BAD/SLOP, and if its reasonable slop.",
+      "range": {
+        "startLine": 237,
+        "startChar": 2,
+        "endLine": 258,
+        "endChar": 3
+      },
+      "revId": "f830ad68caed6139cdf13b3c072eed611a3ea8b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_8279c6a1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateParser.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-01-27T08:18:52Z",
+      "side": 1,
+      "message": "This is a git-core implementation detail we should not replicate in JGit on every operation. Instead I think we make the certificate available as a byte[] or something and allow callers to write the object if they are connecting it to a graph.",
+      "range": {
+        "startLine": 275,
+        "startChar": 1,
+        "endLine": 291,
+        "endChar": 2
+      },
+      "revId": "f830ad68caed6139cdf13b3c072eed611a3ea8b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
