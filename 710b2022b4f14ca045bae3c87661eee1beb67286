@@ -16,6 +16,24 @@
       "revId": "710b2022b4f14ca045bae3c87661eee1beb67286",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_683483e2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-01-27T18:04:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67fe7f71_37cc9edf",
+      "revId": "710b2022b4f14ca045bae3c87661eee1beb67286",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
