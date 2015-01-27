@@ -77,6 +77,8 @@ public class CLIText extends TranslationBundle {
 	// @formatter:off
 	/***/ public String alreadyOnBranch;
 	/***/ public String alreadyUpToDate;
+	/***/ public String answerNo;
+	/***/ public String answerYes;
 	/***/ public String authorInfo;
 	/***/ public String averageMSPerRead;
 	/***/ public String branchAlreadyExists;
@@ -191,6 +193,7 @@ public class CLIText extends TranslationBundle {
 	/***/ public String noSuchRemoteRef;
 	/***/ public String noTREESectionInIndex;
 	/***/ public String nonFastForward;
+	/***/ public String noSystemConsoleAvailable;
 	/***/ public String notABranch;
 	/***/ public String notACommit;
 	/***/ public String notAGitRepository;
@@ -208,6 +211,7 @@ public class CLIText extends TranslationBundle {
 	/***/ public String onBranch;
 	/***/ public String onlyOneMetaVarExpectedIn;
 	/***/ public String onlyOneOfIncludeOnlyAllInteractiveCanBeUsed;
+	/***/ public String password;
 	/***/ public String pathspecDidNotMatch;
 	/***/ public String pushTo;
 	/***/ public String pathsRequired;
@@ -245,4 +249,5 @@ public class CLIText extends TranslationBundle {
 	/***/ public String unsupportedOperation;
 	/***/ public String untrackedFiles;
 	/***/ public String updating;
+	/***/ public String usernameFor;
 }

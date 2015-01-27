@@ -1,5 +1,6 @@
 /*
- * Copyright (C) 2010, Sasa Zivkov <sasa.zivkov@sap.com>
+ * Copyright (C) 2009, Google Inc.
+ * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -43,25 +44,60 @@
 
 package org.eclipse.jgit.console;
 
-import org.eclipse.jgit.nls.NLS;
-import org.eclipse.jgit.nls.TranslationBundle;
+import java.io.Console;
+import java.net.Authenticator;
+import java.net.PasswordAuthentication;
+import java.text.MessageFormat;
+
+import org.eclipse.jgit.util.CachedAuthenticator;
+
+import org.eclipse.jgit.pgm.internal.CLIText;
 
 /**
- * Translation bundle for JGit console
+ * Basic network prompt for username/password when using the console.
+ *
+ * @since 4.0
  */
-public class ConsoleText extends TranslationBundle {
-
-	/**
-	 * @return an instance of this translation bundle
-	 */
-	public static ConsoleText get() {
-		return NLS.getBundleFor(ConsoleText.class);
+public class ConsoleAuthenticator extends CachedAuthenticator {
+	/** Install this authenticator implementation into the JVM. */
+	public static void install() {
+		final ConsoleAuthenticator c = new ConsoleAuthenticator();
+		if (c.cons == null)
+			throw new NoClassDefFoundError(
+					CLIText.get().noSystemConsoleAvailable);
+		Authenticator.setDefault(c);
 	}
 
-	// @formatter:off
-	/***/ public String answerNo;
-	/***/ public String answerYes;
-	/***/ public String noSystemConsoleAvailable;
-	/***/ public String password;
-	/***/ public String usernameFor;
+	private final Console cons = System.console();
+
+	@Override
+	protected PasswordAuthentication promptPasswordAuthentication() {
+		final String realm = formatRealm();
+		String username = cons.readLine(MessageFormat.format(
+				CLIText.get().usernameFor + " ", realm)); //$NON-NLS-1$
+		if (username == null || username.isEmpty()) {
+			return null;
+		}
+		char[] password = cons.readPassword(CLIText.get().password + " "); //$NON-NLS-1$
+		if (password == null) {
+			password = new char[0];
+		}
+		return new PasswordAuthentication(username, password);
+	}
+
+	private String formatRealm() {
+		final StringBuilder realm = new StringBuilder();
+		if (getRequestorType() == RequestorType.PROXY) {
+			realm.append(getRequestorType());
+			realm.append(" "); //$NON-NLS-1$
+			realm.append(getRequestingHost());
+			if (getRequestingPort() > 0) {
+				realm.append(":"); //$NON-NLS-1$
+				realm.append(getRequestingPort());
+			}
+		} else {
+			realm.append(getRequestingURL());
+		}
+		return realm.toString();
+	}
 }
