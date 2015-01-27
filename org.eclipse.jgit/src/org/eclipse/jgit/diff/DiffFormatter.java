@@ -737,10 +737,10 @@ public class DiffFormatter {
 			final int endIdx = findCombinedEnd(edits, curIdx);
 			final Edit endEdit = edits.get(endIdx);
 
-			int aCur = Math.max(0, curEdit.getBeginA() - context);
-			int bCur = Math.max(0, curEdit.getBeginB() - context);
-			final int aEnd = Math.min(a.size(), endEdit.getEndA() + context);
-			final int bEnd = Math.min(b.size(), endEdit.getEndB() + context);
+			int aCur = (int) Math.max(0, (long) curEdit.getBeginA() - context);
+			int bCur = (int) Math.max(0, (long) curEdit.getBeginB() - context);
+			final int aEnd = (int) Math.min(a.size(), (long) endEdit.getEndA() + context);
+			final int bEnd = (int) Math.min(b.size(), (long) endEdit.getEndB() + context);
 
 			writeHunkHeader(aCur, aEnd, bCur, bEnd);
 
