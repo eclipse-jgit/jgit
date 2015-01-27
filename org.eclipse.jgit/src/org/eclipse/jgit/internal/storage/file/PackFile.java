@@ -89,7 +89,8 @@ import org.eclipse.jgit.util.RawParseUtils;
  * delta packed format yielding high compression of lots of object where some
  * objects are similar.
  */
-public class PackFile implements Iterable<PackIndex.MutableEntry> {
+public class PackFile implements Iterable<PackIndex.MutableEntry>,
+		AutoCloseable {
 	/** Sorts PackFiles to be most recently created to least recently created. */
 	public static final Comparator<PackFile> SORT = new Comparator<PackFile>() {
 		public int compare(final PackFile a, final PackFile b) {
