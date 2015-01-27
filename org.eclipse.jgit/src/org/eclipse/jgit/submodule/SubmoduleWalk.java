@@ -76,7 +76,7 @@ import org.eclipse.jgit.util.FS;
 /**
  * Walker that visits all submodule entries found in a tree
  */
-public class SubmoduleWalk {
+public class SubmoduleWalk implements AutoCloseable {
 
 	/**
 	 * The values for the config param submodule.<name>.ignore
@@ -729,8 +729,22 @@ public class SubmoduleWalk {
 		return url != null ? getSubmoduleRemoteUrl(repository, url) : null;
 	}
 
-	/** Release any resources used by this walker's reader. */
+	/**
+	 * Release any resources used by this walker's reader. Use {@link #close()}
+	 * instead.
+	 */
+	@Deprecated
 	public void release() {
-		walk.release();
+		close();
+	}
+
+	/**
+	 * Release any resources used by this walker's reader.
+	 *
+	 * @since 4.0
+	 */
+	@Override
+	public void close() {
+		walk.close();
 	}
 }
