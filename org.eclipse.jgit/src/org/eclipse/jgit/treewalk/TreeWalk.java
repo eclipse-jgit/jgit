@@ -82,7 +82,7 @@ import org.eclipse.jgit.util.RawParseUtils;
  * Multiple simultaneous TreeWalk instances per {@link Repository} are
  * permitted, even from concurrent threads.
  */
-public class TreeWalk {
+public class TreeWalk implements AutoCloseable {
 	private static final AbstractTreeIterator[] NO_TREES = {};
 
 	/**
@@ -247,10 +247,24 @@ public class TreeWalk {
 	 * Release any resources used by this walker's reader.
 	 * <p>
 	 * A walker that has been released can be used again, but may need to be
-	 * released after the subsequent usage.
+	 * released after the subsequent usage. Use {@link #close()} instead.
 	 */
+	@Deprecated
 	public void release() {
-		reader.release();
+		close();
+	}
+
+	/**
+	 * Release any resources used by this walker's reader.
+	 * <p>
+	 * A walker that has been released can be used again, but may need to be
+	 * released after the subsequent usage.
+	 *
+	 * @since 4.0
+	 */
+	@Override
+	public void close() {
+		reader.close();
 	}
 
 	/**
