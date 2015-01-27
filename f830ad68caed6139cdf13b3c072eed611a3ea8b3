@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "67fe7f71_c825afb4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2015-01-27T20:24:59Z",
+      "side": 1,
+      "message": "The path was chosen as it is unique for each repository. I\u0027d personally not put any logic into the nonce generator, but treat the nonce generator as a replaceable black box which is given a unique string for each repository. So probably the PushCertificateParser is the right place to come up with the logic whether to getDirectory or getRepositoryName?",
+      "parentUuid": "67fe7f71_e2f9b28f",
+      "range": {
+        "startLine": 279,
+        "startChar": 2,
+        "endLine": 281,
+        "endChar": 32
+      },
+      "revId": "f830ad68caed6139cdf13b3c072eed611a3ea8b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67fe7f71_82cc26af",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
         "patchSetId": 10
@@ -36,6 +60,30 @@
       "writtenOn": "2015-01-27T08:18:52Z",
       "side": 1,
       "message": "nit: use db here",
+      "range": {
+        "startLine": 282,
+        "startChar": 52,
+        "endLine": 282,
+        "endChar": 56
+      },
+      "revId": "f830ad68caed6139cdf13b3c072eed611a3ea8b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_e82073a5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2015-01-27T20:24:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67fe7f71_82cc26af",
       "range": {
         "startLine": 282,
         "startChar": 52,
@@ -94,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "67fe7f71_0884d7e7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HMACSHA1NonceGenerator.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2015-01-27T20:24:59Z",
+      "side": 1,
+      "message": "I seem to have switched key and input here. :/",
+      "parentUuid": "67fe7f71_220e1a74",
+      "range": {
+        "startLine": 63,
+        "startChar": 47,
+        "endLine": 63,
+        "endChar": 55
+      },
+      "revId": "f830ad68caed6139cdf13b3c072eed611a3ea8b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67fe7f71_a2e68a20",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HMACSHA1NonceGenerator.java",
         "patchSetId": 10
@@ -111,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "67fe7f71_48bc1fb2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HMACSHA1NonceGenerator.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2015-01-27T20:24:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67fe7f71_a2e68a20",
+      "revId": "f830ad68caed6139cdf13b3c072eed611a3ea8b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67fe7f71_02131698",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HMACSHA1NonceGenerator.java",
         "patchSetId": 10
@@ -122,6 +212,30 @@
       "writtenOn": "2015-01-27T08:18:52Z",
       "side": 1,
       "message": "key.getBytes(\"UTF-8\")",
+      "range": {
+        "startLine": 74,
+        "startChar": 31,
+        "endLine": 74,
+        "endChar": 46
+      },
+      "revId": "f830ad68caed6139cdf13b3c072eed611a3ea8b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_6898034b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HMACSHA1NonceGenerator.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2015-01-27T20:24:59Z",
+      "side": 1,
+      "message": "Why do we need to use a different encoding than above? I\u0027d rather go with both UTF-8.",
+      "parentUuid": "67fe7f71_02131698",
       "range": {
         "startLine": 74,
         "startChar": 31,
@@ -180,6 +294,54 @@
     },
     {
       "key": {
+        "uuid": "67fe7f71_287a7b61",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HMACSHA1NonceGenerator.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2015-01-27T20:24:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67fe7f71_62f782c7",
+      "range": {
+        "startLine": 75,
+        "startChar": 2,
+        "endLine": 75,
+        "endChar": 21
+      },
+      "revId": "f830ad68caed6139cdf13b3c072eed611a3ea8b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_c8748f77",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HMACSHA1NonceGenerator.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2015-01-27T20:24:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67fe7f71_a2a5eab7",
+      "range": {
+        "startLine": 75,
+        "startChar": 21,
+        "endLine": 75,
+        "endChar": 51
+      },
+      "revId": "f830ad68caed6139cdf13b3c072eed611a3ea8b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67fe7f71_e2d89268",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NonceGenerator.java",
         "patchSetId": 10
@@ -191,6 +353,30 @@
       "writtenOn": "2015-01-27T08:18:52Z",
       "side": 1,
       "message": "create",
+      "range": {
+        "startLine": 46,
+        "startChar": 31,
+        "endLine": 46,
+        "endChar": 36
+      },
+      "revId": "f830ad68caed6139cdf13b3c072eed611a3ea8b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_e856b3d9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NonceGenerator.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2015-01-27T20:24:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67fe7f71_e2d89268",
       "range": {
         "startLine": 46,
         "startChar": 31,
@@ -226,6 +412,30 @@
     },
     {
       "key": {
+        "uuid": "67fe7f71_886a878c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NonceGenerator.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2015-01-27T20:24:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67fe7f71_c2dd8e57",
+      "range": {
+        "startLine": 55,
+        "startChar": 19,
+        "endLine": 55,
+        "endChar": 27
+      },
+      "revId": "f830ad68caed6139cdf13b3c072eed611a3ea8b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67fe7f71_22d3ba49",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NonceGenerator.java",
         "patchSetId": 10
@@ -237,6 +447,24 @@
       "writtenOn": "2015-01-27T08:18:52Z",
       "side": 1,
       "message": "when does this throw?",
+      "revId": "f830ad68caed6139cdf13b3c072eed611a3ea8b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_a86dcba8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NonceGenerator.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2015-01-27T20:24:59Z",
+      "side": 1,
+      "message": "In HMACSHA!NonceGenerator there are the three exceptions InvalidKeyException, NoSuchAlgorithmException and UnsupportedEncodingException, which I think should not occur during normal operation. The algorithm as well as the encoding is hard coded, so if it works once, it works anytime. If it stops working, the IllegalStateException is the best I could find which comes close to describe the error I\u0027d expect.",
+      "parentUuid": "67fe7f71_22d3ba49",
       "revId": "f830ad68caed6139cdf13b3c072eed611a3ea8b3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -260,6 +488,24 @@
     },
     {
       "key": {
+        "uuid": "67fe7f71_6879233a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificate.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2015-01-27T20:24:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67fe7f71_42f4fec0",
+      "revId": "f830ad68caed6139cdf13b3c072eed611a3ea8b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67fe7f71_a2016a3f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificate.java",
         "patchSetId": 10
@@ -271,6 +517,30 @@
       "writtenOn": "2015-01-27T08:18:52Z",
       "side": 1,
       "message": "Comments like this on the fields are better in the public getter methods where callers can better know what to expect in the returned strings.",
+      "range": {
+        "startLine": 67,
+        "startChar": 2,
+        "endLine": 68,
+        "endChar": 38
+      },
+      "revId": "f830ad68caed6139cdf13b3c072eed611a3ea8b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_4876df4a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificate.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2015-01-27T20:24:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67fe7f71_a2016a3f",
       "range": {
         "startLine": 67,
         "startChar": 2,
@@ -306,6 +576,30 @@
     },
     {
       "key": {
+        "uuid": "67fe7f71_a844ab1e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateParser.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2015-01-27T20:24:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67fe7f71_c22f4ec3",
+      "range": {
+        "startLine": 66,
+        "startChar": 1,
+        "endLine": 74,
+        "endChar": 63
+      },
+      "revId": "f830ad68caed6139cdf13b3c072eed611a3ea8b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67fe7f71_e22a52b4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateParser.java",
         "patchSetId": 10
@@ -323,6 +617,24 @@
     },
     {
       "key": {
+        "uuid": "67fe7f71_68d5a3b1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateParser.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2015-01-27T20:24:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67fe7f71_e22a52b4",
+      "revId": "f830ad68caed6139cdf13b3c072eed611a3ea8b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67fe7f71_22257ae2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateParser.java",
         "patchSetId": 10
@@ -334,6 +646,30 @@
       "writtenOn": "2015-01-27T08:18:52Z",
       "side": 1,
       "message": "save the nonce here in sentNonce?",
+      "range": {
+        "startLine": 145,
+        "startChar": 4,
+        "endLine": 146,
+        "endChar": 46
+      },
+      "revId": "f830ad68caed6139cdf13b3c072eed611a3ea8b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_48d25fca",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateParser.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2015-01-27T20:24:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67fe7f71_22257ae2",
       "range": {
         "startLine": 145,
         "startChar": 4,
@@ -369,6 +705,30 @@
     },
     {
       "key": {
+        "uuid": "67fe7f71_08e85770",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateParser.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2015-01-27T20:24:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67fe7f71_621e6299",
+      "range": {
+        "startLine": 162,
+        "startChar": 3,
+        "endLine": 163,
+        "endChar": 15
+      },
+      "revId": "f830ad68caed6139cdf13b3c072eed611a3ea8b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67fe7f71_82470671",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateParser.java",
         "patchSetId": 10
@@ -386,6 +746,24 @@
     },
     {
       "key": {
+        "uuid": "67fe7f71_48f9bf40",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateParser.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2015-01-27T20:24:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67fe7f71_82470671",
+      "revId": "f830ad68caed6139cdf13b3c072eed611a3ea8b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67fe7f71_e2a7f2c2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateParser.java",
         "patchSetId": 10
@@ -397,6 +775,30 @@
       "writtenOn": "2015-01-27T08:18:52Z",
       "side": 1,
       "message": "-\\n\" ?",
+      "range": {
+        "startLine": 196,
+        "startChar": 50,
+        "endLine": 196,
+        "endChar": 52
+      },
+      "revId": "f830ad68caed6139cdf13b3c072eed611a3ea8b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_68fc8333",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateParser.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2015-01-27T20:24:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67fe7f71_e2a7f2c2",
       "range": {
         "startLine": 196,
         "startChar": 50,
@@ -437,6 +839,24 @@
       "writtenOn": "2015-01-27T08:18:52Z",
       "side": 1,
       "message": "hmac sha1 code you supplied doesn\u0027t follow this format :)",
+      "revId": "f830ad68caed6139cdf13b3c072eed611a3ea8b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67fe7f71_c8180f38",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateParser.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2015-01-27T20:24:59Z",
+      "side": 1,
+      "message": "yeah I messed that up, should be fixed.",
+      "parentUuid": "67fe7f71_e28ed23c",
       "revId": "f830ad68caed6139cdf13b3c072eed611a3ea8b3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
