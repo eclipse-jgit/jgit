@@ -113,7 +113,7 @@ import org.eclipse.jgit.treewalk.filter.TreeFilter;
  * the ancestor, until there are no more lines to acquire information on, or the
  * file's creation point is discovered in history.
  */
-public class BlameGenerator {
+public class BlameGenerator implements AutoCloseable {
 	private final Repository repository;
 
 	private final PathFilter resultPath;
@@ -937,9 +937,22 @@ public class BlameGenerator {
 		return queue != null ? queue.sourceText : null;
 	}
 
-	/** Release the current blame session. */
+	/**
+	 * Release the current blame session. Use {@link #close()} instead.
+	 */
+	@Deprecated
 	public void release() {
-		revPool.release();
+		close();
+	}
+
+	/**
+	 * Release the current blame session.
+	 *
+	 * @since 4.0
+	 */
+	@Override
+	public void close() {
+		revPool.close();
 		queue = null;
 		outCandidate = null;
 		outRegion = null;
