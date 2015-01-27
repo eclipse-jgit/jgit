@@ -82,7 +82,7 @@ import org.eclipse.jgit.util.FS;
  * methods in this class may for example offer too much functionality or they
  * offer the functionality with the wrong arguments.
  */
-public class Git {
+public class Git implements AutoCloseable {
 	/** The git repository this class is interacting with */
 	private final Repository repo;
 
