@@ -115,8 +115,6 @@ public class AmazonS3 {
 
 	private static final String HMAC = "HmacSHA1"; //$NON-NLS-1$
 
-	private static final String DOMAIN = "s3.amazonaws.com"; //$NON-NLS-1$
-
 	private static final String X_AMZ_ACL = "x-amz-acl"; //$NON-NLS-1$
 
 	private static final String X_AMZ_META = "x-amz-meta-"; //$NON-NLS-1$
@@ -185,6 +183,9 @@ public class AmazonS3 {
 	/** Directory for locally buffered content. */
 	private final File tmpDir;
 
+	/** S3 Bucket Domain. */
+	private final String DOMAIN;
+
 	/**
 	 * Create a new S3 client for the supplied user information.
 	 * <p>
@@ -201,6 +202,10 @@ public class AmazonS3 {
 	 * # PRIVATE, PUBLIC_READ (defaults to PRIVATE).
 	 * acl: PRIVATE
 	 *
+	 * # S3 Domain
+	 * # AWS S3 Region Domain (defaults to s3.amazonaws.com)
+	 * domain: s3.amazonaws.com
+	 *
 	 * # Number of times to retry after internal error from S3.
 	 * httpclient.retry-max: 3
 	 *
@@ -214,6 +219,7 @@ public class AmazonS3 {
 	 *
 	 */
 	public AmazonS3(final Properties props) {
+		DOMAIN = props.getProperty("domain", "s3.amazonaws.com");
 		publicKey = props.getProperty("accesskey"); //$NON-NLS-1$
 		if (publicKey == null)
 			throw new IllegalArgumentException(JGitText.get().missingAccesskey);
