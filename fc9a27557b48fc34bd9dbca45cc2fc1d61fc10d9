@@ -16,6 +16,24 @@
       "revId": "fc9a27557b48fc34bd9dbca45cc2fc1d61fc10d9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27080763_243f6a74",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CommitBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-01-30T14:24:24Z",
+      "side": 1,
+      "message": "Yes, it\u0027s true. We don\u0027t need that. Changed it and rebased the commit.",
+      "parentUuid": "67591f73_8fb4e93c",
+      "revId": "fc9a27557b48fc34bd9dbca45cc2fc1d61fc10d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
