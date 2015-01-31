@@ -16,6 +16,24 @@
       "revId": "f5936405a3a66b821f716e551de6ee4c1c33ca0b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27080763_4ad8b766",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 562,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-01-31T00:09:38Z",
+      "side": 1,
+      "message": "I think the stacktrace for the FileNotFoundException mentions the path of the not existing file",
+      "parentUuid": "27080763_048346a7",
+      "revId": "f5936405a3a66b821f716e551de6ee4c1c33ca0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
