@@ -34,6 +34,24 @@
       "revId": "f5936405a3a66b821f716e551de6ee4c1c33ca0b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27080763_6ad77b34",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 562,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-01-31T00:25:53Z",
+      "side": 1,
+      "message": "verified that stacktrace of FileNotFoundException mentions the path of the missing file when using FileInputStream, FileOutputStream or RandomAccessFile for a path of a not existing file, e.g.\n\n File notExisting \u003d new File(\"~/sss\");\n FileOutputStream out \u003d new FileOutputStream(notExisting);\n out.write(1);\n out.close();\n\nthrows the following exception:\n\n Exception in thread \"main\" java.io.FileNotFoundException: ~/sss (No such file or directory)\n\tat java.io.FileOutputStream.open(Native Method)\n\tat java.io.FileOutputStream.\u003cinit\u003e(FileOutputStream.java:213)\n\tat java.io.FileOutputStream.\u003cinit\u003e(FileOutputStream.java:162)\n\tat Files.main(Files.java:62)",
+      "parentUuid": "27080763_4ad8b766",
+      "revId": "f5936405a3a66b821f716e551de6ee4c1c33ca0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
