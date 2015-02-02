@@ -450,31 +450,20 @@ public class FileUtilTest {
 	@Test
 	public void testRelativize_mixedCase() {
 		SystemReader systemReader = SystemReader.getInstance();
-		String oldOSName = null;
 		String base = toOSPathString("C:\\git\\jgit");
 		String other = toOSPathString("C:\\Git\\test\\d\\f.txt");
-		String expectedWindows = toOSPathString("..\\test\\d\\f.txt");
-		String expectedUnix = toOSPathString("..\\..\\Git\\test\\d\\f.txt");
+		String expectedCaseInsensitive = toOSPathString("..\\test\\d\\f.txt");
+		String expectedCaseSensitive = toOSPathString("..\\..\\Git\\test\\d\\f.txt");
 
-		if (!systemReader.isWindows()) {
+		if (systemReader.isWindows()) {
 			String actual = FileUtils.relativize(base, other);
-			assertEquals(expectedUnix, actual);
-
-			// FS_POSIX#isCaseSensitive will return "false" for mac OS X.
-			// Use this to test both behaviors.
-			oldOSName = System.getProperty("os.name");
-			try {
-				System.setProperty("os.name", "Mac OS X");
-
-				actual = FileUtils.relativize(base, other);
-				assertEquals(expectedWindows, actual);
-			} finally {
-				if (oldOSName != null)
-					System.setProperty("os.name", oldOSName);
-			}
+			assertEquals(expectedCaseInsensitive, actual);
+		} else if (systemReader.isMacOS()) {
+			String actual = FileUtils.relativize(base, other);
+			assertEquals(expectedCaseInsensitive, actual);
 		} else {
 			String actual = FileUtils.relativize(base, other);
-			assertEquals(expectedWindows, actual);
+			assertEquals(expectedCaseSensitive, actual);
 		}
 	}
 
