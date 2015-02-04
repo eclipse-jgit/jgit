@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27080763_6507a290",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Checkout.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-02-04T13:23:58Z",
+      "side": 1,
+      "message": "Just a comment: Looks strange that we may call the CheckoutCommand with orphan\u003dtrue and createBranch\u003dfalse. That\u0027s maybe also a bug in the API command that we don\u0027t check that if orphan is specified nobody should explicitly set createBranch to false.",
+      "revId": "fc801dd79f7c6eb3765e4652136f219480478bf6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
