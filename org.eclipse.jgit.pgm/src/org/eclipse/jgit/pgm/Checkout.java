@@ -71,6 +71,9 @@ class Checkout extends TextBuiltin {
 	@Option(name = "--force", aliases = { "-f" }, usage = "usage_forceCheckout")
 	private boolean force = false;
 
+	@Option(name = "--orphan", usage = "usage_orphan")
+	private boolean orphan = false;
+
 	@Argument(required = true, index = 0, metaVar = "metaVar_name", usage = "usage_checkout")
 	private String name;
 
@@ -95,6 +98,7 @@ class Checkout extends TextBuiltin {
 			command.setCreateBranch(createBranch);
 			command.setName(name);
 			command.setForce(force);
+			command.setOrphan(orphan);
 		}
 		try {
 			String oldBranch = db.getBranch();
@@ -107,10 +111,9 @@ class Checkout extends TextBuiltin {
 						name));
 				return;
 			}
-			if (createBranch)
+			if (createBranch || orphan)
 				outw.println(MessageFormat.format(
-						CLIText.get().switchedToNewBranch,
-						Repository.shortenRefName(ref.getName())));
+						CLIText.get().switchedToNewBranch, name));
 			else
 				outw.println(MessageFormat.format(
 						CLIText.get().switchedToBranch,
