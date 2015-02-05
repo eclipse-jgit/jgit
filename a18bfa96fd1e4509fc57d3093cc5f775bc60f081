@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "070b0362_03a5feb5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2015-02-05T18:52:58Z",
+      "side": 1,
+      "message": "We have a 2 arg form for any other kind such as getInt can take 2 arguments describing just section and name. subsection and default value are optional. I think it\u0027s hard to for getString to have those 2 optional, as subsection and default value have the same type, so we cannot have both being optional in a 3 arg form. \n\nI found however, the \"\" can be replaced by null.",
+      "parentUuid": "27080763_16e09c41",
+      "range": {
+        "startLine": 320,
+        "startChar": 47,
+        "endLine": 320,
+        "endChar": 50
+      },
+      "revId": "a18bfa96fd1e4509fc57d3093cc5f775bc60f081",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27080763_762ac804",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HMACSHA1NonceGenerator.java",
         "patchSetId": 11
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "070b0362_e3a1daa9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HMACSHA1NonceGenerator.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2015-02-05T18:52:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27080763_762ac804",
+      "revId": "a18bfa96fd1e4509fc57d3093cc5f775bc60f081",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27080763_562fc412",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HMACSHA1NonceGenerator.java",
         "patchSetId": 11
@@ -53,6 +95,24 @@
       "writtenOn": "2015-01-30T04:21:07Z",
       "side": 1,
       "message": "I think ISO-8859-1 might be a better encoding for the seed/key.",
+      "revId": "a18bfa96fd1e4509fc57d3093cc5f775bc60f081",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "070b0362_438ee63e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HMACSHA1NonceGenerator.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2015-02-05T18:52:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27080763_562fc412",
       "revId": "a18bfa96fd1e4509fc57d3093cc5f775bc60f081",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -82,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "070b0362_2393e262",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HMACSHA1NonceGenerator.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2015-02-05T18:52:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27080763_f63d1846",
+      "range": {
+        "startLine": 92,
+        "startChar": 22,
+        "endLine": 92,
+        "endChar": 34
+      },
+      "revId": "a18bfa96fd1e4509fc57d3093cc5f775bc60f081",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27080763_b64390c7",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HMACSHA1NonceGenerator.java",
         "patchSetId": 11
@@ -93,6 +177,30 @@
       "writtenOn": "2015-01-30T04:21:07Z",
       "side": 1,
       "message": "No need to use \u003d 0 here. Leave the variables unassigned so the compiler can help us prove they are set in the try block, or we abort without using a garbage value.",
+      "range": {
+        "startLine": 111,
+        "startChar": 0,
+        "endLine": 112,
+        "endChar": 27
+      },
+      "revId": "a18bfa96fd1e4509fc57d3093cc5f775bc60f081",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "070b0362_8388ce2f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HMACSHA1NonceGenerator.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2015-02-05T18:52:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27080763_b64390c7",
       "range": {
         "startLine": 111,
         "startChar": 0,
@@ -174,6 +282,78 @@
     },
     {
       "key": {
+        "uuid": "070b0362_a37eb288",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HMACSHA1NonceGenerator.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2015-02-05T18:52:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27080763_d63a944b",
+      "range": {
+        "startLine": 128,
+        "startChar": 45,
+        "endLine": 128,
+        "endChar": 57
+      },
+      "revId": "a18bfa96fd1e4509fc57d3093cc5f775bc60f081",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "070b0362_037cde8f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HMACSHA1NonceGenerator.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2015-02-05T18:52:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27080763_36db209d",
+      "range": {
+        "startLine": 128,
+        "startChar": 6,
+        "endLine": 128,
+        "endChar": 23
+      },
+      "revId": "a18bfa96fd1e4509fc57d3093cc5f775bc60f081",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "070b0362_c3813609",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HMACSHA1NonceGenerator.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2015-02-05T18:52:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27080763_96400cbc",
+      "range": {
+        "startLine": 128,
+        "startChar": 6,
+        "endLine": 128,
+        "endChar": 18
+      },
+      "revId": "a18bfa96fd1e4509fc57d3093cc5f775bc60f081",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27080763_36304071",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NonceGenerator.java",
         "patchSetId": 11
@@ -191,6 +371,24 @@
     },
     {
       "key": {
+        "uuid": "070b0362_a3099239",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NonceGenerator.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2015-02-05T18:52:58Z",
+      "side": 1,
+      "message": "just seconds. done",
+      "parentUuid": "27080763_36304071",
+      "revId": "a18bfa96fd1e4509fc57d3093cc5f775bc60f081",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27080763_d623b42f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NonceGenerator.java",
         "patchSetId": 11
@@ -202,6 +400,30 @@
       "writtenOn": "2015-01-30T04:21:07Z",
       "side": 1,
       "message": "nit: don\u0027t use final in an interface method.",
+      "range": {
+        "startLine": 66,
+        "startChar": 40,
+        "endLine": 66,
+        "endChar": 45
+      },
+      "revId": "a18bfa96fd1e4509fc57d3093cc5f775bc60f081",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "070b0362_0317be51",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NonceGenerator.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2015-02-05T18:52:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27080763_d623b42f",
       "range": {
         "startLine": 66,
         "startChar": 40,
@@ -237,6 +459,30 @@
     },
     {
       "key": {
+        "uuid": "070b0362_4320a6a3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NonceGenerator.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2015-02-05T18:52:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27080763_16353c61",
+      "range": {
+        "startLine": 79,
+        "startChar": 3,
+        "endLine": 79,
+        "endChar": 8
+      },
+      "revId": "a18bfa96fd1e4509fc57d3093cc5f775bc60f081",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27080763_96192c08",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificate.java",
         "patchSetId": 11
@@ -248,6 +494,24 @@
       "writtenOn": "2015-01-30T04:21:07Z",
       "side": 1,
       "message": "Fields probably should be either private or default package access. That way a subclass won\u0027t see them and try to extend this type and muck with our internal state.\n\nIt also means we can change the internal state more freely across versions of JGit. If you mark the fields protected we must keep those fields exactly unchanged for several years. That is difficult to do for compatibility reasons.",
+      "revId": "a18bfa96fd1e4509fc57d3093cc5f775bc60f081",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "070b0362_43cb864d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificate.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2015-02-05T18:52:58Z",
+      "side": 1,
+      "message": "This was done, so the PushCertificateParser which derives from PushCertificate can write these fields.\n\nTIL about default package access.",
+      "parentUuid": "27080763_96192c08",
       "revId": "a18bfa96fd1e4509fc57d3093cc5f775bc60f081",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -271,6 +535,24 @@
     },
     {
       "key": {
+        "uuid": "070b0362_83d56ee6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateParser.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2015-02-05T18:52:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27080763_76e5a851",
+      "revId": "a18bfa96fd1e4509fc57d3093cc5f775bc60f081",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27080763_56ea2423",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateParser.java",
         "patchSetId": 11
@@ -282,6 +564,30 @@
       "writtenOn": "2015-01-30T04:21:07Z",
       "side": 1,
       "message": "nit: avoid final in newer code",
+      "range": {
+        "startLine": 100,
+        "startChar": 23,
+        "endLine": 100,
+        "endChar": 28
+      },
+      "revId": "a18bfa96fd1e4509fc57d3093cc5f775bc60f081",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "070b0362_23d002f4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateParser.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2015-02-05T18:52:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27080763_56ea2423",
       "range": {
         "startLine": 100,
         "startChar": 23,
