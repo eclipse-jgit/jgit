@@ -1,0 +1,295 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "070b0362_912acf01",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-02-08T23:15:01Z",
+      "side": 1,
+      "message": "Lets drop the WIP part.",
+      "revId": "1d403c138900552630d0566e8266e25b5f6b53dc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "070b0362_712f6b13",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-02-08T23:15:01Z",
+      "side": 1,
+      "message": "They were released weren\u0027t they? Lets name what version they first shipped in.",
+      "revId": "1d403c138900552630d0566e8266e25b5f6b53dc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "070b0362_d143b7c6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-02-08T23:15:01Z",
+      "side": 1,
+      "message": "nit: missing . at end of sentence.",
+      "revId": "1d403c138900552630d0566e8266e25b5f6b53dc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "070b0362_d11c57f9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HMACSHA1NonceGenerator.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-02-08T23:15:01Z",
+      "side": 1,
+      "message": "DFS is part of JGit so maybe we say:\n\n  String path;\n  if (repo instanceof DfsRepository)\n    path \u003d ((DfsRepository) repo).getRepositoryName();\n  else if (repo.getDirectory() !\u003d null)\n    path \u003d repo.getDirectory().getPath();\n  else\n    throw new IllegalStateException();",
+      "range": {
+        "startLine": 63,
+        "startChar": 2,
+        "endLine": 66,
+        "endChar": 21
+      },
+      "revId": "1d403c138900552630d0566e8266e25b5f6b53dc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "070b0362_b140b3bb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HMACSHA1NonceGenerator.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-02-08T23:15:01Z",
+      "side": 1,
+      "message": "Looks like you need to pass in the ReceivePack instance?",
+      "range": {
+        "startLine": 98,
+        "startChar": 0,
+        "endLine": 101,
+        "endChar": 22
+      },
+      "revId": "1d403c138900552630d0566e8266e25b5f6b53dc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "070b0362_b119d307",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HMACSHA1NonceGenerator.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-02-08T23:15:01Z",
+      "side": 1,
+      "message": "Long.parseLong",
+      "range": {
+        "startLine": 112,
+        "startChar": 17,
+        "endLine": 112,
+        "endChar": 33
+      },
+      "revId": "1d403c138900552630d0566e8266e25b5f6b53dc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "070b0362_51db479b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateParser.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-02-08T23:15:01Z",
+      "side": 1,
+      "message": "Instead of passing the seed and slop to the methods, maybe we should pass the ReceiveConfig to the NonceGenerator\u0027s constructor. Then it can store the relevant data (seed, slop) as its own fields and the API becomes less specific about how the seed used during the calls.",
+      "revId": "1d403c138900552630d0566e8266e25b5f6b53dc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "070b0362_91e5af54",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateParser.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-02-08T23:15:01Z",
+      "side": 1,
+      "message": "readString() would trim the LF for you.",
+      "range": {
+        "startLine": 130,
+        "startChar": 43,
+        "endLine": 130,
+        "endChar": 61
+      },
+      "revId": "1d403c138900552630d0566e8266e25b5f6b53dc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "070b0362_71eacb23",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateParser.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-02-08T23:15:01Z",
+      "side": 1,
+      "message": "readString() for the version so you can ignore the LF?",
+      "revId": "1d403c138900552630d0566e8266e25b5f6b53dc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "070b0362_f1d51b60",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateParser.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-02-08T23:15:01Z",
+      "side": 1,
+      "message": "Use parseNextLine(), as this is basically the same as the pusher, pushee and nonce.",
+      "range": {
+        "startLine": 147,
+        "startChar": 0,
+        "endLine": 151,
+        "endChar": 50
+      },
+      "revId": "1d403c138900552630d0566e8266e25b5f6b53dc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "070b0362_11d9bf9c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateParser.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-02-08T23:15:01Z",
+      "side": 1,
+      "message": "this 3rd arg can be computed from the 2nd. no need to pass it.",
+      "range": {
+        "startLine": 158,
+        "startChar": 41,
+        "endLine": 158,
+        "endChar": 58
+      },
+      "revId": "1d403c138900552630d0566e8266e25b5f6b53dc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "070b0362_51022781",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateParser.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-02-08T23:15:01Z",
+      "side": 1,
+      "message": "Write this part custom since you want to do readStringRaw() here to check for LF and everyone else wants to skip the LF.",
+      "revId": "1d403c138900552630d0566e8266e25b5f6b53dc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "070b0362_91fc8fe6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateParser.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-02-08T23:15:01Z",
+      "side": 1,
+      "message": "This should be optional, and better if we can somehow combine it into the new pack being handled by the PackParser inside of ReceivePack.\n\nI would punt on writing the object in this commit and do that in another commit.",
+      "revId": "1d403c138900552630d0566e8266e25b5f6b53dc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "070b0362_d1f577f7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateParser.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-02-08T23:15:01Z",
+      "side": 1,
+      "message": "You have the commandList in a buffer. Don\u0027t pass it as a method.\n\nI would also punt on the verify. Lets leave it for now to something the caller can do in a PreReceiveHook.",
+      "revId": "1d403c138900552630d0566e8266e25b5f6b53dc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "070b0362_b1f2730b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateParser.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-02-08T23:15:01Z",
+      "side": 1,
+      "message": "You should return the ObjectId if you are going to write it out.",
+      "revId": "1d403c138900552630d0566e8266e25b5f6b53dc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
