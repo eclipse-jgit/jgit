@@ -61,6 +61,8 @@
       <unit id="javax.servlet.source" version="2.5.0.v201103041518"/>
       <unit id="org.tukaani.xz" version="1.3.0.v201308270617"/>
       <unit id="org.tukaani.xz.source" version="1.3.0.v201308270617"/>
+      <unit id="org.slf4j.api" version="1.7.2.v20121108-1250"/>
+      <unit id="org.slf4j.api.source" version="1.7.2.v20121108-1250"/>
     </location>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
       <repository location="http://download.eclipse.org/releases/mars/"/>
