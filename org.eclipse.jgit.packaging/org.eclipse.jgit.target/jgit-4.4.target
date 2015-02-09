@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/mbarbero/fr.obeo.releng.targetplatform -->
-<target name="jgit-4.4" sequenceNumber="1424128038">
+<target name="jgit-4.4" sequenceNumber="1424129435">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.jetty.client" version="7.6.14.v20131031"/>
@@ -53,6 +53,8 @@
       <unit id="javax.servlet.source" version="2.5.0.v201103041518"/>
       <unit id="org.tukaani.xz" version="1.3.0.v201308270617"/>
       <unit id="org.tukaani.xz.source" version="1.3.0.v201308270617"/>
+      <unit id="org.slf4j.api" version="1.7.2.v20121108-1250"/>
+      <unit id="org.slf4j.api.source" version="1.7.2.v20121108-1250"/>
       <repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20150124073747/repository/"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
