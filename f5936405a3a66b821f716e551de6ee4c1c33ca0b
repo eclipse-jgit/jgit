@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "070b0362_01a84cd7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 5278
+      },
+      "writtenOn": "2015-02-10T07:30:57Z",
+      "side": 1,
+      "message": "Our problem is that this gets thrown even though the pack-file is perfectly fine.\n\nERROR: Exception caught while accessing pack file /some/path/problem-repository.git/objects/pack/pack-84fc226d0fb0f0c0b97c4f4d3ab8a1d1c2553b93.pack, the pack file might be corrupt\norg.eclipse.jgit.errors.PackInvalidException: Pack file invalid:  /some/path/problem-repository.git/objects/pack/pack-84fc226d0fb0f0c0b97c4f4d3ab8a1d1c2553b93.pack\n\tat org.eclipse.jgit.internal.storage.file.PackFile.doOpen(PackFile.java:599)\n\tat org.eclipse.jgit.internal.storage.file.PackFile.beginWindowCache(PackFile.java:583)\n\tat org.eclipse.jgit.internal.storage.file.WindowCache.load(WindowCache.java:284)\n\tat org.eclipse.jgit.internal.storage.file.WindowCache.getOrLoad(WindowCache.java:368)\n\tat org.eclipse.jgit.internal.storage.file.WindowCache.get(WindowCache.java:179)\n\tat org.eclipse.jgit.internal.storage.file.WindowCursor.pin(WindowCursor.java:354)\n\tat org.eclipse.jgit.internal.storage.file.WindowCursor.copy(WindowCursor.java:226)\n\tat org.eclipse.jgit.internal.storage.file.PackFile.readFully(PackFile.java:556)\n\tat org.eclipse.jgit.internal.storage.file.PackFile.load(PackFile.java:714)\n\tat org.eclipse.jgit.internal.storage.file.PackFile.get(PackFile.java:257)\n\tat org.eclipse.jgit.internal.storage.file.ObjectDirectory.openPackedObject(ObjectDirectory.java:416)\n\tat org.eclipse.jgit.internal.storage.file.ObjectDirectory.openPackedFromSelfOrAlternate(ObjectDirectory.java:385)\n\tat org.eclipse.jgit.internal.storage.file.ObjectDirectory.openObject(ObjectDirectory.java:377)\n\tat org.eclipse.jgit.internal.storage.file.WindowCursor.open(WindowCursor.java:145)",
+      "range": {
+        "startLine": 556,
+        "startChar": 21,
+        "endLine": 556,
+        "endChar": 41
+      },
+      "revId": "f5936405a3a66b821f716e551de6ee4c1c33ca0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27080763_048346a7",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
         "patchSetId": 1
