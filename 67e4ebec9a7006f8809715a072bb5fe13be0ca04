@@ -22,6 +22,30 @@
       "revId": "67e4ebec9a7006f8809715a072bb5fe13be0ca04",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "070b0362_2ac6053e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 560,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-02-10T17:28:13Z",
+      "side": 1,
+      "message": "I pushed another patch to improve the exception messages:\nhttps://git.eclipse.org/r/#/c/41545/",
+      "parentUuid": "070b0362_843a8a81",
+      "range": {
+        "startLine": 560,
+        "startChar": 25,
+        "endLine": 560,
+        "endChar": 36
+      },
+      "revId": "67e4ebec9a7006f8809715a072bb5fe13be0ca04",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
