@@ -1135,7 +1135,8 @@ public abstract class PackParser {
 				break;
 			}
 			if (next <= 0)
-				throw new EOFException(JGitText.get().packfileIsTruncated);
+				throw new EOFException(
+						JGitText.get().packfileIsTruncatedNoParam);
 			bAvail += next;
 		}
 		return bOffset;
