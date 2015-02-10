@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "070b0362_843a8a81",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 560,
+      "author": {
+        "id": 5278
+      },
+      "writtenOn": "2015-02-10T11:45:53Z",
+      "side": 1,
+      "message": "This should mention that the pack was removed:\n\"Pack file {0} is corrupt and was deleted, removing it from pack list\"\nOr similar.",
+      "range": {
+        "startLine": 560,
+        "startChar": 25,
+        "endLine": 560,
+        "endChar": 36
+      },
+      "revId": "67e4ebec9a7006f8809715a072bb5fe13be0ca04",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
