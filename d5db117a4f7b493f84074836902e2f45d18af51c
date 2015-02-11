@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "070b0362_50933861",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 5278
+      },
+      "writtenOn": "2015-02-11T07:24:30Z",
+      "side": 1,
+      "message": "Not related to this change, but wouldn\u0027t it be better to throw a PackInvalidException here?\n...\n} catch (IOException e) {\n    invalid \u003d true;\n    throw new PackInvalidException(String.format(\"Unable to open index for packfile {}\", packFile.getPath()), e);\n...\nor something...\n\nAs it is now the PackInvalidException is only delayed until doOpen() is called or idx() is called again.\n\nDon\u0027t know what good it would do though. Haven\u0027t followed where this Exception ends up.\nTo me it feels like it\u0027s swallowed somewhere down the line.",
+      "range": {
+        "startLine": 181,
+        "startChar": 4,
+        "endLine": 181,
+        "endChar": 18
+      },
+      "revId": "d5db117a4f7b493f84074836902e2f45d18af51c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
