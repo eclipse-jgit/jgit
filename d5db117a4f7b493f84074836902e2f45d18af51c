@@ -81,6 +81,30 @@
       "revId": "d5db117a4f7b493f84074836902e2f45d18af51c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "070b0362_a0e85175",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 5278
+      },
+      "writtenOn": "2015-02-12T09:23:45Z",
+      "side": 1,
+      "message": "I agree.\nBut then we shouldn\u0027t set the packfile as invalid.\nWhich will later result in an exception claiming that this packfile is invalid.",
+      "parentUuid": "070b0362_6d8302a7",
+      "range": {
+        "startLine": 181,
+        "startChar": 4,
+        "endLine": 181,
+        "endChar": 18
+      },
+      "revId": "d5db117a4f7b493f84074836902e2f45d18af51c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
