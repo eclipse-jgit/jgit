@@ -105,6 +105,30 @@
       "revId": "d5db117a4f7b493f84074836902e2f45d18af51c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "070b0362_e01379e6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-02-12T09:57:19Z",
+      "side": 1,
+      "message": "sounds reasonable, this method is called from many places so we need to be careful changing it, I don\u0027t know the reason why it was done the way it is now",
+      "parentUuid": "070b0362_a0e85175",
+      "range": {
+        "startLine": 181,
+        "startChar": 4,
+        "endLine": 181,
+        "endChar": 18
+      },
+      "revId": "d5db117a4f7b493f84074836902e2f45d18af51c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
