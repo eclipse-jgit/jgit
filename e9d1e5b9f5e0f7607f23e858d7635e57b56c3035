@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "070b0362_ce565fda",
+        "filename": "org.eclipse.jgit.java7.test/src/org/eclipse/jgit/util/HookTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 6332
+      },
+      "writtenOn": "2015-02-13T16:45:48Z",
+      "side": 1,
+      "message": "add call() !",
+      "revId": "e9d1e5b9f5e0f7607f23e858d7635e57b56c3035",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "070b0362_6e6ad38f",
+        "filename": "org.eclipse.jgit.java7.test/src/org/eclipse/jgit/util/HookTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 6332
+      },
+      "writtenOn": "2015-02-13T16:45:48Z",
+      "side": 1,
+      "message": "add call() !",
+      "revId": "e9d1e5b9f5e0f7607f23e858d7635e57b56c3035",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "070b0362_ae5b1b01",
+        "filename": "org.eclipse.jgit.java7.test/src/org/eclipse/jgit/util/HookTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 6332
+      },
+      "writtenOn": "2015-02-13T16:45:48Z",
+      "side": 1,
+      "message": "We also need to check that the parameters received by the hook are correct",
+      "revId": "e9d1e5b9f5e0f7607f23e858d7635e57b56c3035",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
