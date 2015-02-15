@@ -96,6 +96,31 @@ public final class StringUtils {
 		return r.toString();
 	}
 
+
+	/**
+	 * Borrowed from commons-lang <code>StringUtils.capitalize()</code> method.
+	 *
+	 * <p>
+	 * Capitalizes a String changing the first letter to title case as per
+	 * {@link Character#toTitleCase(char)}. No other letters are changed.
+	 * </p>
+	 *
+	 * A <code>null</code> input String returns <code>null</code>.</p>
+	 *
+	 * @param str
+	 *            the String to capitalize, may be null
+	 * @return the capitalized String, <code>null</code> if null String input
+	 */
+	public static String capitalize(String str) {
+		int strLen;
+		if (str == null || (strLen = str.length()) == 0) {
+			return str;
+		}
+		return new StringBuffer(strLen)
+				.append(Character.toTitleCase(str.charAt(0)))
+				.append(str.substring(1)).toString();
+	}
+
 	/**
 	 * Test if two strings are equal, ignoring case.
 	 * <p>

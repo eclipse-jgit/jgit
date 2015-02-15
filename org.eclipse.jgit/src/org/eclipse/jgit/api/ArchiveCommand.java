@@ -48,7 +48,9 @@ import java.io.OutputStream;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -134,6 +136,25 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 		 *             thrown by the underlying output stream for I/O errors
 		 */
 		T createArchiveOutputStream(OutputStream s) throws IOException;
+
+		/**
+		 * Start a new archive. Entries can be included in the archive using the
+		 * putEntry method, and then the archive should be closed using its
+		 * close method. In addition options can be applied to the underlying
+		 * stream. E.g. compression level.
+		 *
+		 * @param s
+		 *            underlying output stream to which to write the archive.
+		 * @param o
+		 *            options to apply to the underlying output stream. Keys are
+		 *            option names and values are option values.
+		 * @return new archive object for use in putEntry
+		 * @throws IOException
+		 *             thrown by the underlying output stream for I/O errors
+		 * @since 4.0
+		 */
+		T createArchiveOutputStream(OutputStream s, Map<String, Object> o)
+				throws IOException;
 
 		/**
 		 * Write an entry to an archive.
@@ -328,6 +349,7 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 	private ObjectId tree;
 	private String prefix;
 	private String format;
+	private Map<String, Object> formatOptions = new HashMap<>();
 	private List<String> paths = new ArrayList<String>();
 
 	/** Filename suffix, for automatically choosing a format. */
@@ -345,7 +367,7 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 		final String pfx = prefix == null ? "" : prefix; //$NON-NLS-1$
 		final TreeWalk walk = new TreeWalk(repo);
 		try {
-			final T outa = fmt.createArchiveOutputStream(out);
+			final T outa = fmt.createArchiveOutputStream(out, formatOptions);
 			try {
 				final MutableObjectId idBuf = new MutableObjectId();
 				final ObjectReader reader = walk.getObjectReader();
@@ -468,6 +490,16 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 	 */
 	public ArchiveCommand setFormat(String fmt) {
 		this.format = fmt;
+		return this;
+	}
+
+	/**
+	 * @param options
+	 *            archive format options (e.g., level=9 for zip compression).
+	 * @return this
+	 */
+	public ArchiveCommand setFormatOptions(Map<String, Object> options) {
+		this.formatOptions = options;
 		return this;
 	}
 
