@@ -47,6 +47,7 @@ import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.compress.archivers.ArchiveOutputStream;
 import org.apache.commons.compress.compressors.bzip2.BZip2CompressorOutputStream;
@@ -57,7 +58,8 @@ import org.eclipse.jgit.lib.ObjectLoader;
 /**
  * bzip2-compressed tarball (tar.bz2) format.
  */
-public final class Tbz2Format implements ArchiveCommand.Format<ArchiveOutputStream> {
+public final class Tbz2Format extends BaseFormat implements
+		ArchiveCommand.Format<ArchiveOutputStream> {
 	private static final List<String> SUFFIXES = Collections
 			.unmodifiableList(Arrays.asList(".tar.bz2", ".tbz", ".tbz2")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
@@ -65,8 +67,14 @@ public final class Tbz2Format implements ArchiveCommand.Format<ArchiveOutputStre
 
 	public ArchiveOutputStream createArchiveOutputStream(OutputStream s)
 			throws IOException {
+		return createArchiveOutputStream(s,
+				Collections.<String, Object> emptyMap());
+	}
+
+	public ArchiveOutputStream createArchiveOutputStream(OutputStream s,
+			Map<String, Object> o) throws IOException {
 		BZip2CompressorOutputStream out = new BZip2CompressorOutputStream(s);
-		return tarFormat.createArchiveOutputStream(out);
+		return tarFormat.createArchiveOutputStream(out, o);
 	}
 
 	public void putEntry(ArchiveOutputStream out,

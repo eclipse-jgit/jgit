@@ -48,6 +48,7 @@ import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.compress.archivers.ArchiveOutputStream;
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
@@ -60,12 +61,20 @@ import org.eclipse.jgit.lib.ObjectLoader;
 /**
  * PKWARE's ZIP format.
  */
-public final class ZipFormat implements ArchiveCommand.Format<ArchiveOutputStream> {
+public final class ZipFormat extends BaseFormat implements
+		ArchiveCommand.Format<ArchiveOutputStream> {
 	private static final List<String> SUFFIXES = Collections
 			.unmodifiableList(Arrays.asList(".zip")); //$NON-NLS-1$
 
-	public ArchiveOutputStream createArchiveOutputStream(OutputStream s) {
-		return new ZipArchiveOutputStream(s);
+	public ArchiveOutputStream createArchiveOutputStream(OutputStream s)
+			throws IOException {
+		return createArchiveOutputStream(s,
+				Collections.<String, Object> emptyMap());
+	}
+
+	public ArchiveOutputStream createArchiveOutputStream(OutputStream s,
+			Map<String, Object> o) throws IOException {
+		return applyFormatOptions(new ZipArchiveOutputStream(s), o);
 	}
 
 	public void putEntry(ArchiveOutputStream out,
