@@ -1,0 +1,8 @@
+target "jgit-4.3" with source configurePhase
+
+include "projects/jetty-7.6.14.tpd"
+include "orbit/R20150124073747-Luna-SR2.tpd"
+
+location "http://download.eclipse.org/releases/kepler/" {
+	org.eclipse.osgi lazy
+}
