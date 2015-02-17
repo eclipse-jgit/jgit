@@ -16,6 +16,24 @@
       "revId": "35d386d19b29d33134cb9e354799c8883c3350bf",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "070b0362_171b53a7",
+        "filename": "org.eclipse.jgit.java7.test/src/org/eclipse/jgit/util/HookTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 6332
+      },
+      "writtenOn": "2015-02-17T13:42:26Z",
+      "side": 1,
+      "message": "Yes I agree. Done.",
+      "parentUuid": "070b0362_77cf3fa4",
+      "revId": "35d386d19b29d33134cb9e354799c8883c3350bf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
