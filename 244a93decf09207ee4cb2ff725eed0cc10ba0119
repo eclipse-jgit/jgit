@@ -1,0 +1,210 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7f18fa3_ce8e8306",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 991,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-02-18T22:09:00Z",
+      "side": 1,
+      "message": "nit: space after ,",
+      "range": {
+        "startLine": 991,
+        "startChar": 41,
+        "endLine": 991,
+        "endChar": 48
+      },
+      "revId": "244a93decf09207ee4cb2ff725eed0cc10ba0119",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7f18fa3_8ed11bc7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HMACSHA1NonceGenerator.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-02-18T22:09:00Z",
+      "side": 1,
+      "message": "Put this into the constructor; see my other notes about passing the seed to the constructor instead of per method.",
+      "range": {
+        "startLine": 72,
+        "startChar": 3,
+        "endLine": 73,
+        "endChar": 84
+      },
+      "revId": "244a93decf09207ee4cb2ff725eed0cc10ba0119",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7f18fa3_aed4d7b6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/NonceGenerator.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-02-18T22:09:00Z",
+      "side": 1,
+      "message": "I think the seed should be supplied to the constructor, not per-invocation.",
+      "range": {
+        "startLine": 67,
+        "startChar": 27,
+        "endLine": 67,
+        "endChar": 40
+      },
+      "revId": "244a93decf09207ee4cb2ff725eed0cc10ba0119",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7f18fa3_4ed0d3c2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateParser.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-02-18T22:09:00Z",
+      "side": 1,
+      "message": "Push the seed into the generator:\n\n  nonceGenerator \u003d cfg.certNonceSeed !\u003d null\n    ? new HMACSHA1NonceGenerator(cfg.certNonceSeed)\n    : null;",
+      "revId": "244a93decf09207ee4cb2ff725eed0cc10ba0119",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7f18fa3_6ecb0f1c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateParser.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-02-18T22:09:00Z",
+      "side": 1,
+      "message": "nonceGenerator !\u003d null",
+      "revId": "244a93decf09207ee4cb2ff725eed0cc10ba0119",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7f18fa3_0ec6cb13",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateParser.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-02-18T22:09:00Z",
+      "side": 1,
+      "message": "nit: Manually line break this after the format( so its less mangled:\n\n  throw new IOException(MessageFormat.format(\n      JGitText.get().errorInvalidPushCert,\n      \"expected \" + startingWith));",
+      "range": {
+        "startLine": 128,
+        "startChar": 3,
+        "endLine": 129,
+        "endChar": 63
+      },
+      "revId": "244a93decf09207ee4cb2ff725eed0cc10ba0119",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7f18fa3_ee6c1fad",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateParser.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-02-18T22:09:00Z",
+      "side": 1,
+      "message": "This is fine, but the argument needs to be listed in the javadoc.",
+      "range": {
+        "startLine": 144,
+        "startChar": 47,
+        "endLine": 144,
+        "endChar": 64
+      },
+      "revId": "244a93decf09207ee4cb2ff725eed0cc10ba0119",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7f18fa3_8e463b26",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateParser.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-02-18T22:09:00Z",
+      "side": 1,
+      "message": "nit: lowercase header",
+      "range": {
+        "startLine": 165,
+        "startChar": 30,
+        "endLine": 165,
+        "endChar": 36
+      },
+      "revId": "244a93decf09207ee4cb2ff725eed0cc10ba0119",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7f18fa3_ce40430b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateParser.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-02-18T22:09:00Z",
+      "side": 1,
+      "message": "Drop this call. Let the calling application that does the verify write the object for now.",
+      "revId": "244a93decf09207ee4cb2ff725eed0cc10ba0119",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7f18fa3_2ec107fc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateParser.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-02-18T22:09:00Z",
+      "side": 1,
+      "message": "Odd. Here you pass signature but the method is declared to accept commandList below.\n\nMaybe we just drop this for now since we are punting on verify anyway?",
+      "revId": "244a93decf09207ee4cb2ff725eed0cc10ba0119",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
