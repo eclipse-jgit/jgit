@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7f18fa3_0e352b61",
+        "filename": "org.eclipse.jgit.archive/src/org/eclipse/jgit/archive/BaseFormat.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-02-18T22:57:27Z",
+      "side": 1,
+      "message": "This is pretty intrusive and allows setting any field, there are some fields which are not options, e.g. byte[] buf; in class ZipArchiveOutputStream, setting these is probably harmful\n\nI think we better use java.bean.Statement to only enable setting options which correspond to a setter method in the corresponding output stream class.",
+      "revId": "e6a6ca9f21596f456e68c1e754203ae1f6ed12fd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7f18fa3_ee825fa1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ArchiveCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-02-18T22:57:27Z",
+      "side": 1,
+      "message": "missing @since 4.0 tag for new api method",
+      "revId": "e6a6ca9f21596f456e68c1e754203ae1f6ed12fd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
