@@ -16,6 +16,24 @@
       "revId": "0b901336da2d0116b1b55f0cc0f5b9e1f458884e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_6c031b1b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HMACSHA1NonceGenerator.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2015-02-19T21:48:03Z",
+      "side": 1,
+      "message": "We only use it to mac.doFinal\nwhich is specified with \n\n    A call to this method resets this Mac object to the state it was in when previously initialized via a call to init(Key) or init(Key, AlgorithmParameterSpec).",
+      "parentUuid": "a7fb1785_cc468f75",
+      "revId": "0b901336da2d0116b1b55f0cc0f5b9e1f458884e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
