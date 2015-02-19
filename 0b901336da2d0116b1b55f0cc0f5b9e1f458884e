@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7fb1785_cc468f75",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HMACSHA1NonceGenerator.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-02-19T21:34:44Z",
+      "side": 1,
+      "message": "The Mac object is not thread safe and can only be used once.\n\nIt would be cleaner to retain the SecretKeySpec and build the Mac object on each method call.",
+      "revId": "0b901336da2d0116b1b55f0cc0f5b9e1f458884e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
