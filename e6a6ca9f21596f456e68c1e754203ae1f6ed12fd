@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a7fb1785_cc0deff3",
+        "filename": "org.eclipse.jgit.archive/src/org/eclipse/jgit/archive/BaseFormat.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2015-02-19T23:41:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7f18fa3_0e352b61",
+      "revId": "e6a6ca9f21596f456e68c1e754203ae1f6ed12fd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7f18fa3_ee825fa1",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ArchiveCommand.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2015-02-18T22:57:27Z",
       "side": 1,
       "message": "missing @since 4.0 tag for new api method",
+      "revId": "e6a6ca9f21596f456e68c1e754203ae1f6ed12fd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_2c3ab383",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ArchiveCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2015-02-19T23:41:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7f18fa3_ee825fa1",
       "revId": "e6a6ca9f21596f456e68c1e754203ae1f6ed12fd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
