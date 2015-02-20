@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "a7fb1785_957e4689",
+        "filename": "org.eclipse.jgit.java7.test/src/org/eclipse/jgit/util/HookTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 6332
+      },
+      "writtenOn": "2015-02-20T16:31:41Z",
+      "side": 1,
+      "message": "I don\u0027t agree with that, because we want to make sure that when this exception happens, it contains the relevant information with the standard error stream.",
+      "parentUuid": "a7fb1785_d29e24b4",
+      "revId": "438aff1aac6478721e1eba43db146192a3cacc6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7fb1785_528eb483",
         "filename": "org.eclipse.jgit.java7.test/src/org/eclipse/jgit/util/HookTest.java",
         "patchSetId": 11
@@ -207,6 +225,24 @@
     },
     {
       "key": {
+        "uuid": "a7fb1785_359dd247",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 6332
+      },
+      "writtenOn": "2015-02-20T16:31:41Z",
+      "side": 1,
+      "message": "It will either force me to drop the interface IHook or to make it parametric because currently run() returns void, and I don\u0027t think it should return String for every hook.\nThat\u0027s why I let the code to write to and read from the commit message file here in the first place.\n\nWhat do you think is best?",
+      "parentUuid": "a7fb1785_921adca0",
+      "revId": "438aff1aac6478721e1eba43db146192a3cacc6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7fb1785_d2e2a40c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
         "patchSetId": 11
@@ -303,6 +339,24 @@
       "writtenOn": "2015-02-20T15:10:20Z",
       "side": 1,
       "message": "To me the name of this class sounds like a failed all to the hook and not like an intentional command abort. Also the name exposes the hooks to the command API. I would propose to rename to CommandAbortException",
+      "revId": "438aff1aac6478721e1eba43db146192a3cacc6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_7550fadb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/errors/HookFailureException.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6332
+      },
+      "writtenOn": "2015-02-20T16:31:41Z",
+      "side": 1,
+      "message": "CommandAbortedByHookException?\n\nor AbortedByHookException to have a reasonably short name?",
+      "parentUuid": "a7fb1785_52bcf423",
       "revId": "438aff1aac6478721e1eba43db146192a3cacc6b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -616,6 +670,24 @@
       "writtenOn": "2015-02-20T14:06:33Z",
       "side": 1,
       "message": "instead of this add two methods\nreadCommitEditMessage(), writeCommitEditMessage() similar to Repository.writeSquashCommitMsg() and readMergeCommitMsg()",
+      "revId": "438aff1aac6478721e1eba43db146192a3cacc6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_b55f02bb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1666,
+      "author": {
+        "id": 6332
+      },
+      "writtenOn": "2015-02-20T16:31:41Z",
+      "side": 1,
+      "message": "Ah ok, I hadn\u0027t seen these! Thanks.\n\nNevertheless, I need to have a way of getting the path to this file because it must be passed as a parameter to the hook script.\nWhat is the best way to obtain this path?",
+      "parentUuid": "a7fb1785_f2c8804c",
       "revId": "438aff1aac6478721e1eba43db146192a3cacc6b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
