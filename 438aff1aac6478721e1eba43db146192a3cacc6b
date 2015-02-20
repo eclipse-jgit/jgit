@@ -1,0 +1,493 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7fb1785_12f70c83",
+        "filename": "org.eclipse.jgit.java7.test/src/org/eclipse/jgit/util/HookTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-02-20T14:06:33Z",
+      "side": 1,
+      "message": "style nit: unrelated formatting change",
+      "revId": "438aff1aac6478721e1eba43db146192a3cacc6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_72ec90b7",
+        "filename": "org.eclipse.jgit.java7.test/src/org/eclipse/jgit/util/HookTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-02-20T14:06:33Z",
+      "side": 1,
+      "message": "style nit: unrelated formatting change",
+      "revId": "438aff1aac6478721e1eba43db146192a3cacc6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_b2e558ca",
+        "filename": "org.eclipse.jgit.java7.test/src/org/eclipse/jgit/util/HookTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-02-20T14:06:33Z",
+      "side": 1,
+      "message": "this isn\u0027t related to the commit-msg hook",
+      "revId": "438aff1aac6478721e1eba43db146192a3cacc6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_f2dfe0f7",
+        "filename": "org.eclipse.jgit.java7.test/src/org/eclipse/jgit/util/HookTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-02-20T14:06:33Z",
+      "side": 1,
+      "message": "unrelated change",
+      "revId": "438aff1aac6478721e1eba43db146192a3cacc6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_522994bc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-02-20T14:06:33Z",
+      "side": 1,
+      "message": "I think we can move this code also into the hook\u0027s implementation",
+      "range": {
+        "startLine": 222,
+        "startChar": 0,
+        "endLine": 230,
+        "endChar": 49
+      },
+      "revId": "438aff1aac6478721e1eba43db146192a3cacc6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_921adca0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-02-20T14:06:33Z",
+      "side": 1,
+      "message": "I\u0027d move this code into the Hook\u0027s implementation and let its run() method return the message",
+      "range": {
+        "startLine": 233,
+        "startChar": 0,
+        "endLine": 234,
+        "endChar": 39
+      },
+      "revId": "438aff1aac6478721e1eba43db146192a3cacc6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_d2e2a40c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-02-20T14:06:33Z",
+      "side": 1,
+      "message": "style nit: unrelated formatting change",
+      "revId": "438aff1aac6478721e1eba43db146192a3cacc6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_3203284e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-02-20T14:06:33Z",
+      "side": 1,
+      "message": "style nit: unrelated formatting change",
+      "revId": "438aff1aac6478721e1eba43db146192a3cacc6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_1208ac66",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-02-20T14:06:33Z",
+      "side": 1,
+      "message": "style nit: unrelated formatting change",
+      "revId": "438aff1aac6478721e1eba43db146192a3cacc6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_720db076",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-02-20T14:06:33Z",
+      "side": 1,
+      "message": "style nit: unrelated formatting change",
+      "revId": "438aff1aac6478721e1eba43db146192a3cacc6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_92f3fcd8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 573,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-02-20T14:06:33Z",
+      "side": 1,
+      "message": "style nit: unrelated formatting change",
+      "revId": "438aff1aac6478721e1eba43db146192a3cacc6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_d2146475",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/errors/HookFailureException.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-02-20T14:06:33Z",
+      "side": 1,
+      "message": "this doesn\u0027t look like a name, it\u0027s rather the failed hook, right ?",
+      "revId": "438aff1aac6478721e1eba43db146192a3cacc6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_9265bc11",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/GitHook.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-02-20T14:06:33Z",
+      "side": 1,
+      "message": "style nit: we don\u0027t use @author tags",
+      "revId": "438aff1aac6478721e1eba43db146192a3cacc6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_92301cee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/GitHook.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-02-20T14:06:33Z",
+      "side": 1,
+      "message": "this is obvious",
+      "range": {
+        "startLine": 75,
+        "startChar": 0,
+        "endLine": 75,
+        "endChar": 16
+      },
+      "revId": "438aff1aac6478721e1eba43db146192a3cacc6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_b268b8e9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/GitHook.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-02-20T14:06:33Z",
+      "side": 1,
+      "message": "style nit: we don\u0027t use @see tags for overridden methods",
+      "revId": "438aff1aac6478721e1eba43db146192a3cacc6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_323cc8ee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/GitHook.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-02-20T14:06:33Z",
+      "side": 1,
+      "message": "style nit: we don\u0027t use @see tags for overridden methods",
+      "revId": "438aff1aac6478721e1eba43db146192a3cacc6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_f27240d3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/GitHook.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-02-20T14:06:33Z",
+      "side": 1,
+      "message": "s/is/it/",
+      "range": {
+        "startLine": 118,
+        "startChar": 17,
+        "endLine": 118,
+        "endChar": 19
+      },
+      "revId": "438aff1aac6478721e1eba43db146192a3cacc6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_d26f44ed",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/GitHook.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-02-20T14:06:33Z",
+      "side": 1,
+      "message": "I\u0027d mention the default System.out if setOutputStream has not been called",
+      "revId": "438aff1aac6478721e1eba43db146192a3cacc6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_523b54f4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/Hooks.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-02-20T14:06:33Z",
+      "side": 1,
+      "message": "style nit: we don\u0027t use @author tags",
+      "revId": "438aff1aac6478721e1eba43db146192a3cacc6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_521fd464",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/IHook.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-02-20T14:06:33Z",
+      "side": 1,
+      "message": "style nit: we don\u0027t use @author tags",
+      "revId": "438aff1aac6478721e1eba43db146192a3cacc6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_b24f188d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/IHook.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-02-20T14:06:33Z",
+      "side": 1,
+      "message": "In jgit we don\u0027t prefix interfaces with \"I\"",
+      "revId": "438aff1aac6478721e1eba43db146192a3cacc6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_12ac2ca7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 623,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-02-20T14:06:33Z",
+      "side": 1,
+      "message": "/store and read the message prepared for the upcoming commit/prepare the commit message/",
+      "range": {
+        "startLine": 622,
+        "startChar": 53,
+        "endLine": 623,
+        "endChar": 45
+      },
+      "revId": "438aff1aac6478721e1eba43db146192a3cacc6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_924c9c99",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 624,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-02-20T14:06:33Z",
+      "side": 1,
+      "message": "style nit: trailing whitespace",
+      "revId": "438aff1aac6478721e1eba43db146192a3cacc6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_f2c8804c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1666,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-02-20T14:06:33Z",
+      "side": 1,
+      "message": "instead of this add two methods\nreadCommitEditMessage(), writeCommitEditMessage() similar to Repository.writeSquashCommitMsg() and readMergeCommitMsg()",
+      "revId": "438aff1aac6478721e1eba43db146192a3cacc6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_d2c58432",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1115,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-02-20T14:06:33Z",
+      "side": 1,
+      "message": "this is already available in Repository.writeCommitMsg()",
+      "revId": "438aff1aac6478721e1eba43db146192a3cacc6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_32f20893",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1137,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-02-20T14:06:33Z",
+      "side": 1,
+      "message": "this is already available in Repository.readCommitMsg()",
+      "revId": "438aff1aac6478721e1eba43db146192a3cacc6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_d213c461",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/ProcessResult.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-02-20T14:06:33Z",
+      "side": 1,
+      "message": "missing since tag",
+      "revId": "438aff1aac6478721e1eba43db146192a3cacc6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
