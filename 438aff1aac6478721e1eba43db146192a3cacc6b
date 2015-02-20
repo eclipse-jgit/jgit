@@ -2,6 +2,74 @@
   "comments": [
     {
       "key": {
+        "uuid": "a7fb1785_92a49c04",
+        "filename": "org.eclipse.jgit.java7.test/src/org/eclipse/jgit/util/HookTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 460
+      },
+      "writtenOn": "2015-02-20T15:10:20Z",
+      "side": 1,
+      "message": "I would rather use @Test(expected \u003d CommandAbortException.class). I believe the exact message does not need to be asserted. Also it removes the necessity and possibility for setting the output stream on the command.",
+      "revId": "438aff1aac6478721e1eba43db146192a3cacc6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_d29e24b4",
+        "filename": "org.eclipse.jgit.java7.test/src/org/eclipse/jgit/util/HookTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 460
+      },
+      "writtenOn": "2015-02-20T15:10:20Z",
+      "side": 1,
+      "message": "Remove and replace by annotation, see above",
+      "revId": "438aff1aac6478721e1eba43db146192a3cacc6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_528eb483",
+        "filename": "org.eclipse.jgit.java7.test/src/org/eclipse/jgit/util/HookTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 460
+      },
+      "writtenOn": "2015-02-20T15:10:20Z",
+      "side": 1,
+      "message": "Check resulting message in revision rather than output stream",
+      "revId": "438aff1aac6478721e1eba43db146192a3cacc6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_92565c54",
+        "filename": "org.eclipse.jgit.java7.test/src/org/eclipse/jgit/util/HookTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 460
+      },
+      "writtenOn": "2015-02-20T15:10:20Z",
+      "side": 1,
+      "message": "output stream seems irrelevant for this test",
+      "revId": "438aff1aac6478721e1eba43db146192a3cacc6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7fb1785_12f70c83",
         "filename": "org.eclipse.jgit.java7.test/src/org/eclipse/jgit/util/HookTest.java",
         "patchSetId": 11
@@ -64,6 +132,29 @@
       "writtenOn": "2015-02-20T14:06:33Z",
       "side": 1,
       "message": "unrelated change",
+      "revId": "438aff1aac6478721e1eba43db146192a3cacc6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_75bbda0d",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 11
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 460
+      },
+      "writtenOn": "2015-02-20T15:10:20Z",
+      "side": 1,
+      "message": "nitpick: the dot should be at the end ;)",
+      "range": {
+        "startLine": 107,
+        "startChar": 74,
+        "endLine": 107,
+        "endChar": 113
+      },
       "revId": "438aff1aac6478721e1eba43db146192a3cacc6b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -201,6 +292,23 @@
     },
     {
       "key": {
+        "uuid": "a7fb1785_52bcf423",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/errors/HookFailureException.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 460
+      },
+      "writtenOn": "2015-02-20T15:10:20Z",
+      "side": 1,
+      "message": "To me the name of this class sounds like a failed all to the hook and not like an intentional command abort. Also the name exposes the hooks to the command API. I would propose to rename to CommandAbortException",
+      "revId": "438aff1aac6478721e1eba43db146192a3cacc6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7fb1785_d2146475",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/errors/HookFailureException.java",
         "patchSetId": 11
@@ -229,6 +337,23 @@
       "writtenOn": "2015-02-20T14:06:33Z",
       "side": 1,
       "message": "style nit: we don\u0027t use @author tags",
+      "revId": "438aff1aac6478721e1eba43db146192a3cacc6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_95e806f1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/GitHook.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 460
+      },
+      "writtenOn": "2015-02-20T15:10:20Z",
+      "side": 1,
+      "message": "Confusing Terminology: A hook in the hook, maybe it should be named HookType? Maybe better in a new Review",
       "revId": "438aff1aac6478721e1eba43db146192a3cacc6b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -332,6 +457,46 @@
     },
     {
       "key": {
+        "uuid": "a7fb1785_95f3e6d8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/GitHook.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 460
+      },
+      "writtenOn": "2015-02-20T15:10:20Z",
+      "side": 1,
+      "message": "Should throw an exception for unkown hook types?",
+      "revId": "438aff1aac6478721e1eba43db146192a3cacc6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_75247ae6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/GitHook.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 460
+      },
+      "writtenOn": "2015-02-20T15:10:20Z",
+      "side": 1,
+      "message": "use method isExecutedWithError method in ProcessResult",
+      "range": {
+        "startLine": 164,
+        "startChar": 6,
+        "endLine": 165,
+        "endChar": 27
+      },
+      "revId": "438aff1aac6478721e1eba43db146192a3cacc6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7fb1785_523b54f4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/Hooks.java",
         "patchSetId": 11
@@ -343,6 +508,23 @@
       "writtenOn": "2015-02-20T14:06:33Z",
       "side": 1,
       "message": "style nit: we don\u0027t use @author tags",
+      "revId": "438aff1aac6478721e1eba43db146192a3cacc6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_f5ceaaa6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/IHook.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 460
+      },
+      "writtenOn": "2015-02-20T15:10:20Z",
+      "side": 1,
+      "message": "of a git command\u0027s execution",
       "revId": "438aff1aac6478721e1eba43db146192a3cacc6b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
