@@ -618,6 +618,14 @@ public final class Constants {
 	 */
 	public static final String ORIG_HEAD = "ORIG_HEAD";
 
+	/**
+	 * Name of the file in which git commands and hooks store and read the
+	 * message prepared for the upcoming commit.
+	 *
+	 * @since 4.0
+	 */
+	public static final String COMMIT_EDITMSG = "COMMIT_EDITMSG";
+
 	/** objectid for the empty blob */
 	public static final ObjectId EMPTY_BLOB_ID = ObjectId
 			.fromString("e69de29bb2d1d6434b8b29ae775ad8c2e48c5391");

@@ -214,6 +214,11 @@ public class CommitCommand extends GitCommand<RevCommit> {
 					parents.add(0, headId);
 				}
 
+			if (!noVerify) {
+				message = Hooks.commitMsg(repo, hookOutRedirect)
+						.setCommitMessage(message).call();
+			}
+
 			// lock the index
 			DirCache index = repo.lockDirCache();
 			try {
