@@ -158,12 +158,12 @@ public class JGitText extends TranslationBundle {
 	/***/ public String classCastNotA;
 	/***/ public String cloneNonEmptyDirectory;
 	/***/ public String collisionOn;
+	/***/ public String commandRejectedByHook;
 	/***/ public String commandWasCalledInTheWrongState;
 	/***/ public String commitAlreadyExists;
 	/***/ public String commitMessageNotSpecified;
 	/***/ public String commitOnRepoWithoutHEADCurrentlyNotSupported;
 	/***/ public String commitAmendOnInitialNotPossible;
-	/***/ public String commitRejectedByHook;
 	/***/ public String compressingObjects;
 	/***/ public String connectionFailed;
 	/***/ public String connectionTimeOut;
