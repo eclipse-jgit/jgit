@@ -52,7 +52,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 
 import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.api.errors.RejectCommitException;
+import org.eclipse.jgit.api.errors.AbortedByHookException;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.junit.Assume;
@@ -95,7 +95,7 @@ public class HookTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testPreCommitHook() throws Exception {
+	public void testFailedPreCommitHookBlockCommit() throws Exception {
 		assumeSupportedPlatform();
 
 		Hook h = Hook.PRE_COMMIT;
@@ -110,14 +110,12 @@ public class HookTest extends RepositoryTestCase {
 			git.commit().setMessage("commit")
 					.setHookOutputStream(new PrintStream(out)).call();
 			fail("expected pre-commit hook to abort commit");
-		} catch (RejectCommitException e) {
+		} catch (AbortedByHookException e) {
 			assertEquals("unexpected error message from pre-commit hook",
-					"Commit rejected by \"pre-commit\" hook.\nstderr\n",
+					"Rejected by \"pre-commit\" hook.\nstderr\n",
 					e.getMessage());
 			assertEquals("unexpected output from pre-commit hook", "test\n",
 					out.toString());
-		} catch (Throwable e) {
-			fail("unexpected exception thrown by pre-commit hook: " + e);
 		}
 	}
 

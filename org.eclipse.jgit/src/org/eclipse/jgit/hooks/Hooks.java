@@ -40,22 +40,27 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.eclipse.jgit.api.errors;
+package org.eclipse.jgit.hooks;
+
+import java.io.PrintStream;
+
+import org.eclipse.jgit.lib.Repository;
 
 /**
- * Exception thrown when a commit is rejected by a hook (either
- * {@link org.eclipse.jgit.util.Hook#PRE_COMMIT pre-commit} or
- * {@link org.eclipse.jgit.util.Hook#COMMIT_MSG commit-msg}).
+ * Utility class that provides access to supported hooks.
  *
- * @since 3.7
+ * @since 4.0
  */
-public class RejectCommitException extends GitAPIException {
-	private static final long serialVersionUID = 1L;
+public class Hooks {
 
 	/**
-	 * @param message
+	 * @param repo
+	 * @param outputStream
+	 *            The output stream, or {@code null} to use {@code System.out}
+	 * @return The pre-commit hook for the given repository.
 	 */
-	public RejectCommitException(String message) {
-		super(message);
+	public static PreCommitHook preCommit(Repository repo,
+			PrintStream outputStream) {
+		return new PreCommitHook(repo, outputStream);
 	}
 }
