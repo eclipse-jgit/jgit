@@ -40,22 +40,45 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.eclipse.jgit.api.errors;
+package org.eclipse.jgit.hooks;
+
+import java.io.IOException;
+import java.io.PrintStream;
+
+import org.eclipse.jgit.api.errors.AbortedByHookException;
+import org.eclipse.jgit.lib.Repository;
 
 /**
- * Exception thrown when a commit is rejected by a hook (either
- * {@link org.eclipse.jgit.util.Hook#PRE_COMMIT pre-commit} or
- * {@link org.eclipse.jgit.util.Hook#COMMIT_MSG commit-msg}).
+ * The <code>pre-commit</code> hook implementation. This hook is run before the
+ * commit and can reject the commit.
  *
- * @since 3.7
+ * @since 4.0
  */
-public class RejectCommitException extends GitAPIException {
-	private static final long serialVersionUID = 1L;
+public class PreCommitHook extends GitHook<Void> {
+
+	/** The pre-commit hook name. */
+	public static final String NAME = "pre-commit"; //$NON-NLS-1$
 
 	/**
-	 * @param message
+	 * @param repo
+	 *            The repository
+	 * @param outputStream
+	 *            The output stream the hook must use. {@code null} is allowed,
+	 *            in which case the hook will use {@code System.out}.
 	 */
-	public RejectCommitException(String message) {
-		super(message);
+	protected PreCommitHook(Repository repo, PrintStream outputStream) {
+		super(repo, outputStream);
 	}
+
+	@Override
+	public Void call() throws IOException, AbortedByHookException {
+		doRun();
+		return null;
+	}
+
+	@Override
+	public String getHookName() {
+		return NAME;
+	}
+
 }
