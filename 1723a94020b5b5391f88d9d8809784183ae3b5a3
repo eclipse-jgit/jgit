@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "a7fb1785_ac0338c6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/Hooks.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 7214
+      },
+      "writtenOn": "2015-02-23T18:32:47Z",
+      "side": 1,
+      "message": "Maybe HookFactory would be a better name to explicitly communicate that this class does not hold instances of hooks but _instantiates_ them.",
+      "range": {
+        "startLine": 54,
+        "startChar": 13,
+        "endLine": 54,
+        "endChar": 18
+      },
+      "revId": "1723a94020b5b5391f88d9d8809784183ae3b5a3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7fb1785_8cbbdc0c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/ProcessResult.java",
         "patchSetId": 2
