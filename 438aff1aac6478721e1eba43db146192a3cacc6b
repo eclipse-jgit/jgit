@@ -243,6 +243,24 @@
     },
     {
       "key": {
+        "uuid": "a7fb1785_93601b2b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-02-23T08:56:23Z",
+      "side": 1,
+      "message": "You could do it like we do in GitCommand ?",
+      "parentUuid": "a7fb1785_359dd247",
+      "revId": "438aff1aac6478721e1eba43db146192a3cacc6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7fb1785_d2e2a40c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
         "patchSetId": 11
@@ -357,6 +375,24 @@
       "side": 1,
       "message": "CommandAbortedByHookException?\n\nor AbortedByHookException to have a reasonably short name?",
       "parentUuid": "a7fb1785_52bcf423",
+      "revId": "438aff1aac6478721e1eba43db146192a3cacc6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_13a26bf6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/errors/HookFailureException.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-02-23T08:56:23Z",
+      "side": 1,
+      "message": "AbortedByHookException sounds better to me",
+      "parentUuid": "a7fb1785_7550fadb",
       "revId": "438aff1aac6478721e1eba43db146192a3cacc6b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -505,6 +541,23 @@
       "writtenOn": "2015-02-20T14:06:33Z",
       "side": 1,
       "message": "I\u0027d mention the default System.out if setOutputStream has not been called",
+      "revId": "438aff1aac6478721e1eba43db146192a3cacc6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_f3799fe8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/GitHook.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-02-23T08:56:23Z",
+      "side": 1,
+      "message": "I\u0027d prefer true polymorphism instead, if you implement each hook in its own hook class it can both represent the hook type (currently an enum) and encapsulate the implementation of the hook.",
       "revId": "438aff1aac6478721e1eba43db146192a3cacc6b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -688,6 +741,24 @@
       "side": 1,
       "message": "Ah ok, I hadn\u0027t seen these! Thanks.\n\nNevertheless, I need to have a way of getting the path to this file because it must be passed as a parameter to the hook script.\nWhat is the best way to obtain this path?",
       "parentUuid": "a7fb1785_f2c8804c",
+      "revId": "438aff1aac6478721e1eba43db146192a3cacc6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_336b2712",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1666,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-02-23T08:56:23Z",
+      "side": 1,
+      "message": "if this is needed I think we should expose that on FileRepository, class Repository shouldn\u0027t expose File in signature since it\u0027s abstract and there are implementations based on DfsRepository which aren\u0027t using java.io.File to persist git objects. FileRepository is in an internal package which is accessible by other parts of jgit.",
+      "parentUuid": "a7fb1785_b55f02bb",
       "revId": "438aff1aac6478721e1eba43db146192a3cacc6b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
