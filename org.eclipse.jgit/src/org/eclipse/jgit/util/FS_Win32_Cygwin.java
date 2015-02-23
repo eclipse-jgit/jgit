@@ -149,13 +149,13 @@ public class FS_Win32_Cygwin extends FS_Win32 {
 	}
 
 	/**
-	 * @since 3.7
+	 * @since 4.0
 	 */
 	@Override
-	public ProcessResult runIfPresent(Repository repository, Hook hook,
+	public ProcessResult runHookIfPresent(Repository repository, String hookName,
 			String[] args, PrintStream outRedirect, PrintStream errRedirect,
 			String stdinArgs) throws JGitInternalException {
-		return internalRunIfPresent(repository, hook, args, outRedirect,
+		return internalRunHookIfPresent(repository, hookName, args, outRedirect,
 				errRedirect, stdinArgs);
 	}
 }

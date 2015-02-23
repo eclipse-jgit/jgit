@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Obeo.
+ * Copyright (C) 2015 Obeo.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -40,82 +40,65 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.eclipse.jgit.util;
+package org.eclipse.jgit.api.errors;
+
+import java.text.MessageFormat;
+
+import org.eclipse.jgit.internal.JGitText;
 
 /**
- * Describes the result of running an external process.
+ * Exception thrown when a hook returns a process result with a value different
+ * from 0. It is up to the caller to decide whether this should block execution
+ * or not.
  *
- * @since 3.7
+ * @since 4.0
  */
-public class ProcessResult {
-	/**
-	 * Status of a process' execution.
-	 */
-	public static enum Status {
-		/**
-		 * The script was found and launched properly. It may still have exited
-		 * with a non-zero {@link #exitCode}.
-		 */
-		OK,
-
-		/** The script was not found on disk and thus could not be launched. */
-		NOT_PRESENT,
-
-		/**
-		 * The script was found but could not be launched since it was not
-		 * supported by the current {@link FS}.
-		 */
-		NOT_SUPPORTED;
-	}
-
-	/** The exit code of the process. */
-	private final int exitCode;
-
-	/** Status of the process' execution. */
-	private final Status status;
+public class AbortedByHookException extends GitAPIException {
+	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Instantiates a process result with the given status and an exit code of
-	 * <code>-1</code>.
-	 *
-	 * @param status
-	 *            Status describing the execution of the external process.
+	 * The hook that caused this exception.
 	 */
-	public ProcessResult(Status status) {
-		this(-1, status);
+	private final String hookName;
+
+	/**
+	 * The process result.
+	 */
+	private final int returnCode;
+
+	/**
+	 * @param message
+	 *            The error details.
+	 * @param hookName
+	 *            The name of the hook that interrupted the command, must not be
+	 *            null.
+	 * @param returnCode
+	 *            The return code of the hook process that has been run.
+	 */
+	public AbortedByHookException(String message, String hookName,
+			int returnCode) {
+		super(message);
+		this.hookName = hookName;
+		this.returnCode = returnCode;
 	}
 
 	/**
-	 * @param exitCode
-	 *            Exit code of the process.
-	 * @param status
-	 *            Status describing the execution of the external process.
+	 * @return the type of the hook that interrupted the git command.
 	 */
-	public ProcessResult(int exitCode, Status status) {
-		this.exitCode = exitCode;
-		this.status = status;
+	public String getHookName() {
+		return hookName;
 	}
 
 	/**
-	 * @return The exit code of the process.
+	 * @return the hook process result.
 	 */
-	public int getExitCode() {
-		return exitCode;
+	public int getReturnCode() {
+		return returnCode;
 	}
 
-	/**
-	 * @return The status of the process' execution.
-	 */
-	public Status getStatus() {
-		return status;
-	}
-
-	/**
-	 * @return <code>true</code> if the execution occurred and resulted in a
-	 *         return code different from 0, <code>false</code> otherwise.
-	 * @since 4.0
-	 */
-	public boolean isExecutedWithError() {
-		return getStatus() == ProcessResult.Status.OK && getExitCode() != 0;
+	@Override
+	public String getMessage() {
+		return MessageFormat.format(JGitText.get().commandRejectedByHook,
+				hookName, super.getMessage());
 	}
 }
