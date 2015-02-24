@@ -147,5 +147,6 @@ Require-Bundle: com.jcraft.jsch;bundle-version="[0.1.37,0.2.0)"
 Import-Package: com.googlecode.javaewah;version="[0.7.9,0.8.0)",
  javax.crypto,
  javax.net.ssl,
+ org.slf4j;version="[1.7.0,2.0.0)",
  org.xml.sax,
  org.xml.sax.helpers
