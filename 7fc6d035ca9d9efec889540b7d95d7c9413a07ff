@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7fb1785_d8be3aab",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ConfigTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-02-24T14:16:14Z",
+      "side": 1,
+      "message": "When I leave this modification in but revert your changes in UserConfig then the tests still succeed. It seems that we don\u0027t have a test which fails without your modification but succeeds with your modification. Can you add one?",
+      "revId": "7fc6d035ca9d9efec889540b7d95d7c9413a07ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
