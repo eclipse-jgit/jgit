@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a7fb1785_5dd87c66",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/GitHook.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 6332
+      },
+      "writtenOn": "2015-02-24T22:44:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7fb1785_6794c99a",
+      "revId": "d9d1ab4de881be41c2da01376c77480c8a8fe9ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7fb1785_c7bdbd1f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/GitHook.java",
         "patchSetId": 3
@@ -65,6 +83,24 @@
       "writtenOn": "2015-02-23T22:18:04Z",
       "side": 1,
       "message": "that\u0027s rather a factory class for instantiating supported hooks",
+      "revId": "d9d1ab4de881be41c2da01376c77480c8a8fe9ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_fdcb2894",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/Hooks.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 6332
+      },
+      "writtenOn": "2015-02-24T22:44:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7fb1785_e7a71907",
       "revId": "d9d1ab4de881be41c2da01376c77480c8a8fe9ff",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
