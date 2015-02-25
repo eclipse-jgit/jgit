@@ -54,8 +54,9 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.BaseReceivePack.ReceiveConfig;
 
 /**
- * @author sbeller
+ * Parser for Push certificates
  *
+ * @since 4.0
  */
 public class PushCertificateParser extends PushCertificate {
 

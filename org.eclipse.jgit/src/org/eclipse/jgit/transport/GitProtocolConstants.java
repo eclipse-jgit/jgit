@@ -139,7 +139,7 @@ public class GitProtocolConstants {
 	/**
 	 * The client will send a push certificate.
 	 *
-	 * @since 3.7
+	 * @since 4.0
 	 */
 	public static final String OPTION_PUSH_CERT = "push-cert"; //$NON-NLS-1$
 
@@ -182,7 +182,7 @@ public class GitProtocolConstants {
 	/**
 	 * The server allows recording of push certificates.
 	 *
-	 * @since 3.7
+	 * @since 4.0
 	 */
 	public static final String CAPABILITY_PUSH_CERT = "push-cert"; //$NON-NLS-1$
 

@@ -45,6 +45,8 @@ package org.eclipse.jgit.transport;
 
 /**
  * The required information to verify the push.
+ *
+ * @since 4.0
  */
 public class PushCertificate {
 
