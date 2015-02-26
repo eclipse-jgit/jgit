@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7fb1785_65b5d763",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/GitHook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 460
+      },
+      "writtenOn": "2015-02-26T08:53:44Z",
+      "side": 1,
+      "message": "For security you could check here if this is actually one of the constants. Code will be ugly though...",
+      "revId": "32816c0cf0f260d35ea540304665ba24794ee0b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
