@@ -52,8 +52,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.PipedInputStream;
-import java.io.PipedOutputStream;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
@@ -65,6 +63,8 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryBuilder;
 import org.eclipse.jgit.lib.RepositoryCache;
+import org.eclipse.jgit.transport.resolver.ReceivePackFactory;
+import org.eclipse.jgit.transport.resolver.UploadPackFactory;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.io.MessageWriter;
 import org.eclipse.jgit.util.io.SafeBufferedOutputStream;
@@ -168,21 +168,44 @@ class TransportLocal extends Transport implements PackTransport {
 		return new ReceivePack(dst);
 	}
 
-	@Override
-	public FetchConnection openFetch() throws TransportException {
-		final String up = getOptionUploadPack();
-		if ("git-upload-pack".equals(up) || "git upload-pack".equals(up)) //$NON-NLS-1$ //$NON-NLS-2$
-			return new InternalLocalFetchConnection();
-		return new ForkLocalFetchConnection();
+	private Repository openRepo() throws TransportException {
+		try {
+			return new RepositoryBuilder().setGitDir(remoteGitDir).build();
+		} catch (IOException err) {
+			throw new TransportException(uri, JGitText.get().notAGitDirectory);
+		}
 	}
 
 	@Override
-	public PushConnection openPush() throws NotSupportedException,
-			TransportException {
+	public FetchConnection openFetch() throws TransportException {
+		final String up = getOptionUploadPack();
+		if (!"git-upload-pack".equals(up) //$NON-NLS-1$
+				&& !"git upload-pack".equals(up)) //$NON-NLS-1$
+			return new ForkLocalFetchConnection();
+
+		UploadPackFactory<Void> upf = new UploadPackFactory<Void>() {
+			@Override
+			public UploadPack create(Void req, Repository db) {
+				return createUploadPack(db);
+			}
+		};
+		return new InternalFetchConnection<Void>(this, upf, null, openRepo());
+	}
+
+	@Override
+	public PushConnection openPush() throws TransportException {
 		final String rp = getOptionReceivePack();
-		if ("git-receive-pack".equals(rp) || "git receive-pack".equals(rp)) //$NON-NLS-1$ //$NON-NLS-2$
-			return new InternalLocalPushConnection();
-		return new ForkLocalPushConnection();
+		if (!"git-receive-pack".equals(rp) //$NON-NLS-1$
+				&& !"git receive-pack".equals(rp)) //$NON-NLS-1$
+			return new ForkLocalPushConnection();
+
+		ReceivePackFactory<Void> rpf = new ReceivePackFactory<Void>() {
+			@Override
+			public ReceivePack create(Void req, Repository db) {
+				return createReceivePack(db);
+			}
+		};
+		return new InternalPushConnection<Void>(this, rpf, null, openRepo());
 	}
 
 	@Override
@@ -211,93 +234,6 @@ class TransportLocal extends Transport implements PackTransport {
 			return proc.start();
 		} catch (IOException err) {
 			throw new TransportException(uri, err.getMessage(), err);
-		}
-	}
-
-	class InternalLocalFetchConnection extends BasePackFetchConnection {
-		private Thread worker;
-
-		InternalLocalFetchConnection() throws TransportException {
-			super(TransportLocal.this);
-
-			final Repository dst;
-			try {
-				dst = new RepositoryBuilder().setGitDir(remoteGitDir).build();
-			} catch (IOException err) {
-				throw new TransportException(uri, JGitText.get().notAGitDirectory);
-			}
-
-			final PipedInputStream in_r;
-			final PipedOutputStream in_w;
-
-			final PipedInputStream out_r;
-			final PipedOutputStream out_w;
-			try {
-				in_r = new PipedInputStream();
-				in_w = new PipedOutputStream(in_r);
-
-				out_r = new PipedInputStream() {
-					// The client (BasePackFetchConnection) can write
-					// a huge burst before it reads again. We need to
-					// force the buffer to be big enough, otherwise it
-					// will deadlock both threads.
-					{
-						buffer = new byte[MIN_CLIENT_BUFFER];
-					}
-				};
-				out_w = new PipedOutputStream(out_r);
-			} catch (IOException err) {
-				dst.close();
-				throw new TransportException(uri, JGitText.get().cannotConnectPipes, err);
-			}
-
-			worker = new Thread("JGit-Upload-Pack") { //$NON-NLS-1$
-				public void run() {
-					try {
-						final UploadPack rp = createUploadPack(dst);
-						rp.upload(out_r, in_w, null);
-					} catch (IOException err) {
-						// Client side of the pipes should report the problem.
-						err.printStackTrace();
-					} catch (RuntimeException err) {
-						// Clients side will notice we went away, and report.
-						err.printStackTrace();
-					} finally {
-						try {
-							out_r.close();
-						} catch (IOException e2) {
-							// Ignore close failure, we probably crashed above.
-						}
-
-						try {
-							in_w.close();
-						} catch (IOException e2) {
-							// Ignore close failure, we probably crashed above.
-						}
-
-						dst.close();
-					}
-				}
-			};
-			worker.start();
-
-			init(in_r, out_w);
-			readAdvertisedRefs();
-		}
-
-		@Override
-		public void close() {
-			super.close();
-
-			if (worker != null) {
-				try {
-					worker.join();
-				} catch (InterruptedException ie) {
-					// Stop waiting and return anyway.
-				} finally {
-					worker = null;
-				}
-			}
 		}
 	}
 
@@ -349,83 +285,6 @@ class TransportLocal extends Transport implements PackTransport {
 					// Stop waiting and return anyway.
 				} finally {
 					errorReaderThread = null;
-				}
-			}
-		}
-	}
-
-	class InternalLocalPushConnection extends BasePackPushConnection {
-		private Thread worker;
-
-		InternalLocalPushConnection() throws TransportException {
-			super(TransportLocal.this);
-
-			final Repository dst;
-			try {
-				dst = new RepositoryBuilder().setGitDir(remoteGitDir).build();
-			} catch (IOException err) {
-				throw new TransportException(uri, JGitText.get().notAGitDirectory);
-			}
-
-			final PipedInputStream in_r;
-			final PipedOutputStream in_w;
-
-			final PipedInputStream out_r;
-			final PipedOutputStream out_w;
-			try {
-				in_r = new PipedInputStream();
-				in_w = new PipedOutputStream(in_r);
-
-				out_r = new PipedInputStream();
-				out_w = new PipedOutputStream(out_r);
-			} catch (IOException err) {
-				dst.close();
-				throw new TransportException(uri, JGitText.get().cannotConnectPipes, err);
-			}
-
-			worker = new Thread("JGit-Receive-Pack") { //$NON-NLS-1$
-				public void run() {
-					try {
-						final ReceivePack rp = createReceivePack(dst);
-						rp.receive(out_r, in_w, System.err);
-					} catch (IOException err) {
-						// Client side of the pipes should report the problem.
-					} catch (RuntimeException err) {
-						// Clients side will notice we went away, and report.
-					} finally {
-						try {
-							out_r.close();
-						} catch (IOException e2) {
-							// Ignore close failure, we probably crashed above.
-						}
-
-						try {
-							in_w.close();
-						} catch (IOException e2) {
-							// Ignore close failure, we probably crashed above.
-						}
-
-						dst.close();
-					}
-				}
-			};
-			worker.start();
-
-			init(in_r, out_w);
-			readAdvertisedRefs();
-		}
-
-		@Override
-		public void close() {
-			super.close();
-
-			if (worker != null) {
-				try {
-					worker.join();
-				} catch (InterruptedException ie) {
-					// Stop waiting and return anyway.
-				} finally {
-					worker = null;
 				}
 			}
 		}
