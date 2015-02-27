@@ -162,7 +162,7 @@ public class ProtocolErrorTest extends HttpTestCase {
 			try {
 				PacketLineIn pckin = new PacketLineIn(rawin);
 				assertEquals("unpack error "
-						+ JGitText.get().packfileIsTruncated,
+						+ JGitText.get().packfileIsTruncatedNoParam,
 						pckin.readString());
 				assertEquals("ng refs/objects/A n/a (unpacker error)",
 						pckin.readString());

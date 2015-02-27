@@ -186,6 +186,9 @@ public class ConfigTest {
 		assertFalse(localConfig.get(UserConfig.KEY).isAuthorEmailImplicit());
 
 		// the values are defined in the global configuration
+		// first clear environment variables since they would override
+		// configuration files
+		mockSystemReader.clearProperties();
 		userGitConfig.setString("user", null, "name", "global username");
 		userGitConfig.setString("user", null, "email", "author@globalemail");
 		authorName = localConfig.get(UserConfig.KEY).getAuthorName();
@@ -211,6 +214,20 @@ public class ConfigTest {
 		assertEquals("author@localemail", authorEmail);
 		assertFalse(localConfig.get(UserConfig.KEY).isCommitterNameImplicit());
 		assertFalse(localConfig.get(UserConfig.KEY).isCommitterEmailImplicit());
+
+		// also git environment variables are defined
+		mockSystemReader.setProperty(Constants.GIT_AUTHOR_NAME_KEY,
+				"git author name");
+		mockSystemReader.setProperty(Constants.GIT_AUTHOR_EMAIL_KEY,
+				"author@email");
+		localConfig.setString("user", null, "name", "local username");
+		localConfig.setString("user", null, "email", "author@localemail");
+		authorName = localConfig.get(UserConfig.KEY).getAuthorName();
+		authorEmail = localConfig.get(UserConfig.KEY).getAuthorEmail();
+		assertEquals("git author name", authorName);
+		assertEquals("author@email", authorEmail);
+		assertFalse(localConfig.get(UserConfig.KEY).isAuthorNameImplicit());
+		assertFalse(localConfig.get(UserConfig.KEY).isAuthorEmailImplicit());
 	}
 
 	@Test

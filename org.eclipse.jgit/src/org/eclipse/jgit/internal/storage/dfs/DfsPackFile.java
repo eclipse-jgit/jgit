@@ -199,7 +199,7 @@ public final class DfsPackFile implements AutoCloseable {
 		return key.cachedSize.get();
 	}
 
-	private String getPackName() {
+	String getPackName() {
 		return packDesc.getFileName(PACK);
 	}
 
