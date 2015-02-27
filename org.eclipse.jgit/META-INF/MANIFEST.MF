@@ -143,7 +143,7 @@ Export-Package: org.eclipse.jgit.api;version="3.7.1";
  org.eclipse.jgit.util.io;version="3.7.1"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Require-Bundle: com.jcraft.jsch;bundle-version="[0.1.37,0.2.0)"
+Require-Bundle: com.jcraft.jsch;bundle-version="[0.1.51.v201410302000,0.2.0)"
 Import-Package: com.googlecode.javaewah;version="[0.7.9,0.8.0)",
  javax.crypto,
  javax.net.ssl,
