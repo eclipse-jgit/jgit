@@ -16,6 +16,24 @@
       "revId": "7c7042fe5832911cd0655f87ccf3e016674643ca",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_b651acb2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TestProtocol.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-02-28T00:27:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7fb1785_9628f037",
+      "revId": "7c7042fe5832911cd0655f87ccf3e016674643ca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
