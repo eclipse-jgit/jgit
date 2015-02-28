@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "a7fb1785_e51387e6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/GitHook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-02-28T00:45:06Z",
+      "side": 1,
+      "message": "style nit: trailing whitespace",
+      "revId": "32816c0cf0f260d35ea540304665ba24794ee0b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_16c240ce",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/GitHook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-02-28T00:45:06Z",
+      "side": 1,
+      "message": "I would push down this constant to the respective hook class",
+      "revId": "32816c0cf0f260d35ea540304665ba24794ee0b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7fb1785_65b5d763",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/GitHook.java",
         "patchSetId": 4
@@ -13,6 +47,24 @@
       "writtenOn": "2015-02-26T08:53:44Z",
       "side": 1,
       "message": "For security you could check here if this is actually one of the constants. Code will be ugly though...",
+      "revId": "32816c0cf0f260d35ea540304665ba24794ee0b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_f6c694e0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/GitHook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-02-28T00:45:06Z",
+      "side": 1,
+      "message": "if we want to prevent that new hooks can be created in different packages we could restrict GitHook\u0027s visibility to this package",
+      "parentUuid": "a7fb1785_65b5d763",
       "revId": "32816c0cf0f260d35ea540304665ba24794ee0b9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
