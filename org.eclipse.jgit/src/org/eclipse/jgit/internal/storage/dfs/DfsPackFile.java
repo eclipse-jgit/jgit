@@ -214,7 +214,17 @@ public final class DfsPackFile implements AutoCloseable {
 		index = cache.put(key, POS_INDEX, sz, idx);
 	}
 
-	PackIndex getPackIndex(DfsReader ctx) throws IOException {
+	/**
+	 * Get the PackIndex for this PackFile.
+	 *
+	 * @param ctx
+	 *            reader context to support reading from the backing store if
+	 *            the index is not already loaded in memory.
+	 * @return the PackIndex.
+	 * @throws IOException
+	 *             the pack index is not available, or is corrupt.
+	 */
+	public PackIndex getPackIndex(DfsReader ctx) throws IOException {
 		return idx(ctx);
 	}
 
