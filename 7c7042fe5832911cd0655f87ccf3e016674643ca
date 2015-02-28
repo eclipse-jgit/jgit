@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7fb1785_9628f037",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TestProtocol.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-02-28T00:19:48Z",
+      "side": 1,
+      "message": "the class is new and tagged @since 4.0 hence there is no need to repeat the since tag on individual methods of this class",
+      "revId": "7c7042fe5832911cd0655f87ccf3e016674643ca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
