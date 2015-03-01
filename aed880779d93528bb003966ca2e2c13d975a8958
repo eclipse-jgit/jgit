@@ -16,6 +16,24 @@
       "revId": "aed880779d93528bb003966ca2e2c13d975a8958",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_392bef35",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 15337
+      },
+      "writtenOn": "2015-03-01T01:40:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7fb1785_16e6c05e",
+      "revId": "aed880779d93528bb003966ca2e2c13d975a8958",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
