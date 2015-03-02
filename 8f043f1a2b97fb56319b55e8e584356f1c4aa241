@@ -16,6 +16,24 @@
       "revId": "8f043f1a2b97fb56319b55e8e584356f1c4aa241",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_0ac17378",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/errors/AbortedByHookException.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-03-02T14:35:26Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "a7fb1785_5fa85bd8",
+      "revId": "8f043f1a2b97fb56319b55e8e584356f1c4aa241",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
