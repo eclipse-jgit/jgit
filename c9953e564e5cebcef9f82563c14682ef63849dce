@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7fb1785_9ab64e24",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1022,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-03-03T07:52:27Z",
+      "side": 1,
+      "message": "Is this really needed? Without your change we would directly jump into ldr.getBytes(binaryFileThreshold). And this should throw an exception if we are reading more than binaryFileThreshold. If not then we should fix ldr.getBytes(binaryFileThreshold). There may be ObjectLoaders where determining the size() in advance could be expensive. In this case it may be better to just read bytes from the stream, count the bytes and throw an exception in case we hit the limit.",
+      "revId": "c9953e564e5cebcef9f82563c14682ef63849dce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
