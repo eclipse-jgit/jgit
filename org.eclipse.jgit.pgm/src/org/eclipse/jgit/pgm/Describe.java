@@ -48,6 +48,7 @@ import org.eclipse.jgit.api.errors.RefNotFoundException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.pgm.internal.CLIText;
 import org.kohsuke.args4j.Argument;
+import org.kohsuke.args4j.Option;
 
 @Command(common = true, usage = "usage_Describe")
 class Describe extends TextBuiltin {
@@ -55,11 +56,15 @@ class Describe extends TextBuiltin {
 	@Argument(index = 0, metaVar = "metaVar_treeish")
 	private ObjectId tree;
 
+	@Option(name = "--long", usage = "usage_LongFormat")
+	private boolean longDesc;
+
 	@Override
 	protected void run() throws Exception {
 		DescribeCommand cmd = new Git(db).describe();
 		if (tree != null)
 			cmd.setTarget(tree);
+		cmd.setLong(longDesc);
 		String result = null;
 		try {
 			result = cmd.call();
