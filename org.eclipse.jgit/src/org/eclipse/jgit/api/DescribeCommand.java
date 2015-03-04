@@ -89,6 +89,11 @@ public class DescribeCommand extends GitCommand<String> {
 	private int maxCandidates = 10;
 
 	/**
+	 * Whether to always use long output format or not.
+	 */
+	private boolean longDesc = false;
+
+	/**
 	 *
 	 * @param repo
 	 */
@@ -136,6 +141,24 @@ public class DescribeCommand extends GitCommand<String> {
 		if (id == null)
 			throw new RefNotFoundException(MessageFormat.format(JGitText.get().refNotResolved, rev));
 		return setTarget(id);
+	}
+
+	/**
+	 * Determine whether always to use the long format or not. When set to
+	 * <code>true</code> the long format is used even the commit matches a tag.
+	 *
+	 * @param longDesc
+	 *            <code>true</code> if always the long format should be used.
+	 * @return {@code this}
+	 *
+	 * @see <a
+	 *      href="https://www.kernel.org/pub/software/scm/git/docs/git-describe.html"
+	 *      >Git documentation about describe</a>
+	 * @since 4.0
+	 */
+	public DescribeCommand setLong(boolean longDesc) {
+		this.longDesc = longDesc;
+		return this;
 	}
 
 	/**
@@ -213,8 +236,20 @@ public class DescribeCommand extends GitCommand<String> {
 
 			// is the target already pointing to a tag? if so, we are done!
 			Ref lucky = tags.get(target);
-			if (lucky != null)
-				return lucky.getName().substring(R_TAGS.length());
+			if (lucky != null) {
+				if (!longDesc) {
+					return lucky.getName().substring(R_TAGS.length());
+				} else {
+					ObjectId objectId = lucky.getPeeledObjectId();
+					if (objectId == null) {
+						objectId = lucky.getObjectId();
+					}
+					return String.format("%s-0-g%s",
+							lucky.getName().substring(R_TAGS.length()), w
+									.getObjectReader().abbreviate(objectId)
+									.name());
+				}
+			}
 
 			w.markStart(target);
 
