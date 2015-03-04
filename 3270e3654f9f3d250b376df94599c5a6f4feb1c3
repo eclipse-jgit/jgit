@@ -16,6 +16,24 @@
       "revId": "3270e3654f9f3d250b376df94599c5a6f4feb1c3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_46a88fd8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1504
+      },
+      "writtenOn": "2015-03-04T13:19:29Z",
+      "side": 1,
+      "message": "Oh, I see. We are using this for automated workspace setup, like Oomph does, to have the command line git config use the same proxy as Eclipse does. I agree this would be irritating to have unused constants. I\u0027ll withdraw this change.",
+      "parentUuid": "a7fb1785_26f3c312",
+      "revId": "3270e3654f9f3d250b376df94599c5a6f4feb1c3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
