@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7fb1785_8627173e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-03-04T12:12:47Z",
+      "side": 1,
+      "message": "It\u0027s a section not a key. It should be named CONFIG_HTTP_SECTION.",
+      "revId": "f6de47330ab1ff8c64778dfe5c910f8c2d6a85eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
