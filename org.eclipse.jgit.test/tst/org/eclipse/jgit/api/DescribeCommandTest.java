@@ -84,12 +84,15 @@ public class DescribeCommandTest extends RepositoryTestCase {
 		ObjectId c4 = modify("ddd");
 
 		assertNull(describe(c1));
+		assertNull(describe(c1, true));
 		assertEquals("t1", describe(c2));
 		assertEquals("t2", describe(c3));
+		assertEquals("t2-0-g44579eb", describe(c3, true));
 
 		assertNameStartsWith(c4, "3e563c5");
 		// the value verified with git-describe(1)
 		assertEquals("t2-1-g3e563c5", describe(c4));
+		assertEquals("t2-1-g3e563c5", describe(c4, true));
 
 		// test default target
 		assertEquals("t2-1-g3e563c5", git.describe().call());
@@ -122,6 +125,7 @@ public class DescribeCommandTest extends RepositoryTestCase {
 		assertNameStartsWith(c4, "119892b");
 		assertEquals("t-2-g119892b", describe(c4)); // 2 commits: c4 and c3
 		assertNull(describe(c3));
+		assertNull(describe(c3, true));
 	}
 
 	private void branch(String name, ObjectId base) throws GitAPIException {
@@ -238,8 +242,13 @@ public class DescribeCommandTest extends RepositoryTestCase {
 		w.close();
 	}
 
+	private String describe(ObjectId c1, boolean longDesc)
+			throws GitAPIException, IOException {
+		return git.describe().setTarget(c1).setLong(longDesc).call();
+	}
+
 	private String describe(ObjectId c1) throws GitAPIException, IOException {
-		return git.describe().setTarget(c1).call();
+		return describe(c1, false);
 	}
 
 	private static void assertNameStartsWith(ObjectId c4, String prefix) {
