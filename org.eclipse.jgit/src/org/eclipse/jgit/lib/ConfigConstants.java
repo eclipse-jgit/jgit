@@ -299,4 +299,14 @@ public class ConfigConstants {
 	 * @since 3.3
 	 */
 	public static final String CONFIG_KEY_PRUNE = "prune";
+
+	/** The "proxy" key
+	 * @since 4.0
+	 */
+	public static final String CONFIG_KEY_PROXY = "proxy";
+
+	/** The "http" section
+	 * @since 4.0
+	 */
+	public static final String CONFIG_HTTP_SECTION = "http";
 }
