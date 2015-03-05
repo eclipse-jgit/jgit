@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7fb1785_0575da70",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1056
+      },
+      "writtenOn": "2015-03-05T09:08:29Z",
+      "side": 1,
+      "message": "I\u0027m new to these parts of the code, but looking at the code in ObjectWalk.java, it seems markTreeUninteresting() is recursive, and marks the whole tree as uninteresting. Am I reading the code wrong? If not: Is this necessary? Would it not be enough to mark the tree root and save quite some time?",
+      "revId": "c4797fe98655b3d52d0a90ba44fce6e053db3b8b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
