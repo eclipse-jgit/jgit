@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7fb1785_0b404bed",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/StatusTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-03-05T23:53:11Z",
+      "side": 1,
+      "message": "why are you removing Francois\u0027 email address ?",
+      "revId": "ea2e2725411893df4d42c3a10294452059d2c78e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_2b3b8788",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/StatusTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-03-05T23:53:11Z",
+      "side": 1,
+      "message": "we don\u0027t use author tags",
+      "revId": "ea2e2725411893df4d42c3a10294452059d2c78e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_2b954796",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Status.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-03-05T23:53:11Z",
+      "side": 1,
+      "message": "don\u0027t remove the email address, and others is redundant",
+      "revId": "ea2e2725411893df4d42c3a10294452059d2c78e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7f18fa3_0e07eb90",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Status.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-03-05T23:53:11Z",
+      "side": 1,
+      "message": "style nit: we don\u0027t use author tags",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 23
+      },
+      "revId": "ea2e2725411893df4d42c3a10294452059d2c78e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7f18fa3_aef5f7f7",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/opt/UntrackedFilesHandler.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-03-05T23:53:11Z",
+      "side": 1,
+      "message": "we don\u0027t use author tags",
+      "revId": "ea2e2725411893df4d42c3a10294452059d2c78e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7f18fa3_ceecc334",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/opt/UntrackedFilesHandler.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-03-05T23:53:11Z",
+      "side": 1,
+      "message": "missing @since 4.0 tag",
+      "revId": "ea2e2725411893df4d42c3a10294452059d2c78e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
