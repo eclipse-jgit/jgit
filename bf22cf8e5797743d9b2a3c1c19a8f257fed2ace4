@@ -69,6 +69,24 @@
       "revId": "bf22cf8e5797743d9b2a3c1c19a8f257fed2ace4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_58a85c0f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HMACSHA1NonceGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-03-09T22:50:50Z",
+      "side": 1,
+      "message": "Regex dialect escaping differences, I imagine.",
+      "parentUuid": "a7fb1785_3870f04e",
+      "revId": "bf22cf8e5797743d9b2a3c1c19a8f257fed2ace4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
