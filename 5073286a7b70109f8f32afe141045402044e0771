@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a7fb1785_9d2bd681",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Describe.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-03-09T18:00:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7fb1785_5d7fae86",
+      "range": {
+        "startLine": 60,
+        "startChar": 25,
+        "endLine": 60,
+        "endChar": 34
+      },
+      "revId": "5073286a7b70109f8f32afe141045402044e0771",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7fb1785_1d8ec63a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2015-03-09T17:11:35Z",
       "side": 1,
       "message": "IIRC our coding convention is to omit initializers for false/0/null.",
+      "range": {
+        "startLine": 94,
+        "startChar": 25,
+        "endLine": 94,
+        "endChar": 33
+      },
+      "revId": "5073286a7b70109f8f32afe141045402044e0771",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_fdcbfa4a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-03-09T18:00:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7fb1785_1d8ec63a",
       "range": {
         "startLine": 94,
         "startChar": 25,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "a7fb1785_1ddb6619",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-03-09T18:00:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7fb1785_fdf93a8f",
+      "range": {
+        "startLine": 230,
+        "startChar": 4,
+        "endLine": 233,
+        "endChar": 5
+      },
+      "revId": "5073286a7b70109f8f32afe141045402044e0771",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7fb1785_9d7916a2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
         "patchSetId": 3
@@ -82,6 +154,30 @@
       "writtenOn": "2015-03-09T17:11:35Z",
       "side": 1,
       "message": "Drop the } else { block and save a level of indentation. The then clause above does early return so you don\u0027t need the else.",
+      "range": {
+        "startLine": 242,
+        "startChar": 4,
+        "endLine": 251,
+        "endChar": 5
+      },
+      "revId": "5073286a7b70109f8f32afe141045402044e0771",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_7dbf0aa8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-03-09T18:00:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7fb1785_9d7916a2",
       "range": {
         "startLine": 242,
         "startChar": 4,
