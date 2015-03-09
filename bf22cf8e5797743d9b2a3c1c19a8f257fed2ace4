@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7fb1785_187ff451",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HMACSHA1NonceGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-03-09T22:10:15Z",
+      "side": 1,
+      "message": "No braces.",
+      "revId": "bf22cf8e5797743d9b2a3c1c19a8f257fed2ace4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_b86d00a9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HMACSHA1NonceGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-03-09T22:10:15Z",
+      "side": 1,
+      "message": "This is a little crazy, String.format is very slow, so I\u0027m loath to call it in a loop.\n\nThere are libraries that will do this for you, Apache Commons and Guava both have things I think. But neither of them is a dep of JGit, nor should you add it just for this.\n\nUnfortunately that leaves the JGit way to do this, which is to write the conversion code manually. If you grep for \u0027(byte|char)\\[\\].*hex\u0027 in the JGit source you\u0027ll see that we already do this...a number of places. Some of them are slightly different (e.g. encoding a whole 4-byte int as hex).\n\nI wouldn\u0027t be opposed to factoring all that out into Constants.\n\nOr maybe we just don\u0027t care about performance since this is just looping over a SHA-1 value. But \"just don\u0027t care about performance\" is, well, not the JGit way :)",
+      "revId": "bf22cf8e5797743d9b2a3c1c19a8f257fed2ace4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
