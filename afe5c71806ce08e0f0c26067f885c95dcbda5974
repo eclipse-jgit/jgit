@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a7fb1785_9857649f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HMACSHA1NonceGenerator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 15337
+      },
+      "writtenOn": "2015-03-09T22:49:04Z",
+      "side": 1,
+      "message": "Switched to concatenation, which implicitly uses StringBuilder.",
+      "parentUuid": "a7fb1785_9825a45f",
+      "revId": "afe5c71806ce08e0f0c26067f885c95dcbda5974",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7fb1785_183a5480",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HMACSHA1NonceGenerator.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2015-03-09T22:39:51Z",
       "side": 1,
       "message": "Optional: Presize to 2 * bytes.length",
+      "revId": "afe5c71806ce08e0f0c26067f885c95dcbda5974",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_184c1419",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HMACSHA1NonceGenerator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 15337
+      },
+      "writtenOn": "2015-03-09T22:49:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7fb1785_183a5480",
       "revId": "afe5c71806ce08e0f0c26067f885c95dcbda5974",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
