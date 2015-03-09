@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "a7fb1785_98b2c479",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HMACSHA1NonceGenerator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-03-09T22:51:23Z",
+      "side": 1,
+      "message": "Well technically now you have two StringBuilders where one would do, but I\u0027m done being nitpicky, this is fine.",
+      "parentUuid": "a7fb1785_9857649f",
+      "revId": "afe5c71806ce08e0f0c26067f885c95dcbda5974",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7fb1785_183a5480",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HMACSHA1NonceGenerator.java",
         "patchSetId": 2
