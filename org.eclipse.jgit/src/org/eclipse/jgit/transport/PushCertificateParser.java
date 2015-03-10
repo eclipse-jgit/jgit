@@ -158,7 +158,7 @@ public class PushCertificateParser extends PushCertificate {
 			pushee = parseNextLine(pckIn, PUSHEE);
 			receivedNonce = parseNextLine(pckIn, NONCE);
 			// an empty line
-			if (pckIn.readString() != "") { //$NON-NLS-1$
+			if (!pckIn.readString().isEmpty()) {
 				throw new IOException(MessageFormat.format(
 						JGitText.get().errorInvalidPushCert,
 						"expected empty line after header")); //$NON-NLS-1$
