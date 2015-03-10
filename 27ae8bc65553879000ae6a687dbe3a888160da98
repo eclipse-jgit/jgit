@@ -69,6 +69,24 @@
       "revId": "27ae8bc65553879000ae6a687dbe3a888160da98",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_f3b1692e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-03-10T00:49:33Z",
+      "side": 1,
+      "message": "No, they are always owned by a higher-level object that should be closed.\n\nSimilarly Git should definitely not be AutoCloseable IMHO. I often find myself doing:\n\n Repository repo \u003d openRepo();\n try {\n   Git git \u003d Git.wrap(repo);\n   git.someHighLevelApi().call();\n   somethingNotExposedByGitApi(repo);\n } finally {\n   repo.close();\n }\n\nTo avoid a warning we would have to do:\n\n try (Repository repo \u003d openRepo();\n     Git git \u003d Git.wrap(repo)) {\n   git.someHighLevelApi().call();\n   somethingNotExposedByGitApi(repo);\n }\n\nBut this is broken, because repo gets double-closed which screws with refcounting.",
+      "parentUuid": "a7fb1785_f8666847",
+      "revId": "27ae8bc65553879000ae6a687dbe3a888160da98",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
