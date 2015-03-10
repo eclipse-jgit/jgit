@@ -159,6 +159,24 @@
       "revId": "27ae8bc65553879000ae6a687dbe3a888160da98",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_d308ad69",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-03-10T00:59:40Z",
+      "side": 1,
+      "message": "Oops. I meant leave alone and not make it AutoCloseable. But since this change is already submitted that would mean reverting the AutoCloseable change to Git.",
+      "parentUuid": "a7fb1785_53e95df2",
+      "revId": "27ae8bc65553879000ae6a687dbe3a888160da98",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
