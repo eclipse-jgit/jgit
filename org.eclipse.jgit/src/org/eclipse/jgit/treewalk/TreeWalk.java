@@ -161,7 +161,7 @@ public class TreeWalk implements AutoCloseable {
 		try {
 			return forPath(reader, path, trees);
 		} finally {
-			reader.release();
+			reader.close();
 		}
 	}
 
