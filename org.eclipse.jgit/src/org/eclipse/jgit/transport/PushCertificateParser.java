@@ -130,18 +130,20 @@ public class PushCertificateParser extends PushCertificate {
 
 	/**
 	 * Receive a list of commands from the input encapsulated in a push
-	 * certificate. This method doesn't deal with the first line "push-cert \NUL
-	 * <capabilities>", but assumes the first line including the capabilities
-	 * has already been dealt with.
+	 * certificate. This method doesn't parse the first line "push-cert \NUL
+	 * &lt;capabilities&gt;", but assumes the first line including the
+	 * capabilities has already been handled by the caller.
 	 *
 	 * @param pckIn
 	 *            where we take the push certificate header from.
 	 * @param stateless
-	 *            If this server is run as a stateless server, such that it
-	 *            cannot store the sent push certificate and needs to validate
-	 *            what the client sends back.
-	 *
+	 *            affects nonce verification. When {@code stateless = true} the
+	 *            {@code NonceGenerator} will allow for some time skew caused by
+	 *            clients disconnected and reconnecting in the stateless smart
+	 *            HTTP protocol.
 	 * @throws IOException
+	 *             if the certificate from the client is badly malformed or the
+	 *             client disconnects before sending the entire certificate.
 	 */
 	public void receiveHeader(PacketLineIn pckIn, boolean stateless)
 			throws IOException {
