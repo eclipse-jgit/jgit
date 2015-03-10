@@ -166,6 +166,8 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 
 	final ObjectReader reader;
 
+	private final boolean closeReader;
+
 	final MutableObjectId idBuffer;
 
 	ObjectIdOwnerMap<RevObject> objects;
@@ -175,6 +177,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	private int delayFreeFlags;
 
 	private int retainOnReset;
+
 	int carryFlags = UNINTERESTING;
 
 	final ArrayList<RevCommit> roots;
@@ -200,22 +203,27 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 *
 	 * @param repo
 	 *            the repository the walker will obtain data from. An
-	 *            ObjectReader will be created by the walker, and must be
-	 *            released by the caller.
+	 *            ObjectReader will be created by the walker, and will be closed
+	 *            when the walker is closed.
 	 */
 	public RevWalk(final Repository repo) {
-		this(repo.newObjectReader());
+		this(repo.newObjectReader(), true);
 	}
 
 	/**
 	 * Create a new revision walker for a given repository.
+	 * <p>
 	 *
 	 * @param or
-	 *            the reader the walker will obtain data from. The reader should
-	 *            be released by the caller when the walker is no longer
-	 *            required.
+	 *            the reader the walker will obtain data from. The reader is not
+	 *            closed when the walker is closed (but is closed by {@link
+	 *            #dispose()}.
 	 */
 	public RevWalk(ObjectReader or) {
+		this(or, false);
+	}
+
+	private RevWalk(ObjectReader or, boolean closeReader) {
 		reader = or;
 		idBuffer = new MutableObjectId();
 		objects = new ObjectIdOwnerMap<RevObject>();
@@ -226,6 +234,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 		filter = RevFilter.ALL;
 		treeFilter = TreeFilter.ALL;
 		retainBody = true;
+		this.closeReader = closeReader;
 	}
 
 	/** @return the reader this walker is using to load objects. */
@@ -254,7 +263,9 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 */
 	@Override
 	public void close() {
-		reader.close();
+		if (closeReader) {
+			reader.close();
+		}
 	}
 
 	/**
