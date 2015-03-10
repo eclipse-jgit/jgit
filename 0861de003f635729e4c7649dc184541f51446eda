@@ -22,6 +22,30 @@
       "revId": "0861de003f635729e4c7649dc184541f51446eda",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_2793ac2d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-03-10T23:16:14Z",
+      "side": 1,
+      "message": "We don\u0027t use try-with-resources currently in JGit outside of the java7 packages. I\u0027m not sure when this is scheduled to change, but that seemed beyond the scope of what I\u0027m doing right here (eliminating warnings).",
+      "parentUuid": "a7fb1785_a7a83c63",
+      "range": {
+        "startLine": 160,
+        "startChar": 2,
+        "endLine": 165,
+        "endChar": 3
+      },
+      "revId": "0861de003f635729e4c7649dc184541f51446eda",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
