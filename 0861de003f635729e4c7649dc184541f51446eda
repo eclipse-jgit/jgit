@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7fb1785_a7a83c63",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-03-10T23:04:06Z",
+      "side": 1,
+      "message": "Rewrite as try-with-resources:\n\n  try (ObjectReader reader \u003d db.newObjectReader()) {\n    return forPath(reader, path, trees);\n  }\n\n?",
+      "range": {
+        "startLine": 160,
+        "startChar": 2,
+        "endLine": 165,
+        "endChar": 3
+      },
+      "revId": "0861de003f635729e4c7649dc184541f51446eda",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
