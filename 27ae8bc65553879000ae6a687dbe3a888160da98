@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7fb1785_d8844c65",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-03-10T00:39:18Z",
+      "side": 1,
+      "message": "I don\u0027t understand why \"internal\" types like DfsPackFile, PackFile, ObjectDatabase and RefDatabase are AutoCloseable.\n\nWe _never_ use these in scopes where you would use try-with-resources:\n\n  try (PackFile pf \u003d .... ) {\n  }\n\njust never would happen. We retain these objects long term in the block cache, or they are held by a higher level Repository object that should manage the close for the caller(s).",
+      "revId": "27ae8bc65553879000ae6a687dbe3a888160da98",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_388ab06f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-03-10T00:39:18Z",
+      "side": 1,
+      "message": "I am mixed on this being AutoCloseable.\n\nMaybe its correct but are there going to be some warnings now in Gerrit and EGit and the like where a Repository is opened in one scope and held a long time before being closed elsewhere?",
+      "revId": "27ae8bc65553879000ae6a687dbe3a888160da98",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
