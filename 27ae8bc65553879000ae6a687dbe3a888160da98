@@ -105,6 +105,24 @@
       "revId": "27ae8bc65553879000ae6a687dbe3a888160da98",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_f3d84968",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-03-10T00:54:25Z",
+      "side": 1,
+      "message": "In the Git case wrap could set a flag inside of the Git instance that makes the close() a no-op, leaving the repo open for the caller to release.\n\nUnfortunately that is a major semantic change for anyone currently doing:\n\n  Git git \u003d Git.wrap(... some repo ...);\n  // do stuff\n  git.close();\n\nto use the higher level API to manage the repository itself.\n\nWe could add a wrapNoClose() method or something to Git to make close() a no-op, but I can\u0027t think of what that method would be called. Maybe we overload wrap?\n\n  public static Git wrap(Repository repo, boolean close);\n\nThen your example is:\n\n try (Repository repo \u003d openRepo();\n     Git git \u003d Git.wrap(repo, false)) {\n   git.someHighLevelApi().call();\n   somethingNotExposedByGitApi(repo);\n }\n\nWhich is still awkward.",
+      "parentUuid": "a7fb1785_f3b1692e",
+      "revId": "27ae8bc65553879000ae6a687dbe3a888160da98",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
