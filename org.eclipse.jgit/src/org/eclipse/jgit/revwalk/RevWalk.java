@@ -1284,13 +1284,13 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * All RevFlag instances are also invalidated, and must not be reused.
 	 */
 	public void dispose() {
-		reader.release();
+		reader.close();
 		freeFlags = APP_FLAGS;
 		delayFreeFlags = 0;
 		retainOnReset = 0;
 		carryFlags = UNINTERESTING;
 		objects.clear();
-		reader.release();
+		reader.close();
 		roots.clear();
 		queue = new DateRevQueue();
 		pending = new StartGenerator(this);
