@@ -479,6 +479,68 @@ public class TestRepository<R extends Repository> {
 	}
 
 	/**
+	 * "Checkout" a detached head.
+	 * <p>
+	 * @param id
+	 *            ID of detached head.
+	 * @throws Exception
+	 * @see #checkout(String)
+	 */
+	public void checkout(AnyObjectId id) throws Exception {
+		RefUpdate ru = db.updateRef(Constants.HEAD, true);
+		ru.setNewObjectId(id);
+		RefUpdate.Result result = ru.forceUpdate();
+		switch (result) {
+			case FAST_FORWARD:
+			case FORCED:
+			case NEW:
+			case NO_CHANGE:
+				break;
+			default:
+				throw new IOException(String.format(
+						"Checkout \"%s\" failed: %s", id.name(), result));
+		}
+	}
+
+	/**
+	 * "Checkout" a revision by moving HEAD.
+	 * <p>
+	 * This differs from a regular checkout operation in that the working tree is
+	 * not updated, even if the wrapped repository is non-bare. This mirrors the
+	 * behavior of {@link #update(String, AnyObjectId)}, which will leave the
+	 * working tree in a dirty state if the ref in question is pointed to by HEAD.
+	 *
+	 * @param name
+	 *            revision string; either an existing ref name, or something that
+	 *            can be parsed to an object ID.
+	 * @throws Exception
+	 */
+	public void checkout(String name) throws Exception {
+		RefUpdate.Result result;
+		Ref ref = db.getRef(name);
+		if (ref != null)
+			result = db.updateRef(Constants.HEAD).link(ref.getName());
+		else {
+			ObjectId id = db.resolve(name);
+			if (id == null)
+				throw new IOException("Not a revision: " + name);
+			RefUpdate ru = db.updateRef(Constants.HEAD, true);
+			ru.setNewObjectId(id);
+			result = ru.forceUpdate();
+		}
+		switch (result) {
+			case FAST_FORWARD:
+			case FORCED:
+			case NEW:
+			case NO_CHANGE:
+				break;
+			default:
+				throw new IOException(String.format(
+						"Checkout \"%s\" failed: %s", name, result));
+		}
+	}
+
+	/**
 	 * Update the dumb client server info files.
 	 *
 	 * @throws Exception
