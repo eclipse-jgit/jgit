@@ -44,12 +44,16 @@
 package org.eclipse.jgit.junit;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.regex.Pattern;
 
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.After;
@@ -58,12 +62,14 @@ import org.junit.Test;
 
 public class TestRepositoryTest {
 	private TestRepository<InMemoryRepository> tr;
+	private InMemoryRepository repo;
 	private RevWalk rw;
 
 	@Before
 	public void setUp() throws Exception {
 		tr = new TestRepository<>(new InMemoryRepository(
 				new DfsRepositoryDescription("test")));
+		repo = tr.getRepository();
 		rw = tr.getRevWalk();
 	}
 
@@ -84,5 +90,82 @@ public class TestRepositoryTest {
 		rw.parseBody(c2);
 		assertEquals("\n\nChange-Id: I0000000000000000000000000000000000000000\n",
 				c2.getFullMessage());
+	}
+
+	@Test
+	public void resetFromSymref() throws Exception {
+		repo.updateRef("HEAD").link("refs/heads/master");
+		Ref head = repo.getRef("HEAD");
+		RevCommit master = tr.branch("master").commit().create();
+		RevCommit branch = tr.branch("branch").commit().create();
+		RevCommit detached = tr.commit().create();
+
+		assertTrue(head.isSymbolic());
+		assertEquals("refs/heads/master", head.getTarget().getName());
+		assertEquals(master, repo.getRef("refs/heads/master").getObjectId());
+		assertEquals(branch, repo.getRef("refs/heads/branch").getObjectId());
+
+		// Reset to branches preserves symref.
+		tr.reset("master");
+		head = repo.getRef("HEAD");
+		assertEquals(master, head.getObjectId());
+		assertTrue(head.isSymbolic());
+		assertEquals("refs/heads/master", head.getTarget().getName());
+
+		tr.reset("branch");
+		head = repo.getRef("HEAD");
+		assertEquals(branch, head.getObjectId());
+		assertTrue(head.isSymbolic());
+		assertEquals("refs/heads/master", head.getTarget().getName());
+		ObjectId lastHeadBeforeDetach = head.getObjectId().copy();
+
+		// Reset to a SHA-1 detaches.
+		tr.reset(detached);
+		head = repo.getRef("HEAD");
+		assertEquals(detached, head.getObjectId());
+		assertFalse(head.isSymbolic());
+
+		tr.reset(detached.name());
+		head = repo.getRef("HEAD");
+		assertEquals(detached, head.getObjectId());
+		assertFalse(head.isSymbolic());
+
+		// Reset back to a branch remains detached.
+		tr.reset("master");
+		head = repo.getRef("HEAD");
+		assertEquals(lastHeadBeforeDetach, head.getObjectId());
+		assertFalse(head.isSymbolic());
+	}
+
+	@Test
+	public void resetFromDetachedHead() throws Exception {
+		Ref head = repo.getRef("HEAD");
+		RevCommit master = tr.branch("master").commit().create();
+		RevCommit branch = tr.branch("branch").commit().create();
+		RevCommit detached = tr.commit().create();
+
+		assertNull(head);
+		assertEquals(master, repo.getRef("refs/heads/master").getObjectId());
+		assertEquals(branch, repo.getRef("refs/heads/branch").getObjectId());
+
+		tr.reset("master");
+		head = repo.getRef("HEAD");
+		assertEquals(master, head.getObjectId());
+		assertFalse(head.isSymbolic());
+
+		tr.reset("branch");
+		head = repo.getRef("HEAD");
+		assertEquals(branch, head.getObjectId());
+		assertFalse(head.isSymbolic());
+
+		tr.reset(detached);
+		head = repo.getRef("HEAD");
+		assertEquals(detached, head.getObjectId());
+		assertFalse(head.isSymbolic());
+
+		tr.reset(detached.name());
+		head = repo.getRef("HEAD");
+		assertEquals(detached, head.getObjectId());
+		assertFalse(head.isSymbolic());
 	}
 }
