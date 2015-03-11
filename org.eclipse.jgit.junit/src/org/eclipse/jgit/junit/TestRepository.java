@@ -96,6 +96,7 @@ import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
+import org.eclipse.jgit.util.ChangeIdUtil;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.io.SafeBufferedOutputStream;
 
@@ -749,6 +750,8 @@ public class TestRepository<R extends Repository> {
 		private PersonIdent author;
 		private PersonIdent committer;
 
+		private boolean insertChangeId;
+
 		CommitBuilder() {
 			branch = null;
 		}
@@ -856,6 +859,11 @@ public class TestRepository<R extends Repository> {
 			return this;
 		}
 
+		public CommitBuilder insertChangeId() {
+			insertChangeId = true;
+			return this;
+		}
+
 		public RevCommit create() throws Exception {
 			if (self == null) {
 				TestRepository.this.tick(tick);
@@ -869,7 +877,6 @@ public class TestRepository<R extends Repository> {
 					c.setAuthor(author);
 				if (committer != null)
 					c.setCommitter(committer);
-				c.setMessage(message);
 
 				ObjectId commitId;
 				try (ObjectInserter ins = inserter) {
@@ -877,6 +884,9 @@ public class TestRepository<R extends Repository> {
 						c.setTreeId(topLevelTree);
 					else
 						c.setTreeId(tree.writeTree(ins));
+					if (insertChangeId)
+						insertChangeId(c);
+					c.setMessage(message);
 					commitId = ins.insert(c);
 					ins.flush();
 				}
@@ -886,6 +896,20 @@ public class TestRepository<R extends Repository> {
 					branch.update(self);
 			}
 			return self;
+		}
+
+		private void insertChangeId(org.eclipse.jgit.lib.CommitBuilder c)
+				throws IOException {
+			ObjectId firstParentId = null;
+			if (!parents.isEmpty())
+				firstParentId = parents.get(0);
+			ObjectId changeId = ChangeIdUtil.computeChangeId(c.getTreeId(),
+					firstParentId, c.getAuthor(), c.getCommitter(), message);
+			message = ChangeIdUtil.insertId(message, changeId);
+			if (changeId != null)
+				message = message.replaceAll("\nChange-Id: I" //$NON-NLS-1$
+						+ ObjectId.zeroId().getName() + "\n", "\nChange-Id: I" //$NON-NLS-1$ //$NON-NLS-2$
+						+ changeId.getName() + "\n"); //$NON-NLS-1$
 		}
 
 		public CommitBuilder child() throws Exception {
