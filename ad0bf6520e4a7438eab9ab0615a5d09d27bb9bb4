@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7fb1785_93c57ed7",
+        "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/TestRepository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 909,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-03-11T22:39:32Z",
+      "side": 1,
+      "message": "Honestly I have no idea what this block is supposed to be doing. It dates to here:\n\nhttps://git.eclipse.org/r/2760\n\nbut neither the commit message nor the review thread helps my understanding.",
+      "revId": "ad0bf6520e4a7438eab9ab0615a5d09d27bb9bb4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
