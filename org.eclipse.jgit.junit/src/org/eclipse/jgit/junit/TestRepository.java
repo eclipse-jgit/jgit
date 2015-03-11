@@ -217,11 +217,9 @@ public class TestRepository<R extends Repository> {
 	 */
 	public RevBlob blob(final byte[] content) throws Exception {
 		ObjectId id;
-		try {
-			id = inserter.insert(Constants.OBJ_BLOB, content);
-			inserter.flush();
-		} finally {
-			inserter.release();
+		try (ObjectInserter ins = inserter) {
+			id = ins.insert(Constants.OBJ_BLOB, content);
+			ins.flush();
 		}
 		return pool.lookupBlob(id);
 	}
@@ -260,11 +258,9 @@ public class TestRepository<R extends Repository> {
 			b.add(e);
 		b.finish();
 		ObjectId root;
-		try {
-			root = dc.writeTree(inserter);
-			inserter.flush();
-		} finally {
-			inserter.release();
+		try (ObjectInserter ins = inserter) {
+			root = dc.writeTree(ins);
+			ins.flush();
 		}
 		return pool.lookupTree(root);
 	}
@@ -281,18 +277,19 @@ public class TestRepository<R extends Repository> {
 	 */
 	public RevObject get(final RevTree tree, final String path)
 			throws Exception {
-		final TreeWalk tw = new TreeWalk(pool.getObjectReader());
-		tw.setFilter(PathFilterGroup.createFromStrings(Collections
-				.singleton(path)));
-		tw.reset(tree);
-		while (tw.next()) {
-			if (tw.isSubtree() && !path.equals(tw.getPathString())) {
-				tw.enterSubtree();
-				continue;
+		try (TreeWalk tw = new TreeWalk(pool.getObjectReader())) {
+			tw.setFilter(PathFilterGroup.createFromStrings(Collections
+					.singleton(path)));
+			tw.reset(tree);
+			while (tw.next()) {
+				if (tw.isSubtree() && !path.equals(tw.getPathString())) {
+					tw.enterSubtree();
+					continue;
+				}
+				final ObjectId entid = tw.getObjectId(0);
+				final FileMode entmode = tw.getFileMode(0);
+				return pool.lookupAny(entid, entmode.getObjectType());
 			}
-			final ObjectId entid = tw.getObjectId(0);
-			final FileMode entmode = tw.getFileMode(0);
-			return pool.lookupAny(entid, entmode.getObjectType());
 		}
 		fail("Can't find " + path + " in tree " + tree.name());
 		return null; // never reached.
@@ -377,11 +374,9 @@ public class TestRepository<R extends Repository> {
 		c.setCommitter(new PersonIdent(committer, new Date(now)));
 		c.setMessage("");
 		ObjectId id;
-		try {
-			id = inserter.insert(c);
-			inserter.flush();
-		} finally {
-			inserter.release();
+		try (ObjectInserter ins = inserter) {
+			id = ins.insert(c);
+			ins.flush();
 		}
 		return pool.lookupCommit(id);
 	}
@@ -414,11 +409,9 @@ public class TestRepository<R extends Repository> {
 		t.setTagger(new PersonIdent(committer, new Date(now)));
 		t.setMessage("");
 		ObjectId id;
-		try {
-			id = inserter.insert(t);
-			inserter.flush();
-		} finally {
-			inserter.release();
+		try (ObjectInserter ins = inserter) {
+			id = ins.insert(t);
+			ins.flush();
 		}
 		return (RevTag) pool.lookupAny(id, Constants.OBJ_TAG);
 	}
@@ -581,34 +574,35 @@ public class TestRepository<R extends Repository> {
 	 */
 	public void fsck(RevObject... tips) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
-		ObjectWalk ow = new ObjectWalk(db);
-		if (tips.length != 0) {
-			for (RevObject o : tips)
-				ow.markStart(ow.parseAny(o));
-		} else {
-			for (Ref r : db.getAllRefs().values())
-				ow.markStart(ow.parseAny(r.getObjectId()));
-		}
+		try (ObjectWalk ow = new ObjectWalk(db)) {
+			if (tips.length != 0) {
+				for (RevObject o : tips)
+					ow.markStart(ow.parseAny(o));
+			} else {
+				for (Ref r : db.getAllRefs().values())
+					ow.markStart(ow.parseAny(r.getObjectId()));
+			}
 
-		ObjectChecker oc = new ObjectChecker();
-		for (;;) {
-			final RevCommit o = ow.next();
-			if (o == null)
-				break;
+			ObjectChecker oc = new ObjectChecker();
+			for (;;) {
+				final RevCommit o = ow.next();
+				if (o == null)
+					break;
 
-			final byte[] bin = db.open(o, o.getType()).getCachedBytes();
-			oc.checkCommit(bin);
-			assertHash(o, bin);
-		}
+				final byte[] bin = db.open(o, o.getType()).getCachedBytes();
+				oc.checkCommit(bin);
+				assertHash(o, bin);
+			}
 
-		for (;;) {
-			final RevObject o = ow.nextObject();
-			if (o == null)
-				break;
+			for (;;) {
+				final RevObject o = ow.nextObject();
+				if (o == null)
+					break;
 
-			final byte[] bin = db.open(o, o.getType()).getCachedBytes();
-			oc.check(o.getType(), bin);
-			assertHash(o, bin);
+				final byte[] bin = db.open(o, o.getType()).getCachedBytes();
+				oc.check(o.getType(), bin);
+				assertHash(o, bin);
+			}
 		}
 	}
 
@@ -636,35 +630,27 @@ public class TestRepository<R extends Repository> {
 			NullProgressMonitor m = NullProgressMonitor.INSTANCE;
 
 			final File pack, idx;
-			PackWriter pw = new PackWriter(db);
-			try {
+			try (PackWriter pw = new PackWriter(db)) {
 				Set<ObjectId> all = new HashSet<ObjectId>();
 				for (Ref r : db.getAllRefs().values())
 					all.add(r.getObjectId());
 				pw.preparePack(m, all, Collections.<ObjectId> emptySet());
 
 				final ObjectId name = pw.computeName();
-				OutputStream out;
 
 				pack = nameFor(odb, name, ".pack");
-				out = new SafeBufferedOutputStream(new FileOutputStream(pack));
-				try {
+				try (OutputStream out =
+						new SafeBufferedOutputStream(new FileOutputStream(pack))) {
 					pw.writePack(m, m, out);
-				} finally {
-					out.close();
 				}
 				pack.setReadOnly();
 
 				idx = nameFor(odb, name, ".idx");
-				out = new SafeBufferedOutputStream(new FileOutputStream(idx));
-				try {
+				try (OutputStream out =
+						new SafeBufferedOutputStream(new FileOutputStream(idx))) {
 					pw.writeIndex(out);
-				} finally {
-					out.close();
 				}
 				idx.setReadOnly();
-			} finally {
-				pw.release();
 			}
 
 			odb.openPack(pack);
@@ -863,15 +849,13 @@ public class TestRepository<R extends Repository> {
 				c.setMessage(message);
 
 				ObjectId commitId;
-				try {
+				try (ObjectInserter ins = inserter) {
 					if (topLevelTree != null)
 						c.setTreeId(topLevelTree);
 					else
-						c.setTreeId(tree.writeTree(inserter));
-					commitId = inserter.insert(c);
-					inserter.flush();
-				} finally {
-					inserter.release();
+						c.setTreeId(tree.writeTree(ins));
+					commitId = ins.insert(c);
+					ins.flush();
 				}
 				self = pool.lookupCommit(commitId);
 
