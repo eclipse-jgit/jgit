@@ -43,26 +43,38 @@
 
 package org.eclipse.jgit.junit;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Date;
 import java.util.regex.Pattern;
 
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.treewalk.TreeWalk;
 import org.junit.Before;
 import org.junit.Test;
 
 public class TestRepositoryTest {
 	private TestRepository<InMemoryRepository> tr;
+	private InMemoryRepository repo;
 	private RevWalk rw;
 
 	@Before
 	public void setUp() throws Exception {
 		tr = new TestRepository<>(new InMemoryRepository(
 				new DfsRepositoryDescription("test")));
+		repo = tr.getRepository();
 		rw = tr.getRevWalk();
 	}
 
@@ -77,5 +89,53 @@ public class TestRepositoryTest {
 		rw.parseBody(c2);
 		assertEquals("\n\nChange-Id: I0000000000000000000000000000000000000000\n",
 				c2.getFullMessage());
+	}
+
+	@Test
+	public void amend() throws Exception {
+		RevCommit root = tr.commit()
+				.add("todelete", "to be deleted")
+				.create();
+		RevCommit orig = tr.commit().parent(root)
+				.rm("todelete")
+				.add("foo", "foo contents")
+				.add("bar", "bar contents")
+				.add("dir/baz", "baz contents")
+				.create();
+		rw.parseBody(orig);
+		tr.branch("master").update(orig);
+		assertEquals("foo contents", blobAsString(orig, "foo"));
+		assertEquals("bar contents", blobAsString(orig, "bar"));
+		assertEquals("baz contents", blobAsString(orig, "dir/baz"));
+
+		RevCommit amended = tr.amend("master")
+				.tick(3)
+				.add("bar", "fixed bar contents")
+				.create();
+		assertEquals(amended, repo.getRef("refs/heads/master").getObjectId());
+		rw.parseBody(amended);
+
+		assertEquals(1, amended.getParentCount());
+		assertEquals(root, amended.getParent(0));
+		assertEquals(orig.getFullMessage(), amended.getFullMessage());
+		assertEquals(orig.getAuthorIdent(), amended.getAuthorIdent());
+
+		// Committer name/email is the same, but time was incremented.
+		assertEquals(new PersonIdent(orig.getCommitterIdent(), new Date(0)),
+				new PersonIdent(amended.getCommitterIdent(), new Date(0)));
+		assertTrue(orig.getCommitTime() < amended.getCommitTime());
+
+		assertEquals("foo contents", blobAsString(amended, "foo"));
+		assertEquals("fixed bar contents", blobAsString(amended, "bar"));
+		assertEquals("baz contents", blobAsString(amended, "dir/baz"));
+		assertNull(TreeWalk.forPath(repo, "todelete", amended.getTree()));
+	}
+
+	private String blobAsString(AnyObjectId treeish, String path)
+			throws Exception {
+		RevObject obj = tr.get(rw.parseTree(treeish), path);
+		assertSame(RevBlob.class, obj.getClass());
+		ObjectLoader loader = rw.getObjectReader().open(obj);
+		return new String(loader.getCachedBytes(), UTF_8);
 	}
 }
