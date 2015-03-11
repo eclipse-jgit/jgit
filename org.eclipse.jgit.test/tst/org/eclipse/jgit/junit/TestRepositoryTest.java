@@ -44,7 +44,9 @@
 package org.eclipse.jgit.junit;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
@@ -57,6 +59,7 @@ import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
@@ -129,6 +132,40 @@ public class TestRepositoryTest {
 		assertEquals("fixed bar contents", blobAsString(amended, "bar"));
 		assertEquals("baz contents", blobAsString(amended, "dir/baz"));
 		assertNull(TreeWalk.forPath(repo, "todelete", amended.getTree()));
+	}
+
+	@Test
+	public void checkout() throws Exception {
+		Ref head = repo.getRef("HEAD");
+		RevCommit master = tr.branch("master").commit().create();
+		RevCommit branch = tr.branch("branch").commit().create();
+		RevCommit detached = tr.commit().create();
+
+		assertNull(head);
+		assertEquals(master, repo.getRef("refs/heads/master").getObjectId());
+		assertEquals(branch, repo.getRef("refs/heads/branch").getObjectId());
+
+		tr.checkout("master");
+		head = repo.getRef("HEAD");
+		assertEquals(master, head.getObjectId());
+		assertTrue(head.isSymbolic());
+		assertEquals("refs/heads/master", head.getTarget().getName());
+
+		tr.checkout("branch");
+		head = repo.getRef("HEAD");
+		assertEquals(branch, head.getObjectId());
+		assertTrue(head.isSymbolic());
+		assertEquals("refs/heads/branch", head.getTarget().getName());
+
+		tr.checkout(detached);
+		head = repo.getRef("HEAD");
+		assertEquals(detached, head.getObjectId());
+		assertFalse(head.isSymbolic());
+
+		tr.checkout(detached.name());
+		head = repo.getRef("HEAD");
+		assertEquals(detached, head.getObjectId());
+		assertFalse(head.isSymbolic());
 	}
 
 	private String blobAsString(AnyObjectId treeish, String path)
