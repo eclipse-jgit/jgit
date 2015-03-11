@@ -57,6 +57,7 @@ import java.util.regex.Pattern;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
@@ -132,6 +133,30 @@ public class TestRepositoryTest {
 		assertEquals("fixed bar contents", blobAsString(amended, "bar"));
 		assertEquals("baz contents", blobAsString(amended, "dir/baz"));
 		assertNull(TreeWalk.forPath(repo, "todelete", amended.getTree()));
+	}
+
+	@Test
+	public void amendHead() throws Exception {
+		RevCommit root = tr.commit()
+				.add("foo", "foo contents")
+				.create();
+		RevCommit orig = tr.commit().parent(root)
+				.add("bar", "bar contents")
+				.create();
+		tr.branch("master").update(orig);
+		tr.checkout("master");
+
+		RevCommit amended = tr.amend("HEAD")
+				.add("foo", "fixed foo contents")
+				.create();
+
+		Ref head = repo.getRef(Constants.HEAD);
+		assertEquals(amended, head.getObjectId());
+		assertTrue(head.isSymbolic());
+		assertEquals("refs/heads/master", head.getTarget().getName());
+
+		assertEquals("fixed foo contents", blobAsString(amended, "foo"));
+		assertEquals("bar contents", blobAsString(amended, "bar"));
 	}
 
 	@Test
