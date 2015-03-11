@@ -106,9 +106,9 @@ import org.eclipse.jgit.util.io.SafeBufferedOutputStream;
  *            type of Repository the test data is stored on.
  */
 public class TestRepository<R extends Repository> {
-	private static final PersonIdent author;
+	private static final PersonIdent defaultAuthor;
 
-	private static final PersonIdent committer;
+	private static final PersonIdent defaultCommitter;
 
 	static {
 		final MockSystemReader m = new MockSystemReader();
@@ -117,11 +117,11 @@ public class TestRepository<R extends Repository> {
 
 		final String an = "J. Author";
 		final String ae = "jauthor@example.com";
-		author = new PersonIdent(an, ae, now, tz);
+		defaultAuthor = new PersonIdent(an, ae, now, tz);
 
 		final String cn = "J. Committer";
 		final String ce = "jcommitter@example.com";
-		committer = new PersonIdent(cn, ce, now, tz);
+		defaultCommitter = new PersonIdent(cn, ce, now, tz);
 	}
 
 	private final R db;
@@ -191,8 +191,8 @@ public class TestRepository<R extends Repository> {
 	 *            the commit builder to store.
 	 */
 	public void setAuthorAndCommitter(org.eclipse.jgit.lib.CommitBuilder c) {
-		c.setAuthor(new PersonIdent(author, new Date(now)));
-		c.setCommitter(new PersonIdent(committer, new Date(now)));
+		c.setAuthor(new PersonIdent(defaultAuthor, new Date(now)));
+		c.setCommitter(new PersonIdent(defaultCommitter, new Date(now)));
 	}
 
 	/**
@@ -370,8 +370,8 @@ public class TestRepository<R extends Repository> {
 		c = new org.eclipse.jgit.lib.CommitBuilder();
 		c.setTreeId(tree);
 		c.setParentIds(parents);
-		c.setAuthor(new PersonIdent(author, new Date(now)));
-		c.setCommitter(new PersonIdent(committer, new Date(now)));
+		c.setAuthor(new PersonIdent(defaultAuthor, new Date(now)));
+		c.setCommitter(new PersonIdent(defaultCommitter, new Date(now)));
 		c.setMessage("");
 		ObjectId id;
 		try (ObjectInserter ins = inserter) {
@@ -406,7 +406,7 @@ public class TestRepository<R extends Repository> {
 		final TagBuilder t = new TagBuilder();
 		t.setObjectId(dst);
 		t.setTag(name);
-		t.setTagger(new PersonIdent(committer, new Date(now)));
+		t.setTagger(new PersonIdent(defaultCommitter, new Date(now)));
 		t.setMessage("");
 		ObjectId id;
 		try (ObjectInserter ins = inserter) {
@@ -746,6 +746,9 @@ public class TestRepository<R extends Repository> {
 
 		private RevCommit self;
 
+		private PersonIdent author;
+		private PersonIdent committer;
+
 		CommitBuilder() {
 			branch = null;
 		}
@@ -837,6 +840,22 @@ public class TestRepository<R extends Repository> {
 			return this;
 		}
 
+		public CommitBuilder ident(PersonIdent ident) {
+			author = ident;
+			committer = ident;
+			return this;
+		}
+
+		public CommitBuilder author(PersonIdent a) {
+			author = a;
+			return this;
+		}
+
+		public CommitBuilder committer(PersonIdent c) {
+			committer = c;
+			return this;
+		}
+
 		public RevCommit create() throws Exception {
 			if (self == null) {
 				TestRepository.this.tick(tick);
@@ -846,6 +865,10 @@ public class TestRepository<R extends Repository> {
 				c = new org.eclipse.jgit.lib.CommitBuilder();
 				c.setParentIds(parents);
 				setAuthorAndCommitter(c);
+				if (author != null)
+					c.setAuthor(author);
+				if (committer != null)
+					c.setCommitter(committer);
 				c.setMessage(message);
 
 				ObjectId commitId;
