@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Google Inc.
+ * Copyright (C) 2015, David Ostrovsky <david@ostrovsky.org>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -40,60 +40,42 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 package org.eclipse.jgit.archive;
 
+import java.beans.Statement;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.compress.archivers.ArchiveOutputStream;
-import org.apache.commons.compress.compressors.xz.XZCompressorOutputStream;
-import org.eclipse.jgit.api.ArchiveCommand;
-import org.eclipse.jgit.lib.FileMode;
-import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.util.StringUtils;
 
 /**
- * Xz-compressed tar (tar.xz) format.
+ * Base format class
  */
-public final class TxzFormat extends BaseFormat implements
-		ArchiveCommand.Format<ArchiveOutputStream> {
-	private static final List<String> SUFFIXES = Collections
-			.unmodifiableList(Arrays.asList(".tar.xz", ".txz")); //$NON-NLS-1$ //$NON-NLS-2$
+public class BaseFormat {
 
-	private final ArchiveCommand.Format<ArchiveOutputStream> tarFormat = new TarFormat();
-
-	public ArchiveOutputStream createArchiveOutputStream(OutputStream s)
-			throws IOException {
-		return createArchiveOutputStream(s,
-				Collections.<String, Object> emptyMap());
-	}
-
-	public ArchiveOutputStream createArchiveOutputStream(OutputStream s,
+	/**
+	 * Apply options to archive output stream
+	 *
+	 * @param s
+	 *            stream to apply options to
+	 * @param o
+	 *            options map
+	 * @return stream with option applied
+	 * @throws IOException
+	 */
+	protected ArchiveOutputStream applyFormatOptions(ArchiveOutputStream s,
 			Map<String, Object> o) throws IOException {
-		XZCompressorOutputStream out = new XZCompressorOutputStream(s);
-		return tarFormat.createArchiveOutputStream(out, o);
-	}
-
-	public void putEntry(ArchiveOutputStream out,
-			String path, FileMode mode, ObjectLoader loader)
-			throws IOException {
-		tarFormat.putEntry(out, path, mode, loader);
-	}
-
-	public Iterable<String> suffixes() {
-		return SUFFIXES;
-	}
-
-	@Override
-	public boolean equals(Object other) {
-		return (other instanceof TxzFormat);
-	}
-
-	@Override
-	public int hashCode() {
-		return getClass().hashCode();
+		for (Map.Entry<String, Object> p : o.entrySet()) {
+			try {
+				new Statement(s,
+						"set" + StringUtils.capitalize(p.getKey()),
+						new Object[]{p.getValue()}).execute();
+			} catch (Exception e) {
+				throw new IOException("cannot set option: " + p.getKey(), e);
+			}
+		}
+		return s;
 	}
 }

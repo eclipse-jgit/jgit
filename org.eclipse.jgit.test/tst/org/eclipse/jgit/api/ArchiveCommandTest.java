@@ -45,6 +45,7 @@ package org.eclipse.jgit.api;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+import java.beans.Statement;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Arrays;
@@ -58,6 +59,7 @@ import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.util.StringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -138,10 +140,17 @@ public class ArchiveCommandTest extends RepositoryTestCase {
 		git.add().addFilepattern(".").call();
 		git.commit().setMessage("updated file").call();
 
-		git.archive().setOutputStream(new MockOutputStream())
-				.setFormat(format.SUFFIXES.get(0)).setTree(first)
+		Map<String, Object> options = new HashMap<>();
+		Integer opt = Integer.valueOf(42);
+		options.put("foo", opt);
+		MockOutputStream out = new MockOutputStream();
+		git.archive().setOutputStream(out)
+				.setFormat(format.SUFFIXES.get(0))
+				.setFormatOptions(options)
+				.setTree(first)
 				.setPaths("file_1.txt").call();
 
+		assertEquals(opt.intValue(), out.getFoo());
 		assertEquals(UNEXPECTED_ARCHIVE_SIZE, 1, format.size());
 		assertEquals(UNEXPECTED_FILE_CONTENTS, "content_1_1", format.getByPath("file_1.txt"));
 	}
@@ -192,6 +201,22 @@ public class ArchiveCommandTest extends RepositoryTestCase {
 
 		public MockOutputStream createArchiveOutputStream(OutputStream s)
 				throws IOException {
+			return createArchiveOutputStream(s,
+					Collections.<String, Object> emptyMap());
+		}
+
+		public MockOutputStream createArchiveOutputStream(OutputStream s,
+				Map<String, Object> o) throws IOException {
+			for (Map.Entry<String, Object> p : o.entrySet()) {
+				try {
+					String methodName = "set"
+							+ StringUtils.capitalize(p.getKey());
+					new Statement(s, methodName, new Object[] { p.getValue() })
+							.execute();
+				} catch (Exception e) {
+					throw new IOException("cannot set option: " + p.getKey(), e);
+				}
+			}
 			return new MockOutputStream();
 		}
 
@@ -205,7 +230,17 @@ public class ArchiveCommandTest extends RepositoryTestCase {
 		}
 	}
 
-	private class MockOutputStream extends OutputStream {
+	public class MockOutputStream extends OutputStream {
+
+		private int foo;
+
+		public void setFoo(int foo) {
+			this.foo = foo;
+		}
+
+		public int getFoo() {
+			return foo;
+		}
 
 		@Override
 		public void write(int b) throws IOException {
