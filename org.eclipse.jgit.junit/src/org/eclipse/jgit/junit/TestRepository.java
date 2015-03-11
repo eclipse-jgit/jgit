@@ -436,6 +436,72 @@ public class TestRepository<R extends Repository> {
 	}
 
 	/**
+	 * Amend an existing ref.
+	 *
+	 * @param ref
+	 *            the name of the reference to amend, which must already exist.
+	 *            If {@code ref} does not start with {@code refs/} and is not the
+	 *            magic names {@code HEAD} {@code FETCH_HEAD} or {@code
+	 *            MERGE_HEAD}, then {@code refs/heads/} will be prefixed in front
+	 *            of the given name, thereby assuming it is a branch.
+	 * @return commit builder that amends the branch on commit.
+	 * @throws Exception
+	 */
+	public CommitBuilder amendRef(String ref) throws Exception {
+		String name = normalizeRef(ref);
+		Ref r = db.getRef(name);
+		if (r == null)
+			throw new IOException("Not a ref: " + ref);
+		return amend(pool.parseCommit(r.getObjectId()), branch(name).commit());
+	}
+
+	/**
+	 * Amend an existing commit.
+	 *
+	 * @param id
+	 *            the id of the commit to amend.
+	 * @return commit builder.
+	 * @throws Exception
+	 */
+	public CommitBuilder amend(AnyObjectId id) throws Exception {
+		return amend(pool.parseCommit(id), commit());
+	}
+
+	private CommitBuilder amend(RevCommit old, CommitBuilder b) throws Exception {
+		pool.parseBody(old);
+		b.author(old.getAuthorIdent());
+		b.committer(old.getCommitterIdent());
+		b.message(old.getFullMessage());
+		// Use the committer name from the old commit, but update it after ticking
+		// the clock in CommitBuilder#create().
+		b.updateCommitterTime = true;
+
+		// Reset parents to original parents.
+		b.noParents();
+		for (int i = 0; i < old.getParentCount(); i++)
+			b.parent(old.getParent(i));
+
+		// Reset tree to original tree; resetting parents reset tree contents to the
+		// first parent.
+		b.tree.clear();
+		try (TreeWalk tw = new TreeWalk(db)) {
+			tw.reset(old.getTree());
+			tw.setRecursive(true);
+			while (tw.next()) {
+				b.edit(new PathEdit(tw.getPathString()) {
+					@Override
+					public void apply(DirCacheEntry ent) {
+						ent.setFileMode(tw.getFileMode(0));
+						ent.setObjectId(tw.getObjectId(0));
+					}
+				});
+			}
+		}
+
+		return b;
+	}
+
+	/**
 	 * Update a reference to point to an object.
 	 *
 	 * @param <T>
@@ -452,17 +518,7 @@ public class TestRepository<R extends Repository> {
 	 * @throws Exception
 	 */
 	public <T extends AnyObjectId> T update(String ref, T obj) throws Exception {
-		if (Constants.HEAD.equals(ref)) {
-			// nothing
-		} else if ("FETCH_HEAD".equals(ref)) {
-			// nothing
-		} else if ("MERGE_HEAD".equals(ref)) {
-			// nothing
-		} else if (ref.startsWith(Constants.R_REFS)) {
-			// nothing
-		} else
-			ref = Constants.R_HEADS + ref;
-
+		ref = normalizeRef(ref);
 		RefUpdate u = db.updateRef(ref);
 		u.setNewObjectId(obj);
 		switch (u.forceUpdate()) {
@@ -476,6 +532,20 @@ public class TestRepository<R extends Repository> {
 		default:
 			throw new IOException("Cannot write " + ref + " " + u.getResult());
 		}
+	}
+
+	private static String normalizeRef(String ref) {
+		if (Constants.HEAD.equals(ref)) {
+			// nothing
+		} else if ("FETCH_HEAD".equals(ref)) {
+			// nothing
+		} else if ("MERGE_HEAD".equals(ref)) {
+			// nothing
+		} else if (ref.startsWith(Constants.R_REFS)) {
+			// nothing
+		} else
+			ref = Constants.R_HEADS + ref;
+		return ref;
 	}
 
 	/**
@@ -807,6 +877,8 @@ public class TestRepository<R extends Repository> {
 
 		private boolean insertChangeId;
 
+		private boolean updateCommitterTime;
+
 		CommitBuilder() {
 			branch = null;
 		}
@@ -930,8 +1002,11 @@ public class TestRepository<R extends Repository> {
 				setAuthorAndCommitter(c);
 				if (author != null)
 					c.setAuthor(author);
-				if (committer != null)
+				if (committer != null) {
+					if (updateCommitterTime)
+						committer = new PersonIdent(committer, new Date(now));
 					c.setCommitter(committer);
+				}
 
 				ObjectId commitId;
 				try (ObjectInserter ins = inserter) {
