@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "a7fb1785_4b8d1eba",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/junit/TestRepositoryTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-03-12T17:20:39Z",
+      "side": 1,
+      "message": "Does it not just get garbage collected?\n\nI have no problem closing the RevWalk and the Repository in an @After method, but just saying.",
+      "parentUuid": "a7fb1785_cbc2aecd",
+      "revId": "ad0bf6520e4a7438eab9ab0615a5d09d27bb9bb4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7fb1785_abc5a2d6",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/junit/TestRepositoryTest.java",
         "patchSetId": 1
@@ -83,6 +101,30 @@
       "writtenOn": "2015-03-12T17:08:44Z",
       "side": 1,
       "message": "This should have failed.",
+      "range": {
+        "startLine": 78,
+        "startChar": 0,
+        "endLine": 79,
+        "endChar": 25
+      },
+      "revId": "ad0bf6520e4a7438eab9ab0615a5d09d27bb9bb4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_2b8892a8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/junit/TestRepositoryTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-03-12T17:20:39Z",
+      "side": 1,
+      "message": "I\u0027m pretty sure this is the actual behavior of CommitCommand with an empty message...",
+      "parentUuid": "a7fb1785_abc5a2d6",
       "range": {
         "startLine": 78,
         "startChar": 0,
