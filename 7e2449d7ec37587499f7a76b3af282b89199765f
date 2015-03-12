@@ -34,6 +34,24 @@
       "revId": "7e2449d7ec37587499f7a76b3af282b89199765f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_0bf836b5",
+        "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/TestRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-03-12T15:17:31Z",
+      "side": 1,
+      "message": "Good points, I was replacing usages of checkout so that\u0027s what I was thinking about, I forgot about reset.\n\n\"Update HEAD but not index or working tree\" is called \"reset --soft\", so I named the method \"reset\" and specified in the javadoc that it is a soft reset. I am still open to other options but would like to keep it succinct.",
+      "parentUuid": "a7fb1785_1e8875a8",
+      "revId": "7e2449d7ec37587499f7a76b3af282b89199765f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
