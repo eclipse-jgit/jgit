@@ -71,6 +71,9 @@ public final class TgzFormat extends BaseFormat implements
 				Collections.<String, Object> emptyMap());
 	}
 
+	/**
+	 * @since 4.0
+	 */
 	public ArchiveOutputStream createArchiveOutputStream(OutputStream s,
 			Map<String, Object> o) throws IOException {
 		GzipCompressorOutputStream out = new GzipCompressorOutputStream(s);
