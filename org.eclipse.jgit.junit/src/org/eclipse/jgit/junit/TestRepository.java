@@ -1045,6 +1045,10 @@ public class TestRepository<R extends Repository> {
 
 		private void insertChangeId(org.eclipse.jgit.lib.CommitBuilder c)
 				throws IOException {
+			int idx = ChangeIdUtil.indexOfChangeId(message, "\n");
+			if (idx >= 0)
+				return;
+
 			ObjectId firstParentId = null;
 			if (!parents.isEmpty())
 				firstParentId = parents.get(0);
