@@ -110,6 +110,7 @@ public final class StringUtils {
 	 * @param str
 	 *            the String to capitalize, may be null
 	 * @return the capitalized String, <code>null</code> if null String input
+	 * @since 4.0
 	 */
 	public static String capitalize(String str) {
 		int strLen;
