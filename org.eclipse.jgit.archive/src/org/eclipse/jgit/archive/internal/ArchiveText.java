@@ -58,6 +58,7 @@ public class ArchiveText extends TranslationBundle {
 	}
 
 	// @formatter:off
+	/***/ public String cannotSetOption;
 	/***/ public String pathDoesNotMatchMode;
 	/***/ public String unsupportedMode;
 }
