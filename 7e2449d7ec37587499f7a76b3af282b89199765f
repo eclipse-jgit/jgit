@@ -16,6 +16,24 @@
       "revId": "7e2449d7ec37587499f7a76b3af282b89199765f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_1e8875a8",
+        "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/TestRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-03-12T10:15:44Z",
+      "side": 1,
+      "message": "Since even the index is not updated I also think that\u0027s no checkout. Even \"reset\" would fit only if you are in detached head state, because otherwise the reset would update that ref HEAD is pointing to. I would call it \"updateHEAD\".",
+      "parentUuid": "a7fb1785_dee70d1e",
+      "revId": "7e2449d7ec37587499f7a76b3af282b89199765f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
