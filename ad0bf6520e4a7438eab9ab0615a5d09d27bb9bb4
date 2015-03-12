@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "a7fb1785_0bd03670",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/junit/TestRepositoryTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-03-12T17:32:48Z",
+      "side": 1,
+      "message": "It does, but I think we now have a warning in Eclipse about this leaking?\n\nIts fine if it leaks. It does get GCed eventually just fine.",
+      "parentUuid": "a7fb1785_4b8d1eba",
+      "revId": "ad0bf6520e4a7438eab9ab0615a5d09d27bb9bb4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7fb1785_abc5a2d6",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/junit/TestRepositoryTest.java",
         "patchSetId": 1
@@ -125,6 +143,30 @@
       "side": 1,
       "message": "I\u0027m pretty sure this is the actual behavior of CommitCommand with an empty message...",
       "parentUuid": "a7fb1785_abc5a2d6",
+      "range": {
+        "startLine": 78,
+        "startChar": 0,
+        "endLine": 79,
+        "endChar": 25
+      },
+      "revId": "ad0bf6520e4a7438eab9ab0615a5d09d27bb9bb4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_ebca0ac3",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/junit/TestRepositoryTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-03-12T17:32:48Z",
+      "side": 1,
+      "message": "Yay.",
+      "parentUuid": "a7fb1785_2b8892a8",
       "range": {
         "startLine": 78,
         "startChar": 0,
