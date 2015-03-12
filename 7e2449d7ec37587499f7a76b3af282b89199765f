@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7fb1785_dee70d1e",
+        "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/TestRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-03-12T04:03:13Z",
+      "side": 1,
+      "message": "isn\u0027t that then rather reset ?",
+      "revId": "7e2449d7ec37587499f7a76b3af282b89199765f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
