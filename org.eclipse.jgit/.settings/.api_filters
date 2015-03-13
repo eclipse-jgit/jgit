@@ -45,4 +45,11 @@
             </message_arguments>
         </filter>
     </resource>
+    <resource path="src/org/eclipse/jgit/util/FileUtil.java" type="org.eclipse.jgit.util.FileUtil">
+        <filter comment="moved into another bundle keeping original package" id="1110441988">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.util.FileUtil"/>
+            </message_arguments>
+        </filter>
+    </resource>
 </component>

@@ -74,7 +74,6 @@
     <module>org.eclipse.jgit.target</module>
     <module>org.eclipse.jgit.feature</module>
     <module>org.eclipse.jgit.http.apache.feature</module>
-    <module>org.eclipse.jgit.java7.feature</module>
     <module>org.eclipse.jgit.pgm.feature</module>
     <module>org.eclipse.jgit.source.feature</module>
     <module>org.eclipse.jgit.pgm.source.feature</module>
@@ -101,12 +100,6 @@
     <dependency>
       <groupId>org.eclipse.jgit</groupId>
       <artifactId>org.eclipse.jgit</artifactId>
-      <version>${project.version}</version>
-      <classifier>sources</classifier>
-    </dependency>
-    <dependency>
-      <groupId>org.eclipse.jgit</groupId>
-      <artifactId>org.eclipse.jgit.java7</artifactId>
       <version>${project.version}</version>
       <classifier>sources</classifier>
     </dependency>

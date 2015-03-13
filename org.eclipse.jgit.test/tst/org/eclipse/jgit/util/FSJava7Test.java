@@ -117,6 +117,7 @@ public class FSJava7Test {
 		assertFalse(fs.canExecute(link));
 		fs.setExecute(target, true);
 		assertFalse(fs.canExecute(link));
+		assumeTrue(fs.supportsExecute());
 		assertTrue(fs.canExecute(target));
 	}
 
@@ -124,7 +125,7 @@ public class FSJava7Test {
 	public void testExecutableAttributes() throws Exception {
 		FS fs = FS.DETECTED;
 		// If this assumption fails the test is halted and ignored.
-		assumeTrue(fs instanceof FS_POSIX_Java7);
+		assumeTrue(fs instanceof FS_POSIX);
 
 		File f = new File(trash, "bla");
 		assertTrue(f.createNewFile());
