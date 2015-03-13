@@ -61,7 +61,10 @@ import java.text.Normalizer.Form;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.util.FS.Attributes;
 
-class FileUtil {
+/**
+ * File utilities using Java 7 NIO2
+ */
+public class FileUtil {
 
 	static class Java7BasicAttributes extends Attributes {
 
@@ -74,7 +77,12 @@ class FileUtil {
 		}
 	}
 
-	static String readSymlink(File path) throws IOException {
+	/**
+	 * @param path
+	 * @return target path of the symlink
+	 * @throws IOException
+	 */
+	public static String readSymlink(File path) throws IOException {
 		Path nioPath = path.toPath();
 		Path target = Files.readSymbolicLink(nioPath);
 		String targetString = target.toString();
@@ -85,6 +93,13 @@ class FileUtil {
 		return targetString;
 	}
 
+	/**
+	 * @param path
+	 *            path of the symlink to be created
+	 * @param target
+	 *            target of the symlink to be created
+	 * @throws IOException
+	 */
 	public static void createSymLink(File path, String target)
 			throws IOException {
 		Path nioPath = path.toPath();
@@ -96,38 +111,71 @@ class FileUtil {
 		Files.createSymbolicLink(nioPath, nioTarget);
 	}
 
+	/**
+	 * @param path
+	 * @return {@code true} if the passed path is a symlink
+	 */
 	public static boolean isSymlink(File path) {
 		Path nioPath = path.toPath();
 		return Files.isSymbolicLink(nioPath);
 	}
 
+	/**
+	 * @param path
+	 * @return lastModified attribute for given path
+	 * @throws IOException
+	 */
 	public static long lastModified(File path) throws IOException {
 		Path nioPath = path.toPath();
 		return Files.getLastModifiedTime(nioPath, LinkOption.NOFOLLOW_LINKS)
 				.toMillis();
 	}
 
+	/**
+	 * @param path
+	 * @param time
+	 * @throws IOException
+	 */
 	public static void setLastModified(File path, long time) throws IOException {
 		Path nioPath = path.toPath();
 		Files.setLastModifiedTime(nioPath, FileTime.fromMillis(time));
 	}
 
+	/**
+	 * @param path
+	 * @return {@code true} if the given path exists
+	 */
 	public static boolean exists(File path) {
 		Path nioPath = path.toPath();
 		return Files.exists(nioPath, LinkOption.NOFOLLOW_LINKS);
 	}
 
+	/**
+	 * @param path
+	 * @return {@code true} if the given path is hidden
+	 * @throws IOException
+	 */
 	public static boolean isHidden(File path) throws IOException {
 		Path nioPath = path.toPath();
 		return Files.isHidden(nioPath);
 	}
 
+	/**
+	 * @param path
+	 * @param hidden
+	 * @throws IOException
+	 */
 	public static void setHidden(File path, boolean hidden) throws IOException {
 		Path nioPath = path.toPath();
 		Files.setAttribute(nioPath, "dos:hidden", Boolean.valueOf(hidden), //$NON-NLS-1$
 				LinkOption.NOFOLLOW_LINKS);
 	}
 
+	/**
+	 * @param path
+	 * @return length of the given file
+	 * @throws IOException
+	 */
 	public static long getLength(File path) throws IOException {
 		Path nioPath = path.toPath();
 		if (Files.isSymbolicLink(nioPath))
@@ -136,16 +184,28 @@ class FileUtil {
 		return Files.size(nioPath);
 	}
 
+	/**
+	 * @param path
+	 * @return {@code true} if the given file a directory
+	 */
 	public static boolean isDirectory(File path) {
 		Path nioPath = path.toPath();
 		return Files.isDirectory(nioPath, LinkOption.NOFOLLOW_LINKS);
 	}
 
+	/**
+	 * @param path
+	 * @return {@code true} if the given file is a file
+	 */
 	public static boolean isFile(File path) {
 		Path nioPath = path.toPath();
 		return Files.isRegularFile(nioPath, LinkOption.NOFOLLOW_LINKS);
 	}
 
+	/**
+	 * @param path
+	 * @return {@code true} if the given file can be executed
+	 */
 	public static boolean canExecute(File path) {
 		if (!isFile(path))
 			return false;
@@ -166,6 +226,10 @@ class FileUtil {
 		return path.setExecutable(executable);
 	}
 
+	/**
+	 * @param path
+	 * @throws IOException
+	 */
 	public static void delete(File path) throws IOException {
 		Path nioPath = path.toPath();
 		Files.delete(nioPath);
@@ -200,7 +264,12 @@ class FileUtil {
 		}
 	}
 
-	static Attributes getFileAttributesPosix(FS fs, File path) {
+	/**
+	 * @param fs
+	 * @param path
+	 * @return file system attributes for the given file
+	 */
+	public static Attributes getFileAttributesPosix(FS fs, File path) {
 		try {
 			Path nioPath = path.toPath();
 			PosixFileAttributes readAttributes = nioPath
@@ -230,6 +299,10 @@ class FileUtil {
 		}
 	}
 
+	/**
+	 * @param file
+	 * @return on Mac: NFC normalized {@link File}, otherwise the passed file
+	 */
 	public static File normalize(File file) {
 		if (SystemReader.getInstance().isMacOS()) {
 			// TODO: Would it be faster to check with isNormalized first
@@ -241,6 +314,10 @@ class FileUtil {
 		return file;
 	}
 
+	/**
+	 * @param name
+	 * @return on Mac: NFC normalized form of given name
+	 */
 	public static String normalize(String name) {
 		if (SystemReader.getInstance().isMacOS()) {
 			if (name == null)

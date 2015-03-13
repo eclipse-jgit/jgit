@@ -187,6 +187,6 @@ public class HookTest extends RepositoryTestCase {
 
 	private void assumeSupportedPlatform() {
 		Assume.assumeTrue(FS.DETECTED instanceof FS_POSIX
-				|| FS.DETECTED instanceof FS_Win32_Java7Cygwin);
+				|| FS.DETECTED instanceof FS_Win32_Cygwin);
 	}
 }
