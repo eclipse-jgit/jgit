@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7fb1785_f64ae679",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1092,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-03-16T11:35:42Z",
+      "side": 1,
+      "message": "trailing whitespace",
+      "range": {
+        "startLine": 1092,
+        "startChar": 22,
+        "endLine": 1092,
+        "endChar": 23
+      },
+      "revId": "08ef4dad291697f4089add9c41b618693d2d663e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
