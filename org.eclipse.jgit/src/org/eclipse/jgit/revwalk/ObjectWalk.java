@@ -79,6 +79,7 @@ import org.eclipse.jgit.util.RawParseUtils;
  * commits that are returned first.
  */
 public class ObjectWalk extends RevWalk {
+
 	private static final int ID_SZ = 20;
 	private static final int TYPE_SHIFT = 12;
 	private static final int TYPE_TREE = 0040000 >>> TYPE_SHIFT;
@@ -94,6 +95,29 @@ public class ObjectWalk extends RevWalk {
 	 * instances inserted into it.
 	 */
 	private static final int IN_PENDING = RevWalk.REWRITE;
+
+	private static ObjectModeCache objectModeCache;
+
+	private static String MAX_SIZE_PROPERTY = "jgit.experimental.objectcache.size"; //$NON-NLS-1$
+
+	private static int DEFAULT_CACHE_MAXSIZE = 10000000;
+
+	static {
+		try {
+			String maxSizeProperty = System
+					.getProperty(
+					MAX_SIZE_PROPERTY);
+			if (maxSizeProperty != null) {
+				objectModeCache = new ObjectModeCache(
+						Integer.parseInt(maxSizeProperty));
+			} else {
+				objectModeCache = ObjectModeCache.NOOP_CACHE;
+			}
+		} catch (NumberFormatException ex) {
+			// Assuming malformed property
+			objectModeCache = new ObjectModeCache(DEFAULT_CACHE_MAXSIZE);
+		}
+	}
 
 	private List<RevObject> rootObjects;
 
@@ -677,10 +701,42 @@ public class ObjectWalk extends RevWalk {
 	private void markTreeUninteresting(final RevTree tree)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
+		objectModeCache.addRoot(tree);
+		markTreeUninterestingRec(tree);
+	}
+
+	private void markTreeUninterestingRec(final RevTree tree)
+			throws MissingObjectException, IncorrectObjectTypeException,
+			IOException {
 		if ((tree.flags & UNINTERESTING) != 0)
 			return;
 		tree.flags |= UNINTERESTING;
 
+		ObjectModeCache.CachedObject cached = objectModeCache.get(tree,
+				TYPE_TREE);
+
+		if (cached.hasSetChildren()) {
+			for (ObjectModeCache.CachedObject child : cached
+					.getChildren()) {
+				switch (child.mode) {
+				case TYPE_FILE:
+				case TYPE_SYMLINK:
+					lookupBlob(child).flags |= UNINTERESTING;
+					break;
+
+				case TYPE_TREE:
+					markTreeUninterestingRec(lookupTree(child));
+					break;
+
+				case TYPE_GITLINK:
+					break;
+				}
+			}
+			return;
+		}
+
+		// Children of the cached object are not set.
+		ObjectModeCache.ChildList children = objectModeCache.getChildList();
 		byte[] raw = reader.open(tree, OBJ_TREE).getCachedBytes();
 		for (int ptr = 0; ptr < raw.length;) {
 			byte c = raw[ptr];
@@ -701,12 +757,15 @@ public class ObjectWalk extends RevWalk {
 			case TYPE_FILE:
 			case TYPE_SYMLINK:
 				idBuffer.fromRaw(raw, ptr);
+				children.add(objectModeCache.get(idBuffer,
+						TYPE_SYMLINK));
 				lookupBlob(idBuffer).flags |= UNINTERESTING;
 				break;
 
 			case TYPE_TREE:
 				idBuffer.fromRaw(raw, ptr);
-				markTreeUninteresting(lookupTree(idBuffer));
+				children.add(objectModeCache.get(idBuffer, TYPE_TREE));
+				markTreeUninterestingRec(lookupTree(idBuffer));
 				break;
 
 			case TYPE_GITLINK:
@@ -721,6 +780,7 @@ public class ObjectWalk extends RevWalk {
 			}
 			ptr += ID_SZ;
 		}
+		objectModeCache.setChildren(cached, children);
 	}
 
 	private TreeVisit newTreeVisit(RevObject obj) throws LargeObjectException,
