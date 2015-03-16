@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7fb1785_768a7670",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 6590
+      },
+      "writtenOn": "2015-03-16T13:56:32Z",
+      "side": 1,
+      "message": "This example is in the context of gerrit, it means nothing in the context of JGit.\n\n(for example, push when git-receive-pack is not enabled)",
+      "range": {
+        "startLine": 10,
+        "startChar": 14,
+        "endLine": 10,
+        "endChar": 40
+      },
+      "revId": "a3917abc4a9622176004924af249119c247d2daa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
