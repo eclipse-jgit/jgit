@@ -22,6 +22,24 @@
       "revId": "08ef4dad291697f4089add9c41b618693d2d663e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_963f223e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1092,
+      "author": {
+        "id": 6332
+      },
+      "writtenOn": "2015-03-16T13:22:00Z",
+      "side": 1,
+      "message": "Done\nTook into account the new formatting policy using brackets.",
+      "parentUuid": "a7fb1785_f64ae679",
+      "revId": "08ef4dad291697f4089add9c41b618693d2d663e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
