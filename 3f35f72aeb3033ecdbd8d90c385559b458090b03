@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7fb1785_76b8b630",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6590
+      },
+      "writtenOn": "2015-03-16T13:45:25Z",
+      "side": 1,
+      "message": "Lines should not exceed 72 characters",
+      "revId": "3f35f72aeb3033ecdbd8d90c385559b458090b03",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
