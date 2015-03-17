@@ -52,6 +52,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.security.MessageDigest;
 
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.transport.PackParser;
 
 /**
@@ -263,7 +264,7 @@ public abstract class ObjectInserter implements AutoCloseable {
 		while (length > 0) {
 			int n = in.read(buf, 0, (int) Math.min(length, buf.length));
 			if (n < 0)
-				throw new EOFException("Unexpected end of input");
+				throw new EOFException(JGitText.get().unexpectedEndOfInput);
 			md.update(buf, 0, n);
 			length -= n;
 		}

@@ -430,7 +430,8 @@ class WalkFetchConnection extends BaseFetchConnection {
 				final WalkRemoteObjectDatabase wrr = noPacksYet.removeFirst();
 				final Collection<String> packNameList;
 				try {
-					pm.beginTask("Listing packs", ProgressMonitor.UNKNOWN);
+					pm.beginTask(JGitText.get().listingPacks,
+							ProgressMonitor.UNKNOWN);
 					packNameList = wrr.getPackNames();
 				} catch (IOException e) {
 					// Try another repository.
