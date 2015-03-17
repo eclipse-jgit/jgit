@@ -56,6 +56,7 @@ import java.util.zip.Inflater;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.StoredObjectRepresentationNotAvailableException;
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.pack.CachedPack;
 import org.eclipse.jgit.internal.storage.pack.ObjectReuseAsIs;
 import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
@@ -141,7 +142,8 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 		final ObjectLoader ldr = db.openObject(this, objectId);
 		if (ldr == null) {
 			if (typeHint == OBJ_ANY)
-				throw new MissingObjectException(objectId.copy(), "unknown");
+				throw new MissingObjectException(objectId.copy(),
+						JGitText.get().unknownObjectType2);
 			throw new MissingObjectException(objectId.copy(), typeHint);
 		}
 		if (typeHint != OBJ_ANY && ldr.getType() != typeHint)
@@ -160,7 +162,8 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 		long sz = db.getObjectSize(this, objectId);
 		if (sz < 0) {
 			if (typeHint == OBJ_ANY)
-				throw new MissingObjectException(objectId.copy(), "unknown");
+				throw new MissingObjectException(objectId.copy(),
+						JGitText.get().unknownObjectType2);
 			throw new MissingObjectException(objectId.copy(), typeHint);
 		}
 		return sz;

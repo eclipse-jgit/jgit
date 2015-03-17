@@ -600,7 +600,7 @@ public abstract class FS {
 	public void setHidden(File path, boolean hidden) throws IOException {
 		if (!path.getName().startsWith(".")) //$NON-NLS-1$
 			throw new IllegalArgumentException(
-					"Hiding only allowed for names that start with a period");
+					JGitText.get().hiddenFilesStartWithDot);
 	}
 
 	/**
