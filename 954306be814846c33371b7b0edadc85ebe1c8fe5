@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7fb1785_50549ace",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/MyersDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-03-17T23:12:40Z",
+      "side": 1,
+      "message": "nit: JGit prefers omitting curly braces",
+      "range": {
+        "startLine": 410,
+        "startChar": 5,
+        "endLine": 412,
+        "endChar": 6
+      },
+      "revId": "954306be814846c33371b7b0edadc85ebe1c8fe5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
