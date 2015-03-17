@@ -86,6 +86,8 @@ public class Git implements AutoCloseable {
 	/** The git repository this class is interacting with */
 	private final Repository repo;
 
+	private final boolean closeRepo;
+
 	/**
 	 * @param dir
 	 *            the repository to open. May be either the GIT_DIR, or the
@@ -103,44 +105,50 @@ public class Git implements AutoCloseable {
 	 *            working tree directory that contains {@code .git}.
 	 * @param fs
 	 *            filesystem abstraction to use when accessing the repository.
-	 * @return a {@link Git} object for the existing git repository
+	 * @return a {@link Git} object for the existing git repository. Closing this
+	 *         instance will close the repo.
 	 * @throws IOException
 	 */
 	public static Git open(File dir, FS fs) throws IOException {
 		RepositoryCache.FileKey key;
 
 		key = RepositoryCache.FileKey.lenient(dir, fs);
-		return wrap(new RepositoryBuilder().setFS(fs).setGitDir(key.getFile())
-				.setMustExist(true).build());
+		Repository db = new RepositoryBuilder().setFS(fs).setGitDir(key.getFile())
+				.setMustExist(true).build();
+		return new Git(db, true);
 	}
 
 	/**
 	 * @param repo
-	 *            the git repository this class is interacting with.
-	 *            {@code null} is not allowed
-	 * @return a {@link Git} object for the existing git repository
+	 *            the git repository this class is interacting with;
+	 *            {@code null} is not allowed.
+	 * @return a {@link Git} object for the existing git repository. The caller is
+	 *         responsible for closing the repository; {@link #close()} on this
+	 *         instance does not close the repo.
 	 */
 	public static Git wrap(Repository repo) {
 		return new Git(repo);
 	}
 
 	/**
-	 * Frees resources held by the underlying {@link Repository} instance. It is
-	 * recommended to call this method as soon as you don't need a reference to
-	 * this {@link Git} instance and the underlying {@link Repository} instance
-	 * anymore. This method closes the underlying object and ref databases. This
-	 * will free memory and file handles. E.g. on Windows the repository will
-	 * keep file handles on pack files unless you call this method. Such open
-	 * file handles may for example prevent that the repository folder in the
-	 * filesystem can be deleted.
+	 * Frees resources associated with this instance.
 	 * <p>
-	 * After calling close() you should not use this {@link Git} instance and
-	 * the underlying {@link Repository} instance anymore.
+	 * If the repository was opened by a static factory method in this class, then
+	 * this method calls {@link Repository#close()} on the underlying repository
+	 * instance. (Whether this actually releases underlying resources, such as
+	 * file handles, may vary; see {@link Repository} for more details.)
+	 * <p>
+	 * If the repository was created by a caller and passed into {@link
+	 * #Git(Repository)} or a static factory method in this class, then this
+	 * method does not call close on the underlying repository.
+	 * <p>
+	 * In all cases, after calling this method you should not use this {@link Git}
+	 * instance anymore.
 	 *
 	 * @since 3.2
 	 */
 	public void close() {
-		if (repo != null)
+		if (closeRepo)
 			repo.close();
 	}
 
@@ -183,17 +191,27 @@ public class Git implements AutoCloseable {
 
 	/**
 	 * Constructs a new {@link Git} object which can interact with the specified
-	 * git repository. All command classes returned by methods of this class
-	 * will always interact with this git repository.
+	 * git repository.
+	 * <p>
+	 * All command classes returned by methods of this class will always interact
+	 * with this git repository.
+	 * <p>
+	 * The caller is responsible for closing the repository; {@link #close()} on
+	 * this instance does not close the repo.
 	 *
 	 * @param repo
-	 *            the git repository this class is interacting with.
-	 *            {@code null} is not allowed
+	 *            the git repository this class is interacting with;
+	 *            {@code null} is not allowed.
 	 */
 	public Git(Repository repo) {
+		this(repo, false);
+	}
+
+	private Git(Repository repo, boolean closeRepo) {
 		if (repo == null)
 			throw new NullPointerException();
 		this.repo = repo;
+		this.closeRepo = closeRepo;
 	}
 
 	/**
@@ -695,7 +713,8 @@ public class Git implements AutoCloseable {
 	}
 
 	/**
-	 * @return the git repository this class is interacting with
+	 * @return the git repository this class is interacting with; see {@link
+	 *         #close()} for notes on closing this repository.
 	 */
 	public Repository getRepository() {
 		return repo;
