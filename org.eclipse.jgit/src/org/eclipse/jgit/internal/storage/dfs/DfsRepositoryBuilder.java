@@ -46,6 +46,7 @@ package org.eclipse.jgit.internal.storage.dfs;
 import java.io.File;
 import java.io.IOException;
 
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.BaseRepositoryBuilder;
 
 /**
@@ -141,7 +142,8 @@ public abstract class DfsRepositoryBuilder<B extends DfsRepositoryBuilder, R ext
 
 	@Override
 	public B addAlternateObjectDirectory(File other) {
-		throw new UnsupportedOperationException("Alternates not supported");
+		throw new UnsupportedOperationException(
+				JGitText.get().unsupportedAlternates);
 	}
 
 	@Override

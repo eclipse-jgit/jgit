@@ -261,7 +261,7 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 			fetchRes = fetch.call();
 		} else {
 			// we can skip the fetch altogether
-			remoteUri = "local repository";
+			remoteUri = JGitText.get().localRepository;
 			fetchRes = null;
 		}
 
@@ -302,9 +302,9 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 			}
 		}
 
-		String upstreamName = "branch \'"
-				+ Repository.shortenRefName(remoteBranchName) + "\' of "
-				+ remoteUri;
+		String upstreamName = MessageFormat.format(
+				JGitText.get().upstreamBranchName,
+				Repository.shortenRefName(remoteBranchName), remoteUri);
 
 		PullResult result;
 		if (pullRebaseMode.rebase) {
