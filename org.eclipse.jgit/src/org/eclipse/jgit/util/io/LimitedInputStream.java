@@ -48,6 +48,8 @@ import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.eclipse.jgit.internal.JGitText;
+
 /**
  * Wraps a {@link InputStream}, limiting the number of bytes which can be
  * read.
@@ -124,10 +126,10 @@ public abstract class LimitedInputStream extends FilterInputStream {
 	@Override
 	public synchronized void reset() throws IOException {
 		if (!in.markSupported())
-			throw new IOException("Mark not supported");
+			throw new IOException(JGitText.get().unsupportedMark);
 
 		if (mark == -1)
-			throw new IOException("Mark not set");
+			throw new IOException(JGitText.get().unsetMark);
 
 		in.reset();
 		left = mark;
