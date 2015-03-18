@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a7fb1785_3340f55d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/TemporaryBuffer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-03-18T20:02:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7fb1785_33591562",
+      "revId": "eb5a86ce2a4537b934e0d66de84cecaf557eceb5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7fb1785_13021942",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/TemporaryBuffer.java",
         "patchSetId": 1
@@ -54,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "a7fb1785_9389e934",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/TemporaryBuffer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-03-18T20:02:28Z",
+      "side": 1,
+      "message": "Done in a followup.",
+      "parentUuid": "a7fb1785_9360c902",
+      "revId": "eb5a86ce2a4537b934e0d66de84cecaf557eceb5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7fb1785_d369b1ed",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/TemporaryBuffer.java",
         "patchSetId": 1
@@ -65,6 +101,24 @@
       "writtenOn": "2015-03-18T19:33:37Z",
       "side": 1,
       "message": "Order is awkward. I think I would prefer to see estimated,limit.",
+      "revId": "eb5a86ce2a4537b934e0d66de84cecaf557eceb5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_533dc1e9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/TemporaryBuffer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 542,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-03-18T20:02:28Z",
+      "side": 1,
+      "message": "I was using the general principle of appending \"optional\" arguments to the end, but I don\u0027t feel strongly. Done.",
+      "parentUuid": "a7fb1785_d369b1ed",
       "revId": "eb5a86ce2a4537b934e0d66de84cecaf557eceb5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
