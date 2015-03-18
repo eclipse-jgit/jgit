@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7fb1785_609f45e8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/junit/TestRepositoryTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-03-18T17:47:38Z",
+      "side": 1,
+      "message": "This fails with a merge conflict. Anybody with more ThreeWayMerger experience have any suggestions?",
+      "revId": "2145391e98ffda4bef5a902620818954fba6ec16",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
