@@ -78,6 +78,9 @@ public abstract class TemporaryBuffer extends OutputStream {
 	 */
 	private int inCoreLimit;
 
+	/** Initial size of block list. */
+	private int initialBlocks;
+
 	/** If {@link #inCoreLimit} has been reached, remainder goes here. */
 	private OutputStream overflow;
 
@@ -86,10 +89,28 @@ public abstract class TemporaryBuffer extends OutputStream {
 	 *
 	 * @param limit
 	 *            maximum number of bytes to store in memory before entering the
-	 *            overflow output path.
+	 *            overflow output path; also used as the estimated size.
 	 */
 	protected TemporaryBuffer(final int limit) {
-		inCoreLimit = limit;
+		this(limit, limit);
+	}
+
+	/**
+	 * Create a new empty temporary buffer.
+	 *
+	 * @param estimatedSize
+	 *            estimated size of storage used, to size the initial list of
+	 *            block pointers.
+	 * @param limit
+	 *            maximum number of bytes to store in memory before entering the
+	 *            overflow output path.
+	 * @since 4.0
+	 */
+	protected TemporaryBuffer(final int estimatedSize, final int limit) {
+		if (estimatedSize > limit)
+			throw new IllegalArgumentException();
+		this.inCoreLimit = limit;
+		this.initialBlocks = (estimatedSize - 1) / Block.SZ + 1;
 		reset();
 	}
 
@@ -270,13 +291,11 @@ public abstract class TemporaryBuffer extends OutputStream {
 		if (overflow != null) {
 			destroy();
 		}
-		if (inCoreLimit < Block.SZ) {
-			blocks = new ArrayList<Block>(1);
-			blocks.add(new Block(inCoreLimit));
-		} else {
-			blocks = new ArrayList<Block>(inCoreLimit / Block.SZ);
-			blocks.add(new Block());
-		}
+		if (blocks != null)
+			blocks.clear();
+		else
+			blocks = new ArrayList<Block>(initialBlocks);
+		blocks.add(new Block(Math.min(inCoreLimit, Block.SZ)));
 	}
 
 	/**
@@ -498,12 +517,28 @@ public abstract class TemporaryBuffer extends OutputStream {
 		 * Create a new heap buffer with a maximum storage limit.
 		 *
 		 * @param limit
-		 *            maximum number of bytes that can be stored in this buffer.
-		 *            Storing beyond this many will cause an IOException to be
-		 *            thrown during write.
+		 *            maximum number of bytes that can be stored in this buffer;
+		 *            also used as the estimated size. Storing beyond this many
+		 *            will cause an IOException to be thrown during write.
 		 */
 		public Heap(final int limit) {
 			super(limit);
+		}
+
+		/**
+		 * Create a new heap buffer with a maximum storage limit.
+		 *
+		 * @param estimatedSize
+		 *            estimated size of storage used, to size the initial list of
+		 *            block pointers.
+		 * @param limit
+		 *            maximum number of bytes that can be stored in this buffer.
+		 *            Storing beyond this many will cause an IOException to be
+		 *            thrown during write.
+		 * @since 4.0
+		 */
+		public Heap(final int estimatedSize, final int limit) {
+			super(estimatedSize, limit);
 		}
 
 		@Override
