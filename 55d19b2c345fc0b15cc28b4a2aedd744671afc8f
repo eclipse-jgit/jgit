@@ -16,6 +16,24 @@
       "revId": "55d19b2c345fc0b15cc28b4a2aedd744671afc8f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_fd8d9e0a",
+        "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/TestRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-03-18T14:21:28Z",
+      "side": 1,
+      "message": "The difference between TestRepository and Git is the only way to create a TestRepository is with a Repository that you pass in. You create it, so you\u0027re responsible for closing it; there\u0027s no ambiguity there. (And moreover, this change has nothing to do with that part.)\n\nI suppose I can see the argument that the caller doesn\u0027t know whether they should close this Git instance. In practice it doesn\u0027t matter, but I could make this clearer I guess.",
+      "parentUuid": "a7fb1785_6b044b22",
+      "revId": "55d19b2c345fc0b15cc28b4a2aedd744671afc8f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
