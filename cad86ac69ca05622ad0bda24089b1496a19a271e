@@ -16,6 +16,24 @@
       "revId": "cad86ac69ca05622ad0bda24089b1496a19a271e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_937f2959",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/TemporaryBuffer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 543,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-03-18T20:39:02Z",
+      "side": 1,
+      "message": "Done\n\nSadly the test should have caused IAE in this case (est \u003e limit), but the order in the test was wrong too :(",
+      "parentUuid": "a7fb1785_d3b1b1ca",
+      "revId": "cad86ac69ca05622ad0bda24089b1496a19a271e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
