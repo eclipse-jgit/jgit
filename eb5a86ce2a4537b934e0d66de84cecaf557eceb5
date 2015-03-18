@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7fb1785_13021942",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/TemporaryBuffer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-03-18T19:25:17Z",
+      "side": 1,
+      "message": "Not strictly related to this change but would it make sense to null out the block references rather than reallocating a new block list?",
+      "revId": "eb5a86ce2a4537b934e0d66de84cecaf557eceb5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
