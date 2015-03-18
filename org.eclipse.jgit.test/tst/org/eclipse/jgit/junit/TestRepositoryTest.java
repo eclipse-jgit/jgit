@@ -296,6 +296,70 @@ public class TestRepositoryTest {
 		assertEquals("refs/heads/master", ref.getTarget().getName());
 	}
 
+	@Test
+	public void cherryPick() throws Exception {
+		repo.updateRef("HEAD").link("refs/heads/master");
+		RevCommit head = tr.branch("master").commit()
+				.add("foo", "foo contents")
+				.create();
+		RevCommit toPick = tr.commit()
+				.parent(tr.commit().create()) // Can't cherry-pick root.
+				.message("message to cherry-pick")
+				.add("bar", "bar contents")
+				.create();
+		RevCommit result = tr.cherryPick(toPick);
+		rw.parseBody(result);
+
+		Ref headRef = tr.getRepository().getRef("HEAD");
+		assertEquals(result, headRef.getObjectId());
+		assertTrue(headRef.isSymbolic());
+		assertEquals("refs/heads/master", headRef.getLeaf().getName());
+		assertEquals(result, headRef.getObjectId());
+
+		assertEquals(1, result.getParentCount());
+		assertEquals(head, result.getParent(0));
+		assertEquals(toPick.getAuthorIdent(), result.getAuthorIdent());
+
+		// Committer name/email is the same, but time was incremented.
+		assertEquals(new PersonIdent(toPick.getCommitterIdent(), new Date(0)),
+				new PersonIdent(result.getCommitterIdent(), new Date(0)));
+		assertTrue(toPick.getCommitTime() < result.getCommitTime());
+
+		assertEquals("message to cherry-pick", result.getFullMessage());
+		assertEquals("foo contents", blobAsString(result, "foo"));
+		assertEquals("bar contents", blobAsString(result, "bar"));
+	}
+
+	@Test
+	public void cherryPickWithContentMerge() throws Exception {
+		RevCommit base = tr.branch("HEAD").commit()
+				.add("foo", "foo contents\n\n\n\n\n\n\n\n\n\n")
+				.create();
+		RevCommit head = tr.branch("HEAD").commit()
+				.add("foo", "foo contents\n\n\n\n\n\n\n\n\n\nlast line")
+				.create();
+		RevCommit toPick = tr.commit()
+				.message("message to cherry-pick")
+				.parent(base)
+				.add("foo", "changed foo contents\n\n\n\n\n\n\n\n\n\n")
+				.create();
+		RevCommit result = tr.cherryPick(toPick);
+		rw.parseBody(result);
+
+		assertEquals(1, result.getParentCount());
+		assertEquals(head, result.getParent(0));
+		assertEquals(toPick.getAuthorIdent(), result.getAuthorIdent());
+
+		// Committer name/email is the same, but time was incremented.
+		assertEquals(new PersonIdent(toPick.getCommitterIdent(), new Date(0)),
+				new PersonIdent(result.getCommitterIdent(), new Date(0)));
+		assertTrue(toPick.getCommitTime() < result.getCommitTime());
+
+		assertEquals("message to cherry-pick", result.getFullMessage());
+		assertEquals("changed foo contents\n\n\n\n\n\n\n\n\n\nlast line\n",
+				blobAsString(result, "foo"));
+	}
+
 	private String blobAsString(AnyObjectId treeish, String path)
 			throws Exception {
 		RevObject obj = tr.get(rw.parseTree(treeish), path);
