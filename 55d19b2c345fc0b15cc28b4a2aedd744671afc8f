@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7fb1785_6b044b22",
+        "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/TestRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-03-18T09:26:41Z",
+      "side": 1,
+      "message": "Similar problem as with Git and Repository. As a user of TestRepository and a caller of TestRepository.git() it\u0027s not clear to me whether I have to close the repo or not. On platforms like linux, macos it don\u0027t care much. It\u0027s testcode and I let GC do the work for me. But on windows you can write tests and because of a missing close on Repository or Git the cleanup phase of the tests (where folder hierarchies in filesystem are deleted) fail. E.g. see my commit da595f09 where I had to fix this.\n\nI would at least document whether I have to close what I get back from git(). Or more convinient: add a close() method.",
+      "revId": "55d19b2c345fc0b15cc28b4a2aedd744671afc8f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
