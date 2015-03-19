@@ -1,0 +1,8 @@
+Verified+1: Hudson CI
+Code-Review+1: Dave Borowitz <dborowitz@google.com>
+Code-Review+2: Christian Halstrick <christian.halstrick@sap.com>
+Submitted-by: Christian Halstrick <christian.halstrick@sap.com>
+Submitted-at: Thu, 19 Mar 2015 04:02:10 -0400
+Reviewed-on: https://git.eclipse.org/r/44136
+Project: jgit/jgit
+Branch: refs/heads/master
