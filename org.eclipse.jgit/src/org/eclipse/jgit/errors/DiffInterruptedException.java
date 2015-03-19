@@ -47,6 +47,7 @@ package org.eclipse.jgit.errors;
  * Thrown when a thread executing a diff is interrupted
  *
  * @see org.eclipse.jgit.diff.MyersDiff
+ * @since 4.0
  */
 public class DiffInterruptedException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
