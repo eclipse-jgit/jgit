@@ -34,6 +34,24 @@
       "revId": "2145391e98ffda4bef5a902620818954fba6ec16",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_ebb1514d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/junit/TestRepositoryTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-03-20T17:07:47Z",
+      "side": 1,
+      "message": "*facepalm* thank you.\n\nYou know, I literally tried to reproduce this failure in a git client and I accidentally did the right thing (i.e. not what I did here in the test).",
+      "parentUuid": "a7fb1785_6b30c1ec",
+      "revId": "2145391e98ffda4bef5a902620818954fba6ec16",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
