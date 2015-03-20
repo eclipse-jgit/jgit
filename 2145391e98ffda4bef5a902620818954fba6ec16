@@ -16,6 +16,24 @@
       "revId": "2145391e98ffda4bef5a902620818954fba6ec16",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_6b30c1ec",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/junit/TestRepositoryTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-03-20T15:24:39Z",
+      "side": 1,
+      "message": "I think this is really a conflict. Even with native git. The commit you wanted to cherry-pick was deleting lines 2-11 from the predecessor content (and additionally it was modifying line 1). On the master branch you have modified line 11. So, the commit you cherry-picked and the commit on master both touch line 11 -\u003e conflict.\n\n  \u003e git init b\n  Initialized empty Git repository in /tmp/b/.git/\n  \u003e cd b\n  \u003e echo -e \"foo contents\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\" \u003efoo\n  \u003e git add foo\n  \u003e git commit -m initial\n  [master (root-commit) 23ffd22] initial\n   1 file changed, 11 insertions(+)\n   create mode 100644 foo\n  \u003e git checkout -b side\n  Switched to a new branch \u0027side\u0027\n  \u003e echo -e \"changed foo contents\" \u003efoo\n  \u003e git commit -a -m \"message to cherry-pick\"\n  [side 612dd32] message to cherry-pick\n   1 file changed, 1 insertion(+), 11 deletions(-)\n  \u003e git checkout master\n  Switched to branch \u0027master\u0027\n  \u003e echo -e \"foo contents\\n\\n\\n\\n\\n\\n\\n\\n\\n\\nlast line\" \u003efoo\n  \u003e git commit -a -m \"modify on master\"\n  [master 2c24317] modify on master\n   1 file changed, 1 insertion(+), 1 deletion(-)\n  \u003e git cherry-pick 612dd32\n  error: could not apply 612dd32... message to cherry-pick\n  hint: after resolving the conflicts, mark the corrected paths\n  hint: with \u0027git add \u003cpaths\u003e\u0027 or \u0027git rm \u003cpaths\u003e\u0027\n  hint: and commit the result with \u0027git commit\u0027\n\nIf your cherry-pick commit would be \"changed foo contents\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\" everything would be ok. The the cherrypicked commit wants to modify line 1 and the master commit modifies line 11 -\u003e mergeable.",
+      "parentUuid": "a7fb1785_609f45e8",
+      "revId": "2145391e98ffda4bef5a902620818954fba6ec16",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
