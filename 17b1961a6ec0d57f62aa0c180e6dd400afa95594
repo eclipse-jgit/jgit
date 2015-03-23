@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7fb1785_c2dc3206",
+        "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/TestRepository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 654,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-03-23T15:49:16Z",
+      "side": 1,
+      "message": "why do you tick here? To be consistent with commit() or is there any requirement I don\u0027t see yet?",
+      "revId": "17b1961a6ec0d57f62aa0c180e6dd400afa95594",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_42acc275",
+        "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/TestRepository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 660,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-03-23T15:49:16Z",
+      "side": 1,
+      "message": "why is the committer of a cherry-pick not the default user. That would be more consistent with native git, or? Like in commit() you could use\n\n  new PersonIdent(defaultCommitter, new Date(now))",
+      "revId": "17b1961a6ec0d57f62aa0c180e6dd400afa95594",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_82ad0a72",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/junit/TestRepositoryTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-03-23T15:49:16Z",
+      "side": 1,
+      "message": "I would create a commit which has non-default Author and Committer. Then it would be more obvious that you are taking over the right idents.",
+      "revId": "17b1961a6ec0d57f62aa0c180e6dd400afa95594",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_c26f12ed",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/junit/TestRepositoryTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-03-23T15:49:16Z",
+      "side": 1,
+      "message": "same test as 3 lines above",
+      "range": {
+        "startLine": 318,
+        "startChar": 42,
+        "endLine": 318,
+        "endChar": 46
+      },
+      "revId": "17b1961a6ec0d57f62aa0c180e6dd400afa95594",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_2286d6f4",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/junit/TestRepositoryTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-03-23T15:49:16Z",
+      "side": 1,
+      "message": "As commented in TestRepository class: i would have expected that the committer name/email is also copied.",
+      "revId": "17b1961a6ec0d57f62aa0c180e6dd400afa95594",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
