@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "a7fb1785_0f014278",
+        "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/TestRepository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 654,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-03-24T08:10:48Z",
+      "side": 1,
+      "message": "I would leave it as it is. It\u0027s test code and I like very much that you can cherry-pick in one line. Let\u0027s start making it complicated when we really need it.\n\nJust wanted to understand whether there is a hidden dependency that c2 and c1 must have different timestamps. I don\u0027t know whether we can guarantee that the commits c1,c2,c3 have different timestamps. With our TestRepository class we can guarantee because we control the clock. But in real life if the machine is fast enough and the clock is slow enough they may have the same timestamp, or?",
+      "parentUuid": "a7fb1785_3dac3775",
+      "revId": "17b1961a6ec0d57f62aa0c180e6dd400afa95594",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7fb1785_42acc275",
         "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/TestRepository.java",
         "patchSetId": 3
