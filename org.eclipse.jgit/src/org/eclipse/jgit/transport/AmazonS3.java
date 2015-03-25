@@ -489,10 +489,9 @@ public class AmazonS3 {
 
 		final String md5str = Base64.encodeBytes(csum);
 		final long len = buf.length();
-		final String lenstr = String.valueOf(len);
 		for (int curAttempt = 0; curAttempt < maxAttempts; curAttempt++) {
 			final HttpURLConnection c = open("PUT", bucket, key); //$NON-NLS-1$
-			c.setRequestProperty("Content-Length", lenstr); //$NON-NLS-1$
+			c.setFixedLengthStreamingMode(len);
 			c.setRequestProperty("Content-MD5", md5str); //$NON-NLS-1$
 			c.setRequestProperty(X_AMZ_ACL, acl);
 			encryption.request(c, X_AMZ_META);
