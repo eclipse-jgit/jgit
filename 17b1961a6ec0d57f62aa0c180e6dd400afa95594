@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "a7fb1785_5e949614",
+        "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/TestRepository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 654,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-03-25T07:49:20Z",
+      "side": 1,
+      "message": "Yes, I got this. That\u0027s fine. I was asking a little bit unrelated to this change whether in real world (not in test cases with TestRepository but with native git) commits are guaranteed to have increasing timestamps. Or can you be so fast that commits have the same timestamp.",
+      "parentUuid": "a7fb1785_724549cb",
+      "revId": "17b1961a6ec0d57f62aa0c180e6dd400afa95594",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7fb1785_42acc275",
         "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/TestRepository.java",
         "patchSetId": 3
