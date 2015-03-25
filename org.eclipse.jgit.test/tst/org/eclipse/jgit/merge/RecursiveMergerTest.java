@@ -177,6 +177,69 @@ public class RecursiveMergerTest extends RepositoryTestCase {
 
 	@Theory
 	/**
+	 * Merging m2,s2 from the following topology. m1 and s1 are the two root
+	 * commits of the repo. In master and side different files are touched.
+	 * No need to do a real content merge.
+	 *
+	 * <pre>
+	 * m1--m2
+	 *   \/
+	 *   /\
+	 * s1--s2
+	 * </pre>
+	 */
+	public void crissCrossMerge_twoRoots(MergeStrategy strategy,
+			IndexState indexState, WorktreeState worktreeState)
+			throws Exception {
+		if (!validateStates(indexState, worktreeState))
+			return;
+		// fill the repo
+		BranchBuilder master = db_t.branch("master");
+		BranchBuilder side = db_t.branch("side");
+		RevCommit m1 = master.commit().add("m", "m1").message("m1").create();
+		db_t.getRevWalk().parseCommit(m1);
+
+		RevCommit s1 = side.commit().add("s", "s1").message("s1").create();
+		RevCommit s2 = side.commit().parent(m1).add("m", "m1")
+				.message("s2(merge)").create();
+		RevCommit m2 = master.commit().parent(s1).add("s", "s1")
+				.message("m2(merge)").create();
+
+		Git git = Git.wrap(db);
+		git.checkout().setName("master").call();
+		modifyWorktree(worktreeState, "m", "side");
+		modifyWorktree(worktreeState, "s", "side");
+		modifyIndex(indexState, "m", "side");
+		modifyIndex(indexState, "s", "side");
+
+		ResolveMerger merger = (ResolveMerger) strategy.newMerger(db,
+				worktreeState == WorktreeState.Bare);
+		if (worktreeState != WorktreeState.Bare)
+			merger.setWorkingTreeIterator(new FileTreeIterator(db));
+		try {
+			boolean expectSuccess = true;
+			if (!(indexState == IndexState.Bare
+					|| indexState == IndexState.Missing
+					|| indexState == IndexState.SameAsHead || indexState == IndexState.SameAsOther))
+				// index is dirty
+				expectSuccess = false;
+
+			assertEquals(Boolean.valueOf(expectSuccess),
+					Boolean.valueOf(merger.merge(new RevCommit[] { m2, s2 })));
+			assertEquals(MergeStrategy.RECURSIVE, strategy);
+			assertEquals("m1",
+					contentAsString(db, merger.getResultTreeId(), "m"));
+			assertEquals("s1",
+					contentAsString(db, merger.getResultTreeId(), "s"));
+		} catch (NoMergeBaseException e) {
+			assertEquals(MergeStrategy.RESOLVE, strategy);
+			assertEquals(e.getReason(),
+					MergeBaseFailureReason.MULTIPLE_MERGE_BASES_NOT_SUPPORTED);
+		}
+	}
+
+	@Theory
+	/**
 	 * Merging m2,s2 from the following topology. The same file is modified
 	 * in both branches. The modifications should be mergeable. m2 and s2
 	 * contain branch specific conflict resolutions. Therefore m2 and s2 don't contain the same content.
