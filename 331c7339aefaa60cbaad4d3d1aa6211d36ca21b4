@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7fb1785_fc7da7d5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-03-26T16:55:08Z",
+      "side": 1,
+      "message": "style nit: we don\u0027t put the bug reference in the commit message header but only in the footer, this way we have a few letters more for the subject which is most important to human observers",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 9
+      },
+      "revId": "331c7339aefaa60cbaad4d3d1aa6211d36ca21b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_4e61817a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-03-26T16:55:08Z",
+      "side": 1,
+      "message": "s/bug:/Bug:/",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 4
+      },
+      "revId": "331c7339aefaa60cbaad4d3d1aa6211d36ca21b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
