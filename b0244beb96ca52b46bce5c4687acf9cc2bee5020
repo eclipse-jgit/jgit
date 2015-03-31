@@ -1,0 +1,135 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7fb1785_d0fb3c85",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-03-31T20:31:10Z",
+      "side": 1,
+      "message": "Mention in the commit message that this breaks bitmaps?",
+      "range": {
+        "startLine": 11,
+        "startChar": 7,
+        "endLine": 11,
+        "endChar": 27
+      },
+      "revId": "b0244beb96ca52b46bce5c4687acf9cc2bee5020",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_b000300f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-03-31T20:31:10Z",
+      "side": 1,
+      "message": "This means garbage objects from such packs will never migrate to an UNREACHABLE_GARBAGE pack, so even after a GC (even in the presence of no ref updates) the \"GC\" packs will contain a mix of live and garbage objects.\n\nI think we could get into a pathological scenario where there are many GC packs, but due to many force pushes most GC packs are mostly garbage.\n\nIt may be that the cost of such a scenario is lower than the cost of doing a full GC on such a large repository. (Particularly since these kinds of repositories are rarely cloned in their entirety, so we would be unlikely to be able to reuse a cached pack even if we had one.)\n\nI\u0027m also a little concerned that we would have no way of knowing if we were in such a situation just by looking at the packs in the repository; you would have to do some reachability check on the packs (e.g. do a full clone).",
+      "revId": "b0244beb96ca52b46bce5c4687acf9cc2bee5020",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_7077e8ab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-03-31T20:31:10Z",
+      "side": 1,
+      "message": "Well, some of the repos that are hurting us right now are ones where large binary objects _are_ frequently deleted, which leads to the pathological scenario from my previous comment.",
+      "revId": "b0244beb96ca52b46bce5c4687acf9cc2bee5020",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_b05cb052",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-03-31T20:31:10Z",
+      "side": 1,
+      "message": "500G seems large, did you mean 500M maybe?",
+      "range": {
+        "startLine": 94,
+        "startChar": 42,
+        "endLine": 94,
+        "endChar": 44
+      },
+      "revId": "b0244beb96ca52b46bce5c4687acf9cc2bee5020",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_d057bc2c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-03-31T20:31:10Z",
+      "side": 1,
+      "message": "Mention default?",
+      "revId": "b0244beb96ca52b46bce5c4687acf9cc2bee5020",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_f0b478ec",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-03-31T20:31:10Z",
+      "side": 1,
+      "message": "No braces",
+      "revId": "b0244beb96ca52b46bce5c4687acf9cc2bee5020",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_90a374b1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-03-31T20:31:10Z",
+      "side": 1,
+      "message": "No braces",
+      "revId": "b0244beb96ca52b46bce5c4687acf9cc2bee5020",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
