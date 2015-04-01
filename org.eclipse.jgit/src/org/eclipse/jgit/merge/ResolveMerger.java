@@ -810,8 +810,9 @@ public class ResolveMerger extends ThreeWayMerger {
 			new MergeFormatter().formatMerge(buf, result,
 					Arrays.asList(commitNames), CHARACTER_ENCODING);
 			buf.close();
-			return getObjectInserter().insert(OBJ_BLOB, buf.length(),
-					buf.openInputStream());
+			try (InputStream in = buf.openInputStream()) {
+				return getObjectInserter().insert(OBJ_BLOB, buf.length(), in);
+			}
 		} finally {
 			buf.destroy();
 		}
