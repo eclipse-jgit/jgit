@@ -84,4 +84,12 @@ class EolAwareOutputStream extends OutputStream {
 		out.write(val);
 		bol = (val == '\n');
 	}
+
+	@Override
+	public void write(byte[] buf, int pos, int cnt) throws IOException {
+		if (cnt > 0) {
+			out.write(buf, pos, cnt);
+			bol = (buf[pos + (cnt - 1)] == '\n');
+		}
+	}
 }
