@@ -46,6 +46,7 @@ package org.eclipse.jgit.blame;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.eclipse.jgit.lib.FileMode.TYPE_FILE;
 import static org.eclipse.jgit.lib.FileMode.TYPE_MASK;
+import static org.eclipse.jgit.lib.Constants.T_BASE;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -961,7 +962,7 @@ public class BlameGenerator implements AutoCloseable {
 	private boolean find(RevCommit commit, PathFilter path) throws IOException {
 		treeWalk.setFilter(path);
 		treeWalk.reset(commit.getTree());
-		if (treeWalk.next() && isFile(treeWalk.getRawMode(0))) {
+		if (treeWalk.next() && isFile(treeWalk.getRawMode(T_BASE))) {
 			treeWalk.getObjectId(idBuf, 0);
 			return true;
 		}

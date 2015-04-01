@@ -43,6 +43,9 @@
 
 package org.eclipse.jgit.revwalk;
 
+import static org.eclipse.jgit.lib.Constants.T_BASE;
+import static org.eclipse.jgit.lib.Constants.T_OURS;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -151,7 +154,7 @@ public class TreeRevFilter extends RevFilter {
 			int chgs = 0, adds = 0;
 			while (tw.next()) {
 				chgs++;
-				if (tw.getRawMode(0) == 0 && tw.getRawMode(1) != 0)
+				if (tw.getRawMode(T_BASE) == 0 && tw.getRawMode(T_OURS) != 0)
 					adds++;
 				else
 					break; // no point in looking at this further.

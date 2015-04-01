@@ -43,6 +43,10 @@
 
 package org.eclipse.jgit.merge;
 
+import static org.eclipse.jgit.lib.Constants.T_BASE;
+import static org.eclipse.jgit.lib.Constants.T_OURS;
+import static org.eclipse.jgit.lib.Constants.T_THEIRS;
+
 import java.io.IOException;
 
 import org.eclipse.jgit.dircache.DirCache;
@@ -90,12 +94,6 @@ public class StrategySimpleTwoWayInCore extends ThreeWayMergeStrategy {
 	}
 
 	private static class InCoreMerger extends ThreeWayMerger {
-		private static final int T_BASE = 0;
-
-		private static final int T_OURS = 1;
-
-		private static final int T_THEIRS = 2;
-
 		private final NameConflictTreeWalk tw;
 
 		private final DirCache cache;

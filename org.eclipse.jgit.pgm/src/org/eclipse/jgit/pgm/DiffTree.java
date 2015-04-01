@@ -44,17 +44,19 @@
 
 package org.eclipse.jgit.pgm;
 
+import static org.eclipse.jgit.lib.Constants.T_BASE;
+import static org.eclipse.jgit.lib.Constants.T_OURS;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kohsuke.args4j.Argument;
-import org.kohsuke.args4j.Option;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.pgm.opt.PathTreeFilterHandler;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.AndTreeFilter;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
+import org.kohsuke.args4j.Argument;
+import org.kohsuke.args4j.Option;
 
 @Command(usage = "usage_ShowDiffTree")
 class DiffTree extends TextBuiltin {
@@ -100,8 +102,8 @@ class DiffTree extends TextBuiltin {
 
 			char chg = 'M';
 			if (nTree == 2) {
-				final int m0 = walk.getRawMode(0);
-				final int m1 = walk.getRawMode(1);
+				final int m0 = walk.getRawMode(T_BASE);
+				final int m1 = walk.getRawMode(T_OURS);
 				if (m0 == 0 && m1 != 0)
 					chg = 'A';
 				else if (m0 != 0 && m1 == 0)

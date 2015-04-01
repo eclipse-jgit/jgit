@@ -53,6 +53,7 @@ import java.text.MessageFormat;
 
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.MutableInteger;
 
 /** Misc. constants used throughout JGit. */
@@ -629,6 +630,46 @@ public final class Constants {
 	/** objectid for the empty blob */
 	public static final ObjectId EMPTY_BLOB_ID = ObjectId
 			.fromString("e69de29bb2d1d6434b8b29ae775ad8c2e48c5391");
+
+	/**
+	 * Index of the base tree within the {@link TreeWalk} used by mergers like
+	 * {@code ResolveMerger}.
+	 *
+	 * @since 4.0
+	 */
+	public static final int T_BASE = 0;
+
+	/**
+	 * Index of our tree in within the {@link TreeWalk} used by mergers like
+	 * {@code ResolveMerger}.
+	 *
+	 * @since 4.0
+	 */
+	public static final int T_OURS = 1;
+
+	/**
+	 * Index of their tree within the {@link TreeWalk} used by mergers like
+	 * {@code ResolveMerger}.
+	 *
+	 * @since 4.0
+	 */
+	public static final int T_THEIRS = 2;
+
+	/**
+	 * Index of the index tree within the {@link TreeWalk} used by mergers like
+	 * {@code ResolveMerger}.
+	 *
+	 * @since 4.0
+	 */
+	public static final int T_INDEX = 3;
+
+	/**
+	 * Index of the working directory tree within the {@link TreeWalk} used by
+	 * mergers like {@code ResolveMerger}.
+	 *
+	 * @since 4.0
+	 */
+	public static final int T_FILE = 4;
 
 	private Constants() {
 		// Hide the default constructor

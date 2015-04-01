@@ -46,6 +46,7 @@ package org.eclipse.jgit.internal.storage.file;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.BITMAP_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
 import static org.eclipse.jgit.lib.RefDatabase.ALL;
+import static org.eclipse.jgit.lib.Constants.T_BASE;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -639,7 +640,7 @@ public class GC {
 
 			while (treeWalk.next()) {
 				ObjectId objectId = treeWalk.getObjectId(0);
-				switch (treeWalk.getRawMode(0) & FileMode.TYPE_MASK) {
+				switch (treeWalk.getRawMode(T_BASE) & FileMode.TYPE_MASK) {
 				case FileMode.TYPE_MISSING:
 				case FileMode.TYPE_GITLINK:
 					continue;
@@ -649,10 +650,11 @@ public class GC {
 					ret.add(objectId);
 					continue;
 				default:
-					throw new IOException(MessageFormat.format(
-							JGitText.get().corruptObjectInvalidMode3,
-							String.format("%o", //$NON-NLS-1$
-									Integer.valueOf(treeWalk.getRawMode(0))),
+					throw new IOException(MessageFormat
+							.format(JGitText.get().corruptObjectInvalidMode3,
+									String.format("%o", //$NON-NLS-1$
+											Integer.valueOf(treeWalk
+													.getRawMode(T_BASE))),
 							(objectId == null) ? "null" : objectId.name(), //$NON-NLS-1$
 							treeWalk.getPathString(), //
 							repo.getIndexFile()));

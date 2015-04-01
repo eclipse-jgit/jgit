@@ -43,6 +43,8 @@
 
 package org.eclipse.jgit.treewalk.filter;
 
+import static org.eclipse.jgit.lib.Constants.T_BASE;
+
 import java.io.IOException;
 
 import org.eclipse.jgit.dircache.DirCacheIterator;
@@ -129,7 +131,6 @@ public abstract class TreeFilter {
 	public static final TreeFilter ANY_DIFF = new AnyDiffFilter();
 
 	private static final class AnyDiffFilter extends TreeFilter {
-		private static final int baseTree = 0;
 
 		@Override
 		public boolean include(final TreeWalk walker) {
@@ -137,9 +138,9 @@ public abstract class TreeFilter {
 			if (n == 1) // Assume they meant difference to empty tree.
 				return true;
 
-			final int m = walker.getRawMode(baseTree);
+			final int m = walker.getRawMode(T_BASE);
 			for (int i = 1; i < n; i++)
-				if (walker.getRawMode(i) != m || !walker.idEqual(i, baseTree))
+				if (walker.getRawMode(i) != m || !walker.idEqual(i, T_BASE))
 					return true;
 			return false;
 		}
