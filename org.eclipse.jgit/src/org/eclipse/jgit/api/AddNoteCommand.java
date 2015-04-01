@@ -83,11 +83,10 @@ public class AddNoteCommand extends GitCommand<Note> {
 
 	public Note call() throws GitAPIException {
 		checkCallable();
-		RevWalk walk = new RevWalk(repo);
-		ObjectInserter inserter = repo.newObjectInserter();
 		NoteMap map = NoteMap.newEmptyMap();
 		RevCommit notesCommit = null;
-		try {
+		try (RevWalk walk = new RevWalk(repo);
+				ObjectInserter inserter = repo.newObjectInserter()) {
 			Ref ref = repo.getRef(notesRef);
 			// if we have a notes ref, use it
 			if (ref != null) {
@@ -100,9 +99,6 @@ public class AddNoteCommand extends GitCommand<Note> {
 			return map.getNote(id);
 		} catch (IOException e) {
 			throw new JGitInternalException(e.getMessage(), e);
-		} finally {
-			inserter.release();
-			walk.release();
 		}
 	}
 
