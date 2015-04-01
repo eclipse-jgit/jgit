@@ -83,6 +83,41 @@ import org.eclipse.jgit.util.RawParseUtils;
  * permitted, even from concurrent threads.
  */
 public class TreeWalk implements AutoCloseable {
+	/**
+	 * Index of the base tree within the {@link TreeWalk}.
+	 *
+	 * @since 4.0
+	 */
+	public static final int T_BASE = 0;
+
+	/**
+	 * Index of ours tree within the {@link TreeWalk}.
+	 *
+	 * @since 4.0
+	 */
+	public static final int T_OURS = 1;
+
+	/**
+	 * Index of theirs tree within the {@link TreeWalk}.
+	 *
+	 * @since 4.0
+	 */
+	public static final int T_THEIRS = 2;
+
+	/**
+	 * Index of the index tree within the {@link TreeWalk}.
+	 *
+	 * @since 4.0
+	 */
+	public static final int T_INDEX = 3;
+
+	/**
+	 * Index of the working directory tree within the {@link TreeWalk}.
+	 *
+	 * @since 4.0
+	 */
+	public static final int T_FILE = 4;
+
 	private static final AbstractTreeIterator[] NO_TREES = {};
 
 	/**
