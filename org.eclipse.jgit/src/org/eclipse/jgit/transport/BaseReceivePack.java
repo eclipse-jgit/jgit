@@ -317,7 +317,7 @@ public abstract class BaseReceivePack {
 					"denynonfastforwards", false); //$NON-NLS-1$
 			allowOfsDelta = config.getBoolean("repack", "usedeltabaseoffset", //$NON-NLS-1$ //$NON-NLS-2$
 					true);
-			certNonceSeed = config.getString("receive", null, "certnonceseed"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			certNonceSeed = config.getString("receive", null, "certnonceseed"); //$NON-NLS-1$ //$NON-NLS-2$
 			certNonceSlopLimit = config.getInt("receive", "certnonceslop", 0); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
