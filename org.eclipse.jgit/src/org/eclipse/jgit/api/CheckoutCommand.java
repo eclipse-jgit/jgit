@@ -208,16 +208,17 @@ public class CheckoutCommand extends GitCommand<Ref> {
 			}
 
 			if (createBranch) {
-				Git git = new Git(repo);
-				CreateBranchCommand command = git.branchCreate();
-				command.setName(name);
-				if (startCommit != null)
-					command.setStartPoint(startCommit);
-				else
-					command.setStartPoint(startPoint);
-				if (upstreamMode != null)
-					command.setUpstreamMode(upstreamMode);
-				command.call();
+				try (Git git = new Git(repo)) {
+					CreateBranchCommand command = git.branchCreate();
+					command.setName(name);
+					if (startCommit != null)
+						command.setStartPoint(startCommit);
+					else
+						command.setStartPoint(startPoint);
+					if (upstreamMode != null)
+						command.setUpstreamMode(upstreamMode);
+					command.call();
+				}
 			}
 
 			Ref headRef = repo.getRef(Constants.HEAD);
@@ -243,11 +244,14 @@ public class CheckoutCommand extends GitCommand<Ref> {
 							JGitText.get().refNotResolved, name));
 			}
 
-			RevWalk revWalk = new RevWalk(repo);
-			AnyObjectId headId = headRef.getObjectId();
-			RevCommit headCommit = headId == null ? null : revWalk
-					.parseCommit(headId);
-			RevCommit newCommit = revWalk.parseCommit(branch);
+			RevCommit headCommit = null;
+			RevCommit newCommit = null;
+			try (RevWalk revWalk = new RevWalk(repo)) {
+				AnyObjectId headId = headRef.getObjectId();
+				headCommit = headId == null ? null
+						: revWalk.parseCommit(headId);
+				newCommit = revWalk.parseCommit(branch);
+			}
 			RevTree headTree = headCommit == null ? null : headCommit.getTree();
 			DirCacheCheckout dco;
 			DirCache dc = repo.lockDirCache();
@@ -376,26 +380,20 @@ public class CheckoutCommand extends GitCommand<Ref> {
 	 */
 	protected CheckoutCommand checkoutPaths() throws IOException,
 			RefNotFoundException {
-		RevWalk revWalk = new RevWalk(repo);
 		DirCache dc = repo.lockDirCache();
-		try {
-			TreeWalk treeWalk = new TreeWalk(revWalk.getObjectReader());
+		try (RevWalk revWalk = new RevWalk(repo);
+				TreeWalk treeWalk = new TreeWalk(revWalk.getObjectReader())) {
 			treeWalk.setRecursive(true);
 			if (!checkoutAllPaths)
 				treeWalk.setFilter(PathFilterGroup.createFromStrings(paths));
-			try {
-				if (isCheckoutIndex())
-					checkoutPathsFromIndex(treeWalk, dc);
-				else {
-					RevCommit commit = revWalk.parseCommit(getStartPointObjectId());
-					checkoutPathsFromCommit(treeWalk, dc, commit);
-				}
-			} finally {
-				treeWalk.release();
+			if (isCheckoutIndex())
+				checkoutPathsFromIndex(treeWalk, dc);
+			else {
+				RevCommit commit = revWalk.parseCommit(getStartPointObjectId());
+				checkoutPathsFromCommit(treeWalk, dc, commit);
 			}
 		} finally {
 			dc.unlock();
-			revWalk.release();
 		}
 		return this;
 	}
