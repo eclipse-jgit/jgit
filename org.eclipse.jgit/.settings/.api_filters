@@ -1,50 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <component id="org.eclipse.jgit" version="2">
-    <resource path="META-INF/MANIFEST.MF">
-        <filter comment="minor addition" id="924844039">
-            <message_arguments>
-                <message_argument value="3.4.0"/>
-                <message_argument value="3.4.0"/>
-            </message_arguments>
-        </filter>
-    </resource>
-    <resource path="src/org/eclipse/jgit/lib/ObjectInserter.java" type="org.eclipse.jgit.lib.ObjectInserter">
-        <filter id="336695337">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.lib.ObjectInserter"/>
-                <message_argument value="newReader()"/>
-            </message_arguments>
-        </filter>
-    </resource>
-    <resource path="src/org/eclipse/jgit/merge/ResolveMerger.java" type="org.eclipse.jgit.merge.ResolveMerger">
-        <filter comment="Doesn't break consumers. Breaking providers is allowed also in minor versions." id="338792546">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.merge.ResolveMerger"/>
-                <message_argument value="mergeTreeWalk(TreeWalk)"/>
-            </message_arguments>
-        </filter>
-        <filter comment="Doesn't break consumers. Breaking providers is allowed also in minor versions." id="338792546">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.merge.ResolveMerger"/>
-                <message_argument value="mergeTrees(AbstractTreeIterator, RevTree, RevTree)"/>
-            </message_arguments>
-        </filter>
-        <filter comment="Doesn't break consumers. Breaking providers is allowed also in minor versions." id="338792546">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.merge.ResolveMerger"/>
-                <message_argument value="processEntry(CanonicalTreeParser, CanonicalTreeParser, CanonicalTreeParser, DirCacheBuildIterator, WorkingTreeIterator)"/>
-            </message_arguments>
-        </filter>
-    </resource>
-    <resource path="src/org/eclipse/jgit/transport/GitProtocolConstants.java" type="org.eclipse.jgit.transport.GitProtocolConstants">
-        <filter id="388194388">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.transport.GitProtocolConstants"/>
-                <message_argument value="CAPABILITY_ATOMIC"/>
-                <message_argument value="atomic-push"/>
-            </message_arguments>
-        </filter>
-    </resource>
     <resource path="src/org/eclipse/jgit/util/FileUtil.java" type="org.eclipse.jgit.util.FileUtil">
         <filter comment="moved into another bundle keeping original package" id="1110441988">
             <message_arguments>
