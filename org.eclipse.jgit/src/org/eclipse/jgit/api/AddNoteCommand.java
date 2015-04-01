@@ -95,7 +95,7 @@ public class AddNoteCommand extends GitCommand<Note> {
 			}
 			map.set(id, message, inserter);
 			commitNoteMap(walk, map, notesCommit, inserter,
-					"Notes added by 'git notes add'");
+					"Notes added by 'git notes add'"); //$NON-NLS-1$
 			return map.getNote(id);
 		} catch (IOException e) {
 			throw new JGitInternalException(e.getMessage(), e);
