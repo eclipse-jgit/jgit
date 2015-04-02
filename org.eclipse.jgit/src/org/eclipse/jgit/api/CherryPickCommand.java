@@ -123,8 +123,7 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 		List<Ref> cherryPickedRefs = new LinkedList<Ref>();
 		checkCallable();
 
-		RevWalk revWalk = new RevWalk(repo);
-		try {
+		try (RevWalk revWalk = new RevWalk(repo)) {
 
 			// get the head commit
 			Ref headRef = repo.getRef(Constants.HEAD);
@@ -194,8 +193,6 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 					MessageFormat.format(
 							JGitText.get().exceptionCaughtDuringExecutionOfCherryPickCommand,
 							e), e);
-		} finally {
-			revWalk.release();
 		}
 		return new CherryPickResult(newHead, cherryPickedRefs);
 	}
