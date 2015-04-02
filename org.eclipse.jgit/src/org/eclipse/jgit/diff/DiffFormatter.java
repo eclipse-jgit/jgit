@@ -173,7 +173,7 @@ public class DiffFormatter implements AutoCloseable {
 	 */
 	public void setRepository(Repository repository) {
 		if (reader != null)
-			reader.release();
+			reader.close();
 
 		db = repository;
 		reader = db.newObjectReader();
@@ -422,10 +422,11 @@ public class DiffFormatter implements AutoCloseable {
 			throws IOException {
 		assertHaveRepository();
 
-		RevWalk rw = new RevWalk(reader);
-		RevTree aTree = a != null ? rw.parseTree(a) : null;
-		RevTree bTree = b != null ? rw.parseTree(b) : null;
-		return scan(aTree, bTree);
+		try (RevWalk rw = new RevWalk(reader)) {
+			RevTree aTree = a != null ? rw.parseTree(a) : null;
+			RevTree bTree = b != null ? rw.parseTree(b) : null;
+			return scan(aTree, bTree);
+		}
 	}
 
 	/**
