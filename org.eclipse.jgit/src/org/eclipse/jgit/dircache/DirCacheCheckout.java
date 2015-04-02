@@ -403,8 +403,7 @@ public class DirCacheCheckout {
 			MissingObjectException, IncorrectObjectTypeException,
 			CheckoutConflictException, IndexWriteException {
 		toBeDeleted.clear();
-		ObjectReader objectReader = repo.getObjectDatabase().newReader();
-		try {
+		try (ObjectReader objectReader = repo.getObjectDatabase().newReader()) {
 			if (headCommitTree != null)
 				preScanTwoTrees();
 			else
@@ -454,8 +453,6 @@ public class DirCacheCheckout {
 			// commit the index builder - a new index is persisted
 			if (!builder.commit())
 				throw new IndexWriteException();
-		} finally {
-			objectReader.release();
 		}
 		return toBeDeleted.size() == 0;
 	}
@@ -1056,8 +1053,7 @@ public class DirCacheCheckout {
 	 */
 	private boolean isModifiedSubtree_IndexWorkingtree(String path)
 			throws CorruptObjectException, IOException {
-		NameConflictTreeWalk tw = new NameConflictTreeWalk(repo);
-		try {
+		try (NameConflictTreeWalk tw = new NameConflictTreeWalk(repo)) {
 			tw.addTree(new DirCacheIterator(dc));
 			tw.addTree(new FileTreeIterator(repo));
 			tw.setRecursive(true);
@@ -1075,8 +1071,6 @@ public class DirCacheCheckout {
 				}
 			}
 			return false;
-		} finally {
-			tw.release();
 		}
 	}
 
@@ -1105,8 +1099,7 @@ public class DirCacheCheckout {
 	 */
 	private boolean isModifiedSubtree_IndexTree(String path, ObjectId tree)
 			throws CorruptObjectException, IOException {
-		NameConflictTreeWalk tw = new NameConflictTreeWalk(repo);
-		try {
+		try (NameConflictTreeWalk tw = new NameConflictTreeWalk(repo)) {
 			tw.addTree(new DirCacheIterator(dc));
 			tw.addTree(tree);
 			tw.setRecursive(true);
@@ -1124,8 +1117,6 @@ public class DirCacheCheckout {
 					return true;
 			}
 			return false;
-		} finally {
-			tw.release();
 		}
 	}
 
