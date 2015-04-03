@@ -120,11 +120,8 @@ public abstract class ObjectDatabase {
 	 *             the object store cannot be accessed.
 	 */
 	public boolean has(final AnyObjectId objectId) throws IOException {
-		final ObjectReader or = newReader();
-		try {
+		try (final ObjectReader or = newReader()) {
 			return or.has(objectId);
-		} finally {
-			or.release();
 		}
 	}
 
@@ -172,11 +169,8 @@ public abstract class ObjectDatabase {
 	public ObjectLoader open(AnyObjectId objectId, int typeHint)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
-		final ObjectReader or = newReader();
-		try {
+		try (final ObjectReader or = newReader()) {
 			return or.open(objectId, typeHint);
-		} finally {
-			or.release();
 		}
 	}
 
