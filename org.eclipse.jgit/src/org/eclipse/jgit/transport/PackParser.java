@@ -529,7 +529,7 @@ public abstract class PackParser {
 		} finally {
 			try {
 				if (readCurs != null)
-					readCurs.release();
+					readCurs.close();
 			} finally {
 				readCurs = null;
 			}
