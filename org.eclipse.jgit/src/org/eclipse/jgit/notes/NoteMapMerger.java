@@ -135,8 +135,8 @@ public class NoteMapMerger {
 			inserter.flush();
 			return NoteMap.newMap(mergedBucket, reader);
 		} finally {
-			reader.release();
-			inserter.release();
+			reader.close();
+			inserter.close();
 		}
 	}
 
