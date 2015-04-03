@@ -812,7 +812,7 @@ public abstract class PackParser {
 
 		for (final DeltaChain base : missing) {
 			if (base.head != null)
-				throw new MissingObjectException(base, "delta base");
+				throw new MissingObjectException(base, "delta base"); //$NON-NLS-1$
 		}
 
 		onEndThinPack();
