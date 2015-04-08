@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7fb1785_787dfc5f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-04-08T16:21:44Z",
+      "side": 1,
+      "message": "You are introducing constants in TreeWalk which are useless for TreeWalk itself. TreeWalk has no knowledge of OURS, BASE etc and does not make use of it. AFAIK the tree at index 0 is similar to the tree at index 3. The merge algorithm as a user of TreeWalk could decide to put BASE at 1 and THEIRS at 0. The user of TreeWalk freely decides what to put where. And he is responsible to get the right tree out of it. Look at CommitCommand line 341-347 where we fill the TreeWalk differently: no base,  index(\u003d0), then worktree, then potentially commit. The safest way to work with treeWalk is to always remember the index TreeWalk gives in a variable:\n\n  TreeWalk treeWalk \u003d new TreeWalk(repo);\n  int dcIdx \u003d treeWalk.addTree(new DirCacheBuildIterator(existingBuilder));\n  ...\n\n\nOn the other hand it\u0027s quite common to put BASE at 0, etc. If you would move constants out (e.g. to Constants) it would be more clear that TreeWalk doesn\u0027t rely on this constants.",
+      "revId": "7c99ea4ab43ac51806ce385131ccc7b7d8c5899d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
