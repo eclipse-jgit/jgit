@@ -22,6 +22,30 @@
       "revId": "cce75ed28fa4170b56c508ba6b89e7b58abebaf4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_2bfcc07d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-04-08T20:09:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7fb1785_6bba480a",
+      "range": {
+        "startLine": 272,
+        "startChar": 5,
+        "endLine": 273,
+        "endChar": 10
+      },
+      "revId": "cce75ed28fa4170b56c508ba6b89e7b58abebaf4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
