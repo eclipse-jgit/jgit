@@ -196,8 +196,7 @@ class FetchProcess {
 				.newBatchUpdate()
 				.setAllowNonFastForwards(true)
 				.setRefLogMessage("fetch", true); //$NON-NLS-1$
-		final RevWalk walk = new RevWalk(transport.local);
-		try {
+		try (final RevWalk walk = new RevWalk(transport.local)) {
 			if (monitor instanceof BatchingProgressMonitor) {
 				((BatchingProgressMonitor) monitor).setDelayStart(
 						250, TimeUnit.MILLISECONDS);
@@ -226,8 +225,6 @@ class FetchProcess {
 			throw new TransportException(MessageFormat.format(
 					JGitText.get().failureUpdatingTrackingRef,
 					getFirstFailedRefName(batch), err.getMessage()), err);
-		} finally {
-			walk.release();
 		}
 
 		if (!fetchHeadUpdates.isEmpty()) {
@@ -338,15 +335,12 @@ class FetchProcess {
 
 	private boolean askForIsComplete() throws TransportException {
 		try {
-			final ObjectWalk ow = new ObjectWalk(transport.local);
-			try {
+			try (final ObjectWalk ow = new ObjectWalk(transport.local)) {
 				for (final ObjectId want : askFor.keySet())
 					ow.markStart(ow.parseAny(want));
 				for (final Ref ref : localRefs().values())
 					ow.markUninteresting(ow.parseAny(ref.getObjectId()));
 				ow.checkConnectivity();
-			} finally {
-				ow.release();
 			}
 			return true;
 		} catch (MissingObjectException e) {
