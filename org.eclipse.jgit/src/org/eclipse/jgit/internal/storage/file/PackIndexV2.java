@@ -232,7 +232,7 @@ class PackIndexV2 extends PackIndex {
 		final int levelOne = objId.getFirstByte();
 		final int levelTwo = binarySearchLevelTwo(objId, levelOne);
 		if (levelTwo == -1)
-			throw new MissingObjectException(objId.copy(), "unknown");
+			throw new MissingObjectException(objId.copy(), "unknown"); //$NON-NLS-1$
 		return NB.decodeUInt32(crc32[levelOne], levelTwo << 2);
 	}
 
