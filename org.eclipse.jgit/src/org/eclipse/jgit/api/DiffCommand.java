@@ -124,11 +124,8 @@ public class DiffCommand extends GitCommand<List<DiffEntry>> {
 					if (head == null)
 						throw new NoHeadException(JGitText.get().cannotReadTree);
 					CanonicalTreeParser p = new CanonicalTreeParser();
-					ObjectReader reader = repo.newObjectReader();
-					try {
+					try (ObjectReader reader = repo.newObjectReader()) {
 						p.reset(reader, head);
-					} finally {
-						reader.release();
 					}
 					oldTree = p;
 				}
@@ -159,7 +156,7 @@ public class DiffCommand extends GitCommand<List<DiffEntry>> {
 		} catch (IOException e) {
 			throw new JGitInternalException(e.getMessage(), e);
 		} finally {
-			diffFmt.release();
+			diffFmt.close();
 		}
 	}
 
