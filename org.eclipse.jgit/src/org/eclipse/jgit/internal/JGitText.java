@@ -290,6 +290,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String fileIsTooBigForThisConvenienceMethod;
 	/***/ public String fileIsTooLarge;
 	/***/ public String fileModeNotSetForPath;
+	/***/ public String findingGarbage;
 	/***/ public String flagIsDisposed;
 	/***/ public String flagNotFromThis;
 	/***/ public String flagsAlreadyCreated;
@@ -562,6 +563,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String submoduleExists;
 	/***/ public String submodulesNotSupported;
 	/***/ public String submoduleParentRemoteUrlInvalid;
+	/***/ public String supportOnlyPackIndexVersion2;
 	/***/ public String symlinkCannotBeWrittenAsTheLinkTarget;
 	/***/ public String systemConfigFileInvalid;
 	/***/ public String tagAlreadyExists;
