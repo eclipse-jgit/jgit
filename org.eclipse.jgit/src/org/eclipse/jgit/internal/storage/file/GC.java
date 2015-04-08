@@ -618,22 +618,19 @@ public class GC {
 	 */
 	private Set<ObjectId> listNonHEADIndexObjects()
 			throws CorruptObjectException, IOException {
-		RevWalk revWalk = null;
 		try {
 			if (repo.getIndexFile() == null)
 				return Collections.emptySet();
 		} catch (NoWorkTreeException e) {
 			return Collections.emptySet();
 		}
-		TreeWalk treeWalk = new TreeWalk(repo);
-		try {
+		try (TreeWalk treeWalk = new TreeWalk(repo)) {
 			treeWalk.addTree(new DirCacheIterator(repo.readDirCache()));
 			ObjectId headID = repo.resolve(Constants.HEAD);
 			if (headID != null) {
-				revWalk = new RevWalk(repo);
-				treeWalk.addTree(revWalk.parseTree(headID));
-				revWalk.dispose();
-				revWalk = null;
+				try (RevWalk revWalk = new RevWalk(repo)) {
+					treeWalk.addTree(revWalk.parseTree(headID));
+				}
 			}
 
 			treeWalk.setFilter(TreeFilter.ANY_DIFF);
@@ -662,10 +659,6 @@ public class GC {
 				}
 			}
 			return ret;
-		} finally {
-			if (revWalk != null)
-				revWalk.dispose();
-			treeWalk.release();
 		}
 	}
 
@@ -689,8 +682,9 @@ public class GC {
 					}
 
 				});
-		PackWriter pw = new PackWriter((pconfig == null) ? new PackConfig(repo) : pconfig, repo.newObjectReader());
-		try {
+		try (PackWriter pw = new PackWriter(
+				(pconfig == null) ? new PackConfig(repo) : pconfig,
+				repo.newObjectReader())) {
 			// prepare the PackWriter
 			pw.setDeltaBaseAsOffset(true);
 			pw.setReuseDeltaCommits(false);
@@ -810,7 +804,6 @@ public class GC {
 			}
 			return repo.getObjectDatabase().openPack(realPack);
 		} finally {
-			pw.release();
 			if (tmpPack != null && tmpPack.exists())
 				tmpPack.delete();
 			for (File tmpExt : tmpExts.values()) {
