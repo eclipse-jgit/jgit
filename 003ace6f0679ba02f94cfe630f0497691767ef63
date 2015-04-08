@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7fb1785_984388c6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-04-08T19:07:56Z",
+      "side": 1,
+      "message": "unnecessary with the string extracted",
+      "range": {
+        "startLine": 310,
+        "startChar": 65,
+        "endLine": 310,
+        "endChar": 79
+      },
+      "revId": "003ace6f0679ba02f94cfe630f0497691767ef63",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
