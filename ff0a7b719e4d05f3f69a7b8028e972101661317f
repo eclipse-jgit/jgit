@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7fb1785_186e7820",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-04-08T19:25:27Z",
+      "side": 1,
+      "message": "This isn\u0027t really a leak. The ObjectReader wasn\u0027t created here so it isn\u0027t leaking here. But its fine to fix the warnings by wrapping the whole thing with a try-with-resources.",
+      "revId": "ff0a7b719e4d05f3f69a7b8028e972101661317f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
