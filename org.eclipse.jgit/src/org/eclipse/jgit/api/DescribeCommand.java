@@ -315,7 +315,7 @@ public class DescribeCommand extends GitCommand<String> {
 			throw new JGitInternalException(e.getMessage(), e);
 		} finally {
 			setCallable(false);
-			w.release();
+			w.close();
 		}
 	}
 }
