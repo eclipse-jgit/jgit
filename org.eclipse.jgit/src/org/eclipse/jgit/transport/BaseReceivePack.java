@@ -317,7 +317,7 @@ public abstract class BaseReceivePack {
 					"denynonfastforwards", false); //$NON-NLS-1$
 			allowOfsDelta = config.getBoolean("repack", "usedeltabaseoffset", //$NON-NLS-1$ //$NON-NLS-2$
 					true);
-			certNonceSeed = config.getString("receive", null, "certnonceseed"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			certNonceSeed = config.getString("receive", null, "certnonceseed"); //$NON-NLS-1$ //$NON-NLS-2$
 			certNonceSlopLimit = config.getInt("receive", "certnonceslop", 0); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
@@ -1070,8 +1070,7 @@ public abstract class BaseReceivePack {
 		if (sideBand)
 			resolving = new SideBandProgressMonitor(msgOut);
 
-		ObjectInserter ins = db.newObjectInserter();
-		try {
+		try (ObjectInserter ins = db.newObjectInserter()) {
 			String lockMsg = "jgit receive-pack"; //$NON-NLS-1$
 			if (getRefLogIdent() != null)
 				lockMsg += " from " + getRefLogIdent().toExternalString(); //$NON-NLS-1$
@@ -1089,8 +1088,6 @@ public abstract class BaseReceivePack {
 			packLock = parser.parse(receiving, resolving);
 			packSize = Long.valueOf(parser.getPackSize());
 			ins.flush();
-		} finally {
-			ins.release();
 		}
 
 		if (timeoutIn != null)
@@ -1119,67 +1116,69 @@ public abstract class BaseReceivePack {
 		}
 		parser = null;
 
-		final ObjectWalk ow = new ObjectWalk(db);
-		ow.setRetainBody(false);
-		if (baseObjects != null) {
-			ow.sort(RevSort.TOPO);
-			if (!baseObjects.isEmpty())
-				ow.sort(RevSort.BOUNDARY, true);
-		}
-
-		for (final ReceiveCommand cmd : commands) {
-			if (cmd.getResult() != Result.NOT_ATTEMPTED)
-				continue;
-			if (cmd.getType() == ReceiveCommand.Type.DELETE)
-				continue;
-			ow.markStart(ow.parseAny(cmd.getNewId()));
-		}
-		for (final ObjectId have : advertisedHaves) {
-			RevObject o = ow.parseAny(have);
-			ow.markUninteresting(o);
-
-			if (baseObjects != null && !baseObjects.isEmpty()) {
-				o = ow.peel(o);
-				if (o instanceof RevCommit)
-					o = ((RevCommit) o).getTree();
-				if (o instanceof RevTree)
-					ow.markUninteresting(o);
+		try (final ObjectWalk ow = new ObjectWalk(db)) {
+			ow.setRetainBody(false);
+			if (baseObjects != null) {
+				ow.sort(RevSort.TOPO);
+				if (!baseObjects.isEmpty())
+					ow.sort(RevSort.BOUNDARY, true);
 			}
-		}
 
-		checking.beginTask(JGitText.get().countingObjects, ProgressMonitor.UNKNOWN);
-		RevCommit c;
-		while ((c = ow.next()) != null) {
-			checking.update(1);
-			if (providedObjects != null //
-					&& !c.has(RevFlag.UNINTERESTING) //
-					&& !providedObjects.contains(c))
-				throw new MissingObjectException(c, Constants.TYPE_COMMIT);
-		}
-
-		RevObject o;
-		while ((o = ow.nextObject()) != null) {
-			checking.update(1);
-			if (o.has(RevFlag.UNINTERESTING))
-				continue;
-
-			if (providedObjects != null) {
-				if (providedObjects.contains(o))
+			for (final ReceiveCommand cmd : commands) {
+				if (cmd.getResult() != Result.NOT_ATTEMPTED)
 					continue;
-				else
-					throw new MissingObjectException(o, o.getType());
+				if (cmd.getType() == ReceiveCommand.Type.DELETE)
+					continue;
+				ow.markStart(ow.parseAny(cmd.getNewId()));
+			}
+			for (final ObjectId have : advertisedHaves) {
+				RevObject o = ow.parseAny(have);
+				ow.markUninteresting(o);
+
+				if (baseObjects != null && !baseObjects.isEmpty()) {
+					o = ow.peel(o);
+					if (o instanceof RevCommit)
+						o = ((RevCommit) o).getTree();
+					if (o instanceof RevTree)
+						ow.markUninteresting(o);
+				}
 			}
 
-			if (o instanceof RevBlob && !db.hasObject(o))
-				throw new MissingObjectException(o, Constants.TYPE_BLOB);
-		}
-		checking.endTask();
+			checking.beginTask(JGitText.get().countingObjects,
+					ProgressMonitor.UNKNOWN);
+			RevCommit c;
+			while ((c = ow.next()) != null) {
+				checking.update(1);
+				if (providedObjects != null //
+						&& !c.has(RevFlag.UNINTERESTING) //
+						&& !providedObjects.contains(c))
+					throw new MissingObjectException(c, Constants.TYPE_COMMIT);
+			}
 
-		if (baseObjects != null) {
-			for (ObjectId id : baseObjects) {
-				o = ow.parseAny(id);
-				if (!o.has(RevFlag.UNINTERESTING))
-					throw new MissingObjectException(o, o.getType());
+			RevObject o;
+			while ((o = ow.nextObject()) != null) {
+				checking.update(1);
+				if (o.has(RevFlag.UNINTERESTING))
+					continue;
+
+				if (providedObjects != null) {
+					if (providedObjects.contains(o))
+						continue;
+					else
+						throw new MissingObjectException(o, o.getType());
+				}
+
+				if (o instanceof RevBlob && !db.hasObject(o))
+					throw new MissingObjectException(o, Constants.TYPE_BLOB);
+			}
+			checking.endTask();
+
+			if (baseObjects != null) {
+				for (ObjectId id : baseObjects) {
+					o = ow.parseAny(id);
+					if (!o.has(RevFlag.UNINTERESTING))
+						throw new MissingObjectException(o, o.getType());
+				}
 			}
 		}
 	}
@@ -1502,7 +1501,7 @@ public abstract class BaseReceivePack {
 	 *             the pack could not be unlocked.
 	 */
 	protected void release() throws IOException {
-		walk.release();
+		walk.close();
 		unlockPack();
 		timeoutIn = null;
 		rawIn = null;
