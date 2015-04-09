@@ -276,7 +276,7 @@ public class ResetCommand extends GitCommand<Ref> {
 		if (!filepaths.isEmpty())
 			throw new JGitInternalException(MessageFormat.format(
 					JGitText.get().illegalCombinationOfArguments,
-					"[--mixed | --soft | --hard]", "<paths>...")); //$NON-NLS-1$
+					"[--mixed | --soft | --hard]", "<paths>...")); //$NON-NLS-1$ //$NON-NLS-2$
 		this.mode = mode;
 		return this;
 	}
@@ -290,7 +290,7 @@ public class ResetCommand extends GitCommand<Ref> {
 	public ResetCommand addPath(String path) {
 		if (mode != null)
 			throw new JGitInternalException(MessageFormat.format(
-					JGitText.get().illegalCombinationOfArguments, "<paths>...",
+					JGitText.get().illegalCombinationOfArguments, "<paths>...", //$NON-NLS-1$
 					"[--mixed | --soft | --hard]")); //$NON-NLS-1$
 		filepaths.add(path);
 		return this;
