@@ -377,7 +377,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 	@Override
 	public void close() {
 		if (walk != null)
-			walk.release();
+			walk.close();
 		super.close();
 	}
 
@@ -753,16 +753,13 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 			input = new SideBandInputStream(input, monitor, getMessageWriter(),
 					outputStream);
 
-		ObjectInserter ins = local.newObjectInserter();
-		try {
+		try (ObjectInserter ins = local.newObjectInserter()) {
 			PackParser parser = ins.newPackParser(input);
 			parser.setAllowThin(thinPack);
 			parser.setObjectChecker(transport.getObjectChecker());
 			parser.setLockMessage(lockMessage);
 			packLock = parser.parse(monitor);
 			ins.flush();
-		} finally {
-			ins.release();
 		}
 	}
 
