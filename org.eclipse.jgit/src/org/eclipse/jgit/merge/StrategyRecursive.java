@@ -64,6 +64,6 @@ public class StrategyRecursive extends StrategyResolve {
 
 	@Override
 	public String getName() {
-		return "recursive";
+		return "recursive"; //$NON-NLS-1$
 	}
 }

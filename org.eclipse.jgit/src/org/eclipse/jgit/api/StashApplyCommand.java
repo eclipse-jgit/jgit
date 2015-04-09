@@ -192,8 +192,8 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 				untrackedCommit = revWalk.parseCommit(stashCommit.getParent(2));
 
 			ResolveMerger merger = (ResolveMerger) strategy.newMerger(repo);
-			merger.setCommitNames(new String[] { "stashed HEAD", "HEAD",
-					"stash" });
+			merger.setCommitNames(new String[] { "stashed HEAD", "HEAD", //$NON-NLS-1$ //$NON-NLS-2$
+					"stash" }); //$NON-NLS-1$
 			merger.setBase(stashHeadCommit);
 			merger.setWorkingTreeIterator(new FileTreeIterator(repo));
 			if (merger.merge(headCommit, stashCommit)) {
@@ -205,8 +205,8 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 				if (applyIndex) {
 					ResolveMerger ixMerger = (ResolveMerger) strategy
 							.newMerger(repo, true);
-					ixMerger.setCommitNames(new String[] { "stashed HEAD",
-							"HEAD", "stashed index" });
+					ixMerger.setCommitNames(new String[] { "stashed HEAD", //$NON-NLS-1$
+							"HEAD", "stashed index" }); //$NON-NLS-1$//$NON-NLS-2$
 					ixMerger.setBase(stashHeadCommit);
 					boolean ok = ixMerger.merge(headCommit, stashIndexCommit);
 					if (ok) {
