@@ -94,11 +94,11 @@ import org.eclipse.jgit.util.FileUtils;
  */
 public class StashCreateCommand extends GitCommand<RevCommit> {
 
-	private static final String MSG_INDEX = "index on {0}: {1} {2}";
+	private static final String MSG_INDEX = "index on {0}: {1} {2}"; //$NON-NLS-1$
 
-	private static final String MSG_UNTRACKED = "untracked files on {0}: {1} {2}";
+	private static final String MSG_UNTRACKED = "untracked files on {0}: {1} {2}"; //$NON-NLS-1$
 
-	private static final String MSG_WORKING_DIR = "WIP on {0}: {1} {2}";
+	private static final String MSG_WORKING_DIR = "WIP on {0}: {1} {2}"; //$NON-NLS-1$
 
 	private String indexMessage = MSG_INDEX;
 
