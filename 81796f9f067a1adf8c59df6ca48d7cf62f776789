@@ -16,6 +16,24 @@
       "revId": "81796f9f067a1adf8c59df6ca48d7cf62f776789",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_7a496c36",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 500,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-04-09T22:15:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7fb1785_6e2376de",
+      "revId": "81796f9f067a1adf8c59df6ca48d7cf62f776789",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
