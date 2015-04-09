@@ -69,7 +69,7 @@ public class MergeResult {
 		FAST_FORWARD {
 			@Override
 			public String toString() {
-				return "Fast-forward";
+				return "Fast-forward"; //$NON-NLS-1$
 			}
 
 			@Override
@@ -83,7 +83,7 @@ public class MergeResult {
 		FAST_FORWARD_SQUASHED {
 			@Override
 			public String toString() {
-				return "Fast-forward-squashed";
+				return "Fast-forward-squashed"; //$NON-NLS-1$
 			}
 
 			@Override
@@ -95,7 +95,7 @@ public class MergeResult {
 		ALREADY_UP_TO_DATE {
 			@Override
 			public String toString() {
-				return "Already-up-to-date";
+				return "Already-up-to-date"; //$NON-NLS-1$
 			}
 
 			@Override
@@ -107,7 +107,7 @@ public class MergeResult {
 		FAILED {
 			@Override
 			public String toString() {
-				return "Failed";
+				return "Failed"; //$NON-NLS-1$
 			}
 
 			@Override
@@ -119,7 +119,7 @@ public class MergeResult {
 		MERGED {
 			@Override
 			public String toString() {
-				return "Merged";
+				return "Merged"; //$NON-NLS-1$
 			}
 
 			@Override
@@ -133,7 +133,7 @@ public class MergeResult {
 		MERGED_SQUASHED {
 			@Override
 			public String toString() {
-				return "Merged-squashed";
+				return "Merged-squashed"; //$NON-NLS-1$
 			}
 
 			@Override
@@ -147,7 +147,7 @@ public class MergeResult {
 		MERGED_SQUASHED_NOT_COMMITTED {
 			@Override
 			public String toString() {
-				return "Merged-squashed-not-committed";
+				return "Merged-squashed-not-committed"; //$NON-NLS-1$
 			}
 
 			@Override
@@ -159,7 +159,7 @@ public class MergeResult {
 		CONFLICTING {
 			@Override
 			public String toString() {
-				return "Conflicting";
+				return "Conflicting"; //$NON-NLS-1$
 			}
 
 			@Override
@@ -173,7 +173,7 @@ public class MergeResult {
 		ABORTED {
 			@Override
 			public String toString() {
-				return "Aborted";
+				return "Aborted"; //$NON-NLS-1$
 			}
 
 			@Override
@@ -186,7 +186,7 @@ public class MergeResult {
 		 **/
 		MERGED_NOT_COMMITTED {
 			public String toString() {
-				return "Merged-not-committed";
+				return "Merged-not-committed"; //$NON-NLS-1$
 			}
 
 			@Override
@@ -198,7 +198,7 @@ public class MergeResult {
 		NOT_SUPPORTED {
 			@Override
 			public String toString() {
-				return "Not-yet-supported";
+				return "Not-yet-supported"; //$NON-NLS-1$
 			}
 
 			@Override
@@ -213,7 +213,7 @@ public class MergeResult {
 		 */
 		CHECKOUT_CONFLICT {
 			public String toString() {
-				return "Checkout Conflict";
+				return "Checkout Conflict"; //$NON-NLS-1$
 			}
 
 			@Override
