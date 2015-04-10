@@ -288,7 +288,7 @@ final class DeltaTask implements Callable<Object> {
 				runWindow(w);
 		} finally {
 			block.pm.endWorker();
-			or.release();
+			or.close();
 			or = null;
 		}
 		return null;

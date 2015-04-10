@@ -139,8 +139,7 @@ public class ListBranchCommand extends GitCommand<List<Ref>> {
 		if (containsCommitish == null)
 			return refs;
 
-		RevWalk walk = new RevWalk(repo);
-		try {
+		try (RevWalk walk = new RevWalk(repo)) {
 			ObjectId resolved = repo.resolve(containsCommitish);
 			if (resolved == null)
 				throw new RefNotFoundException(MessageFormat.format(
@@ -149,8 +148,6 @@ public class ListBranchCommand extends GitCommand<List<Ref>> {
 			RevCommit containsCommit = walk.parseCommit(resolved);
 			return RevWalkUtils.findBranchesReachableFrom(containsCommit, walk,
 					refs);
-		} finally {
-			walk.release();
 		}
 	}
 

@@ -460,11 +460,8 @@ public abstract class RefUpdate {
 	 *             an unexpected IO error occurred while writing changes.
 	 */
 	public Result update() throws IOException {
-		RevWalk rw = new RevWalk(getRepository());
-		try {
+		try (RevWalk rw = new RevWalk(getRepository())) {
 			return update(rw);
-		} finally {
-			rw.release();
 		}
 	}
 
@@ -510,11 +507,8 @@ public abstract class RefUpdate {
 	 * @throws IOException
 	 */
 	public Result delete() throws IOException {
-		RevWalk rw = new RevWalk(getRepository());
-		try {
+		try (RevWalk rw = new RevWalk(getRepository())) {
 			return delete(rw);
-		} finally {
-			rw.release();
 		}
 	}
 
