@@ -166,9 +166,8 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 					JGitText.get().stashApplyOnUnsafeRepository,
 					repo.getRepositoryState()));
 
-		ObjectReader reader = repo.newObjectReader();
-		try {
-			RevWalk revWalk = new RevWalk(reader);
+		try (ObjectReader reader = repo.newObjectReader();
+				RevWalk revWalk = new RevWalk(reader)) {
 
 			ObjectId headCommit = repo.resolve(Constants.HEAD);
 			if (headCommit == null)
@@ -250,8 +249,6 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 			throw e;
 		} catch (IOException e) {
 			throw new JGitInternalException(JGitText.get().stashApplyFailed, e);
-		} finally {
-			reader.release();
 		}
 	}
 
@@ -286,11 +283,9 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 
 	private void resetIndex(RevTree tree) throws IOException {
 		DirCache dc = repo.lockDirCache();
-		TreeWalk walk = null;
-		try {
+		try (TreeWalk walk = new TreeWalk(repo)) {
 			DirCacheBuilder builder = dc.builder();
 
-			walk = new TreeWalk(repo);
 			walk.addTree(tree);
 			walk.addTree(new DirCacheIterator(dc));
 			walk.setRecursive(true);
@@ -321,15 +316,13 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 			builder.commit();
 		} finally {
 			dc.unlock();
-			if (walk != null)
-				walk.release();
 		}
 	}
 
 	private void resetUntracked(RevTree tree) throws CheckoutConflictException,
 			IOException {
-		TreeWalk walk = new TreeWalk(repo); // maybe NameConflictTreeWalk;
-		try {
+		// TODO maybe NameConflictTreeWalk ?
+		try (TreeWalk walk = new TreeWalk(repo)) {
 			walk.addTree(tree);
 			walk.addTree(new FileTreeIterator(repo));
 			walk.setRecursive(true);
@@ -359,8 +352,6 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 
 				checkoutPath(entry, reader);
 			}
-		} finally {
-			walk.release();
 		}
 	}
 
