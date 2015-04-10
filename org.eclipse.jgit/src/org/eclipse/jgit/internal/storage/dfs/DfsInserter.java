@@ -601,7 +601,7 @@ public class DfsInserter extends ObjectInserter {
 
 		@Override
 		public void release() {
-			ctx.release();
+			ctx.close();
 		}
 	}
 
@@ -631,7 +631,7 @@ public class DfsInserter extends ObjectInserter {
 					// The newly created pack is registered in the cache.
 					return ctx.open(id, type).openStream();
 				} finally {
-					ctx.release();
+					ctx.close();
 				}
 			}
 
@@ -642,7 +642,7 @@ public class DfsInserter extends ObjectInserter {
 							new ReadBackStream(pos), inf, bufsz), bufsz)) {
 				@Override
 				public void close() throws IOException {
-					ctx.release();
+					ctx.close();
 					super.close();
 				}
 			};

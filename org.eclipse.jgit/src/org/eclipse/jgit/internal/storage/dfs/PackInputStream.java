@@ -80,6 +80,6 @@ final class PackInputStream extends InputStream {
 
 	@Override
 	public void close() {
-		ctx.release();
+		ctx.close();
 	}
 }

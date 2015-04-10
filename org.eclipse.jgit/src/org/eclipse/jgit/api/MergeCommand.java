@@ -369,9 +369,11 @@ public class MergeCommand extends GitCommand<MergeResult> {
 						mergeStatus = MergeStatus.MERGED_NOT_COMMITTED;
 					}
 					if (commit && !squash) {
-						newHeadId = new Git(getRepository()).commit()
-								.setReflogComment(refLogMessage.toString())
-								.call().getId();
+						try (Git git = new Git(getRepository())) {
+							newHeadId = git.commit()
+									.setReflogComment(refLogMessage.toString())
+									.call().getId();
+						}
 						mergeStatus = MergeStatus.MERGED;
 					}
 					if (commit && squash) {
@@ -416,7 +418,7 @@ public class MergeCommand extends GitCommand<MergeResult> {
 							e), e);
 		} finally {
 			if (revWalk != null)
-				revWalk.release();
+				revWalk.close();
 		}
 	}
 

@@ -323,7 +323,7 @@ public class RenameDetector {
 			try {
 				return compute(objectReader, pm);
 			} finally {
-				objectReader.release();
+				objectReader.close();
 			}
 		}
 		return Collections.unmodifiableList(entries);

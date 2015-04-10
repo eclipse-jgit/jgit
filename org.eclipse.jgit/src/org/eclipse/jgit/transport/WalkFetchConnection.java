@@ -252,8 +252,8 @@ class WalkFetchConnection extends BaseFetchConnection {
 
 	@Override
 	public void close() {
-		inserter.release();
-		reader.release();
+		inserter.close();
+		reader.close();
 		for (final RemotePack p : unfetchedPacks) {
 			if (p.tmpIdx != null)
 				p.tmpIdx.delete();
