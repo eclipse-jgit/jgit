@@ -184,8 +184,7 @@ class Show extends TextBuiltin {
 			else
 				objectId = db.resolve(objectName);
 
-			RevWalk rw = new RevWalk(db);
-			try {
+			try (RevWalk rw = new RevWalk(db)) {
 				RevObject obj = rw.parseAny(objectId);
 				while (obj instanceof RevTag) {
 					show((RevTag) obj);
@@ -216,11 +215,9 @@ class Show extends TextBuiltin {
 							CLIText.get().cannotReadBecause, obj.name(),
 							obj.getType()));
 				}
-			} finally {
-				rw.release();
 			}
 		} finally {
-			diffFmt.release();
+			diffFmt.close();
 		}
 	}
 

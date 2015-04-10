@@ -134,12 +134,12 @@ class RebuildCommitGraph extends TextBuiltin {
 	}
 
 	private void recreateCommitGraph() throws IOException {
-		final RevWalk rw = new RevWalk(db);
 		final Map<ObjectId, ToRewrite> toRewrite = new HashMap<ObjectId, ToRewrite>();
 		List<ToRewrite> queue = new ArrayList<ToRewrite>();
-		final BufferedReader br = new BufferedReader(new InputStreamReader(
-				new FileInputStream(graph), Constants.CHARSET));
-		try {
+		try (final RevWalk rw = new RevWalk(db);
+				final BufferedReader br = new BufferedReader(
+						new InputStreamReader(new FileInputStream(graph),
+								Constants.CHARSET))) {
 			String line;
 			while ((line = br.readLine()) != null) {
 				final String[] parts = line.split("[ \t]{1,}"); //$NON-NLS-1$
@@ -162,52 +162,52 @@ class RebuildCommitGraph extends TextBuiltin {
 				toRewrite.put(oldId, t);
 				queue.add(t);
 			}
-		} finally {
-			br.close();
 		}
 
 		pm.beginTask("Rewriting commits", queue.size());
-		final ObjectInserter oi = db.newObjectInserter();
-		final ObjectId emptyTree = oi.insert(Constants.OBJ_TREE, new byte[] {});
-		final PersonIdent me = new PersonIdent("jgit rebuild-commitgraph", //$NON-NLS-1$
-				"rebuild-commitgraph@localhost"); //$NON-NLS-1$
-		while (!queue.isEmpty()) {
-			final ListIterator<ToRewrite> itr = queue
-					.listIterator(queue.size());
-			queue = new ArrayList<ToRewrite>();
-			REWRITE: while (itr.hasPrevious()) {
-				final ToRewrite t = itr.previous();
-				final ObjectId[] newParents = new ObjectId[t.oldParents.length];
-				for (int k = 0; k < t.oldParents.length; k++) {
-					final ToRewrite p = toRewrite.get(t.oldParents[k]);
-					if (p != null) {
-						if (p.newId == null) {
-							// Must defer until after the parent is rewritten.
-							queue.add(t);
-							continue REWRITE;
+		try (final ObjectInserter oi = db.newObjectInserter()) {
+			final ObjectId emptyTree = oi.insert(Constants.OBJ_TREE,
+					new byte[] {});
+			final PersonIdent me = new PersonIdent("jgit rebuild-commitgraph", //$NON-NLS-1$
+					"rebuild-commitgraph@localhost"); //$NON-NLS-1$
+			while (!queue.isEmpty()) {
+				final ListIterator<ToRewrite> itr = queue
+						.listIterator(queue.size());
+				queue = new ArrayList<ToRewrite>();
+				REWRITE: while (itr.hasPrevious()) {
+					final ToRewrite t = itr.previous();
+					final ObjectId[] newParents = new ObjectId[t.oldParents.length];
+					for (int k = 0; k < t.oldParents.length; k++) {
+						final ToRewrite p = toRewrite.get(t.oldParents[k]);
+						if (p != null) {
+							if (p.newId == null) {
+								// Must defer until after the parent is
+								// rewritten.
+								queue.add(t);
+								continue REWRITE;
+							} else {
+								newParents[k] = p.newId;
+							}
 						} else {
-							newParents[k] = p.newId;
+							// We have the old parent object. Use it.
+							//
+							newParents[k] = t.oldParents[k];
 						}
-					} else {
-						// We have the old parent object. Use it.
-						//
-						newParents[k] = t.oldParents[k];
 					}
-				}
 
-				final CommitBuilder newc = new CommitBuilder();
-				newc.setTreeId(emptyTree);
-				newc.setAuthor(new PersonIdent(me, new Date(t.commitTime)));
-				newc.setCommitter(newc.getAuthor());
-				newc.setParentIds(newParents);
-				newc.setMessage("ORIGINAL " + t.oldId.name() + "\n"); //$NON-NLS-2$
-				t.newId = oi.insert(newc);
-				rewrites.put(t.oldId, t.newId);
-				pm.update(1);
+					final CommitBuilder newc = new CommitBuilder();
+					newc.setTreeId(emptyTree);
+					newc.setAuthor(new PersonIdent(me, new Date(t.commitTime)));
+					newc.setCommitter(newc.getAuthor());
+					newc.setParentIds(newParents);
+					newc.setMessage("ORIGINAL " + t.oldId.name() + "\n"); //$NON-NLS-2$
+					t.newId = oi.insert(newc);
+					rewrites.put(t.oldId, t.newId);
+					pm.update(1);
+				}
 			}
+			oi.flush();
 		}
-		oi.flush();
-		oi.release();
 		pm.endTask();
 	}
 
@@ -275,11 +275,11 @@ class RebuildCommitGraph extends TextBuiltin {
 	}
 
 	private Map<String, Ref> computeNewRefs() throws IOException {
-		final RevWalk rw = new RevWalk(db);
 		final Map<String, Ref> refs = new HashMap<String, Ref>();
-		final BufferedReader br = new BufferedReader(new InputStreamReader(
-				new FileInputStream(refList), Constants.CHARSET));
-		try {
+		try (final RevWalk rw = new RevWalk(db);
+				final BufferedReader br = new BufferedReader(
+						new InputStreamReader(new FileInputStream(refList),
+								Constants.CHARSET))) {
 			String line;
 			while ((line = br.readLine()) != null) {
 				final String[] parts = line.split("[ \t]{1,}"); //$NON-NLS-1$
@@ -302,9 +302,6 @@ class RebuildCommitGraph extends TextBuiltin {
 				refs.put(name, new ObjectIdRef.Unpeeled(Ref.Storage.PACKED,
 						name, id));
 			}
-		} finally {
-			rw.release();
-			br.close();
 		}
 		return refs;
 	}

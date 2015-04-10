@@ -204,15 +204,12 @@ class Branch extends TextBuiltin {
 			addRefs(refs, Constants.R_HEADS);
 			addRefs(refs, Constants.R_REMOTES);
 
-			ObjectReader reader = db.newObjectReader();
-			try {
+			try (ObjectReader reader = db.newObjectReader()) {
 				for (final Entry<String, Ref> e : printRefs.entrySet()) {
 					final Ref ref = e.getValue();
 					printHead(reader, e.getKey(),
 							current.equals(ref.getName()), ref);
 				}
-			} finally {
-				reader.release();
 			}
 		}
 	}

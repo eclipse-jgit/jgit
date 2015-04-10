@@ -304,11 +304,12 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 		// object (as it already exists in the pack).
 		//
 		final Repository newdb = createBareRepository();
-		final ObjectInserter oi = newdb.newObjectInserter();
-		final ObjectId treeId = oi.insert(new TreeFormatter());
-		oi.release();
+		try (final ObjectInserter oi = newdb.newObjectInserter()) {
+			final ObjectId treeId = oi.insert(new TreeFormatter());
+			assertEquals("4b825dc642cb6eb9a060e54bf8d69288fbee4904",
+					treeId.name());
+		}
 
-		assertEquals("4b825dc642cb6eb9a060e54bf8d69288fbee4904", treeId.name());
 		final File o = new File(new File(new File(newdb.getDirectory(),
 				"objects"), "4b"), "825dc642cb6eb9a060e54bf8d69288fbee4904");
 		assertTrue("Exists " + o, o.isFile());
@@ -569,8 +570,7 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 	@Test
 	public void test026_CreateCommitMultipleparents() throws IOException {
 		final ObjectId treeId;
-		final ObjectInserter oi = db.newObjectInserter();
-		try {
+		try (final ObjectInserter oi = db.newObjectInserter()) {
 			final ObjectId blobId = oi.insert(Constants.OBJ_BLOB,
 					"and this is the data in me\n".getBytes(Constants.CHARSET
 							.name()));
@@ -578,8 +578,6 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 			fmt.append("i-am-a-file", FileMode.REGULAR_FILE, blobId);
 			treeId = oi.insert(fmt);
 			oi.flush();
-		} finally {
-			oi.release();
 		}
 		assertEquals(ObjectId
 				.fromString("00b1f73724f493096d1ffa0b0f1f1482dbb8c936"), treeId);
@@ -741,80 +739,59 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 
 	private ObjectId insertEmptyBlob() throws IOException {
 		final ObjectId emptyId;
-		ObjectInserter oi = db.newObjectInserter();
-		try {
+		try (ObjectInserter oi = db.newObjectInserter()) {
 			emptyId = oi.insert(Constants.OBJ_BLOB, new byte[] {});
 			oi.flush();
-		} finally {
-			oi.release();
 		}
 		return emptyId;
 	}
 
 	private ObjectId insertTree(Tree tree) throws IOException {
-		ObjectInserter oi = db.newObjectInserter();
-		try {
+		try (ObjectInserter oi = db.newObjectInserter()) {
 			ObjectId id = oi.insert(Constants.OBJ_TREE, tree.format());
 			oi.flush();
 			return id;
-		} finally {
-			oi.release();
 		}
 	}
 
 	private ObjectId insertTree(TreeFormatter tree) throws IOException {
-		ObjectInserter oi = db.newObjectInserter();
-		try {
+		try (ObjectInserter oi = db.newObjectInserter()) {
 			ObjectId id = oi.insert(tree);
 			oi.flush();
 			return id;
-		} finally {
-			oi.release();
 		}
 	}
 
 	private ObjectId insertCommit(final CommitBuilder builder)
 			throws IOException, UnsupportedEncodingException {
-		ObjectInserter oi = db.newObjectInserter();
-		try {
+		try (ObjectInserter oi = db.newObjectInserter()) {
 			ObjectId id = oi.insert(builder);
 			oi.flush();
 			return id;
-		} finally {
-			oi.release();
 		}
 	}
 
 	private RevCommit parseCommit(AnyObjectId id)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
-		RevWalk rw = new RevWalk(db);
-		try {
+		try (RevWalk rw = new RevWalk(db)) {
 			return rw.parseCommit(id);
-		} finally {
-			rw.release();
 		}
 	}
 
 	private ObjectId insertTag(final TagBuilder tag) throws IOException,
 			UnsupportedEncodingException {
-		ObjectInserter oi = db.newObjectInserter();
-		try {
+		try (ObjectInserter oi = db.newObjectInserter()) {
 			ObjectId id = oi.insert(tag);
 			oi.flush();
 			return id;
-		} finally {
-			oi.release();
 		}
 	}
 
 	private RevTag parseTag(AnyObjectId id) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
-		RevWalk rw = new RevWalk(db);
-		try {
+		try (RevWalk rw = new RevWalk(db)) {
 			return rw.parseTag(id);
-		} finally {
-			rw.release();
 		}
 	}
 

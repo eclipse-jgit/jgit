@@ -103,12 +103,9 @@ public class RevWalkUtilsReachableTest extends RevWalkTestCase {
 		RevCommit a = commit();
 		Ref branchA = branch("a", a);
 
-		RevWalk walk = new RevWalk(db);
-		try {
+		try (RevWalk walk = new RevWalk(db)) {
 			RevCommit parsedCommit = walk.parseCommit(a.getId());
 			assertContains(parsedCommit, asList(branchA));
-		} finally {
-			walk.release();
 		}
 	}
 

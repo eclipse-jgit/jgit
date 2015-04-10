@@ -216,7 +216,7 @@ public class DfsInserter extends ObjectInserter {
 	}
 
 	@Override
-	public void release() {
+	public void close() {
 		if (packOut != null) {
 			try {
 				packOut.close();
@@ -600,7 +600,7 @@ public class DfsInserter extends ObjectInserter {
 		}
 
 		@Override
-		public void release() {
+		public void close() {
 			ctx.close();
 		}
 	}

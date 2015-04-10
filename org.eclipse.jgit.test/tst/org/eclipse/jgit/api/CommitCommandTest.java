@@ -509,9 +509,9 @@ public class CommitCommandTest extends RepositoryTestCase {
 				+ "[unmerged2, mode:100644, stage:3]",
 				indexState(0));
 
-		TreeWalk walk = TreeWalk.forPath(db, "unmerged1", commit.getTree());
-		assertEquals(FileMode.REGULAR_FILE, walk.getFileMode(0));
-		walk.release();
+		try (TreeWalk walk = TreeWalk.forPath(db, "unmerged1", commit.getTree())) {
+			assertEquals(FileMode.REGULAR_FILE, walk.getFileMode(0));
+		}
 	}
 
 	private static void addUnmergedEntry(String file, DirCacheBuilder builder) {
