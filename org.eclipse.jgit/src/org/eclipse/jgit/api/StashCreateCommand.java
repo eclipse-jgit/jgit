@@ -187,9 +187,10 @@ public class StashCreateCommand extends GitCommand<RevCommit> {
 
 	private RevCommit parseCommit(final ObjectReader reader,
 			final ObjectId headId) throws IOException {
-		final RevWalk walk = new RevWalk(reader);
-		walk.setRetainBody(true);
-		return walk.parseCommit(headId);
+		try (final RevWalk walk = new RevWalk(reader)) {
+			walk.setRetainBody(true);
+			return walk.parseCommit(headId);
+		}
 	}
 
 	private CommitBuilder createBuilder() {
@@ -240,14 +241,13 @@ public class StashCreateCommand extends GitCommand<RevCommit> {
 		checkCallable();
 
 		Ref head = getHead();
-		ObjectReader reader = repo.newObjectReader();
-		try {
+		try (ObjectReader reader = repo.newObjectReader()) {
 			RevCommit headCommit = parseCommit(reader, head.getObjectId());
 			DirCache cache = repo.lockDirCache();
-			ObjectInserter inserter = repo.newObjectInserter();
 			ObjectId commitId;
-			try {
-				TreeWalk treeWalk = new TreeWalk(reader);
+			try (ObjectInserter inserter = repo.newObjectInserter();
+					TreeWalk treeWalk = new TreeWalk(reader)) {
+
 				treeWalk.setRecursive(true);
 				treeWalk.addTree(headCommit.getTree());
 				treeWalk.addTree(new DirCacheIterator(cache));
@@ -381,7 +381,6 @@ public class StashCreateCommand extends GitCommand<RevCommit> {
 				}
 
 			} finally {
-				inserter.release();
 				cache.unlock();
 			}
 
@@ -392,8 +391,6 @@ public class StashCreateCommand extends GitCommand<RevCommit> {
 			return parseCommit(reader, commitId);
 		} catch (IOException e) {
 			throw new JGitInternalException(JGitText.get().stashFailed, e);
-		} finally {
-			reader.release();
 		}
 	}
 }

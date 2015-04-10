@@ -104,7 +104,7 @@ class PushProcess {
 
 	/**
 	 * Create process for specified transport and refs updates specification.
-	 * 
+	 *
 	 * @param transport
 	 *            transport between remote and local repository, used to create
 	 *            connection.
@@ -176,7 +176,7 @@ class PushProcess {
 			}
 			return res;
 		} finally {
-			walker.release();
+			walker.close();
 		}
 	}
 

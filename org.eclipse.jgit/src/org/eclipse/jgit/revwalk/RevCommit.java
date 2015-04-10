@@ -108,13 +108,14 @@ public class RevCommit extends RevObject {
 	 *             in case of RevWalk initialization fails
 	 */
 	public static RevCommit parse(RevWalk rw, byte[] raw) throws IOException {
-		ObjectInserter.Formatter fmt = new ObjectInserter.Formatter();
-		boolean retain = rw.isRetainBody();
-		rw.setRetainBody(true);
-		RevCommit r = rw.lookupCommit(fmt.idFor(Constants.OBJ_COMMIT, raw));
-		r.parseCanonical(rw, raw);
-		rw.setRetainBody(retain);
-		return r;
+		try (ObjectInserter.Formatter fmt = new ObjectInserter.Formatter()) {
+			boolean retain = rw.isRetainBody();
+			rw.setRetainBody(true);
+			RevCommit r = rw.lookupCommit(fmt.idFor(Constants.OBJ_COMMIT, raw));
+			r.parseCanonical(rw, raw);
+			rw.setRetainBody(retain);
+			return r;
+		}
 	}
 
 	static final RevCommit[] NO_PARENTS = {};

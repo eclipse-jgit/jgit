@@ -402,116 +402,120 @@ public class IndexDiff {
 			throws IOException {
 		dirCache = repository.readDirCache();
 
-		TreeWalk treeWalk = new TreeWalk(repository);
-		treeWalk.setRecursive(true);
-		// add the trees (tree, dirchache, workdir)
-		if (tree != null)
-			treeWalk.addTree(tree);
-		else
-			treeWalk.addTree(new EmptyTreeIterator());
-		treeWalk.addTree(new DirCacheIterator(dirCache));
-		treeWalk.addTree(initialWorkingTreeIterator);
-		Collection<TreeFilter> filters = new ArrayList<TreeFilter>(4);
+		try (TreeWalk treeWalk = new TreeWalk(repository)) {
+			treeWalk.setRecursive(true);
+			// add the trees (tree, dirchache, workdir)
+			if (tree != null)
+				treeWalk.addTree(tree);
+			else
+				treeWalk.addTree(new EmptyTreeIterator());
+			treeWalk.addTree(new DirCacheIterator(dirCache));
+			treeWalk.addTree(initialWorkingTreeIterator);
+			Collection<TreeFilter> filters = new ArrayList<TreeFilter>(4);
 
-		if (monitor != null) {
-			// Get the maximum size of the work tree and index
-			// and add some (quite arbitrary)
-			if (estIndexSize == 0)
-				estIndexSize = dirCache.getEntryCount();
-			int total = Math.max(estIndexSize * 10 / 9,
-					estWorkTreeSize * 10 / 9);
-			monitor.beginTask(title, total);
-			filters.add(new ProgressReportingFilter(monitor, total));
-		}
-
-		if (filter != null)
-			filters.add(filter);
-		filters.add(new SkipWorkTreeFilter(INDEX));
-		indexDiffFilter = new IndexDiffFilter(INDEX, WORKDIR);
-		filters.add(indexDiffFilter);
-		treeWalk.setFilter(AndTreeFilter.create(filters));
-		fileModes.clear();
-		while (treeWalk.next()) {
-			AbstractTreeIterator treeIterator = treeWalk.getTree(TREE,
-					AbstractTreeIterator.class);
-			DirCacheIterator dirCacheIterator = treeWalk.getTree(INDEX,
-					DirCacheIterator.class);
-			WorkingTreeIterator workingTreeIterator = treeWalk.getTree(WORKDIR,
-					WorkingTreeIterator.class);
-
-			if (dirCacheIterator != null) {
-				final DirCacheEntry dirCacheEntry = dirCacheIterator
-						.getDirCacheEntry();
-				if (dirCacheEntry != null) {
-					int stage = dirCacheEntry.getStage();
-					if (stage > 0) {
-						String path = treeWalk.getPathString();
-						addConflict(path, stage);
-						continue;
-					}
-				}
+			if (monitor != null) {
+				// Get the maximum size of the work tree and index
+				// and add some (quite arbitrary)
+				if (estIndexSize == 0)
+					estIndexSize = dirCache.getEntryCount();
+				int total = Math.max(estIndexSize * 10 / 9,
+						estWorkTreeSize * 10 / 9);
+				monitor.beginTask(title, total);
+				filters.add(new ProgressReportingFilter(monitor, total));
 			}
 
-			if (treeIterator != null) {
+			if (filter != null)
+				filters.add(filter);
+			filters.add(new SkipWorkTreeFilter(INDEX));
+			indexDiffFilter = new IndexDiffFilter(INDEX, WORKDIR);
+			filters.add(indexDiffFilter);
+			treeWalk.setFilter(AndTreeFilter.create(filters));
+			fileModes.clear();
+			while (treeWalk.next()) {
+				AbstractTreeIterator treeIterator = treeWalk.getTree(TREE,
+						AbstractTreeIterator.class);
+				DirCacheIterator dirCacheIterator = treeWalk.getTree(INDEX,
+						DirCacheIterator.class);
+				WorkingTreeIterator workingTreeIterator = treeWalk
+						.getTree(WORKDIR, WorkingTreeIterator.class);
+
 				if (dirCacheIterator != null) {
-					if (!treeIterator.idEqual(dirCacheIterator)
-							|| treeIterator.getEntryRawMode()
-							!= dirCacheIterator.getEntryRawMode()) {
-						// in repo, in index, content diff => changed
+					final DirCacheEntry dirCacheEntry = dirCacheIterator
+							.getDirCacheEntry();
+					if (dirCacheEntry != null) {
+						int stage = dirCacheEntry.getStage();
+						if (stage > 0) {
+							String path = treeWalk.getPathString();
+							addConflict(path, stage);
+							continue;
+						}
+					}
+				}
+
+				if (treeIterator != null) {
+					if (dirCacheIterator != null) {
+						if (!treeIterator.idEqual(dirCacheIterator)
+								|| treeIterator
+										.getEntryRawMode() != dirCacheIterator
+												.getEntryRawMode()) {
+							// in repo, in index, content diff => changed
+							if (!isEntryGitLink(treeIterator)
+									|| !isEntryGitLink(dirCacheIterator)
+									|| ignoreSubmoduleMode != IgnoreSubmoduleMode.ALL)
+								changed.add(treeWalk.getPathString());
+						}
+					} else {
+						// in repo, not in index => removed
 						if (!isEntryGitLink(treeIterator)
-								|| !isEntryGitLink(dirCacheIterator)
 								|| ignoreSubmoduleMode != IgnoreSubmoduleMode.ALL)
-							changed.add(treeWalk.getPathString());
+							removed.add(treeWalk.getPathString());
+						if (workingTreeIterator != null)
+							untracked.add(treeWalk.getPathString());
 					}
 				} else {
-					// in repo, not in index => removed
-					if (!isEntryGitLink(treeIterator)
-							|| ignoreSubmoduleMode != IgnoreSubmoduleMode.ALL)
-						removed.add(treeWalk.getPathString());
-					if (workingTreeIterator != null)
-						untracked.add(treeWalk.getPathString());
+					if (dirCacheIterator != null) {
+						// not in repo, in index => added
+						if (!isEntryGitLink(dirCacheIterator)
+								|| ignoreSubmoduleMode != IgnoreSubmoduleMode.ALL)
+							added.add(treeWalk.getPathString());
+					} else {
+						// not in repo, not in index => untracked
+						if (workingTreeIterator != null
+								&& !workingTreeIterator.isEntryIgnored()) {
+							untracked.add(treeWalk.getPathString());
+						}
+					}
 				}
-			} else {
+
 				if (dirCacheIterator != null) {
-					// not in repo, in index => added
-					if (!isEntryGitLink(dirCacheIterator)
-							|| ignoreSubmoduleMode != IgnoreSubmoduleMode.ALL)
-						added.add(treeWalk.getPathString());
-				} else {
-					// not in repo, not in index => untracked
-					if (workingTreeIterator != null
-							&& !workingTreeIterator.isEntryIgnored()) {
-						untracked.add(treeWalk.getPathString());
+					if (workingTreeIterator == null) {
+						// in index, not in workdir => missing
+						if (!isEntryGitLink(dirCacheIterator)
+								|| ignoreSubmoduleMode != IgnoreSubmoduleMode.ALL)
+							missing.add(treeWalk.getPathString());
+					} else {
+						if (workingTreeIterator.isModified(
+								dirCacheIterator.getDirCacheEntry(), true,
+								treeWalk.getObjectReader())) {
+							// in index, in workdir, content differs => modified
+							if (!isEntryGitLink(dirCacheIterator)
+									|| !isEntryGitLink(workingTreeIterator)
+									|| (ignoreSubmoduleMode != IgnoreSubmoduleMode.ALL
+											&& ignoreSubmoduleMode != IgnoreSubmoduleMode.DIRTY))
+								modified.add(treeWalk.getPathString());
+						}
 					}
 				}
-			}
 
-			if (dirCacheIterator != null) {
-				if (workingTreeIterator == null) {
-					// in index, not in workdir => missing
-					if (!isEntryGitLink(dirCacheIterator)
-							|| ignoreSubmoduleMode != IgnoreSubmoduleMode.ALL)
-						missing.add(treeWalk.getPathString());
-				} else {
-					if (workingTreeIterator.isModified(
-							dirCacheIterator.getDirCacheEntry(), true,
-							treeWalk.getObjectReader())) {
-						// in index, in workdir, content differs => modified
-						if (!isEntryGitLink(dirCacheIterator) || !isEntryGitLink(workingTreeIterator)
-								|| (ignoreSubmoduleMode != IgnoreSubmoduleMode.ALL && ignoreSubmoduleMode != IgnoreSubmoduleMode.DIRTY))
-							modified.add(treeWalk.getPathString());
+				for (int i = 0; i < treeWalk.getTreeCount(); i++) {
+					Set<String> values = fileModes.get(treeWalk.getFileMode(i));
+					String path = treeWalk.getPathString();
+					if (path != null) {
+						if (values == null)
+							values = new HashSet<String>();
+						values.add(path);
+						fileModes.put(treeWalk.getFileMode(i), values);
 					}
-				}
-			}
-
-			for (int i = 0; i < treeWalk.getTreeCount(); i++) {
-				Set<String> values = fileModes.get(treeWalk.getFileMode(i));
-				String path = treeWalk.getPathString();
-				if (path != null) {
-					if (values == null)
-						values = new HashSet<String>();
-					values.add(path);
-					fileModes.put(treeWalk.getFileMode(i), values);
 				}
 			}
 		}

@@ -172,7 +172,7 @@ public class BlameGenerator implements AutoCloseable {
 			throw new IllegalStateException();
 
 		if (revPool != null)
-			revPool.release();
+			revPool.close();
 
 		if (reverse)
 			revPool = new ReverseWalk(getRepository());
@@ -451,7 +451,7 @@ public class BlameGenerator implements AutoCloseable {
 				r.computeAll();
 			return r;
 		} finally {
-			release();
+			close();
 		}
 	}
 
@@ -514,7 +514,7 @@ public class BlameGenerator implements AutoCloseable {
 	}
 
 	private boolean done() {
-		release();
+		close();
 		return false;
 	}
 
