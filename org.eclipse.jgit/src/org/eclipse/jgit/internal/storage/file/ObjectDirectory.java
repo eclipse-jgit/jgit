@@ -554,22 +554,31 @@ public class ObjectDirectory extends FileObjectDatabase {
 	}
 
 	private void handlePackError(IOException e, PackFile p) {
-		String tmpl;
+		String warnTmpl = null;
 		if ((e instanceof CorruptObjectException)
 				|| (e instanceof PackInvalidException)) {
-			tmpl = JGitText.get().corruptPack;
+			warnTmpl = JGitText.get().corruptPack;
 			// Assume the pack is corrupted, and remove it from the list.
 			removePack(p);
 		} else if (e instanceof FileNotFoundException) {
-			tmpl = JGitText.get().packWasDeleted;
+			warnTmpl = JGitText.get().packWasDeleted;
 			removePack(p);
+		}
+		if (warnTmpl != null) {
+			if (LOG.isDebugEnabled()) {
+				LOG.debug(MessageFormat.format(warnTmpl,
+						p.getPackFile().getAbsolutePath()), e);
+			} else {
+				LOG.warn(MessageFormat.format(warnTmpl,
+						p.getPackFile().getAbsolutePath()));
+			}
 		} else {
-			tmpl = JGitText.get().exceptionWhileReadingPack;
 			// Don't remove the pack from the list, as the error may be
 			// transient.
+			LOG.error(MessageFormat.format(
+					JGitText.get().exceptionWhileReadingPack, p.getPackFile()
+							.getAbsolutePath()), e);
 		}
-		LOG.error(MessageFormat.format(tmpl,
-				p.getPackFile().getAbsolutePath()), e);
 	}
 
 	@Override
