@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7fb1785_49002d0e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-04-10T21:48:10Z",
+      "side": 1,
+      "message": "It should make it faster for bare repos, but slower for non-bare.\n\nMaybe put a conditional in the code and only revert when the working tree iterator is added?",
+      "range": {
+        "startLine": 9,
+        "startChar": 62,
+        "endLine": 10,
+        "endChar": 47
+      },
+      "revId": "510aed1493df6d767152c3f35f3878bbeb524495",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
