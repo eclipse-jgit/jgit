@@ -90,7 +90,6 @@ import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.treewalk.NameConflictTreeWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.WorkingTreeIterator;
-import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.TemporaryBuffer;
 
@@ -1009,7 +1008,6 @@ public class ResolveMerger extends ThreeWayMerger {
 		DirCacheBuildIterator buildIt = new DirCacheBuildIterator(builder);
 
 		tw = new NameConflictTreeWalk(reader);
-		tw.setFilter(TreeFilter.ANY_DIFF);
 		tw.addTree(baseTree);
 		tw.addTree(headTree);
 		tw.addTree(mergeTree);
