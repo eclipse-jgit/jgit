@@ -184,11 +184,8 @@ class Diff extends TextBuiltin {
 					if (head == null)
 						die(MessageFormat.format(CLIText.get().notATree, HEAD));
 					CanonicalTreeParser p = new CanonicalTreeParser();
-					ObjectReader reader = db.newObjectReader();
-					try {
+					try (ObjectReader reader = db.newObjectReader()) {
 						p.reset(reader, head);
-					} finally {
-						reader.release();
 					}
 					oldTree = p;
 				}
@@ -219,7 +216,7 @@ class Diff extends TextBuiltin {
 				diffFmt.flush();
 			}
 		} finally {
-			diffFmt.release();
+			diffFmt.close();
 		}
 	}
 
