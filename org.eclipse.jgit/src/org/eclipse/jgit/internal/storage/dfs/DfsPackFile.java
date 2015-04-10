@@ -471,6 +471,7 @@ public final class DfsPackFile {
 		ctx.copyPackAsIs(this, length, validate, out);
 	}
 
+	@SuppressWarnings("null")
 	void copyAsIs(PackOutputStream out, DfsObjectToPack src,
 			boolean validate, DfsReader ctx) throws IOException,
 			StoredObjectRepresentationNotAvailableException {
@@ -754,6 +755,7 @@ public final class DfsPackFile {
 		}
 	}
 
+	@SuppressWarnings("null")
 	ObjectLoader load(DfsReader ctx, long pos)
 			throws IOException {
 		try {
