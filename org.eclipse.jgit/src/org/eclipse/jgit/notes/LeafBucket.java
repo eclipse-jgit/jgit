@@ -53,6 +53,7 @@ import java.util.NoSuchElementException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ObjectInserter.Formatter;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.TreeFormatter;
 
@@ -183,7 +184,9 @@ class LeafBucket extends InMemoryNoteBucket {
 
 	@Override
 	ObjectId getTreeId() {
-		return new ObjectInserter.Formatter().idFor(build());
+		try (Formatter f = new ObjectInserter.Formatter()) {
+			return f.idFor(build());
+		}
 	}
 
 	private TreeFormatter build() {

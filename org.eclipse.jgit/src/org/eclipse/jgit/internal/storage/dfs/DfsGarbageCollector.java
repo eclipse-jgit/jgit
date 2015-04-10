@@ -230,7 +230,7 @@ public class DfsGarbageCollector {
 					objdb.rollbackPack(newPackDesc);
 			}
 		} finally {
-			ctx.release();
+			ctx.close();
 		}
 	}
 

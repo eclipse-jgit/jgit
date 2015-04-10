@@ -379,8 +379,7 @@ public abstract class Repository implements AutoCloseable {
 	public ObjectId resolve(final String revstr)
 			throws AmbiguousObjectException, IncorrectObjectTypeException,
 			RevisionSyntaxException, IOException {
-		RevWalk rw = new RevWalk(this);
-		try {
+		try (RevWalk rw = new RevWalk(this)) {
 			Object resolved = resolve(rw, revstr);
 			if (resolved instanceof String) {
 				final Ref ref = getRef((String)resolved);
@@ -388,8 +387,6 @@ public abstract class Repository implements AutoCloseable {
 			} else {
 				return (ObjectId) resolved;
 			}
-		} finally {
-			rw.release();
 		}
 	}
 
@@ -406,8 +403,7 @@ public abstract class Repository implements AutoCloseable {
 	 */
 	public String simplify(final String revstr)
 			throws AmbiguousObjectException, IOException {
-		RevWalk rw = new RevWalk(this);
-		try {
+		try (RevWalk rw = new RevWalk(this)) {
 			Object resolved = resolve(rw, revstr);
 			if (resolved != null)
 				if (resolved instanceof String)
@@ -415,8 +411,6 @@ public abstract class Repository implements AutoCloseable {
 				else
 					return ((AnyObjectId) resolved).getName();
 			return null;
-		} finally {
-			rw.release();
 		}
 	}
 
@@ -791,8 +785,7 @@ public abstract class Repository implements AutoCloseable {
 	private ObjectId resolveAbbreviation(final String revstr) throws IOException,
 			AmbiguousObjectException {
 		AbbreviatedObjectId id = AbbreviatedObjectId.fromString(revstr);
-		ObjectReader reader = newObjectReader();
-		try {
+		try (ObjectReader reader = newObjectReader()) {
 			Collection<ObjectId> matches = reader.resolve(id);
 			if (matches.size() == 0)
 				return null;
@@ -800,8 +793,6 @@ public abstract class Repository implements AutoCloseable {
 				return matches.iterator().next();
 			else
 				throw new AmbiguousObjectException(id, matches);
-		} finally {
-			reader.release();
 		}
 	}
 

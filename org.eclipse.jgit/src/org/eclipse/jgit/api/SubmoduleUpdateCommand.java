@@ -143,8 +143,7 @@ public class SubmoduleUpdateCommand extends
 			RefNotFoundException, GitAPIException {
 		checkCallable();
 
-		try {
-			SubmoduleWalk generator = SubmoduleWalk.forIndex(repo);
+		try (SubmoduleWalk generator = SubmoduleWalk.forIndex(repo)) {
 			if (!paths.isEmpty())
 				generator.setFilter(PathFilterGroup.createFromStrings(paths));
 			List<String> updated = new ArrayList<String>();
@@ -171,8 +170,7 @@ public class SubmoduleUpdateCommand extends
 					submoduleRepo = clone.call().getRepository();
 				}
 
-				try {
-					RevWalk walk = new RevWalk(submoduleRepo);
+				try (RevWalk walk = new RevWalk(submoduleRepo)) {
 					RevCommit commit = walk
 							.parseCommit(generator.getObjectId());
 
