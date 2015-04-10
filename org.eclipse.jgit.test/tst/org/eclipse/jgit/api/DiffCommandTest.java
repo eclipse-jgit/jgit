@@ -247,12 +247,9 @@ public class DiffCommandTest extends RepositoryTestCase {
 		if (id == null)
 			throw new IllegalArgumentException(name);
 		final CanonicalTreeParser p = new CanonicalTreeParser();
-		final ObjectReader or = db.newObjectReader();
-		try {
+		try (ObjectReader or = db.newObjectReader()) {
 			p.reset(or, new RevWalk(db).parseTree(id));
 			return p;
-		} finally {
-			or.release();
 		}
 	}
 }

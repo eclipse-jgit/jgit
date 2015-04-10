@@ -618,7 +618,7 @@ public final class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 
 	/** Release the current window cursor. */
 	@Override
-	public void release() {
+	public void close() {
 		last = null;
 		block = null;
 		baseCache = null;

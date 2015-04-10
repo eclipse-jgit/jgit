@@ -486,8 +486,9 @@ public class PackParserTest extends RepositoryTestCase {
 
 	@After
 	public void release() {
-		if (inserter != null)
-			inserter.release();
+		if (inserter != null) {
+			inserter.close();
+		}
 	}
 
 	private PackParser index(InputStream in) throws IOException {

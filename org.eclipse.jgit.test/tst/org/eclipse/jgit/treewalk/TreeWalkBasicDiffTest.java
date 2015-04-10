@@ -63,52 +63,51 @@ public class TreeWalkBasicDiffTest extends RepositoryTestCase {
 	@Test
 	public void testMissingSubtree_DetectFileAdded_FileModified()
 			throws Exception {
-		final ObjectInserter inserter = db.newObjectInserter();
-		final ObjectId aFileId = inserter.insert(OBJ_BLOB, encode("a"));
-		final ObjectId bFileId = inserter.insert(OBJ_BLOB, encode("b"));
-		final ObjectId cFileId1 = inserter.insert(OBJ_BLOB, encode("c-1"));
-		final ObjectId cFileId2 = inserter.insert(OBJ_BLOB, encode("c-2"));
+		final ObjectId oldTree, newTree, bFileId, cFileId1, cFileId2;
+		try (ObjectInserter inserter = db.newObjectInserter()) {
+			final ObjectId aFileId = inserter.insert(OBJ_BLOB, encode("a"));
+			bFileId = inserter.insert(OBJ_BLOB, encode("b"));
+			cFileId1 = inserter.insert(OBJ_BLOB, encode("c-1"));
+			cFileId2 = inserter.insert(OBJ_BLOB, encode("c-2"));
 
-		// Create sub-a/empty, sub-c/empty = hello.
-		final ObjectId oldTree;
-		{
-			final Tree root = new Tree(db);
+			// Create sub-a/empty, sub-c/empty = hello.
 			{
-				final Tree subA = root.addTree("sub-a");
-				subA.addFile("empty").setId(aFileId);
-				subA.setId(inserter.insert(OBJ_TREE, subA.format()));
+				final Tree root = new Tree(db);
+				{
+					final Tree subA = root.addTree("sub-a");
+					subA.addFile("empty").setId(aFileId);
+					subA.setId(inserter.insert(OBJ_TREE, subA.format()));
+				}
+				{
+					final Tree subC = root.addTree("sub-c");
+					subC.addFile("empty").setId(cFileId1);
+					subC.setId(inserter.insert(OBJ_TREE, subC.format()));
+				}
+				oldTree = inserter.insert(OBJ_TREE, root.format());
 			}
-			{
-				final Tree subC = root.addTree("sub-c");
-				subC.addFile("empty").setId(cFileId1);
-				subC.setId(inserter.insert(OBJ_TREE, subC.format()));
-			}
-			oldTree = inserter.insert(OBJ_TREE, root.format());
-		}
 
-		// Create sub-a/empty, sub-b/empty, sub-c/empty.
-		final ObjectId newTree;
-		{
-			final Tree root = new Tree(db);
+			// Create sub-a/empty, sub-b/empty, sub-c/empty.
 			{
-				final Tree subA = root.addTree("sub-a");
-				subA.addFile("empty").setId(aFileId);
-				subA.setId(inserter.insert(OBJ_TREE, subA.format()));
+				final Tree root = new Tree(db);
+				{
+					final Tree subA = root.addTree("sub-a");
+					subA.addFile("empty").setId(aFileId);
+					subA.setId(inserter.insert(OBJ_TREE, subA.format()));
+				}
+				{
+					final Tree subB = root.addTree("sub-b");
+					subB.addFile("empty").setId(bFileId);
+					subB.setId(inserter.insert(OBJ_TREE, subB.format()));
+				}
+				{
+					final Tree subC = root.addTree("sub-c");
+					subC.addFile("empty").setId(cFileId2);
+					subC.setId(inserter.insert(OBJ_TREE, subC.format()));
+				}
+				newTree = inserter.insert(OBJ_TREE, root.format());
 			}
-			{
-				final Tree subB = root.addTree("sub-b");
-				subB.addFile("empty").setId(bFileId);
-				subB.setId(inserter.insert(OBJ_TREE, subB.format()));
-			}
-			{
-				final Tree subC = root.addTree("sub-c");
-				subC.addFile("empty").setId(cFileId2);
-				subC.setId(inserter.insert(OBJ_TREE, subC.format()));
-			}
-			newTree = inserter.insert(OBJ_TREE, root.format());
+			inserter.flush();
 		}
-		inserter.flush();
-		inserter.release();
 
 		final TreeWalk tw = new TreeWalk(db);
 		tw.reset(oldTree, newTree);
