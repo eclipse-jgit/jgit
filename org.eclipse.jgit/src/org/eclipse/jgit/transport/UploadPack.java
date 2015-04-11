@@ -810,9 +810,9 @@ public class UploadPack {
 			adv.advertiseCapability(OPTION_ALLOW_TIP_SHA1_IN_WANT);
 		adv.advertiseCapability(OPTION_AGENT, UserAgent.get());
 		adv.setDerefTags(true);
-		Map<String, Ref> refs = getAdvertisedOrDefaultRefs();
-		findSymrefs(adv, refs);
-		advertised = adv.send(refs);
+		Map<String, Ref> advertisedOrDefaultRefs = getAdvertisedOrDefaultRefs();
+		findSymrefs(adv, advertisedOrDefaultRefs);
+		advertised = adv.send(advertisedOrDefaultRefs);
 		if (adv.isEmpty())
 			adv.advertiseId(ObjectId.zeroId(), "capabilities^{}"); //$NON-NLS-1$
 		adv.end();
@@ -1467,7 +1467,7 @@ public class UploadPack {
 			pckOut.end();
 	}
 
-	private void findSymrefs(
+	private static void findSymrefs(
 			final RefAdvertiser adv, final Map<String, Ref> refs) {
 		Ref head = refs.get(Constants.HEAD);
 		if (head != null && head.isSymbolic()) {
