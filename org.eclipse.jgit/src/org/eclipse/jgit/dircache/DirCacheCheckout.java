@@ -1201,6 +1201,7 @@ public class DirCacheCheckout {
 		entry.setLastModified(f.lastModified());
 	}
 
+	@SuppressWarnings("deprecation")
 	private static void checkValidPath(CanonicalTreeParser t)
 			throws InvalidPathException {
 		ObjectChecker chk = new ObjectChecker()
