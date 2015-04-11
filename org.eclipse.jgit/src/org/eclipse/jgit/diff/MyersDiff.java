@@ -114,6 +114,7 @@ import org.eclipse.jgit.util.LongList;
 public class MyersDiff<S extends Sequence> {
 	/** Singleton instance of MyersDiff. */
 	public static final DiffAlgorithm INSTANCE = new LowLevelDiffAlgorithm() {
+		@SuppressWarnings("unused")
 		@Override
 		public <S extends Sequence> void diffNonCommon(EditList edits,
 				HashedSequenceComparator<S> cmp, HashedSequence<S> a,
