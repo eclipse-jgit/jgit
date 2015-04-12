@@ -1012,8 +1012,11 @@ public class ResolveMerger extends ThreeWayMerger {
 		tw.addTree(headTree);
 		tw.addTree(mergeTree);
 		tw.addTree(buildIt);
-		if (workingTreeIterator != null)
+		if (workingTreeIterator != null) {
 			tw.addTree(workingTreeIterator);
+		} else {
+			tw.setFilter(TreeFilter.ANY_DIFF);
+		}
 
 		if (!mergeTreeWalk(tw, ignoreConflicts)) {
 			return false;
