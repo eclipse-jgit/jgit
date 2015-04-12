@@ -1009,13 +1009,15 @@ public class ResolveMerger extends ThreeWayMerger {
 		DirCacheBuildIterator buildIt = new DirCacheBuildIterator(builder);
 
 		tw = new NameConflictTreeWalk(reader);
-		tw.setFilter(TreeFilter.ANY_DIFF);
 		tw.addTree(baseTree);
 		tw.addTree(headTree);
 		tw.addTree(mergeTree);
 		tw.addTree(buildIt);
-		if (workingTreeIterator != null)
+		if (workingTreeIterator != null) {
 			tw.addTree(workingTreeIterator);
+		} else {
+			tw.setFilter(TreeFilter.ANY_DIFF);
+		}
 
 		if (!mergeTreeWalk(tw, ignoreConflicts)) {
 			return false;
