@@ -55,8 +55,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.MessageFormat;
 
-import org.eclipse.jgit.errors.LockFailedException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.LockFailedException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 import org.eclipse.jgit.internal.storage.file.LockFile;
@@ -67,11 +67,15 @@ import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The configuration file that is stored in the file of the file system.
  */
 public class FileBasedConfig extends StoredConfig {
+	private static Logger LOG = LoggerFactory.getLogger(FileBasedConfig.class);
+
 	private final File configFile;
 
 	private final FS fs;
@@ -140,6 +144,10 @@ public class FileBasedConfig extends StoredConfig {
 	public void load() throws IOException, ConfigInvalidException {
 		final FileSnapshot oldSnapshot = snapshot;
 		final FileSnapshot newSnapshot = FileSnapshot.save(getFile());
+		if (LOG.isDebugEnabled()) {
+			LOG.debug(MessageFormat.format("load() git configuration {0}", //$NON-NLS-1$
+					getFile()), new RuntimeException("stack trace")); //$NON-NLS-1$
+		}
 		try {
 			final byte[] in = IO.readFully(getFile());
 			final ObjectId newHash = hash(in);
@@ -162,7 +170,9 @@ public class FileBasedConfig extends StoredConfig {
 				snapshot = newSnapshot;
 				hash = newHash;
 			}
-		} catch (FileNotFoundException noFile) {
+		} catch (FileNotFoundException e) {
+			LOG.warn(MessageFormat.format(JGitText.get().configNotFound,
+					getFile()), e);
 			clear();
 			snapshot = newSnapshot;
 		} catch (IOException e) {
@@ -189,6 +199,12 @@ public class FileBasedConfig extends StoredConfig {
 	public void save() throws IOException {
 		final byte[] out;
 		final String text = toText();
+		if (LOG.isDebugEnabled()) {
+			LOG.debug(MessageFormat.format(
+							"save() git configuration {0}, new content:\n {1}", //$NON-NLS-1$
+							getFile(), text),
+					new RuntimeException("stack trace")); //$NON-NLS-1$
+		}
 		if (utf8Bom) {
 			final ByteArrayOutputStream bos = new ByteArrayOutputStream();
 			bos.write(0xEF);
