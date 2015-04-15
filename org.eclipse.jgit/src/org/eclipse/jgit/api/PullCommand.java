@@ -54,6 +54,7 @@ import org.eclipse.jgit.api.errors.InvalidConfigurationException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.NoHeadException;
+import org.eclipse.jgit.api.errors.RefNotAdvertisedException;
 import org.eclipse.jgit.api.errors.RefNotFoundException;
 import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 import org.eclipse.jgit.internal.JGitText;
@@ -171,6 +172,7 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 	 * @throws InvalidRemoteException
 	 * @throws CanceledException
 	 * @throws RefNotFoundException
+	 * @throws RefNotAdvertisedException
 	 * @throws NoHeadException
 	 * @throws org.eclipse.jgit.api.errors.TransportException
 	 * @throws GitAPIException
@@ -178,7 +180,7 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 	public PullResult call() throws GitAPIException,
 			WrongRepositoryStateException, InvalidConfigurationException,
 			DetachedHeadException, InvalidRemoteException, CanceledException,
-			RefNotFoundException, NoHeadException,
+			RefNotFoundException, RefNotAdvertisedException, NoHeadException,
 			org.eclipse.jgit.api.errors.TransportException {
 		checkCallable();
 
@@ -284,11 +286,13 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 					r = fetchRes.getAdvertisedRef(Constants.R_HEADS
 							+ remoteBranchName);
 			}
-			if (r == null)
-				throw new JGitInternalException(MessageFormat.format(JGitText
-						.get().couldNotGetAdvertisedRef, remoteBranchName));
-			else
+			if (r == null) {
+				throw new RefNotAdvertisedException(MessageFormat.format(
+						JGitText.get().couldNotGetAdvertisedRef, remote,
+						remoteBranchName));
+			} else {
 				commitToMerge = r.getObjectId();
+			}
 		} else {
 			try {
 				commitToMerge = repo.resolve(remoteBranchName);
