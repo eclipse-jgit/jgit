@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7fb1785_f1b573b3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ResetCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 10602
+      },
+      "writtenOn": "2015-04-16T12:05:26Z",
+      "side": 1,
+      "message": "This is a nice fix which works fine. \n\nThe only thing I would suggest is to use e.getMessage() instead of the implicit e.toString() since the classname of the exception is not that important und most other commands also use getMessage().",
+      "revId": "bf45b7d52b18d1230044d86626a798bb3351c84d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
