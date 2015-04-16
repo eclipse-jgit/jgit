@@ -16,6 +16,24 @@
       "revId": "bf45b7d52b18d1230044d86626a798bb3351c84d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_31c89b1e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ResetCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-04-16T12:30:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7fb1785_f1b573b3",
+      "revId": "bf45b7d52b18d1230044d86626a798bb3351c84d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
