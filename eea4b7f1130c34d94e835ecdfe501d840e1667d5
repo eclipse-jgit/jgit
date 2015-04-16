@@ -16,6 +16,24 @@
       "revId": "eea4b7f1130c34d94e835ecdfe501d840e1667d5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_320ffa3e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 892,
+      "author": {
+        "id": 15337
+      },
+      "writtenOn": "2015-04-16T22:55:09Z",
+      "side": 1,
+      "message": "Done--thanks!",
+      "parentUuid": "a7fb1785_12811e06",
+      "revId": "eea4b7f1130c34d94e835ecdfe501d840e1667d5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
