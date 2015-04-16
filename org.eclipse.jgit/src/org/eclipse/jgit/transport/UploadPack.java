@@ -884,6 +884,19 @@ public class UploadPack {
 		}
 	}
 
+	/**
+	 * Returns the clone/fetch depth. Valid only after calling recvWants().
+	 *
+	 * @return the depth requested by the client, or 0 if unbounded.
+	 * @since 4.0
+	 */
+	public int getDepth() {
+		if (options == null) {
+			throw new IllegalStateException("do not call getDepth() before recvWants()");
+		}
+		return depth;
+	}
+
 	private boolean negotiate() throws IOException {
 		okToGiveUp = Boolean.FALSE;
 
