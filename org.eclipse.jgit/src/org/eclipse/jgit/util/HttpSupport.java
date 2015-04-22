@@ -132,6 +132,12 @@ public class HttpSupport {
 	public static final String HDR_WWW_AUTHENTICATE = "WWW-Authenticate"; //$NON-NLS-1$
 
 	/**
+	 * The {@code Location} header.
+	 * @since 4.0
+	 */
+	public static final String HDR_LOCATION = "Location"; //$NON-NLS-1$
+
+	/**
 	 * URL encode a value string into an output buffer.
 	 *
 	 * @param urlstr

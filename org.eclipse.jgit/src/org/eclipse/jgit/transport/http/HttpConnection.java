@@ -88,6 +88,18 @@ public interface HttpConnection {
 	public static final int HTTP_FORBIDDEN = java.net.HttpURLConnection.HTTP_FORBIDDEN;
 
 	/**
+	 * @see HttpURLConnection#HTTP_MOVED_PERM
+	 * @since 4.0
+	 */
+	public static final int HTTP_MOVED_PERM = java.net.HttpURLConnection.HTTP_MOVED_PERM;
+
+	/**
+	 * @see HttpURLConnection#HTTP_MOVED_TEMP
+	 * @since 4.0
+	 */
+	public static final int HTTP_MOVED_TEMP = java.net.HttpURLConnection.HTTP_MOVED_TEMP;
+
+	/**
 	 * @see HttpURLConnection#getResponseCode()
 	 * @return the HTTP Status-Code, or -1
 	 * @throws IOException
@@ -247,7 +259,7 @@ public interface HttpConnection {
 
 	/**
 	 * Configure the connection so that it can be used for https communication.
-	 * 
+	 *
 	 * @param km
 	 *            the keymanager managing the key material used to authenticate
 	 *            the local SSLSocket to its peer

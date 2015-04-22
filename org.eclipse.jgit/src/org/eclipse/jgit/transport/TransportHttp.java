@@ -50,6 +50,7 @@ import static org.eclipse.jgit.util.HttpSupport.HDR_ACCEPT;
 import static org.eclipse.jgit.util.HttpSupport.HDR_ACCEPT_ENCODING;
 import static org.eclipse.jgit.util.HttpSupport.HDR_CONTENT_ENCODING;
 import static org.eclipse.jgit.util.HttpSupport.HDR_CONTENT_TYPE;
+import static org.eclipse.jgit.util.HttpSupport.HDR_LOCATION;
 import static org.eclipse.jgit.util.HttpSupport.HDR_PRAGMA;
 import static org.eclipse.jgit.util.HttpSupport.HDR_USER_AGENT;
 import static org.eclipse.jgit.util.HttpSupport.HDR_WWW_AUTHENTICATE;
@@ -66,6 +67,7 @@ import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.Proxy;
 import java.net.ProxySelector;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
@@ -110,6 +112,8 @@ import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.TemporaryBuffer;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
 import org.eclipse.jgit.util.io.UnionInputStream;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Transport over HTTP and FTP protocols.
@@ -129,6 +133,9 @@ import org.eclipse.jgit.util.io.UnionInputStream;
  */
 public class TransportHttp extends HttpTransport implements WalkTransport,
 		PackTransport {
+
+	private static final Logger LOG = LoggerFactory
+			.getLogger(TransportHttp.class);
 
 	private static final String SVC_UPLOAD_PACK = "git-upload-pack"; //$NON-NLS-1$
 
@@ -236,9 +243,9 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		}
 	}
 
-	private final URL baseUrl;
+	private URL baseUrl;
 
-	private final URL objectsUrl;
+	private URL objectsUrl;
 
 	private final HttpConfig http;
 
@@ -253,6 +260,17 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	TransportHttp(final Repository local, final URIish uri)
 			throws NotSupportedException {
 		super(local, uri);
+		setURI(uri);
+		http = local.getConfig().get(HTTP_KEY);
+		proxySelector = ProxySelector.getDefault();
+	}
+
+	/**
+	 * @param uri
+	 * @throws NotSupportedException
+	 * @since 4.0
+	 */
+	protected void setURI(final URIish uri) throws NotSupportedException {
 		try {
 			String uriString = uri.toString();
 			if (!uriString.endsWith("/")) //$NON-NLS-1$
@@ -262,8 +280,6 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		} catch (MalformedURLException e) {
 			throw new NotSupportedException(MessageFormat.format(JGitText.get().invalidURL, uri), e);
 		}
-		http = local.getConfig().get(HTTP_KEY);
-		proxySelector = ProxySelector.getDefault();
 	}
 
 	/**
@@ -274,15 +290,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	 */
 	TransportHttp(final URIish uri) throws NotSupportedException {
 		super(uri);
-		try {
-			String uriString = uri.toString();
-			if (!uriString.endsWith("/")) //$NON-NLS-1$
-				uriString += "/"; //$NON-NLS-1$
-			baseUrl = new URL(uriString);
-			objectsUrl = new URL(baseUrl, "objects/"); //$NON-NLS-1$
-		} catch (MalformedURLException e) {
-			throw new NotSupportedException(MessageFormat.format(JGitText.get().invalidURL, uri), e);
-		}
+		setURI(uri);
 		http = new HttpConfig();
 		proxySelector = ProxySelector.getDefault();
 	}
@@ -442,26 +450,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 
 	private HttpConnection connect(final String service)
 			throws TransportException, NotSupportedException {
-		final URL u;
-		try {
-			final StringBuilder b = new StringBuilder();
-			b.append(baseUrl);
-
-			if (b.charAt(b.length() - 1) != '/')
-				b.append('/');
-			b.append(Constants.INFO_REFS);
-
-			if (useSmartHttp) {
-				b.append(b.indexOf("?") < 0 ? '?' : '&'); //$NON-NLS-1$
-				b.append("service="); //$NON-NLS-1$
-				b.append(service);
-			}
-
-			u = new URL(b.toString());
-		} catch (MalformedURLException e) {
-			throw new NotSupportedException(MessageFormat.format(JGitText.get().invalidURL, uri), e);
-		}
-
+		URL u = getServiceURL(service);
 		try {
 			int authAttempts = 1;
 			for (;;) {
@@ -511,6 +500,24 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 					throw new TransportException(uri, MessageFormat.format(
 							JGitText.get().serviceNotPermitted, service));
 
+				case HttpConnection.HTTP_MOVED_PERM:
+				case HttpConnection.HTTP_MOVED_TEMP:
+					String location = conn.getHeaderField(HDR_LOCATION);
+					try {
+						LOG.info(JGitText.get().redirectHttp, location);
+						int infoRefs = location.indexOf(Constants.INFO_REFS);
+						if (infoRefs != -1) {
+							location = location.substring(0, infoRefs);
+						}
+						setURI(new URIish(location));
+						u = getServiceURL(service);
+						authAttempts = 1;
+					} catch (URISyntaxException e) {
+						throw new TransportException(MessageFormat.format(
+								JGitText.get().invalidRedirectLocation,
+								location), e);
+					}
+					break;
 				default:
 					String err = status + " " + conn.getResponseMessage(); //$NON-NLS-1$
 					throw new TransportException(uri, err);
@@ -522,6 +529,28 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 			throw e;
 		} catch (IOException e) {
 			throw new TransportException(uri, MessageFormat.format(JGitText.get().cannotOpenService, service), e);
+		}
+	}
+
+	private URL getServiceURL(final String service)
+			throws NotSupportedException {
+		try {
+			final StringBuilder b = new StringBuilder();
+			b.append(baseUrl);
+
+			if (b.charAt(b.length() - 1) != '/')
+				b.append('/');
+			b.append(Constants.INFO_REFS);
+
+			if (useSmartHttp) {
+				b.append(b.indexOf("?") < 0 ? '?' : '&'); //$NON-NLS-1$
+				b.append("service="); //$NON-NLS-1$
+				b.append(service);
+			}
+
+			return new URL(b.toString());
+		} catch (MalformedURLException e) {
+			throw new NotSupportedException(MessageFormat.format(JGitText.get().invalidURL, uri), e);
 		}
 	}
 
