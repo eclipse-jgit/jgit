@@ -79,6 +79,26 @@ public interface HttpConnection {
 	public static final int HTTP_MOVED_PERM = java.net.HttpURLConnection.HTTP_MOVED_PERM;
 
 	/**
+	 * @see HttpURLConnection#HTTP_MOVED_TEMP
+	 * @since 4.9
+	 */
+	public static final int HTTP_MOVED_TEMP = java.net.HttpURLConnection.HTTP_MOVED_TEMP;
+
+	/**
+	 * @see HttpURLConnection#HTTP_SEE_OTHER
+	 * @since 4.9
+	 */
+	public static final int HTTP_SEE_OTHER = java.net.HttpURLConnection.HTTP_SEE_OTHER;
+
+	/**
+	 * HTTP 1.1 additional MOVED_TEMP status code; value = 307.
+	 *
+	 * @see #HTTP_MOVED_TEMP
+	 * @since 4.9
+	 */
+	public static final int HTTP_11_MOVED_TEMP = 307;
+
+	/**
 	 * @see HttpURLConnection#HTTP_NOT_FOUND
 	 */
 	public static final int HTTP_NOT_FOUND = java.net.HttpURLConnection.HTTP_NOT_FOUND;
@@ -253,7 +273,7 @@ public interface HttpConnection {
 
 	/**
 	 * Configure the connection so that it can be used for https communication.
-	 * 
+	 *
 	 * @param km
 	 *            the keymanager managing the key material used to authenticate
 	 *            the local SSLSocket to its peer
