@@ -87,14 +87,12 @@
       <groupId>org.eclipse.jgit</groupId>
       <artifactId>org.eclipse.jgit.junit.http</artifactId>
       <version>${project.version}</version>
-      <scope>test</scope>
     </dependency>
 
     <dependency>
       <groupId>org.eclipse.jgit</groupId>
       <artifactId>org.eclipse.jgit.junit</artifactId>
       <version>${project.version}</version>
-      <scope>test</scope>
     </dependency>
 
     <dependency>
@@ -107,7 +105,6 @@
     <dependency>
       <groupId>org.eclipse.jetty</groupId>
       <artifactId>jetty-servlet</artifactId>
-      <scope>test</scope>
     </dependency>
   </dependencies>
 
