@@ -52,4 +52,24 @@
             </message_arguments>
         </filter>
     </resource>
+    <resource path="src/org/eclipse/jgit/transport/http/HttpConnection.java" type="org.eclipse.jgit.transport.http.HttpConnection">
+        <filter id="403767336">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.transport.http.HttpConnection"/>
+                <message_argument value="HTTP_11_MOVED_TEMP"/>
+            </message_arguments>
+        </filter>
+        <filter id="403767336">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.transport.http.HttpConnection"/>
+                <message_argument value="HTTP_MOVED_TEMP"/>
+            </message_arguments>
+        </filter>
+        <filter id="403767336">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.transport.http.HttpConnection"/>
+                <message_argument value="HTTP_SEE_OTHER"/>
+            </message_arguments>
+        </filter>
+    </resource>
 </component>
