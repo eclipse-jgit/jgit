@@ -48,6 +48,10 @@ package org.eclipse.jgit.util;
 import java.io.File;
 import java.io.IOException;
 import java.nio.channels.FileLock;
+import java.nio.file.AtomicMoveNotSupportedException;
+import java.nio.file.CopyOption;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -207,30 +211,68 @@ public class FileUtils {
 	 */
 	public static void rename(final File src, final File dst)
 			throws IOException {
+		rename(src, dst, StandardCopyOption.REPLACE_EXISTING);
+	}
+
+	/**
+	 * Rename a file or folder using the passed {@link CopyOption}s. If the
+	 * rename fails and if we are running on a filesystem where it makes sense
+	 * to repeat a failing rename then repeat the rename operation up to 9 times
+	 * with 100ms sleep time between two calls. Furthermore if the destination
+	 * exists and is a directory hierarchy with only directories in it, the
+	 * whole directory hierarchy will be deleted. If the target represents a
+	 * non-empty directory structure, empty subdirectories within that structure
+	 * may or may not be deleted even if the method fails. Furthermore if the
+	 * destination exists and is a file then the file will be replaced if
+	 * {@link StandardCopyOption#REPLACE_EXISTING} has been set. If
+	 * {@link StandardCopyOption#ATOMIC_MOVE} has been set the rename will be
+	 * done atomically or fail with an {@link AtomicMoveNotSupportedException}
+	 *
+	 * @param src
+	 *            the old file
+	 * @param dst
+	 *            the new file
+	 * @param options
+	 *            options to pass to
+	 *            {@link Files#move(java.nio.file.Path, java.nio.file.Path, CopyOption...)}
+	 * @throws AtomicMoveNotSupportedException
+	 *             if file cannot be moved as an atomic file system operation
+	 * @throws IOException
+	 * @since 4.0
+	 */
+	public static void rename(final File src, final File dst,
+			CopyOption... options)
+					throws AtomicMoveNotSupportedException, IOException {
 		int attempts = FS.DETECTED.retryFailedLockFileCommit() ? 10 : 1;
 		while (--attempts >= 0) {
-			if (src.renameTo(dst))
-				return;
 			try {
-				if (!dst.delete())
-					delete(dst, EMPTY_DIRECTORIES_ONLY | RECURSIVE);
-				// On *nix there is no try, you do or do not
-				if (src.renameTo(dst))
-					return;
+				Files.move(src.toPath(), dst.toPath(), options);
+				return;
+			} catch (AtomicMoveNotSupportedException e) {
+				throw e;
 			} catch (IOException e) {
-				// ignore and continue retry
+				try {
+					if (!dst.delete()) {
+						delete(dst, EMPTY_DIRECTORIES_ONLY | RECURSIVE);
+					}
+					// On *nix there is no try, you do or do not
+					Files.move(src.toPath(), dst.toPath(), options);
+					return;
+				} catch (IOException e2) {
+					// ignore and continue retry
+				}
 			}
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {
-				throw new IOException(MessageFormat.format(
-						JGitText.get().renameFileFailed, src.getAbsolutePath(),
-						dst.getAbsolutePath()));
+				throw new IOException(
+						MessageFormat.format(JGitText.get().renameFileFailed,
+								src.getAbsolutePath(), dst.getAbsolutePath()));
 			}
 		}
-		throw new IOException(MessageFormat.format(
-				JGitText.get().renameFileFailed, src.getAbsolutePath(),
-				dst.getAbsolutePath()));
+		throw new IOException(
+				MessageFormat.format(JGitText.get().renameFileFailed,
+						src.getAbsolutePath(), dst.getAbsolutePath()));
 	}
 
 	/**

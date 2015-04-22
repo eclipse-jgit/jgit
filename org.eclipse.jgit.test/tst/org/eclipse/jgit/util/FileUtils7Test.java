@@ -48,6 +48,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 
 import org.junit.After;
 import org.junit.Before;
@@ -82,5 +84,15 @@ public class FileUtils7Test {
 		assertFalse(link.exists());
 		assertTrue(dir.exists());
 		assertTrue(file.exists());
+	}
+
+	@Test
+	public void testAtomicMove() throws IOException {
+		File src = new File(trash, "src");
+		Files.createFile(src.toPath());
+		File dst = new File(trash, "dst");
+		FileUtils.rename(src, dst, StandardCopyOption.ATOMIC_MOVE);
+		assertFalse(Files.exists(src.toPath()));
+		assertTrue(Files.exists(dst.toPath()));
 	}
 }
