@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009-2010, Google Inc.
+ * Copyright (C) 2009-2017, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -77,13 +77,27 @@ public abstract class HttpTestCase extends LocalDiskRepositoryTestCase {
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		server = new AppServer();
+		server = createServer();
 	}
 
 	@Override
 	public void tearDown() throws Exception {
 		server.tearDown();
 		super.tearDown();
+	}
+
+	/**
+	 * Creates the {@linkAppServer}.This default implementation creates a server
+	 * without SSLsupport listening for HTTP connections on a dynamically chosen
+	 * port, which can be gotten once the server has been started via its
+	 * {@link AppServer#getPort()} method. Subclasses may override if they need
+	 * a more specialized server.
+	 *
+	 * @return the {@link AppServer}.
+	 * @since 4.9
+	 */
+	protected AppServer createServer() {
+		return new AppServer();
 	}
 
 	protected TestRepository<Repository> createTestRepository()
