@@ -47,14 +47,15 @@ package org.eclipse.jgit.pgm;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.jgit.console.ConsoleAuthenticator;
-import org.eclipse.jgit.console.ConsoleCredentialsProvider;
+import org.eclipse.jgit.awtui.AwtAuthenticator;
+import org.eclipse.jgit.awtui.AwtCredentialsProvider;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryBuilder;
@@ -115,8 +116,10 @@ public class Main {
 	 */
 	protected void run(final String[] argv) {
 		try {
-			ConsoleAuthenticator.install();
-			ConsoleCredentialsProvider.install();
+			if (!installConsole()) {
+				AwtAuthenticator.install();
+				AwtCredentialsProvider.install();
+			}
 			configureHttpProxy();
 			execute(argv);
 		} catch (Die err) {
@@ -244,6 +247,45 @@ public class Main {
 		if (rb.getGitDir() == null)
 			throw new Die(CLIText.get().cantFindGitDirectory);
 		return rb.build();
+	}
+
+	private static boolean installConsole() {
+		try {
+			install("org.eclipse.jgit.console.ConsoleAuthenticator"); //$NON-NLS-1$
+			install("org.eclipse.jgit.console.ConsoleCredentialsProvider"); //$NON-NLS-1$
+			return true;
+		} catch (ClassNotFoundException e) {
+			return false;
+		} catch (NoClassDefFoundError e) {
+			return false;
+		} catch (UnsupportedClassVersionError e) {
+			return false;
+
+		} catch (IllegalArgumentException e) {
+			throw new RuntimeException(CLIText.get().cannotSetupConsole, e);
+		} catch (SecurityException e) {
+			throw new RuntimeException(CLIText.get().cannotSetupConsole, e);
+		} catch (IllegalAccessException e) {
+			throw new RuntimeException(CLIText.get().cannotSetupConsole, e);
+		} catch (InvocationTargetException e) {
+			throw new RuntimeException(CLIText.get().cannotSetupConsole, e);
+		} catch (NoSuchMethodException e) {
+			throw new RuntimeException(CLIText.get().cannotSetupConsole, e);
+		}
+	}
+
+	private static void install(final String name)
+			throws IllegalAccessException, InvocationTargetException,
+			NoSuchMethodException, ClassNotFoundException {
+		try {
+		Class.forName(name).getMethod("install").invoke(null); //$NON-NLS-1$
+		} catch (InvocationTargetException e) {
+			if (e.getCause() instanceof RuntimeException)
+				throw (RuntimeException) e.getCause();
+			if (e.getCause() instanceof Error)
+				throw (Error) e.getCause();
+			throw e;
+		}
 	}
 
 	/**
