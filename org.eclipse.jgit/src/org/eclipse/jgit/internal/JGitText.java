@@ -408,6 +408,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String invalidIntegerValue;
 	/***/ public String invalidKey;
 	/***/ public String invalidLineInConfigFile;
+	/***/ public String invalidRedirectLocation;
 	/***/ public String invalidModeFor;
 	/***/ public String invalidModeForPath;
 	/***/ public String invalidObject;
@@ -575,6 +576,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String receivePackInvalidLimit;
 	/***/ public String receivePackTooLarge;
 	/***/ public String receivingObjects;
+	/***/ public String redirectHttp;
 	/***/ public String refAlreadyExists;
 	/***/ public String refAlreadyExists1;
 	/***/ public String reflogEntryNotFound;
