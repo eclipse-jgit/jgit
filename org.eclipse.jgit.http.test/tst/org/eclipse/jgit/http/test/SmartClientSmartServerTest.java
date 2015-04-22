@@ -71,6 +71,7 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -144,6 +145,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 		HttpTransport.setConnectionFactory(cf);
 	}
 
+	@SuppressWarnings("serial")
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
@@ -183,6 +185,44 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 		}), "/" + srcName + "/git-upload-pack",
 				EnumSet.of(DispatcherType.REQUEST));
 		broken.addServlet(new ServletHolder(gs), "/*");
+
+		ServletContextHandler redirected = server.addContext("/redirect");
+		redirected.addServlet(new ServletHolder(new HttpServlet() {
+
+			@Override
+			protected void doPost(HttpServletRequest req,
+					HttpServletResponse resp)
+							throws ServletException, IOException {
+				redirectToGit(req, resp);
+			}
+
+			@Override
+			protected void doPut(HttpServletRequest req,
+					HttpServletResponse resp)
+							throws ServletException, IOException {
+				redirectToGit(req, resp);
+			}
+
+			@Override
+			protected void doGet(HttpServletRequest req,
+					HttpServletResponse resp)
+							throws ServletException, IOException {
+				redirectToGit(req, resp);
+			}
+
+			protected void redirectToGit(HttpServletRequest req,
+					HttpServletResponse resp) throws IOException {
+				String location = "/git" + req.getPathInfo();
+				Map<String, String[]> p = req.getParameterMap();
+				for (String k : p.keySet()) {
+					for (String v : p.get(k)) {
+						resp.addHeader(k, v);
+					}
+				}
+				resp.sendRedirect(location);
+			}
+
+		}), "/*");
 
 		server.setUp();
 
@@ -366,6 +406,24 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 		assertEquals(200, service.getStatus());
 		assertEquals("application/x-git-upload-pack-result",
 				service.getResponseHeader(HDR_CONTENT_TYPE));
+	}
+
+	@Test
+	public void testRedirectedClone() throws Exception {
+		// Bootstrap by doing the clone.
+		//
+		String redirectPath = "/redirect/"
+				+ remoteURI.getPath().substring("/git/".length());
+		URIish redirectURI = remoteURI.setPath(redirectPath);
+
+		TestRepository dst = createTestRepository();
+		Transport t = Transport.open(dst.getRepository(), redirectURI);
+		try {
+			t.fetch(NullProgressMonitor.INSTANCE, mirror(master));
+		} finally {
+			t.close();
+		}
+		assertEquals(B, dst.getRepository().exactRef(master).getObjectId());
 	}
 
 	@Test
