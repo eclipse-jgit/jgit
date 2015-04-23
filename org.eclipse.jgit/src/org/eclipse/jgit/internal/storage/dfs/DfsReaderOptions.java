@@ -46,6 +46,7 @@ package org.eclipse.jgit.internal.storage.dfs;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_CORE_SECTION;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_DFS_SECTION;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_DELTA_BASE_CACHE_LIMIT;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_STREAM_BUFFER;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_STREAM_FILE_TRESHOLD;
 
 import org.eclipse.jgit.lib.Config;
@@ -60,8 +61,9 @@ public class DfsReaderOptions {
 	public static final int MiB = 1024 * KiB;
 
 	private int deltaBaseCacheLimit;
-
 	private int streamFileThreshold;
+
+	private int streamPackBufferSize;
 
 	/** Create a default reader configuration. */
 	public DfsReaderOptions() {
@@ -105,6 +107,27 @@ public class DfsReaderOptions {
 	}
 
 	/**
+	 * @return number of bytes to use for buffering when streaming a pack file
+	 *         during copying. If 0 the block size of the pack is used.
+	 * @since 4.0
+	 */
+	public int getStreamPackBufferSize() {
+		return streamPackBufferSize;
+	}
+
+	/**
+	 * @param bufsz
+	 *            new buffer size in bytes for buffers used when streaming pack
+	 *            files during copying.
+	 * @return {@code this}
+	 * @since 4.0
+	 */
+	public DfsReaderOptions setStreamPackBufferSize(int bufsz) {
+		streamPackBufferSize = Math.max(0, bufsz);
+		return this;
+	}
+
+	/**
 	 * Update properties by setting fields from the configuration.
 	 * <p>
 	 * If a property is not defined in the configuration, then it is left
@@ -130,6 +153,12 @@ public class DfsReaderOptions {
 		sft = Math.min(sft, maxMem / 4); // don't use more than 1/4 of the heap
 		sft = Math.min(sft, Integer.MAX_VALUE); // cannot exceed array length
 		setStreamFileThreshold((int) sft);
+
+		setStreamPackBufferSize(rc.getInt(
+				CONFIG_CORE_SECTION,
+				CONFIG_DFS_SECTION,
+				CONFIG_KEY_STREAM_BUFFER,
+				getStreamPackBufferSize()));
 		return this;
 	}
 }
