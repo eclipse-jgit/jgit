@@ -54,8 +54,11 @@ import java.io.BufferedInputStream;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.ByteBuffer;
 import java.nio.channels.Channels;
+import java.security.MessageDigest;
 import java.text.MessageFormat;
+import java.util.Arrays;
 import java.util.Set;
 import java.util.zip.CRC32;
 import java.util.zip.DataFormatException;
@@ -80,7 +83,6 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.LongList;
 
 /**
@@ -466,9 +468,112 @@ public final class DfsPackFile {
 
 	void copyPackAsIs(PackOutputStream out, boolean validate, DfsReader ctx)
 			throws IOException {
-		// Pin the first window, this ensures the length is accurate.
-		ctx.pin(this, 0);
-		ctx.copyPackAsIs(this, length, validate, out);
+		MessageDigest md = initCopyPack(out, validate, ctx);
+		long p;
+		if (cache.copyThroughCache(length))
+			p = copyPackThroughCache(out, ctx, md);
+		else
+			p = copyPackBypassCache(out, ctx, md);
+		verifyPackChecksum(p, md, ctx);
+	}
+
+	private MessageDigest initCopyPack(PackOutputStream out, boolean validate,
+			DfsReader ctx) throws IOException {
+		// If the length hasn't been determined yet, pin to set it.
+		if (length == -1)
+			ctx.pin(this, 0);
+		if (!validate) {
+			ctx.unpin();
+			return null;
+		}
+
+		int hdrlen = 12;
+		byte[] buf = out.getCopyBuffer();
+		int n = ctx.copy(this, 0, buf, 0, hdrlen);
+		ctx.unpin();
+		if (n != hdrlen)
+			throw packfileIsTruncated();
+		MessageDigest md = Constants.newMessageDigest();
+		md.update(buf, 0, hdrlen);
+		return md;
+	}
+
+	private long copyPackThroughCache(PackOutputStream out, DfsReader ctx,
+			MessageDigest md) throws IOException {
+		long position = 12;
+		long remaining = length - (12 + 20);
+		while (0 < remaining) {
+			DfsBlock b = cache.getOrLoad(this, position, ctx);
+			int ptr = (int) (position - b.start);
+			int n = (int) Math.min(b.size() - ptr, remaining);
+			b.write(out, position, n, md);
+			position += n;
+			remaining -= n;
+		}
+		return position;
+	}
+
+	private long copyPackBypassCache(PackOutputStream out, DfsReader ctx,
+			MessageDigest md) throws IOException {
+		try (ReadableChannel rc = ctx.db.openFile(packDesc, PACK)) {
+			ByteBuffer buf = newCopyBuffer(out, rc, ctx);
+			long position = 12;
+			long remaining = length - (12 + 20);
+			while (0 < remaining) {
+				DfsBlock b = cache.get(key, alignToBlock(position));
+				if (b != null) {
+					int ptr = (int) (position - b.start);
+					int n = (int) Math.min(b.size() - ptr, remaining);
+					b.write(out, position, n, md);
+					position += n;
+					remaining -= n;
+					rc.position(position);
+					continue;
+				}
+
+				buf.position(0);
+				int n = read(rc, buf);
+				if (n <= 0)
+					throw packfileIsTruncated();
+				else if (n > remaining)
+					n = (int) remaining;
+				out.write(buf.array(), 0, n);
+				if (md != null)
+					md.update(buf.array(), 0, n);
+				position += n;
+				remaining -= n;
+			}
+			return position;
+		}
+	}
+
+	private ByteBuffer newCopyBuffer(PackOutputStream out, ReadableChannel rc,
+			DfsReader ctx) {
+		int bs = blockSize(rc);
+		int bufferSize = ctx.getOptions().getStreamPackBufferSize();
+		if (bufferSize > bs)
+			bs = (bufferSize / bs) * bs;
+
+		byte[] copyBuf = out.getCopyBuffer();
+		if (bs > copyBuf.length)
+			copyBuf = new byte[bs];
+		return ByteBuffer.wrap(copyBuf, 0, bs);
+	}
+
+	private void verifyPackChecksum(long position, MessageDigest md,
+			DfsReader ctx) throws IOException {
+		if (md != null) {
+			byte[] buf = new byte[20];
+			byte[] actHash = md.digest();
+			if (ctx.copy(this, position, buf, 0, 20) != 20)
+				throw packfileIsTruncated();
+			if (!Arrays.equals(actHash, buf)) {
+				invalid = true;
+				throw new IOException(MessageFormat.format(
+						JGitText.get().packfileCorruptionDetected,
+						getPackName()));
+			}
+		}
 	}
 
 	void copyAsIs(PackOutputStream out, DfsObjectToPack src,
@@ -668,6 +773,12 @@ public final class DfsPackFile {
 		invalid = true;
 	}
 
+	private IOException packfileIsTruncated() {
+		invalid = true;
+		return new IOException(MessageFormat.format(
+				JGitText.get().packfileIsTruncated, getPackName()));
+	}
+
 	private void readFully(long position, byte[] dstbuf, int dstoff, int cnt,
 			DfsReader ctx) throws IOException {
 		if (ctx.copy(this, position, dstbuf, dstoff, cnt) != cnt)
@@ -692,18 +803,8 @@ public final class DfsPackFile {
 
 		ReadableChannel rc = ctx.db.openFile(packDesc, PACK);
 		try {
-			// If the block alignment is not yet known, discover it. Prefer the
-			// larger size from either the cache or the file itself.
-			int size = blockSize;
-			if (size == 0) {
-				size = rc.blockSize();
-				if (size <= 0)
-					size = cache.getBlockSize();
-				else if (size < cache.getBlockSize())
-					size = (cache.getBlockSize() / size) * size;
-				blockSize = size;
-				pos = (pos / size) * size;
-			}
+			int size = blockSize(rc);
+			pos = (pos / size) * size;
 
 			// If the size of the file is not yet known, try to discover it.
 			// Channels may choose to return -1 to indicate they don't
@@ -725,7 +826,7 @@ public final class DfsPackFile {
 
 			byte[] buf = new byte[size];
 			rc.position(pos);
-			int cnt = IO.read(rc, buf, 0, size);
+			int cnt = read(rc, ByteBuffer.wrap(buf, 0, size));
 			if (cnt != size) {
 				if (0 <= len) {
 					throw new EOFException(MessageFormat.format(
@@ -752,6 +853,30 @@ public final class DfsPackFile {
 		} finally {
 			rc.close();
 		}
+	}
+
+	private int blockSize(ReadableChannel rc) {
+		// If the block alignment is not yet known, discover it. Prefer the
+		// larger size from either the cache or the file itself.
+		int size = blockSize;
+		if (size == 0) {
+			size = rc.blockSize();
+			if (size <= 0)
+				size = cache.getBlockSize();
+			else if (size < cache.getBlockSize())
+				size = (cache.getBlockSize() / size) * size;
+			blockSize = size;
+		}
+		return size;
+	}
+
+	private static int read(ReadableChannel rc, ByteBuffer buf)
+			throws IOException {
+		int n;
+		do {
+			n = rc.read(buf);
+		} while (0 < n && buf.hasRemaining());
+		return buf.position();
 	}
 
 	ObjectLoader load(DfsReader ctx, long pos)
