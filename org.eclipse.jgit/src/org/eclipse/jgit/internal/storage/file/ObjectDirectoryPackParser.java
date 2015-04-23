@@ -50,6 +50,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.RandomAccessFile;
+import java.nio.file.StandardCopyOption;
 import java.security.MessageDigest;
 import java.text.MessageFormat;
 import java.util.Arrays;
@@ -477,20 +478,25 @@ public class ObjectDirectoryPackParser extends PackParser {
 			}
 		}
 
-		if (!tmpPack.renameTo(finalPack)) {
+		try {
+			FileUtils.rename(tmpPack, finalPack,
+					StandardCopyOption.ATOMIC_MOVE);
+		} catch (IOException e) {
 			cleanupTemporaryFiles();
 			keep.unlock();
 			throw new IOException(MessageFormat.format(
-					JGitText.get().cannotMovePackTo, finalPack));
+					JGitText.get().cannotMovePackTo, finalPack), e);
 		}
 
-		if (!tmpIdx.renameTo(finalIdx)) {
+		try {
+			FileUtils.rename(tmpIdx, finalIdx, StandardCopyOption.ATOMIC_MOVE);
+		} catch (IOException e) {
 			cleanupTemporaryFiles();
 			keep.unlock();
 			if (!finalPack.delete())
 				finalPack.deleteOnExit();
 			throw new IOException(MessageFormat.format(
-					JGitText.get().cannotMoveIndexTo, finalIdx));
+					JGitText.get().cannotMoveIndexTo, finalIdx), e);
 		}
 
 		try {

@@ -46,6 +46,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.file.StandardCopyOption;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -1192,11 +1193,12 @@ public class DirCacheCheckout {
 			}
 		}
 		try {
-			FileUtils.rename(tmpFile, f);
+			FileUtils.rename(tmpFile, f, StandardCopyOption.ATOMIC_MOVE);
 		} catch (IOException e) {
-			throw new IOException(MessageFormat.format(
-					JGitText.get().renameFileFailed, tmpFile.getPath(),
-					f.getPath()));
+			throw new IOException(
+					MessageFormat.format(JGitText.get().renameFileFailed,
+							tmpFile.getPath(), f.getPath()),
+					e);
 		}
 		entry.setLastModified(f.lastModified());
 	}
