@@ -55,6 +55,7 @@ import java.util.Set;
 import org.eclipse.jgit.errors.NoRemoteRepositoryException;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.PackProtocolException;
+import org.eclipse.jgit.errors.TooLargePackException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
@@ -313,6 +314,8 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 		if (!unpackLine.startsWith("unpack ")) //$NON-NLS-1$
 			throw new PackProtocolException(uri, MessageFormat.format(JGitText.get().unexpectedReportLine, unpackLine));
 		final String unpackStatus = unpackLine.substring("unpack ".length()); //$NON-NLS-1$
+		if (unpackStatus.startsWith("error Pack exceeds the limit of")) //$NON-NLS-1$
+			throw new TooLargePackException(uri, unpackStatus);
 		if (!unpackStatus.equals("ok")) //$NON-NLS-1$
 			throw new TransportException(uri, MessageFormat.format(
 					JGitText.get().errorOccurredDuringUnpackingOnTheRemoteEnd, unpackStatus));
