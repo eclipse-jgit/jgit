@@ -53,6 +53,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
+import java.nio.file.StandardCopyOption;
 import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -789,39 +790,33 @@ public class GC {
 						break;
 					}
 			tmpPack.setReadOnly();
-			boolean delete = true;
-			try {
-				FileUtils.rename(tmpPack, realPack);
-				delete = false;
-				for (Map.Entry<PackExt, File> tmpEntry : tmpExts.entrySet()) {
-					File tmpExt = tmpEntry.getValue();
-					tmpExt.setReadOnly();
 
-					File realExt = nameFor(
-							id, "." + tmpEntry.getKey().getExtension()); //$NON-NLS-1$
+			FileUtils.rename(tmpPack, realPack, StandardCopyOption.ATOMIC_MOVE);
+			for (Map.Entry<PackExt, File> tmpEntry : tmpExts.entrySet()) {
+				File tmpExt = tmpEntry.getValue();
+				tmpExt.setReadOnly();
+
+				File realExt = nameFor(id,
+						"." + tmpEntry.getKey().getExtension()); //$NON-NLS-1$
+				try {
+					FileUtils.rename(tmpExt, realExt,
+							StandardCopyOption.ATOMIC_MOVE);
+				} catch (IOException e) {
+					File newExt = new File(realExt.getParentFile(),
+							realExt.getName() + ".new"); //$NON-NLS-1$
 					try {
-						FileUtils.rename(tmpExt, realExt);
-					} catch (IOException e) {
-						File newExt = new File(realExt.getParentFile(),
-								realExt.getName() + ".new"); //$NON-NLS-1$
-						if (!tmpExt.renameTo(newExt))
-							newExt = tmpExt;
-						throw new IOException(MessageFormat.format(
-								JGitText.get().panicCantRenameIndexFile, newExt,
-								realExt));
+						FileUtils.rename(tmpExt, newExt,
+								StandardCopyOption.ATOMIC_MOVE);
+					} catch (IOException e2) {
+						newExt = tmpExt;
+						e = e2;
 					}
-				}
-
-			} finally {
-				if (delete) {
-					if (tmpPack.exists())
-						tmpPack.delete();
-					for (File tmpExt : tmpExts.values()) {
-						if (tmpExt.exists())
-							tmpExt.delete();
-					}
+					throw new IOException(MessageFormat.format(
+							JGitText.get().panicCantRenameIndexFile, newExt,
+							realExt), e);
 				}
 			}
+
 			return repo.getObjectDatabase().openPack(realPack);
 		} finally {
 			if (tmpPack != null && tmpPack.exists())
