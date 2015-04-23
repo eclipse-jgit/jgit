@@ -46,6 +46,7 @@ import static org.eclipse.jgit.lib.Constants.R_STASH;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.StandardCopyOption;
 import java.text.MessageFormat;
 import java.util.List;
 
@@ -215,12 +216,14 @@ public class StashDropCommand extends GitCommand<ObjectId> {
 						entry.getWho(), entry.getComment());
 				entryId = entry.getNewId();
 			}
-			if (!stashLockFile.renameTo(stashFile)) {
-				FileUtils.delete(stashFile);
-				if (!stashLockFile.renameTo(stashFile))
+			try {
+				FileUtils.rename(stashLockFile, stashFile,
+						StandardCopyOption.ATOMIC_MOVE);
+			} catch (IOException e) {
 					throw new JGitInternalException(MessageFormat.format(
 							JGitText.get().renameFileFailed,
-							stashLockFile.getPath(), stashFile.getPath()));
+								stashLockFile.getPath(), stashFile.getPath()),
+						e);
 			}
 		} catch (IOException e) {
 			throw new JGitInternalException(JGitText.get().stashDropFailed, e);

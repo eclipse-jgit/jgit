@@ -46,6 +46,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.file.StandardCopyOption;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -1199,8 +1200,8 @@ public class DirCacheCheckout {
 	/**
 	 * Updates the file in the working tree with content and mode from an entry
 	 * in the index. The new content is first written to a new temporary file in
-	 * the same directory as the real file. Then that new file is renamed to the
-	 * final filename.
+	 * the same directory as the real file. Then that new file is atomically
+	 * renamed to the final filename.
 	 *
 	 * <p>
 	 * TODO: this method works directly on File IO, we may need another
@@ -1259,7 +1260,7 @@ public class DirCacheCheckout {
 			}
 		}
 		try {
-			FileUtils.rename(tmpFile, f);
+			FileUtils.rename(tmpFile, f, StandardCopyOption.ATOMIC_MOVE);
 		} catch (IOException e) {
 			throw new IOException(MessageFormat.format(
 					JGitText.get().renameFileFailed, tmpFile.getPath(),

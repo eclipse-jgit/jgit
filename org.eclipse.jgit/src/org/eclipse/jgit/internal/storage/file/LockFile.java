@@ -54,6 +54,7 @@ import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
+import java.nio.file.StandardCopyOption;
 import java.text.MessageFormat;
 
 import org.eclipse.jgit.errors.LockFailedException;
@@ -128,8 +129,6 @@ public class LockFile {
 
 	private FileSnapshot commitSnapshot;
 
-	private final FS fs;
-
 	/**
 	 * Create a new lock for any file.
 	 *
@@ -138,11 +137,24 @@ public class LockFile {
 	 * @param fs
 	 *            the file system abstraction which will be necessary to perform
 	 *            certain file system operations.
+	 * @deprecated use {@link LockFile#LockFile(File)} instead
 	 */
+	@Deprecated
 	public LockFile(final File f, final FS fs) {
 		ref = f;
 		lck = getLockFile(ref);
-		this.fs = fs;
+	}
+
+	/**
+	 * Create a new lock for any file.
+	 *
+	 * @param f
+	 *            the file that will be locked.
+	 * @since 4.0
+	 */
+	public LockFile(final File f) {
+		ref = f;
+		lck = getLockFile(ref);
 	}
 
 	/**
@@ -437,56 +449,14 @@ public class LockFile {
 		}
 
 		saveStatInformation();
-		if (lck.renameTo(ref)) {
+		try {
+			FileUtils.rename(lck, ref, StandardCopyOption.ATOMIC_MOVE);
 			haveLck = false;
 			return true;
+		} catch (IOException e) {
+			unlock();
+			return false;
 		}
-		if (!ref.exists() || deleteRef()) {
-			if (renameLock()) {
-				haveLck = false;
-				return true;
-			}
-		}
-		unlock();
-		return false;
-	}
-
-	private boolean deleteRef() {
-		if (!fs.retryFailedLockFileCommit())
-			return ref.delete();
-
-		// File deletion fails on windows if another thread is
-		// concurrently reading the same file. So try a few times.
-		//
-		for (int attempts = 0; attempts < 10; attempts++) {
-			if (ref.delete())
-				return true;
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				return false;
-			}
-		}
-		return false;
-	}
-
-	private boolean renameLock() {
-		if (!fs.retryFailedLockFileCommit())
-			return lck.renameTo(ref);
-
-		// File renaming fails on windows if another thread is
-		// concurrently reading the same file. So try a few times.
-		//
-		for (int attempts = 0; attempts < 10; attempts++) {
-			if (lck.renameTo(ref))
-				return true;
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				return false;
-			}
-		}
-		return false;
 	}
 
 	private void saveStatInformation() {
