@@ -43,17 +43,17 @@
 
 package org.eclipse.jgit.errors;
 
-import java.io.IOException;
 import java.text.MessageFormat;
 
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.transport.URIish;
 
 /**
  * Thrown when a pack exceeds a given size limit
  *
  * @since 3.3
  */
-public class TooLargePackException extends IOException {
+public class TooLargePackException extends TransportException {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -65,5 +65,18 @@ public class TooLargePackException extends IOException {
 	public TooLargePackException(long packSizeLimit) {
 		super(MessageFormat.format(JGitText.get().receivePackTooLarge,
 				Long.valueOf(packSizeLimit)));
+	}
+
+	/**
+	 * Construct a too large pack exception.
+	 *
+	 * @param uri
+	 *            URI used for transport
+	 * @param s
+	 *            message
+	 * @since 4.0
+	 */
+	public TooLargePackException(URIish uri, String s) {
+		super(uri.setPass(null) + ": " + s); //$NON-NLS-1$
 	}
 }
