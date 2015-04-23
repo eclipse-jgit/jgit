@@ -299,4 +299,16 @@ public class ConfigConstants {
 	 * @since 3.3
 	 */
 	public static final String CONFIG_KEY_PRUNE = "prune";
+
+	/**
+	 * The "streamBuffer" key
+	 * @since 4.0
+	 */
+	public static final String CONFIG_KEY_STREAM_BUFFER = "streamBuffer";
+
+	/**
+	 * The "streamRatio" key
+	 * @since 4.0
+	 */
+	public static final String CONFIG_KEY_STREAM_RATIO = "streamRatio";
 }
