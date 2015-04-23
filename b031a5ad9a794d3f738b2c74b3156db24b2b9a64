@@ -22,6 +22,30 @@
       "revId": "b031a5ad9a794d3f738b2c74b3156db24b2b9a64",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_6efa2b37",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-04-23T22:25:57Z",
+      "side": 1,
+      "message": "Hmm. Maybe. We have never needed one before so I was hesitating about to adding one to Config.",
+      "parentUuid": "a7fb1785_6ed34bcd",
+      "range": {
+        "startLine": 157,
+        "startChar": 0,
+        "endLine": 171,
+        "endChar": 3
+      },
+      "revId": "b031a5ad9a794d3f738b2c74b3156db24b2b9a64",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
