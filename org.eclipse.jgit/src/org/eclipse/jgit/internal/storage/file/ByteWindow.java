@@ -45,7 +45,6 @@
 package org.eclipse.jgit.internal.storage.file;
 
 import java.io.IOException;
-import java.security.MessageDigest;
 import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
 
@@ -121,8 +120,8 @@ abstract class ByteWindow {
 	 */
 	protected abstract int copy(int pos, byte[] dstbuf, int dstoff, int cnt);
 
-	abstract void write(PackOutputStream out, long pos, int cnt,
-			MessageDigest md) throws IOException;
+	abstract void write(PackOutputStream out, long pos, int cnt)
+			throws IOException;
 
 	final int setInput(long pos, Inflater inf) throws DataFormatException {
 		return setInput((int) (pos - start), inf);

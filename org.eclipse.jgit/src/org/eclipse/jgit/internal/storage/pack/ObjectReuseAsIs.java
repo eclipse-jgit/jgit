@@ -169,10 +169,11 @@ public interface ObjectReuseAsIs {
 	 * <pre>
 	 * MyToPack mtp = (MyToPack) otp;
 	 * byte[] raw;
-	 * if (validate)
-	 * 	 raw = validate(mtp); // throw SORNAE here, if at all
-	 * else
-	 * 	 raw = readFast(mtp);
+	 * if (validate) {
+	 * 	raw = validate(mtp); // throw SORNAE here, if at all
+	 * } else {
+	 * 	raw = readFast(mtp);
+	 * }
 	 * out.writeHeader(mtp, mtp.inflatedSize);
 	 * out.write(raw);
 	 * </pre>
@@ -209,16 +210,11 @@ public interface ObjectReuseAsIs {
 	 *            stream to append the pack onto.
 	 * @param pack
 	 *            the cached pack to send.
-	 * @param validate
-	 *            if true the representation must be validated and not be
-	 *            corrupt before being reused. If false, validation may be
-	 *            skipped as it will be performed elsewhere in the processing
-	 *            pipeline.
 	 * @throws IOException
 	 *             the pack cannot be read, or stream did not accept a write.
 	 */
-	public abstract void copyPackAsIs(PackOutputStream out, CachedPack pack,
-			boolean validate) throws IOException;
+	public abstract void copyPackAsIs(PackOutputStream out, CachedPack pack)
+			throws IOException;
 
 	/**
 	 * Obtain the available cached packs that match the bitmap and update
