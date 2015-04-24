@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a7fb1785_dedf8af7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/ReadableChannel.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-04-24T17:26:29Z",
+      "side": 1,
+      "message": "s/should the callee read/should the callee expect me to read/, I mean.",
+      "parentUuid": "a7fb1785_bec39e2b",
+      "range": {
+        "startLine": 105,
+        "startChar": 0,
+        "endLine": 105,
+        "endChar": 55
+      },
+      "revId": "cb529eaaf2d2f32bc05698450cc889f925551f68",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7fb1785_5ed55ae2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/ReadableChannel.java",
         "patchSetId": 3
