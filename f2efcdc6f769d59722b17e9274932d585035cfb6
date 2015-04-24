@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a7fb1785_8e7677f8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-04-24T03:22:07Z",
+      "side": 1,
+      "message": "No, its not really getting a property. Its computing a value based on the argument and state. We don\u0027t always follow getFoo when we are computing something.",
+      "parentUuid": "a7fb1785_8e3157a3",
+      "range": {
+        "startLine": 213,
+        "startChar": 9,
+        "endLine": 213,
+        "endChar": 25
+      },
+      "revId": "f2efcdc6f769d59722b17e9274932d585035cfb6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7fb1785_0ebba75f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2015-04-24T00:42:12Z",
       "side": 1,
       "message": "Wrap this in a try block for more consistent error handling (this call throwing IOException and n !\u003d hdrlen are equivalent errors).",
+      "range": {
+        "startLine": 492,
+        "startChar": 0,
+        "endLine": 492,
+        "endChar": 44
+      },
+      "revId": "f2efcdc6f769d59722b17e9274932d585035cfb6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_6e718bff",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-04-24T03:22:07Z",
+      "side": 1,
+      "message": "Unnecessary. We unpin only to shed memory on the potentially long running normal path. If we throw the caller already has a finally block already wrapping us much higher up the stack that will have the same effect of unpin() by calling close()/release() on the DfsReader ctx.\n\nAnd if they forget DfsReader will eventually become unreachable and GC.",
+      "parentUuid": "a7fb1785_0ebba75f",
       "range": {
         "startLine": 492,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "a7fb1785_0e6a870c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-04-24T03:22:07Z",
+      "side": 1,
+      "message": "Historically we have never done this in file format code.",
+      "parentUuid": "a7fb1785_2ec4a3d7",
+      "range": {
+        "startLine": 508,
+        "startChar": 34,
+        "endLine": 508,
+        "endChar": 36
+      },
+      "revId": "f2efcdc6f769d59722b17e9274932d585035cfb6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7fb1785_6e906bd0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
         "patchSetId": 2
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "a7fb1785_ce7cffda",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 540,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-04-24T03:22:07Z",
+      "side": 1,
+      "message": "We don\u0027t do that. Its subtle.\n\nAn IOException can be transient. For those we don\u0027t want to set invalid as that will make the file unavailable for any use later on even if the transient condition clears. Unfortunately we cannot categorize transient vs. permanent IOException conditions so we do not try.\n\nA successful read of -1 means we hit EOF earlier than we wanted. Successfully. That is an unambiguous problem with this file that is not transient and will not be fixed by retrying at a later time.",
+      "parentUuid": "a7fb1785_6e906bd0",
+      "range": {
+        "startLine": 540,
+        "startChar": 0,
+        "endLine": 540,
+        "endChar": 17
+      },
+      "revId": "f2efcdc6f769d59722b17e9274932d585035cfb6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7fb1785_ae86d39a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
         "patchSetId": 2
@@ -105,6 +201,30 @@
       "writtenOn": "2015-04-24T00:42:12Z",
       "side": 1,
       "message": "The error handling is similar in 4 places so extract it to a method.",
+      "range": {
+        "startLine": 576,
+        "startChar": 0,
+        "endLine": 576,
+        "endChar": 17
+      },
+      "revId": "f2efcdc6f769d59722b17e9274932d585035cfb6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_ae77f3f1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-04-24T03:22:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7fb1785_ae86d39a",
       "range": {
         "startLine": 576,
         "startChar": 0,
