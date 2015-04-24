@@ -98,15 +98,6 @@ public class TransferConfig {
 	}
 
 	/**
-	 * @return strictly verify received objects?
-	 * @deprecated use {@link #newObjectChecker()} instead.
-	 */
-	@Deprecated
-	public boolean isFsckObjects() {
-		return checkReceivedObjects;
-	}
-
-	/**
 	 * @return checker to verify fetched objects, or null if checking is not
 	 *         enabled in the repository configuration.
 	 * @since 3.6
