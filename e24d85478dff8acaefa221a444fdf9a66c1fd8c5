@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a7fb1785_5e039a19",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/InMemoryRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-04-24T17:06:50Z",
+      "side": 1,
+      "message": "Yes :)",
+      "parentUuid": "a7fb1785_9e850216",
+      "range": {
+        "startLine": 187,
+        "startChar": 0,
+        "endLine": 187,
+        "endChar": 75
+      },
+      "revId": "e24d85478dff8acaefa221a444fdf9a66c1fd8c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7fb1785_be9f1e67",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/ReadableChannel.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2015-04-24T17:01:13Z",
       "side": 1,
       "message": "Differentiating this \"setter\" from the accessors above by prefixing with \"set\" would be helpful.",
+      "range": {
+        "startLine": 118,
+        "startChar": 13,
+        "endLine": 118,
+        "endChar": 28
+      },
+      "revId": "e24d85478dff8acaefa221a444fdf9a66c1fd8c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_3e068e29",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/ReadableChannel.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-04-24T17:06:50Z",
+      "side": 1,
+      "message": "Probably? I went non-setter because position(long) above is a setter that is not called setPosition(long).",
+      "parentUuid": "a7fb1785_be9f1e67",
       "range": {
         "startLine": 118,
         "startChar": 13,
