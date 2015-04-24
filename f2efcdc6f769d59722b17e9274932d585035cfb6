@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7fb1785_8e3157a3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-04-24T00:42:12Z",
+      "side": 1,
+      "message": "getCanCopyThroughCache",
+      "range": {
+        "startLine": 213,
+        "startChar": 9,
+        "endLine": 213,
+        "endChar": 25
+      },
+      "revId": "f2efcdc6f769d59722b17e9274932d585035cfb6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_0ebba75f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-04-24T00:42:12Z",
+      "side": 1,
+      "message": "Wrap this in a try block for more consistent error handling (this call throwing IOException and n !\u003d hdrlen are equivalent errors).",
+      "range": {
+        "startLine": 492,
+        "startChar": 0,
+        "endLine": 492,
+        "endChar": 44
+      },
+      "revId": "f2efcdc6f769d59722b17e9274932d585035cfb6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_2ec4a3d7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-04-24T00:42:12Z",
+      "side": 1,
+      "message": "Readability improvement to use Constants.SHA_CHECKSUM_LENGTH for \"20\" and define a Constants.PACK_HEADER_LENGTH and use it in place of \"12\".",
+      "range": {
+        "startLine": 508,
+        "startChar": 34,
+        "endLine": 508,
+        "endChar": 36
+      },
+      "revId": "f2efcdc6f769d59722b17e9274932d585035cfb6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_6e906bd0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 540,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-04-24T00:42:12Z",
+      "side": 1,
+      "message": "Similar issue here, I think we need to set the file invalid on any IOException thrown in this loop.",
+      "range": {
+        "startLine": 540,
+        "startChar": 0,
+        "endLine": 540,
+        "endChar": 17
+      },
+      "revId": "f2efcdc6f769d59722b17e9274932d585035cfb6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_ae86d39a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-04-24T00:42:12Z",
+      "side": 1,
+      "message": "The error handling is similar in 4 places so extract it to a method.",
+      "range": {
+        "startLine": 576,
+        "startChar": 0,
+        "endLine": 576,
+        "endChar": 17
+      },
+      "revId": "f2efcdc6f769d59722b17e9274932d585035cfb6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
