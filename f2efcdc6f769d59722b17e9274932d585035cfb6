@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "a7fb1785_1ef63286",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-04-24T17:55:04Z",
+      "side": 1,
+      "message": "shouldCopyThroughCache is a better name, thanks. See https://git.eclipse.org/r/46448.",
+      "parentUuid": "a7fb1785_7e4e5691",
+      "range": {
+        "startLine": 213,
+        "startChar": 9,
+        "endLine": 213,
+        "endChar": 25
+      },
+      "revId": "f2efcdc6f769d59722b17e9274932d585035cfb6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7fb1785_9e534235",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
         "patchSetId": 2
@@ -84,6 +108,30 @@
       "writtenOn": "2015-04-24T16:43:03Z",
       "side": 1,
       "message": "It is somewhat confusing to me that the header is not getting copied into the buffer when validation is disabled. I understand not needing to create the MessageDigest, but is it really OK not to copy the header?  If the header should always get copied, maybe a better name for this method would be processHeader()",
+      "range": {
+        "startLine": 487,
+        "startChar": 0,
+        "endLine": 487,
+        "endChar": 15
+      },
+      "revId": "f2efcdc6f769d59722b17e9274932d585035cfb6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_1ea1127f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-04-24T17:55:04Z",
+      "side": 1,
+      "message": "We aren\u0027t copying the entire file. We copy the entire file minus header and trailer. :)\n\nWhen we are copying the entire pack file the header has to be cut off because the caller has already inserted their own header, and the caller\u0027s header many be different from our header. For example if new objects have been added to the repository the caller will be including those into the output file before this file is copied. The caller\u0027s header needs to adjust the object count to be the sum of those new objects plus the number of objects in this file.\n\nWe cut off the trailer for the same reason. When the caller wrote a different header and content ahead of us that alters the trailer SHA-1 for the caller\u0027s file. Our trailer cannot go out.\n\nBut I discovered the validation stuff isn\u0027t even used. So I\u0027m probably going to write a change that rips it out. Which may reduce some of the confusion.",
+      "parentUuid": "a7fb1785_9e534235",
       "range": {
         "startLine": 487,
         "startChar": 0,
@@ -167,6 +215,30 @@
     },
     {
       "key": {
+        "uuid": "a7fb1785_9eb4e2ba",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-04-24T17:55:04Z",
+      "side": 1,
+      "message": "Unclear where we document that. Class doc? Its a property throughout the entire DFS package.\n\nAlso frankly this is one reason you don\u0027t have committer rights on the repository yet. There is historical baggage and underdocumented (or flat out undocumented) assumptions that can be tricky. So you can\u0027t approve a refactoring that changes this sort of behavior yet. :)",
+      "parentUuid": "a7fb1785_1e40f25d",
+      "range": {
+        "startLine": 492,
+        "startChar": 0,
+        "endLine": 492,
+        "endChar": 44
+      },
+      "revId": "f2efcdc6f769d59722b17e9274932d585035cfb6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7fb1785_2ec4a3d7",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
         "patchSetId": 2
@@ -226,6 +298,30 @@
       "side": 1,
       "message": "Is there a reason not to start? I\u0027ll gladly do this in a comprehensive follow up commit.",
       "parentUuid": "a7fb1785_0e6a870c",
+      "range": {
+        "startLine": 508,
+        "startChar": 34,
+        "endLine": 508,
+        "endChar": 36
+      },
+      "revId": "f2efcdc6f769d59722b17e9274932d585035cfb6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_7eaf7668",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-04-24T17:55:04Z",
+      "side": 1,
+      "message": "We don\u0027t put most file format constants up in the public Constants class. They belong closer to the storage code as they are hidden internal details of the storage that can change as storage formats change.\n\nHistorically in the C code we wrote many of these with literal constants right in the code because the sizes were closely coupled with other aspects of how the file was processed. Hiding the length in a constant didn\u0027t help understanding the code very much.\n\nThis may be less true in Java with everything so far removed from the machine, but its still important to understand the file format.",
+      "parentUuid": "a7fb1785_fe424665",
       "range": {
         "startLine": 508,
         "startChar": 34,
