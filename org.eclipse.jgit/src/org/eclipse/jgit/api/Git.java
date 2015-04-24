@@ -511,6 +511,15 @@ public class Git implements AutoCloseable {
 	}
 
 	/**
+	 * Returns a command object used to rename branches
+	 *
+	 * @return a {@link RenameRemoteCommand}
+	 */
+	public RenameRemoteCommand remoteRename() {
+		return new RenameRemoteCommand(repo);
+	}
+
+	/**
 	 * Returns a command object to execute a {@code clean} command
 	 *
 	 * @see <a

@@ -309,6 +309,16 @@ public class RemoteConfig implements Serializable {
 	}
 
 	/**
+	 * Set the local name this remote configuration is recognized as.
+	 *
+	 * @param name
+	 *            New name of the remote.
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	/**
 	 * Get all configured URIs under this remote.
 	 *
 	 * @return the set of URIs known to this remote.
