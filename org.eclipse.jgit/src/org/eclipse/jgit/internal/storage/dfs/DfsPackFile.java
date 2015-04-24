@@ -56,9 +56,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.channels.Channels;
-import java.security.MessageDigest;
 import java.text.MessageFormat;
-import java.util.Arrays;
 import java.util.Set;
 import java.util.zip.CRC32;
 import java.util.zip.DataFormatException;
@@ -466,55 +464,35 @@ public final class DfsPackFile {
 		return dstbuf;
 	}
 
-	void copyPackAsIs(PackOutputStream out, boolean validate, DfsReader ctx)
+	void copyPackAsIs(PackOutputStream out, DfsReader ctx)
 			throws IOException {
-		MessageDigest md = initCopyPack(out, validate, ctx);
-		long p;
-		if (cache.shouldCopyThroughCache(length))
-			p = copyPackThroughCache(out, ctx, md);
-		else
-			p = copyPackBypassCache(out, ctx, md);
-		verifyPackChecksum(p, md, ctx);
-	}
-
-	private MessageDigest initCopyPack(PackOutputStream out, boolean validate,
-			DfsReader ctx) throws IOException {
 		// If the length hasn't been determined yet, pin to set it.
-		if (length == -1)
+		if (length == -1) {
 			ctx.pin(this, 0);
-		if (!validate) {
 			ctx.unpin();
-			return null;
 		}
-
-		int hdrlen = 12;
-		byte[] buf = out.getCopyBuffer();
-		int n = ctx.copy(this, 0, buf, 0, hdrlen);
-		ctx.unpin();
-		if (n != hdrlen)
-			throw packfileIsTruncated();
-		MessageDigest md = Constants.newMessageDigest();
-		md.update(buf, 0, hdrlen);
-		return md;
+		if (cache.shouldCopyThroughCache(length))
+			copyPackThroughCache(out, ctx);
+		else
+			copyPackBypassCache(out, ctx);
 	}
 
-	private long copyPackThroughCache(PackOutputStream out, DfsReader ctx,
-			MessageDigest md) throws IOException {
+	private void copyPackThroughCache(PackOutputStream out, DfsReader ctx)
+			throws IOException {
 		long position = 12;
 		long remaining = length - (12 + 20);
 		while (0 < remaining) {
 			DfsBlock b = cache.getOrLoad(this, position, ctx);
 			int ptr = (int) (position - b.start);
 			int n = (int) Math.min(b.size() - ptr, remaining);
-			b.write(out, position, n, md);
+			b.write(out, position, n);
 			position += n;
 			remaining -= n;
 		}
-		return position;
 	}
 
-	private long copyPackBypassCache(PackOutputStream out, DfsReader ctx,
-			MessageDigest md) throws IOException {
+	private long copyPackBypassCache(PackOutputStream out, DfsReader ctx)
+			throws IOException {
 		try (ReadableChannel rc = ctx.db.openFile(packDesc, PACK)) {
 			ByteBuffer buf = newCopyBuffer(out, rc);
 			if (ctx.getOptions().getStreamPackBufferSize() > 0)
@@ -526,7 +504,7 @@ public final class DfsPackFile {
 				if (b != null) {
 					int ptr = (int) (position - b.start);
 					int n = (int) Math.min(b.size() - ptr, remaining);
-					b.write(out, position, n, md);
+					b.write(out, position, n);
 					position += n;
 					remaining -= n;
 					rc.position(position);
@@ -540,8 +518,6 @@ public final class DfsPackFile {
 				else if (n > remaining)
 					n = (int) remaining;
 				out.write(buf.array(), 0, n);
-				if (md != null)
-					md.update(buf.array(), 0, n);
 				position += n;
 				remaining -= n;
 			}
@@ -555,22 +531,6 @@ public final class DfsPackFile {
 		if (bs > copyBuf.length)
 			copyBuf = new byte[bs];
 		return ByteBuffer.wrap(copyBuf, 0, bs);
-	}
-
-	private void verifyPackChecksum(long position, MessageDigest md,
-			DfsReader ctx) throws IOException {
-		if (md != null) {
-			byte[] buf = new byte[20];
-			byte[] actHash = md.digest();
-			if (ctx.copy(this, position, buf, 0, 20) != 20)
-				throw packfileIsTruncated();
-			if (!Arrays.equals(actHash, buf)) {
-				invalid = true;
-				throw new IOException(MessageFormat.format(
-						JGitText.get().packfileCorruptionDetected,
-						getPackName()));
-			}
-		}
 	}
 
 	void copyAsIs(PackOutputStream out, DfsObjectToPack src,
@@ -719,7 +679,7 @@ public final class DfsPackFile {
 			// and we have it pinned.  Write this out without copying.
 			//
 			out.writeHeader(src, inflatedLength);
-			quickCopy.write(out, dataOffset, (int) dataLength, null);
+			quickCopy.write(out, dataOffset, (int) dataLength);
 
 		} else if (dataLength <= buf.length) {
 			// Tiny optimization: Lots of objects are very small deltas or

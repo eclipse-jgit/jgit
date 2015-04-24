@@ -46,7 +46,6 @@
 package org.eclipse.jgit.internal.storage.dfs;
 
 import java.io.IOException;
-import java.security.MessageDigest;
 import java.util.zip.CRC32;
 import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
@@ -101,12 +100,9 @@ final class DfsBlock {
 		out.update(block, ptr, cnt);
 	}
 
-	void write(PackOutputStream out, long pos, int cnt, MessageDigest digest)
+	void write(PackOutputStream out, long pos, int cnt)
 			throws IOException {
-		int ptr = (int) (pos - start);
-		out.write(block, ptr, cnt);
-		if (digest != null)
-			digest.update(block, ptr, cnt);
+		out.write(block, (int) (pos - start), cnt);
 	}
 
 	void check(Inflater inf, byte[] tmp, long pos, int cnt)

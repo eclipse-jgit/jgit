@@ -492,9 +492,9 @@ public final class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 			out.writeObject(otp);
 	}
 
-	public void copyPackAsIs(PackOutputStream out, CachedPack pack,
-			boolean validate) throws IOException {
-		((DfsCachedPack) pack).copyAsIs(out, validate, this);
+	public void copyPackAsIs(PackOutputStream out, CachedPack pack)
+			throws IOException {
+		((DfsCachedPack) pack).copyAsIs(out, this);
 	}
 
 	/**
