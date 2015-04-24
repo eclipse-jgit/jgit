@@ -144,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "87f6139c_0bd07df3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-04-24T22:10:50Z",
+      "side": 1,
+      "message": "The subsequent cleanup made things clearer, thanks.",
+      "parentUuid": "a7fb1785_1ea1127f",
+      "range": {
+        "startLine": 487,
+        "startChar": 0,
+        "endLine": 487,
+        "endChar": 15
+      },
+      "revId": "f2efcdc6f769d59722b17e9274932d585035cfb6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7fb1785_0ebba75f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
         "patchSetId": 2
@@ -239,6 +263,30 @@
     },
     {
       "key": {
+        "uuid": "87f6139c_4bda8515",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-04-24T22:10:50Z",
+      "side": 1,
+      "message": "Capturing pervasive things like this in the top-level README.md file makes sense to me. I\u0027ll collect a few of them and then propose an update to that document.\n\nI think throwing the IOException directly below makes this issue more subtle, since not all IOExceptions are being treated alike. In that case, you read data that was somehow corrupted. This code is now gone but in the case below throwing the IOException-derived EOFException may make more sense.",
+      "parentUuid": "a7fb1785_9eb4e2ba",
+      "range": {
+        "startLine": 492,
+        "startChar": 0,
+        "endLine": 492,
+        "endChar": 44
+      },
+      "revId": "f2efcdc6f769d59722b17e9274932d585035cfb6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7fb1785_2ec4a3d7",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
         "patchSetId": 2
@@ -322,6 +370,30 @@
       "side": 1,
       "message": "We don\u0027t put most file format constants up in the public Constants class. They belong closer to the storage code as they are hidden internal details of the storage that can change as storage formats change.\n\nHistorically in the C code we wrote many of these with literal constants right in the code because the sizes were closely coupled with other aspects of how the file was processed. Hiding the length in a constant didn\u0027t help understanding the code very much.\n\nThis may be less true in Java with everything so far removed from the machine, but its still important to understand the file format.",
       "parentUuid": "a7fb1785_fe424665",
+      "range": {
+        "startLine": 508,
+        "startChar": 34,
+        "endLine": 508,
+        "endChar": 36
+      },
+      "revId": "f2efcdc6f769d59722b17e9274932d585035cfb6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_8bbbcdb9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-04-24T22:10:50Z",
+      "side": 1,
+      "message": "Understood that it should live closer to the file handling code. \n\nI wouldn\u0027t characterize it as hiding the length. You are providing the semantic meaning for the length by using a symbolic constant rather than a literal constant. Someone new to the code can get a quick understanding of the file\u0027s format without referencing external documentation, and in cases where the same length field holds different data in the same file it makes the code easier to read for everyone.",
+      "parentUuid": "a7fb1785_7eaf7668",
       "range": {
         "startLine": 508,
         "startChar": 34,
