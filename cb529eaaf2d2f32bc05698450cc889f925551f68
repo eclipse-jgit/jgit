@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7fb1785_bec39e2b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/ReadableChannel.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-04-24T17:24:35Z",
+      "side": 1,
+      "message": "What is the contract of this function from the caller\u0027s point of view? Is it a promise that reads will tend to be in chunks of size bufferSize? If I read an amount n which is less than bufferSize, should the callee read another bufferSize in the next call or, say, bufferSize - n?",
+      "range": {
+        "startLine": 105,
+        "startChar": 0,
+        "endLine": 105,
+        "endChar": 55
+      },
+      "revId": "cb529eaaf2d2f32bc05698450cc889f925551f68",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_5ed55ae2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/ReadableChannel.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-04-24T17:24:35Z",
+      "side": 1,
+      "message": "of approximately",
+      "range": {
+        "startLine": 107,
+        "startChar": 24,
+        "endLine": 107,
+        "endChar": 37
+      },
+      "revId": "cb529eaaf2d2f32bc05698450cc889f925551f68",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_3ed84e1a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/ReadableChannel.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-04-24T17:24:35Z",
+      "side": 1,
+      "message": "s/,//",
+      "range": {
+        "startLine": 111,
+        "startChar": 63,
+        "endLine": 111,
+        "endChar": 64
+      },
+      "revId": "cb529eaaf2d2f32bc05698450cc889f925551f68",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_fef88672",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/ReadableChannel.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-04-24T17:24:35Z",
+      "side": 1,
+      "message": "It\u0027s tempting to call this something like setReadAheadSize or setReadAheadBytes, to make the meaning of the argument more obvious at call sites.",
+      "range": {
+        "startLine": 119,
+        "startChar": 0,
+        "endLine": 119,
+        "endChar": 67
+      },
+      "revId": "cb529eaaf2d2f32bc05698450cc889f925551f68",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
