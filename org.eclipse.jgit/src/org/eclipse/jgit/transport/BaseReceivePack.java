@@ -70,6 +70,7 @@ import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.errors.TooLargePackException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.PackLock;
+import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Config.SectionParser;
@@ -1100,6 +1101,30 @@ public abstract class BaseReceivePack {
 				|| !getClientShallowCommits().isEmpty();
 	}
 
+	private void checkObjectIsReachable(final RevObject obj, final ObjectWalk walk) throws IOException {
+
+		if (!db.hasObject(obj))
+			throw new MissingObjectException(obj, obj.getType());
+
+		if (walk.lookupOrNull(obj) != null)
+			return;
+
+		for (;;) {
+			RevObject o;
+			while ((o = walk.nextObject()) != null) {
+				if (AnyObjectId.equals(o, obj))
+					return;
+			}
+			RevCommit c = walk.next();
+			if (c == null)
+				break;
+			if (AnyObjectId.equals(c, obj))
+				return;
+		}
+
+		throw new MissingObjectException(obj, obj.getType());
+	}
+
 	private void checkConnectivity() throws IOException {
 		ObjectIdSubclassMap<ObjectId> baseObjects = null;
 		ObjectIdSubclassMap<ObjectId> providedObjects = null;
@@ -1131,9 +1156,16 @@ public abstract class BaseReceivePack {
 					continue;
 				ow.markStart(ow.parseAny(cmd.getNewId()));
 			}
+
+			final ObjectWalk have_w = new ObjectWalk(db);
+			have_w.setRetainBody(false);
+
 			for (final ObjectId have : advertisedHaves) {
 				RevObject o = ow.parseAny(have);
 				ow.markUninteresting(o);
+
+				RevObject w = have_w.parseAny(have);
+				have_w.markStart(have_w.peel(w));
 
 				if (baseObjects != null && !baseObjects.isEmpty()) {
 					o = ow.peel(o);
@@ -1165,7 +1197,7 @@ public abstract class BaseReceivePack {
 					if (providedObjects.contains(o))
 						continue;
 					else
-						throw new MissingObjectException(o, o.getType());
+						checkObjectIsReachable(o, have_w);
 				}
 
 				if (o instanceof RevBlob && !db.hasObject(o))
