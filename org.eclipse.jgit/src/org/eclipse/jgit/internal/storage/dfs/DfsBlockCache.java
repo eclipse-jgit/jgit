@@ -210,7 +210,7 @@ public final class DfsBlockCache {
 		statMiss = new AtomicLong();
 	}
 
-	boolean copyThroughCache(long length) {
+	boolean shouldCopyThroughCache(long length) {
 		return length <= maxStreamThroughCache;
 	}
 

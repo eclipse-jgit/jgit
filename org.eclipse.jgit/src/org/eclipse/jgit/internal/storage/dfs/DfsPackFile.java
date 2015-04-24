@@ -470,7 +470,7 @@ public final class DfsPackFile {
 			throws IOException {
 		MessageDigest md = initCopyPack(out, validate, ctx);
 		long p;
-		if (cache.copyThroughCache(length))
+		if (cache.shouldCopyThroughCache(length))
 			p = copyPackThroughCache(out, ctx, md);
 		else
 			p = copyPackBypassCache(out, ctx, md);
