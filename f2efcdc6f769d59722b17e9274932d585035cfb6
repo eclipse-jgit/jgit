@@ -49,6 +49,53 @@
     },
     {
       "key": {
+        "uuid": "a7fb1785_7e4e5691",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-04-24T16:43:03Z",
+      "side": 1,
+      "message": "Fair enough, this is not strictly an accessor. However, the current name of the form \u003cverb\u003e\u003cadverbial phrase\u003e indicates that this method is performing actual copying, which is misleading. Perhaps \"shouldCopyThroughCache\" or \"checkCanCopyThroughCache\".",
+      "parentUuid": "a7fb1785_8e7677f8",
+      "range": {
+        "startLine": 213,
+        "startChar": 9,
+        "endLine": 213,
+        "endChar": 25
+      },
+      "revId": "f2efcdc6f769d59722b17e9274932d585035cfb6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_9e534235",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-04-24T16:43:03Z",
+      "side": 1,
+      "message": "It is somewhat confusing to me that the header is not getting copied into the buffer when validation is disabled. I understand not needing to create the MessageDigest, but is it really OK not to copy the header?  If the header should always get copied, maybe a better name for this method would be processHeader()",
+      "range": {
+        "startLine": 487,
+        "startChar": 0,
+        "endLine": 487,
+        "endChar": 15
+      },
+      "revId": "f2efcdc6f769d59722b17e9274932d585035cfb6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7fb1785_0ebba75f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
         "patchSetId": 2
@@ -84,6 +131,30 @@
       "side": 1,
       "message": "Unnecessary. We unpin only to shed memory on the potentially long running normal path. If we throw the caller already has a finally block already wrapping us much higher up the stack that will have the same effect of unpin() by calling close()/release() on the DfsReader ctx.\n\nAnd if they forget DfsReader will eventually become unreachable and GC.",
       "parentUuid": "a7fb1785_0ebba75f",
+      "range": {
+        "startLine": 492,
+        "startChar": 0,
+        "endLine": 492,
+        "endChar": 44
+      },
+      "revId": "f2efcdc6f769d59722b17e9274932d585035cfb6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_1e40f25d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-04-24T16:43:03Z",
+      "side": 1,
+      "message": "The subtle behavior that transient IOExceptions should be allowed to propagate out without marking the file as invalid needs to be documented in a comment to prevent future breakage. By not knowing this, I would have incorrectly approved a refactoring that changed that behavior.",
+      "parentUuid": "a7fb1785_6e718bff",
       "range": {
         "startLine": 492,
         "startChar": 0,
@@ -143,6 +214,30 @@
     },
     {
       "key": {
+        "uuid": "a7fb1785_fe424665",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-04-24T16:43:03Z",
+      "side": 1,
+      "message": "Is there a reason not to start? I\u0027ll gladly do this in a comprehensive follow up commit.",
+      "parentUuid": "a7fb1785_0e6a870c",
+      "range": {
+        "startLine": 508,
+        "startChar": 34,
+        "endLine": 508,
+        "endChar": 36
+      },
+      "revId": "f2efcdc6f769d59722b17e9274932d585035cfb6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7fb1785_6e906bd0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
         "patchSetId": 2
@@ -178,6 +273,30 @@
       "side": 1,
       "message": "We don\u0027t do that. Its subtle.\n\nAn IOException can be transient. For those we don\u0027t want to set invalid as that will make the file unavailable for any use later on even if the transient condition clears. Unfortunately we cannot categorize transient vs. permanent IOException conditions so we do not try.\n\nA successful read of -1 means we hit EOF earlier than we wanted. Successfully. That is an unambiguous problem with this file that is not transient and will not be fixed by retrying at a later time.",
       "parentUuid": "a7fb1785_6e906bd0",
+      "range": {
+        "startLine": 540,
+        "startChar": 0,
+        "endLine": 540,
+        "endChar": 17
+      },
+      "revId": "f2efcdc6f769d59722b17e9274932d585035cfb6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_5e36fa0c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 540,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-04-24T16:43:03Z",
+      "side": 1,
+      "message": "See my comment above.",
+      "parentUuid": "a7fb1785_ce7cffda",
       "range": {
         "startLine": 540,
         "startChar": 0,
