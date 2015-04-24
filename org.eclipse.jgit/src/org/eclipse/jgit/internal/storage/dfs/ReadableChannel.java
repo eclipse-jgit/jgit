@@ -100,4 +100,33 @@ public interface ReadableChannel extends ReadableByteChannel {
 	 *         not need to be a power of 2.
 	 */
 	public int blockSize();
+
+	/**
+	 * Recommend the channel maintain a read-ahead buffer.
+	 * <p>
+	 * A read-ahead buffer of approximately {@code bufferSize} in bytes may be
+	 * allocated and used by the channel to smooth out latency for read.
+	 * <p>
+	 * Callers can continue to read in smaller than {@code bufferSize} chunks.
+	 * With read-ahead buffering enabled read latency may fluctuate in a pattern
+	 * of one slower read followed by {@code (bufferSize / readSize) - 1} fast
+	 * reads satisfied by the read-ahead buffer. When summed up overall time to
+	 * read the same contiguous range should be lower than if read-ahead was not
+	 * enabled, as the implementation can combine reads to increase throughput.
+	 * <p>
+	 * To avoid unnecessary IO callers should only enable read-ahead if the
+	 * majority of the channel will be accessed in order.
+	 * <p>
+	 * Implementations may chose to read-ahead using asynchronous APIs or
+	 * background threads, or may simply aggregate reads using a buffer.
+	 * <p>
+	 * This read ahead stays in effect until the channel is closed or the buffer
+	 * size is set to 0.
+	 *
+	 * @param bufferSize
+	 *            requested size of the read ahead buffer, in bytes.
+	 * @throws IOException
+	 *             if the read ahead cannot be adjusted.
+	 */
+	public void setReadAheadBytes(int bufferSize) throws IOException;
 }
