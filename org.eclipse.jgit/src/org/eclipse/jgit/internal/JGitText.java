@@ -557,6 +557,8 @@ public class JGitText extends TranslationBundle {
 	/***/ public String remoteDoesNotSupportSmartHTTPPush;
 	/***/ public String remoteHungUpUnexpectedly;
 	/***/ public String remoteNameCantBeNull;
+	/***/ public String remoteNameInvalid;
+	/***/ public String remoteNotFound;
 	/***/ public String renameBranchFailedBecauseTag;
 	/***/ public String renameBranchFailedUnknownReason;
 	/***/ public String renameBranchUnexpectedResult;
@@ -566,6 +568,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String renamesFindingByContent;
 	/***/ public String renamesFindingExact;
 	/***/ public String renamesRejoiningModifies;
+	/***/ public String renameRemoteFailedUnknownReason;
 	/***/ public String repositoryAlreadyExists;
 	/***/ public String repositoryConfigFileInvalid;
 	/***/ public String repositoryIsRequired;
