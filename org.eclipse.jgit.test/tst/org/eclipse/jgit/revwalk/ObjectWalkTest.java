@@ -215,21 +215,6 @@ public class ObjectWalkTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testMarkUninterestingPropagation() throws Exception {
-		final RevBlob f = blob("1");
-		final RevTree t = tree(file("f", f));
-		final RevCommit c1 = commit(t);
-		final RevCommit c2 = commit(t);
-
-		markUninteresting(c1);
-		markStart(c2);
-
-		assertSame(c2, objw.next());
-		assertNull(objw.next());
-		assertNull(objw.nextObject());
-	}
-
-	@Test
 	public void testEmptyTreeCorruption() throws Exception {
 		ObjectId bId = ObjectId
 				.fromString("abbbfafe3129f85747aba7bfac992af77134c607");
