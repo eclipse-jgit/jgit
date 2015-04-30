@@ -104,6 +104,8 @@ public class ObjectChecker {
 	private final MutableInteger ptrout = new MutableInteger();
 
 	private boolean allowZeroMode;
+
+	private boolean allowInvalidPersonIdent;
 	private boolean windows;
 	private boolean macosx;
 
@@ -121,6 +123,22 @@ public class ObjectChecker {
 	 */
 	public ObjectChecker setAllowLeadingZeroFileMode(boolean allow) {
 		allowZeroMode = allow;
+		return this;
+	}
+
+	/**
+	 * Enable accepting invalid author, committer and tagger identities.
+	 * <p>
+	 * Some broken Git versions/libraries allowed users to create commits and
+	 * tags with invalid formatting between the name, email and timestamp.
+	 *
+	 * @param allow
+	 *            if true accept invalid person identity strings.
+	 * @return {@code this}.
+	 * @since 4.0
+	 */
+	public ObjectChecker setAllowInvalidPersonIdent(boolean allow) {
+		allowInvalidPersonIdent = allow;
 		return this;
 	}
 
@@ -198,6 +216,9 @@ public class ObjectChecker {
 	}
 
 	private int personIdent(final byte[] raw, int ptr) {
+		if (allowInvalidPersonIdent)
+			return nextLF(raw, ptr) - 1;
+
 		final int emailB = nextLF(raw, ptr, '<');
 		if (emailB == ptr || raw[emailB - 1] != '<')
 			return -1;

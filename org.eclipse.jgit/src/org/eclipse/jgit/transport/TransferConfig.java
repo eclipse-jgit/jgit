@@ -67,6 +67,7 @@ public class TransferConfig {
 
 	private final boolean checkReceivedObjects;
 	private final boolean allowLeadingZeroFileMode;
+	private final boolean allowInvalidPersonIdent;
 	private final boolean safeForWindows;
 	private final boolean safeForMacOS;
 	private final boolean allowTipSha1InWant;
@@ -82,6 +83,8 @@ public class TransferConfig {
 				rc.getBoolean("transfer", "fsckobjects", false)); //$NON-NLS-1$ //$NON-NLS-2$
 		allowLeadingZeroFileMode = checkReceivedObjects
 				&& rc.getBoolean("fsck", "allowLeadingZeroFileMode", false); //$NON-NLS-1$ //$NON-NLS-2$
+		allowInvalidPersonIdent = checkReceivedObjects
+				&& rc.getBoolean("fsck", "allowInvalidPersonIdent", false); //$NON-NLS-1$ //$NON-NLS-2$
 		safeForWindows = checkReceivedObjects
 				&& rc.getBoolean("fsck", "safeForWindows", //$NON-NLS-1$ //$NON-NLS-2$
 						SystemReader.getInstance().isWindows());
@@ -113,6 +116,7 @@ public class TransferConfig {
 			return null;
 		return new ObjectChecker()
 			.setAllowLeadingZeroFileMode(allowLeadingZeroFileMode)
+			.setAllowInvalidPersonIdent(allowInvalidPersonIdent)
 			.setSafeForWindows(safeForWindows)
 			.setSafeForMacOS(safeForMacOS);
 	}
