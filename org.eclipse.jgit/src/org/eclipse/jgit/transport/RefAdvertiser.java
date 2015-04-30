@@ -148,6 +148,21 @@ public abstract class RefAdvertiser {
 	}
 
 	/**
+	 * Add one protocol capability with a value ({@code "name=value"}).
+	 *
+	 * @param name
+	 *            name of the capability.
+	 * @param value
+	 *            value. If null the capability will not be added.
+	 * @since 4.0
+	 */
+	public void advertiseCapability(String name, String value) {
+		if (value != null) {
+			capablities.add(name + '=' + value);
+		}
+	}
+
+	/**
 	 * Add a symbolic ref to capabilities.
 	 * <p>
 	 * This method must be invoked prior to any of the following:
@@ -164,8 +179,7 @@ public abstract class RefAdvertiser {
 	 * @since 3.6
 	 */
 	public void addSymref(String from, String to) {
-		String symref = String.format("%s=%s:%s", OPTION_SYMREF, from, to); //$NON-NLS-1$
-		advertiseCapability(symref);
+		advertiseCapability(OPTION_SYMREF, from + ':' + to);
 	}
 
 	/**

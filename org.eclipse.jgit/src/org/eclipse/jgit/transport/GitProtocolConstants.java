@@ -186,6 +186,13 @@ public class GitProtocolConstants {
 	 */
 	public static final String CAPABILITY_PUSH_CERT = "push-cert"; //$NON-NLS-1$
 
+	/**
+	 * Implementation name and version of the client or server.
+	 *
+	 * @since 4.0
+	 */
+	public static final String OPTION_AGENT = "agent"; //$NON-NLS-1$
+
 	static enum MultiAck {
 		OFF, CONTINUE, DETAILED;
 	}

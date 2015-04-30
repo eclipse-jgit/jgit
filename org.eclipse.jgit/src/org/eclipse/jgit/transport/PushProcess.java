@@ -155,6 +155,7 @@ class PushProcess {
 			try {
 				res.setAdvertisedRefs(transport.getURI(), connection
 						.getRefsMap());
+				res.peerUserAgent = connection.getPeerUserAgent();
 				res.setRemoteUpdates(toPush);
 				monitor.endTask();
 

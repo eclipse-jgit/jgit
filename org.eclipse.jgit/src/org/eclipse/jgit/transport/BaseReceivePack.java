@@ -48,6 +48,7 @@ import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_DELETE_
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_OFS_DELTA;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_REPORT_STATUS;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_SIDE_BAND_64K;
+import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_AGENT;
 import static org.eclipse.jgit.transport.SideBandOutputStream.CH_DATA;
 import static org.eclipse.jgit.transport.SideBandOutputStream.CH_PROGRESS;
 import static org.eclipse.jgit.transport.SideBandOutputStream.MAX_BUF;
@@ -224,6 +225,7 @@ public abstract class BaseReceivePack {
 
 	/** Capabilities requested by the client. */
 	private Set<String> enabledCapabilities;
+	String userAgent;
 	private Set<ObjectId> clientShallowCommits;
 	private List<ReceiveCommand> commands;
 
@@ -738,6 +740,25 @@ public abstract class BaseReceivePack {
 		return enabledCapabilities.contains(CAPABILITY_SIDE_BAND_64K);
 	}
 
+	/**
+	 * Get the user agent of the client.
+	 * <p>
+	 * If the client is new enough to use {@code agent=} capability that value
+	 * will be returned. Older HTTP clients may also supply their version using
+	 * the HTTP {@code User-Agent} header. The capability overrides the HTTP
+	 * header if both are available.
+	 * <p>
+	 * When an HTTP request has been received this method returns the HTTP
+	 * {@code User-Agent} header value until capabilities have been parsed.
+	 *
+	 * @return user agent supplied by the client. Available only if the client
+	 *         is new enough to advertise its user agent.
+	 * @since 4.0
+	 */
+	public String getPeerUserAgent() {
+		return UserAgent.getAgent(enabledCapabilities, userAgent);
+	}
+
 	/** @return all of the command received by the current request. */
 	public List<ReceiveCommand> getAllCommands() {
 		return Collections.unmodifiableList(commands);
@@ -955,6 +976,7 @@ public abstract class BaseReceivePack {
 			adv.advertiseCapability(CAPABILITY_ATOMIC);
 		if (allowOfsDelta)
 			adv.advertiseCapability(CAPABILITY_OFS_DELTA);
+		adv.advertiseCapability(OPTION_AGENT, UserAgent.get());
 		adv.send(getAdvertisedOrDefaultRefs());
 		for (ObjectId obj : advertisedHaves)
 			adv.advertiseHave(obj);
