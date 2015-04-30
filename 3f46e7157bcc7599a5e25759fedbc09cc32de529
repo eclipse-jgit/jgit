@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_26cc7ead",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 757,
+      "author": {
+        "id": 15337
+      },
+      "writtenOn": "2015-04-30T17:53:35Z",
+      "side": 1,
+      "message": "This is a short method; I\u0027d rather skip the early return for clarity: execute the following chunk of code if this is not null, then return userAgent at the end whether enabledCapabilities is null or the user agent capability isn\u0027t advertised.",
+      "range": {
+        "startLine": 756,
+        "startChar": 2,
+        "endLine": 757,
+        "endChar": 20
+      },
+      "revId": "3f46e7157bcc7599a5e25759fedbc09cc32de529",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_c3600c2c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UserAgent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 15337
+      },
+      "writtenOn": "2015-04-30T17:53:35Z",
+      "side": 1,
+      "message": "This comment is confusing. As I interpreted it, this is presenting the value obtained from a remote peer over the network. I recommend clarifying that it provides a value that should be presented over the network, e.g.:\n\nUser agent to be reported by the JGit client and server over the network\n\nFor HTTP transports, supply this as the {@code User-Agent} header. On native transports, advertise the user agent in the capability headers.",
+      "range": {
+        "startLine": 47,
+        "startChar": 3,
+        "endLine": 50,
+        "endChar": 78
+      },
+      "revId": "3f46e7157bcc7599a5e25759fedbc09cc32de529",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
