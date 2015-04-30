@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "87f6139c_e68ef6b7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-04-30T21:07:21Z",
+      "side": 1,
+      "message": "Also worth mentioning the added support in BasePackConnection (fetch-pack and send-pack) that defaults to the Server header on HTTP transports.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 25
+      },
+      "revId": "79e70c57d80662bb3ef9f3ee8f47e0e708a7b4c9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f6139c_865612d9",
         "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/UploadPackServlet.java",
         "patchSetId": 3
