@@ -1,0 +1,205 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_865612d9",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/UploadPackServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-04-30T20:25:29Z",
+      "side": 1,
+      "message": "This is ugly, but I don\u0027t see a better alternative (and this is the first time we used an HTTP header as the default for a capability so there\u0027s no other example to compare to).\n\nThe alternatives both seem worse:\n\n* a public setter UploadPack.setDefaultPeerUserAgent\n\n* a facility in the transport package that more explicitly is only usable by org.eclipse.jgit.http.server classes. E.g., if there is a class ProofOfPackageMembership that only members of the same package can instantiate, then the caller could have to pass in a non-null ProofOfPackageMembership:\n\n public class ProofOfPackageMembership {\n   ProofOfPackageMembership() {}\n }\n\n setPeerUserAgent(new ProofOfPackageMembership(), up, ...);",
+      "range": {
+        "startLine": 104,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 43
+      },
+      "revId": "79e70c57d80662bb3ef9f3ee8f47e0e708a7b4c9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_e6d1d6c5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseConnection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-04-30T20:25:29Z",
+      "side": 1,
+      "message": "(optional) This change would have been easier to review if client-side and server-side support came in separate changes.\n\nIt\u0027s probably not worth splitting up now that it\u0027s written.",
+      "revId": "79e70c57d80662bb3ef9f3ee8f47e0e708a7b4c9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_8613b219",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackConnection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-04-30T20:25:29Z",
+      "side": 1,
+      "message": "(optional) addUserAgentCapability, maybe",
+      "range": {
+        "startLine": 280,
+        "startChar": 0,
+        "endLine": 280,
+        "endChar": 47
+      },
+      "revId": "79e70c57d80662bb3ef9f3ee8f47e0e708a7b4c9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_26dc7edb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackConnection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-04-30T20:25:29Z",
+      "side": 1,
+      "message": "(optional) could return early and decrease nesting:\n\n if (ua \u003d\u003d null || ua.isEmpty()) {\n   return;\n }",
+      "range": {
+        "startLine": 282,
+        "startChar": 0,
+        "endLine": 282,
+        "endChar": 36
+      },
+      "revId": "79e70c57d80662bb3ef9f3ee8f47e0e708a7b4c9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_66ede683",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackConnection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-04-30T20:25:29Z",
+      "side": 1,
+      "message": "(optional) This would be CAPABILITY_AGENT + \"\u003d\" if following the convention of other capabilities (and likewise below).",
+      "range": {
+        "startLine": 284,
+        "startChar": 0,
+        "endLine": 284,
+        "endChar": 30
+      },
+      "revId": "79e70c57d80662bb3ef9f3ee8f47e0e708a7b4c9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_06fce231",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackConnection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-04-30T20:25:29Z",
+      "side": 1,
+      "message": "(style nit) new jgit code likes to always include the braces around an \u0027if\u0027 body \u003chttp://wiki.eclipse.org/EGit/Contributor_Guide#Braces_for_one-line_statements\u003e",
+      "range": {
+        "startLine": 295,
+        "startChar": 0,
+        "endLine": 296,
+        "endChar": 39
+      },
+      "revId": "79e70c57d80662bb3ef9f3ee8f47e0e708a7b4c9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_a6222e5f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 757,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-04-30T20:25:29Z",
+      "side": 1,
+      "message": "(optional) could simplify by treating enabledCapabilities \u003d\u003d null as a RequestNotYetReadException() case. But maybe that would be counterproductive if someone tries using getPeerUserAgent() to log information about a request that ended before capabilities were sent.\n\nA comment to explain what is supposed to happen in that case would help.",
+      "range": {
+        "startLine": 756,
+        "startChar": 0,
+        "endLine": 757,
+        "endChar": 20
+      },
+      "revId": "79e70c57d80662bb3ef9f3ee8f47e0e708a7b4c9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_064a222d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/GitProtocolConstants.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-04-30T20:25:29Z",
+      "side": 1,
+      "message": "Could this be public static final String CAPABILITY_AGENT \u003d \"agent\" so at call sites it\u0027s easier to remember whether it ends with an \u0027\u003d\u0027?",
+      "range": {
+        "startLine": 189,
+        "startChar": 0,
+        "endLine": 189,
+        "endChar": 52
+      },
+      "revId": "79e70c57d80662bb3ef9f3ee8f47e0e708a7b4c9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_4611ca0a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 916,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-04-30T20:25:29Z",
+      "side": 1,
+      "message": "Inconsistent with ReceivePack. All else being equal, I prefer this behavior over the ReceivePack one.",
+      "range": {
+        "startLine": 915,
+        "startChar": 0,
+        "endLine": 916,
+        "endChar": 42
+      },
+      "revId": "79e70c57d80662bb3ef9f3ee8f47e0e708a7b4c9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
