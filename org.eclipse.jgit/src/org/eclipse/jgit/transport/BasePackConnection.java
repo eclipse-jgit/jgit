@@ -46,6 +46,8 @@
 
 package org.eclipse.jgit.transport;
 
+import static org.eclipse.jgit.transport.GitProtocolConstants.AGENT;
+
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -273,6 +275,17 @@ abstract class BasePackConnection extends BaseConnection {
 		b.append(' ');
 		b.append(option);
 		return true;
+	}
+
+	protected void addUserAgent(StringBuilder b) {
+		String ua = UserAgent.get();
+		if (ua != null && !ua.isEmpty()) {
+			for (String r : remoteCapablities) {
+				if (r.startsWith(AGENT)) {
+					b.append(' ').append(AGENT).append(ua);
+				}
+			}
+		}
 	}
 
 	private PackProtocolException duplicateAdvertisement(final String name) {
