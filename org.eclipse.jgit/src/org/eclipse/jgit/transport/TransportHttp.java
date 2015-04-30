@@ -134,8 +134,6 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 
 	private static final String SVC_RECEIVE_PACK = "git-receive-pack"; //$NON-NLS-1$
 
-	private static final String userAgent = computeUserAgent();
-
 	static final TransportProtocol PROTO_HTTP = new TransportProtocol() {
 		private final String[] schemeNames = { "http", "https" }; //$NON-NLS-1$ //$NON-NLS-2$
 
@@ -203,17 +201,6 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 			return new TransportHttp(local, uri);
 		}
 	};
-
-	private static String computeUserAgent() {
-		String version;
-		final Package pkg = TransportHttp.class.getPackage();
-		if (pkg != null && pkg.getImplementationVersion() != null) {
-			version = pkg.getImplementationVersion();
-		} else {
-			version = "unknown"; //$NON-NLS-1$
-		}
-		return "JGit/" + version; //$NON-NLS-1$
-	}
 
 	private static final Config.SectionParser<HttpConfig> HTTP_KEY = new SectionParser<HttpConfig>() {
 		public HttpConfig parse(final Config cfg) {
@@ -309,16 +296,17 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 			final HttpConnection c = connect(service);
 			final InputStream in = openInputStream(c);
 			try {
+				BaseConnection f;
 				if (isSmartHttp(c, service)) {
 					readSmartHeaders(in, service);
-					return new SmartHttpFetchConnection(in);
-
+					f = new SmartHttpFetchConnection(in);
 				} else {
 					// Assume this server doesn't support smart HTTP fetch
 					// and fall back on dumb object walking.
-					//
-					return newDumbConnection(in);
+					f = newDumbConnection(in);
 				}
+				f.setPeerUserAgent(c.getHeaderField(HttpSupport.HDR_SERVER));
+				return (FetchConnection) f;
 			} finally {
 				in.close();
 			}
@@ -331,7 +319,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		}
 	}
 
-	private FetchConnection newDumbConnection(InputStream in)
+	private WalkFetchConnection newDumbConnection(InputStream in)
 			throws IOException, PackProtocolException {
 		HttpObjectDB d = new HttpObjectDB(objectsUrl);
 		BufferedReader br = toBufferedReader(in);
@@ -400,9 +388,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 			final InputStream in = openInputStream(c);
 			try {
 				if (isSmartHttp(c, service)) {
-					readSmartHeaders(in, service);
-					return new SmartHttpPushConnection(in);
-
+					return smartPush(service, c, in);
 				} else if (!useSmartHttp) {
 					final String msg = JGitText.get().smartHTTPPushDisabled;
 					throw new NotSupportedException(msg);
@@ -421,6 +407,14 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		} catch (IOException err) {
 			throw new TransportException(uri, JGitText.get().errorReadingInfoRefs, err);
 		}
+	}
+
+	private PushConnection smartPush(String service, HttpConnection c,
+			InputStream in) throws IOException, TransportException {
+		readSmartHeaders(in, service);
+		SmartHttpPushConnection p = new SmartHttpPushConnection(in);
+		p.setPeerUserAgent(c.getHeaderField(HttpSupport.HDR_SERVER));
+		return p;
 	}
 
 	@Override
@@ -551,7 +545,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		conn.setUseCaches(false);
 		conn.setRequestProperty(HDR_ACCEPT_ENCODING, ENCODING_GZIP);
 		conn.setRequestProperty(HDR_PRAGMA, "no-cache"); //$NON-NLS-1$
-		conn.setRequestProperty(HDR_USER_AGENT, userAgent);
+		conn.setRequestProperty(HDR_USER_AGENT, UserAgent.get());
 		int timeOut = getTimeout();
 		if (timeOut != -1) {
 			int effTimeOut = timeOut * 1000;

@@ -268,6 +268,7 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 					outputStream);
 			pckIn = new PacketLineIn(in);
 		}
+		addUserAgent(line);
 
 		if (line.length() > 0)
 			line.setCharAt(0, '\0');

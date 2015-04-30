@@ -65,6 +65,8 @@ import org.eclipse.jgit.lib.Ref;
 public abstract class BaseConnection implements Connection {
 	private Map<String, Ref> advertisedRefs = Collections.emptyMap();
 
+	private String peerUserAgent;
+
 	private boolean startedOperation;
 
 	private Writer messageWriter;
@@ -83,6 +85,28 @@ public abstract class BaseConnection implements Connection {
 
 	public String getMessages() {
 		return messageWriter != null ? messageWriter.toString() : ""; //$NON-NLS-1$
+	}
+
+	/**
+	 * User agent advertised by the remote server.
+	 *
+	 * @return agent (version of Git) running on the remote server. Null if the
+	 *         server does not advertise this version.
+	 * @since 4.0
+	 */
+	public String getPeerUserAgent() {
+		return peerUserAgent;
+	}
+
+	/**
+	 * Remember the remote peer's agent.
+	 *
+	 * @param agent
+	 *            remote peer agent string.
+	 * @since 4.0
+	 */
+	protected void setPeerUserAgent(String agent) {
+		peerUserAgent = agent;
 	}
 
 	public abstract void close();

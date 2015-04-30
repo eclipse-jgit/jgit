@@ -74,6 +74,12 @@ public class HttpSupport {
 	/** The {@code User-Agent} header. */
 	public static final String HDR_USER_AGENT = "User-Agent"; //$NON-NLS-1$
 
+	/**
+	 * The {@code Server} header.
+	 * @since 4.0
+	 */
+	public static final String HDR_SERVER = "Server"; //$NON-NLS-1$
+
 	/** The {@code Date} header. */
 	public static final String HDR_DATE = "Date"; //$NON-NLS-1$
 

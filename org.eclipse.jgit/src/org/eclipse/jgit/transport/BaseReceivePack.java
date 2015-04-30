@@ -43,6 +43,7 @@
 
 package org.eclipse.jgit.transport;
 
+import static org.eclipse.jgit.transport.GitProtocolConstants.AGENT;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_ATOMIC;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_DELETE_REFS;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_OFS_DELTA;
@@ -224,6 +225,7 @@ public abstract class BaseReceivePack {
 
 	/** Capabilities requested by the client. */
 	private Set<String> enabledCapabilities;
+	String userAgent;
 	private Set<ObjectId> clientShallowCommits;
 	private List<ReceiveCommand> commands;
 
@@ -738,6 +740,28 @@ public abstract class BaseReceivePack {
 		return enabledCapabilities.contains(CAPABILITY_SIDE_BAND_64K);
 	}
 
+	/**
+	 * Get the user agent of the client.
+	 * <p>
+	 * If the client is new enough to use {@code agent=} capability that value
+	 * will be returned. Older HTTP clients may also supply their version using
+	 * the HTTP {@code User-Agent} header. The capability overrides the HTTP
+	 * header if both are available.
+	 *
+	 * @return user agent supplied by the client. Available only if the client
+	 *         is new enough to advertise its user agent.
+	 * @since 4.0
+	 */
+	public String getPeerUserAgent() {
+		if (enabledCapabilities == null)
+			return userAgent;
+		for (String o : enabledCapabilities) {
+			if (o.startsWith(AGENT))
+				return o.substring(AGENT.length());
+		}
+		return userAgent;
+	}
+
 	/** @return all of the command received by the current request. */
 	public List<ReceiveCommand> getAllCommands() {
 		return Collections.unmodifiableList(commands);
@@ -955,6 +979,7 @@ public abstract class BaseReceivePack {
 			adv.advertiseCapability(CAPABILITY_ATOMIC);
 		if (allowOfsDelta)
 			adv.advertiseCapability(CAPABILITY_OFS_DELTA);
+		adv.advertiseCapability(AGENT + UserAgent.get());
 		adv.send(getAdvertisedOrDefaultRefs());
 		for (ObjectId obj : advertisedHaves)
 			adv.advertiseHave(obj);
