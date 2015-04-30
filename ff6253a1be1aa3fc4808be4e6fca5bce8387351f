@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_e07ede89",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 574,
+      "author": {
+        "id": 6590
+      },
+      "writtenOn": "2015-04-30T13:57:25Z",
+      "side": 1,
+      "message": "This feels a bit strange:\n\n  if (LOG.isDebugEnabled()) {\n    LOG.warn...\n\nHow about this instead:\n\n  String message \u003d (MessageFormat.format(warnTmpl, p.getPackFile().getAbsolutePath());\n  LOG.warn(message);\n  LOG.debug(message, e);\n\nor:\n\n  String message \u003d (MessageFormat.format(warnTmpl, p.getPackFile().getAbsolutePath());\n  if (LOG.isDebugEnabled()) {\n    LOG.debug(message, e);\n  } else {\n    LOG.warn(message);\n  }",
+      "range": {
+        "startLine": 568,
+        "startChar": 3,
+        "endLine": 574,
+        "endChar": 4
+      },
+      "revId": "ff6253a1be1aa3fc4808be4e6fca5bce8387351f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
