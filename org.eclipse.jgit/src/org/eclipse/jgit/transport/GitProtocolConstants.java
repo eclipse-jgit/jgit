@@ -186,6 +186,8 @@ public class GitProtocolConstants {
 	 */
 	public static final String CAPABILITY_PUSH_CERT = "push-cert"; //$NON-NLS-1$
 
+	static final String AGENT = "agent="; //$NON-NLS-1$
+
 	static enum MultiAck {
 		OFF, CONTINUE, DETAILED;
 	}
