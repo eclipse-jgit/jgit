@@ -1,0 +1,193 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_793bcaf4",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-04-30T08:31:16Z",
+      "side": 1,
+      "message": "s/{0}/\u0027\u0027{0}\u0027\u0027/\n\nthis ensures that leading / trailing whitespace can be seen",
+      "range": {
+        "startLine": 441,
+        "startChar": 30,
+        "endLine": 441,
+        "endChar": 33
+      },
+      "revId": "f910367b7f2b6462f0e343644469c3ccdbd29f67",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_d94f5e8c",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-04-30T08:31:16Z",
+      "side": 1,
+      "message": "s/{0}/\u0027\u0027{0}\u0027\u0027/\n\nthis ensures that leading / trailing whitespace can be seen",
+      "range": {
+        "startLine": 442,
+        "startChar": 33,
+        "endLine": 442,
+        "endChar": 36
+      },
+      "revId": "f910367b7f2b6462f0e343644469c3ccdbd29f67",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_99d2f642",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-04-30T08:31:16Z",
+      "side": 1,
+      "message": "missing @since 4.0 tag annotating new API",
+      "revId": "f910367b7f2b6462f0e343644469c3ccdbd29f67",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_bb44506d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RenameRemoteCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-04-30T08:31:16Z",
+      "side": 1,
+      "message": "I guess these guys didn\u0027t contribute to this file and they certainly didn\u0027t in 2010, put you own copyright here",
+      "range": {
+        "startLine": 2,
+        "startChar": 1,
+        "endLine": 3,
+        "endChar": 61
+      },
+      "revId": "f910367b7f2b6462f0e343644469c3ccdbd29f67",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_9b9eb46d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RenameRemoteCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-04-30T08:31:16Z",
+      "side": 1,
+      "message": "missing @since 4.0 tag necessary for all newly added API",
+      "revId": "f910367b7f2b6462f0e343644469c3ccdbd29f67",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_f9fdfaa4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RenameRemoteCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-04-30T08:31:16Z",
+      "side": 1,
+      "message": "s/fetch/fetch destination/",
+      "range": {
+        "startLine": 129,
+        "startChar": 13,
+        "endLine": 129,
+        "endChar": 18
+      },
+      "revId": "f910367b7f2b6462f0e343644469c3ccdbd29f67",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_592a4eb6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RenameRemoteCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-04-30T08:31:16Z",
+      "side": 1,
+      "message": "s/oldFetchName/oldFetchDestination/",
+      "range": {
+        "startLine": 130,
+        "startChar": 16,
+        "endLine": 130,
+        "endChar": 28
+      },
+      "revId": "f910367b7f2b6462f0e343644469c3ccdbd29f67",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_392f82c6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RenameRemoteCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-04-30T08:31:16Z",
+      "side": 1,
+      "message": "s/fetches/fetchRefSpecs/ or just refSpecs",
+      "range": {
+        "startLine": 132,
+        "startChar": 23,
+        "endLine": 132,
+        "endChar": 30
+      },
+      "revId": "f910367b7f2b6462f0e343644469c3ccdbd29f67",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fb1785_7b994884",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RemoteConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-04-30T08:31:16Z",
+      "side": 1,
+      "message": "missing @since 4.0 tag for new API",
+      "revId": "f910367b7f2b6462f0e343644469c3ccdbd29f67",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
