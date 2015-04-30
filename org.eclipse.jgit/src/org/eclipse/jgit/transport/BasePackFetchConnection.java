@@ -521,6 +521,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 					OPTION_MULTI_ACK_DETAILED));
 		}
 
+		addUserAgentCapability(line);
 		return line.toString();
 	}
 
