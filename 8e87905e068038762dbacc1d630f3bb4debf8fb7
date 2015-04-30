@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_bd8ebd89",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-04-30T13:25:11Z",
+      "side": 1,
+      "message": "I think we should allow to also log the stack trace by switching log level to DEBUG to enable analysing problems we don\u0027t yet anticipate",
+      "revId": "8e87905e068038762dbacc1d630f3bb4debf8fb7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
