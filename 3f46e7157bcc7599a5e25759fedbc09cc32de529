@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "87f6139c_c603fa18",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 757,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-04-30T19:44:00Z",
+      "side": 1,
+      "message": "But its a short method. Early return is just as readable as shoving everything right one level of indentation to avoid early return.\n\nIn short methods we do use early return or early fail in JGit, especially if it allows us avoid a level of indentation for significant portions of the following code.",
+      "parentUuid": "87f6139c_26cc7ead",
+      "range": {
+        "startLine": 756,
+        "startChar": 2,
+        "endLine": 757,
+        "endChar": 20
+      },
+      "revId": "3f46e7157bcc7599a5e25759fedbc09cc32de529",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f6139c_c3600c2c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UserAgent.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2015-04-30T17:53:35Z",
       "side": 1,
       "message": "This comment is confusing. As I interpreted it, this is presenting the value obtained from a remote peer over the network. I recommend clarifying that it provides a value that should be presented over the network, e.g.:\n\nUser agent to be reported by the JGit client and server over the network\n\nFor HTTP transports, supply this as the {@code User-Agent} header. On native transports, advertise the user agent in the capability headers.",
+      "range": {
+        "startLine": 47,
+        "startChar": 3,
+        "endLine": 50,
+        "endChar": 78
+      },
+      "revId": "3f46e7157bcc7599a5e25759fedbc09cc32de529",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_e609d638",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UserAgent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-04-30T19:44:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87f6139c_c3600c2c",
       "range": {
         "startLine": 47,
         "startChar": 3,
