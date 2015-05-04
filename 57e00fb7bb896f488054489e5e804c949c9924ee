@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "87f6139c_a6c189fd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-05-04T13:36:19Z",
+      "side": 1,
+      "message": "s/where/were/",
+      "range": {
+        "startLine": 9,
+        "startChar": 45,
+        "endLine": 9,
+        "endChar": 50
+      },
+      "revId": "57e00fb7bb896f488054489e5e804c949c9924ee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7fb1785_43ec68b6",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
