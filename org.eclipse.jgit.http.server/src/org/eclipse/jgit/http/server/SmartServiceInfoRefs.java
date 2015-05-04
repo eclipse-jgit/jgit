@@ -101,7 +101,7 @@ abstract class SmartServiceInfoRefs implements Filter {
 				res.sendError(SC_UNAUTHORIZED);
 				return;
 			} catch (ServiceNotEnabledException e) {
-				sendError(req, res, SC_FORBIDDEN);
+				sendError(req, res, SC_FORBIDDEN, e.getMessage());
 				return;
 			}
 

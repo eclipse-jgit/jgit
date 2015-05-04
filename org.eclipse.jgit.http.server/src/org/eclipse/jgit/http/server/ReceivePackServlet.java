@@ -76,6 +76,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.jgit.errors.UnpackException;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.transport.InternalHttpServerGlue;
 import org.eclipse.jgit.transport.ReceivePack;
 import org.eclipse.jgit.transport.RefAdvertiser.PacketLineOutRefAdvertiser;
 import org.eclipse.jgit.transport.resolver.ReceivePackFactory;
@@ -100,6 +101,9 @@ class ReceivePackServlet extends HttpServlet {
 				throws IOException, ServiceNotEnabledException,
 				ServiceNotAuthorizedException {
 			ReceivePack rp = receivePackFactory.create(req, db);
+			InternalHttpServerGlue.setPeerUserAgent(
+					rp,
+					req.getHeader(HDR_USER_AGENT));
 			req.setAttribute(ATTRIBUTE_HANDLER, rp);
 		}
 

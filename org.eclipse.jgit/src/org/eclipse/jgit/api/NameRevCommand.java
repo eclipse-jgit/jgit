@@ -185,11 +185,11 @@ public class NameRevCommand extends GitCommand<Map<ObjectId, String>> {
 			}
 
 			setCallable(false);
-			walk.release();
 			return result;
 		} catch (IOException e) {
-			walk.reset();
 			throw new JGitInternalException(e.getMessage(), e);
+		} finally {
+			walk.close();
 		}
 	}
 

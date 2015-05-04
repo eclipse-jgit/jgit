@@ -52,11 +52,13 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.security.MessageDigest;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TimeZone;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.dircache.DirCache;
@@ -88,6 +90,8 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefWriter;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.TagBuilder;
+import org.eclipse.jgit.merge.MergeStrategy;
+import org.eclipse.jgit.merge.ThreeWayMerger;
 import org.eclipse.jgit.revwalk.ObjectWalk;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -185,6 +189,11 @@ public class TestRepository<R extends Repository> {
 	/** @return current time adjusted by {@link #tick(int)}. */
 	public Date getClock() {
 		return new Date(now);
+	}
+
+	/** @return timezone used for default identities. */
+	public TimeZone getTimeZone() {
+		return defaultCommitter.getTimeZone();
 	}
 
 	/**
@@ -612,6 +621,59 @@ public class TestRepository<R extends Repository> {
 			default:
 				throw new IOException(String.format(
 						"Checkout \"%s\" failed: %s", name, result));
+		}
+	}
+
+	/**
+	 * Cherry-pick a commit onto HEAD.
+	 * <p>
+	 * This differs from {@code git cherry-pick} in that it works in a bare
+	 * repository. As a result, any merge failure results in an exception, as
+	 * there is no way to recover.
+	 *
+	 * @param id
+	 *            commit-ish to cherry-pick.
+	 * @return newly created commit, or null if no work was done due to the
+	 *         resulting tree being identical.
+	 * @throws Exception
+	 */
+	public RevCommit cherryPick(AnyObjectId id) throws Exception {
+		RevCommit commit = pool.parseCommit(id);
+		pool.parseBody(commit);
+		if (commit.getParentCount() != 1)
+			throw new IOException(String.format(
+					"Expected 1 parent for %s, found: %s",
+					id.name(), Arrays.asList(commit.getParents())));
+		RevCommit parent = commit.getParent(0);
+		pool.parseHeaders(parent);
+
+		Ref headRef = db.getRef(Constants.HEAD);
+		if (headRef == null)
+			throw new IOException("Missing HEAD");
+		RevCommit head = pool.parseCommit(headRef.getObjectId());
+
+		ThreeWayMerger merger = MergeStrategy.RECURSIVE.newMerger(db, true);
+		merger.setBase(parent.getTree());
+		if (merger.merge(head, commit)) {
+			if (AnyObjectId.equals(head.getTree(), merger.getResultTreeId()))
+				return null;
+			tick(1);
+			org.eclipse.jgit.lib.CommitBuilder b =
+					new org.eclipse.jgit.lib.CommitBuilder();
+			b.setParentId(head);
+			b.setTreeId(merger.getResultTreeId());
+			b.setAuthor(commit.getAuthorIdent());
+			b.setCommitter(new PersonIdent(defaultCommitter, new Date(now)));
+			b.setMessage(commit.getFullMessage());
+			ObjectId result;
+			try (ObjectInserter ins = inserter) {
+				result = ins.insert(b);
+				ins.flush();
+			}
+			update(Constants.HEAD, result);
+			return pool.parseCommit(result);
+		} else {
+			throw new IOException("Merge conflict");
 		}
 	}
 

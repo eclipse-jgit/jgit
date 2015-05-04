@@ -1,7 +1,5 @@
 /*
- * Copyright (C) 2008-2009, Google Inc.
- * Copyright (C) 2007, Robin Rosenberg <robin.rosenberg@dewire.com>
- * Copyright (C) 2006-2008, Shawn O. Pearce <spearce@spearce.org>
+ * Copyright (C) 2015, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -43,60 +41,40 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.internal.storage.file;
-
-import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.util.zip.DataFormatException;
-import java.util.zip.Inflater;
-
-import org.eclipse.jgit.internal.storage.pack.PackOutputStream;
+package org.eclipse.jgit.transport;
 
 /**
- * A window for accessing git packs using a {@link ByteBuffer} for storage.
+ * Internal API to to assist {@code org.eclipse.jgit.http.server}.
+ * <p>
+ * <b>Do not call.</b>
  *
- * @see ByteWindow
+ * @since 4.0
  */
-final class ByteBufferWindow extends ByteWindow {
-	private final ByteBuffer buffer;
-
-	ByteBufferWindow(final PackFile pack, final long o, final ByteBuffer b) {
-		super(pack, o, b.capacity());
-		buffer = b;
+public class InternalHttpServerGlue {
+	/**
+	 * Apply a default user agent for a request.
+	 *
+	 * @param up
+	 *            current UploadPack instance.
+	 * @param agent
+	 *            user agent string from the HTTP headers.
+	 */
+	public static void setPeerUserAgent(UploadPack up, String agent) {
+		up.userAgent = agent;
 	}
 
-	@Override
-	protected int copy(final int p, final byte[] b, final int o, int n) {
-		final ByteBuffer s = buffer.slice();
-		s.position(p);
-		n = Math.min(s.remaining(), n);
-		s.get(b, o, n);
-		return n;
+	/**
+	 * Apply a default user agent for a request.
+	 *
+	 * @param rp
+	 *            current ReceivePack instance.
+	 * @param agent
+	 *            user agent string from the HTTP headers.
+	 */
+	public static void setPeerUserAgent(ReceivePack rp, String agent) {
+		rp.userAgent = agent;
 	}
 
-	@Override
-	void write(PackOutputStream out, long pos, int cnt)
-			throws IOException {
-		final ByteBuffer s = buffer.slice();
-		s.position((int) (pos - start));
-
-		while (0 < cnt) {
-			byte[] buf = out.getCopyBuffer();
-			int n = Math.min(cnt, buf.length);
-			s.get(buf, 0, n);
-			out.write(buf, 0, n);
-			cnt -= n;
-		}
-	}
-
-	@Override
-	protected int setInput(final int pos, final Inflater inf)
-			throws DataFormatException {
-		final ByteBuffer s = buffer.slice();
-		s.position(pos);
-		final byte[] tmp = new byte[Math.min(s.remaining(), 512)];
-		s.get(tmp, 0, tmp.length);
-		inf.setInput(tmp, 0, tmp.length);
-		return tmp.length;
+	private InternalHttpServerGlue() {
 	}
 }

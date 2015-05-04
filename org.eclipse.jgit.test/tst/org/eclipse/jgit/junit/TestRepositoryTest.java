@@ -46,6 +46,7 @@ package org.eclipse.jgit.junit;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
@@ -55,9 +56,9 @@ import java.util.regex.Pattern;
 
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
-import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
@@ -294,6 +295,83 @@ public class TestRepositoryTest {
 		assertEquals(root, ref.getObjectId());
 		assertTrue(ref.isSymbolic());
 		assertEquals("refs/heads/master", ref.getTarget().getName());
+	}
+
+	@Test
+	public void cherryPick() throws Exception {
+		repo.updateRef("HEAD").link("refs/heads/master");
+		RevCommit head = tr.branch("master").commit()
+				.add("foo", "foo contents\n")
+				.create();
+		rw.parseBody(head);
+		RevCommit toPick = tr.commit()
+				.parent(tr.commit().create()) // Can't cherry-pick root.
+				.author(new PersonIdent("Cherrypick Author", "cpa@example.com",
+						tr.getClock(), tr.getTimeZone()))
+				.author(new PersonIdent("Cherrypick Committer", "cpc@example.com",
+						tr.getClock(), tr.getTimeZone()))
+				.message("message to cherry-pick")
+				.add("bar", "bar contents\n")
+				.create();
+		RevCommit result = tr.cherryPick(toPick);
+		rw.parseBody(result);
+
+		Ref headRef = tr.getRepository().getRef("HEAD");
+		assertEquals(result, headRef.getObjectId());
+		assertTrue(headRef.isSymbolic());
+		assertEquals("refs/heads/master", headRef.getLeaf().getName());
+
+		assertEquals(1, result.getParentCount());
+		assertEquals(head, result.getParent(0));
+		assertEquals(toPick.getAuthorIdent(), result.getAuthorIdent());
+
+		// Committer name/email matches default, and time was incremented.
+		assertEquals(new PersonIdent(head.getCommitterIdent(), new Date(0)),
+				new PersonIdent(result.getCommitterIdent(), new Date(0)));
+		assertTrue(toPick.getCommitTime() < result.getCommitTime());
+
+		assertEquals("message to cherry-pick", result.getFullMessage());
+		assertEquals("foo contents\n", blobAsString(result, "foo"));
+		assertEquals("bar contents\n", blobAsString(result, "bar"));
+	}
+
+	@Test
+	public void cherryPickWithContentMerge() throws Exception {
+		RevCommit base = tr.branch("HEAD").commit()
+				.add("foo", "foo contents\n\n")
+				.create();
+		tr.branch("HEAD").commit()
+				.add("foo", "foo contents\n\nlast line\n")
+				.create();
+		RevCommit toPick = tr.commit()
+				.message("message to cherry-pick")
+				.parent(base)
+				.add("foo", "changed foo contents\n\n")
+				.create();
+		RevCommit result = tr.cherryPick(toPick);
+		rw.parseBody(result);
+
+		assertEquals("message to cherry-pick", result.getFullMessage());
+		assertEquals("changed foo contents\n\nlast line\n",
+				blobAsString(result, "foo"));
+	}
+
+	@Test
+	public void cherryPickWithIdenticalContents() throws Exception {
+		RevCommit base = tr.branch("HEAD").commit().add("foo", "foo contents\n")
+				.create();
+		RevCommit head = tr.branch("HEAD").commit()
+				.parent(base)
+				.add("bar", "bar contents\n")
+				.create();
+		RevCommit toPick = tr.commit()
+				.parent(base)
+				.message("message to cherry-pick")
+				.add("bar", "bar contents\n")
+				.create();
+		assertNotEquals(head, toPick);
+		assertNull(tr.cherryPick(toPick));
+		assertEquals(head, repo.getRef("HEAD").getObjectId());
 	}
 
 	private String blobAsString(AnyObjectId treeish, String path)

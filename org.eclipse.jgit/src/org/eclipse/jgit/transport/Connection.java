@@ -127,4 +127,13 @@ public interface Connection {
 	 *         remote produced no additional messages.
 	 */
 	public String getMessages();
+
+	/**
+	 * User agent advertised by the remote server.
+	 *
+	 * @return agent (version of Git) running on the remote server. Null if the
+	 *         server does not advertise this version.
+	 * @since 4.0
+	 */
+	public String getPeerUserAgent();
 }

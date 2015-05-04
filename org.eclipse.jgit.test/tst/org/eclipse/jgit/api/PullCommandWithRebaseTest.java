@@ -180,7 +180,7 @@ public class PullCommandWithRebaseTest extends RepositoryTestCase {
 				+ remoteUri
 				+ "\nSource change\n=======\nTarget change\n>>>>>>> 42453fd Target change in local\n";
 		assertFileContentsEqual(targetFile, result);
-		assertEquals(RepositoryState.REBASING_INTERACTIVE, target
+		assertEquals(RepositoryState.REBASING_MERGE, target
 				.getRepository().getRepositoryState());
 	}
 
@@ -225,7 +225,7 @@ public class PullCommandWithRebaseTest extends RepositoryTestCase {
 		String result = "<<<<<<< Upstream, based on branch 'master' of local repository\n"
 				+ "Master change\n=======\nSlave change\n>>>>>>> 4049c9e Source change in based on master\n";
 		assertFileContentsEqual(targetFile, result);
-		assertEquals(RepositoryState.REBASING_INTERACTIVE, target
+		assertEquals(RepositoryState.REBASING_MERGE, target
 				.getRepository().getRepositoryState());
 	}
 

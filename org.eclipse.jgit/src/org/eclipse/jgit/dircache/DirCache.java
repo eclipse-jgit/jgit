@@ -961,9 +961,8 @@ public class DirCache {
 	 * @throws IOException
 	 */
 	private void updateSmudgedEntries() throws IOException {
-		TreeWalk walk = new TreeWalk(repository);
 		List<String> paths = new ArrayList<String>(128);
-		try {
+		try (TreeWalk walk = new TreeWalk(repository)) {
 			for (int i = 0; i < entryCnt; i++)
 				if (sortedEntries[i].isSmudged())
 					paths.add(sortedEntries[i].getPathString());
@@ -989,8 +988,6 @@ public class DirCache {
 					entry.setLastModified(fIter.getEntryLastModified());
 				}
 			}
-		} finally {
-			walk.release();
 		}
 	}
 }

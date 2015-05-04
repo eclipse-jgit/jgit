@@ -78,8 +78,7 @@ public class DfsCachedPack extends CachedPack {
 		return ((DfsObjectRepresentation) rep).pack == pack;
 	}
 
-	void copyAsIs(PackOutputStream out, boolean validate, DfsReader ctx)
-			throws IOException {
-		pack.copyPackAsIs(out, validate, ctx);
+	void copyAsIs(PackOutputStream out, DfsReader ctx) throws IOException {
+		pack.copyPackAsIs(out, ctx);
 	}
 }

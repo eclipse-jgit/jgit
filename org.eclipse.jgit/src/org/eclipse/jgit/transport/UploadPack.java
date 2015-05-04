@@ -44,6 +44,7 @@
 package org.eclipse.jgit.transport;
 
 import static org.eclipse.jgit.lib.RefDatabase.ALL;
+import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_AGENT;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_ALLOW_TIP_SHA1_IN_WANT;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_INCLUDE_TAG;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_MULTI_ACK;
@@ -253,6 +254,7 @@ public class UploadPack {
 
 	/** Capabilities requested by the client. */
 	private Set<String> options;
+	String userAgent;
 
 	/** Raw ObjectIds the client has asked for, before validating them. */
 	private final Set<ObjectId> wantIds = new HashSet<ObjectId>();
@@ -806,6 +808,7 @@ public class UploadPack {
 				|| policy == RequestPolicy.REACHABLE_COMMIT_TIP
 				|| policy == null)
 			adv.advertiseCapability(OPTION_ALLOW_TIP_SHA1_IN_WANT);
+		adv.advertiseCapability(OPTION_AGENT, UserAgent.get());
 		adv.setDerefTags(true);
 		Map<String, Ref> refs = getAdvertisedOrDefaultRefs();
 		findSymrefs(adv, refs);
@@ -882,6 +885,37 @@ public class UploadPack {
 			wantIds.add(ObjectId.fromString(line.substring(5)));
 			isFirst = false;
 		}
+	}
+
+	/**
+	 * Returns the clone/fetch depth. Valid only after calling recvWants().
+	 *
+	 * @return the depth requested by the client, or 0 if unbounded.
+	 * @since 4.0
+	 */
+	public int getDepth() {
+		if (options == null)
+			throw new RequestNotYetReadException();
+		return depth;
+	}
+
+	/**
+	 * Get the user agent of the client.
+	 * <p>
+	 * If the client is new enough to use {@code agent=} capability that value
+	 * will be returned. Older HTTP clients may also supply their version using
+	 * the HTTP {@code User-Agent} header. The capability overrides the HTTP
+	 * header if both are available.
+	 * <p>
+	 * When an HTTP request has been received this method returns the HTTP
+	 * {@code User-Agent} header value until capabilities have been parsed.
+	 *
+	 * @return user agent supplied by the client. Available only if the client
+	 *         is new enough to advertise its user agent.
+	 * @since 4.0
+	 */
+	public String getPeerUserAgent() {
+		return UserAgent.getAgent(options, userAgent);
 	}
 
 	private boolean negotiate() throws IOException {

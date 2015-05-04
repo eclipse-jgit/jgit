@@ -481,7 +481,7 @@ public abstract class FS {
 				}
 			}
 		} catch (IOException e) {
-			LOG.error("Caught exception in FS.readPipe()", e); //$NON-NLS-1$
+			LOG.debug("Caught exception in FS.readPipe()", e); //$NON-NLS-1$
 		}
 		if (debug) {
 			LOG.debug("readpipe returns null"); //$NON-NLS-1$

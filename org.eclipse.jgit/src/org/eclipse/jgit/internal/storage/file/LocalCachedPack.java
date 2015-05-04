@@ -79,10 +79,10 @@ class LocalCachedPack extends CachedPack {
 		return cnt;
 	}
 
-	void copyAsIs(PackOutputStream out, boolean validate, WindowCursor wc)
+	void copyAsIs(PackOutputStream out, WindowCursor wc)
 			throws IOException {
 		for (PackFile pack : getPacks())
-			pack.copyPackAsIs(out, validate, wc);
+			pack.copyPackAsIs(out, wc);
 	}
 
 	@Override

@@ -165,9 +165,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 		checkCallable();
 		Collections.sort(only);
 
-		RevWalk rw = new RevWalk(repo);
-
-		try {
+		try (RevWalk rw = new RevWalk(repo)) {
 			RepositoryState state = repo.getRepositoryState();
 			if (!state.canCommit())
 				throw new WrongRepositoryStateException(MessageFormat.format(
@@ -181,8 +179,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 			processOptions(state, rw);
 
 			if (all && !repo.isBare() && repo.getWorkTree() != null) {
-				Git git = new Git(repo);
-				try {
+				try (Git git = new Git(repo)) {
 					git.add()
 							.addFilepattern(".") //$NON-NLS-1$
 							.setUpdate(true).call();
@@ -221,80 +218,74 @@ public class CommitCommand extends GitCommand<RevCommit> {
 
 			// lock the index
 			DirCache index = repo.lockDirCache();
-			try {
+			try (ObjectInserter odi = repo.newObjectInserter()) {
 				if (!only.isEmpty())
 					index = createTemporaryIndex(headId, index, rw);
 
-				ObjectInserter odi = repo.newObjectInserter();
-				try {
-					// Write the index as tree to the object database. This may
-					// fail for example when the index contains unmerged paths
-					// (unresolved conflicts)
-					ObjectId indexTreeId = index.writeTree(odi);
+				// Write the index as tree to the object database. This may
+				// fail for example when the index contains unmerged paths
+				// (unresolved conflicts)
+				ObjectId indexTreeId = index.writeTree(odi);
 
-					if (insertChangeId)
-						insertChangeId(indexTreeId);
+				if (insertChangeId)
+					insertChangeId(indexTreeId);
 
-					// Create a Commit object, populate it and write it
-					CommitBuilder commit = new CommitBuilder();
-					commit.setCommitter(committer);
-					commit.setAuthor(author);
-					commit.setMessage(message);
+				// Create a Commit object, populate it and write it
+				CommitBuilder commit = new CommitBuilder();
+				commit.setCommitter(committer);
+				commit.setAuthor(author);
+				commit.setMessage(message);
 
-					commit.setParentIds(parents);
-					commit.setTreeId(indexTreeId);
-					ObjectId commitId = odi.insert(commit);
-					odi.flush();
+				commit.setParentIds(parents);
+				commit.setTreeId(indexTreeId);
+				ObjectId commitId = odi.insert(commit);
+				odi.flush();
 
-					RevCommit revCommit = rw.parseCommit(commitId);
-					RefUpdate ru = repo.updateRef(Constants.HEAD);
-					ru.setNewObjectId(commitId);
-					if (reflogComment != null) {
-						ru.setRefLogMessage(reflogComment, false);
-					} else {
-						String prefix = amend ? "commit (amend): " //$NON-NLS-1$
-								: parents.size() == 0 ? "commit (initial): " //$NON-NLS-1$
-										: "commit: "; //$NON-NLS-1$
-						ru.setRefLogMessage(
-								prefix + revCommit.getShortMessage(), false);
+				RevCommit revCommit = rw.parseCommit(commitId);
+				RefUpdate ru = repo.updateRef(Constants.HEAD);
+				ru.setNewObjectId(commitId);
+				if (reflogComment != null) {
+					ru.setRefLogMessage(reflogComment, false);
+				} else {
+					String prefix = amend ? "commit (amend): " //$NON-NLS-1$
+							: parents.size() == 0 ? "commit (initial): " //$NON-NLS-1$
+									: "commit: "; //$NON-NLS-1$
+					ru.setRefLogMessage(prefix + revCommit.getShortMessage(),
+							false);
+				}
+				if (headId != null)
+					ru.setExpectedOldObjectId(headId);
+				else
+					ru.setExpectedOldObjectId(ObjectId.zeroId());
+				Result rc = ru.forceUpdate();
+				switch (rc) {
+				case NEW:
+				case FORCED:
+				case FAST_FORWARD: {
+					setCallable(false);
+					if (state == RepositoryState.MERGING_RESOLVED
+							|| isMergeDuringRebase(state)) {
+						// Commit was successful. Now delete the files
+						// used for merge commits
+						repo.writeMergeCommitMsg(null);
+						repo.writeMergeHeads(null);
+					} else if (state == RepositoryState.CHERRY_PICKING_RESOLVED) {
+						repo.writeMergeCommitMsg(null);
+						repo.writeCherryPickHead(null);
+					} else if (state == RepositoryState.REVERTING_RESOLVED) {
+						repo.writeMergeCommitMsg(null);
+						repo.writeRevertHead(null);
 					}
-					if (headId != null)
-						ru.setExpectedOldObjectId(headId);
-					else
-						ru.setExpectedOldObjectId(ObjectId.zeroId());
-					Result rc = ru.forceUpdate();
-					switch (rc) {
-					case NEW:
-					case FORCED:
-					case FAST_FORWARD: {
-						setCallable(false);
-						if (state == RepositoryState.MERGING_RESOLVED
-								|| isMergeDuringRebase(state)) {
-							// Commit was successful. Now delete the files
-							// used for merge commits
-							repo.writeMergeCommitMsg(null);
-							repo.writeMergeHeads(null);
-						} else if (state == RepositoryState.CHERRY_PICKING_RESOLVED) {
-							repo.writeMergeCommitMsg(null);
-							repo.writeCherryPickHead(null);
-						} else if (state == RepositoryState.REVERTING_RESOLVED) {
-							repo.writeMergeCommitMsg(null);
-							repo.writeRevertHead(null);
-						}
-						return revCommit;
-					}
-					case REJECTED:
-					case LOCK_FAILURE:
-						throw new ConcurrentRefUpdateException(
-								JGitText.get().couldNotLockHEAD, ru.getRef(),
-								rc);
-					default:
-						throw new JGitInternalException(MessageFormat.format(
-								JGitText.get().updatingRefFailed,
-								Constants.HEAD, commitId.toString(), rc));
-					}
-				} finally {
-					odi.release();
+					return revCommit;
+				}
+				case REJECTED:
+				case LOCK_FAILURE:
+					throw new ConcurrentRefUpdateException(
+							JGitText.get().couldNotLockHEAD, ru.getRef(), rc);
+				default:
+					throw new JGitInternalException(MessageFormat.format(
+							JGitText.get().updatingRefFailed, Constants.HEAD,
+							commitId.toString(), rc));
 				}
 			} finally {
 				index.unlock();
@@ -304,8 +295,6 @@ public class CommitCommand extends GitCommand<RevCommit> {
 		} catch (IOException e) {
 			throw new JGitInternalException(
 					JGitText.get().exceptionCaughtDuringExecutionOfCommitCommand, e);
-		} finally {
-			rw.dispose();
 		}
 	}
 
@@ -338,114 +327,120 @@ public class CommitCommand extends GitCommand<RevCommit> {
 		onlyProcessed = new boolean[only.size()];
 		boolean emptyCommit = true;
 
-		TreeWalk treeWalk = new TreeWalk(repo);
-		int dcIdx = treeWalk.addTree(new DirCacheBuildIterator(existingBuilder));
-		int fIdx = treeWalk.addTree(new FileTreeIterator(repo));
-		int hIdx = -1;
-		if (headId != null)
-			hIdx = treeWalk.addTree(rw.parseTree(headId));
-		treeWalk.setRecursive(true);
+		try (TreeWalk treeWalk = new TreeWalk(repo)) {
+			int dcIdx = treeWalk
+					.addTree(new DirCacheBuildIterator(existingBuilder));
+			int fIdx = treeWalk.addTree(new FileTreeIterator(repo));
+			int hIdx = -1;
+			if (headId != null)
+				hIdx = treeWalk.addTree(rw.parseTree(headId));
+			treeWalk.setRecursive(true);
 
-		String lastAddedFile = null;
-		while (treeWalk.next()) {
-			String path = treeWalk.getPathString();
-			// check if current entry's path matches a specified path
-			int pos = lookupOnly(path);
+			String lastAddedFile = null;
+			while (treeWalk.next()) {
+				String path = treeWalk.getPathString();
+				// check if current entry's path matches a specified path
+				int pos = lookupOnly(path);
 
-			CanonicalTreeParser hTree = null;
-			if (hIdx != -1)
-				hTree = treeWalk.getTree(hIdx, CanonicalTreeParser.class);
+				CanonicalTreeParser hTree = null;
+				if (hIdx != -1)
+					hTree = treeWalk.getTree(hIdx, CanonicalTreeParser.class);
 
-			DirCacheIterator dcTree = treeWalk.getTree(dcIdx,
-					DirCacheIterator.class);
+				DirCacheIterator dcTree = treeWalk.getTree(dcIdx,
+						DirCacheIterator.class);
 
-			if (pos >= 0) {
-				// include entry in commit
+				if (pos >= 0) {
+					// include entry in commit
 
-				FileTreeIterator fTree = treeWalk.getTree(fIdx,
-						FileTreeIterator.class);
+					FileTreeIterator fTree = treeWalk.getTree(fIdx,
+							FileTreeIterator.class);
 
-				// check if entry refers to a tracked file
-				boolean tracked = dcTree != null || hTree != null;
-				if (!tracked)
-					break;
+					// check if entry refers to a tracked file
+					boolean tracked = dcTree != null || hTree != null;
+					if (!tracked)
+						break;
 
-				// for an unmerged path, DirCacheBuildIterator will yield 3
-				// entries, we only want to add one
-				if (path.equals(lastAddedFile))
-					continue;
+					// for an unmerged path, DirCacheBuildIterator will yield 3
+					// entries, we only want to add one
+					if (path.equals(lastAddedFile))
+						continue;
 
-				lastAddedFile = path;
+					lastAddedFile = path;
 
-				if (fTree != null) {
-					// create a new DirCacheEntry with data retrieved from disk
-					final DirCacheEntry dcEntry = new DirCacheEntry(path);
-					long entryLength = fTree.getEntryLength();
-					dcEntry.setLength(entryLength);
-					dcEntry.setLastModified(fTree.getEntryLastModified());
-					dcEntry.setFileMode(fTree.getIndexFileMode(dcTree));
+					if (fTree != null) {
+						// create a new DirCacheEntry with data retrieved from
+						// disk
+						final DirCacheEntry dcEntry = new DirCacheEntry(path);
+						long entryLength = fTree.getEntryLength();
+						dcEntry.setLength(entryLength);
+						dcEntry.setLastModified(fTree.getEntryLastModified());
+						dcEntry.setFileMode(fTree.getIndexFileMode(dcTree));
 
-					boolean objectExists = (dcTree != null && fTree
-							.idEqual(dcTree))
-							|| (hTree != null && fTree.idEqual(hTree));
-					if (objectExists) {
-						dcEntry.setObjectId(fTree.getEntryObjectId());
-					} else {
-						if (FileMode.GITLINK.equals(dcEntry.getFileMode()))
+						boolean objectExists = (dcTree != null
+								&& fTree.idEqual(dcTree))
+								|| (hTree != null && fTree.idEqual(hTree));
+						if (objectExists) {
 							dcEntry.setObjectId(fTree.getEntryObjectId());
-						else {
-							// insert object
-							if (inserter == null)
-								inserter = repo.newObjectInserter();
-							long contentLength = fTree.getEntryContentLength();
-							InputStream inputStream = fTree.openEntryStream();
-							try {
-								dcEntry.setObjectId(inserter.insert(
-										Constants.OBJ_BLOB, contentLength,
-										inputStream));
-							} finally {
-								inputStream.close();
+						} else {
+							if (FileMode.GITLINK.equals(dcEntry.getFileMode()))
+								dcEntry.setObjectId(fTree.getEntryObjectId());
+							else {
+								// insert object
+								if (inserter == null)
+									inserter = repo.newObjectInserter();
+								long contentLength = fTree
+										.getEntryContentLength();
+								InputStream inputStream = fTree
+										.openEntryStream();
+								try {
+									dcEntry.setObjectId(inserter.insert(
+											Constants.OBJ_BLOB, contentLength,
+											inputStream));
+								} finally {
+									inputStream.close();
+								}
 							}
 						}
+
+						// add to existing index
+						existingBuilder.add(dcEntry);
+						// add to temporary in-core index
+						tempBuilder.add(dcEntry);
+
+						if (emptyCommit
+								&& (hTree == null || !hTree.idEqual(fTree)
+										|| hTree.getEntryRawMode() != fTree
+												.getEntryRawMode()))
+							// this is a change
+							emptyCommit = false;
+					} else {
+						// if no file exists on disk, neither add it to
+						// index nor to temporary in-core index
+
+						if (emptyCommit && hTree != null)
+							// this is a change
+							emptyCommit = false;
 					}
 
-					// add to existing index
-					existingBuilder.add(dcEntry);
-					// add to temporary in-core index
-					tempBuilder.add(dcEntry);
-
-					if (emptyCommit
-							&& (hTree == null || !hTree.idEqual(fTree) || hTree
-									.getEntryRawMode() != fTree
-									.getEntryRawMode()))
-						// this is a change
-						emptyCommit = false;
+					// keep track of processed path
+					onlyProcessed[pos] = true;
 				} else {
-					// if no file exists on disk, neither add it to
-					// index nor to temporary in-core index
+					// add entries from HEAD for all other paths
+					if (hTree != null) {
+						// create a new DirCacheEntry with data retrieved from
+						// HEAD
+						final DirCacheEntry dcEntry = new DirCacheEntry(path);
+						dcEntry.setObjectId(hTree.getEntryObjectId());
+						dcEntry.setFileMode(hTree.getEntryFileMode());
 
-					if (emptyCommit && hTree != null)
-						// this is a change
-						emptyCommit = false;
+						// add to temporary in-core index
+						tempBuilder.add(dcEntry);
+					}
+
+					// preserve existing entry in index
+					if (dcTree != null)
+						existingBuilder.add(dcTree.getDirCacheEntry());
 				}
-
-				// keep track of processed path
-				onlyProcessed[pos] = true;
-			} else {
-				// add entries from HEAD for all other paths
-				if (hTree != null) {
-					// create a new DirCacheEntry with data retrieved from HEAD
-					final DirCacheEntry dcEntry = new DirCacheEntry(path);
-					dcEntry.setObjectId(hTree.getEntryObjectId());
-					dcEntry.setFileMode(hTree.getEntryFileMode());
-
-					// add to temporary in-core index
-					tempBuilder.add(dcEntry);
-				}
-
-				// preserve existing entry in index
-				if (dcTree != null)
-					existingBuilder.add(dcTree.getDirCacheEntry());
 			}
 		}
 

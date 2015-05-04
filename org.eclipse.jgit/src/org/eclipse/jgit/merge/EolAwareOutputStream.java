@@ -1,8 +1,5 @@
 /*
- * Copyright (C) 2008-2009, Google Inc.
- * Copyright (C) 2007, Robin Rosenberg <robin.rosenberg@dewire.com>
- * Copyright (C) 2006-2008, Shawn O. Pearce <spearce@spearce.org>
- * and other copyright owners as documented in the project's IP log.
+ * Copyright (C) 2014, André de Oliveira <andre.oliveira@liferay.com>
  *
  * This program and the accompanying materials are made available
  * under the terms of the Eclipse Distribution License v1.0 which
@@ -42,61 +39,57 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
-package org.eclipse.jgit.internal.storage.file;
+package org.eclipse.jgit.merge;
 
 import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.util.zip.DataFormatException;
-import java.util.zip.Inflater;
-
-import org.eclipse.jgit.internal.storage.pack.PackOutputStream;
+import java.io.OutputStream;
 
 /**
- * A window for accessing git packs using a {@link ByteBuffer} for storage.
- *
- * @see ByteWindow
+ * An output stream which is aware of newlines and can be asked to begin a new
+ * line if not already in one.
  */
-final class ByteBufferWindow extends ByteWindow {
-	private final ByteBuffer buffer;
+class EolAwareOutputStream extends OutputStream {
+	private final OutputStream out;
 
-	ByteBufferWindow(final PackFile pack, final long o, final ByteBuffer b) {
-		super(pack, o, b.capacity());
-		buffer = b;
+	private boolean bol = true;
+
+	/**
+	 * Initialize a new EOL aware stream.
+	 *
+	 * @param out
+	 *            stream to output all writes to.
+	 */
+	EolAwareOutputStream(OutputStream out) {
+		this.out = out;
+	}
+
+	/**
+	 * Begin a new line if not already in one.
+	 *
+	 * @exception IOException
+	 *                if an I/O error occurs.
+	 */
+	void beginln() throws IOException {
+		if (!bol)
+			write('\n');
+	}
+
+	/** @return true if a new line has just begun. */
+	boolean isBeginln() {
+		return bol;
 	}
 
 	@Override
-	protected int copy(final int p, final byte[] b, final int o, int n) {
-		final ByteBuffer s = buffer.slice();
-		s.position(p);
-		n = Math.min(s.remaining(), n);
-		s.get(b, o, n);
-		return n;
+	public void write(int val) throws IOException {
+		out.write(val);
+		bol = (val == '\n');
 	}
 
 	@Override
-	void write(PackOutputStream out, long pos, int cnt)
-			throws IOException {
-		final ByteBuffer s = buffer.slice();
-		s.position((int) (pos - start));
-
-		while (0 < cnt) {
-			byte[] buf = out.getCopyBuffer();
-			int n = Math.min(cnt, buf.length);
-			s.get(buf, 0, n);
-			out.write(buf, 0, n);
-			cnt -= n;
+	public void write(byte[] buf, int pos, int cnt) throws IOException {
+		if (cnt > 0) {
+			out.write(buf, pos, cnt);
+			bol = (buf[pos + (cnt - 1)] == '\n');
 		}
-	}
-
-	@Override
-	protected int setInput(final int pos, final Inflater inf)
-			throws DataFormatException {
-		final ByteBuffer s = buffer.slice();
-		s.position(pos);
-		final byte[] tmp = new byte[Math.min(s.remaining(), 512)];
-		s.get(tmp, 0, tmp.length);
-		inf.setInput(tmp, 0, tmp.length);
-		return tmp.length;
 	}
 }
