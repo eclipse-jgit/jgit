@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_0604ddcd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_Win32.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-05-04T13:44:05Z",
+      "side": 1,
+      "message": "silence non-externalized string warning by adding //$NON-NLS-1$ at the end of this line",
+      "revId": "dc286a17eea11cab6c7d14eceb1553f4422467a3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_6611610b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_Win32.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-05-04T13:44:05Z",
+      "side": 1,
+      "message": "style nit: trailing whitespace",
+      "revId": "dc286a17eea11cab6c7d14eceb1553f4422467a3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
