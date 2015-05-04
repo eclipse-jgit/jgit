@@ -111,18 +111,20 @@ public class FS_Win32 extends FS {
 		if (gitExe != null)
 			return resolveGrandparentFile(gitExe);
 
-		// This isn't likely to work, if bash is in $PATH, git should
-		// also be in $PATH. But its worth trying.
-		//
-		String w = readPipe(userHome(), //
-				new String[] { "bash", "--login", "-c", "which git" }, // //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-				Charset.defaultCharset().name());
-		if (w != null) {
-			// The path may be in cygwin/msys notation so resolve it right away
-			gitExe = resolve(null, w);
-			if (gitExe != null)
-				return resolveGrandparentFile(gitExe);
+		if (searchPath(path, "bash.exe") != null) {
+			// This isn't likely to work, but its worth trying:
+			// If bash is in $PATH, git should also be in $PATH. 
+			String w = readPipe(userHome(),
+					new String[] { "bash", "--login", "-c", "which git" }, // //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+					Charset.defaultCharset().name());
+			if (w != null) {
+				// The path may be in cygwin/msys notation so resolve it right away
+				gitExe = resolve(null, w);
+				if (gitExe != null)
+					return resolveGrandparentFile(gitExe);
+			}
 		}
+
 		return null;
 	}
 
