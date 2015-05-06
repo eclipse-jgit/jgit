@@ -61,6 +61,7 @@ import static org.eclipse.jgit.http.server.ServletUtils.getRepository;
 import static org.eclipse.jgit.util.HttpSupport.HDR_USER_AGENT;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.List;
 
 import javax.servlet.Filter;
@@ -76,9 +77,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.InternalHttpServerGlue;
 import org.eclipse.jgit.transport.RefAdvertiser.PacketLineOutRefAdvertiser;
+import org.eclipse.jgit.transport.ServiceMayNotContinueException;
 import org.eclipse.jgit.transport.UploadPack;
 import org.eclipse.jgit.transport.UploadPackInternalServerErrorException;
-import org.eclipse.jgit.transport.ServiceMayNotContinueException;
 import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
 import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 import org.eclipse.jgit.transport.resolver.UploadPackFactory;
@@ -203,19 +204,23 @@ class UploadPackServlet extends HttpServlet {
 
 		} catch (UploadPackInternalServerErrorException e) {
 			// Special case exception, error message was sent to client.
-			getServletContext().log(
-					HttpServerText.get().internalErrorDuringUploadPack,
-					e.getCause());
+			log(up.getRepository(), e.getCause());
 			consumeRequestBody(req);
 			out.close();
 
 		} catch (Throwable e) {
-			getServletContext().log(HttpServerText.get().internalErrorDuringUploadPack, e);
+			log(up.getRepository(), e);
 			if (!rsp.isCommitted()) {
 				rsp.reset();
 				sendError(req, rsp, SC_INTERNAL_SERVER_ERROR);
 			}
 			return;
 		}
+	}
+
+	private void log(Repository git, Throwable e) {
+		getServletContext().log(MessageFormat.format(
+				HttpServerText.get().internalErrorDuringUploadPack,
+				ServletUtils.identify(git)), e);
 	}
 }
