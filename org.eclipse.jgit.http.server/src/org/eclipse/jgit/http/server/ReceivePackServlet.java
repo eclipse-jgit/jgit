@@ -75,6 +75,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.UnpackException;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.InternalHttpServerGlue;
@@ -191,6 +192,15 @@ class ReceivePackServlet extends HttpServlet {
 
 			rp.receive(getInputStream(req), out, null);
 			out.close();
+		} catch (CorruptObjectException e ) {
+			// This should be already reported to the client.
+			getServletContext().log(MessageFormat.format(
+					HttpServerText.get().receivedCorruptObject,
+					e.getMessage(),
+					ServletUtils.identify(rp.getRepository())));
+			consumeRequestBody(req);
+			out.close();
+
 		} catch (UnpackException e) {
 			// This should be already reported to the client.
 			log(rp.getRepository(), e.getCause());
