@@ -15,8 +15,8 @@ Export-Package: org.eclipse.jgit.http.server;version="4.0.0",
    javax.servlet.http"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Import-Package: javax.servlet;version="[2.5.0,3.0.0)",
- javax.servlet.http;version="[2.5.0,3.0.0)",
+Import-Package: javax.servlet;version="[2.5.0,3.2.0)",
+ javax.servlet.http;version="[2.5.0,3.2.0)",
  org.eclipse.jgit.errors;version="[4.0.0,4.1.0)",
  org.eclipse.jgit.internal.storage.dfs;version="[4.0.0,4.1.0)",
  org.eclipse.jgit.internal.storage.file;version="[4.0.0,4.1.0)",
