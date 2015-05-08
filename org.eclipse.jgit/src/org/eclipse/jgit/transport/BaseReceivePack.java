@@ -1461,9 +1461,11 @@ public abstract class BaseReceivePack {
 			case REJECTED_MISSING_OBJECT:
 				if (cmd.getMessage() == null)
 					r.append("missing object(s)"); //$NON-NLS-1$
-				else if (cmd.getMessage().length() == Constants.OBJECT_ID_STRING_LENGTH)
-					r.append("object " + cmd.getMessage() + " missing"); //$NON-NLS-1$ //$NON-NLS-2$
-				else
+				else if (cmd.getMessage().length() == Constants.OBJECT_ID_STRING_LENGTH) {
+					r.append("object "); //$NON-NLS-1$
+					r.append(cmd.getMessage());
+					r.append(" missing"); //$NON-NLS-1$
+				} else
 					r.append(cmd.getMessage());
 				break;
 
