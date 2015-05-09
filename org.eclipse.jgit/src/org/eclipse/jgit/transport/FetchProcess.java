@@ -336,6 +336,7 @@ class FetchProcess {
 	private boolean askForIsComplete() throws TransportException {
 		try {
 			try (final ObjectWalk ow = new ObjectWalk(transport.local)) {
+				ow.setRetainBody(false);
 				for (final ObjectId want : askFor.keySet())
 					ow.markStart(ow.parseAny(want));
 				for (final Ref ref : localRefs().values())
