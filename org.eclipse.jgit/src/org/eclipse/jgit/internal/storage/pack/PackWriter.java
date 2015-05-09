@@ -1587,8 +1587,6 @@ public class PackWriter implements AutoCloseable {
 		stats.interestingObjects = Collections.unmodifiableSet(new HashSet<ObjectId>(want));
 		stats.uninterestingObjects = Collections.unmodifiableSet(new HashSet<ObjectId>(have));
 
-		walker.setRetainBody(false);
-
 		canBuildBitmaps = config.isBuildBitmaps()
 				&& !shallowPack
 				&& have.isEmpty()

@@ -92,29 +92,34 @@ public class RevCommit extends RevObject {
 
 	/**
 	 * Parse a commit from its canonical format.
-	 *
+	 * <p>
 	 * This method inserts the commit directly into the caller supplied revision
 	 * pool, making it appear as though the commit exists in the repository,
 	 * even if it doesn't. The repository under the pool is not affected.
+	 * <p>
+	 * The body of the commit (message, author, committer) is always retained in
+	 * the returned {@code RevCommit}, even if the supplied {@code RevWalk} has
+	 * been configured with {@code setRetainBody(false)}.
 	 *
 	 * @param rw
 	 *            the revision pool to allocate the commit within. The commit's
 	 *            tree and parent pointers will be obtained from this pool.
 	 * @param raw
-	 *            the canonical formatted commit to be parsed.
+	 *            the canonical formatted commit to be parsed. This buffer will
+	 *            be retained by the returned {@code RevCommit} and must not be
+	 *            modified by the caller.
 	 * @return the parsed commit, in an isolated revision pool that is not
 	 *         available to the caller.
 	 * @throws IOException
 	 *             in case of RevWalk initialization fails
 	 */
 	public static RevCommit parse(RevWalk rw, byte[] raw) throws IOException {
-		ObjectInserter.Formatter fmt = new ObjectInserter.Formatter();
-		boolean retain = rw.isRetainBody();
-		rw.setRetainBody(true);
-		RevCommit r = rw.lookupCommit(fmt.idFor(Constants.OBJ_COMMIT, raw));
-		r.parseCanonical(rw, raw);
-		rw.setRetainBody(retain);
-		return r;
+		try (ObjectInserter.Formatter fmt = new ObjectInserter.Formatter()) {
+			RevCommit r = rw.lookupCommit(fmt.idFor(Constants.OBJ_COMMIT, raw));
+			r.parseCanonical(rw, raw);
+			r.buffer = raw;
+			return r;
+		}
 	}
 
 	static final RevCommit[] NO_PARENTS = {};

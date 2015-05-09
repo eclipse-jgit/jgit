@@ -192,7 +192,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 
 	private TreeFilter treeFilter;
 
-	private boolean retainBody;
+	private boolean retainBody = true;
 
 	private boolean rewriteParents = true;
 
@@ -233,7 +233,6 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 		sorting = EnumSet.of(RevSort.NONE);
 		filter = RevFilter.ALL;
 		treeFilter = TreeFilter.ALL;
-		retainBody = true;
 		this.closeReader = closeReader;
 	}
 
@@ -607,6 +606,9 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * Usually the body is always retained, but some application code might not
 	 * care and would prefer to discard the body of a commit as early as
 	 * possible, to reduce memory usage.
+	 * <p>
+	 * True by default on {@link RevWalk} and false by default for
+	 * {@link ObjectWalk}.
 	 *
 	 * @return true if the body should be retained; false it is discarded.
 	 */
@@ -620,6 +622,9 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * If a body of a commit or tag is not retained, the application must
 	 * call {@link #parseBody(RevObject)} before the body can be safely
 	 * accessed through the type specific access methods.
+	 * <p>
+	 * True by default on {@link RevWalk} and false by default for
+	 * {@link ObjectWalk}.
 	 *
 	 * @param retain true to retain bodies; false to discard them early.
 	 */
