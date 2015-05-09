@@ -144,7 +144,7 @@ class StartGenerator extends Generator {
 		} else {
 			g = new PendingGenerator(w, pending, rf, pendingOutputType);
 
-			if (boundary) {
+			if (walker.hasRevSort(RevSort.BOUNDARY)) {
 				// Because the boundary generator may produce uninteresting
 				// commits we cannot allow the pending generator to dispose
 				// of them early.
