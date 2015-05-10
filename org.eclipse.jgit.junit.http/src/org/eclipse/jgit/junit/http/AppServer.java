@@ -60,10 +60,12 @@ import org.eclipse.jetty.security.ConstraintSecurityHandler;
 import org.eclipse.jetty.security.MappedLoginService;
 import org.eclipse.jetty.security.authentication.BasicAuthenticator;
 import org.eclipse.jetty.server.Connector;
+import org.eclipse.jetty.server.HttpConfiguration;
+import org.eclipse.jetty.server.HttpConnectionFactory;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.server.UserIdentity;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
-import org.eclipse.jetty.server.nio.SelectChannelConnector;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.util.security.Constraint;
 import org.eclipse.jetty.util.security.Password;
@@ -95,14 +97,22 @@ public class AppServer {
 
 	private final Server server;
 
-	private final Connector connector;
+	private final ServerConnector connector;
 
 	private final ContextHandlerCollection contexts;
 
 	private final TestRequestLog log;
 
 	public AppServer() {
-		connector = new SelectChannelConnector();
+		server = new Server();
+
+		HttpConfiguration http_config = new HttpConfiguration();
+		http_config.setSecureScheme("https");
+		http_config.setSecurePort(8443);
+		http_config.setOutputBufferSize(32768);
+
+		connector = new ServerConnector(server,
+				new HttpConnectionFactory(http_config));
 		connector.setPort(0);
 		try {
 			final InetAddress me = InetAddress.getByName("localhost");
@@ -116,7 +126,6 @@ public class AppServer {
 		log = new TestRequestLog();
 		log.setHandler(contexts);
 
-		server = new Server();
 		server.setConnectors(new Connector[] { connector });
 		server.setHandler(log);
 	}
@@ -173,7 +182,6 @@ public class AppServer {
 		cm.setPathSpec("/*");
 
 		ConstraintSecurityHandler sec = new ConstraintSecurityHandler();
-		sec.setStrict(false);
 		sec.setRealmName(realm);
 		sec.setAuthenticator(authType);
 		sec.setLoginService(users);
@@ -232,7 +240,7 @@ public class AppServer {
 	/** @return the local port number the server is listening on. */
 	public int getPort() {
 		assertAlreadySetUp();
-		return ((SelectChannelConnector) connector).getLocalPort();
+		return connector.getLocalPort();
 	}
 
 	/** @return all requests since the server was started. */
