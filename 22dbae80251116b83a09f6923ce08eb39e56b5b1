@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_e4bb72a7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchProcess.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-05-10T06:00:06Z",
+      "side": 1,
+      "message": "in https://git.eclipse.org/r/#/c/47568/ you are changing the default to false for ObjectWalk which makes this change unnecessary but you are not reverting this change there . Why ?",
+      "revId": "22dbae80251116b83a09f6923ce08eb39e56b5b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
