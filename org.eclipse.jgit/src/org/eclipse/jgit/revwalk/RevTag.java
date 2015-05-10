@@ -270,7 +270,18 @@ public class RevTag extends RevObject {
 		return tagName;
 	}
 
-	final void disposeBody() {
+	/**
+	 * Discard the message buffer to reduce memory usage.
+	 * <p>
+	 * After discarding the memory usage of the {@code RevTag} is reduced to
+	 * only the {@link #getObject()} pointer and {@link #getTagName()}.
+	 * Accessing other properties such as {@link #getTaggerIdent()} or either
+	 * message function requires reloading the buffer by invoking
+	 * {@link RevWalk#parseBody(RevObject)}.
+	 *
+	 * @since 4.0
+	 */
+	public final void disposeBody() {
 		buffer = null;
 	}
 }
