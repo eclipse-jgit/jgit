@@ -609,7 +609,19 @@ public class RevCommit extends RevObject {
 		inDegree = 0;
 	}
 
-	final void disposeBody() {
+	/**
+	 * Discard the message buffer to reduce memory usage.
+	 * <p>
+	 * After discarding the memory usage of the {@code RevCommit} is reduced to
+	 * only the {@link #getTree()} and {@link #getParents()} pointers and the
+	 * time in {@link #getCommitTime()}. Accessing other properties such as
+	 * {@link #getAuthorIdent()}, {@link #getCommitterIdent()} or either message
+	 * function requires reloading the buffer by invoking
+	 * {@link RevWalk#parseBody(RevObject)}.
+	 *
+	 * @since 4.0
+	 */
+	public final void disposeBody() {
 		buffer = null;
 	}
 
