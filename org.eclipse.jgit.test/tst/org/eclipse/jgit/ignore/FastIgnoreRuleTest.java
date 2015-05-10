@@ -47,29 +47,10 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import static org.junit.Assume.assumeFalse;
-import static org.junit.Assume.assumeTrue;
-
-import java.util.Arrays;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameter;
-import org.junit.runners.Parameterized.Parameters;
 
-@SuppressWarnings("deprecation")
-@RunWith(Parameterized.class)
 public class FastIgnoreRuleTest {
-
-	@Parameters(name = "OldRule? {0}")
-	public static Iterable<Boolean[]> data() {
-		return Arrays.asList(new Boolean[][] { { Boolean.FALSE },
-				{ Boolean.TRUE } });
-	}
-
-	@Parameter
-	public Boolean useOldRule;
 
 	@Test
 	public void testSimpleCharClass() {
@@ -385,58 +366,46 @@ public class FastIgnoreRuleTest {
 		assertNotMatched("a/b/", "c/a/b/c");
 	}
 
-	@SuppressWarnings("boxing")
 	@Test
 	public void testWildmatch() {
-		if (useOldRule)
-			System.err
-					.println("IgnoreRule can't understand wildmatch rules, skipping testWildmatch!");
+		assertMatched("**/a/b", "a/b");
+		assertMatched("**/a/b", "c/a/b");
+		assertMatched("**/a/b", "c/d/a/b");
+		assertMatched("**/**/a/b", "c/d/a/b");
 
-		Boolean assume = useOldRule;
-		assertMatched("**/a/b", "a/b", assume);
-		assertMatched("**/a/b", "c/a/b", assume);
-		assertMatched("**/a/b", "c/d/a/b", assume);
-		assertMatched("**/**/a/b", "c/d/a/b", assume);
+		assertMatched("/**/a/b", "a/b");
+		assertMatched("/**/a/b", "c/a/b");
+		assertMatched("/**/a/b", "c/d/a/b");
+		assertMatched("/**/**/a/b", "c/d/a/b");
 
-		assertMatched("/**/a/b", "a/b", assume);
-		assertMatched("/**/a/b", "c/a/b", assume);
-		assertMatched("/**/a/b", "c/d/a/b", assume);
-		assertMatched("/**/**/a/b", "c/d/a/b", assume);
+		assertMatched("a/b/**", "a/b");
+		assertMatched("a/b/**", "a/b/c");
+		assertMatched("a/b/**", "a/b/c/d/");
+		assertMatched("a/b/**/**", "a/b/c/d");
 
-		assertMatched("a/b/**", "a/b", assume);
-		assertMatched("a/b/**", "a/b/c", assume);
-		assertMatched("a/b/**", "a/b/c/d/", assume);
-		assertMatched("a/b/**/**", "a/b/c/d", assume);
+		assertMatched("**/a/**/b", "c/d/a/b");
+		assertMatched("**/a/**/b", "c/d/a/e/b");
+		assertMatched("**/**/a/**/**/b", "c/d/a/e/b");
 
-		assertMatched("**/a/**/b", "c/d/a/b", assume);
-		assertMatched("**/a/**/b", "c/d/a/e/b", assume);
-		assertMatched("**/**/a/**/**/b", "c/d/a/e/b", assume);
+		assertMatched("/**/a/**/b", "c/d/a/b");
+		assertMatched("/**/a/**/b", "c/d/a/e/b");
+		assertMatched("/**/**/a/**/**/b", "c/d/a/e/b");
 
-		assertMatched("/**/a/**/b", "c/d/a/b", assume);
-		assertMatched("/**/a/**/b", "c/d/a/e/b", assume);
-		assertMatched("/**/**/a/**/**/b", "c/d/a/e/b", assume);
+		assertMatched("a/**/b", "a/b");
+		assertMatched("a/**/b", "a/c/b");
+		assertMatched("a/**/b", "a/c/d/b");
+		assertMatched("a/**/**/b", "a/c/d/b");
 
-		assertMatched("a/**/b", "a/b", assume);
-		assertMatched("a/**/b", "a/c/b", assume);
-		assertMatched("a/**/b", "a/c/d/b", assume);
-		assertMatched("a/**/**/b", "a/c/d/b", assume);
-
-		assertMatched("a/**/b/**/c", "a/c/b/d/c", assume);
-		assertMatched("a/**/**/b/**/**/c", "a/c/b/d/c", assume);
+		assertMatched("a/**/b/**/c", "a/c/b/d/c");
+		assertMatched("a/**/**/b/**/**/c", "a/c/b/d/c");
 	}
 
-	@SuppressWarnings("boxing")
 	@Test
 	public void testWildmatchDoNotMatch() {
-		if (useOldRule)
-			System.err
-					.println("IgnoreRule can't understand wildmatch rules, skipping testWildmatchDoNotMatch!");
-
-		Boolean assume = useOldRule;
-		assertNotMatched("**/a/b", "a/c/b", assume);
-		assertNotMatched("!/**/*.zip", "c/a/b.zip", assume);
-		assertNotMatched("!**/*.zip", "c/a/b.zip", assume);
-		assertNotMatched("a/**/b", "a/c/bb", assume);
+		assertNotMatched("**/a/b", "a/c/b");
+		assertNotMatched("!/**/*.zip", "c/a/b.zip");
+		assertNotMatched("!**/*.zip", "c/a/b.zip");
+		assertNotMatched("a/**/b", "a/c/bb");
 	}
 
 	@SuppressWarnings("unused")
@@ -478,55 +447,43 @@ public class FastIgnoreRuleTest {
 				split("/a/b/c/", '/').toArray());
 	}
 
-	public void assertMatched(String pattern, String path, Boolean... assume) {
+	public void assertMatched(String pattern, String path) {
 		boolean match = match(pattern, path);
 		String result = path + " is " + (match ? "ignored" : "not ignored")
 				+ " via '" + pattern + "' rule";
-		if (!match)
+		if (!match) {
 			System.err.println(result);
-		if (assume.length == 0 || !assume[0].booleanValue())
-			assertTrue("Expected a match for: " + pattern + " with: " + path,
-					match);
-		else
-			assumeTrue("Expected a match for: " + pattern + " with: " + path,
+		}
+		assertTrue("Expected a match for: " + pattern + " with: " + path,
 					match);
 
-		if (pattern.startsWith("!"))
+		if (pattern.startsWith("!")) {
 			pattern = pattern.substring(1);
-		else
+		} else {
 			pattern = "!" + pattern;
+		}
 		match = match(pattern, path);
-		if (assume.length == 0 || !assume[0].booleanValue())
-			assertFalse("Expected no match for: " + pattern + " with: " + path,
-					match);
-		else
-			assumeFalse("Expected no match for: " + pattern + " with: " + path,
-					match);
+		assertFalse("Expected no match for: " + pattern + " with: " + path,
+				match);
 	}
 
-	public void assertNotMatched(String pattern, String path, Boolean... assume) {
+	public void assertNotMatched(String pattern, String path) {
 		boolean match = match(pattern, path);
 		String result = path + " is " + (match ? "ignored" : "not ignored")
 				+ " via '" + pattern + "' rule";
-		if (match)
+		if (match) {
 			System.err.println(result);
-		if (assume.length == 0 || !assume[0].booleanValue())
-			assertFalse("Expected no match for: " + pattern + " with: " + path,
-					match);
-		else
-			assumeFalse("Expected no match for: " + pattern + " with: " + path,
+		}
+		assertFalse("Expected no match for: " + pattern + " with: " + path,
 					match);
 
-		if (pattern.startsWith("!"))
+		if (pattern.startsWith("!")) {
 			pattern = pattern.substring(1);
-		else
+		} else {
 			pattern = "!" + pattern;
+		}
 		match = match(pattern, path);
-		if (assume.length == 0 || !assume[0].booleanValue())
-			assertTrue("Expected a match for: " + pattern + " with: " + path,
-					match);
-		else
-			assumeTrue("Expected a match for: " + pattern + " with: " + path,
+		assertTrue("Expected a match for: " + pattern + " with: " + path,
 					match);
 	}
 
@@ -542,16 +499,6 @@ public class FastIgnoreRuleTest {
 	 */
 	private boolean match(String pattern, String target) {
 		boolean isDirectory = target.endsWith("/");
-		if (useOldRule.booleanValue()) {
-			IgnoreRule r = new IgnoreRule(pattern);
-			// If speed of this test is ever an issue, we can use a presetRule
-			// field
-			// to avoid recompiling a pattern each time.
-			boolean match = r.isMatch(target, isDirectory);
-			if (r.getNegation())
-				match = !match;
-			return match;
-		}
 		FastIgnoreRule r = new FastIgnoreRule(pattern);
 		// If speed of this test is ever an issue, we can use a presetRule field
 		// to avoid recompiling a pattern each time.

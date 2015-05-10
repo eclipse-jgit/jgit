@@ -46,64 +46,32 @@ package org.eclipse.jgit.ignore;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assume.assumeTrue;
 
-import java.util.Arrays;
-
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameter;
-import org.junit.runners.Parameterized.Parameters;
 
-@RunWith(Parameterized.class)
-@SuppressWarnings({ "deprecation", "boxing" })
+@SuppressWarnings({ "boxing" })
 public class IgnoreRuleSpecialCasesTest {
-
-	@Parameters(name = "OldRule? {0}")
-	public static Iterable<Boolean[]> data() {
-		return Arrays.asList(new Boolean[][] { { Boolean.FALSE },
-				{ Boolean.TRUE } });
-	}
-
-	@Parameter
-	public Boolean useOldRule;
 
 	private void assertMatch(final String pattern, final String input,
 			final boolean matchExpected, Boolean... assume) {
 		boolean assumeDir = input.endsWith("/");
-		if (useOldRule.booleanValue()) {
-			final IgnoreRule matcher = new IgnoreRule(pattern);
-			if (assume.length == 0 || !assume[0].booleanValue())
-				assertEquals(matchExpected, matcher.isMatch(input, assumeDir));
-			else
-				assumeTrue(matchExpected == matcher.isMatch(input, assumeDir));
+		FastIgnoreRule matcher = new FastIgnoreRule(pattern);
+		if (assume.length == 0 || !assume[0].booleanValue()) {
+			assertEquals(matchExpected, matcher.isMatch(input, assumeDir));
 		} else {
-			FastIgnoreRule matcher = new FastIgnoreRule(pattern);
-			if (assume.length == 0 || !assume[0].booleanValue())
-				assertEquals(matchExpected, matcher.isMatch(input, assumeDir));
-			else
-				assumeTrue(matchExpected == matcher.isMatch(input, assumeDir));
+			assumeTrue(matchExpected == matcher.isMatch(input, assumeDir));
 		}
 	}
 
 	private void assertFileNameMatch(final String pattern, final String input,
 			final boolean matchExpected) {
 		boolean assumeDir = input.endsWith("/");
-		if (useOldRule.booleanValue()) {
-			final IgnoreRule matcher = new IgnoreRule(pattern);
-			assertEquals(matchExpected, matcher.isMatch(input, assumeDir));
-		} else {
-			FastIgnoreRule matcher = new FastIgnoreRule(pattern);
-			assertEquals(matchExpected, matcher.isMatch(input, assumeDir));
-		}
+		FastIgnoreRule matcher = new FastIgnoreRule(pattern);
+		assertEquals(matchExpected, matcher.isMatch(input, assumeDir));
 	}
 
 	@Test
 	public void testVerySimplePatternCase0() throws Exception {
-		if (useOldRule)
-			System.err
-					.println("IgnoreRule can't understand blank lines, skipping");
-		Boolean assume = useOldRule;
-		assertMatch("", "", false, assume);
+		assertMatch("", "", false);
 	}
 
 	@Test
@@ -805,12 +773,9 @@ public class IgnoreRuleSpecialCasesTest {
 
 	@Test
 	public void testSpecialGroupCase10() throws Exception {
-		if (useOldRule)
-			System.err.println("IgnoreRule can't understand [[:], skipping");
-		Boolean assume = useOldRule;
 		// Second bracket is threated literally, so both [ and : should match
-		assertMatch("[[:]", ":", true, assume);
-		assertMatch("[[:]", "[", true, assume);
+		assertMatch("[[:]", ":", true);
+		assertMatch("[[:]", "[", true);
 	}
 
 	@Test
@@ -866,12 +831,8 @@ public class IgnoreRuleSpecialCasesTest {
 
 	@Test
 	public void testEscapedBackslash() throws Exception {
-		if (useOldRule)
-			System.err
-					.println("IgnoreRule can't understand escaped backslashes, skipping");
-		Boolean assume = useOldRule;
 		// In Git CLI a\\b matches a\b file
-		assertMatch("a\\\\b", "a\\b", true, assume);
+		assertMatch("a\\\\b", "a\\b", true);
 	}
 
 	@Test
