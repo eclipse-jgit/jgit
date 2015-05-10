@@ -16,6 +16,24 @@
       "revId": "22dbae80251116b83a09f6923ce08eb39e56b5b1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_e48372a4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchProcess.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-05-10T17:00:20Z",
+      "side": 1,
+      "message": "Oversight. Thank you for catching that.\n\nIf we are OK with changing the default to false than I can just drop this commit altogether from the series.",
+      "parentUuid": "87f6139c_e4bb72a7",
+      "revId": "22dbae80251116b83a09f6923ce08eb39e56b5b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
