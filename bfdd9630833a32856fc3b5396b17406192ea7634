@@ -16,6 +16,24 @@
       "revId": "bfdd9630833a32856fc3b5396b17406192ea7634",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_5035dc8e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-05-11T18:15:29Z",
+      "side": 1,
+      "message": "Apparently new style in JGit demands braces because people are confused if you don\u0027t put them in. :(",
+      "parentUuid": "87f6139c_b0f3605e",
+      "revId": "bfdd9630833a32856fc3b5396b17406192ea7634",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
