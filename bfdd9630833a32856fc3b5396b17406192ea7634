@@ -34,6 +34,24 @@
       "revId": "bfdd9630833a32856fc3b5396b17406192ea7634",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_702bb834",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-05-11T18:17:13Z",
+      "side": 1,
+      "message": "Well I\u0027ve always been in favor of them anyway, so yay.",
+      "parentUuid": "87f6139c_5035dc8e",
+      "revId": "bfdd9630833a32856fc3b5396b17406192ea7634",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
