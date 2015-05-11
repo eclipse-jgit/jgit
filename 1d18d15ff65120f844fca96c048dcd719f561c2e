@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "87f6139c_705d78c1",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DeltaBaseCacheTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-05-11T18:39:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87f6139c_700458cf",
+      "revId": "1d18d15ff65120f844fca96c048dcd719f561c2e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f6139c_d011cc0c",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DeltaBaseCacheTest.java",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2015-05-11T18:25:36Z",
       "side": 1,
       "message": "\"Size\" or \"MemoryUsed\"?",
+      "range": {
+        "startLine": 101,
+        "startChar": 22,
+        "endLine": 101,
+        "endChar": 26
+      },
+      "revId": "1d18d15ff65120f844fca96c048dcd719f561c2e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_d05a6cc8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DeltaBaseCacheTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-05-11T18:39:38Z",
+      "side": 1,
+      "message": "MemoryUsed. Done.",
+      "parentUuid": "87f6139c_d011cc0c",
       "range": {
         "startLine": 101,
         "startChar": 22,
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "87f6139c_f05168b1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DeltaBaseCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-05-11T18:39:38Z",
+      "side": 1,
+      "message": "Correct.",
+      "parentUuid": "87f6139c_902e2444",
+      "revId": "1d18d15ff65120f844fca96c048dcd719f561c2e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f6139c_b0808099",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DeltaBaseCache.java",
         "patchSetId": 1
@@ -76,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "87f6139c_50479cf6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DeltaBaseCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-05-11T18:39:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87f6139c_b0808099",
+      "revId": "1d18d15ff65120f844fca96c048dcd719f561c2e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f6139c_1066b4a0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DeltaBaseCache.java",
         "patchSetId": 1
@@ -87,6 +165,24 @@
       "writtenOn": "2015-05-11T18:25:36Z",
       "side": 1,
       "message": "So braces here, I guess.",
+      "revId": "1d18d15ff65120f844fca96c048dcd719f561c2e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_9060e478",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DeltaBaseCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-05-11T18:39:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87f6139c_1066b4a0",
       "revId": "1d18d15ff65120f844fca96c048dcd719f561c2e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
