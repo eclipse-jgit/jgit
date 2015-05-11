@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_700458cf",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DeltaBaseCacheTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-05-11T18:25:36Z",
+      "side": 1,
+      "message": "Should we maybe also make these asserts immediately after put(5)?",
+      "revId": "1d18d15ff65120f844fca96c048dcd719f561c2e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_d011cc0c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DeltaBaseCacheTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-05-11T18:25:36Z",
+      "side": 1,
+      "message": "\"Size\" or \"MemoryUsed\"?",
+      "range": {
+        "startLine": 101,
+        "startChar": 22,
+        "endLine": 101,
+        "endChar": 26
+      },
+      "revId": "1d18d15ff65120f844fca96c048dcd719f561c2e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_902e2444",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DeltaBaseCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-05-11T18:25:36Z",
+      "side": 1,
+      "message": "Checking my understanding: this can only happen if the soft referent was GC\u0027ed (obsolete after the next change). Since no other entry in the table will match, the early return is just an optimization to avoid unnecessary scanning of the rest of the bucket.",
+      "revId": "1d18d15ff65120f844fca96c048dcd719f561c2e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_b0808099",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DeltaBaseCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-05-11T18:25:36Z",
+      "side": 1,
+      "message": "Worth throwing ISE or something if you exit this loop without finding the slot in the table? That would mean this method is called with a stale Slot, which is indeed an illegal state (considering the class is not threadsafe).",
+      "revId": "1d18d15ff65120f844fca96c048dcd719f561c2e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_1066b4a0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DeltaBaseCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-05-11T18:25:36Z",
+      "side": 1,
+      "message": "So braces here, I guess.",
+      "revId": "1d18d15ff65120f844fca96c048dcd719f561c2e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
