@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "87f6139c_d03eec40",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DeltaBaseCacheTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-05-11T18:53:27Z",
+      "side": 1,
+      "message": "The get itself is an assert. See the get() method below.",
+      "parentUuid": "87f6139c_100a34b1",
+      "revId": "8ff08455f62f5696b718ff558507cce3709d604b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f6139c_30193008",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DeltaBaseCache.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2015-05-11T18:49:25Z",
       "side": 1,
       "message": "valueOf is redundant, %d should work fine with the unboxed value, right?",
+      "revId": "8ff08455f62f5696b718ff558507cce3709d604b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_b03b604f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DeltaBaseCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-05-11T18:53:27Z",
+      "side": 1,
+      "message": "Yes. But JGit has warnings configured to warn on autoboxing because we have been bitten by that before.\n\nWe explicitly manually box, and its only OK in error paths that are never traversed, like this.",
+      "parentUuid": "87f6139c_30193008",
       "revId": "8ff08455f62f5696b718ff558507cce3709d604b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
