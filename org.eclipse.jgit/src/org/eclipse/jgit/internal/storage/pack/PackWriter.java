@@ -919,7 +919,7 @@ public class PackWriter implements AutoCloseable {
 		excludeInPackLast = null;
 
 		boolean needSearchForReuse = reuseSupport != null && (
-				   reuseDeltas
+				reuseDeltas
 				|| config.isReuseObjects()
 				|| !cachedPacks.isEmpty());
 
@@ -1098,7 +1098,7 @@ public class PackWriter implements AutoCloseable {
 		// bother examining those types here.
 		//
 		ObjectToPack[] list = new ObjectToPack[
-				  objectsLists[OBJ_TREE].size()
+				objectsLists[OBJ_TREE].size()
 				+ objectsLists[OBJ_BLOB].size()
 				+ edgeObjects.size()];
 		int cnt = 0;
@@ -1591,6 +1591,7 @@ public class PackWriter implements AutoCloseable {
 				findObjectsToPackUsingBitmaps(bitmapWalker, want, have);
 				endPhase(countingMonitor);
 				stats.timeCounting = System.currentTimeMillis() - countingStart;
+				stats.bitmapIndexMisses = bitmapWalker.getCountOfBitmapIndexMisses();
 				return;
 			}
 		}
@@ -2084,6 +2085,8 @@ public class PackWriter implements AutoCloseable {
 
 		long totalObjects;
 
+		long bitmapIndexMisses;
+
 		long totalDeltas;
 
 		long reusedObjects;
@@ -2163,6 +2166,15 @@ public class PackWriter implements AutoCloseable {
 		 */
 		public long getTotalObjects() {
 			return totalObjects;
+		}
+
+		/**
+		 * @return the count of objects that needed to be discovered through an
+		 *         object walk because they were not found in bitmap indices.
+		 *
+		 */
+		public long getBitmapIndexMisses() {
+			return bitmapIndexMisses;
 		}
 
 		/**

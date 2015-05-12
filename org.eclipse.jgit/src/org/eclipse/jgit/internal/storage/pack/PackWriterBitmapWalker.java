@@ -71,6 +71,8 @@ final class PackWriterBitmapWalker {
 
 	private final ProgressMonitor pm;
 
+	private long countOfBitmapIndexMisses;
+
 	PackWriterBitmapWalker(
 			ObjectWalk walker, BitmapIndex bitmapIndex, ProgressMonitor pm) {
 		this.walker = walker;
@@ -78,10 +80,15 @@ final class PackWriterBitmapWalker {
 		this.pm = (pm == null) ? NullProgressMonitor.INSTANCE : pm;
 	}
 
+	long getCountOfBitmapIndexMisses() {
+		return countOfBitmapIndexMisses;
+	}
+
 	BitmapBuilder findObjects(Set<? extends ObjectId> start, BitmapBuilder seen, boolean ignoreMissingStart)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
 		final BitmapBuilder bitmapResult = bitmapIndex.newBitmapBuilder();
+		countOfBitmapIndexMisses = 0;
 
 		for (ObjectId obj : start) {
 			Bitmap bitmap = bitmapIndex.getBitmap(obj);
@@ -104,7 +111,8 @@ final class PackWriterBitmapWalker {
 		}
 
 		if (marked) {
-			walker.setRevFilter(newRevFilter(seen, bitmapResult));
+			BitmapRevFilter filter = newRevFilter(seen, bitmapResult);
+			walker.setRevFilter(filter);
 
 			while (walker.next() != null) {
 				// Iterate through all of the commits. The BitmapRevFilter does
@@ -117,6 +125,7 @@ final class PackWriterBitmapWalker {
 				bitmapResult.add(ro, ro.getType());
 				pm.update(1);
 			}
+			countOfBitmapIndexMisses = filter.getCountOfLoadedCommits();
 		}
 
 		return bitmapResult;
@@ -126,7 +135,7 @@ final class PackWriterBitmapWalker {
 		walker.reset();
 	}
 
-	static RevFilter newRevFilter(
+	static BitmapRevFilter newRevFilter(
 			final BitmapBuilder seen, final BitmapBuilder bitmapResult) {
 		if (seen != null) {
 			return new BitmapRevFilter() {
@@ -146,12 +155,16 @@ final class PackWriterBitmapWalker {
 	}
 
 	static abstract class BitmapRevFilter extends RevFilter {
+		private long countOfLoadedCommits;
+
 		protected abstract boolean load(RevCommit cmit);
 
 		@Override
 		public final boolean include(RevWalk walker, RevCommit cmit) {
-			if (load(cmit))
+			if (load(cmit)) {
+				countOfLoadedCommits++;
 				return true;
+			}
 			for (RevCommit p : cmit.getParents())
 				p.add(RevFlag.SEEN);
 			return false;
@@ -165,6 +178,10 @@ final class PackWriterBitmapWalker {
 		@Override
 		public final boolean requiresCommitBody() {
 			return false;
+		}
+
+		public long getCountOfLoadedCommits() {
+			return countOfLoadedCommits;
 		}
 	}
 }
