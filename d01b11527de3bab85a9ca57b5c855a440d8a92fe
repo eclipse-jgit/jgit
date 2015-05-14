@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_374bd880",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/ObjectWalk.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-05-14T23:36:39Z",
+      "side": 1,
+      "message": "I would say no. If you want to filter commits use RevFilter?",
+      "range": {
+        "startLine": 269,
+        "startChar": 44,
+        "endLine": 270,
+        "endChar": 48
+      },
+      "revId": "d01b11527de3bab85a9ca57b5c855a440d8a92fe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_97b56ce9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/ObjectWalk.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-05-14T23:36:39Z",
+      "side": 1,
+      "message": "Document that if the filter returns false for a tree, the recursive children of that tree will not be considered by the ObjectWalk.",
+      "revId": "d01b11527de3bab85a9ca57b5c855a440d8a92fe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_973a8cee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/ObjectWalk.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-05-14T23:36:39Z",
+      "side": 1,
+      "message": "nit: we now mostly avoid final in small methods",
+      "range": {
+        "startLine": 281,
+        "startChar": 29,
+        "endLine": 281,
+        "endChar": 34
+      },
+      "revId": "d01b11527de3bab85a9ca57b5c855a440d8a92fe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_f750302b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/ObjectWalk.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-05-14T23:36:39Z",
+      "side": 1,
+      "message": "obviously this will go away :)",
+      "range": {
+        "startLine": 284,
+        "startChar": 2,
+        "endLine": 286,
+        "endChar": 3
+      },
+      "revId": "d01b11527de3bab85a9ca57b5c855a440d8a92fe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_17469c75",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/ObjectWalk.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-05-14T23:36:39Z",
+      "side": 1,
+      "message": "Probably want to add the filter here:\n\n  if (objectFilter.include(this, r.getTree())\n    pendingObjects.add(r.getTree());",
+      "revId": "d01b11527de3bab85a9ca57b5c855a440d8a92fe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_b7b228fe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/ObjectWalk.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-05-14T23:36:39Z",
+      "side": 1,
+      "message": "and here:\n\n  if (!objectFilter.include(this, idBuffer))\n    continue;",
+      "revId": "d01b11527de3bab85a9ca57b5c855a440d8a92fe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
