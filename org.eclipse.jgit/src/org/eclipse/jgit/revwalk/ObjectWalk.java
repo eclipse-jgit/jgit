@@ -60,6 +60,7 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.filter.ObjectFilter;
 import org.eclipse.jgit.util.RawParseUtils;
 
 /**
@@ -99,6 +100,8 @@ public class ObjectWalk extends RevWalk {
 
 	private BlockObjQueue pendingObjects;
 
+	private ObjectFilter objectFilter;
+
 	private TreeVisit freeVisit;
 
 	private TreeVisit currVisit;
@@ -132,6 +135,7 @@ public class ObjectWalk extends RevWalk {
 		setRetainBody(false);
 		rootObjects = new ArrayList<RevObject>();
 		pendingObjects = new BlockObjQueue();
+		objectFilter = ObjectFilter.ALL;
 		pathBuf = new byte[256];
 	}
 
@@ -248,6 +252,34 @@ public class ObjectWalk extends RevWalk {
 	public void sort(RevSort s, boolean use) {
 		super.sort(s, use);
 		boundary = hasRevSort(RevSort.BOUNDARY);
+	}
+
+	/**
+	 * Get the currently configured object filter.
+	 *
+	 * @return the current filter. Never null as a filter is always needed.
+	 */
+	public ObjectFilter getObjectFilter() {
+		return objectFilter;
+	}
+
+	/**
+	 * Set the object filter for this walker.  This filter affects both the
+	 * commit generation walk using {@link #next()} and the object walk
+	 * using {@link #nextObject()}.
+	 * <p>
+	 * TODO(jrn@google.com): actually use the object filter.
+	 *
+	 * @param newFilter
+	 *            the new filter. If null the special {@link ObjectFilter#ALL}
+	 *            filter will be used instead, as it matches every object.
+	 */
+	public void setObjectFilter(final ObjectFilter newFilter) {
+		assertNotStarted();
+		objectFilter = newFilter != null ? newFilter : ObjectFilter.ALL;
+		if (objectFilter != ObjectFilter.ALL) {
+			throw new UnsupportedOperationException("not implemented");
+		}
 	}
 
 	@Override
