@@ -57,7 +57,7 @@ import org.eclipse.jgit.revwalk.ObjectWalk;
  * Applications should install the filter on an ObjectWalk by
  * {@link ObjectWalk#setObjectFilter(ObjectFilter)} prior to starting traversal.
  *
- * @since 4.1
+ * @since 4.0
  */
 public abstract class ObjectFilter {
 	/** Default filter that always returns true. */
