@@ -47,7 +47,6 @@ import java.io.IOException;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
-import org.eclipse.jgit.errors.StopWalkException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.revwalk.ObjectWalk;
 
@@ -74,12 +73,19 @@ public abstract class ObjectFilter {
 	 * Determine if the named object should be included in the walk.
 	 *
 	 * @param walker
-	 *	      the active walker this filter is being invoked from within.
+	 *            the active walker this filter is being invoked from within.
 	 * @param objid
-	 *	      the object currently being tested.
+	 *            the object currently being tested.
+	 * @return {@code true} if the named object should be included in the walk.
+	 * @throws MissingObjectException
+	 *             an object the filter needed to consult to determine its
+	 *             answer was missing
+	 * @throws IncorrectObjectTypeException
+	 *             an object the filter needed to consult to determine its
+	 *             answer was of the wrong type
 	 * @throws IOException
-	 *	      an object the filter needed to consult to determine its answer
-	 *	      was missing, of the wrong type, or could not be read.
+	 *             an object the filter needed to consult to determine its
+	 *             answer could not be read.
 	 */
 	public abstract boolean include(ObjectWalk walker, AnyObjectId objid)
 			throws MissingObjectException, IncorrectObjectTypeException,
