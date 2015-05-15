@@ -277,7 +277,7 @@ public class ObjectWalk extends RevWalk {
 	 *
 	 * @param newFilter
 	 *            the new filter. If null the special {@link ObjectFilter#ALL}
-	 *            filter will be used instead, which as it matches every object.
+	 *            filter will be used instead, as it matches every object.
 	 *
 	 * @since 4.1
 	 */
