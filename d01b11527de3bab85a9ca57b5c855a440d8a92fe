@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "87f6139c_d72ff48e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/ObjectWalk.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-05-15T00:18:33Z",
+      "side": 1,
+      "message": "Agreed. I misremembered what RevFilter does. It\u0027s not actually analagous.\n\nI\u0027m tempted to call it\n\n void markUninterestingForObjectWalk(Set\u003cAnyObjectId\u003e);\n\nThat\u0027s not perfect, either, since markUninteresting recursively marks all referenced objects uninteresting --- here, we avoid adding referenced objects to the queue but if they are reached through another path then they are not filtered out.\n\nWith appropriate documentation that might be okay.",
+      "parentUuid": "87f6139c_374bd880",
+      "range": {
+        "startLine": 269,
+        "startChar": 44,
+        "endLine": 270,
+        "endChar": 48
+      },
+      "revId": "d01b11527de3bab85a9ca57b5c855a440d8a92fe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f6139c_97b56ce9",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/ObjectWalk.java",
         "patchSetId": 3
