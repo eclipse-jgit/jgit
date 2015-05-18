@@ -109,6 +109,7 @@ public abstract class BaseReceivePack {
 	/** Data in the first line of a request, the line itself plus capabilities. */
 	public static class FirstLine {
 		private final String line;
+
 		private final Set<String> capabilities;
 
 		/**
@@ -170,6 +171,7 @@ public abstract class BaseReceivePack {
 
 	/** Should an incoming transfer permit delete requests? */
 	private boolean allowAnyDeletes;
+
 	private boolean allowBranchDeletes;
 
 	/** Should an incoming transfer permit non-fast-forward requests? */
@@ -225,8 +227,11 @@ public abstract class BaseReceivePack {
 
 	/** Capabilities requested by the client. */
 	private Set<String> enabledCapabilities;
+
 	String userAgent;
+
 	private Set<ObjectId> clientShallowCommits;
+
 	private List<ReceiveCommand> commands;
 
 	private StringBuilder advertiseError;
@@ -290,27 +295,36 @@ public abstract class BaseReceivePack {
 		};
 
 		final boolean checkReceivedObjects;
+
 		final boolean allowLeadingZeroFileMode;
+
 		final boolean allowInvalidPersonIdent;
+
 		final boolean safeForWindows;
+
 		final boolean safeForMacOS;
 
 		final boolean allowCreates;
+
 		final boolean allowDeletes;
+
 		final boolean allowNonFastForwards;
+
 		final boolean allowOfsDelta;
 
 		final String certNonceSeed;
+
 		final int certNonceSlopLimit;
 
 		ReceiveConfig(final Config config) {
-			checkReceivedObjects = config.getBoolean(
-					"receive", "fsckobjects", //$NON-NLS-1$ //$NON-NLS-2$
+			checkReceivedObjects = config.getBoolean("receive", "fsckobjects", //$NON-NLS-1$ //$NON-NLS-2$
 					config.getBoolean("transfer", "fsckobjects", false)); //$NON-NLS-1$ //$NON-NLS-2$
 			allowLeadingZeroFileMode = checkReceivedObjects
-					&& config.getBoolean("fsck", "allowLeadingZeroFileMode", false); //$NON-NLS-1$ //$NON-NLS-2$
+					&& config.getBoolean(
+							"fsck", "allowLeadingZeroFileMode", false); //$NON-NLS-1$ //$NON-NLS-2$
 			allowInvalidPersonIdent = checkReceivedObjects
-					&& config.getBoolean("fsck", "allowInvalidPersonIdent", false); //$NON-NLS-1$ //$NON-NLS-2$
+					&& config.getBoolean(
+							"fsck", "allowInvalidPersonIdent", false); //$NON-NLS-1$ //$NON-NLS-2$
 			safeForWindows = checkReceivedObjects
 					&& config.getBoolean("fsck", "safeForWindows", false); //$NON-NLS-1$ //$NON-NLS-2$
 			safeForMacOS = checkReceivedObjects
@@ -330,10 +344,10 @@ public abstract class BaseReceivePack {
 			if (!checkReceivedObjects)
 				return null;
 			return new ObjectChecker()
-				.setAllowLeadingZeroFileMode(allowLeadingZeroFileMode)
-				.setAllowInvalidPersonIdent(allowInvalidPersonIdent)
-				.setSafeForWindows(safeForWindows)
-				.setSafeForMacOS(safeForMacOS);
+					.setAllowLeadingZeroFileMode(allowLeadingZeroFileMode)
+					.setAllowInvalidPersonIdent(allowInvalidPersonIdent)
+					.setSafeForWindows(safeForWindows)
+					.setSafeForMacOS(safeForMacOS);
 		}
 	}
 
@@ -413,16 +427,17 @@ public abstract class BaseReceivePack {
 	 *
 	 * @param allRefs
 	 *            explicit set of references to claim as advertised by this
-	 *            ReceivePack instance. This overrides any references that
-	 *            may exist in the source repository. The map is passed
-	 *            to the configured {@link #getRefFilter()}. If null, assumes
-	 *            all refs were advertised.
+	 *            ReceivePack instance. This overrides any references that may
+	 *            exist in the source repository. The map is passed to the
+	 *            configured {@link #getRefFilter()}. If null, assumes all refs
+	 *            were advertised.
 	 * @param additionalHaves
 	 *            explicit set of additional haves to claim as advertised. If
 	 *            null, assumes the default set of additional haves from the
 	 *            repository.
 	 */
-	public void setAdvertisedRefs(Map<String, Ref> allRefs, Set<ObjectId> additionalHaves) {
+	public void setAdvertisedRefs(Map<String, Ref> allRefs,
+			Set<ObjectId> additionalHaves) {
 		refs = allRefs != null ? allRefs : db.getAllRefs();
 		refs = refFilter.filter(refs);
 
@@ -443,9 +458,9 @@ public abstract class BaseReceivePack {
 	/**
 	 * Get objects advertised to the client.
 	 *
-	 * @return the set of objects advertised to the as present in this repository,
-	 *         or null if {@link #setAdvertisedRefs(Map, Set)} has not been called
-	 *         yet.
+	 * @return the set of objects advertised to the as present in this
+	 *         repository, or null if {@link #setAdvertisedRefs(Map, Set)} has
+	 *         not been called yet.
 	 */
 	public final Set<ObjectId> getAdvertisedObjects() {
 		return advertisedHaves;
@@ -541,8 +556,9 @@ public abstract class BaseReceivePack {
 	}
 
 	/**
-	 * @param impl if non-null the object checking instance to verify each
-	 *        received object with; null to disable object checking.
+	 * @param impl
+	 *            if non-null the object checking instance to verify each
+	 *            received object with; null to disable object checking.
 	 * @since 3.4
 	 */
 	public void setObjectChecker(ObjectChecker impl) {
@@ -646,10 +662,10 @@ public abstract class BaseReceivePack {
 	 * <p>
 	 * If the {@link AdvertiseRefsHook} chooses to call
 	 * {@link #setAdvertisedRefs(Map,Set)}, only refs set by this hook
-	 * <em>and</em> selected by the {@link RefFilter} will be shown to the client.
-	 * Clients may still attempt to create or update a reference not advertised by
-	 * the configured {@link AdvertiseRefsHook}. These attempts should be rejected
-	 * by a matching {@link PreReceiveHook}.
+	 * <em>and</em> selected by the {@link RefFilter} will be shown to the
+	 * client. Clients may still attempt to create or update a reference not
+	 * advertised by the configured {@link AdvertiseRefsHook}. These attempts
+	 * should be rejected by a matching {@link PreReceiveHook}.
 	 *
 	 * @param advertiseRefsHook
 	 *            the hook; may be null to show all refs.
@@ -664,9 +680,9 @@ public abstract class BaseReceivePack {
 	/**
 	 * Set the filter used while advertising the refs to the client.
 	 * <p>
-	 * Only refs allowed by this filter will be shown to the client.
-	 * The filter is run against the refs specified by the
-	 * {@link AdvertiseRefsHook} (if applicable).
+	 * Only refs allowed by this filter will be shown to the client. The filter
+	 * is run against the refs specified by the {@link AdvertiseRefsHook} (if
+	 * applicable).
 	 *
 	 * @param refFilter
 	 *            the filter; may be null to show all refs.
@@ -705,7 +721,6 @@ public abstract class BaseReceivePack {
 		maxObjectSizeLimit = limit;
 	}
 
-
 	/**
 	 * Set the maximum allowed pack size.
 	 * <p>
@@ -718,8 +733,10 @@ public abstract class BaseReceivePack {
 	 */
 	public void setMaxPackSizeLimit(final long limit) {
 		if (limit < 0)
-			throw new IllegalArgumentException(MessageFormat.format(
-					JGitText.get().receivePackInvalidLimit, Long.valueOf(limit)));
+			throw new IllegalArgumentException(
+					MessageFormat.format(
+							JGitText.get().receivePackInvalidLimit,
+							Long.valueOf(limit)));
 		maxPackSizeLimit = limit;
 	}
 
@@ -727,12 +744,12 @@ public abstract class BaseReceivePack {
 	 * Check whether the client expects a side-band stream.
 	 *
 	 * @return true if the client has advertised a side-band capability, false
-	 *     otherwise.
+	 *         otherwise.
 	 * @throws RequestNotYetReadException
-	 *             if the client's request has not yet been read from the wire, so
-	 *             we do not know if they expect side-band. Note that the client
-	 *             may have already written the request, it just has not been
-	 *             read.
+	 *             if the client's request has not yet been read from the wire,
+	 *             so we do not know if they expect side-band. Note that the
+	 *             client may have already written the request, it just has not
+	 *             been read.
 	 */
 	public boolean isSideBand() throws RequestNotYetReadException {
 		if (enabledCapabilities == null)
@@ -836,8 +853,8 @@ public abstract class BaseReceivePack {
 	 * Get the commits from the client's shallow file.
 	 *
 	 * @return if the client is a shallow repository, the list of edge commits
-	 *     that define the client's shallow boundary. Empty set if the client
-	 *     is earlier than Git 1.9, or is a full clone.
+	 *         that define the client's shallow boundary. Empty set if the
+	 *         client is earlier than Git 1.9, or is a full clone.
 	 * @since 3.5
 	 */
 	protected Set<ObjectId> getClientShallowCommits() {
@@ -948,8 +965,8 @@ public abstract class BaseReceivePack {
 	 * @throws ServiceMayNotContinueException
 	 *             the hook denied advertisement.
 	 */
-	public void sendAdvertisedRefs(final RefAdvertiser adv)
-			throws IOException, ServiceMayNotContinueException {
+	public void sendAdvertisedRefs(final RefAdvertiser adv) throws IOException,
+			ServiceMayNotContinueException {
 		if (advertiseError != null) {
 			adv.writeOne("ERR " + advertiseError); //$NON-NLS-1$
 			return;
@@ -970,8 +987,7 @@ public abstract class BaseReceivePack {
 		adv.advertiseCapability(CAPABILITY_DELETE_REFS);
 		adv.advertiseCapability(CAPABILITY_REPORT_STATUS);
 		if (pushCertificateParser.enabled())
-			adv.advertiseCapability(
-				pushCertificateParser.getAdvertiseNonce());
+			adv.advertiseCapability(pushCertificateParser.getAdvertiseNonce());
 		if (db.getRefDatabase().performsAtomicTransactions())
 			adv.advertiseCapability(CAPABILITY_ATOMIC);
 		if (allowOfsDelta)
@@ -1004,7 +1020,8 @@ public abstract class BaseReceivePack {
 				break;
 
 			if (line.length() >= 48 && line.startsWith("shallow ")) { //$NON-NLS-1$
-				clientShallowCommits.add(ObjectId.fromString(line.substring(8, 48)));
+				clientShallowCommits.add(ObjectId.fromString(line.substring(8,
+						48)));
 				continue;
 			}
 
@@ -1085,7 +1102,7 @@ public abstract class BaseReceivePack {
 	 */
 	private void receivePack() throws IOException {
 		// It might take the client a while to pack the objects it needs
-		// to send to us.  We should increase our timeout so we don't
+		// to send to us. We should increase our timeout so we don't
 		// abort while the client is computing.
 		//
 		if (timeoutIn != null)
@@ -1269,7 +1286,8 @@ public abstract class BaseReceivePack {
 				if (ref == null) {
 					// The ref must have been advertised in order to be updated.
 					//
-					cmd.setResult(Result.REJECTED_OTHER_REASON, JGitText.get().noSuchRef);
+					cmd.setResult(Result.REJECTED_OTHER_REASON,
+							JGitText.get().noSuchRef);
 					continue;
 				}
 
@@ -1309,8 +1327,8 @@ public abstract class BaseReceivePack {
 						else
 							cmd.setType(ReceiveCommand.Type.UPDATE_NONFASTFORWARD);
 					} catch (MissingObjectException e) {
-						cmd.setResult(Result.REJECTED_MISSING_OBJECT, e
-								.getMessage());
+						cmd.setResult(Result.REJECTED_MISSING_OBJECT,
+								e.getMessage());
 					} catch (IOException e) {
 						cmd.setResult(Result.REJECTED_OTHER_REASON);
 					}
@@ -1327,7 +1345,8 @@ public abstract class BaseReceivePack {
 
 			if (!cmd.getRefName().startsWith(Constants.R_REFS)
 					|| !Repository.isValidRefName(cmd.getRefName())) {
-				cmd.setResult(Result.REJECTED_OTHER_REASON, JGitText.get().funnyRefname);
+				cmd.setResult(Result.REJECTED_OTHER_REASON,
+						JGitText.get().funnyRefname);
 			}
 		}
 	}
@@ -1338,7 +1357,8 @@ public abstract class BaseReceivePack {
 	 */
 	protected boolean anyRejects() {
 		for (ReceiveCommand cmd : commands) {
-			if (cmd.getResult() != Result.NOT_ATTEMPTED && cmd.getResult() != Result.OK)
+			if (cmd.getResult() != Result.NOT_ATTEMPTED
+					&& cmd.getResult() != Result.OK)
 				return true;
 		}
 		return false;
@@ -1346,12 +1366,14 @@ public abstract class BaseReceivePack {
 
 	/**
 	 * Set the result to fail for any command that was not processed yet.
+	 * 
 	 * @since 3.6
 	 */
 	protected void failPendingCommands() {
 		for (ReceiveCommand cmd : commands) {
 			if (cmd.getResult() == Result.NOT_ATTEMPTED)
-				cmd.setResult(Result.REJECTED_OTHER_REASON, JGitText.get().transactionAborted);
+				cmd.setResult(Result.REJECTED_OTHER_REASON,
+						JGitText.get().transactionAborted);
 		}
 	}
 
@@ -1360,8 +1382,8 @@ public abstract class BaseReceivePack {
 	 *
 	 * @param want
 	 *            desired status to filter by.
-	 * @return a copy of the command list containing only those commands with the
-	 *         desired status.
+	 * @return a copy of the command list containing only those commands with
+	 *         the desired status.
 	 */
 	protected List<ReceiveCommand> filterCommands(final Result want) {
 		return ReceiveCommand.filter(commands, want);
@@ -1537,7 +1559,9 @@ public abstract class BaseReceivePack {
 		pckIn = null;
 		pckOut = null;
 		refs = null;
-		enabledCapabilities = null;
+		// Keep the capabilities. If responses are sent after this release
+		// we need to remember at least whether sideband communication has to be
+		// used
 		commands = null;
 		if (timer != null) {
 			try {
@@ -1550,6 +1574,6 @@ public abstract class BaseReceivePack {
 
 	/** Interface for reporting status messages. */
 	static abstract class Reporter {
-			abstract void sendString(String s) throws IOException;
+		abstract void sendString(String s) throws IOException;
 	}
 }
