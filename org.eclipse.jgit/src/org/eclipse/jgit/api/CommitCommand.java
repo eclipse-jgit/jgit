@@ -358,7 +358,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 					// check if entry refers to a tracked file
 					boolean tracked = dcTree != null || hTree != null;
 					if (!tracked)
-						break;
+						continue;
 
 					// for an unmerged path, DirCacheBuildIterator will yield 3
 					// entries, we only want to add one
