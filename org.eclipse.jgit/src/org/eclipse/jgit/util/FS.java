@@ -57,6 +57,7 @@ import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.text.MessageFormat;
 import java.util.Arrays;
+import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -407,13 +408,34 @@ public abstract class FS {
 	 * @return the one-line output of the command
 	 */
 	protected static String readPipe(File dir, String[] command, String encoding) {
+		readPipe(dir, command, encoding, null);
+	}
+
+	/**
+	 * Execute a command and return a single line of output as a String
+	 *
+	 * @param dir
+	 *            Working directory for the command
+	 * @param command
+	 *            as component array
+	 * @param encoding
+	 *            to be used to parse the command's output
+	 * @param env
+	 *            Map of environment variables to be merged with those of the current process
+	 * @return the one-line output of the command
+	 */
+	protected static String readPipe(File dir, String[] command, String encoding, Map<String, String> env) {
 		final boolean debug = LOG.isDebugEnabled();
 		try {
 			if (debug) {
 				LOG.debug("readpipe " + Arrays.asList(command) + "," //$NON-NLS-1$ //$NON-NLS-2$
 						+ dir);
 			}
-			final Process p = Runtime.getRuntime().exec(command, null, dir);
+			final ProcessBuilder pb = new ProcessBuilder(command);
+			pb.directory(dir);
+			if (env != null)
+				pb.environment().putAll(env);
+			Process p = pb.start();
 			final BufferedReader lineRead = new BufferedReader(
 					new InputStreamReader(p.getInputStream(), encoding));
 			p.getOutputStream().close();
