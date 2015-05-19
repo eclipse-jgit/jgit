@@ -105,27 +105,24 @@ public class FS_Win32 extends FS {
 	}
 
 	@Override
-	protected File discoverGitPrefix() {
+	protected File discoverGitExe() {
 		String path = SystemReader.getInstance().getenv("PATH"); //$NON-NLS-1$
 		File gitExe = searchPath(path, "git.exe", "git.cmd"); //$NON-NLS-1$ //$NON-NLS-2$
-		if (gitExe != null)
-			return resolveGrandparentFile(gitExe);
 
-		if (searchPath(path, "bash.exe") != null) { //$NON-NLS-1$
-			// This isn't likely to work, but its worth trying:
-			// If bash is in $PATH, git should also be in $PATH.
-			String w = readPipe(userHome(),
-					new String[] { "bash", "--login", "-c", "which git" }, // //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-					Charset.defaultCharset().name());
-			if (w == null || w.length() == 0)
-				return null;
-			// The path may be in cygwin/msys notation so resolve it right away
-			gitExe = resolve(null, w);
-			if (gitExe != null)
-				return resolveGrandparentFile(gitExe);
+		if (gitExe == null) {
+			if (searchPath(path, "bash.exe") != null) { //$NON-NLS-1$
+				// This isn't likely to work, but its worth trying:
+				// If bash is in $PATH, git should also be in $PATH.
+				String w = readPipe(userHome(),
+						new String[]{"bash", "--login", "-c", "which git"}, // //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+						Charset.defaultCharset().name());
+				if (!StringUtils.isEmptyOrNull(w))
+					// The path may be in cygwin/msys notation so resolve it right away
+					gitExe = resolve(null, w);
+			}
 		}
 
-		return null;
+		return gitExe;
 	}
 
 	@Override
