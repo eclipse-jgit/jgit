@@ -403,6 +403,7 @@ public abstract class FS {
 	 * @param command
 	 *            as component array
 	 * @param encoding
+	 *            to be used to parse the command's output
 	 * @return the one-line output of the command
 	 */
 	protected static String readPipe(File dir, String[] command, String encoding) {
