@@ -53,10 +53,12 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.io.PrintWriter;
+import java.nio.charset.Charset;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.text.MessageFormat;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
@@ -535,6 +537,31 @@ public abstract class FS {
 	 * @since 4.0
 	 */
 	protected abstract File discoverGitExe();
+
+	/**
+	 * @return the path to the system-wide Git configuration file.
+	 * @since 4.0
+	 */
+	protected File discoverGitSystemConfig() {
+		File gitExe = discoverGitExe();
+		if (gitExe == null) {
+			return null;
+		}
+
+		// Trick Git into printing the path to the config file by using "echo"
+		// as the editor.
+		Map<String, String> env = new HashMap<>();
+		env.put("GIT_EDITOR", "echo"); //$NON-NLS-1$ //$NON-NLS-2$
+
+		String w = readPipe(gitExe.getParentFile(),
+				new String[] { "git", "config", "--system", "--edit" }, //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				Charset.defaultCharset().name(), env);
+		if (StringUtils.isEmptyOrNull(w)) {
+			return null;
+		}
+
+		return new File(w);
+	}
 
 	/** @return the $prefix directory C Git would use. */
 	protected File discoverGitPrefix() {
