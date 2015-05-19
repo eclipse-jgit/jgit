@@ -134,28 +134,26 @@ public class FS_POSIX extends FS {
 	}
 
 	@Override
-	protected File discoverGitPrefix() {
+	protected File discoverGitExe() {
 		String path = SystemReader.getInstance().getenv("PATH"); //$NON-NLS-1$
 		File gitExe = searchPath(path, "git"); //$NON-NLS-1$
-		if (gitExe != null)
-			return resolveGrandparentFile(gitExe);
 
-		if (SystemReader.getInstance().isMacOS()) {
-			if (searchPath(path, "bash") != null) { //$NON-NLS-1$
-				// On MacOSX, PATH is shorter when Eclipse is launched from the
-				// Finder than from a terminal. Therefore try to launch bash as a
-				// login shell and search using that.
-				String w = readPipe(userHome(),
-						new String[] { "bash", "--login", "-c", "which git" }, // //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-						Charset.defaultCharset().name());
-				if (w == null || w.length() == 0)
-					return null;
-				gitExe = new File(w);
-				return resolveGrandparentFile(gitExe);
+		if (gitExe == null) {
+			if (SystemReader.getInstance().isMacOS()) {
+				if (searchPath(path, "bash") != null) { //$NON-NLS-1$
+					// On MacOSX, PATH is shorter when Eclipse is launched from the
+					// Finder than from a terminal. Therefore try to launch bash as a
+					// login shell and search using that.
+					String w = readPipe(userHome(),
+							new String[]{"bash", "--login", "-c", "which git"}, // //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+							Charset.defaultCharset().name());
+					if (!StringUtils.isEmptyOrNull(w))
+						gitExe = new File(w);
+				}
 			}
 		}
 
-		return null;
+		return gitExe;
 	}
 
 	@Override
