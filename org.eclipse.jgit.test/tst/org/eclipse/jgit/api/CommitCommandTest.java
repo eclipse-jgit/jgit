@@ -108,7 +108,7 @@ public class CommitCommandTest extends RepositoryTestCase {
 				return this;
 			}
 
-			protected File discoverGitPrefix() {
+			protected File discoverGitExe() {
 				return null;
 			}
 
@@ -153,7 +153,7 @@ public class CommitCommandTest extends RepositoryTestCase {
 				return this;
 			}
 
-			protected File discoverGitPrefix() {
+			protected File discoverGitExe() {
 				return null;
 			}
 
