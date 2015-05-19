@@ -157,8 +157,6 @@ public abstract class FS {
 
 	private volatile Holder<File> userHome;
 
-	private volatile Holder<File> gitPrefix;
-
 	/**
 	 * Constructs a file system abstraction.
 	 */
@@ -174,7 +172,6 @@ public abstract class FS {
 	 */
 	protected FS(FS src) {
 		userHome = src.userHome;
-		gitPrefix = src.gitPrefix;
 	}
 
 	/** @return a new instance of the same type of FS. */
@@ -514,21 +511,6 @@ public abstract class FS {
 		return null;
 	}
 
-	/** @return the $prefix directory C Git would use. */
-	public File gitPrefix() {
-		Holder<File> p = gitPrefix;
-		if (p == null) {
-			String overrideGitPrefix = SystemReader.getInstance().getProperty(
-					"jgit.gitprefix"); //$NON-NLS-1$
-			if (overrideGitPrefix != null)
-				p = new Holder<File>(new File(overrideGitPrefix));
-			else
-				p = new Holder<File>(discoverGitPrefix());
-			gitPrefix = p;
-		}
-		return p.value;
-	}
-
 	/** @return the path to the Git executable. */
 	protected abstract File discoverGitExe();
 
@@ -552,11 +534,6 @@ public abstract class FS {
 		return new File(w);
 	}
 
-	/** @return the $prefix directory C Git would use. */
-	protected File discoverGitPrefix() {
-		return resolveGrandparentFile(discoverGitExe());
-	}
-
 	protected static File resolveGrandparentFile(File grandchild) {
 		if (grandchild != null) {
 			File parent = grandchild.getParentFile();
@@ -564,18 +541,6 @@ public abstract class FS {
 				return parent.getParentFile();
 		}
 		return null;
-	}
-
-	/**
-	 * Set the $prefix directory C Git uses.
-	 *
-	 * @param path
-	 *            the directory. Null if C Git is not installed.
-	 * @return {@code this}
-	 */
-	public FS setGitPrefix(File path) {
-		gitPrefix = new Holder<File>(path);
-		return this;
 	}
 
 	/**
