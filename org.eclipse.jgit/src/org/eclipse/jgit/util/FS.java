@@ -508,6 +508,21 @@ public abstract class FS {
 	protected abstract File discoverGitPrefix();
 
 	/**
+	 * @param grandchild
+	 * @return the parent directory of this file's parent directory or
+	 *         {@code null} in case there's no grandparent directory
+	 * @since 4.0
+	 */
+	protected static File resolveGrandparentFile(File grandchild) {
+		if (grandchild != null) {
+			File parent = grandchild.getParentFile();
+			if (parent != null)
+				return parent.getParentFile();
+		}
+		return null;
+	}
+
+	/**
 	 * Set the $prefix directory C Git uses.
 	 *
 	 * @param path
