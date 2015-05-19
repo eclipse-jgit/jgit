@@ -138,7 +138,7 @@ public class FS_POSIX extends FS {
 		String path = SystemReader.getInstance().getenv("PATH"); //$NON-NLS-1$
 		File gitExe = searchPath(path, "git"); //$NON-NLS-1$
 		if (gitExe != null)
-			return gitExe.getParentFile().getParentFile();
+			return resolveGrandparentFile(gitExe);
 
 		if (SystemReader.getInstance().isMacOS()) {
 			// On MacOSX, PATH is shorter when Eclipse is launched from the
@@ -150,10 +150,7 @@ public class FS_POSIX extends FS {
 					Charset.defaultCharset().name());
 			if (w == null || w.length() == 0)
 				return null;
-			File parentFile = new File(w).getParentFile();
-			if (parentFile == null)
-				return null;
-			return parentFile.getParentFile();
+			return resolveGrandparentFile(new File(w));
 		}
 
 		return null;
