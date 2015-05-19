@@ -117,12 +117,12 @@ public class FS_Win32 extends FS {
 			String w = readPipe(userHome(),
 					new String[] { "bash", "--login", "-c", "which git" }, // //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 					Charset.defaultCharset().name());
-			if (w != null) {
-				// The path may be in cygwin/msys notation so resolve it right away
-				gitExe = resolve(null, w);
-				if (gitExe != null)
-					return resolveGrandparentFile(gitExe);
-			}
+			if (w == null || w.length() == 0)
+				return null;
+			// The path may be in cygwin/msys notation so resolve it right away
+			gitExe = resolve(null, w);
+			if (gitExe != null)
+				return resolveGrandparentFile(gitExe);
 		}
 
 		return null;
