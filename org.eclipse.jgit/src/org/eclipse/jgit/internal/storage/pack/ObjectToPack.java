@@ -390,15 +390,15 @@ public class ObjectToPack extends PackedObjectInfo {
 		if (isEdge())
 			buf.append(" edge");
 		if (getDeltaDepth() > 0)
-			buf.append(" depth=" + getDeltaDepth());
+			buf.append(" depth=").append(getDeltaDepth());
 		if (isDeltaRepresentation()) {
 			if (getDeltaBase() != null)
-				buf.append(" base=inpack:" + getDeltaBase().name());
+				buf.append(" base=inpack:").append(getDeltaBase().name());
 			else
-				buf.append(" base=edge:" + getDeltaBaseId().name());
+				buf.append(" base=edge:").append(getDeltaBaseId().name());
 		}
 		if (isWritten())
-			buf.append(" offset=" + getOffset());
+			buf.append(" offset=").append(getOffset());
 		buf.append("]");
 		return buf.toString();
 	}

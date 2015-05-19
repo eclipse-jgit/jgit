@@ -199,7 +199,7 @@ public class IndexDiffFilter extends TreeFilter {
 
 				// If i is cnt then the path does not appear in any other tree,
 				// and this working tree entry can be safely ignored.
-				return i == cnt ? false : true;
+				return i != cnt;
 			} else {
 				// In working tree and not ignored, and not in DirCache.
 				return true;

@@ -1,5 +1,5 @@
-/*
- * Copyright (C) 2010, Sasa Zivkov <sasa.zivkov@sap.com>
+/**
+ * Copyright (C) 2015, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -41,46 +41,53 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.http.server;
+package org.eclipse.jgit.revwalk.filter;
 
-import org.eclipse.jgit.nls.NLS;
-import org.eclipse.jgit.nls.TranslationBundle;
+import java.io.IOException;
+
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.revwalk.ObjectWalk;
 
 /**
- * Translation bundle for JGit http server
+ * Selects interesting objects when walking.
+ * <p>
+ * Applications should install the filter on an ObjectWalk by
+ * {@link ObjectWalk#setObjectFilter(ObjectFilter)} prior to starting traversal.
+ *
+ * @since 4.0
  */
-public class HttpServerText extends TranslationBundle {
+public abstract class ObjectFilter {
+	/** Default filter that always returns true. */
+	public static final ObjectFilter ALL = new AllFilter();
 
-	/**
-	 * @return an instance of this translation bundle
-	 */
-	public static HttpServerText get() {
-		return NLS.getBundleFor(HttpServerText.class);
+	private static final class AllFilter extends ObjectFilter {
+		@Override
+		public boolean include(ObjectWalk walker, AnyObjectId o) {
+			return true;
+		}
 	}
 
-	// @formatter:off
-	/***/ public String alreadyInitializedByContainer;
-	/***/ public String cannotGetLengthOf;
-	/***/ public String clientHas175ChunkedEncodingBug;
-	/***/ public String encodingNotSupportedByThisLibrary;
-	/***/ public String expectedRepositoryAttribute;
-	/***/ public String filterMustNotBeNull;
-	/***/ public String internalErrorDuringReceivePack;
-	/***/ public String internalErrorDuringUploadPack;
-	/***/ public String internalServerError;
-	/***/ public String internalServerErrorRequestAttributeWasAlreadySet;
-	/***/ public String invalidBoolean;
-	/***/ public String invalidIndex;
-	/***/ public String invalidRegexGroup;
-	/***/ public String noResolverAvailable;
-	/***/ public String parameterNotSet;
-	/***/ public String pathForParamNotFound;
-	/***/ public String pathNotSupported;
-	/***/ public String receivedCorruptObject;
-	/***/ public String repositoryAccessForbidden;
-	/***/ public String repositoryNotFound;
-	/***/ public String servletAlreadyInitialized;
-	/***/ public String servletMustNotBeNull;
-	/***/ public String servletWasAlreadyBound;
-	/***/ public String unexpectedeOFOn;
+	/**
+	 * Determine if the named object should be included in the walk.
+	 *
+	 * @param walker
+	 *            the active walker this filter is being invoked from within.
+	 * @param objid
+	 *            the object currently being tested.
+	 * @return {@code true} if the named object should be included in the walk.
+	 * @throws MissingObjectException
+	 *             an object the filter needed to consult to determine its
+	 *             answer was missing
+	 * @throws IncorrectObjectTypeException
+	 *             an object the filter needed to consult to determine its
+	 *             answer was of the wrong type
+	 * @throws IOException
+	 *             an object the filter needed to consult to determine its
+	 *             answer could not be read.
+	 */
+	public abstract boolean include(ObjectWalk walker, AnyObjectId objid)
+			throws MissingObjectException, IncorrectObjectTypeException,
+			       IOException;
 }

@@ -46,15 +46,10 @@ package org.eclipse.jgit.util;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assume.assumeFalse;
-import static org.junit.Assume.assumeNotNull;
 import static org.junit.Assume.assumeTrue;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.attribute.PosixFileAttributeView;
 import java.nio.file.attribute.PosixFilePermission;
@@ -123,28 +118,14 @@ public class FSJava7Test {
 
 	@Test
 	public void testExecutableAttributes() throws Exception {
-		FS fs = FS.DETECTED;
+		FS fs = FS.DETECTED.newInstance();
 		// If this assumption fails the test is halted and ignored.
 		assumeTrue(fs instanceof FS_POSIX);
+		((FS_POSIX) fs).setUmask(0022);
 
 		File f = new File(trash, "bla");
 		assertTrue(f.createNewFile());
 		assertFalse(fs.canExecute(f));
-
-		String umask = readUmask();
-		assumeNotNull(umask);
-
-		char others = umask.charAt(umask.length() - 1);
-
-		boolean badUmask;
-		if (others != '0' && others != '2' && others != '4' && others != '6') {
-			// umask is set in the way that "others" can not "execute" => git
-			// CLI will not set "execute" attribute for "others", so we also
-			// don't care
-			badUmask = true;
-		} else {
-			badUmask = false;
-		}
 
 		Set<PosixFilePermission> permissions = readPermissions(f);
 		assertTrue(!permissions.contains(PosixFilePermission.OTHERS_EXECUTE));
@@ -158,27 +139,21 @@ public class FSJava7Test {
 				permissions.contains(PosixFilePermission.OWNER_EXECUTE));
 		assertTrue("'group' execute permission not set",
 				permissions.contains(PosixFilePermission.GROUP_EXECUTE));
-		if (badUmask) {
-			assertFalse("'others' execute permission set",
-					permissions.contains(PosixFilePermission.OTHERS_EXECUTE));
-			System.err.println("WARNING: your system's umask: \"" + umask
-					+ "\" doesn't allow FSJava7Test to test if setting posix"
-					+ "  permissions for \"others\" works properly");
-			assumeFalse(badUmask);
-		} else {
-			assertTrue("'others' execute permission not set",
-					permissions.contains(PosixFilePermission.OTHERS_EXECUTE));
-		}
-	}
+		assertTrue("'others' execute permission not set",
+				permissions.contains(PosixFilePermission.OTHERS_EXECUTE));
 
-	private String readUmask() throws Exception {
-		Process p = Runtime.getRuntime().exec(
-				new String[] { "sh", "-c", "umask" }, null, null);
-		final BufferedReader lineRead = new BufferedReader(
-				new InputStreamReader(p.getInputStream(), Charset
-						.defaultCharset().name()));
-		p.waitFor();
-		return lineRead.readLine();
+		((FS_POSIX) fs).setUmask(0033);
+		fs.setExecute(f, false);
+		assertFalse(fs.canExecute(f));
+		fs.setExecute(f, true);
+
+		permissions = readPermissions(f);
+		assertTrue("'owner' execute permission not set",
+				permissions.contains(PosixFilePermission.OWNER_EXECUTE));
+		assertFalse("'group' execute permission set",
+				permissions.contains(PosixFilePermission.GROUP_EXECUTE));
+		assertFalse("'others' execute permission set",
+				permissions.contains(PosixFilePermission.OTHERS_EXECUTE));
 	}
 
 	private Set<PosixFilePermission> readPermissions(File f) throws IOException {

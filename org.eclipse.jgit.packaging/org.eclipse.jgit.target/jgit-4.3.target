@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/mbarbero/fr.obeo.releng.targetplatform -->
-<target name="jgit-4.3" sequenceNumber="1424129720">
+<target name="jgit-4.3" sequenceNumber="1431244100">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
-      <unit id="org.eclipse.jetty.client" version="7.6.14.v20131031"/>
-      <unit id="org.eclipse.jetty.client.source" version="7.6.14.v20131031"/>
-      <unit id="org.eclipse.jetty.continuation" version="7.6.14.v20131031"/>
-      <unit id="org.eclipse.jetty.continuation.source" version="7.6.14.v20131031"/>
-      <unit id="org.eclipse.jetty.http" version="7.6.14.v20131031"/>
-      <unit id="org.eclipse.jetty.http.source" version="7.6.14.v20131031"/>
-      <unit id="org.eclipse.jetty.io" version="7.6.14.v20131031"/>
-      <unit id="org.eclipse.jetty.io.source" version="7.6.14.v20131031"/>
-      <unit id="org.eclipse.jetty.security" version="7.6.14.v20131031"/>
-      <unit id="org.eclipse.jetty.security.source" version="7.6.14.v20131031"/>
-      <unit id="org.eclipse.jetty.server" version="7.6.14.v20131031"/>
-      <unit id="org.eclipse.jetty.server.source" version="7.6.14.v20131031"/>
-      <unit id="org.eclipse.jetty.servlet" version="7.6.14.v20131031"/>
-      <unit id="org.eclipse.jetty.servlet.source" version="7.6.14.v20131031"/>
-      <unit id="org.eclipse.jetty.util" version="7.6.14.v20131031"/>
-      <unit id="org.eclipse.jetty.util.source" version="7.6.14.v20131031"/>
-      <repository id="jetty-7.6.14" location="http://download.eclipse.org/jetty/updates/jetty-bundles-7.x/7.6.14.v20131031/"/>
+      <unit id="org.eclipse.jetty.client" version="9.2.10.v20150310"/>
+      <unit id="org.eclipse.jetty.client.source" version="9.2.10.v20150310"/>
+      <unit id="org.eclipse.jetty.continuation" version="9.2.10.v20150310"/>
+      <unit id="org.eclipse.jetty.continuation.source" version="9.2.10.v20150310"/>
+      <unit id="org.eclipse.jetty.http" version="9.2.10.v20150310"/>
+      <unit id="org.eclipse.jetty.http.source" version="9.2.10.v20150310"/>
+      <unit id="org.eclipse.jetty.io" version="9.2.10.v20150310"/>
+      <unit id="org.eclipse.jetty.io.source" version="9.2.10.v20150310"/>
+      <unit id="org.eclipse.jetty.security" version="9.2.10.v20150310"/>
+      <unit id="org.eclipse.jetty.security.source" version="9.2.10.v20150310"/>
+      <unit id="org.eclipse.jetty.server" version="9.2.10.v20150310"/>
+      <unit id="org.eclipse.jetty.server.source" version="9.2.10.v20150310"/>
+      <unit id="org.eclipse.jetty.servlet" version="9.2.10.v20150310"/>
+      <unit id="org.eclipse.jetty.servlet.source" version="9.2.10.v20150310"/>
+      <unit id="org.eclipse.jetty.util" version="9.2.10.v20150310"/>
+      <unit id="org.eclipse.jetty.util.source" version="9.2.10.v20150310"/>
+      <repository id="jetty-9.2.10" location="http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/9.2.10.v20150310/"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.apache.ant" version="1.9.2.v201404171502"/>
@@ -49,8 +49,8 @@
       <unit id="com.jcraft.jsch.source" version="0.1.51.v201410302000"/>
       <unit id="org.junit" version="4.11.0.v201303080030"/>
       <unit id="org.junit.source" version="4.11.0.v201303080030"/>
-      <unit id="javax.servlet" version="2.5.0.v201103041518"/>
-      <unit id="javax.servlet.source" version="2.5.0.v201103041518"/>
+      <unit id="javax.servlet" version="3.1.0.v20140303-1611"/>
+      <unit id="javax.servlet.source" version="3.1.0.v20140303-1611"/>
       <unit id="org.tukaani.xz" version="1.3.0.v201308270617"/>
       <unit id="org.tukaani.xz.source" version="1.3.0.v201308270617"/>
       <unit id="org.slf4j.api" version="1.7.2.v20121108-1250"/>

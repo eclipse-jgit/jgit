@@ -255,8 +255,13 @@ public class BinaryDelta {
 			shift += 7;
 		} while ((c & 0x80) != 0);
 
-		if (includeHeader)
-			r.append("DELTA( BASE=" + baseLen + " RESULT=" + resLen + " )\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		if (includeHeader) {
+			r.append("DELTA( BASE="); //$NON-NLS-1$
+			r.append(baseLen);
+			r.append(" RESULT="); //$NON-NLS-1$
+			r.append(resLen);
+			r.append(" )\n"); //$NON-NLS-1$
+		}
 
 		while (deltaPtr < delta.length) {
 			final int cmd = delta[deltaPtr++] & 0xff;
@@ -285,8 +290,11 @@ public class BinaryDelta {
 				if (copySize == 0)
 					copySize = 0x10000;
 
-				r.append("  COPY  (" + copyOffset + ", " + copySize + ")\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-
+				r.append("  COPY  ("); //$NON-NLS-1$
+				r.append(copyOffset);
+				r.append(", "); //$NON-NLS-1$
+				r.append(copySize);
+				r.append(")\n"); //$NON-NLS-1$
 			} else if (cmd != 0) {
 				// Anything else the data is literal within the delta
 				// itself.

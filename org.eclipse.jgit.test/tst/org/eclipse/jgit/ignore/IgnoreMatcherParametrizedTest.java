@@ -47,30 +47,13 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assume.assumeFalse;
 import static org.junit.Assume.assumeTrue;
 
-import java.util.Arrays;
-
 import org.eclipse.jgit.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameter;
-import org.junit.runners.Parameterized.Parameters;
 
 /**
  * Tests ignore pattern matches
  */
-@SuppressWarnings("deprecation")
-@RunWith(Parameterized.class)
 public class IgnoreMatcherParametrizedTest {
-
-	@Parameters(name = "OldRule? {0}")
-	public static Iterable<Boolean[]> data() {
-		return Arrays.asList(new Boolean[][] { { Boolean.FALSE },
-				{ Boolean.TRUE } });
-	}
-
-	@Parameter
-	public Boolean useOldRule;
 
 	@Test
 	public void testBasic() {
@@ -252,47 +235,38 @@ public class IgnoreMatcherParametrizedTest {
 
 	@Test
 	public void testDirModeAndRegex1() {
-		// IgnoreRule was buggy for some cases below, therefore using "Assume"
-		Boolean assume = useOldRule;
-
 		String pattern = "a/*/src/";
 		assertMatched(pattern, "a/b/src/");
 		assertMatched(pattern, "a/b/src/new");
 		assertMatched(pattern, "a/b/src/new/a.c");
 		assertMatched(pattern, "a/b/src/a.c");
 		// no match as a "file" pattern, because rule is for directories only
-		assertNotMatched(pattern, "a/b/src", assume);
+		assertNotMatched(pattern, "a/b/src");
 		assertNotMatched(pattern, "a/b/srcA/");
 	}
 
 	@Test
 	public void testDirModeAndRegex2() {
-		// IgnoreRule was buggy for some cases below, therefore using "Assume"
-		Boolean assume = useOldRule;
-
 		String pattern = "a/[a-b]/src/";
 		assertMatched(pattern, "a/b/src/");
 		assertMatched(pattern, "a/b/src/new");
 		assertMatched(pattern, "a/b/src/new/a.c");
 		assertMatched(pattern, "a/b/src/a.c");
 		// no match as a "file" pattern, because rule is for directories only
-		assertNotMatched(pattern, "a/b/src", assume);
+		assertNotMatched(pattern, "a/b/src");
 		assertNotMatched(pattern, "a/b/srcA/");
 	}
 
 	@Test
 	public void testDirModeAndRegex3() {
-		// IgnoreRule was buggy for some cases below, therefore using "Assume"
-		Boolean assume = useOldRule;
-
 		String pattern = "**/src/";
-		assertMatched(pattern, "a/b/src/", assume);
-		assertMatched(pattern, "a/b/src/new", assume);
-		assertMatched(pattern, "a/b/src/new/a.c", assume);
-		assertMatched(pattern, "a/b/src/a.c", assume);
+		assertMatched(pattern, "a/b/src/");
+		assertMatched(pattern, "a/b/src/new");
+		assertMatched(pattern, "a/b/src/new/a.c");
+		assertMatched(pattern, "a/b/src/a.c");
 		// no match as a "file" pattern, because rule is for directories only
-		assertNotMatched(pattern, "a/b/src", assume);
-		assertNotMatched(pattern, "a/b/srcA/", assume);
+		assertNotMatched(pattern, "a/b/src");
+		assertNotMatched(pattern, "a/b/srcA/");
 	}
 
 	@Test
@@ -416,13 +390,8 @@ public class IgnoreMatcherParametrizedTest {
 	private boolean match(String pattern, String target) {
 		boolean isDirectory = target.endsWith("/");
 		boolean match;
-		if (useOldRule.booleanValue()) {
-			IgnoreRule r = new IgnoreRule(pattern);
-			match = r.isMatch(target, isDirectory);
-		} else {
-			FastIgnoreRule r = new FastIgnoreRule(pattern);
-			match = r.isMatch(target, isDirectory);
-		}
+		FastIgnoreRule r = new FastIgnoreRule(pattern);
+		match = r.isMatch(target, isDirectory);
 
 		if (isDirectory) {
 			boolean noTrailingSlash = matchAsDir(pattern,
@@ -447,10 +416,6 @@ public class IgnoreMatcherParametrizedTest {
 	 */
 	private boolean matchAsDir(String pattern, String target) {
 		assertFalse(target.endsWith("/"));
-		if (useOldRule.booleanValue()) {
-			IgnoreRule r = new IgnoreRule(pattern);
-			return r.isMatch(target, true);
-		}
 		FastIgnoreRule r = new FastIgnoreRule(pattern);
 		return r.isMatch(target, true);
 	}

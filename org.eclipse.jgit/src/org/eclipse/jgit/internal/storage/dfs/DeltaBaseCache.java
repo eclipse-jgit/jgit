@@ -43,7 +43,6 @@
 
 package org.eclipse.jgit.internal.storage.dfs;
 
-import java.lang.ref.SoftReference;
 
 /**
  * Caches recently used objects for {@link DfsReader}.
@@ -60,30 +59,28 @@ final class DeltaBaseCache {
 	}
 
 	private int maxByteCount;
-
-	private final Slot[] table;
-
-	private Slot lruHead;
-
-	private Slot lruTail;
-
 	private int curByteCount;
 
+	private final Entry[] table;
+
+	private Entry lruHead;
+	private Entry lruTail;
+
 	DeltaBaseCache(DfsReader reader) {
-		DfsReaderOptions options = reader.getOptions();
-		maxByteCount = options.getDeltaBaseCacheLimit();
-		table = new Slot[1 << TABLE_BITS];
+		this(reader.getOptions().getDeltaBaseCacheLimit());
+	}
+
+	DeltaBaseCache(int maxBytes) {
+		maxByteCount = maxBytes;
+		table = new Entry[1 << TABLE_BITS];
 	}
 
 	Entry get(DfsPackKey key, long position) {
-		Slot e = table[hash(position)];
+		Entry e = table[hash(position)];
 		for (; e != null; e = e.tableNext) {
 			if (e.offset == position && key.equals(e.pack)) {
-				Entry buf = e.data.get();
-				if (buf != null) {
-					moveToHead(e);
-					return buf;
-				}
+				moveToHead(e);
+				return e;
 			}
 		}
 		return null;
@@ -97,33 +94,24 @@ final class DeltaBaseCache {
 		releaseMemory();
 
 		int tableIdx = hash(offset);
-		Slot e = new Slot(key, offset, data.length);
-		e.data = new SoftReference<Entry>(new Entry(data, objectType));
+		Entry e = new Entry(key, offset, objectType, data);
 		e.tableNext = table[tableIdx];
 		table[tableIdx] = e;
-		moveToHead(e);
+		lruPushHead(e);
 	}
 
 	private void releaseMemory() {
 		while (curByteCount > maxByteCount && lruTail != null) {
-			Slot currOldest = lruTail;
-			Slot nextOldest = currOldest.lruPrev;
-
-			curByteCount -= currOldest.size;
-			unlink(currOldest);
-			removeFromTable(currOldest);
-
-			if (nextOldest == null)
-				lruHead = null;
-			else
-				nextOldest.lruNext = null;
-			lruTail = nextOldest;
+			Entry e = lruTail;
+			curByteCount -= e.data.length;
+			lruRemove(e);
+			removeFromTable(e);
 		}
 	}
 
-	private void removeFromTable(Slot e) {
+	private void removeFromTable(Entry e) {
 		int tableIdx = hash(e.offset);
-		Slot p = table[tableIdx];
+		Entry p = table[tableIdx];
 
 		if (p == e) {
 			table[tableIdx] = e.tableNext;
@@ -136,59 +124,85 @@ final class DeltaBaseCache {
 				return;
 			}
 		}
+
+		throw new IllegalStateException(String.format(
+				"entry for %s:%d not in table", //$NON-NLS-1$
+				e.pack, Long.valueOf(e.offset)));
 	}
 
-	private void moveToHead(final Slot e) {
-		unlink(e);
-		e.lruPrev = null;
-		e.lruNext = lruHead;
-		if (lruHead != null)
-			lruHead.lruPrev = e;
-		else
-			lruTail = e;
-		lruHead = e;
-	}
-
-	private void unlink(final Slot e) {
-		Slot prev = e.lruPrev;
-		Slot next = e.lruNext;
-
-		if (prev != null)
-			prev.lruNext = next;
-		if (next != null)
-			next.lruPrev = prev;
-	}
-
-	static class Entry {
-		final byte[] data;
-
-		final int type;
-
-		Entry(final byte[] aData, final int aType) {
-			data = aData;
-			type = aType;
+	private void moveToHead(Entry e) {
+		if (e != lruHead) {
+			lruRemove(e);
+			lruPushHead(e);
 		}
 	}
 
-	private static class Slot {
+	private void lruRemove(Entry e) {
+		Entry p = e.lruPrev;
+		Entry n = e.lruNext;
+
+		if (p != null) {
+			p.lruNext = n;
+		} else {
+			lruHead = n;
+		}
+
+		if (n != null) {
+			n.lruPrev = p;
+		} else {
+			lruTail = p;
+		}
+	}
+
+	private void lruPushHead(Entry e) {
+		Entry n = lruHead;
+		e.lruNext = n;
+		if (n != null)
+			n.lruPrev = e;
+		else
+			lruTail = e;
+
+		e.lruPrev = null;
+		lruHead = e;
+	}
+
+	int getMemoryUsed() {
+		return curByteCount;
+	}
+
+	int getMemoryUsedByLruChainForTest() {
+		int r = 0;
+		for (Entry e = lruHead; e != null; e = e.lruNext) {
+			r += e.data.length;
+		}
+		return r;
+	}
+
+	int getMemoryUsedByTableForTest() {
+		int r = 0;
+		for (int i = 0; i < table.length; i++) {
+			for (Entry e = table[i]; e != null; e = e.tableNext) {
+				r += e.data.length;
+			}
+		}
+		return r;
+	}
+
+	static class Entry {
 		final DfsPackKey pack;
-
 		final long offset;
+		final int type;
+		final byte[] data;
 
-		final int size;
+		Entry tableNext;
+		Entry lruPrev;
+		Entry lruNext;
 
-		Slot tableNext;
-
-		Slot lruPrev;
-
-		Slot lruNext;
-
-		SoftReference<Entry> data;
-
-		Slot(DfsPackKey key, long offset, int size) {
+		Entry(DfsPackKey key, long offset, int type, byte[] data) {
 			this.pack = key;
 			this.offset = offset;
-			this.size = size;
+			this.type = type;
+			this.data = data;
 		}
 	}
 }
