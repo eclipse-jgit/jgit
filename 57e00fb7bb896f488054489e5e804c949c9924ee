@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "87f6139c_f6bca923",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-05-19T10:37:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87f6139c_a6c189fd",
+      "range": {
+        "startLine": 9,
+        "startChar": 45,
+        "endLine": 9,
+        "endChar": 50
+      },
+      "revId": "57e00fb7bb896f488054489e5e804c949c9924ee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7fb1785_43ec68b6",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -59,6 +83,54 @@
       "writtenOn": "2015-04-23T15:10:11Z",
       "side": 1,
       "message": "server\u0027s",
+      "range": {
+        "startLine": 11,
+        "startChar": 39,
+        "endLine": 11,
+        "endChar": 46
+      },
+      "revId": "57e00fb7bb896f488054489e5e804c949c9924ee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_36c751ab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-05-19T10:37:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7fb1785_43ec68b6",
+      "range": {
+        "startLine": 10,
+        "startChar": 50,
+        "endLine": 11,
+        "endChar": 6
+      },
+      "revId": "57e00fb7bb896f488054489e5e804c949c9924ee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_56cc9dce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-05-19T10:37:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7fb1785_23ef9cab",
       "range": {
         "startLine": 11,
         "startChar": 39,
