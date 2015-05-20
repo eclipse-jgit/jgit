@@ -22,6 +22,30 @@
       "revId": "5766d2ef1688bf4ab9ad54e82a1f330e4f4f66dd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_0fecb386",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 956,
+      "author": {
+        "id": 6590
+      },
+      "writtenOn": "2015-05-20T17:55:51Z",
+      "side": 1,
+      "message": "Class overriding close should call super.close() which will call release.\n\nI think it does matter that much if you plan to remove release method and only support close method in 4.0.",
+      "parentUuid": "87f6139c_a9075fd3",
+      "range": {
+        "startLine": 956,
+        "startChar": 13,
+        "endLine": 956,
+        "endChar": 18
+      },
+      "revId": "5766d2ef1688bf4ab9ad54e82a1f330e4f4f66dd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
