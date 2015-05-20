@@ -258,7 +258,9 @@ public class TreeWalk implements AutoCloseable {
 	 */
 	@Deprecated
 	public void release() {
-		close();
+		if (closeReader) {
+			reader.close();
+		}
 	}
 
 	/**
@@ -271,9 +273,7 @@ public class TreeWalk implements AutoCloseable {
 	 */
 	@Override
 	public void close() {
-		if (closeReader) {
-			reader.close();
-		}
+		release();
 	}
 
 	/**
