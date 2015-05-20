@@ -22,6 +22,29 @@
       "revId": "df284748fdd51cb2437182d1eee3349bc03bb38e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_299fefe8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/GitProtocolConstants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-05-20T13:21:08Z",
+      "side": 1,
+      "message": "s/4.1/4.0/",
+      "range": {
+        "startLine": 157,
+        "startChar": 11,
+        "endLine": 157,
+        "endChar": 14
+      },
+      "revId": "df284748fdd51cb2437182d1eee3349bc03bb38e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
