@@ -117,6 +117,29 @@
     },
     {
       "key": {
+        "uuid": "87f6139c_cab0d974",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RebaseCommandTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-05-20T22:54:48Z",
+      "side": 1,
+      "message": "(optional) In the preimage the walk is released here --- there could be a \u0027}\u0027 and de-indent here to do the same.\n\nI guess I prefer what you wrote, though.",
+      "range": {
+        "startLine": 122,
+        "startChar": 0,
+        "endLine": 122,
+        "endChar": 18
+      },
+      "revId": "0723218ff4ccc9ca4180f3b49bc940ffacd35207",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f6139c_ca557998",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/ConcurrentRepackTest.java",
         "patchSetId": 3
@@ -202,6 +225,29 @@
         "startChar": 0,
         "endLine": 104,
         "endChar": 4
+      },
+      "revId": "0723218ff4ccc9ca4180f3b49bc940ffacd35207",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_aaabcd0b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/TreeWalkBasicDiffTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-05-20T22:54:48Z",
+      "side": 1,
+      "message": "(optional) I think it\u0027s clearer with the inserter also released at this point, as in the preimage. (That is, there could be a \u0027}\u0027 and un-indent here.)",
+      "range": {
+        "startLine": 110,
+        "startChar": 0,
+        "endLine": 110,
+        "endChar": 20
       },
       "revId": "0723218ff4ccc9ca4180f3b49bc940ffacd35207",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
