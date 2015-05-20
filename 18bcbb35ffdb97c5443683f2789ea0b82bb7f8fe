@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_0ab1414c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BaseRepositoryBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 581,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-05-20T23:46:56Z",
+      "side": 1,
+      "message": "(please forgive my ignorance) Is it safe to skip calling repo.close() in this case?",
+      "range": {
+        "startLine": 580,
+        "startChar": 0,
+        "endLine": 581,
+        "endChar": 54
+      },
+      "revId": "18bcbb35ffdb97c5443683f2789ea0b82bb7f8fe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
