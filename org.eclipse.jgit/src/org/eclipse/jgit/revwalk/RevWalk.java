@@ -249,7 +249,9 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 */
 	@Deprecated
 	public void release() {
-		close();
+		if (closeReader) {
+			reader.close();
+		}
 	}
 
 	/**
@@ -262,9 +264,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 */
 	@Override
 	public void close() {
-		if (closeReader) {
-			reader.close();
-		}
+		release();
 	}
 
 	/**

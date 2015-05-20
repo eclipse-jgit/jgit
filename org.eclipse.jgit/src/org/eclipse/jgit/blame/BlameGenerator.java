@@ -941,7 +941,10 @@ public class BlameGenerator implements AutoCloseable {
 	 */
 	@Deprecated
 	public void release() {
-		close();
+		revPool.close();
+		queue = null;
+		outCandidate = null;
+		outRegion = null;
 	}
 
 	/**
@@ -951,10 +954,7 @@ public class BlameGenerator implements AutoCloseable {
 	 */
 	@Override
 	public void close() {
-		revPool.close();
-		queue = null;
-		outCandidate = null;
-		outRegion = null;
+		release();
 	}
 
 	private boolean find(RevCommit commit, PathFilter path) throws IOException {
