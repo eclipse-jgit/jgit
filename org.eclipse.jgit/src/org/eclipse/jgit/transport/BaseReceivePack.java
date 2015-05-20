@@ -46,6 +46,7 @@ package org.eclipse.jgit.transport;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_ATOMIC;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_DELETE_REFS;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_OFS_DELTA;
+import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_QUIET;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_REPORT_STATUS;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_SIDE_BAND_64K;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_AGENT;
@@ -233,6 +234,8 @@ public abstract class BaseReceivePack {
 
 	/** If {@link BasePackPushConnection#CAPABILITY_SIDE_BAND_64K} is enabled. */
 	private boolean sideBand;
+
+	private boolean quiet;
 
 	/** Lock around the received pack file, while updating refs. */
 	private PackLock packLock;
@@ -741,6 +744,23 @@ public abstract class BaseReceivePack {
 	}
 
 	/**
+	 * True if the client wants less verbose output.
+	 *
+	 * @return true if the client has requested the server to be less verbose.
+	 * @throws RequestNotYetReadException
+	 *             if the client's request has not yet been read from the wire,
+	 *             so we do not know if they expect side-band. Note that the
+	 *             client may have already written the request, it just has not
+	 *             been read.
+	 * @since 4.1
+	 */
+	public boolean isQuiet() throws RequestNotYetReadException {
+		if (enabledCapabilities == null)
+			throw new RequestNotYetReadException();
+		return quiet;
+	}
+
+	/**
 	 * Get the user agent of the client.
 	 * <p>
 	 * If the client is new enough to use {@code agent=} capability that value
@@ -969,6 +989,7 @@ public abstract class BaseReceivePack {
 		adv.advertiseCapability(CAPABILITY_SIDE_BAND_64K);
 		adv.advertiseCapability(CAPABILITY_DELETE_REFS);
 		adv.advertiseCapability(CAPABILITY_REPORT_STATUS);
+		adv.advertiseCapability(CAPABILITY_QUIET);
 		if (pushCertificateParser.enabled())
 			adv.advertiseCapability(
 				pushCertificateParser.getAdvertiseNonce());
@@ -1046,6 +1067,7 @@ public abstract class BaseReceivePack {
 	/** Enable capabilities based on a previously read capabilities line. */
 	protected void enableCapabilities() {
 		sideBand = isCapabilityEnabled(CAPABILITY_SIDE_BAND_64K);
+		quiet = isCapabilityEnabled(CAPABILITY_QUIET);
 		if (sideBand) {
 			OutputStream out = rawOut;
 
@@ -1093,7 +1115,7 @@ public abstract class BaseReceivePack {
 
 		ProgressMonitor receiving = NullProgressMonitor.INSTANCE;
 		ProgressMonitor resolving = NullProgressMonitor.INSTANCE;
-		if (sideBand)
+		if (sideBand && !quiet)
 			resolving = new SideBandProgressMonitor(msgOut);
 
 		try (ObjectInserter ins = db.newObjectInserter()) {
@@ -1130,7 +1152,7 @@ public abstract class BaseReceivePack {
 		ObjectIdSubclassMap<ObjectId> baseObjects = null;
 		ObjectIdSubclassMap<ObjectId> providedObjects = null;
 		ProgressMonitor checking = NullProgressMonitor.INSTANCE;
-		if (sideBand) {
+		if (sideBand && !quiet) {
 			SideBandProgressMonitor m = new SideBandProgressMonitor(msgOut);
 			m.setDelayStart(750, TimeUnit.MILLISECONDS);
 			checking = m;
