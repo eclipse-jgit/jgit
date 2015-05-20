@@ -145,7 +145,7 @@ class ObjectDirectoryInserter extends ObjectInserter {
 	}
 
 	@Override
-	public void release() {
+	public void close() {
 		if (deflate != null) {
 			try {
 				deflate.end();

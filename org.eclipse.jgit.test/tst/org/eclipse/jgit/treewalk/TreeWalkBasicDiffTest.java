@@ -63,72 +63,72 @@ public class TreeWalkBasicDiffTest extends RepositoryTestCase {
 	@Test
 	public void testMissingSubtree_DetectFileAdded_FileModified()
 			throws Exception {
-		final ObjectInserter inserter = db.newObjectInserter();
-		final ObjectId aFileId = inserter.insert(OBJ_BLOB, encode("a"));
-		final ObjectId bFileId = inserter.insert(OBJ_BLOB, encode("b"));
-		final ObjectId cFileId1 = inserter.insert(OBJ_BLOB, encode("c-1"));
-		final ObjectId cFileId2 = inserter.insert(OBJ_BLOB, encode("c-2"));
+		try (final ObjectInserter inserter = db.newObjectInserter()) {
+			final ObjectId aFileId = inserter.insert(OBJ_BLOB, encode("a"));
+			final ObjectId bFileId = inserter.insert(OBJ_BLOB, encode("b"));
+			final ObjectId cFileId1 = inserter.insert(OBJ_BLOB, encode("c-1"));
+			final ObjectId cFileId2 = inserter.insert(OBJ_BLOB, encode("c-2"));
 
-		// Create sub-a/empty, sub-c/empty = hello.
-		final ObjectId oldTree;
-		{
-			final Tree root = new Tree(db);
+			// Create sub-a/empty, sub-c/empty = hello.
+			final ObjectId oldTree;
 			{
-				final Tree subA = root.addTree("sub-a");
-				subA.addFile("empty").setId(aFileId);
-				subA.setId(inserter.insert(OBJ_TREE, subA.format()));
+				final Tree root = new Tree(db);
+				{
+					final Tree subA = root.addTree("sub-a");
+					subA.addFile("empty").setId(aFileId);
+					subA.setId(inserter.insert(OBJ_TREE, subA.format()));
+				}
+				{
+					final Tree subC = root.addTree("sub-c");
+					subC.addFile("empty").setId(cFileId1);
+					subC.setId(inserter.insert(OBJ_TREE, subC.format()));
+				}
+				oldTree = inserter.insert(OBJ_TREE, root.format());
 			}
+
+			// Create sub-a/empty, sub-b/empty, sub-c/empty.
+			final ObjectId newTree;
 			{
-				final Tree subC = root.addTree("sub-c");
-				subC.addFile("empty").setId(cFileId1);
-				subC.setId(inserter.insert(OBJ_TREE, subC.format()));
+				final Tree root = new Tree(db);
+				{
+					final Tree subA = root.addTree("sub-a");
+					subA.addFile("empty").setId(aFileId);
+					subA.setId(inserter.insert(OBJ_TREE, subA.format()));
+				}
+				{
+					final Tree subB = root.addTree("sub-b");
+					subB.addFile("empty").setId(bFileId);
+					subB.setId(inserter.insert(OBJ_TREE, subB.format()));
+				}
+				{
+					final Tree subC = root.addTree("sub-c");
+					subC.addFile("empty").setId(cFileId2);
+					subC.setId(inserter.insert(OBJ_TREE, subC.format()));
+				}
+				newTree = inserter.insert(OBJ_TREE, root.format());
 			}
-			oldTree = inserter.insert(OBJ_TREE, root.format());
+			inserter.flush();
+
+			final TreeWalk tw = new TreeWalk(db);
+			tw.reset(oldTree, newTree);
+			tw.setRecursive(true);
+			tw.setFilter(TreeFilter.ANY_DIFF);
+
+			assertTrue(tw.next());
+			assertEquals("sub-b/empty", tw.getPathString());
+			assertEquals(FileMode.MISSING, tw.getFileMode(0));
+			assertEquals(FileMode.REGULAR_FILE, tw.getFileMode(1));
+			assertEquals(ObjectId.zeroId(), tw.getObjectId(0));
+			assertEquals(bFileId, tw.getObjectId(1));
+
+			assertTrue(tw.next());
+			assertEquals("sub-c/empty", tw.getPathString());
+			assertEquals(FileMode.REGULAR_FILE, tw.getFileMode(0));
+			assertEquals(FileMode.REGULAR_FILE, tw.getFileMode(1));
+			assertEquals(cFileId1, tw.getObjectId(0));
+			assertEquals(cFileId2, tw.getObjectId(1));
+
+			assertFalse(tw.next());
 		}
-
-		// Create sub-a/empty, sub-b/empty, sub-c/empty.
-		final ObjectId newTree;
-		{
-			final Tree root = new Tree(db);
-			{
-				final Tree subA = root.addTree("sub-a");
-				subA.addFile("empty").setId(aFileId);
-				subA.setId(inserter.insert(OBJ_TREE, subA.format()));
-			}
-			{
-				final Tree subB = root.addTree("sub-b");
-				subB.addFile("empty").setId(bFileId);
-				subB.setId(inserter.insert(OBJ_TREE, subB.format()));
-			}
-			{
-				final Tree subC = root.addTree("sub-c");
-				subC.addFile("empty").setId(cFileId2);
-				subC.setId(inserter.insert(OBJ_TREE, subC.format()));
-			}
-			newTree = inserter.insert(OBJ_TREE, root.format());
-		}
-		inserter.flush();
-		inserter.release();
-
-		final TreeWalk tw = new TreeWalk(db);
-		tw.reset(oldTree, newTree);
-		tw.setRecursive(true);
-		tw.setFilter(TreeFilter.ANY_DIFF);
-
-		assertTrue(tw.next());
-		assertEquals("sub-b/empty", tw.getPathString());
-		assertEquals(FileMode.MISSING, tw.getFileMode(0));
-		assertEquals(FileMode.REGULAR_FILE, tw.getFileMode(1));
-		assertEquals(ObjectId.zeroId(), tw.getObjectId(0));
-		assertEquals(bFileId, tw.getObjectId(1));
-
-		assertTrue(tw.next());
-		assertEquals("sub-c/empty", tw.getPathString());
-		assertEquals(FileMode.REGULAR_FILE, tw.getFileMode(0));
-		assertEquals(FileMode.REGULAR_FILE, tw.getFileMode(1));
-		assertEquals(cFileId1, tw.getObjectId(0));
-		assertEquals(cFileId2, tw.getObjectId(1));
-
-		assertFalse(tw.next());
 	}
 }

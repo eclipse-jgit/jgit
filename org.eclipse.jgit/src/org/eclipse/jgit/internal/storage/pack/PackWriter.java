@@ -1006,14 +1006,6 @@ public class PackWriter implements AutoCloseable {
 	}
 
 	/**
-	 * Release all resources used by this writer. Use {@link #close()} instead.
-	 */
-	@Deprecated
-	public void release() {
-		close();
-	}
-
-	/**
 	 * Release all resources used by this writer.
 	 *
 	 * @since 4.0

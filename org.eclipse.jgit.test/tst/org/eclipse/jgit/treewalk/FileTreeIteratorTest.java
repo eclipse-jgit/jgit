@@ -274,9 +274,9 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 		ObjectId fromRaw = ObjectId.fromRaw(fti.idBuffer(), fti.idOffset());
 		assertEquals("6b584e8ece562ebffc15d38808cd6b98fc3d97ea",
 				fromRaw.getName());
-		ObjectReader objectReader = db.newObjectReader();
-		assertFalse(fti.isModified(dce, false, objectReader));
-		objectReader.release();
+		try (ObjectReader objectReader = db.newObjectReader()) {
+			assertFalse(fti.isModified(dce, false, objectReader));
+		}
 	}
 
 	@Test
@@ -291,15 +291,15 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 		// Modify previously committed DirCacheEntry and write it back to disk
 		DirCacheEntry dce = db.readDirCache().getEntry("symlink");
 		dce.setFileMode(FileMode.SYMLINK);
-		ObjectReader objectReader = db.newObjectReader();
-		DirCacheCheckout.checkoutEntry(db, dce, objectReader);
+		try (ObjectReader objectReader = db.newObjectReader()) {
+			DirCacheCheckout.checkoutEntry(db, dce, objectReader);
 
-		FileTreeIterator fti = new FileTreeIterator(trash, db.getFS(), db
-				.getConfig().get(WorkingTreeOptions.KEY));
-		while (!fti.getEntryPathString().equals("symlink"))
-			fti.next(1);
-		assertFalse(fti.isModified(dce, false, objectReader));
-		objectReader.release();
+			FileTreeIterator fti = new FileTreeIterator(trash, db.getFS(),
+					db.getConfig().get(WorkingTreeOptions.KEY));
+			while (!fti.getEntryPathString().equals("symlink"))
+				fti.next(1);
+			assertFalse(fti.isModified(dce, false, objectReader));
+		}
 	}
 
 	@Test
@@ -327,9 +327,9 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 		// If the rounding trick does not work we could skip the compareMetaData
 		// test and hope that we are usually testing the intended code path.
 		assertEquals(MetadataDiff.SMUDGED, fti.compareMetadata(dce));
-		ObjectReader objectReader = db.newObjectReader();
-		assertTrue(fti.isModified(dce, false, objectReader));
-		objectReader.release();
+		try (ObjectReader objectReader = db.newObjectReader()) {
+			assertTrue(fti.isModified(dce, false, objectReader));
+		}
 	}
 
 	@Test

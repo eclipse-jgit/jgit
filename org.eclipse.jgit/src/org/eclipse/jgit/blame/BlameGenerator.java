@@ -937,14 +937,6 @@ public class BlameGenerator implements AutoCloseable {
 	}
 
 	/**
-	 * Release the current blame session. Use {@link #close()} instead.
-	 */
-	@Deprecated
-	public void release() {
-		close();
-	}
-
-	/**
 	 * Release the current blame session.
 	 *
 	 * @since 4.0

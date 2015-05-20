@@ -117,7 +117,7 @@ class ReceivePackServlet extends HttpServlet {
 			try {
 				rp.sendAdvertisedRefs(pck);
 			} finally {
-				rp.getRevWalk().release();
+				rp.getRevWalk().close();
 			}
 		}
 	}
