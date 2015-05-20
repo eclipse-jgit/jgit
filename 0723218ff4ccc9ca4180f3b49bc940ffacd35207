@@ -1,0 +1,211 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_4a4a29ff",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/RebuildCommitGraph.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-05-20T22:49:47Z",
+      "side": 1,
+      "message": "(optional) could leave out \u0027final\u0027, since the resources in a try-with-resources is implicitly final",
+      "range": {
+        "startLine": 139,
+        "startChar": 0,
+        "endLine": 139,
+        "endChar": 42
+      },
+      "revId": "0723218ff4ccc9ca4180f3b49bc940ffacd35207",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_aa60ed77",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/RebuildCommitGraph.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-05-20T22:49:47Z",
+      "side": 1,
+      "message": "(optional) likewise",
+      "range": {
+        "startLine": 168,
+        "startChar": 0,
+        "endLine": 169,
+        "endChar": 59
+      },
+      "revId": "0723218ff4ccc9ca4180f3b49bc940ffacd35207",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_8a5b71cd",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/RebuildCommitGraph.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-05-20T22:49:47Z",
+      "side": 1,
+      "message": "(optional) likewise",
+      "range": {
+        "startLine": 279,
+        "startChar": 0,
+        "endLine": 280,
+        "endChar": 49
+      },
+      "revId": "0723218ff4ccc9ca4180f3b49bc940ffacd35207",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_6a4725f7",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/opt/AbstractTreeIteratorHandler.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-05-20T22:49:47Z",
+      "side": 1,
+      "message": "(optional) likewise",
+      "range": {
+        "startLine": 128,
+        "startChar": 0,
+        "endLine": 128,
+        "endChar": 73
+      },
+      "revId": "0723218ff4ccc9ca4180f3b49bc940ffacd35207",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_0a5021ab",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/DiffCommandTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-05-20T22:49:47Z",
+      "side": 1,
+      "message": "(optional) likewise",
+      "range": {
+        "startLine": 250,
+        "startChar": 0,
+        "endLine": 250,
+        "endChar": 54
+      },
+      "revId": "0723218ff4ccc9ca4180f3b49bc940ffacd35207",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_ca557998",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/ConcurrentRepackTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-05-20T22:49:47Z",
+      "side": 1,
+      "message": "(optional) likewise",
+      "range": {
+        "startLine": 153,
+        "startChar": 0,
+        "endLine": 153,
+        "endChar": 52
+      },
+      "revId": "0723218ff4ccc9ca4180f3b49bc940ffacd35207",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_2ab87d61",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/ConcurrentRepackTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-05-20T22:49:47Z",
+      "side": 1,
+      "message": "(optional) likewise",
+      "range": {
+        "startLine": 219,
+        "startChar": 0,
+        "endLine": 219,
+        "endChar": 51
+      },
+      "revId": "0723218ff4ccc9ca4180f3b49bc940ffacd35207",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_0abb015f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/ConcurrentRepackTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-05-20T22:49:47Z",
+      "side": 1,
+      "message": "(optional) likewise [and so on in other files]",
+      "range": {
+        "startLine": 286,
+        "startChar": 0,
+        "endLine": 286,
+        "endChar": 66
+      },
+      "revId": "0723218ff4ccc9ca4180f3b49bc940ffacd35207",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_6ac285cf",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/FileTreeIteratorJava7Test.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-05-20T22:49:47Z",
+      "side": 1,
+      "message": "(nit) indentation went awry",
+      "range": {
+        "startLine": 104,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 4
+      },
+      "revId": "0723218ff4ccc9ca4180f3b49bc940ffacd35207",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
