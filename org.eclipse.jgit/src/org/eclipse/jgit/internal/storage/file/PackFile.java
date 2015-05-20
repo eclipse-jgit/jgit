@@ -51,6 +51,7 @@ import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
 import java.io.EOFException;
 import java.io.File;
 import java.io.IOException;
+import java.io.InterruptedIOException;
 import java.io.RandomAccessFile;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel.MapMode;
@@ -177,6 +178,9 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 							packFile.getPath()));
 				}
 				loadedIdx = idx;
+			} catch (InterruptedIOException e) {
+				// don't invalidate the pack, we are interrupted from another thread
+				throw e;
 			} catch (IOException e) {
 				invalid = true;
 				throw e;
@@ -605,22 +609,26 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 				length = fd.length();
 				onOpenPack();
 			}
+		} catch (InterruptedIOException e) {
+			// don't invalidate the pack, we are interrupted from another thread
+			openFail(false);
+			throw e;
 		} catch (IOException ioe) {
-			openFail();
+			openFail(true);
 			throw ioe;
 		} catch (RuntimeException re) {
-			openFail();
+			openFail(true);
 			throw re;
 		} catch (Error re) {
-			openFail();
+			openFail(true);
 			throw re;
 		}
 	}
 
-	private void openFail() {
+	private void openFail(boolean invalidate) {
 		activeWindows = 0;
 		activeCopyRawData = 0;
-		invalid = true;
+		invalid = invalidate;
 		doClose();
 	}
 
