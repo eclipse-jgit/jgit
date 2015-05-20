@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_4ae9892c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-05-20T23:40:04Z",
+      "side": 1,
+      "message": "Why? Git.close in this case is a no-op.\n\nIf this fixes a warning then I don\u0027t mind this change (but it seems worth a mention in the commit message).",
+      "range": {
+        "startLine": 372,
+        "startChar": 0,
+        "endLine": 372,
+        "endChar": 48
+      },
+      "revId": "0e73d395061d1bfee365acaa2f79c392175d13bf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_aacf4dd4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 522,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-05-20T23:40:04Z",
+      "side": 1,
+      "message": "Same question: is this needed?",
+      "range": {
+        "startLine": 522,
+        "startChar": 0,
+        "endLine": 522,
+        "endChar": 34
+      },
+      "revId": "0e73d395061d1bfee365acaa2f79c392175d13bf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_8aca51c2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-05-20T23:40:04Z",
+      "side": 1,
+      "message": "likewise",
+      "range": {
+        "startLine": 569,
+        "startChar": 0,
+        "endLine": 569,
+        "endChar": 34
+      },
+      "revId": "0e73d395061d1bfee365acaa2f79c392175d13bf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
