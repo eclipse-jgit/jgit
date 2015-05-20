@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_6a8f2588",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-05-20T23:59:34Z",
+      "side": 1,
+      "message": "these reformatting edits are a huge amount of noise for what should otherwise be a small change :(",
+      "revId": "172086b2ca138a015947be01a80ec34d6690c66e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_4a9229ac",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-05-20T23:59:34Z",
+      "side": 1,
+      "message": "another reformatting :(",
+      "range": {
+        "startLine": 323,
+        "startChar": 5,
+        "endLine": 324,
+        "endChar": 50
+      },
+      "revId": "172086b2ca138a015947be01a80ec34d6690c66e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
