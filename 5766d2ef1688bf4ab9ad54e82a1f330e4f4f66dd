@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_a9075fd3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 956,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-05-20T13:18:26Z",
+      "side": 1,
+      "message": "should we declare close() final to prevent overriding which would leak for old client code still calling release() ?",
+      "range": {
+        "startLine": 956,
+        "startChar": 13,
+        "endLine": 956,
+        "endChar": 18
+      },
+      "revId": "5766d2ef1688bf4ab9ad54e82a1f330e4f4f66dd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
