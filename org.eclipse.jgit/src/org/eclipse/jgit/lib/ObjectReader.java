@@ -429,7 +429,7 @@ public abstract class ObjectReader implements AutoCloseable {
 	 */
 	@Deprecated
 	public void release() {
-		close();
+		// Do nothing.
 	}
 
 	/**
@@ -442,6 +442,6 @@ public abstract class ObjectReader implements AutoCloseable {
 	 */
 	@Override
 	public void close() {
-		// Do nothing.
+		release();
 	}
 }
