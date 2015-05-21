@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_3ecf1e5a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2015-05-21T05:46:27Z",
+      "side": 1,
+      "message": "Can we add a unit test for it?",
+      "revId": "97401bdf60b97dcd4ca210e2742453990ea9317f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
