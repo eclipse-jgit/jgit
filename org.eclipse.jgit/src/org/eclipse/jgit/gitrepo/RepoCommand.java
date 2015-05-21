@@ -240,7 +240,12 @@ public class RepoCommand extends GitCommand<RevCommit> {
 				throws GitAPIException, IOException;
 	}
 
-	private static class CopyFile {
+	/**
+	 * The representation of a copy file configuration.
+	 *
+	 * @since 4.0
+	 */
+	public static class CopyFile {
 		final Repository repo;
 		final String path;
 		final String src;
@@ -272,13 +277,20 @@ public class RepoCommand extends GitCommand<RevCommit> {
 		}
 	}
 
-	private static class Project implements Comparable<Project> {
+	/**
+	 * The representation of a sub project.
+	 *
+	 * @since 4.0
+	 */
+	public static class Project implements Comparable<Project> {
 		final String name;
 		final String path;
 		final String revision;
 		final String remote;
 		final Set<String> groups;
 		final List<CopyFile> copyfiles;
+		String url;
+		String defaultRevision;
 
 		Project(String name, String path, String revision,
 				String remote, String groups) {
@@ -293,6 +305,20 @@ public class RepoCommand extends GitCommand<RevCommit> {
 			if (groups != null && groups.length() > 0)
 				this.groups.addAll(Arrays.asList(groups.split(","))); //$NON-NLS-1$
 			copyfiles = new ArrayList<CopyFile>();
+		}
+
+		Project setUrl(String url) {
+			this.url = url;
+			return this;
+		}
+
+		Project setDefaultRevision(String defaultRevision) {
+			this.defaultRevision = defaultRevision;
+			return this;
+		}
+
+		String getRevision() {
+			return revision == null ? defaultRevision : revision;
 		}
 
 		void addCopyFile(CopyFile copyfile) {
@@ -329,25 +355,34 @@ public class RepoCommand extends GitCommand<RevCommit> {
 		}
 	}
 
-	private static class XmlManifest extends DefaultHandler {
-		private final RepoCommand command;
+	/**
+	 * Repo XML manifest parser.
+	 *
+	 * @since 4.0
+	 */
+	public static class ManifestParser extends DefaultHandler {
 		private final String filename;
 		private final String baseUrl;
+		private final String defaultBranch;
+		private final Repository rootRepo;
 		private final Map<String, String> remotes;
 		private final Set<String> plusGroups;
 		private final Set<String> minusGroups;
 		private List<Project> projects;
+		private List<Project> filteredProjects;
 		private String defaultRemote;
 		private String defaultRevision;
 		private IncludedFileReader includedReader;
 		private int xmlInRead;
 		private Project currentProject;
 
-		XmlManifest(RepoCommand command, IncludedFileReader includedReader,
-				String filename, String baseUrl, String groups) {
-			this.command = command;
+		ManifestParser(IncludedFileReader includedReader, String filename,
+				String defaultBranch, String baseUrl, String groups,
+				Repository rootRepo) {
 			this.includedReader = includedReader;
 			this.filename = filename;
+			this.defaultBranch = defaultBranch;
+			this.rootRepo = rootRepo;
 
 			// Strip trailing /s to match repo behavior.
 			int lastIndex = baseUrl.length() - 1;
@@ -355,11 +390,10 @@ public class RepoCommand extends GitCommand<RevCommit> {
 				lastIndex--;
 			this.baseUrl = baseUrl.substring(0, lastIndex + 1);
 
-			remotes = new HashMap<String, String>();
-			projects = new ArrayList<Project>();
 			plusGroups = new HashSet<String>();
 			minusGroups = new HashSet<String>();
-			if (groups == null || groups.length() == 0 || groups.equals("default")) { //$NON-NLS-1$
+			if (groups == null || groups.length() == 0
+					|| groups.equals("default")) { //$NON-NLS-1$
 				// default means "all,-notdefault"
 				minusGroups.add("notdefault"); //$NON-NLS-1$
 			} else {
@@ -370,6 +404,10 @@ public class RepoCommand extends GitCommand<RevCommit> {
 						plusGroups.add(group);
 				}
 			}
+
+			remotes = new HashMap<String, String>();
+			projects = new ArrayList<Project>();
+			filteredProjects = new ArrayList<Project>();
 		}
 
 		void read(InputStream inputStream) throws IOException {
@@ -414,12 +452,12 @@ public class RepoCommand extends GitCommand<RevCommit> {
 				defaultRemote = attributes.getValue("remote"); //$NON-NLS-1$
 				defaultRevision = attributes.getValue("revision"); //$NON-NLS-1$
 				if (defaultRevision == null)
-					defaultRevision = command.branch;
+					defaultRevision = defaultBranch;
 			} else if ("copyfile".equals(qName)) { //$NON-NLS-1$
 				if (currentProject == null)
 					throw new SAXException(RepoText.get().invalidManifest);
 				currentProject.addCopyFile(new CopyFile(
-							command.repo,
+							rootRepo,
 							currentProject.path,
 							attributes.getValue("src"), //$NON-NLS-1$
 							attributes.getValue("dest"))); //$NON-NLS-1$
@@ -473,9 +511,6 @@ public class RepoCommand extends GitCommand<RevCommit> {
 				return;
 
 			// Only do the following after we finished reading everything.
-			removeNotInGroup();
-			removeOverlaps();
-
 			Map<String, String> remoteUrls = new HashMap<String, String>();
 			URI baseUri;
 			try {
@@ -504,18 +539,36 @@ public class RepoCommand extends GitCommand<RevCommit> {
 						remoteUrl = remoteUrl + "/"; //$NON-NLS-1$
 					remoteUrls.put(remote, remoteUrl);
 				}
-
-				command.addSubmodule(remoteUrl + proj.name,
-						proj.path,
-						proj.revision == null
-								? defaultRevision : proj.revision,
-						proj.copyfiles);
+				proj.setUrl(remoteUrl + proj.name)
+						.setDefaultRevision(defaultRevision);
 			}
+
+			filteredProjects.addAll(projects);
+			removeNotInGroup();
+			removeOverlaps();
+		}
+
+		/**
+		 * Getter for projects.
+		 *
+		 * @since 4.0
+		 */
+		public List<Project> getProjects() {
+			return projects;
+		}
+
+		/**
+		 * Getter for filterdProjects.
+		 *
+		 * @since 4.0
+		 */
+		public List<Project> getFilteredProjects() {
+			return filteredProjects;
 		}
 
 		/** Remove projects that are not in our desired groups. */
 		void removeNotInGroup() {
-			Iterator<Project> iter = projects.iterator();
+			Iterator<Project> iter = filteredProjects.iterator();
 			while (iter.hasNext())
 				if (!inGroups(iter.next()))
 					iter.remove();
@@ -523,8 +576,8 @@ public class RepoCommand extends GitCommand<RevCommit> {
 
 		/** Remove projects that sits in a subdirectory of any other project. */
 		void removeOverlaps() {
-			Collections.sort(projects);
-			Iterator<Project> iter = projects.iterator();
+			Collections.sort(filteredProjects);
+			Iterator<Project> iter = filteredProjects.iterator();
 			if (!iter.hasNext())
 				return;
 			Project last = iter.next();
@@ -723,11 +776,17 @@ public class RepoCommand extends GitCommand<RevCommit> {
 			} else
 				git = new Git(repo);
 
-			XmlManifest manifest = new XmlManifest(
-					this, includedReader, path, uri, groups);
+			ManifestParser parser = new ManifestParser(
+					includedReader, path, branch, uri, groups, repo);
 			try {
-				manifest.read(inputStream);
-			} catch (IOException e) {
+				parser.read(inputStream);
+				for (Project proj : parser.getFilteredProjects()) {
+					addSubmodule(proj.url,
+							proj.path,
+							proj.getRevision(),
+							proj.copyfiles);
+				}
+			} catch (GitAPIException | IOException e) {
 				throw new ManifestErrorException(e);
 			}
 		} finally {
@@ -835,7 +894,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	}
 
 	private void addSubmodule(String url, String name, String revision,
-			List<CopyFile> copyfiles) throws SAXException {
+			List<CopyFile> copyfiles) throws GitAPIException, IOException {
 		if (repo.isBare()) {
 			Project proj = new Project(url, name, revision, null, null);
 			proj.copyfiles.addAll(copyfiles);
@@ -848,24 +907,18 @@ public class RepoCommand extends GitCommand<RevCommit> {
 			if (monitor != null)
 				add.setProgressMonitor(monitor);
 
-			try {
-				Repository subRepo = add.call();
-				if (revision != null) {
-					try (Git sub = new Git(subRepo)) {
-						sub.checkout().setName(findRef(revision, subRepo))
-								.call();
-					}
-					subRepo.close();
-					git.add().addFilepattern(name).call();
+			Repository subRepo = add.call();
+			if (revision != null) {
+				try (Git sub = new Git(subRepo)) {
+					sub.checkout().setName(findRef(revision, subRepo))
+							.call();
 				}
-				for (CopyFile copyfile : copyfiles) {
-					copyfile.copy();
-					git.add().addFilepattern(copyfile.dest).call();
-				}
-			} catch (GitAPIException e) {
-				throw new SAXException(e);
-			} catch (IOException e) {
-				throw new SAXException(e);
+				subRepo.close();
+				git.add().addFilepattern(name).call();
+			}
+			for (CopyFile copyfile : copyfiles) {
+				copyfile.copy();
+				git.add().addFilepattern(copyfile.dest).call();
 			}
 		}
 	}

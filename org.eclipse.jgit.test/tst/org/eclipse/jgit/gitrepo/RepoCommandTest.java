@@ -49,6 +49,9 @@ import static org.junit.Assert.assertTrue;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.StringBufferInputStream;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.junit.JGitTestUtil;
@@ -669,6 +672,64 @@ public class RepoCommandTest extends RepositoryTestCase {
 			.call();
 		File file = new File(localDb.getWorkTree(), "foo/hello.txt");
 		assertTrue("We should have foo", file.exists());
+	}
+
+	@Test
+	public void testManifestParser() throws Exception {
+		String baseUrl = "https://git.google.com/";
+		StringBuilder xmlContent = new StringBuilder();
+		Set<String> results = new HashSet<String>();
+		xmlContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+			.append("<manifest>")
+			.append("<remote name=\"remote1\" fetch=\".\" />")
+			.append("<default revision=\"master\" remote=\"remote1\" />")
+			.append("<project path=\"foo\" name=\"")
+			.append(defaultUri)
+			.append("\" groups=\"a,test\" />")
+			.append("<project path=\"bar\" name=\"")
+			.append(notDefaultUri)
+			.append("\" groups=\"notdefault\" />")
+			.append("<project path=\"foo/a\" name=\"")
+			.append(groupAUri)
+			.append("\" groups=\"a\" />")
+			.append("<project path=\"b\" name=\"")
+			.append(groupBUri)
+			.append("\" groups=\"b\" />")
+			.append("</manifest>");
+
+		RepoCommand.ManifestParser parser = new RepoCommand.ManifestParser(
+				null, null, "master", baseUrl, null, null);
+		parser.read(new StringBufferInputStream(xmlContent.toString()));
+		// Unfiltered projects should have them all.
+		results.clear();
+		results.add("foo");
+		results.add("bar");
+		results.add("foo/a");
+		results.add("b");
+		for (RepoCommand.Project proj : parser.getProjects()) {
+			String msg = String.format(
+					"project \"%s\" should be included in unfiltered projects",
+					proj.path);
+			assertTrue(msg, results.contains(proj.path));
+			results.remove(proj.path);
+		}
+		assertTrue(
+				"Unfiltered projects shouldn't contain any unexpected results",
+				results.isEmpty());
+		// Filtered projects should have foo & b
+		results.clear();
+		results.add("foo");
+		results.add("b");
+		for (RepoCommand.Project proj : parser.getFilteredProjects()) {
+			String msg = String.format(
+					"project \"%s\" should be included in filtered projects",
+					proj.path);
+			assertTrue(msg, results.contains(proj.path));
+			results.remove(proj.path);
+		}
+		assertTrue(
+				"Filtered projects shouldn't contain any unexpected results",
+				results.isEmpty());
 	}
 
 	private void resolveRelativeUris() {
