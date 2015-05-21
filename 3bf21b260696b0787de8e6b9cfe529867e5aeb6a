@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_124b3380",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 510,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-05-21T22:04:00Z",
+      "side": 1,
+      "message": "missing @since tag and javadoc",
+      "revId": "3bf21b260696b0787de8e6b9cfe529867e5aeb6a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
