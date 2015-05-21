@@ -49,6 +49,8 @@ import static org.junit.Assert.assertTrue;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.junit.JGitTestUtil;
