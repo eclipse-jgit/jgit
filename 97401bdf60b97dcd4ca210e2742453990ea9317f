@@ -16,6 +16,29 @@
       "revId": "97401bdf60b97dcd4ca210e2742453990ea9317f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_57676d44",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-05-21T20:55:35Z",
+      "side": 1,
+      "message": "Would it make sense to catch FileNotFoundException instead?\n\nThat would avoid invalidating the pack when other temporary I/O errors are encountered (e.g., ENOMEM or EIO). But I\u0027m not sure I understand v0.4.9~101 (Rescan packs if a pack is modified in-place (part 1), 2009-04-20) well enough yet to see if that\u0027s the intent.",
+      "range": {
+        "startLine": 184,
+        "startChar": 0,
+        "endLine": 184,
+        "endChar": 28
+      },
+      "revId": "97401bdf60b97dcd4ca210e2742453990ea9317f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
