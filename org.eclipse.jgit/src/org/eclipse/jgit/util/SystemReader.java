@@ -89,7 +89,7 @@ public abstract class SystemReader {
 		}
 
 		public FileBasedConfig openSystemConfig(Config parent, FS fs) {
-			File configFile = fs.discoverGitSystemConfig();
+			File configFile = fs.getGitSystemConfig();
 			if (configFile == null) {
 				return new FileBasedConfig(null, fs) {
 					public void load() {
