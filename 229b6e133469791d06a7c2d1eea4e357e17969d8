@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_2ddc1259",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-05-22T00:04:08Z",
+      "side": 1,
+      "message": "Promote to a toplevel type called RepoProject.",
+      "revId": "229b6e133469791d06a7c2d1eea4e357e17969d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_4dd99e69",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-05-22T00:04:08Z",
+      "side": 1,
+      "message": "Promote this and its friends to a top level types in the gitrepo package.",
+      "revId": "229b6e133469791d06a7c2d1eea4e357e17969d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
