@@ -157,11 +157,13 @@ public abstract class FS {
 
 	private volatile Holder<File> userHome;
 
+	private volatile Holder<File> gitSystemConfig;
+
 	/**
 	 * Constructs a file system abstraction.
 	 */
 	protected FS() {
-		// Do nothing by default.
+		gitSystemConfig = new Holder<File>(discoverGitSystemConfig());
 	}
 
 	/**
@@ -172,6 +174,7 @@ public abstract class FS {
 	 */
 	protected FS(FS src) {
 		userHome = src.userHome;
+		gitSystemConfig = src.gitSystemConfig;
 	}
 
 	/** @return a new instance of the same type of FS. */
@@ -543,6 +546,27 @@ public abstract class FS {
 		}
 
 		return new File(w);
+	}
+
+	/**
+	 * @return the currently used path to the system-wide Git configuration file.
+	 * @since 4.0
+	 */
+	public File getGitSystemConfig() {
+		return gitSystemConfig.value;
+	}
+
+	/**
+	 * Set the path to the system-wide Git configuration file to use.
+	 *
+	 * @param configFile
+	 *            the path to the config file.
+	 * @return {@code this}
+	 * @since 4.0
+	 */
+	public FS setGitSystemConfig(File configFile) {
+		gitSystemConfig = new Holder<File>(configFile);
+		return this;
 	}
 
 	/**
