@@ -1,0 +1,257 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_e706a692",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectChecker.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 669,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-05-22T17:27:50Z",
+      "side": 1,
+      "message": "(optional) these could be conbined into a single string\n\n\n String.format(\n   JGitText.get().corruptObjectInvalidName,\n   \"AUX\") //$NON-NLS-1$",
+      "range": {
+        "startLine": 669,
+        "startChar": 0,
+        "endLine": 669,
+        "endChar": 50
+      },
+      "revId": "0718ccc27d6c7244f5225a3563cf35de98936589",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_87f7e2fd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportSftp.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-05-22T17:27:50Z",
+      "side": 1,
+      "message": "(optional) here the parameter could be (path + \"/objects\") to save translators some confusion",
+      "range": {
+        "startLine": 184,
+        "startChar": 0,
+        "endLine": 184,
+        "endChar": 50
+      },
+      "revId": "0718ccc27d6c7244f5225a3563cf35de98936589",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_c7f1ea08",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportSftp.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-05-22T17:27:50Z",
+      "side": 1,
+      "message": "(optional) likewise",
+      "range": {
+        "startLine": 260,
+        "startChar": 0,
+        "endLine": 261,
+        "endChar": 38
+      },
+      "revId": "0718ccc27d6c7244f5225a3563cf35de98936589",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_a7ec9e32",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportSftp.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-05-22T17:27:50Z",
+      "side": 1,
+      "message": "(optional) likewise",
+      "range": {
+        "startLine": 275,
+        "startChar": 0,
+        "endLine": 277,
+        "endChar": 28
+      },
+      "revId": "0718ccc27d6c7244f5225a3563cf35de98936589",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_07af72ee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportSftp.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-05-22T17:27:50Z",
+      "side": 1,
+      "message": "(optional) likewise",
+      "range": {
+        "startLine": 288,
+        "startChar": 0,
+        "endLine": 290,
+        "endChar": 34
+      },
+      "revId": "0718ccc27d6c7244f5225a3563cf35de98936589",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_e7b1864d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportSftp.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-05-22T17:27:50Z",
+      "side": 1,
+      "message": "(optional) likewise",
+      "range": {
+        "startLine": 328,
+        "startChar": 0,
+        "endLine": 330,
+        "endChar": 34
+      },
+      "revId": "0718ccc27d6c7244f5225a3563cf35de98936589",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_47b97a33",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportSftp.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-05-22T17:27:50Z",
+      "side": 1,
+      "message": "(optional) likewise",
+      "range": {
+        "startLine": 342,
+        "startChar": 0,
+        "endLine": 344,
+        "endChar": 35
+      },
+      "revId": "0718ccc27d6c7244f5225a3563cf35de98936589",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_27bc2e23",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportSftp.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-05-22T17:27:50Z",
+      "side": 1,
+      "message": "(optional) likewise",
+      "range": {
+        "startLine": 376,
+        "startChar": 0,
+        "endLine": 378,
+        "endChar": 28
+      },
+      "revId": "0718ccc27d6c7244f5225a3563cf35de98936589",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_87c2429a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportSftp.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-05-22T17:27:50Z",
+      "side": 1,
+      "message": "(optional) likewise",
+      "range": {
+        "startLine": 398,
+        "startChar": 0,
+        "endLine": 400,
+        "endChar": 28
+      },
+      "revId": "0718ccc27d6c7244f5225a3563cf35de98936589",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_67bd961d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportSftp.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-05-22T17:27:50Z",
+      "side": 1,
+      "message": "(optional) likewise",
+      "range": {
+        "startLine": 429,
+        "startChar": 0,
+        "endLine": 431,
+        "endChar": 30
+      },
+      "revId": "0718ccc27d6c7244f5225a3563cf35de98936589",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_a7c77ea8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportSftp.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 458,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-05-22T17:27:50Z",
+      "side": 1,
+      "message": "This annotation is not needed any more.",
+      "range": {
+        "startLine": 458,
+        "startChar": 62,
+        "endLine": 458,
+        "endChar": 77
+      },
+      "revId": "0718ccc27d6c7244f5225a3563cf35de98936589",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
