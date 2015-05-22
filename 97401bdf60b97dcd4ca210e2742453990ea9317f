@@ -42,6 +42,42 @@
     },
     {
       "key": {
+        "uuid": "87f6139c_072c92cf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2015-05-22T14:35:19Z",
+      "side": 1,
+      "message": "I am not sure how to do that without changing the code in the try-catch block. Basically, the test would have to mock the static PackIndex.open method and the mock would throw the InterruptedIOException. Looks like JGit tests don\u0027t make use of a mocking framework.\n\nHowever, I am open for a proposal how to test this.",
+      "parentUuid": "87f6139c_3ecf1e5a",
+      "revId": "97401bdf60b97dcd4ca210e2742453990ea9317f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_0355a747",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2015-05-22T14:35:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87f6139c_d75a3d7a",
+      "revId": "97401bdf60b97dcd4ca210e2742453990ea9317f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f6139c_57676d44",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
         "patchSetId": 1
