@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_87a9a2de",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-05-22T17:30:08Z",
+      "side": 1,
+      "message": "What line has the potential null access?\n\nWe could include an explicit null check to pacify the linter without losing the benefit of the warning in the rest of the function.",
+      "range": {
+        "startLine": 536,
+        "startChar": 0,
+        "endLine": 536,
+        "endChar": 26
+      },
+      "revId": "f18bfb962e632e2c7efde46e8eb09ede51b8e3fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
