@@ -751,8 +751,11 @@ public abstract class Repository implements AutoCloseable {
 
 	private String resolveReflogCheckout(int checkoutNo)
 			throws IOException {
-		List<ReflogEntry> reflogEntries = getReflogReader(Constants.HEAD)
-				.getReverseEntries();
+		ReflogReader reader = getReflogReader(Constants.HEAD);
+		if (reader == null) {
+			return null;
+		}
+		List<ReflogEntry> reflogEntries = reader.getReverseEntries();
 		for (ReflogEntry entry : reflogEntries) {
 			CheckoutEntry checkout = entry.parseCheckout();
 			if (checkout != null)
@@ -773,6 +776,11 @@ public abstract class Repository implements AutoCloseable {
 		}
 		assert number >= 0;
 		ReflogReader reader = getReflogReader(ref.getName());
+		if (reader == null) {
+			throw new RevisionSyntaxException(
+					MessageFormat.format(JGitText.get().reflogEntryNotFound,
+							Integer.valueOf(number), ref.getName()));
+		}
 		ReflogEntry entry = reader.getReverseEntry(number);
 		if (entry == null)
 			throw new RevisionSyntaxException(MessageFormat.format(
