@@ -340,7 +340,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	 *
 	 * @param reader
 	 * @return this command
-	 * @since 3.5
+	 * @since 4.0
 	 */
 	public RepoCommand setIncludedFileReader(IncludedFileReader reader) {
 		this.includedReader = reader;
