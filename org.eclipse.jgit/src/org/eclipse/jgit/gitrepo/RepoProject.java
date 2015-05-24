@@ -96,6 +96,8 @@ public class RepoProject implements Comparable<RepoProject> {
 
 		/**
 		 * Do the copy file action.
+		 *
+		 * @throws IOException
 		 */
 		public void copy() throws IOException {
 			File srcFile = new File(repo.getWorkTree(),
@@ -186,7 +188,11 @@ public class RepoProject implements Comparable<RepoProject> {
 	}
 
 	/**
-	 * Check if this sub repo is the ancestor of another sub repo.
+	 * Check if this sub repo is the ancestor of given sub repo.
+	 *
+	 * @param that
+	 *            non null
+	 * @return true if this sub repo is the ancestor of given sub repo.
 	 */
 	public boolean isAncestorOf(RepoProject that) {
 		return that.getPathWithSlash().startsWith(this.getPathWithSlash());
