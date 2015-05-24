@@ -94,9 +94,9 @@ Warnings/Caveats
   Git is installed. Make sure Git can be found via the PATH
   environment variable. When installing Git for Windows check the "Run
   Git from the Windows Command Prompt" option. There are other options
-  like Eclipse settings that can be used for pointing out where C Git
-  is installed. Modifying PATH is the recommended option if C Git is
-  installed.
+  like the jgit.gitprefix system property or Eclipse settings that can
+  be used for pointing out where C Git is installed. Modifying PATH is
+  the recommended option if C Git is installed.
 
 - We try to use the same notation of $HOME as C Git does. On Windows
   this is often not the same value as the user.home system property.
