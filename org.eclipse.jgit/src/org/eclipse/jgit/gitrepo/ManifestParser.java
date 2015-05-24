@@ -154,6 +154,7 @@ public class ManifestParser extends DefaultHandler {
 	 * Read the xml file.
 	 *
 	 * @param inputStream
+	 * @throws IOException
 	 */
 	public void read(InputStream inputStream) throws IOException {
 		xmlInRead++;
@@ -295,6 +296,8 @@ public class ManifestParser extends DefaultHandler {
 
 	/**
 	 * Getter for projects.
+	 *
+	 * @return the projects
 	 */
 	public List<RepoProject> getProjects() {
 		return projects;
@@ -302,6 +305,8 @@ public class ManifestParser extends DefaultHandler {
 
 	/**
 	 * Getter for filterdProjects.
+	 *
+	 * @return the filtered projects
 	 */
 	public List<RepoProject> getFilteredProjects() {
 		return filteredProjects;
