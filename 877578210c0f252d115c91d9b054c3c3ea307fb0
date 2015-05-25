@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_f0593a62",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2015-05-25T10:20:28Z",
+      "side": 1,
+      "message": "It would be better to evaluate gitSystemConfig lazily in getGitSystemConfig(), so a call to discoverGitSystemConfig() can be avoided completely if gitSystemConfig has been set \u0027manually\u0027 before. discoverGitSystemConfig() is possibly slow and may even hang if the bash configuration is screwed up.",
+      "revId": "877578210c0f252d115c91d9b054c3c3ea307fb0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
