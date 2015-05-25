@@ -87,9 +87,9 @@ public class ManifestParserTest {
 		for (RepoProject proj : parser.getProjects()) {
 			String msg = String.format(
 					"project \"%s\" should be included in unfiltered projects",
-					proj.path);
-			assertTrue(msg, results.contains(proj.path));
-			results.remove(proj.path);
+					proj.getPath());
+			assertTrue(msg, results.contains(proj.getPath()));
+			results.remove(proj.getPath());
 		}
 		assertTrue(
 				"Unfiltered projects shouldn't contain any unexpected results",
@@ -101,9 +101,9 @@ public class ManifestParserTest {
 		for (RepoProject proj : parser.getFilteredProjects()) {
 			String msg = String.format(
 					"project \"%s\" should be included in filtered projects",
-					proj.path);
-			assertTrue(msg, results.contains(proj.path));
-			results.remove(proj.path);
+					proj.getPath());
+			assertTrue(msg, results.contains(proj.getPath()));
+			results.remove(proj.getPath());
 		}
 		assertTrue(
 				"Filtered projects shouldn't contain any unexpected results",
