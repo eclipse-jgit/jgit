@@ -944,7 +944,7 @@ public abstract class FS {
 	}
 
 	/**
-	 * Initialize a ProcesssBuilder to run a command using the system shell.
+	 * Initialize a ProcessBuilder to run a command using the system shell.
 	 *
 	 * @param cmd
 	 *            command to execute. This string should originate from the
