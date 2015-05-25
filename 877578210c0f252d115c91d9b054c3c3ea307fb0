@@ -16,6 +16,24 @@
       "revId": "877578210c0f252d115c91d9b054c3c3ea307fb0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_d0a35ef8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 23125
+      },
+      "writtenOn": "2015-05-25T19:11:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87f6139c_f0593a62",
+      "revId": "877578210c0f252d115c91d9b054c3c3ea307fb0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
