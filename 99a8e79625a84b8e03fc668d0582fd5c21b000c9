@@ -16,6 +16,24 @@
       "revId": "99a8e79625a84b8e03fc668d0582fd5c21b000c9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_3b5563cb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/SimilarityIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 15337
+      },
+      "writtenOn": "2015-05-25T22:14:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87f6139c_3b7e0355",
+      "revId": "99a8e79625a84b8e03fc668d0582fd5c21b000c9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
