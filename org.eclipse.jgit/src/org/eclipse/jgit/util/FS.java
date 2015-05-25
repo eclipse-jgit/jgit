@@ -515,13 +515,15 @@ public abstract class FS {
 	}
 
 	/**
-	 * @return the path to the Git executable.
+	 * @return the path to the Git executable or {@code null} if it cannot be
+	 *         determined.
 	 * @since 4.0
 	 */
 	protected abstract File discoverGitExe();
 
 	/**
-	 * @return the path to the system-wide Git configuration file.
+	 * @return the path to the system-wide Git configuration file or
+	 *         {@code null} if it cannot be determined.
 	 * @since 4.0
 	 */
 	protected File discoverGitSystemConfig() {
