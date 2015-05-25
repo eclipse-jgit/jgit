@@ -379,10 +379,10 @@ public class RepoCommand extends GitCommand<RevCommit> {
 			try {
 				parser.read(inputStream);
 				for (RepoProject proj : parser.getFilteredProjects()) {
-					addSubmodule(proj.url,
-							proj.path,
+					addSubmodule(proj.getUrl(),
+							proj.getPath(),
 							proj.getRevision(),
-							proj.copyfiles);
+							proj.getCopyfiles());
 				}
 			} catch (GitAPIException | IOException e) {
 				throw new ManifestErrorException(e);

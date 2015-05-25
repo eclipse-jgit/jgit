@@ -49,6 +49,7 @@ import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -163,12 +164,48 @@ public class RepoProject implements Comparable<RepoProject> {
 	}
 
 	/**
+	 * Getter for name.
+	 *
+	 * @return {@code name}
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * Getter for path.
+	 *
+	 * @return {@code path}
+	 */
+	public String getPath() {
+		return path;
+	}
+
+	/**
 	 * Get the revision of the sub repo.
 	 *
-	 * @return revision if set, or default revision.
+	 * @return {@code revision} if set, or {@code defaultRevision}.
 	 */
 	public String getRevision() {
 		return revision == null ? defaultRevision : revision;
+	}
+
+	/**
+	 * Getter for copyfiles.
+	 *
+	 * @return Immutable copy of {@code copyfiles}
+	 */
+	public List<CopyFile> getCopyfiles() {
+		return Collections.unmodifiableList(copyfiles);
+	}
+
+	/**
+	 * Getter for url.
+	 *
+	 * @return {@code url}
+	 */
+	public String getUrl() {
+		return url;
 	}
 
 	/**
