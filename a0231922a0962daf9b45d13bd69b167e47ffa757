@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_1364cb13",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/SimilarityIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-05-26T16:43:09Z",
+      "side": 1,
+      "message": "There is no DiffEntry here. Moreover you have an ObjectLoader. We found the object once. A MissingObjectException at this point is a race with `git prune` where the object is no longer reachable and was deleted between the time the caller opened it, and now. This is rather unlikely.\n\nI think you can just omit MissingObjectException and let it be IOException. MOE is just as unlikely as any other IOException at this stage and there is nothing the caller can do about either.",
+      "revId": "a0231922a0962daf9b45d13bd69b167e47ffa757",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_5365b30d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/SimilarityIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-05-26T16:43:09Z",
+      "side": 1,
+      "message": "Compute similarity score between this index and another.",
+      "range": {
+        "startLine": 241,
+        "startChar": 4,
+        "endLine": 242,
+        "endChar": 12
+      },
+      "revId": "a0231922a0962daf9b45d13bd69b167e47ffa757",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_f33dbfeb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/SimilarityIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-05-26T16:43:09Z",
+      "side": 1,
+      "message": "Explain more about the range of values returned.\n\nI know it returns {@code maxScore} when both input files were empty length.\n\nIIRC its returning an integer value in the range [0, maxScore] where score/maxScore*100 is the percentage of this file that matches the other file.",
+      "revId": "a0231922a0962daf9b45d13bd69b167e47ffa757",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_3338e7f7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/SimilarityIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-05-26T16:43:09Z",
+      "side": 1,
+      "message": "/** Thrown by {@code create()} when file is too large. */",
+      "range": {
+        "startLine": 419,
+        "startChar": 1,
+        "endLine": 422,
+        "endChar": 4
+      },
+      "revId": "a0231922a0962daf9b45d13bd69b167e47ffa757",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
