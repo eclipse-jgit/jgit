@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_d307e355",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoProject.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-05-26T16:28:48Z",
+      "side": 1,
+      "message": "Get the name?",
+      "range": {
+        "startLine": 177,
+        "startChar": 4,
+        "endLine": 177,
+        "endChar": 16
+      },
+      "revId": "2a75446a4baa0fddeaca8c8cac7c30e391a808f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_330f4771",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoProject.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-05-26T16:28:48Z",
+      "side": 1,
+      "message": "getCopyFiles",
+      "range": {
+        "startLine": 208,
+        "startChar": 23,
+        "endLine": 208,
+        "endChar": 35
+      },
+      "revId": "2a75446a4baa0fddeaca8c8cac7c30e391a808f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_73f8afb6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoProject.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-05-26T16:28:48Z",
+      "side": 1,
+      "message": "unnecessary `this`",
+      "range": {
+        "startLine": 255,
+        "startChar": 2,
+        "endLine": 255,
+        "endChar": 6
+      },
+      "revId": "2a75446a4baa0fddeaca8c8cac7c30e391a808f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
