@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "87f6139c_c92e14c8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-05-26T23:57:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87f6139c_06f12b8a",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 19
+      },
+      "revId": "2d2d5fee79b7419c53319131ba023835e6c0f14f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f6139c_a6e137bb",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/errors/TooLargePackException.java",
         "patchSetId": 4
@@ -36,6 +60,24 @@
       "writtenOn": "2015-05-26T20:53:07Z",
       "side": 1,
       "message": "unnecessary blank line between @param and @since?",
+      "revId": "2d2d5fee79b7419c53319131ba023835e6c0f14f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_a902a83f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/errors/TooLargePackException.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-05-26T23:57:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87f6139c_a6e137bb",
       "revId": "2d2d5fee79b7419c53319131ba023835e6c0f14f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "87f6139c_89fd2ca6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/errors/TooLargePackException.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-05-26T23:57:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87f6139c_e69e9f42",
+      "range": {
+        "startLine": 80,
+        "startChar": 30,
+        "endLine": 80,
+        "endChar": 35
+      },
+      "revId": "2d2d5fee79b7419c53319131ba023835e6c0f14f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f6139c_86dcfb04",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/errors/TooLargePackException.java",
         "patchSetId": 4
@@ -76,6 +142,30 @@
       "writtenOn": "2015-05-26T20:53:07Z",
       "side": 1,
       "message": "This could fit on one line.",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 9
+      },
+      "revId": "2d2d5fee79b7419c53319131ba023835e6c0f14f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_e92b10b7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/errors/TooLargePackException.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-05-26T23:57:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87f6139c_86dcfb04",
       "range": {
         "startLine": 81,
         "startChar": 0,
