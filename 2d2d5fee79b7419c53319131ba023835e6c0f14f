@@ -108,6 +108,30 @@
       "revId": "2d2d5fee79b7419c53319131ba023835e6c0f14f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_2648a705",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackPushConnection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-05-26T22:03:44Z",
+      "side": 1,
+      "message": "I think this string lacks a \":\"\n\n s/error Pack exceeds the limit of/error: Pack exceeds the limit of/\n\nI think the error message is here \n\nhttp://git.eclipse.org/c/jgit/jgit.git/tree/org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties#n485\n\nand formatted here \n\nhttp://git.eclipse.org/c/jgit/jgit.git/tree/org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java#n839",
+      "parentUuid": "87f6139c_c6a1e37f",
+      "range": {
+        "startLine": 318,
+        "startChar": 31,
+        "endLine": 318,
+        "endChar": 62
+      },
+      "revId": "2d2d5fee79b7419c53319131ba023835e6c0f14f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
