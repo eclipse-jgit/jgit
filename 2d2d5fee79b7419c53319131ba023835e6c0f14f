@@ -132,6 +132,30 @@
       "revId": "2d2d5fee79b7419c53319131ba023835e6c0f14f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_661e2ff1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackPushConnection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-05-26T22:27:48Z",
+      "side": 1,
+      "message": "no I was wrong, the error message is formatted here\n\nhttp://git.eclipse.org/c/jgit/jgit.git/tree/org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java#n1460\n\nnot sure if this is correct or if this formatting is wrong and should read\n\n s#\"unpack error \" + unpackError.getMessage()#\"unpack error: \" + unpackError.getMessage()#",
+      "parentUuid": "87f6139c_2648a705",
+      "range": {
+        "startLine": 318,
+        "startChar": 31,
+        "endLine": 318,
+        "endChar": 62
+      },
+      "revId": "2d2d5fee79b7419c53319131ba023835e6c0f14f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
