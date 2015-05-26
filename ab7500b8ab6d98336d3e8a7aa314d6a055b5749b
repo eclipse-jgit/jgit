@@ -100,6 +100,30 @@
     },
     {
       "key": {
+        "uuid": "87f6139c_93fd5ba6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoProject.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-05-26T16:28:43Z",
+      "side": 1,
+      "message": "nm, List.addAll only accepts Collection.",
+      "parentUuid": "87f6139c_53e813ef",
+      "range": {
+        "startLine": 226,
+        "startChar": 29,
+        "endLine": 226,
+        "endChar": 39
+      },
+      "revId": "ab7500b8ab6d98336d3e8a7aa314d6a055b5749b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f6139c_13d7ab34",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoProject.java",
         "patchSetId": 2
