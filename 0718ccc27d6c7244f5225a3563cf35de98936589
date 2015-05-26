@@ -252,6 +252,30 @@
       "revId": "0718ccc27d6c7244f5225a3563cf35de98936589",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_b6568aa1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportSftp.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 458,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-05-26T08:53:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87f6139c_a7c77ea8",
+      "range": {
+        "startLine": 458,
+        "startChar": 62,
+        "endLine": 458,
+        "endChar": 77
+      },
+      "revId": "0718ccc27d6c7244f5225a3563cf35de98936589",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
