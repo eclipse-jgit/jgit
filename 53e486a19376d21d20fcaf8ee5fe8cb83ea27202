@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "87f6139c_0655abca",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2174,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-05-26T21:38:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87f6139c_267b8766",
+      "revId": "53e486a19376d21d20fcaf8ee5fe8cb83ea27202",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f6139c_465fb3f2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapWalker.java",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "87f6139c_664bcf31",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapWalker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-05-26T21:38:13Z",
+      "side": 1,
+      "message": "Good catch. We want the sum of both.",
+      "parentUuid": "87f6139c_465fb3f2",
+      "revId": "53e486a19376d21d20fcaf8ee5fe8cb83ea27202",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f6139c_e6705f83",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapWalker.java",
         "patchSetId": 2
@@ -47,6 +83,30 @@
       "writtenOn": "2015-05-26T21:02:44Z",
       "side": 1,
       "message": "s/public//\n\nThis type is not visible, so the methods aren\u0027t visible even if you declared them public. In such cases we avoid public to make it less confusing.",
+      "range": {
+        "startLine": 183,
+        "startChar": 2,
+        "endLine": 183,
+        "endChar": 8
+      },
+      "revId": "53e486a19376d21d20fcaf8ee5fe8cb83ea27202",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_46469328",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapWalker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-05-26T21:38:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87f6139c_e6705f83",
       "range": {
         "startLine": 183,
         "startChar": 2,
