@@ -22,6 +22,30 @@
       "revId": "f18bfb962e632e2c7efde46e8eb09ede51b8e3fb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_d684f6af",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-05-26T08:46:39Z",
+      "side": 1,
+      "message": "many lines show a potential null pointer access warning\n\nthe static checks don\u0027t understand that crc1, crc2 are guaranteed to be non-null if validate is true",
+      "parentUuid": "87f6139c_87a9a2de",
+      "range": {
+        "startLine": 536,
+        "startChar": 0,
+        "endLine": 536,
+        "endChar": 26
+      },
+      "revId": "f18bfb962e632e2c7efde46e8eb09ede51b8e3fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
