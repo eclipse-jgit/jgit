@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_267b8766",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2174,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-05-26T21:02:44Z",
+      "side": 1,
+      "message": "missing @since 4.0",
+      "revId": "53e486a19376d21d20fcaf8ee5fe8cb83ea27202",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_465fb3f2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapWalker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-05-26T21:02:44Z",
+      "side": 1,
+      "message": "I don\u0027t think we want to zero here? PackWriter runs 2 invocations of findObjects(); one for \"have\" and another for \"want\".\n\nBy clearing the counter we only report the last. Is that correct?",
+      "revId": "53e486a19376d21d20fcaf8ee5fe8cb83ea27202",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_e6705f83",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapWalker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-05-26T21:02:44Z",
+      "side": 1,
+      "message": "s/public//\n\nThis type is not visible, so the methods aren\u0027t visible even if you declared them public. In such cases we avoid public to make it less confusing.",
+      "range": {
+        "startLine": 183,
+        "startChar": 2,
+        "endLine": 183,
+        "endChar": 8
+      },
+      "revId": "53e486a19376d21d20fcaf8ee5fe8cb83ea27202",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
