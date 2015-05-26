@@ -124,8 +124,7 @@ public class CreateBranchCommand extends GitCommand<Ref> {
 			RefNotFoundException, InvalidRefNameException {
 		checkCallable();
 		processOptions();
-		RevWalk revWalk = new RevWalk(repo);
-		try {
+		try (RevWalk revWalk = new RevWalk(repo)) {
 			Ref refToCheck = repo.getRef(name);
 			boolean exists = refToCheck != null
 					&& refToCheck.getName().startsWith(Constants.R_HEADS);
@@ -270,8 +269,6 @@ public class CreateBranchCommand extends GitCommand<Ref> {
 			return result;
 		} catch (IOException ioe) {
 			throw new JGitInternalException(ioe.getMessage(), ioe);
-		} finally {
-			revWalk.release();
 		}
 	}
 

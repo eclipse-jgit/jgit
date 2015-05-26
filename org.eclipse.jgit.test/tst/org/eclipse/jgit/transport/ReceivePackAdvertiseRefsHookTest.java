@@ -543,8 +543,9 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 
 	@After
 	public void release() {
-		if (inserter != null)
-			inserter.release();
+		if (inserter != null) {
+			inserter.close();
+		}
 	}
 
 	private void openPack(TemporaryBuffer.Heap buf) throws IOException {

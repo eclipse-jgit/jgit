@@ -474,34 +474,35 @@ public class PullCommandTest extends RepositoryTestCase {
 		}
 		assertFileContentsEqual(sourceFile, "content");
 
-		RevWalk rw = new RevWalk(dbTarget);
-		rw.sort(RevSort.TOPO);
-		rw.markStart(rw.parseCommit(dbTarget.resolve("refs/heads/master")));
+		try (RevWalk rw = new RevWalk(dbTarget)) {
+			rw.sort(RevSort.TOPO);
+			rw.markStart(rw.parseCommit(dbTarget.resolve("refs/heads/master")));
 
-		RevCommit next;
-		if (expectedPullMode == TestPullMode.MERGE) {
-			next = rw.next();
-			assertEquals(2, next.getParentCount());
-			assertEquals(merge, next.getParent(0));
-			assertEquals(sourceCommit, next.getParent(1));
-			// since both parents are known do no further checks here
-		} else {
-			if (expectedPullMode == TestPullMode.REBASE_PREASERVE) {
+			RevCommit next;
+			if (expectedPullMode == TestPullMode.MERGE) {
 				next = rw.next();
 				assertEquals(2, next.getParentCount());
+				assertEquals(merge, next.getParent(0));
+				assertEquals(sourceCommit, next.getParent(1));
+				// since both parents are known do no further checks here
+			} else {
+				if (expectedPullMode == TestPullMode.REBASE_PREASERVE) {
+					next = rw.next();
+					assertEquals(2, next.getParentCount());
+				}
+				next = rw.next();
+				assertEquals(t2.getShortMessage(), next.getShortMessage());
+				next = rw.next();
+				assertEquals(t1.getShortMessage(), next.getShortMessage());
+				next = rw.next();
+				assertEquals(sourceCommit, next);
+				next = rw.next();
+				assertEquals("Initial commit for source",
+						next.getShortMessage());
+				next = rw.next();
+				assertNull(next);
 			}
-			next = rw.next();
-			assertEquals(t2.getShortMessage(), next.getShortMessage());
-			next = rw.next();
-			assertEquals(t1.getShortMessage(), next.getShortMessage());
-			next = rw.next();
-			assertEquals(sourceCommit, next);
-			next = rw.next();
-			assertEquals("Initial commit for source", next.getShortMessage());
-			next = rw.next();
-			assertNull(next);
 		}
-		rw.release();
 	}
 
 	@Override

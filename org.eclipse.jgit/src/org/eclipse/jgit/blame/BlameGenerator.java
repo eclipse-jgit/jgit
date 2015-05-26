@@ -172,7 +172,7 @@ public class BlameGenerator implements AutoCloseable {
 			throw new IllegalStateException();
 
 		if (revPool != null)
-			revPool.release();
+			revPool.close();
 
 		if (reverse)
 			revPool = new ReverseWalk(getRepository());
@@ -450,7 +450,7 @@ public class BlameGenerator implements AutoCloseable {
 				r.computeAll();
 			return r;
 		} finally {
-			release();
+			close();
 		}
 	}
 
@@ -513,7 +513,7 @@ public class BlameGenerator implements AutoCloseable {
 	}
 
 	private boolean done() {
-		release();
+		close();
 		return false;
 	}
 
@@ -934,14 +934,6 @@ public class BlameGenerator implements AutoCloseable {
 	 */
 	public RawText getResultContents() throws IOException {
 		return queue != null ? queue.sourceText : null;
-	}
-
-	/**
-	 * Release the current blame session. Use {@link #close()} instead.
-	 */
-	@Deprecated
-	public void release() {
-		close();
 	}
 
 	/**

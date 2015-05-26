@@ -51,6 +51,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.util.SystemReader;
 
 /**
@@ -181,10 +182,10 @@ public class PersonIdent implements Serializable {
 			final long aWhen, final int aTZ) {
 		if (aName == null)
 			throw new IllegalArgumentException(
-					"Name of PersonIdent must not be null.");
+					JGitText.get().personIdentNameNonNull);
 		if (aEmailAddress == null)
 			throw new IllegalArgumentException(
-					"E-mail address of PersonIdent must not be null.");
+					JGitText.get().personIdentEmailNonNull);
 		name = aName;
 		emailAddress = aEmailAddress;
 		when = aWhen;

@@ -381,14 +381,6 @@ public class DiffFormatter implements AutoCloseable {
 	}
 
 	/**
-	 * Release the internal ObjectReader state. Use {@link #close()} instead.
-	 */
-	@Deprecated
-	public void release() {
-		close();
-	}
-
-	/**
 	 * Release the internal ObjectReader state.
 	 *
 	 * @since 4.0

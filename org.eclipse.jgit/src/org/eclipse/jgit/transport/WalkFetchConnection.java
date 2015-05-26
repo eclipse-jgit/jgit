@@ -252,8 +252,8 @@ class WalkFetchConnection extends BaseFetchConnection {
 
 	@Override
 	public void close() {
-		inserter.release();
-		reader.release();
+		inserter.close();
+		reader.close();
 		for (final RemotePack p : unfetchedPacks) {
 			if (p.tmpIdx != null)
 				p.tmpIdx.delete();
@@ -430,7 +430,8 @@ class WalkFetchConnection extends BaseFetchConnection {
 				final WalkRemoteObjectDatabase wrr = noPacksYet.removeFirst();
 				final Collection<String> packNameList;
 				try {
-					pm.beginTask("Listing packs", ProgressMonitor.UNKNOWN);
+					pm.beginTask(JGitText.get().listingPacks,
+							ProgressMonitor.UNKNOWN);
 					packNameList = wrr.getPackNames();
 				} catch (IOException e) {
 					// Try another repository.

@@ -117,7 +117,7 @@ class UploadPackServlet extends HttpServlet {
 				up.setBiDirectionalPipe(false);
 				up.sendAdvertisedRefs(pck);
 			} finally {
-				up.getRevWalk().release();
+				up.getRevWalk().close();
 			}
 		}
 	}

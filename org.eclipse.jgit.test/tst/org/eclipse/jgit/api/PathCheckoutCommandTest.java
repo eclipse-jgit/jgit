@@ -193,8 +193,8 @@ public class PathCheckoutCommandTest extends RepositoryTestCase {
 	public static void validateIndex(Git git) throws NoWorkTreeException,
 			IOException {
 		DirCache dc = git.getRepository().lockDirCache();
-		ObjectReader r = git.getRepository().getObjectDatabase().newReader();
-		try {
+		try (ObjectReader r = git.getRepository().getObjectDatabase()
+				.newReader()) {
 			for (int i = 0; i < dc.getEntryCount(); ++i) {
 				DirCacheEntry entry = dc.getEntry(i);
 				if (entry.getLength() > 0)
@@ -203,7 +203,6 @@ public class PathCheckoutCommandTest extends RepositoryTestCase {
 			}
 		} finally {
 			dc.unlock();
-			r.release();
 		}
 	}
 

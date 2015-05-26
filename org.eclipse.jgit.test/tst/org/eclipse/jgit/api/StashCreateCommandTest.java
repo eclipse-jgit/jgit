@@ -118,12 +118,9 @@ public class StashCreateCommandTest extends RepositoryTestCase {
 		assertEquals(parentCount, commit.getParentCount());
 
 		// Load parents
-		RevWalk walk = new RevWalk(db);
-		try {
+		try (RevWalk walk = new RevWalk(db)) {
 			for (RevCommit parent : commit.getParents())
 				walk.parseBody(parent);
-		} finally {
-			walk.release();
 		}
 
 		assertEquals(1, commit.getParent(1).getParentCount());
@@ -144,37 +141,28 @@ public class StashCreateCommandTest extends RepositoryTestCase {
 
 	private List<DiffEntry> diffWorkingAgainstHead(final RevCommit commit)
 			throws IOException {
-		TreeWalk walk = createTreeWalk();
-		try {
+		try (TreeWalk walk = createTreeWalk()) {
 			walk.addTree(commit.getParent(0).getTree());
 			walk.addTree(commit.getTree());
 			return DiffEntry.scan(walk);
-		} finally {
-			walk.release();
 		}
 	}
 
 	private List<DiffEntry> diffIndexAgainstHead(final RevCommit commit)
 			throws IOException {
-		TreeWalk walk = createTreeWalk();
-		try {
+		try (TreeWalk walk = createTreeWalk()) {
 			walk.addTree(commit.getParent(0).getTree());
 			walk.addTree(commit.getParent(1).getTree());
 			return DiffEntry.scan(walk);
-		} finally {
-			walk.release();
 		}
 	}
 
 	private List<DiffEntry> diffIndexAgainstWorking(final RevCommit commit)
 			throws IOException {
-		TreeWalk walk = createTreeWalk();
-		try {
+		try (TreeWalk walk = createTreeWalk()) {
 			walk.addTree(commit.getParent(1).getTree());
 			walk.addTree(commit.getTree());
 			return DiffEntry.scan(walk);
-		} finally {
-			walk.release();
 		}
 	}
 
@@ -224,11 +212,12 @@ public class StashCreateCommandTest extends RepositoryTestCase {
 		writeTrashFile("file", "content2");
 		RevCommit stashedWorkTree = Git.wrap(db).stashCreate().call();
 		validateStashedCommit(stashedWorkTree);
-		RevWalk walk = new RevWalk(db);
-		RevCommit stashedIndex = stashedWorkTree.getParent(1);
-		walk.parseBody(stashedIndex);
-		walk.parseBody(stashedIndex.getTree());
-		walk.parseBody(stashedIndex.getParent(0));
+		try (RevWalk walk = new RevWalk(db)) {
+			RevCommit stashedIndex = stashedWorkTree.getParent(1);
+			walk.parseBody(stashedIndex);
+			walk.parseBody(stashedIndex.getTree());
+			walk.parseBody(stashedIndex.getParent(0));
+		}
 		List<DiffEntry> workTreeStashAgainstWorkTree = diffWorkingAgainstHead(stashedWorkTree);
 		assertEquals(1, workTreeStashAgainstWorkTree.size());
 		List<DiffEntry> workIndexAgainstWorkTree = diffIndexAgainstHead(stashedWorkTree);

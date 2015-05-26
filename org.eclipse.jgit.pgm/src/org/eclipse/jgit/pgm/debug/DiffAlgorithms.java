@@ -173,8 +173,7 @@ class DiffAlgorithms extends TextBuiltin {
 		int maxN = 0;
 
 		AbbreviatedObjectId startId;
-		ObjectReader or = db.newObjectReader();
-		try {
+		try (ObjectReader or = db.newObjectReader()) {
 			final MutableObjectId id = new MutableObjectId();
 			RevWalk rw = new RevWalk(or);
 			TreeWalk tw = new TreeWalk(or);
@@ -232,8 +231,6 @@ class DiffAlgorithms extends TextBuiltin {
 				if (count > 0 && files > count)
 					break;
 			}
-		} finally {
-			or.release();
 		}
 
 		Collections.sort(all, new Comparator<Test>() {

@@ -987,7 +987,7 @@ public class PackWriter implements AutoCloseable {
 		}
 
 		stats.totalBytes = out.length();
-		reader.release();
+		reader.close();
 		endPhase(writeMonitor);
 	}
 
@@ -1003,14 +1003,6 @@ public class PackWriter implements AutoCloseable {
 	/** @return snapshot of the current state of this PackWriter. */
 	public State getState() {
 		return state.snapshot();
-	}
-
-	/**
-	 * Release all resources used by this writer. Use {@link #close()} instead.
-	 */
-	@Deprecated
-	public void release() {
-		close();
 	}
 
 	/**

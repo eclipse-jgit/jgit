@@ -122,7 +122,7 @@ public class SubmoduleWalk implements AutoCloseable {
 			DirCache index = repository.readDirCache();
 			generator.setTree(new DirCacheIterator(index));
 		} catch (IOException e) {
-			generator.release();
+			generator.close();
 			throw e;
 		}
 		return generator;
@@ -152,10 +152,10 @@ public class SubmoduleWalk implements AutoCloseable {
 				if (filter.isDone(generator.walk))
 					return generator;
 		} catch (IOException e) {
-			generator.release();
+			generator.close();
 			throw e;
 		}
-		generator.release();
+		generator.close();
 		return null;
 	}
 
@@ -183,10 +183,10 @@ public class SubmoduleWalk implements AutoCloseable {
 				if (filter.isDone(generator.walk))
 					return generator;
 		} catch (IOException e) {
-			generator.release();
+			generator.close();
 			throw e;
 		}
-		generator.release();
+		generator.close();
 		return null;
 	}
 
@@ -419,8 +419,7 @@ public class SubmoduleWalk implements AutoCloseable {
 			config.load();
 			modulesConfig = config;
 		} else {
-			TreeWalk configWalk = new TreeWalk(repository);
-			try {
+			try (TreeWalk configWalk = new TreeWalk(repository)) {
 				configWalk.addTree(rootTree);
 
 				// The root tree may be part of the submodule walk, so we need to revert
@@ -446,8 +445,6 @@ public class SubmoduleWalk implements AutoCloseable {
 					if (idx > 0)
 						rootTree.next(idx);
 				}
-			} finally {
-				configWalk.release();
 			}
 		}
 		return this;
@@ -727,15 +724,6 @@ public class SubmoduleWalk implements AutoCloseable {
 	public String getRemoteUrl() throws IOException, ConfigInvalidException {
 		String url = getModulesUrl();
 		return url != null ? getSubmoduleRemoteUrl(repository, url) : null;
-	}
-
-	/**
-	 * Release any resources used by this walker's reader. Use {@link #close()}
-	 * instead.
-	 */
-	@Deprecated
-	public void release() {
-		close();
 	}
 
 	/**

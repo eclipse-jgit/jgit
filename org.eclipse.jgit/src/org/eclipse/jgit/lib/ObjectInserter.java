@@ -52,6 +52,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.security.MessageDigest;
 
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.transport.PackParser;
 
 /**
@@ -63,7 +64,7 @@ import org.eclipse.jgit.transport.PackParser;
  * <p>
  * Objects written by an inserter may not be immediately visible for reading
  * after the insert method completes. Callers must invoke either
- * {@link #release()} or {@link #flush()} prior to updating references or
+ * {@link #close()} or {@link #flush()} prior to updating references or
  * otherwise making the returned ObjectIds visible to other code.
  */
 public abstract class ObjectInserter implements AutoCloseable {
@@ -91,7 +92,7 @@ public abstract class ObjectInserter implements AutoCloseable {
 		}
 
 		@Override
-		public void release() {
+		public void close() {
 			// Do nothing.
 		}
 	}
@@ -149,8 +150,8 @@ public abstract class ObjectInserter implements AutoCloseable {
 			delegate().flush();
 		}
 
-		public void release() {
-			delegate().release();
+		public void close() {
+			delegate().close();
 		}
 	}
 
@@ -263,7 +264,7 @@ public abstract class ObjectInserter implements AutoCloseable {
 		while (length > 0) {
 			int n = in.read(buf, 0, (int) Math.min(length, buf.length));
 			if (n < 0)
-				throw new EOFException("Unexpected end of input");
+				throw new EOFException(JGitText.get().unexpectedEndOfInput);
 			md.update(buf, 0, n);
 			length -= n;
 		}
@@ -420,21 +421,10 @@ public abstract class ObjectInserter implements AutoCloseable {
 	 * Release any resources used by this inserter.
 	 * <p>
 	 * An inserter that has been released can be used again, but may need to be
-	 * released after the subsequent usage. Use {@link #close()} instead
-	 */
-	@Deprecated
-	public abstract void release();
-
-	/**
-	 * Release any resources used by this inserter.
-	 * <p>
-	 * An inserter that has been released can be used again, but may need to be
 	 * released after the subsequent usage.
 	 *
 	 * @since 4.0
 	 */
 	@Override
-	public void close() {
-		release();
-	}
+	public abstract void close();
 }

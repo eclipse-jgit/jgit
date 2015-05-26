@@ -98,8 +98,9 @@ public class DiffFormatterTest extends RepositoryTestCase {
 	@Override
 	@After
 	public void tearDown() throws Exception {
-		if (df != null)
-			df.release();
+		if (df != null) {
+			df.close();
+		}
 		super.tearDown();
 	}
 
