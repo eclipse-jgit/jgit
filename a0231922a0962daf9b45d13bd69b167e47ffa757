@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "87f6139c_86fd1ba6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/SimilarityIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 15337
+      },
+      "writtenOn": "2015-05-26T20:28:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87f6139c_1364cb13",
+      "revId": "a0231922a0962daf9b45d13bd69b167e47ffa757",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f6139c_5365b30d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/SimilarityIndex.java",
         "patchSetId": 2
@@ -30,6 +48,30 @@
       "writtenOn": "2015-05-26T16:43:09Z",
       "side": 1,
       "message": "Compute similarity score between this index and another.",
+      "range": {
+        "startLine": 241,
+        "startChar": 4,
+        "endLine": 242,
+        "endChar": 12
+      },
+      "revId": "a0231922a0962daf9b45d13bd69b167e47ffa757",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_2626e7ee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/SimilarityIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 15337
+      },
+      "writtenOn": "2015-05-26T20:28:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87f6139c_5365b30d",
       "range": {
         "startLine": 241,
         "startChar": 4,
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "87f6139c_6683cf10",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/SimilarityIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 15337
+      },
+      "writtenOn": "2015-05-26T20:28:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87f6139c_f33dbfeb",
+      "revId": "a0231922a0962daf9b45d13bd69b167e47ffa757",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f6139c_3338e7f7",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/SimilarityIndex.java",
         "patchSetId": 2
@@ -70,6 +130,30 @@
       "writtenOn": "2015-05-26T16:43:09Z",
       "side": 1,
       "message": "/** Thrown by {@code create()} when file is too large. */",
+      "range": {
+        "startLine": 419,
+        "startChar": 1,
+        "endLine": 422,
+        "endChar": 4
+      },
+      "revId": "a0231922a0962daf9b45d13bd69b167e47ffa757",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_06292bbd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/SimilarityIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 15337
+      },
+      "writtenOn": "2015-05-26T20:28:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87f6139c_3338e7f7",
       "range": {
         "startLine": 419,
         "startChar": 1,
