@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_b9883100",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackPushConnection.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-05-27T18:49:15Z",
+      "side": 1,
+      "message": "I think you want to remove the \"error \" prefix here, given how its added by the BaseReceivePack code.",
+      "revId": "dd9935c4c76e43df04b796e3d7bb471de654aabc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
