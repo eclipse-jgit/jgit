@@ -444,7 +444,7 @@ public abstract class FS {
 			final BufferedReader lineRead = new BufferedReader(
 					new InputStreamReader(p.getInputStream(), encoding));
 			p.getOutputStream().close();
-			final AtomicBoolean gooblerFail = new AtomicBoolean(false);
+			final AtomicBoolean gobblerFail = new AtomicBoolean(false);
 			Thread gobbler = new Thread() {
 				public void run() {
 					InputStream is = p.getErrorStream();
@@ -461,7 +461,7 @@ public abstract class FS {
 						// Just print on stderr for debugging
 						if (debug)
 							e.printStackTrace(System.err);
-						gooblerFail.set(true);
+						gobblerFail.set(true);
 					}
 					try {
 						is.close();
@@ -470,7 +470,7 @@ public abstract class FS {
 						if (debug) {
 							LOG.debug("Caught exception in gobbler thread", e); //$NON-NLS-1$
 						}
-						gooblerFail.set(true);
+						gobblerFail.set(true);
 					}
 				}
 			};
@@ -498,7 +498,7 @@ public abstract class FS {
 					int rc = p.waitFor();
 					gobbler.join();
 					if (rc == 0 && r != null && r.length() > 0
-							&& !gooblerFail.get())
+							&& !gobblerFail.get())
 						return r;
 					if (debug) {
 						LOG.debug("readpipe rc=" + rc); //$NON-NLS-1$
