@@ -22,6 +22,30 @@
       "revId": "3023a12f0520ccc10f8f7192dde35643789a9483",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_7cd5175e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ArchiveCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-05-27T22:38:31Z",
+      "side": 1,
+      "message": "Thanks. I await your merge conflict. :)",
+      "parentUuid": "87f6139c_5c1e5bf0",
+      "range": {
+        "startLine": 401,
+        "startChar": 0,
+        "endLine": 401,
+        "endChar": 15
+      },
+      "revId": "3023a12f0520ccc10f8f7192dde35643789a9483",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
