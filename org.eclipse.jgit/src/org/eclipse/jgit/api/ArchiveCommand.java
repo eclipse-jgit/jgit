@@ -367,10 +367,10 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 		try {
 			try (TreeWalk walk = new TreeWalk(repo);
 					RevWalk rw = new RevWalk(walk.getObjectReader())) {
-				final String pfx = prefix == null ? "" : prefix; //$NON-NLS-1$
-				final T outa = fmt.createArchiveOutputStream(out, formatOptions);
-				final MutableObjectId idBuf = new MutableObjectId();
-				final ObjectReader reader = walk.getObjectReader();
+				String pfx = prefix == null ? "" : prefix; //$NON-NLS-1$
+				T outa = fmt.createArchiveOutputStream(out, formatOptions);
+				MutableObjectId idBuf = new MutableObjectId();
+				ObjectReader reader = walk.getObjectReader();
 
 				walk.reset(rw.parseTree(tree));
 				if (!paths.isEmpty())
@@ -414,7 +414,7 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 	public OutputStream call() throws GitAPIException {
 		checkCallable();
 
-		final Format<?> fmt;
+		Format<?> fmt;
 		if (format == null)
 			fmt = formatBySuffix(suffix);
 		else
