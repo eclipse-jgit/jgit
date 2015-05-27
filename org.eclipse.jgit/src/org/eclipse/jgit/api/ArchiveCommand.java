@@ -349,6 +349,7 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 	private ObjectId tree;
 	private String prefix;
 	private String format;
+	private ObjectReader readerFromCaller;
 	private Map<String, Object> formatOptions = new HashMap<>();
 	private List<String> paths = new ArrayList<String>();
 
@@ -365,44 +366,48 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 
 	private <T extends Closeable> OutputStream writeArchive(Format<T> fmt) {
 		final String pfx = prefix == null ? "" : prefix; //$NON-NLS-1$
-		try (final TreeWalk walk = new TreeWalk(repo)) {
+		ObjectReader reader = readerFromCaller != null
+				? readerFromCaller
+				: repo.newObjectReader();
+		try (TreeWalk walk = new TreeWalk(reader);
+				RevWalk rw = new RevWalk(reader)) {
 			final T outa = fmt.createArchiveOutputStream(out, formatOptions);
-			try (final RevWalk rw = new RevWalk(walk.getObjectReader())) {
-				final MutableObjectId idBuf = new MutableObjectId();
-				final ObjectReader reader = walk.getObjectReader();
+			final MutableObjectId idBuf = new MutableObjectId();
 
-				walk.reset(rw.parseTree(tree));
-				if (!paths.isEmpty())
-					walk.setFilter(PathFilterGroup.createFromStrings(paths));
+			walk.reset(rw.parseTree(tree));
+			if (!paths.isEmpty())
+				walk.setFilter(PathFilterGroup.createFromStrings(paths));
 
-				while (walk.next()) {
-					final String name = pfx + walk.getPathString();
-					FileMode mode = walk.getFileMode(0);
+			while (walk.next()) {
+				final String name = pfx + walk.getPathString();
+				FileMode mode = walk.getFileMode(0);
 
-					if (walk.isSubtree())
-						walk.enterSubtree();
+				if (walk.isSubtree())
+					walk.enterSubtree();
 
-					if (mode == FileMode.GITLINK)
-						// TODO(jrn): Take a callback to recurse
-						// into submodules.
-						mode = FileMode.TREE;
+				if (mode == FileMode.GITLINK)
+					// TODO(jrn): Take a callback to recurse
+					// into submodules.
+					mode = FileMode.TREE;
 
-					if (mode == FileMode.TREE) {
-						fmt.putEntry(outa, name + "/", mode, null); //$NON-NLS-1$
-						continue;
-					}
-					walk.getObjectId(idBuf, 0);
-					fmt.putEntry(outa, name, mode, reader.open(idBuf));
+				if (mode == FileMode.TREE) {
+					fmt.putEntry(outa, name + "/", mode, null); //$NON-NLS-1$
+					continue;
 				}
-				outa.close();
-			} finally {
-				out.close();
+				walk.getObjectId(idBuf, 0);
+				fmt.putEntry(outa, name, mode, reader.open(idBuf));
 			}
+			outa.close();
+			out.close();
 			return out;
 		} catch (IOException e) {
 			// TODO(jrn): Throw finer-grained errors.
 			throw new JGitInternalException(
 					JGitText.get().exceptionCaughtDuringExecutionOfArchiveCommand, e);
+		} finally {
+			if (reader != readerFromCaller) {
+				reader.close();
+			}
 		}
 	}
 
@@ -419,6 +424,19 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 		else
 			fmt = lookupFormat(format);
 		return writeArchive(fmt);
+	}
+
+	/**
+	 * @param reader
+	 *            instance to access trees and blobs through. If non-null the
+	 *            caller is responsible for closing the reader after
+	 *            {@link #call()}.
+	 * @return {@code this}
+	 * @since 4.0
+	 */
+	public ArchiveCommand setObjectReader(ObjectReader reader) {
+		readerFromCaller = reader;
+		return this;
 	}
 
 	/**
