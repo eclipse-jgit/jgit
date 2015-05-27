@@ -440,40 +440,11 @@ public abstract class FS {
 			if (env != null) {
 				pb.environment().putAll(env);
 			}
-			final Process p = pb.start();
-			final BufferedReader lineRead = new BufferedReader(
+			Process p = pb.start();
+			BufferedReader lineRead = new BufferedReader(
 					new InputStreamReader(p.getInputStream(), encoding));
 			p.getOutputStream().close();
-			final AtomicBoolean gooblerFail = new AtomicBoolean(false);
-			Thread gobbler = new Thread() {
-				public void run() {
-					InputStream is = p.getErrorStream();
-					try {
-						int ch;
-						if (debug)
-							while ((ch = is.read()) != -1)
-								System.err.print((char) ch);
-						else
-							while (is.read() != -1) {
-								// ignore
-							}
-					} catch (IOException e) {
-						// Just print on stderr for debugging
-						if (debug)
-							e.printStackTrace(System.err);
-						gooblerFail.set(true);
-					}
-					try {
-						is.close();
-					} catch (IOException e) {
-						// Just print on stderr for debugging
-						if (debug) {
-							LOG.debug("Caught exception in gobbler thread", e); //$NON-NLS-1$
-						}
-						gooblerFail.set(true);
-					}
-				}
-			};
+			GobblerThread gobbler = new GobblerThread(p, command, dir);
 			gobbler.start();
 			String r = null;
 			try {
@@ -498,7 +469,7 @@ public abstract class FS {
 					int rc = p.waitFor();
 					gobbler.join();
 					if (rc == 0 && r != null && r.length() > 0
-							&& !gooblerFail.get())
+							&& !gobbler.fail.get())
 						return r;
 					if (debug) {
 						LOG.debug("readpipe rc=" + rc); //$NON-NLS-1$
@@ -515,6 +486,59 @@ public abstract class FS {
 			LOG.debug("readpipe returns null"); //$NON-NLS-1$
 		}
 		return null;
+	}
+
+	private static class GobblerThread extends Thread {
+		private final Process p;
+		private final String desc;
+		private final String dir;
+		private final boolean debug = LOG.isDebugEnabled();
+		private final AtomicBoolean fail = new AtomicBoolean();
+
+		private GobblerThread(Process p, String[] command, File dir) {
+			this.p = p;
+			if (debug) {
+				this.desc = Arrays.asList(command).toString();
+				this.dir = dir.toString();
+			} else {
+				this.desc = null;
+				this.dir = null;
+			}
+		}
+
+		public void run() {
+			InputStream is = p.getErrorStream();
+			try {
+				int ch;
+				if (debug) {
+					while ((ch = is.read()) != -1) {
+						System.err.print((char) ch);
+					}
+				} else {
+					while (is.read() != -1) {
+						// ignore
+					}
+				}
+			} catch (IOException e) {
+				logError(e);
+				fail.set(true);
+			}
+			try {
+				is.close();
+			} catch (IOException e) {
+				logError(e);
+				fail.set(true);
+			}
+		}
+
+		private void logError(Throwable t) {
+			if (!debug) {
+				return;
+			}
+			String msg = MessageFormat.format(
+					JGitText.get().exceptionCaughtDuringExcecutionOfCommand, desc, dir);
+			LOG.debug(msg, t);
+		}
 	}
 
 	/**
