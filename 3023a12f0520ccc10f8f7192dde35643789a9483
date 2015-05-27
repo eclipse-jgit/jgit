@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_5c1e5bf0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ArchiveCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-05-27T22:35:24Z",
+      "side": 1,
+      "message": "This changes the contract to make it the caller\u0027s responsibility to close \u0027out\u0027 if we throw an exception. That might be fine (or even better, we could call outa.finish() and leave \u0027out\u0027 unclosed), but we would need to change some part of the calling sequence at the same time to make sure callers remember to add a close call on their end.\n\nI\u0027ll make a change to just merge the \u0027try\u0027 blocks so this can be rebased on top and not have to deal with that.",
+      "range": {
+        "startLine": 401,
+        "startChar": 0,
+        "endLine": 401,
+        "endChar": 15
+      },
+      "revId": "3023a12f0520ccc10f8f7192dde35643789a9483",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
