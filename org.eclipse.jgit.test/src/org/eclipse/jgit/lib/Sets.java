@@ -41,13 +41,13 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.api;
+package org.eclipse.jgit.lib;
 
 import java.util.HashSet;
 import java.util.Set;
 
-class Sets {
-	static <T> Set<T> of(T... elements) {
+public class Sets {
+	public static <T> Set<T> of(T... elements) {
 		Set<T> ret = new HashSet<T>();
 		for (T element : elements)
 			ret.add(element);
