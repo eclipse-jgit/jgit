@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_938d4ebd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/UnpackedObject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-05-28T19:24:36Z",
+      "side": 1,
+      "message": "(optional) This can use try-with-resources:\n\n  try (WindowCursor wc \u003d new WindowCursor(null)) {\n    ...\n  }",
+      "range": {
+        "startLine": 94,
+        "startChar": 0,
+        "endLine": 99,
+        "endChar": 3
+      },
+      "revId": "27128b3e01a9c97f1d2549ded0d381f469f0aee8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
