@@ -80,6 +80,6 @@ class PackInputStream extends InputStream {
 
 	@Override
 	public void close() {
-		wc.release();
+		wc.close();
 	}
 }

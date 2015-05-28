@@ -95,7 +95,7 @@ public class UnpackedObject {
 		try {
 			return open(new ByteArrayInputStream(raw), null, id, wc);
 		} finally {
-			wc.release();
+			wc.close();
 		}
 	}
 
