@@ -56,14 +56,24 @@
   <name>JGit - Parent</name>
   <url>${jgit-url}</url>
 
+  <organization>
+    <name>Eclipse JGit Project</name>
+    <url>http://www.eclipse.org/jgit</url>
+  </organization>
+
   <description>
     Pure Java implementation of Git
   </description>
 
   <scm>
-    <url>http://egit.eclipse.org/w/?p=jgit.git</url>
-    <connection>scm:git:git://egit.eclipse.org/jgit.git</connection>
+    <url>http://git.eclipse.org/c/jgit/jgit.git/</url>
+    <connection>scm:git:https://git.eclipse.org/r/jgit/jgit</connection>
   </scm>
+
+  <ciManagement>
+    <system>hudson</system>
+    <url>https://hudson.eclipse.org/jgit/</url>
+  </ciManagement>
 
   <developers>
     <developer>
@@ -82,6 +92,9 @@
       <name>Gunnar Wagenknecht</name>
     </developer>
     <developer>
+      <name>Jonathan Nieder</name>
+    </developer>
+    <developer>
       <name>Kevin Sawicki</name>
     </developer>
     <developer>
@@ -92,6 +105,9 @@
     </developer>
     <developer>
       <name>Robin Rosenberg</name>
+    </developer>
+    <developer>
+      <name>Robin Stocker</name>
     </developer>
     <developer>
       <name>Sasa Zivkov</name>
@@ -191,6 +207,7 @@
     <slf4j-version>1.7.2</slf4j-version>
     <log4j-version>1.2.15</log4j-version>
     <maven-javadoc-plugin-version>2.10.1</maven-javadoc-plugin-version>
+    <tycho-extras-version>0.22.0</tycho-extras-version>
 
     <!-- Properties to enable jacoco code coverage analysis -->
     <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
@@ -355,12 +372,12 @@
         <plugin>
           <groupId>org.eclipse.tycho.extras</groupId>
           <artifactId>tycho-pack200a-plugin</artifactId>
-          <version>0.22.0</version>
+          <version>${tycho-extras-version}</version>
         </plugin>
         <plugin>
           <groupId>org.eclipse.tycho.extras</groupId>
           <artifactId>tycho-pack200b-plugin</artifactId>
-          <version>0.22.0</version>
+          <version>${tycho-extras-version}</version>
         </plugin>
         <plugin>
           <groupId>org.jacoco</groupId>
