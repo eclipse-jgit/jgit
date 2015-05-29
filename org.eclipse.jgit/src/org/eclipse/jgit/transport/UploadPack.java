@@ -46,6 +46,7 @@ package org.eclipse.jgit.transport;
 import static org.eclipse.jgit.lib.RefDatabase.ALL;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_AGENT;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_ALLOW_TIP_SHA1_IN_WANT;
+import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_ALLOW_REACHABLE_SHA1_IN_WANT;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_INCLUDE_TAG;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_MULTI_ACK;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_MULTI_ACK_DETAILED;
@@ -552,8 +553,13 @@ public class UploadPack {
 	 */
 	public void setTransferConfig(TransferConfig tc) {
 		this.transferConfig = tc != null ? tc : new TransferConfig(db);
-		setRequestPolicy(transferConfig.isAllowTipSha1InWant()
-				? RequestPolicy.TIP : RequestPolicy.ADVERTISED);
+		if (transferConfig.isAllowTipSha1InWant()) {
+			setRequestPolicy(transferConfig.isAllowReachableSha1InWant()
+				? RequestPolicy.TIP : RequestPolicy.REACHABLE_COMMIT_TIP);
+		} else {
+			setRequestPolicy(transferConfig.isAllowReachableSha1InWant()
+				? RequestPolicy.ADVERTISED : RequestPolicy.REACHABLE_COMMIT);
+		}
 	}
 
 	/** @return the configured logger. */
@@ -808,6 +814,10 @@ public class UploadPack {
 				|| policy == RequestPolicy.REACHABLE_COMMIT_TIP
 				|| policy == null)
 			adv.advertiseCapability(OPTION_ALLOW_TIP_SHA1_IN_WANT);
+		if (policy == RequestPolicy.REACHABLE_COMMIT
+				|| policy == RequestPolicy.REACHABLE_COMMIT_TIP
+				|| policy == null)
+			adv.advertiseCapability(OPTION_ALLOW_REACHABLE_SHA1_IN_WANT);
 		adv.advertiseCapability(OPTION_AGENT, UserAgent.get());
 		adv.setDerefTags(true);
 		Map<String, Ref> advertisedOrDefaultRefs = getAdvertisedOrDefaultRefs();
