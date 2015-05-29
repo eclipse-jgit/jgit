@@ -71,6 +71,7 @@ public class TransferConfig {
 	private final boolean safeForWindows;
 	private final boolean safeForMacOS;
 	private final boolean allowTipSha1InWant;
+	private final boolean allowReachableSha1InWant;
 	private final String[] hideRefs;
 
 	TransferConfig(final Repository db) {
@@ -94,6 +95,8 @@ public class TransferConfig {
 
 		allowTipSha1InWant = rc.getBoolean(
 				"uploadpack", "allowtipsha1inwant", false); //$NON-NLS-1$ //$NON-NLS-2$
+		allowReachableSha1InWant = rc.getBoolean(
+				"uploadpack", "allowreachablesha1inwant", false); //$NON-NLS-1$ //$NON-NLS-2$
 		hideRefs = rc.getStringList("uploadpack", null, "hiderefs"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
@@ -118,6 +121,14 @@ public class TransferConfig {
 	 */
 	public boolean isAllowTipSha1InWant() {
 		return allowTipSha1InWant;
+	}
+
+	/**
+	 * @return allow clients to request non-tip SHA-1s?
+	 * @since 4.1
+	 */
+	public boolean isAllowReachableSha1InWant() {
+		return allowReachableSha1InWant;
 	}
 
 	/**
