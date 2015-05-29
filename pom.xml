@@ -176,7 +176,7 @@
     <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
     <bundle-manifest>${project.build.directory}/META-INF/MANIFEST.MF</bundle-manifest>
 
-    <jgit-last-release-version>3.6.0.201412230720-r</jgit-last-release-version>
+    <jgit-last-release-version>3.7.0.201502260915-r</jgit-last-release-version>
     <jsch-version>0.1.50</jsch-version>
     <javaewah-version>0.7.9</javaewah-version>
     <junit-version>4.11</junit-version>
