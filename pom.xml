@@ -56,14 +56,24 @@
   <name>JGit - Parent</name>
   <url>${jgit-url}</url>
 
+  <organization>
+    <name>Eclipse JGit Project</name>
+    <url>http://www.eclipse.org/jgit</url>
+  </organization>
+
   <description>
     Pure Java implementation of Git
   </description>
 
   <scm>
-    <url>http://egit.eclipse.org/w/?p=jgit.git</url>
-    <connection>scm:git:git://egit.eclipse.org/jgit.git</connection>
+    <url>http://git.eclipse.org/c/jgit/jgit.git/</url>
+    <connection>scm:git:https://git.eclipse.org/r/jgit/jgit</connection>
   </scm>
+
+  <ciManagement>
+    <system>hudson</system>
+    <url>https://hudson.eclipse.org/jgit/</url>
+  </ciManagement>
 
   <developers>
     <developer>
@@ -82,6 +92,9 @@
       <name>Gunnar Wagenknecht</name>
     </developer>
     <developer>
+      <name>Jonathan Nieder</name>
+    </developer>
+    <developer>
       <name>Kevin Sawicki</name>
     </developer>
     <developer>
@@ -92,6 +105,9 @@
     </developer>
     <developer>
       <name>Robin Rosenberg</name>
+    </developer>
+    <developer>
+      <name>Robin Stocker</name>
     </developer>
     <developer>
       <name>Sasa Zivkov</name>
@@ -176,21 +192,22 @@
     <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
     <bundle-manifest>${project.build.directory}/META-INF/MANIFEST.MF</bundle-manifest>
 
-    <jgit-last-release-version>3.6.0.201412230720-r</jgit-last-release-version>
-    <jsch-version>0.1.50</jsch-version>
+    <jgit-last-release-version>3.7.0.201502260915-r</jgit-last-release-version>
+    <jsch-version>0.1.51</jsch-version>
     <javaewah-version>0.7.9</javaewah-version>
     <junit-version>4.11</junit-version>
     <test-fork-count>1C</test-fork-count>
     <args4j-version>2.0.15</args4j-version>
     <commons-compress-version>1.6</commons-compress-version>
     <osgi-core-version>4.3.1</osgi-core-version>
-    <servlet-api-version>2.5</servlet-api-version>
+    <servlet-api-version>3.1.0</servlet-api-version>
     <jetty-version>9.2.10.v20150310</jetty-version>
     <clirr-version>2.6.1</clirr-version>
     <httpclient-version>4.1.3</httpclient-version>
     <slf4j-version>1.7.2</slf4j-version>
     <log4j-version>1.2.15</log4j-version>
     <maven-javadoc-plugin-version>2.10.1</maven-javadoc-plugin-version>
+    <tycho-extras-version>0.22.0</tycho-extras-version>
 
     <!-- Properties to enable jacoco code coverage analysis -->
     <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
@@ -355,12 +372,12 @@
         <plugin>
           <groupId>org.eclipse.tycho.extras</groupId>
           <artifactId>tycho-pack200a-plugin</artifactId>
-          <version>0.22.0</version>
+          <version>${tycho-extras-version}</version>
         </plugin>
         <plugin>
           <groupId>org.eclipse.tycho.extras</groupId>
           <artifactId>tycho-pack200b-plugin</artifactId>
-          <version>0.22.0</version>
+          <version>${tycho-extras-version}</version>
         </plugin>
         <plugin>
           <groupId>org.jacoco</groupId>
@@ -378,6 +395,21 @@
               <version>2.7</version>
             </dependency>
           </dependencies>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-report-plugin</artifactId>
+          <version>2.18.1</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jxr-plugin</artifactId>
+          <version>2.5</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-project-info-reports-plugin</artifactId>
+          <version>2.8</version>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -478,6 +510,10 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-report-plugin</artifactId>
+      </plugin>
     </plugins>
   </build>
 
@@ -488,6 +524,29 @@
         <artifactId>maven-javadoc-plugin</artifactId>
         <version>${maven-javadoc-plugin-version}</version>
         <configuration>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jxr-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>clirr-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>findbugs-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-report-plugin</artifactId>
+        <configuration>
+          <aggregate>true</aggregate>
+          <alwaysGenerateSurefireReport>false</alwaysGenerateSurefireReport>
+          <reportsDirectories>
+            <reportsDirectories>${project.build.directory}/surefire-reports</reportsDirectories>
+          </reportsDirectories>
         </configuration>
       </plugin>
     </plugins>
@@ -521,7 +580,7 @@
 
       <dependency>
         <groupId>javax.servlet</groupId>
-        <artifactId>servlet-api</artifactId>
+        <artifactId>javax.servlet-api</artifactId>
         <version>${servlet-api-version}</version>
       </dependency>
 

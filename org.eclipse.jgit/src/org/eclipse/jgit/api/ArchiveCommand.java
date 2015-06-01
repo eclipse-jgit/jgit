@@ -364,19 +364,20 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 	}
 
 	private <T extends Closeable> OutputStream writeArchive(Format<T> fmt) {
-		final String pfx = prefix == null ? "" : prefix; //$NON-NLS-1$
-		try (final TreeWalk walk = new TreeWalk(repo)) {
-			final T outa = fmt.createArchiveOutputStream(out, formatOptions);
-			try (final RevWalk rw = new RevWalk(walk.getObjectReader())) {
-				final MutableObjectId idBuf = new MutableObjectId();
-				final ObjectReader reader = walk.getObjectReader();
+		try {
+			try (TreeWalk walk = new TreeWalk(repo);
+					RevWalk rw = new RevWalk(walk.getObjectReader())) {
+				String pfx = prefix == null ? "" : prefix; //$NON-NLS-1$
+				T outa = fmt.createArchiveOutputStream(out, formatOptions);
+				MutableObjectId idBuf = new MutableObjectId();
+				ObjectReader reader = walk.getObjectReader();
 
 				walk.reset(rw.parseTree(tree));
 				if (!paths.isEmpty())
 					walk.setFilter(PathFilterGroup.createFromStrings(paths));
 
 				while (walk.next()) {
-					final String name = pfx + walk.getPathString();
+					String name = pfx + walk.getPathString();
 					FileMode mode = walk.getFileMode(0);
 
 					if (walk.isSubtree())
@@ -395,10 +396,10 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 					fmt.putEntry(outa, name, mode, reader.open(idBuf));
 				}
 				outa.close();
+				return out;
 			} finally {
 				out.close();
 			}
-			return out;
 		} catch (IOException e) {
 			// TODO(jrn): Throw finer-grained errors.
 			throw new JGitInternalException(
@@ -413,7 +414,7 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 	public OutputStream call() throws GitAPIException {
 		checkCallable();
 
-		final Format<?> fmt;
+		Format<?> fmt;
 		if (format == null)
 			fmt = formatBySuffix(suffix);
 		else

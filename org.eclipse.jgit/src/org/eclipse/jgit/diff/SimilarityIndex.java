@@ -63,10 +63,13 @@ import org.eclipse.jgit.lib.ObjectStream;
  * will not exceed 1 MiB per instance. The index starts out at a smaller size
  * (closer to 2 KiB), but may grow as more distinct blocks within the scanned
  * file are discovered.
+ *
+ * @since 4.0
  */
-class SimilarityIndex {
+public class SimilarityIndex {
 	/** A special {@link TableFullException} used in place of OutOfMemoryError. */
-	private static final TableFullException TABLE_FULL_OUT_OF_MEMORY = new TableFullException();
+	public static final TableFullException
+			TABLE_FULL_OUT_OF_MEMORY = new TableFullException();
 
 	/**
 	 * Shift to apply before storing a key.
@@ -104,6 +107,26 @@ class SimilarityIndex {
 
 	/** {@code idHash.length == 1 << idHashBits}. */
 	private int idHashBits;
+
+	/**
+	 * Create a new similarity index for the given object
+	 *
+	 * @param obj
+	 *            the object to hash
+	 * @return similarity index for this object
+	 * @throws IOException
+	 *             file contents cannot be read from the repository.
+	 * @throws TableFullException
+	 *             object hashing overflowed the storage capacity of the
+	 *             SimilarityIndex.
+	 */
+	public static SimilarityIndex create(ObjectLoader obj) throws IOException,
+			TableFullException {
+		SimilarityIndex idx = new SimilarityIndex();
+		idx.hash(obj);
+		idx.sort();
+		return idx;
+	}
 
 	SimilarityIndex() {
 		idHashBits = 8;
@@ -212,7 +235,27 @@ class SimilarityIndex {
 		Arrays.sort(idHash);
 	}
 
-	int score(SimilarityIndex dst, int maxScore) {
+	/**
+	 * Compute the similarity score between this index and another.
+	 * <p>
+	 * A region of a file is defined as a line in a text file or a fixed-size
+	 * block in a binary file. To prepare an index, each region in the file is
+	 * hashed; the values and counts of hashes are retained in a sorted table.
+	 * Define the similarity fraction F as the the count of matching regions
+	 * between the two files divided between the maximum count of regions in
+	 * either file. The similarity score is F multiplied by the maxScore
+	 * constant, yielding a range [0, maxScore]. It is defined as maxScore for
+	 * the degenerate case of two empty files.
+	 * <p>
+	 * The similarity score is symmetrical; i.e. a.score(b) == b.score(a).
+	 *
+	 * @param dst
+	 *            the other index
+	 * @param maxScore
+	 *            the score representing a 100% match
+	 * @return the similarity score
+	 */
+	public int score(SimilarityIndex dst, int maxScore) {
 		long max = Math.max(hashedCnt, dst.hashedCnt);
 		if (max == 0)
 			return maxScore;
@@ -381,7 +424,8 @@ class SimilarityIndex {
 		return v & MAX_COUNT;
 	}
 
-	static class TableFullException extends Exception {
+	/** Thrown by {@code create()} when file is too large. */
+	public static class TableFullException extends Exception {
 		private static final long serialVersionUID = 1L;
 	}
 }

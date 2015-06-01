@@ -514,6 +514,17 @@ public class CommitCommandTest extends RepositoryTestCase {
 		}
 	}
 
+	@Test
+	public void commitOnlyShouldHandleIgnored() throws Exception {
+		try (Git git = new Git(db)) {
+			writeTrashFile("subdir/foo", "Hello World");
+			writeTrashFile("subdir/bar", "Hello World");
+			writeTrashFile(".gitignore", "bar");
+			git.add().addFilepattern("subdir").call();
+			git.commit().setOnly("subdir").setMessage("first commit").call();
+		}
+	}
+
 	private static void addUnmergedEntry(String file, DirCacheBuilder builder) {
 		DirCacheEntry stage1 = new DirCacheEntry(file, DirCacheEntry.STAGE_1);
 		DirCacheEntry stage2 = new DirCacheEntry(file, DirCacheEntry.STAGE_2);

@@ -123,7 +123,7 @@ public class PackFileTest extends LocalDiskRepositoryTestCase {
 	@After
 	public void tearDown() throws Exception {
 		if (wc != null)
-			wc.release();
+			wc.close();
 		new WindowCacheConfig().install();
 		super.tearDown();
 	}

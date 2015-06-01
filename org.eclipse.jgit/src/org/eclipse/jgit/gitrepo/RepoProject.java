@@ -49,6 +49,8 @@ import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -62,14 +64,14 @@ import org.eclipse.jgit.lib.Repository;
  * @since 4.0
  */
 public class RepoProject implements Comparable<RepoProject> {
-	final String name;
-	final String path;
-	final String revision;
-	final String remote;
-	final Set<String> groups;
-	final List<CopyFile> copyfiles;
-	String url;
-	String defaultRevision;
+	private final String name;
+	private final String path;
+	private final String revision;
+	private final String remote;
+	private final Set<String> groups;
+	private final List<CopyFile> copyfiles;
+	private String url;
+	private String defaultRevision;
 
 	/**
 	 * The representation of a copy file configuration.
@@ -82,10 +84,13 @@ public class RepoProject implements Comparable<RepoProject> {
 
 		/**
 		 * @param repo
+		 *            the super project.
 		 * @param path
 		 *            the path of the project containing this copyfile config.
 		 * @param src
+		 *            the source path relative to the sub repo.
 		 * @param dest
+		 *            the destination path relative to the super project.
 		 */
 		public CopyFile(Repository repo, String path, String src, String dest) {
 			this.repo = repo;
@@ -108,7 +113,8 @@ public class RepoProject implements Comparable<RepoProject> {
 				FileOutputStream output = new FileOutputStream(destFile);
 				try {
 					FileChannel channel = input.getChannel();
-					output.getChannel().transferFrom(channel, 0, channel.size());
+					output.getChannel().transferFrom(
+							channel, 0, channel.size());
 				} finally {
 					output.close();
 				}
@@ -120,10 +126,15 @@ public class RepoProject implements Comparable<RepoProject> {
 
 	/**
 	 * @param name
+	 *            the relative path to the {@code remote}
 	 * @param path
+	 *            the relative path to the super project
 	 * @param revision
+	 *            a SHA-1 or branch name or tag name
 	 * @param remote
+	 *            name of the remote definition
 	 * @param groups
+	 *            comma separated group list
 	 */
 	public RepoProject(String name, String path, String revision,
 			String remote, String groups) {
@@ -163,12 +174,67 @@ public class RepoProject implements Comparable<RepoProject> {
 	}
 
 	/**
+	 * Get the name (relative path to the {@code remote}) of this sub repo.
+	 *
+	 * @return {@code name}
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * Get the path (relative path to the super project) of this sub repo.
+	 *
+	 * @return {@code path}
+	 */
+	public String getPath() {
+		return path;
+	}
+
+	/**
 	 * Get the revision of the sub repo.
 	 *
-	 * @return revision if set, or default revision.
+	 * @return {@code revision} if set, or {@code defaultRevision}.
 	 */
 	public String getRevision() {
 		return revision == null ? defaultRevision : revision;
+	}
+
+	/**
+	 * Getter for the copyfile configurations.
+	 *
+	 * @return Immutable copy of {@code copyfiles}
+	 */
+	public List<CopyFile> getCopyFiles() {
+		return Collections.unmodifiableList(copyfiles);
+	}
+
+	/**
+	 * Get the url of the sub repo.
+	 *
+	 * @return {@code url}
+	 */
+	public String getUrl() {
+		return url;
+	}
+
+	/**
+	 * Get the name of the remote definition of the sub repo.
+	 *
+	 * @return {@remote}
+	 */
+	public String getRemote() {
+		return remote;
+	}
+
+	/**
+	 * Test whether this sub repo belongs to a specified group.
+	 *
+	 * @param group
+	 * @return true if {@code group} is present.
+	 */
+	public boolean inGroup(String group) {
+		return groups.contains(group);
 	}
 
 	/**
@@ -180,7 +246,16 @@ public class RepoProject implements Comparable<RepoProject> {
 		copyfiles.add(copyfile);
 	}
 
-	String getPathWithSlash() {
+	/**
+	 * Add a bunch of copyfile configurations.
+	 *
+	 * @param copyfiles
+	 */
+	public void addCopyFiles(Collection<CopyFile> copyfiles) {
+		this.copyfiles.addAll(copyfiles);
+	}
+
+	private String getPathWithSlash() {
 		if (path.endsWith("/")) //$NON-NLS-1$
 			return path;
 		else
