@@ -1,7 +1,7 @@
-target "S20141023165154-Mars-M3" with source configurePhase
+target "R20150519210750-Mars" with source configurePhase
 // see http://download.eclipse.org/tools/orbit/downloads/
 
-location "http://download.eclipse.org/tools/orbit/downloads/drops/S20150519210750/repository/" {
+location "http://download.eclipse.org/tools/orbit/downloads/drops/R20150519210750/repository/" {
 	org.apache.ant [1.9.4.v201504302020,1.9.4.v201504302020]
 	org.apache.ant.source [1.9.4.v201504302020,1.9.4.v201504302020]
 	org.apache.commons.compress [1.6.0.v201310281400,1.6.0.v201310281400]
