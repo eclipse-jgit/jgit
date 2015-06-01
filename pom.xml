@@ -177,14 +177,14 @@
     <bundle-manifest>${project.build.directory}/META-INF/MANIFEST.MF</bundle-manifest>
 
     <jgit-last-release-version>3.7.0.201502260915-r</jgit-last-release-version>
-    <jsch-version>0.1.50</jsch-version>
+    <jsch-version>0.1.51</jsch-version>
     <javaewah-version>0.7.9</javaewah-version>
     <junit-version>4.11</junit-version>
     <test-fork-count>1C</test-fork-count>
     <args4j-version>2.0.15</args4j-version>
     <commons-compress-version>1.6</commons-compress-version>
     <osgi-core-version>4.3.1</osgi-core-version>
-    <servlet-api-version>2.5</servlet-api-version>
+    <servlet-api-version>3.1.0</servlet-api-version>
     <jetty-version>9.2.10.v20150310</jetty-version>
     <clirr-version>2.6.1</clirr-version>
     <httpclient-version>4.1.3</httpclient-version>
@@ -521,7 +521,7 @@
 
       <dependency>
         <groupId>javax.servlet</groupId>
-        <artifactId>servlet-api</artifactId>
+        <artifactId>javax.servlet-api</artifactId>
         <version>${servlet-api-version}</version>
       </dependency>
 
