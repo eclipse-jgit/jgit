@@ -51,4 +51,25 @@ package org.eclipse.jgit.errors;
  */
 public class DiffInterruptedException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
+
+	/**
+	 * @param message
+	 * @param cause
+	 * @since 4.1
+	 */
+	public DiffInterruptedException(String message, Throwable cause) {
+		super(message, cause);
+	}
+
+	/**
+	 * @param message
+	 * @since 4.1
+	 */
+	public DiffInterruptedException(String message) {
+		super(message);
+	}
+
+	public DiffInterruptedException() {
+		super();
+	}
 }

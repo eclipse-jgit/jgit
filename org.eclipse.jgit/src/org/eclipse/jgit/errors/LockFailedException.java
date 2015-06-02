@@ -57,6 +57,20 @@ public class LockFailedException extends IOException {
 	private File file;
 
 	/**
+	 * @param file
+	 *            file that could not be locked
+	 * @param message
+	 *            exception message
+	 * @param cause
+	 *            cause, for later retrieval by {@link Throwable#getCause()}
+	 * @since 4.1
+	 */
+	public LockFailedException(File file, String message, Throwable cause) {
+		super(message, cause);
+		this.file = file;
+	}
+
+	/**
 	 * Construct a CannotLockException for the given file and message
 	 *
 	 * @param file
