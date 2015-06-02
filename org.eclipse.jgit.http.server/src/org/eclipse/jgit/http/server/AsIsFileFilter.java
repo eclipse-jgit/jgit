@@ -87,9 +87,9 @@ class AsIsFileFilter implements Filter {
 			asIs.access(req, db);
 			chain.doFilter(request, response);
 		} catch (ServiceNotAuthorizedException e) {
-			res.sendError(SC_UNAUTHORIZED);
+			res.sendError(SC_UNAUTHORIZED, e.getMessage());
 		} catch (ServiceNotEnabledException e) {
-			res.sendError(SC_FORBIDDEN);
+			res.sendError(SC_FORBIDDEN, e.getMessage());
 		}
 	}
 }

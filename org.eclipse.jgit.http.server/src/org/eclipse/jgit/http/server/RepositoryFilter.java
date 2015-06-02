@@ -137,10 +137,10 @@ public class RepositoryFilter implements Filter {
 			sendError(req, res, SC_NOT_FOUND);
 			return;
 		} catch (ServiceNotEnabledException e) {
-			sendError(req, res, SC_FORBIDDEN);
+			sendError(req, res, SC_FORBIDDEN, e.getMessage());
 			return;
 		} catch (ServiceNotAuthorizedException e) {
-			res.sendError(SC_UNAUTHORIZED);
+			res.sendError(SC_UNAUTHORIZED, e.getMessage());
 			return;
 		} catch (ServiceMayNotContinueException e) {
 			sendError(req, res, SC_FORBIDDEN, e.getMessage());
