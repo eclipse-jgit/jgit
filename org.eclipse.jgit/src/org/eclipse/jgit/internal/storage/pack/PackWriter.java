@@ -1764,6 +1764,7 @@ public class PackWriter implements AutoCloseable {
 			countingMonitor.update((int) pack.getObjectCount());
 		endPhase(countingMonitor);
 		stats.timeCounting = System.currentTimeMillis() - countingStart;
+		stats.bitmapIndexMisses = -1;
 	}
 
 	private void findObjectsToPackUsingBitmaps(
@@ -2171,6 +2172,7 @@ public class PackWriter implements AutoCloseable {
 		/**
 		 * @return the count of objects that needed to be discovered through an
 		 *         object walk because they were not found in bitmap indices.
+		 *         Returns -1 if no bitmap indices were found.
 		 *
 		 * @since 4.0
 		 */
