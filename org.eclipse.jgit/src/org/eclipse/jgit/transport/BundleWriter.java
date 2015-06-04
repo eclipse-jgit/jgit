@@ -55,6 +55,8 @@ import java.util.TreeMap;
 
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
+import org.eclipse.jgit.internal.storage.pack.PackWriter.ObjectCountCallback;
+import org.eclipse.jgit.internal.storage.pack.PackWriter.Statistics;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -91,6 +93,10 @@ public class BundleWriter {
 	private final Set<ObjectId> tagTargets;
 
 	private PackConfig packConfig;
+
+	private Statistics stats;
+
+	private ObjectCountCallback callback;
 
 	/**
 	 * Create a writer for a bundle.
@@ -195,6 +201,8 @@ public class BundleWriter {
 		if (pc == null)
 			pc = new PackConfig(db);
 		try (PackWriter packWriter = new PackWriter(pc, db.newObjectReader())) {
+			packWriter.setObjectCountCallback(callback);
+
 			final HashSet<ObjectId> inc = new HashSet<ObjectId>();
 			final HashSet<ObjectId> exc = new HashSet<ObjectId>();
 			inc.addAll(include.values());
@@ -232,6 +240,35 @@ public class BundleWriter {
 			w.write('\n');
 			w.flush();
 			packWriter.writePack(monitor, monitor, os);
+			stats = packWriter.getStatistics();
 		}
+	}
+
+	/**
+	 * Get statistics about this writer request.
+	 *
+	 * @return description of what this {@code BundleWriter} did in order to
+	 *         create the bundle. The object is only available to callers after
+	 *         {@link #writeBundle(ProgressMonitor, OutputStream)} is finished.
+	 * @since 4.1
+	 */
+	public Statistics getStatistics() {
+		return stats;
+	}
+
+	/**
+	 * Set the {@code ObjectCountCallback}.
+	 * <p>
+	 * It should be set before calling
+	 * {@link #writeBundle(ProgressMonitor, OutputStream)}.
+	 * <p>
+	 * This callback will be passed on to {@code PackWriter}.
+	 *
+	 * @return this object for chaining.
+	 * @since 4.1
+	 */
+	public BundleWriter setObjectCountCallback(ObjectCountCallback callback) {
+		this.callback = callback;
+		return this;
 	}
 }
