@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_8eeb4e19",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 723,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-06-04T18:53:23Z",
+      "side": 1,
+      "message": "You\u0027ll see I omitted tests with setting to a single null string or a list containing at least one null value. IMHO set-to-null should be equivalent to unset, and setStringList should choke on null values.",
+      "revId": "96eb3ee3976e7e9e3e118851fa614cce8a1f7d88",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
