@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "87f6139c_8ec6aeab",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 702,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-06-04T18:57:18Z",
+      "side": 1,
+      "message": "Other syntaxes worth testing:\n\n [a \"\"]\n x \u003d 0\n\n [a]\n x \u003d \"\"",
+      "range": {
+        "startLine": 702,
+        "startChar": 0,
+        "endLine": 702,
+        "endChar": 55
+      },
+      "revId": "96eb3ee3976e7e9e3e118851fa614cce8a1f7d88",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f6139c_8eeb4e19",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ConfigTest.java",
         "patchSetId": 1
