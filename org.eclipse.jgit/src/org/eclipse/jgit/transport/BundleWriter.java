@@ -81,7 +81,7 @@ import org.eclipse.jgit.storage.pack.PackConfig;
  * from these assumed commits can be used as delta bases in order to reduce the
  * overall bundle size.
  */
-public class BundleWriter {
+public class BundleWriter implements PackWriter.ObjectCountCallback {
 	private final Repository db;
 
 	private final Map<String, ObjectId> include;
@@ -91,6 +91,10 @@ public class BundleWriter {
 	private final Set<ObjectId> tagTargets;
 
 	private PackConfig packConfig;
+
+	private PackWriter.Statistics stats;
+
+	private long cntObjects;
 
 	/**
 	 * Create a writer for a bundle.
@@ -195,6 +199,8 @@ public class BundleWriter {
 		if (pc == null)
 			pc = new PackConfig(db);
 		try (PackWriter packWriter = new PackWriter(pc, db.newObjectReader())) {
+			packWriter.setObjectCountCallback(this);
+
 			final HashSet<ObjectId> inc = new HashSet<ObjectId>();
 			final HashSet<ObjectId> exc = new HashSet<ObjectId>();
 			inc.addAll(include.values());
@@ -232,6 +238,36 @@ public class BundleWriter {
 			w.write('\n');
 			w.flush();
 			packWriter.writePack(monitor, monitor, os);
+			stats = packWriter.getStatistics();
 		}
+	}
+
+	/**
+	 * Get statistics about this writer request.
+	 *
+	 * @return description of what this {@code BundleWriter} did in order to
+	 *         create the bundle. The object is only available to callers after
+	 *         {@link #writeBundle(ProgressMonitor, OutputStream)} is finished.
+	 * @since 4.0
+	 */
+	public PackWriter.Statistics getStatistics() {
+		return stats;
+	}
+
+	/**
+	 * Get the number of objects this writer writes.
+	 *
+	 * @return The number of objects. It's only available to callers after
+	 *         {@link #writeBundle(ProgressMonitor, OutputStream)} is called,
+	 *         otherwise 0.
+	 * @since 4.0
+	 */
+	public long getObjectCount() {
+		return cntObjects;
+	}
+
+	@Override
+	public void setObjectCount(long count) {
+		cntObjects = count;
 	}
 }
