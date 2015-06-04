@@ -726,6 +726,15 @@ public class ConfigTest {
 		assertArrayEquals(new String[]{""}, c.getStringList("a", null, "x"));
 	}
 
+	@Test
+	public void testEmptyValueAtEof() throws Exception {
+		String text = "[a]\nx =";
+		Config c = parse(text);
+		assertEquals("", c.getString("a", null, "x"));
+		c = parse(text + "\n");
+		assertEquals("", c.getString("a", null, "x"));
+	}
+
 	private static void assertReadLong(long exp) throws ConfigInvalidException {
 		assertReadLong(exp, String.valueOf(exp));
 	}
