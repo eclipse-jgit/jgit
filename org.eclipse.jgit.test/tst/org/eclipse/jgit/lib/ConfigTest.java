@@ -51,7 +51,6 @@ package org.eclipse.jgit.lib;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
@@ -503,27 +502,6 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testEmptyString() throws ConfigInvalidException {
-		Config c = parse("[my]\n\tempty =\n");
-		assertNull(c.getString("my", null, "empty"));
-
-		String[] values = c.getStringList("my", null, "empty");
-		assertNotNull(values);
-		assertEquals(1, values.length);
-		assertNull(values[0]);
-
-		// always matches the default, because its non-boolean
-		assertTrue(c.getBoolean("my", "empty", true));
-		assertFalse(c.getBoolean("my", "empty", false));
-
-		assertEquals("[my]\n\tempty =\n", c.toText());
-
-		c = new Config();
-		c.setStringList("my", null, "empty", Arrays.asList(values));
-		assertEquals("[my]\n\tempty =\n", c.toText());
-	}
-
-	@Test
 	public void testUnsetBranchSection() throws ConfigInvalidException {
 		Config c = parse("" //
 				+ "[branch \"keep\"]\n"
@@ -697,6 +675,55 @@ public class ConfigTest {
 				+ "y = 1");
 		assertEquals("0", c.getString("a", null, "x"));
 		assertEquals("1", c.getString("a", null, "y"));
+	}
+
+	@Test
+	public void testExplicitlySetEmptyString() throws Exception {
+		Config c = new Config();
+		c.setString("a", null, "x", "0");
+		c.setString("a", null, "y", "");
+
+		assertEquals("0", c.getString("a", null, "x"));
+		assertEquals(0, c.getInt("a", null, "x", 1));
+
+		assertEquals("", c.getString("a", null, "y"));
+		assertArrayEquals(new String[]{""}, c.getStringList("a", null, "y"));
+		try {
+			c.getInt("a", null, "y", 1);
+		} catch (IllegalArgumentException e) {
+			assertEquals("Invalid integer value: a.y=", e.getMessage());
+		}
+
+		assertNull(c.getString("a", null, "z"));
+		assertArrayEquals(new String[]{}, c.getStringList("a", null, "z"));
+	}
+
+	@Test
+	public void testParsedEmptyString() throws Exception {
+		Config c = parse("[a]\n"
+				+ "x = 0\n"
+				+ "y =\n");
+
+		assertEquals("0", c.getString("a", null, "x"));
+		assertEquals(0, c.getInt("a", null, "x", 1));
+
+		assertEquals("", c.getString("a", null, "y"));
+		assertArrayEquals(new String[]{""}, c.getStringList("a", null, "y"));
+		try {
+			c.getInt("a", null, "y", 1);
+		} catch (IllegalArgumentException e) {
+			assertEquals("Invalid integer value: a.y=", e.getMessage());
+		}
+
+		assertNull(c.getString("a", null, "z"));
+		assertArrayEquals(new String[]{}, c.getStringList("a", null, "z"));
+	}
+
+	@Test
+	public void testSetStringListWithEmptyValue() throws Exception {
+		Config c = new Config();
+		c.setStringList("a", null, "x", Arrays.asList(""));
+		assertArrayEquals(new String[]{""}, c.getStringList("a", null, "x"));
 	}
 
 	private static void assertReadLong(long exp) throws ConfigInvalidException {
