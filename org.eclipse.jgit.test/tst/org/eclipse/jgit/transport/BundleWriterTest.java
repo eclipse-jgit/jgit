@@ -61,6 +61,8 @@ import java.util.Set;
 import org.eclipse.jgit.errors.MissingBundlePrerequisiteException;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.TransportException;
+import org.eclipse.jgit.internal.storage.pack.PackWriter.ObjectCountCallback;
+import org.eclipse.jgit.internal.storage.pack.WriteAbortedException;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -147,6 +149,18 @@ public class BundleWriterTest extends SampleDataRepositoryTestCase {
 		}
 	}
 
+	@Test
+	public void testAbortWrite() throws Exception {
+		boolean caught = false;
+		try {
+			makeBundleWithCallback(
+					"refs/heads/aa", db.resolve("a").name(), null, false);
+		} catch (WriteAbortedException e) {
+			caught = true;
+		}
+		assertTrue(caught);
+	}
+
 	private static FetchResult fetchFromBundle(final Repository newRepo,
 			final byte[] bundle) throws URISyntaxException,
 			NotSupportedException, TransportException {
@@ -161,15 +175,38 @@ public class BundleWriterTest extends SampleDataRepositoryTestCase {
 	private byte[] makeBundle(final String name,
 			final String anObjectToInclude, final RevCommit assume)
 			throws FileNotFoundException, IOException {
+		return makeBundleWithCallback(name, anObjectToInclude, assume, true);
+	}
+
+	private byte[] makeBundleWithCallback(final String name,
+			final String anObjectToInclude, final RevCommit assume,
+			boolean value)
+			throws FileNotFoundException, IOException {
 		final BundleWriter bw;
 
 		bw = new BundleWriter(db);
+		bw.setObjectCountCallback(new NaiveObjectCountCallback(value));
 		bw.include(name, ObjectId.fromString(anObjectToInclude));
 		if (assume != null)
 			bw.assume(assume);
 		final ByteArrayOutputStream out = new ByteArrayOutputStream();
 		bw.writeBundle(NullProgressMonitor.INSTANCE, out);
 		return out.toByteArray();
+	}
+
+	private static class NaiveObjectCountCallback
+			implements ObjectCountCallback {
+		private final boolean value;
+
+		NaiveObjectCountCallback(boolean value) {
+			this.value = value;
+		}
+
+		@Override
+		public void setObjectCount(long unused) throws WriteAbortedException {
+			if (!value)
+				throw new WriteAbortedException();
+		}
 	}
 
 }

@@ -167,6 +167,31 @@ public class PackWriter implements AutoCloseable {
 		boolean contains(AnyObjectId objectId);
 	}
 
+	/**
+	 * A callback to tell caller the count of objects ASAP.
+	 *
+	 * @since 4.1
+	 */
+	public interface ObjectCountCallback {
+		/**
+		 * Invoked when the PackWriter has counted the objects to be written
+		 * to pack.
+		 * <p>
+		 * An ObjectCountCallback can use this information to decide whether
+		 * the
+		 * {@link #writePack(ProgressMonitor, ProgressMonitor, OutputStream)}
+		 * operation should be aborted.
+		 * <p>
+		 * This callback will be called exactly once.
+		 *
+		 * @param objectCount
+		 *            the count of the objects.
+		 * @throws WriteAbortedException
+		 *             to indicate that the write operation should be aborted.
+		 */
+		void setObjectCount(long objectCount) throws WriteAbortedException;
+	}
+
 	private static final Map<WeakReference<PackWriter>, Boolean> instances =
 			new ConcurrentHashMap<WeakReference<PackWriter>, Boolean>();
 
@@ -289,6 +314,8 @@ public class PackWriter implements AutoCloseable {
 
 	private CRC32 crc32;
 
+	private ObjectCountCallback callback;
+
 	/**
 	 * Create writer for specified repository.
 	 * <p>
@@ -356,6 +383,20 @@ public class PackWriter implements AutoCloseable {
 		state = new MutableState();
 		selfRef = new WeakReference<PackWriter>(this);
 		instances.put(selfRef, Boolean.TRUE);
+	}
+
+	/**
+	 * Set the {@code ObjectCountCallback}.
+	 * <p>
+	 * It should be set before calling
+	 * {@link #writePack(ProgressMonitor, ProgressMonitor, OutputStream)}.
+	 *
+	 * @return this object for chaining.
+	 * @since 4.1
+	 */
+	public PackWriter setObjectCountCallback(ObjectCountCallback callback) {
+		this.callback = callback;
+		return this;
 	}
 
 	/**
@@ -906,6 +947,10 @@ public class PackWriter implements AutoCloseable {
 	 *             an error occurred reading a local object's data to include in
 	 *             the pack, or writing compressed object data to the output
 	 *             stream.
+	 * @throws WriteAbortedException
+	 *             the write operation is aborted by
+	 *             {@link PackWriter.ObjectCountCallback}, it's a subclass of
+	 *             {@code IOException}.
 	 */
 	public void writePack(ProgressMonitor compressMonitor,
 			ProgressMonitor writeMonitor, OutputStream packStream)
@@ -947,6 +992,8 @@ public class PackWriter implements AutoCloseable {
 
 		long objCnt = getObjectCount();
 		stats.totalObjects = objCnt;
+		if (callback != null)
+			callback.setObjectCount(objCnt);
 		beginPhase(PackingPhase.WRITING, writeMonitor, objCnt);
 		long writeStart = System.currentTimeMillis();
 		try {
