@@ -167,6 +167,27 @@ public class PackWriter implements AutoCloseable {
 		boolean contains(AnyObjectId objectId);
 	}
 
+	/**
+	 * A callback to tell caller the count of objects ASAP.
+	 *
+	 * @since 4.1
+	 */
+	public interface ObjectCountCallback {
+		/**
+		 * Tell the caller the count of objects.
+		 * <p>
+		 * {@link #writePack(ProgressMonitor, ProgressMonitor, OutputStream)}
+		 * will tell the caller of it the count of objects as soon as we get it,
+		 * and abort the operation if needed (returned false). This callback
+		 * will be called exact once.
+		 *
+		 * @param cntObjects
+		 *			  the count of the objects.
+		 * @return true to continue write, false to abort it.
+		 */
+		boolean setObjectCount(long cntObjects);
+	}
+
 	private static final Map<WeakReference<PackWriter>, Boolean> instances =
 			new ConcurrentHashMap<WeakReference<PackWriter>, Boolean>();
 
@@ -289,6 +310,8 @@ public class PackWriter implements AutoCloseable {
 
 	private CRC32 crc32;
 
+	private ObjectCountCallback callback;
+
 	/**
 	 * Create writer for specified repository.
 	 * <p>
@@ -356,6 +379,20 @@ public class PackWriter implements AutoCloseable {
 		state = new MutableState();
 		selfRef = new WeakReference<PackWriter>(this);
 		instances.put(selfRef, Boolean.TRUE);
+	}
+
+	/**
+	 * Set the {@code ObjectCountCallback}.
+	 * <p>
+	 * It should be set before calling
+	 * {@link #writePack(ProgressMonitor, ProgressMonitor, OutputStream)}.
+	 *
+	 * @return this object for chaining.
+	 * @since 4.1
+	 */
+	public PackWriter setObjectCountCallback(ObjectCountCallback callback) {
+		this.callback = callback;
+		return this;
 	}
 
 	/**
@@ -947,6 +984,9 @@ public class PackWriter implements AutoCloseable {
 
 		long objCnt = getObjectCount();
 		stats.totalObjects = objCnt;
+		if (callback != null)
+			if (!callback.setObjectCount(objCnt))
+				throw new WriteAbortedException();
 		beginPhase(PackingPhase.WRITING, writeMonitor, objCnt);
 		long writeStart = System.currentTimeMillis();
 		try {
