@@ -276,7 +276,7 @@ public class RefDirectory extends RefDatabase {
 	}
 
 	@Override
-	public Ref getRef(final String needle) throws IOException {
+	public Ref findRef(final String needle) throws IOException {
 		final RefList<Ref> packed = getPackedRefs();
 		Ref ref = null;
 		for (String prefix : SEARCH_PATH) {
