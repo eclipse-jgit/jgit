@@ -905,9 +905,41 @@ public abstract class Repository implements AutoCloseable {
 	 *            "refs/heads/master" if "refs/heads/master" already exists.
 	 * @return the Ref with the given name, or null if it does not exist
 	 * @throws IOException
+	 * @deprecated Use {@link #exactRef} or {@link #findRef} instead.
 	 */
+	@Deprecated
 	public Ref getRef(final String name) throws IOException {
 		return getRefDatabase().getRef(name);
+	}
+
+	/**
+	 * Get a ref by name.
+	 *
+	 * @param name
+	 *            the name of the ref to lookup. Must not be a short-hand
+	 *            form; e.g., "master" is not automatically expanded to
+	 *            "refs/heads/master".
+	 * @return the Ref with the given name, or null if it does not exist
+	 * @throws IOException
+	 * @since 4.1
+	 */
+	public Ref exactRef(String name) throws IOException {
+		return getRefDatabase().exactRef(name);
+	}
+
+	/**
+	 * Search for a ref by (possibly abbreviated) name.
+	 *
+	 * @param name
+	 *            the name of the ref to lookup. May be a short-hand form, e.g.
+	 *            "master" which is is automatically expanded to
+	 *            "refs/heads/master" if "refs/heads/master" already exists.
+	 * @return the Ref with the given name, or null if it does not exist
+	 * @throws IOException
+	 * @since 4.1
+	 */
+	public Ref findRef(String name) throws IOException {
+		return getRefDatabase().findRef(name);
 	}
 
 	/**
