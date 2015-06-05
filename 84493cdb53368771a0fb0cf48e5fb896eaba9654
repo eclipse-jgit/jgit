@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_b07824e4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-06-05T18:43:57Z",
+      "side": 1,
+      "message": "I think we should deprecate getRef(String) and add findRef(String) that replaces it. This makes it more clear the caller is looking for a ref that matches the input.\n\nIt also matches the static findRef() below.\n\nWe can make getRef(String) concrete to call findRef(String), and mark it @Deprecated. And we can offer a default implementation of findRef(String) (see below). This should be a non-breaking API change and get us through to JGit 5.",
+      "revId": "84493cdb53368771a0fb0cf48e5fb896eaba9654",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_f06d8c24",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-06-05T18:43:57Z",
+      "side": 1,
+      "message": "Maybe we can avoid the hideous get prefix and use exactRef(String).\n\nAlso add Map\u003cString, Ref\u003e exactRef(String ... name) to lookup multiple exact refs in one shot. A default findRef() could then be defined in terms of this by taking its input and building the permutations from SEARCH_PATH to create the input array for exactRef(String[]), get the results, then pass that through static findRef() below to return the matching result.",
+      "revId": "84493cdb53368771a0fb0cf48e5fb896eaba9654",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_505f406d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-06-05T18:43:57Z",
+      "side": 1,
+      "message": "Good default solution. Nit: space around + operator.",
+      "revId": "84493cdb53368771a0fb0cf48e5fb896eaba9654",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
