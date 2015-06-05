@@ -359,6 +359,33 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
+	public void testFirstExactRef_IgnoresGarbageRef() throws IOException {
+		writeLooseRef("refs/heads/A", A);
+		write(new File(diskRepo.getDirectory(), "refs/heads/bad"), "FAIL\n");
+
+		Ref a = refdir.firstExactRef("refs/heads/bad", "refs/heads/A");
+		assertEquals("refs/heads/A", a.getName());
+		assertEquals(A, a.getObjectId());
+	}
+
+	@Test
+	public void testExactRef_IgnoresGarbageRef() throws IOException {
+		writeLooseRef("refs/heads/A", A);
+		write(new File(diskRepo.getDirectory(), "refs/heads/bad"), "FAIL\n");
+
+		Map<String, Ref> refs =
+				refdir.exactRef("refs/heads/bad", "refs/heads/A");
+
+		assertNull("no refs/heads/bad", refs.get("refs/heads/bad"));
+
+		Ref a = refs.get("refs/heads/A");
+		assertEquals("refs/heads/A", a.getName());
+		assertEquals(A, a.getObjectId());
+
+		assertEquals(1, refs.size());
+	}
+
+	@Test
 	public void testGetRefs_InvalidName() throws IOException {
 		writeLooseRef("refs/heads/A", A);
 
@@ -461,6 +488,21 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 
 		assertEquals(A, a.getObjectId());
 		assertEquals(B, b.getObjectId());
+	}
+
+	@Test
+	public void testFirstExactRef_Mixed() throws IOException {
+		writeLooseRef("refs/heads/A", A);
+		writePackedRef("refs/tags/v1.0", v1_0);
+
+		Ref a = refdir.firstExactRef("refs/heads/A", "refs/tags/v1.0");
+		Ref one = refdir.firstExactRef("refs/tags/v1.0", "refs/heads/A");
+
+		assertEquals("refs/heads/A", a.getName());
+		assertEquals("refs/tags/v1.0", one.getName());
+
+		assertEquals(A, a.getObjectId());
+		assertEquals(v1_0, one.getObjectId());
 	}
 
 	@Test
