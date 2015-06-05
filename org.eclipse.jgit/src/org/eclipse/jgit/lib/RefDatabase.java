@@ -211,6 +211,9 @@ public abstract class RefDatabase {
 	 * Aside from taking advantage of {@link #SEARCH_PATH}, this method may be
 	 * able to more quickly resolve a single reference name than obtaining the
 	 * complete namespace by {@code getRefs(ALL).get(name)}.
+	 * <p>
+	 * To read a specific reference without using @{link #SEARCH_PATH}, see
+	 * {@link #exactRef(String)}.
 	 *
 	 * @param name
 	 *            the name of the reference. May be a short name which must be
@@ -220,6 +223,36 @@ public abstract class RefDatabase {
 	 *             the reference space cannot be accessed.
 	 */
 	public abstract Ref getRef(String name) throws IOException;
+
+	/**
+	 * Read a single reference.
+	 * <p>
+	 * Unlike {@link #getRef}, this method expects an unshortened reference
+	 * name and does not search using the standard {@link #SEARCH_PATH}.
+	 *
+	 * @param name
+	 *             the unabbreviated name of the reference.
+	 * @return the reference (if it exists); else {@code null}.
+	 * @throws IOException
+	 *             the reference space cannot be accessed.
+	 * @since 4.1
+	 */
+	public Ref exactRef(String name) throws IOException {
+		int slash = name.lastIndexOf('/');
+		String prefix = name.substring(0, slash + 1);
+		String rest = name.substring(slash + 1);
+		Ref result = getRefs(prefix).get(rest);
+		if (result != null || slash != -1) {
+			return result;
+		}
+
+		for (Ref ref : getAdditionalRefs()) {
+			if (name.equals(ref.getName())) {
+				return ref;
+			}
+		}
+		return null;
+	}
 
 	/**
 	 * Get a section of the reference namespace.
@@ -242,6 +275,7 @@ public abstract class RefDatabase {
 	 * The result list includes non-ref items such as MERGE_HEAD and
 	 * FETCH_RESULT cast to be refs. The names of these refs are not returned by
 	 * <code>getRefs(ALL)</code> but are accepted by {@link #getRef(String)}
+	 * and {@link exactRef(String)}.
 	 *
 	 * @return a list of additional refs
 	 * @throws IOException
