@@ -164,8 +164,8 @@ public class HookMessageTest extends HttpTestCase {
 		}
 
 		assertTrue(remoteRepository.hasObject(Q_txt));
-		assertNotNull("has " + dstName, remoteRepository.getRef(dstName));
-		assertEquals(Q, remoteRepository.getRef(dstName).getObjectId());
+		assertNotNull("has " + dstName, remoteRepository.exactRef(dstName));
+		assertEquals(Q, remoteRepository.exactRef(dstName).getObjectId());
 		fsck(remoteRepository, Q);
 
 		List<AccessEvent> requests = getRequests();

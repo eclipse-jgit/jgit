@@ -125,7 +125,7 @@ public class TestProtocolTest {
 					.setRefSpecs(HEADS)
 					.call();
 			assertEquals(master,
-					local.getRepository().getRef("master").getObjectId());
+					local.getRepository().exactRef("refs/heads/master").getObjectId());
 		}
 	}
 
@@ -142,7 +142,7 @@ public class TestProtocolTest {
 					.setRefSpecs(HEADS)
 					.call();
 			assertEquals(master,
-					remote.getRepository().getRef("master").getObjectId());
+					remote.getRepository().exactRef("refs/heads/master").getObjectId());
 		}
 	}
 
@@ -177,7 +177,7 @@ public class TestProtocolTest {
 				// Expected.
 			}
 			assertEquals(1, rejected.get());
-			assertNull(local.getRepository().getRef("master"));
+			assertNull(local.getRepository().exactRef("refs/heads/master"));
 
 			git.fetch()
 					.setRemote(user2Uri.toString())
@@ -185,7 +185,7 @@ public class TestProtocolTest {
 					.call();
 			assertEquals(1, rejected.get());
 			assertEquals(master,
-					local.getRepository().getRef("master").getObjectId());
+					local.getRepository().exactRef("refs/heads/master").getObjectId());
 		}
 	}
 
@@ -222,7 +222,7 @@ public class TestProtocolTest {
 						JGitText.get().pushNotPermitted));
 			}
 			assertEquals(1, rejected.get());
-			assertNull(remote.getRepository().getRef("master"));
+			assertNull(remote.getRepository().exactRef("refs/heads/master"));
 
 			git.push()
 					.setRemote(user2Uri.toString())
@@ -230,7 +230,7 @@ public class TestProtocolTest {
 					.call();
 			assertEquals(1, rejected.get());
 			assertEquals(master,
-					remote.getRepository().getRef("master").getObjectId());
+					remote.getRepository().exactRef("refs/heads/master").getObjectId());
 		}
 	}
 

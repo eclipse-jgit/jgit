@@ -630,7 +630,7 @@ public class ResolveMergerTest extends RepositoryTestCase {
 		// ResolveMerge
 		try {
 			MergeResult mergeResult = git.merge().setStrategy(strategy)
-					.include(git.getRepository().getRef("refs/heads/side"))
+					.include(git.getRepository().exactRef("refs/heads/side"))
 					.call();
 			assertEquals(MergeStrategy.RECURSIVE, strategy);
 			assertEquals(MergeResult.MergeStatus.MERGED,
