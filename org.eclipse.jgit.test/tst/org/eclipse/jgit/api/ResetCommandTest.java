@@ -477,8 +477,10 @@ public class ResetCommandTest extends RepositoryTestCase {
 
 		checkoutBranch("refs/heads/master");
 
-		MergeResult result = g.merge().include(db.getRef("branch1"))
-				.setSquash(true).call();
+		MergeResult result = g.merge()
+				.include(db.exactRef("refs/heads/branch1"))
+				.setSquash(true)
+				.call();
 
 		assertEquals(MergeResult.MergeStatus.FAST_FORWARD_SQUASHED,
 				result.getMergeStatus());

@@ -43,6 +43,8 @@
  */
 package org.eclipse.jgit.api;
 
+import static org.eclipse.jgit.lib.Constants.MASTER;
+import static org.eclipse.jgit.lib.Constants.R_HEADS;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
@@ -97,7 +99,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 		Git git = new Git(db);
 		git.commit().setMessage("initial commit").call();
 
-		MergeResult result = git.merge().include(db.getRef(Constants.HEAD)).call();
+		MergeResult result = git.merge().include(db.exactRef(Constants.HEAD)).call();
 		assertEquals(MergeResult.MergeStatus.ALREADY_UP_TO_DATE, result.getMergeStatus());
 		// no reflog entry written by merge
 		assertEquals("commit (initial): initial commit",
@@ -115,7 +117,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 		createBranch(first, "refs/heads/branch1");
 
 		RevCommit second = git.commit().setMessage("second commit").call();
-		MergeResult result = git.merge().include(db.getRef("refs/heads/branch1")).call();
+		MergeResult result = git.merge().include(db.exactRef("refs/heads/branch1")).call();
 		assertEquals(MergeResult.MergeStatus.ALREADY_UP_TO_DATE, result.getMergeStatus());
 		assertEquals(second, result.getNewHead());
 		// no reflog entry written by merge
@@ -135,7 +137,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 
 		checkoutBranch("refs/heads/branch1");
 
-		MergeResult result = git.merge().include(db.getRef(Constants.MASTER)).call();
+		MergeResult result = git.merge().include(db.exactRef(R_HEADS + MASTER)).call();
 
 		assertEquals(MergeResult.MergeStatus.FAST_FORWARD, result.getMergeStatus());
 		assertEquals(second, result.getNewHead());
@@ -155,7 +157,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 
 		checkoutBranch("refs/heads/branch1");
 
-		MergeResult result = git.merge().include(db.getRef(Constants.MASTER))
+		MergeResult result = git.merge().include(db.exactRef(R_HEADS + MASTER))
 				.setCommit(false).call();
 
 		assertEquals(MergeResult.MergeStatus.FAST_FORWARD,
@@ -186,7 +188,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 		checkoutBranch("refs/heads/branch1");
 		assertFalse(new File(db.getWorkTree(), "file2").exists());
 
-		MergeResult result = git.merge().include(db.getRef(Constants.MASTER)).call();
+		MergeResult result = git.merge().include(db.exactRef(R_HEADS + MASTER)).call();
 
 		assertTrue(new File(db.getWorkTree(), "file1").exists());
 		assertTrue(new File(db.getWorkTree(), "file2").exists());
@@ -221,7 +223,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 
 		MergeCommand merge = git.merge();
 		merge.include(second.getId());
-		merge.include(db.getRef(Constants.MASTER));
+		merge.include(db.exactRef(R_HEADS + MASTER));
 		try {
 			merge.call();
 			fail("Expected exception not thrown when merging multiple heads");
@@ -248,7 +250,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 		git.commit().setMessage("third").call();
 
 		MergeResult result = git.merge().setStrategy(mergeStrategy)
-				.include(db.getRef(Constants.MASTER)).call();
+				.include(db.exactRef(R_HEADS + MASTER)).call();
 		assertEquals(MergeStatus.MERGED, result.getMergeStatus());
 		assertEquals(
 				"merge refs/heads/master: Merge made by "
@@ -279,9 +281,9 @@ public class MergeCommandTest extends RepositoryTestCase {
 
 		MergeResult result = git.merge().setStrategy(mergeStrategy)
 				.setCommit(false)
-				.include(db.getRef(Constants.MASTER)).call();
+				.include(db.exactRef(R_HEADS + MASTER)).call();
 		assertEquals(MergeStatus.MERGED_NOT_COMMITTED, result.getMergeStatus());
-		assertEquals(db.getRef(Constants.HEAD).getTarget().getObjectId(),
+		assertEquals(db.exactRef(Constants.HEAD).getTarget().getObjectId(),
 				thirdCommit.getId());
 	}
 
@@ -378,7 +380,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 		git.add().addFilepattern("a").call();
 		git.commit().setMessage("main").call();
 
-		Ref sideBranch = db.getRef("side");
+		Ref sideBranch = db.exactRef("refs/heads/side");
 
 		git.merge().include(sideBranch)
 				.setStrategy(MergeStrategy.RESOLVE).call();
@@ -590,7 +592,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 				.setCommit(false)
 				.setStrategy(MergeStrategy.RESOLVE).call();
 		assertEquals(MergeStatus.MERGED_NOT_COMMITTED, result.getMergeStatus());
-		assertEquals(db.getRef(Constants.HEAD).getTarget().getObjectId(),
+		assertEquals(db.exactRef(Constants.HEAD).getTarget().getObjectId(),
 				thirdCommit.getId());
 
 		assertEquals("1(side)\na\n3(main)\n", read(new File(db.getWorkTree(),
@@ -1310,8 +1312,10 @@ public class MergeCommandTest extends RepositoryTestCase {
 		assertFalse(new File(db.getWorkTree(), "file2").exists());
 		assertFalse(new File(db.getWorkTree(), "file3").exists());
 
-		MergeResult result = git.merge().include(db.getRef("branch1"))
-				.setSquash(true).call();
+		MergeResult result = git.merge()
+				.include(db.exactRef("refs/heads/branch1"))
+				.setSquash(true)
+				.call();
 
 		assertTrue(new File(db.getWorkTree(), "file1").exists());
 		assertTrue(new File(db.getWorkTree(), "file2").exists());
@@ -1375,8 +1379,10 @@ public class MergeCommandTest extends RepositoryTestCase {
 		assertTrue(new File(db.getWorkTree(), "file2").exists());
 		assertFalse(new File(db.getWorkTree(), "file3").exists());
 
-		MergeResult result = git.merge().include(db.getRef("branch1"))
-				.setSquash(true).call();
+		MergeResult result = git.merge()
+				.include(db.exactRef("refs/heads/branch1"))
+				.setSquash(true)
+				.call();
 
 		assertTrue(new File(db.getWorkTree(), "file1").exists());
 		assertTrue(new File(db.getWorkTree(), "file2").exists());
@@ -1430,8 +1436,10 @@ public class MergeCommandTest extends RepositoryTestCase {
 		assertTrue(new File(db.getWorkTree(), "file1").exists());
 		assertTrue(new File(db.getWorkTree(), "file2").exists());
 
-		MergeResult result = git.merge().include(db.getRef("branch1"))
-				.setSquash(true).call();
+		MergeResult result = git.merge()
+				.include(db.exactRef("refs/heads/branch1"))
+				.setSquash(true)
+				.call();
 
 		assertTrue(new File(db.getWorkTree(), "file1").exists());
 		assertTrue(new File(db.getWorkTree(), "file2").exists());
@@ -1468,7 +1476,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 
 		MergeCommand merge = git.merge();
 		merge.setFastForward(FastForwardMode.FF_ONLY);
-		merge.include(db.getRef(Constants.MASTER));
+		merge.include(db.exactRef(R_HEADS + MASTER));
 		MergeResult result = merge.call();
 
 		assertEquals(MergeStatus.FAST_FORWARD, result.getMergeStatus());
@@ -1485,7 +1493,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 
 		MergeCommand merge = git.merge();
 		merge.setFastForward(FastForwardMode.NO_FF);
-		merge.include(db.getRef(Constants.MASTER));
+		merge.include(db.exactRef(R_HEADS + MASTER));
 		MergeResult result = merge.call();
 
 		assertEquals(MergeStatus.MERGED, result.getMergeStatus());
@@ -1505,7 +1513,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 		// when
 		MergeCommand merge = git.merge();
 		merge.setFastForward(FastForwardMode.NO_FF);
-		merge.include(db.getRef(Constants.MASTER));
+		merge.include(db.exactRef(R_HEADS + MASTER));
 		merge.setCommit(false);
 		MergeResult result = merge.call();
 
@@ -1531,7 +1539,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 		git.commit().setMessage("second commit on branch1").call();
 		MergeCommand merge = git.merge();
 		merge.setFastForward(FastForwardMode.FF_ONLY);
-		merge.include(db.getRef(Constants.MASTER));
+		merge.include(db.exactRef(R_HEADS + MASTER));
 		MergeResult result = merge.call();
 
 		assertEquals(MergeStatus.ABORTED, result.getMergeStatus());
@@ -1588,7 +1596,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 		git.add().addFilepattern("c").call();
 		git.commit().setMessage("main").call();
 
-		Ref sideBranch = db.getRef("side");
+		Ref sideBranch = db.exactRef("refs/heads/side");
 
 		git.merge().include(sideBranch).setStrategy(MergeStrategy.RESOLVE)
 				.setMessage("user message").call();
@@ -1621,7 +1629,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 		git.add().addFilepattern("a").call();
 		git.commit().setMessage("main").call();
 
-		Ref sideBranch = db.getRef("side");
+		Ref sideBranch = db.exactRef("refs/heads/side");
 
 		git.merge().include(sideBranch).setStrategy(MergeStrategy.RESOLVE)
 				.setMessage("user message").call();

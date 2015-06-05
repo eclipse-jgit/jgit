@@ -95,9 +95,9 @@ public class NameRevCommandTest extends RepositoryTestCase {
 		tr.update("refs/heads/master", c);
 		tr.update("refs/tags/tag", c);
 		assertOneResult("master",
-				git.nameRev().addRef(db.getRef("refs/heads/master")), c);
+				git.nameRev().addRef(db.exactRef("refs/heads/master")), c);
 		assertOneResult("tag",
-				git.nameRev().addRef(db.getRef("refs/tags/tag")), c);
+				git.nameRev().addRef(db.exactRef("refs/tags/tag")), c);
 	}
 
 	@Test

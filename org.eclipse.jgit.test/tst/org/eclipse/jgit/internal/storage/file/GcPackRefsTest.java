@@ -77,7 +77,7 @@ public class GcPackRefsTest extends GcTestCase {
 		tr.lightweightTag("t", a);
 
 		gc.packRefs();
-		assertSame(repo.getRef("t").getStorage(), Storage.PACKED);
+		assertSame(repo.exactRef("refs/tags/t").getStorage(), Storage.PACKED);
 	}
 
 	@Test
@@ -126,8 +126,8 @@ public class GcPackRefsTest extends GcTestCase {
 			refLock.unlock();
 		}
 
-		assertSame(repo.getRef("refs/tags/t1").getStorage(), Storage.LOOSE);
-		assertSame(repo.getRef("refs/tags/t2").getStorage(), Storage.PACKED);
+		assertSame(repo.exactRef("refs/tags/t1").getStorage(), Storage.LOOSE);
+		assertSame(repo.exactRef("refs/tags/t2").getStorage(), Storage.PACKED);
 	}
 
 	@Test
@@ -146,7 +146,7 @@ public class GcPackRefsTest extends GcTestCase {
 				public Result call() throws Exception {
 					RefUpdate update = new RefDirectoryUpdate(
 							(RefDirectory) repo.getRefDatabase(),
-							repo.getRef("refs/tags/t")) {
+							repo.exactRef("refs/tags/t")) {
 						@Override
 						public boolean isForceUpdate() {
 							try {
@@ -182,7 +182,7 @@ public class GcPackRefsTest extends GcTestCase {
 			pool.awaitTermination(Long.MAX_VALUE, TimeUnit.SECONDS);
 		}
 
-		assertEquals(repo.getRef("refs/tags/t").getObjectId(), b);
+		assertEquals(repo.exactRef("refs/tags/t").getObjectId(), b);
 	}
 
 	@Test
@@ -194,23 +194,23 @@ public class GcPackRefsTest extends GcTestCase {
 
 		// check for the unborn branch master. HEAD should point to master and
 		// master doesn't exist.
-		assertEquals(repo.getRef("HEAD").getTarget().getName(),
+		assertEquals(repo.exactRef("HEAD").getTarget().getName(),
 				"refs/heads/master");
-		assertNull(repo.getRef("HEAD").getTarget().getObjectId());
+		assertNull(repo.exactRef("HEAD").getTarget().getObjectId());
 		gc.packRefs();
-		assertSame(repo.getRef("HEAD").getStorage(), Storage.LOOSE);
-		assertEquals(repo.getRef("HEAD").getTarget().getName(),
+		assertSame(repo.exactRef("HEAD").getStorage(), Storage.LOOSE);
+		assertEquals(repo.exactRef("HEAD").getTarget().getName(),
 				"refs/heads/master");
-		assertNull(repo.getRef("HEAD").getTarget().getObjectId());
+		assertNull(repo.exactRef("HEAD").getTarget().getObjectId());
 
 		git.checkout().setName("refs/heads/side").call();
 		gc.packRefs();
-		assertSame(repo.getRef("HEAD").getStorage(), Storage.LOOSE);
+		assertSame(repo.exactRef("HEAD").getStorage(), Storage.LOOSE);
 
 		// check for detached HEAD
 		git.checkout().setName(first.getName()).call();
 		gc.packRefs();
-		assertSame(repo.getRef("HEAD").getStorage(), Storage.LOOSE);
+		assertSame(repo.exactRef("HEAD").getStorage(), Storage.LOOSE);
 	}
 
 	@Test
@@ -229,20 +229,20 @@ public class GcPackRefsTest extends GcTestCase {
 
 		// check for the unborn branch master. HEAD should point to master and
 		// master doesn't exist.
-		assertEquals(repo.getRef("HEAD").getTarget().getName(),
+		assertEquals(repo.exactRef("HEAD").getTarget().getName(),
 				"refs/heads/master");
-		assertNull(repo.getRef("HEAD").getTarget().getObjectId());
+		assertNull(repo.exactRef("HEAD").getTarget().getObjectId());
 		gc.packRefs();
-		assertSame(repo.getRef("HEAD").getStorage(), Storage.LOOSE);
-		assertEquals(repo.getRef("HEAD").getTarget().getName(),
+		assertSame(repo.exactRef("HEAD").getStorage(), Storage.LOOSE);
+		assertEquals(repo.exactRef("HEAD").getTarget().getName(),
 				"refs/heads/master");
-		assertNull(repo.getRef("HEAD").getTarget().getObjectId());
+		assertNull(repo.exactRef("HEAD").getTarget().getObjectId());
 
 		// check for non-detached HEAD
 		repo.updateRef(Constants.HEAD).link("refs/heads/side");
 		gc.packRefs();
-		assertSame(repo.getRef("HEAD").getStorage(), Storage.LOOSE);
-		assertEquals(repo.getRef("HEAD").getTarget().getObjectId(),
+		assertSame(repo.exactRef("HEAD").getStorage(), Storage.LOOSE);
+		assertEquals(repo.exactRef("HEAD").getTarget().getObjectId(),
 				second.getId());
 	}
 }
