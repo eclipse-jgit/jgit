@@ -67,7 +67,7 @@ public class ResetTest extends CLIRepositoryTestCase {
 		assertStringArrayEquals("",
 				execute("git reset --hard " + commit.getId().name()));
 		assertEquals(commit.getId(),
-				git.getRepository().getRef("HEAD").getObjectId());
+				git.getRepository().exactRef("HEAD").getObjectId());
 	}
 
 	@Test
@@ -77,7 +77,7 @@ public class ResetTest extends CLIRepositoryTestCase {
 		assertStringArrayEquals("",
 				execute("git reset --hard " + commit.getId().name()));
 		assertEquals(commit.getId(),
-				git.getRepository().getRef("HEAD").getObjectId());
+				git.getRepository().exactRef("HEAD").getObjectId());
 	}
 
 	@Test
@@ -86,7 +86,7 @@ public class ResetTest extends CLIRepositoryTestCase {
 		assertStringArrayEquals("",
 				execute("git reset --hard " + commit.getId().name() + " --"));
 		assertEquals(commit.getId(),
-				git.getRepository().getRef("HEAD").getObjectId());
+				git.getRepository().exactRef("HEAD").getObjectId());
 	}
 
 	@Test
@@ -119,7 +119,7 @@ public class ResetTest extends CLIRepositoryTestCase {
 				(useDoubleDash) ? " --" : "");
 		assertStringArrayEquals("", execute(cmd));
 		assertEquals(commit.getId(),
-				git.getRepository().getRef("HEAD").getObjectId());
+				git.getRepository().exactRef("HEAD").getObjectId());
 
 		org.eclipse.jgit.api.Status status = git.status().call();
 		// assert that file a is unstaged

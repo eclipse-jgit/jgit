@@ -110,7 +110,7 @@ public class StashCreateCommandTest extends RepositoryTestCase {
 			int parentCount)
 			throws IOException {
 		assertNotNull(commit);
-		Ref stashRef = db.getRef(Constants.R_STASH);
+		Ref stashRef = db.exactRef(Constants.R_STASH);
 		assertNotNull(stashRef);
 		assertEquals(commit, stashRef.getObjectId());
 		assertNotNull(commit.getAuthorIdent());

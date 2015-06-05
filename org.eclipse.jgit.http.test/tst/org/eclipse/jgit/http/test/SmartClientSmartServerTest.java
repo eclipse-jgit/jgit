@@ -296,7 +296,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 		}
 
 		assertTrue(dst.hasObject(A_txt));
-		assertEquals(B, dst.getRef(master).getObjectId());
+		assertEquals(B, dst.exactRef(master).getObjectId());
 		fsck(dst, B);
 
 		List<AccessEvent> requests = getRequests();
@@ -337,7 +337,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 		} finally {
 			t.close();
 		}
-		assertEquals(B, dst.getRepository().getRef(master).getObjectId());
+		assertEquals(B, dst.getRepository().exactRef(master).getObjectId());
 		List<AccessEvent> cloneRequests = getRequests();
 
 		// Only create a few new commits.
@@ -358,7 +358,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 		} finally {
 			t.close();
 		}
-		assertEquals(Z, dst.getRepository().getRef(master).getObjectId());
+		assertEquals(Z, dst.getRepository().exactRef(master).getObjectId());
 
 		List<AccessEvent> requests = getRequests();
 		requests.removeAll(cloneRequests);
@@ -400,7 +400,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 		} finally {
 			t.close();
 		}
-		assertEquals(B, dst.getRepository().getRef(master).getObjectId());
+		assertEquals(B, dst.getRepository().exactRef(master).getObjectId());
 		List<AccessEvent> cloneRequests = getRequests();
 
 		// Force enough into the local client that enumeration will
@@ -424,7 +424,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 		} finally {
 			t.close();
 		}
-		assertEquals(Z, dst.getRepository().getRef(master).getObjectId());
+		assertEquals(Z, dst.getRepository().exactRef(master).getObjectId());
 
 		List<AccessEvent> requests = getRequests();
 		requests.removeAll(cloneRequests);
@@ -579,8 +579,8 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 		}
 
 		assertTrue(remoteRepository.hasObject(Q_txt));
-		assertNotNull("has " + dstName, remoteRepository.getRef(dstName));
-		assertEquals(Q, remoteRepository.getRef(dstName).getObjectId());
+		assertNotNull("has " + dstName, remoteRepository.exactRef(dstName));
+		assertEquals(Q, remoteRepository.exactRef(dstName).getObjectId());
 		fsck(remoteRepository, Q);
 
 		final ReflogReader log = remoteRepository.getReflogReader(dstName);
@@ -657,8 +657,8 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 		}
 
 		assertTrue(remoteRepository.hasObject(Q_bin));
-		assertNotNull("has " + dstName, remoteRepository.getRef(dstName));
-		assertEquals(Q, remoteRepository.getRef(dstName).getObjectId());
+		assertNotNull("has " + dstName, remoteRepository.exactRef(dstName));
+		assertEquals(Q, remoteRepository.exactRef(dstName).getObjectId());
 		fsck(remoteRepository, Q);
 
 		List<AccessEvent> requests = getRequests();

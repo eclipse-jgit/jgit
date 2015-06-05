@@ -209,7 +209,7 @@ public class DumbClientDumbServerTest extends HttpTestCase {
 		}
 
 		assertTrue(dst.hasObject(A_txt));
-		assertEquals(B, dst.getRef(master).getObjectId());
+		assertEquals(B, dst.exactRef(master).getObjectId());
 		fsck(dst, B);
 
 		List<AccessEvent> loose = getRequests(loose(remoteURI, A_txt));
@@ -234,7 +234,7 @@ public class DumbClientDumbServerTest extends HttpTestCase {
 		}
 
 		assertTrue(dst.hasObject(A_txt));
-		assertEquals(B, dst.getRef(master).getObjectId());
+		assertEquals(B, dst.exactRef(master).getObjectId());
 		fsck(dst, B);
 
 		List<AccessEvent> req;
