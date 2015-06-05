@@ -47,6 +47,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -248,6 +249,55 @@ public abstract class RefDatabase {
 
 		for (Ref ref : getAdditionalRefs()) {
 			if (name.equals(ref.getName())) {
+				return ref;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Read the specified references.
+	 * <p>
+	 * This method expects a list of unshortened reference names and returns
+	 * a map from reference names to refs.  Any named references that do not
+	 * exist will not be included in the returned map.
+	 *
+	 * @param refs
+	 *             the unabbreviated names of references to look up.
+	 * @return modifiable map describing any refs that exist among the ref
+	 *         ref names supplied. The map can be an unsorted map.
+	 * @throws IOException
+	 *             the reference space cannot be accessed.
+	 * @since 4.1
+	 */
+	public Map<String, Ref> exactRef(String... refs) throws IOException {
+		Map<String, Ref> result = new HashMap<>(refs.length);
+		for (String name : refs) {
+			Ref ref = exactRef(name);
+			if (ref != null) {
+				result.put(name, ref);
+			}
+		}
+		return result;
+	}
+
+	/**
+	 * Find the first named reference.
+	 * <p>
+	 * This method expects a list of unshortened reference names and returns
+	 * the first that exists.
+	 *
+	 * @param refs
+	 *             the unabbreviated names of references to look up.
+	 * @return the first named reference that exists (if any); else {@code null}.
+	 * @throws IOException
+	 *             the reference space cannot be accessed.
+	 * @since 4.1
+	 */
+	public Ref firstExactRef(String... refs) throws IOException {
+		for (String name: refs) {
+			Ref ref = exactRef(name);
+			if (ref != null) {
 				return ref;
 			}
 		}
