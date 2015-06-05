@@ -408,8 +408,10 @@ public class CommitCommandTest extends RepositoryTestCase {
 
 		checkoutBranch("refs/heads/master");
 
-		MergeResult result = git.merge().include(db.getRef("branch1"))
-				.setSquash(true).call();
+		MergeResult result = git.merge()
+				.include(db.exactRef("refs/heads/branch1"))
+				.setSquash(true)
+				.call();
 
 		assertTrue(new File(db.getWorkTree(), "file1").exists());
 		assertTrue(new File(db.getWorkTree(), "file2").exists());
