@@ -1000,6 +1000,23 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
+	public void testExactRef_FetchHead() throws IOException {
+		// This is an odd special case where we need to make sure we read
+		// exactly the first 40 bytes of the file and nothing further on
+		// that line, or the remainder of the file.
+		write(new File(diskRepo.getDirectory(), "FETCH_HEAD"), A.name()
+				+ "\tnot-for-merge"
+				+ "\tbranch 'master' of git://egit.eclipse.org/jgit\n");
+
+		Ref r = refdir.exactRef("FETCH_HEAD");
+		assertFalse(r.isSymbolic());
+		assertEquals(A, r.getObjectId());
+		assertEquals("FETCH_HEAD", r.getName());
+		assertFalse(r.isPeeled());
+		assertNull(r.getPeeledObjectId());
+	}
+
+	@Test
 	public void testGetRef_AnyHeadWithGarbage() throws IOException {
 		write(new File(diskRepo.getDirectory(), "refs/heads/A"), A.name()
 				+ "012345 . this is not a standard reference\n"
