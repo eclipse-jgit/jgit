@@ -84,6 +84,12 @@ public class RefTest extends SampleDataRepositoryTestCase {
 		}
 	}
 
+	private void writeNewRef(String name, ObjectId value) throws IOException {
+		RefUpdate updateRef = db.updateRef(name);
+		updateRef.setNewObjectId(value);
+		assertEquals(RefUpdate.Result.NEW, updateRef.update());
+	}
+
 	@Test
 	public void testRemoteNames() throws Exception {
 		FileBasedConfig config = db.getConfig();
@@ -190,6 +196,50 @@ public class RefTest extends SampleDataRepositoryTestCase {
 		assertEquals(Result.NEW, update);
 		Ref ref = db.getRef("ref/heads/new");
 		assertEquals(Storage.LOOSE, ref.getStorage());
+	}
+
+	@Test
+	public void testGetShortRef() throws IOException {
+		Ref ref = db.getRef("master");
+		assertEquals("refs/heads/master", ref.getName());
+		assertEquals(db.resolve("refs/heads/master"), ref.getObjectId());
+	}
+
+	@Test
+	public void testGetShortExactRef() throws IOException {
+		assertNull(db.getRefDatabase().exactRef("master"));
+
+		Ref ref = db.getRefDatabase().exactRef("HEAD");
+		assertEquals("HEAD", ref.getName());
+		assertEquals("refs/heads/master", ref.getTarget().getName());
+		assertEquals(db.resolve("refs/heads/master"), ref.getObjectId());
+	}
+
+	@Test
+	public void testRefsUnderRefs() throws IOException {
+		ObjectId masterId = db.resolve("refs/heads/master");
+		writeNewRef("refs/heads/refs/foo/bar", masterId);
+
+		assertNull(db.getRefDatabase().exactRef("refs/foo/bar"));
+
+		Ref ref = db.getRef("refs/foo/bar");
+		assertEquals("refs/heads/refs/foo/bar", ref.getName());
+		assertEquals(db.resolve("refs/heads/master"), ref.getObjectId());
+	}
+
+	@Test
+	public void testAmbiguousRefsUnderRefs() throws IOException {
+		ObjectId masterId = db.resolve("refs/heads/master");
+		writeNewRef("refs/foo/bar", masterId);
+		writeNewRef("refs/heads/refs/foo/bar", masterId);
+
+		Ref exactRef = db.getRefDatabase().exactRef("refs/foo/bar");
+		assertEquals("refs/foo/bar", exactRef.getName());
+		assertEquals(masterId, exactRef.getObjectId());
+
+		Ref ref = db.getRef("refs/foo/bar");
+		assertEquals("refs/foo/bar", ref.getName());
+		assertEquals(masterId, ref.getObjectId());
 	}
 
 	/**
