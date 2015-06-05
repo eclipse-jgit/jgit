@@ -257,6 +257,25 @@ public class RefDirectory extends RefDatabase {
 	}
 
 	@Override
+	public Ref exactRef(String name) throws IOException {
+		RefList<Ref> packed = getPackedRefs();
+		Ref ref = null;
+		try {
+			ref = readRef(name, packed);
+			if (ref != null) {
+				ref = resolve(ref, 0, null, null, packed);
+			}
+		} catch (IOException e) {
+			if (name.contains("/") //$NON-NLS-1$
+				|| !(e.getCause() instanceof InvalidObjectIdException)) {
+				throw e;
+			}
+		}
+		fireRefsChanged();
+		return ref;
+	}
+
+	@Override
 	public Ref getRef(final String needle) throws IOException {
 		final RefList<Ref> packed = getPackedRefs();
 		Ref ref = null;
