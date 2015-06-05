@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "87f6139c_13b4a21c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-06-05T18:44:12Z",
+      "side": 1,
+      "message": "In addition to this performance benefit, it also avoids confusing behavior when there is a subdirectory starting with \"refs/\" underneath one of the standard search paths. Currently, getRef(\"refs/heads/foo\") will return refs/heads/refs/heads/foo if it exists (and refs/heads/foo does not), which I\u0027ve always found surprising.",
+      "revId": "84493cdb53368771a0fb0cf48e5fb896eaba9654",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f6139c_b07824e4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
         "patchSetId": 1
