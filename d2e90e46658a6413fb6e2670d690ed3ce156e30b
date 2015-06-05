@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "87f6139c_73cec6d9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-06-05T23:04:56Z",
+      "side": 1,
+      "message": "4.1 now",
+      "range": {
+        "startLine": 173,
+        "startChar": 11,
+        "endLine": 173,
+        "endChar": 14
+      },
+      "revId": "d2e90e46658a6413fb6e2670d690ed3ce156e30b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f6139c_734366c7",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
         "patchSetId": 2
@@ -13,6 +36,29 @@
       "writtenOn": "2015-06-05T22:56:44Z",
       "side": 1,
       "message": "Missing @since and @param",
+      "revId": "d2e90e46658a6413fb6e2670d690ed3ce156e30b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_3300be73",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-06-05T23:04:56Z",
+      "side": 1,
+      "message": "The meaning of caller is confusing here. Does this mean the caller to writePack or caller to setObjectCount?\n\nWill this method always be called if I call writePack? Will it be called exactly once? When should I expect it to be called?",
+      "range": {
+        "startLine": 177,
+        "startChar": 0,
+        "endLine": 177,
+        "endChar": 66
+      },
       "revId": "d2e90e46658a6413fb6e2670d690ed3ce156e30b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -35,6 +81,98 @@
         "startChar": 2,
         "endLine": 179,
         "endChar": 6
+      },
+      "revId": "d2e90e46658a6413fb6e2670d690ed3ce156e30b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_93f892ef",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-06-05T23:04:56Z",
+      "side": 1,
+      "message": "When or why would I call this setter? i.e. it would be helpful to have an example of how this is meant to be used here.",
+      "range": {
+        "startLine": 376,
+        "startChar": 0,
+        "endLine": 376,
+        "endChar": 40
+      },
+      "revId": "d2e90e46658a6413fb6e2670d690ed3ce156e30b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_73f526f4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-06-05T23:04:56Z",
+      "side": 1,
+      "message": "4.1 now",
+      "range": {
+        "startLine": 379,
+        "startChar": 11,
+        "endLine": 379,
+        "endChar": 14
+      },
+      "revId": "d2e90e46658a6413fb6e2670d690ed3ce156e30b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_b3eb0e19",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 977,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-06-05T23:04:56Z",
+      "side": 1,
+      "message": "Can the caller get this information from the progressMonitor?\n\nI think that would be violating the abstraction, though --- totalWork is supposed to be an abstract number of work units. But e.g. if the PackWriter had a getter to get the object count then the caller could notice using the writeMonitor that the object count is now known and get it.\n\nWhat you have here may still be a better way to go. With more context it would be easier to know.",
+      "range": {
+        "startLine": 975,
+        "startChar": 0,
+        "endLine": 977,
+        "endChar": 57
+      },
+      "revId": "d2e90e46658a6413fb6e2670d690ed3ce156e30b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_13b02248",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BundleWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-06-05T23:04:56Z",
+      "side": 1,
+      "message": "4.1",
+      "range": {
+        "startLine": 251,
+        "startChar": 11,
+        "endLine": 251,
+        "endChar": 14
       },
       "revId": "d2e90e46658a6413fb6e2670d690ed3ce156e30b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
