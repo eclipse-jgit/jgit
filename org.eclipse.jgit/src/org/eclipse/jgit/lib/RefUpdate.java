@@ -524,7 +524,7 @@ public abstract class RefUpdate {
 	public Result delete(final RevWalk walk) throws IOException {
 		final String myName = getRef().getLeaf().getName();
 		if (myName.startsWith(Constants.R_HEADS)) {
-			Ref head = getRefDatabase().getRef(Constants.HEAD);
+			Ref head = getRefDatabase().exactRef(Constants.HEAD);
 			while (head != null && head.isSymbolic()) {
 				head = head.getTarget();
 				if (myName.equals(head.getName()))
