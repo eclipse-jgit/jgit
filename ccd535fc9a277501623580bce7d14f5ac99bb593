@@ -16,6 +16,24 @@
       "revId": "ccd535fc9a277501623580bce7d14f5ac99bb593",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_53458aec",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-06-05T22:26:13Z",
+      "side": 1,
+      "message": "Good catch. Thanks.",
+      "parentUuid": "87f6139c_7306c6d8",
+      "revId": "ccd535fc9a277501623580bce7d14f5ac99bb593",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
