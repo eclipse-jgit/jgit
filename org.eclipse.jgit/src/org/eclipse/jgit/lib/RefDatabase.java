@@ -62,7 +62,7 @@ public abstract class RefDatabase {
 	/**
 	 * Order of prefixes to search when using non-absolute references.
 	 * <p>
-	 * The implementation's {@link #getRef(String)} method must take this search
+	 * The implementation's {@link #findRef(String)} method must take this search
 	 * space into consideration when locating a reference by name. The first
 	 * entry in the path is always {@code ""}, ensuring that absolute references
 	 * are resolved without further mangling.
@@ -207,6 +207,22 @@ public abstract class RefDatabase {
 	}
 
 	/**
+	 * Compatibility synonym for {@link #findRef(String)}.
+	 *
+	 * @param name
+	 *            the name of the reference. May be a short name which must be
+	 *            searched for using the standard {@link #SEARCH_PATH}.
+	 * @return the reference (if it exists); else {@code null}.
+	 * @throws IOException
+	 *             the reference space cannot be accessed.
+	 * @deprecated Use {@link #findRef(String)} instead.
+	 */
+	@Deprecated
+	public Ref getRef(String name) throws IOException {
+		return findRef(name);
+	}
+
+	/**
 	 * Read a single reference.
 	 * <p>
 	 * Aside from taking advantage of {@link #SEARCH_PATH}, this method may be
@@ -223,7 +239,13 @@ public abstract class RefDatabase {
 	 * @throws IOException
 	 *             the reference space cannot be accessed.
 	 */
-	public abstract Ref getRef(String name) throws IOException;
+	public Ref findRef(String name) throws IOException {
+		String[] names = SEARCH_PATH.clone();
+		for (int i = 0; i < names.length; i++) {
+			names[i] += name;
+		}
+		return firstExactRef(names);
+	}
 
 	/**
 	 * Read a single reference.
