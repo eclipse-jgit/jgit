@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "87f6139c_d6cde8ab",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2015-06-06T04:30:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87f6139c_73cec6d9",
+      "range": {
+        "startLine": 173,
+        "startChar": 11,
+        "endLine": 173,
+        "endChar": 14
+      },
+      "revId": "d2e90e46658a6413fb6e2670d690ed3ce156e30b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f6139c_734366c7",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
         "patchSetId": 2
@@ -65,6 +89,48 @@
     },
     {
       "key": {
+        "uuid": "87f6139c_36bf0cfa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2015-06-06T04:30:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87f6139c_3300be73",
+      "range": {
+        "startLine": 177,
+        "startChar": 0,
+        "endLine": 177,
+        "endChar": 66
+      },
+      "revId": "d2e90e46658a6413fb6e2670d690ed3ce156e30b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_d3ee9a2a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2015-06-06T04:30:01Z",
+      "side": 1,
+      "message": "I think @since is optional if it\u0027s the same as the higher level (public interface ObjectCountCallback in this case)? Added @param.",
+      "parentUuid": "87f6139c_734366c7",
+      "revId": "d2e90e46658a6413fb6e2670d690ed3ce156e30b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f6139c_1305c287",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
         "patchSetId": 2
@@ -76,6 +142,30 @@
       "writtenOn": "2015-06-05T22:56:44Z",
       "side": 1,
       "message": "ISTR you wanted to use this to abort pack writing early, which is hard to do if it\u0027s a void method.",
+      "range": {
+        "startLine": 179,
+        "startChar": 2,
+        "endLine": 179,
+        "endChar": 6
+      },
+      "revId": "d2e90e46658a6413fb6e2670d690ed3ce156e30b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_b6cadc8f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2015-06-06T04:30:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87f6139c_1305c287",
       "range": {
         "startLine": 179,
         "startChar": 2,
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "87f6139c_56ba9809",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2015-06-06T04:30:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87f6139c_93f892ef",
+      "range": {
+        "startLine": 376,
+        "startChar": 0,
+        "endLine": 376,
+        "endChar": 40
+      },
+      "revId": "d2e90e46658a6413fb6e2670d690ed3ce156e30b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f6139c_73f526f4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
         "patchSetId": 2
@@ -122,6 +236,30 @@
       "writtenOn": "2015-06-05T23:04:56Z",
       "side": 1,
       "message": "4.1 now",
+      "range": {
+        "startLine": 379,
+        "startChar": 11,
+        "endLine": 379,
+        "endChar": 14
+      },
+      "revId": "d2e90e46658a6413fb6e2670d690ed3ce156e30b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_d37b3adf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2015-06-06T04:30:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87f6139c_73f526f4",
       "range": {
         "startLine": 379,
         "startChar": 11,
@@ -157,6 +295,30 @@
     },
     {
       "key": {
+        "uuid": "87f6139c_f60aa45e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 977,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2015-06-06T04:30:01Z",
+      "side": 1,
+      "message": "Not really.\n\nBundleWriter.writeBundle only accept 1 progress monitor as parameter, and then use it thrice inside PackWriter, so it\u0027s not very useful to caller of BundleWriter.",
+      "parentUuid": "87f6139c_b3eb0e19",
+      "range": {
+        "startLine": 975,
+        "startChar": 0,
+        "endLine": 977,
+        "endChar": 57
+      },
+      "revId": "d2e90e46658a6413fb6e2670d690ed3ce156e30b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f6139c_13b02248",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BundleWriter.java",
         "patchSetId": 2
@@ -180,6 +342,30 @@
     },
     {
       "key": {
+        "uuid": "87f6139c_3628acb8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BundleWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2015-06-06T04:30:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87f6139c_13b02248",
+      "range": {
+        "startLine": 251,
+        "startChar": 11,
+        "endLine": 251,
+        "endChar": 14
+      },
+      "revId": "d2e90e46658a6413fb6e2670d690ed3ce156e30b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f6139c_13de628b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BundleWriter.java",
         "patchSetId": 2
@@ -191,6 +377,24 @@
       "writtenOn": "2015-06-05T22:56:44Z",
       "side": 1,
       "message": "Why does BundleWriter need to keep track of the object count on its own? You just exposed it through the PackWriter.Statistics.",
+      "revId": "d2e90e46658a6413fb6e2670d690ed3ce156e30b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_962080d0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BundleWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2015-06-06T04:30:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87f6139c_13de628b",
       "revId": "d2e90e46658a6413fb6e2670d690ed3ce156e30b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
