@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_bca0fbed",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 339
+      },
+      "writtenOn": "2015-06-08T14:53:17Z",
+      "side": 1,
+      "message": "The Eclipse compiler correctly reports an error here:\nJavadoc: Missing #: \"exactRef(String)}.\"\n\nSince the JGit project is already correctly set up, it would make sense to use those setting in the Maven build as well, by adding these command line arguments to the compiler: -properties .settings/org.eclipse.jdt.core.prefs",
+      "range": {
+        "startLine": 278,
+        "startChar": 15,
+        "endLine": 278,
+        "endChar": 31
+      },
+      "revId": "a04d1ad2f1f0f0bbb852dbddf47dd8057efa3457",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
