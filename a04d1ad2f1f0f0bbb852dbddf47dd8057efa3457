@@ -22,6 +22,30 @@
       "revId": "a04d1ad2f1f0f0bbb852dbddf47dd8057efa3457",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_07829c57",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-06-08T18:12:59Z",
+      "side": 1,
+      "message": "Thanks. Sent https://git.eclipse.org/r/49690 to fix the Javadoc.\n\nCan you spell out the pom.xml change you\u0027re describing in more detail? I tried\n\n diff --git i/pom.xml w/pom.xml\n index 63987f3..989b90c 100644\n --- i/pom.xml\n +++ w/pom.xml\n @@ -263,6 +263,10 @@\n              \u003cencoding\u003eUTF-8\u003c/encoding\u003e\n              \u003csource\u003e1.7\u003c/source\u003e\n              \u003ctarget\u003e1.7\u003c/target\u003e\n +            \u003ccompilerArgs\u003e\n +              \u003carg\u003e-properties\u003c/arg\u003e\n +              \u003carg\u003e${project.basedir}/.settings/org.eclipse.jdt.core.prefs\u003c/arg\u003e\n +            \u003c/compilerArgs\u003e\n            \u003c/configuration\u003e\n          \u003c/plugin\u003e\n  \n\nwith result\n\n [ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.2:compile (default-compile) on project org.eclipse.jgit: Fatal error compiling: invalid flag: -properties -\u003e [Help 1]\n\nI think that option might be specific to Eclipse JDT (so the default javac wouldn\u0027t be able to handle it).",
+      "parentUuid": "87f6139c_bca0fbed",
+      "range": {
+        "startLine": 278,
+        "startChar": 15,
+        "endLine": 278,
+        "endChar": 31
+      },
+      "revId": "a04d1ad2f1f0f0bbb852dbddf47dd8057efa3457",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
