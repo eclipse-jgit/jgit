@@ -325,7 +325,7 @@ public abstract class RefDatabase {
 	 * The result list includes non-ref items such as MERGE_HEAD and
 	 * FETCH_RESULT cast to be refs. The names of these refs are not returned by
 	 * <code>getRefs(ALL)</code> but are accepted by {@link #getRef(String)}
-	 * and {@link exactRef(String)}.
+	 * and {@link #exactRef(String)}.
 	 *
 	 * @return a list of additional refs
 	 * @throws IOException
