@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_6a1240e5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-06-09T23:43:34Z",
+      "side": 1,
+      "message": "There\u0027s already a comment above. Would moving it here work?",
+      "range": {
+        "startLine": 249,
+        "startChar": 0,
+        "endLine": 249,
+        "endChar": 13
+      },
+      "revId": "21ab10c72a5b76ab4c90ccea4d4da7a58420610e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
