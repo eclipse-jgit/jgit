@@ -246,6 +246,7 @@ public class ReceivePack extends BaseReceivePack {
 				try {
 					postReceive.onPostReceive(this, filterCommands(Result.OK));
 				} catch (Throwable e) {
+					// empty
 				}
 				throw new UnpackException(unpackError);
 			}
