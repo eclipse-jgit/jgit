@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "87f6139c_6f97f2cc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2015-06-09T20:52:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87f6139c_eff48249",
+      "range": {
+        "startLine": 177,
+        "startChar": 0,
+        "endLine": 182,
+        "endChar": 31
+      },
+      "revId": "f16b338847d6bc091fe28106b7d08e6a0aa4607a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f6139c_af7b9a31",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
         "patchSetId": 4
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "87f6139c_6f1252e5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2015-06-09T20:52:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87f6139c_af7b9a31",
+      "range": {
+        "startLine": 188,
+        "startChar": 0,
+        "endLine": 188,
+        "endChar": 42
+      },
+      "revId": "f16b338847d6bc091fe28106b7d08e6a0aa4607a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f6139c_8f785e36",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
         "patchSetId": 4
@@ -59,6 +107,30 @@
       "writtenOn": "2015-06-09T19:39:40Z",
       "side": 1,
       "message": "Please add a \"@throws WriteAbortedException\" pointing to the callback.",
+      "range": {
+        "startLine": 946,
+        "startChar": 0,
+        "endLine": 946,
+        "endChar": 4
+      },
+      "revId": "f16b338847d6bc091fe28106b7d08e6a0aa4607a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_4f1796d3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 946,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2015-06-09T20:52:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87f6139c_8f785e36",
       "range": {
         "startLine": 946,
         "startChar": 0,
@@ -105,6 +177,30 @@
       "writtenOn": "2015-06-09T19:39:40Z",
       "side": 1,
       "message": "Could this part go in a separate commit?",
+      "range": {
+        "startLine": 247,
+        "startChar": 0,
+        "endLine": 257,
+        "endChar": 2
+      },
+      "revId": "f16b338847d6bc091fe28106b7d08e6a0aa4607a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_8f1cdef6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BundleWriter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2015-06-09T20:52:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87f6139c_af627a7d",
       "range": {
         "startLine": 247,
         "startChar": 0,
