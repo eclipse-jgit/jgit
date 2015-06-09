@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_ea8ab0a1",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ConfigTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 711,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-06-09T23:41:14Z",
+      "side": 1,
+      "message": "The utter insanity of this is why this whole API change cannot come soon enough.",
+      "range": {
+        "startLine": 711,
+        "startChar": 20,
+        "endLine": 711,
+        "endChar": 38
+      },
+      "revId": "cd3d952ec66fa3de24faecc413398b97aa37dc18",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
