@@ -1266,7 +1266,7 @@ public class Config {
 
 			value.append((char) c);
 		}
-		return value.toString();
+		return value.length() > 0 ? value.toString() : null;
 	}
 
 	/**
