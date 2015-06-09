@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_eff48249",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-06-09T19:39:40Z",
+      "side": 1,
+      "message": "How about something like this?\n\n /**\n  * Invoked when the PackWriter has counted the objects to be written\n  * to pack.\n  * \u003cp\u003e\n  * An ObjectCountCallback can use this information to decide whether\n  * the {@link writePack} operation should be aborted.\n  *\n  * ...\n  */",
+      "range": {
+        "startLine": 177,
+        "startChar": 0,
+        "endLine": 182,
+        "endChar": 31
+      },
+      "revId": "f16b338847d6bc091fe28106b7d08e6a0aa4607a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_af7b9a31",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-06-09T19:39:40Z",
+      "side": 1,
+      "message": "Would another name make the meaning of the return value easier to remember?  E.g.,\n\n boolean writePackShouldContinue(long objectCount);\n\nor:\n\n void onObjectsCounted(long objectCount)\n     throws WriteAbortedException;",
+      "range": {
+        "startLine": 188,
+        "startChar": 0,
+        "endLine": 188,
+        "endChar": 42
+      },
+      "revId": "f16b338847d6bc091fe28106b7d08e6a0aa4607a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_8f785e36",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 946,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-06-09T19:39:40Z",
+      "side": 1,
+      "message": "Please add a \"@throws WriteAbortedException\" pointing to the callback.",
+      "range": {
+        "startLine": 946,
+        "startChar": 0,
+        "endLine": 946,
+        "endChar": 4
+      },
+      "revId": "f16b338847d6bc091fe28106b7d08e6a0aa4607a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_2f4faa12",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/WriteAbortedException.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-06-09T19:39:40Z",
+      "side": 1,
+      "message": "It\u0027s too bad we have to do this.\n\nAn alternative would be to extend RuntimeException, which would also be unpleasant.",
+      "range": {
+        "startLine": 59,
+        "startChar": 35,
+        "endLine": 59,
+        "endChar": 54
+      },
+      "revId": "f16b338847d6bc091fe28106b7d08e6a0aa4607a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_af627a7d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BundleWriter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-06-09T19:39:40Z",
+      "side": 1,
+      "message": "Could this part go in a separate commit?",
+      "range": {
+        "startLine": 247,
+        "startChar": 0,
+        "endLine": 257,
+        "endChar": 2
+      },
+      "revId": "f16b338847d6bc091fe28106b7d08e6a0aa4607a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
