@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "87f6139c_2c3df87a",
+        "filename": "org.eclipse.jgit.packaging/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-06-09T15:32:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87f6139c_4ccfa426",
+      "range": {
+        "startLine": 62,
+        "startChar": 19,
+        "endLine": 62,
+        "endChar": 25
+      },
+      "revId": "bebb741136dd98a41e9d83006e75014cf85cb1db",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f6139c_0cc91c23",
         "filename": "pom.xml",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2015-06-09T15:15:12Z",
       "side": 1,
       "message": "s/0.22.0/0.23.0/",
+      "range": {
+        "startLine": 210,
+        "startChar": 26,
+        "endLine": 210,
+        "endChar": 32
+      },
+      "revId": "bebb741136dd98a41e9d83006e75014cf85cb1db",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_6c3380ac",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-06-09T15:32:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87f6139c_0cc91c23",
       "range": {
         "startLine": 210,
         "startChar": 26,
