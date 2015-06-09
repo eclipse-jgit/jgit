@@ -435,7 +435,7 @@ public class Config {
 	}
 
 	/**
-	 * Get string value or null if not found.
+	 * Get string value, or null if empty or not found.
 	 *
 	 * @param section
 	 *            the section
@@ -443,8 +443,10 @@ public class Config {
 	 *            the subsection for the value
 	 * @param name
 	 *            the key name
-	 * @return a String value from the config, <code>null</code> if not found
+	 * @return value from the config, <code>null</code> if empty or not found
+	 * @deprecated use {@link #get(String, String, String)} instead.
 	 */
+	@Deprecated
 	public String getString(final String section, String subsection,
 			final String name) {
 		return getRawString(section, subsection, name);
@@ -554,6 +556,40 @@ public class Config {
 	public Set<String> getNames(String section, String subsection,
 			boolean recursive) {
 		return getState().getNames(section, subsection, recursive);
+	}
+
+	/**
+	 * Get a string value, or null if not found.
+	 * <p>
+	 * Unlike {@link #getString(String, String, String)}, this returns an empty
+	 * string for an empty config value so they can be distinguished from absent
+	 * keys.
+	 * <p>
+	 * To avoid confusion with absent values, this also returns the empty string
+	 * for keys that were explicitly set to {@code null} with {@link #setString}.
+	 * Please don't do that (use {@link #unset} instead).
+	 *
+	 * @param section
+	 *            the section
+	 * @param subsection
+	 *            the subsection for the value
+	 * @param name
+	 *            the key name
+	 * @return value from the config, <code>null</code> if not found
+	 * @since 4.1
+	 */
+	public String get(String section, String subsection, String name) {
+		String[] self = getRawStringList(section, subsection, name);
+		if (self == null && baseConfig == null) {
+			return null;
+		}
+		if (self == null) {
+			return baseConfig.get(section, subsection, name);
+		}
+		if (self[0] == null) {
+			return "";
+		}
+		return self[0];
 	}
 
 	/**
