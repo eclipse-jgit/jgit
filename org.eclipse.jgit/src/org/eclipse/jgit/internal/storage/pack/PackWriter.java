@@ -391,6 +391,9 @@ public class PackWriter implements AutoCloseable {
 	 * It should be set before calling
 	 * {@link #writePack(ProgressMonitor, ProgressMonitor, OutputStream)}.
 	 *
+	 * @param callback
+	 *            the callback to set
+	 *
 	 * @return this object for chaining.
 	 * @since 4.1
 	 */
