@@ -221,7 +221,7 @@ public class RepoProject implements Comparable<RepoProject> {
 	/**
 	 * Get the name of the remote definition of the sub repo.
 	 *
-	 * @return {@remote}
+	 * @return {@code remote}
 	 */
 	public String getRemote() {
 		return remote;
