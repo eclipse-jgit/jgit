@@ -16,6 +16,24 @@
       "revId": "53be446f6a0a9776c5fd0d507fe11b14d79104c2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_6ae40056",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BundleWriter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2015-06-09T23:53:03Z",
+      "side": 1,
+      "message": "Sorry about that. I\u0027m working on a fix.",
+      "parentUuid": "87f6139c_4ac5c4d3",
+      "revId": "53be446f6a0a9776c5fd0d507fe11b14d79104c2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
