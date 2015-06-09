@@ -117,6 +117,29 @@
     },
     {
       "key": {
+        "uuid": "87f6139c_cae1b409",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BundleWriter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-06-09T21:01:22Z",
+      "side": 1,
+      "message": "Please add a note on \u0027@throws WriteAbortedException\u0027 here, too.",
+      "range": {
+        "startLine": 195,
+        "startChar": 0,
+        "endLine": 195,
+        "endChar": 4
+      },
+      "revId": "cc6577a1ca9dbcfdc8a4c8e5a8487ec84c2e073e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f6139c_8f597e87",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BundleWriter.java",
         "patchSetId": 5
