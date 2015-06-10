@@ -22,6 +22,30 @@
       "revId": "0fc1eb8eb0b8d497764c76a551e96c078c711a38",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_621544fd",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ConfigTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 714,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-06-10T20:57:10Z",
+      "side": 1,
+      "message": "Yes, I want to introduce getStrings (or getStringArray) that does that and deprecate getStringList, too.\n\nI\u0027ll put off submitting this until that\u0027s written and working.",
+      "parentUuid": "87f6139c_05772f7a",
+      "range": {
+        "startLine": 713,
+        "startChar": 0,
+        "endLine": 714,
+        "endChar": 42
+      },
+      "revId": "0fc1eb8eb0b8d497764c76a551e96c078c711a38",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
