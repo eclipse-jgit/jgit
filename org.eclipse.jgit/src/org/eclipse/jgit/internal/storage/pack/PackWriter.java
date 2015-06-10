@@ -114,6 +114,8 @@ import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.storage.pack.PackConfig;
+import org.eclipse.jgit.transport.ObjectCountCallback;
+import org.eclipse.jgit.transport.WriteAbortedException;
 import org.eclipse.jgit.util.BlockList;
 import org.eclipse.jgit.util.TemporaryBuffer;
 
@@ -165,31 +167,6 @@ public class PackWriter implements AutoCloseable {
 		 * @return whether the collection contains the objectId.
 		 */
 		boolean contains(AnyObjectId objectId);
-	}
-
-	/**
-	 * A callback to tell caller the count of objects ASAP.
-	 *
-	 * @since 4.1
-	 */
-	public interface ObjectCountCallback {
-		/**
-		 * Invoked when the PackWriter has counted the objects to be written
-		 * to pack.
-		 * <p>
-		 * An ObjectCountCallback can use this information to decide whether
-		 * the
-		 * {@link #writePack(ProgressMonitor, ProgressMonitor, OutputStream)}
-		 * operation should be aborted.
-		 * <p>
-		 * This callback will be called exactly once.
-		 *
-		 * @param objectCount
-		 *            the count of the objects.
-		 * @throws WriteAbortedException
-		 *             to indicate that the write operation should be aborted.
-		 */
-		void setObjectCount(long objectCount) throws WriteAbortedException;
 	}
 
 	private static final Map<WeakReference<PackWriter>, Boolean> instances =

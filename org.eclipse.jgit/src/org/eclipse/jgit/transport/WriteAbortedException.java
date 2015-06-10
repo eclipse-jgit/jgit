@@ -41,7 +41,7 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.internal.storage.pack;
+package org.eclipse.jgit.transport;
 
 import java.io.IOException;
 
@@ -49,7 +49,7 @@ import java.io.IOException;
  * An exception to be thrown when the write operation is aborted.
  * <p>
  * That can be thrown inside
- * {@link PackWriter.ObjectCountCallback#setObjectCount(long)}.
+ * {@link ObjectCountCallback#setObjectCount(long)}.
  *
  * @since 4.1
  */
