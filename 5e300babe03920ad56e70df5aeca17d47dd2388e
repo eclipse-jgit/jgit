@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "87f6139c_e2f774fc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-06-10T22:29:17Z",
+      "side": 1,
+      "message": "Obviously _I_ agree with you but some people might not; maybe we should wait?\n\nIf I did want to do that, how do I go about it?",
+      "parentUuid": "87f6139c_02556096",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 43
+      },
+      "revId": "5e300babe03920ad56e70df5aeca17d47dd2388e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f6139c_c29078d2",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PushCertificateParserTest.java",
         "patchSetId": 3
@@ -83,6 +107,30 @@
       "writtenOn": "2015-06-10T21:52:04Z",
       "side": 1,
       "message": "nonce?",
+      "range": {
+        "startLine": 1026,
+        "startChar": 4,
+        "endLine": 1026,
+        "endChar": 45
+      },
+      "revId": "5e300babe03920ad56e70df5aeca17d47dd2388e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_a2fa8ce6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1026,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-06-10T22:29:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87f6139c_62b9c465",
       "range": {
         "startLine": 1026,
         "startChar": 4,
