@@ -1037,16 +1037,18 @@ public abstract class BaseReceivePack {
 	 */
 	protected void recvCommands() throws IOException {
 		for (;;) {
-			String line;
+			String rawLine;
 			try {
-				line = pckIn.readStringRaw();
+				rawLine = pckIn.readStringRaw();
 			} catch (EOFException eof) {
 				if (commands.isEmpty())
 					return;
 				throw eof;
 			}
-			if (line == PacketLineIn.END)
+			if (rawLine == PacketLineIn.END) {
 				break;
+			}
+			String line = chomp(rawLine);
 
 			if (line.length() >= 48 && line.startsWith("shallow ")) { //$NON-NLS-1$
 				clientShallowCommits.add(ObjectId.fromString(line.substring(8, 48)));
@@ -1066,8 +1068,11 @@ public abstract class BaseReceivePack {
 			if (line.equals("-----BEGIN PGP SIGNATURE-----\n")) //$NON-NLS-1$
 				pushCertificateParser.receiveSignature(pckIn);
 
-			if (pushCertificateParser.enabled())
-				pushCertificateParser.addCommand(line);
+			if (pushCertificateParser.enabled()) {
+				// Must use raw line with optional newline so signed payload can be
+				// reconstructed.
+				pushCertificateParser.addCommand(rawLine);
+			}
 
 			if (line.length() < 83) {
 				final String m = JGitText.get().errorInvalidProtocolWantedOldNewRef;
@@ -1075,17 +1080,29 @@ public abstract class BaseReceivePack {
 				throw new PackProtocolException(m);
 			}
 
-			final ObjectId oldId = ObjectId.fromString(line.substring(0, 40));
-			final ObjectId newId = ObjectId.fromString(line.substring(41, 81));
-			final String name = line.substring(82);
-			final ReceiveCommand cmd = new ReceiveCommand(oldId, newId, name);
-			if (name.equals(Constants.HEAD)) {
+			final ReceiveCommand cmd = parseCommand(line);
+			if (cmd.getRefName().equals(Constants.HEAD)) {
 				cmd.setResult(Result.REJECTED_CURRENT_BRANCH);
 			} else {
 				cmd.setRef(refs.get(cmd.getRefName()));
 			}
 			commands.add(cmd);
 		}
+	}
+
+	static String chomp(String line) {
+		if (line != null && !line.isEmpty()
+				&& line.charAt(line.length() - 1) == '\n') {
+			return line.substring(0, line.length() - 1);
+		}
+		return line;
+	}
+
+	static ReceiveCommand parseCommand(String line) {
+		ObjectId oldId = ObjectId.fromString(line.substring(0, 40));
+		ObjectId newId = ObjectId.fromString(line.substring(41, 81));
+		String name = line.substring(82);
+		return new ReceiveCommand(oldId, newId, name);
 	}
 
 	/** Enable capabilities based on a previously read capabilities line. */
