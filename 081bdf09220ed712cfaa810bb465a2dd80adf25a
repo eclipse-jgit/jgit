@@ -16,6 +16,24 @@
       "revId": "081bdf09220ed712cfaa810bb465a2dd80adf25a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_c2cd18dd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1042,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-06-10T22:26:06Z",
+      "side": 1,
+      "message": "In order to reconstruct the signed push certificate payload we need to keep track of whether there was a trailing newline.\n\nReworked so we still use readStringRaw, but the line variable used in parsing other commands has its newline chomped.",
+      "parentUuid": "87f6139c_e261347c",
+      "revId": "081bdf09220ed712cfaa810bb465a2dd80adf25a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
