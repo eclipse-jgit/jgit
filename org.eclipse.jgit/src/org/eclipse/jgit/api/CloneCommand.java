@@ -331,10 +331,13 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 
 	/**
 	 * @param uri
-	 *            the uri to clone from
+	 *            the uri to clone from.  Must be non-{@code null}.
 	 * @return this instance
 	 */
 	public CloneCommand setURI(String uri) {
+		if (uri == null) {
+			throw new NullPointerException();
+		}
 		this.uri = uri;
 		return this;
 	}
