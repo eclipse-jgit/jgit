@@ -47,35 +47,58 @@ import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_PUSH_CE
 import java.io.EOFException;
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.BaseReceivePack.ReceiveConfig;
+import org.eclipse.jgit.transport.PushCertificate.NonceStatus;
+import org.eclipse.jgit.util.RawParseUtils;
 
 /**
- * Parser for Push certificates
+ * Parser for signed push certificates.
  *
- * @since 4.0
+ * @since 4.1
  */
-public class PushCertificateParser extends PushCertificate {
+public class PushCertificateParser {
+	static final String BEGIN_SIGNATURE =
+			"-----BEGIN PGP SIGNATURE-----\n"; //$NON-NLS-1$
 
-	private static final String VERSION = "version "; //$NON-NLS-1$
+	static final String VERSION = "certificate version"; //$NON-NLS-1$
 
-	private static final String PUSHER = "pusher"; //$NON-NLS-1$
+	static final String PUSHER = "pusher"; //$NON-NLS-1$
 
-	private static final String PUSHEE = "pushee"; //$NON-NLS-1$
+	static final String PUSHEE = "pushee"; //$NON-NLS-1$
 
-	private static final String NONCE = "nonce"; //$NON-NLS-1$
+	static final String NONCE = "nonce"; //$NON-NLS-1$
 
-	/** The individual certificate which is presented to the client */
+	private static final String VERSION_0_1 = "0.1"; //$NON-NLS-1$
+
+	private static final String END_SIGNATURE =
+			"-----END PGP SIGNATURE-----\n"; //$NON-NLS-1$
+	private static final String END_CERT = "push-cert-end\n"; //$NON-NLS-1$
+
+	private String version;
+	private PersonIdent pusher;
+	private String pushee;
+
+	/** The nonce that was sent to the client. */
 	private String sentNonce;
 
 	/**
-	 * The nonce the pusher signed. This may vary from pushCertNonce See
-	 * git-core documentation for reasons.
+	 * The nonce the pusher signed.
+	 * <p>
+	 * This may vary from {@link #sentNonce}; see git-core documentation for
+	 * reasons.
 	 */
 	private String receivedNonce;
+
+	private NonceStatus nonceStatus;
+	private String signature;
 
 	/**
 	 * The maximum time difference which is acceptable between advertised nonce
@@ -83,12 +106,8 @@ public class PushCertificateParser extends PushCertificate {
 	 */
 	private int nonceSlopLimit;
 
-	NonceGenerator nonceGenerator;
-
-	/**
-	 * used to build up commandlist
-	 */
-	StringBuilder commandlistBuilder;
+	private final NonceGenerator nonceGenerator;
+	private final List<ReceiveCommand> commands;
 
 	/** Database we write the push certificate into. */
 	private Repository db;
@@ -99,33 +118,56 @@ public class PushCertificateParser extends PushCertificate {
 				? new HMACSHA1NonceGenerator(cfg.certNonceSeed)
 				: null;
 		db = into;
+		commands = new ArrayList<>();
 	}
 
 	/**
-	 * @return if the server is configured to use signed pushes.
+	 * @return the parsed certificate, or null if push certificates are disabled.
+	 * @throws IOException
+	 *             if the push certificate has missing or invalid fields.
 	 */
-	public boolean enabled() {
-		return nonceGenerator != null;
+	public PushCertificate build() throws IOException {
+		if (nonceGenerator == null) {
+			return null;
+		}
+		try {
+			return new PushCertificate(version, pusher, pushee, receivedNonce,
+					nonceStatus, Collections.unmodifiableList(commands), signature);
+		} catch (IllegalArgumentException e) {
+			throw new IOException(e.getMessage(), e);
+		}
 	}
 
 	/**
 	 * @return the whole string for the nonce to be included into the capability
-	 *         advertisement.
+	 *         advertisement, or null if push certificates are disabled.
 	 */
-	public String getAdvertiseNonce() {
-		sentNonce = nonceGenerator.createNonce(db,
-				TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()));
-		return CAPABILITY_PUSH_CERT + "=" + sentNonce; //$NON-NLS-1$
+	String getAdvertiseNonce() {
+		String nonce = sentNonce();
+		if (nonce == null) {
+			return null;
+		}
+		return CAPABILITY_PUSH_CERT + '=' + nonce;
 	}
 
-	private String parseNextLine(PacketLineIn pckIn, String startingWith)
+	private String sentNonce() {
+		if (sentNonce == null && nonceGenerator != null) {
+			sentNonce = nonceGenerator.createNonce(db,
+					TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()));
+		}
+		return sentNonce;
+	}
+
+	private static String parseHeader(PacketLineIn pckIn, String header)
 			throws IOException {
 		String s = pckIn.readString();
-		if (!s.startsWith(startingWith))
+		if (s.length() <= header.length()
+				|| !s.startsWith(header)
+				|| s.charAt(header.length()) != ' ') {
 			throw new IOException(MessageFormat.format(
-					JGitText.get().errorInvalidPushCert,
-					"expected " + startingWith)); //$NON-NLS-1$
-		return s.substring(startingWith.length());
+					JGitText.get().pushCertificateInvalidHeader, header));
+		}
+		return s.substring(header.length() + 1);
 	}
 
 	/**
@@ -145,61 +187,71 @@ public class PushCertificateParser extends PushCertificate {
 	 *             if the certificate from the client is badly malformed or the
 	 *             client disconnects before sending the entire certificate.
 	 */
-	public void receiveHeader(PacketLineIn pckIn, boolean stateless)
-			throws IOException {
+	void receiveHeader(PacketLineIn pckIn, boolean stateless) throws IOException {
 		try {
-			String version = parseNextLine(pckIn, VERSION);
-			if (!version.equals("0.1")) { //$NON-NLS-1$
+			version = parseHeader(pckIn, VERSION);
+			if (!version.equals(VERSION_0_1)) {
 				throw new IOException(MessageFormat.format(
-						JGitText.get().errorInvalidPushCert,
-						"version not supported")); //$NON-NLS-1$
+						JGitText.get().pushCertificateInvalidFieldValue, VERSION, version));
 			}
-			pusher = parseNextLine(pckIn, PUSHER);
-			pushee = parseNextLine(pckIn, PUSHEE);
-			receivedNonce = parseNextLine(pckIn, NONCE);
-			// an empty line
-			if (!pckIn.readString().isEmpty()) {
+			String pusherStr = parseHeader(pckIn, PUSHER);
+			pusher = RawParseUtils.parsePersonIdent(pusherStr);
+			if (pusher == null) {
 				throw new IOException(MessageFormat.format(
-						JGitText.get().errorInvalidPushCert,
-						"expected empty line after header")); //$NON-NLS-1$
+						JGitText.get().pushCertificateInvalidFieldValue,
+						PUSHER, pusherStr));
+			}
+			pushee = parseHeader(pckIn, PUSHEE);
+			receivedNonce = parseHeader(pckIn, NONCE);
+			// An empty line.
+			if (!pckIn.readString().isEmpty()) {
+				throw new IOException(
+						JGitText.get().pushCertificateInvalidHeader);
 			}
 		} catch (EOFException eof) {
-			throw new IOException(MessageFormat.format(
-					JGitText.get().errorInvalidPushCert,
-					"broken push certificate header")); //$NON-NLS-1$
+			throw new IOException(
+					JGitText.get().pushCertificateInvalidHeader, eof);
 		}
-		nonceStatus = nonceGenerator.verify(receivedNonce, sentNonce, db,
+		nonceStatus = nonceGenerator.verify(receivedNonce, sentNonce(), db,
 				stateless, nonceSlopLimit);
 	}
 
 	/**
-	 * Reads the gpg signature. This method assumes the line "-----BEGIN PGP
-	 * SIGNATURE-----\n" has already been parsed and continues parsing until an
-	 * "-----END PGP SIGNATURE-----\n" is found.
+	 * Read the PGP signature.
+	 * <p>
+	 * This method assumes the line
+	 * {@code "-----BEGIN PGP SIGNATURE-----\n"} has already been parsed,
+	 * and continues parsing until an {@code "-----END PGP SIGNATURE-----\n"} is
+	 * found, followed by {@code "push-cert-end\n"}.
 	 *
 	 * @param pckIn
 	 *            where we read the signature from.
 	 * @throws IOException
+	 *             if the signature is invalid.
 	 */
-	public void receiveSignature(PacketLineIn pckIn) throws IOException {
+	void receiveSignature(PacketLineIn pckIn) throws IOException {
 		try {
 			StringBuilder sig = new StringBuilder();
-			String line = pckIn.readStringRaw();
-			while (!line.equals("-----END PGP SIGNATURE-----\n")) //$NON-NLS-1$
+			String line;
+			while (!(line = pckIn.readStringRaw()).equals(END_SIGNATURE)) {
 				sig.append(line);
+			}
 			signature = sig.toString();
-			commandList = commandlistBuilder.toString();
+			if (!pckIn.readStringRaw().equals(END_CERT)) {
+				throw new IOException(JGitText.get().pushCertificateInvalidSignature);
+			}
 		} catch (EOFException eof) {
-			throw new IOException(MessageFormat.format(
-					JGitText.get().errorInvalidPushCert,
-					"broken push certificate signature")); //$NON-NLS-1$
+			throw new IOException(
+					JGitText.get().pushCertificateInvalidSignature, eof);
 		}
 	}
 
 	/**
-	 * @param rawLine
+	 * Add a command to the signature.
+	 *
+	 * @param cmd the command.
 	 */
-	public void addCommand(String rawLine) {
-		commandlistBuilder.append(rawLine);
+	void addCommand(ReceiveCommand cmd) {
+		commands.add(cmd);
 	}
 }
