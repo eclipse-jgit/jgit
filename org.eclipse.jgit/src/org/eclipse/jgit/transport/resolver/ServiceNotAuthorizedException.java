@@ -50,7 +50,7 @@ import org.eclipse.jgit.internal.JGitText;
  * the current user has not provided.
  * <p>
  * This corresponds to response code
- * {@link javax.servlet.http.HttpServletResponse#SC_UNAUTHORIZED}.
+ * {@code HttpServletResponse.SC_UNAUTHORIZED}.
  */
 public class ServiceNotAuthorizedException extends Exception {
 	private static final long serialVersionUID = 1L;
@@ -72,6 +72,7 @@ public class ServiceNotAuthorizedException extends Exception {
 		super(message);
 	}
 
+	/** Indicates that the requested service requires authentication. */
 	public ServiceNotAuthorizedException() {
 		super(JGitText.get().unauthorized);
 	}

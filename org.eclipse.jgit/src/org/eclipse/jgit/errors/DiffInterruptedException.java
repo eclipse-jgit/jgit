@@ -69,6 +69,7 @@ public class DiffInterruptedException extends RuntimeException {
 		super(message);
 	}
 
+	/** Indicates that the thread computing a diff was interrupted. */
 	public DiffInterruptedException() {
 		super();
 	}
