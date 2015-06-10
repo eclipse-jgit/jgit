@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_e261347c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1042,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-06-10T21:39:40Z",
+      "side": 1,
+      "message": "Why isn\u0027t this changed to readString() which strips the LF?",
+      "revId": "081bdf09220ed712cfaa810bb465a2dd80adf25a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
