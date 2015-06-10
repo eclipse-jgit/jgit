@@ -331,7 +331,8 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 
 	/**
 	 * @param uri
-	 *            the uri to clone from
+	 *            the URI to clone from, or {@code null} to unset the URI.
+	 *            The URI must be set before {@link #call} is called.
 	 * @return this instance
 	 */
 	public CloneCommand setURI(String uri) {
