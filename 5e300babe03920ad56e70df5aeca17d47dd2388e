@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "87f6139c_029d60b7",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PushCertificateParserTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2015-06-10T22:43:08Z",
+      "side": 1,
+      "message": "As JGit doesn\u0027t check the actual PGP but only the formal aspects, you could just s/Dave Borowitz/Jon Doe/ and Jgit would not notice (it\u0027s still your signature, but the name attached is not).\n\nMaybe Shawn was hinting at that?",
+      "parentUuid": "87f6139c_6204248c",
+      "range": {
+        "startLine": 103,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 38
+      },
+      "revId": "5e300babe03920ad56e70df5aeca17d47dd2388e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f6139c_62b9c465",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
         "patchSetId": 3
