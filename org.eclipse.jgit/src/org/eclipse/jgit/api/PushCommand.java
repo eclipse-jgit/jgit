@@ -257,6 +257,9 @@ public class PushCommand extends
 	 */
 	public PushCommand setProgressMonitor(ProgressMonitor monitor) {
 		checkCallable();
+		if (monitor == null) {
+			monitor = NullProgressMonitor.INSTANCE;
+		}
 		this.monitor = monitor;
 		return this;
 	}

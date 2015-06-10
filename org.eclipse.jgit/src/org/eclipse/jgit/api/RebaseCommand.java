@@ -1493,6 +1493,9 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	 * @return this instance
 	 */
 	public RebaseCommand setProgressMonitor(ProgressMonitor monitor) {
+		if (monitor == null) {
+			monitor = NullProgressMonitor.INSTANCE;
+		}
 		this.monitor = monitor;
 		return this;
 	}

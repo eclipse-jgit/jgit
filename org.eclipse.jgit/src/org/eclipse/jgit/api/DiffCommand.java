@@ -268,6 +268,9 @@ public class DiffCommand extends GitCommand<List<DiffEntry>> {
 	 * @return this instance
 	 */
 	public DiffCommand setProgressMonitor(ProgressMonitor monitor) {
+		if (monitor == null) {
+			monitor = NullProgressMonitor.INSTANCE;
+		}
 		this.monitor = monitor;
 		return this;
 	}
