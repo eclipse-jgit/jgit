@@ -403,10 +403,14 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 	 *
 	 * @see Constants#DEFAULT_REMOTE_NAME
 	 * @param remote
-	 *            name that keeps track of the upstream repository
+	 *            name that keeps track of the upstream repository.
+	 *            {@code null} means to use DEFAULT_REMOTE_NAME.
 	 * @return this instance
 	 */
 	public CloneCommand setRemote(String remote) {
+		if (remote == null) {
+			remote = Constants.DEFAULT_REMOTE_NAME;
+		}
 		this.remote = remote;
 		return this;
 	}
