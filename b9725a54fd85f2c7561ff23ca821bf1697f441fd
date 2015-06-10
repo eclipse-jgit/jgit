@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_252d0bcd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificate.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-06-10T00:51:19Z",
+      "side": 1,
+      "message": "This is weird. I guess you\u0027re saying it\u0027s a single string so you can just feed it verbatim into the signature verifier and you don\u0027t have to know additional details about the structure of the certificate, you can just blindly verify it.\n\nBut frankly I don\u0027t buy that argument. A caller who wants to verify a cert needs lots of extra information that is not documented in this class.\n\nFor one thing, you still have to know the order in which fields need to be fed to the verifier.\n\nFor another, the certificate version header is not recorded anywhere. The current parser implementation only supports version 0.1 so you could manually reconstruct the header, but why should the caller have to do that?\n\nIMHO this class should either:\n\n* expose actual structured data, not this semi-structured stuff, and have a single toPayload/toText method to recreate the canonical payload for the verifier\n* not bother with structured data at all and just expose two strings, the payload and the signature.\n\nMy vote would be for the former.",
+      "revId": "b9725a54fd85f2c7561ff23ca821bf1697f441fd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
