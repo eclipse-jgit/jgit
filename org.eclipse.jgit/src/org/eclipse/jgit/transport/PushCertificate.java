@@ -43,20 +43,26 @@
 
 package org.eclipse.jgit.transport;
 
+import static org.eclipse.jgit.transport.PushCertificateParser.NONCE;
+import static org.eclipse.jgit.transport.PushCertificateParser.PUSHEE;
+import static org.eclipse.jgit.transport.PushCertificateParser.PUSHER;
+import static org.eclipse.jgit.transport.PushCertificateParser.VERSION;
+
+import java.text.MessageFormat;
+import java.util.List;
+
+import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.PersonIdent;
+
 /**
  * The required information to verify the push.
+ * <p>
+ * A valid certificate will not return null from any getter methods; callers may
+ * assume that any null value indicates a missing or invalid certificate.
  *
- * @since 4.0
+ * @since 4.1
  */
 public class PushCertificate {
-	/** The tuple "name &lt;email&gt;" as presented in the push certificate. */
-	String pusher;
-
-	/** The remote URL the signed push goes to. */
-	String pushee;
-
-	/** What we think about the returned signed nonce. */
-	NonceStatus nonceStatus;
 
 	/** Verification result of the nonce returned during push. */
 	public enum NonceStatus {
@@ -72,31 +78,63 @@ public class PushCertificate {
 		SLOP
 	}
 
-	String commandList;
-	String signature;
+	private final String version;
+	private final PersonIdent pusher;
+	private final String pushee;
+	private final String nonce;
+	private final NonceStatus nonceStatus;
+	private final List<ReceiveCommand> commands;
+	private final String signature;
 
-	/**
-	 * @return the signature, consisting of the lines received between the lines
-	 *         '----BEGIN GPG SIGNATURE-----\n' and the '----END GPG
-	 *         SIGNATURE-----\n'
-	 */
-	public String getSignature() {
-		return signature;
+	PushCertificate(String version, PersonIdent pusher, String pushee,
+			String nonce, NonceStatus nonceStatus, List<ReceiveCommand> commands,
+			String signature) {
+		if (version == null || version.isEmpty()) {
+			throw new IllegalArgumentException(MessageFormat.format(
+					JGitText.get().pushCertificateInvalidField, VERSION));
+		}
+		if (pusher == null) {
+			throw new IllegalArgumentException(MessageFormat.format(
+					JGitText.get().pushCertificateInvalidField, PUSHER));
+		}
+		if (pushee == null || pushee.isEmpty()) {
+			throw new IllegalArgumentException(MessageFormat.format(
+					JGitText.get().pushCertificateInvalidField, PUSHEE));
+		}
+		if (nonce == null || nonce.isEmpty()) {
+			throw new IllegalArgumentException(MessageFormat.format(
+					JGitText.get().pushCertificateInvalidField, NONCE));
+		}
+		if (nonceStatus == null) {
+			throw new IllegalArgumentException(MessageFormat.format(
+					JGitText.get().pushCertificateInvalidField,
+					"nonce status")); //$NON-NLS-1$
+		}
+		if (commands == null || commands.isEmpty()) {
+			throw new IllegalArgumentException(MessageFormat.format(
+					JGitText.get().pushCertificateInvalidField,
+					"command")); //$NON-NLS-1$
+		}
+		if (signature == null || signature.isEmpty()) {
+			throw new IllegalArgumentException(
+					JGitText.get().pushCertificateInvalidSignature);
+		}
+		this.version = version;
+		this.pusher = pusher;
+		this.pushee = pushee;
+		this.nonce = nonce;
+		this.nonceStatus = nonceStatus;
+		this.commands = commands;
+		this.signature = signature;
 	}
 
-	/**
-	 * @return the list of commands as one string to be feed into the signature
-	 *         verifier.
-	 */
-	public String getCommandList() {
-		return commandList;
+	/** @return the certificate version string. */
+	public String getVersion() {
+		return version;
 	}
 
-	/**
-	 * @return the tuple "name &lt;email&gt;" as presented by the client in the
-	 *         push certificate.
-	 */
-	public String getPusher() {
+	/** @return identity of the pusher who signed the cert. */
+	public PersonIdent getPusher() {
 		return pusher;
 	}
 
@@ -105,8 +143,47 @@ public class PushCertificate {
 		return pushee;
 	}
 
+	/** @return the raw nonce value that was presented by the pusher. */
+	public String getNonce() {
+		return nonce;
+	}
+
 	/** @return verification status of the nonce embedded in the certificate. */
 	public NonceStatus getNonceStatus() {
 		return nonceStatus;
+	}
+
+	/**
+	 * @return the list of commands as one string to be feed into the signature
+	 *         verifier.
+	 */
+	public List<ReceiveCommand> getCommands() {
+		return commands;
+	}
+
+	/**
+	 * @return the raw signature, consisting of the lines received between the
+	 *     lines {@code "----BEGIN GPG SIGNATURE-----\n"} and
+	 *     {@code "----END GPG SIGNATURE-----\n}", exclusive
+	 */
+	public String getSignature() {
+		return signature;
+	}
+
+	/** @return text payload of the certificate for the signature verifier. */
+	public String toText() {
+		StringBuilder sb = new StringBuilder()
+				.append(VERSION).append(' ').append(version).append('\n')
+				.append(PUSHER).append(' ').append(pusher.toExternalString())
+				.append('\n')
+				.append(PUSHEE).append(' ').append(pushee).append('\n')
+				.append(NONCE).append(' ').append(nonce).append('\n')
+				.append('\n');
+		for (ReceiveCommand cmd : commands) {
+			sb.append(cmd.getOldId().name())
+					.append(' ').append(cmd.getNewId().name())
+					.append(' ').append(cmd.getRefName()).append('\n');
+		}
+		return sb.toString();
 	}
 }
