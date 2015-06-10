@@ -55,10 +55,8 @@ import org.eclipse.jgit.transport.BaseReceivePack.ReceiveConfig;
 
 /**
  * Parser for Push certificates
- *
- * @since 4.0
  */
-public class PushCertificateParser extends PushCertificate {
+class PushCertificateParser extends PushCertificate {
 
 	private static final String VERSION = "version "; //$NON-NLS-1$
 
