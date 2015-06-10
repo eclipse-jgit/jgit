@@ -825,9 +825,41 @@ public class Config {
 	 *            parameter name, e.g. "filemode"
 	 * @param value
 	 *            parameter value, e.g. "true"
+	 * @deprecated Use {@link #set(String, String, String, String)} after
+	 *             verifying that {@code value} is never {@code null}.
 	 */
+	@Deprecated
 	public void setString(final String section, final String subsection,
 			final String name, final String value) {
+		setStringList(section, subsection, name, Collections
+				.singletonList(value));
+	}
+
+	/**
+	 * Add or modify a configuration value. The parameters will result in a
+	 * configuration entry like this.
+	 *
+	 * <pre>
+	 * [section &quot;subsection&quot;]
+	 *         name = value
+	 * </pre>
+	 *
+	 * @param section
+	 *            section name, e.g "branch"
+	 * @param subsection
+	 *            optional subsection value, e.g. a branch name
+	 * @param name
+	 *            parameter name, e.g. "filemode"
+	 * @param value
+	 *            parameter value, e.g. "true".  Must not be {@code null}.
+	 * @since 4.1
+	 */
+	public void set(String section, String subsection, String name,
+			String value) {
+		if (value == null) {
+			throw new NullPointerException();
+		}
+
 		setStringList(section, subsection, name, Collections
 				.singletonList(value));
 	}
