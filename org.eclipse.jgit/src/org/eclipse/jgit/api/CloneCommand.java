@@ -407,6 +407,9 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 	 * @return this instance
 	 */
 	public CloneCommand setRemote(String remote) {
+		if (remote == null) {
+			throw new NullPointerException();
+		}
 		this.remote = remote;
 		return this;
 	}

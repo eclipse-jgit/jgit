@@ -202,6 +202,67 @@ public class CloneCommandTest extends RepositoryTestCase {
 				fetchRefSpec(git2.getRepository()));
 	}
 
+	@Test
+	public void testCloneRepositoryCustomRemote() throws Exception {
+		File directory = createTempDirectory("testCloneRemoteUpstream");
+		CloneCommand command = Git.cloneRepository();
+		command.setDirectory(directory);
+		command.setRemote("upstream");
+		command.setURI(fileUri());
+		Git git2 = command.call();
+		addRepoToClose(git2.getRepository());
+		assertEquals("+refs/heads/*:refs/remotes/upstream/*",
+				git2.getRepository()
+					.getConfig()
+					.getStringList("remote", "upstream",
+							"fetch")[0]);
+		assertEquals("upstream",
+				git2.getRepository()
+					.getConfig()
+					.getString("branch", "test", "remote"));
+		assertEquals(db.resolve("test"),
+				git2.getRepository().resolve("upstream/test"));
+	}
+
+	@Test
+	public void testBareCloneRepositoryCustomRemote() throws Exception {
+		File directory = createTempDirectory("testCloneRemoteUpstream_bare");
+		CloneCommand command = Git.cloneRepository();
+		command.setBare(true);
+		command.setDirectory(directory);
+		command.setRemote("upstream");
+		command.setURI(fileUri());
+		Git git2 = command.call();
+		addRepoToClose(git2.getRepository());
+		assertEquals("+refs/heads/*:refs/heads/*",
+				git2.getRepository()
+					.getConfig()
+					.getStringList("remote", "upstream",
+							"fetch")[0]);
+		assertEquals("upstream",
+				git2.getRepository()
+					.getConfig()
+					.getString("branch", "test", "remote"));
+		assertNull(git2.getRepository().resolve("upstream/test"));
+	}
+
+	@Test
+	public void testBareCloneRepositoryNullRemote() throws Exception {
+		File directory = createTempDirectory("testCloneRemoteNull_bare");
+		try {
+			CloneCommand command = Git.cloneRepository();
+			command.setBare(true);
+			command.setDirectory(directory);
+			command.setRemote(null);
+			command.setURI(fileUri());
+			Git git2 = command.call();
+			addRepoToClose(git2.getRepository());
+			fail("Expected NullPointerException");
+		} catch (NullPointerException e) {
+			// good
+		}
+	}
+
 	public static RefSpec fetchRefSpec(Repository r) throws URISyntaxException {
 		RemoteConfig remoteConfig =
 				new RemoteConfig(r.getConfig(), Constants.DEFAULT_REMOTE_NAME);
