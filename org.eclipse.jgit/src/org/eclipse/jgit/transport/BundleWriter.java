@@ -55,8 +55,6 @@ import java.util.TreeMap;
 
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
-import org.eclipse.jgit.internal.storage.pack.PackWriter.ObjectCountCallback;
-import org.eclipse.jgit.internal.storage.pack.WriteAbortedException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;

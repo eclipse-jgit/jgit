@@ -61,8 +61,6 @@ import java.util.Set;
 import org.eclipse.jgit.errors.MissingBundlePrerequisiteException;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.TransportException;
-import org.eclipse.jgit.internal.storage.pack.PackWriter.ObjectCountCallback;
-import org.eclipse.jgit.internal.storage.pack.WriteAbortedException;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
