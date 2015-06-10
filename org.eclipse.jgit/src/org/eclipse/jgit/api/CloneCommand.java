@@ -422,6 +422,9 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 	 * @return this instance
 	 */
 	public CloneCommand setBranch(String branch) {
+		if (branch == null) {
+			throw new NullPointerException();
+		}
 		this.branch = branch;
 		return this;
 	}
