@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_6a888076",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-06-10T00:15:59Z",
+      "side": 1,
+      "message": "(side-note) These change numbers change whenever we move to a new host. So the change id and commit id are more stable and used more often in commit messages.",
+      "range": {
+        "startLine": 7,
+        "startChar": 36,
+        "endLine": 7,
+        "endChar": 41
+      },
+      "revId": "338a34b7575d51cc831f9ed1da12db00698225d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
