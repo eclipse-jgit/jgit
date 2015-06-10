@@ -43,7 +43,10 @@
 
 package org.eclipse.jgit.transport;
 
+import java.io.OutputStream;
+
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
+import org.eclipse.jgit.lib.ProgressMonitor;
 
 /**
  * A callback to tell caller the count of objects ASAP.
