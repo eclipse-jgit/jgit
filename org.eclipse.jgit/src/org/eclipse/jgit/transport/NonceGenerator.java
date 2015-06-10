@@ -49,10 +49,8 @@ import org.eclipse.jgit.transport.PushCertificate.NonceStatus;
  * A NonceGenerator is used to create a nonce to be sent out to the pusher who
  * will sign the nonce to prove it is not a replay attack on the push
  * certificate.
- *
- * @since 4.0
  */
-public interface NonceGenerator {
+interface NonceGenerator {
 
 	/**
 	 * @param db
