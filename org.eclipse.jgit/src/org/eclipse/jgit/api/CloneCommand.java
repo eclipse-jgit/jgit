@@ -349,7 +349,8 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 	 * @see URIish#getHumanishName()
 	 *
 	 * @param directory
-	 *            the directory to clone to
+	 *            the directory to clone to, or {@code null} if the directory
+	 *            name should be taken from the source uri
 	 * @return this instance
 	 * @throws IllegalStateException
 	 *             if the combination of directory, gitDir and bare is illegal.
@@ -365,7 +366,8 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 
 	/**
 	 * @param gitDir
-	 *            the repository meta directory
+	 *            the repository meta directory, or {@code null} to choose one
+	 *            automatically at clone time
 	 * @return this instance
 	 * @throws IllegalStateException
 	 *             if the combination of directory, gitDir and bare is illegal.
