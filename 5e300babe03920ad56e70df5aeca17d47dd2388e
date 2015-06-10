@@ -144,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "87f6139c_4286486c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PushCertificateParserTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-06-10T22:44:32Z",
+      "side": 1,
+      "message": "Ideally this test data would not have to change if/when JGit learns how to do the PGP verification.\n\nSeriously, my name already shows up if you run git blame on this line. I just don\u0027t care about privacy here.",
+      "parentUuid": "87f6139c_029d60b7",
+      "range": {
+        "startLine": 103,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 38
+      },
+      "revId": "5e300babe03920ad56e70df5aeca17d47dd2388e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f6139c_62b9c465",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
         "patchSetId": 3
