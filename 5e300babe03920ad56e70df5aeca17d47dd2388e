@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "87f6139c_6204248c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PushCertificateParserTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-06-10T22:27:47Z",
+      "side": 1,
+      "message": "This test is for a real, valid signed payload hot off the wire (despite the fact that JGit can\u0027t actually do the GPG validation).\n\nTo use someone other myself I would have to first generate a public key for that user. I\u0027m ok with the tradeoff of showing up in the source here :)",
+      "parentUuid": "87f6139c_c29078d2",
+      "range": {
+        "startLine": 103,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 38
+      },
+      "revId": "5e300babe03920ad56e70df5aeca17d47dd2388e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f6139c_62b9c465",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
         "patchSetId": 3
