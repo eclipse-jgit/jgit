@@ -16,6 +16,24 @@
       "revId": "b9725a54fd85f2c7561ff23ca821bf1697f441fd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_fb86006a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificate.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2015-06-10T16:18:12Z",
+      "side": 1,
+      "message": "Looking at the Code again, this is not as well thought as I remember.\n\nA third way of doing this would be to have both the payload (totally unprocessed just passed along to the verifier) and collection of structured data to be used by others.\n\nThe problem with the first approach I could imagine is verification of a different payload than actually sent (by having subtle bugs in the parsing/recreation method), which would be fixed if we were to use the second method. However we want to also have the structured data, so why not both?",
+      "parentUuid": "87f6139c_252d0bcd",
+      "revId": "b9725a54fd85f2c7561ff23ca821bf1697f441fd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
