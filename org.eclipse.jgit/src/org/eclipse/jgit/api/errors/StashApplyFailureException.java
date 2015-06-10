@@ -10,6 +10,15 @@ public class StashApplyFailureException extends GitAPIException {
 	private static final long serialVersionUID = 1L;
 
 	/**
+	 * @param message
+	 * @param cause
+	 * @since 4.1
+	 */
+	public StashApplyFailureException(String message, Throwable cause) {
+		super(message, cause);
+	}
+
+	/**
 	 * Create a StashApplyFailedException
 	 *
 	 * @param message
