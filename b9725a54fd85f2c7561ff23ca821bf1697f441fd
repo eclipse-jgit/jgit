@@ -34,6 +34,24 @@
       "revId": "b9725a54fd85f2c7561ff23ca821bf1697f441fd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_ff9f0b66",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificate.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-06-10T16:58:49Z",
+      "side": 1,
+      "message": "I have an implementation (with tests) that stores only structured data in PushCertificate and recreates the payload on demand. Holding onto the raw data to avoid recreating it should be strictly an optimization, and can be implemented without changing the interface I\u0027m writing.",
+      "parentUuid": "87f6139c_fb86006a",
+      "revId": "b9725a54fd85f2c7561ff23ca821bf1697f441fd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
