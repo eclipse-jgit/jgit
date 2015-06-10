@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_a2b56c39",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1094,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-06-10T22:36:40Z",
+      "side": 1,
+      "message": "consider being paranoid and prefix with \"line.length() \u003e 0\"?",
+      "revId": "7ea91c6afff442ae8f273ad6ac6daa6e13182d2d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_42b4883c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1101,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-06-10T22:36:40Z",
+      "side": 1,
+      "message": "final isn\u0027t necessary in new code; i would call this new code.",
+      "revId": "7ea91c6afff442ae8f273ad6ac6daa6e13182d2d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_62af04ee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1104,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-06-10T22:36:40Z",
+      "side": 1,
+      "message": "pointless to have a cmd variable here before return. just join the return to the new.",
+      "revId": "7ea91c6afff442ae8f273ad6ac6daa6e13182d2d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
