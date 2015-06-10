@@ -46,6 +46,30 @@
       "revId": "a32c8178db67563a59e19001ff417f940d2fa5b5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_62c38404",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2015-06-10T20:44:07Z",
+      "side": 1,
+      "message": "No I don\u0027t. I just wondered why this is going over the line there.",
+      "parentUuid": "87f6139c_22b97cb0",
+      "range": {
+        "startLine": 195,
+        "startChar": 55,
+        "endLine": 195,
+        "endChar": 74
+      },
+      "revId": "a32c8178db67563a59e19001ff417f940d2fa5b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
