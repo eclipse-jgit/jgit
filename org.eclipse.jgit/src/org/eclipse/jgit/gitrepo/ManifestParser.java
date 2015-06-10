@@ -183,6 +183,9 @@ public class ManifestParser extends DefaultHandler {
 			String qName,
 			Attributes attributes) throws SAXException {
 		if ("project".equals(qName)) { //$NON-NLS-1$
+			if (attributes.getValue("name") == null) {
+				throw new SAXException(RepoText.get().invalidManifest);
+			}
 			currentProject = new RepoProject(
 					attributes.getValue("name"), //$NON-NLS-1$
 					attributes.getValue("path"), //$NON-NLS-1$
