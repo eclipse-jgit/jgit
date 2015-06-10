@@ -45,6 +45,9 @@ package org.eclipse.jgit.transport;
 
 /**
  * The required information to verify the push.
+ * <p>
+ * A valid certificate will not return null from any getter methods; callers may
+ * assume that any null value indicates a missing or invalid certificate.
  *
  * @since 4.0
  */
