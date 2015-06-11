@@ -16,6 +16,24 @@
       "revId": "c17edd93c78c9945fcdc25eb81be67d44dcf6133",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_5386186c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-06-11T19:09:37Z",
+      "side": 1,
+      "message": "Thanks for the sanity check. I\u0027ve changed it to imitate what git clone --no-branch does --- what do you think?",
+      "parentUuid": "87f6139c_28e4bb18",
+      "revId": "c17edd93c78c9945fcdc25eb81be67d44dcf6133",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
