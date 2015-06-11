@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "87f6139c_b3d3fcfe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-06-11T15:56:30Z",
+      "side": 1,
+      "message": "That is some crazy arcane XML format. Seems like there must be a way to get Eclipse to generate it for me, but I can\u0027t for the life of me figure out how to get Eclipse to generate the necessary API warnings that would be corrected by adding that.\n\nI removed all the @Deprecated stuff from the previous patch set of this change and explained the breaking change in the commit message. Take your pick between the two versions and I\u0027ll trust your judgment.",
+      "parentUuid": "87f6139c_e2a934dd",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 43
+      },
+      "revId": "5e300babe03920ad56e70df5aeca17d47dd2388e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f6139c_c29078d2",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PushCertificateParserTest.java",
         "patchSetId": 3
