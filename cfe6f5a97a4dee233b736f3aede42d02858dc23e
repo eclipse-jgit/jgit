@@ -22,6 +22,30 @@
       "revId": "cfe6f5a97a4dee233b736f3aede42d02858dc23e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_b38c9c93",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-06-11T19:06:40Z",
+      "side": 1,
+      "message": "That\u0027s reasonable. Done (and updated the commit message).",
+      "parentUuid": "87f6139c_88be8ffa",
+      "range": {
+        "startLine": 340,
+        "startChar": 2,
+        "endLine": 340,
+        "endChar": 3
+      },
+      "revId": "cfe6f5a97a4dee233b736f3aede42d02858dc23e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
