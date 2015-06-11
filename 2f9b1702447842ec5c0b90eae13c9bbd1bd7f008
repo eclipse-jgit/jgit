@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_45e2d24b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-06-11T09:21:21Z",
+      "side": 1,
+      "message": "Yes, it\u0027s clearer now. +1 from me. I am not sure whether we will see \"command.setDirectory(null)...call()\" very often. I always simply don\u0027t call setDirectory() when I don\u0027t have a directory. Like: \"command.call()\". directory and gitDir are null by default.",
+      "range": {
+        "startLine": 353,
+        "startChar": 52,
+        "endLine": 353,
+        "endChar": 55
+      },
+      "revId": "2f9b1702447842ec5c0b90eae13c9bbd1bd7f008",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
