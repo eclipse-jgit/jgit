@@ -1,0 +1,8 @@
+Code-Review+1: Yuxuan Wang <fishywang@google.com>
+Code-Review+2: Jonathan Nieder <jrn@google.com>
+Verified+1: Hudson CI
+Submitted-by: Jonathan Nieder <jrn@google.com>
+Submitted-at: Thu, 11 Jun 2015 15:39:48 -0400
+Reviewed-on: https://git.eclipse.org/r/49981
+Project: jgit/jgit
+Branch: refs/heads/master
