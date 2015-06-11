@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_28e4bb18",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-06-11T11:05:46Z",
+      "side": 1,
+      "message": "Why don\u0027t we just document that branch should not be null. We will anyhow receive an NullPointerException even without your change.",
+      "revId": "c17edd93c78c9945fcdc25eb81be67d44dcf6133",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
