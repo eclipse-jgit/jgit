@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "87f6139c_b3b5bc39",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CloneCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-06-11T19:08:21Z",
+      "side": 1,
+      "message": "Will do in a followup change. (This way, the style stays consistent within the file.)",
+      "parentUuid": "87f6139c_a8d0ab3b",
+      "revId": "7d4db2e36a23d3ce9ec472ae8f1691fa8210a18e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f6139c_88d5ef2c",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CloneCommandTest.java",
         "patchSetId": 1
