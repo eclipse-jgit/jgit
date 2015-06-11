@@ -1,0 +1,7 @@
+Code-Review+2: Shawn Pearce <spearce@spearce.org>
+Verified+1: Hudson CI
+Submitted-by: Dave Borowitz <dborowitz@google.com>
+Submitted-at: Thu, 11 Jun 2015 13:07:42 -0400
+Reviewed-on: https://git.eclipse.org/r/49965
+Project: jgit/jgit
+Branch: refs/heads/master
