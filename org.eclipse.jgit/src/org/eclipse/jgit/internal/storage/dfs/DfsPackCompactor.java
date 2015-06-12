@@ -67,6 +67,7 @@ import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.pack.PackConfig;
+import org.eclipse.jgit.storage.pack.PackStatistics;
 import org.eclipse.jgit.util.BlockList;
 import org.eclipse.jgit.util.io.CountingOutputStream;
 
@@ -94,7 +95,7 @@ public class DfsPackCompactor {
 
 	private final List<DfsPackDescription> newPacks;
 
-	private final List<PackWriter.Statistics> newStats;
+	private final List<PackStatistics> newStats;
 
 	private int autoAddSize;
 
@@ -114,7 +115,7 @@ public class DfsPackCompactor {
 		srcPacks = new ArrayList<DfsPackFile>();
 		exclude = new ArrayList<PackWriter.ObjectIdSet>(4);
 		newPacks = new ArrayList<DfsPackDescription>(1);
-		newStats = new ArrayList<PackWriter.Statistics>(1);
+		newStats = new ArrayList<PackStatistics>(1);
 	}
 
 	/**
@@ -231,7 +232,7 @@ public class DfsPackCompactor {
 					writePack(objdb, pack, pw, pm);
 					writeIndex(objdb, pack, pw);
 
-					PackWriter.Statistics stats = pw.getStatistics();
+					PackStatistics stats = pw.getStatistics();
 					pw.close();
 					pw = null;
 
@@ -264,7 +265,7 @@ public class DfsPackCompactor {
 	}
 
 	/** @return statistics corresponding to the {@link #getNewPacks()}. */
-	public List<PackWriter.Statistics> getNewPackStatistics() {
+	public List<PackStatistics> getNewPackStatistics() {
 		return newStats;
 	}
 
