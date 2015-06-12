@@ -1,6 +1,5 @@
 /*
- * Copyright (C) 2011, Google Inc.
- * and other copyright owners as documented in the project's IP log.
+ * Copyright (C) 2015, Google Inc.
  *
  * This program and the accompanying materials are made available
  * under the terms of the Eclipse Distribution License v1.0 which
@@ -43,54 +42,33 @@
 
 package org.eclipse.jgit.transport;
 
-import java.util.List;
-
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
+import org.eclipse.jgit.storage.pack.PackStatistics;
 
 /**
- * UploadPackLogger that delegates to a list of other loggers.
+ * Hook invoked by {@link UploadPack} after the pack has been uploaded.
  * <p>
- * loggers are run in the order passed to the constructor.
+ * Implementors of the interface are responsible for associating the current
+ * thread to a particular connection, if they need to also include connection
+ * information. One method is to use a {@link java.lang.ThreadLocal} to remember
+ * the connection information before invoking UploadPack.
  *
- * @deprecated Use {@link PostUploadHookChain} instead.
+ * @since 4.1
  */
-@Deprecated
-public class UploadPackLoggerChain implements UploadPackLogger {
-	private final UploadPackLogger[] loggers;
-	private final int count;
+public interface PostUploadHook {
+	/** A simple no-op hook. */
+	public static final PostUploadHook NULL = new PostUploadHook() {
+		public void onPostUpload(PackStatistics stats) {
+			// Do nothing.
+		}
+	};
 
 	/**
-	 * Create a new logger chaining the given loggers together.
+	 * Notifies the hook that a pack has been sent.
 	 *
-	 * @param loggers
-	 *            loggers to execute, in order.
-	 * @return a new logger chain of the given loggers.
+	 * @param stats
+	 *            the statistics gathered by {@link PackWriter} for the uploaded
+	 *            pack
 	 */
-	public static UploadPackLogger newChain(
-			List<? extends UploadPackLogger> loggers) {
-		UploadPackLogger[] newLoggers = new UploadPackLogger[loggers.size()];
-		int i = 0;
-		for (UploadPackLogger logger : loggers)
-			if (logger != UploadPackLogger.NULL)
-				newLoggers[i++] = logger;
-		if (i == 0)
-			return UploadPackLogger.NULL;
-		else if (i == 1)
-			return newLoggers[0];
-		else
-			return new UploadPackLoggerChain(newLoggers, i);
-	}
-
-	/**
-	 * @since 3.0
-	 */
-	public void onPackStatistics(PackWriter.Statistics stats) {
-		for (int i = 0; i < count; i++)
-			loggers[i].onPackStatistics(stats);
-	}
-
-	private UploadPackLoggerChain(UploadPackLogger[] loggers, int count) {
-		this.loggers = loggers;
-		this.count = count;
-	}
+	public void onPostUpload(PackStatistics stats);
 }
