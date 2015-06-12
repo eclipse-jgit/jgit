@@ -16,6 +16,24 @@
       "revId": "96581c68feb8415da0d36f1bca0f86297077644a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_c8f892b8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CloneCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-06-12T15:47:55Z",
+      "side": 1,
+      "message": "Alas, no. CloneCommand constructs a Git using the Git(Repository) constructor, which unlike Git.open assumes the caller is going to close the repository and so does not take responsibility for closing it itself.\n\nIt would be nice to change that, but it would be a significant enough backward-incompatible change that it would be best to introduce a new method analagous to cloneRepository and deprecate cloneRepository.\n\nInitCommand has the same bug.",
+      "parentUuid": "87f6139c_5910f7db",
+      "revId": "96581c68feb8415da0d36f1bca0f86297077644a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
