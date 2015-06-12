@@ -45,13 +45,16 @@ package org.eclipse.jgit.internal.storage.file;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Iterator;
 
 import org.eclipse.jgit.junit.TestRepository.BranchBuilder;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.pack.PackConfig;
+import org.junit.Test;
 import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
@@ -174,6 +177,47 @@ public class GcBasicPackingTest extends GcTestCase {
 			assertEquals(2, c);
 			assertEquals(9, pIt.next().getObjectCount());
 		}
+	}
+
+	@Test
+	public void testDonePruneTooYoungPacks() throws Exception {
+		BranchBuilder bb = tr.branch("refs/heads/master");
+		bb.commit().message("M").add("M", "M").create();
+
+		gc.setExpireAgeMillis(0);
+		gc.gc();
+		stats = gc.getStatistics();
+		assertEquals(0, stats.numberOfLooseObjects);
+		assertEquals(3, stats.numberOfPackedObjects);
+		assertEquals(1, stats.numberOfPackFiles);
+		File oldPackfile = tr.getRepository().getObjectDatabase().getPacks()
+				.iterator().next().getPackFile();
+
+		fsTick();
+		bb.commit().message("B").add("B", "Q").create();
+
+		// The old packfile is too young to be deleted. We should end up with
+		// two pack files
+		gc.setExpire(new Date(oldPackfile.lastModified() - 1));
+		gc.gc();
+		stats = gc.getStatistics();
+		assertEquals(0, stats.numberOfLooseObjects);
+		// if objects exist in multiple packFiles then they are counted multiple
+		// times
+		assertEquals(9, stats.numberOfPackedObjects);
+		assertEquals(2, stats.numberOfPackFiles);
+
+		// repack again but now without a grace period for packfiles. We should
+		// end up with one packfile
+		gc.setExpireAgeMillis(0);
+		gc.gc();
+		stats = gc.getStatistics();
+		assertEquals(0, stats.numberOfLooseObjects);
+		// if objects exist in multiple packFiles then they are counted multiple
+		// times
+		assertEquals(6, stats.numberOfPackedObjects);
+		assertEquals(1, stats.numberOfPackFiles);
+
 	}
 
 	private void configureGc(GC myGc, boolean aggressive) {
