@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_688cfe89",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 601,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-06-12T20:32:15Z",
+      "side": 1,
+      "message": "@deprecated comes after @param",
+      "revId": "46849c6f702f0bfab5563e97896121d443fe424a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_a871c601",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-06-12T20:32:15Z",
+      "side": 1,
+      "message": "@deprecated after @since",
+      "revId": "46849c6f702f0bfab5563e97896121d443fe424a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_286dd623",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 701,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-06-12T20:32:15Z",
+      "side": 1,
+      "message": "But below you never pass it null.",
+      "range": {
+        "startLine": 699,
+        "startChar": 61,
+        "endLine": 701,
+        "endChar": 64
+      },
+      "revId": "46849c6f702f0bfab5563e97896121d443fe424a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
