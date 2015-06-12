@@ -72,6 +72,7 @@ import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.pack.PackConfig;
+import org.eclipse.jgit.storage.pack.PackStatistics;
 import org.eclipse.jgit.util.io.CountingOutputStream;
 
 /** Repack and garbage collect a repository. */
@@ -84,7 +85,7 @@ public class DfsGarbageCollector {
 
 	private final List<DfsPackDescription> newPackDesc;
 
-	private final List<PackWriter.Statistics> newPackStats;
+	private final List<PackStatistics> newPackStats;
 
 	private final List<PackWriter.ObjectIdSet> newPackObj;
 
@@ -115,7 +116,7 @@ public class DfsGarbageCollector {
 		refdb = repo.getRefDatabase();
 		objdb = repo.getObjectDatabase();
 		newPackDesc = new ArrayList<DfsPackDescription>(4);
-		newPackStats = new ArrayList<PackWriter.Statistics>(4);
+		newPackStats = new ArrayList<PackStatistics>(4);
 		newPackObj = new ArrayList<PackWriter.ObjectIdSet>(4);
 
 		packConfig = new PackConfig(repo);
@@ -258,7 +259,7 @@ public class DfsGarbageCollector {
 	}
 
 	/** @return statistics corresponding to the {@link #getNewPacks()}. */
-	public List<PackWriter.Statistics> getNewPackStatistics() {
+	public List<PackStatistics> getNewPackStatistics() {
 		return newPackStats;
 	}
 
@@ -396,7 +397,7 @@ public class DfsGarbageCollector {
 			}
 		});
 
-		PackWriter.Statistics stats = pw.getStatistics();
+		PackStatistics stats = pw.getStatistics();
 		pack.setPackStats(stats);
 		newPackStats.add(stats);
 
