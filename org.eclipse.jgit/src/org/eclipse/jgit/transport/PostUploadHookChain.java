@@ -1,6 +1,5 @@
 /*
- * Copyright (C) 2011, Google Inc.
- * and other copyright owners as documented in the project's IP log.
+ * Copyright (C) 2015, Google Inc.
  *
  * This program and the accompanying materials are made available
  * under the terms of the Eclipse Distribution License v1.0 which
@@ -45,52 +44,47 @@ package org.eclipse.jgit.transport;
 
 import java.util.List;
 
-import org.eclipse.jgit.internal.storage.pack.PackWriter;
+import org.eclipse.jgit.storage.pack.PackStatistics;
 
 /**
- * UploadPackLogger that delegates to a list of other loggers.
+ * {@link PostUploadHook} that delegates to a list of other hooks.
  * <p>
- * loggers are run in the order passed to the constructor.
+ * Hooks are run in the order passed to the constructor.
  *
- * @deprecated Use {@link PostUploadHookChain} instead.
+ * @since 4.1
  */
-@Deprecated
-public class UploadPackLoggerChain implements UploadPackLogger {
-	private final UploadPackLogger[] loggers;
+public class PostUploadHookChain implements PostUploadHook {
+	private final PostUploadHook[] hooks;
 	private final int count;
 
 	/**
-	 * Create a new logger chaining the given loggers together.
+	 * Create a new hook chaining the given hooks together.
 	 *
-	 * @param loggers
-	 *            loggers to execute, in order.
-	 * @return a new logger chain of the given loggers.
+	 * @param hooks
+	 *            hooks to execute, in order.
+	 * @return a new chain of the given hooks.
 	 */
-	public static UploadPackLogger newChain(
-			List<? extends UploadPackLogger> loggers) {
-		UploadPackLogger[] newLoggers = new UploadPackLogger[loggers.size()];
+	public static PostUploadHook newChain(List<? extends PostUploadHook> hooks) {
+		PostUploadHook[] newHooks = new PostUploadHook[hooks.size()];
 		int i = 0;
-		for (UploadPackLogger logger : loggers)
-			if (logger != UploadPackLogger.NULL)
-				newLoggers[i++] = logger;
+		for (PostUploadHook hook : hooks)
+			if (hook != PostUploadHook.NULL)
+				newHooks[i++] = hook;
 		if (i == 0)
-			return UploadPackLogger.NULL;
+			return PostUploadHook.NULL;
 		else if (i == 1)
-			return newLoggers[0];
+			return newHooks[0];
 		else
-			return new UploadPackLoggerChain(newLoggers, i);
+			return new PostUploadHookChain(newHooks, i);
 	}
 
-	/**
-	 * @since 3.0
-	 */
-	public void onPackStatistics(PackWriter.Statistics stats) {
+	public void onPostUpload(PackStatistics stats) {
 		for (int i = 0; i < count; i++)
-			loggers[i].onPackStatistics(stats);
+			hooks[i].onPostUpload(stats);
 	}
 
-	private UploadPackLoggerChain(UploadPackLogger[] loggers, int count) {
-		this.loggers = loggers;
+	private PostUploadHookChain(PostUploadHook[] hooks, int count) {
+		this.hooks = hooks;
 		this.count = count;
 	}
 }
