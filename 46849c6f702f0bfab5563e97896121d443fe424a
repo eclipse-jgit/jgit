@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "87f6139c_a858a681",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 601,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-06-12T20:57:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87f6139c_688cfe89",
+      "revId": "46849c6f702f0bfab5563e97896121d443fe424a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f6139c_a871c601",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 4
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "87f6139c_08529a5f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-06-12T20:57:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87f6139c_a871c601",
+      "revId": "46849c6f702f0bfab5563e97896121d443fe424a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f6139c_286dd623",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 4
@@ -47,6 +83,30 @@
       "writtenOn": "2015-06-12T20:32:15Z",
       "side": 1,
       "message": "But below you never pass it null.",
+      "range": {
+        "startLine": 699,
+        "startChar": 61,
+        "endLine": 701,
+        "endChar": 64
+      },
+      "revId": "46849c6f702f0bfab5563e97896121d443fe424a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_cbc6cc8f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 701,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-06-12T20:57:57Z",
+      "side": 1,
+      "message": "Fixed the deprecated method above but the documentation is correct. The object is initialized by sendPack(boolean), but only if \"wants\" is empty or negotiation fails or some other error.",
+      "parentUuid": "87f6139c_286dd623",
       "range": {
         "startLine": 699,
         "startChar": 61,
