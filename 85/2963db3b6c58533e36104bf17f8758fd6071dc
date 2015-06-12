@@ -1,0 +1,7 @@
+Verified+1: Hudson CI
+Code-Review+2: Christian Halstrick <christian.halstrick@sap.com>
+Submitted-by: Jonathan Nieder <jrn@google.com>
+Submitted-at: Fri, 12 Jun 2015 11:48:48 -0400
+Reviewed-on: https://git.eclipse.org/r/49978
+Project: jgit/jgit
+Branch: refs/heads/master
