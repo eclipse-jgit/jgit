@@ -491,4 +491,39 @@ public class StashCreateCommandTest extends RepositoryTestCase {
 				untrackedFile.exists());
 		assertEquals("content", read(untrackedFile));
 	}
+
+	@Test
+	public void indexFilesNotIncluded() throws Exception {
+		String indexedPath = "indexed.txt";
+		String nonIndexedPath = "non-indexed.txt";
+		File indexedFile = writeTrashFile(indexedPath, "content2");
+		git.add().addFilepattern(indexedPath).call();
+		File nonIndexedFile = writeTrashFile(nonIndexedPath, "content3");
+
+		git.stashCreate().setIncludeUntracked(true).setKeepIndex(true).call();
+
+		assertFalse("non-indexed file should be stashed.",
+				nonIndexedFile.exists());
+		assertTrue("indexed file should left untouched.", indexedFile.exists());
+
+		assertEquals("content2", read(indexedPath));
+
+		Status status = git.status().addPath(indexedPath).call();
+		assertTrue(status.getAdded().contains(indexedPath));
+	}
+
+	@Test
+	public void indexNotIncluded() throws Exception {
+		String indexedPath = "indexed.txt";
+		writeTrashFile(indexedPath, "indexed content");
+		git.add().addFilepattern(indexedPath).call();
+		writeTrashFile(indexedPath, "non-indexed content");
+
+		git.stashCreate().setIncludeUntracked(true).setKeepIndex(true).call();
+
+		assertEquals("indexed content", read(indexedPath));
+
+		Status status = git.status().addPath(indexedPath).call();
+		assertTrue(status.getAdded().contains(indexedPath));
+	}
 }
