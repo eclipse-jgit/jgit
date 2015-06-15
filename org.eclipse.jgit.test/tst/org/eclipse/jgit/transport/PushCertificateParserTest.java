@@ -43,8 +43,8 @@
 package org.eclipse.jgit.transport;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.io.EOFException;
@@ -119,9 +119,9 @@ public class PushCertificateParserTest {
 
 		assertEquals(concatPacketLines(input, 0, 6), cert.toText());
 
-		String signature = concatPacketLines(input, 7, 16);
-		assertFalse(signature.contains(PushCertificateParser.BEGIN_SIGNATURE));
-		assertFalse(signature.contains(PushCertificateParser.END_SIGNATURE));
+		String signature = concatPacketLines(input, 6, 17);
+		assertTrue(signature.startsWith(PushCertificateParser.BEGIN_SIGNATURE));
+		assertTrue(signature.endsWith(PushCertificateParser.END_SIGNATURE));
 		assertEquals(signature, cert.getSignature());
 	}
 
