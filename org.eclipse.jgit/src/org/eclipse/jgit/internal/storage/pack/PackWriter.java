@@ -381,6 +381,17 @@ public class PackWriter implements AutoCloseable {
 	}
 
 	/**
+	 * Records the set of shallow commits in the client.
+	 *
+	 * @param clientShallowCommits
+	 *            the shallow commits in the client
+	 */
+	public void setClientShallowCommits(Set<ObjectId> clientShallowCommits) {
+		stats.clientShallowCommits = Collections
+				.unmodifiableSet(new HashSet<ObjectId>(clientShallowCommits));
+	}
+
+	/**
 	 * Check whether writer can store delta base as an offset (new style
 	 * reducing pack size) or should store it as an object id (legacy style,
 	 * compatible with old readers).
