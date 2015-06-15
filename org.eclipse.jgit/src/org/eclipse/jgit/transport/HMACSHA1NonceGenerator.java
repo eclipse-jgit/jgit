@@ -105,36 +105,42 @@ public class HMACSHA1NonceGenerator implements NonceGenerator {
 	@Override
 	public NonceStatus verify(String received, String sent,
 			Repository db, boolean allowSlop, int slop) {
-		if (received.isEmpty())
+		if (received.isEmpty()) {
 			return NonceStatus.MISSING;
-		else if (sent.isEmpty())
+		} else if (sent.isEmpty()) {
 			return NonceStatus.UNSOLICITED;
-		else if (received.equals(sent))
+		} else if (received.equals(sent)) {
 			return NonceStatus.OK;
+		}
 
-		if (!allowSlop)
+		if (!allowSlop) {
 			return NonceStatus.BAD;
+		}
 
 		/* nonce is concat(<seconds-since-epoch>, "-", <hmac>) */
 		int idxSent = sent.indexOf('-');
 		int idxRecv = received.indexOf('-');
-		if (idxSent == -1 || idxRecv == -1)
+		if (idxSent == -1 || idxRecv == -1) {
 			return NonceStatus.BAD;
+		}
 
+		String signedStampStr = received.substring(0, idxRecv);
+		String advertisedStampStr = sent.substring(0, idxSent);
 		long signedStamp;
 		long advertisedStamp;
 		try {
-			signedStamp = Long.parseLong(received.substring(0, idxRecv));
-			advertisedStamp = Long.parseLong(sent.substring(0, idxSent));
-		} catch (Exception e) {
+			signedStamp = Long.parseLong(signedStampStr);
+			advertisedStamp = Long.parseLong(advertisedStampStr);
+		} catch (IllegalArgumentException e) {
 			return NonceStatus.BAD;
 		}
 
 		// what we would have signed earlier
 		String expect = createNonce(db, signedStamp);
 
-		if (!expect.equals(received))
+		if (!expect.equals(received)) {
 			return NonceStatus.BAD;
+		}
 
 		long nonceStampSlop = Math.abs(advertisedStamp - signedStamp);
 
