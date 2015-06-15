@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_012c3599",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-06-15T15:41:41Z",
+      "side": 1,
+      "message": "I\u0027ve read the documentation for receive.certNonceSlop in git-config(1) a few times and while it\u0027s a little hard to parse, I think this behavior matches the intent of C git. Specifically, if slop is set, \"they only can check GIT_PUSH_CERT_NONCE_STATUS is OK,\" implying OK means \"ok within slop\".",
+      "revId": "ec37daeb7f593d7184d1821f06386feadc66464a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
