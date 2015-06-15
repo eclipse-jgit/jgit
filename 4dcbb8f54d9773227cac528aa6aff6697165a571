@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_9e4240c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 30782
+      },
+      "writtenOn": "2015-06-15T13:58:44Z",
+      "side": 1,
+      "message": "Remove \"to\".",
+      "range": {
+        "startLine": 11,
+        "startChar": 14,
+        "endLine": 11,
+        "endChar": 16
+      },
+      "revId": "4dcbb8f54d9773227cac528aa6aff6697165a571",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
