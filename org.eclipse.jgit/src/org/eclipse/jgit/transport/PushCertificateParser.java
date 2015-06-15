@@ -57,7 +57,6 @@ import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.transport.BaseReceivePack.ReceiveConfig;
 import org.eclipse.jgit.transport.PushCertificate.NonceStatus;
 import org.eclipse.jgit.util.RawParseUtils;
 
@@ -115,11 +114,16 @@ public class PushCertificateParser {
 	private final List<ReceiveCommand> commands;
 	private final StringBuilder rawCommands;
 
-	PushCertificateParser(Repository into, ReceiveConfig cfg) {
-		nonceSlopLimit = cfg.certNonceSlopLimit;
-		nonceGenerator = cfg.certNonceSeed != null
-				? new HMACSHA1NonceGenerator(cfg.certNonceSeed)
-				: null;
+	PushCertificateParser(Repository into, SignedPushConfig cfg) {
+		if (cfg != null) {
+			nonceSlopLimit = cfg.getCertNonceSlopLimit();
+			nonceGenerator = cfg.getCertNonceSeed() != null
+					? new HMACSHA1NonceGenerator(cfg.certNonceSeed)
+					: null;
+		} else {
+			nonceSlopLimit = 0;
+			nonceGenerator = null;
+		}
 		db = into;
 		commands = new ArrayList<>();
 		rawCommands = new StringBuilder();
