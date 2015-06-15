@@ -1043,6 +1043,7 @@ public abstract class BaseReceivePack {
 	 * @throws IOException
 	 */
 	protected void recvCommands() throws IOException {
+		FirstLine firstLine = null;
 		for (;;) {
 			String rawLine;
 			try {
@@ -1062,18 +1063,21 @@ public abstract class BaseReceivePack {
 				continue;
 			}
 
-			if (commands.isEmpty()) {
-				final FirstLine firstLine = new FirstLine(line);
+			if (firstLine == null) {
+				firstLine = new FirstLine(line);
 				enabledCapabilities = firstLine.getCapabilities();
 				line = firstLine.getLine();
 
-				if (line.equals(GitProtocolConstants.OPTION_PUSH_CERT))
+				if (line.equals(GitProtocolConstants.OPTION_PUSH_CERT)) {
 					pushCertificateParser.receiveHeader(pckIn,
 							!isBiDirectionalPipe());
+				}
+				continue;
 			}
 
-			if (line.equals(PushCertificateParser.BEGIN_SIGNATURE)) {
+			if (rawLine.equals(PushCertificateParser.BEGIN_SIGNATURE)) {
 				pushCertificateParser.receiveSignature(pckIn);
+				continue;
 			}
 
 			if (line.length() < 83) {
