@@ -47,6 +47,8 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.ref.Reference;
 import java.lang.ref.SoftReference;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -143,6 +145,28 @@ public class RepositoryCache {
 		}
 	}
 
+	/**
+	 * Remove a repository from the cache.
+	 * <p>
+	 * Removes a repository from the cache, if it is still registered here,
+	 * permitting it to close.
+	 *
+	 * @param location
+	 *            location of the repository to remove.
+	 * @since 4.1
+	 */
+	public static void unregister(Key location) {
+		cache.unregisterRepository(location);
+	}
+
+	/**
+	 * @return the locations of all repositories registered in the cache.
+	 * @since 4.1
+	 */
+	public static Collection<Key> getRegisteredKeys() {
+		return cache.getKeys();
+	}
+
 	/** Unregister all repositories from the cache. */
 	public static void clear() {
 		cache.clearAll();
@@ -193,6 +217,10 @@ public class RepositoryCache {
 		Repository oldDb = oldRef != null ? oldRef.get() : null;
 		if (oldDb != null)
 			oldDb.close();
+	}
+
+	private Collection<Key> getKeys() {
+		return new ArrayList<Key>(cacheMap.keySet());
 	}
 
 	private void clearAll() {
