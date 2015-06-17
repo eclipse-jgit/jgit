@@ -61,7 +61,11 @@ import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.eclipse.jgit.api.errors.FilterFailedException;
+import org.eclipse.jgit.attributes.Attribute;
 import org.eclipse.jgit.attributes.AttributesNode;
 import org.eclipse.jgit.attributes.AttributesRule;
 import org.eclipse.jgit.diff.RawText;
@@ -74,6 +78,7 @@ import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.ignore.FastIgnoreRule;
 import org.eclipse.jgit.ignore.IgnoreNode;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.CoreConfig;
 import org.eclipse.jgit.lib.CoreConfig.CheckStat;
@@ -87,6 +92,7 @@ import org.eclipse.jgit.submodule.SubmoduleWalk;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
+import org.eclipse.jgit.util.TemporaryBuffer.LocalFile;
 import org.eclipse.jgit.util.io.EolCanonicalizingInputStream;
 
 /**
@@ -1385,6 +1391,75 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 				contentDigest = Constants.newMessageDigest();
 				contentReadBuffer = new byte[BUFFER_SIZE];
 			}
+		}
+	}
+
+	/**
+	 * Check whether gitattributes define a filter on the current path and run
+	 * that filter
+	 *
+	 * @param filterCommandType
+	 *            which type of filterCommand should be executed. E.g. "clean",
+	 *            "smudge"
+	 * @param config
+	 *            The configuration which should be used
+	 * @return a {@link LocalFile} containing the output of the filter command
+	 *         or <code>null</code> if no appropriate filter was defined. If
+	 *         non-null is returned it is responsibility of the caller to close
+	 *         this LocalFile
+	 * @throws FilterFailedException
+	 *             if execution of the filter command failed
+	 * @since 4.1
+	 */
+	public LocalFile processFilter(String filterCommandType, Config config)
+			throws FilterFailedException {
+		LocalFile outBuffer = null;
+		LocalFile errorBuffer = null;
+		String filterCommand = null;
+		AttributesNode entryAttributesNode;
+		Attribute filter;
+		String p = null;
+		int rc;
+
+		try {
+			if ((entryAttributesNode = getEntryAttributesNode()) == null) {
+				return null;
+			}
+			p = getEntryPathString();
+			Map<String, Attribute> attributes = new HashMap<String, Attribute>();
+			entryAttributesNode.getAttributes(p, false, attributes);
+			if ((filter = attributes.get(Constants.ATTR_FILTER)) == null) {
+				return null;
+			}
+			if ((filterCommand = config.getString(Constants.ATTR_FILTER,
+					filter.getValue(),
+							filterCommandType)) == null) {
+				return null;
+			}
+			filterCommand = filterCommand.replaceAll("%f", p); //$NON-NLS-1$
+			ProcessBuilder filterProcessBuilder = FS.DETECTED.runInShell(
+					filterCommand, new String[0]);
+
+			outBuffer = new LocalFile(repository.getDirectory());
+			errorBuffer = new LocalFile(repository.getDirectory());
+			rc = FS.DETECTED.runProcess(filterProcessBuilder, outBuffer,
+					errorBuffer, new FileInputStream(p), true);
+			if (rc != 0) {
+				throw new FilterFailedException(rc, filterCommand, p,
+						outBuffer, errorBuffer);
+			}
+			return outBuffer;
+		} catch (IOException | InterruptedException e) {
+			throw new FilterFailedException(e, filterCommand, p, outBuffer,
+					errorBuffer);
+		} finally {
+			if (errorBuffer != null)
+				try {
+					errorBuffer.close();
+				} catch (IOException e) {
+					throw new FilterFailedException(e, filterCommand, p,
+							outBuffer, errorBuffer);
+				}
 		}
 	}
 }
