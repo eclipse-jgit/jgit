@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<component id="org.eclipse.jgit" version="2">
+    <resource path="src/org/eclipse/jgit/transport/PushCertificate.java" type="org.eclipse.jgit.transport.PushCertificate">
+        <filter comment="PushCertificate wasn't really usable in 4.0" id="338722907">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.transport.PushCertificate"/>
+                <message_argument value="PushCertificate()"/>
+            </message_arguments>
+        </filter>
+        <filter comment="PushCertificate wasn't really usable in 4.0" id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.transport.PushCertificate"/>
+                <message_argument value="getCommandList()"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/transport/PushCertificateParser.java" type="org.eclipse.jgit.transport.PushCertificateParser">
+        <filter comment="PushCertificates haven't been really usable in 4.0" id="338849923">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.transport.PushCertificateParser"/>
+            </message_arguments>
+        </filter>
+    </resource>
+</component>

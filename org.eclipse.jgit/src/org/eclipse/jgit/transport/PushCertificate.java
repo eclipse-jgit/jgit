@@ -167,7 +167,7 @@ public class PushCertificate {
 
 	/**
 	 * @return the raw nonce value that was presented by the pusher.
-	 * @since 4.0
+	 * @since 4.1
 	 */
 	public String getNonce() {
 		return nonce;
@@ -200,7 +200,10 @@ public class PushCertificate {
 		return signature;
 	}
 
-	/** @return text payload of the certificate for the signature verifier. */
+	/**
+	 * @return text payload of the certificate for the signature verifier.
+	 * @since 4.1
+	 */
 	public String toText() {
 		return new StringBuilder()
 				.append(VERSION).append(' ').append(version).append('\n')
