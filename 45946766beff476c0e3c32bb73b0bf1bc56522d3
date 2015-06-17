@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_ba229fa9",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PushCertificateIdentTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-06-17T21:47:00Z",
+      "side": 1,
+      "message": "Looking at this test, it makes me wonder if we should just add getUserId() to PersonIdent.",
+      "revId": "45946766beff476c0e3c32bb73b0bf1bc56522d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
