@@ -16,6 +16,24 @@
       "revId": "45946766beff476c0e3c32bb73b0bf1bc56522d3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_da1deb6c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PushCertificateIdentTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2015-06-17T21:49:37Z",
+      "side": 1,
+      "message": "I think in c git no characters after the \u003e are permitted. (Not sure about the scope), If there were characters after the \u003e, the .mailmap file would break.",
+      "parentUuid": "87f6139c_ba229fa9",
+      "revId": "45946766beff476c0e3c32bb73b0bf1bc56522d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
