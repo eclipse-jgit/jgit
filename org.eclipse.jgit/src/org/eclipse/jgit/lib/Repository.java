@@ -49,6 +49,7 @@ package org.eclipse.jgit.lib;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -64,6 +65,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.eclipse.jgit.api.errors.FilterFailedException;
+import org.eclipse.jgit.attributes.Attribute;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.errors.AmbiguousObjectException;
 import org.eclipse.jgit.errors.CorruptObjectException;
@@ -89,6 +92,7 @@ import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.SystemReader;
+import org.eclipse.jgit.util.TemporaryBuffer.LocalFile;
 import org.eclipse.jgit.util.io.SafeBufferedOutputStream;
 
 /**
@@ -1687,5 +1691,47 @@ public abstract class Repository implements AutoCloseable {
 	public Set<String> getRemoteNames() {
 		return getConfig()
 				.getSubsections(ConfigConstants.CONFIG_REMOTE_SECTION);
+	}
+
+	/**
+	 * @param path
+	 *            the path of the file the filter should process
+	 * @param attributes
+	 *            the git attributes for the file to be processed
+	 * @return a {@link LocalFile} containing the output of the filter command
+	 * @throws FilterFailedException
+	 *             if execution of the filter command failed
+	 * @since 4.1
+	 */
+	public LocalFile runFilter(final String path,
+			Map<String, Attribute> attributes) throws FilterFailedException {
+		LocalFile outBuffer = null;
+		Attribute filter = attributes.get(Constants.ATTR_FILTER);
+		if (filter != null) {
+			String filterCommand = getConfig().getString(Constants.ATTR_FILTER,
+					filter.getValue(), Constants.ATTR_FILTER_CLEAN);
+			if (filterCommand != null) {
+				filterCommand = filterCommand.replaceAll("%f", path); //$NON-NLS-1$
+				ProcessBuilder filterProcessBuilder = FS.DETECTED.runInShell(
+						filterCommand, new String[0]);
+
+				outBuffer = new LocalFile(getDirectory());
+				LocalFile errorBuffer = new LocalFile(getDirectory());
+				int rc;
+				try {
+					rc = FS.DETECTED.runProcess(filterProcessBuilder,
+							outBuffer, errorBuffer, new FileInputStream(path),
+							true);
+				} catch (IOException | InterruptedException e) {
+					throw new FilterFailedException(e, filterCommand, path,
+							outBuffer, errorBuffer);
+				}
+				if (rc != 0) {
+					throw new FilterFailedException(rc, filterCommand, path,
+							outBuffer, errorBuffer);
+				}
+			}
+		}
+		return outBuffer;
 	}
 }

@@ -46,11 +46,16 @@ package org.eclipse.jgit.api;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 
+import org.eclipse.jgit.api.errors.FilterFailedException;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.NoFilepatternException;
+import org.eclipse.jgit.attributes.Attribute;
+import org.eclipse.jgit.attributes.AttributesNode;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuildIterator;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
@@ -65,6 +70,7 @@ import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.WorkingTreeIterator;
 import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
+import org.eclipse.jgit.util.TemporaryBuffer.LocalFile;
 
 /**
  * A class used to execute a {@code Add} command. It has setters for all
@@ -177,12 +183,26 @@ public class AddCommand extends GitCommand<DirCache> {
 								entry.setFileMode(mode);
 
 								if (FileMode.GITLINK != mode) {
+									AttributesNode entryAttributesNode = workingTreeIterator
+											.getEntryAttributesNode();
+									LocalFile attributeProcessedContent = null;
+									if (entryAttributesNode != null) {
+										attributeProcessedContent = handleAttributes(
+												tw.getPathString(),
+												entryAttributesNode);
+									}
+
 									entry.setLength(sz);
 									entry.setLastModified(f
 											.getEntryLastModified());
-									long contentSize = f
-											.getEntryContentLength();
-									InputStream in = f.openEntryStream();
+									long contentSize = (attributeProcessedContent == null) ? f
+											.getEntryContentLength()
+											: attributeProcessedContent
+													.length();
+									InputStream in = (attributeProcessedContent == null) ? f
+											.openEntryStream()
+											: attributeProcessedContent
+											.openInputStream();
 									try {
 										entry.setObjectId(inserter.insert(
 												Constants.OBJ_BLOB, contentSize, in));
@@ -216,6 +236,14 @@ public class AddCommand extends GitCommand<DirCache> {
 		}
 
 		return dc;
+	}
+
+	private LocalFile handleAttributes(final String path,
+			AttributesNode entryAttributesNode)
+			throws FilterFailedException {
+		Map<String, Attribute> attributes = new HashMap<String, Attribute>();
+		entryAttributesNode.getAttributes(path, false, attributes);
+		return repo.runFilter(path, attributes);
 	}
 
 	/**
