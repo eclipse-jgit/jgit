@@ -390,7 +390,28 @@ public final class RawParseUtils {
 	 * @return the timezone at this location, expressed in minutes.
 	 */
 	public static final int parseTimeZoneOffset(final byte[] b, int ptr) {
-		final int v = parseBase10(b, ptr, null);
+		return parseTimeZoneOffset(b, ptr, null);
+	}
+
+	/**
+	 * Parse a Git style timezone string.
+	 * <p>
+	 * The sequence "-0315" will be parsed as the numeric value -195, as the
+	 * lower two positions count minutes, not 100ths of an hour.
+	 *
+	 * @param b
+	 *            buffer to scan.
+	 * @param ptr
+	 *            position within buffer to start parsing digits at.
+	 * @param ptrResult
+	 *            optional location to return the new ptr value through. If null
+	 *            the ptr value will be discarded.
+	 * @return the timezone at this location, expressed in minutes.
+	 * @since 4.1
+	 */
+	public static final int parseTimeZoneOffset(final byte[] b, int ptr,
+			MutableInteger ptrResult) {
+		final int v = parseBase10(b, ptr, ptrResult);
 		final int tzMins = v % 100;
 		final int tzHours = v / 100;
 		return tzHours * 60 + tzMins;
@@ -1081,7 +1102,17 @@ public final class RawParseUtils {
 		return ptr;
 	}
 
-	private static int lastIndexOfTrim(byte[] raw, char ch, int pos) {
+	/**
+	 * @param raw
+	 *            buffer to scan.
+	 * @param ch
+	 *            character to find.
+	 * @param pos
+	 *            starting position.
+	 * @return last index of ch in raw, trimming spaces.
+	 * @since 4.1
+	 */
+	public static int lastIndexOfTrim(byte[] raw, char ch, int pos) {
 		while (pos >= 0 && raw[pos] == ' ')
 			pos--;
 
