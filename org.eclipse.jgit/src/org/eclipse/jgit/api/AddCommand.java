@@ -48,6 +48,7 @@ import java.io.InputStream;
 import java.util.Collection;
 import java.util.LinkedList;
 
+import org.eclipse.jgit.api.errors.FilterFailedException;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.NoFilepatternException;
@@ -59,12 +60,15 @@ import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.WorkingTreeIterator;
 import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
+import org.eclipse.jgit.util.TemporaryBuffer;
 
 /**
  * A class used to execute a {@code Add} command. It has setters for all
@@ -152,6 +156,7 @@ public class AddCommand extends GitCommand<DirCache> {
 				tw.setFilter(PathFilterGroup.createFromStrings(filepatterns));
 
 			String lastAddedFile = null;
+			StoredConfig config = repo.getConfig();
 
 			while (tw.next()) {
 				String path = tw.getPathString();
@@ -169,7 +174,6 @@ public class AddCommand extends GitCommand<DirCache> {
 					if (!(update && tw.getTree(0, DirCacheIterator.class) == null)) {
 						c = tw.getTree(0, DirCacheIterator.class);
 						if (f != null) { // the file exists
-							long sz = f.getEntryLength();
 							DirCacheEntry entry = new DirCacheEntry(path);
 							if (c == null || c.getDirCacheEntry() == null
 									|| !c.getDirCacheEntry().isAssumeValid()) {
@@ -177,20 +181,11 @@ public class AddCommand extends GitCommand<DirCache> {
 								entry.setFileMode(mode);
 
 								if (FileMode.GITLINK != mode) {
-									entry.setLength(sz);
-									entry.setLastModified(f
-											.getEntryLastModified());
-									long contentSize = f
-											.getEntryContentLength();
-									InputStream in = f.openEntryStream();
-									try {
-										entry.setObjectId(inserter.insert(
-												Constants.OBJ_BLOB, contentSize, in));
-									} finally {
-										in.close();
-									}
-								} else
+									entry.setObjectId(insertBlob(inserter,
+											config, f, entry));
+								} else {
 									entry.setObjectId(f.getEntryObjectId());
+								}
 								builder.add(entry);
 								lastAddedFile = path;
 							} else {
@@ -216,6 +211,26 @@ public class AddCommand extends GitCommand<DirCache> {
 		}
 
 		return dc;
+	}
+
+	private ObjectId insertBlob(ObjectInserter inserter, StoredConfig config,
+			WorkingTreeIterator f, DirCacheEntry entry)
+			throws FilterFailedException, IOException {
+		long contentLength = f.getEntryContentLength();
+		entry.setLastModified(f.getEntryLastModified());
+		entry.setLength(contentLength);
+		TemporaryBuffer attributeProcessedContent = f.processFilter(
+				Constants.ATTR_FILTER_TYPE_CLEAN, config);
+		if (attributeProcessedContent != null) {
+			contentLength = attributeProcessedContent.length();
+		}
+
+		try (InputStream contentStream = (attributeProcessedContent == null)
+				? f.openEntryStream()
+				: attributeProcessedContent.openInputStream()) {
+			return inserter.insert(Constants.OBJ_BLOB, contentLength,
+					contentStream);
+		}
 	}
 
 	/**
