@@ -56,10 +56,8 @@ import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.internal.JGitText;
-import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.PushCertificate.NonceStatus;
-import org.eclipse.jgit.util.RawParseUtils;
 
 /**
  * Parser for signed push certificates.
@@ -85,7 +83,7 @@ public class PushCertificateParser {
 	private static final String END_CERT = "push-cert-end\n"; //$NON-NLS-1$
 
 	private String version;
-	private PersonIdent pusher;
+	private PushCertificateIdent pusher;
 	private String pushee;
 
 	/** The nonce that was sent to the client. */
@@ -218,12 +216,12 @@ public class PushCertificateParser {
 				throw new PackProtocolException(MessageFormat.format(
 						JGitText.get().pushCertificateInvalidFieldValue, VERSION, version));
 			}
-			String pusherStr = parseHeader(pckIn, PUSHER);
-			pusher = RawParseUtils.parsePersonIdent(pusherStr);
+			String rawPusher = parseHeader(pckIn, PUSHER);
+			pusher = PushCertificateIdent.parse(rawPusher);
 			if (pusher == null) {
 				throw new PackProtocolException(MessageFormat.format(
 						JGitText.get().pushCertificateInvalidFieldValue,
-						PUSHER, pusherStr));
+						PUSHER, rawPusher));
 			}
 			pushee = parseHeader(pckIn, PUSHEE);
 			receivedNonce = parseHeader(pckIn, NONCE);
