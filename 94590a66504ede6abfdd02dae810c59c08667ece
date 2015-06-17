@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_3ae86f9f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1710,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-06-17T22:16:00Z",
+      "side": 1,
+      "message": "maybe we should move this to the caller to avoid calling this method if there\u0027s no filter configured",
+      "revId": "94590a66504ede6abfdd02dae810c59c08667ece",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
