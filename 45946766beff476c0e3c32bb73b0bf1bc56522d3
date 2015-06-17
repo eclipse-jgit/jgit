@@ -34,6 +34,24 @@
       "revId": "45946766beff476c0e3c32bb73b0bf1bc56522d3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_5a29fb87",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PushCertificateIdentTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-06-17T22:00:52Z",
+      "side": 1,
+      "message": "Not sure what you mean by \"permitted\". IIRC they\u0027ll fail git fsck but that doesn\u0027t change the fact that there are lots of these in the wild. We just recently relaxes our prereceive fsck for googlesource.com to allow them.\n\nThese test cases were copied from the PersonIdent tests. See discussion on Ie9798d36d9 where those were introduced.",
+      "parentUuid": "87f6139c_da1deb6c",
+      "revId": "45946766beff476c0e3c32bb73b0bf1bc56522d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
