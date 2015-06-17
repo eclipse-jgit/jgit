@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_9aaec39e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SignedPushConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-06-17T21:23:13Z",
+      "side": 1,
+      "message": "these redundant @since tags aren\u0027t required since the class is tagged with @since 4.1",
+      "revId": "3dbeefdf77afbb05a052982b50e60195381ee61c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
