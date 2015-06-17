@@ -52,7 +52,6 @@ import java.text.MessageFormat;
 import java.util.List;
 
 import org.eclipse.jgit.internal.JGitText;
-import org.eclipse.jgit.lib.PersonIdent;
 
 /**
  * The required information to verify the push.
@@ -81,7 +80,7 @@ public class PushCertificate {
 	}
 
 	private final String version;
-	private final PersonIdent pusher;
+	private final PushCertificateIdent pusher;
 	private final String pushee;
 	private final String nonce;
 	private final NonceStatus nonceStatus;
@@ -89,7 +88,7 @@ public class PushCertificate {
 	private final String rawCommands;
 	private final String signature;
 
-	PushCertificate(String version, PersonIdent pusher, String pushee,
+	PushCertificate(String version, PushCertificateIdent pusher, String pushee,
 			String nonce, NonceStatus nonceStatus, List<ReceiveCommand> commands,
 			String rawCommands, String signature) {
 		if (version == null || version.isEmpty()) {
@@ -147,18 +146,18 @@ public class PushCertificate {
 	}
 
 	/**
-	 * @return the identity of the pusher who signed the cert, as a string.
+	 * @return the raw line that signed the cert, as a string.
 	 * @since 4.0
 	 */
 	public String getPusher() {
-		return pusher.toExternalString();
+		return pusher.getRaw();
 	}
 
 	/**
 	 * @return identity of the pusher who signed the cert.
 	 * @since 4.1
 	 */
-	public PersonIdent getPusherIdent() {
+	public PushCertificateIdent getPusherIdent() {
 		return pusher;
 	}
 
@@ -212,7 +211,7 @@ public class PushCertificate {
 	public String toText() {
 		return new StringBuilder()
 				.append(VERSION).append(' ').append(version).append('\n')
-				.append(PUSHER).append(' ').append(pusher.toExternalString())
+				.append(PUSHER).append(' ').append(getPusher())
 				.append('\n')
 				.append(PUSHEE).append(' ').append(pushee).append('\n')
 				.append(NONCE).append(' ').append(nonce).append('\n')
