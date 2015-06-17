@@ -129,9 +129,15 @@ public class PushCertificateParser {
 	}
 
 	/**
+	 * Construct the certificate.
+	 * <p>
+	 * As a side effect, saves the certificate as a blob in the repo, the name of
+	 * which is available as {@link PushCertificate#getObjectId()}.
+	 *
 	 * @return the parsed certificate, or null if push certificates are disabled.
 	 * @throws IOException
-	 *             if the push certificate has missing or invalid fields.
+	 *             if the push certificate has missing or invalid fields, or there
+	 *             was an error writing the blob to the repo.
 	 * @since 4.1
 	 */
 	public PushCertificate build() throws IOException {
@@ -141,7 +147,7 @@ public class PushCertificateParser {
 		try {
 			return new PushCertificate(version, pusher, pushee, receivedNonce,
 					nonceStatus, Collections.unmodifiableList(commands),
-					rawCommands.toString(), signature);
+					rawCommands.toString(), signature, db);
 		} catch (IllegalArgumentException e) {
 			throw new IOException(e.getMessage(), e);
 		}

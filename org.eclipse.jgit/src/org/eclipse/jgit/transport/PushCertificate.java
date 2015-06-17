@@ -48,10 +48,15 @@ import static org.eclipse.jgit.transport.PushCertificateParser.PUSHEE;
 import static org.eclipse.jgit.transport.PushCertificateParser.PUSHER;
 import static org.eclipse.jgit.transport.PushCertificateParser.VERSION;
 
+import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.List;
 
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.Repository;
 
 /**
  * The required information to verify the push.
@@ -85,12 +90,13 @@ public class PushCertificate {
 	private final String nonce;
 	private final NonceStatus nonceStatus;
 	private final List<ReceiveCommand> commands;
-	private final String rawCommands;
 	private final String signature;
+	private final String text;
+	private final ObjectId objectId;
 
 	PushCertificate(String version, PushCertificateIdent pusher, String pushee,
 			String nonce, NonceStatus nonceStatus, List<ReceiveCommand> commands,
-			String rawCommands, String signature) {
+			String rawCommands, String signature, Repository db) throws IOException {
 		if (version == null || version.isEmpty()) {
 			throw new IllegalArgumentException(MessageFormat.format(
 					JGitText.get().pushCertificateInvalidField, VERSION));
@@ -133,8 +139,22 @@ public class PushCertificate {
 		this.nonce = nonce;
 		this.nonceStatus = nonceStatus;
 		this.commands = commands;
-		this.rawCommands = rawCommands;
 		this.signature = signature;
+		text = new StringBuilder()
+				.append(VERSION).append(' ').append(version).append('\n')
+				.append(PUSHER).append(' ').append(getPusher())
+				.append('\n')
+				.append(PUSHEE).append(' ').append(pushee).append('\n')
+				.append(NONCE).append(' ').append(nonce).append('\n')
+				.append('\n')
+				.append(rawCommands)
+				.toString();
+
+		try (ObjectInserter ins = db.newObjectInserter()) {
+			byte[] data = Constants.encode(toText() + signature);
+			objectId = ins.insert(Constants.OBJ_BLOB, data).copy();
+			ins.flush();
+		}
 	}
 
 	/**
@@ -204,16 +224,16 @@ public class PushCertificate {
 		return signature;
 	}
 
+	/**
+	 * @return the ID of the blob containing the saved certificate in the repo.
+	 * @since 4.1
+	 */
+	public ObjectId getObjectId() {
+		return objectId;
+	}
+
 	/** @return text payload of the certificate for the signature verifier. */
 	public String toText() {
-		return new StringBuilder()
-				.append(VERSION).append(' ').append(version).append('\n')
-				.append(PUSHER).append(' ').append(getPusher())
-				.append('\n')
-				.append(PUSHEE).append(' ').append(pushee).append('\n')
-				.append(NONCE).append(' ').append(nonce).append('\n')
-				.append('\n')
-				.append(rawCommands)
-				.toString();
+		return text;
 	}
 }

@@ -42,6 +42,7 @@
 
 package org.eclipse.jgit.transport;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
@@ -123,6 +124,10 @@ public class PushCertificateParserTest {
 		assertTrue(signature.startsWith(PushCertificateParser.BEGIN_SIGNATURE));
 		assertTrue(signature.endsWith(PushCertificateParser.END_SIGNATURE));
 		assertEquals(signature, cert.getSignature());
+
+		byte[] blob =
+			db.newObjectReader().open(cert.getObjectId()).getCachedBytes();
+		assertEquals(cert.toText() + cert.getSignature(), new String(blob, UTF_8));
 	}
 
 	@Test
