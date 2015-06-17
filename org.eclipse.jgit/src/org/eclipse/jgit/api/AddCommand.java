@@ -48,6 +48,7 @@ import java.io.InputStream;
 import java.util.Collection;
 import java.util.LinkedList;
 
+import org.eclipse.jgit.api.errors.FilterFailedException;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.NoFilepatternException;
@@ -208,6 +209,9 @@ public class AddCommand extends GitCommand<DirCache> {
 			builder.commit();
 			setCallable(false);
 		} catch (IOException e) {
+			Throwable cause = e.getCause();
+			if (cause != null && cause instanceof FilterFailedException)
+				throw (FilterFailedException) cause;
 			throw new JGitInternalException(
 					JGitText.get().exceptionCaughtDuringExecutionOfAddCommand, e);
 		} finally {

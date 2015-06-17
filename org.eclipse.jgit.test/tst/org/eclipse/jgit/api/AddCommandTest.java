@@ -52,11 +52,13 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import org.eclipse.jgit.api.errors.FilterFailedException;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.NoFilepatternException;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEntry;
+import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
@@ -109,6 +111,139 @@ public class AddCommandTest extends RepositoryTestCase {
 		assertEquals(
 				"[a.txt, mode:100644, content:content]",
 				indexState(CONTENT));
+	}
+
+	@Test
+	public void testCleanFilter() throws IOException,
+			GitAPIException {
+		writeTrashFile("a.txt", "foo");
+		writeTrashFile("a.tmp", "foo");
+		File script = writeTempFile("sed s/o/e/ -");
+
+		Git git = new Git(db);
+		StoredConfig config = git.getRepository().getConfig();
+		config.setString("filter", "tstFilter", "clean",
+				"sh " + script.getPath());
+		config.save();
+		writeTrashFile(".gitattributes", "*.txt filter=tstFilter");
+
+		git.add().addFilepattern("a.txt").addFilepattern("a.tmp").call();
+
+		assertEquals(
+				"[a.tmp, mode:100644, content:foo][a.txt, mode:100644, content:feo]",
+				indexState(CONTENT));
+	}
+
+	/**
+	 * The path of an added file name contains ';' and afterwards malicious
+	 * commands. Make sure when calling filter commands to properly escape the
+	 * filenames
+	 *
+	 * @throws IOException
+	 * @throws GitAPIException
+	 */
+	@Test
+	public void testCommandInjection() throws IOException, GitAPIException {
+		writeTrashFile("; echo virus", "foo");
+		File script = writeTempFile("sed s/o/e/ -");
+
+		Git git = new Git(db);
+		StoredConfig config = git.getRepository().getConfig();
+		config.setString("filter", "tstFilter", "clean",
+				"sh " + script.getPath() + " %f");
+		writeTrashFile(".gitattributes", "* filter=tstFilter");
+
+		git.add().addFilepattern("; echo virus").call();
+		// Without proper escaping the content would be "feovirus". The sed
+		// command and the "echo virus" would contribute to the content
+		assertEquals("[; echo virus, mode:100644, content:feo]",
+				indexState(CONTENT));
+	}
+
+	@Test
+	public void testBadCleanFilter() throws IOException, GitAPIException {
+		writeTrashFile("a.txt", "foo");
+		File script = writeTempFile("sedfoo s/o/e/ -");
+
+		Git git = new Git(db);
+		StoredConfig config = git.getRepository().getConfig();
+		config.setString("filter", "tstFilter", "clean",
+				"sh " + script.getPath());
+		config.save();
+		writeTrashFile(".gitattributes", "*.txt filter=tstFilter");
+
+		try {
+			git.add().addFilepattern("a.txt").call();
+			fail("Didn't received the expected exception");
+		} catch (FilterFailedException e) {
+			assertEquals(127, e.getReturnCode());
+		}
+	}
+
+	@Test
+	public void testBadCleanFilter2() throws IOException, GitAPIException {
+		writeTrashFile("a.txt", "foo");
+		File script = writeTempFile("sed s/o/e/ -");
+
+		Git git = new Git(db);
+		StoredConfig config = git.getRepository().getConfig();
+		config.setString("filter", "tstFilter", "clean",
+				"shfoo " + script.getPath());
+		config.save();
+		writeTrashFile(".gitattributes", "*.txt filter=tstFilter");
+
+		try {
+			git.add().addFilepattern("a.txt").call();
+			fail("Didn't received the expected exception");
+		} catch (FilterFailedException e) {
+			assertEquals(127, e.getReturnCode());
+		}
+	}
+
+	@Test
+	public void testCleanFilterReturning12() throws IOException,
+			GitAPIException {
+		writeTrashFile("a.txt", "foo");
+		File script = writeTempFile("exit 12");
+
+		Git git = new Git(db);
+		StoredConfig config = git.getRepository().getConfig();
+		config.setString("filter", "tstFilter", "clean",
+				"sh " + script.getPath());
+		config.save();
+		writeTrashFile(".gitattributes", "*.txt filter=tstFilter");
+
+		try {
+			git.add().addFilepattern("a.txt").call();
+			fail("Didn't received the expected exception");
+		} catch (FilterFailedException e) {
+			assertEquals(12, e.getReturnCode());
+		}
+	}
+
+	@Test
+	public void testSmudgeFilter() throws IOException,
+			GitAPIException {
+		writeTrashFile("a.txt", "foo");
+		File script = writeTempFile("sed s/o/e/ -");
+
+		Git git = new Git(db);
+		StoredConfig config = git.getRepository().getConfig();
+		config.setString("filter", "tstFilter", "smudge",
+				"sh " + script.getPath());
+		config.save();
+		writeTrashFile(".gitattributes", "*.txt filter=tstFilter");
+
+		git.add().addFilepattern("a.txt").call();
+
+		assertEquals("[a.txt, mode:100644, content:foo]",
+				indexState(CONTENT));
+	}
+
+	private File writeTempFile(String body) throws IOException {
+		File f = File.createTempFile("AddCommandTest_", "");
+		JGitTestUtil.write(f, body);
+		return f;
 	}
 
 	@Test

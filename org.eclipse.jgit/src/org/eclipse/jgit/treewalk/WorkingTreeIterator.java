@@ -61,7 +61,11 @@ import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.eclipse.jgit.api.errors.FilterFailedException;
+import org.eclipse.jgit.attributes.Attribute;
 import org.eclipse.jgit.attributes.AttributesNode;
 import org.eclipse.jgit.attributes.AttributesRule;
 import org.eclipse.jgit.diff.RawText;
@@ -76,8 +80,10 @@ import org.eclipse.jgit.ignore.IgnoreNode;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.CoreConfig;
+import org.eclipse.jgit.lib.CoreConfig.AutoCRLF;
 import org.eclipse.jgit.lib.CoreConfig.CheckStat;
 import org.eclipse.jgit.lib.CoreConfig.SymLinks;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
@@ -86,7 +92,9 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.submodule.SubmoduleWalk;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.IO;
+import org.eclipse.jgit.util.QuotedString;
 import org.eclipse.jgit.util.RawParseUtils;
+import org.eclipse.jgit.util.TemporaryBuffer;
 import org.eclipse.jgit.util.io.EolCanonicalizingInputStream;
 
 /**
@@ -136,6 +144,17 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 
 	/** If there is a .gitattributes file present, the parsed rules from it. */
 	private AttributesNode attributesNode;
+
+	/**
+	 * The filter command as defined in gitattributes. The keys are
+	 * filterName+"."+filterCommandType. E.g. "lfs.clean"
+	 */
+	private Map<String, String> filterCommandsByNameDotType = new HashMap<String, String>();
+
+	private String cleanFilterCommand;
+
+	/** The config to be used */
+	private Config config;
 
 	/** Repository that is the root level being iterated over */
 	protected Repository repository;
@@ -416,6 +435,12 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		switch (getOptions().getAutoCRLF()) {
 		case FALSE:
 		default:
+			try {
+				if (getCleanFilterCommand() != null)
+					return true;
+			} catch (IOException e) {
+				// TODO
+			}
 			return false;
 
 		case TRUE:
@@ -437,8 +462,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		}
 	}
 
-	private static ByteBuffer filterClean(byte[] src, int n)
-			throws IOException {
+	private ByteBuffer filterClean(byte[] src, int n) throws IOException {
 		InputStream in = new ByteArrayInputStream(src);
 		try {
 			return IO.readWholeStream(filterClean(in), n);
@@ -447,8 +471,24 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		}
 	}
 
-	private static InputStream filterClean(InputStream in) {
-		return new EolCanonicalizingInputStream(in, true);
+	private InputStream filterClean(InputStream in) throws IOException {
+		AutoCRLF autoCRLF = getOptions().getAutoCRLF();
+		if (autoCRLF == AutoCRLF.TRUE || autoCRLF == AutoCRLF.INPUT) {
+			in = new EolCanonicalizingInputStream(in, true);
+		}
+		String filterCommand = getCleanFilterCommand();
+		if (filterCommand != null) {
+			TemporaryBuffer attributeProcessedContent = null;
+			try {
+				attributeProcessedContent = processFilter(filterCommand,
+						getEntryPathString(), in);
+			} catch (FilterFailedException e) {
+				throw new IOException(e);
+			}
+			if (attributeProcessedContent != null)
+				in = attributeProcessedContent.openInputStream();
+		}
+		return in;
 	}
 
 	/**
@@ -507,6 +547,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		System.arraycopy(e.encodedName, 0, path, pathOffset, nameLen);
 		pathLen = pathOffset + nameLen;
 		canonLen = -1;
+		cleanFilterCommand = null;
 	}
 
 	/**
@@ -1386,5 +1427,132 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 				contentReadBuffer = new byte[BUFFER_SIZE];
 			}
 		}
+	}
+
+	/**
+	 * Run a filter command
+	 *
+	 * @param filterCommand
+	 *            then command to be executed
+	 * @param path
+	 *            the path on which to run a filter
+	 * @param in
+	 *            an {@link InputStream} to read the unfiltered content from
+	 * @return a {@link TemporaryBuffer} containing the output of the filter
+	 *         command. It is responsibility of the caller to destroy this
+	 *         Buffer
+	 * @throws FilterFailedException
+	 *             if execution of the filter command failed
+	 * @since 4.1
+	 */
+	public TemporaryBuffer processFilter(String filterCommand, String path,
+			InputStream in) throws FilterFailedException {
+		if (repository == null)
+			return null;
+		TemporaryBuffer outBuffer = new TemporaryBuffer.LocalFile(
+				repository.getDirectory());
+		TemporaryBuffer errorBuffer = new TemporaryBuffer.Heap(1024,
+				1024 * 1024);
+		int rc;
+
+		try {
+			FS fs = repository.getFS();
+			ProcessBuilder filterProcessBuilder = fs.runInShell(
+					filterCommand, new String[0]);
+			rc = fs.runProcess(filterProcessBuilder, outBuffer,
+					errorBuffer, in);
+			if (rc != 0) {
+				throw new FilterFailedException(rc, filterCommand, path,
+						outBuffer, errorBuffer);
+			}
+			return outBuffer;
+		} catch (IOException | InterruptedException e) {
+			throw new FilterFailedException(e, filterCommand, path, outBuffer,
+					errorBuffer);
+		} finally {
+			errorBuffer.destroy();
+		}
+	}
+
+	/**
+	 * Inspect config and attributes to return a filtercommand applicable for
+	 * the current path
+	 *
+	 * @param filterCommandType
+	 *            which type of filterCommand should be executed. E.g. "clean",
+	 *            "smudge"
+	 * @return a filter command
+	 * @throws IOException
+	 * @since 4.1
+	 */
+	public String getFilterCommand(String filterCommandType)
+			throws IOException {
+		if (repository == null)
+			return null;
+		Map<String, Attribute> attributes = new HashMap<String, Attribute>();
+		AttributesNode entryAttributesNode = getEntryAttributesNode();
+		if (entryAttributesNode == null)
+			return null;
+		entryAttributesNode.getAttributes(getEntryPathString(), false,
+				attributes);
+		Attribute filter = attributes.get(Constants.ATTR_FILTER);
+		if (filter == null || filter.getValue() == null) {
+			return null;
+		}
+		String filterCommand = getFilterCommandDefinition(filter.getValue(),
+				filterCommandType);
+		if (filterCommand == null) {
+			return null;
+		}
+		return filterCommand.replaceAll(
+				"%f", QuotedString.BOURNE.quote(getEntryPathString())); //$NON-NLS-1$
+	}
+
+	/**
+	 * Get the filter command how it is defined in gitconfig. The returned
+	 * string may contain "%f" which needs to be replaced by the current path
+	 * before executing the filter command. These filter definitions are cached
+	 * for better performance.
+	 *
+	 * @param filterDriverName
+	 *            The name of the filter driver as it is referenced in the
+	 *            gitattributes file. E.g. "lfs". For each filter driver there
+	 *            may be many commands defined in the .gitconfig
+	 * @param filterCommandType
+	 *            The type of the filter command for a specific filter driver.
+	 *            May be "clean" or "smudge".
+	 * @return the definition of the command to be executed for this filter
+	 *         driver and filter command
+	 */
+	private String getFilterCommandDefinition(String filterDriverName,
+			String filterCommandType) {
+		String key = filterDriverName + "." + filterCommandType; //$NON-NLS-1$
+		String filterCommand = filterCommandsByNameDotType.get(key);
+		if (filterCommand != null)
+			return filterCommand;
+		if (config == null) {
+			if (repository == null) {
+				return null;
+			}
+			config=repository.getConfig();
+		}
+		filterCommand = config.getString(Constants.ATTR_FILTER,
+				filterDriverName,
+				filterCommandType);
+		if (filterCommand != null)
+			filterCommandsByNameDotType.put(key, filterCommand);
+		return filterCommand;
+	}
+
+	/**
+	 * @return the clean filter command for the current entry or
+	 *         <code>null</code> if no such command is defined
+	 * @throws IOException
+	 * @since 4.1
+	 */
+	public String getCleanFilterCommand() throws IOException {
+		if (cleanFilterCommand == null)
+			cleanFilterCommand = getFilterCommand(Constants.ATTR_FILTER_TYPE_CLEAN);
+		return cleanFilterCommand;
 	}
 }

@@ -338,6 +338,8 @@ public class JGitText extends TranslationBundle {
 	/***/ public String fileIsTooBigForThisConvenienceMethod;
 	/***/ public String fileIsTooLarge;
 	/***/ public String fileModeNotSetForPath;
+	/***/ public String filterExecutionFailed;
+	/***/ public String filterExecutionFailedRc;
 	/***/ public String findingGarbage;
 	/***/ public String flagIsDisposed;
 	/***/ public String flagNotFromThis;
