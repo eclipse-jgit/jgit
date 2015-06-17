@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "87f6139c_3a84ef16",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateIdent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-06-17T21:34:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87f6139c_9a5c0353",
+      "range": {
+        "startLine": 85,
+        "startChar": 17,
+        "endLine": 85,
+        "endChar": 37
+      },
+      "revId": "5b9e88e299a6c08adcc2151839662be7dffb4aae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f6139c_fa5d474d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateIdent.java",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "87f6139c_1a813306",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateIdent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-06-17T21:34:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87f6139c_fa5d474d",
+      "range": {
+        "startLine": 95,
+        "startChar": 25,
+        "endLine": 96,
+        "endChar": 19
+      },
+      "revId": "5b9e88e299a6c08adcc2151839662be7dffb4aae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f6139c_da620b08",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateIdent.java",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2015-06-17T20:51:25Z",
       "side": 1,
       "message": "See above.",
+      "range": {
+        "startLine": 181,
+        "startChar": 7,
+        "endLine": 183,
+        "endChar": 32
+      },
+      "revId": "5b9e88e299a6c08adcc2151839662be7dffb4aae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_7a7af795",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateIdent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-06-17T21:34:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87f6139c_da620b08",
       "range": {
         "startLine": 181,
         "startChar": 7,
