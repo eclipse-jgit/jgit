@@ -363,6 +363,20 @@ public final class Constants {
 	 */
 	public static final String DOT_GIT_ATTRIBUTES = ".gitattributes";
 
+	/**
+	 * Key for filters in .gitattributes
+	 *
+	 * @since 4.1
+	 */
+	public static final String ATTR_FILTER = "filter";
+
+	/**
+	 * clean command name, used to call filter driver
+	 *
+	 * @since 4.1
+	 */
+	public static final String ATTR_FILTER_TYPE_CLEAN = "clean";
+
 	/** Name of the ignore file */
 	public static final String DOT_GIT_IGNORE = ".gitignore";
 

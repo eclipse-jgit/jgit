@@ -61,10 +61,12 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.WorkingTreeIterator;
 import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
+import org.eclipse.jgit.util.TemporaryBuffer.LocalFile;
 
 /**
  * A class used to execute a {@code Add} command. It has setters for all
@@ -152,6 +154,7 @@ public class AddCommand extends GitCommand<DirCache> {
 				tw.setFilter(PathFilterGroup.createFromStrings(filepatterns));
 
 			String lastAddedFile = null;
+			StoredConfig config = repo.getConfig();
 
 			while (tw.next()) {
 				String path = tw.getPathString();
@@ -177,12 +180,21 @@ public class AddCommand extends GitCommand<DirCache> {
 								entry.setFileMode(mode);
 
 								if (FileMode.GITLINK != mode) {
+									LocalFile attributeProcessedContent = f
+											.processFilter(
+													Constants.ATTR_FILTER_TYPE_CLEAN,
+													config);
 									entry.setLength(sz);
 									entry.setLastModified(f
 											.getEntryLastModified());
-									long contentSize = f
-											.getEntryContentLength();
-									InputStream in = f.openEntryStream();
+									long contentSize = (attributeProcessedContent == null) ? f
+											.getEntryContentLength()
+											: attributeProcessedContent
+													.length();
+									InputStream in = (attributeProcessedContent == null) ? f
+											.openEntryStream()
+											: attributeProcessedContent
+													.openInputStream();
 									try {
 										entry.setObjectId(inserter.insert(
 												Constants.OBJ_BLOB, contentSize, in));
