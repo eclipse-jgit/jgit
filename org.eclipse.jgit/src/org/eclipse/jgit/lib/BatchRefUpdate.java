@@ -59,6 +59,7 @@ import java.util.List;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.PushCertificate;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
 /**
@@ -84,6 +85,9 @@ public class BatchRefUpdate {
 
 	/** Should the result value be appended to {@link #refLogMessage}. */
 	private boolean refLogIncludeResult;
+
+	/** Push certificate associated with this update. */
+	private PushCertificate pushCert;
 
 	/**
 	 * Initialize a new batch update.
@@ -193,6 +197,33 @@ public class BatchRefUpdate {
 	/** @return true if log has been disabled by {@link #disableRefLog()}. */
 	public boolean isRefLogDisabled() {
 		return refLogMessage == null;
+	}
+
+	/**
+	 * Set a push certificate associated with this update.
+	 * <p>
+	 * This usually includes commands to update the refs in this batch, but is not
+	 * required to.
+	 *
+	 * @param cert
+	 *            push certificate, may be null.
+	 * @since 4.1
+	 */
+	public void setPushCertificate(PushCertificate cert) {
+		pushCert = cert;
+	}
+
+	/**
+	 * Set the push certificate associated with this update.
+	 * <p>
+	 * This usually includes commands to update the refs in this batch, but is not
+	 * required to.
+	 *
+	 * @return push certificate, may be null.
+	 * @since 4.1
+	 */
+	protected PushCertificate getPushCertificate() {
+		return pushCert;
 	}
 
 	/** @return commands this update will process. */
@@ -377,6 +408,7 @@ public class BatchRefUpdate {
 			ru.setRefLogIdent(refLogIdent);
 			ru.setRefLogMessage(refLogMessage, refLogIncludeResult);
 		}
+		ru.setPushCertificate(pushCert);
 		switch (cmd.getType()) {
 		case DELETE:
 			if (!ObjectId.zeroId().equals(cmd.getOldId()))

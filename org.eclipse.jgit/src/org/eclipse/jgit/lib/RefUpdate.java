@@ -52,6 +52,7 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.PushCertificate;
 
 /**
  * Creates, updates or deletes any reference.
@@ -164,6 +165,9 @@ public abstract class RefUpdate {
 
 	/** Result of the update operation. */
 	private Result result = Result.NOT_ATTEMPTED;
+
+	/** Push certificate associated with this update. */
+	private PushCertificate pushCert;
 
 	private final Ref ref;
 
@@ -411,6 +415,31 @@ public abstract class RefUpdate {
 	 */
 	protected void setOldObjectId(ObjectId old) {
 		oldValue = old;
+	}
+
+	/**
+	 * Set a push certificate associated with this update.
+	 * <p>
+	 * This usually includes a command to update this ref, but is not required to.
+	 *
+	 * @param cert
+	 *            push certificate, may be null.
+	 * @since 4.1
+	 */
+	public void setPushCertificate(PushCertificate cert) {
+		pushCert = cert;
+	}
+
+	/**
+	 * Set the push certificate associated with this update.
+	 * <p>
+	 * This usually includes a command to update this ref, but is not required to.
+	 *
+	 * @return push certificate, may be null.
+	 * @since 4.1
+	 */
+	protected PushCertificate getPushCertificate() {
+		return pushCert;
 	}
 
 	/**
