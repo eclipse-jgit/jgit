@@ -92,7 +92,6 @@ public class PushCertificateIdent {
 	 * @param str
 	 *            string to parse.
 	 * @return identity, never null.
-	 * @since 4.1
 	 */
 	public static PushCertificateIdent parse(String str) {
 		MutableInteger p = new MutableInteger();
@@ -178,16 +177,12 @@ public class PushCertificateIdent {
 	 * must be encoded as UTF-8.
 	 *
 	 * @return the raw string.
-	 * @since 4.1
 	 */
 	public String getRaw() {
 		return raw;
 	}
 
-	/**
-	 * @return the OpenPGP User ID, which may be any string.
-	 * @since 4.1
-	 */
+	/** @return the OpenPGP User ID, which may be any string. */
 	public String getUserId() {
 		return userId;
 	}
@@ -196,7 +191,6 @@ public class PushCertificateIdent {
 	 * @return the name portion of the User ID. If no email address would be
 	 *         parsed by {@link #getEmailAddress()}, returns the full User ID with
 	 *         spaces trimmed.
-	 * @since 4.1
 	 */
 	public String getName() {
 		int nameEnd = userId.indexOf('<');
@@ -217,7 +211,6 @@ public class PushCertificateIdent {
 	/**
 	 * @return the email portion of the User ID, if one was successfully parsed
 	 *         from {@link #getUserId()}, or null.
-	 * @since 4.1
 	 */
 	public String getEmailAddress() {
 		int emailBegin = userId.indexOf('<');
@@ -231,17 +224,13 @@ public class PushCertificateIdent {
 		return userId.substring(emailBegin + 1, emailEnd);
 	}
 
-	/**
-	 * @return the timestamp of the identity.
-	 * @since 4.1
-	 */
+	/** @return the timestamp of the identity. */
 	public Date getWhen() {
 		return new Date(when);
 	}
 
 	/**
 	 * @return this person's declared time zone; null if the timezone is unknown.
-	 * @since 4.1
 	 */
 	public TimeZone getTimeZone() {
 		return PersonIdent.getTimeZone(tzOffset);
@@ -250,7 +239,6 @@ public class PushCertificateIdent {
 	/**
 	 * @return this person's declared time zone as minutes east of UTC. If the
 	 *         timezone is to the west of UTC it is negative.
-	 * @since 4.1
 	 */
 	public int getTimeZoneOffset() {
 		return tzOffset;

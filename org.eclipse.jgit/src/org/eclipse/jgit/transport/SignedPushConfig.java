@@ -52,11 +52,7 @@ import org.eclipse.jgit.lib.Config.SectionParser;
  * @since 4.1
  */
 public class SignedPushConfig {
-	/**
-	 * Key for {@link Config#get(SectionParser)}.
-	 *
-	 * @since 4.1
-	 */
+	/** Key for {@link Config#get(SectionParser)}. */
 	public static final SectionParser<SignedPushConfig> KEY =
 			new SectionParser<SignedPushConfig>() {
 		public SignedPushConfig parse(Config cfg) {
@@ -67,11 +63,7 @@ public class SignedPushConfig {
 	String certNonceSeed;
 	int certNonceSlopLimit;
 
-	/**
-	 * Create a new config with default values disabling push verification.
-	 *
-	 * @since 4.1
-	 */
+	/** Create a new config with default values disabling push verification. */
 	public SignedPushConfig() {
 	}
 
@@ -87,16 +79,12 @@ public class SignedPushConfig {
 	 *
 	 * @param seed
 	 *            new seed value.
-	 * @since 4.1
 	 */
 	public void setCertNonceSeed(String seed) {
 		certNonceSeed = seed;
 	}
 
-	/**
-	 * @return the configured seed used by the nonce verifier.
-	 * @since 4.1
-	 */
+	/** @return the configured seed used by the nonce verifier. */
 	public String getCertNonceSeed() {
 		return certNonceSeed;
 	}
@@ -108,16 +96,12 @@ public class SignedPushConfig {
 	 *
 	 * @param limit
 	 *            new limit in seconds.
-	 * @since 4.1
 	 */
 	public void setCertNonceSlopLimit(int limit) {
 		certNonceSlopLimit = limit;
 	}
 
-	/**
-	 * @return the configured nonce slop limit.
-	 * @since 4.1
-	 */
+	/** @return the configured nonce slop limit. */
 	public int getCertNonceSlopLimit() {
 		return certNonceSlopLimit;
 	}
