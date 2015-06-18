@@ -16,6 +16,24 @@
       "revId": "f3b5ce68ce6b1dc18dfc727cc87b7f4dd2fe1857",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_ba4e1f13",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-06-18T05:56:05Z",
+      "side": 1,
+      "message": "Don\u0027t write the object here. Punt on it and make the caller do it.",
+      "parentUuid": "87f6139c_9a76c37b",
+      "revId": "f3b5ce68ce6b1dc18dfc727cc87b7f4dd2fe1857",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
