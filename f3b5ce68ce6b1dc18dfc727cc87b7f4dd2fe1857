@@ -52,6 +52,24 @@
       "revId": "f3b5ce68ce6b1dc18dfc727cc87b7f4dd2fe1857",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_602c0a9b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-06-18T14:05:05Z",
+      "side": 1,
+      "message": "Turns out you definitely cannot use a DfsInserter for both parsing a pack and inserting individual objects, so we can\u0027t do this within a single packfile in ReceivePack. Will just abandon this; my current plans don\u0027t really need it anyway.",
+      "parentUuid": "87f6139c_6016ca7d",
+      "revId": "f3b5ce68ce6b1dc18dfc727cc87b7f4dd2fe1857",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
