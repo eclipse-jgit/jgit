@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_eb5d7b4d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-06-18T16:33:25Z",
+      "side": 1,
+      "message": "this is the default so no need to assign it",
+      "revId": "a70444e0e985a51716611c2d99f1126079758bed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_8b5cb752",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-06-18T16:33:25Z",
+      "side": 1,
+      "message": "not for addCommand, see below",
+      "revId": "a70444e0e985a51716611c2d99f1126079758bed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_ab57f32c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-06-18T16:33:25Z",
+      "side": 1,
+      "message": "No, not for addCommand. The caller runs this if push cert is enabled, but the client didn\u0027t send a push cert.",
+      "revId": "a70444e0e985a51716611c2d99f1126079758bed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
