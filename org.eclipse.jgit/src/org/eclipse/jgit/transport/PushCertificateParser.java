@@ -82,6 +82,7 @@ public class PushCertificateParser {
 
 	private static final String END_CERT = "push-cert-end\n"; //$NON-NLS-1$
 
+	private boolean received;
 	private String version;
 	private PushCertificateIdent pusher;
 	private String pushee;
@@ -135,7 +136,7 @@ public class PushCertificateParser {
 	 * @since 4.1
 	 */
 	public PushCertificate build() throws IOException {
-		if (nonceGenerator == null) {
+		if (!received || nonceGenerator == null) {
 			return null;
 		}
 		try {
@@ -210,6 +211,7 @@ public class PushCertificateParser {
 	 */
 	public void receiveHeader(PacketLineIn pckIn, boolean stateless)
 			throws IOException {
+		received = true;
 		try {
 			version = parseHeader(pckIn, VERSION);
 			if (!version.equals(VERSION_0_1)) {
@@ -255,6 +257,7 @@ public class PushCertificateParser {
 	 * @since 4.0
 	 */
 	public void receiveSignature(PacketLineIn pckIn) throws IOException {
+		received = true;
 		try {
 			StringBuilder sig = new StringBuilder(BEGIN_SIGNATURE);
 			String line;

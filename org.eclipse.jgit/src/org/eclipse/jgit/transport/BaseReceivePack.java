@@ -260,7 +260,8 @@ public abstract class BaseReceivePack {
 	 * <p>
 	 * Only valid after commands are read from the wire.
 	 *
-	 * @return the parsed certificate, or null if push certificates are disabled.
+	 * @return the parsed certificate, or null if push certificates are disabled
+	 *         or no cert was presented by the client.
 	 * @throws IOException if the certificate was present but invalid.
 	 * @since 4.1
 	 */
