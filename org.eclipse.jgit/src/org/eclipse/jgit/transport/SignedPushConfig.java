@@ -60,22 +60,26 @@ public class SignedPushConfig {
 		}
 	};
 
-	String certNonceSeed;
-	int certNonceSlopLimit;
+	private String certNonceSeed;
+	private int certNonceSlopLimit;
+	private NonceGenerator nonceGenerator;
 
 	/** Create a new config with default values disabling push verification. */
 	public SignedPushConfig() {
 	}
 
 	SignedPushConfig(Config cfg) {
-		certNonceSeed = cfg.getString("receive", null, "certnonceseed"); //$NON-NLS-1$ //$NON-NLS-2$
+		setCertNonceSeed(cfg.getString("receive", null, "certnonceseed")); //$NON-NLS-1$ //$NON-NLS-2$
 		certNonceSlopLimit = cfg.getInt("receive", "certnonceslop", 0); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	/**
 	 * Set the seed used by the nonce verifier.
 	 * <p>
-	 * Setting this to a non-null value enables push certificate verification.
+	 * Setting this to a non-null value enables push certificate verification
+	 * using the default {@link HMACSHA1NonceGenerator} implementation, if a
+	 * different implementation was not set using {@link
+	 * #setNonceGenerator(NonceGenerator)}.
 	 *
 	 * @param seed
 	 *            new seed value.
@@ -84,7 +88,7 @@ public class SignedPushConfig {
 		certNonceSeed = seed;
 	}
 
-	/** @return the configured seed used by the nonce verifier. */
+	/** @return the configured seed. */
 	public String getCertNonceSeed() {
 		return certNonceSeed;
 	}
@@ -104,5 +108,39 @@ public class SignedPushConfig {
 	/** @return the configured nonce slop limit. */
 	public int getCertNonceSlopLimit() {
 		return certNonceSlopLimit;
+	}
+
+	/**
+	 * Set the {@link NonceGenerator} used for signed pushes.
+	 * <p>
+	 * Setting this to a non-null value enables push certificate verification. If
+	 * this method is called, this implementation will be used instead of the
+	 * default {@link HMACSHA1NonceGenerator} even if {@link
+	 * #setCertNonceSeed(String)} was called.
+	 *
+	 * @param generator
+	 *            new nonce generator.
+	 */
+	public void setNonceGenerator(NonceGenerator generator) {
+		nonceGenerator = generator;
+	}
+
+	/**
+	 * Get the {@link NonceGenerator} used for signed pushes.
+	 * <p>
+	 * If {@link #setNonceGenerator(NonceGenerator)} was used to set a non-null
+	 * implementation, that will be returned. If no custom implementation was set
+	 * but {@link #setCertNonceSeed(String)} was called, returns a newly-created
+	 * {@link HMACSHA1NonceGenerator}.
+	 *
+	 * @return the configured nonce generator.
+	 */
+	public NonceGenerator getNonceGenerator() {
+		if (nonceGenerator != null) {
+			return nonceGenerator;
+		} else if (certNonceSeed != null) {
+			return new HMACSHA1NonceGenerator(certNonceSeed);
+		}
+		return null;
 	}
 }

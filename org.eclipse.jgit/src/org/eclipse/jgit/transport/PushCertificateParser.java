@@ -117,9 +117,7 @@ public class PushCertificateParser {
 	PushCertificateParser(Repository into, SignedPushConfig cfg) {
 		if (cfg != null) {
 			nonceSlopLimit = cfg.getCertNonceSlopLimit();
-			nonceGenerator = cfg.getCertNonceSeed() != null
-					? new HMACSHA1NonceGenerator(cfg.certNonceSeed)
-					: null;
+			nonceGenerator = cfg.getNonceGenerator();
 		} else {
 			nonceSlopLimit = 0;
 			nonceGenerator = null;
