@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_eb229bd8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1482,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-06-18T16:29:22Z",
+      "side": 1,
+      "message": "Does any of this throw IOException? Seems like no.\n\nI would prefer this on line 1480 after setRefLogMessage before addCommand.",
+      "revId": "fc6790a5d716955d690fd441c6f21d2f64815721",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
