@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_9a76c37b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-06-18T00:04:11Z",
+      "side": 1,
+      "message": "I\u0027m somewhat on the fence about this behavior, since the DFS implementation creates a new pack per inserter. But I don\u0027t know if it\u0027s possible to reuse the inserter from ReceiveCommits, which is already used to parse a packfile. I will investigate tomorrow.",
+      "revId": "f3b5ce68ce6b1dc18dfc727cc87b7f4dd2fe1857",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
