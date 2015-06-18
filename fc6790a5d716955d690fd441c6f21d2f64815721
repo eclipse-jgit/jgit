@@ -16,6 +16,24 @@
       "revId": "fc6790a5d716955d690fd441c6f21d2f64815721",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_eb861b21",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1482,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-06-18T17:08:15Z",
+      "side": 1,
+      "message": "getPushCertificate() throws IOException because it calls PushCertificateParser#build(), which throws in case of a certificate validation error (e.g. invalid version).",
+      "parentUuid": "87f6139c_eb229bd8",
+      "revId": "fc6790a5d716955d690fd441c6f21d2f64815721",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
