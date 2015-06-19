@@ -16,6 +16,24 @@
       "revId": "94590a66504ede6abfdd02dae810c59c08667ece",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_45f12055",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1710,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-06-19T08:27:11Z",
+      "side": 1,
+      "message": "Hmm, I would like to go more into the direction to put all filter related stuff into this method. AddComand should learn as little as possible about attributes, filters, etc. I propose something in this direction.",
+      "parentUuid": "87f6139c_3ae86f9f",
+      "revId": "94590a66504ede6abfdd02dae810c59c08667ece",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
