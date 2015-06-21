@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_691a2e2f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 935,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-06-21T00:21:18Z",
+      "side": 1,
+      "message": "This just feels wrong. Why even bother with a binary flag?\n\nThe copier threads should just alloc a 4 KiB buffer, perform a single read call to get data, then write that to the result stream before repeating. Don\u0027t block trying to create record boundaries at LF or 4 KiB chunks.",
+      "range": {
+        "startLine": 930,
+        "startChar": 2,
+        "endLine": 935,
+        "endChar": 76
+      },
+      "revId": "88ee54bc773ad498f76b8018a8638c6c141f1969",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
