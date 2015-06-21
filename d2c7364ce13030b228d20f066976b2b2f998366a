@@ -1,0 +1,204 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_c91b622f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/AddCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-06-21T00:21:13Z",
+      "side": 1,
+      "message": "Its confusing to read LocalFile below. I would prefer importing TemporaryBuffer and using TemporaryBuffer.LocalFile below.",
+      "revId": "d2c7364ce13030b228d20f066976b2b2f998366a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_a9209658",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/AddCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-06-21T00:21:13Z",
+      "side": 1,
+      "message": "Easier to read if the line breaks were at ? and : e.g.\n\n  InputStream in \u003d ...\n    ? ...\n    : ...\n\nBreaking on . is very hard to read.",
+      "range": {
+        "startLine": 194,
+        "startChar": 9,
+        "endLine": 197,
+        "endChar": 32
+      },
+      "revId": "d2c7364ce13030b228d20f066976b2b2f998366a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_0909eae7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/AddCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-06-21T00:21:13Z",
+      "side": 1,
+      "message": "Switch to try-with-resources for in?",
+      "revId": "d2c7364ce13030b228d20f066976b2b2f998366a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_e9057ecb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/AddCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-06-21T00:21:13Z",
+      "side": 1,
+      "message": "Consider putting this block into a helper method? It would reduce indentation and shorten the case in this if statement.",
+      "range": {
+        "startLine": 183,
+        "startChar": 9,
+        "endLine": 203,
+        "endChar": 10
+      },
+      "revId": "d2c7364ce13030b228d20f066976b2b2f998366a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_e92c5e4d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1428,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-06-21T00:21:13Z",
+      "side": 1,
+      "message": "This can be done above without the try. You haven\u0027t done anything yet that needs to be undone in the finally.\n\nSo write instead:\n\n  String path \u003d getEntryPathString();\n  try {\n \nand then we aren\u0027t assigning p to null first before assigning it to a real value.\n\nSame for entryAttributesNode. And see below about my dislike of assignment inside of a conditional.",
+      "revId": "d2c7364ce13030b228d20f066976b2b2f998366a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_0930ca9b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1431,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-06-21T00:21:13Z",
+      "side": 1,
+      "message": "Similar to below its easier to read if the assignment is not done inside of the if statement.\n\nWe only tend to do that with RevWalk/ObjectWalk.next methods producing a value in a loop. Or read() on an InputStream producing a byte count in a loop. Elsewhere we tend to break the assignment from the conditional.",
+      "revId": "d2c7364ce13030b228d20f066976b2b2f998366a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_69418ef1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1438,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-06-21T00:21:13Z",
+      "side": 1,
+      "message": "This is very hard to read with an assignment wedged into an if conditional line wrapped the way it is with test against null.\n\nPull the assignment onto its own line and line wrap it sanely. Then the conditional will be easier to read.",
+      "range": {
+        "startLine": 1434,
+        "startChar": 3,
+        "endLine": 1438,
+        "endChar": 4
+      },
+      "revId": "d2c7364ce13030b228d20f066976b2b2f998366a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_290ca6f4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1440,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-06-21T00:21:13Z",
+      "side": 1,
+      "message": "Use the repository\u0027s FS.",
+      "range": {
+        "startLine": 1440,
+        "startChar": 41,
+        "endLine": 1440,
+        "endChar": 52
+      },
+      "revId": "d2c7364ce13030b228d20f066976b2b2f998366a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_490f72eb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1444,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-06-21T00:21:13Z",
+      "side": 1,
+      "message": "This should be able to be a Heap buffer. A filter should not be spewing MiBs of information on stderr.",
+      "revId": "d2c7364ce13030b228d20f066976b2b2f998366a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_893cba7f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1445,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-06-21T00:21:13Z",
+      "side": 1,
+      "message": "Use repo FS",
+      "range": {
+        "startLine": 1445,
+        "startChar": 8,
+        "endLine": 1445,
+        "endChar": 19
+      },
+      "revId": "d2c7364ce13030b228d20f066976b2b2f998366a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
