@@ -22,6 +22,30 @@
       "revId": "88ee54bc773ad498f76b8018a8638c6c141f1969",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_e4d3e5ca",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 935,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-06-22T09:27:10Z",
+      "side": 1,
+      "message": "I also thought longer about that. The binary flag changes behavior and not only determines record boundaries. And runProcess() existed before my change and the behavior was a textual line-by-line copy. That\u0027s why I didn\u0027t wanted to silently change the behavior to binary copy.\n\nThe thing is: runProcess() is called for hooks and for filters. As far as I can see hook scripts really output textual data on stdout/stderr. Copying such data in a textual way changes the bytes by harmonizing eol. When a hook outputs \"abc\\ndef\" on stdout then we will emit \"abc\\r\\ndef\" when we copy it textual on a windows platform. I am not sure whether we need that. If we agree on: no we don\u0027t want this eol harmonization then I agree that we should do only binary copies and get rid of this binary flag.\n\nWhen runProcess() is called for filters then doing a textual copy may be disastrous. When a filter filters the content of a JPEG file and would modify the byte sequence [65,10,65] to [65,13,10,65] then that\u0027s not what we want.\n\nWe have to decide: Can we change semantics and copy binary always (I would prefer that and I guess that\u0027s also what native git does, or?).",
+      "parentUuid": "87f6139c_691a2e2f",
+      "range": {
+        "startLine": 930,
+        "startChar": 2,
+        "endLine": 935,
+        "endChar": 76
+      },
+      "revId": "88ee54bc773ad498f76b8018a8638c6c141f1969",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
