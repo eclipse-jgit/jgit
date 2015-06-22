@@ -101,6 +101,8 @@ public class PushCertificateParser {
 	private NonceStatus nonceStatus;
 	private String signature;
 
+	private PushCertificate result;
+
 	/** Database we write the push certificate into. */
 	private final Repository db;
 
@@ -136,14 +138,16 @@ public class PushCertificateParser {
 	public PushCertificate build() throws IOException {
 		if (!received || nonceGenerator == null) {
 			return null;
+		} else if (result == null) {
+			try {
+				result = new PushCertificate(version, pusher, pushee, receivedNonce,
+						nonceStatus, Collections.unmodifiableList(commands),
+						rawCommands.toString(), signature);
+			} catch (IllegalArgumentException e) {
+				throw new IOException(e.getMessage(), e);
+			}
 		}
-		try {
-			return new PushCertificate(version, pusher, pushee, receivedNonce,
-					nonceStatus, Collections.unmodifiableList(commands),
-					rawCommands.toString(), signature);
-		} catch (IllegalArgumentException e) {
-			throw new IOException(e.getMessage(), e);
-		}
+		return result;
 	}
 
 	/**

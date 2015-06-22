@@ -63,6 +63,7 @@ public class SignedPushConfig {
 	private String certNonceSeed;
 	private int certNonceSlopLimit;
 	private NonceGenerator nonceGenerator;
+	private boolean required;
 
 	/** Create a new config with default values disabling push verification. */
 	public SignedPushConfig() {
@@ -142,5 +143,21 @@ public class SignedPushConfig {
 			return new HMACSHA1NonceGenerator(certNonceSeed);
 		}
 		return null;
+	}
+
+	/**
+	 * Set whether signed push is required.
+	 *
+	 * @param required
+	 *            whether to require signed push, i.e. to fail with an error if an
+	 *            incoming push is not signed.
+	 */
+	public void setRequired(boolean required) {
+		this.required = required;
+	}
+
+	/** @return whether signed push is required. */
+	public boolean isRequired() {
+		return required;
 	}
 }

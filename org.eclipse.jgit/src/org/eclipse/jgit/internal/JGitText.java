@@ -535,6 +535,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String pushCertificateInvalidFieldValue;
 	/***/ public String pushCertificateInvalidHeader;
 	/***/ public String pushCertificateInvalidSignature;
+	/***/ public String pushCertificateRequired;
 	/***/ public String pushIsNotSupportedForBundleTransport;
 	/***/ public String pushNotPermitted;
 	/***/ public String rawLogMessageDoesNotParseAsLogEntry;
