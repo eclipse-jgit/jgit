@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_5696ea1d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SignedPushConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-06-22T19:45:55Z",
+      "side": 1,
+      "message": "This could say something like:\n\n Set whether signed push is required.\n \u003cp\u003e\n If signed push is required, pushes without an attached\n signature will fail with \"unpack failed: push certificate\n required\" instead of a long list of individual rejected\n ref updates.\n \u003cp\u003e\n The caller still also needs to set a pre-receive hook to\n ensure that the signatures are valid and signed by someone\n appropriate for the receiving repository.",
+      "range": {
+        "startLine": 149,
+        "startChar": 0,
+        "endLine": 149,
+        "endChar": 40
+      },
+      "revId": "e71a5c7f5e109840b01a359ea3535a6bc3a9e119",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
