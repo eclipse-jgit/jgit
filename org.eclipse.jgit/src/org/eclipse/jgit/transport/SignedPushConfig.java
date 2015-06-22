@@ -68,6 +68,21 @@ public class SignedPushConfig {
 	public SignedPushConfig() {
 	}
 
+	/**
+	 * Create a new config copying values from the input.
+	 * <p>
+	 * Reuses the same {@link NonceGenerator} instance.
+	 *
+	 * @param other
+	 *            config to copy values from.
+	 */
+	public SignedPushConfig(SignedPushConfig other) {
+		certNonceSeed = other.certNonceSeed;
+		certNonceSlopLimit = other.certNonceSlopLimit;
+		nonceGenerator = other.nonceGenerator;
+		required = other.required;
+	}
+
 	SignedPushConfig(Config cfg) {
 		setCertNonceSeed(cfg.getString("receive", null, "certnonceseed")); //$NON-NLS-1$ //$NON-NLS-2$
 		certNonceSlopLimit = cfg.getInt("receive", "certnonceslop", 0); //$NON-NLS-1$ //$NON-NLS-2$
