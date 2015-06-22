@@ -50,6 +50,29 @@
       "revId": "e6a8077146e4e98632400fb9624623e636b8f10a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_c6beb6fb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-06-22T09:24:07Z",
+      "side": 1,
+      "message": "why not:\n\n return result.addAll(cacheMap.keySet());",
+      "range": {
+        "startLine": 223,
+        "startChar": 0,
+        "endLine": 226,
+        "endChar": 16
+      },
+      "revId": "e6a8077146e4e98632400fb9624623e636b8f10a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
