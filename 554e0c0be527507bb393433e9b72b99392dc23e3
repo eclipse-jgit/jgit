@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "87f6139c_84582107",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-06-22T09:19:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87f6139c_24fccda6",
+      "range": {
+        "startLine": 179,
+        "startChar": 31,
+        "endLine": 179,
+        "endChar": 40
+      },
+      "revId": "554e0c0be527507bb393433e9b72b99392dc23e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f6139c_046551bf",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2015-06-22T09:18:42Z",
       "side": 1,
       "message": "mark this as a TODO for next major release",
+      "revId": "554e0c0be527507bb393433e9b72b99392dc23e3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_645d35f5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 575,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-06-22T09:19:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87f6139c_046551bf",
       "revId": "554e0c0be527507bb393433e9b72b99392dc23e3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
