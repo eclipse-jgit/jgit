@@ -22,6 +22,30 @@
       "revId": "e71a5c7f5e109840b01a359ea3535a6bc3a9e119",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_b643ce14",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SignedPushConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-06-22T19:47:05Z",
+      "side": 1,
+      "message": "\u003e instead of a long list of individual rejected ref updates.\n\nBut this part isn\u0027t true, is why I gave up.",
+      "parentUuid": "87f6139c_5696ea1d",
+      "range": {
+        "startLine": 149,
+        "startChar": 0,
+        "endLine": 149,
+        "endChar": 40
+      },
+      "revId": "e71a5c7f5e109840b01a359ea3535a6bc3a9e119",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
