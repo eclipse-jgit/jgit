@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "87f6139c_7fcdbc5f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 489
+      },
+      "writtenOn": "2015-06-22T13:24:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87f6139c_e4c3e57c",
+      "revId": "e6a8077146e4e98632400fb9624623e636b8f10a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f6139c_a4befdf9",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryCache.java",
         "patchSetId": 1
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "87f6139c_3f2cd499",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 489
+      },
+      "writtenOn": "2015-06-22T13:24:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87f6139c_a4befdf9",
+      "revId": "e6a8077146e4e98632400fb9624623e636b8f10a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f6139c_c6beb6fb",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryCache.java",
         "patchSetId": 1
@@ -64,6 +100,30 @@
       "writtenOn": "2015-06-22T09:24:07Z",
       "side": 1,
       "message": "why not:\n\n return result.addAll(cacheMap.keySet());",
+      "range": {
+        "startLine": 223,
+        "startChar": 0,
+        "endLine": 226,
+        "endChar": 16
+      },
+      "revId": "e6a8077146e4e98632400fb9624623e636b8f10a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_df32f0f3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 489
+      },
+      "writtenOn": "2015-06-22T13:24:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87f6139c_c6beb6fb",
       "range": {
         "startLine": 223,
         "startChar": 0,
