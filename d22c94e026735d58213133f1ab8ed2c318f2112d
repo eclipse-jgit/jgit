@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_9c387154",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SignedPushConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-06-23T16:42:28Z",
+      "side": 1,
+      "message": "Compile error here:\n\n   org.eclipse.jgit/src/org/eclipse/jgit/transport/SignedPushConfig.java:[83,17] cannot find symbol\n  symbol:   variable required\n  location: class org.eclipse.jgit.transport.SignedPushConfig",
+      "revId": "d22c94e026735d58213133f1ab8ed2c318f2112d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
