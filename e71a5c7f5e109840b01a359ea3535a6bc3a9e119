@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "87f6139c_3ce5fd51",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1520,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-06-23T16:47:13Z",
+      "side": 1,
+      "message": "Sadly the best you can do for error reporting to the client to abort all refs is to go through this code path. :(\n\nWhich is kind of similar to falling through and just reporting \"unpack ok\" followed by rejecting every ref.",
+      "range": {
+        "startLine": 1511,
+        "startChar": 0,
+        "endLine": 1520,
+        "endChar": 3
+      },
+      "revId": "e71a5c7f5e109840b01a359ea3535a6bc3a9e119",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f6139c_5696ea1d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SignedPushConfig.java",
         "patchSetId": 1
