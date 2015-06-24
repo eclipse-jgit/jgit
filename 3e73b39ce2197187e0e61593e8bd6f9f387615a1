@@ -19,6 +19,29 @@
     },
     {
       "key": {
+        "uuid": "87f6139c_4d9815fc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-06-24T18:58:29Z",
+      "side": 1,
+      "message": "Note that idBufferBlob() also needs the clean filter to be applied to ensure status on racily clean produces the correct result.\n\nMaybe you should rework the clean filter code to fit into this existing framework. Or fix this framework to more flexibly handle the clean filter being executed.\n\nAutoCRLF cleanup is basically the same as a clean filter, its just built-in to JGit.",
+      "range": {
+        "startLine": 366,
+        "startChar": 0,
+        "endLine": 367,
+        "endChar": 45
+      },
+      "revId": "3e73b39ce2197187e0e61593e8bd6f9f387615a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f6139c_e70f62be",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
         "patchSetId": 5
