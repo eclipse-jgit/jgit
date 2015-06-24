@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_679092d0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/AddCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-06-24T06:37:06Z",
+      "side": 1,
+      "message": "This needs a call to destroy() to clean up a temporary file if one was made because the filter result overflowed the in memory buffer.",
+      "revId": "3e73b39ce2197187e0e61593e8bd6f9f387615a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_e70f62be",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1428,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-06-24T06:37:06Z",
+      "side": 1,
+      "message": "ack, I see your point about this being expensive and wanting to avoid it unless there really are attribtues named that will require it.",
+      "revId": "3e73b39ce2197187e0e61593e8bd6f9f387615a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_a786fa9a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1440,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-06-24T06:37:06Z",
+      "side": 1,
+      "message": "Hmm. So this would be bad:\n\n  touch   \u0027; rm -rf *\u0027\n  git add \u0027; rm -rf *\u0027\n\nand then putting a clean filter on that with %f in the name. We will insert ; rm -rf * into the shell line with no escaping and the shell will do exactly what it was told. :(\n\nC Git uses QuotedString.BOURNE semantics to handle %f.",
+      "revId": "3e73b39ce2197187e0e61593e8bd6f9f387615a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_070d4ec8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1457,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-06-24T06:37:06Z",
+      "side": 1,
+      "message": "probably helpful to put braces around the body of this conditional",
+      "revId": "3e73b39ce2197187e0e61593e8bd6f9f387615a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
