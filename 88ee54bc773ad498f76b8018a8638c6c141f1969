@@ -70,6 +70,30 @@
       "revId": "88ee54bc773ad498f76b8018a8638c6c141f1969",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_a276e8ac",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 935,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-06-24T11:11:38Z",
+      "side": 1,
+      "message": "Yes, convinced. Especially because I guess that a lot of hook output during transport is just sent back binary to the remote host and displayed there. In this case you anyhow don\u0027t know which line ending is correct.\n\nSo I\u0027ll propose the binary-copy only version.",
+      "parentUuid": "87f6139c_4798f6fb",
+      "range": {
+        "startLine": 930,
+        "startChar": 2,
+        "endLine": 935,
+        "endChar": 76
+      },
+      "revId": "88ee54bc773ad498f76b8018a8638c6c141f1969",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
