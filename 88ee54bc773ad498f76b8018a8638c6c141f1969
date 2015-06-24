@@ -46,6 +46,30 @@
       "revId": "88ee54bc773ad498f76b8018a8638c6c141f1969",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_4798f6fb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 935,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-06-24T06:20:31Z",
+      "side": 1,
+      "message": "Yes, I considered that too when I wrote my comment. :)\n\nI think we can just always do binary copying and avoid the whole EOL canonicalization. I really don\u0027t think anyone is relying on \\n -\u003e \\r\\n on Windows platforms. \\n going to the tty on Windows will usually do the right thing and still jump to next line even though the \\r is missing. That has been true since like Windows 2000. Or the past 15 years.",
+      "parentUuid": "87f6139c_e4d3e5ca",
+      "range": {
+        "startLine": 930,
+        "startChar": 2,
+        "endLine": 935,
+        "endChar": 76
+      },
+      "revId": "88ee54bc773ad498f76b8018a8638c6c141f1969",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
