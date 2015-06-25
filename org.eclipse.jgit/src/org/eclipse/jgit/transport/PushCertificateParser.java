@@ -101,6 +101,8 @@ public class PushCertificateParser {
 	private NonceStatus nonceStatus;
 	private String signature;
 
+	private PushCertificate cert;
+
 	/** Database we write the push certificate into. */
 	private final Repository db;
 
@@ -136,14 +138,16 @@ public class PushCertificateParser {
 	public PushCertificate build() throws IOException {
 		if (!received || nonceGenerator == null) {
 			return null;
+		} else if (cert == null) {
+			try {
+				cert = new PushCertificate(version, pusher, pushee, receivedNonce,
+						nonceStatus, Collections.unmodifiableList(commands),
+						rawCommands.toString(), signature);
+			} catch (IllegalArgumentException e) {
+				throw new IOException(e.getMessage(), e);
+			}
 		}
-		try {
-			return new PushCertificate(version, pusher, pushee, receivedNonce,
-					nonceStatus, Collections.unmodifiableList(commands),
-					rawCommands.toString(), signature);
-		} catch (IllegalArgumentException e) {
-			throw new IOException(e.getMessage(), e);
-		}
+		return cert;
 	}
 
 	/**
@@ -209,6 +213,10 @@ public class PushCertificateParser {
 	 */
 	public void receiveHeader(PacketLineIn pckIn, boolean stateless)
 			throws IOException {
+		if (cert != null) {
+			throw new IllegalStateException(
+					JGitText.get().pushCertificateAlreadyComputed);
+		}
 		received = true;
 		try {
 			version = parseHeader(pckIn, VERSION);
@@ -255,6 +263,10 @@ public class PushCertificateParser {
 	 * @since 4.0
 	 */
 	public void receiveSignature(PacketLineIn pckIn) throws IOException {
+		if (cert != null) {
+			throw new IllegalStateException(
+					JGitText.get().pushCertificateAlreadyComputed);
+		}
 		received = true;
 		try {
 			StringBuilder sig = new StringBuilder(BEGIN_SIGNATURE);
@@ -284,6 +296,10 @@ public class PushCertificateParser {
 	 * @since 4.1
 	 */
 	public void addCommand(ReceiveCommand cmd, String rawLine) {
+		if (cert != null) {
+			throw new IllegalStateException(
+					JGitText.get().pushCertificateAlreadyComputed);
+		}
 		commands.add(cmd);
 		rawCommands.append(rawLine);
 	}
@@ -297,6 +313,10 @@ public class PushCertificateParser {
 	 * @since 4.0
 	 */
 	public void addCommand(String rawLine) {
+		if (cert != null) {
+			throw new IllegalStateException(
+					JGitText.get().pushCertificateAlreadyComputed);
+		}
 		commands.add(parseCommand(chomp(rawLine)));
 		rawCommands.append(rawLine);
 	}
