@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "87f6139c_a877e7f1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/AddCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-06-26T11:50:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87f6139c_679092d0",
+      "revId": "3e73b39ce2197187e0e61593e8bd6f9f387615a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f6139c_4d9815fc",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
         "patchSetId": 5
@@ -30,6 +48,30 @@
       "writtenOn": "2015-06-24T18:58:29Z",
       "side": 1,
       "message": "Note that idBufferBlob() also needs the clean filter to be applied to ensure status on racily clean produces the correct result.\n\nMaybe you should rework the clean filter code to fit into this existing framework. Or fix this framework to more flexibly handle the clean filter being executed.\n\nAutoCRLF cleanup is basically the same as a clean filter, its just built-in to JGit.",
+      "range": {
+        "startLine": 366,
+        "startChar": 0,
+        "endLine": 367,
+        "endChar": 45
+      },
+      "revId": "3e73b39ce2197187e0e61593e8bd6f9f387615a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_b06c69fd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-06-26T11:50:40Z",
+      "side": 1,
+      "message": "Done. Now calling of clean filters is done in WorkingTreeIterator similar (or even \"in addition to\") autocrlf handling. I am still investigating performance effects. Of course I want to avoid stat\u0027ing gitconfig again and again for every workingtree file. Therefore the config and also the filter commands defined in gitattributes are cached.",
+      "parentUuid": "87f6139c_4d9815fc",
       "range": {
         "startLine": 366,
         "startChar": 0,
@@ -76,6 +118,24 @@
     },
     {
       "key": {
+        "uuid": "87f6139c_f07271d2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1440,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-06-26T11:50:40Z",
+      "side": 1,
+      "message": "Done. It seems to help to uses JGits QuotedString.BOURNE. I added also a test.",
+      "parentUuid": "87f6139c_a786fa9a",
+      "revId": "3e73b39ce2197187e0e61593e8bd6f9f387615a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f6139c_070d4ec8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
         "patchSetId": 5
@@ -87,6 +147,24 @@
       "writtenOn": "2015-06-24T06:37:06Z",
       "side": 1,
       "message": "probably helpful to put braces around the body of this conditional",
+      "revId": "3e73b39ce2197187e0e61593e8bd6f9f387615a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_68585f81",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1457,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-06-26T11:50:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87f6139c_070d4ec8",
       "revId": "3e73b39ce2197187e0e61593e8bd6f9f387615a1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
