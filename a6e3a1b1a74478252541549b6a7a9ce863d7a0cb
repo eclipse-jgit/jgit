@@ -118,6 +118,30 @@
       "revId": "a6e3a1b1a74478252541549b6a7a9ce863d7a0cb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_6b120f88",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SignedPushRequiredHook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-06-29T21:40:39Z",
+      "side": 1,
+      "message": "I think I didn\u0027t communicate well. I\u0027ll try explaining in person.\n\nThe only potential problem I saw was that *requiring* signed pushes can look like a security check to someone who doesn\u0027t think things through completely. *Permitting* signed pushes is much less likely to create that kind of confusion.\n\nLuckily, the fix is really easy. It just needs a sentence or so in the javadoc so that newcomers understand how to use this hook.\n\nIf you don\u0027t agree with the security motivation, think of it as a usability concern. I\u0027m saying that a mention in the javadoc of how the caller is expected to use this would make this easier to use correctly.",
+      "parentUuid": "87f6139c_8bce5ba5",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 43
+      },
+      "revId": "a6e3a1b1a74478252541549b6a7a9ce863d7a0cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
