@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_cba0637d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-06-29T23:14:22Z",
+      "side": 1,
+      "message": "Can this check be performed without catching unchecked exceptions? E.g. something like\n\n private static final Pattern COMMAND \u003d Pattern.compile(\"^[0-9a-f]{40} [0-9a-f]{40} \");\n\n if (!COMMAND.match(line)) {\n   throw ...\n }\n\nor by making parseCommand throw a checked exception?",
+      "range": {
+        "startLine": 311,
+        "startChar": 0,
+        "endLine": 312,
+        "endChar": 74
+      },
+      "revId": "a4e4b117a9167974b6bf48cc733d7d0b43996fd2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
