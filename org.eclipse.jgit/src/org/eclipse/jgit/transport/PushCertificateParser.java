@@ -299,13 +299,22 @@ public class PushCertificateParser {
 	 *            the exact line read from the wire that produced this
 	 *            command, including trailing newline.
 	 * @throws PackProtocolException
-	 *             if the raw line does not end in a newline.
+	 *             if the raw line cannot be parsed to a command, or does not end
+	 *             in a newline.
 	 * @since 4.0
 	 */
 	public void addCommand(String rawLine) throws PackProtocolException {
 		checkCommandLine(rawLine);
 		String line = rawLine.substring(0, rawLine.length() - 1);
-		commands.add(parseCommand(line));
+		ReceiveCommand cmd;
+		try {
+			cmd = parseCommand(line);
+		} catch (IllegalArgumentException | StringIndexOutOfBoundsException e) {
+			throw new PackProtocolException(MessageFormat.format(
+					JGitText.get().pushCertificateInvalidFieldValue,
+					"command", rawLine), e); //$NON-NLS-1$
+		}
+		commands.add(cmd);
 		rawCommands.append(rawLine);
 	}
 
