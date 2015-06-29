@@ -46,6 +46,30 @@
       "revId": "a4e4b117a9167974b6bf48cc733d7d0b43996fd2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_6bb5efb1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-06-29T23:19:27Z",
+      "side": 1,
+      "message": "Isn\u0027t parseCommand package-private, and so not part of the API?",
+      "parentUuid": "87f6139c_4bb473b9",
+      "range": {
+        "startLine": 311,
+        "startChar": 0,
+        "endLine": 312,
+        "endChar": 74
+      },
+      "revId": "a4e4b117a9167974b6bf48cc733d7d0b43996fd2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
