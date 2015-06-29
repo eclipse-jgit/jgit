@@ -142,6 +142,30 @@
       "revId": "a6e3a1b1a74478252541549b6a7a9ce863d7a0cb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_cb3fc3e1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SignedPushRequiredHook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-06-29T21:55:03Z",
+      "side": 1,
+      "message": "\u003e The only potential problem I saw was that *requiring* signed pushes can look like a security check to someone who doesn\u0027t think things through completely. *Permitting* signed pushes is much less likely to create that kind of confusion.\n\nI understood, I just disagree. I think permitting signed pushes is also likely to be construed as a security check.",
+      "parentUuid": "87f6139c_6b120f88",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 43
+      },
+      "revId": "a6e3a1b1a74478252541549b6a7a9ce863d7a0cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
