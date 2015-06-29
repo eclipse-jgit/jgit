@@ -70,6 +70,30 @@
       "revId": "a6e3a1b1a74478252541549b6a7a9ce863d7a0cb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_0860b127",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SignedPushRequiredHook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-06-29T19:55:14Z",
+      "side": 1,
+      "message": "(above, by \u0027whether SignedPushRequiredHook or some other hook does the checking\u0027 I mean \u0027regardless of whether SignedPushRequiredHook or some other hook does the checking\u0027)",
+      "parentUuid": "87f6139c_c8698919",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 43
+      },
+      "revId": "a6e3a1b1a74478252541549b6a7a9ce863d7a0cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
