@@ -294,9 +294,11 @@ public class PushCertificateParser {
 	 * @param rawLine
 	 *            the exact line read from the wire that produced this
 	 *            command, including trailing newline if present.
+	 * @throws PackProtocolException
+	 *             if the raw line cannot be parsed to a command.
 	 * @since 4.0
 	 */
-	public void addCommand(String rawLine) {
+	public void addCommand(String rawLine) throws PackProtocolException {
 		commands.add(parseCommand(chomp(rawLine)));
 		rawCommands.append(rawLine);
 	}

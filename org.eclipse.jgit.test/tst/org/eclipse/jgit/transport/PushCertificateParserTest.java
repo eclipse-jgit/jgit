@@ -114,10 +114,10 @@ public class PushCertificateParserTest {
 		ObjectId oldId = ObjectId.zeroId();
 		ObjectId newId =
 				ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef");
-		String rawLine =
-				oldId.name() + " " + newId.name() + " refs/heads/master";
-		ReceiveCommand cmd = BaseReceivePack.parseCommand(rawLine);
+		String line = oldId.name() + " " + newId.name() + " refs/heads/master";
+		String rawLine = line + "\n";
 
+		ReceiveCommand cmd = BaseReceivePack.parseCommand(line);
 		parser.addCommand(cmd, rawLine);
 		parser.addCommand(rawLine);
 		assertNull(parser.build());
