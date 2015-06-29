@@ -22,6 +22,30 @@
       "revId": "a6e3a1b1a74478252541549b6a7a9ce863d7a0cb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_28712d00",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SignedPushRequiredHook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-06-29T19:43:44Z",
+      "side": 1,
+      "message": "\u003e Is it a demo?\n\nNo.\n\n\u003e Is it a way to get clients in the habit of signing pushes before a site operator is ready to turn on verification?\n\nNo.\n\n\u003e Or is the idea that another PreReceiveHook verifies the signature, after this one checks that the signature is present?\n\nYes.\n\n\u003e What is the advantage of having two hooks instead of the one that verifies the signature being responsible for checking that it is present?\n\na. The verifier hook can be a singleton rather than e.g. taking a boolean parameter in its constructor indicating whether it should require a push cert.\n\nb. This hook can live in JGit even before we have the crypto libraries to support the verifier hook.\n\nNeither is a very strong argument.\n\nAnother alternative is to go back to putting this option in SignedPushConfig despite not existing upstream.",
+      "parentUuid": "87f6139c_88a141f3",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 43
+      },
+      "revId": "a6e3a1b1a74478252541549b6a7a9ce863d7a0cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
