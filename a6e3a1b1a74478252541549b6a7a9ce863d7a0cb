@@ -46,6 +46,30 @@
       "revId": "a6e3a1b1a74478252541549b6a7a9ce863d7a0cb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_c8698919",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SignedPushRequiredHook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-06-29T19:53:33Z",
+      "side": 1,
+      "message": "My fear is that this makes it too easy to require signed pushes and forget about the verification step and celebrate that one\u0027s installation is more secure.\n\nAs long as the javadoc makes it clear that this is usually accompanied by another PreReceiveHook that does the cert verification or storage, that fear can go away.\n\n(not about this patch) I like the idea of putting the option in SignedPushConfig, whether SignedPushRequiredHook or some other hook does the checking.\n\nThe use case of getting clients in the habit of signing their pushes seems sensible to me, so I guess I like keeping the SignedPushRequiredHook (but either way seems fine).",
+      "parentUuid": "87f6139c_28712d00",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 43
+      },
+      "revId": "a6e3a1b1a74478252541549b6a7a9ce863d7a0cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
