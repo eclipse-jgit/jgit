@@ -22,6 +22,30 @@
       "revId": "a4e4b117a9167974b6bf48cc733d7d0b43996fd2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_4bb473b9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-06-29T23:15:50Z",
+      "side": 1,
+      "message": "\u003e Can this check be performed without catching unchecked exceptions?\n\nYes, but that should probably go in ReceiveCommand.\n\n\u003e or by making parseCommand throw a checked exception?\n\nOnly if you don\u0027t name it parseCommand, or wait until 5.0.",
+      "parentUuid": "87f6139c_cba0637d",
+      "range": {
+        "startLine": 311,
+        "startChar": 0,
+        "endLine": 312,
+        "endChar": 74
+      },
+      "revId": "a4e4b117a9167974b6bf48cc733d7d0b43996fd2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
