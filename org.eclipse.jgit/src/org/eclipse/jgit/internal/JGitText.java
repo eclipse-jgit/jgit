@@ -532,6 +532,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String pullTaskName;
 	/***/ public String pushCancelled;
 	/***/ public String pushCertificateAlreadyComputed;
+	/***/ public String pushCertificateErrorResult;
 	/***/ public String pushCertificateInvalidField;
 	/***/ public String pushCertificateInvalidFieldValue;
 	/***/ public String pushCertificateInvalidHeader;
@@ -599,6 +600,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String shortReadOfBlock;
 	/***/ public String shortReadOfOptionalDIRCExtensionExpectedAnotherBytes;
 	/***/ public String shortSkipOfBlock;
+	/***/ public String signedPushRequiredResult;
 	/***/ public String signingNotSupportedOnTag;
 	/***/ public String similarityScoreMustBeWithinBounds;
 	/***/ public String sizeExceeds2GB;
