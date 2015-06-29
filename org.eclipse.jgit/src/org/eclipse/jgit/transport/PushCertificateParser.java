@@ -42,7 +42,6 @@
  */
 package org.eclipse.jgit.transport;
 
-import static org.eclipse.jgit.transport.BaseReceivePack.chomp;
 import static org.eclipse.jgit.transport.BaseReceivePack.parseCommand;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_PUSH_CERT;
 
@@ -177,14 +176,15 @@ public class PushCertificateParser {
 
 	private static String parseHeader(PacketLineIn pckIn, String header)
 			throws IOException {
-		String s = pckIn.readString();
+		String s = pckIn.readStringRaw();
 		if (s.length() <= header.length()
 				|| !s.startsWith(header)
-				|| s.charAt(header.length()) != ' ') {
+				|| s.charAt(header.length()) != ' '
+				|| s.charAt(s.length() - 1) != '\n') {
 			throw new PackProtocolException(MessageFormat.format(
 					JGitText.get().pushCertificateInvalidHeader, header));
 		}
-		return s.substring(header.length() + 1);
+		return s.substring(header.length() + 1, s.length() - 1);
 	}
 
 	/**
@@ -226,7 +226,7 @@ public class PushCertificateParser {
 			pushee = parseHeader(pckIn, PUSHEE);
 			receivedNonce = parseHeader(pckIn, NONCE);
 			// An empty line.
-			if (!pckIn.readString().isEmpty()) {
+			if (!"\n".equals(pckIn.readStringRaw())) { //$NON-NLS-1$
 				throw new PackProtocolException(
 						JGitText.get().pushCertificateInvalidHeader);
 			}
@@ -280,10 +280,14 @@ public class PushCertificateParser {
 	 *            the command.
 	 * @param rawLine
 	 *            the exact line read from the wire that produced this
-	 *            command, including trailing newline if present.
+	 *            command, including trailing newline.
+	 * @throws PackProtocolException
+	 *             if the raw line does not end in a newline.
 	 * @since 4.1
 	 */
-	public void addCommand(ReceiveCommand cmd, String rawLine) {
+	public void addCommand(ReceiveCommand cmd, String rawLine)
+			throws PackProtocolException {
+		checkCommandLine(rawLine);
 		commands.add(cmd);
 		rawCommands.append(rawLine);
 	}
@@ -293,11 +297,26 @@ public class PushCertificateParser {
 	 *
 	 * @param rawLine
 	 *            the exact line read from the wire that produced this
-	 *            command, including trailing newline if present.
+	 *            command, including trailing newline.
+	 * @throws PackProtocolException
+	 *             if the raw line does not end in a newline.
 	 * @since 4.0
 	 */
-	public void addCommand(String rawLine) {
-		commands.add(parseCommand(chomp(rawLine)));
+	public void addCommand(String rawLine) throws PackProtocolException {
+		checkCommandLine(rawLine);
+		String line = rawLine.substring(0, rawLine.length() - 1);
+		commands.add(parseCommand(line));
 		rawCommands.append(rawLine);
+	}
+
+	private static void checkCommandLine(String rawLine)
+			throws PackProtocolException {
+		if (rawLine == null
+				|| rawLine.isEmpty()
+				|| rawLine.charAt(rawLine.length() - 1) != '\n') {
+			throw new PackProtocolException(MessageFormat.format(
+					JGitText.get().pushCertificateInvalidFieldValue,
+					"command", rawLine)); //$NON-NLS-1$
+		}
 	}
 }
