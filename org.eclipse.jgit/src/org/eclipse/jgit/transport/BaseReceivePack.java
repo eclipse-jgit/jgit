@@ -1100,13 +1100,13 @@ public abstract class BaseReceivePack {
 				continue;
 			}
 
-			if (line.length() < 83) {
-				final String m = JGitText.get().errorInvalidProtocolWantedOldNewRef;
-				sendError(m);
-				throw new PackProtocolException(m);
+			ReceiveCommand cmd;
+			try {
+				cmd = parseCommand(line);
+			} catch (PackProtocolException e) {
+				sendError(e.getMessage());
+				throw e;
 			}
-
-			final ReceiveCommand cmd = parseCommand(line);
 			if (cmd.getRefName().equals(Constants.HEAD)) {
 				cmd.setResult(Result.REJECTED_CURRENT_BRANCH);
 			} else {
@@ -1129,10 +1129,26 @@ public abstract class BaseReceivePack {
 		return line;
 	}
 
-	static ReceiveCommand parseCommand(String line) {
-		ObjectId oldId = ObjectId.fromString(line.substring(0, 40));
-		ObjectId newId = ObjectId.fromString(line.substring(41, 81));
+	static ReceiveCommand parseCommand(String line) throws PackProtocolException {
+		if (line.length() < 83) {
+			String m = JGitText.get().errorInvalidProtocolWantedOldNewRef;
+			throw new PackProtocolException(m);
+		}
+		String oldStr = line.substring(0, 40);
+		String newStr = line.substring(41, 81);
+		ObjectId oldId, newId;
+		try {
+			oldId = ObjectId.fromString(oldStr);
+			newId = ObjectId.fromString(newStr);
+		} catch (IllegalArgumentException e) {
+			throw new PackProtocolException(
+					JGitText.get().errorInvalidProtocolWantedOldNewRef, e);
+		}
 		String name = line.substring(82);
+		if (!Repository.isValidRefName(name)) {
+			throw new PackProtocolException(
+					JGitText.get().errorInvalidProtocolWantedOldNewRef);
+		}
 		return new ReceiveCommand(oldId, newId, name);
 	}
 
