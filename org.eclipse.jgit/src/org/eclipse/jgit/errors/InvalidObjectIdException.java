@@ -68,6 +68,15 @@ public class InvalidObjectIdException extends IllegalArgumentException {
 		super(msg(bytes, offset, length));
 	}
 
+	/**
+	 * @param id the invalid id.
+	 *
+	 * @since 4.1
+	 */
+	public InvalidObjectIdException(String id) {
+		super(MessageFormat.format(JGitText.get().invalidId, id));
+	}
+
 	private static String msg(byte[] bytes, int offset, int length) {
 		try {
 			return MessageFormat.format(

@@ -45,7 +45,6 @@
 package org.eclipse.jgit.lib;
 
 import org.eclipse.jgit.errors.InvalidObjectIdException;
-import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.util.NB;
 import org.eclipse.jgit.util.RawParseUtils;
 
@@ -53,7 +52,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.text.MessageFormat;
 
 /**
  * A SHA-1 abstraction.
@@ -230,9 +228,9 @@ public class ObjectId extends AnyObjectId implements Serializable {
 	 * @return the converted object id.
 	 */
 	public static ObjectId fromString(final String str) {
-		if (str.length() != Constants.OBJECT_ID_STRING_LENGTH)
-			throw new IllegalArgumentException(
-					MessageFormat.format(JGitText.get().invalidId, str));
+		if (str.length() != Constants.OBJECT_ID_STRING_LENGTH) {
+			throw new InvalidObjectIdException(str);
+		}
 		return fromHexString(Constants.encodeASCII(str), 0);
 	}
 
