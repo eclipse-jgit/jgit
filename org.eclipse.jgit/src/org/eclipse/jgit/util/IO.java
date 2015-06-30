@@ -51,6 +51,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Reader;
 import java.nio.ByteBuffer;
 import java.nio.channels.ReadableByteChannel;
 import java.text.MessageFormat;
@@ -369,6 +370,36 @@ public class IO {
 		}
 		l.add(sb.toString());
 		return l;
+	}
+
+	/**
+	 * Read the next line from a reader.
+	 * <p>
+	 * Like {@link java.io.BufferedReader#readLine()}, but only treats {@code \n}
+	 * as end-of-line, and includes the trailing newline.
+	 *
+	 * @param in
+	 *            the reader to read from.
+	 * @param sizeHint
+	 *            hint for buffer sizing; 0 or negative for default.
+	 * @return the next line from the input, always ending in {@code \n} unless
+	 *         EOF was reached.
+	 * @throws IOException
+	 *             there was an error reading from the stream.
+	 */
+	public static String readLine(Reader in, int sizeHint) throws IOException {
+		StringBuilder buf = sizeHint > 0
+				? new StringBuilder(sizeHint)
+				: new StringBuilder();
+		int i;
+		while ((i = in.read()) != -1) {
+			char c = (char) i;
+			buf.append(c);
+			if (c == '\n') {
+				break;
+			}
+		}
+		return buf.toString();
 	}
 
 	private IO() {
