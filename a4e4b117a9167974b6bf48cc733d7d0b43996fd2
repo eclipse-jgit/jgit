@@ -70,6 +70,30 @@
       "revId": "a4e4b117a9167974b6bf48cc733d7d0b43996fd2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_f929b50e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-06-30T20:55:48Z",
+      "side": 1,
+      "message": "Indeed. I don\u0027t know why I thought it was public on ReceiveCommand.",
+      "parentUuid": "87f6139c_6bb5efb1",
+      "range": {
+        "startLine": 311,
+        "startChar": 0,
+        "endLine": 312,
+        "endChar": 74
+      },
+      "revId": "a4e4b117a9167974b6bf48cc733d7d0b43996fd2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
