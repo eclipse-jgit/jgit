@@ -53,6 +53,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.PrintStream;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -70,8 +71,11 @@ import java.util.Map;
 import java.util.Vector;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import org.eclipse.jgit.api.errors.AbortedByHookException;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.TransportException;
+import org.eclipse.jgit.hooks.Hooks;
+import org.eclipse.jgit.hooks.PrePushHook;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
@@ -557,8 +561,13 @@ public abstract class Transport {
 				continue;
 			}
 
-			if (proto.canHandle(uri, local, remoteName))
-				return proto.open(uri, local, remoteName);
+			if (proto.canHandle(uri, local, remoteName)) {
+				Transport tn = proto.open(uri, local, remoteName);
+				tn.prePush = Hooks.prePush(local, tn.hookOutRedirect);
+				tn.prePush.setRemoteLocation(uri.toString());
+				tn.prePush.setRemoteName(remoteName);
+				return tn;
+			}
 		}
 
 		throw new NotSupportedException(MessageFormat.format(JGitText.get().URINotSupported, uri));
@@ -761,6 +770,9 @@ public abstract class Transport {
 	/** Assists with authentication the connection. */
 	private CredentialsProvider credentialsProvider;
 
+	private PrintStream hookOutRedirect;
+
+	private PrePushHook prePush;
 	/**
 	 * Create a new transport instance.
 	 *
@@ -778,6 +790,7 @@ public abstract class Transport {
 		this.uri = uri;
 		this.objectChecker = tc.newObjectChecker();
 		this.credentialsProvider = CredentialsProvider.getDefault();
+		prePush = Hooks.prePush(local, hookOutRedirect);
 	}
 
 	/**
@@ -1196,6 +1209,15 @@ public abstract class Transport {
 			if (toPush.isEmpty())
 				throw new TransportException(JGitText.get().nothingToPush);
 		}
+		if (prePush != null) {
+			try {
+				prePush.setRefs(toPush);
+				prePush.call();
+			} catch (AbortedByHookException | IOException e) {
+				throw new TransportException(e.getMessage(), e);
+			}
+		}
+
 		final PushProcess pushProcess = new PushProcess(this, toPush, out);
 		return pushProcess.execute(monitor);
 	}

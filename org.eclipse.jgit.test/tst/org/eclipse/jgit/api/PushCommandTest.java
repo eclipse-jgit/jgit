@@ -47,6 +47,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Properties;
@@ -55,7 +56,10 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.hooks.PrePushHook;
+import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.RepositoryTestCase;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
@@ -66,6 +70,7 @@ import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.TrackingRefUpdate;
 import org.eclipse.jgit.transport.URIish;
+import org.eclipse.jgit.util.FS;
 import org.junit.Test;
 
 public class PushCommandTest extends RepositoryTestCase {
@@ -106,6 +111,48 @@ public class PushCommandTest extends RepositoryTestCase {
 		assertEquals(tagRef.getObjectId(),
 				db2.resolve(tagRef.getObjectId().getName()));
 	}
+
+	@Test
+	public void testPrePushHook() throws JGitInternalException, IOException,
+			GitAPIException, URISyntaxException {
+
+		// create other repository
+		Repository db2 = createWorkRepository();
+
+		// setup the first repository
+		final StoredConfig config = db.getConfig();
+		RemoteConfig remoteConfig = new RemoteConfig(config, "test");
+		URIish uri = new URIish(db2.getDirectory().toURI().toURL());
+		remoteConfig.addURI(uri);
+		remoteConfig.update(config);
+		config.save();
+
+		File hookOutput = new File(getTemporaryDirectory(), "hookOutput");
+		writeHookFile(PrePushHook.NAME, "#!/bin/sh\necho 1:$1, 2:$2, 3:$3 >\""
+				+ hookOutput.toPath() + "\"\ncat - >>\"" + hookOutput.toPath()
+				+ "\"\nexit 0");
+
+		Git git1 = new Git(db);
+		// create some refs via commits and tag
+		RevCommit commit = git1.commit().setMessage("initial commit").call();
+
+		RefSpec spec = new RefSpec("refs/heads/master:refs/heads/x");
+		git1.push().setRemote("test").setRefSpecs(spec).call();
+		assertEquals(
+				"1:test, 2:file://" + db2.getDirectory().toPath() //
+						+ "/, 3:\n" + "refs/heads/master " + commit.getName()
+						+ " refs/heads/x " + ObjectId.zeroId().name(),
+				read(hookOutput));
+	}
+
+	private File writeHookFile(final String name, final String data)
+			throws IOException {
+		File path = new File(db.getWorkTree() + "/.git/hooks/", name);
+		JGitTestUtil.write(path, data);
+		FS.DETECTED.setExecute(path, true);
+		return path;
+	}
+
 
 	@Test
 	public void testTrackingUpdate() throws Exception {
