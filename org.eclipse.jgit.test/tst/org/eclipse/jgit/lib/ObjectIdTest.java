@@ -49,6 +49,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import org.eclipse.jgit.errors.InvalidObjectIdException;
+
 import org.junit.Test;
 
 public class ObjectIdTest {
@@ -122,6 +124,21 @@ public class ObjectIdTest {
 		final String x = "0123456789ABCDEFabcdef1234567890abcdefAB";
 		final ObjectId oid = ObjectId.fromString(x);
 		assertEquals(x.toLowerCase(), oid.name());
+	}
+
+	@Test(expected = InvalidObjectIdException.class)
+	public void testFromString_short() {
+		ObjectId.fromString("cafe1234");
+	}
+
+	@Test(expected = InvalidObjectIdException.class)
+	public void testFromString_nonHex() {
+		ObjectId.fromString("0123456789abcdefghij0123456789abcdefghij");
+	}
+
+	@Test(expected = InvalidObjectIdException.class)
+	public void testFromString_shortNonHex() {
+		ObjectId.fromString("6789ghij");
 	}
 
 	@Test
