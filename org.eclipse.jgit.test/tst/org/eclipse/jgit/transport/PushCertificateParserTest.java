@@ -45,6 +45,7 @@ package org.eclipse.jgit.transport;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -52,6 +53,8 @@ import static org.junit.Assert.fail;
 import java.io.ByteArrayInputStream;
 import java.io.EOFException;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 
 import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
@@ -272,6 +275,60 @@ public class PushCertificateParserTest {
 		assertEquals("line 1\nline 2\n", concatPacketLines(input, 0, 2));
 		assertEquals("line 2\nline 3\n", concatPacketLines(input, 1, 3));
 		assertEquals("line 2\nline 3\n", concatPacketLines(input, 1, 4));
+	}
+
+	@Test
+	public void testParseReader() throws Exception {
+		Reader reader = new InputStreamReader(
+				new ByteArrayInputStream(
+						Constants.encode(concatPacketLines(INPUT, 0, 18))));
+		PushCertificate streamCert = PushCertificateParser.fromReader(reader);
+
+		PacketLineIn pckIn = newPacketLineIn(INPUT);
+		PushCertificateParser pckParser =
+				new PushCertificateParser(db, newEnabledConfig());
+		pckParser.receiveHeader(pckIn, false);
+		pckParser.addCommand(pckIn.readString());
+		assertEquals(PushCertificateParser.BEGIN_SIGNATURE, pckIn.readString());
+		pckParser.receiveSignature(pckIn);
+		PushCertificate pckCert = pckParser.build();
+
+		assertEquals(pckCert.getVersion(), streamCert.getVersion());
+		assertEquals(pckCert.getPusherIdent().getName(),
+				streamCert.getPusherIdent().getName());
+		assertEquals(pckCert.getPusherIdent().getEmailAddress(),
+				streamCert.getPusherIdent().getEmailAddress());
+		assertEquals(pckCert.getPusherIdent().getWhen().getTime(),
+				streamCert.getPusherIdent().getWhen().getTime());
+		assertEquals(pckCert.getPusherIdent().getTimeZoneOffset(),
+				streamCert.getPusherIdent().getTimeZoneOffset());
+		assertEquals(pckCert.getPushee(), streamCert.getPushee());
+		assertEquals(pckCert.getNonce(), streamCert.getNonce());
+		assertEquals(pckCert.getSignature(), streamCert.getSignature());
+		assertEquals(pckCert.toText(), streamCert.toText());
+
+		assertEquals(pckCert.getCommands().size(), streamCert.getCommands().size());
+		ReceiveCommand pckCmd = pckCert.getCommands().get(0);
+		ReceiveCommand streamCmd = streamCert.getCommands().get(0);
+		assertEquals(pckCmd.getRefName(), streamCmd.getRefName());
+		assertEquals(pckCmd.getOldId(), streamCmd.getOldId());
+		assertEquals(pckCmd.getNewId().name(), streamCmd.getNewId().name());
+
+		assertNull(streamCert.getNonceStatus());
+	}
+
+	@Test
+	public void testParseMultipleFromStream() throws Exception {
+		String input = concatPacketLines(INPUT, 0, 17);
+		assertFalse(input.contains(PushCertificateParser.END_CERT));
+		input += input;
+		Reader reader = new InputStreamReader(
+				new ByteArrayInputStream(Constants.encode(input)));
+
+		assertNotNull(PushCertificateParser.fromReader(reader));
+		assertNotNull(PushCertificateParser.fromReader(reader));
+		assertEquals(-1, reader.read());
+		assertNull(PushCertificateParser.fromReader(reader));
 	}
 
 	private static String concatPacketLines(String input, int begin, int end)

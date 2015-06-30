@@ -45,8 +45,10 @@ package org.eclipse.jgit.transport;
 import static org.eclipse.jgit.transport.BaseReceivePack.parseCommand;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_PUSH_CERT;
 
+import java.io.BufferedReader;
 import java.io.EOFException;
 import java.io.IOException;
+import java.io.Reader;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -57,6 +59,7 @@ import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.PushCertificate.NonceStatus;
+import org.eclipse.jgit.util.IO;
 
 /**
  * Parser for signed push certificates.
@@ -77,9 +80,100 @@ public class PushCertificateParser {
 
 	static final String NONCE = "nonce"; //$NON-NLS-1$
 
+	static final String END_CERT = "push-cert-end"; //$NON-NLS-1$
+
 	private static final String VERSION_0_1 = "0.1"; //$NON-NLS-1$
 
-	private static final String END_CERT = "push-cert-end"; //$NON-NLS-1$
+	private static interface StringReader {
+		/**
+		 * @return the next string from the input, up to an optional newline, with
+		 *         newline stripped if present
+		 *
+		 * @throws EOFException
+		 *             if EOF was reached.
+		 * @throws IOException
+		 *             if an error occurred during reading.
+		 */
+		String read() throws EOFException, IOException;
+	}
+
+	private static class PacketLineReader implements StringReader {
+		private final PacketLineIn pckIn;
+
+		private PacketLineReader(PacketLineIn pckIn) {
+			this.pckIn = pckIn;
+		}
+
+		@Override
+		public String read() throws IOException {
+			return pckIn.readString();
+		}
+	}
+
+	private static class StreamReader implements StringReader {
+		private final Reader reader;
+
+		private StreamReader(Reader reader) {
+			this.reader = reader;
+		}
+
+		@Override
+		public String read() throws IOException {
+			// Presize for a command containing 2 SHA-1s and some refname.
+			String line = IO.readLine(reader, 41 * 2 + 64);
+			if (line.isEmpty()) {
+				throw new EOFException();
+			} else if (line.charAt(line.length() - 1) == '\n') {
+				line = line.substring(0, line.length() - 1);
+			}
+			return line;
+		}
+	}
+
+	/**
+	 * Parse a push certificate from a reader.
+	 * <p>
+	 * Differences from the {@link PacketLineIn} receiver methods:
+	 * <ul>
+	 * <li>Does not use pkt-line framing.</li>
+	 * <li>Reads an entire cert in one call rather than depending on a loop in
+	 *   the caller.</li>
+	 * <li>Does not assume a {@code "push-cert-end"} line.</li>
+	 * </ul>
+	 *
+	 * @param r
+	 *            input reader; consumed only up until the end of the next
+	 *            signature in the input.
+	 * @return the parsed certificate, or null if the reader was at EOF.
+	 * @throws PackProtocolException
+	 *             if the certificate is malformed.
+	 * @throws IOException
+	 *             if there was an error reading from the input.
+	 * @since 4.1
+	 */
+	public static PushCertificate fromReader(Reader r)
+			throws PackProtocolException, IOException {
+		if (!r.markSupported()) {
+			r = new BufferedReader(r);
+		}
+		PushCertificateParser parser = new PushCertificateParser();
+		StreamReader reader = new StreamReader(r);
+		parser.receiveHeader(reader);
+		String line;
+		try {
+			while (!(line = reader.read()).isEmpty()) {
+				if (line.equals(BEGIN_SIGNATURE)) {
+					parser.receiveSignature(reader);
+					break;
+				}
+				parser.addCommand(line);
+			}
+		} catch (EOFException e) {
+			// EOF reached, but might have been at a valid state. Let build call below
+			// sort it out.
+		}
+		return parser.build();
+	}
 
 	private boolean received;
 	private String version;
@@ -109,8 +203,9 @@ public class PushCertificateParser {
 	 */
 	private final int nonceSlopLimit;
 
+	private final boolean enabled;
 	private final NonceGenerator nonceGenerator;
-	private final List<ReceiveCommand> commands;
+	private final List<ReceiveCommand> commands = new ArrayList<>();
 
 	PushCertificateParser(Repository into, SignedPushConfig cfg) {
 		if (cfg != null) {
@@ -121,7 +216,14 @@ public class PushCertificateParser {
 			nonceGenerator = null;
 		}
 		db = into;
-		commands = new ArrayList<>();
+		enabled = nonceGenerator != null;
+	}
+
+	private PushCertificateParser() {
+		db = null;
+		nonceSlopLimit = 0;
+		nonceGenerator = null;
+		enabled = true;
 	}
 
 	/**
@@ -131,7 +233,7 @@ public class PushCertificateParser {
 	 * @since 4.1
 	 */
 	public PushCertificate build() throws IOException {
-		if (!received || nonceGenerator == null) {
+		if (!received || !enabled) {
 			return null;
 		}
 		try {
@@ -143,11 +245,12 @@ public class PushCertificateParser {
 	}
 
 	/**
-	 * @return if the server is configured to use signed pushes.
+	 * @return if the repository is configured to use signed pushes in this
+	 *         context.
 	 * @since 4.0
 	 */
 	public boolean enabled() {
-		return nonceGenerator != null;
+		return enabled;
 	}
 
 	/**
@@ -171,9 +274,12 @@ public class PushCertificateParser {
 		return sentNonce;
 	}
 
-	private static String parseHeader(PacketLineIn pckIn, String header)
+	private static String parseHeader(StringReader reader, String header)
 			throws IOException {
-		String s = pckIn.readString();
+		String s = reader.read();
+		if (s.isEmpty()) {
+			throw new EOFException();
+		}
 		if (s.length() <= header.length()
 				|| !s.startsWith(header)
 				|| s.charAt(header.length()) != ' ') {
@@ -205,24 +311,36 @@ public class PushCertificateParser {
 	 */
 	public void receiveHeader(PacketLineIn pckIn, boolean stateless)
 			throws IOException {
-		received = true;
+		receiveHeader(new PacketLineReader(pckIn));
+		nonceStatus = nonceGenerator != null
+				? nonceGenerator.verify(
+					receivedNonce, sentNonce(), db, stateless, nonceSlopLimit)
+				: NonceStatus.UNSOLICITED;
+	}
+
+	private void receiveHeader(StringReader reader) throws IOException {
 		try {
-			version = parseHeader(pckIn, VERSION);
+			try {
+				version = parseHeader(reader, VERSION);
+			} catch (EOFException e) {
+				return;
+			}
+			received = true;
 			if (!version.equals(VERSION_0_1)) {
 				throw new PackProtocolException(MessageFormat.format(
 						JGitText.get().pushCertificateInvalidFieldValue, VERSION, version));
 			}
-			String rawPusher = parseHeader(pckIn, PUSHER);
+			String rawPusher = parseHeader(reader, PUSHER);
 			pusher = PushCertificateIdent.parse(rawPusher);
 			if (pusher == null) {
 				throw new PackProtocolException(MessageFormat.format(
 						JGitText.get().pushCertificateInvalidFieldValue,
 						PUSHER, rawPusher));
 			}
-			pushee = parseHeader(pckIn, PUSHEE);
-			receivedNonce = parseHeader(pckIn, NONCE);
+			pushee = parseHeader(reader, PUSHEE);
+			receivedNonce = parseHeader(reader, NONCE);
 			// An empty line.
-			if (!pckIn.readString().isEmpty()) {
+			if (!reader.read().isEmpty()) {
 				throw new PackProtocolException(
 						JGitText.get().pushCertificateInvalidHeader);
 			}
@@ -230,10 +348,6 @@ public class PushCertificateParser {
 			throw new PackProtocolException(
 					JGitText.get().pushCertificateInvalidHeader, eof);
 		}
-		nonceStatus = nonceGenerator != null
-				? nonceGenerator.verify(
-					receivedNonce, sentNonce(), db, stateless, nonceSlopLimit)
-				: NonceStatus.UNSOLICITED;
 	}
 
 	/**
@@ -251,18 +365,23 @@ public class PushCertificateParser {
 	 * @since 4.0
 	 */
 	public void receiveSignature(PacketLineIn pckIn) throws IOException {
+		StringReader reader = new PacketLineReader(pckIn);
+		receiveSignature(reader);
+		if (!reader.read().equals(END_CERT)) {
+			throw new PackProtocolException(
+					JGitText.get().pushCertificateInvalidSignature);
+		}
+	}
+
+	private void receiveSignature(StringReader reader) throws IOException {
 		received = true;
 		try {
 			StringBuilder sig = new StringBuilder(BEGIN_SIGNATURE).append('\n');
 			String line;
-			while (!(line = pckIn.readString()).equals(END_SIGNATURE)) {
+			while (!(line = reader.read()).equals(END_SIGNATURE)) {
 				sig.append(line).append('\n');
 			}
 			signature = sig.append(END_SIGNATURE).append('\n').toString();
-			if (!pckIn.readString().equals(END_CERT)) {
-				throw new PackProtocolException(
-						JGitText.get().pushCertificateInvalidSignature);
-			}
 		} catch (EOFException eof) {
 			throw new PackProtocolException(
 					JGitText.get().pushCertificateInvalidSignature, eof);
