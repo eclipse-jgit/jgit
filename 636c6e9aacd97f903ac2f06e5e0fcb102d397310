@@ -120,6 +120,42 @@
     },
     {
       "key": {
+        "uuid": "87f6139c_4e90fccf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateStore.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-07-01T22:11:05Z",
+      "side": 1,
+      "message": "I considered putting the cert in the commit message too. Its a bit harder to search because its\n\n  git log --grep\u003drefs/heads/foo refs/push-certs\n\nand not\n\n  git log refs/push-certs -- refs/heads/foo\n\nThe tree structure starts to form a bit of an index that can filter certs. But grep on the commit message is a very fast filter. The only benefit to the tree structure is if we have some sort of side indexes like \"per file bitmaps\" that can accelerate lookup of history per file. Suddenly that also translates into a per-ref cert lookup.",
+      "parentUuid": "87f6139c_0ec434d7",
+      "revId": "636c6e9aacd97f903ac2f06e5e0fcb102d397310",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_0e9b94f8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateStore.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-07-01T22:11:05Z",
+      "side": 1,
+      "message": "Sharding is a mess. Lets not do that. I would prefer to just replace the file.\n\nAnother advantage replacing the file per push is the push cert is a single blob. If it touches several refs at once, all of those refs in the tree use the same blob pointer. Less duplication of the cert information.\n\nI agree, get(ref)-\u003eList is not the best interface here. It should be Iterable or some type of iterableish thing so we can produce results incrementally rather than having to produce the entire thing right away. Gives us more options in the storage.",
+      "parentUuid": "87f6139c_6e7cd82a",
+      "revId": "636c6e9aacd97f903ac2f06e5e0fcb102d397310",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f6139c_4e059cc9",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateStore.java",
         "patchSetId": 7
@@ -190,6 +226,24 @@
       "side": 1,
       "message": "If there are too many refs then we could switch to using a TreeFormatter instead of a DirCache to build the modified tree.\n\nI think the DirCache-based implementation should be fine for now.",
       "parentUuid": "87f6139c_8e22e452",
+      "revId": "636c6e9aacd97f903ac2f06e5e0fcb102d397310",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_ae8b60a5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateStore.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-07-01T22:11:05Z",
+      "side": 1,
+      "message": "Right, I was talking about DirCache being costly to build for a large number of refs. Its fine for now. It may be an issue later. Lets kick that can down the road. Its internal implementation detail to this class only that doesn\u0027t affect storage.",
+      "parentUuid": "87f6139c_8e54a49b",
       "revId": "636c6e9aacd97f903ac2f06e5e0fcb102d397310",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
