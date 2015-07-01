@@ -84,6 +84,24 @@
     },
     {
       "key": {
+        "uuid": "87f6139c_4e5e3cbf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateStore.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-07-01T21:40:21Z",
+      "side": 1,
+      "message": "For comparison, https://github.com/sitaramc/gitolite/blob/master/contrib/hooks/repo-specific/save-push-signatures also replaces the file. The cert at each path is \"here is a push cert and signature describing the current state of this ref\".\n\nI think just seeing the latest cert and being able to use \"git log\" to see history since the last time I fetched push-certs would be pleasant.",
+      "parentUuid": "87f6139c_6e7cd82a",
+      "revId": "636c6e9aacd97f903ac2f06e5e0fcb102d397310",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f6139c_4e059cc9",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateStore.java",
         "patchSetId": 7
@@ -136,6 +154,24 @@
       "side": 1,
       "message": "That\u0027s what the fanout directory is for right? :)",
       "parentUuid": "87f6139c_4e2c7c4b",
+      "revId": "636c6e9aacd97f903ac2f06e5e0fcb102d397310",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_8e54a49b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateStore.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-07-01T21:40:21Z",
+      "side": 1,
+      "message": "If there are too many refs then we could switch to using a TreeFormatter instead of a DirCache to build the modified tree.\n\nI think the DirCache-based implementation should be fine for now.",
+      "parentUuid": "87f6139c_8e22e452",
       "revId": "636c6e9aacd97f903ac2f06e5e0fcb102d397310",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
