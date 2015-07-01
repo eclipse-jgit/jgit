@@ -22,6 +22,30 @@
       "revId": "5edc911cce3ec4a1ff4114190a219b19b095c54f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_4ed3dccc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-07-01T19:28:41Z",
+      "side": 1,
+      "message": "Nothing wrong with hashing unequal instances to the same value. It\u0027s just equal instances must hash to the same value, which they do.\n\nAssuming this comes from a correctly-functioning client, the signature is literally already a hash of the rest of the contents you just mentioned (except nonceStatus), so it didn\u0027t seem worth it to hash everything else.\n\nI suppose there is theoretically a hash collision DoS attack where an attacker spams a server with the same invalid signature and different contents, knowing that they\u0027ll all be stored in the same HashMap. But that seems a little farfetched.",
+      "parentUuid": "87f6139c_ae6c00ab",
+      "range": {
+        "startLine": 217,
+        "startChar": 0,
+        "endLine": 217,
+        "endChar": 30
+      },
+      "revId": "5edc911cce3ec4a1ff4114190a219b19b095c54f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
