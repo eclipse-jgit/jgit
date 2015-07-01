@@ -155,7 +155,7 @@ public class PushCertificateParser {
 			throws PackProtocolException, IOException {
 		PushCertificateParser parser = new PushCertificateParser();
 		StreamReader reader = new StreamReader(r);
-		parser.receiveHeader(reader);
+		parser.receiveHeader(reader, true);
 		String line;
 		try {
 			while (!(line = reader.read()).isEmpty()) {
@@ -281,7 +281,7 @@ public class PushCertificateParser {
 				|| !s.startsWith(header)
 				|| s.charAt(header.length()) != ' ') {
 			throw new PackProtocolException(MessageFormat.format(
-					JGitText.get().pushCertificateInvalidHeader, header));
+					JGitText.get().pushCertificateInvalidField, header));
 		}
 		return s.substring(header.length() + 1);
 	}
