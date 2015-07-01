@@ -280,7 +280,7 @@ public class PushCertificateParser {
 				|| !s.startsWith(header)
 				|| s.charAt(header.length()) != ' ') {
 			throw new PackProtocolException(MessageFormat.format(
-					JGitText.get().pushCertificateInvalidHeader, header));
+					JGitText.get().pushCertificateInvalidField, header));
 		}
 		return s.substring(header.length() + 1);
 	}
