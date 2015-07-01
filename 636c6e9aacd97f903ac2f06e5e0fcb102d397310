@@ -66,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "87f6139c_6e7cd82a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateStore.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-07-01T21:26:34Z",
+      "side": 1,
+      "message": "Jonathan suggested replacing the file as well (in a different context), but it doesn\u0027t feel right to me. This is git, the tree should be a snapshot of the state, and the state is that you have accumulated all of these push certs.\n\nWhat if instead we had multiple files per ref, like refs/foo@{certs.0001}. Then when 0001 gets too big, say 10M, we append to 0002 instead.\n\nThis also raises the point that the get(ref) -\u003e List interface is not particularly well-suited to reading large numbers of certs in a streaming fashion. Maybe we need to implement this as get(ref) -\u003e Iterable.\n\nIf we used multiple files, then the iterable could be implementing by slurping in one file at a time starting with the last one, and iterating through its contents in reverse order. (As later optimizations we can play games like walking through the file forward and recording start offsets for each cert but discarding the contents, walking backwards till we find a version line, etc.)",
+      "parentUuid": "87f6139c_0e20b456",
+      "revId": "636c6e9aacd97f903ac2f06e5e0fcb102d397310",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f6139c_4e059cc9",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateStore.java",
         "patchSetId": 7
@@ -100,6 +118,24 @@
       "writtenOn": "2015-07-01T21:18:52Z",
       "side": 1,
       "message": "Lets hope we never record refs/changes/... namespace?",
+      "revId": "636c6e9aacd97f903ac2f06e5e0fcb102d397310",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_8e22e452",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateStore.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-07-01T21:26:34Z",
+      "side": 1,
+      "message": "That\u0027s what the fanout directory is for right? :)",
+      "parentUuid": "87f6139c_4e2c7c4b",
       "revId": "636c6e9aacd97f903ac2f06e5e0fcb102d397310",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
