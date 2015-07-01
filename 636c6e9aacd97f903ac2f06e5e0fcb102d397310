@@ -156,6 +156,24 @@
     },
     {
       "key": {
+        "uuid": "87f6139c_4e1bdcfd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateStore.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-07-01T22:56:16Z",
+      "side": 1,
+      "message": "So at this point you are arguing for just storing one push cert per ref. Ok.\n\nI still need to think through what happens when there are conflicts due to races where push cert storage happens out of order relative to the actual ref updates. (One advantage of the concatenation approach is the worst thing that happens is the certs are stored out of order in the file, but you can still reconstruct it during an audit.)",
+      "parentUuid": "87f6139c_0e9b94f8",
+      "revId": "636c6e9aacd97f903ac2f06e5e0fcb102d397310",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f6139c_4e059cc9",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateStore.java",
         "patchSetId": 7
