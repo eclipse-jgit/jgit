@@ -331,6 +331,26 @@ public class PushCertificateParserTest {
 		assertNull(PushCertificateParser.fromReader(reader));
 	}
 
+	@Test
+	public void testMissingPusheeField() throws Exception {
+		// Omit pushee line from existing cert. (This means the signature would not
+		// match, but we're not verifying it here.)
+		String input = INPUT.replace("0024pushee git://localhost/repo.git\n", "");
+		assertFalse(input.contains(PushCertificateParser.PUSHEE));
+
+		PacketLineIn pckIn = newPacketLineIn(input);
+		PushCertificateParser parser =
+				new PushCertificateParser(db, newEnabledConfig());
+		parser.receiveHeader(pckIn, false);
+		parser.addCommand(pckIn.readStringRaw());
+		assertEquals(PushCertificateParser.BEGIN_SIGNATURE, pckIn.readStringRaw());
+		parser.receiveSignature(pckIn);
+
+		PushCertificate cert = parser.build();
+		assertEquals("0.1", cert.getVersion());
+		assertNull(cert.getPushee());
+	}
+
 	private static String concatPacketLines(String input, int begin, int end)
 			throws IOException {
 		StringBuilder result = new StringBuilder();
