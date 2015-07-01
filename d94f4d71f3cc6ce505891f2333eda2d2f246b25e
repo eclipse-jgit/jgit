@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_6eb4d8b9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateStore.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-07-01T18:46:52Z",
+      "side": 1,
+      "message": "leaked?",
+      "range": {
+        "startLine": 266,
+        "startChar": 51,
+        "endLine": 266,
+        "endChar": 69
+      },
+      "revId": "d94f4d71f3cc6ce505891f2333eda2d2f246b25e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
