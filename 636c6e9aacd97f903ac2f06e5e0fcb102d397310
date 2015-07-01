@@ -22,6 +22,30 @@
       "revId": "636c6e9aacd97f903ac2f06e5e0fcb102d397310",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_2e5010da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-07-01T19:06:51Z",
+      "side": 1,
+      "message": "Still awaiting comments from Shawn.",
+      "parentUuid": "87f6139c_ce750c72",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 5
+      },
+      "revId": "636c6e9aacd97f903ac2f06e5e0fcb102d397310",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
