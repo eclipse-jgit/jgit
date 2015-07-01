@@ -1065,56 +1065,55 @@ public abstract class BaseReceivePack {
 	protected void recvCommands() throws IOException {
 		PushCertificateParser certParser = getPushCertificateParser();
 		FirstLine firstLine = null;
-		for (;;) {
-			String line;
-			try {
-				line = pckIn.readString();
-			} catch (EOFException eof) {
-				if (commands.isEmpty())
-					return;
-				throw eof;
-			}
-			if (line == PacketLineIn.END) {
-				break;
-			}
+		try {
+			for (;;) {
+				String line;
+				try {
+					rawLine = pckIn.readString();
+				} catch (EOFException eof) {
+					if (commands.isEmpty())
+						return;
+					throw eof;
+				}
+				if (rawLine == PacketLineIn.END) {
+					break;
+				}
 
-			if (line.length() >= 48 && line.startsWith("shallow ")) { //$NON-NLS-1$
-				clientShallowCommits.add(ObjectId.fromString(line.substring(8, 48)));
-				continue;
-			}
-
-			if (firstLine == null) {
-				firstLine = new FirstLine(line);
-				enabledCapabilities = firstLine.getCapabilities();
-				line = firstLine.getLine();
-
-				if (line.equals(GitProtocolConstants.OPTION_PUSH_CERT)) {
-					certParser.receiveHeader(pckIn, !isBiDirectionalPipe());
+				if (line.length() >= 48 && line.startsWith("shallow ")) { //$NON-NLS-1$
+					clientShallowCommits.add(ObjectId.fromString(line.substring(8, 48)));
 					continue;
 				}
-			}
 
-			if (line.equals(PushCertificateParser.BEGIN_SIGNATURE)) {
-				certParser.receiveSignature(pckIn);
-				continue;
-			}
+				if (firstLine == null) {
+					firstLine = new FirstLine(line);
+					enabledCapabilities = firstLine.getCapabilities();
+					line = firstLine.getLine();
 
-			if (line.length() < 83) {
-				final String m = JGitText.get().errorInvalidProtocolWantedOldNewRef;
-				sendError(m);
-				throw new PackProtocolException(m);
-			}
+					if (line.equals(GitProtocolConstants.OPTION_PUSH_CERT)) {
+						certParser.receiveHeader(pckIn, !isBiDirectionalPipe());
+						continue;
+					}
+				}
 
-			final ReceiveCommand cmd = parseCommand(line);
-			if (cmd.getRefName().equals(Constants.HEAD)) {
-				cmd.setResult(Result.REJECTED_CURRENT_BRANCH);
-			} else {
-				cmd.setRef(refs.get(cmd.getRefName()));
+				if (line.equals(PushCertificateParser.BEGIN_SIGNATURE)) {
+					certParser.receiveSignature(pckIn);
+					continue;
+				}
+
+				ReceiveCommand cmd = parseCommand(line);
+				if (cmd.getRefName().equals(Constants.HEAD)) {
+					cmd.setResult(Result.REJECTED_CURRENT_BRANCH);
+				} else {
+					cmd.setRef(refs.get(cmd.getRefName()));
+				}
+				commands.add(cmd);
+				if (certParser.enabled()) {
+					certParser.addCommand(cmd);
+				}
 			}
-			commands.add(cmd);
-			if (certParser.enabled()) {
-				certParser.addCommand(cmd);
-			}
+		} catch (PackProtocolException e) {
+			sendError(e.getMessage());
+			throw e;
 		}
 	}
 
