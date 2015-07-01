@@ -1065,59 +1065,58 @@ public abstract class BaseReceivePack {
 	protected void recvCommands() throws IOException {
 		PushCertificateParser certParser = getPushCertificateParser();
 		FirstLine firstLine = null;
-		for (;;) {
-			String rawLine;
-			try {
-				rawLine = pckIn.readStringRaw();
-			} catch (EOFException eof) {
-				if (commands.isEmpty())
-					return;
-				throw eof;
-			}
-			if (rawLine == PacketLineIn.END) {
-				break;
-			}
-			String line = chomp(rawLine);
+		try {
+			for (;;) {
+				String rawLine;
+				try {
+					rawLine = pckIn.readStringRaw();
+				} catch (EOFException eof) {
+					if (commands.isEmpty())
+						return;
+					throw eof;
+				}
+				if (rawLine == PacketLineIn.END) {
+					break;
+				}
+				String line = chomp(rawLine);
 
-			if (line.length() >= 48 && line.startsWith("shallow ")) { //$NON-NLS-1$
-				clientShallowCommits.add(ObjectId.fromString(line.substring(8, 48)));
-				continue;
-			}
-
-			if (firstLine == null) {
-				firstLine = new FirstLine(line);
-				enabledCapabilities = firstLine.getCapabilities();
-				line = firstLine.getLine();
-
-				if (line.equals(GitProtocolConstants.OPTION_PUSH_CERT)) {
-					certParser.receiveHeader(pckIn, !isBiDirectionalPipe());
+				if (line.length() >= 48 && line.startsWith("shallow ")) { //$NON-NLS-1$
+					clientShallowCommits.add(ObjectId.fromString(line.substring(8, 48)));
 					continue;
 				}
-			}
 
-			if (rawLine.equals(PushCertificateParser.BEGIN_SIGNATURE)) {
-				certParser.receiveSignature(pckIn);
-				continue;
-			}
+				if (firstLine == null) {
+					firstLine = new FirstLine(line);
+					enabledCapabilities = firstLine.getCapabilities();
+					line = firstLine.getLine();
 
-			ReceiveCommand cmd;
-			try {
-				cmd = parseCommand(line);
-			} catch (PackProtocolException e) {
-				sendError(e.getMessage());
-				throw e;
+					if (line.equals(GitProtocolConstants.OPTION_PUSH_CERT)) {
+						certParser.receiveHeader(pckIn, !isBiDirectionalPipe());
+						continue;
+					}
+				}
+
+				if (rawLine.equals(PushCertificateParser.BEGIN_SIGNATURE)) {
+					certParser.receiveSignature(pckIn);
+					continue;
+				}
+
+				ReceiveCommand cmd = parseCommand(line);
+				if (cmd.getRefName().equals(Constants.HEAD)) {
+					cmd.setResult(Result.REJECTED_CURRENT_BRANCH);
+				} else {
+					cmd.setRef(refs.get(cmd.getRefName()));
+				}
+				commands.add(cmd);
+				if (certParser.enabled()) {
+					// Must use raw line with optional newline so signed payload can be
+					// reconstructed.
+					certParser.addCommand(cmd, rawLine);
+				}
 			}
-			if (cmd.getRefName().equals(Constants.HEAD)) {
-				cmd.setResult(Result.REJECTED_CURRENT_BRANCH);
-			} else {
-				cmd.setRef(refs.get(cmd.getRefName()));
-			}
-			commands.add(cmd);
-			if (certParser.enabled()) {
-				// Must use raw line with optional newline so signed payload can be
-				// reconstructed.
-				certParser.addCommand(cmd, rawLine);
-			}
+		} catch (PackProtocolException e) {
+			sendError(e.getMessage());
+			throw e;
 		}
 	}
 
