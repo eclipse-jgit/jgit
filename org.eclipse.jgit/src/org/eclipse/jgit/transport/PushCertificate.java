@@ -50,6 +50,7 @@ import static org.eclipse.jgit.transport.PushCertificateParser.VERSION;
 
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.Objects;
 
 import org.eclipse.jgit.internal.JGitText;
 
@@ -210,5 +211,30 @@ public class PushCertificate {
 				.append(' ').append(cmd.getRefName()).append('\n');
 		}
 		return sb.toString();
+	}
+
+	@Override
+	public int hashCode() {
+		return signature.hashCode();
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (!(o instanceof PushCertificate)) {
+			return false;
+		}
+		PushCertificate p = (PushCertificate) o;
+		return version.equals(p.version)
+				&& pusher.equals(p.pusher)
+				&& Objects.equals(pushee, p.pushee)
+				&& nonceStatus == p.nonceStatus
+				&& rawCommands.equals(p.rawCommands)
+				&& signature.equals(p.signature);
+	}
+
+	@Override
+	public String toString() {
+		return getClass().getSimpleName() + '['
+				 + toText() + signature + ']';
 	}
 }
