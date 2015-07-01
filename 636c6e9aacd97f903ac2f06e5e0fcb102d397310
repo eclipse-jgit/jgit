@@ -102,6 +102,24 @@
     },
     {
       "key": {
+        "uuid": "87f6139c_0ec434d7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateStore.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-07-01T21:46:48Z",
+      "side": 1,
+      "message": "Assuming we still store certs for tombstones (which would still require @{certs}), I could be ok with that. It\u0027s not my first choice but the two of you can outvote me.\n\nAnother alternative is to not store anything in the tree, and just store the cert in commit messages. If you want to look at certs affecting refs/heads/foo, that\u0027s spelled \"git log --grep\u003drefs/heads/foo\".",
+      "parentUuid": "87f6139c_4e5e3cbf",
+      "revId": "636c6e9aacd97f903ac2f06e5e0fcb102d397310",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f6139c_4e059cc9",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateStore.java",
         "patchSetId": 7
