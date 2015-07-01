@@ -48,6 +48,7 @@ import static org.junit.Assert.assertEquals;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -262,12 +263,6 @@ public class PushCertificateStoreTest {
 
 	private static void assertCertsEqual(List<PushCertificate> actual,
 			PushCertificate... expected) {
-		assertEquals(expected.length, actual.size());
-		for (int i = 0; i < expected.length; i++) {
-			assertEquals("text of cert " + i,
-					expected[i].toText(), actual.get(i).toText());
-			assertEquals("signature of cert " + i,
-					expected[i].getSignature(), actual.get(i).getSignature());
-		}
+		assertEquals(actual, Arrays.asList(expected));
 	}
 }
