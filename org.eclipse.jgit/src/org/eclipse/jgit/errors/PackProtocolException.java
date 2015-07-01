@@ -60,7 +60,7 @@ public class PackProtocolException extends TransportException {
 	 * @param uri
 	 *            URI used for transport
 	 * @param s
-	 *            message
+	 *            message, which may be shown to an end-user.
 	 */
 	public PackProtocolException(final URIish uri, final String s) {
 		super(uri + ": " + s); //$NON-NLS-1$
@@ -73,7 +73,7 @@ public class PackProtocolException extends TransportException {
 	 * @param uri
 	 *            URI used for transport
 	 * @param s
-	 *            message
+	 *            message, which may be shown to an end-user.
 	 * @param cause
 	 *            root cause exception
 	 */
@@ -86,7 +86,7 @@ public class PackProtocolException extends TransportException {
 	 * Constructs an PackProtocolException with the specified detail message.
 	 *
 	 * @param s
-	 *            message
+	 *            message, which may be shown to an end-user.
 	 */
 	public PackProtocolException(final String s) {
 		super(s);
@@ -96,7 +96,7 @@ public class PackProtocolException extends TransportException {
 	 * Constructs an PackProtocolException with the specified detail message.
 	 *
 	 * @param s
-	 *            message
+	 *            message, which may be shown to an end-user.
 	 * @param cause
 	 *            root cause exception
 	 */
