@@ -3,6 +3,7 @@
  * Copyright (C) 2008, Robin Rosenberg <robin.rosenberg@dewire.com>
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
  * Copyright (C) 2013, Robin Stocker <robin@nibor.org>
+ * Copyright (C) 2015, Patrick Steinhardt <ps@pks.im>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -379,6 +380,56 @@ public class URIishTest {
 	}
 
 	@Test
+	public void testSshProtoHostOnly() throws Exception {
+		final String str = "ssh://example.com/";
+		URIish u = new URIish(str);
+		assertEquals("ssh", u.getScheme());
+		assertTrue(u.isRemote());
+		assertEquals("/", u.getRawPath());
+		assertEquals("/", u.getPath());
+		assertEquals("example.com", u.getHost());
+		assertEquals(-1, u.getPort());
+		assertEquals("ssh://example.com/", u.toString());
+		assertEquals("ssh://example.com/", u.toASCIIString());
+		assertEquals("example.com", u.getHumanishName());
+		assertEquals(u, new URIish(str));
+	}
+
+	@Test
+	public void testSshProtoHostWithAuthentication() throws Exception {
+		final String str = "ssh://user:secret@pass@example.com/";
+		URIish u = new URIish(str);
+		assertEquals("ssh", u.getScheme());
+		assertTrue(u.isRemote());
+		assertEquals("/", u.getRawPath());
+		assertEquals("/", u.getPath());
+		assertEquals("example.com", u.getHost());
+		assertEquals(-1, u.getPort());
+		assertEquals("ssh://user@example.com/", u.toString());
+		assertEquals("ssh://user@example.com/", u.toASCIIString());
+		assertEquals("example.com", u.getHumanishName());
+		assertEquals("user", u.getUser());
+		assertEquals("secret@pass", u.getPass());
+		assertEquals(u, new URIish(str));
+	}
+
+	@Test
+	public void testSshProtoHostWithPort() throws Exception {
+		final String str = "ssh://example.com:2222/";
+		URIish u = new URIish(str);
+		assertEquals("ssh", u.getScheme());
+		assertTrue(u.isRemote());
+		assertEquals("/", u.getRawPath());
+		assertEquals("/", u.getPath());
+		assertEquals("example.com", u.getHost());
+		assertEquals(2222, u.getPort());
+		assertEquals("ssh://example.com:2222/", u.toString());
+		assertEquals("ssh://example.com:2222/", u.toASCIIString());
+		assertEquals("example.com", u.getHumanishName());
+		assertEquals(u, new URIish(str));
+	}
+
+	@Test
 	public void testSshProtoWithUserAndPort() throws Exception {
 		final String str = "ssh://user@example.com:33/some/p ath";
 		URIish u = new URIish(str);
@@ -617,6 +668,13 @@ public class URIishTest {
 
 	@Test
 	public void testGetValidHumanishName() throws IllegalArgumentException,
+			URISyntaxException {
+		String humanishName = new URIish(GIT_SCHEME + "abc").getHumanishName();
+		assertEquals("abc", humanishName);
+	}
+
+	@Test
+	public void testGetEmptyHumanishNameWithAuthorityOnly() throws IllegalArgumentException,
 			URISyntaxException {
 		String humanishName = new URIish(GIT_SCHEME + "abc").getHumanishName();
 		assertEquals("abc", humanishName);
