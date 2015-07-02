@@ -134,11 +134,13 @@ public class URIish implements Serializable {
 			+ OPT_USER_PWD_P //
 			+ HOST_P //
 			+ OPT_PORT_P //
+			+ ")?" // close the optional group containing hostname //$NON-NLS-1$
+			+ "(?:" // non-capturing group containing path // $NON-NLS-1$
 			+ "(" // open a catpuring group the the user-home-dir part //$NON-NLS-1$
 			+ (USER_HOME_P + "?") // //$NON-NLS-1$
 			+ "[\\\\/])" // //$NON-NLS-1$
-			+ ")?" // close the optional group containing hostname //$NON-NLS-1$
 			+ "(.+)?" // //$NON-NLS-1$
+			+ ")?" // close the optional group containing path // $NON-NLS-1$
 			+ "$"); //$NON-NLS-1$
 
 	/**
@@ -220,8 +222,9 @@ public class URIish implements Serializable {
 			host = unescape(matcher.group(4));
 			if (matcher.group(5) != null)
 				port = Integer.parseInt(matcher.group(5));
-			rawPath = cleanLeadingSlashes(
-					n2e(matcher.group(6)) + n2e(matcher.group(7)), scheme);
+			if (matcher.group(6) != null || matcher.group(7) != null)
+				rawPath = cleanLeadingSlashes(
+						n2e(matcher.group(6)) + n2e(matcher.group(7)), scheme);
 			path = unescape(rawPath);
 			return;
 		}

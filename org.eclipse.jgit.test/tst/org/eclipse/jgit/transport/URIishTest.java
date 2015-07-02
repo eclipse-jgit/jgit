@@ -3,6 +3,7 @@
  * Copyright (C) 2008, Robin Rosenberg <robin.rosenberg@dewire.com>
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
  * Copyright (C) 2013, Robin Stocker <robin@nibor.org>
+ * Copyright (C) 2015, Patrick Steinhardt <ps@pks.im>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -158,6 +159,20 @@ public class URIishTest {
 		assertEquals("/home/m y", u.getPath());
 		assertEquals("file:///home/m y", u.toString());
 		assertEquals("file:///home/m%20y", u.toASCIIString());
+		assertEquals(u, new URIish(str));
+	}
+
+	@Test
+	public void testFileProtoWithHost() throws Exception {
+		final String str = "file://192.168.1.1/home/m y";
+		URIish u = new URIish(str);
+		assertEquals("file", u.getScheme());
+		assertTrue(u.isRemote());
+		assertEquals("192.168.1.1", u.getHost());
+		assertEquals("/home/m y", u.getRawPath());
+		assertEquals("/home/m y", u.getPath());
+		assertEquals("file://192.168.1.1/home/m y", u.toString());
+		assertEquals("file://192.168.1.1/home/m%20y", u.toASCIIString());
 		assertEquals(u, new URIish(str));
 	}
 
@@ -375,6 +390,21 @@ public class URIishTest {
 		assertEquals(-1, u.getPort());
 		assertEquals("ssh://example.com/some/p ath", u.toString());
 		assertEquals("ssh://example.com/some/p%20ath", u.toASCIIString());
+		assertEquals(u, new URIish(str));
+	}
+
+	@Test
+	public void testSshProtoHostOnly() throws Exception {
+		final String str = "ssh://example.com";
+		URIish u = new URIish(str);
+		assertEquals("ssh", u.getScheme());
+		assertTrue(u.isRemote());
+		assertEquals(null, u.getRawPath());
+		assertEquals(null, u.getPath());
+		assertEquals("example.com", u.getHost());
+		assertEquals(-1, u.getPort());
+		assertEquals("ssh://example.com", u.toString());
+		assertEquals("ssh://example.com", u.toASCIIString());
 		assertEquals(u, new URIish(str));
 	}
 
@@ -618,8 +648,19 @@ public class URIishTest {
 	@Test
 	public void testGetValidHumanishName() throws IllegalArgumentException,
 			URISyntaxException {
-		String humanishName = new URIish(GIT_SCHEME + "abc").getHumanishName();
+		String humanishName = new URIish(GIT_SCHEME + "/abc").getHumanishName();
 		assertEquals("abc", humanishName);
+	}
+
+	@Test
+	public void testGetEmptyHumanishNameWithAuthorityOnly() throws IllegalArgumentException,
+			URISyntaxException {
+		try {
+			new URIish(GIT_SCHEME + "abc").getHumanishName();
+			fail("empty path is useless");
+		} catch (IllegalArgumentException e) {
+			// expected
+		}
 	}
 
 	@Test
@@ -662,7 +703,7 @@ public class URIishTest {
 	@Test
 	public void testGetValidDotGitHumanishName()
 			throws IllegalArgumentException, URISyntaxException {
-		String humanishName = new URIish(GIT_SCHEME + "abc.git")
+		String humanishName = new URIish(GIT_SCHEME + "/abc.git")
 				.getHumanishName();
 		assertEquals("abc", humanishName);
 	}
