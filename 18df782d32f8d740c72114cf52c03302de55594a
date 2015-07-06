@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_da1c9d2a",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 339
+      },
+      "writtenOn": "2015-07-06T09:42:16Z",
+      "side": 1,
+      "message": "This \" should also be removed",
+      "range": {
+        "startLine": 100,
+        "startChar": 23,
+        "endLine": 100,
+        "endChar": 24
+      },
+      "revId": "18df782d32f8d740c72114cf52c03302de55594a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
