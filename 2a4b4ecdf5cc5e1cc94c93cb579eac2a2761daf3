@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_ba1c3170",
+        "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/LocalDiskRepositoryTestCase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 37145
+      },
+      "writtenOn": "2015-07-06T08:57:45Z",
+      "side": 1,
+      "message": "This method was just pushed down from RepositoryTestCase, because it was not really using any member variables from the child class, and was useful for writing tests.  This should probably be broken into a separate commit and proposed as a distinct patch.",
+      "revId": "2a4b4ecdf5cc5e1cc94c93cb579eac2a2761daf3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_fa3199f0",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirectoryFlagsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 37145
+      },
+      "writtenOn": "2015-07-06T08:57:45Z",
+      "side": 1,
+      "message": "I think these tests are probably headed in the right direction, but the package/class names are probably not.  Will depend on what is determined to be the appropriate place in the API to expose the new setting.",
+      "revId": "2a4b4ecdf5cc5e1cc94c93cb579eac2a2761daf3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_bad711ea",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/DirectoryFlags.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 37145
+      },
+      "writtenOn": "2015-07-06T08:57:45Z",
+      "side": 1,
+      "message": "Not really sure what this class should be called or where it should live.  I called it \u0027DirectoryFlags\u0027 for now, to try to model it off of the enumerated values in the C code... but since I\u0027ve only implemented a single one of those flags, I\u0027m not sure if that makes sense.",
+      "revId": "2a4b4ecdf5cc5e1cc94c93cb579eac2a2761daf3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_1ac2a52b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 37145
+      },
+      "writtenOn": "2015-07-06T08:57:45Z",
+      "side": 1,
+      "message": "In its current form this patch introduces several new signatures for existing methods.  I\u0027m not really pleased with how that came out, but didn\u0027t see another obvious way to achieve this w/o breaking compatibility with the existing signatures.",
+      "revId": "2a4b4ecdf5cc5e1cc94c93cb579eac2a2761daf3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_7af80971",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 37145
+      },
+      "writtenOn": "2015-07-06T08:57:45Z",
+      "side": 1,
+      "message": "As mentioned in the comments on the bug tracker, this logic is not quite as sophisticated as what native git does here, and it might be preferable to extend it to match that logic more closely.  However, I think that in order to do that, it might be necessary to have access to the current state of the index for the working tree from this spot in the code, and that seemed like it might be challenging to achieve.",
+      "revId": "2a4b4ecdf5cc5e1cc94c93cb579eac2a2761daf3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}

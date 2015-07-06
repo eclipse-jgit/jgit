@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_1a3745e7",
+        "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/RepositoryTestCase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 37145
+      },
+      "writtenOn": "2015-07-06T08:57:45Z",
+      "side": 0,
+      "message": "Just pushed this down into LocalDiskRepository test case.  This should probably be submitted as a separate patch.",
+      "revId": "720adcebb5b880665aef6a5b0d22a58b33bff4d6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
