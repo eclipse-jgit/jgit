@@ -1066,18 +1066,17 @@ public abstract class BaseReceivePack {
 		PushCertificateParser certParser = getPushCertificateParser();
 		FirstLine firstLine = null;
 		for (;;) {
-			String rawLine;
+			String line;
 			try {
-				rawLine = pckIn.readStringRaw();
+				line = pckIn.readString();
 			} catch (EOFException eof) {
 				if (commands.isEmpty())
 					return;
 				throw eof;
 			}
-			if (rawLine == PacketLineIn.END) {
+			if (line == PacketLineIn.END) {
 				break;
 			}
-			String line = chomp(rawLine);
 
 			if (line.length() >= 48 && line.startsWith("shallow ")) { //$NON-NLS-1$
 				clientShallowCommits.add(ObjectId.fromString(line.substring(8, 48)));
@@ -1095,7 +1094,7 @@ public abstract class BaseReceivePack {
 				}
 			}
 
-			if (rawLine.equals(PushCertificateParser.BEGIN_SIGNATURE)) {
+			if (line.equals(PushCertificateParser.BEGIN_SIGNATURE)) {
 				certParser.receiveSignature(pckIn);
 				continue;
 			}
@@ -1116,17 +1115,9 @@ public abstract class BaseReceivePack {
 			if (certParser.enabled()) {
 				// Must use raw line with optional newline so signed payload can be
 				// reconstructed.
-				certParser.addCommand(cmd, rawLine);
+				certParser.addCommand(cmd);
 			}
 		}
-	}
-
-	static String chomp(String line) {
-		if (line != null && !line.isEmpty()
-				&& line.charAt(line.length() - 1) == '\n') {
-			return line.substring(0, line.length() - 1);
-		}
-		return line;
 	}
 
 	static ReceiveCommand parseCommand(String line) {
