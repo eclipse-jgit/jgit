@@ -42,7 +42,6 @@
  */
 package org.eclipse.jgit.transport;
 
-import static org.eclipse.jgit.transport.BaseReceivePack.chomp;
 import static org.eclipse.jgit.transport.BaseReceivePack.parseCommand;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_PUSH_CERT;
 
@@ -66,9 +65,9 @@ import org.eclipse.jgit.transport.PushCertificate.NonceStatus;
  */
 public class PushCertificateParser {
 	static final String BEGIN_SIGNATURE =
-			"-----BEGIN PGP SIGNATURE-----\n"; //$NON-NLS-1$
+			"-----BEGIN PGP SIGNATURE-----"; //$NON-NLS-1$
 	static final String END_SIGNATURE =
-			"-----END PGP SIGNATURE-----\n"; //$NON-NLS-1$
+			"-----END PGP SIGNATURE-----"; //$NON-NLS-1$
 
 	static final String VERSION = "certificate version"; //$NON-NLS-1$
 
@@ -80,7 +79,7 @@ public class PushCertificateParser {
 
 	private static final String VERSION_0_1 = "0.1"; //$NON-NLS-1$
 
-	private static final String END_CERT = "push-cert-end\n"; //$NON-NLS-1$
+	private static final String END_CERT = "push-cert-end"; //$NON-NLS-1$
 
 	private boolean received;
 	private String version;
@@ -112,7 +111,6 @@ public class PushCertificateParser {
 
 	private final NonceGenerator nonceGenerator;
 	private final List<ReceiveCommand> commands;
-	private final StringBuilder rawCommands;
 
 	PushCertificateParser(Repository into, SignedPushConfig cfg) {
 		if (cfg != null) {
@@ -124,7 +122,6 @@ public class PushCertificateParser {
 		}
 		db = into;
 		commands = new ArrayList<>();
-		rawCommands = new StringBuilder();
 	}
 
 	/**
@@ -139,8 +136,7 @@ public class PushCertificateParser {
 		}
 		try {
 			return new PushCertificate(version, pusher, pushee, receivedNonce,
-					nonceStatus, Collections.unmodifiableList(commands),
-					rawCommands.toString(), signature);
+					nonceStatus, Collections.unmodifiableList(commands), signature);
 		} catch (IllegalArgumentException e) {
 			throw new IOException(e.getMessage(), e);
 		}
@@ -244,9 +240,9 @@ public class PushCertificateParser {
 	 * Read the PGP signature.
 	 * <p>
 	 * This method assumes the line
-	 * {@code "-----BEGIN PGP SIGNATURE-----\n"} has already been parsed,
-	 * and continues parsing until an {@code "-----END PGP SIGNATURE-----\n"} is
-	 * found, followed by {@code "push-cert-end\n"}.
+	 * {@code "-----BEGIN PGP SIGNATURE-----"} has already been parsed,
+	 * and continues parsing until an {@code "-----END PGP SIGNATURE-----"} is
+	 * found, followed by {@code "push-cert-end"}.
 	 *
 	 * @param pckIn
 	 *            where we read the signature from.
@@ -257,13 +253,13 @@ public class PushCertificateParser {
 	public void receiveSignature(PacketLineIn pckIn) throws IOException {
 		received = true;
 		try {
-			StringBuilder sig = new StringBuilder(BEGIN_SIGNATURE);
+			StringBuilder sig = new StringBuilder(BEGIN_SIGNATURE).append('\n');
 			String line;
-			while (!(line = pckIn.readStringRaw()).equals(END_SIGNATURE)) {
-				sig.append(line);
+			while (!(line = pckIn.readString()).equals(END_SIGNATURE)) {
+				sig.append(line).append('\n');
 			}
-			signature = sig.append(END_SIGNATURE).toString();
-			if (!pckIn.readStringRaw().equals(END_CERT)) {
+			signature = sig.append(END_SIGNATURE).append('\n').toString();
+			if (!pckIn.readString().equals(END_CERT)) {
 				throw new PackProtocolException(
 						JGitText.get().pushCertificateInvalidSignature);
 			}
@@ -278,28 +274,23 @@ public class PushCertificateParser {
 	 *
 	 * @param cmd
 	 *            the command.
-	 * @param rawLine
-	 *            the exact line read from the wire that produced this
-	 *            command, including trailing newline if present.
 	 * @since 4.1
 	 */
-	public void addCommand(ReceiveCommand cmd, String rawLine) {
+	public void addCommand(ReceiveCommand cmd) {
 		commands.add(cmd);
-		rawCommands.append(rawLine);
 	}
 
 	/**
 	 * Add a command to the signature.
 	 *
-	 * @param rawLine
-	 *            the exact line read from the wire that produced this
-	 *            command, including trailing newline if present.
+	 * @param line
+	 *            the line read from the wire that produced this
+	 *            command, with optional trailing newline already trimmed.
 	 * @throws PackProtocolException
 	 *             if the raw line cannot be parsed to a command.
 	 * @since 4.0
 	 */
-	public void addCommand(String rawLine) throws PackProtocolException {
-		commands.add(parseCommand(chomp(rawLine)));
-		rawCommands.append(rawLine);
+	public void addCommand(String line) throws PackProtocolException {
+		commands.add(parseCommand(line));
 	}
 }

@@ -52,13 +52,6 @@ import org.junit.Test;
 /** Tests for base receive-pack utilities. */
 public class BaseReceivePackTest {
 	@Test
-	public void chomp() {
-		assertEquals("foo", BaseReceivePack.chomp("foo"));
-		assertEquals("foo", BaseReceivePack.chomp("foo\n"));
-		assertEquals("foo\n", BaseReceivePack.chomp("foo\n\n"));
-	}
-
-	@Test
 	public void parseCommand() throws Exception {
 		String o = "0000000000000000000000000000000000000000";
 		String n = "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
