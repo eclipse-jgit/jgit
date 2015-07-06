@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_80946849",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/errors/InvalidObjectIdException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-07-06T19:29:37Z",
+      "side": 1,
+      "message": "While you\u0027re doing mildly-related cleanup in this method, you might consider using StandardCharsets.US_ASCII.",
+      "revId": "15284d9ecb66d657644a5f936a61956e59aa7150",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
