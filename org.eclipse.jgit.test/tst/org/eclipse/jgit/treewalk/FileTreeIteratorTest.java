@@ -50,6 +50,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.security.MessageDigest;
 
 import org.eclipse.jgit.api.Git;
@@ -63,14 +64,12 @@ import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.junit.RepositoryTestCase;
-import org.eclipse.jgit.lib.ConfigConstants;
-import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.FileMode;
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.*;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.treewalk.WorkingTreeIterator.MetadataDiff;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
+import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.junit.Before;
@@ -536,6 +535,90 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 			assertFalse(tw.next());
 		}
 	}
+
+	private final FileTreeIterator.FileModeStrategy NO_GITLINKS_STRATEGY =
+			new FileTreeIterator.FileModeStrategy() {
+				@Override
+				public FileMode getMode(File f, FS.Attributes attributes) {
+					if (attributes.isSymbolicLink())
+						return FileMode.SYMLINK;
+					else if (attributes.isDirectory()) {
+						// NOTE: in the production DefaultFileModeStrategy, there is
+						// a check here for a subdirectory called '.git', and if it
+						// exists, we create a GITLINK instead of recursing into the
+						// tree.  In this custom strategy, we ignore nested git dirs
+						// and treat all directories the same.
+						return FileMode.TREE;
+					} else if (attributes.isExecutable())
+						return FileMode.EXECUTABLE_FILE;
+					else
+						return FileMode.REGULAR_FILE;
+				}
+			};
+
+	private Repository createNestedRepo() throws IOException {
+		File gitdir = createUniqueTestGitDir(false);
+		FileRepositoryBuilder builder = new FileRepositoryBuilder();
+		builder.setGitDir(gitdir);
+		Repository nestedRepo = builder.build();
+		nestedRepo.create();
+
+		FileUtils.mkdir(new File(nestedRepo.getWorkTree(), "sub"));
+		File file = new File(nestedRepo.getWorkTree(), "sub/a.txt");
+		FileUtils.createNewFile(file);
+		PrintWriter writer = new PrintWriter(file);
+		writer.print("content");
+		writer.close();
+
+		File nestedRepoPath = new File(nestedRepo.getWorkTree(), "sub/nested");
+		FileRepositoryBuilder nestedBuilder = new FileRepositoryBuilder();
+		nestedBuilder.setWorkTree(nestedRepoPath);
+		nestedBuilder.build().create();
+
+		File file2 = new File(nestedRepo.getWorkTree(), "sub/nested/b.txt");
+		FileUtils.createNewFile(file2);
+		writer = new PrintWriter(file2);
+		writer.print("content b");
+		writer.close();
+
+		return nestedRepo;
+	}
+
+	@Test
+	public void testCustomFileModeStrategy() throws Exception {
+		Repository nestedRepo = createNestedRepo();
+
+		Git git = new Git(nestedRepo);
+		// validate that our custom strategy is honored
+		WorkingTreeIterator customIterator = new FileTreeIterator(nestedRepo, NO_GITLINKS_STRATEGY);
+		git.add().setWorkingTreeIterator(customIterator).addFilepattern(".").call();
+		assertEquals(
+				"[sub/a.txt, mode:100644, content:content]" +
+				"[sub/nested/b.txt, mode:100644, content:content b]",
+				indexState(nestedRepo, CONTENT));
+
+	}
+
+	@Test
+	public void testCustomFileModeStrategyFromParentIterator() throws Exception {
+		Repository nestedRepo = createNestedRepo();
+
+		Git git = new Git(nestedRepo);
+
+		FileTreeIterator customIterator = new FileTreeIterator(nestedRepo, NO_GITLINKS_STRATEGY);
+		File r = new File(nestedRepo.getWorkTree(), "sub");
+
+		// here we want to validate that if we create a new iterator using the constructor that accepts
+		// a parent iterator, that the child iterator correctly inherits the FileModeStrategy from
+		// the parent iterator.
+		FileTreeIterator childIterator = new FileTreeIterator(customIterator, r, nestedRepo.getFS());
+		git.add().setWorkingTreeIterator(childIterator).addFilepattern(".").call();
+		assertEquals(
+				"[sub/a.txt, mode:100644, content:content]" +
+				"[sub/nested/b.txt, mode:100644, content:content b]",
+				indexState(nestedRepo, CONTENT));
+	}
+
 
 	private static void assertEntry(String sha1string, String path, TreeWalk tw)
 			throws MissingObjectException, IncorrectObjectTypeException,
