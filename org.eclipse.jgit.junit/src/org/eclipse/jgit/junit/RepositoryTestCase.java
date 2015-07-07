@@ -204,7 +204,7 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	 * @throws IllegalStateException
 	 * @throws IOException
 	 */
-	public String indexState(Repository repo, int includedOptions)
+	public static String indexState(Repository repo, int includedOptions)
 			throws IllegalStateException, IOException {
 		DirCache dc = repo.readDirCache();
 		StringBuilder sb = new StringBuilder();
