@@ -16,6 +16,24 @@
       "revId": "36cd34a70e350c58a2b312baf4b45c5407a02bf8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_713dcc43",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/IO.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-07-07T14:09:46Z",
+      "side": 1,
+      "message": "Added an optimized path when markSupported() is true, and more tests.",
+      "parentUuid": "87f6139c_eb0c2d7c",
+      "revId": "36cd34a70e350c58a2b312baf4b45c5407a02bf8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
