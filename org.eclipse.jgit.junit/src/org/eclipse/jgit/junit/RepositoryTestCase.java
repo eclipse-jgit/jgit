@@ -238,7 +238,7 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 				sb.append(", sha1:" + ObjectId.toString(entry.getObjectId()));
 			if (0 != (includedOptions & CONTENT)) {
 				sb.append(", content:"
-						+ new String(db.open(entry.getObjectId(),
+						+ new String(repo.open(entry.getObjectId(),
 								Constants.OBJ_BLOB).getCachedBytes(), "UTF-8"));
 			}
 			if (0 != (includedOptions & ASSUME_UNCHANGED))
