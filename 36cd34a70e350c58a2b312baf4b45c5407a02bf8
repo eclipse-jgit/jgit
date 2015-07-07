@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_eb0c2d7c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/IO.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-07-07T02:53:05Z",
+      "side": 1,
+      "message": "Ugh. If the underlying stream isn\u0027t a BufferedReader, this won\u0027t be efficient.\n\nWith a BufferedReader you should be able to mark(), read a char[], scan that for \\n, copy into StringBuilder the range you scanned, then reset and skip on the BufferedReader or whatever to advance it.\n\nBut that is probably overkill with BufferedReader. It depends on how its used and the frequency we are calling it. I suspect the single character read is fine so long as its a BufferedReader.",
+      "revId": "36cd34a70e350c58a2b312baf4b45c5407a02bf8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
