@@ -106,6 +106,30 @@
     },
     {
       "key": {
+        "uuid": "87f6139c_86bda053",
+        "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/RepositoryTestCase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 37145
+      },
+      "writtenOn": "2015-07-07T11:24:19Z",
+      "side": 1,
+      "message": "This one *does* use a member variable, though: `db`.  That variable is not accessible from the parent class.",
+      "parentUuid": "87f6139c_abb4e51d",
+      "range": {
+        "startLine": 157,
+        "startChar": 0,
+        "endLine": 195,
+        "endChar": 2
+      },
+      "revId": "452aec55ab32e61e4dc70799a2a889d9181c26d6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f6139c_dab65d43",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirectoryFlagsTest.java",
         "patchSetId": 2
