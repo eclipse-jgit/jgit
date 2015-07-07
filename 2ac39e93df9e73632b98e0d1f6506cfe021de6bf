@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_4b12a187",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1072,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-07-07T03:14:50Z",
+      "side": 1,
+      "message": "bad rebase? I don\u0027t think rawLine is in scope here.",
+      "range": {
+        "startLine": 1070,
+        "startChar": 4,
+        "endLine": 1072,
+        "endChar": 12
+      },
+      "revId": "2ac39e93df9e73632b98e0d1f6506cfe021de6bf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
