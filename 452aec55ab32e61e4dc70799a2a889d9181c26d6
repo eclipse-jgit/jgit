@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "87f6139c_46ea9816",
+        "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/LocalDiskRepositoryTestCase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 37145
+      },
+      "writtenOn": "2015-07-07T11:55:01Z",
+      "side": 1,
+      "message": "Great, I\u0027ve created a branch that shows one very minor change that I made to this method (change `db` to `repo` on line 213 above), just to make sure that my assumptions about that are correct.  Assuming that is merged then I have another follow-up ready that moves it to the parent class, and then I will rebase this branch once those are merged.",
+      "parentUuid": "87f6139c_ebba6d07",
+      "revId": "452aec55ab32e61e4dc70799a2a889d9181c26d6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f6139c_60533c64",
         "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/RepositoryTestCase.java",
         "patchSetId": 2
@@ -200,6 +218,24 @@
     },
     {
       "key": {
+        "uuid": "87f6139c_66ca34b4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/DirectoryFlags.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 37145
+      },
+      "writtenOn": "2015-07-07T11:55:01Z",
+      "side": 1,
+      "message": "That was my original thought as well, but I wasn\u0027t certain whether or not everyone would agree that that was a broadly-accessible enough spot in the API to surface it.  I can move it back over there.",
+      "parentUuid": "87f6139c_2bc8f59a",
+      "revId": "452aec55ab32e61e4dc70799a2a889d9181c26d6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f6139c_ebd1cd3f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 2
@@ -211,6 +247,24 @@
       "writtenOn": "2015-07-07T00:11:40Z",
       "side": 1,
       "message": "Not sure whether we have to tell the Repository about this low-level flag never exposed in porcellain. See my comments in FileTreeIterator",
+      "revId": "452aec55ab32e61e4dc70799a2a889d9181c26d6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_869ac0c3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 37145
+      },
+      "writtenOn": "2015-07-07T11:55:01Z",
+      "side": 1,
+      "message": "Fair enough.  I\u0027m happy to put it on `WorkTreeOptions`.",
+      "parentUuid": "87f6139c_ebd1cd3f",
       "revId": "452aec55ab32e61e4dc70799a2a889d9181c26d6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -252,6 +306,24 @@
     },
     {
       "key": {
+        "uuid": "87f6139c_06a6d00a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 37145
+      },
+      "writtenOn": "2015-07-07T11:55:01Z",
+      "side": 1,
+      "message": "Sounds good.",
+      "parentUuid": "87f6139c_6bce7da8",
+      "revId": "452aec55ab32e61e4dc70799a2a889d9181c26d6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f6139c_fabeb918",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
         "patchSetId": 2
@@ -281,6 +353,24 @@
       "side": 1,
       "message": "Right. But I think it\u0027s crucial. Otherwise we silently delete stuff from the next commit (already existing submodule entries). You can easily see inconsistencies when during calls to status, add, diff you use different values for NO_GITLINKS. By doublechecking with the index the problems are much less.\n\nIf we want a functionality which has to check workingtree and dircache ... then why don\u0027t we put that into a TreeWalk. The TreeWalk nows about multiple iterators and makes sure WorkingTreeIterator and DirCacheIterator are in sync. When using a treewalk and adding iterators we could detect that we have a workingtree and a dircache and let him call the already existing WorkingTreeIterator.setDirCacheIterator(). Now WorkingTreeIterators nows about a DirCacheIterator and can make use of it.",
       "parentUuid": "87f6139c_fabeb918",
+      "revId": "452aec55ab32e61e4dc70799a2a889d9181c26d6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_66a194f0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 37145
+      },
+      "writtenOn": "2015-07-07T11:55:01Z",
+      "side": 1,
+      "message": "I agree with you about the importance.  I\u0027m not yet familiar with `DirCacheIterator` or how it fits into the object model.  I\u0027ll spend some time looking into that.",
+      "parentUuid": "87f6139c_4bc9019c",
       "revId": "452aec55ab32e61e4dc70799a2a889d9181c26d6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
