@@ -22,6 +22,30 @@
       "revId": "84af961894345387bc5ecc39479df4c546d40223",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_11bf2817",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-07-07T14:08:46Z",
+      "side": 1,
+      "message": "If you do that, then you have the history of refs/push-certs telling you refs/foo existed as a ref, but you\u0027ve discarded the push cert that deleted refs/foo. If you think it\u0027s ok to discard some push certs, why store them at all? :)",
+      "parentUuid": "87f6139c_eb238ddb",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 51
+      },
+      "revId": "84af961894345387bc5ecc39479df4c546d40223",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
