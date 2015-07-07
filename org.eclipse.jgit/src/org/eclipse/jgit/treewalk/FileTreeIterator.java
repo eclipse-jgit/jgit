@@ -78,6 +78,8 @@ public class FileTreeIterator extends WorkingTreeIterator {
 	 */
 	protected final FS fs;
 
+	protected final FileModeStrategy fileModeStrategy;
+
 	/**
 	 * Create a new iterator to traverse the work tree and its children.
 	 *
@@ -85,8 +87,13 @@ public class FileTreeIterator extends WorkingTreeIterator {
 	 *            the repository whose working tree will be scanned.
 	 */
 	public FileTreeIterator(Repository repo) {
+		this(repo, DefaultFileModeStrategy.INSTANCE);
+	}
+
+	public FileTreeIterator(Repository repo, FileModeStrategy fileModeStrategy) {
 		this(repo.getWorkTree(), repo.getFS(),
-				repo.getConfig().get(WorkingTreeOptions.KEY));
+				repo.getConfig().get(WorkingTreeOptions.KEY),
+				fileModeStrategy);
 		initRootIterator(repo);
 	}
 
@@ -103,9 +110,15 @@ public class FileTreeIterator extends WorkingTreeIterator {
 	 *            working tree options to be used
 	 */
 	public FileTreeIterator(final File root, FS fs, WorkingTreeOptions options) {
+		this(root, fs, options, DefaultFileModeStrategy.INSTANCE);
+	}
+
+	public FileTreeIterator(final File root, FS fs, WorkingTreeOptions options,
+							FileModeStrategy fileModeStrategy) {
 		super(options);
 		directory = root;
 		this.fs = fs;
+		this.fileModeStrategy = fileModeStrategy;
 		init(entries());
 	}
 
@@ -123,16 +136,22 @@ public class FileTreeIterator extends WorkingTreeIterator {
 	 */
 	protected FileTreeIterator(final WorkingTreeIterator p, final File root,
 			FS fs) {
+		this(p, root, fs, DefaultFileModeStrategy.INSTANCE);
+	}
+
+	protected FileTreeIterator(final WorkingTreeIterator p, final File root,
+			FS fs, FileModeStrategy fileModeStrategy) {
 		super(p);
 		directory = root;
 		this.fs = fs;
+		this.fileModeStrategy = fileModeStrategy;
 		init(entries());
 	}
 
 	@Override
 	public AbstractTreeIterator createSubtreeIterator(final ObjectReader reader)
 			throws IncorrectObjectTypeException, IOException {
-		return new FileTreeIterator(this, ((FileEntry) current()).getFile(), fs);
+		return new FileTreeIterator(this, ((FileEntry) current()).getFile(), fs, fileModeStrategy);
 	}
 
 	private Entry[] entries() {
@@ -141,9 +160,33 @@ public class FileTreeIterator extends WorkingTreeIterator {
 			return EOF;
 		final Entry[] r = new Entry[all.length];
 		for (int i = 0; i < r.length; i++)
-			r[i] = new FileEntry(all[i], fs);
+			r[i] = new FileEntry(all[i], fs, fileModeStrategy);
 		return r;
 	}
+
+	public interface FileModeStrategy {
+		FileMode getMode(File f, FS.Attributes attributes);
+	}
+
+	static public class DefaultFileModeStrategy implements FileModeStrategy {
+		public final static DefaultFileModeStrategy INSTANCE = new DefaultFileModeStrategy();
+
+		@Override
+		public FileMode getMode(File f, FS.Attributes attributes) {
+			if (attributes.isSymbolicLink())
+				return FileMode.SYMLINK;
+			else if (attributes.isDirectory()) {
+				if (new File(f, Constants.DOT_GIT).exists())
+					return FileMode.GITLINK;
+				else
+					return FileMode.TREE;
+			} else if (attributes.isExecutable())
+				return FileMode.EXECUTABLE_FILE;
+			else
+				return FileMode.REGULAR_FILE;
+		}
+	}
+
 
 	/**
 	 * Wrapper for a standard Java IO file
@@ -164,20 +207,14 @@ public class FileTreeIterator extends WorkingTreeIterator {
 		 *            file system
 		 */
 		public FileEntry(File f, FS fs) {
+			this(f, fs, DefaultFileModeStrategy.INSTANCE);
+		}
+
+		public FileEntry(File f, FS fs, FileModeStrategy fileModeStrategy) {
 			this.fs = fs;
 			f = fs.normalize(f);
 			attributes = fs.getAttributes(f);
-			if (attributes.isSymbolicLink())
-				mode = FileMode.SYMLINK;
-			else if (attributes.isDirectory()) {
-				if (new File(f, Constants.DOT_GIT).exists())
-					mode = FileMode.GITLINK;
-				else
-					mode = FileMode.TREE;
-			} else if (attributes.isExecutable())
-				mode = FileMode.EXECUTABLE_FILE;
-			else
-				mode = FileMode.REGULAR_FILE;
+			mode = fileModeStrategy.getMode(f, attributes);
 		}
 
 		@Override
