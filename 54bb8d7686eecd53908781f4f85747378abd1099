@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_003193a0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-07-07T19:49:20Z",
+      "side": 1,
+      "message": "This is unsatisfying.\n\nIn theory if a ref backend supports atomic updates with BatchRefUpdate, we could do this in the same batch. But then we have potentially significant contention on the push cert ref, and it is difficult to determine which of the ref updates caused the lock failure. Plus it would be a pain on the client side to retry the whole batch modulo the one push cert ref update that would need to be rebased.",
+      "revId": "54bb8d7686eecd53908781f4f85747378abd1099",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
