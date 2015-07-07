@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_eb238ddb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-07-07T03:11:53Z",
+      "side": 1,
+      "message": "I think the argument in gitolite is its ok to replace refs/foo with a tree for refs/foo/bar because you still have the history of the refs/push-certs telling you refs/foo existed as a file and what its contents was back when it existed before refs/foo/bar came along.\n\nSo the @{certs} suffix isn\u0027t entirely required if you can trust the history pointed at by the ref.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 51
+      },
+      "revId": "84af961894345387bc5ecc39479df4c546d40223",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
