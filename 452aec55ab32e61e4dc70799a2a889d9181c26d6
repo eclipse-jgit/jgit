@@ -19,6 +19,93 @@
     },
     {
       "key": {
+        "uuid": "87f6139c_ebba6d07",
+        "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/LocalDiskRepositoryTestCase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-07-07T00:11:40Z",
+      "side": 1,
+      "message": "I agree. Feel free to propose the refactoring in a seperate predecessor commit.",
+      "parentUuid": "87f6139c_3aea0116",
+      "revId": "452aec55ab32e61e4dc70799a2a889d9181c26d6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_60533c64",
+        "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/RepositoryTestCase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-07-07T00:11:40Z",
+      "side": 1,
+      "message": "this unneeded import has to be removed. Otherwise eclipse complains.",
+      "range": {
+        "startLine": 59,
+        "startChar": 0,
+        "endLine": 59,
+        "endChar": 25
+      },
+      "revId": "452aec55ab32e61e4dc70799a2a889d9181c26d6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_404e00bf",
+        "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/RepositoryTestCase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-07-07T00:11:40Z",
+      "side": 1,
+      "message": "this unneeded import has to be removed. Otherwise eclipse complains.",
+      "range": {
+        "startLine": 63,
+        "startChar": 0,
+        "endLine": 63,
+        "endChar": 42
+      },
+      "revId": "452aec55ab32e61e4dc70799a2a889d9181c26d6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_abb4e51d",
+        "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/RepositoryTestCase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-07-07T00:11:40Z",
+      "side": 1,
+      "message": "This should be move also to the parent class. Doesn\u0027t make sense to move only one of the indexState methods",
+      "range": {
+        "startLine": 157,
+        "startChar": 0,
+        "endLine": 195,
+        "endChar": 2
+      },
+      "revId": "452aec55ab32e61e4dc70799a2a889d9181c26d6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f6139c_dab65d43",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirectoryFlagsTest.java",
         "patchSetId": 2
@@ -30,6 +117,24 @@
       "writtenOn": "2015-07-06T11:49:32Z",
       "side": 1,
       "message": "I think these tests are probably headed in the right direction, but the package/class names are probably not. Will depend on what is determined to be the appropriate place in the API to expose the new setting.",
+      "revId": "452aec55ab32e61e4dc70799a2a889d9181c26d6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_0bc3797f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirectoryFlagsTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-07-07T00:11:40Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "87f6139c_dab65d43",
       "revId": "452aec55ab32e61e4dc70799a2a889d9181c26d6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +158,41 @@
     },
     {
       "key": {
+        "uuid": "87f6139c_2bc8f59a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/DirectoryFlags.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-07-07T00:11:40Z",
+      "side": 1,
+      "message": "My attempt as a lazy guy would have been to to put this flag in the already existing WorkingTreeOptions. Seems to fit and we don\u0027t need a new type, deal with correct propagation of flags to subwalks.",
+      "parentUuid": "87f6139c_bab9d134",
+      "revId": "452aec55ab32e61e4dc70799a2a889d9181c26d6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_ebd1cd3f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-07-07T00:11:40Z",
+      "side": 1,
+      "message": "Not sure whether we have to tell the Repository about this low-level flag never exposed in porcellain. See my comments in FileTreeIterator",
+      "revId": "452aec55ab32e61e4dc70799a2a889d9181c26d6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f6139c_1ac465a6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
         "patchSetId": 2
@@ -70,6 +210,24 @@
     },
     {
       "key": {
+        "uuid": "87f6139c_6bce7da8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-07-07T00:11:40Z",
+      "side": 1,
+      "message": "One solution would be to add the a no_gitlinks attribute to WorkingTreeOptions. Maybe not even change the repository class to know something about DirectoryFlags. Whoever needs such a special FileTreeIterator has to call the constructor which takes the explicit workingTreeOptions and has to take care the the no_gitlinks is set. All other constructors construct a iterator which doesn\u0027t know this flag.\n\nJust a thought which would lead to a very small change (and no API change). I am myself not sure whether it is wise not to let the Repository know about the default setting for this flag.",
+      "parentUuid": "87f6139c_1ac465a6",
+      "revId": "452aec55ab32e61e4dc70799a2a889d9181c26d6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f6139c_fabeb918",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
         "patchSetId": 2
@@ -81,6 +239,24 @@
       "writtenOn": "2015-07-06T11:49:32Z",
       "side": 1,
       "message": "As mentioned in the comments on the bug tracker, this logic is not quite as sophisticated as what native git does here, and it might be preferable to extend it to match that logic more closely. However, I think that in order to do that, it might be necessary to have access to the current state of the index for the working tree from this spot in the code, and that seemed like it might be challenging to achieve.",
+      "revId": "452aec55ab32e61e4dc70799a2a889d9181c26d6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_4bc9019c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-07-07T00:11:40Z",
+      "side": 1,
+      "message": "Right. But I think it\u0027s crucial. Otherwise we silently delete stuff from the next commit (already existing submodule entries). You can easily see inconsistencies when during calls to status, add, diff you use different values for NO_GITLINKS. By doublechecking with the index the problems are much less.\n\nIf we want a functionality which has to check workingtree and dircache ... then why don\u0027t we put that into a TreeWalk. The TreeWalk nows about multiple iterators and makes sure WorkingTreeIterator and DirCacheIterator are in sync. When using a treewalk and adding iterators we could detect that we have a workingtree and a dircache and let him call the already existing WorkingTreeIterator.setDirCacheIterator(). Now WorkingTreeIterators nows about a DirCacheIterator and can make use of it.",
+      "parentUuid": "87f6139c_fabeb918",
       "revId": "452aec55ab32e61e4dc70799a2a889d9181c26d6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
