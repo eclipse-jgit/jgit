@@ -16,6 +16,24 @@
       "revId": "7c5c93c0172f01143b7b79130ed6384e3249e38e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_4ce0f703",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateParser.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-07-07T14:25:11Z",
+      "side": 1,
+      "message": "Er, that was a bad idea. Leave it to the callers.",
+      "parentUuid": "87f6139c_910838a0",
+      "revId": "7c5c93c0172f01143b7b79130ed6384e3249e38e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
