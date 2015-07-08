@@ -16,6 +16,63 @@
       "revId": "54bb8d7686eecd53908781f4f85747378abd1099",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_4fe58414",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateStore.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-07-08T19:25:33Z",
+      "side": 1,
+      "message": "Given what we now know about C Git and refs/foo names do we want to still use this?",
+      "revId": "54bb8d7686eecd53908781f4f85747378abd1099",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_cf0cd47c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateStore.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-07-08T19:25:33Z",
+      "side": 1,
+      "message": "Formatting seems off here",
+      "range": {
+        "startLine": 118,
+        "startChar": 0,
+        "endLine": 121,
+        "endChar": 3
+      },
+      "revId": "54bb8d7686eecd53908781f4f85747378abd1099",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_8f3f6ce2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateStore.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-07-08T19:25:33Z",
+      "side": 1,
+      "message": "This test is wrong. If the tree entry is a gitlink its non-zero and you fall through to read the commit that doesn\u0027t exist as though it is a blob.\n\nSafer test is:\n\n  (rawMode \u0026 TYPE_FILE) !\u003d TYPE_FILE",
+      "revId": "54bb8d7686eecd53908781f4f85747378abd1099",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
