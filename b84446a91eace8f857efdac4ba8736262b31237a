@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f6139c_f457e54e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/IO.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-07-08T17:04:22Z",
+      "side": 1,
+      "message": "Don\u0027t we want to keep reading in this case? We haven\u0027t hit EOF yet as n \u003e 0. Maybe the underlying stream didn\u0027t have 1024 chars ready but had 250 ready and gave those to you above. Calling again would block until more become ready and you can find LF in that next batch?\n\nMaybe I made a mistake by suggesting this. Would it be simpler to just document the caller should pass BufferedReader or a Reader(BufferedInputStream) to minimize the cost of single character IO ... and then verify callers are doing that?",
+      "range": {
+        "startLine": 420,
+        "startChar": 5,
+        "endLine": 425,
+        "endChar": 5
+      },
+      "revId": "b84446a91eace8f857efdac4ba8736262b31237a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
