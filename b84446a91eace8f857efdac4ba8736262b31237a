@@ -22,6 +22,30 @@
       "revId": "b84446a91eace8f857efdac4ba8736262b31237a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f6139c_8f2dacce",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/IO.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-07-08T17:30:42Z",
+      "side": 1,
+      "message": "I forgot n may be less than the buffer length in this case. Easy fix.\n\nRequiring BufferedReader in this method is a possibility. I don\u0027t know how we would check for Reader(BufferedInputStream); InputStreamReader doesn\u0027t expose its delegate stream.",
+      "parentUuid": "87f6139c_f457e54e",
+      "range": {
+        "startLine": 420,
+        "startChar": 5,
+        "endLine": 425,
+        "endChar": 5
+      },
+      "revId": "b84446a91eace8f857efdac4ba8736262b31237a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
