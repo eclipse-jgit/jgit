@@ -204,7 +204,13 @@ public class PushCertificateParser {
 	private final NonceGenerator nonceGenerator;
 	private final List<ReceiveCommand> commands = new ArrayList<>();
 
-	PushCertificateParser(Repository into, SignedPushConfig cfg) {
+	/**
+	 * @param into
+	 *            destination repository for the push.
+	 * @param cfg
+	 *            configuration for signed push.
+	 */
+	public PushCertificateParser(Repository into, SignedPushConfig cfg) {
 		if (cfg != null) {
 			nonceSlopLimit = cfg.getCertNonceSlopLimit();
 			nonceGenerator = cfg.getNonceGenerator();
