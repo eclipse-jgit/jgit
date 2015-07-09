@@ -153,23 +153,7 @@ public class PushCertificateParser {
 	 */
 	public static PushCertificate fromReader(Reader r)
 			throws PackProtocolException, IOException {
-		PushCertificateParser parser = new PushCertificateParser();
-		StreamReader reader = new StreamReader(r);
-		parser.receiveHeader(reader, true);
-		String line;
-		try {
-			while (!(line = reader.read()).isEmpty()) {
-				if (line.equals(BEGIN_SIGNATURE)) {
-					parser.receiveSignature(reader);
-					break;
-				}
-				parser.addCommand(line);
-			}
-		} catch (EOFException e) {
-			// EOF reached, but might have been at a valid state. Let build call below
-			// sort it out.
-		}
-		return parser.build();
+		return new PushCertificateParser().parse(r);
 	}
 
 	private boolean received;
@@ -227,6 +211,40 @@ public class PushCertificateParser {
 		nonceSlopLimit = 0;
 		nonceGenerator = null;
 		enabled = true;
+	}
+
+	/**
+	 * Parse a push certificate from a reader.
+	 *
+	 * @see #fromReader(Reader)
+	 * @param r
+	 *            input reader; consumed only up until the end of the next
+	 *            signature in the input.
+	 * @return the parsed certificate, or null if the reader was at EOF.
+	 * @throws PackProtocolException
+	 *             if the certificate is malformed.
+	 * @throws IOException
+	 *             if there was an error reading from the input.
+	 * @since 4.1
+	 */
+	public PushCertificate parse(Reader r)
+			throws PackProtocolException, IOException {
+		StreamReader reader = new StreamReader(r);
+		receiveHeader(reader, true);
+		String line;
+		try {
+			while (!(line = reader.read()).isEmpty()) {
+				if (line.equals(BEGIN_SIGNATURE)) {
+					receiveSignature(reader);
+					break;
+				}
+				addCommand(line);
+			}
+		} catch (EOFException e) {
+			// EOF reached, but might have been at a valid state. Let build call below
+			// sort it out.
+		}
+		return build();
 	}
 
 	/**
