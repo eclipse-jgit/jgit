@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "472a5bc0_4fac4176",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateParser.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-07-09T19:10:52Z",
+      "side": 1,
+      "message": "Only change in this PS was to fix this bad rebase.",
+      "revId": "618f213da02d4ca99289ae108f5b786c072c2ca6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
