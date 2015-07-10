@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "472a5bc0_632f9e13",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 679,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2015-07-10T18:41:20Z",
+      "side": 1,
+      "message": "This one in particular is the same as testBareRepo, but in general they are different case by case, so sharing them doesn\u0027t make much sense.",
+      "parentUuid": "472a5bc0_03286235",
+      "range": {
+        "startLine": 679,
+        "startChar": 0,
+        "endLine": 679,
+        "endChar": 50
+      },
+      "revId": "99e98f84e7db93ed40ef246d9baa573d08e65626",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "472a5bc0_43653a93",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2015-07-10T17:17:17Z",
       "side": 1,
       "message": "(not about this change) This would be easier to read using String.format:\n\n String xmlContent \u003d String.format(\n     \"\u003c?xml ...\"\n     + \"\u003cmanifest\u003e\\n\"\n     + \"\u003cremote ...\"\n     + ...\n     + \"\u003cproject path\u003d\\\"foo\\\" name\u003d\\\"%s\\\" /\u003e\\n\"\n     + \"\u003c/manifest\u003e\",\n     defaultUri);",
+      "range": {
+        "startLine": 685,
+        "startChar": 0,
+        "endLine": 685,
+        "endChar": 64
+      },
+      "revId": "99e98f84e7db93ed40ef246d9baa573d08e65626",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "472a5bc0_c3c00a96",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 685,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2015-07-10T18:41:20Z",
+      "side": 1,
+      "message": "When there are more than 1 %s to fill, it will be not so easy to read on which %s is the first parameter, or to easily answer \"is this the 1st or 2nd %s?\", so I still slightly prefer using append.",
+      "parentUuid": "472a5bc0_43653a93",
       "range": {
         "startLine": 685,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "472a5bc0_a34076bb",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 690,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2015-07-10T18:41:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "472a5bc0_83345295",
+      "range": {
+        "startLine": 690,
+        "startChar": 10,
+        "endLine": 690,
+        "endChar": 19
+      },
+      "revId": "99e98f84e7db93ed40ef246d9baa573d08e65626",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "472a5bc0_434c1a1d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
         "patchSetId": 2
@@ -82,6 +154,30 @@
       "writtenOn": "2015-07-10T17:17:17Z",
       "side": 1,
       "message": "(optional) One way to do this would be to do a RepoCommand with the default target branch and a different target branch and confirm that the resulting trees are identical (i.e., compare the tree object id).\n\nThat way, it avoids the complexity of having to remember what details of the output to check --- it checks that the output is exactly the same as when no target branch was specified, just in a different branch.",
+      "range": {
+        "startLine": 693,
+        "startChar": 0,
+        "endLine": 693,
+        "endChar": 14
+      },
+      "revId": "99e98f84e7db93ed40ef246d9baa573d08e65626",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "472a5bc0_43ad3af4",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2015-07-10T18:41:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "472a5bc0_434c1a1d",
       "range": {
         "startLine": 693,
         "startChar": 0,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "472a5bc0_038ce2bd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2015-07-10T18:41:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "472a5bc0_634b1e03",
+      "range": {
+        "startLine": 300,
+        "startChar": 0,
+        "endLine": 300,
+        "endChar": 3
+      },
+      "revId": "99e98f84e7db93ed40ef246d9baa573d08e65626",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "472a5bc0_e356eea2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
         "patchSetId": 2
@@ -128,6 +248,30 @@
       "writtenOn": "2015-07-10T17:17:17Z",
       "side": 1,
       "message": "(optional) HEAD was more intuitive.",
+      "range": {
+        "startLine": 303,
+        "startChar": 0,
+        "endLine": 303,
+        "endChar": 34
+      },
+      "revId": "99e98f84e7db93ed40ef246d9baa573d08e65626",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "472a5bc0_e388aeab",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2015-07-10T18:41:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "472a5bc0_e356eea2",
       "range": {
         "startLine": 303,
         "startChar": 0,
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "472a5bc0_63183e04",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2015-07-10T18:41:20Z",
+      "side": 1,
+      "message": "It will be ignored, similar to setAuthor.",
+      "parentUuid": "472a5bc0_c35f6aba",
+      "range": {
+        "startLine": 305,
+        "startChar": 0,
+        "endLine": 305,
+        "endChar": 42
+      },
+      "revId": "99e98f84e7db93ed40ef246d9baa573d08e65626",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "472a5bc0_035a22c9",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
         "patchSetId": 2
@@ -174,6 +342,30 @@
       "writtenOn": "2015-07-10T17:17:17Z",
       "side": 1,
       "message": "(not about this change) current style in jgit is to leave off the \"final\" in small methods like this one",
+      "range": {
+        "startLine": 311,
+        "startChar": 36,
+        "endLine": 311,
+        "endChar": 42
+      },
+      "revId": "99e98f84e7db93ed40ef246d9baa573d08e65626",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "472a5bc0_8313b2e7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2015-07-10T18:41:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "472a5bc0_035a22c9",
       "range": {
         "startLine": 311,
         "startChar": 36,
