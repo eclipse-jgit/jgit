@@ -22,6 +22,30 @@
       "revId": "8cb2dd9adafc83523e9d6e475a9df38b72b82dcc",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "472a5bc0_3ecbfd4e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateStore.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-07-10T20:17:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "472a5bc0_3ef93d8f",
+      "range": {
+        "startLine": 148,
+        "startChar": 24,
+        "endLine": 148,
+        "endChar": 39
+      },
+      "revId": "8cb2dd9adafc83523e9d6e475a9df38b72b82dcc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
