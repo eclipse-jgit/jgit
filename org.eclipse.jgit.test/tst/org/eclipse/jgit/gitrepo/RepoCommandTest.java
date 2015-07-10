@@ -241,9 +241,9 @@ public class RepoCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testBareRepo() throws Exception {
-		Repository remoteDb = createBareRepository();
-		Repository tempDb = createWorkRepository();
-		try {
+		try (
+				Repository remoteDb = createBareRepository();
+				Repository tempDb = createWorkRepository()) {
 			StringBuilder xmlContent = new StringBuilder();
 			xmlContent
 					.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
@@ -280,9 +280,6 @@ public class RepoCommandTest extends RepositoryTestCase {
 			String remote = defaultDb.resolve(Constants.HEAD).name();
 			assertEquals("The gitlink should be the same as remote head",
 					remote, gitlink);
-		} finally {
-			tempDb.close();
-			remoteDb.close();
 		}
 	}
 
@@ -366,9 +363,9 @@ public class RepoCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testRevisionBare() throws Exception {
-		Repository remoteDb = createBareRepository();
-		Repository tempDb = createWorkRepository();
-		try {
+		try (
+				Repository remoteDb = createBareRepository();
+				Repository tempDb = createWorkRepository()) {
 			StringBuilder xmlContent = new StringBuilder();
 			xmlContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
 					.append("<manifest>")
@@ -393,17 +390,14 @@ public class RepoCommandTest extends RepositoryTestCase {
 			localDb.close();
 			assertEquals("The gitlink is same as remote head",
 					oldCommitId.name(), gitlink);
-		} finally {
-			tempDb.close();
-			remoteDb.close();
 		}
 	}
 
 	@Test
 	public void testCopyFileBare() throws Exception {
-		Repository remoteDb = createBareRepository();
-		Repository tempDb = createWorkRepository();
-		try {
+		try (
+				Repository remoteDb = createBareRepository();
+				Repository tempDb = createWorkRepository()) {
 			StringBuilder xmlContent = new StringBuilder();
 			xmlContent
 					.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
@@ -435,17 +429,14 @@ public class RepoCommandTest extends RepositoryTestCase {
 			reader.close();
 			assertEquals("The Hello file should have expected content",
 					"branch world", content);
-		} finally {
-			tempDb.close();
-			remoteDb.close();
 		}
 	}
 
 	@Test
 	public void testReplaceManifestBare() throws Exception {
-		Repository remoteDb = createBareRepository();
-		Repository tempDb = createWorkRepository();
-		try {
+		try (
+				Repository remoteDb = createBareRepository();
+				Repository tempDb = createWorkRepository()) {
 			StringBuilder xmlContent = new StringBuilder();
 			xmlContent
 					.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
@@ -512,17 +503,14 @@ public class RepoCommandTest extends RepositoryTestCase {
 			reader.close();
 			assertTrue("The bar submodule should exist", bar);
 			assertFalse("The foo submodule shouldn't exist", foo);
-		} finally {
-			tempDb.close();
-			remoteDb.close();
 		}
 	}
 
 	@Test
 	public void testRemoveOverlappingBare() throws Exception {
-		Repository remoteDb = createBareRepository();
-		Repository tempDb = createWorkRepository();
-		try {
+		try (
+				Repository remoteDb = createBareRepository();
+				Repository tempDb = createWorkRepository()) {
 			StringBuilder xmlContent = new StringBuilder();
 			xmlContent
 					.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
@@ -571,9 +559,6 @@ public class RepoCommandTest extends RepositoryTestCase {
 			assertTrue("The foo submodule should exist", foo);
 			assertFalse("The foo/bar submodule shouldn't exist", foobar);
 			assertTrue("The a submodule should exist", a);
-		} finally {
-			tempDb.close();
-			remoteDb.close();
 		}
 	}
 
@@ -669,6 +654,42 @@ public class RepoCommandTest extends RepositoryTestCase {
 			.call();
 		File file = new File(localDb.getWorkTree(), "foo/hello.txt");
 		assertTrue("We should have foo", file.exists());
+	}
+
+	@Test
+	public void testTargetBranch() throws Exception {
+		try (
+				Repository remoteDb1 = createBareRepository();
+				Repository remoteDb2 = createBareRepository();
+				Repository tempDb = createWorkRepository()) {
+			StringBuilder xmlContent = new StringBuilder();
+			xmlContent
+					.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+					.append("<manifest>")
+					.append("<remote name=\"remote1\" fetch=\".\" />")
+					.append("<default revision=\"master\" remote=\"remote1\" />")
+					.append("<project path=\"foo\" name=\"").append(defaultUri)
+					.append("\" />").append("</manifest>");
+			JGitTestUtil.writeTrashFile(tempDb, "manifest.xml",
+					xmlContent.toString());
+			RepoCommand command = new RepoCommand(remoteDb1);
+			command
+				.setPath(tempDb.getWorkTree().getAbsolutePath() + "/manifest.xml")
+				.setURI(rootUri)
+				.setTargetBranch("test")
+				.call();
+			ObjectId branchId = remoteDb1.resolve(
+					Constants.R_HEADS + "test^{tree}");
+			command = new RepoCommand(remoteDb2);
+			command
+				.setPath(tempDb.getWorkTree().getAbsolutePath() + "/manifest.xml")
+				.setURI(rootUri)
+				.call();
+			ObjectId defaultId = remoteDb2.resolve(Constants.HEAD + "^{tree}");
+			assertEquals(
+				"The tree id of branch db and default db should be the same",
+				branchId, defaultId);
+		}
 	}
 
 	private void resolveRelativeUris() {
