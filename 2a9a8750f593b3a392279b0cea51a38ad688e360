@@ -1,0 +1,267 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "472a5bc0_e3d54e60",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-07-10T19:02:09Z",
+      "side": 1,
+      "message": "refs/meta/push-certs",
+      "range": {
+        "startLine": 7,
+        "startChar": 27,
+        "endLine": 7,
+        "endChar": 42
+      },
+      "revId": "2a9a8750f593b3a392279b0cea51a38ad688e360",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "472a5bc0_23076691",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateStore.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-07-10T19:02:09Z",
+      "side": 1,
+      "message": "R_REFS + \"meta/push-certs\"?",
+      "range": {
+        "startLine": 102,
+        "startChar": 32,
+        "endLine": 102,
+        "endChar": 63
+      },
+      "revId": "2a9a8750f593b3a392279b0cea51a38ad688e360",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "472a5bc0_83fc52e6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateStore.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-07-10T19:02:09Z",
+      "side": 1,
+      "message": "spaces are used here, but style prefers tabs",
+      "revId": "2a9a8750f593b3a392279b0cea51a38ad688e360",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "472a5bc0_63015e78",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateStore.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-07-10T19:02:09Z",
+      "side": 1,
+      "message": "spaces are used here, but style prefers tabs",
+      "revId": "2a9a8750f593b3a392279b0cea51a38ad688e360",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "472a5bc0_c3f5aaf7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateStore.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-07-10T19:02:09Z",
+      "side": 1,
+      "message": "Missing leading space before * on 3 out of 5 lines.",
+      "range": {
+        "startLine": 146,
+        "startChar": 0,
+        "endLine": 150,
+        "endChar": 3
+      },
+      "revId": "2a9a8750f593b3a392279b0cea51a38ad688e360",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "472a5bc0_638e7e84",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateStore.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-07-10T19:02:09Z",
+      "side": 1,
+      "message": "and also rw \u003d null?",
+      "revId": "2a9a8750f593b3a392279b0cea51a38ad688e360",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "472a5bc0_a36fd61f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateStore.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-07-10T19:02:09Z",
+      "side": 1,
+      "message": "This test is wrong. If the tree entry is a gitlink its non-zero and you fall through to read the commit that doesn\u0027t exist as though it is a blob.\nSafer test is:\n\n  (rawMode \u0026 TYPE_FILE) !\u003d TYPE_FILE",
+      "range": {
+        "startLine": 296,
+        "startChar": 20,
+        "endLine": 296,
+        "endChar": 64
+      },
+      "revId": "2a9a8750f593b3a392279b0cea51a38ad688e360",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "472a5bc0_e379cee8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateStore.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-07-10T19:02:09Z",
+      "side": 1,
+      "message": "Specify the character encoding. Don\u0027t rely on platform default.\n\nA push cert is basically US-ASCII. You can probably use ISO-8859-1 or UTF-8.",
+      "revId": "2a9a8750f593b3a392279b0cea51a38ad688e360",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "472a5bc0_c3592a88",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateStore.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-07-10T19:02:09Z",
+      "side": 1,
+      "message": "Add a remark about timestamp being used to sort certs.\n\nYet in getPending() you rely on the first match. So should the caller add them in reverse order if it wants to use getPending before save? Or should the caller just not add multiple certs affecting the same ref? Or call save first?\n\nIts a bit unclear from the API and the implementation what you want.\n\nMaybe teach getPending to find the highest dated PersonIdent before returning, instead of the first match?",
+      "revId": "2a9a8750f593b3a392279b0cea51a38ad688e360",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "472a5bc0_0354e24a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateStore.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-07-10T19:02:09Z",
+      "side": 1,
+      "message": "I see no rationale reason to sort on time zone offset.",
+      "range": {
+        "startLine": 375,
+        "startChar": 4,
+        "endLine": 377,
+        "endChar": 5
+      },
+      "revId": "2a9a8750f593b3a392279b0cea51a38ad688e360",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "472a5bc0_e350ae58",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateStore.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-07-10T19:02:09Z",
+      "side": 1,
+      "message": "return Long.signum(c);",
+      "range": {
+        "startLine": 378,
+        "startChar": 4,
+        "endLine": 383,
+        "endChar": 19
+      },
+      "revId": "2a9a8750f593b3a392279b0cea51a38ad688e360",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "472a5bc0_1eb6f925",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateStore.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-07-10T19:02:09Z",
+      "side": 1,
+      "message": "Interesting. So we never prune deleted refs out of the tree? They just stick around forever?\n\nIt makes sense we have to commit them at least once. Maybe we do a periodic \"garbage collection\" commit in isolation during a cert store that loops through all refs in the tree and if the current cert is a delete of that ref, delete the tree entry.",
+      "range": {
+        "startLine": 403,
+        "startChar": 2,
+        "endLine": 411,
+        "endChar": 3
+      },
+      "revId": "2a9a8750f593b3a392279b0cea51a38ad688e360",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "472a5bc0_03f06202",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateStore.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-07-10T19:02:09Z",
+      "side": 1,
+      "message": "ETOOMANYTABS",
+      "revId": "2a9a8750f593b3a392279b0cea51a38ad688e360",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
