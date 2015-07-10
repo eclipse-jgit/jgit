@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "472a5bc0_1e2f19c6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-07-10T20:00:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "472a5bc0_e3d54e60",
+      "range": {
+        "startLine": 7,
+        "startChar": 27,
+        "endLine": 7,
+        "endChar": 42
+      },
+      "revId": "2a9a8750f593b3a392279b0cea51a38ad688e360",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "472a5bc0_23076691",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateStore.java",
         "patchSetId": 11
@@ -36,6 +60,30 @@
       "writtenOn": "2015-07-10T19:02:09Z",
       "side": 1,
       "message": "R_REFS + \"meta/push-certs\"?",
+      "range": {
+        "startLine": 102,
+        "startChar": 32,
+        "endLine": 102,
+        "endChar": 63
+      },
+      "revId": "2a9a8750f593b3a392279b0cea51a38ad688e360",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "472a5bc0_5e2991bc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateStore.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-07-10T20:00:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "472a5bc0_23076691",
       "range": {
         "startLine": 102,
         "startChar": 32,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "472a5bc0_be1d2d9d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateStore.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-07-10T20:00:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "472a5bc0_83fc52e6",
+      "revId": "2a9a8750f593b3a392279b0cea51a38ad688e360",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "472a5bc0_63015e78",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateStore.java",
         "patchSetId": 11
@@ -76,6 +142,24 @@
       "writtenOn": "2015-07-10T19:02:09Z",
       "side": 1,
       "message": "spaces are used here, but style prefers tabs",
+      "revId": "2a9a8750f593b3a392279b0cea51a38ad688e360",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "472a5bc0_9e1ae9a0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateStore.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-07-10T20:00:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "472a5bc0_63015e78",
       "revId": "2a9a8750f593b3a392279b0cea51a38ad688e360",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -105,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "472a5bc0_3e55bd26",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateStore.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-07-10T20:00:53Z",
+      "side": 1,
+      "message": "The Eclipse formatter is really losing today.",
+      "parentUuid": "472a5bc0_c3f5aaf7",
+      "range": {
+        "startLine": 146,
+        "startChar": 0,
+        "endLine": 150,
+        "endChar": 3
+      },
+      "revId": "2a9a8750f593b3a392279b0cea51a38ad688e360",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "472a5bc0_638e7e84",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateStore.java",
         "patchSetId": 11
@@ -116,6 +224,24 @@
       "writtenOn": "2015-07-10T19:02:09Z",
       "side": 1,
       "message": "and also rw \u003d null?",
+      "revId": "2a9a8750f593b3a392279b0cea51a38ad688e360",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "472a5bc0_1e5a7956",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateStore.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-07-10T20:00:53Z",
+      "side": 1,
+      "message": "I don\u0027t think it actually matters because rw.next() should still continue returning null after closing. But agreed that this makes the intention clearer, done.",
+      "parentUuid": "472a5bc0_638e7e84",
       "revId": "2a9a8750f593b3a392279b0cea51a38ad688e360",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -145,6 +271,30 @@
     },
     {
       "key": {
+        "uuid": "472a5bc0_9e65c911",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateStore.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-07-10T20:00:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "472a5bc0_a36fd61f",
+      "range": {
+        "startLine": 296,
+        "startChar": 20,
+        "endLine": 296,
+        "endChar": 64
+      },
+      "revId": "2a9a8750f593b3a392279b0cea51a38ad688e360",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "472a5bc0_e379cee8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateStore.java",
         "patchSetId": 11
@@ -156,6 +306,24 @@
       "writtenOn": "2015-07-10T19:02:09Z",
       "side": 1,
       "message": "Specify the character encoding. Don\u0027t rely on platform default.\n\nA push cert is basically US-ASCII. You can probably use ISO-8859-1 or UTF-8.",
+      "revId": "2a9a8750f593b3a392279b0cea51a38ad688e360",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "472a5bc0_fe7205d3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateStore.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-07-10T20:00:53Z",
+      "side": 1,
+      "message": "Well a cert is UTF-8 because the pusher is an RFC4880 User ID which is UTF-8, but yeah, done.",
+      "parentUuid": "472a5bc0_e379cee8",
       "revId": "2a9a8750f593b3a392279b0cea51a38ad688e360",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -179,6 +347,24 @@
     },
     {
       "key": {
+        "uuid": "472a5bc0_3e3c9dee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateStore.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-07-10T20:00:53Z",
+      "side": 1,
+      "message": "Comment added. Intention was for getPending to sort.\n\nBut now I\u0027m rethinking this whole get-before-save thing. It\u0027s  code complexity and I don\u0027t think there\u0027s an actual use case. (It was broken in this PS as we were only getting the first pending cert in getAll.)",
+      "parentUuid": "472a5bc0_c3592a88",
+      "revId": "2a9a8750f593b3a392279b0cea51a38ad688e360",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "472a5bc0_0354e24a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateStore.java",
         "patchSetId": 11
@@ -190,6 +376,30 @@
       "writtenOn": "2015-07-10T19:02:09Z",
       "side": 1,
       "message": "I see no rationale reason to sort on time zone offset.",
+      "range": {
+        "startLine": 375,
+        "startChar": 4,
+        "endLine": 377,
+        "endChar": 5
+      },
+      "revId": "2a9a8750f593b3a392279b0cea51a38ad688e360",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "472a5bc0_1e41d962",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateStore.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-07-10T20:00:53Z",
+      "side": 1,
+      "message": "Ok, no tiebreaker then, we\u0027ll just depend on Collections.sort being stable.",
+      "parentUuid": "472a5bc0_0354e24a",
       "range": {
         "startLine": 375,
         "startChar": 4,
@@ -225,6 +435,30 @@
     },
     {
       "key": {
+        "uuid": "472a5bc0_7e36150e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateStore.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-07-10T20:00:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "472a5bc0_e350ae58",
+      "range": {
+        "startLine": 378,
+        "startChar": 4,
+        "endLine": 383,
+        "endChar": 19
+      },
+      "revId": "2a9a8750f593b3a392279b0cea51a38ad688e360",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "472a5bc0_1eb6f925",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateStore.java",
         "patchSetId": 11
@@ -248,6 +482,30 @@
     },
     {
       "key": {
+        "uuid": "472a5bc0_5e3b51f4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateStore.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-07-10T20:00:53Z",
+      "side": 1,
+      "message": "Yes, there are indefinite tombstones. It is significant information about the state of repository to distinguish between these cases:\n\n* refs/heads/foo doesn\u0027t exist because it never existed\n* refs/heads/foo doesn\u0027t exist because this user deleted it, using this push cert.\n\nWe can add a prune step later if this becomes unwieldy.",
+      "parentUuid": "472a5bc0_1eb6f925",
+      "range": {
+        "startLine": 403,
+        "startChar": 2,
+        "endLine": 411,
+        "endChar": 3
+      },
+      "revId": "2a9a8750f593b3a392279b0cea51a38ad688e360",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "472a5bc0_03f06202",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateStore.java",
         "patchSetId": 11
@@ -259,6 +517,24 @@
       "writtenOn": "2015-07-10T19:02:09Z",
       "side": 1,
       "message": "ETOOMANYTABS",
+      "revId": "2a9a8750f593b3a392279b0cea51a38ad688e360",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "472a5bc0_be4fed8c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateStore.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-07-10T20:00:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "472a5bc0_03f06202",
       "revId": "2a9a8750f593b3a392279b0cea51a38ad688e360",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
