@@ -67,6 +67,7 @@ import org.eclipse.jgit.dircache.DirCacheEditor;
 import org.eclipse.jgit.dircache.DirCacheEditor.PathEdit;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
@@ -326,8 +327,63 @@ public class PushCertificateStore implements AutoCloseable {
 	 *             repository.
 	 */
 	public RefUpdate.Result save() throws IOException {
-		if (pending.isEmpty()) {
+		ObjectId newId = write();
+		if (newId == null) {
 			return RefUpdate.Result.NO_CHANGE;
+		}
+		try (ObjectInserter inserter = db.newObjectInserter()) {
+			RefUpdate.Result result = updateRef(newId);
+			switch (result) {
+				case FAST_FORWARD:
+				case NEW:
+				case NO_CHANGE:
+					pending.clear();
+					break;
+				default:
+					break;
+			}
+			return result;
+		} finally {
+			close();
+		}
+	}
+
+	/**
+	 * Save pending certificates to the store in an existing batch ref update.
+	 * <p>
+	 * One commit is created per certificate added with {@link
+	 * #put(PushCertificate, PersonIdent)}, in order of identity timestamps, all
+	 * commits are flushed, and a single command is added to the batch.
+	 * <p>
+	 * The pending list is <em>not</em> cleared. If the ref update succeeds, the
+	 * caller is responsible for calling {@link #clear()}.
+	 *
+	 * @param batch
+	 *            update to save to.
+	 * @throws IOException
+	 *             if there was an error reading from or writing to the
+	 *             repository.
+	 */
+	public void save(BatchRefUpdate batch) throws IOException {
+		ObjectId newId = write();
+		if (newId == null) {
+			return;
+		}
+		batch.addCommand(new ReceiveCommand(
+				commit != null ? commit : ObjectId.zeroId(), newId, REF_NAME));
+	}
+
+	/**
+	 * Clear pending certificates added with {@link #put(PushCertificate,
+	 * PersonIdent)}.
+	 */
+	public void clear() {
+		pending.clear();
+	}
+
+	private ObjectId write() throws IOException {
+		if (pending.isEmpty()) {
+			return null;
 		}
 		if (reader == null) {
 			load();
@@ -341,19 +397,7 @@ public class PushCertificateStore implements AutoCloseable {
 				curr = saveCert(inserter, dc, pc, curr);
 			}
 			inserter.flush();
-			RefUpdate.Result result = updateRef(curr);
-			switch (result) {
-				case FAST_FORWARD:
-				case NEW:
-				case NO_CHANGE:
-					pending.clear();
-					break;
-				default:
-					break;
-			}
-			return result;
-		} finally {
-			close();
+			return curr;
 		}
 	}
 

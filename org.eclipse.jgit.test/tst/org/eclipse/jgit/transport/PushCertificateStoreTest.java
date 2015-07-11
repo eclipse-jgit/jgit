@@ -60,7 +60,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -269,6 +271,26 @@ public class PushCertificateStoreTest {
 		assertEquals(FAST_FORWARD, store2.save());
 		assertCerts(store2, "refs/heads/master", addMaster);
 		assertCerts(store2, "refs/heads/branch", addBranch);
+	}
+
+	@Test
+	public void saveInBatch() throws Exception {
+		BatchRefUpdate batch = repo.getRefDatabase().newBatchUpdate();
+		PushCertificate addMaster = newCert(
+				command(zeroId(), ID1, "refs/heads/master"));
+		store.put(addMaster, newIdent());
+		store.save(batch);
+
+		List<ReceiveCommand> commands = batch.getCommands();
+		assertEquals(1, commands.size());
+		ReceiveCommand cmd = commands.get(0);
+
+		try (RevWalk rw = new RevWalk(repo)) {
+			assertEquals("refs/meta/push-certs", cmd.getRefName());
+			assertEquals(ReceiveCommand.Result.NOT_ATTEMPTED, cmd.getResult());
+			batch.execute(rw, NullProgressMonitor.INSTANCE);
+			assertEquals(ReceiveCommand.Result.OK, cmd.getResult());
+		}
 	}
 
 	private PersonIdent newIdent() {
