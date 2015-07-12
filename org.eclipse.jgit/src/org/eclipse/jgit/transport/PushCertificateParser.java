@@ -193,6 +193,7 @@ public class PushCertificateParser {
 	 *            destination repository for the push.
 	 * @param cfg
 	 *            configuration for signed push.
+	 * @since 4.1
 	 */
 	public PushCertificateParser(Repository into, SignedPushConfig cfg) {
 		if (cfg != null) {

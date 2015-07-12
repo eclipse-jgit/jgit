@@ -375,8 +375,8 @@ public class IO {
 	/**
 	 * Read the next line from a reader.
 	 * <p>
-	 * Like {@link java.io.BufferedReader#readLine()}, but only treats {@code \n}
-	 * as end-of-line, and includes the trailing newline.
+	 * Like {@link java.io.BufferedReader#readLine()}, but only treats
+	 * {@code \n} as end-of-line, and includes the trailing newline.
 	 *
 	 * @param in
 	 *            the reader to read from.
@@ -386,6 +386,7 @@ public class IO {
 	 *         EOF was reached.
 	 * @throws IOException
 	 *             there was an error reading from the stream.
+	 * @since 4.1
 	 */
 	public static String readLine(Reader in, int sizeHint) throws IOException {
 		if (in.markSupported()) {
