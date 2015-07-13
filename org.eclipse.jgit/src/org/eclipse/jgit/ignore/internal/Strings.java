@@ -142,9 +142,27 @@ public class Strings {
 			if (idx2 > idx1)
 				return true;
 		}
-		// required to match escaped backslashes '\\\\'
-		if (pattern.indexOf('?') != -1 || pattern.indexOf('\\') != -1)
+		if (pattern.indexOf('?') != -1) {
 			return true;
+		} else {
+			// check if the backslash escapes one of the glob special characters
+			// if not, backslash is not part of a regex and treated literally
+			int backSlash = pattern.indexOf('\\');
+			if (backSlash >= 0) {
+				int nextIdx = backSlash + 1;
+				if (pattern.length() == nextIdx) {
+					return false;
+				}
+				char nextChar = pattern.charAt(nextIdx);
+				if (nextChar == '?' || nextChar == '*' || nextChar == '['
+				// required to match escaped backslashes '\\\\'
+						|| nextChar == '\\') {
+					return true;
+				} else {
+					return false;
+				}
+			}
+		}
 		return false;
 	}
 
