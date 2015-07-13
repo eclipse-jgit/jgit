@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "472a5bc0_e6fb9739",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-07-13T19:13:35Z",
+      "side": 1,
+      "message": "Looks fine; drop the RFC.",
+      "revId": "0a8a8b1fec51eee436c304fb3d74d6b2dc501bd7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
