@@ -118,13 +118,36 @@ public class PathMatcher extends AbstractMatcher {
 	public static IMatcher createPathMatcher(String pattern,
 			Character pathSeparator, boolean dirOnly)
 			throws InvalidPatternException {
-		pattern = pattern.trim();
+		pattern = trim(pattern);
 		char slash = Strings.getPathSeparator(pathSeparator);
 		// ignore possible leading and trailing slash
 		int slashIdx = pattern.indexOf(slash, 1);
 		if (slashIdx > 0 && slashIdx < pattern.length() - 1)
 			return new PathMatcher(pattern, pathSeparator, dirOnly);
 		return createNameMatcher0(pattern, pathSeparator, dirOnly);
+	}
+
+	/**
+	 * Trim trailing spaces, unless they are escaped with backslash, see
+	 * https://www.kernel.org/pub/software/scm/git/docs/gitignore.html
+	 *
+	 * @param pattern
+	 *            non null
+	 * @return trimmed pattern
+	 */
+	private static String trim(String pattern) {
+		while (pattern.length() > 0
+				&& pattern.charAt(pattern.length() - 1) == ' ') {
+			if (pattern.length() > 1
+					&& pattern.charAt(pattern.length() - 2) == '\\') {
+				// last space was escaped by backslash: remove backslash and
+				// keep space
+				pattern = pattern.substring(0, pattern.length() - 2) + " "; //$NON-NLS-1$
+				return pattern;
+			}
+			pattern = pattern.substring(0, pattern.length() - 1);
+		}
+		return pattern;
 	}
 
 	private static IMatcher createNameMatcher0(String segment,
