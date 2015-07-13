@@ -60,6 +60,7 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.NoMergeBaseException;
 import org.eclipse.jgit.errors.NoMergeBaseException.MergeBaseFailureReason;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
+import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.junit.TestRepository.BranchBuilder;
@@ -308,7 +309,7 @@ public class RecursiveMergerTest extends RepositoryTestCase {
 			if (indexState != IndexState.Bare)
 				assertEquals(
 						"[f, mode:100644, content:1-master\n2\n3-res(master)\n4\n5\n6\n7-res(side)\n8\n9-side\n]",
-						indexState(RepositoryTestCase.CONTENT));
+						indexState(LocalDiskRepositoryTestCase.CONTENT));
 			if (worktreeState != WorktreeState.Bare
 					&& worktreeState != WorktreeState.Missing)
 				assertEquals(
@@ -393,7 +394,7 @@ public class RecursiveMergerTest extends RepositoryTestCase {
 			if (indexState != IndexState.Bare)
 				assertEquals(
 						"[f, mode:100644, content:1-master-r\n2\n3-side-r\n]",
-						indexState(RepositoryTestCase.CONTENT));
+						indexState(LocalDiskRepositoryTestCase.CONTENT));
 			if (worktreeState != WorktreeState.Bare
 					&& worktreeState != WorktreeState.Missing)
 				assertEquals(
@@ -478,7 +479,7 @@ public class RecursiveMergerTest extends RepositoryTestCase {
 			if (indexState != IndexState.Bare)
 				assertEquals(
 						"[f, mode:100644, content:1\nx(side)\n2\n3\ny(side-again)\n]",
-						indexState(RepositoryTestCase.CONTENT));
+						indexState(LocalDiskRepositoryTestCase.CONTENT));
 			if (worktreeState != WorktreeState.Bare
 					&& worktreeState != WorktreeState.Missing)
 				assertEquals("1\nx(side)\n2\n3\ny(side-again)\n", read("f"));
@@ -561,7 +562,7 @@ public class RecursiveMergerTest extends RepositoryTestCase {
 			if (indexState != IndexState.Bare)
 				assertEquals(
 						"[f, mode:100644, content:1-master-r\n2\n3-side-r\n][m.c, mode:100644, content:0][m.m, mode:100644, content:1][s.c, mode:100644, content:0][s.m, mode:100644, content:1]",
-						indexState(RepositoryTestCase.CONTENT));
+						indexState(LocalDiskRepositoryTestCase.CONTENT));
 			if (worktreeState != WorktreeState.Bare
 					&& worktreeState != WorktreeState.Missing) {
 				assertEquals(
@@ -638,7 +639,7 @@ public class RecursiveMergerTest extends RepositoryTestCase {
 						"[f, mode:100644, stage:1, content:1-master\n2\n3\n4\n5\n6\n7\n8\n9-side\n]"
 								+ "[f, mode:100644, stage:2, content:1-master\n2\n3\n4\n5\n6\n7-conflict\n8\n9-side\n]"
 								+ "[f, mode:100644, stage:3, content:1-master\n2\n3\n4\n5\n6\n7-res(side)\n8\n9-side\n]",
-						indexState(RepositoryTestCase.CONTENT));
+						indexState(LocalDiskRepositoryTestCase.CONTENT));
 				assertEquals(
 						"1-master\n2\n3\n4\n5\n6\n<<<<<<< OURS\n7-conflict\n=======\n7-res(side)\n>>>>>>> THEIRS\n8\n9-side\n",
 						read("f"));
@@ -736,7 +737,7 @@ public class RecursiveMergerTest extends RepositoryTestCase {
 			if (indexState != IndexState.Bare)
 				assertEquals(
 						"[f, mode:100644, content:1-master\n2\n3-res(master)\n4\n5-other\n6\n7-res(side)\n8\n9-side\n]",
-						indexState(RepositoryTestCase.CONTENT));
+						indexState(LocalDiskRepositoryTestCase.CONTENT));
 			if (worktreeState != WorktreeState.Bare
 					&& worktreeState != WorktreeState.Missing)
 				assertEquals(
