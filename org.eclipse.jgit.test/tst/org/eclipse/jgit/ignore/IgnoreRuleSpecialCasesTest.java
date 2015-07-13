@@ -836,6 +836,18 @@ public class IgnoreRuleSpecialCasesTest {
 	}
 
 	@Test
+	public void testEscapedExclamationMark() throws Exception {
+		assertMatch("\\!b!.txt", "!b!.txt", true);
+		assertMatch("a\\!b!.txt", "a\\!b!.txt", true);
+	}
+
+	@Test
+	public void testEscapedHash() throws Exception {
+		assertMatch("\\#b", "#b", true);
+		assertMatch("a\\#", "a\\#", true);
+	}
+
+	@Test
 	public void testEscapedTrailingSpaces() throws Exception {
 		assertMatch("\\ ", " ", true);
 		assertMatch("a\\ ", "a ", true);
