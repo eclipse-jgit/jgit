@@ -284,13 +284,51 @@ public class PushCertificateStoreTest {
 		List<ReceiveCommand> commands = batch.getCommands();
 		assertEquals(1, commands.size());
 		ReceiveCommand cmd = commands.get(0);
+		assertEquals("refs/meta/push-certs", cmd.getRefName());
+		assertEquals(ReceiveCommand.Result.NOT_ATTEMPTED, cmd.getResult());
 
 		try (RevWalk rw = new RevWalk(repo)) {
-			assertEquals("refs/meta/push-certs", cmd.getRefName());
-			assertEquals(ReceiveCommand.Result.NOT_ATTEMPTED, cmd.getResult());
 			batch.execute(rw, NullProgressMonitor.INSTANCE);
 			assertEquals(ReceiveCommand.Result.OK, cmd.getResult());
 		}
+	}
+
+	@Test
+	public void saveMatchingWithNoMatchingRefs() throws Exception {
+		BatchRefUpdate batch = repo.getRefDatabase().newBatchUpdate();
+		PushCertificate addMaster = newCert(
+				command(zeroId(), ID1, "refs/heads/master"),
+				command(zeroId(), ID2, "refs/heads/branch"));
+		store.put(addMaster, newIdent());
+		store.saveMatching(batch);
+		assertEquals(0, batch.getCommands().size());
+	}
+
+	@Test
+	public void saveMatchingWithSomeMatchingRefs() throws Exception {
+		BatchRefUpdate batch = repo.getRefDatabase().newBatchUpdate();
+		batch.addCommand(new ReceiveCommand(zeroId(), ID1, "refs/heads/master"));
+		PushCertificate addMasterAndBranch = newCert(
+				command(zeroId(), ID1, "refs/heads/master"),
+				command(zeroId(), ID2, "refs/heads/branch"));
+		store.put(addMasterAndBranch, newIdent());
+		store.saveMatching(batch);
+
+		List<ReceiveCommand> commands = batch.getCommands();
+		assertEquals(2, commands.size());
+		ReceiveCommand cmd = commands.get(1);
+		assertEquals("refs/meta/push-certs", cmd.getRefName());
+		assertEquals(ReceiveCommand.Result.NOT_ATTEMPTED, cmd.getResult());
+
+		try (RevWalk rw = new RevWalk(repo)) {
+			batch.execute(rw, NullProgressMonitor.INSTANCE);
+			assertEquals(ReceiveCommand.Result.OK, cmd.getResult());
+			store.clear();
+			store.close();
+		}
+
+		assertCerts("refs/heads/master", addMasterAndBranch);
+		assertCerts("refs/heads/branch");
 	}
 
 	private PersonIdent newIdent() {
