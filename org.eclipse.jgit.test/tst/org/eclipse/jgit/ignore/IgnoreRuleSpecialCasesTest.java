@@ -836,6 +836,16 @@ public class IgnoreRuleSpecialCasesTest {
 	}
 
 	@Test
+	public void testNotEscapingBackslash() throws Exception {
+		assertMatch("\\out", "\\out", true);
+		assertMatch("\\out", "a/\\out", true);
+		assertMatch("c:\\/", "c:\\/", true);
+		assertMatch("c:\\/", "a/c:\\/", true);
+		assertMatch("c:\\tmp", "c:\\tmp", true);
+		assertMatch("c:\\tmp", "a/c:\\tmp", true);
+	}
+
+	@Test
 	public void testMultipleEscapedCharacters1() throws Exception {
 		assertMatch("\\]a?c\\*\\[d\\?\\]", "]abc*[d?]", true);
 	}
