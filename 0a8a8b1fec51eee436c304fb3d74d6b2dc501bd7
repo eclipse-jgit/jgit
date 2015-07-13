@@ -66,6 +66,30 @@
     },
     {
       "key": {
+        "uuid": "472a5bc0_c65c93c8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-07-13T19:35:20Z",
+      "side": 1,
+      "message": "So, I think we need to actually fix BatchRefUpdate to disallow this at a higher level.\n\nIIRC having two updates for a single ref causes our custom atomic ref storage backend to choke. But it works just fine with a FileRepository, since it just executes them in sequence.",
+      "parentUuid": "472a5bc0_06250b5d",
+      "range": {
+        "startLine": 461,
+        "startChar": 0,
+        "endLine": 461,
+        "endChar": 37
+      },
+      "revId": "0a8a8b1fec51eee436c304fb3d74d6b2dc501bd7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "472a5bc0_060eabee",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateStore.java",
         "patchSetId": 1
