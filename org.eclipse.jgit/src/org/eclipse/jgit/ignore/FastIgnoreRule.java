@@ -98,24 +98,31 @@ public class FastIgnoreRule {
 		if (pattern.charAt(0) == '#') {
 			this.matcher = NO_MATCH;
 			dirOnly = false;
-		} else {
-			dirOnly = pattern.charAt(pattern.length() - 1) == PATH_SEPARATOR;
-			if (dirOnly) {
-				pattern = stripTrailing(pattern, PATH_SEPARATOR);
-				if (pattern.length() == 0) {
-					this.matcher = NO_MATCH;
-					return;
-				}
-			}
-			IMatcher m;
-			try {
-				m = PathMatcher.createPathMatcher(pattern,
-						Character.valueOf(PATH_SEPARATOR), dirOnly);
-			} catch (InvalidPatternException e) {
-				m = NO_MATCH;
-			}
-			this.matcher = m;
+			return;
 		}
+		if (pattern.charAt(0) == '\\' && pattern.length() > 1) {
+			char next = pattern.charAt(1);
+			if (next == '!' || next == '#') {
+				// remove backslash escaping first special characters
+				pattern = pattern.substring(1);
+			}
+		}
+		dirOnly = pattern.charAt(pattern.length() - 1) == PATH_SEPARATOR;
+		if (dirOnly) {
+			pattern = stripTrailing(pattern, PATH_SEPARATOR);
+			if (pattern.length() == 0) {
+				this.matcher = NO_MATCH;
+				return;
+			}
+		}
+		IMatcher m;
+		try {
+			m = PathMatcher.createPathMatcher(pattern,
+					Character.valueOf(PATH_SEPARATOR), dirOnly);
+		} catch (InvalidPatternException e) {
+			m = NO_MATCH;
+		}
+		this.matcher = m;
 	}
 
 	/**
