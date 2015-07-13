@@ -55,6 +55,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -284,13 +285,34 @@ public class PushCertificateStoreTest {
 		List<ReceiveCommand> commands = batch.getCommands();
 		assertEquals(1, commands.size());
 		ReceiveCommand cmd = commands.get(0);
+		assertEquals("refs/meta/push-certs", cmd.getRefName());
+		assertEquals(ReceiveCommand.Result.NOT_ATTEMPTED, cmd.getResult());
 
 		try (RevWalk rw = new RevWalk(repo)) {
-			assertEquals("refs/meta/push-certs", cmd.getRefName());
-			assertEquals(ReceiveCommand.Result.NOT_ATTEMPTED, cmd.getResult());
 			batch.execute(rw, NullProgressMonitor.INSTANCE);
 			assertEquals(ReceiveCommand.Result.OK, cmd.getResult());
 		}
+	}
+
+	@Test
+	public void putMatchingWithNoMatchingRefs() throws Exception {
+		PushCertificate addMaster = newCert(
+				command(zeroId(), ID1, "refs/heads/master"),
+				command(zeroId(), ID2, "refs/heads/branch"));
+		store.put(addMaster, newIdent(), Collections.<ReceiveCommand> emptyList());
+		assertEquals(NO_CHANGE, store.save());
+	}
+
+	@Test
+	public void putMatchingWithSomeMatchingRefs() throws Exception {
+		PushCertificate addMasterAndBranch = newCert(
+				command(zeroId(), ID1, "refs/heads/master"),
+				command(zeroId(), ID2, "refs/heads/branch"));
+		store.put(addMasterAndBranch, newIdent(),
+				Collections.singleton(addMasterAndBranch.getCommands().get(0)));
+		assertEquals(NEW, store.save());
+		assertCerts("refs/heads/master", addMasterAndBranch);
+		assertCerts("refs/heads/branch");
 	}
 
 	private PersonIdent newIdent() {
