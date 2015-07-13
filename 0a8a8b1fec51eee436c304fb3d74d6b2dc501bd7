@@ -19,6 +19,29 @@
     },
     {
       "key": {
+        "uuid": "472a5bc0_8639fb8d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-07-13T19:25:25Z",
+      "side": 1,
+      "message": "There can\u0027t be two commands with the same refname, right?\n\nOn first reading I was confused about that. Might be worth a comment or run-time sanity check.",
+      "range": {
+        "startLine": 461,
+        "startChar": 0,
+        "endLine": 461,
+        "endChar": 37
+      },
+      "revId": "0a8a8b1fec51eee436c304fb3d74d6b2dc501bd7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "472a5bc0_060eabee",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateStore.java",
         "patchSetId": 1
