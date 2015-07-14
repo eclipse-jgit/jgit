@@ -1,0 +1,8 @@
+Verified+1: Hudson CI
+Code-Review+1: Chris Price <chris@puppetlabs.com>
+Code-Review+2: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-by: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-at: Tue, 14 Jul 2015 11:00:58 -0400
+Reviewed-on: https://git.eclipse.org/r/51860
+Project: jgit/jgit
+Branch: refs/heads/master
