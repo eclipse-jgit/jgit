@@ -44,13 +44,16 @@ package org.eclipse.jgit.ignore.internal;
 
 import static java.lang.Character.isLetter;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import org.eclipse.jgit.errors.InvalidPatternException;
 import org.eclipse.jgit.ignore.FastIgnoreRule;
+import org.eclipse.jgit.internal.JGitText;
 
 /**
  * Various {@link String} related utility methods, written mostly to avoid
@@ -367,7 +370,16 @@ public class Strings {
 
 		if (in_brackets > 0)
 			throw new InvalidPatternException("Not closed bracket?", pattern); //$NON-NLS-1$
-		return Pattern.compile(sb.toString());
+		try {
+			return Pattern.compile(sb.toString());
+		} catch (PatternSyntaxException e) {
+			InvalidPatternException patternException = new InvalidPatternException(
+					MessageFormat.format(JGitText.get().invalidIgnoreRule,
+							pattern),
+					pattern);
+			patternException.initCause(e);
+			throw patternException;
+		}
 	}
 
 	/**
