@@ -53,10 +53,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
-import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.FileMode;
-import org.eclipse.jgit.lib.ObjectReader;
-import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.*;
 import org.eclipse.jgit.util.FS;
 
 /**
@@ -106,7 +103,7 @@ public class FileTreeIterator extends WorkingTreeIterator {
 		super(options);
 		directory = root;
 		this.fs = fs;
-		init(entries());
+		init(entries(options));
 	}
 
 	/**
@@ -126,7 +123,7 @@ public class FileTreeIterator extends WorkingTreeIterator {
 		super(p);
 		directory = root;
 		this.fs = fs;
-		init(entries());
+		init(entries(p.getOptions()));
 	}
 
 	@Override
@@ -135,13 +132,13 @@ public class FileTreeIterator extends WorkingTreeIterator {
 		return new FileTreeIterator(this, ((FileEntry) current()).getFile(), fs);
 	}
 
-	private Entry[] entries() {
+	private Entry[] entries(WorkingTreeOptions options) {
 		final File[] all = directory.listFiles();
 		if (all == null)
 			return EOF;
 		final Entry[] r = new Entry[all.length];
 		for (int i = 0; i < r.length; i++)
-			r[i] = new FileEntry(all[i], fs);
+			r[i] = new FileEntry(options, all[i], fs);
 		return r;
 	}
 
@@ -158,22 +155,30 @@ public class FileTreeIterator extends WorkingTreeIterator {
 		/**
 		 * Create a new file entry.
 		 *
+		 * @param options TODO TODO TODO
+		 *
 		 * @param f
 		 *            file
 		 * @param fs
 		 *            file system
 		 */
-		public FileEntry(File f, FS fs) {
+		public FileEntry(WorkingTreeOptions options, File f, FS fs) {
 			this.fs = fs;
 			f = fs.normalize(f);
 			attributes = fs.getAttributes(f);
 			if (attributes.isSymbolicLink())
 				mode = FileMode.SYMLINK;
 			else if (attributes.isDirectory()) {
-				if (new File(f, Constants.DOT_GIT).exists())
+				if ((new File(f, Constants.DOT_GIT).exists()) && gitLinksEnabled(options)) {
 					mode = FileMode.GITLINK;
-				else
+				} else {
 					mode = FileMode.TREE;
+				}
+
+////				if (new File(f, Constants.DOT_GIT).exists())
+////					mode = FileMode.GITLINK;
+////				else
+//					mode = FileMode.TREE;
 			} else if (attributes.isExecutable())
 				mode = FileMode.EXECUTABLE_FILE;
 			else
@@ -218,6 +223,15 @@ public class FileTreeIterator extends WorkingTreeIterator {
 		public File getFile() {
 			return attributes.getFile();
 		}
+
+//		// TODO: docs
+//		private boolean gitLinksEnabled(DirectoryFlags directoryFlags) {
+//			return directoryFlags == null || !directoryFlags.isNoGitLinks();
+//		}
+		private boolean gitLinksEnabled(WorkingTreeOptions options) {
+			return ! options.isDirNoGitLinks();
+		}
+
 	}
 
 	/**

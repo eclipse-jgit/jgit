@@ -58,6 +58,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.FileTreeIterator.FileEntry;
 import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.treewalk.WorkingTreeOptions;
 import org.eclipse.jgit.util.FileUtils;
 import org.junit.Assert;
 import org.junit.Test;
@@ -174,15 +175,17 @@ public class CheckoutTest extends CLIRepositoryTestCase {
 		git.add().addFilepattern("a").call();
 		git.commit().setMessage("modify file a").call();
 
-		FileEntry entry = new FileTreeIterator.FileEntry(new File(
-				db.getWorkTree(), "a"), db.getFS());
+		WorkingTreeOptions options = db.getConfig().get(WorkingTreeOptions.KEY);
+
+		FileEntry entry = new FileTreeIterator.FileEntry(options,
+				new File(db.getWorkTree(), "a"), db.getFS());
 		assertEquals(FileMode.REGULAR_FILE, entry.getMode());
 
 		FileUtils.delete(fileA);
 
 		git.checkout().setName(branch_1.getName()).call();
 
-		entry = new FileTreeIterator.FileEntry(new File(db.getWorkTree(), "a"),
+		entry = new FileTreeIterator.FileEntry(options, new File(db.getWorkTree(), "a"),
 				db.getFS());
 		assertEquals(FileMode.REGULAR_FILE, entry.getMode());
 		assertEquals("Hello world a", read(fileA));
@@ -231,20 +234,22 @@ public class CheckoutTest extends CLIRepositoryTestCase {
 		git.add().addFilepattern(".").call();
 		git.commit().setMessage("add folder a").call();
 
-		FileEntry entry = new FileTreeIterator.FileEntry(new File(
-				db.getWorkTree(), "a"), db.getFS());
+		WorkingTreeOptions options = db.getConfig().get(WorkingTreeOptions.KEY);
+
+		FileEntry entry = new FileTreeIterator.FileEntry(options,
+				new File(db.getWorkTree(), "a"), db.getFS());
 		assertEquals(FileMode.TREE, entry.getMode());
 
 		FileUtils.delete(folderA, FileUtils.RECURSIVE);
 		writeTrashFile("a", "b");
 
-		entry = new FileTreeIterator.FileEntry(new File(db.getWorkTree(), "a"),
+		entry = new FileTreeIterator.FileEntry(options, new File(db.getWorkTree(), "a"),
 				db.getFS());
 		assertEquals(FileMode.REGULAR_FILE, entry.getMode());
 
 		git.checkout().setName(branch_1.getName()).call();
 
-		entry = new FileTreeIterator.FileEntry(new File(db.getWorkTree(), "a"),
+		entry = new FileTreeIterator.FileEntry(options, new File(db.getWorkTree(), "a"),
 				db.getFS());
 		assertEquals(FileMode.REGULAR_FILE, entry.getMode());
 	}
@@ -281,15 +286,17 @@ public class CheckoutTest extends CLIRepositoryTestCase {
 		git.add().addFilepattern(".").call();
 		git.commit().setMessage("add folder a").call();
 
-		FileEntry entry = new FileTreeIterator.FileEntry(new File(
-				db.getWorkTree(), "a"), db.getFS());
+		WorkingTreeOptions options = db.getConfig().get(WorkingTreeOptions.KEY);
+
+		FileEntry entry = new FileTreeIterator.FileEntry(options,
+				new File(db.getWorkTree(), "a"), db.getFS());
 		assertEquals(FileMode.TREE, entry.getMode());
 
 		FileUtils.delete(folderA, FileUtils.RECURSIVE);
 
 		git.checkout().setName(branch_1.getName()).call();
 
-		entry = new FileTreeIterator.FileEntry(new File(db.getWorkTree(), "a"),
+		entry = new FileTreeIterator.FileEntry(options, new File(db.getWorkTree(), "a"),
 				db.getFS());
 		assertEquals(FileMode.REGULAR_FILE, entry.getMode());
 	}
@@ -325,7 +332,9 @@ public class CheckoutTest extends CLIRepositoryTestCase {
 		FileUtils.mkdirs(new File(db.getWorkTree(), "a"));
 		writeTrashFile("a/c", "Hello world c");
 
-		FileEntry entry = new FileTreeIterator.FileEntry(new File(
+		WorkingTreeOptions options = db.getConfig().get(WorkingTreeOptions.KEY);
+
+		FileEntry entry = new FileTreeIterator.FileEntry(options, new File(
 				db.getWorkTree(), "a"), db.getFS());
 		assertEquals(FileMode.TREE, entry.getMode());
 
@@ -381,8 +390,10 @@ public class CheckoutTest extends CLIRepositoryTestCase {
 
 		writeTrashFile("a", "b");
 
-		FileEntry entry = new FileTreeIterator.FileEntry(new File(
-				db.getWorkTree(), "a"), db.getFS());
+		WorkingTreeOptions options = db.getConfig().get(WorkingTreeOptions.KEY);
+
+		FileEntry entry = new FileTreeIterator.FileEntry(options,
+				new File(db.getWorkTree(), "a"), db.getFS());
 		assertEquals(FileMode.REGULAR_FILE, entry.getMode());
 
 		CheckoutConflictException exception = null;
@@ -429,15 +440,17 @@ public class CheckoutTest extends CLIRepositoryTestCase {
 		git.add().addFilepattern("a").call();
 		git.commit().setMessage("add file a").call();
 
-		FileEntry entry = new FileTreeIterator.FileEntry(new File(
-				db.getWorkTree(), "a"), db.getFS());
+		WorkingTreeOptions options = db.getConfig().get(WorkingTreeOptions.KEY);
+
+		FileEntry entry = new FileTreeIterator.FileEntry(options,
+				new File(db.getWorkTree(), "a"), db.getFS());
 		assertEquals(FileMode.REGULAR_FILE, entry.getMode());
 
 		FileUtils.delete(fileA);
 
 		git.checkout().setName(branch_1.getName()).call();
 
-		entry = new FileTreeIterator.FileEntry(new File(db.getWorkTree(), "a"),
+		entry = new FileTreeIterator.FileEntry(options, new File(db.getWorkTree(), "a"),
 				db.getFS());
 		assertEquals(FileMode.TREE, entry.getMode());
 	}
@@ -470,8 +483,10 @@ public class CheckoutTest extends CLIRepositoryTestCase {
 		git.add().addFilepattern("a").call();
 		git.commit().setMessage("add file a").call();
 
-		FileEntry entry = new FileTreeIterator.FileEntry(new File(
-				db.getWorkTree(), "a"), db.getFS());
+		WorkingTreeOptions options = db.getConfig().get(WorkingTreeOptions.KEY);
+
+		FileEntry entry = new FileTreeIterator.FileEntry(options,
+				new File(db.getWorkTree(), "a"), db.getFS());
 		assertEquals(FileMode.REGULAR_FILE, entry.getMode());
 
 		git.rm().addFilepattern("a").call();
@@ -479,8 +494,8 @@ public class CheckoutTest extends CLIRepositoryTestCase {
 		writeTrashFile("a/c", "Hello world c");
 		git.add().addFilepattern(".").call();
 
-		entry = new FileTreeIterator.FileEntry(new File(db.getWorkTree(), "a"),
-				db.getFS());
+		entry = new FileTreeIterator.FileEntry(options,
+				new File(db.getWorkTree(), "a"), db.getFS());
 		assertEquals(FileMode.TREE, entry.getMode());
 
 		CheckoutConflictException exception = null;
@@ -524,8 +539,10 @@ public class CheckoutTest extends CLIRepositoryTestCase {
 		git.add().addFilepattern("a").call();
 		git.commit().setMessage("add file a").call();
 
-		FileEntry entry = new FileTreeIterator.FileEntry(new File(
-				db.getWorkTree(), "a"), db.getFS());
+		WorkingTreeOptions options = db.getConfig().get(WorkingTreeOptions.KEY);
+
+		FileEntry entry = new FileTreeIterator.FileEntry(options,
+				new File(db.getWorkTree(), "a"), db.getFS());
 		assertEquals(FileMode.REGULAR_FILE, entry.getMode());
 
 		git.rm().addFilepattern("a").call();
@@ -533,7 +550,7 @@ public class CheckoutTest extends CLIRepositoryTestCase {
 		writeTrashFile("a/c", "Hello world c");
 		git.add().addFilepattern(".").call();
 
-		entry = new FileTreeIterator.FileEntry(new File(db.getWorkTree(), "a"),
+		entry = new FileTreeIterator.FileEntry(options, new File(db.getWorkTree(), "a"),
 				db.getFS());
 		assertEquals(FileMode.TREE, entry.getMode());
 
