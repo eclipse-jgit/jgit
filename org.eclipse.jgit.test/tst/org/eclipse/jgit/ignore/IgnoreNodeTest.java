@@ -44,12 +44,15 @@ package org.eclipse.jgit.ignore;
 
 import static org.eclipse.jgit.junit.Assert.assertEquals;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.eclipse.jgit.errors.CorruptObjectException;
@@ -324,6 +327,15 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testEmptyIgnoreRules() throws IOException {
+		IgnoreNode node = new IgnoreNode();
+		node.parse(writeToString("", "#", "!", "[[=a=]]"));
+		assertEquals(new ArrayList<>(), node.getRules());
+		node.parse(writeToString(" ", " / "));
+		assertEquals(2, node.getRules().size());
+	}
+
+	@Test
 	public void testSlashOnlyMatchesDirectory() throws IOException {
 		writeIgnoreFile(".gitignore", "out/");
 		writeTrashFile("out", "");
@@ -471,5 +483,13 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 		for (String line : rules)
 			data.append(line + "\n");
 		writeTrashFile(name, data.toString());
+	}
+
+	private InputStream writeToString(String... rules) throws IOException {
+		StringBuilder data = new StringBuilder();
+		for (String line : rules) {
+			data.append(line + "\n");
+		}
+		return new ByteArrayInputStream(data.toString().getBytes("UTF-8"));
 	}
 }
