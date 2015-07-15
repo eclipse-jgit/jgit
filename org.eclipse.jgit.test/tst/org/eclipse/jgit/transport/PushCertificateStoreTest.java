@@ -49,6 +49,8 @@ import static org.eclipse.jgit.lib.RefUpdate.Result.LOCK_FAILURE;
 import static org.eclipse.jgit.lib.RefUpdate.Result.NEW;
 import static org.eclipse.jgit.lib.RefUpdate.Result.NO_CHANGE;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -277,10 +279,12 @@ public class PushCertificateStoreTest {
 	@Test
 	public void saveInBatch() throws Exception {
 		BatchRefUpdate batch = repo.getRefDatabase().newBatchUpdate();
+		assertFalse(store.save(batch));
+		assertEquals(0, batch.getCommands().size());
 		PushCertificate addMaster = newCert(
 				command(zeroId(), ID1, "refs/heads/master"));
 		store.put(addMaster, newIdent());
-		store.save(batch);
+		assertTrue(store.save(batch));
 
 		List<ReceiveCommand> commands = batch.getCommands();
 		assertEquals(1, commands.size());
