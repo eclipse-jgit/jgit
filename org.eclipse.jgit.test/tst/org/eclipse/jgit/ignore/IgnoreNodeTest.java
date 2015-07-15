@@ -375,6 +375,67 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testLeadingSpaces() throws IOException {
+		writeTrashFile("  a/  a", "");
+		writeTrashFile("  a/ a", "");
+		writeTrashFile("  a/a", "");
+		writeTrashFile(" a/  a", "");
+		writeTrashFile(" a/ a", "");
+		writeTrashFile(" a/a", "");
+		writeIgnoreFile(".gitignore", " a", "  a");
+		writeTrashFile("a/  a", "");
+		writeTrashFile("a/ a", "");
+		writeTrashFile("a/a", "");
+
+		beginWalk();
+		assertEntry(D, ignored, "  a");
+		assertEntry(F, ignored, "  a/  a");
+		assertEntry(F, ignored, "  a/ a");
+		assertEntry(F, ignored, "  a/a");
+		assertEntry(D, ignored, " a");
+		assertEntry(F, ignored, " a/  a");
+		assertEntry(F, ignored, " a/ a");
+		assertEntry(F, ignored, " a/a");
+		assertEntry(F, tracked, ".gitignore");
+		assertEntry(D, tracked, "a");
+		assertEntry(F, ignored, "a/  a");
+		assertEntry(F, ignored, "a/ a");
+		assertEntry(F, tracked, "a/a");
+		endWalk();
+	}
+
+	@Test
+	public void testTrailingSpaces() throws IOException {
+		writeTrashFile("a  /a", "");
+		writeTrashFile("a  /a ", "");
+		writeTrashFile("a  /a  ", "");
+		writeTrashFile("a /a", "");
+		writeTrashFile("a /a ", "");
+		writeTrashFile("a /a  ", "");
+		writeTrashFile("a/a", "");
+		writeTrashFile("a/a ", "");
+		writeTrashFile("a/a  ", "");
+
+		writeIgnoreFile(".gitignore", "a\\ ", "a \\ ");
+
+		beginWalk();
+		assertEntry(F, tracked, ".gitignore");
+		assertEntry(D, ignored, "a  ");
+		assertEntry(F, ignored, "a  /a");
+		assertEntry(F, ignored, "a  /a ");
+		assertEntry(F, ignored, "a  /a  ");
+		assertEntry(D, ignored, "a ");
+		assertEntry(F, ignored, "a /a");
+		assertEntry(F, ignored, "a /a ");
+		assertEntry(F, ignored, "a /a  ");
+		assertEntry(D, tracked, "a");
+		assertEntry(F, tracked, "a/a");
+		assertEntry(F, ignored, "a/a ");
+		assertEntry(F, ignored, "a/a  ");
+		endWalk();
+	}
+
+	@Test
 	public void testToString() throws Exception {
 		assertEquals(Arrays.asList("").toString(), new IgnoreNode().toString());
 		assertEquals(Arrays.asList("hello").toString(),
