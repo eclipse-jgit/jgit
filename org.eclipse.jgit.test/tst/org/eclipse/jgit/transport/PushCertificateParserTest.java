@@ -215,6 +215,7 @@ public class PushCertificateParserTest {
 				cmd.getNewId().name());
 
 		assertEquals(concatPacketLines(INPUT, 0, 6), cert.toText());
+		assertEquals(concatPacketLines(INPUT, 0, 17), cert.toTextWithSignature());
 
 		String signature = concatPacketLines(INPUT, 6, 17);
 		assertTrue(signature.startsWith(PushCertificateParser.BEGIN_SIGNATURE));
