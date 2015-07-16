@@ -110,14 +110,6 @@ public abstract class DfsRefDatabase extends RefDatabase {
 		return null;
 	}
 
-	private Ref getOneRef(String refName) throws IOException {
-		RefCache curr = read();
-		Ref ref = curr.ids.get(refName);
-		if (ref != null)
-			return resolve(ref, 0, curr.ids);
-		return ref;
-	}
-
 	@Override
 	public List<Ref> getAdditionalRefs() {
 		return Collections.emptyList();
@@ -219,7 +211,7 @@ public abstract class DfsRefDatabase extends RefDatabase {
 	public RefUpdate newUpdate(String refName, boolean detach)
 			throws IOException {
 		boolean detachingSymbolicRef = false;
-		Ref ref = getOneRef(refName);
+		Ref ref = exactRef(refName);
 		if (ref == null)
 			ref = new ObjectIdRef.Unpeeled(NEW, refName, null);
 		else
