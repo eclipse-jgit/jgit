@@ -270,6 +270,20 @@ public abstract class BaseReceivePack {
 	}
 
 	/**
+	 * Set the push certificate used to verify the pusher's identity.
+	 * <p>
+	 * Should only be called if reconstructing an instance without going through
+	 * the normal {@link #recvCommands()} flow.
+	 *
+	 * @param cert
+	 *            the push certificate to set.
+	 * @since 4.1
+	 */
+	public void setPushCertificate(PushCertificate cert) {
+		pushCert = cert;
+	}
+
+	/**
 	 * Create a new pack receive for an open repository.
 	 *
 	 * @param into
