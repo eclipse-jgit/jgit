@@ -156,6 +156,24 @@ public class PushCertificateParser {
 		return new PushCertificateParser().parse(r);
 	}
 
+	/**
+	 * Parse a push certificate from a string.
+	 *
+	 * @see #fromReader(Reader)
+	 * @param str
+	 *            input string.
+	 * @return the parsed certificate.
+	 * @throws PackProtocolException
+	 *             if the certificate is malformed.
+	 * @throws IOException
+	 *             if there was an error reading from the input.
+	 * @since 4.1
+	 */
+	public static PushCertificate fromString(String str)
+			throws PackProtocolException, IOException {
+		return fromReader(new java.io.StringReader(str));
+	}
+
 	private boolean received;
 	private String version;
 	private PushCertificateIdent pusher;

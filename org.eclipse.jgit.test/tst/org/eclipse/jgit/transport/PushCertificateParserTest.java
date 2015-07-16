@@ -55,6 +55,7 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.io.StringReader;
 
 import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
@@ -280,9 +281,7 @@ public class PushCertificateParserTest {
 
 	@Test
 	public void testParseReader() throws Exception {
-		Reader reader = new InputStreamReader(
-				new ByteArrayInputStream(
-						Constants.encode(concatPacketLines(INPUT, 0, 18))));
+		Reader reader = new StringReader(concatPacketLines(INPUT, 0, 18));
 		PushCertificate streamCert = PushCertificateParser.fromReader(reader);
 
 		PacketLineIn pckIn = newPacketLineIn(INPUT);
@@ -318,6 +317,14 @@ public class PushCertificateParserTest {
 		assertEquals(pckCmd.getRefName(), streamCmd.getRefName());
 		assertEquals(pckCmd.getOldId(), streamCmd.getOldId());
 		assertEquals(pckCmd.getNewId().name(), streamCmd.getNewId().name());
+	}
+
+	@Test
+	public void testParseString() throws Exception {
+		String str = concatPacketLines(INPUT, 0, 18);
+		assertEquals(
+				PushCertificateParser.fromReader(new StringReader(str)),
+				PushCertificateParser.fromString(str));
 	}
 
 	@Test
