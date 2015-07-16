@@ -254,6 +254,7 @@ public abstract class BaseReceivePack {
 
 	private PushCertificateParser pushCertificateParser;
 	private SignedPushConfig signedPushConfig;
+	private PushCertificate pushCert;
 
 	/**
 	 * Get the push certificate used to verify the pusher's identity.
@@ -262,11 +263,10 @@ public abstract class BaseReceivePack {
 	 *
 	 * @return the parsed certificate, or null if push certificates are disabled
 	 *         or no cert was presented by the client.
-	 * @throws IOException if the certificate was present but invalid.
 	 * @since 4.1
 	 */
-	public PushCertificate getPushCertificate() throws IOException {
-		return getPushCertificateParser().build();
+	public PushCertificate getPushCertificate() {
+		return pushCert;
 	}
 
 	/**
@@ -1117,6 +1117,7 @@ public abstract class BaseReceivePack {
 					certParser.addCommand(cmd);
 				}
 			}
+			pushCert = certParser.build();
 		} catch (PackProtocolException e) {
 			sendError(e.getMessage());
 			throw e;
