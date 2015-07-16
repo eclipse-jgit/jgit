@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "472a5bc0_f1f6aac9",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirectoryFlagsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 37145
+      },
+      "writtenOn": "2015-07-16T05:37:23Z",
+      "side": 1,
+      "message": "Christian,\n\nI spent some time yesterday and today working on trying to change this API the way you suggested in your comments on my other branch, which was basically that we could get rid of the \u0027DirectoryFlags\u0027 entirely, and put the \u0027DirNoGitlinks\u0027 setting onto the \u0027WorkingTreeOptions\u0027 class.  Then the \u0027Repository\u0027 class wouldn\u0027t need to have any awareness of it (which, as you stated, matches up with native git in that they don\u0027t expose that setting through porcelain).\n\nI started by trying to rework this test to just figure out what the API would look like.  So, I\u0027d get rid of the \u0027setDirectoryFlags\u0027 stuff in the method above, and then instead, on this \u0027add\u0027 command, I\u0027d need to somehow pass in the setting value.  This is what I ended up with:\n\n    \n    Git git \u003d new Git(db);\n    WorkingTreeOptions options \u003d new WorkingTreeOptions();\n    FileTreeIterator iterator \u003d new FileTreeIterator(db, options);\n    git.add().setWorkingTreeIterator(iterator).addFilepattern(\"sub/nested/a.txt\").call();\n\n\nThe problem is that there is no public constructor for WorkingTreeOptions, it\u0027s always constructed based on some Config object that I\u0027m not really familiar with yet... but it doesn\u0027t look to me like it would necessarily be safe to mess around with it?\n\nThe only ideas I\u0027ve come up with so far are to call something like \u0027db.getConfig().get(WorkingTreeOptions.KEY)\u0027, and then call a setter on that, but that doesn\u0027t seem like a great API.  \n\nOr I could make the FileTreeIterator constructor take a boolean \u0027dirNoGitlinks\u0027 argument directly and then attach that to the \u0027WorkingTreeOptions\u0027 object from somewhere inside of FileTreeIterator, so the WorkingTreeOptions class would never be consumed as part of the API for the end user.  But that boolean argument doesn\u0027t seem very flexible in case you need to add other options to the iterator/workingTreeOptions in the future.\n\nAny thoughts?\n\nI will be travelling for the next week or so but I will definitely pick this back up as soon as I get back, so any advice you might have would be greatly appreciated!",
+      "revId": "2b95fe04d43ec5af40b4faa85e20314e64d89227",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
