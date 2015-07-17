@@ -366,6 +366,72 @@ public final class RawParseUtils {
 	}
 
 	/**
+	 * Parse 16 character base 16 (hex) formatted string to unsigned long.
+	 * <p>
+	 * The number is read in network byte order, that is, most significant
+	 * nibble first.
+	 *
+	 * @param bs
+	 *            buffer to parse digits from; positions {@code [p, p+16)} will
+	 *            be parsed.
+	 * @param p
+	 *            first position within the buffer to parse.
+	 * @return the integer value.
+	 * @throws ArrayIndexOutOfBoundsException
+	 *             if the string is not hex formatted.
+	 * @since 4.3
+	 */
+	public static final long parseHexInt64(final byte[] bs, final int p) {
+		long r = digits16[bs[p]] << 4;
+
+		r |= digits16[bs[p + 1]];
+		r <<= 4;
+
+		r |= digits16[bs[p + 2]];
+		r <<= 4;
+
+		r |= digits16[bs[p + 3]];
+		r <<= 4;
+
+		r |= digits16[bs[p + 4]];
+		r <<= 4;
+
+		r |= digits16[bs[p + 5]];
+		r <<= 4;
+
+		r |= digits16[bs[p + 6]];
+		r <<= 4;
+
+		r |= digits16[bs[p + 7]];
+		r <<= 4;
+
+		r |= digits16[bs[p + 8]];
+		r <<= 4;
+
+		r |= digits16[bs[p + 9]];
+		r <<= 4;
+
+		r |= digits16[bs[p + 10]];
+		r <<= 4;
+
+		r |= digits16[bs[p + 11]];
+		r <<= 4;
+
+		r |= digits16[bs[p + 12]];
+		r <<= 4;
+
+		r |= digits16[bs[p + 13]];
+		r <<= 4;
+
+		r |= digits16[bs[p + 14]];
+
+		final int last = digits16[bs[p + 15]];
+		if (r < 0 || last < 0)
+			throw new ArrayIndexOutOfBoundsException();
+		return (r << 4) | last;
+	}
+
+	/**
 	 * Parse a single hex digit to its numeric value (0-15).
 	 *
 	 * @param digit
