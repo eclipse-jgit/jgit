@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-   Copyright (C) 2009,2014, Matthias Sohn <matthias.sohn@sap.com>
+   Copyright (C) 2015, Matthias Sohn <matthias.sohn@sap.com>
    and other copyright owners as documented in the project's IP log.
 
    This program and the accompanying materials are made available
@@ -53,46 +53,25 @@
     <version>4.2.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>org.eclipse.jgit.repository</artifactId>
-  <packaging>eclipse-repository</packaging>
+  <groupId>org.eclipse.jgit.feature</groupId>
+  <artifactId>org.eclipse.jgit.lfs</artifactId>
+  <packaging>eclipse-feature</packaging>
 
-  <name>JGit P2 Repository</name>
-
+  <name>JGit - Optional LFS support</name>
   <dependencies>
+
     <dependency>
       <groupId>org.eclipse.jgit</groupId>
       <artifactId>org.eclipse.jgit</artifactId>
       <version>${project.version}</version>
     </dependency>
-	<dependency>
-	  <groupId>org.eclipse.jgit</groupId>
-	  <artifactId>org.eclipse.jgit.http.apache</artifactId>
-	  <version>${project.version}</version>
-	</dependency>
-    <dependency>
-	  <groupId>org.eclipse.jgit</groupId>
-	  <artifactId>org.eclipse.jgit.lfs</artifactId>
-	  <version>${project.version}</version>
-	</dependency>
+
     <dependency>
       <groupId>org.eclipse.jgit</groupId>
-      <artifactId>org.eclipse.jgit.pgm</artifactId>
+      <artifactId>org.eclipse.jgit.lfs</artifactId>
       <version>${project.version}</version>
     </dependency>
-    <dependency>
-      <groupId>org.eclipse.jgit</groupId>
-      <artifactId>org.eclipse.jgit.junit</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.eclipse.jgit</groupId>
-      <artifactId>org.eclipse.jgit.junit.http</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.eclipse.jgit</groupId>
-      <artifactId>org.eclipse.jgit.http.server</artifactId>
-      <version>${project.version}</version>
-    </dependency>
+
   </dependencies>
+
 </project>
