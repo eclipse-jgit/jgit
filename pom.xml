@@ -208,6 +208,7 @@
     <log4j-version>1.2.15</log4j-version>
     <maven-javadoc-plugin-version>2.10.1</maven-javadoc-plugin-version>
     <tycho-extras-version>0.23.0</tycho-extras-version>
+    <gson-version>2.2.4</gson-version>
 
     <!-- Properties to enable jacoco code coverage analysis -->
     <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
@@ -642,6 +643,12 @@
             <artifactId>jmxri</artifactId>
           </exclusion>
         </exclusions>
+      </dependency>
+
+      <dependency>
+        <groupId>com.google.code.gson</groupId>
+        <artifactId>gson</artifactId>
+        <version>${gson-version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
