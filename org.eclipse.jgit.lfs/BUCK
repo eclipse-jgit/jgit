@@ -1,0 +1,17 @@
+SRCS = glob(['src/**'])
+RESOURCES = glob(['resources/**'])
+
+java_library(
+  name = 'jgit-lfs',
+  srcs = SRCS,
+  resources = RESOURCES,
+  deps = [
+    '//org.eclipse.jgit:jgit'
+  ],
+  visibility = ['PUBLIC'],
+)
+
+java_sources(
+  name = 'jgit-lfs_src',
+  srcs = SRCS + RESOURCES,
+)
