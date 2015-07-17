@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-   Copyright (C) 2015, Matthias Sohn <matthias.sohn@sap.com>
+   Copyright (C) 2015 Matthias Sohn <matthias.sohn@sap.com>
    and other copyright owners as documented in the project's IP log.
 
    This program and the accompanying materials are made available
@@ -49,34 +49,98 @@
 
   <parent>
     <groupId>org.eclipse.jgit</groupId>
-    <artifactId>jgit.tycho.parent</artifactId>
+    <artifactId>org.eclipse.jgit-parent</artifactId>
     <version>4.2.0-SNAPSHOT</version>
   </parent>
 
-  <groupId>org.eclipse.jgit.feature</groupId>
-  <artifactId>org.eclipse.jgit.lfs</artifactId>
-  <packaging>eclipse-feature</packaging>
+  <artifactId>org.eclipse.jgit.lfs.server.test</artifactId>
+  <name>JGit - LFS Server Tests</name>
 
-  <name>JGit - Optional LFS support</name>
+  <description>
+    Tests for the LFS server.
+  </description>
+
   <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
 
     <dependency>
       <groupId>org.eclipse.jgit</groupId>
       <artifactId>org.eclipse.jgit</artifactId>
       <version>${project.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.eclipse.jgit</groupId>
-      <artifactId>org.eclipse.jgit.lfs</artifactId>
-      <version>${project.version}</version>
+      <scope>test</scope>
     </dependency>
 
     <dependency>
       <groupId>org.eclipse.jgit</groupId>
       <artifactId>org.eclipse.jgit.lfs.server</artifactId>
       <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.eclipse.jgit</groupId>
+      <artifactId>org.eclipse.jgit.lfs.test</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.eclipse.jgit</groupId>
+      <artifactId>org.eclipse.jgit.junit.http</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.eclipse.jgit</groupId>
+      <artifactId>org.eclipse.jgit.junit</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-servlet</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <version>4.3.6</version>
     </dependency>
   </dependencies>
 
+  <build>
+    <testSourceDirectory>tst/</testSourceDirectory>
+
+    <testResources>
+      <testResource>
+        <directory>tst-rsrc/</directory>
+      </testResource>
+    </testResources>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>test-jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <argLine>-Djava.io.tmpdir=${project.build.directory}  -Xmx300m</argLine>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>

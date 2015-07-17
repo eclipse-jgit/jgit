@@ -49,17 +49,22 @@
 
   <parent>
     <groupId>org.eclipse.jgit</groupId>
-    <artifactId>jgit.tycho.parent</artifactId>
+    <artifactId>org.eclipse.jgit-parent</artifactId>
     <version>4.2.0-SNAPSHOT</version>
   </parent>
 
-  <groupId>org.eclipse.jgit.feature</groupId>
-  <artifactId>org.eclipse.jgit.lfs</artifactId>
-  <packaging>eclipse-feature</packaging>
+  <artifactId>org.eclipse.jgit.lfs.server</artifactId>
+  <name>JGit - Large File Storage Server</name>
 
-  <name>JGit - Optional LFS support</name>
+  <description>
+    JGit Large File Storage Server implementation.
+  </description>
+
+  <properties>
+    <translate-qualifier/>
+  </properties>
+
   <dependencies>
-
     <dependency>
       <groupId>org.eclipse.jgit</groupId>
       <artifactId>org.eclipse.jgit</artifactId>
@@ -73,10 +78,76 @@
     </dependency>
 
     <dependency>
-      <groupId>org.eclipse.jgit</groupId>
-      <artifactId>org.eclipse.jgit.lfs.server</artifactId>
-      <version>${project.version}</version>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <scope>provided</scope>
     </dependency>
   </dependencies>
 
+  <build>
+    <sourceDirectory>src/</sourceDirectory>
+
+    <resources>
+      <resource>
+        <directory>.</directory>
+        <includes>
+          <include>plugin.properties</include>
+          <include>about.html</include>
+        </includes>
+      </resource>
+      <resource>
+        <directory>resources/</directory>
+      </resource>
+    </resources>
+
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <inherited>true</inherited>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <phase>process-classes</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <archive>
+                <manifestFile>${source-bundle-manifest}</manifestFile>
+              </archive>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifestFile>${bundle-manifest}</manifestFile>
+          </archive>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>clirr-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>clirr-maven-plugin</artifactId>
+        <version>${clirr-version}</version>
+        <configuration>
+          <comparisonVersion>${jgit-last-release-version}</comparisonVersion>
+          <minSeverity>info</minSeverity>
+        </configuration>
+      </plugin>
+    </plugins>
+  </reporting>
 </project>
