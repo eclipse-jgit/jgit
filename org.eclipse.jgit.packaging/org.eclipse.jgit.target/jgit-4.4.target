@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/mbarbero/fr.obeo.releng.targetplatform -->
-<target name="jgit-4.4" sequenceNumber="1440024079">
+<target name="jgit-4.4" sequenceNumber="1444167820">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.jetty.client" version="9.2.13.v20150730"/>
@@ -45,6 +45,7 @@
       <unit id="org.objenesis.source" version="1.0.0.v201105211943"/>
       <unit id="org.mockito" version="1.8.4.v201303031500"/>
       <unit id="org.mockito.source" version="1.8.4.v201303031500"/>
+      <unit id="com.google.gson" version="2.2.4.v201311231704"/>
       <unit id="com.jcraft.jsch" version="0.1.51.v201410302000"/>
       <unit id="com.jcraft.jsch.source" version="0.1.51.v201410302000"/>
       <unit id="org.junit" version="4.11.0.v201303080030"/>
