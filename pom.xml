@@ -778,6 +778,7 @@
     <module>org.eclipse.jgit.http.apache</module>
     <module>org.eclipse.jgit.http.server</module>
     <module>org.eclipse.jgit.pgm</module>
+    <module>org.eclipse.jgit.lfs</module>
     <module>org.eclipse.jgit.junit</module>
     <module>org.eclipse.jgit.junit.http</module>
 
@@ -785,6 +786,7 @@
     <module>org.eclipse.jgit.ant.test</module>
     <module>org.eclipse.jgit.http.test</module>
     <module>org.eclipse.jgit.pgm.test</module>
+    <module>org.eclipse.jgit.lfs.test</module>
   </modules>
 
 </project>
