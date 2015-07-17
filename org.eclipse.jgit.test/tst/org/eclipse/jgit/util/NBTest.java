@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008, Google Inc.
+ * Copyright (C) 2008, 2015 Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -58,6 +58,17 @@ public class NBTest {
 		assertTrue(NB.compareUInt32(0, -1) < 0);
 		assertTrue(NB.compareUInt32(-1, 1) > 0);
 		assertTrue(NB.compareUInt32(1, -1) < 0);
+	}
+
+	@Test
+	public void testCompareUInt64() {
+		assertTrue(NB.compareUInt64(0, 0) == 0);
+		assertTrue(NB.compareUInt64(1, 0) > 0);
+		assertTrue(NB.compareUInt64(0, 1) < 0);
+		assertTrue(NB.compareUInt64(-1, 0) > 0);
+		assertTrue(NB.compareUInt64(0, -1) < 0);
+		assertTrue(NB.compareUInt64(-1, 1) > 0);
+		assertTrue(NB.compareUInt64(1, -1) < 0);
 	}
 
 	@Test
