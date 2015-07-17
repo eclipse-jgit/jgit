@@ -40,7 +40,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.eclipse.jgit.lfs.internal;
+package org.eclipse.jgit.lfs.server.internal;
 
 import org.eclipse.jgit.nls.NLS;
 import org.eclipse.jgit.nls.TranslationBundle;
@@ -48,19 +48,16 @@ import org.eclipse.jgit.nls.TranslationBundle;
 /**
  * Translation bundle for JGit LFS server
  */
-public class LfsText extends TranslationBundle {
+public class LfsServerText extends TranslationBundle {
 
 	/**
 	 * @return an instance of this translation bundle
 	 */
-	public static LfsText get() {
-		return NLS.getBundleFor(LfsText.class);
+	public static LfsServerText get() {
+		return NLS.getBundleFor(LfsServerText.class);
 	}
 
 	// @formatter:off
-	/***/ public String corruptLongObject;
-	/***/ public String incorrectLONG_OBJECT_ID_LENGTH;
-	/***/ public String invalidLongId;
-	/***/ public String invalidLongIdLength;
-	/***/ public String requiredHashFunctionNotAvailable;
+	/***/ public String invalidPathInfo;
+	/***/ public String objectNotFound;
 }

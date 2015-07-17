@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-   Copyright (C) 2015, Matthias Sohn <matthias.sohn@sap.com>
+   Copyright (C) 2015 Matthias Sohn <matthias.sohn@sap.com>
    and other copyright owners as documented in the project's IP log.
 
    This program and the accompanying materials are made available
@@ -53,101 +53,87 @@
     <version>4.1.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>org.eclipse.jgit.lfs.server</artifactId>
-  <name>JGit - Large File Storage Server</name>
+  <artifactId>org.eclipse.jgit.lfs.server.test</artifactId>
+  <name>JGit - LFS Server Tests</name>
 
   <description>
-    JGit Large File Storage Server implementation.
+    Tests for the LFS server.
   </description>
 
-  <properties>
-    <translate-qualifier/>
-  </properties>
-
   <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+
     <dependency>
       <groupId>org.eclipse.jgit</groupId>
       <artifactId>org.eclipse.jgit</artifactId>
       <version>${project.version}</version>
+      <scope>test</scope>
     </dependency>
 
     <dependency>
       <groupId>org.eclipse.jgit</groupId>
-      <artifactId>org.eclipse.jgit.lfs</artifactId>
+      <artifactId>org.eclipse.jgit.lfs.server</artifactId>
       <version>${project.version}</version>
+      <scope>test</scope>
     </dependency>
 
     <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>javax.servlet-api</artifactId>
-      <scope>provided</scope>
+      <groupId>org.eclipse.jgit</groupId>
+      <artifactId>org.eclipse.jgit.junit.http</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.eclipse.jgit</groupId>
+      <artifactId>org.eclipse.jgit.junit</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-servlet</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <version>4.3.6</version>
     </dependency>
   </dependencies>
 
   <build>
-    <sourceDirectory>src/</sourceDirectory>
+    <testSourceDirectory>tst/</testSourceDirectory>
 
-    <resources>
-      <resource>
-        <directory>.</directory>
-        <includes>
-          <include>plugin.properties</include>
-          <include>about.html</include>
-        </includes>
-      </resource>
-      <resource>
-        <directory>resources/</directory>
-      </resource>
-    </resources>
-
+    <testResources>
+      <testResource>
+        <directory>tst-rsrc/</directory>
+      </testResource>
+    </testResources>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-source-plugin</artifactId>
-        <inherited>true</inherited>
+        <artifactId>maven-jar-plugin</artifactId>
         <executions>
           <execution>
-            <id>attach-sources</id>
-            <phase>process-classes</phase>
             <goals>
-              <goal>jar</goal>
+              <goal>test-jar</goal>
             </goals>
-            <configuration>
-              <archive>
-                <manifestFile>${source-bundle-manifest}</manifestFile>
-              </archive>
-            </configuration>
           </execution>
         </executions>
       </plugin>
-
       <plugin>
-        <artifactId>maven-jar-plugin</artifactId>
+        <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
-          <archive>
-            <manifestFile>${bundle-manifest}</manifestFile>
-          </archive>
+          <argLine>-Djava.io.tmpdir=${project.build.directory}  -Xmx300m</argLine>
         </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>clirr-maven-plugin</artifactId>
       </plugin>
     </plugins>
   </build>
-
-  <reporting>
-    <plugins>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>clirr-maven-plugin</artifactId>
-        <version>${clirr-version}</version>
-        <configuration>
-          <comparisonVersion>${jgit-last-release-version}</comparisonVersion>
-          <minSeverity>info</minSeverity>
-        </configuration>
-      </plugin>
-    </plugins>
-  </reporting>
 </project>
