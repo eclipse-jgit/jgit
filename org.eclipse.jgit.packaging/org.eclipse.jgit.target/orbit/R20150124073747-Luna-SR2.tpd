@@ -24,6 +24,7 @@ location "http://download.eclipse.org/tools/orbit/downloads/drops/R2015012407374
 	org.objenesis.source [1.0.0.v201105211943,1.0.0.v201105211943]
 	org.mockito [1.8.4.v201303031500,1.8.4.v201303031500]
 	org.mockito.source [1.8.4.v201303031500,1.8.4.v201303031500]
+	com.google.gson [2.2.4.v201311231704,2.2.4.v201311231704]
 	com.jcraft.jsch [0.1.51.v201410302000,0.1.51.v201410302000]
 	com.jcraft.jsch.source [0.1.51.v201410302000,0.1.51.v201410302000]
 	org.junit [4.11.0.v201303080030,4.11.0.v201303080030]
