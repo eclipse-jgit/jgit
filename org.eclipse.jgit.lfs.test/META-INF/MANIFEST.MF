@@ -16,5 +16,5 @@ Import-Package: org.eclipse.jgit.junit;version="[4.1.0,4.2.0)",
  org.junit.runner;version="[4.0.0,5.0.0)",
  org.junit.runners;version="[4.0.0,5.0.0)"
 Export-Package: org.eclipse.jgit.lfs.lib;version="4.1.0";x-internal:=true,
- org.eclipse.jgit.lfs.test;version="4.1.0";x-internal:=true
+ org.eclipse.jgit.lfs.test;version="4.1.0";x-friends:="org.eclipse.jgit.lfs.server.test"
 
