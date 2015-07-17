@@ -40,27 +40,55 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.eclipse.jgit.lfs.internal;
 
-import org.eclipse.jgit.nls.NLS;
-import org.eclipse.jgit.nls.TranslationBundle;
+package org.eclipse.jgit.lfs.errors;
+
+import org.eclipse.jgit.lfs.lib.AnyLongObjectId;
 
 /**
- * Translation bundle for JGit LFS server
+ * Thrown when an invalid long object id is passed in as an argument.
+ *
+ * @since 4.2
  */
-public class LfsText extends TranslationBundle {
+public class CorruptLongObjectException extends IllegalArgumentException {
+
+	private static final long serialVersionUID = 1L;
+
+	private AnyLongObjectId id;
+
+	private AnyLongObjectId contentHash;
 
 	/**
-	 * @return an instance of this translation bundle
+	 * Corrupt long object detected.
+	 *
+	 * @param id
+	 *            id of the long object
+	 * @param contentHash
+	 *            hash of the long object's content
+	 *
+	 * @param message
 	 */
-	public static LfsText get() {
-		return NLS.getBundleFor(LfsText.class);
+	public CorruptLongObjectException(AnyLongObjectId id,
+			AnyLongObjectId contentHash,
+			String message) {
+		super(message);
+		this.id = id;
+		this.contentHash = contentHash;
 	}
 
-	// @formatter:off
-	/***/ public String corruptLongObject;
-	/***/ public String incorrectLONG_OBJECT_ID_LENGTH;
-	/***/ public String invalidLongId;
-	/***/ public String invalidLongIdLength;
-	/***/ public String requiredHashFunctionNotAvailable;
+	/**
+	 * @return the id of the object
+	 */
+	public AnyLongObjectId getId() {
+		return id;
+	}
+
+	/**
+	 * @return the hash of the object content which doesn't match the object's
+	 *         id when this exception is thrown which signals that the object
+	 *         has been corrupted
+	 */
+	public AnyLongObjectId getContentHash() {
+		return contentHash;
+	}
 }
