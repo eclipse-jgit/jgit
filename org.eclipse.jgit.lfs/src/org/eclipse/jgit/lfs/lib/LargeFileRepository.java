@@ -40,27 +40,60 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.eclipse.jgit.lfs.internal;
+package org.eclipse.jgit.lfs.lib;
 
-import org.eclipse.jgit.nls.NLS;
-import org.eclipse.jgit.nls.TranslationBundle;
+import java.io.IOException;
+import java.nio.channels.ReadableByteChannel;
+import java.nio.channels.WritableByteChannel;
 
 /**
- * Translation bundle for JGit LFS server
+ * Abstraction of a repository for storing large objects
+ *
+ * @since 4.1
  */
-public class LfsText extends TranslationBundle {
+public interface LargeFileRepository {
 
 	/**
-	 * @return an instance of this translation bundle
+	 * @param id
+	 *            id of the object
+	 * @return {@code true} if the object exists, {@code false} otherwise
 	 */
-	public static LfsText get() {
-		return NLS.getBundleFor(LfsText.class);
-	}
+	public boolean exists(AnyLongObjectId id);
 
-	// @formatter:off
-	/***/ public String corruptLongObject;
-	/***/ public String incorrectLONG_OBJECT_ID_LENGTH;
-	/***/ public String invalidLongId;
-	/***/ public String invalidLongIdLength;
-	/***/ public String requiredHashFunctionNotAvailable;
+	/**
+	 * @param id
+	 *            id of the object
+	 * @return length of the object content in bytes
+	 * @throws IOException
+	 */
+	public long getLength(AnyLongObjectId id) throws IOException;
+
+	/**
+	 * Get a channel to read the object's content. The caller is responsible to
+	 * close the channel
+	 *
+	 * @param id
+	 *            id of the object to read
+	 * @return the channel to read large object byte stream from
+	 * @throws IOException
+	 */
+	public ReadableByteChannel getReadChannel(AnyLongObjectId id)
+			throws IOException;
+
+	/**
+	 * Get a channel to write the object's content. The caller is responsible to
+	 * close the channel.
+	 *
+	 * @param id
+	 *            id of the object to write
+	 * @return the channel to write large object byte stream to
+	 * @throws IOException
+	 */
+	public WritableByteChannel getWriteChannel(AnyLongObjectId id)
+			throws IOException;
+
+	/**
+	 * Call this to abort write
+	 */
+	public void abortWrite();
 }
