@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-   Copyright (C) 2009,2014, Matthias Sohn <matthias.sohn@sap.com>
+   Copyright (C) 2015 Matthias Sohn <matthias.sohn@sap.com>
    and other copyright owners as documented in the project's IP log.
 
    This program and the accompanying materials are made available
@@ -49,50 +49,71 @@
 
   <parent>
     <groupId>org.eclipse.jgit</groupId>
-    <artifactId>jgit.tycho.parent</artifactId>
+    <artifactId>org.eclipse.jgit-parent</artifactId>
     <version>4.3.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>org.eclipse.jgit.repository</artifactId>
-  <packaging>eclipse-repository</packaging>
+  <artifactId>org.eclipse.jgit.lfs.test</artifactId>
+  <name>JGit - Large File Storage Tests</name>
 
-  <name>JGit P2 Repository</name>
+  <description>
+    Tests for the Large File Extension (LFS).
+  </description>
 
   <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+
     <dependency>
       <groupId>org.eclipse.jgit</groupId>
       <artifactId>org.eclipse.jgit</artifactId>
       <version>${project.version}</version>
     </dependency>
-	<dependency>
-	  <groupId>org.eclipse.jgit</groupId>
-	  <artifactId>org.eclipse.jgit.http.apache</artifactId>
-	  <version>${project.version}</version>
-	</dependency>
-    <dependency>
-	  <groupId>org.eclipse.jgit</groupId>
-	  <artifactId>org.eclipse.jgit.lfs</artifactId>
-	  <version>${project.version}</version>
-	</dependency>
+
     <dependency>
       <groupId>org.eclipse.jgit</groupId>
-      <artifactId>org.eclipse.jgit.pgm</artifactId>
+      <artifactId>org.eclipse.jgit.lfs</artifactId>
       <version>${project.version}</version>
     </dependency>
+
     <dependency>
       <groupId>org.eclipse.jgit</groupId>
       <artifactId>org.eclipse.jgit.junit</artifactId>
       <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.eclipse.jgit</groupId>
-      <artifactId>org.eclipse.jgit.junit.http</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.eclipse.jgit</groupId>
-      <artifactId>org.eclipse.jgit.http.server</artifactId>
-      <version>${project.version}</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
+
+  <build>
+    <testSourceDirectory>tst/</testSourceDirectory>
+    <sourceDirectory>src/</sourceDirectory>
+
+    <testResources>
+      <testResource>
+        <directory>tst-rsrc/</directory>
+      </testResource>
+    </testResources>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>test-jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <argLine>-Djava.io.tmpdir=${project.build.directory}  -Xmx300m</argLine>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>

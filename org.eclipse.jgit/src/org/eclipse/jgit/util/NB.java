@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
+ * Copyright (C) 2008, 2015 Shawn O. Pearce <spearce@spearce.org>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -63,6 +63,37 @@ public final class NB {
 		if (cmp != 0)
 			return cmp;
 		return (a & 1) - (b & 1);
+	}
+
+	/**
+	 * Compare a 64 bit unsigned integer stored in a 64 bit signed integer.
+	 * <p>
+	 * This function performs an unsigned compare operation, even though Java
+	 * does not natively support unsigned integer values. Negative numbers are
+	 * treated as larger than positive ones.
+	 *
+	 * @param a
+	 *            the first value to compare.
+	 * @param b
+	 *            the second value to compare.
+	 * @return &lt; 0 if a &lt; b; 0 if a == b; &gt; 0 if a &gt; b.
+	 * @since 4.3
+	 */
+	public static int compareUInt64(final long a, final long b) {
+		long cmp = (a >>> 1) - (b >>> 1);
+		if (cmp > 0) {
+			return 1;
+		} else if (cmp < 0) {
+			return -1;
+		}
+		cmp = ((a & 1) - (b & 1));
+		if (cmp > 0) {
+			return 1;
+		} else if (cmp < 0) {
+			return -1;
+		} else {
+			return 0;
+		}
 	}
 
 	/**
