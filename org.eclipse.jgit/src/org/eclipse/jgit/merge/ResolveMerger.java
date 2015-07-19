@@ -525,10 +525,11 @@ public class ResolveMerger extends ThreeWayMerger {
 			}
 		}
 
-		if (nonTree(modeO) && modeB == modeT && tw.idEqual(T_BASE, T_THEIRS)) {
+		if (modeB == modeT && tw.idEqual(T_BASE, T_THEIRS)) {
 			// THEIRS was not changed compared to BASE. All changes must be in
 			// OURS. OURS is chosen. We can keep the existing entry.
-			keep(ourDce);
+			if (ourDce != null)
+				keep(ourDce);
 			// no checkout needed!
 			return true;
 		}
@@ -549,11 +550,12 @@ public class ResolveMerger extends ThreeWayMerger {
 				if (e != null)
 					toBeCheckedOut.put(tw.getPathString(), e);
 				return true;
-			} else if (modeT == 0 && modeB != 0) {
-				// we want THEIRS ... but THEIRS contains the deletion of the
-				// file. Also, do not complain if the file is already deleted
-				// locally. This complements the test in isWorktreeDirty() for
-				// the same case.
+			} else {
+				// we want THEIRS ... but THEIRS contains a folder or the
+				// deletion of the path. Delete what's in the workingtree (the
+				// workingtree is clean) but do not complain if the file is
+				// already deleted locally. This complements the test in
+				// isWorktreeDirty() for the same case.
 				if (tw.getTreeCount() > T_FILE && tw.getRawMode(T_FILE) == 0)
 					return true;
 				toBeDeleted.add(tw.getPathString());

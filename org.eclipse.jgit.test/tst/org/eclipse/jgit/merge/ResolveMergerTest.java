@@ -227,6 +227,80 @@ public class ResolveMergerTest extends RepositoryTestCase {
 	}
 
 	/**
+	 * A tracked file is replaced by a folder in THEIRS.
+	 *
+	 * @param strategy
+	 * @throws Exception
+	 */
+	@Theory
+	public void checkFileReplacedByFolderInTheirs(MergeStrategy strategy)
+			throws Exception {
+		Git git = Git.wrap(db);
+
+		writeTrashFile("sub", "file");
+		git.add().addFilepattern("sub").call();
+		RevCommit first = git.commit().setMessage("initial").call();
+
+		git.checkout().setCreateBranch(true).setStartPoint(first)
+				.setName("side").call();
+
+		git.rm().addFilepattern("sub").call();
+		writeTrashFile("sub/file", "subfile");
+		git.add().addFilepattern("sub/file").call();
+		RevCommit masterCommit = git.commit().setMessage("file -> folder")
+				.call();
+
+		git.checkout().setName("master").call();
+		writeTrashFile("noop", "other");
+		git.add().addFilepattern("noop").call();
+		git.commit().setAll(true).setMessage("noop").call();
+
+		MergeResult mergeRes = git.merge().setStrategy(strategy)
+				.include(masterCommit).call();
+		assertEquals(MergeStatus.MERGED, mergeRes.getMergeStatus());
+		assertEquals(
+				"[noop, mode:100644, content:other][sub/file, mode:100644, content:subfile]",
+				indexState(CONTENT));
+	}
+
+	/**
+	 * A tracked file is replaced by a folder in OURS.
+	 *
+	 * @param strategy
+	 * @throws Exception
+	 */
+	@Theory
+	public void checkFileReplacedByFolderInOurs(MergeStrategy strategy)
+			throws Exception {
+		Git git = Git.wrap(db);
+
+		writeTrashFile("sub", "file");
+		git.add().addFilepattern("sub").call();
+		RevCommit first = git.commit().setMessage("initial").call();
+
+		git.checkout().setCreateBranch(true).setStartPoint(first)
+				.setName("side").call();
+		writeTrashFile("noop", "other");
+		git.add().addFilepattern("noop").call();
+		RevCommit sideCommit = git.commit().setAll(true).setMessage("noop")
+				.call();
+
+		git.checkout().setName("master").call();
+		git.rm().addFilepattern("sub").call();
+		writeTrashFile("sub/file", "subfile");
+		git.add().addFilepattern("sub/file").call();
+		git.commit().setMessage("file -> folder")
+				.call();
+
+		MergeResult mergeRes = git.merge().setStrategy(strategy)
+				.include(sideCommit).call();
+		assertEquals(MergeStatus.MERGED, mergeRes.getMergeStatus());
+		assertEquals(
+				"[noop, mode:100644, content:other][sub/file, mode:100644, content:subfile]",
+				indexState(CONTENT));
+	}
+
+	/**
 	 * An existing directory without tracked content should not prevent merging
 	 * a file with that name.
 	 *
