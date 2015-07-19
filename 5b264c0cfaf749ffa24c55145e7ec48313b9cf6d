@@ -1,0 +1,325 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2721e7e2_eb27ed64",
+        "filename": "org.eclipse.jgit.lfs.test/tst/org/eclipse/jgit/lfs/lib/LongObjectIdTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 247
+      },
+      "writtenOn": "2015-07-19T21:51:26Z",
+      "side": 1,
+      "message": "I think the message in the assert* methods should rather express an assertion error instead of the expectation.\n\nWhy are the test cases numbered?",
+      "revId": "5b264c0cfaf749ffa24c55145e7ec48313b9cf6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_8b2ab12e",
+        "filename": "org.eclipse.jgit.lfs.test/tst/org/eclipse/jgit/lfs/lib/LongObjectIdTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 247
+      },
+      "writtenOn": "2015-07-19T21:51:26Z",
+      "side": 1,
+      "message": "s/same/equal",
+      "revId": "5b264c0cfaf749ffa24c55145e7ec48313b9cf6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_cb5669a3",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/AnyLongObjectId.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 247
+      },
+      "writtenOn": "2015-07-19T21:51:26Z",
+      "side": 1,
+      "message": "SHA-256",
+      "range": {
+        "startLine": 58,
+        "startChar": 24,
+        "endLine": 58,
+        "endChar": 29
+      },
+      "revId": "5b264c0cfaf749ffa24c55145e7ec48313b9cf6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_2bb74574",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/AnyLongObjectId.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 247
+      },
+      "writtenOn": "2015-07-19T21:51:26Z",
+      "side": 1,
+      "message": "The hashCode methods uses w2.",
+      "range": {
+        "startLine": 81,
+        "startChar": 5,
+        "endLine": 81,
+        "endChar": 26
+      },
+      "revId": "5b264c0cfaf749ffa24c55145e7ec48313b9cf6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_0bbc0155",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/AnyLongObjectId.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 247
+      },
+      "writtenOn": "2015-07-19T21:51:26Z",
+      "side": 1,
+      "message": "Why use only w2? Why the right shift? Likely it doesn\u0027t really matter.",
+      "range": {
+        "startLine": 262,
+        "startChar": 0,
+        "endLine": 264,
+        "endChar": 2
+      },
+      "revId": "5b264c0cfaf749ffa24c55145e7ec48313b9cf6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_cb24a963",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LongObjectId.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 247
+      },
+      "writtenOn": "2015-07-19T21:51:26Z",
+      "side": 1,
+      "message": "SHA-256 ?",
+      "range": {
+        "startLine": 62,
+        "startChar": 5,
+        "endLine": 62,
+        "endChar": 10
+      },
+      "revId": "5b264c0cfaf749ffa24c55145e7ec48313b9cf6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_6b465dfc",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LongObjectId.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 247
+      },
+      "writtenOn": "2015-07-19T21:51:26Z",
+      "side": 1,
+      "message": "s/Compare/Test",
+      "range": {
+        "startLine": 121,
+        "startChar": 4,
+        "endLine": 121,
+        "endChar": 11
+      },
+      "revId": "5b264c0cfaf749ffa24c55145e7ec48313b9cf6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_0b6a4164",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LongObjectId.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 247
+      },
+      "writtenOn": "2015-07-19T21:51:26Z",
+      "side": 1,
+      "message": "fi ?",
+      "range": {
+        "startLine": 125,
+        "startChar": 35,
+        "endLine": 125,
+        "endChar": 37
+      },
+      "revId": "5b264c0cfaf749ffa24c55145e7ec48313b9cf6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_6b6f7d74",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LongObjectId.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 247
+      },
+      "writtenOn": "2015-07-19T21:51:26Z",
+      "side": 1,
+      "message": "si ?",
+      "range": {
+        "startLine": 130,
+        "startChar": 35,
+        "endLine": 130,
+        "endChar": 37
+      },
+      "revId": "5b264c0cfaf749ffa24c55145e7ec48313b9cf6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_0b51a1b0",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LongObjectId.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 247
+      },
+      "writtenOn": "2015-07-19T21:51:26Z",
+      "side": 1,
+      "message": "Please clarify that the position in this methods is measured in 4 byte steps (index in the long array).",
+      "range": {
+        "startLine": 220,
+        "startChar": 15,
+        "endLine": 220,
+        "endChar": 23
+      },
+      "revId": "5b264c0cfaf749ffa24c55145e7ec48313b9cf6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_2b4c651c",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LongObjectId.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 247
+      },
+      "writtenOn": "2015-07-19T21:51:26Z",
+      "side": 1,
+      "message": "\u0027long\u0027 or \u0027long integer\u0027",
+      "range": {
+        "startLine": 220,
+        "startChar": 42,
+        "endLine": 220,
+        "endChar": 49
+      },
+      "revId": "5b264c0cfaf749ffa24c55145e7ec48313b9cf6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_cb7f891b",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LongObjectId.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 247
+      },
+      "writtenOn": "2015-07-19T21:51:26Z",
+      "side": 1,
+      "message": "name this \u0027fromHexString\u0027",
+      "range": {
+        "startLine": 248,
+        "startChar": 28,
+        "endLine": 248,
+        "endChar": 38
+      },
+      "revId": "5b264c0cfaf749ffa24c55145e7ec48313b9cf6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_4b743943",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LongObjectId.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 247
+      },
+      "writtenOn": "2015-07-19T21:51:26Z",
+      "side": 1,
+      "message": "I think file handling should be beyond the responsibility of this class. Why not do with the stream? Would also faciliate testing.",
+      "revId": "5b264c0cfaf749ffa24c55145e7ec48313b9cf6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_eb824da1",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LongObjectId.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 247
+      },
+      "writtenOn": "2015-07-19T21:51:26Z",
+      "side": 1,
+      "message": "The hash depends on the platform\u0027s default charset. You might consider to remove this method or add a Charset parameter.",
+      "range": {
+        "startLine": 291,
+        "startChar": 0,
+        "endLine": 300,
+        "endChar": 2
+      },
+      "revId": "5b264c0cfaf749ffa24c55145e7ec48313b9cf6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_ab785537",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LongObjectId.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 247
+      },
+      "writtenOn": "2015-07-19T21:51:26Z",
+      "side": 1,
+      "message": "missing empty line above",
+      "revId": "5b264c0cfaf749ffa24c55145e7ec48313b9cf6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
