@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2721e7e2_cb0dc9f3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectId.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 247
+      },
+      "writtenOn": "2015-07-19T20:41:11Z",
+      "side": 1,
+      "message": "Should this be \"fi\"?",
+      "range": {
+        "startLine": 118,
+        "startChar": 35,
+        "endLine": 118,
+        "endChar": 37
+      },
+      "revId": "d1fb49bdd513e4dcad5832a21a36f1455918b098",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_2b3aa583",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectId.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 247
+      },
+      "writtenOn": "2015-07-19T20:41:11Z",
+      "side": 1,
+      "message": "Should this be \"si\"?",
+      "range": {
+        "startLine": 123,
+        "startChar": 35,
+        "endLine": 123,
+        "endChar": 37
+      },
+      "revId": "d1fb49bdd513e4dcad5832a21a36f1455918b098",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
