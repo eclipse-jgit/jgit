@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2721e7e2_ce3af74b",
+        "filename": "org.eclipse.jgit.lfs.server/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-07-20T13:46:38Z",
+      "side": 1,
+      "message": "rebase interactive mess:\n\nthis pom.xml ended up in the wrong change, belongs to the lfs.server bundle which is introduced in the next change only",
+      "revId": "4d51af7d8e0e4c5fd8e5924743882fd71f80d612",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
