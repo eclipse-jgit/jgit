@@ -36,6 +36,23 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_2b0905bd",
+        "filename": "org.eclipse.jgit.lfs/resources/org/eclipse/jgit/lfs/internal/LfsText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 247
+      },
+      "writtenOn": "2015-07-20T05:38:19Z",
+      "side": 1,
+      "message": "Sure this is used?",
+      "revId": "5b264c0cfaf749ffa24c55145e7ec48313b9cf6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_cb5669a3",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/AnyLongObjectId.java",
         "patchSetId": 2
@@ -317,6 +334,92 @@
       "writtenOn": "2015-07-19T21:51:26Z",
       "side": 1,
       "message": "missing empty line above",
+      "revId": "5b264c0cfaf749ffa24c55145e7ec48313b9cf6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_4b9d59eb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 247
+      },
+      "writtenOn": "2015-07-20T05:38:19Z",
+      "side": 1,
+      "message": "nibble ?",
+      "range": {
+        "startLine": 368,
+        "startChar": 4,
+        "endLine": 368,
+        "endChar": 10
+      },
+      "revId": "5b264c0cfaf749ffa24c55145e7ec48313b9cf6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_ab9175d7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 247
+      },
+      "writtenOn": "2015-07-20T05:38:19Z",
+      "side": 1,
+      "message": "what\u0027s a \u0027bs\u0027 \u0027bytes\u0027? I think \u0027bs\u0027 is an array with the bytes of a hex string representing the long value. So why not name it \u0027hexBytes\u0027 or alike?",
+      "range": {
+        "startLine": 370,
+        "startChar": 11,
+        "endLine": 370,
+        "endChar": 13
+      },
+      "revId": "5b264c0cfaf749ffa24c55145e7ec48313b9cf6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_cb8829ac",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 247
+      },
+      "writtenOn": "2015-07-20T05:38:19Z",
+      "side": 1,
+      "message": "I assume you have indication that the JIT compiler doesn\u0027t unroll the loop anyhow.",
+      "revId": "5b264c0cfaf749ffa24c55145e7ec48313b9cf6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_8b8e31b7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 247
+      },
+      "writtenOn": "2015-07-20T05:38:19Z",
+      "side": 1,
+      "message": "Would be more symmetric if you start out with\n\nlong r \u003d 0;\n\nr |\u003d digits[bs[p]];\nr \u003c\u003c 4;",
+      "range": {
+        "startLine": 381,
+        "startChar": 2,
+        "endLine": 381,
+        "endChar": 32
+      },
       "revId": "5b264c0cfaf749ffa24c55145e7ec48313b9cf6d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
