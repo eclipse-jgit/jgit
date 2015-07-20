@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_8bcbd1c7",
+        "filename": "org.eclipse.jgit.lfs.test/tst/org/eclipse/jgit/lfs/lib/LongObjectIdTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 247
+      },
+      "writtenOn": "2015-07-20T06:20:48Z",
+      "side": 1,
+      "message": "Many test cases actually apply to AnyLongObjectId. Why not have a dedicated test for AnyLongObjectId?",
+      "revId": "5b264c0cfaf749ffa24c55145e7ec48313b9cf6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_8b2ab12e",
         "filename": "org.eclipse.jgit.lfs.test/tst/org/eclipse/jgit/lfs/lib/LongObjectIdTest.java",
         "patchSetId": 2
@@ -36,6 +53,23 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_abce95d7",
+        "filename": "org.eclipse.jgit.lfs.test/tst/org/eclipse/jgit/lfs/lib/LongObjectIdTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 247
+      },
+      "writtenOn": "2015-07-20T06:20:48Z",
+      "side": 1,
+      "message": "Rather remove the option to hash a file and test with a stream instead.",
+      "revId": "5b264c0cfaf749ffa24c55145e7ec48313b9cf6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_2b0905bd",
         "filename": "org.eclipse.jgit.lfs/resources/org/eclipse/jgit/lfs/internal/LfsText.properties",
         "patchSetId": 2
@@ -47,6 +81,29 @@
       "writtenOn": "2015-07-20T05:38:19Z",
       "side": 1,
       "message": "Sure this is used?",
+      "revId": "5b264c0cfaf749ffa24c55145e7ec48313b9cf6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_4b2f1913",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/AnyLongObjectId.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 247
+      },
+      "writtenOn": "2015-07-20T06:20:48Z",
+      "side": 1,
+      "message": "remove these",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 43
+      },
       "revId": "5b264c0cfaf749ffa24c55145e7ec48313b9cf6d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -76,6 +133,29 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_ab4335c7",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/AnyLongObjectId.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 247
+      },
+      "writtenOn": "2015-07-20T06:20:48Z",
+      "side": 1,
+      "message": "I don\u0027t understand this sentence.",
+      "range": {
+        "startLine": 60,
+        "startChar": 3,
+        "endLine": 62,
+        "endChar": 37
+      },
+      "revId": "5b264c0cfaf749ffa24c55145e7ec48313b9cf6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_2bb74574",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/AnyLongObjectId.java",
         "patchSetId": 2
@@ -92,6 +172,52 @@
         "startChar": 5,
         "endLine": 81,
         "endChar": 26
+      },
+      "revId": "5b264c0cfaf749ffa24c55145e7ec48313b9cf6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_eb3d2d46",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/AnyLongObjectId.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 247
+      },
+      "writtenOn": "2015-07-20T06:20:48Z",
+      "side": 1,
+      "message": "8 * x -\u003e x \u003c\u003c 3 ?",
+      "range": {
+        "startLine": 161,
+        "startChar": 24,
+        "endLine": 161,
+        "endChar": 27
+      },
+      "revId": "5b264c0cfaf749ffa24c55145e7ec48313b9cf6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_8b40f1bb",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/AnyLongObjectId.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 247
+      },
+      "writtenOn": "2015-07-20T06:20:48Z",
+      "side": 1,
+      "message": "This is not everybody\u0027s idea of readability. Any reason why to put this on one line?",
+      "range": {
+        "startLine": 161,
+        "startChar": 15,
+        "endLine": 161,
+        "endChar": 57
       },
       "revId": "5b264c0cfaf749ffa24c55145e7ec48313b9cf6d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
@@ -168,6 +294,29 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_cb3ae94b",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LongObjectId.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 247
+      },
+      "writtenOn": "2015-07-20T06:20:48Z",
+      "side": 1,
+      "message": "Comparing long sequences would be much more efficient.",
+      "range": {
+        "startLine": 121,
+        "startChar": 34,
+        "endLine": 121,
+        "endChar": 48
+      },
+      "revId": "5b264c0cfaf749ffa24c55145e7ec48313b9cf6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_0b6a4164",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LongObjectId.java",
         "patchSetId": 2
@@ -207,6 +356,29 @@
         "startChar": 35,
         "endLine": 130,
         "endChar": 37
+      },
+      "revId": "5b264c0cfaf749ffa24c55145e7ec48313b9cf6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_0be08141",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LongObjectId.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 247
+      },
+      "writtenOn": "2015-07-20T06:20:48Z",
+      "side": 1,
+      "message": "longs or long integers",
+      "range": {
+        "startLine": 205,
+        "startChar": 23,
+        "endLine": 205,
+        "endChar": 31
       },
       "revId": "5b264c0cfaf749ffa24c55145e7ec48313b9cf6d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
@@ -260,6 +432,29 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_6be5bd51",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LongObjectId.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 247
+      },
+      "writtenOn": "2015-07-20T06:20:48Z",
+      "side": 1,
+      "message": "fromHexString ?",
+      "range": {
+        "startLine": 237,
+        "startChar": 34,
+        "endLine": 237,
+        "endChar": 44
+      },
+      "revId": "5b264c0cfaf749ffa24c55145e7ec48313b9cf6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_cb7f891b",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LongObjectId.java",
         "patchSetId": 2
@@ -294,6 +489,40 @@
       "writtenOn": "2015-07-19T21:51:26Z",
       "side": 1,
       "message": "I think file handling should be beyond the responsibility of this class. Why not do with the stream? Would also faciliate testing.",
+      "revId": "5b264c0cfaf749ffa24c55145e7ec48313b9cf6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_ebd88d9a",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LongObjectId.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 247
+      },
+      "writtenOn": "2015-07-20T06:20:48Z",
+      "side": 1,
+      "message": "I din\u0027t find a test that tests hashing objects larger then 4k.",
+      "revId": "5b264c0cfaf749ffa24c55145e7ec48313b9cf6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_4bea7923",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LongObjectId.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 247
+      },
+      "writtenOn": "2015-07-20T06:20:48Z",
+      "side": 1,
+      "message": "The objects to be hashed can get large. It might be a good idea to allow streams only in the hash function.",
       "revId": "5b264c0cfaf749ffa24c55145e7ec48313b9cf6d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
