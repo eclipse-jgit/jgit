@@ -318,6 +318,29 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_4ed0c7c2",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/AnyLongObjectId.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 451
+      },
+      "writtenOn": "2015-07-21T08:26:23Z",
+      "side": 1,
+      "message": "two",
+      "range": {
+        "startLine": 67,
+        "startChar": 12,
+        "endLine": 67,
+        "endChar": 14
+      },
+      "revId": "5b264c0cfaf749ffa24c55145e7ec48313b9cf6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_2bb74574",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/AnyLongObjectId.java",
         "patchSetId": 2
@@ -482,6 +505,52 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_6e466bfc",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/AnyLongObjectId.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 451
+      },
+      "writtenOn": "2015-07-21T08:26:23Z",
+      "side": 1,
+      "message": "LongObjectId",
+      "range": {
+        "startLine": 252,
+        "startChar": 18,
+        "endLine": 252,
+        "endChar": 26
+      },
+      "revId": "5b264c0cfaf749ffa24c55145e7ec48313b9cf6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_ee59bbd5",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/AnyLongObjectId.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 451
+      },
+      "writtenOn": "2015-07-21T08:26:23Z",
+      "side": 1,
+      "message": "LongObjectId",
+      "range": {
+        "startLine": 256,
+        "startChar": 25,
+        "endLine": 256,
+        "endChar": 33
+      },
+      "revId": "5b264c0cfaf749ffa24c55145e7ec48313b9cf6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_0bbc0155",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/AnyLongObjectId.java",
         "patchSetId": 2
@@ -529,6 +598,52 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_bca7f907",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/AnyLongObjectId.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 523,
+      "author": {
+        "id": 451
+      },
+      "writtenOn": "2015-07-21T08:26:23Z",
+      "side": 1,
+      "message": "what does that mean?",
+      "range": {
+        "startLine": 523,
+        "startChar": 45,
+        "endLine": 523,
+        "endChar": 62
+      },
+      "revId": "5b264c0cfaf749ffa24c55145e7ec48313b9cf6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_5c935daf",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/AnyLongObjectId.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 542,
+      "author": {
+        "id": 451
+      },
+      "writtenOn": "2015-07-21T08:26:23Z",
+      "side": 1,
+      "message": "what does that mean?",
+      "range": {
+        "startLine": 542,
+        "startChar": 45,
+        "endLine": 542,
+        "endChar": 62
+      },
+      "revId": "5b264c0cfaf749ffa24c55145e7ec48313b9cf6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_cb24a963",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LongObjectId.java",
         "patchSetId": 2
@@ -569,6 +684,167 @@
         "startChar": 5,
         "endLine": 62,
         "endChar": 10
+      },
+      "revId": "5b264c0cfaf749ffa24c55145e7ec48313b9cf6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_0e07ef90",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LongObjectId.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 451
+      },
+      "writtenOn": "2015-07-21T08:26:23Z",
+      "side": 1,
+      "message": "LongObjectId",
+      "range": {
+        "startLine": 79,
+        "startChar": 29,
+        "endLine": 79,
+        "endChar": 37
+      },
+      "revId": "5b264c0cfaf749ffa24c55145e7ec48313b9cf6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_4e01e777",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LongObjectId.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 451
+      },
+      "writtenOn": "2015-07-21T08:26:23Z",
+      "side": 1,
+      "message": "all-zero?",
+      "range": {
+        "startLine": 79,
+        "startChar": 20,
+        "endLine": 79,
+        "endChar": 28
+      },
+      "revId": "5b264c0cfaf749ffa24c55145e7ec48313b9cf6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_6efcabe5",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LongObjectId.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 451
+      },
+      "writtenOn": "2015-07-21T08:26:23Z",
+      "side": 1,
+      "message": "LongObjectId",
+      "range": {
+        "startLine": 81,
+        "startChar": 25,
+        "endLine": 81,
+        "endChar": 33
+      },
+      "revId": "5b264c0cfaf749ffa24c55145e7ec48313b9cf6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_ced5d760",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LongObjectId.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 451
+      },
+      "writtenOn": "2015-07-21T08:26:23Z",
+      "side": 1,
+      "message": "that it can be interpreted as LongObjectId",
+      "range": {
+        "startLine": 88,
+        "startChar": 42,
+        "endLine": 88,
+        "endChar": 60
+      },
+      "revId": "5b264c0cfaf749ffa24c55145e7ec48313b9cf6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_aef503f8",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LongObjectId.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 451
+      },
+      "writtenOn": "2015-07-21T08:26:23Z",
+      "side": 1,
+      "message": "LongObjectId",
+      "range": {
+        "startLine": 94,
+        "startChar": 53,
+        "endLine": 94,
+        "endChar": 61
+      },
+      "revId": "5b264c0cfaf749ffa24c55145e7ec48313b9cf6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_3703224e",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LongObjectId.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 451
+      },
+      "writtenOn": "2015-07-21T08:26:23Z",
+      "side": 1,
+      "message": "the if ensures that the ArrayIndexOutOfBounds can never happen, or do I miss something?",
+      "range": {
+        "startLine": 99,
+        "startChar": 0,
+        "endLine": 106,
+        "endChar": 3
+      },
+      "revId": "5b264c0cfaf749ffa24c55145e7ec48313b9cf6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_ceecb734",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LongObjectId.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 451
+      },
+      "writtenOn": "2015-07-21T08:26:23Z",
+      "side": 1,
+      "message": "LongObjectId",
+      "range": {
+        "startLine": 110,
+        "startChar": 15,
+        "endLine": 110,
+        "endChar": 23
       },
       "revId": "5b264c0cfaf749ffa24c55145e7ec48313b9cf6d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
@@ -764,6 +1040,75 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_2ead93f5",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LongObjectId.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 451
+      },
+      "writtenOn": "2015-07-21T08:26:23Z",
+      "side": 1,
+      "message": "LongObjectId",
+      "range": {
+        "startLine": 172,
+        "startChar": 15,
+        "endLine": 172,
+        "endChar": 23
+      },
+      "revId": "5b264c0cfaf749ffa24c55145e7ec48313b9cf6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_6eb78b41",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LongObjectId.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 451
+      },
+      "writtenOn": "2015-07-21T08:26:23Z",
+      "side": 1,
+      "message": "LongObjectId",
+      "range": {
+        "startLine": 184,
+        "startChar": 15,
+        "endLine": 184,
+        "endChar": 23
+      },
+      "revId": "5b264c0cfaf749ffa24c55145e7ec48313b9cf6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_4ebc4724",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LongObjectId.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 451
+      },
+      "writtenOn": "2015-07-21T08:26:23Z",
+      "side": 1,
+      "message": "32",
+      "range": {
+        "startLine": 187,
+        "startChar": 58,
+        "endLine": 187,
+        "endChar": 60
+      },
+      "revId": "5b264c0cfaf749ffa24c55145e7ec48313b9cf6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_0be08141",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LongObjectId.java",
         "patchSetId": 2
@@ -804,6 +1149,29 @@
         "startChar": 23,
         "endLine": 205,
         "endChar": 31
+      },
+      "revId": "5b264c0cfaf749ffa24c55145e7ec48313b9cf6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_1c844562",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LongObjectId.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 451
+      },
+      "writtenOn": "2015-07-21T08:26:23Z",
+      "side": 1,
+      "message": "LongObjectId",
+      "range": {
+        "startLine": 214,
+        "startChar": 15,
+        "endLine": 214,
+        "endChar": 23
       },
       "revId": "5b264c0cfaf749ffa24c55145e7ec48313b9cf6d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
@@ -897,6 +1265,29 @@
         "startLine": 220,
         "startChar": 15,
         "endLine": 220,
+        "endChar": 23
+      },
+      "revId": "5b264c0cfaf749ffa24c55145e7ec48313b9cf6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_5c8ebd83",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LongObjectId.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 451
+      },
+      "writtenOn": "2015-07-21T08:26:23Z",
+      "side": 1,
+      "message": "LongObjectId",
+      "range": {
+        "startLine": 228,
+        "startChar": 15,
+        "endLine": 228,
         "endChar": 23
       },
       "revId": "5b264c0cfaf749ffa24c55145e7ec48313b9cf6d",
@@ -1063,6 +1454,29 @@
       "side": 1,
       "message": "there is one in I7378da5575159d2195138d799704880c5c82d5f3",
       "parentUuid": "2721e7e2_ebd88d9a",
+      "revId": "5b264c0cfaf749ffa24c55145e7ec48313b9cf6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_9c567554",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LongObjectId.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 451
+      },
+      "writtenOn": "2015-07-21T08:26:23Z",
+      "side": 1,
+      "message": "missing description",
+      "range": {
+        "startLine": 291,
+        "startChar": 0,
+        "endLine": 291,
+        "endChar": 4
+      },
       "revId": "5b264c0cfaf749ffa24c55145e7ec48313b9cf6d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
