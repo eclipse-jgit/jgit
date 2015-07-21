@@ -1,0 +1,7 @@
+Verified+1: Hudson CI
+Code-Review+2: Sasa Zivkov <zivkov@gmail.com>
+Submitted-by: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-at: Tue, 21 Jul 2015 18:37:51 -0400
+Reviewed-on: https://git.eclipse.org/r/52175
+Project: jgit/jgit
+Branch: refs/heads/master
