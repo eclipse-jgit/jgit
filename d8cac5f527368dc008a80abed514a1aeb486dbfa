@@ -2,6 +2,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "2721e7e2_977e4e89",
+        "filename": "org.eclipse.jgit.lfs.server.test/.settings/org.eclipse.core.resources.prefs",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2015-07-21T11:44:05Z",
+      "side": 1,
+      "message": "what is the meaning of this date/time and why it is 2010 for a new file?\n\nthe same question for a couple of other files in this change",
+      "revId": "d8cac5f527368dc008a80abed514a1aeb486dbfa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_37f9628f",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/LargeObjectServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2015-07-21T11:44:05Z",
+      "side": 1,
+      "message": "final?",
+      "revId": "d8cac5f527368dc008a80abed514a1aeb486dbfa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_57085635",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/LargeObjectServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2015-07-21T11:44:05Z",
+      "side": 1,
+      "message": "final?",
+      "revId": "d8cac5f527368dc008a80abed514a1aeb486dbfa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_7703da1a",
         "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/LargeObjectServlet.java",
         "patchSetId": 4
@@ -25,6 +76,29 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_372042a3",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/LargeObjectServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2015-07-21T11:44:05Z",
+      "side": 1,
+      "message": "optional: Most of existing JGit code seems to use req/rsp names for the HttpServletRequest/HttpServletResponse",
+      "range": {
+        "startLine": 104,
+        "startChar": 21,
+        "endLine": 105,
+        "endChar": 31
+      },
+      "revId": "d8cac5f527368dc008a80abed514a1aeb486dbfa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_97f3eed8",
         "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/LargeObjectServlet.java",
         "patchSetId": 4
@@ -41,6 +115,29 @@
         "startChar": 2,
         "endLine": 107,
         "endChar": 45
+      },
+      "revId": "d8cac5f527368dc008a80abed514a1aeb486dbfa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_b749d23a",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/LargeObjectServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2015-07-21T11:44:05Z",
+      "side": 1,
+      "message": "1 + LONG_OBJECT_ID_STRING_LENGTH\n\nthen it is clearer that it is \"/SHA-256\"",
+      "range": {
+        "startLine": 119,
+        "startChar": 23,
+        "endLine": 119,
+        "endChar": 25
       },
       "revId": "d8cac5f527368dc008a80abed514a1aeb486dbfa",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
@@ -163,6 +260,23 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_57d056c2",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/ObjectDownloadListener.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2015-07-21T11:44:05Z",
+      "side": 1,
+      "message": "do we want to make absolutely sure this is called when eofReached \u003d true? If yes, then this should be in a finally block",
+      "revId": "d8cac5f527368dc008a80abed514a1aeb486dbfa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_b79a7279",
         "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/ObjectDownloadListener.java",
         "patchSetId": 4
@@ -209,6 +323,29 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_37e84274",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LargeFileObjectRepository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2015-07-21T11:44:05Z",
+      "side": 1,
+      "message": "optional:\n\nI am not sure the naming pattern is optimal. This name could also be read as: large file-object repository i.e. it stores large file-objects as a specialization of the storing just objects from the parent interface.\n\nI would be more in favor of the following naming:\n\ninterface LargeFileRepository\n\nclass PlainFSRepository implements LargeFileRepository\n\nor\n\nclass FSBasedRepository implements LargeFileRepository",
+      "range": {
+        "startLine": 23,
+        "startChar": 13,
+        "endLine": 23,
+        "endChar": 38
+      },
+      "revId": "d8cac5f527368dc008a80abed514a1aeb486dbfa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_f716aa53",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LargeFileObjectRepository.java",
         "patchSetId": 4
@@ -226,6 +363,47 @@
         "endLine": 150,
         "endChar": 46
       },
+      "revId": "d8cac5f527368dc008a80abed514a1aeb486dbfa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_57e7b6a1",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LargeFileObjectRepository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2015-07-21T11:44:05Z",
+      "side": 1,
+      "message": "Or +6 as each byte is represented by two hex digits and we have two slashes. 6 characters until (and including) the second slash:\n\n  c0/ff/coffee...",
+      "parentUuid": "2721e7e2_f716aa53",
+      "range": {
+        "startLine": 150,
+        "startChar": 4,
+        "endLine": 150,
+        "endChar": 46
+      },
+      "revId": "d8cac5f527368dc008a80abed514a1aeb486dbfa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_f7f50a45",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LargeFileObjectRepository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2015-07-21T11:44:05Z",
+      "side": 1,
+      "message": "Why not remove the first two bytes (4 digits) from the name like Git does for its loose objects storage? The the example from my previous comment would look like:\n\n  c0/ff/ee...\n\nand the total length (line 150) would match exactly (as it is just two additional slashes).",
       "revId": "d8cac5f527368dc008a80abed514a1aeb486dbfa",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -266,6 +444,30 @@
       "writtenOn": "2015-07-21T09:39:16Z",
       "side": 1,
       "message": "description missing",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 13
+      },
+      "revId": "d8cac5f527368dc008a80abed514a1aeb486dbfa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_d7f2865a",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LargeObjectRepository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2015-07-21T11:44:05Z",
+      "side": 1,
+      "message": "a description is in the next line... just the formatting is strange, but probably according to JGit coding standards",
+      "parentUuid": "2721e7e2_b74f128d",
       "range": {
         "startLine": 14,
         "startChar": 0,
