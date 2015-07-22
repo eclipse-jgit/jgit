@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_3d2ae3b5",
+        "filename": "org.eclipse.jgit.lfs.server.test/.settings/org.eclipse.core.resources.prefs",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-07-22T13:35:19Z",
+      "side": 1,
+      "message": "all settings files were copied from another already existing jgit bundle to ensure we use the same settings consistently. Eclipse versions Juno (4.2) or newer don\u0027t write this timestamp anymore (see https://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d342709).\n\nWill remove the timestamps from the new prefs files",
+      "parentUuid": "2721e7e2_977e4e89",
+      "revId": "d8cac5f527368dc008a80abed514a1aeb486dbfa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_37f9628f",
         "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/LargeObjectServlet.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2015-07-21T11:44:05Z",
       "side": 1,
       "message": "final?",
+      "revId": "d8cac5f527368dc008a80abed514a1aeb486dbfa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_dd6f47ed",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/LargeObjectServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-07-22T13:35:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2721e7e2_37f9628f",
       "revId": "d8cac5f527368dc008a80abed514a1aeb486dbfa",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_3d3ca3ee",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/LargeObjectServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-07-22T13:35:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2721e7e2_57085635",
+      "revId": "d8cac5f527368dc008a80abed514a1aeb486dbfa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_7703da1a",
         "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/LargeObjectServlet.java",
         "patchSetId": 4
@@ -64,6 +118,30 @@
       "writtenOn": "2015-07-21T09:39:16Z",
       "side": 1,
       "message": "how should a servlet container know these parameters? the usual way to inject parameters into a servlet is an init() method and context parameters in the web.xml; that would work for timeout, but not for a dynamic parameter like repository",
+      "range": {
+        "startLine": 86,
+        "startChar": 8,
+        "endLine": 86,
+        "endChar": 26
+      },
+      "revId": "d8cac5f527368dc008a80abed514a1aeb486dbfa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_cf682eeb",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/LargeObjectServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-07-22T13:35:19Z",
+      "side": 1,
+      "message": "Gerrit uses Guice ServletModule to inject such parameters. \n\nI\u0027d like to keep the implementation of the storage API separate from the servlet.\n\nWhat other options do we have to enable this ?\nHow about a configurable factory which creates the concrete storage implementation instance?",
+      "parentUuid": "2721e7e2_7703da1a",
       "range": {
         "startLine": 86,
         "startChar": 8,
@@ -99,6 +177,30 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_1d41df62",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/LargeObjectServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-07-22T13:35:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2721e7e2_372042a3",
+      "range": {
+        "startLine": 104,
+        "startChar": 21,
+        "endLine": 105,
+        "endChar": 31
+      },
+      "revId": "d8cac5f527368dc008a80abed514a1aeb486dbfa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_97f3eed8",
         "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/LargeObjectServlet.java",
         "patchSetId": 4
@@ -110,6 +212,30 @@
       "writtenOn": "2015-07-21T09:39:16Z",
       "side": 1,
       "message": "if obj \u003d\u003d null 200 OK is returned as result",
+      "range": {
+        "startLine": 107,
+        "startChar": 2,
+        "endLine": 107,
+        "endChar": 45
+      },
+      "revId": "d8cac5f527368dc008a80abed514a1aeb486dbfa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_9d4caf99",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/LargeObjectServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-07-22T13:35:19Z",
+      "side": 1,
+      "message": "no, getObjectToTransfer() sets the status code to BAD REQUEST if the id in the URL isn\u0027t valid",
+      "parentUuid": "2721e7e2_97f3eed8",
       "range": {
         "startLine": 107,
         "startChar": 2,
@@ -145,6 +271,30 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_7d361b0e",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/LargeObjectServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-07-22T13:35:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2721e7e2_b749d23a",
+      "range": {
+        "startLine": 119,
+        "startChar": 23,
+        "endLine": 119,
+        "endChar": 25
+      },
+      "revId": "d8cac5f527368dc008a80abed514a1aeb486dbfa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_572976bc",
         "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/LargeObjectServlet.java",
         "patchSetId": 4
@@ -156,6 +306,30 @@
       "writtenOn": "2015-07-21T09:39:16Z",
       "side": 1,
       "message": "sendError() produces HTML output, which makes not much sense for a native git client",
+      "range": {
+        "startLine": 120,
+        "startChar": 0,
+        "endLine": 121,
+        "endChar": 57
+      },
+      "revId": "d8cac5f527368dc008a80abed514a1aeb486dbfa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_bd4ff38c",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/LargeObjectServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-07-22T13:35:19Z",
+      "side": 1,
+      "message": "you are right, the spec [1] requires that error messages are returned as json response, (documentation_url and request_id are optional) e.g.\n\n {\n   \"message\": \"Bad credentials\",\n   \"documentation_url\": \"https://git-lfs-server.com/docs/errors\",\n   \"request_id\": \"123\"\n }\n\nmoved to separate method sendError(), json response will be added later\n\n[1] https://github.com/github/git-lfs/blob/master/docs/api/http-v1-batch.md",
+      "parentUuid": "2721e7e2_572976bc",
       "range": {
         "startLine": 120,
         "startChar": 0,
@@ -191,6 +365,30 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_3da783c6",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/LargeObjectServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-07-22T13:35:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2721e7e2_b71d529d",
+      "range": {
+        "startLine": 135,
+        "startChar": 0,
+        "endLine": 136,
+        "endChar": 55
+      },
+      "revId": "d8cac5f527368dc008a80abed514a1aeb486dbfa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_3755e226",
         "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/LargeObjectServlet.java",
         "patchSetId": 4
@@ -202,6 +400,30 @@
       "writtenOn": "2015-07-21T09:39:16Z",
       "side": 1,
       "message": "what should be the response if id \u003d\u003d null?",
+      "range": {
+        "startLine": 158,
+        "startChar": 2,
+        "endLine": 158,
+        "endChar": 19
+      },
+      "revId": "d8cac5f527368dc008a80abed514a1aeb486dbfa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_bd81b309",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/LargeObjectServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-07-22T13:35:19Z",
+      "side": 1,
+      "message": "handled by getObjectToTransfer()",
+      "parentUuid": "2721e7e2_3755e226",
       "range": {
         "startLine": 158,
         "startChar": 2,
@@ -237,6 +459,30 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_7db1fbfa",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/ObjectDownloadListener.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-07-22T13:35:19Z",
+      "side": 1,
+      "message": "it doesn\u0027t explicitly mention that the length must be provided in the GET request downloading the file, though the length must be provided when querying metadata for files stored/to be stored in the LFS server",
+      "parentUuid": "2721e7e2_17937e62",
+      "range": {
+        "startLine": 107,
+        "startChar": 2,
+        "endLine": 107,
+        "endChar": 74
+      },
+      "revId": "d8cac5f527368dc008a80abed514a1aeb486dbfa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_57b696f4",
         "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/ObjectDownloadListener.java",
         "patchSetId": 4
@@ -248,6 +494,30 @@
       "writtenOn": "2015-07-21T09:39:16Z",
       "side": 1,
       "message": "redundant ()",
+      "range": {
+        "startLine": 119,
+        "startChar": 22,
+        "endLine": 119,
+        "endChar": 39
+      },
+      "revId": "d8cac5f527368dc008a80abed514a1aeb486dbfa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_5db6b7f4",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/ObjectDownloadListener.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-07-22T13:35:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2721e7e2_57b696f4",
       "range": {
         "startLine": 119,
         "startChar": 22,
@@ -277,6 +547,24 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_9d978f51",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/ObjectDownloadListener.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-07-22T13:35:19Z",
+      "side": 1,
+      "message": "now calling complete() also in onError, the container ensures onError is called if the listener throws an exception",
+      "parentUuid": "2721e7e2_57d056c2",
+      "revId": "d8cac5f527368dc008a80abed514a1aeb486dbfa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_b79a7279",
         "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/ObjectDownloadListener.java",
         "patchSetId": 4
@@ -288,6 +576,30 @@
       "writtenOn": "2015-07-21T09:39:16Z",
       "side": 1,
       "message": "a servlet is not supposed to close the response output stream; or did you mean outChannel?",
+      "range": {
+        "startLine": 150,
+        "startChar": 3,
+        "endLine": 150,
+        "endChar": 15
+      },
+      "revId": "d8cac5f527368dc008a80abed514a1aeb486dbfa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_bd9a5379",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/ObjectDownloadListener.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-07-22T13:35:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2721e7e2_b79a7279",
       "range": {
         "startLine": 150,
         "startChar": 3,
@@ -323,6 +635,30 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_1d2f1fc6",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/ObjectUploadListener.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-07-22T13:35:19Z",
+      "side": 1,
+      "message": "the only mentioning of the response code expected for PUT requests in the spec is an example in https://github.com/github/git-lfs/tree/master/docs/api which returns 200 OK on successful completion. \n\nWe should discuss this with Github and check what their reference implementation returns. Added TODO",
+      "parentUuid": "2721e7e2_175a5e56",
+      "range": {
+        "startLine": 146,
+        "startChar": 42,
+        "endLine": 146,
+        "endChar": 47
+      },
+      "revId": "d8cac5f527368dc008a80abed514a1aeb486dbfa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_37e84274",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LargeFileObjectRepository.java",
         "patchSetId": 4
@@ -334,6 +670,30 @@
       "writtenOn": "2015-07-21T11:44:05Z",
       "side": 1,
       "message": "optional:\n\nI am not sure the naming pattern is optimal. This name could also be read as: large file-object repository i.e. it stores large file-objects as a specialization of the storing just objects from the parent interface.\n\nI would be more in favor of the following naming:\n\ninterface LargeFileRepository\n\nclass PlainFSRepository implements LargeFileRepository\n\nor\n\nclass FSBasedRepository implements LargeFileRepository",
+      "range": {
+        "startLine": 23,
+        "startChar": 13,
+        "endLine": 23,
+        "endChar": 38
+      },
+      "revId": "d8cac5f527368dc008a80abed514a1aeb486dbfa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_fda4cbbb",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LargeFileObjectRepository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-07-22T13:35:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2721e7e2_37e84274",
       "range": {
         "startLine": 23,
         "startChar": 13,
@@ -393,6 +753,30 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_7d88db2e",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LargeFileObjectRepository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-07-22T13:35:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2721e7e2_57e7b6a1",
+      "range": {
+        "startLine": 150,
+        "startChar": 4,
+        "endLine": 150,
+        "endChar": 46
+      },
+      "revId": "d8cac5f527368dc008a80abed514a1aeb486dbfa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_f7f50a45",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LargeFileObjectRepository.java",
         "patchSetId": 4
@@ -410,6 +794,24 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_5d8d173d",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LargeFileObjectRepository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-07-22T13:35:19Z",
+      "side": 1,
+      "message": "If we don\u0027t do this we could use the same implementation for the large file storage implementation in the local clone. \n\nLFS from GitHub doesn\u0027t remove the first two bytes from the filename in lfs storage of a local clone. If we want to be interoperable we need to follow this in local clones.",
+      "parentUuid": "2721e7e2_f7f50a45",
+      "revId": "d8cac5f527368dc008a80abed514a1aeb486dbfa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_d713a661",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LargeFileObjectRepository.java",
         "patchSetId": 4
@@ -421,6 +823,30 @@
       "writtenOn": "2015-07-21T09:39:16Z",
       "side": 1,
       "message": "something very similar is also in AnyLongObjectId",
+      "range": {
+        "startLine": 163,
+        "startChar": 0,
+        "endLine": 174,
+        "endChar": 2
+      },
+      "revId": "d8cac5f527368dc008a80abed514a1aeb486dbfa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_dd78e79d",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LargeFileObjectRepository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-07-22T13:35:19Z",
+      "side": 1,
+      "message": "yes, but for long instead of int",
+      "parentUuid": "2721e7e2_d713a661",
       "range": {
         "startLine": 163,
         "startChar": 0,
@@ -480,6 +906,30 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_9d65cf11",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LargeObjectRepository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-07-22T13:35:19Z",
+      "side": 1,
+      "message": "the javadoc is auto-formatted using the Eclipse standard code formatter",
+      "parentUuid": "2721e7e2_d7f2865a",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 13
+      },
+      "revId": "d8cac5f527368dc008a80abed514a1aeb486dbfa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_974c8e99",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LargeObjectRepository.java",
         "patchSetId": 4
@@ -503,6 +953,30 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_5d64f714",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LargeObjectRepository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-07-22T13:35:19Z",
+      "side": 1,
+      "message": "see the next line",
+      "parentUuid": "2721e7e2_974c8e99",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 13
+      },
+      "revId": "d8cac5f527368dc008a80abed514a1aeb486dbfa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_f7a4eabb",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LargeObjectRepository.java",
         "patchSetId": 4
@@ -514,6 +988,30 @@
       "writtenOn": "2015-07-21T09:39:16Z",
       "side": 1,
       "message": "that might be difficult to implement for object stores that are not file based; there should be a way to express that the length is unknown (return -1L ?)",
+      "range": {
+        "startLine": 27,
+        "startChar": 1,
+        "endLine": 27,
+        "endChar": 62
+      },
+      "revId": "d8cac5f527368dc008a80abed514a1aeb486dbfa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_dd146775",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LargeObjectRepository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-07-22T13:35:19Z",
+      "side": 1,
+      "message": "the meta data API [1] requires that the server returns the download URL to be used for downloading the file and also its file length. This means in order to ensure good performance the server has to store the file length in some way. If the storage is realized by storing the files in a file system the file length can be retrieved from the file system. If it\u0027s implemented e.g. by storing files in a database, the file length would also need to be stored in the database.\n\n[1] required by both the original API\nhttps://github.com/github/git-lfs/blob/master/docs/api/http-v1-original.md and the newer batch API https://github.com/github/git-lfs/blob/master/docs/api/http-v1-batch.md",
+      "parentUuid": "2721e7e2_f7a4eabb",
       "range": {
         "startLine": 27,
         "startChar": 1,
