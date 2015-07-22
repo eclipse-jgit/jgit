@@ -77,6 +77,7 @@ class RewriteGenerator extends Generator {
 	private final Generator source;
 
 	RewriteGenerator(final Generator s) {
+		super(s.firstParent);
 		source = s;
 	}
 
@@ -102,6 +103,9 @@ class RewriteGenerator extends Generator {
 			final RevCommit[] pList = c.parents;
 			final int nParents = pList.length;
 			for (int i = 0; i < nParents; i++) {
+				if (firstParent && i > 0) {
+					break;
+				}
 				final RevCommit oldp = pList[i];
 				final RevCommit newp = rewrite(oldp);
 				if (oldp != newp) {

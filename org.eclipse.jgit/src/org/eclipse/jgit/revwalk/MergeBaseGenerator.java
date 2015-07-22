@@ -86,8 +86,9 @@ class MergeBaseGenerator extends Generator {
 	private int recarryMask;
 
 	MergeBaseGenerator(final RevWalk w) {
+		super(w.isFirstParent());
 		walker = w;
-		pending = new DateRevQueue();
+		pending = new DateRevQueue(firstParent);
 	}
 
 	void init(final AbstractRevQueue p) {
