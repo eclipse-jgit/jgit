@@ -154,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_ef56d2a2",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/LargeObjectServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 451
+      },
+      "writtenOn": "2015-07-22T16:01:55Z",
+      "side": 1,
+      "message": "We could allow a filter to publish a request attribute with \n\nreq.setAttribute(\"org.eclipse.jgit.LFSService\", new MyLargeObjectService())\n\nthat doGet() could read out (or provide the default implementation if no other is provided):\n\nLargeObjectRepository repo \u003d  req.getAttribute(\"org.eclipse.jgit.LFSService\");\nif (repo \u003d\u003d null) {\n   repo \u003d new LsrgeFileObjectRepositor();\n}\n\nIt seems that JGit injects the Repository instance that way: org.eclipse.jgit.http.server.RepositoryFilter and org.eclipse.jgit.http.server.ServletUtils#getRepository()",
+      "parentUuid": "2721e7e2_cf682eeb",
+      "range": {
+        "startLine": 86,
+        "startChar": 8,
+        "endLine": 86,
+        "endChar": 26
+      },
+      "revId": "d8cac5f527368dc008a80abed514a1aeb486dbfa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_372042a3",
         "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/LargeObjectServlet.java",
         "patchSetId": 4
@@ -965,6 +989,30 @@
       "side": 1,
       "message": "see the next line",
       "parentUuid": "2721e7e2_974c8e99",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 13
+      },
+      "revId": "d8cac5f527368dc008a80abed514a1aeb486dbfa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_2f18ea34",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LargeObjectRepository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 451
+      },
+      "writtenOn": "2015-07-22T16:01:55Z",
+      "side": 1,
+      "message": "If there is no \"first line\" in a javadoc comment the overview table at the beginning of the rendered HTML page will just display nothing. It\u0027s like omitting the first line of a commit message.\n\nIf you want to be lazy rather drop the @return and not the first line:\n\n/**\n * Returns the length of the object in bytes.\n *\n * @param id\n *            id of the object\n **/\n\nFurthermore, a @throws or @param without a text is also quite useless. It can safely be removed ;-)",
+      "parentUuid": "2721e7e2_5d64f714",
       "range": {
         "startLine": 21,
         "startChar": 0,
