@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2721e7e2_1e6d52a7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/filter/FirstParentRevFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-07-23T23:25:54Z",
+      "side": 1,
+      "message": "I think this is probably not the only filter with this restriction.\n\nOne way we could consider fixing this would be to to add in the base RevFilter class:\n\n public boolean allowShortCircuit() {\n   return true;\n }\n\nThen teach AndRevFilter and OrRevFilter to respect this.",
+      "revId": "373fb387961e7c2a3e577625b7dd888fa0f3b358",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
