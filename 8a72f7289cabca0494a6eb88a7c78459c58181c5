@@ -46,6 +46,30 @@
       "revId": "8a72f7289cabca0494a6eb88a7c78459c58181c5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_9ebb020d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/filter/FirstParentRevFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-07-23T18:39:29Z",
+      "side": 1,
+      "message": "I don\u0027t think this will work. PendingGenerator (or a similar new generator) needs to be aware of the FirstParentRevFilter and avoid walking parents after the first.",
+      "parentUuid": "2721e7e2_4399b5d0",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 91,
+        "endChar": 48
+      },
+      "revId": "8a72f7289cabca0494a6eb88a7c78459c58181c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
