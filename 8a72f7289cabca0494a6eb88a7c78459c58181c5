@@ -70,6 +70,30 @@
       "revId": "8a72f7289cabca0494a6eb88a7c78459c58181c5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_de0c5a4b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/filter/FirstParentRevFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-07-23T20:47:03Z",
+      "side": 1,
+      "message": "Assuming we can correctly identify start nodes, why would the coloring approach not work? I think the recursive definition \"reachable traversing only first-parent links from a commit that was previously emitted\" is correct; what am I missing?\n\nThe main downside of hard-coding this into the generator is that it means this RevFilter is not composable with other RevFilters. For MERGE_BASE, we have to explicitly check whether the RevFilter matches that exact instance. If we want to support OrFilter(FirstParentRevFilter, AuthorRevFilter), we can\u0027t do that equality check. This is probably fine for MERGE_BASE, which is extra-special, but not for this.\n\nAvoiding walking second-parent links would, of course, be an optimization.",
+      "parentUuid": "2721e7e2_9ebb020d",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 91,
+        "endChar": 48
+      },
+      "revId": "8a72f7289cabca0494a6eb88a7c78459c58181c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
