@@ -370,8 +370,7 @@ public class CloneCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCloneRepositoryOnlyOneBranch() throws IOException,
-			JGitInternalException, GitAPIException {
+	public void testCloneRepositoryOnlyOneBranch() throws Exception {
 		File directory = createTempDirectory("testCloneRepositoryWithBranch");
 		CloneCommand command = Git.cloneRepository();
 		command.setBranch("refs/heads/master");
@@ -385,22 +384,40 @@ public class CloneCommandTest extends RepositoryTestCase {
 		assertEquals(git2.getRepository().getFullBranch(), "refs/heads/master");
 		assertEquals("refs/remotes/origin/master", allRefNames(git2
 				.branchList().setListMode(ListMode.REMOTE).call()));
+		RemoteConfig cfg = new RemoteConfig(git2.getRepository().getConfig(),
+				Constants.DEFAULT_REMOTE_NAME);
+		List<RefSpec> specs = cfg.getFetchRefSpecs();
+		assertEquals(1, specs.size());
+		assertEquals(
+				new RefSpec("+refs/heads/master:refs/remotes/origin/master"),
+				specs.get(0));
+	}
 
+	@Test
+	public void testBareCloneRepositoryOnlyOneBranch() throws Exception {
 		// Same thing, but now test with bare repo
-		directory = createTempDirectory("testCloneRepositoryWithBranch_bare");
-		command = Git.cloneRepository();
+		File directory = createTempDirectory(
+				"testCloneRepositoryWithBranch_bare");
+		CloneCommand command = Git.cloneRepository();
 		command.setBranch("refs/heads/master");
 		command.setBranchesToClone(Collections
 				.singletonList("refs/heads/master"));
 		command.setDirectory(directory);
 		command.setURI(fileUri());
 		command.setBare(true);
-		git2 = command.call();
+		Git git2 = command.call();
 		addRepoToClose(git2.getRepository());
 		assertNotNull(git2);
 		assertEquals(git2.getRepository().getFullBranch(), "refs/heads/master");
 		assertEquals("refs/heads/master", allRefNames(git2.branchList()
 				.setListMode(ListMode.ALL).call()));
+		RemoteConfig cfg = new RemoteConfig(git2.getRepository().getConfig(),
+				Constants.DEFAULT_REMOTE_NAME);
+		List<RefSpec> specs = cfg.getFetchRefSpecs();
+		assertEquals(1, specs.size());
+		assertEquals(
+				new RefSpec("+refs/heads/master:refs/heads/master"),
+				specs.get(0));
 	}
 
 	public static String allRefNames(List<Ref> refs) {
