@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2721e7e2_fc433114",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-07-23T09:20:38Z",
+      "side": 1,
+      "message": "duplicate \"the\"",
+      "range": {
+        "startLine": 554,
+        "startChar": 58,
+        "endLine": 554,
+        "endChar": 61
+      },
+      "revId": "4bf2792222fe477ce109b5966a615ce50125c9b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
