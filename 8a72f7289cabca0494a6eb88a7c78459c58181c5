@@ -22,6 +22,30 @@
       "revId": "8a72f7289cabca0494a6eb88a7c78459c58181c5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_c3564555",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/filter/FirstParentRevFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-07-23T18:37:57Z",
+      "side": 1,
+      "message": "Yeah :(\n\nI think that point makes this approach impossible. When you markStart, it just adds it to the root set internal to the RevWalk. A consumer of the RevWalk has _no_ way to determine whether a commit was a start commit.\n\nSome alternatives:\n\n* Expose the root set as RevWalk.isStart(). As long as roots is an ArrayList this is O(n) in the number of start nodes (which might be ok).\n* Reserve another flag START and have markStart set this.\n* Make FirstParentRevFilter.newRevWalk that returns a subclassed RevWalk with one of the above behaviors.\n\nI\u0027m leaning towards #2, add a START flag, but this has the potential to break existing code that already uses the max number of flags.",
+      "parentUuid": "2721e7e2_4399b5d0",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 91,
+        "endChar": 48
+      },
+      "revId": "8a72f7289cabca0494a6eb88a7c78459c58181c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
