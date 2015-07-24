@@ -181,7 +181,7 @@ public class Main {
 
 		if (argv.length == 0 || help) {
 			final String ex = clp.printExample(ExampleMode.ALL, CLIText.get().resourceBundle());
-			writer.println("jgit" + ex + " command [ARG ...]"); //$NON-NLS-1$
+			writer.println("jgit" + ex + " command [ARG ...]"); //$NON-NLS-1$ //$NON-NLS-2$
 			if (help) {
 				writer.println();
 				clp.printUsage(writer, CLIText.get().resourceBundle());
