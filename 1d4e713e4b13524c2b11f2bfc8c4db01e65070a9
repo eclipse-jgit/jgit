@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2721e7e2_fa1cc7f8",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Main.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-07-24T20:54:32Z",
+      "side": 1,
+      "message": "remove this blank otherwise this doesn\u0027t mute the non-externalized string warning",
+      "range": {
+        "startLine": 312,
+        "startChar": 46,
+        "endLine": 312,
+        "endChar": 47
+      },
+      "revId": "1d4e713e4b13524c2b11f2bfc8c4db01e65070a9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
