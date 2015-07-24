@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2721e7e2_79658838",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Main.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1007
+      },
+      "writtenOn": "2015-07-24T12:51:20Z",
+      "side": 1,
+      "message": "note that sometimes a proxy for https is a advertised with an http URL... So i would change this by \n\nif (!u.getProtocol.startsWith(\"http\"))",
+      "revId": "535ed1876f35d5a4638bade8734c79daf206a494",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
