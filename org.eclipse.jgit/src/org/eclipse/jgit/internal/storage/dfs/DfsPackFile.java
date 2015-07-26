@@ -533,12 +533,10 @@ public final class DfsPackFile {
 		return ByteBuffer.wrap(copyBuf, 0, bs);
 	}
 
-	@SuppressWarnings("null")
 	void copyAsIs(PackOutputStream out, DfsObjectToPack src,
-			boolean validate, DfsReader ctx) throws IOException,
+			boolean validate, CRC32 crc1, CRC32 crc2, DfsReader ctx) throws IOException,
 			StoredObjectRepresentationNotAvailableException {
-		final CRC32 crc1 = validate ? new CRC32() : null;
-		final CRC32 crc2 = validate ? new CRC32() : null;
+
 		final byte[] buf = out.getCopyBuffer();
 
 		// Rip apart the header so we can discover the size.
@@ -837,7 +835,6 @@ public final class DfsPackFile {
 		return buf.position();
 	}
 
-	@SuppressWarnings("null")
 	ObjectLoader load(DfsReader ctx, long pos)
 			throws IOException {
 		try {
@@ -931,15 +928,16 @@ public final class DfsPackFile {
 			// At this point there is at least one delta to apply to data.
 			// (Whole objects with no deltas to apply return early above.)
 
-			if (data == null)
+			if (data == null || delta == null)
 				throw new LargeObjectException();
 
 			do {
 				// Cache only the base immediately before desired object.
-				if (cached)
+				if (cached) {
 					cached = false;
-				else if (delta.next == null)
+				} else if (delta.next == null) {
 					ctx.getDeltaBaseCache().put(key, delta.basePos, type, data);
+				}
 
 				pos = delta.deltaPos;
 

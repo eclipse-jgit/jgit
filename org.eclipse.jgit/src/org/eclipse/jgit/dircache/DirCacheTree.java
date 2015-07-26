@@ -450,15 +450,20 @@ public class DirCacheTree {
 				break;
 			}
 
-			DirCacheTree st = stIdx < childCnt ? children[stIdx] : null;
-			final int cc = namecmp(currPath, pathOff, st);
-			if (cc > 0) {
-				// This subtree is now empty.
-				//
-				removeChild(stIdx);
-				continue;
+			final int cc;
+			if (stIdx < childCnt) {
+				cc = namecmp(currPath, pathOff, children[stIdx]);
+				if (cc > 0) {
+					// This subtree is now empty.
+					//
+					removeChild(stIdx);
+					continue;
+				}
+			} else {
+				cc = -1;
 			}
 
+			final DirCacheTree st;
 			if (cc < 0) {
 				final int p = slash(currPath, pathOff);
 				if (p < 0) {
@@ -474,6 +479,8 @@ public class DirCacheTree {
 				//
 				st = new DirCacheTree(this, currPath, pathOff, p - pathOff);
 				insertChild(stIdx, st);
+			} else {
+				st = children[stIdx];
 			}
 
 			// The entry is contained in this subtree.

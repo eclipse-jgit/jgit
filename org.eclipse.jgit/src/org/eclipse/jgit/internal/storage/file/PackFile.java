@@ -360,18 +360,19 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 			StoredObjectRepresentationNotAvailableException {
 		beginCopyAsIs(src);
 		try {
-			copyAsIs2(out, src, validate, curs);
+			final CRC32 crc1 = validate ? new CRC32() : null;
+			final CRC32 crc2 = validate ? new CRC32() : null;
+			copyAsIs2(out, src, validate, crc1, crc2, curs);
 		} finally {
 			endCopyAsIs();
 		}
 	}
 
-	@SuppressWarnings("null")
 	private void copyAsIs2(PackOutputStream out, LocalObjectToPack src,
-			boolean validate, WindowCursor curs) throws IOException,
+			boolean validate, CRC32 crc1, CRC32 crc2, WindowCursor curs)
+					throws IOException,
 			StoredObjectRepresentationNotAvailableException {
-		final CRC32 crc1 = validate ? new CRC32() : null;
-		final CRC32 crc2 = validate ? new CRC32() : null;
+
 		final byte[] buf = out.getCopyBuffer();
 
 		// Rip apart the header so we can discover the size.
@@ -712,7 +713,6 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 					, getPackFile()));
 	}
 
-	@SuppressWarnings("null")
 	ObjectLoader load(final WindowCursor curs, long pos)
 			throws IOException, LargeObjectException {
 		try {
@@ -808,7 +808,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 			// At this point there is at least one delta to apply to data.
 			// (Whole objects with no deltas to apply return early above.)
 
-			if (data == null)
+			if (data == null || delta == null)
 				throw new IOException(JGitText.get().inMemoryBufferLimitExceeded);
 
 			do {
