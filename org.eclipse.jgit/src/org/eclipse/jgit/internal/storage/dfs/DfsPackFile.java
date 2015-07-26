@@ -533,7 +533,6 @@ public final class DfsPackFile {
 		return ByteBuffer.wrap(copyBuf, 0, bs);
 	}
 
-	@SuppressWarnings("null")
 	void copyAsIs(PackOutputStream out, DfsObjectToPack src,
 			boolean validate, DfsReader ctx) throws IOException,
 			StoredObjectRepresentationNotAvailableException {
@@ -567,22 +566,26 @@ public final class DfsPackFile {
 				c = buf[headerCnt++] & 0xff;
 			} while ((c & 128) != 0);
 			if (validate) {
+				assert(crc1 != null && crc2 != null);
 				crc1.update(buf, 0, headerCnt);
 				crc2.update(buf, 0, headerCnt);
 			}
 		} else if (typeCode == Constants.OBJ_REF_DELTA) {
 			if (validate) {
+				assert(crc1 != null && crc2 != null);
 				crc1.update(buf, 0, headerCnt);
 				crc2.update(buf, 0, headerCnt);
 			}
 
 			readFully(src.offset + headerCnt, buf, 0, 20, ctx);
 			if (validate) {
+				assert(crc1 != null && crc2 != null);
 				crc1.update(buf, 0, 20);
 				crc2.update(buf, 0, 20);
 			}
 			headerCnt += 20;
 		} else if (validate) {
+			assert(crc1 != null && crc2 != null);
 			crc1.update(buf, 0, headerCnt);
 			crc2.update(buf, 0, headerCnt);
 		}
@@ -599,6 +602,7 @@ public final class DfsPackFile {
 			quickCopy = ctx.quickCopy(this, dataOffset, dataLength);
 
 			if (validate && idx(ctx).hasCRC32Support()) {
+				assert(crc1 != null);
 				// Index has the CRC32 code cached, validate the object.
 				//
 				expectedCRC = idx(ctx).findCRC32(src);
@@ -622,6 +626,7 @@ public final class DfsPackFile {
 							Long.valueOf(src.offset), getPackName()));
 				}
 			} else if (validate) {
+				assert(crc1 != null);
 				// We don't have a CRC32 code in the index, so compute it
 				// now while inflating the raw data to get zlib to tell us
 				// whether or not the data is safe.
@@ -709,16 +714,21 @@ public final class DfsPackFile {
 			while (cnt > 0) {
 				final int n = (int) Math.min(cnt, buf.length);
 				readFully(pos, buf, 0, n, ctx);
-				if (validate)
+				if (validate) {
+					assert(crc2 != null);
 					crc2.update(buf, 0, n);
+				}
 				out.write(buf, 0, n);
 				pos += n;
 				cnt -= n;
 			}
-			if (validate && crc2.getValue() != expectedCRC) {
-				throw new CorruptObjectException(MessageFormat.format(
-						JGitText.get().objectAtHasBadZlibStream,
-						Long.valueOf(src.offset), getPackName()));
+			if (validate) {
+				assert(crc2 != null);
+				if (crc2.getValue() != expectedCRC) {
+					throw new CorruptObjectException(MessageFormat.format(
+							JGitText.get().objectAtHasBadZlibStream,
+							Long.valueOf(src.offset), getPackName()));
+				}
 			}
 		}
 	}
@@ -837,7 +847,6 @@ public final class DfsPackFile {
 		return buf.position();
 	}
 
-	@SuppressWarnings("null")
 	ObjectLoader load(DfsReader ctx, long pos)
 			throws IOException {
 		try {
@@ -934,6 +943,7 @@ public final class DfsPackFile {
 			if (data == null)
 				throw new LargeObjectException();
 
+			assert(delta != null);
 			do {
 				// Cache only the base immediately before desired object.
 				if (cached)

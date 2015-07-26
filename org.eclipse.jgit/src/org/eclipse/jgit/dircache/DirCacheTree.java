@@ -478,6 +478,7 @@ public class DirCacheTree {
 
 			// The entry is contained in this subtree.
 			//
+			assert(st != null);
 			st.validate(cache, cCnt, cIdx, pathOff + st.nameLength() + 1);
 			cIdx += st.entrySpan;
 			entrySpan += st.entrySpan;

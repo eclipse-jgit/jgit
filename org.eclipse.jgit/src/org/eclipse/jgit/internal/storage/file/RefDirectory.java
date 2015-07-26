@@ -881,7 +881,6 @@ public class RefDirectory extends RefDatabase {
 		return n;
 	}
 
-	@SuppressWarnings("null")
 	private LooseRef scanRef(LooseRef ref, String name) throws IOException {
 		final File path = fileFor(name);
 		FileSnapshot currentSnapshot = null;
@@ -920,6 +919,7 @@ public class RefDirectory extends RefDatabase {
 			final String target = RawParseUtils.decode(buf, 5, n);
 			if (ref != null && ref.isSymbolic()
 					&& ref.getTarget().getName().equals(target)) {
+				assert(currentSnapshot != null);
 				currentSnapshot.setClean(otherSnapshot);
 				return ref;
 			}
@@ -934,6 +934,7 @@ public class RefDirectory extends RefDatabase {
 			id = ObjectId.fromString(buf, 0);
 			if (ref != null && !ref.isSymbolic()
 					&& ref.getTarget().getObjectId().equals(id)) {
+				assert(currentSnapshot != null);
 				currentSnapshot.setClean(otherSnapshot);
 				return ref;
 			}
