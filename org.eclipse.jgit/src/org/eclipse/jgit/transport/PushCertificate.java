@@ -219,9 +219,11 @@ public class PushCertificate {
 		StringBuilder sb = new StringBuilder()
 				.append(VERSION).append(' ').append(version).append('\n')
 				.append(PUSHER).append(' ').append(getPusher())
-				.append('\n')
-				.append(PUSHEE).append(' ').append(pushee).append('\n')
-				.append(NONCE).append(' ').append(nonce).append('\n')
+				.append('\n');
+		if (pushee != null) {
+			sb.append(PUSHEE).append(' ').append(pushee).append('\n');
+		}
+		sb.append(NONCE).append(' ').append(nonce).append('\n')
 				.append('\n');
 		for (ReceiveCommand cmd : commands) {
 			sb.append(cmd.getOldId().name())
