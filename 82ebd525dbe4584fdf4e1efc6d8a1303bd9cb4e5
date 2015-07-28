@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2721e7e2_d7b1d1fc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 854,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-07-28T22:23:03Z",
+      "side": 1,
+      "message": "What does it mean when the return value is null? How should the caller interpret that result?\n\nIf HEAD is pointing to a branch yet to be born (e.g., immediately after running \"git init\"), will this return null or the name of that branch?",
+      "range": {
+        "startLine": 854,
+        "startChar": 0,
+        "endLine": 854,
+        "endChar": 17
+      },
+      "revId": "82ebd525dbe4584fdf4e1efc6d8a1303bd9cb4e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_57a5e1b4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 857,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-07-28T22:23:03Z",
+      "side": 1,
+      "message": "JGit doesn\u0027t use @Nullable anywhere else, so this looks out of place.",
+      "range": {
+        "startLine": 857,
+        "startChar": 0,
+        "endLine": 857,
+        "endChar": 16
+      },
+      "revId": "82ebd525dbe4584fdf4e1efc6d8a1303bd9cb4e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_37a2edad",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 880,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-07-28T22:23:03Z",
+      "side": 1,
+      "message": "Likewise.",
+      "range": {
+        "startLine": 880,
+        "startChar": 0,
+        "endLine": 880,
+        "endChar": 16
+      },
+      "revId": "82ebd525dbe4584fdf4e1efc6d8a1303bd9cb4e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
