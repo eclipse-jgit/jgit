@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2721e7e2_f7bb35b8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-07-28T22:39:43Z",
+      "side": 1,
+      "message": "Could this happen at walk start time (by iterating over roots) so the RevFilter doesn\u0027t have to be constructed before any markStart calls?\n\nThat is, in StartGenerator.next():\n\n for (RevCommit c : w.roots) {\n   c.flags |\u003d w.startFlag.mask;\n }\n\nIf that\u0027s too ugly, then the factory in FirstParentRevFilter should get a note about this.",
+      "range": {
+        "startLine": 292,
+        "startChar": 0,
+        "endLine": 294,
+        "endChar": 3
+      },
+      "revId": "f572e4ea72883729b2a042734cfbd7664ae0f450",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_57c9614d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/filter/FirstParentRevFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-07-28T22:39:43Z",
+      "side": 1,
+      "message": "(optional) This could use firstParent as the start flag.",
+      "range": {
+        "startLine": 89,
+        "startChar": 0,
+        "endLine": 89,
+        "endChar": 25
+      },
+      "revId": "f572e4ea72883729b2a042734cfbd7664ae0f450",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
