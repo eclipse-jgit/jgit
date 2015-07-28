@@ -94,6 +94,30 @@
       "revId": "8a72f7289cabca0494a6eb88a7c78459c58181c5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_f74cd599",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/filter/FirstParentRevFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-07-28T22:16:26Z",
+      "side": 1,
+      "message": "Sorry I missed your comments.\n\nWhat happens if a commit is both a first parent of a start commit and second parent of another start commit and it is discovered via a second-parent path before the first-parent one?\n\nThat is, consider a history like this:\n\n\n                  o -- o [start1]\n                      /\n     -----------------\n    /\n   o -- o --- o -- o -- o -- o -- o [start2]",
+      "parentUuid": "2721e7e2_de0c5a4b",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 91,
+        "endChar": 48
+      },
+      "revId": "8a72f7289cabca0494a6eb88a7c78459c58181c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
