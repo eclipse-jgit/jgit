@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2721e7e2_8b9d7449",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 854,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-07-29T22:01:27Z",
+      "side": 1,
+      "message": "RepositoryCache.FileKey.isGitRepository checks that HEAD exists and is either a symref or pointing to a valid objectid.\n\nAlas, it\u0027s possible to bypass that check by creating a FileRepository directly (instead of using findGitDir). E.g:\n\n $ jgit init\n Initialized empty Git repository in /tmp/test/.git\n $ rm .git/HEAD\n $ jgit status\n fatal: error: can\u0027t find git directory\n $ GIT_DIR\u003d$(pwd)/.git jgit status\n Not currently on any branch.\n\nSo perhaps this should say\n\n or null if the current repository is an invalid repository\n without a HEAD.\n\nFor comparison, C git diagnoses this kind of repository as invalid:\n\n $ GIT_DIR\u003d$(pwd)/.git git status\n fatal: Not a git repository: \u0027/tmp/test/.git\u0027\n\n(Side note: I think teaching FileRepositoryBuilder to enforce that the repository it opens satisfies isGitRepository would be a good check. That still wouldn\u0027t take care of this, because it\u0027s possible for someone to corrupt the repository after it has been opened.)\n\nI\u0027m also tempted to make this throw an exception instead of returning null, but documenting it like you do is the more conservative change (so likely a better idea in the short term). Thanks.",
+      "range": {
+        "startLine": 854,
+        "startChar": 20,
+        "endLine": 854,
+        "endChar": 56
+      },
+      "revId": "c0db8f168720c26cf5d8a5a28cdc2ab393a2dfb6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
