@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2721e7e2_90f2bf90",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-07-29T23:20:47Z",
+      "side": 1,
+      "message": "(optional) This message could be rephrased to work even in a GUI that does not expose the Java function names --- e.g.,\n\n Cannot find merge bases using a first-parent walk",
+      "range": {
+        "startLine": 49,
+        "startChar": 38,
+        "endLine": 49,
+        "endChar": 90
+      },
+      "revId": "de85a7decf3647540516f1574c27f281e70be8ed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_0bd504b2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/AbstractRevQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-07-29T23:20:47Z",
+      "side": 1,
+      "message": "I don\u0027t see any callers for this function. How do people tend to use it? Will making it respect the firstParent option confuse callers?",
+      "range": {
+        "startLine": 101,
+        "startChar": 0,
+        "endLine": 101,
+        "endChar": 78
+      },
+      "revId": "de85a7decf3647540516f1574c27f281e70be8ed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_2bdc48db",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-07-29T23:20:47Z",
+      "side": 1,
+      "message": "Scary. I think I\u0027m going to walk away and pretend I didn\u0027t see this code path.\n\nLuckily c.has(UNSHALLOW) can only be true in the fetch --depth path, which wouldn\u0027t use setFirstParent.\n\nUnfortunately https://git.eclipse.org/r/1320 doesn\u0027t include tests.",
+      "range": {
+        "startLine": 158,
+        "startChar": 0,
+        "endLine": 161,
+        "endChar": 24
+      },
+      "revId": "de85a7decf3647540516f1574c27f281e70be8ed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_abe798a0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/Generator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-07-29T23:20:47Z",
+      "side": 1,
+      "message": "(optional) This could be an outputType() flag.",
+      "range": {
+        "startLine": 78,
+        "startChar": 0,
+        "endLine": 82,
+        "endChar": 2
+      },
+      "revId": "de85a7decf3647540516f1574c27f281e70be8ed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_0bfce431",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/PendingGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-07-29T23:20:47Z",
+      "side": 1,
+      "message": "Is this also needed for non-first parents, too? I haven\u0027t thought it through. (The non-first parents can be encountered via RevCommit.carryFlags. I\u0027m not how to quickly tell what code assumes that a RevCommit is parsed and what code doesn\u0027t.)",
+      "range": {
+        "startLine": 151,
+        "startChar": 0,
+        "endLine": 153,
+        "endChar": 6
+      },
+      "revId": "de85a7decf3647540516f1574c27f281e70be8ed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_8be8d475",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RewriteGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-07-29T23:20:47Z",
+      "side": 1,
+      "message": "This should rewrite to drop all the non-first parents, I think.",
+      "range": {
+        "startLine": 106,
+        "startChar": 0,
+        "endLine": 108,
+        "endChar": 5
+      },
+      "revId": "de85a7decf3647540516f1574c27f281e70be8ed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
