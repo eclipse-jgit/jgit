@@ -451,13 +451,14 @@ public class SubmoduleWalk implements AutoCloseable {
 	}
 
 	/**
-	 * Checks whether the working tree (or the index in case of a bare repo)
-	 * contains a .gitmodules file. That's a hint that the repo contains
-	 * submodules.
+	 * Checks whether the working tree contains a .gitmodules file. That's a
+	 * hint that the repo contains submodules.
 	 *
 	 * @param repository
 	 *            the repository to check
-	 * @return <code>true</code> if the repo contains a .gitmodules file
+	 * @return <code>true</code> if the repo contains a .gitmodules file,
+	 *         <code>false</code> otherwise. Always returns <code>false</code>
+	 *         for bare repositories.
 	 * @throws IOException
 	 * @throws CorruptObjectException
 	 * @since 3.6
@@ -465,8 +466,7 @@ public class SubmoduleWalk implements AutoCloseable {
 	public static boolean containsGitModulesFile(Repository repository)
 			throws IOException {
 		if (repository.isBare()) {
-			DirCache dc = repository.readDirCache();
-			return (dc.findEntry(Constants.DOT_GIT_MODULES) >= 0);
+			return false;
 		}
 		File modulesFile = new File(repository.getWorkTree(),
 				Constants.DOT_GIT_MODULES);
