@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2721e7e2_5f804898",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-08-02T20:41:05Z",
+      "side": 1,
+      "message": "You would have to update the javadoc also. It explicitly says it will look in the index in a bare repo (do we have a index in that case?). Maybe the best way would be to look into the HEAD tree for a .gitmodules instead of examining the index.",
+      "revId": "bff901f966c05ff3eebc182f7924eed3b917e591",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
