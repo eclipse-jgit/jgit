@@ -16,6 +16,24 @@
       "revId": "bff901f966c05ff3eebc182f7924eed3b917e591",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_3f60f476",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-08-02T21:28:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2721e7e2_5f804898",
+      "revId": "bff901f966c05ff3eebc182f7924eed3b917e591",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
