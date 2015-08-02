@@ -114,11 +114,11 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 	/**
 	 * Executes the {@code Clone} command.
 	 *
-	 * The Git instance returned by this command needs to be closed by the
-	 * caller to free resources held by the underlying {@link Repository}
-	 * instance. It is recommended to call this method as soon as you don't need
-	 * a reference to this {@link Git} instance and the underlying
-	 * {@link Repository} instance anymore.
+	 * The {@link Repository} instance referenced by {@link Git} object returned
+	 * by this command needs to be closed by the caller to free resources. It is
+	 * recommended to call close() on {@link Git#getRepository()} object as soon
+	 * as you don't need a reference to this {@link Git} instance and the
+	 * underlying {@link Repository} instance anymore.
 	 *
 	 * @return the newly created {@code Git} object with associated repository
 	 * @throws InvalidRemoteException
