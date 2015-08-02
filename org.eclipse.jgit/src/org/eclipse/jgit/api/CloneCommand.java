@@ -127,16 +127,23 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 	 */
 	public Git call() throws GitAPIException, InvalidRemoteException,
 			org.eclipse.jgit.api.errors.TransportException {
+		Repository repository = null;
 		try {
 			URIish u = new URIish(uri);
-			Repository repository = init(u);
+			repository = init(u);
 			FetchResult result = fetch(repository, u);
 			if (!noCheckout)
 				checkout(repository, result);
 			return new Git(repository);
 		} catch (IOException ioe) {
+			if (repository != null) {
+				repository.close();
+			}
 			throw new JGitInternalException(ioe.getMessage(), ioe);
 		} catch (URISyntaxException e) {
+			if (repository != null) {
+				repository.close();
+			}
 			throw new InvalidRemoteException(MessageFormat.format(
 					JGitText.get().invalidRemote, remote));
 		}
