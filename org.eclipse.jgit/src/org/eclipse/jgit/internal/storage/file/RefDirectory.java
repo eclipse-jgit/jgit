@@ -580,7 +580,10 @@ public class RefDirectory extends RefDatabase {
 		} while (!looseRefs.compareAndSet(curLoose, newLoose));
 
 		int levels = levelsIn(name) - 2;
-		delete(logWriter.logFor(name), levels);
+		// JGit and real git both delete the reflog for a branch when it is
+		// deleted. It's so cheap to keep it, and it can be so useful => why not
+		// keep it?
+		// delete(logWriter.logFor(name), levels);
 		if (dst.getStorage().isLoose()) {
 			update.unlock();
 			delete(fileFor(name), levels);

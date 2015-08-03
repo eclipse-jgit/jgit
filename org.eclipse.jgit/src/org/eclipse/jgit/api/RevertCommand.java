@@ -97,6 +97,8 @@ public class RevertCommand extends GitCommand<RevCommit> {
 
 	private MergeStrategy strategy = MergeStrategy.RECURSIVE;
 
+	private boolean noCommit = false;
+
 	/**
 	 * @param repo
 	 */
@@ -181,10 +183,14 @@ public class RevertCommand extends GitCommand<RevCommit> {
 							merger.getResultTreeId());
 					dco.setFailOnConflict(true);
 					dco.checkout();
-					try (Git git = new Git(getRepository())) {
-						newHead = git.commit().setMessage(newMessage)
-								.setReflogComment("revert: " + shortMessage) //$NON-NLS-1$
-								.call();
+					if (!noCommit) {
+						try (Git git = new Git(getRepository())) {
+							newHead = git
+									.commit()
+									.setMessage(newMessage)
+									.setReflogComment("revert: " + shortMessage) //$NON-NLS-1$
+									.call();
+						}
 					}
 					revertedRefs.add(src);
 					headCommit = newHead;
@@ -210,7 +216,8 @@ public class RevertCommand extends GitCommand<RevCommit> {
 						String message = new MergeMessageFormatter()
 						.formatWithConflicts(newMessage,
 								merger.getUnmergedPaths());
-						repo.writeRevertHead(srcCommit.getId());
+						if (!noCommit)
+							repo.writeRevertHead(srcCommit.getId());
 						repo.writeMergeCommitMsg(message);
 					}
 					return null;
@@ -310,6 +317,22 @@ public class RevertCommand extends GitCommand<RevCommit> {
 	 */
 	public RevertCommand setStrategy(MergeStrategy strategy) {
 		this.strategy = strategy;
+		return this;
+	}
+
+	/**
+	 * Allows reverting changes without committing them.
+	 * <p>
+	 * NOTE: The behavior of reverting is undefined if you pick multiple commits
+	 * or if HEAD does not match the index state before reverting.
+	 *
+	 * @param noCommit
+	 *            true to revert without committing, false to commit after each
+	 *            revert (default)
+	 * @return {@code this}
+	 */
+	public RevertCommand setNoCommit(boolean noCommit) {
+		this.noCommit = noCommit;
 		return this;
 	}
 }

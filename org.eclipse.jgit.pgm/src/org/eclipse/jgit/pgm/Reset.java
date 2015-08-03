@@ -61,7 +61,7 @@ class Reset extends TextBuiltin {
 	@Option(name = "--hard", usage = "usage_resetHard")
 	private boolean hard = false;
 
-	@Argument(required = true, metaVar = "metaVar_name", usage = "usage_reset")
+	@Argument(required = false, metaVar = "metaVar_name", usage = "usage_reset")
 	private String commit;
 
 	@Override
@@ -76,7 +76,7 @@ class Reset extends TextBuiltin {
 		if (hard)
 			mode = selectMode(mode, ResetType.HARD);
 		if (mode == null)
-			throw die("no reset mode set");
+			mode = selectMode(mode, ResetType.MIXED);
 		command.setMode(mode);
 		command.call();
 	}

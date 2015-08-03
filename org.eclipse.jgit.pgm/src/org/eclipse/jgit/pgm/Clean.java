@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010, Sasa Zivkov <sasa.zivkov@sap.com>
+ * Copyright (C) 2011, Chris Aniszczyk <caniszczyk@gmail.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -43,35 +43,18 @@
 
 package org.eclipse.jgit.pgm;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.eclipse.jgit.api.AddCommand;
 import org.eclipse.jgit.api.Git;
-import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
-@Command(common = true, usage = "usage_addFileContentsToTheIndex")
-class Add extends TextBuiltin {
-
-	@Option(name = "--all", aliases = { "-A" }, usage = "usage_addAll")
-	private boolean all = false;
-
-	@Option(name = "--update", aliases = { "-u" }, usage = "usage_onlyMatchAgainstAlreadyTrackedFiles")
-	private boolean update = false;
-
-	@Argument(required = false, metaVar = "metaVar_filepattern", usage = "usage_filesToAddContentFrom")
-	private List<String> filepatterns = new ArrayList<String>();
+@Command(common = true, usage = "usage_clean")
+class Clean extends TextBuiltin {
+	@Option(name = "-d", usage = "usage_removeUntrackedDirectories")
+	private boolean dirs = false;
 
 	@Override
 	protected void run() throws Exception {
-		AddCommand addCmd = new Git(db).add();
-		addCmd.setUpdate(update);
-		if (all) {
-			addCmd.addFilepattern("."); //$NON-NLS-1$
+		try (Git git = new Git(db)) {
+			git.clean().setCleanDirectories(dirs).call();
 		}
-		for (String p : filepatterns)
-			addCmd.addFilepattern(p);
-		addCmd.call();
 	}
 }

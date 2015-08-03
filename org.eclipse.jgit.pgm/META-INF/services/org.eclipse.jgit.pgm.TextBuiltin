@@ -4,6 +4,8 @@ org.eclipse.jgit.pgm.Archive
 org.eclipse.jgit.pgm.Blame
 org.eclipse.jgit.pgm.Branch
 org.eclipse.jgit.pgm.Checkout
+org.eclipse.jgit.pgm.CherryPick
+org.eclipse.jgit.pgm.Clean
 org.eclipse.jgit.pgm.Clone
 org.eclipse.jgit.pgm.Commit
 org.eclipse.jgit.pgm.Config
@@ -22,10 +24,12 @@ org.eclipse.jgit.pgm.LsTree
 org.eclipse.jgit.pgm.Merge
 org.eclipse.jgit.pgm.MergeBase
 org.eclipse.jgit.pgm.Push
+org.eclipse.jgit.pgm.Rebase
 org.eclipse.jgit.pgm.ReceivePack
 org.eclipse.jgit.pgm.Reflog
 org.eclipse.jgit.pgm.Repo
 org.eclipse.jgit.pgm.Reset
+org.eclipse.jgit.pgm.Revert
 org.eclipse.jgit.pgm.RevList
 org.eclipse.jgit.pgm.RevParse
 org.eclipse.jgit.pgm.Rm
@@ -33,6 +37,7 @@ org.eclipse.jgit.pgm.Show
 org.eclipse.jgit.pgm.ShowRef
 org.eclipse.jgit.pgm.Status
 org.eclipse.jgit.pgm.Tag
+org.eclipse.jgit.pgm.UpdateRef
 org.eclipse.jgit.pgm.UploadPack
 org.eclipse.jgit.pgm.Version
 

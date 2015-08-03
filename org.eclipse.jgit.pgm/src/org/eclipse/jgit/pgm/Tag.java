@@ -68,8 +68,11 @@ class Tag extends TextBuiltin {
 	@Option(name = "-f", usage = "usage_forceReplacingAnExistingTag")
 	private boolean force;
 
+	@Option(name = "-d", metaVar = "metaVar_message", usage = "usage_deleteTag")
+	private boolean delete;
+
 	@Option(name = "-m", metaVar = "metaVar_message", usage = "usage_tagMessage")
-	private String message = ""; //$NON-NLS-1$
+	private String message;
 
 	@Argument(index = 0, metaVar = "metaVar_name")
 	private String tagName;
@@ -79,26 +82,37 @@ class Tag extends TextBuiltin {
 
 	@Override
 	protected void run() throws Exception {
-		Git git = new Git(db);
-		if (tagName != null) {
-			TagCommand command = git.tag().setForceUpdate(force)
-					.setMessage(message).setName(tagName);
+		try (Git git = new Git(db)) {
+			if (tagName != null) {
+				if (delete) {
+					git.tagDelete().setTags(tagName).call();
+				} else {
+					TagCommand command = git.tag().setForceUpdate(force)
+							.setName(tagName);
+					if (message != null) {
+						command.setAnnotated(true).setMessage(message);
+					} else {
+						command.setAnnotated(false);
+					}
 
-			if (object != null) {
-				RevWalk walk = new RevWalk(db);
-				command.setObjectId(walk.parseAny(object));
-			}
-			try {
-				command.call();
-			} catch (RefAlreadyExistsException e) {
-				throw die(MessageFormat.format(CLIText.get().tagAlreadyExists,
-						tagName));
-			}
-		} else {
-			ListTagCommand command = git.tagList();
-			List<Ref> list = command.call();
-			for (Ref ref : list) {
-				outw.println(Repository.shortenRefName(ref.getName()));
+					if (object != null) {
+						try (RevWalk walk = new RevWalk(db)) {
+							command.setObjectId(walk.parseAny(object));
+						}
+					}
+					try {
+						command.call();
+					} catch (RefAlreadyExistsException e) {
+						throw die(MessageFormat.format(
+								CLIText.get().tagAlreadyExists, tagName));
+					}
+				}
+			} else {
+				ListTagCommand command = git.tagList();
+				List<Ref> list = command.call();
+				for (Ref ref : list) {
+					outw.println(Repository.shortenRefName(ref.getName()));
+				}
 			}
 		}
 	}

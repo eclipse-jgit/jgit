@@ -477,6 +477,9 @@ public class FileRepository extends Repository {
 		Ref ref = getRef(refName);
 		if (ref != null)
 			return new ReflogReaderImpl(this, ref.getName());
+		File reflog = new File(getDirectory(), Constants.LOGS + '/' + refName);
+		if (reflog.exists())
+			return new ReflogReaderImpl(this, refName);
 		return null;
 	}
 }

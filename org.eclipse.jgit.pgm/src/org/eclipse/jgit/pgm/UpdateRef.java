@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010, Sasa Zivkov <sasa.zivkov@sap.com>
+ * Copyright (C) 2007-2008, Charles O'Farrell <charleso@charleso.org>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -43,35 +43,46 @@
 
 package org.eclipse.jgit.pgm;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.eclipse.jgit.api.AddCommand;
-import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
-@Command(common = true, usage = "usage_addFileContentsToTheIndex")
-class Add extends TextBuiltin {
+@Command(common = true, usage = "usage_updateRef")
+class UpdateRef extends TextBuiltin {
+	@Option(name = "-m", usage = "usage_moveRenameABranch")
+	private String reason;
 
-	@Option(name = "--all", aliases = { "-A" }, usage = "usage_addAll")
-	private boolean all = false;
+	@Argument(index = 0)
+	private String ref;
 
-	@Option(name = "--update", aliases = { "-u" }, usage = "usage_onlyMatchAgainstAlreadyTrackedFiles")
-	private boolean update = false;
-
-	@Argument(required = false, metaVar = "metaVar_filepattern", usage = "usage_filesToAddContentFrom")
-	private List<String> filepatterns = new ArrayList<String>();
+	@Argument(index = 1)
+	private String newValue;
 
 	@Override
 	protected void run() throws Exception {
-		AddCommand addCmd = new Git(db).add();
-		addCmd.setUpdate(update);
-		if (all) {
-			addCmd.addFilepattern("."); //$NON-NLS-1$
+		// we want to move our ref, not detach it
+		boolean detach = false;
+		RefUpdate update = db.updateRef(ref, detach);
+
+		// set the object, person, and message
+		update.setNewObjectId(db.resolve(newValue + "^{commit}")); //$NON-NLS-1$
+		update.setRefLogIdent(new PersonIdent(db));
+
+		// the raw command assumes force
+		update.setForceUpdate(true);
+
+		// set the reflog message appropriately
+		if (reason != null) {
+			boolean appendStatus = false;
+			update.setRefLogMessage(reason, appendStatus);
 		}
-		for (String p : filepatterns)
-			addCmd.addFilepattern(p);
-		addCmd.call();
+
+		// do the update and check the result
+		Result result = update.update();
+		if (result != Result.FORCED) {
+			throw die("Unexpected result " + result); //$NON-NLS-1$
+		}
 	}
 }
