@@ -134,7 +134,7 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 			FetchResult result = fetch(repository, u);
 			if (!noCheckout)
 				checkout(repository, result);
-			return new Git(repository);
+			return new Git(repository, true);
 		} catch (IOException ioe) {
 			if (repository != null) {
 				repository.close();
