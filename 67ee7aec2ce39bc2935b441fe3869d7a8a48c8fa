@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2721e7e2_3a92c2da",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-08-03T11:26:58Z",
+      "side": 1,
+      "message": "I would replace \"repo\" by \"working tree\"",
+      "range": {
+        "startLine": 459,
+        "startChar": 37,
+        "endLine": 459,
+        "endChar": 41
+      },
+      "revId": "67ee7aec2ce39bc2935b441fe3869d7a8a48c8fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
