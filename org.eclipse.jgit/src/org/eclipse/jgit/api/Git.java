@@ -207,7 +207,7 @@ public class Git implements AutoCloseable {
 		this(repo, false);
 	}
 
-	private Git(Repository repo, boolean closeRepo) {
+	Git(Repository repo, boolean closeRepo) {
 		if (repo == null)
 			throw new NullPointerException();
 		this.repo = repo;
