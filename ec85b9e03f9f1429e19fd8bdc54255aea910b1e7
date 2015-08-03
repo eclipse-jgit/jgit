@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2721e7e2_96d586b4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NoteMap.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-08-03T21:19:11Z",
+      "side": 1,
+      "message": "size() only counts the notes. What about non-notes, e.g. a spurious .gitignore file in the notes tree? That will still write and produce a non-empty tree.\n\nShould we also check the nonNotes to see if they are null?",
+      "revId": "ec85b9e03f9f1429e19fd8bdc54255aea910b1e7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
