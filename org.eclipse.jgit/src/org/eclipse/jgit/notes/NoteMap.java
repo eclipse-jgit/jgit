@@ -382,6 +382,21 @@ public class NoteMap implements Iterable<Note> {
 		return root.writeTree(inserter);
 	}
 
+	/**
+	 * Test whether the note map is empty.
+	 *
+	 * @return whether the map is empty, i.e. whether writing it out would produce
+	 *         the empty tree.
+	 * @since 4.1
+	 */
+	public boolean isEmpty() {
+		if (!(root instanceof LeafBucket)) {
+			return false;
+		}
+		LeafBucket b = (LeafBucket) root;
+		return b.size() == 0 && b.nonNotes == null;
+	}
+
 	/** @return the root note bucket */
 	InMemoryNoteBucket getRoot() {
 		return root;
