@@ -16,6 +16,24 @@
       "revId": "ec85b9e03f9f1429e19fd8bdc54255aea910b1e7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_1614f600",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NoteMap.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2015-08-03T21:34:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2721e7e2_96d586b4",
+      "revId": "ec85b9e03f9f1429e19fd8bdc54255aea910b1e7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
