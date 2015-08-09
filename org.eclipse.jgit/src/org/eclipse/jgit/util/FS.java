@@ -1067,28 +1067,28 @@ public abstract class FS {
 			return lastModifiedTime;
 		}
 
-		private boolean isDirectory;
+		private final boolean isDirectory;
 
-		private boolean isSymbolicLink;
+		private final boolean isSymbolicLink;
 
-		private boolean isRegularFile;
+		private final boolean isRegularFile;
 
-		private long creationTime;
+		private final long creationTime;
 
-		private long lastModifiedTime;
+		private final long lastModifiedTime;
 
-		private boolean isExecutable;
+		private final boolean isExecutable;
 
-		private File file;
+		private final File file;
 
-		private boolean exists;
+		private final boolean exists;
 
 		/**
 		 * file length
 		 */
 		protected long length = -1;
 
-		FS fs;
+		final FS fs;
 
 		Attributes(FS fs, File file, boolean exists, boolean isDirectory,
 				boolean isExecutable, boolean isSymbolicLink,
@@ -1107,14 +1107,14 @@ public abstract class FS {
 		}
 
 		/**
-		 * Constructor when there are issues with reading
+		 * Constructor when there are issues with reading. All attributes except
+		 * given will be set to the default values.
 		 *
 		 * @param fs
 		 * @param path
 		 */
 		public Attributes(File path, FS fs) {
-			this.file = path;
-			this.fs = fs;
+			this(fs, path, false, false, false, false, false, 0L, 0L, 0L);
 		}
 
 		/**

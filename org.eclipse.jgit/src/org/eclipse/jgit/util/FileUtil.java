@@ -47,7 +47,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
-import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributeView;
 import java.nio.file.attribute.BasicFileAttributes;
@@ -65,17 +64,6 @@ import org.eclipse.jgit.util.FS.Attributes;
  * File utilities using Java 7 NIO2
  */
 public class FileUtil {
-
-	static class Java7BasicAttributes extends Attributes {
-
-		Java7BasicAttributes(FS fs, File fPath, boolean exists,
-				boolean isDirectory, boolean isExecutable,
-				boolean isSymbolicLink, boolean isRegularFile,
-				long creationTime, long lastModifiedTime, long length) {
-			super(fs, fPath, exists, isDirectory, isExecutable, isSymbolicLink,
-					isRegularFile, creationTime, lastModifiedTime, length);
-		}
-	}
 
 	/**
 	 * @param path
@@ -230,7 +218,7 @@ public class FileUtil {
 					.getFileAttributeView(nioPath,
 							BasicFileAttributeView.class,
 							LinkOption.NOFOLLOW_LINKS).readAttributes();
-			Attributes attributes = new FileUtil.Java7BasicAttributes(fs, path,
+			Attributes attributes = new Attributes(fs, path,
 					true,
 					readAttributes.isDirectory(),
 					fs.supportsExecute() ? path.canExecute() : false,
@@ -242,9 +230,6 @@ public class FileUtil {
 							.encode(FileUtils.readSymLink(path)).length
 							: readAttributes.size());
 			return attributes;
-		} catch (NoSuchFileException e) {
-			return new FileUtil.Java7BasicAttributes(fs, path, false, false,
-					false, false, false, 0L, 0L, 0L);
 		} catch (IOException e) {
 			return new Attributes(path, fs);
 		}
@@ -264,7 +249,7 @@ public class FileUtil {
 					.getFileAttributeView(nioPath,
 							PosixFileAttributeView.class,
 							LinkOption.NOFOLLOW_LINKS).readAttributes();
-			Attributes attributes = new FileUtil.Java7BasicAttributes(
+			Attributes attributes = new Attributes(
 					fs,
 					path,
 					true, //
@@ -277,9 +262,6 @@ public class FileUtil {
 					readAttributes.lastModifiedTime().toMillis(),
 					readAttributes.size());
 			return attributes;
-		} catch (NoSuchFileException e) {
-			return new FileUtil.Java7BasicAttributes(fs, path, false, false,
-					false, false, false, 0L, 0L, 0L);
 		} catch (IOException e) {
 			return new Attributes(path, fs);
 		}
