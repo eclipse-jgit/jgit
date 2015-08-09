@@ -160,6 +160,15 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	private AttributesNode globalAttributeNode;
 
 	/**
+	 * If <code>true</code>, the iterator should mark directories as
+	 * FileMode.TREE; if <code>false</code>, iterator should mark directories
+	 * containing .git entries as FileMode.GITLINK
+	 *
+	 * @since 4.1
+	 */
+	protected boolean dirNoGitlink;
+
+	/**
 	 * Create a new iterator with no parent.
 	 *
 	 * @param options
@@ -204,6 +213,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		state = p.state;
 		infoAttributeNode = p.infoAttributeNode;
 		globalAttributeNode = p.globalAttributeNode;
+		dirNoGitlink = p.dirNoGitlink;
 	}
 
 	/**
