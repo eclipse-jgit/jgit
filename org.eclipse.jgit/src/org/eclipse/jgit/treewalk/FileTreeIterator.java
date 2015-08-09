@@ -106,7 +106,13 @@ public class FileTreeIterator extends WorkingTreeIterator {
 		super(options);
 		directory = root;
 		this.fs = fs;
+		// Set the flag if we don't have submodules
+		dirNoGitlink = !containsGitModulesFile(root);
 		init(entries());
+	}
+
+	private static boolean containsGitModulesFile(File root) {
+		return new File(root, Constants.DOT_GIT_MODULES).exists();
 	}
 
 	/**
@@ -140,8 +146,9 @@ public class FileTreeIterator extends WorkingTreeIterator {
 		if (all == null)
 			return EOF;
 		final Entry[] r = new Entry[all.length];
-		for (int i = 0; i < r.length; i++)
-			r[i] = new FileEntry(all[i], fs);
+		for (int i = 0; i < r.length; i++) {
+			r[i] = new FileEntry(all[i], fs, dirNoGitlink);
+		}
 		return r;
 	}
 
@@ -164,20 +171,44 @@ public class FileTreeIterator extends WorkingTreeIterator {
 		 *            file system
 		 */
 		public FileEntry(File f, FS fs) {
+			this(f, fs, false);
+		}
+
+		/**
+		 * Create a new file entry.
+		 *
+		 * @param f
+		 *            file
+		 * @param fs
+		 *            file system
+		 * @param dirNoGitlink
+		 *            if <code>true</code> and this is a directory, use
+		 *            FileMode.TREE as {@link #mode}, if <code>false</code> and
+		 *            this directory contains .git entry, set {@link #mode} to
+		 *            FileMode.GITLINK
+		 *
+		 * @since 4.1
+		 */
+		public FileEntry(File f, FS fs, boolean dirNoGitlink) {
 			this.fs = fs;
 			f = fs.normalize(f);
 			attributes = fs.getAttributes(f);
 			if (attributes.isSymbolicLink())
 				mode = FileMode.SYMLINK;
 			else if (attributes.isDirectory()) {
-				if (new File(f, Constants.DOT_GIT).exists())
+				if (!dirNoGitlink && isSubmoduleRoot(f)) {
 					mode = FileMode.GITLINK;
-				else
+				} else {
 					mode = FileMode.TREE;
+				}
 			} else if (attributes.isExecutable())
 				mode = FileMode.EXECUTABLE_FILE;
 			else
 				mode = FileMode.REGULAR_FILE;
+		}
+
+		boolean isSubmoduleRoot(File f) {
+			return new File(f, Constants.DOT_GIT).exists();
 		}
 
 		@Override

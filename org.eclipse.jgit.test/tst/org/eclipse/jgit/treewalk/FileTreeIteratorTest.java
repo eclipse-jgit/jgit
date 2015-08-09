@@ -53,6 +53,7 @@ import java.io.IOException;
 import java.security.MessageDigest;
 
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.SubmoduleAddCommand;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheCheckout;
 import org.eclipse.jgit.dircache.DirCacheEditor;
@@ -68,6 +69,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.treewalk.WorkingTreeIterator.MetadataDiff;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
@@ -337,22 +339,9 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 		Git git = new Git(db);
 		writeTrashFile("file.txt", "content");
 		git.add().addFilepattern("file.txt").call();
-		final RevCommit id = git.commit().setMessage("create file").call();
+		git.commit().setMessage("create file").call();
 		final String path = "sub";
-		DirCache cache = db.lockDirCache();
-		DirCacheEditor editor = cache.editor();
-		editor.add(new PathEdit(path) {
-
-			public void apply(DirCacheEntry ent) {
-				ent.setFileMode(FileMode.GITLINK);
-				ent.setObjectId(id);
-			}
-		});
-		editor.commit();
-
-		Git.cloneRepository().setURI(db.getDirectory().toURI().toString())
-				.setDirectory(new File(db.getWorkTree(), path)).call()
-				.getRepository().close();
+		addSubmodule(path);
 
 		TreeWalk walk = new TreeWalk(db);
 		DirCacheIterator indexIter = new DirCacheIterator(db.readDirCache());
@@ -437,22 +426,9 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 		Git git = new Git(db);
 		writeTrashFile("file.txt", "content");
 		git.add().addFilepattern("file.txt").call();
-		final RevCommit id = git.commit().setMessage("create file").call();
+		git.commit().setMessage("create file").call();
 		final String path = "sub";
-		DirCache cache = db.lockDirCache();
-		DirCacheEditor editor = cache.editor();
-		editor.add(new PathEdit(path) {
-
-			public void apply(DirCacheEntry ent) {
-				ent.setFileMode(FileMode.GITLINK);
-				ent.setObjectId(id);
-			}
-		});
-		editor.commit();
-
-		Git.cloneRepository().setURI(db.getDirectory().toURI().toString())
-				.setDirectory(new File(db.getWorkTree(), path)).call()
-				.getRepository().close();
+		addSubmodule(path);
 
 		TreeWalk walk = new TreeWalk(db);
 		DirCacheIterator indexIter = new DirCacheIterator(db.readDirCache());
@@ -497,6 +473,55 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 
 		assertTrue(walk.next());
 		assertTrue(indexIter.idEqual(workTreeIter));
+	}
+
+	@Test
+	public void submoduleDirectoryAsGitLink() throws Exception {
+		Git git = new Git(db);
+		writeTrashFile("file.txt", "content");
+		git.add().addFilepattern("file.txt").call();
+		git.commit().setMessage("create file").call();
+		final String path = "sub";
+		addSubmodule(path);
+
+		TreeWalk walk = new TreeWalk(db);
+		FileTreeIterator workTreeIter = new FileTreeIterator(db);
+		walk.addTree(workTreeIter);
+		walk.setFilter(PathFilter.create(path));
+
+		assertTrue(walk.next());
+		assertEquals(FileMode.GITLINK, FileMode.fromBits(workTreeIter.mode));
+	}
+
+	@Test
+	public void notSubmoduleDirectoryAsTree() throws Exception {
+		Git git = new Git(db);
+		writeTrashFile("file.txt", "content");
+		git.add().addFilepattern("file.txt").call();
+		git.commit().setMessage("create file").call();
+		File badDotGit = new File(trash, "sub/.git");
+		assertTrue(badDotGit.getParentFile().mkdirs());
+		assertTrue(badDotGit.createNewFile());
+
+		TreeWalk walk = new TreeWalk(db);
+		FileTreeIterator workTreeIter = new FileTreeIterator(db);
+		walk.addTree(workTreeIter);
+		walk.setFilter(PathFilter.create(badDotGit.getParentFile().getName()));
+
+		assertTrue(walk.next());
+		assertEquals(FileMode.TREE, FileMode.fromBits(workTreeIter.mode));
+	}
+
+	private void addSubmodule(String path) throws Exception {
+		SubmoduleAddCommand command = new SubmoduleAddCommand(db);
+		command.setPath(path);
+		String uri = db.getDirectory().toURI().toString();
+		command.setURI(uri);
+		Repository repo = command.call();
+		assertNotNull(repo);
+		repo.close();
+		File file = new File(repo.getWorkTree(), ".git");
+		assertTrue(file.exists());
 	}
 
 	@Test
