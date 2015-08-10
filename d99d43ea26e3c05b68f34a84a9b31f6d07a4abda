@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2721e7e2_5fcf8f58",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-08-10T11:07:57Z",
+      "side": 1,
+      "message": "What is if the .gitmodules file was deleted from working tree but it\u0027s still in the index. So git knows that this repo contained submodules. The next commit should contain a submodule because the commit will contain a .gitmodules file.\n\nSimilar argument but not the same: What is if you are looking at path x/y/z and the index tells that underneath x/y/z there is a submodule. Shouldn\u0027t we take this as a hint x/y/z should be a submodule regardless of the existence of a .gitmodules file in the worktree?\n\nCheck out this to see what native git does:\n\n  + git init sub\n  Initialized empty Git repository in /tmp/sub/.git/\n  + cd sub\n  + touch a\n  + git add a\n  + git commit -m addA\n  [master (root-commit) 531d4d8] addA\n   1 file changed, 0 insertions(+), 0 deletions(-)\n   create mode 100644 a\n  + cd ..\n  + git init container\n  Initialized empty Git repository in /tmp/container/.git/\n  + cd container\n  + touch b\n  + git add b\n  + git commit -m addB\n  [master (root-commit) 3be5e9b] addB\n   1 file changed, 0 insertions(+), 0 deletions(-)\n   create mode 100644 b\n  + git submodule add ../sub plugins/sub\n  Cloning into \u0027plugins/sub\u0027...\n  done.\n  + git commit -m addSubmodule\n  [master e9b19ab] addSubmodule\n   2 files changed, 4 insertions(+)\n   create mode 100644 .gitmodules\n   create mode 160000 plugins/sub\n  + cd plugins/sub/\n  + echo 2 \u003ea\n  + git commit -a -m newA\n  [master 857c4f2] newA\n   1 file changed, 1 insertion(+)\n  + cd ../..\n  + rm .gitmodules\n  + git add plugins/sub\n  + git commit -m newVersionOfSub_deletedGitmodules\n  [master acd14b9] newVersionOfSub_deletedGitmodules\n   1 file changed, 1 insertion(+), 1 deletion(-)\n  + git ls-files -s\n  100644 c16c5cbf89e80befa97ad60b5fd5dd3145751e4b 0\t.gitmodules\n  100644 e69de29bb2d1d6434b8b29ae775ad8c2e48c5391 0\tb\n  160000 857c4f26427b28403bf3d7357fd2289315678a3e 0\tplugins/sub\n  /tmp\u003e",
+      "revId": "d99d43ea26e3c05b68f34a84a9b31f6d07a4abda",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
