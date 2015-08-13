@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2721e7e2_285099ab",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-08-13T15:29:36Z",
+      "side": 1,
+      "message": "Fill this section out with #writeIndex, #prepareBitmapIndex and #writeBitmap calls.",
+      "range": {
+        "startLine": 144,
+        "startChar": 0,
+        "endLine": 144,
+        "endChar": 70
+      },
+      "revId": "3f7c033b190b41a92d34b9a3f742a95852d5a5b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_28bb795f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-08-13T15:29:36Z",
+      "side": 1,
+      "message": "Add documentation here about how the files writing operations documented above must be performed in order and can only be performed once, since to save memory any stage may clear out memory needed for its stage or previous stages.",
+      "range": {
+        "startLine": 155,
+        "startChar": 0,
+        "endLine": 155,
+        "endChar": 22
+      },
+      "revId": "3f7c033b190b41a92d34b9a3f742a95852d5a5b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_480a2db2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1984,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-08-13T15:29:36Z",
+      "side": 1,
+      "message": "Perhaps change this documentation (and add documentation to the writeXXX functions) to state that this method should only be called once and only after writePack/writeIndex have been called.)",
+      "range": {
+        "startLine": 1984,
+        "startChar": 0,
+        "endLine": 1984,
+        "endChar": 74
+      },
+      "revId": "3f7c033b190b41a92d34b9a3f742a95852d5a5b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
