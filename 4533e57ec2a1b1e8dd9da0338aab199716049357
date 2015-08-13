@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2721e7e2_c8345de4",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/WorkingTreeOptionsTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 37145
+      },
+      "writtenOn": "2015-08-13T14:24:40Z",
+      "side": 1,
+      "message": "So is this is what the API is looking like.  This part seems fine as far as I\u0027m concerned, as a caller.  However...",
+      "revId": "4533e57ec2a1b1e8dd9da0338aab199716049357",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_a82f698f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 37145
+      },
+      "writtenOn": "2015-08-13T14:24:40Z",
+      "side": 1,
+      "message": "I need access to the WorkingTreeOptions here in order to check the flag, and I didn\u0027t see any way to get access to it other than to pass it into the constructor.\n\nIt\u0027s not entirely clear to me whether or not this inner FileEntry class is considered \"public API\"; if so, this would probably be considered a breaking API change.  In that case, any suggestions on how to get access to the WorkingTreeOptions from here without breaking API?  Maybe I could add a second constructor for FileEntry that accepts this argument, but then I\u0027m not sure what would be the correct behavior here if you used the original constructor signature.",
+      "revId": "4533e57ec2a1b1e8dd9da0338aab199716049357",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_88d6e5ee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 37145
+      },
+      "writtenOn": "2015-08-13T14:24:40Z",
+      "side": 1,
+      "message": "Also, I realize that I haven\u0027t added in the rest of the logic to correlate with the index yet, as per our earlier discussions.  I\u0027m still planning to do that, just want to make sure I get the API stuff right first.",
+      "revId": "4533e57ec2a1b1e8dd9da0338aab199716049357",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
