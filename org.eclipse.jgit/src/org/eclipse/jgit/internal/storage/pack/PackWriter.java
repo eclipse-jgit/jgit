@@ -215,7 +215,7 @@ public class PackWriter implements AutoCloseable {
 	}
 
 	@SuppressWarnings("unchecked")
-	private final BlockList<ObjectToPack> objectsLists[] = new BlockList[OBJ_TAG + 1];
+	private BlockList<ObjectToPack> objectsLists[] = new BlockList[OBJ_TAG + 1];
 	{
 		objectsLists[OBJ_COMMIT] = new BlockList<ObjectToPack>();
 		objectsLists[OBJ_TREE] = new BlockList<ObjectToPack>();
@@ -223,7 +223,7 @@ public class PackWriter implements AutoCloseable {
 		objectsLists[OBJ_TAG] = new BlockList<ObjectToPack>();
 	}
 
-	private final ObjectIdOwnerMap<ObjectToPack> objectsMap = new ObjectIdOwnerMap<ObjectToPack>();
+	private ObjectIdOwnerMap<ObjectToPack> objectsMap = new ObjectIdOwnerMap<ObjectToPack>();
 
 	// edge objects for thin packs
 	private List<ObjectToPack> edgeObjects = new BlockList<ObjectToPack>();
@@ -1975,11 +1975,15 @@ public class PackWriter implements AutoCloseable {
 	 * Prepares the bitmaps to be written to the pack index. Bitmaps can be used
 	 * to speed up fetches and clones by storing the entire object graph at
 	 * selected commits.
-	 *
+	 * <p>
 	 * This method can only be invoked after
 	 * {@link #writePack(ProgressMonitor, ProgressMonitor, OutputStream)} has
 	 * been invoked and completed successfully. Writing a corresponding bitmap
 	 * index is an optional feature that not all pack users may require.
+	 * <p>
+	 * Internal state is cleared during this method, rendering the PackWriter
+	 * useless for anything further beyond a call to write out the new bitmaps
+	 * with {@link #writeBitmapIndex(OutputStream)}.
 	 *
 	 * @param pm
 	 *            progress monitor to report bitmap building work.
@@ -1995,11 +1999,17 @@ public class PackWriter implements AutoCloseable {
 		if (pm == null)
 			pm = NullProgressMonitor.INSTANCE;
 
-		writeBitmaps = new PackBitmapIndexBuilder(sortByName());
+		int numCommits = objectsLists[OBJ_COMMIT].size();
+		List<ObjectToPack> byName = sortByName();
+		sortedByName = null;
+		objectsLists = null;
+		objectsMap = null;
+		writeBitmaps = new PackBitmapIndexBuilder(byName);
+		byName = null;
+
 		PackWriterBitmapPreparer bitmapPreparer = new PackWriterBitmapPreparer(
 				reader, writeBitmaps, pm, stats.interestingObjects);
 
-		int numCommits = objectsLists[OBJ_COMMIT].size();
 		Collection<PackWriterBitmapPreparer.BitmapCommit> selectedCommits =
 				bitmapPreparer.doCommitSelection(numCommits);
 
@@ -2356,11 +2366,14 @@ public class PackWriter implements AutoCloseable {
 
 		State snapshot() {
 			long objCnt = 0;
-			objCnt += objectsLists[OBJ_COMMIT].size();
-			objCnt += objectsLists[OBJ_TREE].size();
-			objCnt += objectsLists[OBJ_BLOB].size();
-			objCnt += objectsLists[OBJ_TAG].size();
-			// Exclude CachedPacks.
+			BlockList<ObjectToPack>[] lists = objectsLists;
+			if (lists != null) {
+				objCnt += lists[OBJ_COMMIT].size();
+				objCnt += lists[OBJ_TREE].size();
+				objCnt += lists[OBJ_BLOB].size();
+				objCnt += lists[OBJ_TAG].size();
+				// Exclude CachedPacks.
+			}
 
 			long bytesUsed = OBJECT_TO_PACK_SIZE * objCnt;
 			PackingPhase curr = phase;
