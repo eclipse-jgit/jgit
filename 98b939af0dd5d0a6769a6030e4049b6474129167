@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_b7bfc0a6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-08-14T18:13:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2721e7e2_77b26801",
+      "range": {
+        "startLine": 93,
+        "startChar": 0,
+        "endLine": 93,
+        "endChar": 24
+      },
+      "revId": "98b939af0dd5d0a6769a6030e4049b6474129167",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_57b5a4e5",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2015-08-14T17:40:33Z",
       "side": 1,
       "message": "Add a comment about the reasoning behind dividing by 3.",
+      "range": {
+        "startLine": 95,
+        "startChar": 55,
+        "endLine": 95,
+        "endChar": 56
+      },
+      "revId": "98b939af0dd5d0a6769a6030e4049b6474129167",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_f7c9384f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-08-14T18:13:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2721e7e2_57b5a4e5",
       "range": {
         "startLine": 95,
         "startChar": 55,
