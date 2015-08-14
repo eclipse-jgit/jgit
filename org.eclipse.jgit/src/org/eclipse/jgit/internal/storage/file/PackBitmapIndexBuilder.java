@@ -44,7 +44,7 @@
 package org.eclipse.jgit.internal.storage.file;
 
 import java.text.MessageFormat;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
@@ -73,7 +73,7 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 	private final EWAHCompressedBitmap trees;
 	private final EWAHCompressedBitmap blobs;
 	private final EWAHCompressedBitmap tags;
-	private final ObjectToPack[] byOffset;
+	private final BlockList<PositionEntry> byOffset;
 	private final BlockList<StoredBitmap>
 			byAddOrder = new BlockList<StoredBitmap>();
 	private final ObjectIdOwnerMap<PositionEntry>
@@ -83,20 +83,25 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 	 * Creates a PackBitmapIndex used for building the contents of an index
 	 * file.
 	 *
-	 * @param byName
-	 *            objects sorted by name.
+	 * @param objects
+	 *            objects sorted by name. The list must be initially sorted by
+	 *            ObjectId (name); it will be resorted in place.
 	 */
-	public PackBitmapIndexBuilder(List<ObjectToPack> byName) {
+	public PackBitmapIndexBuilder(List<ObjectToPack> objects) {
 		super(new ObjectIdOwnerMap<StoredBitmap>());
-		byOffset = sortByOffset(byName);
+		byOffset = new BlockList<>(objects.size());
+		sortByOffsetAndIndex(byOffset, positionEntries, objects);
 
-		int sizeInWords = Math.max(byOffset.length / 64, 4);
+		// 64 objects fit in a single long word (64 bits).
+		// On average a repository is 30% commits, 30% trees, 30% blobs.
+		// Initialize bitmap capacity for worst case to minimize growing.
+		int sizeInWords = Math.max(4, byOffset.size() / 64 / 3);
 		commits = new EWAHCompressedBitmap(sizeInWords);
 		trees = new EWAHCompressedBitmap(sizeInWords);
 		blobs = new EWAHCompressedBitmap(sizeInWords);
 		tags = new EWAHCompressedBitmap(sizeInWords);
-		for (int i = 0; i < byOffset.length; i++) {
-			int type = byOffset[i].getType();
+		for (int i = 0; i < objects.size(); i++) {
+			int type = objects.get(i).getType();
 			switch (type) {
 			case Constants.OBJ_COMMIT:
 				commits.set(i);
@@ -121,20 +126,33 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 		tags.trim();
 	}
 
-	private ObjectToPack[] sortByOffset(List<ObjectToPack> entries) {
-		ObjectToPack[] result = new ObjectToPack[entries.size()];
-		for (int i = 0; i < result.length; i++) {
-			result[i] = entries.get(i);
-			positionEntries.add(new PositionEntry(result[i], i));
+	private static void sortByOffsetAndIndex(BlockList<PositionEntry> byOffset,
+			ObjectIdOwnerMap<PositionEntry> positionEntries,
+			List<ObjectToPack> entries) {
+		for (int i = 0; i < entries.size(); i++) {
+			positionEntries.add(new PositionEntry(entries.get(i), i));
 		}
-		Arrays.sort(result, new Comparator<ObjectToPack>() {
+		Collections.sort(entries, new Comparator<ObjectToPack>() {
 			public int compare(ObjectToPack a, ObjectToPack b) {
 				return Long.signum(a.getOffset() - b.getOffset());
 			}
 		});
-		for (int i = 0; i < result.length; i++)
-			positionEntries.get(result[i]).offsetPosition = i;
-		return result;
+		for (int i = 0; i < entries.size(); i++) {
+			PositionEntry e = positionEntries.get(entries.get(i));
+			e.offsetPosition = i;
+			byOffset.add(e);
+		}
+	}
+
+	/** @return set of objects included in the pack. */
+	public ObjectIdOwnerMap<ObjectIdOwnerMap.Entry> getObjectSet() {
+		ObjectIdOwnerMap<ObjectIdOwnerMap.Entry> r = new ObjectIdOwnerMap<>();
+		for (PositionEntry e : byOffset) {
+			r.add(new ObjectIdOwnerMap.Entry(e) {
+				// A new entry that copies the ObjectId
+			});
+		}
+		return r;
 	}
 
 	/**
@@ -204,7 +222,7 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 
 	@Override
 	public ObjectId getObject(int position) throws IllegalArgumentException {
-		ObjectId objectId = byOffset[position];
+		ObjectId objectId = byOffset.get(position);
 		if (objectId == null)
 			throw new IllegalArgumentException();
 		return objectId;
@@ -248,7 +266,7 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 
 	@Override
 	public int getObjectCount() {
-		return byOffset.length;
+		return byOffset.size();
 	}
 
 	/** @return an iterator over the xor compressed entries. */
