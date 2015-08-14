@@ -143,6 +143,10 @@ abstract class BasePackConnection extends BaseConnection {
 		final int timeout = transport.getTimeout();
 		if (timeout > 0) {
 			final Thread caller = Thread.currentThread();
+			if (myTimer != null) {
+				myTimer.terminate();
+				myTimer = null;
+			}
 			myTimer = new InterruptTimer(caller.getName() + "-Timer"); //$NON-NLS-1$
 			timeoutIn = new TimeoutInputStream(myIn, myTimer);
 			timeoutOut = new TimeoutOutputStream(myOut, myTimer);
