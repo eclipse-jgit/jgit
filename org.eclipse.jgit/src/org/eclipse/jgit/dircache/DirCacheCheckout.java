@@ -51,16 +51,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.jgit.errors.CheckoutConflictException;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.IndexWriteException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.CoreConfig.AutoCRLF;
 import org.eclipse.jgit.lib.CoreConfig.SymLinks;
 import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.lib.IndexDiff;
 import org.eclipse.jgit.lib.ObjectChecker;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
@@ -75,6 +79,7 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.WorkingTreeIterator;
 import org.eclipse.jgit.treewalk.WorkingTreeOptions;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
+import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.RawParseUtils;
@@ -1149,6 +1154,9 @@ public class DirCacheCheckout {
 		FileUtils.mkdirs(parentDir, true);
 		FS fs = repo.getFS();
 		WorkingTreeOptions opt = repo.getConfig().get(WorkingTreeOptions.KEY);
+		if (f.isDirectory()) {
+			cleanupUntracked(repo, entry);
+		}
 		if (entry.getFileMode() == FileMode.SYMLINK
 				&& opt.getSymLinks() == SymLinks.TRUE) {
 			byte[] bytes = ol.getBytes();
@@ -1188,8 +1196,29 @@ public class DirCacheCheckout {
 			throw new IOException(MessageFormat.format(
 					JGitText.get().renameFileFailed, tmpFile.getPath(),
 					f.getPath()));
+		} finally {
+			if (tmpFile.exists()) {
+				FileUtils.delete(tmpFile);
+			}
 		}
 		entry.setLastModified(f.lastModified());
+	}
+
+	private static void cleanupUntracked(Repository db, DirCacheEntry entry)
+			throws NoWorkTreeException, IOException {
+		FileTreeIterator workingTreeIt = new FileTreeIterator(db);
+		IndexDiff diff = new IndexDiff(db, Constants.HEAD, workingTreeIt);
+		diff.setFilter(
+				PathFilterGroup.createFromStrings(entry.getPathString()));
+		diff.diff();
+		Set<String> paths = diff.getUntracked();
+		for (String path : paths) {
+			FileUtils.delete(new File(db.getWorkTree(), path));
+		}
+		if (!paths.isEmpty()) {
+			FileUtils.delete(new File(db.getWorkTree(), entry.getPathString()),
+					FileUtils.EMPTY_DIRECTORIES_ONLY | FileUtils.RECURSIVE);
+		}
 	}
 
 	@SuppressWarnings("deprecation")
