@@ -1,0 +1,198 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2721e7e2_2c4b8680",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-08-16T17:40:03Z",
+      "side": 1,
+      "message": "We can remove WIP and really explain what this commit is is actually doing and why",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 22
+      },
+      "revId": "ee397440d2efff1464c02e8c4203ed8604920404",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_ac601602",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-08-16T17:40:03Z",
+      "side": 1,
+      "message": "missing @since tag. Do you have an API Baseline configured?",
+      "revId": "ee397440d2efff1464c02e8c4203ed8604920404",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_8c63920c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-08-16T17:40:03Z",
+      "side": 1,
+      "message": "Eclipse complains about a missing javadoc for an public method. The javadoc should contain @since tag",
+      "revId": "ee397440d2efff1464c02e8c4203ed8604920404",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_cc646a15",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-08-16T17:40:03Z",
+      "side": 1,
+      "message": "Eclipse complains about a missing javadoc for an public method. The javadoc should contain @since tag",
+      "revId": "ee397440d2efff1464c02e8c4203ed8604920404",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_0cfde2a3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-08-16T17:40:03Z",
+      "side": 1,
+      "message": "If p happens to be a FileTreeIterator (which is very likely) then we should use p.fileModeStrategy instead of the default one.\nMaybe a test would be great where we see that FileTreeIterator instances created for subtrees contain the same FileModeStrategy instance than the parent.",
+      "revId": "ee397440d2efff1464c02e8c4203ed8604920404",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_0c6fa2ef",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-08-16T17:40:03Z",
+      "side": 1,
+      "message": "Eclipse complains about a missing javadoc for an public class. The javadoc should contain @since tag",
+      "range": {
+        "startLine": 167,
+        "startChar": 1,
+        "endLine": 167,
+        "endChar": 34
+      },
+      "revId": "ee397440d2efff1464c02e8c4203ed8604920404",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_6c3d7eea",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-08-16T17:40:03Z",
+      "side": 1,
+      "message": "Eclipse complains about a missing javadoc for an public method. The javadoc should contain @since tag",
+      "range": {
+        "startLine": 168,
+        "startChar": 11,
+        "endLine": 168,
+        "endChar": 19
+      },
+      "revId": "ee397440d2efff1464c02e8c4203ed8604920404",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_4c407a5e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-08-16T17:40:03Z",
+      "side": 1,
+      "message": "Eclipse complains about a missing javadoc for an public class. The javadoc should contain @since tag",
+      "revId": "ee397440d2efff1464c02e8c4203ed8604920404",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_ac377607",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-08-16T17:40:03Z",
+      "side": 1,
+      "message": "Eclipse complains about a missing javadoc for an public field.",
+      "range": {
+        "startLine": 172,
+        "startChar": 46,
+        "endLine": 172,
+        "endChar": 54
+      },
+      "revId": "ee397440d2efff1464c02e8c4203ed8604920404",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_cc4bca7e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-08-16T17:40:03Z",
+      "side": 1,
+      "message": "Eclipse complains about a missing javadoc for an public method. The javadoc should contain @since tag",
+      "revId": "ee397440d2efff1464c02e8c4203ed8604920404",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
