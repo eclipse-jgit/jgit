@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2721e7e2_cc962a55",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LockFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-08-16T18:07:55Z",
+      "side": 1,
+      "message": "since 4.1",
+      "revId": "39995196d47d021d2f8584ddfe731e3d48a8c7f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
