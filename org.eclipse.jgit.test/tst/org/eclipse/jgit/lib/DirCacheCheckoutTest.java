@@ -50,7 +50,9 @@ import static org.junit.Assert.fail;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -78,6 +80,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.FileUtils;
 import org.junit.Test;
 
 public class DirCacheCheckoutTest extends RepositoryTestCase {
@@ -923,6 +926,134 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testCheckoutChangeLinkToEmptyDir() throws Exception {
+		String fname = "file.txt";
+		Git git = Git.wrap(db);
+
+		// Add a file
+		writeTrashFile(fname, "a");
+		git.add().addFilepattern(fname).call();
+
+		// Add a link to file
+		String link = "link";
+		Path link2 = writeLink(link, fname);
+		git.add().addFilepattern(link).call();
+		git.commit().setMessage("Added file and link").call();
+
+		// replace link with empty directory
+		FileUtils.delete(link2.toFile());
+		FileUtils.mkdir(link2.toFile());
+		assertTrue("Link must be a directory now",
+				link2.toFile().isDirectory());
+
+		// modify file
+		writeTrashFile(fname, "b");
+		assertWorkDir(mkmap(fname, "b"));
+
+		// revert both paths to HEAD state
+		git.checkout().setName("master").setStartPoint(Constants.HEAD)
+				.addPath(fname).addPath(link).call();
+
+		assertWorkDir(mkmap(fname, "a", link, "a"));
+
+		Status st = git.status().call();
+		assertTrue(st.isClean());
+	}
+
+	@Test
+	public void testCheckoutChangeLinkToEmptyDirs() throws Exception {
+		String fname = "file.txt";
+		Git git = Git.wrap(db);
+
+		// Add a file
+		writeTrashFile(fname, "a");
+		git.add().addFilepattern(fname).call();
+
+		// Add a link to file
+		String link = "link";
+		Path link2 = writeLink(link, fname);
+		git.add().addFilepattern(link).call();
+		git.commit().setMessage("Added file and link").call();
+
+		// replace link with directory containing only directories, no files
+		FileUtils.delete(link2.toFile());
+		FileUtils.mkdirs(new File(link2.toFile(), "dummyDir"));
+		assertTrue("Link must be a directory now",
+				link2.toFile().isDirectory());
+
+		assertFalse("Must not delete non empty directory",
+				link2.toFile().delete());
+
+		// modify file
+		writeTrashFile(fname, "b");
+		assertWorkDir(mkmap(fname, "b"));
+
+		// revert both paths to HEAD state
+		git.checkout().setName("master").setStartPoint(Constants.HEAD)
+				.addPath(fname).addPath(link).call();
+
+		assertWorkDir(mkmap(fname, "a", link, "a"));
+
+		Status st = git.status().call();
+		assertTrue(st.isClean());
+	}
+
+	@Test
+	public void testCheckoutChangeFileToEmptyDir() throws Exception {
+		String fname = "file.txt";
+		Git git = Git.wrap(db);
+
+		// Add a file
+		File file = writeTrashFile(fname, "a");
+		git.add().addFilepattern(fname).call();
+		git.commit().setMessage("Added file").call();
+
+		// replace link with empty directory
+		FileUtils.delete(file);
+		FileUtils.mkdirs(new File(file, "dummyDir"));
+		assertTrue("File must be a directory now", file.isDirectory());
+		assertFalse("Must not delete non empty directory", file.delete());
+
+		assertWorkDir(Collections.<String, String> emptyMap());
+
+		// revert path to HEAD state
+		git.checkout().setName("master").setStartPoint(Constants.HEAD)
+				.addPath(fname).call();
+
+		assertWorkDir(mkmap(fname, "a"));
+
+		Status st = git.status().call();
+		assertTrue(st.isClean());
+	}
+
+	@Test
+	public void testCheckoutChangeFileToEmptyDirs() throws Exception {
+		String fname = "file.txt";
+		Git git = Git.wrap(db);
+
+		// Add a file
+		File file = writeTrashFile(fname, "a");
+		git.add().addFilepattern(fname).call();
+		git.commit().setMessage("Added file").call();
+
+		// replace link with empty directory
+		FileUtils.delete(file);
+		FileUtils.mkdir(file);
+		assertTrue("File must be a directory now", file.isDirectory());
+
+		assertWorkDir(Collections.<String, String> emptyMap());
+
+		// revert path to HEAD state
+		git.checkout().setName("master").setStartPoint(Constants.HEAD)
+				.addPath(fname).call();
+
+		assertWorkDir(mkmap(fname, "a"));
+
+		Status st = git.status().call();
+		assertTrue(st.isClean());
+	}
+
+	@Test
 	public void testCheckoutOutChangesAutoCRLFfalse() throws IOException {
 		setupCase(mk("foo"), mkmap("foo/bar", "foo\nbar"), mk("foo"));
 		checkout();
@@ -1210,7 +1341,8 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 		assertNotNull(git.checkout().setName(Constants.MASTER).call());
 	}
 
-	public void assertWorkDir(HashMap<String, String> i) throws CorruptObjectException,
+	public void assertWorkDir(Map<String, String> i)
+			throws CorruptObjectException,
 			IOException {
 		TreeWalk walk = new TreeWalk(db);
 		walk.setRecursive(true);
