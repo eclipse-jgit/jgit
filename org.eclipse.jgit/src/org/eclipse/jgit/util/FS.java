@@ -712,7 +712,7 @@ public abstract class FS {
 	}
 
 	/**
-	 * See {@link FileUtils#relativize(String, String)}.
+	 * See {@link FileUtil#relativize(String, String)}.
 	 *
 	 * @param base
 	 *            The path against which <code>other</code> should be
@@ -721,11 +721,11 @@ public abstract class FS {
 	 *            The path that will be made relative to <code>base</code>.
 	 * @return A relative path that, when resolved against <code>base</code>,
 	 *         will yield the original <code>other</code>.
-	 * @see FileUtils#relativize(String, String)
+	 * @see FileUtil#relativize(String, String)
 	 * @since 3.7
 	 */
 	public String relativize(String base, String other) {
-		return FileUtils.relativize(base, other);
+		return FileUtil.relativize(base, other);
 	}
 
 	/**

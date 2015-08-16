@@ -443,7 +443,7 @@ public class FileUtilTest {
 		String other = toOSPathString("c:\\Users\\jdoe\\eclipse\\git\\another_project\\pom.xml");
 		String expected = toOSPathString("..\\another_project\\pom.xml");
 
-		String actual = FileUtils.relativize(base, other);
+		String actual = FileUtil.relativize(base, other);
 		assertEquals(expected, actual);
 	}
 
@@ -456,13 +456,13 @@ public class FileUtilTest {
 		String expectedCaseSensitive = toOSPathString("..\\..\\Git\\test\\d\\f.txt");
 
 		if (systemReader.isWindows()) {
-			String actual = FileUtils.relativize(base, other);
+			String actual = FileUtil.relativize(base, other);
 			assertEquals(expectedCaseInsensitive, actual);
 		} else if (systemReader.isMacOS()) {
-			String actual = FileUtils.relativize(base, other);
+			String actual = FileUtil.relativize(base, other);
 			assertEquals(expectedCaseInsensitive, actual);
 		} else {
-			String actual = FileUtils.relativize(base, other);
+			String actual = FileUtil.relativize(base, other);
 			assertEquals(expectedCaseSensitive, actual);
 		}
 	}
@@ -474,7 +474,7 @@ public class FileUtilTest {
 		// 'file.java' is treated as a folder
 		String expected = toOSPathString("../../project");
 
-		String actual = FileUtils.relativize(base, other);
+		String actual = FileUtil.relativize(base, other);
 		assertEquals(expected, actual);
 	}
 
@@ -484,7 +484,7 @@ public class FileUtilTest {
 		String other = toOSPathString("file:/home/eclipse/runtime-New_configuration/project_1");
 		String expected = "";
 
-		String actual = FileUtils.relativize(base, other);
+		String actual = FileUtil.relativize(base, other);
 		assertEquals(expected, actual);
 	}
 
@@ -494,7 +494,7 @@ public class FileUtilTest {
 		String other = toOSPathString("/home/eclipse 3.4/runtime New_configuration/project_1/file");
 		String expected = "file";
 
-		String actual = FileUtils.relativize(base, other);
+		String actual = FileUtil.relativize(base, other);
 		assertEquals(expected, actual);
 	}
 
