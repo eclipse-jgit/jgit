@@ -1153,6 +1153,9 @@ public class DirCacheCheckout {
 				&& opt.getSymLinks() == SymLinks.TRUE) {
 			byte[] bytes = ol.getBytes();
 			String target = RawParseUtils.decode(bytes);
+			if (f.isDirectory()) {
+				FileUtils.delete(f, FileUtils.RECURSIVE);
+			}
 			fs.createSymLink(f, target);
 			entry.setLength(bytes.length);
 			entry.setLastModified(fs.lastModified(f));
@@ -1183,11 +1186,18 @@ public class DirCacheCheckout {
 			}
 		}
 		try {
+			if (f.isDirectory()) {
+				FileUtils.delete(f, FileUtils.RECURSIVE);
+			}
 			FileUtils.rename(tmpFile, f);
 		} catch (IOException e) {
 			throw new IOException(MessageFormat.format(
 					JGitText.get().renameFileFailed, tmpFile.getPath(),
 					f.getPath()));
+		} finally {
+			if (tmpFile.exists()) {
+				FileUtils.delete(tmpFile);
+			}
 		}
 		entry.setLastModified(f.lastModified());
 	}

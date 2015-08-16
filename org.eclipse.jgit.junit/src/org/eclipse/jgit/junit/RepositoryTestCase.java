@@ -55,6 +55,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.nio.file.Path;
 import java.util.Map;
 
 import org.eclipse.jgit.api.Git;
@@ -105,6 +106,11 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	protected File writeTrashFile(final String name, final String data)
 			throws IOException {
 		return JGitTestUtil.writeTrashFile(db, name, data);
+	}
+
+	protected Path writeLink(final String link, final String target)
+			throws Exception {
+		return JGitTestUtil.writeLink(db, link, target);
 	}
 
 	protected File writeTrashFile(final String subdir, final String name,
