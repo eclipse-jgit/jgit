@@ -45,9 +45,12 @@ package org.eclipse.jgit.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.DirectoryNotEmptyException;
+import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
+import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributeView;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileTime;
@@ -91,12 +94,53 @@ public class FileUtil {
 	public static void createSymLink(File path, String target)
 			throws IOException {
 		Path nioPath = path.toPath();
-		if (Files.exists(nioPath, LinkOption.NOFOLLOW_LINKS))
-			Files.delete(nioPath);
-		if (SystemReader.getInstance().isWindows())
+		delete(nioPath, true);
+		if (SystemReader.getInstance().isWindows()) {
 			target = target.replace('/', '\\');
+		}
 		Path nioTarget = new File(target).toPath();
 		Files.createSymbolicLink(nioPath, nioTarget);
+	}
+
+	/**
+	 * Deletes the given path, independently if the path is corresponding to the
+	 * file or directory. If the path corresponds to the non empty directory,
+	 * and the 'recursive' flag is not specified, the method will throw an
+	 * exception.
+	 *
+	 * @param path
+	 * @param recursive
+	 * @throws IOException
+	 * @since 4.1
+	 */
+	public static void delete(final Path path, boolean recursive)
+			throws IOException {
+		if (!Files.exists(path, LinkOption.NOFOLLOW_LINKS)) {
+			return;
+		}
+		try {
+			Files.delete(path);
+		} catch (DirectoryNotEmptyException e) {
+			if (!recursive) {
+				throw e;
+			}
+			// delete children in the directory
+			Files.walkFileTree(path, new SimpleFileVisitor<Path>() {
+				@Override
+				public FileVisitResult visitFile(Path file,
+						BasicFileAttributes attrs) throws IOException {
+					Files.delete(file);
+					return FileVisitResult.CONTINUE;
+				}
+
+				@Override
+				public FileVisitResult postVisitDirectory(Path dir,
+						IOException exc) throws IOException {
+					Files.delete(dir);
+					return FileVisitResult.CONTINUE;
+				}
+			});
+		}
 	}
 
 	/**

@@ -46,6 +46,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.file.DirectoryNotEmptyException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -76,6 +79,7 @@ import org.eclipse.jgit.treewalk.WorkingTreeIterator;
 import org.eclipse.jgit.treewalk.WorkingTreeOptions;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.FileUtil;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.SystemReader;
@@ -1183,11 +1187,19 @@ public class DirCacheCheckout {
 			}
 		}
 		try {
-			FileUtils.rename(tmpFile, f);
+			try {
+				Files.move(tmpFile.toPath(), f.toPath(),
+						StandardCopyOption.REPLACE_EXISTING);
+			} catch (DirectoryNotEmptyException e) {
+				FileUtil.delete(f.toPath(), true);
+				Files.move(tmpFile.toPath(), f.toPath(),
+						StandardCopyOption.REPLACE_EXISTING);
+			}
 		} catch (IOException e) {
 			throw new IOException(MessageFormat.format(
 					JGitText.get().renameFileFailed, tmpFile.getPath(),
 					f.getPath()));
+
 		}
 		entry.setLastModified(f.lastModified());
 	}
