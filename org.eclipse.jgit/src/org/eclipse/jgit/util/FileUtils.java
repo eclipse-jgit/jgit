@@ -48,7 +48,12 @@ package org.eclipse.jgit.util;
 import java.io.File;
 import java.io.IOException;
 import java.nio.channels.FileLock;
+import java.nio.file.Files;
+import java.nio.file.LinkOption;
+import java.nio.file.Path;
 import java.text.MessageFormat;
+import java.text.Normalizer;
+import java.text.Normalizer.Form;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -350,18 +355,33 @@ public class FileUtils {
 	 */
 	public static void createSymLink(File path, String target)
 			throws IOException {
-		FS.DETECTED.createSymLink(path, target);
+		Path nioPath = path.toPath();
+		if (Files.exists(nioPath, LinkOption.NOFOLLOW_LINKS)) {
+			Files.delete(nioPath);
+		}
+		if (SystemReader.getInstance().isWindows()) {
+			target = target.replace('/', '\\');
+		}
+		Path nioTarget = new File(target).toPath();
+		Files.createSymbolicLink(nioPath, nioTarget);
 	}
 
 	/**
 	 * @param path
-	 * @return the target of the symbolic link, or null if it is not a symbolic
-	 *         link
+	 * @return target path of the symlink, or null if it is not a symbolic link
 	 * @throws IOException
 	 * @since 3.0
 	 */
 	public static String readSymLink(File path) throws IOException {
-		return FS.DETECTED.readSymLink(path);
+		Path nioPath = path.toPath();
+		Path target = Files.readSymbolicLink(nioPath);
+		String targetString = target.toString();
+		if (SystemReader.getInstance().isWindows()) {
+			targetString = targetString.replace('\\', '/');
+		} else if (SystemReader.getInstance().isMacOS()) {
+			targetString = Normalizer.normalize(targetString, Form.NFC);
+		}
+		return targetString;
 	}
 
 	/**

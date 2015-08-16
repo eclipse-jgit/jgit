@@ -67,7 +67,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.eclipse.jgit.api.errors.JGitInternalException;
-import org.eclipse.jgit.errors.SymlinksNotSupportedException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
@@ -623,8 +622,7 @@ public abstract class FS {
 	 * @since 3.0
 	 */
 	public String readSymLink(File path) throws IOException {
-		throw new SymlinksNotSupportedException(
-				JGitText.get().errorSymlinksNotSupported);
+		return FileUtils.readSymLink(path);
 	}
 
 	/**
@@ -707,8 +705,7 @@ public abstract class FS {
 	 * @since 3.0
 	 */
 	public void createSymLink(File path, String target) throws IOException {
-		throw new SymlinksNotSupportedException(
-				JGitText.get().errorSymlinksNotSupported);
+		FileUtils.createSymLink(path, target);
 	}
 
 	/**
