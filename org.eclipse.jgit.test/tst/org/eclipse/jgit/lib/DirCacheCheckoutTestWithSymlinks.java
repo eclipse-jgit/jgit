@@ -47,7 +47,7 @@ import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.util.FS;
-import org.eclipse.jgit.util.FileUtils;
+import org.eclipse.jgit.util.FileUtil;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -85,7 +85,7 @@ public class DirCacheCheckoutTestWithSymlinks extends RepositoryTestCase {
 		// Create a symlink pointing to the parent folder of the repo and open
 		// the repo with the path containing the symlink
 		File reposSymlink = createTempFile();
-		FileUtils.createSymLink(reposSymlink, repos.getPath());
+		FileUtil.createSymLink(reposSymlink, repos.getPath());
 
 		Repository symlinkDB = FileRepositoryBuilder.create(new File(
 				reposSymlink, "repo/.git"));

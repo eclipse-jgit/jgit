@@ -227,7 +227,7 @@ public class FileUtil {
 					readAttributes.creationTime().toMillis(), //
 					readAttributes.lastModifiedTime().toMillis(),
 					readAttributes.isSymbolicLink() ? Constants
-							.encode(FileUtils.readSymLink(path)).length
+							.encode(readSymlink(path)).length
 							: readAttributes.size());
 			return attributes;
 		} catch (IOException e) {

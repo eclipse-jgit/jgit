@@ -21,4 +21,18 @@
             </message_arguments>
         </filter>
     </resource>
+    <resource path="src/org/eclipse/jgit/util/FileUtils.java" type="org.eclipse.jgit.util.FileUtils">
+        <filter id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.util.FileUtils"/>
+                <message_argument value="createSymLink(File, String)"/>
+            </message_arguments>
+        </filter>
+        <filter id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.util.FileUtils"/>
+                <message_argument value="readSymLink(File)"/>
+            </message_arguments>
+        </filter>
+    </resource>
 </component>
