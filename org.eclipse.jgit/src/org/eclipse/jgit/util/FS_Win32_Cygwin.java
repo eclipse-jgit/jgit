@@ -218,16 +218,6 @@ public class FS_Win32_Cygwin extends FS_Win32 {
 		FileUtil.setHidden(path, hidden);
 	}
 
-	@Override
-	public String readSymLink(File path) throws IOException {
-		return FileUtil.readSymlink(path);
-	}
-
-	@Override
-	public void createSymLink(File path, String target) throws IOException {
-		FileUtil.createSymLink(path, target);
-	}
-
 	/**
 	 * @since 3.3
 	 */
