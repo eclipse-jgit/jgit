@@ -1718,6 +1718,7 @@ public class PackWriter implements AutoCloseable {
 		final int maxBases = config.getDeltaSearchWindowSize();
 		Set<RevTree> baseTrees = new HashSet<RevTree>();
 		BlockList<RevCommit> commits = new BlockList<RevCommit>();
+		Set<ObjectId> roots = new HashSet<>();
 		RevCommit c;
 		while ((c = walker.next()) != null) {
 			if (exclude(c))
@@ -1729,8 +1730,12 @@ public class PackWriter implements AutoCloseable {
 			}
 
 			commits.add(c);
+			if (c.getParentCount() == 0) {
+				roots.add(c.copy());
+			}
 			countingMonitor.update(1);
 		}
+		stats.rootCommits = Collections.unmodifiableSet(roots);
 
 		if (shallowPack) {
 			for (RevCommit cmit : commits) {
