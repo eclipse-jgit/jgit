@@ -58,6 +58,7 @@ import java.text.Normalizer;
 import java.text.Normalizer.Form;
 import java.util.regex.Pattern;
 
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.util.FS.Attributes;
 
@@ -361,6 +362,33 @@ public class FileUtil {
 			}
 		}
 		return builder.toString();
+	}
+
+	/**
+	 * Create a temporary directory.
+	 *
+	 * @param prefix
+	 * @param suffix
+	 * @param dir
+	 *            The parent dir, can be null to use system default temp dir.
+	 * @return the temp dir created.
+	 * @throws IOException
+	 * @since 4.1
+	 */
+	public static File createTempDir(String prefix, String suffix, File dir)
+			throws IOException {
+		final int RETRIES = 1; // When something bad happens, retry once.
+		for (int i = 0; i < RETRIES; i++) {
+			File tmp = File.createTempFile(prefix, suffix, dir);
+			if (!tmp.delete()) {
+				continue;
+			}
+			if (!tmp.mkdir()) {
+				continue;
+			}
+			return tmp;
+		}
+		throw new IOException(JGitText.get().cannotCreateTempDir);
 	}
 
 }

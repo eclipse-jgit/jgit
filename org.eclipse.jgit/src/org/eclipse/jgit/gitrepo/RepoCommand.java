@@ -80,6 +80,7 @@ import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.util.FileUtil;
 import org.eclipse.jgit.util.FileUtils;
 
 /**
@@ -169,7 +170,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 
 		public byte[] readFile(String uri, String ref, String path)
 				throws GitAPIException, IOException {
-			File dir = FileUtils.createTempDir("jgit_", ".git", null); //$NON-NLS-1$ //$NON-NLS-2$
+			File dir = FileUtil.createTempDir("jgit_", ".git", null); //$NON-NLS-1$ //$NON-NLS-2$
 			Repository repo = Git
 					.cloneRepository()
 					.setBare(true)
