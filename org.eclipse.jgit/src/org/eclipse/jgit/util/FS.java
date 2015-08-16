@@ -285,9 +285,7 @@ public abstract class FS {
 	 * @since 3.3
 	 */
 	public void delete(File f) throws IOException {
-		if (!f.delete())
-			throw new IOException(MessageFormat.format(
-					JGitText.get().deleteFileFailed, f.getAbsolutePath()));
+		FileUtils.delete(f);
 	}
 
 	/**

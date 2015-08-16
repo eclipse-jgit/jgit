@@ -199,11 +199,6 @@ public class FS_Win32 extends FS {
 	}
 
 	@Override
-	public void delete(File path) throws IOException {
-		FileUtil.delete(path);
-	}
-
-	@Override
 	public long length(File f) throws IOException {
 		return FileUtil.getLength(f);
 	}
