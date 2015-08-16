@@ -19,6 +19,74 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_099e74b4",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/symlinks/SymlinksTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-08-16T15:04:15Z",
+      "side": 1,
+      "message": "We shouldn\u0027t be forced to change this class. Better have a FileEntry constructor with old signature which falls back to the Default FileModeStrategy.",
+      "revId": "4533e57ec2a1b1e8dd9da0338aab199716049357",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_29a378fb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-08-16T15:04:15Z",
+      "side": 1,
+      "message": "Maybe we could have a different name. dirNoGitLinks should be reserved for the native git dirNoGitLinks semantic. The semantic in this proposal which only looks at WorkingTree should be named differently (e.g. dirForceNoGitlinks)",
+      "revId": "4533e57ec2a1b1e8dd9da0338aab199716049357",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_e9bfa0a5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/DirectoryFlags.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-08-16T15:04:15Z",
+      "side": 1,
+      "message": "please remove this file",
+      "revId": "4533e57ec2a1b1e8dd9da0338aab199716049357",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_c9a3bcf9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-08-16T15:04:15Z",
+      "side": 1,
+      "message": "In the end we want native gits DIR_NO_GITLINK semantic. That would require (as discussed in the predecessor change https://git.eclipse.org/r/#/c/51405/) some logic to be in TreeWalk because we need access to WorkingTreeIterator AND DirCacheIterator.\n\nIn this change you are suggesting a more simple way which only looks at FileTreeIterator. I fear if we change the API like we discussed up to know we would have to change it again when full fledged DIR_NO_GITLINK comes. And we would have to move responsibility for mode detection from FileTreeIterator to TreeWalk. Looks not so good.\n\nI wanted to suggest a callback mechanism and played with it until I saw that it looks very much like your FileModeStrategy in https://git.eclipse.org/r/#/c/51483. If we have that change in first then you could implement your first strategy in this change quite easily. And later on we could implement a different strategy with access to dircache and people could choose based on their use case what fits best.\n\nTherefore I suggest we bring  https://git.eclipse.org/r/#/c/51483 in first. Sorry for this back and forth.",
+      "revId": "4533e57ec2a1b1e8dd9da0338aab199716049357",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_a82f698f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
         "patchSetId": 2
@@ -47,6 +115,52 @@
       "writtenOn": "2015-08-13T14:24:40Z",
       "side": 1,
       "message": "Also, I realize that I haven\u0027t added in the rest of the logic to correlate with the index yet, as per our earlier discussions.  I\u0027m still planning to do that, just want to make sure I get the API stuff right first.",
+      "revId": "4533e57ec2a1b1e8dd9da0338aab199716049357",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_c9ba9cb5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-08-16T15:04:15Z",
+      "side": 1,
+      "message": "please remove these commented lines",
+      "range": {
+        "startLine": 178,
+        "startChar": 8,
+        "endLine": 181,
+        "endChar": 28
+      },
+      "revId": "4533e57ec2a1b1e8dd9da0338aab199716049357",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_29ca5843",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-08-16T15:04:15Z",
+      "side": 1,
+      "message": "please remove this commented lines. We have git as version control system where all your older versions are available. No need to keep inactive code inside comments",
+      "range": {
+        "startLine": 227,
+        "startChar": 0,
+        "endLine": 230,
+        "endChar": 5
+      },
       "revId": "4533e57ec2a1b1e8dd9da0338aab199716049357",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
