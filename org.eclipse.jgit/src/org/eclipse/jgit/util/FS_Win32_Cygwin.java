@@ -184,11 +184,6 @@ public class FS_Win32_Cygwin extends FS_Win32 {
 	}
 
 	@Override
-	public void delete(File path) throws IOException {
-		FileUtil.delete(path);
-	}
-
-	@Override
 	public long length(File f) throws IOException {
 		return FileUtil.getLength(f);
 	}
