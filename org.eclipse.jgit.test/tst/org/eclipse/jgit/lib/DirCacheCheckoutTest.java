@@ -924,6 +924,299 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testCheckoutChangeLinkToEmptyDir() throws Exception {
+		String fname = "was_file";
+		Git git = Git.wrap(db);
+
+		// Add a file
+		writeTrashFile(fname, "a");
+		git.add().addFilepattern(fname).call();
+
+		// Add a link to file
+		String linkName = "link";
+		File link = writeLink(linkName, fname).toFile();
+		git.add().addFilepattern(linkName).call();
+		git.commit().setMessage("Added file and link").call();
+
+		assertWorkDir(mkmap(linkName, "a", fname, "a"));
+
+		// replace link with empty directory
+		FileUtils.delete(link);
+		FileUtils.mkdir(link);
+		assertTrue("Link must be a directory now", link.isDirectory());
+
+		// modify file
+		writeTrashFile(fname, "b");
+		assertWorkDir(mkmap(fname, "b", linkName, "/"));
+
+		// revert both paths to HEAD state
+		git.checkout().setStartPoint(Constants.HEAD)
+				.addPath(fname).addPath(linkName).call();
+
+		assertWorkDir(mkmap(fname, "a", linkName, "a"));
+
+		Status st = git.status().call();
+		assertTrue(st.isClean());
+	}
+
+	@Test
+	public void testCheckoutChangeLinkToEmptyDirs() throws Exception {
+		String fname = "was_file";
+		Git git = Git.wrap(db);
+
+		// Add a file
+		writeTrashFile(fname, "a");
+		git.add().addFilepattern(fname).call();
+
+		// Add a link to file
+		String linkName = "link";
+		File link = writeLink(linkName, fname).toFile();
+		git.add().addFilepattern(linkName).call();
+		git.commit().setMessage("Added file and link").call();
+
+		assertWorkDir(mkmap(linkName, "a", fname, "a"));
+
+		// replace link with directory containing only directories, no files
+		FileUtils.delete(link);
+		FileUtils.mkdirs(new File(link, "dummyDir"));
+		assertTrue("Link must be a directory now", link.isDirectory());
+
+		assertFalse("Must not delete non empty directory", link.delete());
+
+		// modify file
+		writeTrashFile(fname, "b");
+		assertWorkDir(mkmap(fname, "b", linkName + "/dummyDir", "/"));
+
+		// revert both paths to HEAD state
+		git.checkout().setStartPoint(Constants.HEAD)
+				.addPath(fname).addPath(linkName).call();
+
+		assertWorkDir(mkmap(fname, "a", linkName, "a"));
+
+		Status st = git.status().call();
+		assertTrue(st.isClean());
+	}
+
+	@Test
+	public void testCheckoutChangeLinkToNonEmptyDirs() throws Exception {
+		String fname = "file";
+		Git git = Git.wrap(db);
+
+		// Add a file
+		writeTrashFile(fname, "a");
+		git.add().addFilepattern(fname).call();
+
+		// Add a link to file
+		String linkName = "link";
+		File link = writeLink(linkName, fname).toFile();
+		git.add().addFilepattern(linkName).call();
+		git.commit().setMessage("Added file and link").call();
+
+		assertWorkDir(mkmap(linkName, "a", fname, "a"));
+
+		// replace link with directory containing only directories, no files
+		FileUtils.delete(link);
+
+		// create but do not add a file in the new directory to the index
+		writeTrashFile(linkName + "/dir1", "file1", "c");
+
+		// create but do not add a file in the new directory to the index
+		writeTrashFile(linkName + "/dir2", "file2", "d");
+
+		assertTrue("File must be a directory now", link.isDirectory());
+		assertFalse("Must not delete non empty directory", link.delete());
+
+		// 2 extra files are created
+		assertWorkDir(mkmap(fname, "a", linkName + "/dir1/file1", "c",
+				linkName + "/dir2/file2", "d"));
+
+		// revert path to HEAD state
+		git.checkout().setStartPoint(Constants.HEAD).addPath(linkName).call();
+
+		// expect only the one added to the index
+		assertWorkDir(mkmap(linkName, "a", fname, "a"));
+
+		Status st = git.status().call();
+		assertTrue(st.isClean());
+	}
+
+	@Test
+	public void testCheckoutChangeLinkToNonEmptyDirsAndNewIndexEntry()
+			throws Exception {
+		String fname = "file";
+		Git git = Git.wrap(db);
+
+		// Add a file
+		writeTrashFile(fname, "a");
+		git.add().addFilepattern(fname).call();
+
+		// Add a link to file
+		String linkName = "link";
+		File link = writeLink(linkName, fname).toFile();
+		git.add().addFilepattern(linkName).call();
+		git.commit().setMessage("Added file and link").call();
+
+		assertWorkDir(mkmap(linkName, "a", fname, "a"));
+
+		// replace link with directory containing only directories, no files
+		FileUtils.delete(link);
+
+		// create and add a file in the new directory to the index
+		writeTrashFile(linkName + "/dir1", "file1", "c");
+		git.add().addFilepattern(linkName + "/dir1/file1").call();
+
+		// create but do not add a file in the new directory to the index
+		writeTrashFile(linkName + "/dir2", "file2", "d");
+
+		assertTrue("File must be a directory now", link.isDirectory());
+		assertFalse("Must not delete non empty directory", link.delete());
+
+		// 2 extra files are created
+		assertWorkDir(mkmap(fname, "a", linkName + "/dir1/file1", "c",
+				linkName + "/dir2/file2", "d"));
+
+		// revert path to HEAD state
+		git.checkout().setStartPoint(Constants.HEAD).addPath(linkName).call();
+
+		// original file and link
+		assertWorkDir(mkmap(linkName, "a", fname, "a"));
+
+		Status st = git.status().call();
+		assertFalse(st.isClean());
+	}
+
+	@Test
+	public void testCheckoutChangeFileToEmptyDir() throws Exception {
+		String fname = "was_file";
+		Git git = Git.wrap(db);
+
+		// Add a file
+		File file = writeTrashFile(fname, "a");
+		git.add().addFilepattern(fname).call();
+		git.commit().setMessage("Added file").call();
+
+		// replace file with empty directory
+		FileUtils.delete(file);
+		FileUtils.mkdir(file);
+		assertTrue("File must be a directory now", file.isDirectory());
+
+		assertWorkDir(mkmap(fname, "/"));
+
+		// revert path to HEAD state
+		git.checkout().setStartPoint(Constants.HEAD).addPath(fname).call();
+
+		assertWorkDir(mkmap(fname, "a"));
+
+		Status st = git.status().call();
+		assertTrue(st.isClean());
+	}
+
+	@Test
+	public void testCheckoutChangeFileToEmptyDirs() throws Exception {
+		String fname = "was_file";
+		Git git = Git.wrap(db);
+
+		// Add a file
+		File file = writeTrashFile(fname, "a");
+		git.add().addFilepattern(fname).call();
+		git.commit().setMessage("Added file").call();
+
+		// replace file with directory containing only directories, no files
+		FileUtils.delete(file);
+		FileUtils.mkdirs(new File(file, "dummyDir"));
+		assertTrue("File must be a directory now", file.isDirectory());
+		assertFalse("Must not delete non empty directory", file.delete());
+
+		assertWorkDir(mkmap(fname + "/dummyDir", "/"));
+
+		// revert path to HEAD state
+		git.checkout().setStartPoint(Constants.HEAD).addPath(fname).call();
+
+		assertWorkDir(mkmap(fname, "a"));
+
+		Status st = git.status().call();
+		assertTrue(st.isClean());
+	}
+
+	@Test
+	public void testCheckoutChangeFileToNonEmptyDirs() throws Exception {
+		String fname = "was_file";
+		Git git = Git.wrap(db);
+
+		// Add a file
+		File file = writeTrashFile(fname, "a");
+		git.add().addFilepattern(fname).call();
+		git.commit().setMessage("Added file").call();
+
+		assertWorkDir(mkmap(fname, "a"));
+
+		// replace file with directory containing only directories, no files
+		FileUtils.delete(file);
+
+		// create but do not add a file in the new directory to the index
+		writeTrashFile(fname + "/dir1", "file1", "c");
+
+		// create but do not add a file in the new directory to the index
+		writeTrashFile(fname + "/dir2", "file2", "d");
+
+		assertTrue("File must be a directory now", file.isDirectory());
+		assertFalse("Must not delete non empty directory", file.delete());
+
+		// 2 extra files are created
+		assertWorkDir(
+				mkmap(fname + "/dir1/file1", "c", fname + "/dir2/file2", "d"));
+
+		// revert path to HEAD state
+		git.checkout().setStartPoint(Constants.HEAD).addPath(fname).call();
+
+		// expect only the one added to the index
+		assertWorkDir(mkmap(fname, "a"));
+
+		Status st = git.status().call();
+		assertTrue(st.isClean());
+	}
+
+	@Test
+	public void testCheckoutChangeFileToNonEmptyDirsAndNewIndexEntry()
+			throws Exception {
+		String fname = "was_file";
+		Git git = Git.wrap(db);
+
+		// Add a file
+		File file = writeTrashFile(fname, "a");
+		git.add().addFilepattern(fname).call();
+		git.commit().setMessage("Added file").call();
+
+		assertWorkDir(mkmap(fname, "a"));
+
+		// replace file with directory containing only directories, no files
+		FileUtils.delete(file);
+
+		// create and add a file in the new directory to the index
+		writeTrashFile(fname + "/dir", "file1", "c");
+		git.add().addFilepattern(fname + "/dir/file1").call();
+
+		// create but do not add a file in the new directory to the index
+		writeTrashFile(fname + "/dir", "file2", "d");
+
+		assertTrue("File must be a directory now", file.isDirectory());
+		assertFalse("Must not delete non empty directory", file.delete());
+
+		// 2 extra files are created
+		assertWorkDir(
+				mkmap(fname + "/dir/file1", "c", fname + "/dir/file2", "d"));
+
+		// revert path to HEAD state
+		git.checkout().setStartPoint(Constants.HEAD).addPath(fname).call();
+		assertWorkDir(mkmap(fname, "a"));
+
+		Status st = git.status().call();
+		assertFalse(st.isClean());
+		assertEquals(1, st.getAdded().size());
+		assertTrue(st.getAdded().contains(fname + "/dir/file1"));
+	}
+
+	@Test
 	public void testCheckoutOutChangesAutoCRLFfalse() throws IOException {
 		setupCase(mk("foo"), mkmap("foo/bar", "foo\nbar"), mk("foo"));
 		checkout();
@@ -1021,6 +1314,102 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 		git.checkout().setName("master").call();
 		assertWorkDir(mkmap(fname, "b"));
 		assertTrue(git.status().call().isClean());
+	}
+
+	@Test
+	public void testOverwriteUntrackedFileModeChange()
+			throws IOException, GitAPIException {
+		String fname = "file.txt";
+		Git git = Git.wrap(db);
+
+		// Add a file
+		File file = writeTrashFile(fname, "a");
+		git.add().addFilepattern(fname).call();
+		git.commit().setMessage("create file").call();
+		assertWorkDir(mkmap(fname, "a"));
+
+		// Create branch
+		git.branchCreate().setName("side").call();
+
+		// Switch branches
+		git.checkout().setName("side").call();
+
+		// replace file with directory containing files
+		FileUtils.delete(file);
+
+		// create and add a file in the new directory to the index
+		writeTrashFile(fname + "/dir1", "file1", "c");
+		git.add().addFilepattern(fname + "/dir1/file1").call();
+
+		// create but do not add a file in the new directory to the index
+		writeTrashFile(fname + "/dir2", "file2", "d");
+
+		assertTrue("File must be a directory now", file.isDirectory());
+		assertFalse("Must not delete non empty directory", file.delete());
+
+		// 2 extra files are created
+		assertWorkDir(
+				mkmap(fname + "/dir1/file1", "c", fname + "/dir2/file2", "d"));
+
+		try {
+			git.checkout().setName("master").call();
+			fail("did not throw exception");
+		} catch (Exception e) {
+			// 2 extra files are still there
+			assertWorkDir(mkmap(fname + "/dir1/file1", "c",
+					fname + "/dir2/file2", "d"));
+		}
+	}
+
+	@Test
+	public void testOverwriteUntrackedLinkModeChange()
+			throws Exception {
+		String fname = "file.txt";
+		Git git = Git.wrap(db);
+
+		// Add a file
+		writeTrashFile(fname, "a");
+		git.add().addFilepattern(fname).call();
+
+		// Add a link to file
+		String linkName = "link";
+		File link = writeLink(linkName, fname).toFile();
+		git.add().addFilepattern(linkName).call();
+		git.commit().setMessage("Added file and link").call();
+
+		assertWorkDir(mkmap(linkName, "a", fname, "a"));
+
+		// Create branch
+		git.branchCreate().setName("side").call();
+
+		// Switch branches
+		git.checkout().setName("side").call();
+
+		// replace link with directory containing files
+		FileUtils.delete(link);
+
+		// create and add a file in the new directory to the index
+		writeTrashFile(linkName + "/dir1", "file1", "c");
+		git.add().addFilepattern(linkName + "/dir1/file1").call();
+
+		// create but do not add a file in the new directory to the index
+		writeTrashFile(linkName + "/dir2", "file2", "d");
+
+		assertTrue("Link must be a directory now", link.isDirectory());
+		assertFalse("Must not delete non empty directory", link.delete());
+
+		// 2 extra files are created
+		assertWorkDir(mkmap(fname, "a", linkName + "/dir1/file1", "c",
+				linkName + "/dir2/file2", "d"));
+
+		try {
+			git.checkout().setName("master").call();
+			fail("did not throw exception");
+		} catch (Exception e) {
+			// 2 extra files are still there
+			assertWorkDir(mkmap(fname, "a", linkName + "/dir1/file1", "c",
+					linkName + "/dir2/file2", "d"));
+		}
 	}
 
 	@Test
@@ -1219,7 +1608,8 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 		assertNotNull(git.checkout().setName(Constants.MASTER).call());
 	}
 
-	public void assertWorkDir(HashMap<String, String> i) throws CorruptObjectException,
+	public void assertWorkDir(Map<String, String> i)
+			throws CorruptObjectException,
 			IOException {
 		TreeWalk walk = new TreeWalk(db);
 		walk.setRecursive(false);
