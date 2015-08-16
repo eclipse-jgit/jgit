@@ -165,15 +165,6 @@ public class FileUtil {
 		return path.canExecute();
 	}
 
-	/**
-	 * @param path
-	 * @throws IOException
-	 */
-	public static void delete(File path) throws IOException {
-		Path nioPath = path.toPath();
-		Files.delete(nioPath);
-	}
-
 	static Attributes getFileAttributesBasic(FS fs, File path) {
 		try {
 			Path nioPath = path.toPath();
