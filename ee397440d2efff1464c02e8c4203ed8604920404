@@ -247,6 +247,24 @@
       "revId": "ee397440d2efff1464c02e8c4203ed8604920404",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_df9b6a7d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-08-17T09:16:36Z",
+      "side": 1,
+      "message": "I hoped that having one constructor taking a FileModeStrategy and another one without that is ok. Knowledge about the WorkingTreeOptions (read from the config) is only needed by those\nwho want to create instances of FileModeStrategy. FileEntry itself does not need access to config/WorkingTreeOptions because it delegates everything to FileModeStrategy.\n\nIt\u0027s right: users which use the old API without specifying a FileModeStrategy will get a FileEntry with default default behaviour (no DIR_NO_GITLINKS). And the rest of JGit will use FileTreeIterators with FileModeStrategy and then we have different semantics when using a low-level API and when calling high-level (e.g. Git.open()....status().call()). That\u0027s not nice. One solution would be to remove (or at least deprecate) the constructor which is not taking a FileModeStrategy.\n\nI guess we don\u0027t have so many callers of FileEntry constructors. I see it in tests, one place in EGit and FileTreeITerator itself. All those have the possibility to construct a proper FileModeStrategy.\n\nBut I agree, there may be people outside using FileEntry constructors and which do the config variable for dir_no_gitlinks set. Only those people will have problems. Since we introduce this config variable currently (and even native git doesn\u0027t know such a config variable) chances are quite small that we hit this problem, or?",
+      "parentUuid": "2721e7e2_6c31fe74",
+      "revId": "ee397440d2efff1464c02e8c4203ed8604920404",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
