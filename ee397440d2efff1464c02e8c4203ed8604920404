@@ -265,6 +265,24 @@
       "revId": "ee397440d2efff1464c02e8c4203ed8604920404",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_5f8f7a39",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 37145
+      },
+      "writtenOn": "2015-08-17T09:24:08Z",
+      "side": 1,
+      "message": "OK, I think you are probably right.  It seems like it might be a good idea to deprecate the old constructor and include some documentation about why it might cause problems.\n\nI think I was getting a little confused because I was thinking that, for the full-fledged DIR_NO_GITLINKS implementation, there will still be some changes in behavior for the default use case, because JGit currently does not have the same semantics as cgit (for example, in cgit, if you do \"git add foo/bar.txt\", and \"foo\" contains a .git directory, cgit will not create a gitlink, regardless of the value of DIR_NO_GITLINKS).  And I was thinking that that change in behavior was at risk of not working properly with the old FileEntry constructor...\n\nBut now that I have read your comment and am thinking about it a bit more, it seems like the situation that I described above will end up being an implementation detail for the DefaultFileModeStrategy, and so, you\u0027re right that users who called the old constructor would still see those changes.\n\nI think I understand now; I will go ahead and start working on cleaning up this PR and adding tests ASAP.",
+      "parentUuid": "2721e7e2_df9b6a7d",
+      "revId": "ee397440d2efff1464c02e8c4203ed8604920404",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
