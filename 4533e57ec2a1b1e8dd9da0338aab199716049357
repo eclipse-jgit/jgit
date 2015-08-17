@@ -105,6 +105,24 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_cc18ea03",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 37145
+      },
+      "writtenOn": "2015-08-17T05:45:59Z",
+      "side": 1,
+      "message": "Oh, gosh, I\u0027m sorry, I missed the last paragraph of what you said above.\n\nSo you\u0027re saying that you think it will be easier to build the full DIR_NO_GITLINKS support in this branch after merging a patch like the FileModeStrategy one.  I understand now.\n\nI will go back to that patch and work on it further.  I will still probably be interested in working on this one afterwards if you are interested in having it.  And again, please ignore the comments and javadoc mess, I would definitely fix them up before submitting a final patch for merge.\n\nWill try to get that other branch fixed up today or tomorrow.",
+      "parentUuid": "2721e7e2_8c1712d3",
+      "revId": "4533e57ec2a1b1e8dd9da0338aab199716049357",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_a82f698f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
         "patchSetId": 2
