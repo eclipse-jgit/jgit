@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_2c28a60d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 37145
+      },
+      "writtenOn": "2015-08-17T05:59:21Z",
+      "side": 1,
+      "message": "I was actually using a different editor besides Eclipse for this.  I\u0027ll try opening it in Eclipse so that I can see what warnings it is giving you.",
+      "parentUuid": "2721e7e2_ac601602",
+      "revId": "ee397440d2efff1464c02e8c4203ed8604920404",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_8c63920c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
         "patchSetId": 1
@@ -87,6 +105,24 @@
       "writtenOn": "2015-08-16T17:40:03Z",
       "side": 1,
       "message": "If p happens to be a FileTreeIterator (which is very likely) then we should use p.fileModeStrategy instead of the default one.\nMaybe a test would be great where we see that FileTreeIterator instances created for subtrees contain the same FileModeStrategy instance than the parent.",
+      "revId": "ee397440d2efff1464c02e8c4203ed8604920404",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_4c34fa64",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 37145
+      },
+      "writtenOn": "2015-08-17T05:59:21Z",
+      "side": 1,
+      "message": "Yes, if you\u0027d like to move forward with this branch it definitely needs some tests.\n\nI would like to hear your thoughts on whether or not the simple constructor for FileEntry is going to be a problem before I do the rest of the work for this branch, but if you think that will be OK and you\u0027d like me to finish off this branch I will clean everything up and add some tests.\n\nThanks again for your review.",
+      "parentUuid": "2721e7e2_0cfde2a3",
       "revId": "ee397440d2efff1464c02e8c4203ed8604920404",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -190,6 +226,24 @@
       "writtenOn": "2015-08-16T17:40:03Z",
       "side": 1,
       "message": "Eclipse complains about a missing javadoc for an public method. The javadoc should contain @since tag",
+      "revId": "ee397440d2efff1464c02e8c4203ed8604920404",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_6c31fe74",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 37145
+      },
+      "writtenOn": "2015-08-17T05:59:21Z",
+      "side": 1,
+      "message": "I still have a concern here...\n\nYou\u0027d suggested that you like the idea of having the full DIR_NO_GITLINKS functionality, and that you\u0027d imagine it being a setting on the Repo\u0027s \"Config\" object, so that it would affect all instances of FileTreeIterator/FileEntry.\n\nI\u0027m afraid that without changing the constructor for FileEntry (or changing something else about FileEntry) in such a way that it would have access to the config object, or such that FileModeStrategy was a required argument, then there is still a risk of weird edge cases here.\n\nSo, e.g., let\u0027s say I clean up this branch and we get it merged.  Then I file a follow-up patch that implements DirNoGitLinksStrategy, and changes the default implementation of FileTreeIterator such that it builds up the correct FileModeStrategy based on Config, and passes that in to the alternate FileEntry constructor.\n\nIn that case, if a user calls \"new FileEntry\" from their code, using the old constructor, they will not get the same behavior as the FileTreeIterator / Config would have given them.  That seems bad?\n\nBasically, it seems to me that the current single signature for the FileEntry constructor is not sufficient.  Do you disagree?\n\nWould it be possible to make all of the constructors for FileEntry private and provide some other method, like FileTreeIterator.getFileEntry or Repository.getFileEntry to construct them?",
+      "parentUuid": "2721e7e2_cc4bca7e",
       "revId": "ee397440d2efff1464c02e8c4203ed8604920404",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
