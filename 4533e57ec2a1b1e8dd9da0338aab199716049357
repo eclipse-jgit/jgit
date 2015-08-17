@@ -87,6 +87,24 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_8c1712d3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 37145
+      },
+      "writtenOn": "2015-08-17T05:37:20Z",
+      "side": 1,
+      "message": "Thanks again for the reply.\n\nI\u0027m sorry if I didn\u0027t make it clear, but I completely agree with you about wanting the full \"DIR_NO_GITLINK\" semantic, and if that is the goal then I am hoping that we will be able to just close https://git.eclipse.org/r/#/c/51483 without merging it.\n\nI am not suggesting \"a more simple way which only looks at FileTreeIterator\"; I know that this branch does not implement the full semantics of DIR_NO_GITLINK *yet*, and that it has a lot of comments and mess in it that need cleanup.  My intent is to fix all of the messy code, javadocs, comments, etc. as well as adding full DIR_NO_GITLINK support in the way we discussed before, along with all of the tests that we discussed before.  Only at that point in time would I suggest merging the branch.\n\nHowever, I keep getting stuck on API issues that prevent me from completing the work and I don\u0027t want to invest too much time in the remaining cleanup and DIR_NO_GITLINKS work until I\u0027ve verified with you that the proposed API will be satisfactory.\n\nWhat I am stuck on now is that I do not see any way to implement the full DIR_NO_GITLINKS functionality without changing the constructor signature for the FileEntry class, because it does not currently have any way to access the Config object for the repo.  I don\u0027t think I can build anymore of the real DIR_NO_GITLINKS functionality until I understand what would be an acceptable API change that would allow me to get access to the Config object from inside that class.\n\nI\u0027m sorry for the confusion; I am not sure what is the best way to organize a conversation / question with you.  I imagine that it is hard to jump around through all of the Gerritt comments so I will copy and paste this comment into the bug report as well.  I would also be happy to chat on IRC any time if that would be easier.\n\nThanks again.",
+      "parentUuid": "2721e7e2_c9a3bcf9",
+      "revId": "4533e57ec2a1b1e8dd9da0338aab199716049357",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_a82f698f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
         "patchSetId": 2
