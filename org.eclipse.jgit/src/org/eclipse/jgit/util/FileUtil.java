@@ -66,6 +66,31 @@ public class FileUtil {
 
 	/**
 	 * @param path
+	 * @return target path of the symlink
+	 * @throws IOException
+	 * @deprecated use {@link FileUtils#readSymLink(File)} instead
+	 */
+	@Deprecated
+	public static String readSymlink(File path) throws IOException {
+		return FileUtils.readSymLink(path);
+	}
+
+	/**
+	 * @param path
+	 *            path of the symlink to be created
+	 * @param target
+	 *            target of the symlink to be created
+	 * @throws IOException
+	 * @deprecated use {@link FileUtils#createSymLink(File, String)} instead
+	 */
+	@Deprecated
+	public static void createSymLink(File path, String target)
+			throws IOException {
+		FileUtils.createSymLink(path, target);
+	}
+
+	/**
+	 * @param path
 	 * @return {@code true} if the passed path is a symlink
 	 */
 	public static boolean isSymlink(File path) {
