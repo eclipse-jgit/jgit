@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2721e7e2_ee231e57",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-08-18T11:58:40Z",
+      "side": 0,
+      "message": "we should not do breaking API changes in a minor release, deprecate this method and delegate to FileUtils.delete()",
+      "revId": "548ba66a377e74e4dce35545798738509fea129b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
