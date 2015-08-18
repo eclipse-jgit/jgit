@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2721e7e2_93cc4934",
+        "filename": "org.eclipse.jgit.archive/.settings/org.eclipse.jdt.core.prefs",
+        "patchSetId": 6
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-08-18T07:54:52Z",
+      "side": 1,
+      "message": "why is this now ignored ?",
+      "revId": "89456ac6fd412472bd43b6f61ca1ea437fc87223",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
