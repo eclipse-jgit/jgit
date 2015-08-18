@@ -16,6 +16,24 @@
       "revId": "89456ac6fd412472bd43b6f61ca1ea437fc87223",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_73e6f5a6",
+        "filename": "org.eclipse.jgit.archive/.settings/org.eclipse.jdt.core.prefs",
+        "patchSetId": 6
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-08-18T08:07:12Z",
+      "side": 1,
+      "message": "Honestly, I can\u0027t remember. I\u0027ve made a setup which had no new \"compile errors\". I can load the patch this night and play with it again.",
+      "parentUuid": "2721e7e2_93cc4934",
+      "revId": "89456ac6fd412472bd43b6f61ca1ea437fc87223",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
