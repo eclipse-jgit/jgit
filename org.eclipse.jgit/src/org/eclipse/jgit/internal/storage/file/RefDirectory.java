@@ -98,6 +98,8 @@ import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.RefList;
 import org.eclipse.jgit.util.RefMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Traditional file system based {@link RefDatabase}.
@@ -115,6 +117,9 @@ import org.eclipse.jgit.util.RefMap;
  * overall size of a Git repository on disk.
  */
 public class RefDirectory extends RefDatabase {
+	private final static Logger LOG = LoggerFactory
+			.getLogger(RefDirectory.class);
+
 	/** Magic string denoting the start of a symbolic reference file. */
 	public static final String SYMREF = "ref: "; //$NON-NLS-1$
 
@@ -746,22 +751,37 @@ public class RefDirectory extends RefDatabase {
 	}
 
 	private PackedRefList readPackedRefs() throws IOException {
-		final FileSnapshot snapshot = FileSnapshot.save(packedRefsFile);
-		final BufferedReader br;
-		final MessageDigest digest = Constants.newMessageDigest();
-		try {
-			br = new BufferedReader(new InputStreamReader(
-					new DigestInputStream(new FileInputStream(packedRefsFile),
-							digest), CHARSET));
-		} catch (FileNotFoundException noPackedRefs) {
-			// Ignore it and leave the new list empty.
-			return PackedRefList.NO_PACKED_REFS;
-		}
-		try {
-			return new PackedRefList(parsePackedRefs(br), snapshot,
-					ObjectId.fromRaw(digest.digest()));
-		} finally {
-			br.close();
+		int maxStaleRetries = 5;
+		int retries = 0;
+		while (true) {
+			final FileSnapshot snapshot = FileSnapshot.save(packedRefsFile);
+			final BufferedReader br;
+			final MessageDigest digest = Constants.newMessageDigest();
+			try {
+				br = new BufferedReader(new InputStreamReader(
+						new DigestInputStream(new FileInputStream(packedRefsFile),
+								digest), CHARSET));
+			} catch (FileNotFoundException noPackedRefs) {
+				// Ignore it and leave the new list empty.
+				return PackedRefList.NO_PACKED_REFS;
+			}
+			try {
+				return new PackedRefList(parsePackedRefs(br), snapshot,
+						ObjectId.fromRaw(digest.digest()));
+			} catch (IOException e) {
+				if (FileUtils.isStaleFileHandle(e) && retries < maxStaleRetries) {
+					if (LOG.isDebugEnabled()) {
+						LOG.debug(MessageFormat.format(
+								JGitText.get().packedRefsHandleIsStale,
+								Integer.valueOf(retries)), e);
+					}
+					retries++;
+					continue;
+				}
+				throw e;
+			} finally {
+				br.close();
+			}
 		}
 	}
 
