@@ -1,0 +1,20 @@
+target "jetty-9.2.13" with source configurePhase
+
+location jetty-9.2.13 "http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/9.2.13.v20150730/" {
+	org.eclipse.jetty.client [9.2.13.v20150730,9.2.13.v20150730]
+	org.eclipse.jetty.client.source [9.2.13.v20150730,9.2.13.v20150730]
+	org.eclipse.jetty.continuation [9.2.13.v20150730,9.2.13.v20150730]
+	org.eclipse.jetty.continuation.source [9.2.13.v20150730,9.2.13.v20150730]
+	org.eclipse.jetty.http [9.2.13.v20150730,9.2.13.v20150730]
+	org.eclipse.jetty.http.source [9.2.13.v20150730,9.2.13.v20150730]
+	org.eclipse.jetty.io [9.2.13.v20150730,9.2.13.v20150730]
+	org.eclipse.jetty.io.source [9.2.13.v20150730,9.2.13.v20150730]
+	org.eclipse.jetty.security [9.2.13.v20150730,9.2.13.v20150730]
+	org.eclipse.jetty.security.source [9.2.13.v20150730,9.2.13.v20150730]
+	org.eclipse.jetty.server [9.2.13.v20150730,9.2.13.v20150730]
+	org.eclipse.jetty.server.source [9.2.13.v20150730,9.2.13.v20150730]
+	org.eclipse.jetty.servlet [9.2.13.v20150730,9.2.13.v20150730]
+	org.eclipse.jetty.servlet.source [9.2.13.v20150730,9.2.13.v20150730]
+	org.eclipse.jetty.util [9.2.13.v20150730,9.2.13.v20150730]
+	org.eclipse.jetty.util.source [9.2.13.v20150730,9.2.13.v20150730]
+}
