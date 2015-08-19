@@ -746,22 +746,32 @@ public class RefDirectory extends RefDatabase {
 	}
 
 	private PackedRefList readPackedRefs() throws IOException {
-		final FileSnapshot snapshot = FileSnapshot.save(packedRefsFile);
-		final BufferedReader br;
-		final MessageDigest digest = Constants.newMessageDigest();
-		try {
-			br = new BufferedReader(new InputStreamReader(
-					new DigestInputStream(new FileInputStream(packedRefsFile),
-							digest), CHARSET));
-		} catch (FileNotFoundException noPackedRefs) {
-			// Ignore it and leave the new list empty.
-			return PackedRefList.NO_PACKED_REFS;
-		}
-		try {
-			return new PackedRefList(parsePackedRefs(br), snapshot,
-					ObjectId.fromRaw(digest.digest()));
-		} finally {
-			br.close();
+		int maxStaleRetries = 5;
+		int retries = 0;
+		while (true) {
+			final FileSnapshot snapshot = FileSnapshot.save(packedRefsFile);
+			final BufferedReader br;
+			final MessageDigest digest = Constants.newMessageDigest();
+			try {
+				br = new BufferedReader(new InputStreamReader(
+						new DigestInputStream(new FileInputStream(packedRefsFile),
+								digest), CHARSET));
+			} catch (FileNotFoundException noPackedRefs) {
+				// Ignore it and leave the new list empty.
+				return PackedRefList.NO_PACKED_REFS;
+			}
+			try {
+				return new PackedRefList(parsePackedRefs(br), snapshot,
+						ObjectId.fromRaw(digest.digest()));
+			} catch (IOException e) {
+				if (FileUtils.isStaleFileHandle(e) && retries < maxStaleRetries) {
+					retries++;
+					continue;
+				}
+				throw e;
+			} finally {
+				br.close();
+			}
 		}
 	}
 
