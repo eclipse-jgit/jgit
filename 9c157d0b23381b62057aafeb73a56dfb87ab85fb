@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_877a392d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-08-20T21:17:13Z",
+      "side": 1,
+      "message": "You have to clean build the jgit project after applying the compiler option change. \n\n*All* 5 occurencies of @SuppressWarnings(\"null\") are flagged as \"Unnecessary @SuppressWarnings(\"null\")\" warnings by the compiler. This annotation works for \"warnings\" level only, but if the compiler option is set to produce errors, annotation will be not considered at all and so it is flagged as useless.",
+      "parentUuid": "2721e7e2_27ac2d75",
+      "revId": "9c157d0b23381b62057aafeb73a56dfb87ab85fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_27838de2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheTree.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2015-08-20T19:51:25Z",
       "side": 1,
       "message": "why is cc \u003d -1 in this case ?",
+      "revId": "9c157d0b23381b62057aafeb73a56dfb87ab85fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_6775853c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheTree.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-08-20T21:17:13Z",
+      "side": 1,
+      "message": "if stIdx \u003e\u003d childCnt, \"st\" was null in the original version.\nIf st \u003d\u003d null, cc \u003d namecmp() always produced -1.\n\nSo one can write that if (stIdx \u003e\u003d childCnt) { cc \u003d -1 }",
+      "parentUuid": "2721e7e2_27838de2",
       "revId": "9c157d0b23381b62057aafeb73a56dfb87ab85fb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_47c321d2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheTree.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-08-20T21:17:13Z",
+      "side": 1,
+      "message": "Original code didn\u0027t reach this line if cc \u003e 0, see \"continue\" at line 459 in the old code, and also would not reach this line if st \u003d\u003d null because this would mean cc \u003d\u003d -1 (cc \u003d namecmp() always produced -1 if st \u003d\u003d null).\n\nSo we are here only if cc \u003c\u003d 0 or if st \u003d\u003d children[stIdx] in the old code. However, old code always assigned st to new DirCacheTree if cc \u003c 0. Therefore the only choice here is children[stIdx].",
+      "parentUuid": "2721e7e2_07712985",
+      "revId": "9c157d0b23381b62057aafeb73a56dfb87ab85fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_8764f9c4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
         "patchSetId": 4
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_c7b6f16f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 539,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-08-20T21:17:13Z",
+      "side": 1,
+      "message": "I partly agree (the change on the client side isn\u0027t really bad), but I see no other way to make compiler happy, because it cannot understand that validate \u003d\u003d true automatically means crc1 !\u003d null and crc2 !\u003d null (the ternary operator makes compiler unhappy).\n\nAnother option would be to duplicate the entire body of this method by creating a second one (so to have copyAsIs() and copyWithValidation()), but this will produce lot of duplicated, very complicated code.",
+      "parentUuid": "2721e7e2_8764f9c4",
+      "revId": "9c157d0b23381b62057aafeb73a56dfb87ab85fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_a7693d9b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
         "patchSetId": 4
@@ -81,6 +153,24 @@
       "writtenOn": "2015-08-20T19:51:25Z",
       "side": 1,
       "message": "moving this code to the callers is ugly since it\u0027s violating DRY principle",
+      "revId": "9c157d0b23381b62057aafeb73a56dfb87ab85fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_e7a2152a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-08-20T21:17:13Z",
+      "side": 1,
+      "message": "I partly agree (the change on the client side isn\u0027t really bad), but I see no other way to make compiler happy, because it cannot understand that validate \u003d\u003d true automatically means crc1 !\u003d null and crc2 !\u003d null (the ternary operator makes compiler unhappy).\n\nAnother option would be to duplicate the entire body of this method by creating a second one (so to have copyAsIs() and copyWithValidation()), but this will produce lot of duplicated, very complicated code.",
+      "parentUuid": "2721e7e2_a7693d9b",
       "revId": "9c157d0b23381b62057aafeb73a56dfb87ab85fb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -110,6 +200,30 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_874519ce",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 811,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-08-20T21:17:13Z",
+      "side": 1,
+      "message": "Actually delta \u003d\u003d null can never happen at this location, but for whatever reason compiler can\u0027t see it.\n\nSo the extra condition is for compiler only.\n\nInstead we could just add \nassert(delta !\u003d null); before if condition, which also would make compiler happy.",
+      "parentUuid": "2721e7e2_07c3e904",
+      "range": {
+        "startLine": 811,
+        "startChar": 23,
+        "endLine": 811,
+        "endChar": 36
+      },
+      "revId": "9c157d0b23381b62057aafeb73a56dfb87ab85fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_47cde12d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 4
@@ -121,6 +235,24 @@
       "writtenOn": "2015-08-20T19:51:25Z",
       "side": 1,
       "message": "this seems unrelated to this change",
+      "revId": "9c157d0b23381b62057aafeb73a56dfb87ab85fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_6740e5ba",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1042,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-08-20T21:17:13Z",
+      "side": 1,
+      "message": "This is required to let compiler know that getSnapshot() never returns null. Otherwise compiler produces errors at lines 923 and 937 in the old code.",
+      "parentUuid": "2721e7e2_47cde12d",
       "revId": "9c157d0b23381b62057aafeb73a56dfb87ab85fb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -144,6 +276,24 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_a73add49",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1071,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-08-20T21:17:13Z",
+      "side": 1,
+      "message": "This is to make sure the caller will not violate the NonNull contract of the getSnapshot().",
+      "parentUuid": "2721e7e2_87d6b9bc",
+      "revId": "9c157d0b23381b62057aafeb73a56dfb87ab85fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_a7dbfde2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 4
@@ -161,6 +311,24 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_07dda98e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1090,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-08-20T21:17:13Z",
+      "side": 1,
+      "message": "This is to make sure the caller will not violate the NonNull contract of the getSnapshot().",
+      "parentUuid": "2721e7e2_a7dbfde2",
+      "revId": "9c157d0b23381b62057aafeb73a56dfb87ab85fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_07eac96c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 4
@@ -172,6 +340,24 @@
       "writtenOn": "2015-08-20T19:51:25Z",
       "side": 1,
       "message": "this seems unrelated to this change",
+      "revId": "9c157d0b23381b62057aafeb73a56dfb87ab85fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_87d07972",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1114,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-08-20T21:17:13Z",
+      "side": 1,
+      "message": "This is to make sure the caller will not violate the NonNull contract of the getSnapshot().",
+      "parentUuid": "2721e7e2_07eac96c",
       "revId": "9c157d0b23381b62057aafeb73a56dfb87ab85fb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
