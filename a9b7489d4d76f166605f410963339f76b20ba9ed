@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2721e7e2_625f33f3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1158,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-08-21T07:06:09Z",
+      "side": 1,
+      "message": "I think your change fixes JGit to that extend that it enables the \"git checkout HEAD -- \u003cx\u003e \u003cy\u003e\". JGit was failing on that before. But we should take care not to delete untracked files during a \"git checkout HEAD\".\n\nGit normally takes care not to delete unsaved (especially untracked) files in the filesystem. Native git will fail to do a standard checkout of a branch when he has to delete/modify unsaved file content to achieve that. But if you tell git explicitly that he should overwrite/delete certain files then git thinks you are aware of that you are about to loose data and will do it. You would say \"git checkout -f ...\" or \"git checkout HEAD -- \u003cx\u003e \u003cy\u003e\" to tell git about that. That\u0027s why your test cases are green. In your tests you do \"git checkout HEAD -- \u003cx\u003e \u003cy\u003e\" and in this case you are allowed to overwrite \u003cx\u003e or \u003cy\u003e.\n\nHave you thought about that? To be honest I tried to contribute a test which shows my concerns but couldn\u0027t produce one. JGit behaved well with your change. The thing is that we typically don\u0027t enter \"checkoutEntry\" for really untracked files. So maybe you are aware about that point.\n\nSee here how native git doesnt delete untracked files unless \"checkout -f\" or \"checkout -- \u003cpath\u003e\" is used:\n\n  + git init test\n  Initialized empty Git repository in /tmp/f/test/.git/\n  + cd test\n  + mkdir d\n  + touch d/a\n  + git add d/a\n  + git commit -m \u0027add d/a\u0027\n  [master (root-commit) d16db8e] add d/a\n   1 file changed, 0 insertions(+), 0 deletions(-)\n   create mode 100644 d/a\n  + git branch side\n  + mkdir d2\n  + touch d2/b\n  + git add d2/b\n  + git commit -m \u0027add d2/b\u0027\n  [master 34d3eb2] add d2/b\n   1 file changed, 0 insertions(+), 0 deletions(-)\n   create mode 100644 d2/b\n  + git checkout side\n  Switched to branch \u0027side\u0027\n  + mkdir d2\n  + echo important\n  + git status\n  On branch side\n  Untracked files:\n    (use \"git add \u003cfile\u003e...\" to include in what will be committed)\n \n        d2/\n \n  nothing added to commit but untracked files present (use \"git add\" to track)\n  + git checkout master\n  error: The following untracked working tree files would be overwritten by checkout:\n        d2/b\n  Please move or remove them before you can switch branches.\n  Aborting\n  + git checkout master -- d2",
+      "range": {
+        "startLine": 1158,
+        "startChar": 31,
+        "endLine": 1158,
+        "endChar": 33
+      },
+      "revId": "a9b7489d4d76f166605f410963339f76b20ba9ed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
