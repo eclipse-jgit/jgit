@@ -22,6 +22,30 @@
       "revId": "a9b7489d4d76f166605f410963339f76b20ba9ed",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_021597fd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1158,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-08-21T07:26:39Z",
+      "side": 1,
+      "message": "I\u0027m not sure if I\u0027ve fixed  \"git checkout HEAD -- \u003cx\u003e \u003cy\u003e\" - this was not the goal, since I haven\u0027t noticed that jgit can\u0027t do this and also never tested if this works in all cases. Do you have an example where \"git checkout HEAD -- \u003cx\u003e \u003cy\u003e\" fails? Do we have a bug for this?\n\nThe intent of this patch is to only fix jgit behavior if we want to checkout file (or link) but find a *directory* instead, see line 1157 in the patch. JGit always tried to delete that \"file\" which of course always failed if the *directory* was not empty.\n\nI haven\u0027t checked however if this code affects  \"git checkout HEAD\" behavior. I will grok about this on weekend.",
+      "parentUuid": "2721e7e2_625f33f3",
+      "range": {
+        "startLine": 1158,
+        "startChar": 31,
+        "endLine": 1158,
+        "endChar": 33
+      },
+      "revId": "a9b7489d4d76f166605f410963339f76b20ba9ed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
