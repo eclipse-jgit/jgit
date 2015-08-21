@@ -47,6 +47,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InterruptedIOException;
 import java.io.OutputStream;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /** Thread to copy from an input stream to an output stream. */
 public class StreamCopyThread extends Thread {
@@ -57,6 +58,8 @@ public class StreamCopyThread extends Thread {
 	private final OutputStream dst;
 
 	private volatile boolean done;
+
+	private final AtomicInteger flushCount = new AtomicInteger(0);
 
 	/**
 	 * Create a thread to copy data from an input stream to an output stream.
@@ -82,6 +85,7 @@ public class StreamCopyThread extends Thread {
 	 * the request.
 	 */
 	public void flush() {
+		flushCount.incrementAndGet();
 		interrupt();
 	}
 
@@ -109,22 +113,30 @@ public class StreamCopyThread extends Thread {
 	public void run() {
 		try {
 			final byte[] buf = new byte[BUFFER_SIZE];
-			int interruptCounter = 0;
+			int flushCountBeforeRead = 0;
+			boolean readInterrupted = false;
 			for (;;) {
 				try {
-					if (interruptCounter > 0) {
+					if (readInterrupted) {
 						dst.flush();
-						interruptCounter--;
+						readInterrupted = false;
+						if (!flushCount.compareAndSet(flushCountBeforeRead, 0)) {
+							// There was a flush() call since last blocked read.
+							// Set interrupt status, so next blocked read will throw
+							// an InterruptedIOException and we will flush again.
+							interrupt();
+						}
 					}
 
 					if (done)
 						break;
 
+					flushCountBeforeRead = flushCount.get();
 					final int n;
 					try {
 						n = src.read(buf);
 					} catch (InterruptedIOException wakey) {
-						interruptCounter++;
+						readInterrupted = true;
 						continue;
 					}
 					if (n < 0)
@@ -141,7 +153,7 @@ public class StreamCopyThread extends Thread {
 
 						// set interrupt status, which will be checked
 						// when we block in src.read
-						if (writeInterrupted)
+						if (writeInterrupted || flushCount.get() > 0)
 							interrupt();
 						break;
 					}
