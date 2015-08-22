@@ -142,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_c229bf3b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheTree.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-08-22T11:54:56Z",
+      "side": 1,
+      "message": "OK.",
+      "parentUuid": "2721e7e2_4252efe4",
+      "revId": "9c157d0b23381b62057aafeb73a56dfb87ab85fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_8764f9c4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
         "patchSetId": 4
@@ -195,6 +213,24 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_622a9331",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 539,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-08-22T11:54:56Z",
+      "side": 1,
+      "message": "OK.",
+      "parentUuid": "2721e7e2_824b4730",
+      "revId": "9c157d0b23381b62057aafeb73a56dfb87ab85fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_a2400b09",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
         "patchSetId": 4
@@ -212,6 +248,24 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_a2248b61",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 931,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-08-22T11:54:56Z",
+      "side": 1,
+      "message": "OK.",
+      "parentUuid": "2721e7e2_a2400b09",
+      "revId": "9c157d0b23381b62057aafeb73a56dfb87ab85fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_02c3d704",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
         "patchSetId": 4
@@ -223,6 +277,24 @@
       "writtenOn": "2015-08-21T07:27:10Z",
       "side": 1,
       "message": "unrelated formatting changes",
+      "revId": "9c157d0b23381b62057aafeb73a56dfb87ab85fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_0267579d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 936,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-08-22T11:54:56Z",
+      "side": 1,
+      "message": "OK.",
+      "parentUuid": "2721e7e2_02c3d704",
       "revId": "9c157d0b23381b62057aafeb73a56dfb87ab85fb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -276,6 +348,24 @@
       "side": 1,
       "message": "instead use assertions to assist the compiler\u0027s null analysis",
       "parentUuid": "2721e7e2_e7a2152a",
+      "revId": "9c157d0b23381b62057aafeb73a56dfb87ab85fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_822fc740",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-08-22T11:54:56Z",
+      "side": 1,
+      "message": "OK.",
+      "parentUuid": "2721e7e2_02eab76c",
       "revId": "9c157d0b23381b62057aafeb73a56dfb87ab85fb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -353,6 +443,30 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_2239bb8b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 811,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-08-22T11:54:56Z",
+      "side": 1,
+      "message": "OK.",
+      "parentUuid": "2721e7e2_82998750",
+      "range": {
+        "startLine": 811,
+        "startChar": 23,
+        "endLine": 811,
+        "endChar": 36
+      },
+      "revId": "9c157d0b23381b62057aafeb73a56dfb87ab85fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_c2f7ff4a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 4
@@ -370,6 +484,24 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_e23e8375",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 921,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-08-22T11:54:56Z",
+      "side": 1,
+      "message": "I personally don\u0027t like to use assert() because it changes your runtime behavior and violates Java principle \"you get what you see\". In worst case we will get a NPE if we run without assertions, or AssertionError otherwise. Not nice.\n\nSo if there is a way to avoid using \"assert\" effect at compile time, I would prefer it.",
+      "parentUuid": "2721e7e2_c2f7ff4a",
+      "revId": "9c157d0b23381b62057aafeb73a56dfb87ab85fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_a2f2cb58",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 4
@@ -381,6 +513,24 @@
       "writtenOn": "2015-08-21T07:27:10Z",
       "side": 1,
       "message": "instead add an assertion before this line ?\n\n assert(currentSnapshot !\u003d null);",
+      "revId": "9c157d0b23381b62057aafeb73a56dfb87ab85fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_42366f9d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 935,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-08-22T11:54:56Z",
+      "side": 1,
+      "message": "Same as above.",
+      "parentUuid": "2721e7e2_a2f2cb58",
       "revId": "9c157d0b23381b62057aafeb73a56dfb87ab85fb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
