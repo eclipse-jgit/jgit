@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_a445b41b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 754,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2015-08-24T13:34:41Z",
+      "side": 1,
+      "message": "Stale file handles will happen on open files (or directories) only.  That means it will be triggered during the read of this file if the file is deleted by another client.  The looping will cause another open of the file, so the original incident which causes the original stale file handle will not cause another stale filehandle.  Thus, for a single event, a single retry would do.  The loop is here in case the file is replaced again during the reread!  This is possible when someone is pushing a bunch of deleted refs, the packed-refs file could be overwritten many times in a row.  It is unlikely that the writter of the new packed-refs files is faster than our read, but it certainly is possible if they are on a closer/faster connection to the NFS server than we are.  This loop prevents a failure in those cases.  And in those cases, we want the re-read to happen as fast as possible so that we are more likely to beat the writter and at least get a snapshot of the packed-refs file while the writter is constantly changing it.  Any delays in this loop will make it more likely that we have to retry again.",
+      "parentUuid": "2721e7e2_0122b260",
+      "revId": "5a53c279ee734ffac49ed0cfb383761a4096cd4e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_41030ac7",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 1
