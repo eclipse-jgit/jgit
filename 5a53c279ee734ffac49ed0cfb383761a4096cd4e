@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_92026e40",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-08-24T20:58:49Z",
+      "side": 1,
+      "message": "I think org.eclipse.jgit.util.FileUtils would be a better place",
+      "parentUuid": "2721e7e2_e7ccce66",
+      "revId": "5a53c279ee734ffac49ed0cfb383761a4096cd4e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_0122b260",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 1
