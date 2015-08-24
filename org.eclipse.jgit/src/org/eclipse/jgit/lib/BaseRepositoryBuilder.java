@@ -135,6 +135,8 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 
 	private File workTree;
 
+	private List<String> refSearchPaths;
+
 	/** Directories limiting the search for a Git repository. */
 	private List<File> ceilingDirectories;
 
@@ -322,6 +324,29 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 	/** @return the work tree directory, or null if not set. */
 	public File getWorkTree() {
 		return workTree;
+	}
+
+	/**
+	 * Set the ref search paths, relative to the gitDir.
+	 * If no refSearchPaths are set, the default search paths
+	 * RefDatabase.SEARCH_PATH is used.
+	 *
+	 * @param refSearchPaths
+	 *            the search paths, relate to the gitDir.
+	 * @return {@code this} (for chaining calls).
+	 * @since 4.2
+	 */
+	public B setRefSearchPaths(List<String> refSearchPaths) {
+		this.refSearchPaths = refSearchPaths;
+		return self();
+	}
+
+	/**
+	 * @return the set ref search path, relativ to the gitDir
+	 * @since 4.2
+	 * */
+	public List<String> getRefSearchPaths() {
+		return refSearchPaths;
 	}
 
 	/**

@@ -51,12 +51,17 @@ import static org.junit.Assert.fail;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
+import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.util.FileUtils;
 import org.junit.Test;
@@ -177,5 +182,49 @@ public class FileRepositoryBuilderTest extends LocalDiskRepositoryTestCase {
 		assertEquals(repo1.getDirectory().getCanonicalPath(), repo2
 				.getDirectory().getCanonicalPath());
 		assertEquals(dir, repo2.getWorkTree());
+	}
+
+	@SuppressWarnings("resource" /* java 7 */)
+	@Test
+	public void customRefSearchPathForWorktreeSupport() throws Exception {
+		Repository repo = createWorkRepository();
+		Git git = new Git(repo);
+		RevCommit commit1 = git.commit().setMessage("initial commit").call();
+		RevCommit commit2 = git.commit().setMessage("second commit").call();
+
+		String worktreePath = "worktrees/foo/";
+		File worktreeHome = new File(repo.getDirectory(), worktreePath);
+		worktreeHome.mkdirs();
+		new FileWriter(new File(worktreeHome, "HEAD")).append(commit1.getId().name()).close();
+
+		// default refSearchPatch should just find our main HEAD
+		FileRepositoryBuilder builder = new FileRepositoryBuilder();
+		builder.setWorkTree(repo.getWorkTree());
+		builder.setup();
+		assertEquals(commit2.getId(), builder.build().resolve(Constants.HEAD));
+
+		// refSearchPatch with additional worktreePath appended should
+		// still find our main HEAD because the order matters
+		List<String> refSearchPaths = new ArrayList<>();
+		refSearchPaths.addAll(Arrays.asList(RefDirectory.getDefaultSearchPath()));
+		refSearchPaths.add(worktreePath);
+
+		builder = new FileRepositoryBuilder();
+		builder.setWorkTree(repo.getWorkTree());
+		builder.setRefSearchPaths(refSearchPaths);
+		builder.setup();
+		assertEquals(commit2.getId(), builder.build().resolve(Constants.HEAD));
+
+		// refSearchPatch with additional worktreePath prepended should
+		// find our worktree HEAD instead of the main HEAD
+		refSearchPaths = new ArrayList<>();
+		refSearchPaths.add(worktreePath);
+		refSearchPaths.addAll(Arrays.asList(RefDirectory.getDefaultSearchPath()));
+
+		builder = new FileRepositoryBuilder();
+		builder.setWorkTree(repo.getWorkTree());
+		builder.setRefSearchPaths(refSearchPaths);
+		builder.setup();
+		assertEquals(commit1.getId(), builder.build().resolve(Constants.HEAD));
 	}
 }

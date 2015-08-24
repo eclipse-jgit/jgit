@@ -67,7 +67,7 @@ public abstract class RefDatabase {
 	 * entry in the path is always {@code ""}, ensuring that absolute references
 	 * are resolved without further mangling.
 	 */
-	protected static final String[] SEARCH_PATH = { "", //$NON-NLS-1$
+	protected static final String[] DEFAULT_SEARCH_PATH = { "", //$NON-NLS-1$
 			Constants.R_REFS, //
 			Constants.R_TAGS, //
 			Constants.R_HEADS, //
@@ -81,6 +81,16 @@ public abstract class RefDatabase {
 	 * should either fail, or at least claim the reference does not exist.
 	 */
 	protected static final int MAX_SYMBOLIC_REF_DEPTH = 5;
+
+	/**
+	 * Return the default search path for refs, relative to the gitRoot
+	 *
+	 * @return the search path
+	 * @since 4.2
+	 */
+	public static String[] getDefaultSearchPath() {
+		return DEFAULT_SEARCH_PATH.clone();
+	}
 
 	/** Magic value for {@link #getRefs(String)} to return all references. */
 	public static final String ALL = "";//$NON-NLS-1$
@@ -209,7 +219,7 @@ public abstract class RefDatabase {
 	/**
 	 * Read a single reference.
 	 * <p>
-	 * Aside from taking advantage of {@link #SEARCH_PATH}, this method may be
+	 * Aside from taking advantage of {@link #DEFAULT_SEARCH_PATH}, this method may be
 	 * able to more quickly resolve a single reference name than obtaining the
 	 * complete namespace by {@code getRefs(ALL).get(name)}.
 	 * <p>
@@ -218,7 +228,7 @@ public abstract class RefDatabase {
 	 *
 	 * @param name
 	 *            the name of the reference. May be a short name which must be
-	 *            searched for using the standard {@link #SEARCH_PATH}.
+	 *            searched for using the standard {@link #DEFAULT_SEARCH_PATH}.
 	 * @return the reference (if it exists); else {@code null}.
 	 * @throws IOException
 	 *             the reference space cannot be accessed.
@@ -229,7 +239,7 @@ public abstract class RefDatabase {
 	 * Read a single reference.
 	 * <p>
 	 * Unlike {@link #getRef}, this method expects an unshortened reference
-	 * name and does not search using the standard {@link #SEARCH_PATH}.
+	 * name and does not search using the standard {@link #DEFAULT_SEARCH_PATH}.
 	 *
 	 * @param name
 	 *             the unabbreviated name of the reference.
@@ -366,7 +376,7 @@ public abstract class RefDatabase {
 	}
 
 	/**
-	 * Try to find the specified name in the ref map using {@link #SEARCH_PATH}.
+	 * Try to find the specified name in the ref map using {@link #DEFAULT_SEARCH_PATH}.
 	 *
 	 * @param map
 	 *            map of refs to search within. Names should be fully qualified,
@@ -378,7 +388,7 @@ public abstract class RefDatabase {
 	 * @since 3.4
 	 */
 	public static Ref findRef(Map<String, Ref> map, String name) {
-		for (String prefix : SEARCH_PATH) {
+		for (String prefix : DEFAULT_SEARCH_PATH) {
 			String fullname = prefix + name;
 			Ref ref = map.get(fullname);
 			if (ref != null)
