@@ -82,6 +82,15 @@ public abstract class RefDatabase {
 	 */
 	protected static final int MAX_SYMBOLIC_REF_DEPTH = 5;
 
+	/**
+	 * Return the default search path for refs, relative to the gitRoot
+	 *
+	 * @return the search path
+	 */
+	public static String[] getSearchPath() {
+		return SEARCH_PATH.clone();
+	}
+
 	/** Magic value for {@link #getRefs(String)} to return all references. */
 	public static final String ALL = "";//$NON-NLS-1$
 

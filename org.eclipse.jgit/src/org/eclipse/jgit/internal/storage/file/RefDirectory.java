@@ -139,6 +139,8 @@ public class RefDirectory extends RefDatabase {
 
 	private final File packedRefsFile;
 
+	private final String[] refSearchPaths;
+
 	/**
 	 * Immutable sorted list of loose references.
 	 * <p>
@@ -168,13 +170,14 @@ public class RefDirectory extends RefDatabase {
 	 */
 	private final AtomicInteger lastNotifiedModCnt = new AtomicInteger();
 
-	RefDirectory(final FileRepository db) {
+	RefDirectory(final FileRepository db, String[] refSearchPaths) {
 		final FS fs = db.getFS();
 		parent = db;
 		gitDir = db.getDirectory();
 		logWriter = new ReflogWriter(db);
 		refsDir = fs.resolve(gitDir, R_REFS);
 		packedRefsFile = fs.resolve(gitDir, PACKED_REFS);
+		this.refSearchPaths = refSearchPaths;
 
 		looseRefs.set(RefList.<LooseRef> emptyList());
 		packedRefs.set(PackedRefList.NO_PACKED_REFS);
@@ -260,7 +263,7 @@ public class RefDirectory extends RefDatabase {
 	public Ref getRef(final String needle) throws IOException {
 		final RefList<Ref> packed = getPackedRefs();
 		Ref ref = null;
-		for (String prefix : SEARCH_PATH) {
+		for (String prefix : refSearchPaths) {
 			try {
 				ref = readRef(prefix + needle, packed);
 				if (ref != null) {
