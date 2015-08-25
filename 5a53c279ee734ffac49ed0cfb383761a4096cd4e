@@ -144,6 +144,24 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_b3885400",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 754,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2015-08-25T14:26:57Z",
+      "side": 1,
+      "message": "Maybe I should add \u0027stale\u0027 to that name: \"core.packedRefsStaleRetryCount\"?  5 sounds reasonable.  In my testing, a single retry has always been enough (and I tried hard to break that), unless I deliberately replace the packed-refs file again during the retry.",
+      "parentUuid": "2721e7e2_131cc06f",
+      "revId": "5a53c279ee734ffac49ed0cfb383761a4096cd4e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_41030ac7",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 1
