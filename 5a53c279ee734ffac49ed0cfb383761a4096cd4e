@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_527ab62f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 754,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-08-25T08:14:07Z",
+      "side": 1,
+      "message": "Ok, got it. We don\u0027t need waiting times before we start a new round.\n\nBut just as a safety net: if your arguments are true then it wouldn\u0027t harm to stop the loop after 10 retries, or? I don\u0027t know NFS implementations very good but if it happens that on some platforms we have a more persistent stale-file-handle-exception then a max-retry would safe us from an endless loop. Or if exceptions arise which contain \"stale .*file .*handle\" but which are not of the type which you expect then a max-retry limit would be safer.",
+      "parentUuid": "2721e7e2_a445b41b",
+      "revId": "5a53c279ee734ffac49ed0cfb383761a4096cd4e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_41030ac7",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 1
