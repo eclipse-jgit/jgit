@@ -16,6 +16,24 @@
       "revId": "cb08dd8b14bf4900c7974dd1ce5a3d553016585a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_85e187bb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2015-08-25T16:07:59Z",
+      "side": 1,
+      "message": "This is only done in an Excetption path, is that really worth it?",
+      "parentUuid": "2721e7e2_c58fff37",
+      "revId": "cb08dd8b14bf4900c7974dd1ce5a3d553016585a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
