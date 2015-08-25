@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2721e7e2_c58fff37",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-08-25T15:47:36Z",
+      "side": 1,
+      "message": "I would use a Matcher and cache the compiled regex instead of recompiling it for each call",
+      "revId": "cb08dd8b14bf4900c7974dd1ce5a3d553016585a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
