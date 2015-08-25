@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_7369bc98",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2015-08-25T14:59:15Z",
+      "side": 1,
+      "message": "Good suggestion, thanks: https://git.eclipse.org/r/#/c/54489/",
+      "parentUuid": "2721e7e2_92026e40",
+      "revId": "5a53c279ee734ffac49ed0cfb383761a4096cd4e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_0122b260",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 1
@@ -156,6 +174,24 @@
       "side": 1,
       "message": "Maybe I should add \u0027stale\u0027 to that name: \"core.packedRefsStaleRetryCount\"?  5 sounds reasonable.  In my testing, a single retry has always been enough (and I tried hard to break that), unless I deliberately replace the packed-refs file again during the retry.",
       "parentUuid": "2721e7e2_131cc06f",
+      "revId": "5a53c279ee734ffac49ed0cfb383761a4096cd4e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_33190406",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 754,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2015-08-25T14:59:15Z",
+      "side": 1,
+      "message": "Hmm, I have no idea how to get a config value in this class?  If this is in .git/.config, would it ever even get used by most users (gerrit users) who care?  Maybe I shoud just make it 5, and leave making it configurable as an exercise for anyone who wants it to be different?",
+      "parentUuid": "2721e7e2_b3885400",
       "revId": "5a53c279ee734ffac49ed0cfb383761a4096cd4e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
