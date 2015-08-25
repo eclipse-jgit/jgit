@@ -34,6 +34,24 @@
       "revId": "cb08dd8b14bf4900c7974dd1ce5a3d553016585a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_a5880b00",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2015-08-25T16:16:47Z",
+      "side": 1,
+      "message": "I am asking from a resource perspsective (not from an effort perspecitve, that is trivial), do you want really want that Matcher cached?",
+      "parentUuid": "2721e7e2_85e187bb",
+      "revId": "cb08dd8b14bf4900c7974dd1ce5a3d553016585a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
