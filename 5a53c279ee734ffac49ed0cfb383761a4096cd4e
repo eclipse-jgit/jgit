@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_451f8f93",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2015-08-25T15:40:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2721e7e2_7369bc98",
+      "revId": "5a53c279ee734ffac49ed0cfb383761a4096cd4e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_0122b260",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 1
@@ -210,6 +228,24 @@
       "side": 1,
       "message": "I would\n- add a new key CONFIG_KEY_PACKED_REFS_STALE_RETRYCOUNT to ConfigConstants\n- add getPackedRefsStaleRetryCount() to CoreConfig. Here you can define a default value. I would suggest 1 based on your experiments.\n- to access the configured value in RefDirectory use\n\n getRepository().getConfig().get(CoreConfig.KEY).getPackedRefsStaleRetryCount()",
       "parentUuid": "2721e7e2_33190406",
+      "revId": "5a53c279ee734ffac49ed0cfb383761a4096cd4e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_25653b0f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 754,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2015-08-25T15:40:13Z",
+      "side": 1,
+      "message": "Thanks for giving me the details of how to do the config lookup!\n\nIn the meantime, I had implemented a simple non-configurable default, and I tried to update the commit message to be a lot clearer about how this situation occurs, and why one would want more than a single retry.  I suggest reading that to see if it is clearer, and if you still think it makes sense to make this configurable (I doubt anyone would actually want to).",
+      "parentUuid": "2721e7e2_33a46402",
       "revId": "5a53c279ee734ffac49ed0cfb383761a4096cd4e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
