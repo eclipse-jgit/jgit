@@ -108,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_132680ee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 754,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2015-08-25T13:44:52Z",
+      "side": 1,
+      "message": "Yes, I have that fear too. Although after testing this, and investigating stale handles to better understand the principals behind them, I am fairly confident that this should be OK.  But as a safety, a retry limit sounds fine (with a warning if exceeded?).  Would the limit be something that we would make configurable via git config?  If so, any suggestions for a fully qualified parameter name?",
+      "parentUuid": "2721e7e2_527ab62f",
+      "revId": "5a53c279ee734ffac49ed0cfb383761a4096cd4e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_41030ac7",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 1
