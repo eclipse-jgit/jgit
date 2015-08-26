@@ -70,6 +70,24 @@
       "revId": "cb08dd8b14bf4900c7974dd1ce5a3d553016585a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_d41e8b67",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2015-08-26T13:42:26Z",
+      "side": 1,
+      "message": "This is just an API, so anything I quote now about usage statistics could be different when this API gets used elsewhere.  \n\nCurrently it is called when pack files are deleted and a client still holds a reference to it.  That likely happens only during repacking, so it depends how often people repack.  I would suspect that even on an extremely busy site, that repacking is a minor operation done very seldomly compared to other operations (it typically scales as a small percentage of usage).  In the change following this, I will use this for the packed-refs file also.  That can happen anytime the packed-refs file is deleted.  This generally also happens during git gc, but it can also happen when people delete refs.  \n\nI feel that it would not make sense to optimize this path for speed over memory unless there is a known specific use case which needs that.  I don\u0027t think any of the current know use cases need that, and I don\u0027t anticipate Exception paths typically needing that.",
+      "parentUuid": "2721e7e2_f98f4a85",
+      "revId": "cb08dd8b14bf4900c7974dd1ce5a3d553016585a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
