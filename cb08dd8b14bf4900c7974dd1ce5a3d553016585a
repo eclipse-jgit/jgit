@@ -52,6 +52,24 @@
       "revId": "cb08dd8b14bf4900c7974dd1ce5a3d553016585a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_f98f4a85",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-08-26T12:45:59Z",
+      "side": 1,
+      "message": "any idea how often this is called on NFS from your experiments ? If we are on NFS it might be worth caching the compiled regex if retries happen frequently.",
+      "parentUuid": "2721e7e2_a5880b00",
+      "revId": "cb08dd8b14bf4900c7974dd1ce5a3d553016585a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
