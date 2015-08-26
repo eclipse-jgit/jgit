@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_2ad06270",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-08-26T21:01:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2721e7e2_6a8d3aba",
+      "range": {
+        "startLine": 11,
+        "startChar": 36,
+        "endLine": 11,
+        "endChar": 38
+      },
+      "revId": "a48e676f9caf7025ec7f94ee6cfb32fe36183b9d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_4a8836a9",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -106,6 +130,24 @@
       "writtenOn": "2015-08-26T20:57:18Z",
       "side": 1,
       "message": "I would add a debug log statement here",
+      "revId": "a48e676f9caf7025ec7f94ee6cfb32fe36183b9d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_6ada5a92",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 768,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-08-26T21:01:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2721e7e2_0a191e05",
       "revId": "a48e676f9caf7025ec7f94ee6cfb32fe36183b9d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
