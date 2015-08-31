@@ -5,6 +5,7 @@ Bundle-SymbolicName: org.eclipse.jgit
 Bundle-Version: 4.1.0.qualifier
 Bundle-Localization: plugin
 Bundle-Vendor: %provider_name
+Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.jgit.api;version="4.1.0";
   uses:="org.eclipse.jgit.revwalk,
    org.eclipse.jgit.treewalk.filter,
