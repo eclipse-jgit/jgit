@@ -26,4 +26,5 @@ Export-Package: org.eclipse.jgit.transport.http.apache;version="4.1.0";
    javax.net.ssl,
    org.apache.http.client,
    org.apache.http.client.methods,
-   org.apache.http"
+   org.apache.http",
+ org.eclipse.jgit.transport.http.apache.internal;x-internal:=true
