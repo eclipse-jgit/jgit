@@ -22,6 +22,30 @@
       "revId": "05acf1c62f415e263d835ae991268e97e7f7ced3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_8af85def",
+        "filename": "org.eclipse.jgit.junit.http/META-INF/MANIFEST.MF",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-08-31T20:25:02Z",
+      "side": 0,
+      "message": "no, I missed this, restored in https://git.eclipse.org/r/#/c/54936/",
+      "parentUuid": "2721e7e2_a4d75767",
+      "range": {
+        "startLine": 8,
+        "startChar": 7,
+        "endLine": 8,
+        "endChar": 23
+      },
+      "revId": "05acf1c62f415e263d835ae991268e97e7f7ced3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
