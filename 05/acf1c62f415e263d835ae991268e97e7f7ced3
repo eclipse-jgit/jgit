@@ -1,0 +1,9 @@
+Verified+1: Hudson CI
+Code-Review+2: Robin Rosenberg <robin.rosenberg@dewire.com>
+Code-Review+1: Miles Goodhew <eclipse@snubdomain.com>
+Code-Review+2: Shawn Pearce <spearce@spearce.org>
+Submitted-by: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-at: Mon, 31 Aug 2015 04:47:55 -0400
+Reviewed-on: https://git.eclipse.org/r/54757
+Project: jgit/jgit
+Branch: refs/heads/master
