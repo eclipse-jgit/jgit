@@ -404,16 +404,20 @@ public class FileRepository extends Repository {
 	 * <p>
 	 * When a repository borrows objects from another repository, it can
 	 * advertise that it safely has that other repository's references, without
-	 * exposing any other details about the other repository.  This may help
-	 * a client trying to push changes avoid pushing more than it needs to.
+	 * exposing any other details about the other repository. This may help a
+	 * client trying to push changes avoid pushing more than it needs to.
+	 *
+	 * @param skips
+	 *            Set of AlternateHandles already seen
 	 *
 	 * @return unmodifiable collection of other known objects.
 	 */
-	public Set<ObjectId> getAdditionalHaves() {
+	public Set<ObjectId> getAdditionalHaves(Set<AlternateHandle> skips) {
 		HashSet<ObjectId> r = new HashSet<ObjectId>();
-		for (AlternateHandle d : objectDatabase.myAlternates()) {
+		Set<AlternateHandle> skipsWithMe = skipMe(skips);
+		for (AlternateHandle d : objectDatabase.myAlternates(skipsWithMe)) {
 			if (d instanceof AlternateRepository) {
-				Repository repo;
+				FileRepository repo;
 
 				repo = ((AlternateRepository) d).repository;
 				for (Ref ref : repo.getAllRefs().values()) {
@@ -422,10 +426,18 @@ public class FileRepository extends Repository {
 					if (ref.getPeeledObjectId() != null)
 						r.add(ref.getPeeledObjectId());
 				}
-				r.addAll(repo.getAdditionalHaves());
+				r.addAll(repo.getAdditionalHaves(skipsWithMe));
 			}
 		}
 		return r;
+	}
+
+	private Set<AlternateHandle> skipMe(Set<AlternateHandle> skips) {
+		Set<AlternateHandle> withMe = new HashSet<AlternateHandle>();
+		if (skips != null)
+			withMe.addAll(skips);
+		withMe.add(new AlternateRepository(this));
+		return withMe;
 	}
 
 	/**

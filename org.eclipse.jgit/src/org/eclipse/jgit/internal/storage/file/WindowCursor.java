@@ -128,18 +128,18 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 		if (id.isComplete())
 			return Collections.singleton(id.toObjectId());
 		HashSet<ObjectId> matches = new HashSet<ObjectId>(4);
-		db.resolve(matches, id);
+		db.resolve(matches, id, null);
 		return matches;
 	}
 
 	public boolean has(AnyObjectId objectId) throws IOException {
-		return db.has(objectId);
+		return db.has(objectId, null);
 	}
 
 	public ObjectLoader open(AnyObjectId objectId, int typeHint)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
-		final ObjectLoader ldr = db.openObject(this, objectId);
+		final ObjectLoader ldr = db.openObject(this, objectId, null);
 		if (ldr == null) {
 			if (typeHint == OBJ_ANY)
 				throw new MissingObjectException(objectId.copy(),
@@ -177,7 +177,7 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 			ProgressMonitor monitor, Iterable<ObjectToPack> objects)
 			throws IOException, MissingObjectException {
 		for (ObjectToPack otp : objects) {
-			db.selectObjectRepresentation(packer, otp, this);
+			db.selectObjectRepresentation(packer, otp, this, null);
 			monitor.update(1);
 		}
 	}

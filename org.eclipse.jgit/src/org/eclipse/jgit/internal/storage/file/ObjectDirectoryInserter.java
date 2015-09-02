@@ -87,7 +87,7 @@ class ObjectDirectoryInserter extends ObjectInserter {
 	public ObjectId insert(int type, byte[] data, int off, int len)
 			throws IOException {
 		ObjectId id = idFor(type, data, off, len);
-		if (db.has(id)) {
+		if (db.has(id, null)) {
 			return id;
 		} else {
 			File tmp = toTemp(type, data, off, len);
