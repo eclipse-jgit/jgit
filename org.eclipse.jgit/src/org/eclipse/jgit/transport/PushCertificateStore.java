@@ -401,7 +401,7 @@ public class PushCertificateStore implements AutoCloseable {
 	 */
 	public boolean save(BatchRefUpdate batch) throws IOException {
 		ObjectId newId = write();
-		if (newId == null) {
+		if (newId == null || newId.equals(commit)) {
 			return false;
 		}
 		batch.addCommand(new ReceiveCommand(

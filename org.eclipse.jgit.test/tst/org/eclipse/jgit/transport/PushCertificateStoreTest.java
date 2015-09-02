@@ -308,6 +308,34 @@ public class PushCertificateStoreTest {
 	}
 
 	@Test
+	public void putMatchingWithNoMatchingRefsInBatchOnEmptyRef()
+			throws Exception {
+		PushCertificate addMaster = newCert(
+				command(zeroId(), ID1, "refs/heads/master"),
+				command(zeroId(), ID2, "refs/heads/branch"));
+		store.put(addMaster, newIdent(), Collections.<ReceiveCommand> emptyList());
+		BatchRefUpdate batch = repo.getRefDatabase().newBatchUpdate();
+		assertFalse(store.save(batch));
+		assertEquals(0, batch.getCommands().size());
+	}
+
+	@Test
+	public void putMatchingWithNoMatchingRefsInBatchOnNonEmptyRef()
+			throws Exception {
+		PushCertificate addMaster = newCert(
+				command(zeroId(), ID1, "refs/heads/master"));
+		store.put(addMaster, newIdent());
+		assertEquals(NEW, store.save());
+
+		PushCertificate addBranch = newCert(
+				command(zeroId(), ID2, "refs/heads/branch"));
+		store.put(addBranch, newIdent(), Collections.<ReceiveCommand> emptyList());
+		BatchRefUpdate batch = repo.getRefDatabase().newBatchUpdate();
+		assertFalse(store.save(batch));
+		assertEquals(0, batch.getCommands().size());
+	}
+
+	@Test
 	public void putMatchingWithSomeMatchingRefs() throws Exception {
 		PushCertificate addMasterAndBranch = newCert(
 				command(zeroId(), ID1, "refs/heads/master"),
