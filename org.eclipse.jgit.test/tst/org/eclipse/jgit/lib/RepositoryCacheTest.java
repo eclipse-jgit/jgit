@@ -175,4 +175,25 @@ public class RepositoryCacheTest extends RepositoryTestCase {
 		assertThat(RepositoryCache.getRegisteredKeys().size(), is(0));
 	}
 
+	@Test
+	public void testRepositoryUsageCount() throws Exception {
+		FileKey loc = FileKey.exact(db.getDirectory(), db.getFS());
+		Repository d2 = RepositoryCache.open(loc);
+		assertEquals(1, d2.useCnt.get());
+		RepositoryCache.open(FileKey.exact(loc.getFile(), db.getFS()));
+		assertEquals(2, d2.useCnt.get());
+		d2.close();
+		assertEquals(1, d2.useCnt.get());
+		d2.close();
+		assertEquals(0, d2.useCnt.get());
+	}
+
+	@Test
+	public void testRepositoryUsageCountWithRegisteredRepository() {
+		assertEquals(1, ((Repository) db).useCnt.get());
+		RepositoryCache.register(db);
+		assertEquals(1, ((Repository) db).useCnt.get());
+		db.close();
+		assertEquals(0, ((Repository) db).useCnt.get());
+	}
 }
