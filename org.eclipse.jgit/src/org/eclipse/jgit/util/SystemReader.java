@@ -71,6 +71,11 @@ import org.eclipse.jgit.lib.ObjectChecker;
  */
 public abstract class SystemReader {
 	private static final SystemReader DEFAULT;
+
+	private static Boolean isMacOS;
+
+	private static Boolean isWindows;
+
 	static {
 		SystemReader r = new Default();
 		r.init();
@@ -148,6 +153,8 @@ public abstract class SystemReader {
 	 *            the default instance.
 	 */
 	public static void setInstance(SystemReader newReader) {
+		isMacOS = null;
+		isWindows = null;
 		if (newReader == null)
 			INSTANCE = DEFAULT;
 		else {
@@ -293,26 +300,31 @@ public abstract class SystemReader {
 	 * @return true if we are running on a Windows.
 	 */
 	public boolean isWindows() {
-		String osDotName = AccessController
-				.doPrivileged(new PrivilegedAction<String>() {
-					public String run() {
-						return getProperty("os.name"); //$NON-NLS-1$
-					}
-				});
-		return osDotName.startsWith("Windows"); //$NON-NLS-1$
+		if (isWindows == null) {
+			String osDotName = getOsName();
+			isWindows = Boolean.valueOf(osDotName.startsWith("Windows")); //$NON-NLS-1$
+		}
+		return isWindows.booleanValue();
 	}
 
 	/**
 	 * @return true if we are running on Mac OS X
 	 */
 	public boolean isMacOS() {
-		String osDotName = AccessController
-				.doPrivileged(new PrivilegedAction<String>() {
-					public String run() {
-						return getProperty("os.name"); //$NON-NLS-1$
-					}
-				});
-		return "Mac OS X".equals(osDotName) || "Darwin".equals(osDotName); //$NON-NLS-1$ //$NON-NLS-2$
+		if (isMacOS == null) {
+			String osDotName = getOsName();
+			isMacOS = Boolean.valueOf(
+					"Mac OS X".equals(osDotName) || "Darwin".equals(osDotName)); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+		return isMacOS.booleanValue();
+	}
+
+	private String getOsName() {
+		return AccessController.doPrivileged(new PrivilegedAction<String>() {
+			public String run() {
+				return getProperty("os.name"); //$NON-NLS-1$
+			}
+		});
 	}
 
 	/**
