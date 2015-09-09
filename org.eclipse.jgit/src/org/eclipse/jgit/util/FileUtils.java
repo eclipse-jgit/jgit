@@ -54,6 +54,12 @@ import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.nio.file.attribute.BasicFileAttributeView;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.attribute.FileTime;
+import java.nio.file.attribute.PosixFileAttributeView;
+import java.nio.file.attribute.PosixFileAttributes;
+import java.nio.file.attribute.PosixFilePermission;
 import java.text.MessageFormat;
 import java.text.Normalizer;
 import java.text.Normalizer.Form;
@@ -62,6 +68,8 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.util.FS.Attributes;
 
 /**
  * File Utilities
@@ -526,5 +534,204 @@ public class FileUtils {
 		String msg = ioe.getMessage();
 		return msg != null
 				&& msg.toLowerCase().matches("stale .*file .*handle"); //$NON-NLS-1$
+	}
+
+	/**
+	 * @param path
+	 * @return {@code true} if the passed path is a symlink
+	 */
+	static boolean isSymlink(File path) {
+		Path nioPath = path.toPath();
+		return Files.isSymbolicLink(nioPath);
+	}
+
+	/**
+	 * @param path
+	 * @return lastModified attribute for given path
+	 * @throws IOException
+	 */
+	static long lastModified(File path) throws IOException {
+		Path nioPath = path.toPath();
+		return Files.getLastModifiedTime(nioPath, LinkOption.NOFOLLOW_LINKS)
+				.toMillis();
+	}
+
+	/**
+	 * @param path
+	 * @param time
+	 * @throws IOException
+	 */
+	static void setLastModified(File path, long time) throws IOException {
+		Path nioPath = path.toPath();
+		Files.setLastModifiedTime(nioPath, FileTime.fromMillis(time));
+	}
+
+	/**
+	 * @param path
+	 * @return {@code true} if the given path exists
+	 */
+	static boolean exists(File path) {
+		Path nioPath = path.toPath();
+		return Files.exists(nioPath, LinkOption.NOFOLLOW_LINKS);
+	}
+
+	/**
+	 * @param path
+	 * @return {@code true} if the given path is hidden
+	 * @throws IOException
+	 */
+	static boolean isHidden(File path) throws IOException {
+		Path nioPath = path.toPath();
+		return Files.isHidden(nioPath);
+	}
+
+	/**
+	 * @param path
+	 * @param hidden
+	 * @throws IOException
+	 * @since 4.1
+	 */
+	public static void setHidden(File path, boolean hidden) throws IOException {
+		Path nioPath = path.toPath();
+		Files.setAttribute(nioPath, "dos:hidden", Boolean.valueOf(hidden), //$NON-NLS-1$
+				LinkOption.NOFOLLOW_LINKS);
+	}
+
+	/**
+	 * @param path
+	 * @return length of the given file
+	 * @throws IOException
+	 * @since 4.1
+	 */
+	public static long getLength(File path) throws IOException {
+		Path nioPath = path.toPath();
+		if (Files.isSymbolicLink(nioPath))
+			return Files.readSymbolicLink(nioPath).toString()
+					.getBytes(Constants.CHARSET).length;
+		return Files.size(nioPath);
+	}
+
+	/**
+	 * @param path
+	 * @return {@code true} if the given file a directory
+	 */
+	static boolean isDirectory(File path) {
+		Path nioPath = path.toPath();
+		return Files.isDirectory(nioPath, LinkOption.NOFOLLOW_LINKS);
+	}
+
+	/**
+	 * @param path
+	 * @return {@code true} if the given file is a file
+	 */
+	static boolean isFile(File path) {
+		Path nioPath = path.toPath();
+		return Files.isRegularFile(nioPath, LinkOption.NOFOLLOW_LINKS);
+	}
+
+	/**
+	 * @param path
+	 * @return {@code true} if the given file can be executed
+	 * @since 4.1
+	 */
+	public static boolean canExecute(File path) {
+		if (!isFile(path)) {
+			return false;
+		}
+		return path.canExecute();
+	}
+
+	/**
+	 * @param fs
+	 * @param path
+	 * @return non null attributes object
+	 */
+	static Attributes getFileAttributesBasic(FS fs, File path) {
+		try {
+			Path nioPath = path.toPath();
+			BasicFileAttributes readAttributes = nioPath
+					.getFileSystem()
+					.provider()
+					.getFileAttributeView(nioPath,
+							BasicFileAttributeView.class,
+							LinkOption.NOFOLLOW_LINKS).readAttributes();
+			Attributes attributes = new Attributes(fs, path,
+					true,
+					readAttributes.isDirectory(),
+					fs.supportsExecute() ? path.canExecute() : false,
+					readAttributes.isSymbolicLink(),
+					readAttributes.isRegularFile(), //
+					readAttributes.creationTime().toMillis(), //
+					readAttributes.lastModifiedTime().toMillis(),
+					readAttributes.isSymbolicLink() ? Constants
+							.encode(readSymLink(path)).length
+							: readAttributes.size());
+			return attributes;
+		} catch (IOException e) {
+			return new Attributes(path, fs);
+		}
+	}
+
+	/**
+	 * @param fs
+	 * @param path
+	 * @return file system attributes for the given file
+	 * @since 4.1
+	 */
+	public static Attributes getFileAttributesPosix(FS fs, File path) {
+		try {
+			Path nioPath = path.toPath();
+			PosixFileAttributes readAttributes = nioPath
+					.getFileSystem()
+					.provider()
+					.getFileAttributeView(nioPath,
+							PosixFileAttributeView.class,
+							LinkOption.NOFOLLOW_LINKS).readAttributes();
+			Attributes attributes = new Attributes(
+					fs,
+					path,
+					true, //
+					readAttributes.isDirectory(), //
+					readAttributes.permissions().contains(
+							PosixFilePermission.OWNER_EXECUTE),
+					readAttributes.isSymbolicLink(),
+					readAttributes.isRegularFile(), //
+					readAttributes.creationTime().toMillis(), //
+					readAttributes.lastModifiedTime().toMillis(),
+					readAttributes.size());
+			return attributes;
+		} catch (IOException e) {
+			return new Attributes(path, fs);
+		}
+	}
+
+	/**
+	 * @param file
+	 * @return on Mac: NFC normalized {@link File}, otherwise the passed file
+	 * @since 4.1
+	 */
+	public static File normalize(File file) {
+		if (SystemReader.getInstance().isMacOS()) {
+			// TODO: Would it be faster to check with isNormalized first
+			// assuming normalized paths are much more common
+			String normalized = Normalizer.normalize(file.getPath(),
+					Normalizer.Form.NFC);
+			return new File(normalized);
+		}
+		return file;
+	}
+
+	/**
+	 * @param name
+	 * @return on Mac: NFC normalized form of given name
+	 * @since 4.1
+	 */
+	public static String normalize(String name) {
+		if (SystemReader.getInstance().isMacOS()) {
+			if (name == null)
+				return null;
+			return Normalizer.normalize(name, Normalizer.Form.NFC);
+		}
+		return name;
 	}
 }
