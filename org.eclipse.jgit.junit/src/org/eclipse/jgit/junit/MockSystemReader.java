@@ -47,6 +47,7 @@ package org.eclipse.jgit.junit;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
@@ -170,6 +171,7 @@ public class MockSystemReader extends SystemReader {
 	 * Assign some properties for the currently executing platform
 	 */
 	public void setCurrentPlatform() {
+		resetOsNames();
 		setProperty("os.name", System.getProperty("os.name"));
 		setProperty("file.separator", System.getProperty("file.separator"));
 		setProperty("path.separator", System.getProperty("path.separator"));
@@ -180,6 +182,7 @@ public class MockSystemReader extends SystemReader {
 	 * Emulate Windows
 	 */
 	public void setWindows() {
+		resetOsNames();
 		setProperty("os.name", "Windows");
 		setProperty("file.separator", "\\");
 		setProperty("path.separator", ";");
@@ -191,10 +194,25 @@ public class MockSystemReader extends SystemReader {
 	 * Emulate Unix
 	 */
 	public void setUnix() {
+		resetOsNames();
 		setProperty("os.name", "*nix"); // Essentially anything but Windows
 		setProperty("file.separator", "/");
 		setProperty("path.separator", ":");
 		setProperty("line.separator", "\n");
 		setPlatformChecker();
+	}
+
+	private void resetOsNames() {
+		Field field;
+		try {
+			field = SystemReader.class.getDeclaredField("isWindows");
+			field.setAccessible(true);
+			field.set(null, null);
+			field = SystemReader.class.getDeclaredField("isMacOS");
+			field.setAccessible(true);
+			field.set(null, null);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
