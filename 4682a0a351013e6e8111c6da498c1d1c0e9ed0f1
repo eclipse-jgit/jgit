@@ -16,6 +16,24 @@
       "revId": "4682a0a351013e6e8111c6da498c1d1c0e9ed0f1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_2f0f9f3e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-09-10T21:05:14Z",
+      "side": 1,
+      "message": "THis code doesn\u0027t need to be thread safe, since even if 2 threads will run the code in parallel, they will save exactly same value, because usually no one changes os.name on the fly :-)",
+      "parentUuid": "2721e7e2_29367fea",
+      "revId": "4682a0a351013e6e8111c6da498c1d1c0e9ed0f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
