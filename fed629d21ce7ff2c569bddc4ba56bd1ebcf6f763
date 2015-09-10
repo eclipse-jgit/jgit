@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_8f27abba",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-09-10T21:29:57Z",
+      "side": 1,
+      "message": "The purpose of this deprecation is to *remove* second \"FileUtil\" class entirely in the next major release, independently of the code to avoid confusion and simplify search for the right API to use for contributors.\n\nIf I get your point right, we should deprecate not only this class, but all \"wrapper\" methods which do not add any value on the current Java 7 - enabled platform. \n\nSo I\u0027ve made the moved methods now package private (no API) and we can do whatever we want later with those methods (right now they are still used in various FS classes).",
+      "parentUuid": "2721e7e2_a99f0f3e",
+      "revId": "fed629d21ce7ff2c569bddc4ba56bd1ebcf6f763",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_29c15f27",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2015-09-10T12:58:09Z",
       "side": 1,
       "message": "no, remove this since tag on the class, it exists since long time",
+      "revId": "fed629d21ce7ff2c569bddc4ba56bd1ebcf6f763",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_af226fa9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-09-10T21:29:57Z",
+      "side": 1,
+      "message": "Oops, was automatically added by Eclipse refactor wizard. Will remove.",
+      "parentUuid": "2721e7e2_29c15f27",
       "revId": "fed629d21ce7ff2c569bddc4ba56bd1ebcf6f763",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
