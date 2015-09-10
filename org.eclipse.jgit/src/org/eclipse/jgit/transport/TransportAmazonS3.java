@@ -148,7 +148,7 @@ public class TransportAmazonS3 extends HttpTransport implements WalkTransport {
 		super(local, uri);
 
 		Properties props = loadProperties();
-		if (!props.contains("tmpdir") && local.getDirectory() != null) //$NON-NLS-1$
+		if (!props.containsKey("tmpdir") && local.getDirectory() != null) //$NON-NLS-1$
 			props.put("tmpdir", local.getDirectory().getPath()); //$NON-NLS-1$
 
 		s3 = new AmazonS3(props);
