@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2721e7e2_a99f0f3e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-09-10T12:58:09Z",
+      "side": 1,
+      "message": "maybe we should better only deprecate the methods which are available in NIO API since Java 7 and not move the wrapper methods (which were needed to allow optional use of NIO on Java 7 when we still supported Java 5 and 6) to FileUtils, this would guide applications using JGit to directly use NIO",
+      "revId": "fed629d21ce7ff2c569bddc4ba56bd1ebcf6f763",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_29c15f27",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-09-10T12:58:09Z",
+      "side": 1,
+      "message": "no, remove this since tag on the class, it exists since long time",
+      "revId": "fed629d21ce7ff2c569bddc4ba56bd1ebcf6f763",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
