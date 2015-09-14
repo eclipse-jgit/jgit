@@ -735,6 +735,8 @@ public class UploadPack {
 			else
 				multiAck = MultiAck.OFF;
 
+			if (!clientShallowCommits.isEmpty())
+				verifyClientShallow();
 			if (depth != 0)
 				processShallow();
 			if (!clientShallowCommits.isEmpty())
@@ -818,6 +820,35 @@ public class UploadPack {
 			}
 		}
 		pckOut.end();
+	}
+
+	private void verifyClientShallow()
+			throws IOException, PackProtocolException {
+		AsyncRevObjectQueue q = walk.parseAny(clientShallowCommits, true);
+		try {
+			for (;;) {
+				try {
+					// Shallow objects named by the client must be commits.
+					RevObject o = q.next();
+					if (o == null) {
+						break;
+					}
+					if (!(o instanceof RevCommit)) {
+						throw new PackProtocolException(
+							MessageFormat.format(
+								JGitText.get().invalidShallowObject,
+								o.name()));
+					}
+				} catch (MissingObjectException notCommit) {
+					// shallow objects not known at the server are ignored
+					// by git-core upload-pack, match that behavior.
+					clientShallowCommits.remove(notCommit.getObjectId());
+					continue;
+				}
+			}
+		} finally {
+			q.release();
+		}
 	}
 
 	/**
