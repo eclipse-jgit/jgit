@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2721e7e2_d72c8d4d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-09-14T21:50:31Z",
+      "side": 1,
+      "message": "Could this be package-private (i.e., default visibility, \"final AtomicInteger useCnt\")? That would allow it to be used in tests without affecting the public API.",
+      "range": {
+        "startLine": 115,
+        "startChar": 1,
+        "endLine": 115,
+        "endChar": 11
+      },
+      "revId": "115ad930dafb8db14ef49c57143a25c09715e2f2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
