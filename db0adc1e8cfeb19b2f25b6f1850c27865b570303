@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2721e7e2_5c86046c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 741,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-09-14T19:07:40Z",
+      "side": 0,
+      "message": "Is the \u0027depth \u003d\u003d 0 \u0026\u0026 !clientShallowCommits.isEmpty()\u0027 case possible?",
+      "range": {
+        "startLine": 740,
+        "startChar": 0,
+        "endLine": 741,
+        "endChar": 45
+      },
+      "revId": "db0adc1e8cfeb19b2f25b6f1850c27865b570303",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
