@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2721e7e2_1cf12c56",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RepositoryCacheTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 6590
+      },
+      "writtenOn": "2015-09-14T17:34:34Z",
+      "side": 1,
+      "message": "missing @Test annotation",
+      "revId": "18b74e43c3a408859f3f85d760533210d9dbb4e2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
