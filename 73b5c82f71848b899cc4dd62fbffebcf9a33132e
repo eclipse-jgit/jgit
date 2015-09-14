@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_77a96197",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 832,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-09-14T19:54:16Z",
+      "side": 1,
+      "message": "break; but this version NPEs. Fixed. :)",
+      "parentUuid": "2721e7e2_f751d12d",
+      "range": {
+        "startLine": 832,
+        "startChar": 0,
+        "endLine": 832,
+        "endChar": 28
+      },
+      "revId": "73b5c82f71848b899cc4dd62fbffebcf9a33132e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_973975fd",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2015-09-14T19:52:08Z",
       "side": 1,
       "message": "(not about this change) sounds like AsyncOperation should be AutoCloseable.",
+      "range": {
+        "startLine": 847,
+        "startChar": 0,
+        "endLine": 847,
+        "endChar": 15
+      },
+      "revId": "73b5c82f71848b899cc4dd62fbffebcf9a33132e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_b7af599a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 847,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-09-14T19:54:16Z",
+      "side": 1,
+      "message": "Yes, but much bigger change than this.",
+      "parentUuid": "2721e7e2_973975fd",
       "range": {
         "startLine": 847,
         "startChar": 0,
