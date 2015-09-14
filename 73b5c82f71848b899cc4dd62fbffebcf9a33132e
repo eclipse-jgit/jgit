@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2721e7e2_f751d12d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 832,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-09-14T19:52:08Z",
+      "side": 1,
+      "message": "What should happen when o \u003d\u003d null?",
+      "range": {
+        "startLine": 832,
+        "startChar": 0,
+        "endLine": 832,
+        "endChar": 28
+      },
+      "revId": "73b5c82f71848b899cc4dd62fbffebcf9a33132e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_973975fd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 847,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-09-14T19:52:08Z",
+      "side": 1,
+      "message": "(not about this change) sounds like AsyncOperation should be AutoCloseable.",
+      "range": {
+        "startLine": 847,
+        "startChar": 0,
+        "endLine": 847,
+        "endChar": 15
+      },
+      "revId": "73b5c82f71848b899cc4dd62fbffebcf9a33132e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
