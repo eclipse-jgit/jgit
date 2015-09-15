@@ -22,6 +22,30 @@
       "revId": "7ca678e837458464ac977357425f6471f844b645",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_4050d6da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 6590
+      },
+      "writtenOn": "2015-09-15T13:06:05Z",
+      "side": 1,
+      "message": "Yes but they are not used. When a repository is opened using the RepositoryCache, they should also be closed using the RepositoryCache.close method. This is definitely not the way it\u0027s done in Gerrit.\n\nThose 2 changes are fixing the bigger memory usage problem and I am working on another change to fix the cached repository eviction.",
+      "parentUuid": "2721e7e2_5741bdf0",
+      "range": {
+        "startLine": 15,
+        "startChar": 39,
+        "endLine": 17,
+        "endChar": 56
+      },
+      "revId": "7ca678e837458464ac977357425f6471f844b645",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
