@@ -43,6 +43,7 @@
 package org.eclipse.jgit.pgm;
 
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.File;
@@ -59,7 +60,6 @@ import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.FileTreeIterator.FileEntry;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.FileUtils;
-import org.junit.Assert;
 import org.junit.Test;
 
 public class CheckoutTest extends CLIRepositoryTestCase {
@@ -68,7 +68,8 @@ public class CheckoutTest extends CLIRepositoryTestCase {
 	public void testCheckoutSelf() throws Exception {
 		new Git(db).commit().setMessage("initial commit").call();
 
-		assertEquals("Already on 'master'", execute("git checkout master"));
+		assertStringArrayEquals("Already on 'master'",
+				execute("git checkout master"));
 	}
 
 	@Test
@@ -76,20 +77,21 @@ public class CheckoutTest extends CLIRepositoryTestCase {
 		new Git(db).commit().setMessage("initial commit").call();
 		new Git(db).branchCreate().setName("side").call();
 
-		assertEquals("Switched to branch 'side'", execute("git checkout side"));
+		assertStringArrayEquals("Switched to branch 'side'",
+				execute("git checkout side"));
 	}
 
 	@Test
 	public void testCheckoutNewBranch() throws Exception {
 		new Git(db).commit().setMessage("initial commit").call();
 
-		assertEquals("Switched to a new branch 'side'",
+		assertStringArrayEquals("Switched to a new branch 'side'",
 				execute("git checkout -b side"));
 	}
 
 	@Test
 	public void testCheckoutNonExistingBranch() throws Exception {
-		assertEquals(
+		assertStringArrayEquals(
 				"error: pathspec 'side' did not match any file(s) known to git.",
 				execute("git checkout side"));
 	}
@@ -98,19 +100,20 @@ public class CheckoutTest extends CLIRepositoryTestCase {
 	public void testCheckoutNewBranchThatAlreadyExists() throws Exception {
 		new Git(db).commit().setMessage("initial commit").call();
 
-		assertEquals("fatal: A branch named 'master' already exists.",
+		assertStringArrayEquals(
+				"fatal: A branch named 'master' already exists.",
 				execute("git checkout -b master"));
 	}
 
 	@Test
 	public void testCheckoutNewBranchOnBranchToBeBorn() throws Exception {
-		assertEquals("fatal: You are on a branch yet to be born",
+		assertStringArrayEquals("fatal: You are on a branch yet to be born",
 				execute("git checkout -b side"));
 	}
 
 	@Test
 	public void testCheckoutUnresolvedHead() throws Exception {
-		assertEquals(
+		assertStringArrayEquals(
 				"error: pathspec 'HEAD' did not match any file(s) known to git.",
 				execute("git checkout HEAD"));
 	}
@@ -119,7 +122,7 @@ public class CheckoutTest extends CLIRepositoryTestCase {
 	public void testCheckoutHead() throws Exception {
 		new Git(db).commit().setMessage("initial commit").call();
 
-		assertEquals("", execute("git checkout HEAD"));
+		assertStringArrayEquals("", execute("git checkout HEAD"));
 	}
 
 	@Test
@@ -139,10 +142,10 @@ public class CheckoutTest extends CLIRepositoryTestCase {
 		git.add().addFilepattern(".").call();
 
 		String[] execute = execute("git checkout branch_1");
-		Assert.assertEquals(
+		assertEquals(
 				"error: Your local changes to the following files would be overwritten by checkout:",
 				execute[0]);
-		Assert.assertEquals("\ta", execute[1]);
+		assertEquals("\ta", execute[1]);
 	}
 
 	/**
@@ -193,7 +196,7 @@ public class CheckoutTest extends CLIRepositoryTestCase {
 		Git git = new Git(db);
 		git.commit().setMessage("initial commit").call();
 
-		assertEquals("Switched to a new branch 'new_branch'",
+		assertStringArrayEquals("Switched to a new branch 'new_branch'",
 				execute("git checkout --orphan new_branch"));
 		assertEquals("refs/heads/new_branch", db.getRef("HEAD").getTarget().getName());
 		RevCommit commit = git.commit().setMessage("orphan commit").call();
@@ -553,17 +556,13 @@ public class CheckoutTest extends CLIRepositoryTestCase {
 		// assertEquals("a/c", exception.getConflictingPaths().get(1));
 	}
 
-	static private void assertEquals(Object expected, Object actual) {
-		Assert.assertEquals(expected, actual);
-	}
-
-	static private void assertEquals(String expected, String[] actual) {
+	static private void assertStringArrayEquals(String expected, String[] actual) {
 		// if there is more than one line, ignore last one if empty
-		Assert.assertEquals(
+		assertEquals(
 				1,
 				actual.length > 1 && actual[actual.length - 1].equals("") ? actual.length - 1
 						: actual.length);
-		Assert.assertEquals(expected, actual[0]);
+		assertEquals(expected, actual[0]);
 	}
 
 	@Test
