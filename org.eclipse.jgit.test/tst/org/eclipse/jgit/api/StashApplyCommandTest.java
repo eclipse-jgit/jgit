@@ -609,7 +609,7 @@ public class StashApplyCommandTest extends RepositoryTestCase {
 		} catch (JGitInternalException e) {
 			assertEquals(MessageFormat.format(
 					JGitText.get().stashCommitIncorrectNumberOfParents,
-					head.name(), 0),
+					head.name(), "0"),
 					e.getMessage());
 		}
 	}
