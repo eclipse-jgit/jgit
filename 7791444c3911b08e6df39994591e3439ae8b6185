@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2721e7e2_a99ffd66",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-09-16T02:37:09Z",
+      "side": 1,
+      "message": "JGit adheres to API standards that prevent us from breaking this method signature.\n\nIIRC this is also declared in Repository to return an empty set and now we are using the empty set in a lot of places instead of the value returned by the file implementation.\n\nCan we do this sort of filtering inside of the ObjectDatabase when it creates the list of alternates rather every time we are iterating it?",
+      "revId": "7791444c3911b08e6df39994591e3439ae8b6185",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
