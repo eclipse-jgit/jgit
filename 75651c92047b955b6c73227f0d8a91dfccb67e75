@@ -22,6 +22,53 @@
       "revId": "75651c92047b955b6c73227f0d8a91dfccb67e75",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_9dffcc26",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ObjectCheckerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1815,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-09-17T21:21:11Z",
+      "side": 1,
+      "message": "style nit: we tend to write hex numbers in lower case",
+      "range": {
+        "startLine": 1815,
+        "startChar": 32,
+        "endLine": 1815,
+        "endChar": 36
+      },
+      "revId": "75651c92047b955b6c73227f0d8a91dfccb67e75",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_3de50099",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ObjectCheckerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1815,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-09-17T21:21:11Z",
+      "side": 1,
+      "message": "AFAIK we also use them for local variables",
+      "parentUuid": "2721e7e2_6aecd0b6",
+      "range": {
+        "startLine": 1815,
+        "startChar": 2,
+        "endLine": 1815,
+        "endChar": 7
+      },
+      "revId": "75651c92047b955b6c73227f0d8a91dfccb67e75",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
