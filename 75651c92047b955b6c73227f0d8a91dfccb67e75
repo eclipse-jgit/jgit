@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2721e7e2_6aecd0b6",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ObjectCheckerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1815,
+      "author": {
+        "id": 6590
+      },
+      "writtenOn": "2015-09-17T15:17:41Z",
+      "side": 1,
+      "message": "What is the JGit community consensus about final variables?\n\n-used them every where\n-only member variables should be final\n-...\n\nI looked in the contribution guide and I didn\u0027t find anything regarding final variables.",
+      "range": {
+        "startLine": 1815,
+        "startChar": 2,
+        "endLine": 1815,
+        "endChar": 7
+      },
+      "revId": "75651c92047b955b6c73227f0d8a91dfccb67e75",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
