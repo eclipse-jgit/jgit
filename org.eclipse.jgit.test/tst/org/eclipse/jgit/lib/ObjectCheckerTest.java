@@ -1810,6 +1810,17 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
+	public void testBug477090() throws CorruptObjectException {
+		checker.setSafeForMacOS(true);
+		final byte[] bytes = {
+				// U+221E 0xe2889e INFINITY ∞
+				(byte) 0xe2, (byte) 0x88, (byte) 0x9e,
+				// .html
+				0x2e, 0x68, 0x74, 0x6d, 0x6c };
+		checker.checkPathSegment(bytes, 0, bytes.length);
+	}
+
+	@Test
 	public void testRejectDotAtEndOnWindows() {
 		checker.setSafeForWindows(true);
 		try {
