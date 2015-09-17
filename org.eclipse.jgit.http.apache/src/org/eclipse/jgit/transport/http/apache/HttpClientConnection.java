@@ -73,6 +73,9 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpEntityEnclosingRequest;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.Credentials;
+import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -80,13 +83,16 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.params.ClientPNames;
-import org.apache.http.conn.params.ConnRoutePNames;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.conn.ssl.X509HostnameVerifier;
-import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.params.CoreConnectionPNames;
 import org.apache.http.params.HttpParams;
+import org.eclipse.jgit.transport.CredentialItem;
+import org.eclipse.jgit.transport.CredentialsProvider;
+import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.transport.http.HttpConnection;
 import org.eclipse.jgit.transport.http.apache.internal.HttpApacheText;
 import org.eclipse.jgit.util.TemporaryBuffer;
@@ -120,20 +126,42 @@ public class HttpClientConnection implements HttpConnection {
 
 	private Boolean followRedirects;
 
+	private CredentialsProvider credProv;
+
 	private X509HostnameVerifier hostnameverifier;
 
 	SSLContext ctx;
 
+	@SuppressWarnings("restriction")
 	private HttpClient getClient() {
-		if (client == null)
-			client = new DefaultHttpClient();
-		HttpParams params = client.getParams();
-		if (proxy != null && !Proxy.NO_PROXY.equals(proxy)) {
-			isUsingProxy = true;
-			InetSocketAddress adr = (InetSocketAddress) proxy.address();
-			params.setParameter(ConnRoutePNames.DEFAULT_PROXY,
-					new HttpHost(adr.getHostName(), adr.getPort()));
+		if (client == null) {
+			HttpClientBuilder builder = HttpClientBuilder.create();
+			if (proxy != null && !Proxy.NO_PROXY.equals(proxy)) {
+				isUsingProxy = true;
+				HttpHost proxyHost = getProxyHost(proxy);
+				builder.setProxy(proxyHost);
+				try {
+					URIish proxyURIish = new URIish(new URL(
+							proxyHost.getSchemeName(), proxyHost.getHostName(),
+							proxyHost.getPort(), null));
+					Credentials credentials = getBasicCredentials(credProv,
+							proxyURIish);
+					if (credentials != null) {
+						AuthScope proxyScope = new AuthScope(proxyHost);
+						BasicCredentialsProvider proxyCredentialsProvider = new BasicCredentialsProvider();
+						proxyCredentialsProvider.setCredentials(proxyScope,
+								credentials);
+						builder.setDefaultCredentialsProvider(
+										proxyCredentialsProvider);
+					}
+				} catch (MalformedURLException e) {
+					// Shouldn't happen
+				}
+			}
+			client = builder.build();
 		}
+		HttpParams params = client.getParams();
+
 		if (timeout != null)
 			params.setIntParameter(CoreConnectionPNames.CONNECTION_TIMEOUT,
 					timeout.intValue());
@@ -151,6 +179,23 @@ public class HttpClientConnection implements HttpConnection {
 		}
 
 		return client;
+	}
+
+	private Credentials getBasicCredentials(CredentialsProvider credProv2,
+			URIish proxyURIish) {
+		CredentialItem.Username u = new CredentialItem.Username();
+		CredentialItem.Password p = new CredentialItem.Password();
+		if (credProv.supports(u, p) && credProv.get(proxyURIish, u, p)) {
+			return new UsernamePasswordCredentials(u.getValue(),
+					new String(p.getValue()));
+		} else {
+			return null;
+		}
+	}
+
+	private HttpHost getProxyHost(Proxy p) {
+		InetSocketAddress proxyAdr = (InetSocketAddress) p.address();
+		return new HttpHost(proxyAdr.getHostName(), proxyAdr.getPort());
 	}
 
 	private SSLContext getSSLContext() {
@@ -198,6 +243,21 @@ public class HttpClientConnection implements HttpConnection {
 		this.client = cl;
 		this.urlStr = urlStr;
 		this.proxy = proxy;
+	}
+
+	/**
+	 * @param urlStr
+	 * @param proxy
+	 * @param cl
+	 * @param credProv
+	 * @since 4.1
+	 */
+	public HttpClientConnection(String urlStr, Proxy proxy, HttpClient cl,
+			CredentialsProvider credProv) {
+		this.client = cl;
+		this.urlStr = urlStr;
+		this.proxy = proxy;
+		this.credProv = credProv;
 	}
 
 	public int getResponseCode() throws IOException {
