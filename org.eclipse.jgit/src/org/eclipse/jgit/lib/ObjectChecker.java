@@ -618,8 +618,9 @@ public class ObjectChecker {
 					default:
 						return false;
 					}
+				default:
+					return false;
 				}
-				break;
 			case (byte) 0xef: // http://www.utf8-chartable.de/unicode-utf8-table.pl?start=65024
 				checkTruncatedIgnorableUTF8(raw, ptr, end);
 				// U+FEFF 0xefbbbf ZERO WIDTH NO-BREAK SPACE
