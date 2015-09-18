@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2721e7e2_2ccf905a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-09-18T22:51:11Z",
+      "side": 1,
+      "message": "Here the API baseline stuff became helpful. Eclipse warned me on this line that we are breaking API here (ok, on a protected method, not so important. But we could break projects subclassing FileTreeIterator here). API before was \n  \n  protected FileTreeIterator(final WorkingTreeIterator p, final File root, FS fs)\n\nand you changed it to take a FileTreeIterator instead of a WorkingTreeIterator. We should keep the constructor taking WorkingTreeIterator (and fall back to DefaultFileModeStrategy in this case) and add this constructor taking FileTreeIterator. The one taking WorkingTreeIterator could be marked deprecated. I uploaded a patch for that.",
+      "revId": "d9d211ea3dc91ddd26f0f105aefe0898e504a07f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
