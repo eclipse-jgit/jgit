@@ -665,16 +665,10 @@ public class DiffFormatter implements AutoCloseable {
 		format(res.header, res.a, res.b);
 	}
 
-	private static void writeGitLinkDiffText(OutputStream o, DiffEntry ent)
-			throws IOException {
-		if (ent.getOldMode() == GITLINK) {
-			o.write(encodeASCII("-Subproject commit " + ent.getOldId().name() //$NON-NLS-1$
-					+ "\n")); //$NON-NLS-1$
-		}
-		if (ent.getNewMode() == GITLINK) {
-			o.write(encodeASCII("+Subproject commit " + ent.getNewId().name() //$NON-NLS-1$
-					+ "\n")); //$NON-NLS-1$
-		}
+	private static byte[] writeGitLinkText(AbbreviatedObjectId id)
+		throws IOException {
+		return encodeASCII("Subproject commit " + id.name() //$NON-NLS-1$
+				+ "\n");
 	}
 
 	private String format(AbbreviatedObjectId id) {
@@ -938,13 +932,7 @@ public class DiffFormatter implements AutoCloseable {
 
 		formatHeader(buf, ent);
 
-		if (ent.getOldMode() == GITLINK || ent.getNewMode() == GITLINK) {
-			formatOldNewPaths(buf, ent);
-			writeGitLinkDiffText(buf, ent);
-			editList = new EditList();
-			type = PatchType.UNIFIED;
-
-		} else if (ent.getOldId() == null || ent.getNewId() == null) {
+		if (ent.getOldId() == null || ent.getNewId() == null) {
 			// Content not changed (e.g. only mode, pure rename)
 			editList = new EditList();
 			type = PatchType.UNIFIED;
@@ -952,8 +940,15 @@ public class DiffFormatter implements AutoCloseable {
 		} else {
 			assertHaveRepository();
 
-			byte[] aRaw = open(OLD, ent);
-			byte[] bRaw = open(NEW, ent);
+			byte[] aRaw, bRaw;
+
+			if (ent.getOldMode() == GITLINK || ent.getNewMode() == GITLINK) {
+				aRaw = writeGitLinkText(ent.getOldId());
+				bRaw = writeGitLinkText(ent.getNewId());
+			} else {
+				aRaw = open(OLD, ent);
+				bRaw = open(NEW, ent);
+			}
 
 			if (aRaw == BINARY || bRaw == BINARY //
 					|| RawText.isBinary(aRaw) || RawText.isBinary(bRaw)) {
