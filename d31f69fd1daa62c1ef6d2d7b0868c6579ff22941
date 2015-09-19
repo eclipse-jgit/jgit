@@ -104,6 +104,23 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_2c0dd0c8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/WalkEncryption.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 60115
+      },
+      "writtenOn": "2015-09-19T20:37:32Z",
+      "side": 1,
+      "message": "this could be simplified with use of PBEWithHmacSHA512AndAES_256\nfamily of SecretKeyFactory/AlgorithmParameters:\nhttps://docs.oracle.com/javase/8/docs/technotes/guides/security/SunProviders.html\n\nand Use the AlgorithmParameters from the encrypting Cipher:\nhttp://stackoverflow.com/questions/29215274/how-do-i-properly-use-the-pbewithhmacsha512andaes-256-algorithm",
+      "revId": "d31f69fd1daa62c1ef6d2d7b0868c6579ff22941",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8748d3a1_8124b0b7",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/WalkEncryption.java",
         "patchSetId": 2
