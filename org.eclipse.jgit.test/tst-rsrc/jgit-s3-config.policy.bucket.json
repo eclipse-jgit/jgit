@@ -1,0 +1,20 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "DenyAllButKnownSourceAddressWithMask",
+            "Effect": "Deny",
+            "Principal": "*",
+            "Action": "s3:*",
+            "Resource": "arn:aws:s3:::jgit.eclipse.org/*",
+            "Condition": {
+                "NotIpAddress": {
+                    "aws:SourceIp": [
+                        "198.41.30.0/24",
+                        "67.175.188.187/32"
+                    ]
+                }
+            }
+        }
+    ]
+}

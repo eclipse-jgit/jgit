@@ -47,18 +47,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
+import java.security.GeneralSecurityException;
+import java.security.spec.AlgorithmParameterSpec;
 import java.text.MessageFormat;
 
 import javax.crypto.Cipher;
 import javax.crypto.CipherInputStream;
 import javax.crypto.CipherOutputStream;
-import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.PBEParameterSpec;
 
@@ -77,23 +75,29 @@ abstract class WalkEncryption {
 
 	abstract void request(HttpURLConnection u, String prefix);
 
-	abstract void validate(HttpURLConnection u, String p) throws IOException;
+	abstract void validate(HttpURLConnection u, String prefix) throws IOException;
 
-	protected void validateImpl(final HttpURLConnection u, final String p,
+	// TODO mixed ciphers
+	// consider permitting mixed ciphers to facilitate algorithm migration
+	// i.e. user keeps the password, but changes the algorithm
+	// then existing remote entries will still be readable
+	protected void validateImpl(final HttpURLConnection u, final String prefix,
 			final String version, final String name) throws IOException {
 		String v;
 
-		v = u.getHeaderField(p + JETS3T_CRYPTO_VER);
+		v = u.getHeaderField(prefix + JETS3T_CRYPTO_VER);
 		if (v == null)
 			v = ""; //$NON-NLS-1$
 		if (!version.equals(v))
 			throw new IOException(MessageFormat.format(JGitText.get().unsupportedEncryptionVersion, v));
 
-		v = u.getHeaderField(p + JETS3T_CRYPTO_ALG);
+		v = u.getHeaderField(prefix + JETS3T_CRYPTO_ALG);
 		if (v == null)
 			v = ""; //$NON-NLS-1$
-		if (!name.equals(v))
-			throw new IOException(JGitText.get().unsupportedEncryptionAlgorithm + v);
+		// Standard names are not case-sensitive.
+		// http://docs.oracle.com/javase/8/docs/technotes/guides/security/StandardNames.html
+		if (!name.equalsIgnoreCase(v))
+			throw new IOException(MessageFormat.format(JGitText.get().unsupportedEncryptionAlgorithm, v));
 	}
 
 	IOException error(final Throwable why) {
@@ -110,9 +114,9 @@ abstract class WalkEncryption {
 		}
 
 		@Override
-		void validate(final HttpURLConnection u, final String p)
+		void validate(final HttpURLConnection u, final String prefix)
 				throws IOException {
-			validateImpl(u, p, "", ""); //$NON-NLS-1$ //$NON-NLS-2$
+			validateImpl(u, prefix, "", ""); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
 		@Override
@@ -126,53 +130,132 @@ abstract class WalkEncryption {
 		}
 	}
 
-	static class ObjectEncryptionV2 extends WalkEncryption {
-		private static int ITERATION_COUNT = 5000;
+	// PBEParameterSpec factory for Java (version <= 7).
+	// Does not support AlgorithmParameterSpec.
+	static PBEParameterSpec java7PBEParameterSpec(byte[] salt,
+			int iterationCount) {
+		return new PBEParameterSpec(salt, iterationCount);
+	}
 
-		private static byte[] salt = { (byte) 0xA4, (byte) 0x0B, (byte) 0xC8,
-				(byte) 0x34, (byte) 0xD6, (byte) 0x95, (byte) 0xF3, (byte) 0x13 };
+	// PBEParameterSpec factory for Java (version >= 8).
+	// Adds support for AlgorithmParameterSpec.
+	static PBEParameterSpec java8PBEParameterSpec(byte[] salt,
+			int iterationCount, AlgorithmParameterSpec paramSpec) {
+		try {
+			@SuppressWarnings("boxing")
+			PBEParameterSpec instance = PBEParameterSpec.class
+					.getConstructor(byte[].class, int.class,
+							AlgorithmParameterSpec.class)
+					.newInstance(salt, iterationCount, paramSpec);
+			return instance;
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
 
-		private final String algorithmName;
+	// Current runtime version.
+	// https://docs.oracle.com/javase/7/docs/technotes/guides/versioning/spec/versioning2.html
+	static double javaVersion() {
+		return Double.parseDouble(System.getProperty("java.specification.version")); //$NON-NLS-1$
+	}
 
-		private final SecretKey skey;
+	/**
+	 * JetS3t compatibility reference: <a href=
+	 * "https://bitbucket.org/jmurty/jets3t/src/156c00eb160598c2e9937fd6873f00d3190e28ca/src/org/jets3t/service/security/EncryptionUtil.java">
+	 * EncryptionUtil.java</a>
+	 * <p>
+	 * Note: EncryptionUtil is inadequate:
+	 * <li>EncryptionUtil.isCipherAvailableForUse checks encryption only which
+	 * "always works", but in JetS3t both encryption and decryption use non-IV
+	 * aware algorithm parameters for all PBE specs, which breaks in case of AES
+	 * <li>that means that only non-IV algorithms will work round trip in
+	 * JetS3t, such as PBEWithMD5AndDES and PBEWithSHAAndTwofish-CBC
+	 * <li>any AES based algorithms such as "PBE...With...And...AES" will not
+	 * work, since they need proper IV setup
+	 */
+	static class ObjectEncryptionJetS3tV2 extends WalkEncryption {
 
-		private final PBEParameterSpec aspec;
+		static final String JETS3T_VERSION = "2"; //$NON-NLS-1$
 
-		ObjectEncryptionV2(final String algo, final String key)
-				throws InvalidKeySpecException, NoSuchAlgorithmException {
-			algorithmName = algo;
+		static final String JETS3T_ALGORITHM = "PBEWithMD5AndDES"; //$NON-NLS-1$
 
-			final PBEKeySpec s;
-			s = new PBEKeySpec(key.toCharArray(), salt, ITERATION_COUNT, 32);
-			skey = SecretKeyFactory.getInstance(algo).generateSecret(s);
-			aspec = new PBEParameterSpec(salt, ITERATION_COUNT);
+		static final int JETS3T_ITERATIONS = 5000;
+
+		static final int JETS3T_KEY_SIZE = 32;
+
+		static final byte[] JETS3T_SALT = { //
+				(byte) 0xA4, (byte) 0x0B, (byte) 0xC8, (byte) 0x34, //
+				(byte) 0xD6, (byte) 0x95, (byte) 0xF3, (byte) 0x13 //
+		};
+
+		// Size 16, see com.sun.crypto.provider.AESConstants.AES_BLOCK_SIZE
+		static final byte[] ZERO_AES_IV = new byte[16];
+
+		private final String cryptoVer = JETS3T_VERSION;
+
+		private final String cryptoAlg;
+
+		private final SecretKey secretKey;
+
+		private final AlgorithmParameterSpec paramSpec;
+
+		ObjectEncryptionJetS3tV2(final String algo, final String key)
+				throws GeneralSecurityException {
+			cryptoAlg = algo;
+
+			// Standard names are not case-sensitive.
+			// http://docs.oracle.com/javase/8/docs/technotes/guides/security/StandardNames.html
+			String cryptoName = cryptoAlg.toUpperCase();
+
+			if (!cryptoName.startsWith("PBE")) //$NON-NLS-1$
+				throw new GeneralSecurityException(JGitText.get().encryptionOnlyPBE);
+
+			PBEKeySpec keySpec = new PBEKeySpec(key.toCharArray(), JETS3T_SALT, JETS3T_ITERATIONS, JETS3T_KEY_SIZE);
+			secretKey = SecretKeyFactory.getInstance(algo).generateSecret(keySpec);
+
+			// Detect algorithms which require initialization vector.
+			boolean useIV = cryptoName.contains("AES"); //$NON-NLS-1$
+
+			// PBEParameterSpec algorithm parameters are supported from Java 8.
+			boolean isJava8 = javaVersion() >= 1.8;
+
+			if (useIV && isJava8) {
+				// Support IV where possible:
+				// * since JCE provider uses random IV for PBE/AES
+				// * and there is no place to store dynamic IV in JetS3t V2
+				// * we use static IV, and tolerate increased security risk
+				// TODO back port this change to JetS3t V2
+				// See:
+				// https://bitbucket.org/jmurty/jets3t/raw/156c00eb160598c2e9937fd6873f00d3190e28ca/src/org/jets3t/service/security/EncryptionUtil.java
+				// http://cr.openjdk.java.net/~mullan/webrevs/ascarpin/webrev.00/raw_files/new/src/share/classes/com/sun/crypto/provider/PBES2Core.java
+				IvParameterSpec paramIV = new IvParameterSpec(ZERO_AES_IV);
+				paramSpec = java8PBEParameterSpec(JETS3T_SALT, JETS3T_ITERATIONS, paramIV);
+			} else {
+				// Strict legacy JetS3t V2 compatibility, with no IV support.
+				paramSpec = java7PBEParameterSpec(JETS3T_SALT, JETS3T_ITERATIONS);
+			}
+
 		}
 
 		@Override
 		void request(final HttpURLConnection u, final String prefix) {
-			u.setRequestProperty(prefix + JETS3T_CRYPTO_VER, "2"); //$NON-NLS-1$
-			u.setRequestProperty(prefix + JETS3T_CRYPTO_ALG, algorithmName);
+			u.setRequestProperty(prefix + JETS3T_CRYPTO_VER, cryptoVer);
+			u.setRequestProperty(prefix + JETS3T_CRYPTO_ALG, cryptoAlg);
 		}
 
 		@Override
-		void validate(final HttpURLConnection u, final String p)
+		void validate(final HttpURLConnection u, final String prefix)
 				throws IOException {
-			validateImpl(u, p, "2", algorithmName); //$NON-NLS-1$
+			validateImpl(u, prefix, cryptoVer, cryptoAlg);
 		}
 
 		@Override
 		OutputStream encrypt(final OutputStream os) throws IOException {
 			try {
-				final Cipher c = Cipher.getInstance(algorithmName);
-				c.init(Cipher.ENCRYPT_MODE, skey, aspec);
-				return new CipherOutputStream(os, c);
-			} catch (NoSuchAlgorithmException e) {
-				throw error(e);
-			} catch (NoSuchPaddingException e) {
-				throw error(e);
-			} catch (InvalidKeyException e) {
-				throw error(e);
-			} catch (InvalidAlgorithmParameterException e) {
+				final Cipher cipher = Cipher.getInstance(cryptoAlg);
+				cipher.init(Cipher.ENCRYPT_MODE, secretKey, paramSpec);
+				return new CipherOutputStream(os, cipher);
+			} catch (GeneralSecurityException e) {
 				throw error(e);
 			}
 		}
@@ -180,16 +263,10 @@ abstract class WalkEncryption {
 		@Override
 		InputStream decrypt(final InputStream in) throws IOException {
 			try {
-				final Cipher c = Cipher.getInstance(algorithmName);
-				c.init(Cipher.DECRYPT_MODE, skey, aspec);
-				return new CipherInputStream(in, c);
-			} catch (NoSuchAlgorithmException e) {
-				throw error(e);
-			} catch (NoSuchPaddingException e) {
-				throw error(e);
-			} catch (InvalidKeyException e) {
-				throw error(e);
-			} catch (InvalidAlgorithmParameterException e) {
+				final Cipher cipher = Cipher.getInstance(cryptoAlg);
+				cipher.init(Cipher.DECRYPT_MODE, secretKey, paramSpec);
+				return new CipherInputStream(in, cipher);
+			} catch (GeneralSecurityException e) {
 				throw error(e);
 			}
 		}
