@@ -247,7 +247,7 @@ public abstract class FS {
 	 * @since 3.0
 	 */
 	public long lastModified(File f) throws IOException {
-		return f.lastModified();
+		return FileUtil.lastModified(f);
 	}
 
 	/**
@@ -260,7 +260,7 @@ public abstract class FS {
 	 * @since 3.0
 	 */
 	public void setLastModified(File f, long time) throws IOException {
-		f.setLastModified(time);
+		FileUtil.setLastModified(f, time);
 	}
 
 	/**
@@ -273,7 +273,7 @@ public abstract class FS {
 	 * @since 3.0
 	 */
 	public long length(File path) throws IOException {
-		return path.length();
+		return FileUtil.getLength(path);
 	}
 
 	/**
@@ -630,7 +630,7 @@ public abstract class FS {
 	 * @since 3.0
 	 */
 	public boolean isSymLink(File path) throws IOException {
-		return false;
+		return FileUtil.isSymlink(path);
 	}
 
 	/**
@@ -642,7 +642,7 @@ public abstract class FS {
 	 * @since 3.0
 	 */
 	public boolean exists(File path) {
-		return path.exists();
+		return FileUtil.exists(path);
 	}
 
 	/**
@@ -654,7 +654,7 @@ public abstract class FS {
 	 * @since 3.0
 	 */
 	public boolean isDirectory(File path) {
-		return path.isDirectory();
+		return FileUtil.isDirectory(path);
 	}
 
 	/**
@@ -666,7 +666,7 @@ public abstract class FS {
 	 * @since 3.0
 	 */
 	public boolean isFile(File path) {
-		return path.isFile();
+		return FileUtil.isFile(path);
 	}
 
 	/**
@@ -677,7 +677,7 @@ public abstract class FS {
 	 * @since 3.0
 	 */
 	public boolean isHidden(File path) throws IOException {
-		return path.isHidden();
+		return FileUtil.isHidden(path);
 	}
 
 	/**
