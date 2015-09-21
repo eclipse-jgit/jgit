@@ -69,6 +69,16 @@
       <scope>test</scope>
     </dependency>
 
+    <!-- Optional security provider for encryption tests. -->
+    <!-- See https://dev.eclipse.org/ipzilla/show_bug.cgi?id=9554 -->
+    <!-- See https://bugs.eclipse.org/bugs/show_bug.cgi?id=467064 -->
+    <dependency>
+      <groupId>org.bouncycastle</groupId>
+      <artifactId>bcprov-jdk15on</artifactId>
+      <version>1.52</version>
+      <scope>test</scope>
+     </dependency>
+
     <dependency>
       <groupId>org.hamcrest</groupId>
       <artifactId>hamcrest-library</artifactId>
@@ -100,6 +110,30 @@
       <version>${project.version}</version>
     </dependency>
   </dependencies>
+
+  <profiles>
+    <!-- Set profile s3.test or -Djgit.s3.test=true to enable S3 encryption tests.
+        Set -Djgit.test.long=true to also enable long running tests -->
+    <profile>
+      <id>s3.test</id>
+      <activation>
+        <property>
+          <name>jgit.s3.test</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <argLine>-Djgit.s3.test=true -Djgit.test.long=${jgit.test.long}</argLine>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 
   <build>
     <sourceDirectory>src/</sourceDirectory>
