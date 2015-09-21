@@ -287,6 +287,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String emptyPathNotPermitted;
 	/***/ public String emptyRef;
 	/***/ public String encryptionError;
+	/***/ public String encryptionOnlyPBE;
 	/***/ public String endOfFileInEscape;
 	/***/ public String entryNotFoundByPath;
 	/***/ public String enumValueNotSupported2;
