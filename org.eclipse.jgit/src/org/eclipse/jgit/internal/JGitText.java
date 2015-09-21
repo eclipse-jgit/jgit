@@ -345,7 +345,6 @@ public class JGitText extends TranslationBundle {
 	/***/ public String gcFailed;
 	/***/ public String gitmodulesNotFound;
 	/***/ public String headRequiredToStash;
-	/***/ public String hiddenFilesStartWithDot;
 	/***/ public String hoursAgo;
 	/***/ public String hugeIndexesAreNotSupportedByJgitYet;
 	/***/ public String hunkBelongsToAnotherFile;
