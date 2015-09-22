@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0724e3f1_276f7aa7",
+        "filename": "org.eclipse.jgit.test/build.properties",
+        "patchSetId": 6
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-09-22T21:18:11Z",
+      "side": 1,
+      "message": "This isn\u0027t available in Orbit http://download.eclipse.org/tools/orbit/downloads/drops/R20150821153341/ so we\u0027d have to add it and its dependency slf4j-simple to Orbit so that we can add it to the target platform.\n\nWe already have an approval for log4j 1.2.15 which is available in Orbit already, so could we use log4j instead of slf4j-simple ?",
+      "range": {
+        "startLine": 8,
+        "startChar": 21,
+        "endLine": 8,
+        "endChar": 63
+      },
+      "revId": "4f6cc3cb29cb7e4f1667a5dc660b448c9b899f39",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
