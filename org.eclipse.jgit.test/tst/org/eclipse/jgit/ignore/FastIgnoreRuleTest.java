@@ -203,6 +203,11 @@ public class FastIgnoreRuleTest {
 		assertMatched("/a*/b", "/abc/b");
 		assertMatched("/a*/b", "/abcd/b");
 		assertMatched("/a*/b", "/a/b");
+
+		// Tests related to bug 478055
+		assertMatched("$*/b", "/$a/b");
+		assertMatched("$*b", "$ab");
+		assertMatched("a^*b", "a^foob");
 	}
 
 	@Test

@@ -360,7 +360,7 @@ public class Strings {
 				if (in_char_class)
 					setNext(charClass, c);
 				else
-					sb.append(c);
+					sb.append(Pattern.quote(String.valueOf(c)));
 				break;
 			} // end switch
 
