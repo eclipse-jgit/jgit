@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2721e7e2_e77bca61",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/internal/Strings.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-09-22T14:03:21Z",
+      "side": 1,
+      "message": "This is the right method but too big hammer. It will need at least two string objects to create and so on. \nSince ignore rules have a huge impact on jgit performance I would try to start small...\n\nBTW thanks to this issue I\u0027ve found another one, see bug 478065 :-).",
+      "revId": "92ccb792627c84ecb9970c552441441ce151b989",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
