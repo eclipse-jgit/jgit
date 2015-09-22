@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "2721e7e2_790adedd",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/WalkEncryptionTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 60115
+      },
+      "writtenOn": "2015-09-22T17:04:50Z",
+      "side": 1,
+      "message": "1) can we please enable CI amazon build?\nsince currently tests are useless, i.e. :\nhttps://hudson.eclipse.org/jgit/job/jgit.gerrit/7127/consoleFull\n2015-09-22 12:46:20 ERROR WalkEncryptionTest:568 - Amazon S3 test configuration is missing, tests will not run.\n\n2) should we detect CI build via \nHUDSON_HOME or JENKINS_HOME\nor some other environment settings \nin order to always force long-running tests on CI?",
+      "revId": "a282961589d11c9d8c8a7cd46ce3877fab888a00",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_c182f656",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/WalkEncryptionTest.java",
         "patchSetId": 5
@@ -19,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_d9094a6c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/WalkEncryptionTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 60115
+      },
+      "writtenOn": "2015-09-22T17:04:50Z",
+      "side": 1,
+      "message": "switched to slf4j/log4j\nsince it was already in maven dependencies",
+      "parentUuid": "2721e7e2_c182f656",
+      "revId": "a282961589d11c9d8c8a7cd46ce3877fab888a00",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_81a11ef3",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/WalkEncryptionTest.java",
         "patchSetId": 5
@@ -30,6 +65,30 @@
       "writtenOn": "2015-09-22T07:40:39Z",
       "side": 1,
       "message": "s/form/from/",
+      "range": {
+        "startLine": 157,
+        "startChar": 25,
+        "endLine": 157,
+        "endChar": 29
+      },
+      "revId": "a282961589d11c9d8c8a7cd46ce3877fab888a00",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_390d0677",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/WalkEncryptionTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 60115
+      },
+      "writtenOn": "2015-09-22T17:04:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2721e7e2_81a11ef3",
       "range": {
         "startLine": 157,
         "startChar": 25,
@@ -65,6 +124,30 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_79fadeaf",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/WalkEncryptionTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 60115
+      },
+      "writtenOn": "2015-09-22T17:04:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2721e7e2_417606fb",
+      "range": {
+        "startLine": 265,
+        "startChar": 26,
+        "endLine": 265,
+        "endChar": 30
+      },
+      "revId": "a282961589d11c9d8c8a7cd46ce3877fab888a00",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_c1695619",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/WalkEncryptionTest.java",
         "patchSetId": 5
@@ -88,6 +171,30 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_99fb52af",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/WalkEncryptionTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 60115
+      },
+      "writtenOn": "2015-09-22T17:04:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2721e7e2_c1695619",
+      "range": {
+        "startLine": 493,
+        "startChar": 18,
+        "endLine": 493,
+        "endChar": 22
+      },
+      "revId": "a282961589d11c9d8c8a7cd46ce3877fab888a00",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_01608e27",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/WalkEncryptionTest.java",
         "patchSetId": 5
@@ -99,6 +206,30 @@
       "writtenOn": "2015-09-22T07:40:39Z",
       "side": 1,
       "message": "s/testes/tests/",
+      "range": {
+        "startLine": 562,
+        "startChar": 25,
+        "endLine": 562,
+        "endChar": 31
+      },
+      "revId": "a282961589d11c9d8c8a7cd46ce3877fab888a00",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_3924e6e4",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/WalkEncryptionTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 562,
+      "author": {
+        "id": 60115
+      },
+      "writtenOn": "2015-09-22T17:04:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2721e7e2_01608e27",
       "range": {
         "startLine": 562,
         "startChar": 25,
@@ -157,6 +288,30 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_d9302a22",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/WalkEncryptionTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 564,
+      "author": {
+        "id": 60115
+      },
+      "writtenOn": "2015-09-22T17:04:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2721e7e2_e1629a2f",
+      "range": {
+        "startLine": 564,
+        "startChar": 25,
+        "endLine": 564,
+        "endChar": 31
+      },
+      "revId": "a282961589d11c9d8c8a7cd46ce3877fab888a00",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_614eaabf",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/WalkEncryptionTest.java",
         "patchSetId": 5
@@ -180,6 +335,30 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_1962c208",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/WalkEncryptionTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 648,
+      "author": {
+        "id": 60115
+      },
+      "writtenOn": "2015-09-22T17:04:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2721e7e2_614eaabf",
+      "range": {
+        "startLine": 648,
+        "startChar": 6,
+        "endLine": 648,
+        "endChar": 21
+      },
+      "revId": "a282961589d11c9d8c8a7cd46ce3877fab888a00",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_8153de62",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/WalkEncryptionTest.java",
         "patchSetId": 5
@@ -191,6 +370,24 @@
       "writtenOn": "2015-09-22T07:40:39Z",
       "side": 1,
       "message": "Could we use junit assume also to skip tests if an algorithm is missing ?",
+      "revId": "a282961589d11c9d8c8a7cd46ce3877fab888a00",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_d942ea65",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/WalkEncryptionTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 649,
+      "author": {
+        "id": 60115
+      },
+      "writtenOn": "2015-09-22T17:04:50Z",
+      "side": 1,
+      "message": "this is what I essentially do here,\nexcept I want to see extra logging\nwhen algorithm is in fact missing",
+      "parentUuid": "2721e7e2_8153de62",
       "revId": "a282961589d11c9d8c8a7cd46ce3877fab888a00",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
