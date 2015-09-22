@@ -247,7 +247,7 @@ public class Strings {
 		char[] charClass = new char[6];
 
 		for (int i = 0; i < pattern.length(); i++) {
-			char c = pattern.charAt(i);
+			final char c = pattern.charAt(i);
 			switch (c) {
 
 			case '*':
@@ -255,6 +255,20 @@ public class Strings {
 					sb.append(c);
 				else
 					sb.append('.').append(c);
+				break;
+
+			case '(': // fall-through
+			case ')': // fall-through
+			case '{': // fall-through
+			case '}': // fall-through
+			case '+': // fall-through
+			case '$': // fall-through
+			case '^': // fall-through
+			case '|':
+				if (seenEscape || in_brackets > 0)
+					sb.append(c);
+				else
+					sb.append('\\').append(c);
 				break;
 
 			case '.':
