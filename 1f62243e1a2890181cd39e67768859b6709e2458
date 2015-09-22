@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_41f9e6f0",
+        "filename": ".project",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-09-22T07:40:47Z",
+      "side": 1,
+      "message": "this isn\u0027t true, we have committed .project files for all JGit bundles, see e.g.\nhttp://git.eclipse.org/c/jgit/jgit.git/tree/org.eclipse.jgit/.project\nbut I would not want to have a project in the root folder since support for nested projects in Eclipse is still limited",
+      "parentUuid": "2721e7e2_21c31280",
+      "revId": "1f62243e1a2890181cd39e67768859b6709e2458",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_c1db1661",
         "filename": "org.eclipse.jgit.test/pom.xml",
         "patchSetId": 2
@@ -83,6 +101,24 @@
       "side": 1,
       "message": "ok.\n1) so should I keep or remove the dependency?\n2) if we are keeping this, can we make it scope\u003dcompile?",
       "parentUuid": "2721e7e2_c1db1661",
+      "revId": "1f62243e1a2890181cd39e67768859b6709e2458",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_a108a29f",
+        "filename": "org.eclipse.jgit.test/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-09-22T07:40:47Z",
+      "side": 1,
+      "message": "we have an approved CQ for org.bouncycastle:bcprov-jdk15on\nhttps://dev.eclipse.org/ipzilla/show_bug.cgi?id\u003d9554\nthough it\u0027s not yet in Orbit since we need an Oracle JCE signing certificate to re-sign the bundle which we had to modify since we were asked to remove a few classes due to legal issues. See https://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d467064",
+      "parentUuid": "2721e7e2_c191565a",
       "revId": "1f62243e1a2890181cd39e67768859b6709e2458",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
