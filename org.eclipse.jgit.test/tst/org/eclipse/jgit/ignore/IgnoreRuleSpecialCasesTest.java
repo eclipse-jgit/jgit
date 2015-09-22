@@ -869,6 +869,40 @@ public class IgnoreRuleSpecialCasesTest {
 	}
 
 	@Test
+	public void testDollar() throws Exception {
+		assertMatch("$", "$", true);
+		assertMatch("$x", "$x", true);
+		assertMatch("$x", "x$", false);
+		assertMatch("$x", "$", false);
+
+		assertMatch("$x.*", "$x.*", true);
+		assertMatch("*$", "x$", true);
+		assertMatch("*.$", "x.$", true);
+
+		assertMatch("$*x", "$ax", true);
+		assertMatch("x*$", "xa$", true);
+		assertMatch("x*$", "xa", false);
+		assertMatch("[a$b]", "$", true);
+	}
+
+	@Test
+	public void testCaret() throws Exception {
+		assertMatch("^", "^", true);
+		assertMatch("^x", "^x", true);
+		assertMatch("^x", "x^", false);
+		assertMatch("^x", "^", false);
+
+		assertMatch("^x.*", "^x.*", true);
+		assertMatch("*^", "x^", true);
+		assertMatch("*.^", "x.^", true);
+
+		assertMatch("x*^", "xa^", true);
+		assertMatch("^*x", "^ax", true);
+		assertMatch("^*x", "ax", false);
+		assertMatch("[a^b]", "^", true);
+	}
+
+	@Test
 	public void testFilePathSimpleCase() throws Exception {
 		assertFileNameMatch("a/b", "a/b", true);
 	}
