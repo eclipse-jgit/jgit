@@ -1,0 +1,181 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2721e7e2_41c8c69b",
+        "filename": ".gitignore",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-09-22T03:38:49Z",
+      "side": 1,
+      "message": "We ignored the file, but you added it anyway?",
+      "revId": "1f62243e1a2890181cd39e67768859b6709e2458",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_21c31280",
+        "filename": ".project",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-09-22T03:38:49Z",
+      "side": 1,
+      "message": "We usually don\u0027t commit Eclipse .project files in JGit. Why are we adding this file?",
+      "revId": "1f62243e1a2890181cd39e67768859b6709e2458",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_c1db1661",
+        "filename": "org.eclipse.jgit.test/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-09-22T03:38:49Z",
+      "side": 1,
+      "message": "This is going to require a CQ to get permission to use the library for testing.",
+      "revId": "1f62243e1a2890181cd39e67768859b6709e2458",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_81ce3ea5",
+        "filename": "org.eclipse.jgit.test/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-09-22T03:38:49Z",
+      "side": 1,
+      "message": "please remove trailing space; blank lines should be just an LF.",
+      "revId": "1f62243e1a2890181cd39e67768859b6709e2458",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_a1dee24f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-09-22T03:38:49Z",
+      "side": 1,
+      "message": "I think you can fit this all on one line:\n\n /** Property names ... */",
+      "range": {
+        "startLine": 189,
+        "startChar": 1,
+        "endLine": 191,
+        "endChar": 4
+      },
+      "revId": "1f62243e1a2890181cd39e67768859b6709e2458",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_01d24e43",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-09-22T03:38:49Z",
+      "side": 1,
+      "message": "Override the Eclipse formatted and skip the blank lines between fields here. Its noisy seeing all this extra whitespace in what is just a dense definition of constants.",
+      "revId": "1f62243e1a2890181cd39e67768859b6709e2458",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_81e59e17",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/WalkEncryption.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-09-22T03:38:49Z",
+      "side": 1,
+      "message": "So when Java 9 is released this is going to fall back to Java7 behavior again? :(\n\nIsn\u0027t Java 7 our minimum version now? So the better test is if equals(\"1.7\") || startsWith(\"1.7.\") assume Java7, otherwise assume Java 8 and onward?",
+      "range": {
+        "startLine": 211,
+        "startChar": 3,
+        "endLine": 212,
+        "endChar": 102
+      },
+      "revId": "1f62243e1a2890181cd39e67768859b6709e2458",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_a109c26c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/WalkEncryption.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-09-22T03:38:49Z",
+      "side": 1,
+      "message": "I\u0027m no crypto nerd, but this is a bad idea. We may be better off just breaking compatibility with JetS3.",
+      "range": {
+        "startLine": 215,
+        "startChar": 4,
+        "endLine": 218,
+        "endChar": 63
+      },
+      "revId": "1f62243e1a2890181cd39e67768859b6709e2458",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_010d2e76",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/WalkEncryption.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-09-22T03:38:49Z",
+      "side": 1,
+      "message": "IIRC its spelled JetS3t, mixed case. See http://www.jets3t.org/",
+      "range": {
+        "startLine": 226,
+        "startChar": 21,
+        "endLine": 226,
+        "endChar": 27
+      },
+      "revId": "1f62243e1a2890181cd39e67768859b6709e2458",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
