@@ -1,0 +1,199 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2721e7e2_c182f656",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/WalkEncryptionTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-09-22T07:40:39Z",
+      "side": 1,
+      "message": "remove dead code",
+      "revId": "a282961589d11c9d8c8a7cd46ce3877fab888a00",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_81a11ef3",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/WalkEncryptionTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-09-22T07:40:39Z",
+      "side": 1,
+      "message": "s/form/from/",
+      "range": {
+        "startLine": 157,
+        "startChar": 25,
+        "endLine": 157,
+        "endChar": 29
+      },
+      "revId": "a282961589d11c9d8c8a7cd46ce3877fab888a00",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_417606fb",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/WalkEncryptionTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-09-22T07:40:39Z",
+      "side": 1,
+      "message": "s/form/from/",
+      "range": {
+        "startLine": 265,
+        "startChar": 26,
+        "endLine": 265,
+        "endChar": 30
+      },
+      "revId": "a282961589d11c9d8c8a7cd46ce3877fab888a00",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_c1695619",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/WalkEncryptionTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-09-22T07:40:39Z",
+      "side": 1,
+      "message": "s/Tect/Test/",
+      "range": {
+        "startLine": 493,
+        "startChar": 18,
+        "endLine": 493,
+        "endChar": 22
+      },
+      "revId": "a282961589d11c9d8c8a7cd46ce3877fab888a00",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_01608e27",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/WalkEncryptionTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 562,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-09-22T07:40:39Z",
+      "side": 1,
+      "message": "s/testes/tests/",
+      "range": {
+        "startLine": 562,
+        "startChar": 25,
+        "endLine": 562,
+        "endChar": 31
+      },
+      "revId": "a282961589d11c9d8c8a7cd46ce3877fab888a00",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_e1629a2f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/WalkEncryptionTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 564,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-09-22T07:40:39Z",
+      "side": 1,
+      "message": "s/testes/tests/",
+      "range": {
+        "startLine": 564,
+        "startChar": 25,
+        "endLine": 564,
+        "endChar": 31
+      },
+      "revId": "a282961589d11c9d8c8a7cd46ce3877fab888a00",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_415d6671",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/WalkEncryptionTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 564,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-09-22T07:40:39Z",
+      "side": 1,
+      "message": "disabled ?",
+      "range": {
+        "startLine": 564,
+        "startChar": 36,
+        "endLine": 564,
+        "endChar": 47
+      },
+      "revId": "a282961589d11c9d8c8a7cd46ce3877fab888a00",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_614eaabf",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/WalkEncryptionTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 648,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-09-22T07:40:39Z",
+      "side": 1,
+      "message": "strange method name, maybe \"testIfAlgorithmPresent\"",
+      "range": {
+        "startLine": 648,
+        "startChar": 6,
+        "endLine": 648,
+        "endChar": 21
+      },
+      "revId": "a282961589d11c9d8c8a7cd46ce3877fab888a00",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_8153de62",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/WalkEncryptionTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 649,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-09-22T07:40:39Z",
+      "side": 1,
+      "message": "Could we use junit assume also to skip tests if an algorithm is missing ?",
+      "revId": "a282961589d11c9d8c8a7cd46ce3877fab888a00",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
