@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_a1942249",
+        "filename": ".gitignore",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 60115
+      },
+      "writtenOn": "2015-09-22T05:01:35Z",
+      "side": 1,
+      "message": "no, I did commit the .project to the repo,\nexactly because it was not listed here\nhence I added .project to .gitignore\nthen removed .project from the commit",
+      "parentUuid": "2721e7e2_41c8c69b",
+      "revId": "1f62243e1a2890181cd39e67768859b6709e2458",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_21c31280",
         "filename": ".project",
         "patchSetId": 2
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_c191565a",
+        "filename": "org.eclipse.jgit.test/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 60115
+      },
+      "writtenOn": "2015-09-22T05:01:35Z",
+      "side": 1,
+      "message": "ok.\n1) so should I keep or remove the dependency?\n2) if we are keeping this, can we make it scope\u003dcompile?",
+      "parentUuid": "2721e7e2_c1db1661",
+      "revId": "1f62243e1a2890181cd39e67768859b6709e2458",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_81ce3ea5",
         "filename": "org.eclipse.jgit.test/pom.xml",
         "patchSetId": 2
@@ -64,6 +100,24 @@
       "writtenOn": "2015-09-22T03:38:49Z",
       "side": 1,
       "message": "please remove trailing space; blank lines should be just an LF.",
+      "revId": "1f62243e1a2890181cd39e67768859b6709e2458",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_01888e2c",
+        "filename": "org.eclipse.jgit.test/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 60115
+      },
+      "writtenOn": "2015-09-22T05:01:35Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "2721e7e2_81ce3ea5",
       "revId": "1f62243e1a2890181cd39e67768859b6709e2458",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -93,6 +147,30 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_21803201",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 60115
+      },
+      "writtenOn": "2015-09-22T05:01:35Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "2721e7e2_a1dee24f",
+      "range": {
+        "startLine": 189,
+        "startChar": 1,
+        "endLine": 191,
+        "endChar": 4
+      },
+      "revId": "1f62243e1a2890181cd39e67768859b6709e2458",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_01d24e43",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
         "patchSetId": 2
@@ -110,6 +188,24 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_817bde97",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 60115
+      },
+      "writtenOn": "2015-09-22T05:01:35Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "2721e7e2_01d24e43",
+      "revId": "1f62243e1a2890181cd39e67768859b6709e2458",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_81e59e17",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/WalkEncryption.java",
         "patchSetId": 2
@@ -121,6 +217,30 @@
       "writtenOn": "2015-09-22T03:38:49Z",
       "side": 1,
       "message": "So when Java 9 is released this is going to fall back to Java7 behavior again? :(\n\nIsn\u0027t Java 7 our minimum version now? So the better test is if equals(\"1.7\") || startsWith(\"1.7.\") assume Java7, otherwise assume Java 8 and onward?",
+      "range": {
+        "startLine": 211,
+        "startChar": 3,
+        "endLine": 212,
+        "endChar": 102
+      },
+      "revId": "1f62243e1a2890181cd39e67768859b6709e2458",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_6176aab0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/WalkEncryption.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 60115
+      },
+      "writtenOn": "2015-09-22T05:01:35Z",
+      "side": 1,
+      "message": "fixed",
+      "parentUuid": "2721e7e2_81e59e17",
       "range": {
         "startLine": 211,
         "startChar": 3,
@@ -156,6 +276,30 @@
     },
     {
       "key": {
+        "uuid": "2721e7e2_a1ff0271",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/WalkEncryption.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 60115
+      },
+      "writtenOn": "2015-09-22T05:01:35Z",
+      "side": 1,
+      "message": "this is still better then PBEWithMD5AndDES\nwhich most use by default, and since eclipse\ndoes not carry BC provider, there is no way\nto get a stronger encryption\n\nso I suggest that we:\n1) commit this as is\n2) setup CI to run live amazon tests\n3) provide new ObjectEncryptionXXX, independent of JetS3t\nso both old and new can coexist",
+      "parentUuid": "2721e7e2_a109c26c",
+      "range": {
+        "startLine": 215,
+        "startChar": 4,
+        "endLine": 218,
+        "endChar": 63
+      },
+      "revId": "1f62243e1a2890181cd39e67768859b6709e2458",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_010d2e76",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/WalkEncryption.java",
         "patchSetId": 2
@@ -167,6 +311,30 @@
       "writtenOn": "2015-09-22T03:38:49Z",
       "side": 1,
       "message": "IIRC its spelled JetS3t, mixed case. See http://www.jets3t.org/",
+      "range": {
+        "startLine": 226,
+        "startChar": 21,
+        "endLine": 226,
+        "endChar": 27
+      },
+      "revId": "1f62243e1a2890181cd39e67768859b6709e2458",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2721e7e2_c1ce765c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/WalkEncryption.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 60115
+      },
+      "writtenOn": "2015-09-22T05:01:35Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "2721e7e2_010d2e76",
       "range": {
         "startLine": 226,
         "startChar": 21,
