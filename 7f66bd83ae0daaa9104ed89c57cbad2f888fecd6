@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0724e3f1_ad6869e9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 631,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-09-23T08:52:10Z",
+      "side": 1,
+      "message": "One example place where I see problems: Just by inspecting HEAD,index and merge we decide we want to update that path. We don\u0027t look at the filesystem and don\u0027t check whether name is a directory. But this call will lead to the call to checkoutEntry() (if we are not by luck stopped by conflicts) and it will delete files which we haven\u0027t inspected.",
+      "revId": "7f66bd83ae0daaa9104ed89c57cbad2f888fecd6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
