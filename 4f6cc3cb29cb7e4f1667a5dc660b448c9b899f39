@@ -22,6 +22,30 @@
       "revId": "4f6cc3cb29cb7e4f1667a5dc660b448c9b899f39",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_2a2a9fb5",
+        "filename": "org.eclipse.jgit.test/build.properties",
+        "patchSetId": 6
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 60115
+      },
+      "writtenOn": "2015-09-23T01:18:13Z",
+      "side": 1,
+      "message": "sure, converted to log4j",
+      "parentUuid": "0724e3f1_276f7aa7",
+      "range": {
+        "startLine": 8,
+        "startChar": 21,
+        "endLine": 8,
+        "endChar": 63
+      },
+      "revId": "4f6cc3cb29cb7e4f1667a5dc660b448c9b899f39",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
