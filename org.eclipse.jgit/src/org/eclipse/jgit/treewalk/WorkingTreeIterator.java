@@ -201,6 +201,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	 */
 	protected WorkingTreeIterator(final WorkingTreeIterator p) {
 		super(p);
+		repository = p.repository;
 		state = p.state;
 		infoAttributeNode = p.infoAttributeNode;
 		globalAttributeNode = p.globalAttributeNode;
