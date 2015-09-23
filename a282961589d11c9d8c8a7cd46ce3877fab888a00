@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "0724e3f1_2ad8df65",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/WalkEncryptionTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 60115
+      },
+      "writtenOn": "2015-09-23T01:18:09Z",
+      "side": 1,
+      "message": "1) I would hope eclipse.org can afford a test s3 bucket.\nThat would be a permanent solution.\n\n2) If not, I could provide eclipse.org with my private AWS setup for the few weeks during the development, to insure that code is actually tested by official eclipse.org build system, but I will disable the setup after I am done.\n\n3) test bucket should use 1 day retention lifecycle:\nhttps://docs.aws.amazon.com/AmazonS3/latest/dev/object-lifecycle-mgmt.html\n\n4) test bucket should use AWS IAM account with single-bucket access policy:\nhttp://blogs.aws.amazon.com/security/post/Tx3VRSWZ6B3SHAV/Writing-IAM-Policies-How-to-grant-access-to-an-Amazon-S3-bucket\n\n5) test bucket policy can also limit access by ip/mask\nof the CI build server or build farm only:\nhttps://docs.aws.amazon.com/AmazonS3/latest/dev/example-bucket-policies.html#example-bucket-policies-use-case-3\n\n6) with such narrow-purpose setup, both cost and risk of abuse should be minimal:\nhttps://aws.amazon.com/s3/pricing/",
+      "parentUuid": "0724e3f1_27565adb",
+      "revId": "a282961589d11c9d8c8a7cd46ce3877fab888a00",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2721e7e2_c182f656",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/WalkEncryptionTest.java",
         "patchSetId": 5
