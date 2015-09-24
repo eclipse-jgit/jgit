@@ -58,9 +58,13 @@ public class NameMatcher extends AbstractMatcher {
 
 	final String subPattern;
 
-	NameMatcher(String pattern, Character pathSeparator, boolean dirOnly) {
+	NameMatcher(String pattern, Character pathSeparator, boolean dirOnly,
+			boolean deleteBackslash) {
 		super(pattern, dirOnly);
 		slash = getPathSeparator(pathSeparator);
+		if (deleteBackslash) {
+			pattern = Strings.deleteBackslash(pattern);
+		}
 		beginning = pattern.length() == 0 ? false : pattern.charAt(0) == slash;
 		if (!beginning)
 			this.subPattern = pattern;

@@ -50,7 +50,7 @@ package org.eclipse.jgit.ignore.internal;
 public class LeadingAsteriskMatcher extends NameMatcher {
 
 	LeadingAsteriskMatcher(String pattern, Character pathSeparator, boolean dirOnly) {
-		super(pattern, pathSeparator, dirOnly);
+		super(pattern, pathSeparator, dirOnly, true);
 
 		if (subPattern.charAt(0) != '*')
 			throw new IllegalArgumentException(
