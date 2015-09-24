@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0724e3f1_93fc9fe6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-09-24T19:26:14Z",
+      "side": 1,
+      "message": "This is also useful for \"git submodule update --remote\" --- please also mention that in the commit message",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 35
+      },
+      "revId": "88acfdf2cabb53e49592d7d5142e33d0d95e16bf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_f3d51b60",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 709,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-09-24T19:26:14Z",
+      "side": 1,
+      "message": "Also worth an example using revision\u003d\"some-tag\"",
+      "range": {
+        "startLine": 709,
+        "startChar": 0,
+        "endLine": 709,
+        "endChar": 97
+      },
+      "revId": "88acfdf2cabb53e49592d7d5142e33d0d95e16bf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_33e05342",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-09-24T19:26:14Z",
+      "side": 1,
+      "message": "This should describe what this does in terms of output to .gitmodules. How the branch config is meant to be used is described under submodule.\u003cname\u003e.branch at http://jk.gs/gitmodules.html (\"man gitmodules\") and https://gerrit-review.googlesource.com/Documentation/user-submodules.html",
+      "range": {
+        "startLine": 320,
+        "startChar": 0,
+        "endLine": 321,
+        "endChar": 73
+      },
+      "revId": "88acfdf2cabb53e49592d7d5142e33d0d95e16bf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_133eef41",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-09-24T19:26:14Z",
+      "side": 1,
+      "message": "The name of this option doesn\u0027t make it obvious to me what it will do. How about setRecordRemoteBranch(boolean recordRemoteBranch)?",
+      "range": {
+        "startLine": 327,
+        "startChar": 20,
+        "endLine": 327,
+        "endChar": 48
+      },
+      "revId": "88acfdf2cabb53e49592d7d5142e33d0d95e16bf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
