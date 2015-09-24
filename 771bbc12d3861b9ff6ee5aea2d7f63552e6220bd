@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0724e3f1_3c2025a3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2015-09-24T11:27:29Z",
+      "side": 1,
+      "message": "The question is if the same WindowCursor instance is used concurrently from multiple threads?\n\nOf course, we have a thread pool in Gerrit which computes the diff (which we see at [2]) but I guess that we don\u0027t share the WindowCursor instances between them. Or, have you proved the opposite?",
+      "range": {
+        "startLine": 10,
+        "startChar": 32,
+        "endLine": 12,
+        "endChar": 68
+      },
+      "revId": "771bbc12d3861b9ff6ee5aea2d7f63552e6220bd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
