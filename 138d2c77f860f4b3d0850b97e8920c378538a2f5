@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0724e3f1_ea26c741",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/internal/Strings.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 60341
+      },
+      "writtenOn": "2015-09-24T13:36:27Z",
+      "side": 1,
+      "message": "We may also want to escape |.\nEven if using pipes in file names is probably a bad idea it is still possible",
+      "range": {
+        "startLine": 260,
+        "startChar": 8,
+        "endLine": 260,
+        "endChar": 12
+      },
+      "revId": "138d2c77f860f4b3d0850b97e8920c378538a2f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_aa720f04",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/internal/Strings.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 60341
+      },
+      "writtenOn": "2015-09-24T13:36:27Z",
+      "side": 1,
+      "message": "Patterns using other special regex using \\ are not escaped correctly and do not match the correct thing.\nFor instance adding assertMatch(\"a*\\\\dbidule\", \"a\\\\dbidule\", true) in IgnoreRuleSpecialCasesTest will fail;\n\nBut that may be covered by bug 478065",
+      "range": {
+        "startLine": 305,
+        "startChar": 8,
+        "endLine": 305,
+        "endChar": 13
+      },
+      "revId": "138d2c77f860f4b3d0850b97e8920c378538a2f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
