@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0724e3f1_53cb474d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2015-09-24T17:55:06Z",
+      "side": 1,
+      "message": "I think it might make more sense that this option be a boolean instead (whether to use this feature), and the branch string is read from the manifest xml file when the option is set to true.\n\nIn order to read the branch name from the xml file, you might need to add a member \"branch\" into RepoProject, and make some modifications in ManifestParser and RepoCommand accordingly.",
+      "range": {
+        "startLine": 327,
+        "startChar": 42,
+        "endLine": 327,
+        "endChar": 48
+      },
+      "revId": "8e17c74fc41a0f45c68add59023604bd65fa0b29",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
