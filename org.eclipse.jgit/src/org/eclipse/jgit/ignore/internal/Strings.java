@@ -157,9 +157,7 @@ public class Strings {
 					return false;
 				}
 				char nextChar = pattern.charAt(nextIdx);
-				if (nextChar == '?' || nextChar == '*' || nextChar == '['
-				// required to match escaped backslashes '\\\\'
-						|| nextChar == '\\') {
+				if (escapedByBackslash(nextChar)) {
 					return true;
 				} else {
 					return false;
@@ -167,6 +165,10 @@ public class Strings {
 			}
 		}
 		return false;
+	}
+
+	private static boolean escapedByBackslash(char nextChar) {
+		return nextChar == '?' || nextChar == '*' || nextChar == '[';
 	}
 
 	static PatternState checkWildCards(String pattern) {
@@ -308,6 +310,14 @@ public class Strings {
 					char lookAhead = lookAhead(pattern, i);
 					if (lookAhead == ']' || lookAhead == '[')
 						ignoreLastBracket = true;
+				} else {
+					//
+					char lookAhead = lookAhead(pattern, i);
+					if (lookAhead != '\\' && lookAhead != '['
+							&& lookAhead != '?' && lookAhead != '*'
+							&& lookAhead != ' ' && lookBehind(sb) != '\\') {
+						break;
+					}
 				}
 				sb.append(c);
 				break;
@@ -443,6 +453,32 @@ public class Strings {
 				return JAVA_CHAR_CLASSES.get(i);
 		}
 		return null;
+	}
+
+	static String deleteBackslash(String s) {
+		if (s.indexOf('\\') < 0) {
+			return s;
+		}
+		StringBuilder sb = new StringBuilder(s.length());
+		for (int i = 0; i < s.length(); i++) {
+			char ch = s.charAt(i);
+			if (ch == '\\') {
+				if (i + 1 == s.length()) {
+					continue;
+				}
+				char next = s.charAt(i + 1);
+				if (next == '\\') {
+					sb.append(ch);
+					i++;
+					continue;
+				}
+				if (!escapedByBackslash(next)) {
+					continue;
+				}
+			}
+			sb.append(ch);
+		}
+		return sb.toString();
 	}
 
 }

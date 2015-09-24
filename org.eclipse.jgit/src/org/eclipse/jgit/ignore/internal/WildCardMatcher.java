@@ -62,7 +62,7 @@ public class WildCardMatcher extends NameMatcher {
 
 	WildCardMatcher(String pattern, Character pathSeparator, boolean dirOnly)
 			throws InvalidPatternException {
-		super(pattern, pathSeparator, dirOnly);
+		super(pattern, pathSeparator, dirOnly, false);
 		p = convertGlob(subPattern);
 	}
 

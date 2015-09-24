@@ -830,21 +830,29 @@ public class IgnoreRuleSpecialCasesTest {
 	}
 
 	@Test
+	public void testIgnoredBackslash() throws Exception {
+		// In Git CLI a\b\c is equal to abc
+		assertMatch("a\\b\\c", "abc", true);
+	}
+
+	@Test
 	public void testEscapedBackslash() throws Exception {
 		// In Git CLI a\\b matches a\b file
 		assertMatch("a\\\\b", "a\\b", true);
+		assertMatch("a\\\\b\\c", "a\\bc", true);
+
 	}
 
 	@Test
 	public void testEscapedExclamationMark() throws Exception {
 		assertMatch("\\!b!.txt", "!b!.txt", true);
-		assertMatch("a\\!b!.txt", "a\\!b!.txt", true);
+		assertMatch("a\\!b!.txt", "a!b!.txt", true);
 	}
 
 	@Test
 	public void testEscapedHash() throws Exception {
 		assertMatch("\\#b", "#b", true);
-		assertMatch("a\\#", "a\\#", true);
+		assertMatch("a\\#", "a#", true);
 	}
 
 	@Test
@@ -855,17 +863,33 @@ public class IgnoreRuleSpecialCasesTest {
 
 	@Test
 	public void testNotEscapingBackslash() throws Exception {
-		assertMatch("\\out", "\\out", true);
-		assertMatch("\\out", "a/\\out", true);
-		assertMatch("c:\\/", "c:\\/", true);
-		assertMatch("c:\\/", "a/c:\\/", true);
-		assertMatch("c:\\tmp", "c:\\tmp", true);
-		assertMatch("c:\\tmp", "a/c:\\tmp", true);
+		assertMatch("\\out", "out", true);
+		assertMatch("\\out", "a/out", true);
+		assertMatch("c:\\/", "c:/", true);
+		assertMatch("c:\\/", "a/c:/", true);
+		assertMatch("c:\\tmp", "c:tmp", true);
+		assertMatch("c:\\tmp", "a/c:tmp", true);
 	}
 
 	@Test
 	public void testMultipleEscapedCharacters1() throws Exception {
 		assertMatch("\\]a?c\\*\\[d\\?\\]", "]abc*[d?]", true);
+	}
+
+	@Test
+	public void testBackslash() throws Exception {
+		assertMatch("a\\", "a", true);
+		assertMatch("\\a", "a", true);
+		assertMatch("a/\\", "a/", true);
+		assertMatch("a/b\\", "a/b", true);
+		assertMatch("\\a/b", "a/b", true);
+		assertMatch("/\\a", "/a", true);
+		assertMatch("\\a\\b\\c\\", "abc", true);
+		assertMatch("/\\a/\\b/\\c\\", "a/b/c", true);
+
+		// empty path segment doesn't match
+		assertMatch("\\/a", "/a", false);
+		assertMatch("\\/a", "a", false);
 	}
 
 	@Test
