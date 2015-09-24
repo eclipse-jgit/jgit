@@ -106,6 +106,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	private String groups;
 	private String branch;
 	private String targetBranch = Constants.HEAD;
+	private boolean gerritUpdateSuperproject = false;
 	private PersonIdent author;
 	private RemoteReader callback;
 	private InputStream inputStream;
@@ -314,6 +315,21 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	}
 
 	/**
+	 * Set the branch config in .gitmodules
+	 * <p>
+	 * If the branch config is set in the .gitmodules file, Gerrit will
+	 * automatically update the superproject on updates in the given branch.
+	 *
+	 * @param update
+	 * @return this command
+	 * @since 4.2
+	 */
+	public RepoCommand setGerritSuperprojectUpdate(boolean update) {
+		this.gerritUpdateSuperproject = update;
+		return this;
+	}
+
+	/**
 	 * The progress monitor associated with the clone operation. By default,
 	 * this is set to <code>NullProgressMonitor</code>
 	 *
@@ -433,6 +449,9 @@ public class RepoCommand extends GitCommand<RevCommit> {
 						objectId = ObjectId.fromString(proj.getRevision());
 					else {
 						objectId = callback.sha1(nameUri, proj.getRevision());
+						if (gerritUpdateSuperproject)
+							cfg.setString("submodule", name, "branch", //$NON-NLS-1$ //$NON-NLS-2$
+									proj.getRevision());
 					}
 					if (objectId == null)
 						throw new RemoteUnavailableException(nameUri);
