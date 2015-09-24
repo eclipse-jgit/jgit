@@ -167,7 +167,7 @@ public class PathMatcher extends AbstractMatcher {
 		case COMPLEX:
 			return new WildCardMatcher(segment, pathSeparator, dirOnly);
 		default:
-			return new NameMatcher(segment, pathSeparator, dirOnly);
+			return new NameMatcher(segment, pathSeparator, dirOnly, true);
 		}
 	}
 

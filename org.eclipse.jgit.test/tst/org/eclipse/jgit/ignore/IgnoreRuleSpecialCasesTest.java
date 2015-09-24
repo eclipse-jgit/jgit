@@ -830,6 +830,12 @@ public class IgnoreRuleSpecialCasesTest {
 	}
 
 	@Test
+	public void testIgnoredBackslash() throws Exception {
+		// In Git CLI a\b\c is equal to abc
+		assertMatch("a\\b\\c", "abc", true);
+	}
+
+	@Test
 	public void testEscapedBackslash() throws Exception {
 		// In Git CLI a\\b matches a\b file
 		assertMatch("a\\\\b", "a\\b", true);
@@ -838,13 +844,13 @@ public class IgnoreRuleSpecialCasesTest {
 	@Test
 	public void testEscapedExclamationMark() throws Exception {
 		assertMatch("\\!b!.txt", "!b!.txt", true);
-		assertMatch("a\\!b!.txt", "a\\!b!.txt", true);
+		assertMatch("a\\!b!.txt", "a!b!.txt", true);
 	}
 
 	@Test
 	public void testEscapedHash() throws Exception {
 		assertMatch("\\#b", "#b", true);
-		assertMatch("a\\#", "a\\#", true);
+		assertMatch("a\\#", "a#", true);
 	}
 
 	@Test
@@ -855,12 +861,12 @@ public class IgnoreRuleSpecialCasesTest {
 
 	@Test
 	public void testNotEscapingBackslash() throws Exception {
-		assertMatch("\\out", "\\out", true);
-		assertMatch("\\out", "a/\\out", true);
-		assertMatch("c:\\/", "c:\\/", true);
-		assertMatch("c:\\/", "a/c:\\/", true);
-		assertMatch("c:\\tmp", "c:\\tmp", true);
-		assertMatch("c:\\tmp", "a/c:\\tmp", true);
+		assertMatch("\\out", "out", true);
+		assertMatch("\\out", "a/out", true);
+		assertMatch("c:\\/", "c:/", true);
+		assertMatch("c:\\/", "a/c:/", true);
+		assertMatch("c:\\tmp", "c:tmp", true);
+		assertMatch("c:\\tmp", "a/c:tmp", true);
 	}
 
 	@Test
