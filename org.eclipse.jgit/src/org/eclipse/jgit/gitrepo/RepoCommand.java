@@ -106,6 +106,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	private String groups;
 	private String branch;
 	private String targetBranch = Constants.HEAD;
+	private String gerritUpdateBranch = null;
 	private PersonIdent author;
 	private RemoteReader callback;
 	private InputStream inputStream;
@@ -314,6 +315,21 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	}
 
 	/**
+	 * Set the branch config in .gitmodules
+	 * <p>
+	 * If the branch config is set in the .gitmodules file, Gerrit will
+	 * automatically update the superproject on updates in the given branch.
+	 *
+	 * @param branch
+	 * @return this command
+	 * @since 4.2
+	 */
+	public RepoCommand setGerritUpdateBranch(String branch) {
+		this.gerritUpdateBranch = branch;
+		return this;
+	}
+
+	/**
 	 * The progress monitor associated with the clone operation. By default,
 	 * this is set to <code>NullProgressMonitor</code>
 	 *
@@ -426,6 +442,9 @@ public class RepoCommand extends GitCommand<RevCommit> {
 					String nameUri = proj.getName();
 					cfg.setString("submodule", name, "path", name); //$NON-NLS-1$ //$NON-NLS-2$
 					cfg.setString("submodule", name, "url", nameUri); //$NON-NLS-1$ //$NON-NLS-2$
+					if (gerritUpdateBranch != null)
+						cfg.setString("submodule", name, "branch", //$NON-NLS-1$ //$NON-NLS-2$
+								gerritUpdateBranch);
 					// create gitlink
 					DirCacheEntry dcEntry = new DirCacheEntry(name);
 					ObjectId objectId;
