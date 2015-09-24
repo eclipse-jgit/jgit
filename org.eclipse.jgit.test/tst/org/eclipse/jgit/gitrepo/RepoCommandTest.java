@@ -53,6 +53,7 @@ import java.io.FileReader;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.RepositoryTestCase;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
@@ -689,6 +690,60 @@ public class RepoCommandTest extends RepositoryTestCase {
 			assertEquals(
 				"The tree id of branch db and default db should be the same",
 				branchId, defaultId);
+		}
+	}
+
+	@Test
+	public void testGerritUpdateBranch() throws Exception {
+		try (
+				Repository remoteDb = createBareRepository();
+				Repository tempDb = createWorkRepository()) {
+			StringBuilder xmlContent = new StringBuilder();
+			xmlContent
+				.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+				.append("<manifest>")
+				.append("<remote name=\"remote1\" fetch=\".\" />")
+				.append("<default revision=\"master\" remote=\"remote1\" />")
+				.append("<project name=\"with-branch\" revision=\"another-branch\"  />")
+				.append("<project name=\"with-long-branch\" revision=\"refs/heads/master\"  />")
+				.append("<project name=\"with-default-branch\" />")
+				.append("<project name=\"with-sha1\" revision=\"0123456789012345678901234567890123456789\" />")
+				.append("</manifest>");
+			JGitTestUtil.writeTrashFile(tempDb, "manifest.xml",
+					xmlContent.toString());
+			RepoCommand command = new RepoCommand(remoteDb);
+			command
+				.setPath(tempDb.getWorkTree().getAbsolutePath() + "/manifest.xml")
+				.setURI(rootUri)
+				.setGerritSuperprojectUpdate(true)
+				.call();
+			ObjectId branchId = remoteDb.resolve("HEAD");
+
+			// Clone it
+			File directory = createTempDirectory("testGerritUpdateBranch");
+			Repository localDb = Git.cloneRepository().setDirectory(directory)
+					.setURI(remoteDb.getDirectory().toURI().toString()).call()
+					.getRepository();
+
+			File dotmodules = new File(localDb.getWorkTree(),
+					Constants.DOT_GIT_MODULES);
+			localDb.close();
+			BufferedReader reader = new BufferedReader(new FileReader(
+					dotmodules));
+			StringBuilder b = new StringBuilder();
+			while (true) {
+				String line = reader.readLine();
+				if (line == null)
+					break;
+				b.append(line);
+			}
+			Config c = new Config();
+			c.fromText(b.toString());
+
+			assertTrue("standard branches work", c.getString("submodule", "with-branch", "branch").equals("another-branch"));
+			assertTrue("default branches work", c.getString("submodule", "with-default-branch", "branch").equals("master"));
+			assertTrue("long branches work", c.getString("submodule", "with-long-branch", "branch").equals("refs/heads/master"));
+			assertTrue("sha1s don't subscribe", c.getString("submodule", "with-sha1", "branch").equals(null));
 		}
 	}
 
