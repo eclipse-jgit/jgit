@@ -164,6 +164,14 @@ public class CLIRepositoryTestCase extends LocalDiskRepositoryTestCase {
 				.replaceAll("\t", "\\\\t");
 	}
 
+	protected void assertStringArrayEquals(String expected, String[] actual) {
+		// if there is more than one line, ignore last one if empty
+		assertEquals(1,
+				actual.length > 1 && actual[actual.length - 1].equals("")
+						? actual.length - 1 : actual.length);
+		assertEquals(expected, actual[0]);
+	}
+
 	protected void assertArrayOfLinesEquals(String[] expected, String[] actual) {
 		assertEquals(toText(expected), toText(actual));
 	}

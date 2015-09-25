@@ -556,15 +556,6 @@ public class CheckoutTest extends CLIRepositoryTestCase {
 		// assertEquals("a/c", exception.getConflictingPaths().get(1));
 	}
 
-	static private void assertStringArrayEquals(String expected, String[] actual) {
-		// if there is more than one line, ignore last one if empty
-		assertEquals(
-				1,
-				actual.length > 1 && actual[actual.length - 1].equals("") ? actual.length - 1
-						: actual.length);
-		assertEquals(expected, actual[0]);
-	}
-
 	@Test
 	public void testCheckoutPath() throws Exception {
 		Git git = new Git(db);
