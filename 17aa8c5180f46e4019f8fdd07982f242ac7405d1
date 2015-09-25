@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0724e3f1_c6c01796",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2015-09-25T00:02:04Z",
+      "side": 1,
+      "message": "Please also mention that it only works in bare mode (see examples in setAuthor, setRemoteReader, etc.)",
+      "range": {
+        "startLine": 318,
+        "startChar": 4,
+        "endLine": 321,
+        "endChar": 73
+      },
+      "revId": "17aa8c5180f46e4019f8fdd07982f242ac7405d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_a6bd2320",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2015-09-25T00:02:04Z",
+      "side": 1,
+      "message": "So it could be a tag here, which is not a branch, but harmless in Gerrit. I think we should have a comment here to explain that.",
+      "revId": "17aa8c5180f46e4019f8fdd07982f242ac7405d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
