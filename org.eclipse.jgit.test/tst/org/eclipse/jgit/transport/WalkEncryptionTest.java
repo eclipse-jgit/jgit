@@ -73,6 +73,7 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.UUID;
 
+import javax.crypto.Cipher;
 import javax.crypto.SecretKeyFactory;
 
 import org.apache.log4j.Logger;
@@ -108,8 +109,10 @@ import static org.eclipse.jgit.transport.WalkEncryptionTest.Util.*;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({ //
+		WalkEncryptionTest.Required.class, //
 		WalkEncryptionTest.MinimalSet.class, //
 		WalkEncryptionTest.TestablePBE.class, //
+		WalkEncryptionTest.TestableTransformation.class, //
 })
 public class WalkEncryptionTest {
 
@@ -417,7 +420,12 @@ public class WalkEncryptionTest {
 		// https://www.bouncycastle.org/specifications.html
 		// https://docs.oracle.com/javase/8/docs/technotes/guides/security/SunProviders.html
 		static List<String> cryptoCipherListPBE() {
-			return cryptoCipherList("(PBE).*(WITH).+(AND).+");
+			return cryptoCipherList(WalkEncryption.Vals.REGEX_PBE);
+		}
+
+		// TODO returns inconsistent list.
+		static List<String> cryptoCipherListTrans() {
+			return cryptoCipherList(WalkEncryption.Vals.REGEX_TRANS);
 		}
 
 		static String securityProviderName(String algorithm) throws Exception {
@@ -435,25 +443,6 @@ public class WalkEncryptionTest {
 				}
 			}
 			return new ArrayList<String>(target);
-		}
-
-		/**
-		 * Verify if any security provider published the algorithm.
-		 *
-		 * @param algorithm
-		 * @return result
-		 */
-		static boolean isAlgorithmPresent(String algorithm) {
-			Set<String> cipherSet = Security.getAlgorithms("Cipher");
-			for (String source : cipherSet) {
-				// Standard names are not case-sensitive.
-				// http://docs.oracle.com/javase/8/docs/technotes/guides/security/StandardNames.html
-				String target = algorithm.toUpperCase();
-				if (source.equalsIgnoreCase(target)) {
-					return true;
-				}
-			}
-			return false;
 		}
 
 		/**
@@ -549,6 +538,51 @@ public class WalkEncryptionTest {
 			return System.getenv("HUDSON_HOME") != null;
 		}
 
+		/**
+		 * Setup JCE security policy restrictions. Can remove restrictions when
+		 * restrictions are present, but can not impose them when restrictions
+		 * are missing.
+		 *
+		 * @param restrictedOn
+		 */
+		// http://www.docjar.com/html/api/javax/crypto/JceSecurity.java.html
+		static void policySetup(boolean restrictedOn) {
+			try {
+				java.lang.reflect.Field isRestricted = Class
+						.forName("javax.crypto.JceSecurity")
+						.getDeclaredField("isRestricted");
+				isRestricted.setAccessible(true);
+				isRestricted.set(null, new Boolean(restrictedOn));
+			} catch (Throwable e) {
+				logger.info(
+						"Could not setup JCE security policy restrictions.");
+			}
+		}
+
+		static void reportPolicy() {
+			try {
+				java.lang.reflect.Field isRestricted = Class
+						.forName("javax.crypto.JceSecurity")
+						.getDeclaredField("isRestricted");
+				isRestricted.setAccessible(true);
+				logger.info("JCE security policy restricted="
+						+ isRestricted.get(null));
+			} catch (Throwable e) {
+				logger.info(
+						"Could not report JCE security policy restrictions.");
+			}
+		}
+
+		static List<Object[]> product(List<String> one, List<String> two) {
+			List<Object[]> result = new ArrayList<Object[]>();
+			for (String s1 : one) {
+				for (String s2 : two) {
+					result.add(new Object[] { s1, s2 });
+				}
+			}
+			return result;
+		}
+
 	}
 
 	/**
@@ -601,6 +635,20 @@ public class WalkEncryptionTest {
 			props.put(AmazonS3.Keys.CRYPTO_ALG, algorithm);
 			PrintWriter writer = new PrintWriter(JGIT_CONF_FILE);
 			props.store(writer, "JGIT S3 connection configuration file.");
+			writer.close();
+		}
+
+		/**
+		 * Generate JGIT S3 connection configuration file.
+		 *
+		 * @param source
+		 * @throws Exception
+		 */
+		static void configCreate(Properties source) throws Exception {
+			Properties target = Props.discover();
+			target.putAll(source);
+			PrintWriter writer = new PrintWriter(JGIT_CONF_FILE);
+			target.store(writer, "JGIT S3 connection configuration file.");
 			writer.close();
 		}
 
@@ -677,6 +725,55 @@ public class WalkEncryptionTest {
 		}
 
 		/**
+		 * Verify if any security provider published the algorithm.
+		 *
+		 * @param algorithm
+		 * @return result
+		 */
+		static boolean isAlgorithmPresent(String algorithm) {
+			Set<String> cipherSet = Security.getAlgorithms("Cipher");
+			for (String source : cipherSet) {
+				// Standard names are not case-sensitive.
+				// http://docs.oracle.com/javase/8/docs/technotes/guides/security/StandardNames.html
+				String target = algorithm.toUpperCase();
+				if (source.equalsIgnoreCase(target)) {
+					return true;
+				}
+			}
+			return false;
+		}
+
+		static boolean isAlgorithmPresent(Properties props) {
+			String profile = props.getProperty(AmazonS3.Keys.CRYPTO_ALG);
+			String version = props.getProperty(AmazonS3.Keys.CRYPTO_VER,
+					WalkEncryption.Vals.DEFAULT_VERS);
+			String crytoAlgo;
+			String keyAlgo;
+			switch (version) {
+			case WalkEncryption.Vals.DEFAULT_VERS:
+			case WalkEncryption.JGitV1.VERSION:
+				crytoAlgo = profile;
+				keyAlgo = profile;
+				break;
+			case WalkEncryption.JGitV2.VERSION:
+				crytoAlgo = props
+						.getProperty(profile + WalkEncryption.Keys.X_ALGO);
+				keyAlgo = props
+						.getProperty(profile + WalkEncryption.Keys.X_KEY_ALGO);
+				break;
+			default:
+				return false;
+			}
+			try {
+				Cipher.getInstance(crytoAlgo);
+				SecretKeyFactory.getInstance(keyAlgo);
+				return true;
+			} catch (Throwable e) {
+				return false;
+			}
+		}
+
+		/**
 		 * Verify if JRE security policy allows the algorithm.
 		 *
 		 * @param algorithm
@@ -684,7 +781,7 @@ public class WalkEncryptionTest {
 		 */
 		static boolean isAlgorithmAllowed(String algorithm) {
 			try {
-				WalkEncryption crypto = new WalkEncryption.ObjectEncryptionJetS3tV2(
+				WalkEncryption crypto = new WalkEncryption.JetS3tV2(
 						algorithm, JGIT_PASS);
 				verifyCrypto(crypto);
 				return true;
@@ -692,6 +789,15 @@ public class WalkEncryptionTest {
 				return false; // Encryption failure.
 			} catch (GeneralSecurityException e) {
 				throw new Error(e); // Construction failure.
+			}
+		}
+
+		static boolean isAlgorithmAllowed(Properties props) {
+			try {
+				WalkEncryption.instance(props);
+				return true;
+			} catch (GeneralSecurityException e) {
+				return false;
 			}
 		}
 
@@ -736,6 +842,10 @@ public class WalkEncryptionTest {
 					&& isAlgorithmAllowed(algorithm);
 		}
 
+		static boolean isAlgorithmTestable(Properties props) {
+			return isAlgorithmPresent(props) && isAlgorithmAllowed(props);
+		}
+
 		/**
 		 * Log algorithm, provider, testability.
 		 *
@@ -749,6 +859,26 @@ public class WalkEncryptionTest {
 					: "N/A";
 			String status = "Algorithm: " + algorithm + " @ " + provider + "; "
 					+ "present/allowed : " + present + "/" + allowed;
+			if (allowed) {
+				logger.info("Testing " + status);
+			} else {
+				logger.warn("Missing " + status);
+			}
+		}
+
+		static void reportAlgorithmStatus(Properties props) throws Exception {
+			final boolean present = isAlgorithmPresent(props);
+			final boolean allowed = present && isAlgorithmAllowed(props);
+
+			String profile = props.getProperty(AmazonS3.Keys.CRYPTO_ALG);
+			String version = props.getProperty(AmazonS3.Keys.CRYPTO_VER);
+
+			StringBuilder status = new StringBuilder();
+			status.append(" Version: " + version);
+			status.append(" Profile: " + profile);
+			status.append(" Present: " + present);
+			status.append(" Allowed: " + allowed);
+
 			if (allowed) {
 				logger.info("Testing " + status);
 			} else {
@@ -846,6 +976,7 @@ public class WalkEncryptionTest {
 		public static void initialize() throws Exception {
 			Transport.register(TransportAmazonS3.PROTO_S3);
 			proxySetup();
+			reportPolicy();
 			reportLongTests();
 			reportPublicAddress();
 			reportTestConfigPresent();
@@ -879,26 +1010,26 @@ public class WalkEncryptionTest {
 		/**
 		 * Optional encrypted amazon remote JGIT life cycle test.
 		 *
-		 * @param algorithm
+		 * @param props
 		 * @throws Exception
 		 */
-		void cryptoTestIfCan(String algorithm) throws Exception {
-			reportAlgorithmStatus(algorithm);
+		void cryptoTestIfCan(Properties props) throws Exception {
+			reportAlgorithmStatus(props);
 			assumeTrue(isTestConfigPresent());
-			assumeTrue(isAlgorithmTestable(algorithm));
-			cryptoTest(algorithm);
+			assumeTrue(isAlgorithmTestable(props));
+			cryptoTest(props);
 		}
 
 		/**
 		 * Required encrypted amazon remote JGIT life cycle test.
 		 *
-		 * @param algorithm
+		 * @param props
 		 * @throws Exception
 		 */
-		void cryptoTest(String algorithm) throws Exception {
+		void cryptoTest(Properties props) throws Exception {
 
 			remoteDelete();
-			configCreate(algorithm);
+			configCreate(props);
 			folderDelete(JGIT_LOCAL_DIR);
 
 			String uri = amazonURI();
@@ -990,10 +1121,10 @@ public class WalkEncryptionTest {
 	}
 
 	/**
-	 * Test minimal set of algorithms.
+	 * Verify prerequisites.
 	 */
 	@FixMethodOrder(MethodSorters.NAME_ASCENDING)
-	public static class MinimalSet extends Base {
+	public static class Required extends Base {
 
 		@Test
 		public void test_A1_ValidURI() throws Exception {
@@ -1005,22 +1136,72 @@ public class WalkEncryptionTest {
 		@Test(expected = Exception.class)
 		public void test_A2_CryptoError() throws Exception {
 			assumeTrue(isTestConfigPresent());
-			cryptoTest(ALGO_ERROR);
+			Properties props = new Properties();
+			props.put(AmazonS3.Keys.CRYPTO_ALG, ALGO_ERROR);
+			props.put(AmazonS3.Keys.PASSWORD, JGIT_PASS);
+			cryptoTest(props);
+		}
+
+	}
+
+	/**
+	 * Test minimal set of algorithms.
+	 */
+	@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+	public static class MinimalSet extends Base {
+
+		@Test
+		public void test_V0_Java7_JET() throws Exception {
+			assumeTrue(isTestConfigPresent());
+			Properties props = new Properties();
+			props.put(AmazonS3.Keys.CRYPTO_ALG, ALGO_JETS3T);
+			// Do not set version.
+			props.put(AmazonS3.Keys.PASSWORD, JGIT_PASS);
+			cryptoTestIfCan(props);
 		}
 
 		@Test
-		public void test_A3_CryptoJetS3tDefault() throws Exception {
-			cryptoTestIfCan(ALGO_JETS3T);
+		public void test_V1_Java7_GIT() throws Exception {
+			assumeTrue(isTestConfigPresent());
+			Properties props = new Properties();
+			props.put(AmazonS3.Keys.CRYPTO_ALG, ALGO_JETS3T);
+			props.put(AmazonS3.Keys.CRYPTO_VER, "1");
+			props.put(AmazonS3.Keys.PASSWORD, JGIT_PASS);
+			cryptoTestIfCan(props);
 		}
 
 		@Test
-		public void test_A4_CryptoMinimalAES() throws Exception {
-			cryptoTestIfCan(ALGO_MINIMAL_AES);
+		public void test_V2_Java7_AES() throws Exception {
+			assumeTrue(isTestConfigPresent());
+			// String profile = "default";
+			String profile = "AES/CBC/PKCS5Padding+PBKDF2WithHmacSHA1";
+			Properties props = new Properties();
+			props.put(AmazonS3.Keys.CRYPTO_ALG, profile);
+			props.put(AmazonS3.Keys.CRYPTO_VER, "2");
+			props.put(AmazonS3.Keys.PASSWORD, JGIT_PASS);
+			props.put(profile + WalkEncryption.Keys.X_ALGO, "AES/CBC/PKCS5Padding");
+			props.put(profile + WalkEncryption.Keys.X_KEY_ALGO, "PBKDF2WithHmacSHA1");
+			props.put(profile + WalkEncryption.Keys.X_KEY_SIZE, "128");
+			props.put(profile + WalkEncryption.Keys.X_KEY_ITER, "10000");
+			props.put(profile + WalkEncryption.Keys.X_KEY_SALT, "e2 55 89 67 8e 8d e8 4c");
+			cryptoTestIfCan(props);
 		}
 
 		@Test
-		public void test_A5_CryptoBouncyCastleCBC() throws Exception {
-			cryptoTestIfCan(ALGO_BOUNCY_CASTLE_CBC);
+		public void test_V2_Java8_PBE_AES() throws Exception {
+			assumeTrue(isTestConfigPresent());
+			String profile = "PBEWithHmacSHA512AndAES_256";
+			Properties props = new Properties();
+			props.put(AmazonS3.Keys.CRYPTO_ALG, profile);
+			props.put(AmazonS3.Keys.CRYPTO_VER, "2");
+			props.put(AmazonS3.Keys.PASSWORD, JGIT_PASS);
+			props.put(profile + WalkEncryption.Keys.X_ALGO, "PBEWithHmacSHA512AndAES_256");
+			props.put(profile + WalkEncryption.Keys.X_KEY_ALGO, "PBEWithHmacSHA512AndAES_256");
+			props.put(profile + WalkEncryption.Keys.X_KEY_SIZE, "256");
+			props.put(profile + WalkEncryption.Keys.X_KEY_ITER, "10000");
+			props.put(profile + WalkEncryption.Keys.X_KEY_SALT, "e2 55 89 67 8e 8d e8 4c");
+			policySetup(false);
+			cryptoTestIfCan(props);
 		}
 
 	}
@@ -1033,26 +1214,79 @@ public class WalkEncryptionTest {
 	@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 	public static class TestablePBE extends Base {
 
-		@Parameters(name = "Algorithm: {0}")
-		public static Collection algorimthmList() {
-			List<String> source = cryptoCipherListPBE();
-			List<Object[]> target = new ArrayList<Object[]>();
-			for (String name : source) {
-				target.add(new Object[] { name });
-			}
-			return target;
+		@Parameters(name = "Profile: {0}   Version: {1}")
+		public static Collection<Object[]> argsList() {
+			List<String> algorithmList = new ArrayList<String>();
+			algorithmList.addAll(cryptoCipherListPBE());
+
+			List<String> versionList = new ArrayList<String>();
+			versionList.add("0");
+			versionList.add("1");
+
+			return product(algorithmList, versionList);
 		}
 
-		final String algorithm;
+		final String profile;
 
-		public TestablePBE(String algorithm) {
-			this.algorithm = algorithm;
+		final String version;
+
+		final String password = JGIT_PASS;
+
+		public TestablePBE(String profile, String version) {
+			this.profile = profile;
+			this.version = version;
 		}
 
-		@Test // Can take long time, needs activation.
-		public void test_B1_Crypto() throws Exception {
+		@Test
+		public void testCrypto() throws Exception {
 			assumeTrue(permitLongTests());
-			cryptoTestIfCan(algorithm);
+			Properties props = new Properties();
+			props.put(AmazonS3.Keys.CRYPTO_ALG, profile);
+			props.put(AmazonS3.Keys.CRYPTO_VER, version);
+			props.put(AmazonS3.Keys.PASSWORD, password);
+			cryptoTestIfCan(props);
+		}
+
+	}
+
+	/**
+	 * Test all present and allowed transformation algorithms.
+	 */
+	// https://github.com/junit-team/junit/wiki/Parameterized-tests
+	@RunWith(Parameterized.class)
+	@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+	public static class TestableTransformation extends Base {
+
+		@Parameters(name = "Profile: {0}   Version: {1}")
+		public static Collection<Object[]> argsList() {
+			List<String> algorithmList = new ArrayList<String>();
+			algorithmList.addAll(cryptoCipherListTrans());
+
+			List<String> versionList = new ArrayList<String>();
+			versionList.add("1");
+
+			return product(algorithmList, versionList);
+		}
+
+		final String profile;
+
+		final String version;
+
+		final String password = JGIT_PASS;
+
+		public TestableTransformation(String profile, String version) {
+			this.profile = profile;
+			this.version = version;
+		}
+
+		@Test
+		public void testCrypto() throws Exception {
+			assumeTrue(permitLongTests());
+			Properties props = new Properties();
+			props.put(AmazonS3.Keys.CRYPTO_ALG, profile);
+			props.put(AmazonS3.Keys.CRYPTO_VER, version);
+			props.put(AmazonS3.Keys.PASSWORD, password);
+			cryptoTestIfCan(props);
 		}
 
 	}
