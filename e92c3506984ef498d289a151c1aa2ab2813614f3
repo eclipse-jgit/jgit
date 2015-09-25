@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0724e3f1_c9d4a8b8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/internal/Strings.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 60341
+      },
+      "writtenOn": "2015-09-25T09:31:09Z",
+      "side": 1,
+      "message": "prev is never reset so If an escaped backslash is found subsequent unescaped won\u0027t be deleted:\nFor instance pattern \"a\\\\b\\c\" should match \"a\\bc\" but won\u0027t because unescaped backslash removal will stop after encountering first escaped backslash",
+      "revId": "e92c3506984ef498d289a151c1aa2ab2813614f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
