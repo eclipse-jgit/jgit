@@ -968,6 +968,22 @@ public class IgnoreRuleSpecialCasesTest {
 		assertMatch("[a{}()b][a{}()b]?[a{}()b][a{}()b]", "{}x()", true);
 		assertMatch("x*{x}3", "xa{x}3", true);
 		assertMatch("a*{x}3", "axxx", false);
+
+		assertMatch("?", "[", true);
+		assertMatch("*", "[", true);
+		
+		// Cases below differ from Git CLI behavior.
+		// Git CLI seem to fail parsing ignore rules
+		// with single opening bracket (bug?)
+		assertMatch("[", "[", true);
+		assertMatch("[*", "[", true);
+		assertMatch("[*", "[a", true);
+		assertMatch("*[", "[", true);
+		assertMatch("*[", "a[", true);
+		assertMatch("1#(1]1a", "1#(1]1a", true);
+		assertMatch("1#(1]1a[", "1#(1]1a[", true);
+		assertMatch("1#(1]1a[}", "1#(1]1a[}", true);
+		assertMatch("1#(1]1a[}!", "1#(1]1a[}!", true);
 	}
 
 	@Test
