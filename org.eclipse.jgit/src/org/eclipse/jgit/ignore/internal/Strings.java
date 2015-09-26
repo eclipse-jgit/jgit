@@ -141,9 +141,7 @@ public class Strings {
 	private static boolean isComplexWildcard(String pattern) {
 		int idx1 = pattern.indexOf('[');
 		if (idx1 != -1) {
-			int idx2 = pattern.indexOf(']', idx1);
-			if (idx2 > idx1)
-				return true;
+			return true;
 		}
 		if (pattern.indexOf('?') != -1) {
 			return true;
