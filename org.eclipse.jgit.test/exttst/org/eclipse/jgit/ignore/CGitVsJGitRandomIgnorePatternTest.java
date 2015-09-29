@@ -67,6 +67,69 @@ import org.junit.Test;
  */
 public class CGitVsJGitRandomIgnorePatternTest {
 
+	private static class PseudoRandomPatternGenerator {
+
+		private static final int DEFAULT_MAX_FRAGMENTS_PER_PATTERN = 15;
+
+		/**
+		 * Generates 75% Special fragments and 25% "standard" characters
+		 */
+		private static final double DEFAULT_SPECIAL_FRAGMENTS_FREQUENCY = 0.75d;
+
+		private static final List<String> SPECIAL_FRAGMENTS = Arrays.asList(
+				"\\", "!", "#", "[", "]", "|", "/", "*", "?", "{", "}", "(",
+				")", "\\d", "(", "**", "[a\\]]", "\\ ", "+", "-", "^", "$", ".",
+				":", "=", "[[:", ":]]"
+
+		);
+
+		private static final String STANDARD_CHARACTERS = new String(
+				"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
+
+		private final Random random = new Random();
+
+		private int maxFragmentsPerPattern = DEFAULT_MAX_FRAGMENTS_PER_PATTERN;
+
+		private double specialFragmentsFrequency = DEFAULT_SPECIAL_FRAGMENTS_FREQUENCY;
+
+		public PseudoRandomPatternGenerator() {
+
+		}
+
+		public String nextRandomString() {
+			StringBuilder builder = new StringBuilder();
+			int length = randomFragmentCount();
+			for (int i = 0; i < length; i++) {
+				if (useSpecialFragment()) {
+					builder.append(randomSpecialFragment());
+				} else {
+					builder.append(randomStandardCharacters());
+				}
+
+			}
+			return builder.toString();
+		}
+
+		private int randomFragmentCount() {
+			// We want at least one fragment
+			return 1 + random.nextInt(maxFragmentsPerPattern - 1);
+		}
+
+		private char randomStandardCharacters() {
+			return STANDARD_CHARACTERS
+					.charAt(random.nextInt(STANDARD_CHARACTERS.length()));
+		}
+
+		private boolean useSpecialFragment() {
+			return random.nextDouble() > specialFragmentsFrequency;
+		}
+
+		private String randomSpecialFragment() {
+			return SPECIAL_FRAGMENTS
+					.get(random.nextInt(SPECIAL_FRAGMENTS.size()));
+		}
+	}
+
 	@SuppressWarnings("serial")
 	public static class CgitFatalException extends Exception {
 
@@ -139,30 +202,6 @@ public class CGitVsJGitRandomIgnorePatternTest {
 
 	private static final int PATH_PER_PATTERN = 1000;
 
-	private static final int MAX_LENGTH = 15;
-
-	private static String generateRandomPattern() {
-		StringBuilder builder = new StringBuilder();
-		int length = RANDOM.nextInt(MAX_LENGTH - 1) + 1;
-		for (int i = 0; i < length; i++) {
-			builder.append(PATTERN_FRAGMENTS
-					.get(RANDOM.nextInt(PATTERN_FRAGMENTS.size())));
-		}
-		return builder.toString();
-	}
-
-	private static final List<String> PATTERN_FRAGMENTS = Arrays.asList("a",
-			"b", "1", "2", "\\", "!", "#", "[", "]", "|", "/", "*", "?", "{",
-			"}", "(", ")", "\\d", "(", "**", "[a\\]]", "\\ "
-
-	);
-
-	private static final Random RANDOM = new Random();
-
-	private static String generateRandomPath() {
-		return generateRandomPattern();
-	}
-
 	@Test
 	public void testRandomPatterns()
 			throws UnsupportedEncodingException, IOException,
@@ -170,21 +209,21 @@ public class CGitVsJGitRandomIgnorePatternTest {
 		// Initialize new git repo
 		File gitDir = Files.createTempDirectory("jgit").toFile();
 		Git.init().setDirectory(gitDir).call();
+		PseudoRandomPatternGenerator generator = new PseudoRandomPatternGenerator();
 
 		// Generate random patterns and paths
 		for (int i = 0; i < NB_PATTERN; i++) {
-			String pattern = generateRandomPattern();
+			String pattern = generator.nextRandomString();
 
 			FastIgnoreRule jgitIgnoreRule = new FastIgnoreRule(pattern);
 			CGitIgnoreRule cgitIgnoreRule = new CGitIgnoreRule(gitDir, pattern);
 
-			// TEst path with pattern as path
+			// Test path with pattern as path
 			assertCgitAndJgitMatch(pattern, jgitIgnoreRule, cgitIgnoreRule,
-					pattern);
+						pattern);
 
 			for (int p = 0; p < PATH_PER_PATTERN; p++) {
-				String path = generateRandomPath();
-
+				String path = generator.nextRandomString();
 				assertCgitAndJgitMatch(pattern, jgitIgnoreRule, cgitIgnoreRule,
 						path);
 			}
@@ -219,7 +258,8 @@ public class CGitVsJGitRandomIgnorePatternTest {
 	private String buildAssertionToAdd(String pattern, String pathToTest,
 			boolean cgitMatch) {
 		return "assertMatch(" + toJavaString(pattern) + ", "
-				+ toJavaString(pathToTest) + ", " + cgitMatch + ");";
+				+ toJavaString(pathToTest) + ", " + cgitMatch
+				+ " /*cgit result*/);";
 	}
 
 	private String toJavaString(String pattern2) {
