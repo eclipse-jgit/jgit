@@ -106,6 +106,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	private String groups;
 	private String branch;
 	private String targetBranch = Constants.HEAD;
+	private boolean recordRemoteBranch = false;
 	private PersonIdent author;
 	private RemoteReader callback;
 	private InputStream inputStream;
@@ -314,6 +315,24 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	}
 
 	/**
+	 * Set the remote branch in .gitmodules
+	 * <p>
+	 * This will add the remote branch configuration, such that the
+	 * superproject is instructed to follow the remote branch of the
+	 * submodule instead of the sha1.
+	 * <p>
+	 * This works only in bare repositories.
+	 *
+	 * @param update
+	 * @return this command
+	 * @since 4.2
+	 */
+	public RepoCommand setRecordRemoteBranch(boolean update) {
+		this.recordRemoteBranch = update;
+		return this;
+	}
+
+	/**
 	 * The progress monitor associated with the clone operation. By default,
 	 * this is set to <code>NullProgressMonitor</code>
 	 *
@@ -433,6 +452,10 @@ public class RepoCommand extends GitCommand<RevCommit> {
 						objectId = ObjectId.fromString(proj.getRevision());
 					else {
 						objectId = callback.sha1(nameUri, proj.getRevision());
+						if (recordRemoteBranch)
+							// can be branch or tag
+							cfg.setString("submodule", name, "branch", //$NON-NLS-1$ //$NON-NLS-2$
+									proj.getRevision());
 					}
 					if (objectId == null)
 						throw new RemoteUnavailableException(nameUri);
