@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0724e3f1_bbd088c3",
+        "filename": "org.eclipse.jgit.test/exttst/org/eclipse/jgit/ignore/CGitVsJGitRandomIgnorePatternTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-09-30T09:40:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0724e3f1_9b84a4ed",
+      "revId": "c7f0138800829be9180a73666aebd94ad28d4c8d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0724e3f1_db7e1c5d",
         "filename": "org.eclipse.jgit.test/exttst/org/eclipse/jgit/ignore/CGitVsJGitRandomIgnorePatternTest.java",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "0724e3f1_1bd554b2",
+        "filename": "org.eclipse.jgit.test/exttst/org/eclipse/jgit/ignore/CGitVsJGitRandomIgnorePatternTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-09-30T09:40:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0724e3f1_db7e1c5d",
+      "revId": "c7f0138800829be9180a73666aebd94ad28d4c8d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0724e3f1_7b745075",
         "filename": "org.eclipse.jgit.test/exttst/org/eclipse/jgit/ignore/CGitVsJGitRandomIgnorePatternTest.java",
         "patchSetId": 2
@@ -47,6 +83,30 @@
       "writtenOn": "2015-09-30T09:39:05Z",
       "side": 1,
       "message": "nobody will handle these exceptions so just declare \"throws Exception\" in test cases",
+      "range": {
+        "startLine": 221,
+        "startChar": 10,
+        "endLine": 222,
+        "endChar": 63
+      },
+      "revId": "c7f0138800829be9180a73666aebd94ad28d4c8d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_fbd160c5",
+        "filename": "org.eclipse.jgit.test/exttst/org/eclipse/jgit/ignore/CGitVsJGitRandomIgnorePatternTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-09-30T09:40:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0724e3f1_7b745075",
       "range": {
         "startLine": 221,
         "startChar": 10,
