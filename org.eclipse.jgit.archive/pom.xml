@@ -106,6 +106,93 @@
           </archive>
         </configuration>
       </plugin>
+
+      <plugin>
+          <groupId>com.github.siom79.japicmp</groupId>
+          <artifactId>japicmp-maven-plugin</artifactId>
+          <version>${japicmp-version}</version>
+          <configuration>
+              <oldVersion>
+                  <dependency>
+                      <groupId>${project.groupId}</groupId>
+                      <artifactId>${project.artifactId}</artifactId>
+                      <version>${jgit-last-release-version}</version>
+                  </dependency>
+              </oldVersion>
+              <newVersion>
+                  <file>
+                      <path>${project.build.directory}/${project.artifactId}-${project.version}.jar</path>
+                  </file>
+              </newVersion>
+              <parameter>
+                  <onlyModified>true</onlyModified>
+                  <includes>
+                      <include>org.eclipse.jgit.*</include>
+                  </includes>
+                  <accessModifier>public</accessModifier>
+                  <breakBuildOnModifications>false</breakBuildOnModifications>
+                  <breakBuildOnBinaryIncompatibleModifications>false</breakBuildOnBinaryIncompatibleModifications>
+                  <onlyBinaryIncompatible>false</onlyBinaryIncompatible>
+                  <includeSynthetic>false</includeSynthetic>
+                  <ignoreMissingClasses>false</ignoreMissingClasses>
+                  <skipPomModules>true</skipPomModules>
+              </parameter>
+              <skip>false</skip>
+          </configuration>
+          <executions>
+            <execution>
+             <phase>verify</phase>
+             <goals>
+               <goal>cmp</goal>
+             </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
+
+  <reporting>
+    <plugins>
+      <plugin>
+          <groupId>com.github.siom79.japicmp</groupId>
+          <artifactId>japicmp-maven-plugin</artifactId>
+          <version>${japicmp-version}</version>
+          <reportSets>
+              <reportSet>
+                  <reports>
+                      <report>cmp-report</report>
+                  </reports>
+              </reportSet>
+          </reportSets>
+          <configuration>
+              <oldVersion>
+                  <dependency>
+                      <groupId>${project.groupId}</groupId>
+                      <artifactId>${project.artifactId}</artifactId>
+                      <version>${jgit-last-release-version}</version>
+                  </dependency>
+              </oldVersion>
+              <newVersion>
+                  <file>
+                      <path>${project.build.directory}/${project.artifactId}-${project.version}.jar</path>
+                  </file>
+              </newVersion>
+              <parameter>
+                  <onlyModified>true</onlyModified>
+                  <includes>
+                      <include>org.eclipse.jgit.*</include>
+                  </includes>
+                  <accessModifier>public</accessModifier>
+                  <breakBuildOnModifications>false</breakBuildOnModifications>
+                  <breakBuildOnBinaryIncompatibleModifications>false</breakBuildOnBinaryIncompatibleModifications>
+                  <onlyBinaryIncompatible>false</onlyBinaryIncompatible>
+                  <includeSynthetic>false</includeSynthetic>
+                  <ignoreMissingClasses>false</ignoreMissingClasses>
+                  <skipPomModules>true</skipPomModules>
+              </parameter>
+              <skip>false</skip>
+          </configuration>
+      </plugin>
+    </plugins>
+  </reporting>
 </project>
