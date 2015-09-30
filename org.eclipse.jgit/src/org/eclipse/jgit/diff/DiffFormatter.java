@@ -665,10 +665,9 @@ public class DiffFormatter implements AutoCloseable {
 		format(res.header, res.a, res.b);
 	}
 
-	private static byte[] writeGitLinkText(AbbreviatedObjectId id)
-		throws IOException {
+	private static byte[] writeGitLinkText(AbbreviatedObjectId id) {
 		return encodeASCII("Subproject commit " + id.name() //$NON-NLS-1$
-				+ "\n");
+				+ "\n"); //$NON-NLS-1$
 	}
 
 	private String format(AbbreviatedObjectId id) {
