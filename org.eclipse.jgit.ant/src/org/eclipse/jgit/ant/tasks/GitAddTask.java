@@ -117,10 +117,10 @@ public class GitAddTask extends Task {
 		}
 
 		AddCommand gitAdd;
-		try {
-			Repository repo = new FileRepositoryBuilder().readEnvironment()
-					.findGitDir(src).build();
-			gitAdd = new Git(repo).add();
+		try (Repository repo = new FileRepositoryBuilder().readEnvironment()
+				.findGitDir(src).build();
+			Git git = new Git(repo);) {
+			gitAdd = git.add();
 		} catch (IOException e) {
 			throw new BuildException("Could not access repository " + src, e);
 		}

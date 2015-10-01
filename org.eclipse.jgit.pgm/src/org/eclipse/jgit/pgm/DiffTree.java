@@ -74,46 +74,47 @@ class DiffTree extends TextBuiltin {
 
 	@Override
 	protected void run() throws Exception {
-		final TreeWalk walk = new TreeWalk(db);
-		walk.setRecursive(recursive);
-		for (final AbstractTreeIterator i : trees)
-			walk.addTree(i);
-		walk.setFilter(AndTreeFilter.create(TreeFilter.ANY_DIFF, pathFilter));
+		try (final TreeWalk walk = new TreeWalk(db)) {
+			walk.setRecursive(recursive);
+			for (final AbstractTreeIterator i : trees)
+				walk.addTree(i);
+			walk.setFilter(AndTreeFilter.create(TreeFilter.ANY_DIFF, pathFilter));
 
-		final int nTree = walk.getTreeCount();
-		while (walk.next()) {
-			for (int i = 1; i < nTree; i++)
-				outw.print(':');
-			for (int i = 0; i < nTree; i++) {
-				final FileMode m = walk.getFileMode(i);
-				final String s = m.toString();
-				for (int pad = 6 - s.length(); pad > 0; pad--)
-					outw.print('0');
-				outw.print(s);
-				outw.print(' ');
+			final int nTree = walk.getTreeCount();
+			while (walk.next()) {
+				for (int i = 1; i < nTree; i++)
+					outw.print(':');
+				for (int i = 0; i < nTree; i++) {
+					final FileMode m = walk.getFileMode(i);
+					final String s = m.toString();
+					for (int pad = 6 - s.length(); pad > 0; pad--)
+						outw.print('0');
+					outw.print(s);
+					outw.print(' ');
+				}
+
+				for (int i = 0; i < nTree; i++) {
+					outw.print(walk.getObjectId(i).name());
+					outw.print(' ');
+				}
+
+				char chg = 'M';
+				if (nTree == 2) {
+					final int m0 = walk.getRawMode(0);
+					final int m1 = walk.getRawMode(1);
+					if (m0 == 0 && m1 != 0)
+						chg = 'A';
+					else if (m0 != 0 && m1 == 0)
+						chg = 'D';
+					else if (m0 != m1 && walk.idEqual(0, 1))
+						chg = 'T';
+				}
+				outw.print(chg);
+
+				outw.print('\t');
+				outw.print(walk.getPathString());
+				outw.println();
 			}
-
-			for (int i = 0; i < nTree; i++) {
-				outw.print(walk.getObjectId(i).name());
-				outw.print(' ');
-			}
-
-			char chg = 'M';
-			if (nTree == 2) {
-				final int m0 = walk.getRawMode(0);
-				final int m1 = walk.getRawMode(1);
-				if (m0 == 0 && m1 != 0)
-					chg = 'A';
-				else if (m0 != 0 && m1 == 0)
-					chg = 'D';
-				else if (m0 != m1 && walk.idEqual(0, 1))
-					chg = 'T';
-			}
-			outw.print(chg);
-
-			outw.print('\t');
-			outw.print(walk.getPathString());
-			outw.println();
 		}
 	}
 }

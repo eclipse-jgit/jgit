@@ -88,12 +88,14 @@ class Status extends TextBuiltin {
 
 	@Override
 	protected void run() throws Exception {
-		StatusCommand statusCommand = new Git(db).status();
-		if (filterPaths != null && filterPaths.size() > 0)
-			for (String path : filterPaths)
-				statusCommand.addPath(path);
-		org.eclipse.jgit.api.Status status = statusCommand.call();
-		printStatus(status);
+		try (Git git = new Git(db)) {
+			StatusCommand statusCommand = git.status();
+			if (filterPaths != null && filterPaths.size() > 0)
+				for (String path : filterPaths)
+					statusCommand.addPath(path);
+			org.eclipse.jgit.api.Status status = statusCommand.call();
+			printStatus(status);
+		}
 	}
 
 	private void printStatus(org.eclipse.jgit.api.Status status)

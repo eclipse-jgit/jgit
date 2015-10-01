@@ -105,10 +105,10 @@ public class GitCheckoutTask extends Task {
 	@Override
 	public void execute() throws BuildException {
 		CheckoutCommand checkout;
-		try {
-			Repository repo = new FileRepositoryBuilder().readEnvironment()
-					.findGitDir(src).build();
-			checkout = new Git(repo).checkout();
+		try (Repository repo = new FileRepositoryBuilder().readEnvironment()
+				.findGitDir(src).build();
+			Git git = new Git(repo)) {
+			checkout = git.checkout();
 		} catch (IOException e) {
 			throw new BuildException("Could not access repository " + src, e);
 		}

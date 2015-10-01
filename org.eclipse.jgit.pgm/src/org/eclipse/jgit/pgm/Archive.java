@@ -87,8 +87,8 @@ class Archive extends TextBuiltin {
 			else
 				stream = outs;
 
-			try {
-				ArchiveCommand cmd = new Git(db).archive()
+			try (Git git = new Git(db)) {
+				ArchiveCommand cmd = git.archive()
 					.setTree(tree)
 					.setFormat(format)
 					.setPrefix(prefix)
