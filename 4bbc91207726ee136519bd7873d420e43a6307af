@@ -72,6 +72,29 @@
     },
     {
       "key": {
+        "uuid": "0724e3f1_e98eb581",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 743,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-10-01T18:49:42Z",
+      "side": 1,
+      "message": "assertEquals? (and likewise below)",
+      "range": {
+        "startLine": 743,
+        "startChar": 3,
+        "endLine": 743,
+        "endChar": 13
+      },
+      "revId": "4bbc91207726ee136519bd7873d420e43a6307af",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0724e3f1_8954594d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
         "patchSetId": 7
@@ -88,6 +111,75 @@
         "startChar": 15,
         "endLine": 749,
         "endChar": 36
+      },
+      "revId": "4bbc91207726ee136519bd7873d420e43a6307af",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_0cd35749",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 789,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-10-01T18:49:42Z",
+      "side": 1,
+      "message": "What does this comment mean?",
+      "range": {
+        "startLine": 789,
+        "startChar": 0,
+        "endLine": 789,
+        "endChar": 59
+      },
+      "revId": "4bbc91207726ee136519bd7873d420e43a6307af",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_ccd81f69",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 805,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-10-01T18:49:42Z",
+      "side": 1,
+      "message": "What is this test checking? Both \"submodule update --remote\" and Gerrit submodule subscription would get confused by tags.",
+      "range": {
+        "startLine": 805,
+        "startChar": 0,
+        "endLine": 805,
+        "endChar": 47
+      },
+      "revId": "4bbc91207726ee136519bd7873d420e43a6307af",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_ecc08376",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-10-01T18:49:42Z",
+      "side": 1,
+      "message": "I\u0027m having trouble parsing this. Maybe an example or more detail would help.\n\n  /**\n   * Set whether the branch name should be recorded in .gitmodules\n   * \u003cp\u003e\n   * Submodule entries in .gitmodules can include a \"branch\" field\n   * to indicate what remote branch each submodule tracks.\n   * \u003cp\u003e\n   * That field is used by \"git submodule update --remote\" to update\n   * to the tip of the tracked branch when asked and by Gerrit to\n   * update the superproject when a change on that branch is merged.\n   * \u003cp\u003e\n   * Subprojects that request a specific commit or tag will not have\n   * a branch name recorded.\n   * \u003cp\u003e\n   * Not implemented for non-bare repositories.\n   *\n   * @param record Whether to record the branch name\n   * @return this command\n   * @since 4.2\n   */",
+      "range": {
+        "startLine": 320,
+        "startChar": 0,
+        "endLine": 322,
+        "endChar": 34
       },
       "revId": "4bbc91207726ee136519bd7873d420e43a6307af",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
