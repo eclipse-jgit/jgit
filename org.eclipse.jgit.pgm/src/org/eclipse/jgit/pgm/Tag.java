@@ -85,8 +85,9 @@ class Tag extends TextBuiltin {
 						.setMessage(message).setName(tagName);
 
 				if (object != null) {
-					RevWalk walk = new RevWalk(db);
-					command.setObjectId(walk.parseAny(object));
+					try (RevWalk walk = new RevWalk(db)) {
+						command.setObjectId(walk.parseAny(object));
+					}
 				}
 				try {
 					command.call();

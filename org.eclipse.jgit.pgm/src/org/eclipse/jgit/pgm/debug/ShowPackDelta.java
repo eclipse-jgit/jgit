@@ -75,7 +75,10 @@ class ShowPackDelta extends TextBuiltin {
 	@Override
 	protected void run() throws Exception {
 		ObjectReader reader = db.newObjectReader();
-		RevObject obj = new RevWalk(reader).parseAny(objectId);
+		RevObject obj;
+		try (RevWalk rw = new RevWalk(reader)) {
+			obj = rw.parseAny(objectId);
+		}
 		byte[] delta = getDelta(reader, obj);
 
 		// We're crossing our fingers that this will be a delta. Double

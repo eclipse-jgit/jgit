@@ -72,27 +72,28 @@ class LsTree extends TextBuiltin {
 
 	@Override
 	protected void run() throws Exception {
-		final TreeWalk walk = new TreeWalk(db);
-		walk.reset(); // drop the first empty tree, which we do not need here
-		if (paths.size() > 0)
-			walk.setFilter(PathFilterGroup.createFromStrings(paths));
-		walk.setRecursive(recursive);
-		walk.addTree(tree);
+		try (final TreeWalk walk = new TreeWalk(db)) {
+			walk.reset(); // drop the first empty tree, which we do not need here
+			if (paths.size() > 0)
+				walk.setFilter(PathFilterGroup.createFromStrings(paths));
+			walk.setRecursive(recursive);
+			walk.addTree(tree);
 
-		while (walk.next()) {
-			final FileMode mode = walk.getFileMode(0);
-			if (mode == FileMode.TREE)
-				outw.print('0');
-			outw.print(mode);
-			outw.print(' ');
-			outw.print(Constants.typeString(mode.getObjectType()));
+			while (walk.next()) {
+				final FileMode mode = walk.getFileMode(0);
+				if (mode == FileMode.TREE)
+					outw.print('0');
+				outw.print(mode);
+				outw.print(' ');
+				outw.print(Constants.typeString(mode.getObjectType()));
 
-			outw.print(' ');
-			outw.print(walk.getObjectId(0).name());
+				outw.print(' ');
+				outw.print(walk.getObjectId(0).name());
 
-			outw.print('\t');
-			outw.print(QuotedString.GIT_PATH.quote(walk.getPathString()));
-			outw.println();
+				outw.print('\t');
+				outw.print(QuotedString.GIT_PATH.quote(walk.getPathString()));
+				outw.println();
+			}
 		}
 	}
 }
