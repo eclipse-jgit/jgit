@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0724e3f1_cce81f77",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-10-01T21:19:00Z",
+      "side": 1,
+      "message": "I\u0027m still having trouble parsing this. See my previous comments on it.",
+      "range": {
+        "startLine": 318,
+        "startChar": 0,
+        "endLine": 322,
+        "endChar": 34
+      },
+      "revId": "108271ce425d7a7f4a7d995583fe95c2ad17017f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
