@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "0724e3f1_ece7e39f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 740,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-10-01T21:24:18Z",
+      "side": 1,
+      "message": "Could simplify using FileBasedConfig:\n\n Config c \u003d new FileBasedConfig(gitmodules, FS.DETECTED);",
+      "range": {
+        "startLine": 730,
+        "startChar": 0,
+        "endLine": 740,
+        "endChar": 28
+      },
+      "revId": "108271ce425d7a7f4a7d995583fe95c2ad17017f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0724e3f1_cce81f77",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
         "patchSetId": 9
