@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "0724e3f1_4cec2f05",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-10-01T18:54:00Z",
+      "side": 1,
+      "message": "Okay, cool. I think that would be something like\n\n RepoCommand: Add setRecordRemoteBranch option to record upstream branch\n\n On a server also running Gerrit that is using RepoCommand to\n convert from an XML manifest to a git submodule superproject\n periodically, it would be handy to be able to use Gerrit\u0027s\n submodule subscription feature[1] to update the superproject\n automatically between RepoCommand runs as changes are merged\n in each subprojects.\n\n This requires setting the \u0027branch\u0027 field for each submodule\n so that Gerrit knows what branch to watch.  Add an option to\n do that.\n\n Setting the branch field also is useful for plain Git users,\n since it allows them to use \"git submodule update --remote\" to\n manually update all submodules between RepoCommand runs.\n\n [1] https://gerrit-review.googlesource.com/Documentation/user-submodules.html",
+      "parentUuid": "0724e3f1_0961892d",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 50
+      },
+      "revId": "4bbc91207726ee136519bd7873d420e43a6307af",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0724e3f1_697ac5dd",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
         "patchSetId": 7
