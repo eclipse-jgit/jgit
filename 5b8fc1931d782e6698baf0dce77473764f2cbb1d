@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0724e3f1_0cc237ce",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 733,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-10-01T21:41:38Z",
+      "side": 1,
+      "message": "unused",
+      "range": {
+        "startLine": 732,
+        "startChar": 0,
+        "endLine": 733,
+        "endChar": 19
+      },
+      "revId": "5b8fc1931d782e6698baf0dce77473764f2cbb1d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
