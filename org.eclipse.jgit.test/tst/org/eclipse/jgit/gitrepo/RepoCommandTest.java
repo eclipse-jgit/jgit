@@ -53,6 +53,7 @@ import java.io.FileReader;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.RepositoryTestCase;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
@@ -689,6 +690,121 @@ public class RepoCommandTest extends RepositoryTestCase {
 			assertEquals(
 				"The tree id of branch db and default db should be the same",
 				branchId, defaultId);
+		}
+	}
+
+	@Test
+	public void testRecordRemoteBranch() throws Exception {
+		try (
+				Repository remoteDb = createBareRepository();
+				Repository tempDb = createWorkRepository()) {
+			StringBuilder xmlContent = new StringBuilder();
+			xmlContent
+				.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+				.append("<manifest>")
+				.append("<remote name=\"remote1\" fetch=\".\" />")
+				.append("<default revision=\"master\" remote=\"remote1\" />")
+				.append("<project path=\"with-branch\" ")
+					.append("revision=\"master\" ")
+					.append("name=\"").append(notDefaultUri).append("\" />")
+				.append("<project path=\"with-long-branch\" ")
+					.append("revision=\"refs/heads/master\" ")
+					.append("name=\"").append(defaultUri).append("\" />")
+				.append("</manifest>");
+			JGitTestUtil.writeTrashFile(tempDb, "manifest.xml",
+				xmlContent.toString());
+
+			RepoCommand command = new RepoCommand(remoteDb);
+			command.setPath(tempDb.getWorkTree().getAbsolutePath() + "/manifest.xml")
+				.setURI(rootUri)
+				.setRecordRemoteBranch(true)
+				.call();
+			// Clone it
+			File directory = createTempDirectory("testBareRepo");
+			Repository localDb = Git.cloneRepository().setDirectory(directory)
+					.setURI(remoteDb.getDirectory().toURI().toString()).call()
+					.getRepository();
+			// The .gitmodules file should exist
+			File gitmodules = new File(localDb.getWorkTree(), ".gitmodules");
+			assertTrue("The .gitmodules file should exist", gitmodules.exists());
+			// The first line of .gitmodules file should be expected
+			BufferedReader reader = new BufferedReader(new FileReader(
+						gitmodules));
+			StringBuilder b = new StringBuilder();
+			while (true) {
+				String line = reader.readLine();
+				if (line == null)
+					break;
+				b.append(line + "\n");
+			}
+			Config c = new Config();
+			c.fromText(b.toString());
+
+			assertTrue("standard branches work for remote",
+				c.getString("submodule", "with-branch", "path")
+					.equals("with-branch"));
+			assertTrue("standard branches work for remote",
+				c.getString("submodule", "with-branch", "branch")
+					.equals("master"));
+			assertTrue("default branches work",
+				c.getString("submodule", "with-long-branch", "branch")
+					.equals("refs/heads/master"));
+		}
+	}
+
+
+	@Test
+	public void testRecordRemoteBranchWithTag() throws Exception {
+		try (
+				Repository remoteDb = createBareRepository();
+				Repository tempDb = createWorkRepository()) {
+			StringBuilder xmlContent = new StringBuilder();
+			xmlContent
+				.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+				.append("<manifest>")
+				.append("<remote name=\"remote1\" fetch=\".\" />")
+				.append("<default revision=\"master\" remote=\"remote1\" />")
+				.append("<project path=\"with-default-branch\" ")
+					.append("name=\"").append(notDefaultUri).append("\" />")
+				.append("<project path=\"some-tag\" ")
+					.append("revision=\"release\" ")
+					.append("name=\"").append(defaultUri).append("\" />")
+				.append("</manifest>");
+			JGitTestUtil.writeTrashFile(tempDb, "manifest.xml",
+				xmlContent.toString());
+
+			RepoCommand command = new RepoCommand(remoteDb);
+			command.setPath(tempDb.getWorkTree().getAbsolutePath() + "/manifest.xml")
+				.setURI(rootUri)
+				.setRecordRemoteBranch(true)
+				.call();
+			// Clone it
+			File directory = createTempDirectory("testBareRepo");
+			Repository localDb = Git.cloneRepository().setDirectory(directory)
+					.setURI(remoteDb.getDirectory().toURI().toString()).call()
+					.getRepository();
+			// The .gitmodules file should exist
+			File gitmodules = new File(localDb.getWorkTree(), ".gitmodules");
+			assertTrue("The .gitmodules file should exist", gitmodules.exists());
+			// The first line of .gitmodules file should be expected
+			BufferedReader reader = new BufferedReader(new FileReader(
+						gitmodules));
+			StringBuilder b = new StringBuilder();
+			while (true) {
+				String line = reader.readLine();
+				if (line == null)
+					break;
+				b.append(line + "\n");
+			}
+			Config c = new Config();
+			c.fromText(b.toString());
+
+			assertTrue("standard branches work for remote branches",
+				c.getString("submodule", "with-default-branch", "branch")
+					.equals("master"));
+			assertTrue("tags work with remote branches",
+				c.getString("submodule", "some-tag", "branch")
+					.equals("release"));
 		}
 	}
 
