@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0724e3f1_a7ea2b20",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 709,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2015-10-01T01:30:40Z",
+      "side": 1,
+      "message": "Mixing StringBuffer.append and + feels weird. Maybe just use append instead of +\u0027s?",
+      "range": {
+        "startLine": 707,
+        "startChar": 12,
+        "endLine": 709,
+        "endChar": 14
+      },
+      "revId": "3f39df27101d38eb55e1b5a51a02f14122de82ee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
