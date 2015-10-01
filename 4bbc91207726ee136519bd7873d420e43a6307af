@@ -46,6 +46,52 @@
       "revId": "4bbc91207726ee136519bd7873d420e43a6307af",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_697ac5dd",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 708,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2015-10-01T18:43:24Z",
+      "side": 1,
+      "message": "in pure Java\u0027s view this additional indentation looks weird, but logically this is the same xml tag so it makes sense. I\u0027m OK with it.",
+      "range": {
+        "startLine": 708,
+        "startChar": 4,
+        "endLine": 708,
+        "endChar": 5
+      },
+      "revId": "4bbc91207726ee136519bd7873d420e43a6307af",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_8954594d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 749,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2015-10-01T18:43:24Z",
+      "side": 1,
+      "message": "I don\u0027t think this one is \"default\" branch?",
+      "range": {
+        "startLine": 749,
+        "startChar": 15,
+        "endLine": 749,
+        "endChar": 36
+      },
+      "revId": "4bbc91207726ee136519bd7873d420e43a6307af",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
