@@ -63,10 +63,11 @@ class Rm extends TextBuiltin {
 
 	@Override
 	protected void run() throws Exception {
-		RmCommand command = new Git(db).rm();
-		for (String p : paths)
-			command.addFilepattern(p);
-		command.call();
+		try (Git git = new Git(db)) {
+			RmCommand command = git.rm();
+			for (String p : paths)
+				command.addFilepattern(p);
+			command.call();
+		}
 	}
-
 }

@@ -66,19 +66,21 @@ class Reset extends TextBuiltin {
 
 	@Override
 	protected void run() throws Exception {
-		ResetCommand command = new Git(db).reset();
-		command.setRef(commit);
-		ResetType mode = null;
-		if (soft)
-			mode = selectMode(mode, ResetType.SOFT);
-		if (mixed)
-			mode = selectMode(mode, ResetType.MIXED);
-		if (hard)
-			mode = selectMode(mode, ResetType.HARD);
-		if (mode == null)
-			throw die("no reset mode set");
-		command.setMode(mode);
-		command.call();
+		try (Git git = new Git(db)) {
+			ResetCommand command = git.reset();
+			command.setRef(commit);
+			ResetType mode = null;
+			if (soft)
+				mode = selectMode(mode, ResetType.SOFT);
+			if (mixed)
+				mode = selectMode(mode, ResetType.MIXED);
+			if (hard)
+				mode = selectMode(mode, ResetType.HARD);
+			if (mode == null)
+				throw die("no reset mode set");
+			command.setMode(mode);
+			command.call();
+		}
 	}
 
 	private static ResetType selectMode(ResetType mode, ResetType want) {
