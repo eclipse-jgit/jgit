@@ -961,8 +961,9 @@ public class TestRepository<R extends Repository> {
 			branch = b;
 
 			Ref ref = db.getRef(branch.ref);
-			if (ref != null && ref.getObjectId() != null)
+			if (ref != null) {
 				parent(pool.parseCommit(ref.getObjectId()));
+			}
 		}
 
 		CommitBuilder(CommitBuilder prior) throws Exception {
