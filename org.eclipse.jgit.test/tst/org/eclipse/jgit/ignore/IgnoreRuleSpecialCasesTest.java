@@ -768,7 +768,7 @@ public class IgnoreRuleSpecialCasesTest {
 
 	@Test
 	public void testSpecialGroupCase9() throws Exception {
-		assertMatch("][", "][", true);
+		assertMatch("][", "][", false);
 	}
 
 	@Test
@@ -968,6 +968,59 @@ public class IgnoreRuleSpecialCasesTest {
 		assertMatch("[a{}()b][a{}()b]?[a{}()b][a{}()b]", "{}x()", true);
 		assertMatch("x*{x}3", "xa{x}3", true);
 		assertMatch("a*{x}3", "axxx", false);
+
+		assertMatch("?", "[", true);
+		assertMatch("*", "[", true);
+
+		// Escaped bracket matches, but see weird things below...
+		assertMatch("\\[", "[", true);
+	}
+
+	/**
+	 * The ignore rules here <b>do not match</b> any paths because single '['
+	 * begins character group and the entire rule cannot be parsed due the
+	 * invalid glob pattern. See
+	 * http://article.gmane.org/gmane.comp.version-control.git/278699.
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testBracketsUnmatched1() throws Exception {
+		assertMatch("[", "[", false);
+		assertMatch("[*", "[", false);
+		assertMatch("*[", "[", false);
+		assertMatch("*[", "a[", false);
+		assertMatch("[a][", "a[", false);
+		assertMatch("*[", "a", false);
+		assertMatch("[a", "a", false);
+		assertMatch("[*", "a", false);
+		assertMatch("[*a", "a", false);
+	}
+
+	/**
+	 * Single ']' is treated here literally, not as an and of a character group
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testBracketsUnmatched2() throws Exception {
+		assertMatch("*]", "a", false);
+		assertMatch("]a", "a", false);
+		assertMatch("]*", "a", false);
+		assertMatch("]*a", "a", false);
+
+		assertMatch("]", "]", true);
+		assertMatch("]*", "]", true);
+		assertMatch("]*", "]a", true);
+		assertMatch("*]", "]", true);
+		assertMatch("*]", "a]", true);
+	}
+
+	@Test
+	public void testBracketsRandom() throws Exception {
+		assertMatch("[\\]", "[$0+//r4a\\d]", false);
+		assertMatch("[:]]sZX]", "[:]]sZX]", false);
+		assertMatch("[:]]:]]]", "[:]]:]]]", false);
 	}
 
 	@Test
