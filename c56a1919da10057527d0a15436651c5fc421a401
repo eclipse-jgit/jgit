@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0724e3f1_f10def77",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/internal/CLIText.properties",
+        "patchSetId": 16
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-10-05T22:56:15Z",
+      "side": 1,
+      "message": "usage_branches\u003dSet branch field in .gitmodules",
+      "range": {
+        "startLine": 195,
+        "startChar": 0,
+        "endLine": 195,
+        "endChar": 119
+      },
+      "revId": "c56a1919da10057527d0a15436651c5fc421a401",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_d1126b92",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Repo.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-10-05T22:56:15Z",
+      "side": 1,
+      "message": "--record-remote-branch",
+      "range": {
+        "startLine": 61,
+        "startChar": 17,
+        "endLine": 61,
+        "endChar": 28
+      },
+      "revId": "c56a1919da10057527d0a15436651c5fc421a401",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_31f787c8",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Repo.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-10-05T22:56:15Z",
+      "side": 1,
+      "message": "I don\u0027t think this is worth a short-and-sweet alias",
+      "range": {
+        "startLine": 61,
+        "startChar": 30,
+        "endLine": 61,
+        "endChar": 48
+      },
+      "revId": "c56a1919da10057527d0a15436651c5fc421a401",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
