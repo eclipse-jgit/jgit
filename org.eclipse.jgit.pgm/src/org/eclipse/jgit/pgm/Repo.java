@@ -58,12 +58,16 @@ class Repo extends TextBuiltin {
 	@Argument(required = true, usage = "usage_pathToXml")
 	private String path;
 
+	@Option(name = "--record-remote-branch", usage = "usage_branches")
+	private boolean branches;
+
 	@Override
 	protected void run() throws Exception {
 		new RepoCommand(db)
 			.setURI(uri)
 			.setPath(path)
 			.setGroups(groups)
+			.setRecordRemoteBranch(branches)
 			.call();
 	}
 }

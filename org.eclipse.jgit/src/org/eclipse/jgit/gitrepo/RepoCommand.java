@@ -106,6 +106,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	private String groups;
 	private String branch;
 	private String targetBranch = Constants.HEAD;
+	private boolean recordRemoteBranch = false;
 	private PersonIdent author;
 	private RemoteReader callback;
 	private InputStream inputStream;
@@ -314,6 +315,30 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	}
 
 	/**
+	 * Set whether the branch name should be recorded in .gitmodules
+	 * <p>
+	 * Submodule entries in .gitmodules can include a "branch" field
+	 * to indicate what remote branch each submodule tracks.
+	 * <p>
+	 * That field is used by "git submodule update --remote" to update
+	 * to the tip of the tracked branch when asked and by Gerrit to
+	 * update the superproject when a change on that branch is merged.
+	 * <p>
+	 * Subprojects that request a specific commit or tag will not have
+	 * a branch name recorded.
+	 * <p>
+	 * Not implemented for non-bare repositories.
+	 *
+	 * @param record Whether to record the branch name
+	 * @return this command
+	 * @since 4.2
+	 */
+	public RepoCommand setRecordRemoteBranch(boolean update) {
+		this.recordRemoteBranch = update;
+		return this;
+	}
+
+	/**
 	 * The progress monitor associated with the clone operation. By default,
 	 * this is set to <code>NullProgressMonitor</code>
 	 *
@@ -429,10 +454,14 @@ public class RepoCommand extends GitCommand<RevCommit> {
 					// create gitlink
 					DirCacheEntry dcEntry = new DirCacheEntry(name);
 					ObjectId objectId;
-					if (ObjectId.isId(proj.getRevision()))
+					if (ObjectId.isId(proj.getRevision())) {
 						objectId = ObjectId.fromString(proj.getRevision());
-					else {
+					} else {
 						objectId = callback.sha1(nameUri, proj.getRevision());
+						if (recordRemoteBranch)
+							// can be branch or tag
+							cfg.setString("submodule", name, "branch", //$NON-NLS-1$ //$NON-NLS-2$
+									proj.getRevision());
 					}
 					if (objectId == null)
 						throw new RemoteUnavailableException(nameUri);
