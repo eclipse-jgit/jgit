@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0724e3f1_16a519ff",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2015-10-05T22:41:38Z",
+      "side": 1,
+      "message": "unused import.",
+      "revId": "ff0ca2f350746131859caa6d022d6bd61ab1017e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_76a295f7",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2015-10-05T22:41:38Z",
+      "side": 1,
+      "message": "unused import.",
+      "revId": "ff0ca2f350746131859caa6d022d6bd61ab1017e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
