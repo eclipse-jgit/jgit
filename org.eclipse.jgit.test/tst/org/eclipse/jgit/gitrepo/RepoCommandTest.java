@@ -56,6 +56,8 @@ import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.util.FS;
 import org.junit.Test;
 
 public class RepoCommandTest extends RepositoryTestCase {
@@ -689,6 +691,49 @@ public class RepoCommandTest extends RepositoryTestCase {
 			assertEquals(
 				"The tree id of branch db and default db should be the same",
 				branchId, defaultId);
+		}
+	}
+
+	@Test
+	public void testRecordRemoteBranch() throws Exception {
+		try (
+				Repository remoteDb = createBareRepository();
+				Repository tempDb = createWorkRepository()) {
+			StringBuilder xmlContent = new StringBuilder();
+			xmlContent
+				.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+				.append("<manifest>")
+				.append("<remote name=\"remote1\" fetch=\".\" />")
+				.append("<default revision=\"master\" remote=\"remote1\" />")
+				.append("<project path=\"with-branch\" ")
+					.append("revision=\"master\" ")
+					.append("name=\"").append(notDefaultUri).append("\" />")
+				.append("<project path=\"with-long-branch\" ")
+					.append("revision=\"refs/heads/master\" ")
+					.append("name=\"").append(defaultUri).append("\" />")
+				.append("</manifest>");
+			JGitTestUtil.writeTrashFile(tempDb, "manifest.xml",
+				xmlContent.toString());
+
+			RepoCommand command = new RepoCommand(remoteDb);
+			command.setPath(tempDb.getWorkTree().getAbsolutePath() + "/manifest.xml")
+				.setURI(rootUri)
+				.setRecordRemoteBranch(true)
+				.call();
+			// Clone it
+			File directory = createTempDirectory("testBareRepo");
+			Repository localDb = Git.cloneRepository().setDirectory(directory)
+					.setURI(remoteDb.getDirectory().toURI().toString()).call()
+					.getRepository();
+			// The .gitmodules file should exist
+			File gitmodules = new File(localDb.getWorkTree(), ".gitmodules");
+			assertTrue("The .gitmodules file should exist", gitmodules.exists());
+			FileBasedConfig c = new FileBasedConfig(gitmodules, FS.DETECTED);
+			c.load();
+			assertEquals("standard branches work", "master",
+				c.getString("submodule", "with-branch", "branch"));
+			assertEquals("long branches work", "refs/heads/master",
+				c.getString("submodule", "with-long-branch", "branch"));
 		}
 	}
 
