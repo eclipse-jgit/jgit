@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0724e3f1_f6fcc5e6",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 734,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2015-10-05T22:31:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0724e3f1_161a39fa",
+      "range": {
+        "startLine": 734,
+        "startChar": 3,
+        "endLine": 734,
+        "endChar": 8
+      },
+      "revId": "8a926dcd336f4409f23cf4831fb9b0573ba57c73",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0724e3f1_5624b138",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
         "patchSetId": 13
@@ -36,6 +60,30 @@
       "writtenOn": "2015-10-05T22:26:26Z",
       "side": 1,
       "message": "JGit style guide don\u0027t add {} for onelines :(",
+      "range": {
+        "startLine": 457,
+        "startChar": 43,
+        "endLine": 457,
+        "endChar": 45
+      },
+      "revId": "8a926dcd336f4409f23cf4831fb9b0573ba57c73",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_d601c179",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2015-10-05T22:31:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0724e3f1_5624b138",
       "range": {
         "startLine": 457,
         "startChar": 43,
