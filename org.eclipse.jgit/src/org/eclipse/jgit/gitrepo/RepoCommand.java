@@ -329,7 +329,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	 * <p>
 	 * Not implemented for non-bare repositories.
 	 *
-	 * @param record Whether to record the branch name
+	 * @param update Whether to record the branch name
 	 * @return this command
 	 * @since 4.2
 	 */
