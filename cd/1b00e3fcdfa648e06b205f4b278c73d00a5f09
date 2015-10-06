@@ -1,0 +1,8 @@
+Code-Review+1: Yuxuan Wang <fishywang@google.com>
+Verified+1: Hudson CI
+Code-Review+2: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-by: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-at: Tue, 06 Oct 2015 17:24:26 -0400
+Reviewed-on: https://git.eclipse.org/r/57553
+Project: jgit/jgit
+Branch: refs/heads/master
