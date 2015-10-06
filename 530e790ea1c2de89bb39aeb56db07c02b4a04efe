@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0724e3f1_7ea8a70f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-10-06T21:00:31Z",
+      "side": 1,
+      "message": "It seems like the meaning of the argument is \u0027record\u0027, not \u0027update\u0027, right?",
+      "range": {
+        "startLine": 332,
+        "startChar": 11,
+        "endLine": 332,
+        "endChar": 17
+      },
+      "revId": "530e790ea1c2de89bb39aeb56db07c02b4a04efe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
