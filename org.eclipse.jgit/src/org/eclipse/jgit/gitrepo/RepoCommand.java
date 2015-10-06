@@ -329,12 +329,12 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	 * <p>
 	 * Not implemented for non-bare repositories.
 	 *
-	 * @param record Whether to record the branch name
+	 * @param enable Whether to record the branch name
 	 * @return this command
 	 * @since 4.2
 	 */
-	public RepoCommand setRecordRemoteBranch(boolean update) {
-		this.recordRemoteBranch = update;
+	public RepoCommand setRecordRemoteBranch(boolean enable) {
+		this.recordRemoteBranch = enable;
 		return this;
 	}
 
