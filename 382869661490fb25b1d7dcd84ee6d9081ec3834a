@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0724e3f1_891e0796",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 1185,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-10-06T22:30:42Z",
+      "side": 1,
+      "message": "@since 4.2",
+      "revId": "382869661490fb25b1d7dcd84ee6d9081ec3834a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_09569732",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 1188,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-10-06T22:30:42Z",
+      "side": 1,
+      "message": "adding a boolean parameter changing behavior smells, see http://martinfowler.com/bliki/FlagArgument.html or http://blog.ometer.com/2011/01/20/boolean-parameters-are-wrong/",
+      "revId": "382869661490fb25b1d7dcd84ee6d9081ec3834a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_49608f01",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-10-06T22:30:42Z",
+      "side": 1,
+      "message": "@since 4.2",
+      "revId": "382869661490fb25b1d7dcd84ee6d9081ec3834a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
