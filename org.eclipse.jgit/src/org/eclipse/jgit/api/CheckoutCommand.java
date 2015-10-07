@@ -384,12 +384,19 @@ public class CheckoutCommand extends GitCommand<Ref> {
 		try (RevWalk revWalk = new RevWalk(repo);
 				TreeWalk treeWalk = new TreeWalk(revWalk.getObjectReader())) {
 			treeWalk.setRecursive(true);
-			if (!checkoutAllPaths)
+			if (!checkoutAllPaths) {
 				treeWalk.setFilter(PathFilterGroup.createFromStrings(paths));
-			if (isCheckoutIndex())
+			}
+			if (isCheckoutIndex()) {
 				checkoutPathsFromIndex(treeWalk, dc);
-			else {
-				RevCommit commit = revWalk.parseCommit(getStartPointObjectId());
+			} else {
+				RevCommit commit;
+				if (name != null && !createBranch) {
+					ObjectId branch = repo.resolve(name);
+					commit = revWalk.parseCommit(branch);
+				} else {
+					commit = revWalk.parseCommit(getStartPointObjectId());
+				}
 				checkoutPathsFromCommit(treeWalk, dc, commit);
 			}
 		} finally {
@@ -441,7 +448,9 @@ public class CheckoutCommand extends GitCommand<Ref> {
 		treeWalk.addTree(commit.getTree());
 		final ObjectReader r = treeWalk.getObjectReader();
 		DirCacheEditor editor = dc.editor();
+		boolean foundPath = false;
 		while (treeWalk.next()) {
+			foundPath = true;
 			final ObjectId blobId = treeWalk.getObjectId(0);
 			final FileMode mode = treeWalk.getFileMode(0);
 			editor.add(new PathEdit(treeWalk.getPathString()) {
@@ -451,6 +460,10 @@ public class CheckoutCommand extends GitCommand<Ref> {
 					checkoutPath(ent, r);
 				}
 			});
+		}
+		if (!foundPath) {
+			throw new IllegalStateException(MessageFormat
+					.format(JGitText.get().entryNotFoundByPath, paths.get(0)));
 		}
 		editor.commit();
 	}
@@ -466,7 +479,7 @@ public class CheckoutCommand extends GitCommand<Ref> {
 	}
 
 	private boolean isCheckoutIndex() {
-		return startCommit == null && startPoint == null;
+		return startCommit == null && startPoint == null && name == null;
 	}
 
 	private ObjectId getStartPointObjectId() throws AmbiguousObjectException,
