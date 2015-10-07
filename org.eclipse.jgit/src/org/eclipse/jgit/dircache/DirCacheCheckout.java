@@ -46,6 +46,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.file.Files;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -1189,6 +1190,9 @@ public class DirCacheCheckout {
 		ObjectLoader ol = or.open(entry.getObjectId());
 		File f = new File(repo.getWorkTree(), entry.getPathString());
 		File parentDir = f.getParentFile();
+		if (deleteRecursive && Files.isRegularFile(parentDir.toPath())) {
+			FileUtils.delete(parentDir, FileUtils.NONE);
+		}
 		FileUtils.mkdirs(parentDir, true);
 		FS fs = repo.getFS();
 		WorkingTreeOptions opt = repo.getConfig().get(WorkingTreeOptions.KEY);
