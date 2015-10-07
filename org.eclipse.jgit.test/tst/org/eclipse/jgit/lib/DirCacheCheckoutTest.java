@@ -983,6 +983,72 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testCheckoutPathesDeletesFile()
+			throws IOException, GitAPIException {
+		String fname1 = "file1.txt";
+		String fname2 = "file2.txt";
+		Git git = Git.wrap(db);
+
+		// Create file1
+		writeTrashFile(fname1, "a");
+		git.add().addFilepattern(fname1).call();
+		git.commit().setMessage("create file1").call();
+
+		// Create branch and switch to it
+		git.branchCreate().setName("side").call();
+
+		// Create file2
+		writeTrashFile(fname2, "b");
+		git.add().addFilepattern(fname2).call();
+		git.commit().setMessage("create file2").call();
+		assertWorkDir(mkmap(fname1, "a", fname2, "b"));
+
+		// Checkout pathes
+		git.checkout().setName("side").addPath(fname1).call();
+		assertWorkDir(mkmap(fname1, "a", fname2, "b"));
+
+		try {
+			git.checkout().setName("side").addPath(fname2).call();
+			// expecting an exception here. You can checkout and specify a path
+			// unknown to checkout out commit
+			fail("did not throw exception");
+		} catch (GitAPIException e) {
+			assertWorkDir(mkmap(fname1, "a"));
+		}
+	}
+
+	@Test
+	public void testCheckoutPathesReplacesFileByFolder()
+			throws IOException, GitAPIException {
+		String fname1 = "file1.txt";
+		Git git = Git.wrap(db);
+
+		// Create folder
+		writeTrashFile(fname1 + "/a.txt", "a");
+		git.add().addFilepattern(fname1).call();
+		git.commit().setMessage("create folder").call();
+		assertWorkDir(mkmap(fname1 + "/a.txt", "a"));
+
+		// Create branch and switch to it
+		git.branchCreate().setName("side").call();
+
+		// Replace with file
+		git.rm().addFilepattern(fname1).call();
+		writeTrashFile(fname1, "b");
+		git.add().addFilepattern(fname1).call();
+		git.commit().setMessage("replace folder with file").call();
+		assertWorkDir(mkmap(fname1, "b"));
+
+		// Checkout pathes
+		git.checkout().setName("side").addPath(fname1)
+				.addPath(fname1 + "/a.txt").call();
+		// Strangely a checkout without specifying pathes manages to delete the
+		// file and replace it by content. But this checkout with explicit path
+		// does not.
+		assertWorkDir(mkmap(fname1 + "/a.txt", "a"));
+	}
+
+	@Test
 	public void testOverwriteUntrackedIgnoredFile() throws IOException,
 			GitAPIException {
 		String fname="file.txt";
