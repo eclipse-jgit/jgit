@@ -45,6 +45,8 @@
 package org.eclipse.jgit.internal.storage.file;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -72,9 +74,13 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.ProgressMonitor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** Active handle to a ByteWindow. */
 final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
+	private final static Logger LOG = LoggerFactory
+			.getLogger(WindowCursor.class);
 	/** Temporary buffer large enough for at least one raw object id. */
 	final byte[] tempId = new byte[Constants.OBJECT_ID_LENGTH];
 
@@ -274,6 +280,10 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 	 */
 	int inflate(final PackFile pack, long position, final byte[] dstbuf,
 			boolean headerOnly) throws IOException, DataFormatException {
+		LOG.error("==> WindowCusor.inflate()"); //$NON-NLS-1$
+		LOG.error("Calling from: {}", //$NON-NLS-1$
+				getStackTraceAsString(
+						new Throwable("id: " + System.identityHashCode(this)))); //$NON-NLS-1$
 		prepareInflater();
 		pin(pack, position);
 		position += window.setInput(position, inf);
@@ -288,6 +298,12 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 			} else if (n == 0)
 				throw new DataFormatException();
 		}
+	}
+
+	static String getStackTraceAsString(Throwable throwable) {
+	    StringWriter stringWriter = new StringWriter();
+	    throwable.printStackTrace(new PrintWriter(stringWriter));
+	    return stringWriter.toString();
 	}
 
 	ByteArrayWindow quickCopy(PackFile p, long pos, long cnt)
