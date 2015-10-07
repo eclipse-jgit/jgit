@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0724e3f1_64a5bafe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 1185,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-10-07T13:11:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0724e3f1_891e0796",
+      "revId": "382869661490fb25b1d7dcd84ee6d9081ec3834a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0724e3f1_09569732",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 16
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "0724e3f1_0495de95",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 1188,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-10-07T13:11:53Z",
+      "side": 1,
+      "message": "The name of the blog entry alone \"boolean parameters are wrong\" is enough to ignore it. It is a typical entry like \"never do xyz style\". I would answer \"never say never\". There are cases where a boolean \"behavioral\" arguments are over-used and there are cases where they are just fine.\n\nThere are many examples in JGit already where a boolean argument changing behavior is used, and I don\u0027t see why boolean should not be used:\n\norg.eclipse.jgit.lib.ObjectReader.open(Iterable\u003cT\u003e, boolean)\norg.eclipse.jgit.lib.ObjectReader.getObjectSize(Iterable\u003cT\u003e, boolean)\norg.eclipse.jgit.internal.storage.file.RefDirectoryUpdate.tryLock(boolean)\norg.eclipse.jgit.internal.storage.dfs.DfsRepository.create(boolean)\norg.eclipse.jgit.lib.Repository.create(boolean)\norg.eclipse.jgit.lib.AsyncOperation.cancel(boolean)\norg.eclipse.jgit.lib.RepositoryCache.Key.open(boolean)\netc..\n\nChanging this code above to use int or enum constants is over-engineering, and duplicating code just to avoid using a boolean argument is nonsense.",
+      "parentUuid": "0724e3f1_09569732",
+      "revId": "382869661490fb25b1d7dcd84ee6d9081ec3834a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0724e3f1_49608f01",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
         "patchSetId": 16
@@ -47,6 +83,24 @@
       "writtenOn": "2015-10-06T22:30:42Z",
       "side": 1,
       "message": "@since 4.2",
+      "revId": "382869661490fb25b1d7dcd84ee6d9081ec3834a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_c47d86d6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-10-07T13:11:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0724e3f1_49608f01",
       "revId": "382869661490fb25b1d7dcd84ee6d9081ec3834a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
