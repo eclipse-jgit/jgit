@@ -253,7 +253,7 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 		return PackBitmapIndexV1.OPT_FULL;
 	}
 
-	/** @return the number of bitmaps. */
+	@Override
 	public int getBitmapCount() {
 		return getBitmaps().size();
 	}

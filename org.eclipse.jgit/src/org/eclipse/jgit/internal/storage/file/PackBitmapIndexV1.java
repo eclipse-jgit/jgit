@@ -213,6 +213,11 @@ class PackBitmapIndexV1 extends BasePackBitmapIndex {
 	}
 
 	@Override
+	public int getBitmapCount() {
+		return bitmaps.size();
+	}
+
+	@Override
 	public boolean equals(Object o) {
 		// TODO(cranger): compare the pack checksum?
 		if (o instanceof PackBitmapIndexV1)
