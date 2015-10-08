@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0724e3f1_922bc781",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-10-08T22:33:08Z",
+      "side": 1,
+      "message": "I don\u0027t understand this sentence. Is the idea that there should be a bitmap on a nearby ancestor to the previous value of the ref so that computing the set of objects\n\n  old..new\n\nis fast?",
+      "range": {
+        "startLine": 13,
+        "startChar": 8,
+        "endLine": 13,
+        "endChar": 68
+      },
+      "revId": "2524157d3d79ef6f418dc916ac6c0140135d1eec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_f2cb234b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-10-08T22:33:08Z",
+      "side": 1,
+      "message": "do you mean 36k+ or \u003e36k?",
+      "range": {
+        "startLine": 18,
+        "startChar": 50,
+        "endLine": 18,
+        "endChar": 54
+      },
+      "revId": "2524157d3d79ef6f418dc916ac6c0140135d1eec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_52bcafb1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-10-08T22:33:08Z",
+      "side": 1,
+      "message": "When bitmaps were introduced, part of the strategy used was to space out bitmaps more as you go further back in history, so that the time to list ancestors of even a pretty-old commit is not too long (which allowed any code that wants to get the history of an older commit, such as fetches from a machine that hasn\u0027t fetched in a while, to find that operation still not too expensive). But the spacing was capped. This was considered ok because the size of the generated bitmap file was still not too large.\n\nThe repository you\u0027re talking about has a lot of heads, meaning more bitmaps, which is causing bitmap generation to be expensive. I don\u0027t think the previous analysis looked into the cost of bitmap generation as a significant factor (it focused instead of the size of the bitmap file).\n\nWould it work to e.g. increase that cap instead of eliminating the bitmaps on old history altogether? Is there some way to determine what a good set of bitmap commits is, balancing the size of the bitmap file, cost of generating it, and cost of generating the in-memory bitmap of an arbitrary commit? Are there measurements that could confirm what the right thing to do is?",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 57
+      },
+      "revId": "2524157d3d79ef6f418dc916ac6c0140135d1eec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
