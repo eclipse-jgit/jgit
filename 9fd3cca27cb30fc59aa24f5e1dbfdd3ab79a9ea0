@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0724e3f1_54f3ff10",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutTest.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 955,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-10-08T16:42:23Z",
+      "side": 1,
+      "message": "I suggest to remove the setName(\"master\") here and in nearly all the other tests. Whenever you want to checkout HEAD then git.checkout.setStartPoint(Constants.HEAD)... is sufficient and a further setName() is redundant and not needed.\n\nOnly exception are tests where you want to checkout something different than HEAD.",
+      "revId": "9fd3cca27cb30fc59aa24f5e1dbfdd3ab79a9ea0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_34fdabe1",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutTest.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 1355,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-10-08T16:42:23Z",
+      "side": 1,
+      "message": "I propose to move this test and the next one out to it\u0027s own change. First of all: both tests run even without your modifications. But the main problem: they test a behavior which differs from native git. In native git both checkouts would succeed but we expect exceptions. That should be fixed ... but is unrelated to what you wanted to achieve here.",
+      "revId": "9fd3cca27cb30fc59aa24f5e1dbfdd3ab79a9ea0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_74c1e396",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutTest.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 1614,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-10-08T16:42:23Z",
+      "side": 1,
+      "message": "That\u0027s strange. By setting setRecursive(true) we will not get entries for folders. You have no chance to write tests which tests the existence of an empty folder or which should fail when an empty folder exists unexpectedly. I suggest an enhancement to this method and rebase your change upon it.",
+      "revId": "9fd3cca27cb30fc59aa24f5e1dbfdd3ab79a9ea0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
