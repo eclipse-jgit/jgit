@@ -983,6 +983,14 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testDontOverwriteEmptyFolder() throws IOException {
+		setupCase(mk("foo"), mk("foo"), mk("foo"));
+		FileUtils.mkdir(new File(db.getWorkTree(), "d"));
+		checkout();
+		assertWorkDir(mkmap("foo", "foo", "d", "/"));
+	}
+
+	@Test
 	public void testOverwriteUntrackedIgnoredFile() throws IOException,
 			GitAPIException {
 		String fname="file.txt";
@@ -1213,7 +1221,7 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 	public void assertWorkDir(HashMap<String, String> i) throws CorruptObjectException,
 			IOException {
 		TreeWalk walk = new TreeWalk(db);
-		walk.setRecursive(true);
+		walk.setRecursive(false);
 		walk.addTree(new FileTreeIterator(db));
 		String expectedValue;
 		String path;
@@ -1223,11 +1231,11 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 			ft = walk.getTree(0, FileTreeIterator.class);
 			path = ft.getEntryPathString();
 			expectedValue = i.get(path);
-			assertNotNull("found unexpected file for path " + path
-					+ " in workdir", expectedValue);
 			File file = new File(db.getWorkTree(), path);
 			assertTrue(file.exists());
 			if (file.isFile()) {
+				assertNotNull("found unexpected file for path " + path
+						+ " in workdir", expectedValue);
 				FileInputStream is = new FileInputStream(file);
 				byte[] buffer = new byte[(int) file.length()];
 				int offset = 0;
@@ -1241,6 +1249,15 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 				assertArrayEquals("unexpected content for path " + path
 						+ " in workDir. ", buffer, i.get(path).getBytes());
 				nrFiles++;
+			} else if (file.isDirectory()) {
+				if (file.list().length == 0) {
+					assertEquals("found unexpected empty folder for path "
+							+ path + " in workDir. ", "/", i.get(path));
+					nrFiles++;
+				}
+			}
+			if (walk.isSubtree()) {
+				walk.enterSubtree();
 			}
 		}
 		assertEquals("WorkDir has not the right size.", i.size(), nrFiles);
