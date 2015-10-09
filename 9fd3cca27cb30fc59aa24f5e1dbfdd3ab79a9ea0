@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0724e3f1_6d60f677",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutTest.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 955,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-10-09T13:23:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0724e3f1_54f3ff10",
+      "revId": "9fd3cca27cb30fc59aa24f5e1dbfdd3ab79a9ea0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0724e3f1_34fdabe1",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutTest.java",
         "patchSetId": 19
@@ -30,6 +48,24 @@
       "writtenOn": "2015-10-08T16:42:23Z",
       "side": 1,
       "message": "I propose to move this test and the next one out to it\u0027s own change. First of all: both tests run even without your modifications. But the main problem: they test a behavior which differs from native git. In native git both checkouts would succeed but we expect exceptions. That should be fixed ... but is unrelated to what you wanted to achieve here.",
+      "revId": "9fd3cca27cb30fc59aa24f5e1dbfdd3ab79a9ea0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_0d4cda18",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutTest.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 1355,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-10-09T13:23:00Z",
+      "side": 1,
+      "message": "I haven\u0027t added those tests, they existed before this patch.",
+      "parentUuid": "0724e3f1_34fdabe1",
       "revId": "9fd3cca27cb30fc59aa24f5e1dbfdd3ab79a9ea0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
