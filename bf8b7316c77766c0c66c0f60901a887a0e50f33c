@@ -1,0 +1,199 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0724e3f1_6fb2a933",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-10-09T22:37:03Z",
+      "side": 1,
+      "message": "Make sure to overwrite when \"reset --hard\" detects conflicts",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 59
+      },
+      "revId": "bf8b7316c77766c0c66c0f60901a887a0e50f33c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_efecd906",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-10-09T22:37:03Z",
+      "side": 1,
+      "message": "s/Even when/When/",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 9
+      },
+      "revId": "bf8b7316c77766c0c66c0f60901a887a0e50f33c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_cfe7551e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-10-09T22:37:03Z",
+      "side": 1,
+      "message": "s/mergeCommit\u0027s/merge commit\u0027s/",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 11
+      },
+      "revId": "bf8b7316c77766c0c66c0f60901a887a0e50f33c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_8fb55de9",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/ResetCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-10-09T22:37:03Z",
+      "side": 1,
+      "message": "assert that content of a.txt after \"reset --hard\" is \"content\" otherwise we can\u0027t be sure the former content \"contentnew content\" of the untracked file a.txt was overwritten",
+      "revId": "bf8b7316c77766c0c66c0f60901a887a0e50f33c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_cf7d958f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/ResetCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-10-09T22:37:03Z",
+      "side": 1,
+      "message": "native git yields a different result:\n\n (master *+)]$ git reset --hard HEAD\n warning: unable to unlink d/c.txt: Not a directory\n HEAD is now at f95f1f3 adding a.txt and dir/b.txt\n\nit warns that it expected a directory d and leaves the file d untouched",
+      "revId": "bf8b7316c77766c0c66c0f60901a887a0e50f33c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_6f046954",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-10-09T22:37:03Z",
+      "side": 1,
+      "message": "s/Putting something/Adding a file/",
+      "range": {
+        "startLine": 325,
+        "startChar": 34,
+        "endLine": 325,
+        "endChar": 51
+      },
+      "revId": "bf8b7316c77766c0c66c0f60901a887a0e50f33c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_2fe71120",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-10-09T22:37:03Z",
+      "side": 1,
+      "message": "s/mergeCommit/merge commit/",
+      "range": {
+        "startLine": 326,
+        "startChar": 54,
+        "endLine": 326,
+        "endChar": 65
+      },
+      "revId": "bf8b7316c77766c0c66c0f60901a887a0e50f33c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_af0e6171",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-10-09T22:37:03Z",
+      "side": 1,
+      "message": "s/put it in/add the file to conflicts/",
+      "range": {
+        "startLine": 365,
+        "startChar": 11,
+        "endLine": 365,
+        "endChar": 20
+      },
+      "revId": "bf8b7316c77766c0c66c0f60901a887a0e50f33c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_8f11dd90",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-10-09T22:37:03Z",
+      "side": 1,
+      "message": "s/Thats/That\u0027s/",
+      "range": {
+        "startLine": 366,
+        "startChar": 49,
+        "endLine": 366,
+        "endChar": 54
+      },
+      "revId": "bf8b7316c77766c0c66c0f60901a887a0e50f33c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
