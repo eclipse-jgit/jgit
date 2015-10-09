@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "0724e3f1_88c6f83b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutTest.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 955,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-10-09T15:07:51Z",
+      "side": 1,
+      "message": "Didn\u0027t they came in with PatchSet #7? Anyhow - let\u0027s leave it as it is. We can move these tests later.",
+      "parentUuid": "0724e3f1_6d60f677",
+      "revId": "9fd3cca27cb30fc59aa24f5e1dbfdd3ab79a9ea0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0724e3f1_34fdabe1",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutTest.java",
         "patchSetId": 19
