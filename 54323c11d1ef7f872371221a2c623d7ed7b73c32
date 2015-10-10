@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0724e3f1_d22ffa8e",
+        "filename": "org.eclipse.jgit.test/tst-rsrc/jgit-s3-config.policy.bucket.json",
+        "patchSetId": 17
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-10-10T23:32:02Z",
+      "side": 1,
+      "message": "this looks like a typo:\n\ns/Denty/Deny/",
+      "range": {
+        "startLine": 5,
+        "startChar": 20,
+        "endLine": 5,
+        "endChar": 25
+      },
+      "revId": "54323c11d1ef7f872371221a2c623d7ed7b73c32",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_322f7691",
+        "filename": "org.eclipse.jgit.test/tst-rsrc/jgit-s3-config.properties",
+        "patchSetId": 17
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-10-10T23:32:02Z",
+      "side": 1,
+      "message": "style nit: remove trailing whitespace",
+      "revId": "54323c11d1ef7f872371221a2c623d7ed7b73c32",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_122a327e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/WalkEncryptionTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-10-10T23:32:02Z",
+      "side": 1,
+      "message": "s/properteis/properties/",
+      "range": {
+        "startLine": 327,
+        "startChar": 38,
+        "endLine": 327,
+        "endChar": 48
+      },
+      "revId": "54323c11d1ef7f872371221a2c623d7ed7b73c32",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_b2d6c6ee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/WalkEncryption.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-10-10T23:32:02Z",
+      "side": 1,
+      "message": "s/uses/use/",
+      "range": {
+        "startLine": 169,
+        "startChar": 65,
+        "endLine": 169,
+        "endChar": 69
+      },
+      "revId": "54323c11d1ef7f872371221a2c623d7ed7b73c32",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
