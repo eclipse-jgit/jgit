@@ -63,6 +63,7 @@ import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.WorkingTreeIterator;
 import org.eclipse.jgit.util.FileUtils;
+import org.eclipse.jgit.util.SystemReader;
 import org.junit.Test;
 
 /**
@@ -468,6 +469,9 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 
 	@Test
 	public void testTrailingSpaces() throws IOException {
+		// Windows can't create files with trailing spaces
+		// If this assumption fails the test is halted and ignored.
+		org.junit.Assume.assumeFalse(SystemReader.getInstance().isWindows());
 		writeTrashFile("a  /a", "");
 		writeTrashFile("a  /a ", "");
 		writeTrashFile("a  /a  ", "");
