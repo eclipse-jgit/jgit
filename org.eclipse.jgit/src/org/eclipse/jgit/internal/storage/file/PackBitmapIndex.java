@@ -193,4 +193,11 @@ public abstract class PackBitmapIndex {
 	 *         pack that this index was generated from.
 	 */
 	public abstract int getObjectCount();
+
+	/**
+	 * Returns the number of bitmaps in this bitmap index.
+	 *
+	 * @return the number of bitmaps in this bitmap index.
+	 */
+	public abstract int getBitmapCount();
 }

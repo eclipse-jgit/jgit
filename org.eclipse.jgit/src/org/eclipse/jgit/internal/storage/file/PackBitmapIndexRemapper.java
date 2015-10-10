@@ -209,4 +209,10 @@ public class PackBitmapIndexRemapper extends PackBitmapIndex
 			return flags;
 		}
 	}
+
+	@Override
+	public int getBitmapCount() {
+		// The count is only useful for the end index, not the remapper.
+		return 0;
+	}
 }

@@ -109,13 +109,13 @@ class PackWriterBitmapPreparer {
 		this.bitmapIndex = new BitmapIndexImpl(bitmapRemapper);
 	}
 
-	Collection<BitmapCommit> doCommitSelection(int expectedNumCommits)
+	Collection<BitmapCommit> doCommitSelection(int commitRange)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
 		pm.beginTask(JGitText.get().selectingCommits, ProgressMonitor.UNKNOWN);
 		RevWalk rw = new RevWalk(reader);
 		rw.setRetainBody(false);
-		WalkResult result = findPaths(rw, expectedNumCommits);
+		WalkResult result = findPaths(rw, commitRange);
 		pm.endTask();
 
 		int totCommits = result.commitsByOldest.length - result.commitStartPos;
@@ -215,7 +215,7 @@ class PackWriterBitmapPreparer {
 		return selections;
 	}
 
-	private WalkResult findPaths(RevWalk rw, int expectedNumCommits)
+	private WalkResult findPaths(RevWalk rw, int commitRange)
 			throws MissingObjectException, IOException {
 		BitmapBuilder reuseBitmap = commitBitmapIndex.newBitmapBuilder();
 		List<BitmapCommit> reuse = new ArrayList<BitmapCommit>();
@@ -256,11 +256,11 @@ class PackWriterBitmapPreparer {
 		}
 
 		// Update the paths from the wants and create a list of commits in
-		// reverse iteration order.
-		RevCommit[] commits = new RevCommit[expectedNumCommits];
+		// reverse iteration order for the desired commit range.
+		RevCommit[] commits = new RevCommit[commitRange];
 		int pos = commits.length;
 		RevCommit rc;
-		while ((rc = rw.next()) != null) {
+		while ((rc = rw.next()) != null && pos > 0) {
 			commits[--pos] = rc;
 			for (BitmapBuilder path : paths) {
 				if (path.contains(rc)) {
