@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0724e3f1_0f132d64",
+        "filename": "org.eclipse.jgit.test/tst-rsrc/jgit-s3-connection-v-2.properties",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-10-10T23:33:29Z",
+      "side": 1,
+      "message": "style it: remove trailing whitespace throughout this file",
+      "revId": "6b3f2d899eba9653724faefba44cb88a0c07f176",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
