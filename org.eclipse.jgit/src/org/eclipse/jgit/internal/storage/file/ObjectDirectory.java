@@ -138,9 +138,13 @@ public class ObjectDirectory extends FileObjectDatabase {
 
 	private Set<ObjectId> shallowCommitsIds;
 
+	private FileRepository repository;
+
 	/**
 	 * Initialize a reference to an on-disk object directory.
 	 *
+	 * @param repo
+	 *            repository owning this object database
 	 * @param cfg
 	 *            configuration this directory consults for write settings.
 	 * @param dir
@@ -156,8 +160,10 @@ public class ObjectDirectory extends FileObjectDatabase {
 	 * @throws IOException
 	 *             an alternate object cannot be opened.
 	 */
-	public ObjectDirectory(final Config cfg, final File dir,
+	public ObjectDirectory(FileRepository repo, final Config cfg,
+			final File dir,
 			File[] alternatePaths, FS fs, File shallowFile) throws IOException {
+		repository = repo;
 		config = cfg;
 		objects = dir;
 		infoDirectory = new File(objects, "info"); //$NON-NLS-1$
@@ -376,8 +382,12 @@ public class ObjectDirectory extends FileObjectDatabase {
 				return ldr;
 		}
 		ObjectLoader ldr = openPackedFromSelfOrAlternate(curs, objectId);
-		if (ldr != null)
+		if (ldr != null) {
+			if (repository.isClosed()) {
+				repository.incrementOpen();
+			}
 			return ldr;
+		}
 		return openLooseFromSelfOrAlternate(curs, objectId);
 	}
 
@@ -906,7 +916,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 			return new AlternateRepository(db);
 		}
 
-		ObjectDirectory db = new ObjectDirectory(config, objdir, null, fs, null);
+		ObjectDirectory db = new ObjectDirectory(repository, config, objdir,
+				null, fs, null);
 		return new AlternateHandle(db);
 	}
 
