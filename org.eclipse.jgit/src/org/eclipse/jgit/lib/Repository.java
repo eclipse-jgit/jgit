@@ -811,12 +811,20 @@ public abstract class Repository implements AutoCloseable {
 
 	/** Decrement the use count, and maybe close resources. */
 	public void close() {
-		if (useCnt.get() == 0) {
+		if (isClosed()) {
 			return;
 		}
 		if (useCnt.decrementAndGet() == 0) {
 			doClose();
 		}
+	}
+
+	/**
+	 * @return true if this repository is closed
+	 * @since 4.2
+	 */
+	public boolean isClosed() {
+		return useCnt.get() == 0;
 	}
 
 	/**

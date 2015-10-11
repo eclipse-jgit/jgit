@@ -198,7 +198,8 @@ public class FileRepository extends Repository {
 		});
 
 		refs = new RefDirectory(this);
-		objectDatabase = new ObjectDirectory(repoConfig, //
+		objectDatabase = new ObjectDirectory(this, //
+				repoConfig, //
 				options.getObjectDirectory(), //
 				options.getAlternateObjectDirectories(), //
 				getFS(), //
