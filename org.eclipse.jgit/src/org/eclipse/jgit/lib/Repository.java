@@ -825,6 +825,14 @@ public abstract class Repository implements AutoCloseable {
 	}
 
 	/**
+	 * @return true if this repository is closed
+	 * @since 4.2
+	 */
+	public boolean isClosed() {
+		return useCnt.get() == 0;
+	}
+
+	/**
 	 * Invoked when the use count drops to zero during {@link #close()}.
 	 * <p>
 	 * The default implementation closes the object and ref databases.
