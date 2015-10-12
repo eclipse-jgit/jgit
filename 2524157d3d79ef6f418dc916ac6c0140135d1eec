@@ -157,6 +157,24 @@
       "revId": "2524157d3d79ef6f418dc916ac6c0140135d1eec",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_e3f19209",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 894,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-10-12T15:27:14Z",
+      "side": 1,
+      "message": "Currently DfsGarbageCollector and this class employ PackWriter to do all the work, so surfacing this here is enough to get test coverage to make sure future tweaks to the commit selection algorithm behave as expected. If we want to do monitoring of repositories that cause poor GC performance, we could surface this statistic in DfsGarbageCollector, but those repositories are already easy to identify due to the JVM GC thrashing they cause.",
+      "parentUuid": "0724e3f1_12cb5297",
+      "revId": "2524157d3d79ef6f418dc916ac6c0140135d1eec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
