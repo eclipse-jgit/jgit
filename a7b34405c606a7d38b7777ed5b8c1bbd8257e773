@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0724e3f1_18b7f1bc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 816,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2015-10-12T10:40:09Z",
+      "side": 1,
+      "message": "The class comment says this class was thread-safe. This doesn\u0027t look thread-safe to me. Testing for zero and decrementing should be atomic as a whole. With an AtomicInteger I see no way to do that except hand-rolling a custom implementation of decrementAndGet here.",
+      "revId": "a7b34405c606a7d38b7777ed5b8c1bbd8257e773",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
