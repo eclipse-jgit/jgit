@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0724e3f1_3893d52d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-10-13T06:43:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0724e3f1_6fb2a933",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 59
+      },
+      "revId": "bf8b7316c77766c0c66c0f60901a887a0e50f33c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0724e3f1_efecd906",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2015-10-09T22:37:03Z",
       "side": 1,
       "message": "s/Even when/When/",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 9
+      },
+      "revId": "bf8b7316c77766c0c66c0f60901a887a0e50f33c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_188ed106",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-10-13T06:43:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0724e3f1_efecd906",
       "range": {
         "startLine": 9,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "0724e3f1_7870ad81",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-10-13T06:43:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0724e3f1_cfe7551e",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 11
+      },
+      "revId": "bf8b7316c77766c0c66c0f60901a887a0e50f33c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0724e3f1_8fb55de9",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/ResetCommandTest.java",
         "patchSetId": 1
@@ -88,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "0724e3f1_c3fd6ee2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/ResetCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-10-13T06:43:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0724e3f1_8fb55de9",
+      "revId": "bf8b7316c77766c0c66c0f60901a887a0e50f33c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0724e3f1_cf7d958f",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/ResetCommandTest.java",
         "patchSetId": 1
@@ -99,6 +189,24 @@
       "writtenOn": "2015-10-09T22:37:03Z",
       "side": 1,
       "message": "native git yields a different result:\n\n (master *+)]$ git reset --hard HEAD\n warning: unable to unlink d/c.txt: Not a directory\n HEAD is now at f95f1f3 adding a.txt and dir/b.txt\n\nit warns that it expected a directory d and leaves the file d untouched",
+      "revId": "bf8b7316c77766c0c66c0f60901a887a0e50f33c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_8970b582",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/ResetCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-10-13T06:43:44Z",
+      "side": 1,
+      "message": "Not sure whether this is intended for a reset hard where git has typically no problems deleting content. I asked that question here:\nhttp://permalink.gmane.org/gmane.comp.version-control.git/279482",
+      "parentUuid": "0724e3f1_cf7d958f",
       "revId": "bf8b7316c77766c0c66c0f60901a887a0e50f33c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
