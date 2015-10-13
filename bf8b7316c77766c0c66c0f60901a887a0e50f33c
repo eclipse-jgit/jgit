@@ -213,6 +213,24 @@
     },
     {
       "key": {
+        "uuid": "0724e3f1_e9d051c2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/ResetCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-10-13T07:18:00Z",
+      "side": 1,
+      "message": "I\u0027d add a link to this discussion in the commit message and add a comment explaining why jgit handles this differently",
+      "parentUuid": "0724e3f1_8970b582",
+      "revId": "bf8b7316c77766c0c66c0f60901a887a0e50f33c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0724e3f1_6f046954",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 1
