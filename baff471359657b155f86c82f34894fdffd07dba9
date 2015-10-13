@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0724e3f1_9b3bd686",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 805,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-10-13T19:38:47Z",
+      "side": 1,
+      "message": "in case second rename happens, first exception will be hidden. Original version has always thrown an exception.\n\nPlease check the fixed version in the next patch set.",
+      "revId": "baff471359657b155f86c82f34894fdffd07dba9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_1b0886e3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LockFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-10-13T19:38:47Z",
+      "side": 1,
+      "message": "since 4.2 (fixed)",
+      "revId": "baff471359657b155f86c82f34894fdffd07dba9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
