@@ -75,6 +75,7 @@ public class GcReflogTest extends GcTestCase {
 		tr.blob("x");
 		stats = gc.getStatistics();
 		assertEquals(9, stats.numberOfLooseObjects);
+		fsTick();
 		gc.prune(Collections.<ObjectId> emptySet());
 		stats = gc.getStatistics();
 		assertEquals(8, stats.numberOfLooseObjects);
