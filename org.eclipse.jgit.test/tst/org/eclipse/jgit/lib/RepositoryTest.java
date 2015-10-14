@@ -85,6 +85,41 @@ public class RepositoryTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testCloseForcibly() throws Exception {
+		db.incrementOpen();
+		assertEquals(2, getOpenCount(db));
+		assertFalse(db.isClosed());
+
+		db.closeForcibly();
+		assertEquals(0, getOpenCount(db));
+		assertTrue(db.isClosed());
+
+		// now test with open pack file
+		RevCommit commit1 = commitFile("a", "a", "master");
+
+		// enforce single pack file
+		new GC(db).repack();
+		ObjectDirectory odb = db.getObjectDatabase();
+		assertEquals(1, odb.getPacks().size());
+		assertClosedFileDescriptor(odb.getPacks().iterator().next());
+		assertEquals(0, getOpenCount(db));
+
+		// open pack file for reading: this does not increment use count
+		ObjectReader reader = db.newObjectReader();
+		try (RevWalk rw = new RevWalk(reader)) {
+			rw.parseAny(commit1.getId());
+		}
+		assertOpenFileDescriptor(odb.getPacks().iterator().next());
+		assertEquals(1, getOpenCount(db));
+
+		// forcibly close repo: this should close open pack files and decrement
+		// use count
+		db.closeForcibly();
+		assertEquals(0, getOpenCount(db));
+		assertClosedFileDescriptor(odb.getPacks().iterator().next());
+	}
+
+	@Test
 	public void testOpenPackFileOnClosedRepo() throws Exception {
 		RevCommit commit1 = commitFile("a", "a", "master");
 

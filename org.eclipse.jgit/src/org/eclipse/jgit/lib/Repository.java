@@ -833,6 +833,17 @@ public abstract class Repository implements AutoCloseable {
 	}
 
 	/**
+	 * Forcibly close all opened object and ref databases, independently of the
+	 * use count. The use count will be set to zero.
+	 *
+	 * @since 4.2
+	 */
+	public void closeForcibly() {
+		useCnt.set(0);
+		doClose();
+	}
+
+	/**
 	 * Invoked when the use count drops to zero during {@link #close()}.
 	 * <p>
 	 * The default implementation closes the object and ref databases.
