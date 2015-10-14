@@ -53,6 +53,7 @@ import java.util.List;
 
 import org.eclipse.jgit.api.errors.AbortedByHookException;
 import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
+import org.eclipse.jgit.api.errors.EmtpyCommitException;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.NoFilepatternException;
@@ -129,6 +130,8 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	private boolean noVerify;
 
 	private PrintStream hookOutRedirect;
+
+	private Boolean allowEmpty;
 
 	/**
 	 * @param repo
@@ -230,6 +233,16 @@ public class CommitCommand extends GitCommand<RevCommit> {
 
 				if (insertChangeId)
 					insertChangeId(indexTreeId);
+
+				// Check for empty commits
+				if (headId != null && !allowEmpty.booleanValue()) {
+					RevCommit headCommit = rw.parseCommit(headId);
+					headCommit.getTree();
+					if (indexTreeId.equals(headCommit.getTree())) {
+						throw new EmtpyCommitException(
+								JGitText.get().emptyCommit);
+					}
+				}
 
 				// Create a Commit object, populate it and write it
 				CommitBuilder commit = new CommitBuilder();
@@ -457,6 +470,8 @@ public class CommitCommand extends GitCommand<RevCommit> {
 
 		// there must be at least one change
 		if (emptyCommit)
+			// Would like to throw a EmptyCommitException. But this would break the API
+			// TODO(ch): Change this in the next release
 			throw new JGitInternalException(JGitText.get().emptyCommit);
 
 		// update index
@@ -510,6 +525,12 @@ public class CommitCommand extends GitCommand<RevCommit> {
 			committer = new PersonIdent(repo);
 		if (author == null && !amend)
 			author = committer;
+		if (allowEmpty == null)
+			// JGit allows empty commits by default. Only when pathes are
+			// specified the commit should not be empty. This behaviour differs
+			// from native git but can only be adapted in the next release.
+			// TODO(ch) align the defaults with native git
+			allowEmpty = (only.isEmpty()) ? Boolean.TRUE : Boolean.FALSE;
 
 		// when doing a merge commit parse MERGE_HEAD and MERGE_MSG files
 		if (state == RepositoryState.MERGING_RESOLVED
@@ -575,6 +596,27 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	public CommitCommand setMessage(String message) {
 		checkCallable();
 		this.message = message;
+		return this;
+	}
+
+	/**
+	 * @param allowEmpty
+	 *            whether it should be allowed to create a commit which has the
+	 *            same tree as it's sole predecessor (a commit which doesn't
+	 *            change anything). By default when creating standard commits
+	 *            (without specifying paths) JGit allows to create such commits.
+	 *            When this flag is set to false an attempt to create an "empty"
+	 *            standard commit will lead to an EmptyCommitException.
+	 *            <p>
+	 *            By default when creating a commit containing only specified
+	 *            paths an attempt to create an empty commit leads to a
+	 *            {@link JGitInternalException}. By setting this flag to
+	 *            <code>true</code> this exception will not be thrown.
+	 * @return {@code this}
+	 * @since 4.2
+	 */
+	public CommitCommand setAllowEmpty(boolean allowEmpty) {
+		this.allowEmpty = Boolean.valueOf(allowEmpty);
 		return this;
 	}
 
