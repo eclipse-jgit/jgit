@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0724e3f1_fb54854d",
+        "filename": "org.eclipse.jgit.lfs.test/tst/org/eclipse/jgit/lfs/lib/AbbreviatedLongObjectIdTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2015-10-16T13:55:27Z",
+      "side": 1,
+      "message": "indentation",
+      "range": {
+        "startLine": 472,
+        "startChar": 2,
+        "endLine": 473,
+        "endChar": 82
+      },
+      "revId": "07bfcf678373ae9c1051c69cc01355de7ee8bbec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_b6c50486",
+        "filename": "org.eclipse.jgit.lfs.test/tst/org/eclipse/jgit/lfs/lib/AbbreviatedLongObjectIdTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2015-10-16T13:55:27Z",
+      "side": 1,
+      "message": "How about:\n\n } catch (IllegalArgumentException e) {\n   return;\n }\n Assert.fail(\"IllegalArgumentExcption expected\");",
+      "range": {
+        "startLine": 474,
+        "startChar": 2,
+        "endLine": 476,
+        "endChar": 3
+      },
+      "revId": "07bfcf678373ae9c1051c69cc01355de7ee8bbec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_f6cf7ca1",
+        "filename": "org.eclipse.jgit.lfs.test/tst/org/eclipse/jgit/lfs/lib/AbbreviatedLongObjectIdTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2015-10-16T13:55:27Z",
+      "side": 1,
+      "message": "How about:\n\n } catch (IllegalArgumentException e) {\n   return;\n }\n Assert.fail(\"IllegalArgumentExcption expected\");",
+      "range": {
+        "startLine": 485,
+        "startChar": 2,
+        "endLine": 487,
+        "endChar": 3
+      },
+      "revId": "07bfcf678373ae9c1051c69cc01355de7ee8bbec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_1607b058",
+        "filename": "org.eclipse.jgit.lfs.test/tst/org/eclipse/jgit/lfs/lib/LongObjectIdTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2015-10-16T13:55:27Z",
+      "side": 1,
+      "message": "How about:\n\n } catch (ArrayIndexOutOfBoundsException e) {\n   return;\n }\n Assert.fail(\"ArrayIndexOutOfBoundsException expected\");",
+      "range": {
+        "startLine": 173,
+        "startChar": 2,
+        "endLine": 175,
+        "endChar": 3
+      },
+      "revId": "07bfcf678373ae9c1051c69cc01355de7ee8bbec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_76254ce1",
+        "filename": "org.eclipse.jgit.lfs/about.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2015-10-16T13:55:27Z",
+      "side": 1,
+      "message": "white space",
+      "range": {
+        "startLine": 14,
+        "startChar": 5,
+        "endLine": 14,
+        "endChar": 8
+      },
+      "revId": "07bfcf678373ae9c1051c69cc01355de7ee8bbec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
