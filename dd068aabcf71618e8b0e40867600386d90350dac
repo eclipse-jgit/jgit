@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0724e3f1_59ccb464",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcTestCase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-10-19T19:41:02Z",
+      "side": 1,
+      "message": "Yes it can go in LocalDiskRepositoryTestCase. It can go in a previous commit (without it, GcBasicPackingTest breaks).",
+      "parentUuid": "0724e3f1_f9a008a6",
+      "range": {
+        "startLine": 75,
+        "startChar": 0,
+        "endLine": 82,
+        "endChar": 45
+      },
+      "revId": "dd068aabcf71618e8b0e40867600386d90350dac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0724e3f1_598f9439",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparerTest.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2015-10-19T18:50:43Z",
       "side": 1,
       "message": "(optional nit) I wonder if this would be easier to read as a table-driven test.",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 74
+      },
+      "revId": "dd068aabcf71618e8b0e40867600386d90350dac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_99d62cef",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-10-19T19:41:02Z",
+      "side": 1,
+      "message": "It would save the \"preparer.nextSelectionDistance\" repeated boilerplate, but I\u0027m not sure that improves readability by much.\n\n@Parameterized sets up data for the test ctor--so this class would need to be split into 7 different tests to account for different expected return results for the different PackWriterBitmapPreparer setup in each test. That doesn\u0027t seem like a win.",
+      "parentUuid": "0724e3f1_598f9439",
       "range": {
         "startLine": 58,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "0724e3f1_19e19cb9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/BitmapIndexImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-10-19T19:41:02Z",
+      "side": 1,
+      "message": "Please to the answer in PackWriterBitmapPreparer.java",
+      "parentUuid": "0724e3f1_798c1842",
+      "range": {
+        "startLine": 204,
+        "startChar": 0,
+        "endLine": 204,
+        "endChar": 30
+      },
+      "revId": "dd068aabcf71618e8b0e40867600386d90350dac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0724e3f1_b97df08f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
         "patchSetId": 1
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "0724e3f1_f9dbe809",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-10-19T19:41:02Z",
+      "side": 1,
+      "message": "It needs to repeatedly sort them and store them in descending order of unique commit counts, but it is much better to fabricate a new type to contain the pair than pollute the API with getTipCommit(). Thanks, will update the patch and repost the patch when retested.",
+      "parentUuid": "0724e3f1_b97df08f",
+      "range": {
+        "startLine": 179,
+        "startChar": 24,
+        "endLine": 179,
+        "endChar": 45
+      },
+      "revId": "dd068aabcf71618e8b0e40867600386d90350dac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0724e3f1_197d1c8d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
         "patchSetId": 1
@@ -105,6 +201,30 @@
       "writtenOn": "2015-10-19T18:50:43Z",
       "side": 1,
       "message": "(style) JGit uses braces around one-line if bodies now. (http://wiki.eclipse.org/EGit/Contributor_Guide#Braces_for_one-line_statements)",
+      "range": {
+        "startLine": 180,
+        "startChar": 0,
+        "endLine": 180,
+        "endChar": 27
+      },
+      "revId": "dd068aabcf71618e8b0e40867600386d90350dac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_599e7444",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-10-19T19:41:02Z",
+      "side": 1,
+      "message": "Will do.",
+      "parentUuid": "0724e3f1_197d1c8d",
       "range": {
         "startLine": 180,
         "startChar": 0,
