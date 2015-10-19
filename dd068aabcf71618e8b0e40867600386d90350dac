@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0724e3f1_f9a008a6",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcTestCase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-10-19T18:50:43Z",
+      "side": 1,
+      "message": "Should this happen in LocalDiskRepositoryTestCase so all tests can benefit from it?\n\nCould this go in a separate commit? It is almost orthogonal to what the rest of this patch does, so it might be easier to understand with its own explanation.",
+      "range": {
+        "startLine": 75,
+        "startChar": 0,
+        "endLine": 82,
+        "endChar": 45
+      },
+      "revId": "dd068aabcf71618e8b0e40867600386d90350dac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_598f9439",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-10-19T18:50:43Z",
+      "side": 1,
+      "message": "(optional nit) I wonder if this would be easier to read as a table-driven test.",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 74
+      },
+      "revId": "dd068aabcf71618e8b0e40867600386d90350dac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_798c1842",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/BitmapIndexImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-10-19T18:50:43Z",
+      "side": 1,
+      "message": "What does this field represent? I think a comment could help.\n\n(optional) Depending on what the field is for, adding it might also make sense to be a separate patch.",
+      "range": {
+        "startLine": 204,
+        "startChar": 0,
+        "endLine": 204,
+        "endChar": 30
+      },
+      "revId": "dd068aabcf71618e8b0e40867600386d90350dac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_b97df08f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-10-19T18:50:43Z",
+      "side": 1,
+      "message": "Ah, so that\u0027s why BitmapBuilder gained a tipCommit field --- we\u0027re storing the tip commit in the BitmapBuilder. Since a BitmapBuilder can be used to calculate a bitmap representing all objects reachable from multiple commits (e.g., objects reachable from branches, or objects requested in a given fetch request), that is a little confusing.\n\nWould it work for tipCommitBitmaps to be e.g. a Map\u003cRevCommit, BitmapBuilder\u003e?",
+      "range": {
+        "startLine": 179,
+        "startChar": 24,
+        "endLine": 179,
+        "endChar": 45
+      },
+      "revId": "dd068aabcf71618e8b0e40867600386d90350dac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_197d1c8d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-10-19T18:50:43Z",
+      "side": 1,
+      "message": "(style) JGit uses braces around one-line if bodies now. (http://wiki.eclipse.org/EGit/Contributor_Guide#Braces_for_one-line_statements)",
+      "range": {
+        "startLine": 180,
+        "startChar": 0,
+        "endLine": 180,
+        "endChar": 27
+      },
+      "revId": "dd068aabcf71618e8b0e40867600386d90350dac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
