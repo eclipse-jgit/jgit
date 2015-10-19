@@ -47,11 +47,13 @@ import java.io.IOException;
 
 import org.eclipse.jgit.internal.storage.file.GC.RepoStatistics;
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
+import org.eclipse.jgit.junit.MockSystemReader;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.junit.TestRepository.CommitBuilder;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.util.SystemReader;
 import org.junit.After;
 import org.junit.Before;
 
@@ -61,12 +63,23 @@ public abstract class GcTestCase extends LocalDiskRepositoryTestCase {
 	protected GC gc;
 	protected RepoStatistics stats;
 
+	protected MockSystemReader mockSystemReader;
+
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
 		repo = createWorkRepository();
 		tr = new TestRepository<FileRepository>((repo));
 		gc = new GC(repo);
+
+		// Tie the SystemReader's clock to that provided by the TestRepository
+		mockSystemReader = new MockSystemReader() {
+			@Override
+			public long getCurrentTime() {
+				return tr.getClock().getTime();
+			}
+		};
+		SystemReader.setInstance(mockSystemReader);
 	}
 
 	@After

@@ -226,70 +226,68 @@ public class GcBasicPackingTest extends GcTestCase {
 	}
 
 	@Test
-	public void testCommitRangeForBitmaps() throws Exception {
-		BranchBuilder bb1 = tr.branch("refs/heads/master");
-		bb1.commit().message("A1").add("A1", "A1").create();
-		bb1.commit().message("B1").add("B1", "B1").create();
-		bb1.commit().message("C1").add("C1", "C1").create();
-		BranchBuilder bb2 = tr.branch("refs/heads/working");
-		bb2.commit().message("A2").add("A2", "A2").create();
-		bb2.commit().message("B2").add("B2", "B2").create();
-		bb2.commit().message("C2").add("C2", "C2").create();
+	public void testBitmapsForExcessiveBranches() throws Exception {
+		int oneDayInMillis = 60 * 60 * 24;
+		BranchBuilder bbA = tr.branch("refs/heads/A");
+		bbA.commit().message("A1").add("A1", "A1").create();
+		bbA.commit().message("A2").add("A2", "A2").create();
+		bbA.commit().message("A3").add("A3", "A3").create();
+		bbA.commit().message("A4").add("A4", "A5").create();
+		bbA.commit().message("A5").add("A5", "A5").create(); // day1
+		tr.tick(oneDayInMillis);
+		BranchBuilder bbB = tr.branch("refs/heads/working");
+		bbB.commit().message("B1").add("B1", "B1").create();
+		bbB.commit().message("B2").add("B2", "B2").create();
+		bbB.commit().message("B3").add("B3", "B3").create();
+		bbB.commit().message("B4").add("B4", "B4").create(); // day2
+		tr.tick(oneDayInMillis);
+		bbB.commit().message("B5").add("B5", "B5").create(); // day3
+		tr.tick(oneDayInMillis); // now is day4
 
-		// Consider all commits. Since history isn't deep all commits are
-		// selected.
-		configureGcRange(gc, -1);
-		gc.gc();
-		assertEquals(6, gc.getStatistics().numberOfBitmaps);
-
-		// Range==0 means don't examine commit history, create bitmaps only for
-		// branch tips, C1 & C2.
-		configureGcRange(gc, 0);
-		gc.gc();
-		assertEquals(2, gc.getStatistics().numberOfBitmaps);
-
-		// Consider only the most recent commit (C2, which is also a branch
-		// tip).
-		configureGcRange(gc, 1);
+		// Excessive branch history pruning, all branches are old.
+		// Bitmaps are created for branch tips.
+		configureGcForExcessiveBitmaps(gc, true, 0, 100);
 		gc.gc();
 		assertEquals(2, gc.getStatistics().numberOfBitmaps);
 
-		// Consider only the two most recent commits, C2 & B2. C1 gets included
-		// too since it is a branch tip.
-		configureGcRange(gc, 2);
-		gc.gc();
-		assertEquals(3, gc.getStatistics().numberOfBitmaps);
-
-		// Consider C2 & B2 & A2. C1 gets included too since it is a branch tip.
-		configureGcRange(gc, 3);
-		gc.gc();
-		assertEquals(4, gc.getStatistics().numberOfBitmaps);
-
-		// Consider C2 & B2 & A2 & C1.
-		configureGcRange(gc, 4);
-		gc.gc();
-		assertEquals(4, gc.getStatistics().numberOfBitmaps);
-
-		// Consider C2 & B2 & A2 & C1 & B1.
-		configureGcRange(gc, 5);
-		gc.gc();
-		assertEquals(5, gc.getStatistics().numberOfBitmaps);
-
-		// Consider all six commits.
-		configureGcRange(gc, 6);
+		// Excessive branch history pruning, one old branch. Bitmaps are created
+		// for all of B and the branch tip of A.
+		configureGcForExcessiveBitmaps(gc, true, 2, 100);
 		gc.gc();
 		assertEquals(6, gc.getStatistics().numberOfBitmaps);
 
-		// Input is out of range but should be capped to the total number of
-		// commits.
-		configureGcRange(gc, 1000);
+		// Excessive branch history pruning, no old branches.
+		configureGcForExcessiveBitmaps(gc, true, 4, 100);
 		gc.gc();
-		assertEquals(6, gc.getStatistics().numberOfBitmaps);
+		assertEquals(10, gc.getStatistics().numberOfBitmaps);
+
+		// No excessive branch history pruning.
+		configureGcForExcessiveBitmaps(gc, false, 0, 100);
+		gc.gc();
+		assertEquals(10, gc.getStatistics().numberOfBitmaps);
+		configureGcForExcessiveBitmaps(gc, false, 2, 100);
+		gc.gc();
+		assertEquals(10, gc.getStatistics().numberOfBitmaps);
+		configureGcForExcessiveBitmaps(gc, false, 4, 100);
+		gc.gc();
+		assertEquals(10, gc.getStatistics().numberOfBitmaps);
+
+		// Excessive branch history pruning, all branches are old.
+		// For recent commits, bitmaps are created every 2 commits.
+		// The algorithm considers commit #2 & #3, but prefers selecting
+		// merge commits, so selection isn't forced for 'recentCommitSpan'
+		configureGcForExcessiveBitmaps(gc, true, 0, 2);
+		gc.gc();
+		assertEquals(4, gc.getStatistics().numberOfBitmaps);
 	}
 
-	private void configureGcRange(GC myGc, int range) {
+	private void configureGcForExcessiveBitmaps(GC myGc,
+			boolean enableExcessiveBranches, int age, int recentCommitSpan) {
 		PackConfig pconfig = new PackConfig(repo);
-		pconfig.setBitmapCommitRange(range);
+		pconfig.setBitmapRecentCommitSpan(recentCommitSpan);
+		pconfig.setBitmapExcessiveBranchCount(
+				enableExcessiveBranches ? 0 : 100);
+		pconfig.setBitmapInactiveBranchAgeInDays(age);
 		myGc.setPackConfig(pconfig);
 	}
 

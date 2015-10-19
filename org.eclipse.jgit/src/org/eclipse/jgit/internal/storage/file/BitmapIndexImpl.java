@@ -57,6 +57,7 @@ import org.eclipse.jgit.lib.BitmapObject;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdOwnerMap;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.util.BlockList;
 
 /** A compressed bitmap representation of the entire object graph. */
@@ -200,6 +201,8 @@ public class BitmapIndexImpl implements BitmapIndex {
 	private final class CompressedBitmapBuilder implements BitmapBuilder {
 		private ComboBitset bitset = new ComboBitset();
 
+		private RevCommit tipCommit;
+
 		public boolean add(AnyObjectId objectId, int type) {
 			int position = addObject(objectId, type);
 			if (bitset.contains(position))
@@ -291,6 +294,14 @@ public class BitmapIndexImpl implements BitmapIndex {
 
 		private BitmapIndexImpl getBitmapIndex() {
 			return BitmapIndexImpl.this;
+		}
+
+		public RevCommit getTipCommit() {
+			return tipCommit;
+		}
+
+		public void setTipCommit(RevCommit commit) {
+			tipCommit = commit;
 		}
 	}
 
