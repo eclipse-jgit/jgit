@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "0724e3f1_595794d6",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-10-19T20:04:51Z",
+      "side": 1,
+      "message": "*nod* What you have here seems fine.\n\nWhat I meant by table-driven test is (1) probably not so idiomatic for Java (https://github.com/golang/go/wiki/TableDrivenTests) and (2) no less repetitive than what you already have:\n\n  public void testNextSele... {\n    Map.Entry[] distances \u003d {\n      new SimpleEntry\u003c\u003e(0, 0),\n      new SimpleEntry\u003c\u003e(1, 0),\n      new SimpleEntry\u003c\u003e(10, 0),\n      ...\n    };\n\n    PackWriterBitmapPreparer preparer \u003d ...\n    for (Map.Entry e : distances) {\n      assertEquals(e.getValue(),\n        preparer.nextSelectionDistance(0, e.getKey(), true));\n    }",
+      "parentUuid": "0724e3f1_99d62cef",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 74
+      },
+      "revId": "dd068aabcf71618e8b0e40867600386d90350dac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0724e3f1_798c1842",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/BitmapIndexImpl.java",
         "patchSetId": 1
