@@ -2015,7 +2015,7 @@ public class PackWriter implements AutoCloseable {
 		byName = null;
 
 		PackWriterBitmapPreparer bitmapPreparer = new PackWriterBitmapPreparer(
-				reader, writeBitmaps, pm, stats.interestingObjects);
+				reader, writeBitmaps, pm, stats.interestingObjects, config);
 
 		Collection<PackWriterBitmapPreparer.BitmapCommit> selectedCommits =
 				bitmapPreparer.selectCommits(numCommits);

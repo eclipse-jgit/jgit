@@ -72,6 +72,7 @@ import org.eclipse.jgit.revwalk.ObjectWalk;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.util.BlockList;
 import org.eclipse.jgit.util.SystemReader;
 
@@ -80,6 +81,8 @@ import org.eclipse.jgit.util.SystemReader;
  * pack index bitmaps.
  */
 class PackWriterBitmapPreparer {
+
+	private static final int DAY_IN_SECONDS = 24 * 60 * 60;
 
 	private static final Comparator<BitmapBuilderEntry> ORDER_BY_DESCENDING_CARDINALITY = new Comparator<BitmapBuilderEntry>() {
 		public int compare(BitmapBuilderEntry a, BitmapBuilderEntry b) {
@@ -105,7 +108,8 @@ class PackWriterBitmapPreparer {
 
 	PackWriterBitmapPreparer(ObjectReader reader,
 			PackBitmapIndexBuilder writeBitmaps, ProgressMonitor pm,
-			Set<? extends ObjectId> want) throws IOException {
+			Set<? extends ObjectId> want, PackConfig config)
+					throws IOException {
 		this.reader = reader;
 		this.writeBitmaps = writeBitmaps;
 		this.pm = pm;
@@ -114,13 +118,14 @@ class PackWriterBitmapPreparer {
 		this.bitmapRemapper = PackBitmapIndexRemapper.newPackBitmapIndex(
 				reader.getBitmapIndex(), writeBitmaps);
 		this.bitmapIndex = new BitmapIndexImpl(bitmapRemapper);
-		this.contiguousCommitCount = 100;
-		this.recentCommitCount = 20000;
-		this.recentCommitSpan = 100;
-		this.distantCommitSpan = 5000;
-		this.excessiveBranchCount = 100;
+		this.contiguousCommitCount = config.getBitmapContiguousCommitCount();
+		this.recentCommitCount = config.getBitmapRecentCommitCount();
+		this.recentCommitSpan = config.getBitmapRecentCommitSpan();
+		this.distantCommitSpan = config.getBitmapDistantCommitSpan();
+		this.excessiveBranchCount = config.getBitmapExcessiveBranchCount();
 		long now = SystemReader.getInstance().getCurrentTime();
-		long ageInSeconds = 90 * 24 * 60 * 60;
+		long ageInSeconds = config.getBitmapInactiveBranchAgeInDays()
+				* DAY_IN_SECONDS;
 		this.inactiveBranchTimestamp = (now / 1000) - ageInSeconds;
 	}
 

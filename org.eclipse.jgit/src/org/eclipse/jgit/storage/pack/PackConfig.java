@@ -138,6 +138,65 @@ public class PackConfig {
 	 */
 	public static final boolean DEFAULT_BUILD_BITMAPS = true;
 
+	/**
+	 * Default count of most recent commits to select for bitmaps. Only applies
+	 * when bitmaps are enabled: {@value}
+	 *
+	 * @see #setBitmapContiguousCommitCount(int)
+	 * @since 4.2
+	 */
+	public static final int DEFAULT_BITMAP_CONTIGUOUS_COMMIT_COUNT = 100;
+
+	/**
+	 * Count at which the span between selected commits changes from
+	 * "bitmapRecentCommitSpan" to "bitmapDistantCommitSpan". Only applies when
+	 * bitmaps are enabled: {@value}
+	 *
+	 * @see #setBitmapRecentCommitCount(int)
+	 * @since 4.2
+	 */
+	public static final int DEFAULT_BITMAP_RECENT_COMMIT_COUNT = 20000;
+
+	/**
+	 * Default spacing between commits in recent history when selecting commits
+	 * for bitmaps. Only applies when bitmaps are enabled: {@value}
+	 *
+	 * @see #setBitmapRecentCommitSpan(int)
+	 * @since 4.2
+	 */
+	public static final int DEFAULT_BITMAP_RECENT_COMMIT_SPAN = 100;
+
+	/**
+	 * Default spacing between commits in distant history when selecting commits
+	 * for bitmaps. Only applies when bitmaps are enabled: {@value}
+	 *
+	 * @see #setBitmapDistantCommitSpan(int)
+	 * @since 4.2
+	 */
+	public static final int DEFAULT_BITMAP_DISTANT_COMMIT_SPAN = 5000;
+
+	/**
+	 * Default count of branches required to activate inactive branch commit
+	 * selection. If the number of branches is less than this then bitmaps for
+	 * the entire commit history of all branches will be created, otherwise
+	 * branches marked as "inactive" will have coverage for only partial
+	 * history: {@value}
+	 *
+	 * @see #setBitmapExcessiveBranchCount(int)
+	 * @since 4.2
+	 */
+	public static final int DEFAULT_BITMAP_EXCESSIVE_BRANCH_COUNT = 100;
+
+	/**
+	 * Default age at which a branch is considered inactive. Age is taken as the
+	 * number of days ago that the most recent commit was made to a branch. Only
+	 * affects bitmap processing if bitmaps are enabled and the
+	 * "excessive branch count" has been exceeded: {@value}
+	 *
+	 * @see #setBitmapInactiveBranchAgeInDays(int)
+	 * @since 4.2
+	 */
+	public static final int DEFAULT_BITMAP_INACTIVE_BRANCH_AGE_IN_DAYS = 90;
 
 	private int compressionLevel = Deflater.DEFAULT_COMPRESSION;
 
@@ -168,6 +227,18 @@ public class PackConfig {
 	private int indexVersion = DEFAULT_INDEX_VERSION;
 
 	private boolean buildBitmaps = DEFAULT_BUILD_BITMAPS;
+
+	private int bitmapContiguousCommitCount = DEFAULT_BITMAP_CONTIGUOUS_COMMIT_COUNT;
+
+	private int bitmapRecentCommitCount = DEFAULT_BITMAP_RECENT_COMMIT_COUNT;
+
+	private int bitmapRecentCommitSpan = DEFAULT_BITMAP_RECENT_COMMIT_SPAN;
+
+	private int bitmapDistantCommitSpan = DEFAULT_BITMAP_DISTANT_COMMIT_SPAN;
+
+	private int bitmapExcessiveBranchCount = DEFAULT_BITMAP_EXCESSIVE_BRANCH_COUNT;
+
+	private int bitmapInactiveBranchAgeInDays = DEFAULT_BITMAP_INACTIVE_BRANCH_AGE_IN_DAYS;
 
 	private boolean cutDeltaChains;
 
@@ -222,6 +293,12 @@ public class PackConfig {
 		this.executor = cfg.executor;
 		this.indexVersion = cfg.indexVersion;
 		this.buildBitmaps = cfg.buildBitmaps;
+		this.bitmapContiguousCommitCount = cfg.bitmapContiguousCommitCount;
+		this.bitmapRecentCommitCount = cfg.bitmapRecentCommitCount;
+		this.bitmapRecentCommitSpan = cfg.bitmapRecentCommitSpan;
+		this.bitmapDistantCommitSpan = cfg.bitmapDistantCommitSpan;
+		this.bitmapExcessiveBranchCount = cfg.bitmapExcessiveBranchCount;
+		this.bitmapInactiveBranchAgeInDays = cfg.bitmapInactiveBranchAgeInDays;
 		this.cutDeltaChains = cfg.cutDeltaChains;
 	}
 
@@ -650,7 +727,7 @@ public class PackConfig {
 	 *            oldest (most compatible) format available for the objects.
 	 * @see PackIndexWriter
 	 */
-	public void setIndexVersion(final int version) {
+	public void setIndexVersion(int version) {
 		indexVersion = version;
 	}
 
@@ -684,6 +761,162 @@ public class PackConfig {
 	}
 
 	/**
+	 * Get the count of most recent commits for which to build bitmaps.
+	 *
+	 * Default setting: {@value #DEFAULT_BITMAP_CONTIGUOUS_COMMIT_COUNT}
+	 *
+	 * @return the count of most recent commits for which to build bitmaps
+	 * @since 4.2
+	 */
+	public int getBitmapContiguousCommitCount() {
+		return bitmapContiguousCommitCount;
+	}
+
+	/**
+	 * Set the count of most recent commits for which to build bitmaps.
+	 *
+	 * Default setting: {@value #DEFAULT_BITMAP_CONTIGUOUS_COMMIT_COUNT}
+	 *
+	 * @param count
+	 *            the count of most recent commits for which to build bitmaps
+	 * @since 4.2
+	 */
+	public void setBitmapContiguousCommitCount(int count) {
+		bitmapContiguousCommitCount = count;
+	}
+
+	/**
+	 * Get the count at which to switch from "bitmapRecentCommitSpan" to
+	 * "bitmapDistantCommitSpan".
+	 *
+	 * Default setting: {@value #DEFAULT_BITMAP_RECENT_COMMIT_COUNT}
+	 *
+	 * @return the count for switching between recent and distant spans
+	 * @since 4.2
+	 */
+	public int getBitmapRecentCommitCount() {
+		return bitmapRecentCommitCount;
+	}
+
+	/**
+	 * Set the count at which to switch from "bitmapRecentCommitSpan" to
+	 * "bitmapDistantCommitSpan".
+	 *
+	 * Default setting: {@value #DEFAULT_BITMAP_RECENT_COMMIT_COUNT}
+	 *
+	 * @param count
+	 *            the count for switching between recent and distant spans
+	 * @since 4.2
+	 */
+	public void setBitmapRecentCommitCount(int count) {
+		bitmapRecentCommitCount = count;
+	}
+
+	/**
+	 * Get the span of commits when building bitmaps for recent history.
+	 *
+	 * Default setting: {@value #DEFAULT_BITMAP_RECENT_COMMIT_SPAN}
+	 *
+	 * @return the span of commits when building bitmaps for recent history
+	 * @since 4.2
+	 */
+	public int getBitmapRecentCommitSpan() {
+		return bitmapRecentCommitSpan;
+	}
+
+	/**
+	 * Set the span of commits when building bitmaps for recent history.
+	 *
+	 * Default setting: {@value #DEFAULT_BITMAP_RECENT_COMMIT_SPAN}
+	 *
+	 * @param span
+	 *            the span of commits when building bitmaps for recent history
+	 * @since 4.2
+	 */
+	public void setBitmapRecentCommitSpan(int span) {
+		bitmapRecentCommitSpan = span;
+	}
+
+	/**
+	 * Get the span of commits when building bitmaps for distant history.
+	 *
+	 * Default setting: {@value #DEFAULT_BITMAP_DISTANT_COMMIT_SPAN}
+	 *
+	 * @return the span of commits when building bitmaps for distant history
+	 * @since 4.2
+	 */
+	public int getBitmapDistantCommitSpan() {
+		return bitmapDistantCommitSpan;
+	}
+
+	/**
+	 * Set the span of commits when building bitmaps for distant history.
+	 *
+	 * Default setting: {@value #DEFAULT_BITMAP_DISTANT_COMMIT_SPAN}
+	 *
+	 * @param span
+	 *            the span of commits when building bitmaps for distant history
+	 * @since 4.2
+	 */
+	public void setBitmapDistantCommitSpan(int span) {
+		bitmapDistantCommitSpan = span;
+	}
+
+	/**
+	 * Get the count of branches deemed "excessive". If the count of branches in
+	 * a repository exceeds this number and bitmaps are enabled, "inactive"
+	 * branches will have fewer bitmaps than "active" branches.
+	 *
+	 * Default setting: {@value #DEFAULT_BITMAP_EXCESSIVE_BRANCH_COUNT}
+	 *
+	 * @return the count of branches deemed "excessive"
+	 * @since 4.2
+	 */
+	public int getBitmapExcessiveBranchCount() {
+		return bitmapExcessiveBranchCount;
+	}
+
+	/**
+	 * Set the count of branches deemed "excessive". If the count of branches in
+	 * a repository exceeds this number and bitmaps are enabled, "inactive"
+	 * branches will have fewer bitmaps than "active" branches.
+	 *
+	 * Default setting: {@value #DEFAULT_BITMAP_EXCESSIVE_BRANCH_COUNT}
+	 *
+	 * @param count
+	 *            the count of branches deemed "excessive"
+	 * @since 4.2
+	 */
+	public void setBitmapExcessiveBranchCount(int count) {
+		bitmapExcessiveBranchCount = count;
+	}
+
+	/**
+	 * Get the the age in days that marks a branch as "inactive".
+	 *
+	 * Default setting: {@value #DEFAULT_BITMAP_INACTIVE_BRANCH_AGE_IN_DAYS}
+	 *
+	 * @return the age in days that marks a branch as "inactive"
+	 * @since 4.2
+	 */
+	public int getBitmapInactiveBranchAgeInDays() {
+		return bitmapInactiveBranchAgeInDays;
+	}
+
+	/**
+	 * Set the the age in days that marks a branch as "inactive".
+	 *
+	 * Default setting: {@value #DEFAULT_BITMAP_INACTIVE_BRANCH_AGE_IN_DAYS}
+	 *
+	 * @param ageInDays
+	 *            the age in days that marks a branch as "inactive"
+	 * @since 4.2
+	 */
+	public void setBitmapInactiveBranchAgeInDays(int ageInDays) {
+		bitmapInactiveBranchAgeInDays = ageInDays;
+	}
+
+	/**
 	 * Update properties by setting fields from the configuration.
 	 *
 	 * If a property's corresponding variable is not defined in the supplied
@@ -712,19 +945,36 @@ public class PackConfig {
 		// These variables aren't standardized
 		//
 		setReuseDeltas(rc.getBoolean("pack", "reusedeltas", isReuseDeltas())); //$NON-NLS-1$ //$NON-NLS-2$
-		setReuseObjects(rc.getBoolean("pack", "reuseobjects", isReuseObjects())); //$NON-NLS-1$ //$NON-NLS-2$
-		setDeltaCompress(rc.getBoolean(
-				"pack", "deltacompression", isDeltaCompress())); //$NON-NLS-1$ //$NON-NLS-2$
-		setCutDeltaChains(rc.getBoolean(
-				"pack", "cutdeltachains", getCutDeltaChains())); //$NON-NLS-1$ //$NON-NLS-2$
-		setBuildBitmaps(rc.getBoolean("pack", "buildbitmaps", isBuildBitmaps())); //$NON-NLS-1$ //$NON-NLS-2$
+		setReuseObjects(
+				rc.getBoolean("pack", "reuseobjects", isReuseObjects())); //$NON-NLS-1$ //$NON-NLS-2$
+		setDeltaCompress(
+				rc.getBoolean("pack", "deltacompression", isDeltaCompress())); //$NON-NLS-1$ //$NON-NLS-2$
+		setCutDeltaChains(
+				rc.getBoolean("pack", "cutdeltachains", getCutDeltaChains())); //$NON-NLS-1$ //$NON-NLS-2$
+		setBuildBitmaps(
+				rc.getBoolean("pack", "buildbitmaps", isBuildBitmaps())); //$NON-NLS-1$ //$NON-NLS-2$
+		setBitmapContiguousCommitCount(
+				rc.getInt("pack", "bitmapcontiguouscommitcount", //$NON-NLS-1$ //$NON-NLS-2$
+						getBitmapContiguousCommitCount()));
+		setBitmapRecentCommitCount(rc.getInt("pack", "bitmaprecentcommitcount", //$NON-NLS-1$ //$NON-NLS-2$
+				getBitmapRecentCommitCount()));
+		setBitmapRecentCommitSpan(rc.getInt("pack", "bitmaprecentcommitspan", //$NON-NLS-1$ //$NON-NLS-2$
+				getBitmapRecentCommitSpan()));
+		setBitmapDistantCommitSpan(rc.getInt("pack", "bitmapdistantcommitspan", //$NON-NLS-1$ //$NON-NLS-2$
+				getBitmapDistantCommitSpan()));
+		setBitmapExcessiveBranchCount(rc.getInt("pack", //$NON-NLS-1$
+				"bitmapexcessivebranchcount", getBitmapExcessiveBranchCount())); //$NON-NLS-1$
+		setBitmapInactiveBranchAgeInDays(
+				rc.getInt("pack", "bitmapinactivebranchageindays", //$NON-NLS-1$ //$NON-NLS-2$
+						getBitmapInactiveBranchAgeInDays()));
 	}
 
 	public String toString() {
 		final StringBuilder b = new StringBuilder();
 		b.append("maxDeltaDepth=").append(getMaxDeltaDepth()); //$NON-NLS-1$
 		b.append(", deltaSearchWindowSize=").append(getDeltaSearchWindowSize()); //$NON-NLS-1$
-		b.append(", deltaSearchMemoryLimit=").append(getDeltaSearchMemoryLimit()); //$NON-NLS-1$
+		b.append(", deltaSearchMemoryLimit=") //$NON-NLS-1$
+				.append(getDeltaSearchMemoryLimit());
 		b.append(", deltaCacheSize=").append(getDeltaCacheSize()); //$NON-NLS-1$
 		b.append(", deltaCacheLimit=").append(getDeltaCacheLimit()); //$NON-NLS-1$
 		b.append(", compressionLevel=").append(getCompressionLevel()); //$NON-NLS-1$
@@ -735,6 +985,18 @@ public class PackConfig {
 		b.append(", reuseObjects=").append(isReuseObjects()); //$NON-NLS-1$
 		b.append(", deltaCompress=").append(isDeltaCompress()); //$NON-NLS-1$
 		b.append(", buildBitmaps=").append(isBuildBitmaps()); //$NON-NLS-1$
+		b.append(", bitmapContiguousCommitCount=") //$NON-NLS-1$
+				.append(getBitmapContiguousCommitCount());
+		b.append(", bitmapRecentCommitCount=") //$NON-NLS-1$
+				.append(getBitmapRecentCommitCount());
+		b.append(", bitmapRecentCommitSpan=") //$NON-NLS-1$
+				.append(getBitmapRecentCommitSpan());
+		b.append(", bitmapDistantCommitSpan=") //$NON-NLS-1$
+				.append(getBitmapDistantCommitSpan());
+		b.append(", bitmapExcessiveBranchCount=") //$NON-NLS-1$
+				.append(getBitmapExcessiveBranchCount());
+		b.append(", bitmapInactiveBranchAge=") //$NON-NLS-1$
+				.append(getBitmapInactiveBranchAgeInDays());
 		return b.toString();
 	}
 }
