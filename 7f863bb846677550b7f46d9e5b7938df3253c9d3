@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0724e3f1_941b9378",
+        "filename": "org.eclipse.jgit.lfs.server.test/tst/org/eclipse/jgit/lfs/server/DownloadTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-10-19T23:20:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0724e3f1_b6e6a4d2",
+      "revId": "7f863bb846677550b7f46d9e5b7938df3253c9d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0724e3f1_565488ce",
         "filename": "org.eclipse.jgit.lfs.server.test/tst/org/eclipse/jgit/lfs/server/LfsServerTest.java",
         "patchSetId": 6
@@ -30,6 +48,30 @@
       "writtenOn": "2015-10-16T14:37:10Z",
       "side": 1,
       "message": "shouldn\u0027t this be closed after usage?",
+      "range": {
+        "startLine": 150,
+        "startChar": 3,
+        "endLine": 150,
+        "endChar": 60
+      },
+      "revId": "7f863bb846677550b7f46d9e5b7938df3253c9d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_741edf69",
+        "filename": "org.eclipse.jgit.lfs.server.test/tst/org/eclipse/jgit/lfs/server/LfsServerTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-10-19T23:20:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0724e3f1_565488ce",
       "range": {
         "startLine": 150,
         "startChar": 3,
