@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0724e3f1_34fd877a",
+        "filename": "org.eclipse.jgit.lfs.test/tst/org/eclipse/jgit/lfs/lib/AbbreviatedLongObjectIdTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-10-19T23:21:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0724e3f1_fb54854d",
+      "range": {
+        "startLine": 472,
+        "startChar": 2,
+        "endLine": 473,
+        "endChar": 82
+      },
+      "revId": "07bfcf678373ae9c1051c69cc01355de7ee8bbec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0724e3f1_b6c50486",
         "filename": "org.eclipse.jgit.lfs.test/tst/org/eclipse/jgit/lfs/lib/AbbreviatedLongObjectIdTest.java",
         "patchSetId": 5
@@ -36,6 +60,30 @@
       "writtenOn": "2015-10-16T13:55:27Z",
       "side": 1,
       "message": "How about:\n\n } catch (IllegalArgumentException e) {\n   return;\n }\n Assert.fail(\"IllegalArgumentExcption expected\");",
+      "range": {
+        "startLine": 474,
+        "startChar": 2,
+        "endLine": 476,
+        "endChar": 3
+      },
+      "revId": "07bfcf678373ae9c1051c69cc01355de7ee8bbec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_94043323",
+        "filename": "org.eclipse.jgit.lfs.test/tst/org/eclipse/jgit/lfs/lib/AbbreviatedLongObjectIdTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-10-19T23:21:10Z",
+      "side": 1,
+      "message": "I used the idiom we use in other jgit tests",
+      "parentUuid": "0724e3f1_b6c50486",
       "range": {
         "startLine": 474,
         "startChar": 2,
@@ -94,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "0724e3f1_b4085734",
+        "filename": "org.eclipse.jgit.lfs.test/tst/org/eclipse/jgit/lfs/lib/LongObjectIdTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-10-19T23:21:10Z",
+      "side": 1,
+      "message": "I used the idiom we use in other tests",
+      "parentUuid": "0724e3f1_1607b058",
+      "range": {
+        "startLine": 173,
+        "startChar": 2,
+        "endLine": 175,
+        "endChar": 3
+      },
+      "revId": "07bfcf678373ae9c1051c69cc01355de7ee8bbec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0724e3f1_76254ce1",
         "filename": "org.eclipse.jgit.lfs/about.html",
         "patchSetId": 5
@@ -105,6 +177,30 @@
       "writtenOn": "2015-10-16T13:55:27Z",
       "side": 1,
       "message": "white space",
+      "range": {
+        "startLine": 14,
+        "startChar": 5,
+        "endLine": 14,
+        "endChar": 8
+      },
+      "revId": "07bfcf678373ae9c1051c69cc01355de7ee8bbec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_d40d0b46",
+        "filename": "org.eclipse.jgit.lfs/about.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-10-19T23:21:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0724e3f1_76254ce1",
       "range": {
         "startLine": 14,
         "startChar": 5,
