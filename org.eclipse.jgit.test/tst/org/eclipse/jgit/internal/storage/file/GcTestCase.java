@@ -52,6 +52,7 @@ import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.junit.TestRepository.CommitBuilder;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.After;
 import org.junit.Before;
 
@@ -65,7 +66,8 @@ public abstract class GcTestCase extends LocalDiskRepositoryTestCase {
 	public void setUp() throws Exception {
 		super.setUp();
 		repo = createWorkRepository();
-		tr = new TestRepository<FileRepository>((repo));
+		tr = new TestRepository<FileRepository>(repo, new RevWalk(repo),
+				mockSystemReader);
 		gc = new GC(repo);
 	}
 
