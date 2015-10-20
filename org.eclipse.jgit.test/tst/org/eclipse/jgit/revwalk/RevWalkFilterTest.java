@@ -250,14 +250,14 @@ public class RevWalkFilterTest extends RevWalkTestCase {
 		final RevCommit b = commit(a);
 		tick(100);
 
-		Date since = getClock();
+		Date since = getDate();
 		final RevCommit c1 = commit(b);
 		tick(100);
 
 		final RevCommit c2 = commit(b);
 		tick(100);
 
-		Date until = getClock();
+		Date until = getDate();
 		final RevCommit d = commit(c1, c2);
 		tick(100);
 

@@ -51,7 +51,6 @@ import static org.junit.Assert.fail;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheEntry;
@@ -171,9 +170,8 @@ public abstract class LocalDiskRepositoryTestCase {
 
 	/** Increment the {@link #author} and {@link #committer} times. */
 	protected void tick() {
-		final long delta = TimeUnit.MILLISECONDS.convert(5 * 60,
-				TimeUnit.SECONDS);
-		final long now = author.getWhen().getTime() + delta;
+		mockSystemReader.tick(5 * 60);
+		final long now = mockSystemReader.getCurrentTime();
 		final int tz = mockSystemReader.getTimezone(now);
 
 		author = new PersonIdent(author, now, tz);
@@ -278,11 +276,10 @@ public abstract class LocalDiskRepositoryTestCase {
 			throws IllegalStateException, IOException {
 		DirCache dc = repo.readDirCache();
 		StringBuilder sb = new StringBuilder();
-		TreeSet<Long> timeStamps = null;
+		TreeSet<Long> timeStamps = new TreeSet<Long>();
 
 		// iterate once over the dircache just to collect all time stamps
 		if (0 != (includedOptions & MOD_TIME)) {
-			timeStamps = new TreeSet<Long>();
 			for (int i=0; i<dc.getEntryCount(); ++i)
 				timeStamps.add(Long.valueOf(dc.getEntry(i).getLastModified()));
 		}
