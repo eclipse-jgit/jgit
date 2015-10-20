@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0724e3f1_8e9c1f78",
+        "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/TestRepository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-10-20T18:43:57Z",
+      "side": 1,
+      "message": "strange name for a method returning the current time, how about now() or getCurrentTime() ?",
+      "range": {
+        "startLine": 207,
+        "startChar": 13,
+        "endLine": 207,
+        "endChar": 23
+      },
+      "revId": "a5c94d6f5c779aa23a7d2a0f3f2e0c937deaff4c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
