@@ -22,6 +22,30 @@
       "revId": "a5c94d6f5c779aa23a7d2a0f3f2e0c937deaff4c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_6e5c4bc6",
+        "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/TestRepository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-10-20T20:17:47Z",
+      "side": 1,
+      "message": "I agree it is wierd. getXXXTime() generally returns a long representing millis. Changed to getDate() since it returns a Date. No API implications since this is a test utility.",
+      "parentUuid": "0724e3f1_8e9c1f78",
+      "range": {
+        "startLine": 207,
+        "startChar": 13,
+        "endLine": 207,
+        "endChar": 23
+      },
+      "revId": "a5c94d6f5c779aa23a7d2a0f3f2e0c937deaff4c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
