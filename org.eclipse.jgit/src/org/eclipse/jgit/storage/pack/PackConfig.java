@@ -138,14 +138,6 @@ public class PackConfig {
 	 */
 	public static final boolean DEFAULT_BUILD_BITMAPS = true;
 
-	/**
-	 * Default range of commits for which to create bitmaps: {@value}
-	 *
-	 * @see #setBitmapCommitRange(int)
-	 * @since 4.2
-	 */
-	public static final int DEFAULT_BITMAP_COMMIT_RANGE = -1;
-
 
 	private int compressionLevel = Deflater.DEFAULT_COMPRESSION;
 
@@ -176,8 +168,6 @@ public class PackConfig {
 	private int indexVersion = DEFAULT_INDEX_VERSION;
 
 	private boolean buildBitmaps = DEFAULT_BUILD_BITMAPS;
-
-	private int bitmapCommitRange = DEFAULT_BITMAP_COMMIT_RANGE;
 
 	private boolean cutDeltaChains;
 
@@ -232,7 +222,6 @@ public class PackConfig {
 		this.executor = cfg.executor;
 		this.indexVersion = cfg.indexVersion;
 		this.buildBitmaps = cfg.buildBitmaps;
-		this.bitmapCommitRange = cfg.bitmapCommitRange;
 		this.cutDeltaChains = cfg.cutDeltaChains;
 	}
 
@@ -695,39 +684,6 @@ public class PackConfig {
 	}
 
 	/**
-	 * Get the range of commits for which to build bitmaps. The range starts
-	 * from the most recent commit.
-	 *
-	 * A value of 0 creates bitmaps for only branch tips. A value of -1 creates
-	 * bitmaps spaced through the entire history of commits.
-	 *
-	 * Default setting: {@value #DEFAULT_BITMAP_COMMIT_RANGE}
-	 *
-	 * @return the range of commits for which to create bitmaps, starting with
-	 *         the most recent commit
-	 * @see PackIndexWriter
-	 * @since 4.2
-	 */
-	public int getBitmapCommitRange() {
-		return bitmapCommitRange;
-	}
-
-	/**
-	 * Set the range of commits for which to build bitmaps.
-	 *
-	 * Default setting: {@value #DEFAULT_BITMAP_COMMIT_RANGE}
-	 *
-	 * @param range
-	 *            the range of commits for which to create bitmaps, starting
-	 *            with the most recent commit
-	 * @see PackIndexWriter
-	 * @since 4.2
-	 */
-	public void setBitmapCommitRange(final int range) {
-		bitmapCommitRange = range;
-	}
-
-	/**
 	 * Update properties by setting fields from the configuration.
 	 *
 	 * If a property's corresponding variable is not defined in the supplied
@@ -762,8 +718,6 @@ public class PackConfig {
 		setCutDeltaChains(rc.getBoolean(
 				"pack", "cutdeltachains", getCutDeltaChains())); //$NON-NLS-1$ //$NON-NLS-2$
 		setBuildBitmaps(rc.getBoolean("pack", "buildbitmaps", isBuildBitmaps())); //$NON-NLS-1$ //$NON-NLS-2$
-		setBitmapCommitRange(
-				rc.getInt("pack", "bitmapcommitrange", getBitmapCommitRange())); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public String toString() {
@@ -781,7 +735,6 @@ public class PackConfig {
 		b.append(", reuseObjects=").append(isReuseObjects()); //$NON-NLS-1$
 		b.append(", deltaCompress=").append(isDeltaCompress()); //$NON-NLS-1$
 		b.append(", buildBitmaps=").append(isBuildBitmaps()); //$NON-NLS-1$
-		b.append(", bitmapCommitRange=").append(getBitmapCommitRange()); //$NON-NLS-1$
 		return b.toString();
 	}
 }
