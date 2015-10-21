@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0724e3f1_20325c7a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-10-21T22:19:16Z",
+      "side": 1,
+      "message": "The code that implements this is a pretty small part of the patch. If doing it over, I\u0027d suggest making that a separate CL from the cleanup --- that way, a reviewer only has to think about (1) does change A really make the code easier to work with and have no effect? and (2) does tiny change B really do what it says in the commit message and is that a good idea?\n\nThat said, I don\u0027t think it\u0027s worth splitting out now that this is written.",
+      "range": {
+        "startLine": 182,
+        "startChar": 0,
+        "endLine": 185,
+        "endChar": 15
+      },
+      "revId": "320a4142ad0e8febf4696446cc3a6346c0708a00",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_e0284410",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-10-21T22:19:16Z",
+      "side": 1,
+      "message": "neat",
+      "range": {
+        "startLine": 339,
+        "startChar": 27,
+        "endLine": 339,
+        "endChar": 35
+      },
+      "revId": "320a4142ad0e8febf4696446cc3a6346c0708a00",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_c023802f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-10-21T22:19:16Z",
+      "side": 1,
+      "message": "/**",
+      "range": {
+        "startLine": 409,
+        "startChar": 2,
+        "endLine": 409,
+        "endChar": 4
+      },
+      "revId": "320a4142ad0e8febf4696446cc3a6346c0708a00",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_e08de4bb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-10-21T22:19:16Z",
+      "side": 1,
+      "message": "(nit) this paren should probably be on the next line to avoid a stray space if this doc gets rendered",
+      "range": {
+        "startLine": 497,
+        "startChar": 59,
+        "endLine": 497,
+        "endChar": 60
+      },
+      "revId": "320a4142ad0e8febf4696446cc3a6346c0708a00",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
