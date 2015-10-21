@@ -54,6 +54,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.jgit.internal.storage.pack.PackExt;
+import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectDatabase;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -178,6 +179,28 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	 */
 	public DfsPackFile[] getCurrentPacks() {
 		return packList.get().packs;
+	}
+
+	/**
+	 * Does the requested object exist in this database?
+	 * <p>
+	 * This differs from ObjectDatabase's implementation in that we can selectively
+	 * ignore unreachable (garbage) objects.
+	 *
+	 * @param objectId
+	 *            identity of the object to test for existence of.
+	 * @param avoidUnreachableObjects
+	 *            if true, ignore objects that are unreachable.
+	 * @return true if the specified object is stored in this database.
+	 * @throws IOException
+	 *             the object store cannot be accessed.
+	 */
+	public boolean has(AnyObjectId objectId, boolean avoidUnreachableObjects)
+			throws IOException {
+		try (ObjectReader or = newReader()) {
+			or.setAvoidUnreachableObjects(avoidUnreachableObjects);
+			return or.has(objectId);
+		}
 	}
 
 	/**
