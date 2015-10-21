@@ -137,7 +137,8 @@ public class DfsInserter extends ObjectInserter {
 		ObjectId id = idFor(type, data, off, len);
 		if (objectMap != null && objectMap.contains(id))
 			return id;
-		if (db.has(id))
+		// Ignore unreachable (garbage) objects here.
+		if (db.has(id, true))
 			return id;
 
 		long offset = beginObject(type, len);
