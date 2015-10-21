@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0724e3f1_40015077",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-10-21T23:11:59Z",
+      "side": 1,
+      "message": "Noted. I got fairly deep in before realizing how bit a rewrite this became.",
+      "parentUuid": "0724e3f1_20325c7a",
+      "range": {
+        "startLine": 182,
+        "startChar": 0,
+        "endLine": 185,
+        "endChar": 15
+      },
+      "revId": "320a4142ad0e8febf4696446cc3a6346c0708a00",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0724e3f1_e0284410",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2015-10-21T22:19:16Z",
       "side": 1,
       "message": "neat",
+      "range": {
+        "startLine": 339,
+        "startChar": 27,
+        "endLine": 339,
+        "endChar": 35
+      },
+      "revId": "320a4142ad0e8febf4696446cc3a6346c0708a00",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_00075890",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-10-21T23:11:59Z",
+      "side": 1,
+      "message": "This was the only side effect of calling writeBitmaps.addBitmap(), so I expressed it this way.",
+      "parentUuid": "0724e3f1_e0284410",
       "range": {
         "startLine": 339,
         "startChar": 27,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "0724e3f1_c0d54060",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-10-21T23:11:59Z",
+      "side": 1,
+      "message": "This is intentional because the comment contains ASCII art. Without it, the auto-save action to reformat the file destroys the readability of the comment.\n\nThat said, this function was simplified, so if this really rubs you the wrong way, I feel I can now live with dropping the graph and using a text description.",
+      "parentUuid": "0724e3f1_c023802f",
+      "range": {
+        "startLine": 409,
+        "startChar": 2,
+        "endLine": 409,
+        "endChar": 4
+      },
+      "revId": "320a4142ad0e8febf4696446cc3a6346c0708a00",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0724e3f1_e08de4bb",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
         "patchSetId": 3
@@ -82,6 +154,30 @@
       "writtenOn": "2015-10-21T22:19:16Z",
       "side": 1,
       "message": "(nit) this paren should probably be on the next line to avoid a stray space if this doc gets rendered",
+      "range": {
+        "startLine": 497,
+        "startChar": 59,
+        "endLine": 497,
+        "endChar": 60
+      },
+      "revId": "320a4142ad0e8febf4696446cc3a6346c0708a00",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_80f2280b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-10-21T23:11:59Z",
+      "side": 1,
+      "message": "Eclipse\u0027s formatter, which by default is run on every save, reformats the text this way. Opened http://bugs.eclipse.org/480359. I also opened http://bugs.eclipse.org/480361 for the excessively long ORDER_BY_DESCENDING_CARDINALITY line at the top of the file.",
+      "parentUuid": "0724e3f1_e08de4bb",
       "range": {
         "startLine": 497,
         "startChar": 59,
