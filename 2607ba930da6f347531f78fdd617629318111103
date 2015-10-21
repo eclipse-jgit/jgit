@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0724e3f1_4022f061",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-10-21T21:21:08Z",
+      "side": 1,
+      "message": "(nit) missing braces around one-line if body",
+      "range": {
+        "startLine": 187,
+        "startChar": 0,
+        "endLine": 187,
+        "endChar": 27
+      },
+      "revId": "2607ba930da6f347531f78fdd617629318111103",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_a0080ce5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-10-21T21:21:08Z",
+      "side": 1,
+      "message": "for",
+      "range": {
+        "startLine": 199,
+        "startChar": 54,
+        "endLine": 199,
+        "endChar": 61
+      },
+      "revId": "2607ba930da6f347531f78fdd617629318111103",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_800348c6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-10-21T21:21:08Z",
+      "side": 1,
+      "message": "(nit) missing braces around \u0027for\u0027 body",
+      "range": {
+        "startLine": 389,
+        "startChar": 0,
+        "endLine": 390,
+        "endChar": 36
+      },
+      "revId": "2607ba930da6f347531f78fdd617629318111103",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_20153cfe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-10-21T21:21:08Z",
+      "side": 1,
+      "message": "(nit) braces around one-line if body",
+      "range": {
+        "startLine": 421,
+        "startChar": 0,
+        "endLine": 421,
+        "endChar": 40
+      },
+      "revId": "2607ba930da6f347531f78fdd617629318111103",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
