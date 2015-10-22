@@ -49,17 +49,22 @@ package org.eclipse.jgit.util;
 import java.io.File;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.security.AccessControlException;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.text.DateFormat;
+import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectChecker;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Interface to read values from the system.
@@ -70,6 +75,9 @@ import org.eclipse.jgit.lib.ObjectChecker;
  * </p>
  */
 public abstract class SystemReader {
+	private final static Logger LOG = LoggerFactory
+			.getLogger(SystemReader.class);
+
 	private static final SystemReader DEFAULT;
 
 	private static Boolean isMacOS;
@@ -112,7 +120,24 @@ public abstract class SystemReader {
 
 		public FileBasedConfig openUserConfig(Config parent, FS fs) {
 			final File home = fs.userHome();
-			return new FileBasedConfig(parent, new File(home, ".gitconfig"), fs); //$NON-NLS-1$
+			File userConfig = new File(home, ".gitconfig");
+			try {
+				userConfig.canRead();
+			} catch (AccessControlException e) {
+				LOG.warn(MessageFormat.format(JGitText.get().unableToAccessUserConfig,
+						userConfig.getAbsolutePath()));
+				return new FileBasedConfig(parent, null, fs) {
+					public void load() {
+						// empty, do not load
+					}
+
+					public boolean isOutdated() {
+						// regular class would bomb here
+						return false;
+					}
+				};
+			}
+			return new FileBasedConfig(parent, userConfig, fs); //$NON-NLS-1$
 		}
 
 		public String getHostname() {

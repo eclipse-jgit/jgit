@@ -665,6 +665,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String truncatedHunkNewLinesMissing;
 	/***/ public String truncatedHunkOldLinesMissing;
 	/***/ public String tSizeMustBeGreaterOrEqual1;
+	/***/ public String unableToAccessUserConfig;
 	/***/ public String unableToCheckConnectivity;
 	/***/ public String unableToCreateNewObject;
 	/***/ public String unableToStore;
