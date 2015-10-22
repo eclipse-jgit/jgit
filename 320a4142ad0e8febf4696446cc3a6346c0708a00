@@ -167,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "0724e3f1_340f3d71",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-10-22T01:00:29Z",
+      "side": 1,
+      "message": "No.",
+      "parentUuid": "0724e3f1_a0a92cde",
+      "range": {
+        "startLine": 409,
+        "startChar": 2,
+        "endLine": 409,
+        "endChar": 4
+      },
+      "revId": "320a4142ad0e8febf4696446cc3a6346c0708a00",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0724e3f1_e08de4bb",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
         "patchSetId": 3
@@ -226,6 +250,30 @@
       "side": 1,
       "message": "Ah. Ok. (My habit is to ctrl+z after every save because of things like this. Thanks for fighting the good fight.)",
       "parentUuid": "0724e3f1_80f2280b",
+      "range": {
+        "startLine": 497,
+        "startChar": 59,
+        "endLine": 497,
+        "endChar": 60
+      },
+      "revId": "320a4142ad0e8febf4696446cc3a6346c0708a00",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_f42be5b6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-10-22T01:00:29Z",
+      "side": 1,
+      "message": "The formatter is rewritten in Eclipse 4.5. The developer is now a JDT committer, so bugs will likely get addressed. \n\nThis was not the case with the previous formatter. No one working on the JDT had any experience with it, and bugs were very hard to fix.",
+      "parentUuid": "0724e3f1_80a4e803",
       "range": {
         "startLine": 497,
         "startChar": 59,
