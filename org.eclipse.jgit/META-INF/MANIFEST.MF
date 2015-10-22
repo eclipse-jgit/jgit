@@ -60,7 +60,11 @@ Export-Package: org.eclipse.jgit.annotations;version="4.7.0",
  org.eclipse.jgit.ignore.internal;version="4.7.0";x-friends:="org.eclipse.jgit.test",
  org.eclipse.jgit.internal;version="4.7.0";x-friends:="org.eclipse.jgit.test,org.eclipse.jgit.http.test",
  org.eclipse.jgit.internal.ketch;version="4.7.0";x-friends:="org.eclipse.jgit.junit,org.eclipse.jgit.test,org.eclipse.jgit.pgm",
- org.eclipse.jgit.internal.storage.dfs;version="4.7.0";x-friends:="org.eclipse.jgit.test,org.eclipse.jgit.http.server,org.eclipse.jgit.http.test",
+ org.eclipse.jgit.internal.storage.dfs;version="4.7.0";
+  x-friends:="org.eclipse.jgit.test,
+   org.eclipse.jgit.http.server,
+   org.eclipse.jgit.http.test,
+   org.eclipse.jgit.lfs.test",
  org.eclipse.jgit.internal.storage.file;version="4.7.0";
   x-friends:="org.eclipse.jgit.test,
    org.eclipse.jgit.junit,
