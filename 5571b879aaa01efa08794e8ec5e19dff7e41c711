@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0724e3f1_94b709bb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 784,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-10-22T02:47:09Z",
+      "side": 1,
+      "message": "(style) recent jgit code prefers to leave out unnecessary \u0027final\u0027",
+      "range": {
+        "startLine": 784,
+        "startChar": 44,
+        "endLine": 784,
+        "endChar": 50
+      },
+      "revId": "5571b879aaa01efa08794e8ec5e19dff7e41c711",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_148319e2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 957,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-10-22T02:47:09Z",
+      "side": 1,
+      "message": "the rest of these use all-lowercase, which makes them easier to search for (since case is not significant).",
+      "range": {
+        "startLine": 957,
+        "startChar": 23,
+        "endLine": 957,
+        "endChar": 50
+      },
+      "revId": "5571b879aaa01efa08794e8ec5e19dff7e41c711",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
