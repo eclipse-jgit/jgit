@@ -69,6 +69,12 @@ public class LfsPointer {
 	public static final String VERSION = "https://git-lfs.github.com/spec/v1"; //$NON-NLS-1$
 
 	/**
+	 * The version of the LfsPointer file format using legacy URL
+	 * @since 4.7
+	 */
+	public static final String VERSION_LEGACY = "https://hawser.github.com/spec/v1"; //$NON-NLS-1$
+
+	/**
 	 * The name of the hash function as used in the pointer files. This will
 	 * evaluate to "sha256"
 	 */
@@ -150,14 +156,13 @@ public class LfsPointer {
 				if (s.startsWith("#") || s.length() == 0) { //$NON-NLS-1$
 					continue;
 				} else if (s.startsWith("version") && s.length() > 8 //$NON-NLS-1$
-						&& s.substring(8).trim().equals(VERSION)) {
+						&& (s.substring(8).trim().equals(VERSION) ||
+								s.substring(8).trim().equals(VERSION_LEGACY))) {
 					versionLine = true;
 				} else if (s.startsWith("oid sha256:")) { //$NON-NLS-1$
 					id = LongObjectId.fromString(s.substring(11).trim());
 				} else if (s.startsWith("size") && s.length() > 5) { //$NON-NLS-1$
 					sz = Long.parseLong(s.substring(5).trim());
-				} else {
-					return null;
 				}
 			}
 			if (versionLine && id != null && sz > -1) {
