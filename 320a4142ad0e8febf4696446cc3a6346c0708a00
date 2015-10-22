@@ -22,6 +22,30 @@
       "revId": "320a4142ad0e8febf4696446cc3a6346c0708a00",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_94b1c978",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 816,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-10-22T07:27:50Z",
+      "side": 0,
+      "message": "I see the point, but the code make sense only if we remove synchronize blocks (otherwise no one will be able to change the counter anyway).\n\nSo do you also propose to remove the synchronized() blocks here and in incrementOpen()?",
+      "parentUuid": "0724e3f1_f44da519",
+      "range": {
+        "startLine": 814,
+        "startChar": 2,
+        "endLine": 816,
+        "endChar": 3
+      },
+      "revId": "320a4142ad0e8febf4696446cc3a6346c0708a00",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
