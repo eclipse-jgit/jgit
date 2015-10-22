@@ -56,6 +56,7 @@ import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.charset.CharacterCodingException;
 import java.nio.charset.CharsetEncoder;
+import java.security.AccessControlException;
 import java.security.MessageDigest;
 import java.text.MessageFormat;
 import java.util.Arrays;
@@ -1212,14 +1213,18 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		}
 
 		IgnoreNode load() throws IOException {
-			IgnoreNode r = new IgnoreNode();
-			InputStream in = entry.openInputStream();
 			try {
-				r.parse(in);
-			} finally {
-				in.close();
+				IgnoreNode r = new IgnoreNode();
+				InputStream in = entry.openInputStream();
+				try {
+					r.parse(in);
+				} finally {
+					in.close();
+				}
+				return r.getRules().isEmpty() ? null : r;
+			} catch (AccessControlException ignored) {
+				return null;
 			}
-			return r.getRules().isEmpty() ? null : r;
 		}
 	}
 
@@ -1264,13 +1269,16 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 
 		private static void loadRulesFromFile(IgnoreNode r, File exclude)
 				throws FileNotFoundException, IOException {
-			if (FS.DETECTED.exists(exclude)) {
-				FileInputStream in = new FileInputStream(exclude);
-				try {
-					r.parse(in);
-				} finally {
-					in.close();
+			try {
+				if (FS.DETECTED.exists(exclude)) {
+					FileInputStream in = new FileInputStream(exclude);
+					try {
+						r.parse(in);
+					} finally {
+						in.close();
+					}
 				}
+			} catch (AccessControlException ignored) {
 			}
 		}
 	}
