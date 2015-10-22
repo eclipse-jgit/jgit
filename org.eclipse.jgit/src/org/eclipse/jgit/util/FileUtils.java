@@ -735,4 +735,29 @@ public class FileUtils {
 		}
 		return name;
 	}
+
+	/**
+	 * Best-effort variation of {@link File#getCanonicalFile()} returning the
+	 * input file if the file cannot be canonicalized instead of throwing
+	 * {@link IOException}.
+	 *
+	 * @param file
+	 *            to be canonicalized; may be {@code null}
+	 * @return canonicalized file, or the unchanged input file if
+	 *         canonicalization failed or if {@code file == null}
+	 * @throws SecurityException
+	 *             if {@link File#getCanonicalFile()} throws one
+	 * @since 4.2
+	 */
+	public static File canonicalize(File file) {
+		if (file == null) {
+			return null;
+		}
+		try {
+			return file.getCanonicalFile();
+		} catch (IOException e) {
+			return file;
+		}
+	}
+
 }
