@@ -86,8 +86,8 @@ class PackWriterBitmapPreparer {
 
 	private static final Comparator<BitmapBuilderEntry> ORDER_BY_DESCENDING_CARDINALITY = new Comparator<BitmapBuilderEntry>() {
 		public int compare(BitmapBuilderEntry a, BitmapBuilderEntry b) {
-			return Integer.signum(b.getBuilder().cardinality()
-					- a.getBuilder().cardinality());
+			return Integer.signum(b.builder.cardinality()
+					- a.builder.cardinality());
 		}
 	};
 
@@ -160,7 +160,8 @@ class PackWriterBitmapPreparer {
 				expectedCommitCount);
 		pm.endTask();
 
-		int totCommits = selectionHelper.getCommitCount();
+		int totCommits = selectionHelper.commitsByOldest.length
+				- selectionHelper.commitStartPos;
 		BlockList<BitmapCommit> selections = new BlockList<BitmapCommit>(
 				totCommits / recentCommitSpan + 1);
 		for (BitmapCommit reuse : selectionHelper.reusedCommits) {
@@ -178,7 +179,7 @@ class PackWriterBitmapPreparer {
 		int totalWants = selectionHelper.peeledWants.size();
 
 		for (BitmapBuilderEntry entry : selectionHelper.tipCommitBitmaps) {
-			BitmapBuilder bitmap = entry.getBuilder();
+			BitmapBuilder bitmap = entry.builder;
 			int cardinality = bitmap.cardinality();
 
 			List<List<BitmapCommit>> running = new ArrayList<
@@ -190,7 +191,7 @@ class PackWriterBitmapPreparer {
 			// branches.
 			boolean isActiveBranch = true;
 			if (totalWants > excessiveBranchCount
-					&& !isRecentCommit(entry.getCommit())) {
+					&& !isRecentCommit(entry.commit)) {
 				isActiveBranch = false;
 			}
 
@@ -372,7 +373,7 @@ class PackWriterBitmapPreparer {
 		while ((rc = rw.next()) != null && pos > 0) {
 			commits[--pos] = rc;
 			for (BitmapBuilderEntry entry : tipCommitBitmaps) {
-				BitmapBuilder bitmap = entry.getBuilder();
+				BitmapBuilder bitmap = entry.builder;
 				if (bitmap.contains(rc)) {
 					for (RevCommit c : rc.getParents()) {
 						bitmap.add(c, Constants.OBJ_COMMIT);
@@ -385,7 +386,7 @@ class PackWriterBitmapPreparer {
 		// Remove the reused bitmaps from the tip commit bitmaps
 		if (!reuseCommits.isEmpty()) {
 			for (BitmapBuilderEntry entry : tipCommitBitmaps) {
-				entry.getBuilder().andNot(reuse);
+				entry.builder.andNot(reuse);
 			}
 		}
 
@@ -402,8 +403,8 @@ class PackWriterBitmapPreparer {
 			// Update the remaining paths, by removing the objects from
 			// the path that was just added.
 			for (int i = tipCommitBitmaps.size() - 1; i >= 0; i--) {
-				tipCommitBitmaps.get(i).getBuilder()
-						.andNot(largest.getBuilder());
+				tipCommitBitmaps.get(i).builder
+						.andNot(largest.builder);
 			}
 		}
 
@@ -457,21 +458,13 @@ class PackWriterBitmapPreparer {
 	 * A commit object for which a bitmap index should be built.
 	 */
 	static final class BitmapCommit extends ObjectId {
-		private final boolean reuseWalker;
-		private final int flags;
+		final boolean reuseWalker;
+		final int flags;
 
 		BitmapCommit(AnyObjectId objectId, boolean reuseWalker, int flags) {
 			super(objectId);
 			this.reuseWalker = reuseWalker;
 			this.flags = flags;
-		}
-
-		boolean isReuseWalker() {
-			return reuseWalker;
-		}
-
-		int getFlags() {
-			return flags;
 		}
 	}
 
@@ -479,21 +472,12 @@ class PackWriterBitmapPreparer {
 	 * A POJO representing a Pair<RevCommit, BitmapBuidler>.
 	 */
 	private static final class BitmapBuilderEntry {
-		private final RevCommit commit;
-
-		private final BitmapBuilder builder;
+		final RevCommit commit;
+		final BitmapBuilder builder;
 
 		BitmapBuilderEntry(RevCommit commit, BitmapBuilder builder) {
 			this.commit = commit;
 			this.builder = builder;
-		}
-
-		RevCommit getCommit() {
-			return commit;
-		}
-
-		BitmapBuilder getBuilder() {
-			return builder;
 		}
 	}
 
@@ -509,11 +493,10 @@ class PackWriterBitmapPreparer {
 	 */
 	private static final class CommitSelectionHelper implements Iterable<RevCommit> {
 		final Set<? extends ObjectId> peeledWants;
-
 		final List<BitmapBuilderEntry> tipCommitBitmaps;
 		final Iterable<BitmapCommit> reusedCommits;
-		private final RevCommit[] commitsByOldest;
-		private final int commitStartPos;
+		final RevCommit[] commitsByOldest;
+		final int commitStartPos;
 
 		CommitSelectionHelper(Set<? extends ObjectId> peeledWant,
 				RevCommit[] commitsByOldest, int commitStartPos,
@@ -527,6 +510,8 @@ class PackWriterBitmapPreparer {
 		}
 
 		public Iterator<RevCommit> iterator() {
+			// Member variables referenced by this iterator will have synthetic
+			// accessors generated for them if they are made private.
 			return new Iterator<RevCommit>() {
 				int pos = commitStartPos;
 
@@ -542,10 +527,6 @@ class PackWriterBitmapPreparer {
 					throw new UnsupportedOperationException();
 				}
 			};
-		}
-
-		int getCommitCount() {
-			return commitsByOldest.length - commitStartPos;
 		}
 	}
 }

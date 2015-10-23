@@ -117,16 +117,14 @@ public class BitmapIndexImpl implements BitmapIndex {
 
 	private static final class ComboBitset {
 		private InflatingBitSet inflatingBitmap;
-
 		private BitSet toAdd;
-
 		private BitSet toRemove;
 
-		private ComboBitset() {
+		ComboBitset() {
 			this(new EWAHCompressedBitmap());
 		}
 
-		private ComboBitset(EWAHCompressedBitmap bitmap) {
+		ComboBitset(EWAHCompressedBitmap bitmap) {
 			this.inflatingBitmap = new InflatingBitSet(bitmap);
 		}
 
@@ -289,15 +287,15 @@ public class BitmapIndexImpl implements BitmapIndex {
 			return true;
 		}
 
-		private BitmapIndexImpl getBitmapIndex() {
+		BitmapIndexImpl getBitmapIndex() {
 			return BitmapIndexImpl.this;
 		}
 	}
 
 	final class CompressedBitmap implements Bitmap {
-		private final EWAHCompressedBitmap bitmap;
+		final EWAHCompressedBitmap bitmap;
 
-		private CompressedBitmap(EWAHCompressedBitmap bitmap) {
+		CompressedBitmap(EWAHCompressedBitmap bitmap) {
 			this.bitmap = bitmap;
 		}
 
@@ -313,7 +311,7 @@ public class BitmapIndexImpl implements BitmapIndex {
 			return new CompressedBitmap(bitmap.xor(bitmapOf(other)));
 		}
 
-		private EWAHCompressedBitmap bitmapOf(Bitmap other) {
+		EWAHCompressedBitmap bitmapOf(Bitmap other) {
 			if (isSameCompressedBitmap(other))
 				return ((CompressedBitmap) other).bitmap;
 			if (isSameCompressedBitmapBuilder(other))
@@ -323,7 +321,7 @@ public class BitmapIndexImpl implements BitmapIndex {
 			return builder.build().bitmap;
 		}
 
-		private final IntIterator ofObjectType(int type) {
+		final IntIterator ofObjectType(int type) {
 			return packIndex.ofObjectType(bitmap, type).intIterator();
 		}
 
@@ -383,20 +381,16 @@ public class BitmapIndexImpl implements BitmapIndex {
 			};
 		}
 
-		EWAHCompressedBitmap getEwahCompressedBitmap() {
-			return bitmap;
-		}
-
-		private BitmapIndexImpl getPackBitmapIndex() {
+		BitmapIndexImpl getPackBitmapIndex() {
 			return BitmapIndexImpl.this;
 		}
 	}
 
 	private static final class MutableBitmapIndex {
-		private final ObjectIdOwnerMap<MutableEntry>
+		final ObjectIdOwnerMap<MutableEntry>
 				revMap = new ObjectIdOwnerMap<MutableEntry>();
 
-		private final BlockList<MutableEntry>
+		final BlockList<MutableEntry>
 				revList = new BlockList<MutableEntry>();
 
 		int findPosition(AnyObjectId objectId) {
@@ -429,9 +423,8 @@ public class BitmapIndexImpl implements BitmapIndex {
 	}
 
 	private static final class MutableEntry extends ObjectIdOwnerMap.Entry {
-		private final int type;
-
-		private final int position;
+		final int type;
+		final int position;
 
 		MutableEntry(AnyObjectId objectId, int type, int position) {
 			super(objectId);
@@ -441,9 +434,9 @@ public class BitmapIndexImpl implements BitmapIndex {
 	}
 
 	private static final class BitmapObjectImpl extends BitmapObject {
-		private ObjectId objectId;
+		ObjectId objectId;
 
-		private int type;
+		int type;
 
 		@Override
 		public ObjectId getObjectId() {
