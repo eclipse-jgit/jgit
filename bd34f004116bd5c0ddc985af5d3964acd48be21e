@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "0724e3f1_03659838",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BaseRepositoryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-10-23T18:04:20Z",
+      "side": 1,
+      "message": "or change return type to B and add a line\n\n return self();",
+      "parentUuid": "0724e3f1_3439028c",
+      "revId": "bd34f004116bd5c0ddc985af5d3964acd48be21e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0724e3f1_f43e4a75",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BaseRepositoryBuilder.java",
         "patchSetId": 2
