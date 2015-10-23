@@ -457,8 +457,8 @@ class PackWriterBitmapPreparer {
 	 * A commit object for which a bitmap index should be built.
 	 */
 	static final class BitmapCommit extends ObjectId {
-		private final boolean reuseWalker;
-		private final int flags;
+		final boolean reuseWalker;
+		final int flags;
 
 		BitmapCommit(AnyObjectId objectId, boolean reuseWalker, int flags) {
 			super(objectId);
@@ -479,9 +479,9 @@ class PackWriterBitmapPreparer {
 	 * A POJO representing a Pair<RevCommit, BitmapBuidler>.
 	 */
 	private static final class BitmapBuilderEntry {
-		private final RevCommit commit;
+		final RevCommit commit;
 
-		private final BitmapBuilder builder;
+		final BitmapBuilder builder;
 
 		BitmapBuilderEntry(RevCommit commit, BitmapBuilder builder) {
 			this.commit = commit;
@@ -509,11 +509,10 @@ class PackWriterBitmapPreparer {
 	 */
 	private static final class CommitSelectionHelper implements Iterable<RevCommit> {
 		final Set<? extends ObjectId> peeledWants;
-
 		final List<BitmapBuilderEntry> tipCommitBitmaps;
 		final Iterable<BitmapCommit> reusedCommits;
-		private final RevCommit[] commitsByOldest;
-		private final int commitStartPos;
+		final RevCommit[] commitsByOldest;
+		final int commitStartPos;
 
 		CommitSelectionHelper(Set<? extends ObjectId> peeledWant,
 				RevCommit[] commitsByOldest, int commitStartPos,

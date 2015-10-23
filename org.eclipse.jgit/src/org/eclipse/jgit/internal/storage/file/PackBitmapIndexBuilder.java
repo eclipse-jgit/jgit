@@ -325,12 +325,12 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 
 	/** Data object for the on disk representation of a bitmap entry. */
 	public static final class StoredEntry {
-		private final long objectId;
-		private final EWAHCompressedBitmap bitmap;
-		private final int xorOffset;
-		private final int flags;
+		final long objectId;
+		final EWAHCompressedBitmap bitmap;
+		final int xorOffset;
+		final int flags;
 
-		private StoredEntry(long objectId, EWAHCompressedBitmap bitmap,
+		StoredEntry(long objectId, EWAHCompressedBitmap bitmap,
 				int xorOffset, int flags) {
 			this.objectId = objectId;
 			this.bitmap = bitmap;
@@ -360,11 +360,11 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 	}
 
 	private static final class PositionEntry extends ObjectIdOwnerMap.Entry {
-		private final int namePosition;
+		final int namePosition;
 
-		private int offsetPosition;
+		int offsetPosition;
 
-		private PositionEntry(AnyObjectId objectId, int namePosition) {
+		PositionEntry(AnyObjectId objectId, int namePosition) {
 			super(objectId);
 			this.namePosition = namePosition;
 		}

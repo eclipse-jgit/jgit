@@ -72,8 +72,8 @@ abstract class BasePackBitmapIndex extends PackBitmapIndex {
 	 * commit of the bitmap is the map key.
 	 */
 	static final class StoredBitmap extends ObjectIdOwnerMap.Entry {
-		private volatile Object bitmapContainer;
-		private final int flags;
+		volatile Object bitmapContainer;
+		final int flags;
 
 		StoredBitmap(AnyObjectId objectId, EWAHCompressedBitmap bitmap,
 				StoredBitmap xorBitmap, int flags) {
