@@ -149,7 +149,7 @@ public class PackBitmapIndexRemapper extends PackBitmapIndex
 				while (entry == null && it.hasNext()) {
 					StoredBitmap sb = it.next();
 					if (newPackIndex.findPosition(sb) != -1)
-						entry = new Entry(sb, sb.getFlags());
+						entry = new Entry(sb, sb.flags);
 				}
 				return entry != null;
 			}
@@ -191,7 +191,7 @@ public class PackBitmapIndexRemapper extends PackBitmapIndex
 			inflated.set(prevToNewMapping[i.next()]);
 		bitmap = inflated.toEWAHCompressedBitmap();
 		convertedBitmaps.add(
-				new StoredBitmap(objectId, bitmap, null, oldBitmap.getFlags()));
+				new StoredBitmap(objectId, bitmap, null, oldBitmap.flags));
 		return bitmap;
 	}
 
