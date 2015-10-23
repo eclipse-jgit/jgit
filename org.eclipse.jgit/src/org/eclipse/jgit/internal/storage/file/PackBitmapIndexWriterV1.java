@@ -147,10 +147,10 @@ public class PackBitmapIndexWriterV1 {
 
 	private void writeBitmapEntry(StoredEntry entry) throws IOException {
 		// Write object, XOR offset, and bitmap
-		dataOutput.writeInt((int) entry.getObjectId());
-		out.write(entry.getXorOffset());
-		out.write(entry.getFlags());
-		writeBitmap(entry.getBitmap());
+		dataOutput.writeInt((int) entry.objectId);
+		out.write(entry.xorOffset);
+		out.write(entry.flags);
+		writeBitmap(entry.bitmap);
 	}
 
 	private void writeFooter() throws IOException {
