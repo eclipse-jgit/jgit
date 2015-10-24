@@ -51,5 +51,6 @@ Import-Package: com.googlecode.javaewah;version="[0.7.9,0.8.0)",
  org.junit;version="[4.4.0,5.0.0)",
  org.junit.experimental.theories;version="[4.4.0,5.0.0)",
  org.junit.runner;version="[4.4.0,5.0.0)",
- org.junit.runners;version="[4.11.0,5.0.0)"
+ org.junit.runners;version="[4.11.0,5.0.0)",
+ org.slf4j;version="[1.7.2,2.0.0)"
 Require-Bundle: org.hamcrest.core;bundle-version="[1.1.0,2.0.0)"
