@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0724e3f1_c90a7ab0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-10-26T22:23:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0724e3f1_26a70541",
+      "range": {
+        "startLine": 7,
+        "startChar": 12,
+        "endLine": 7,
+        "endChar": 22
+      },
+      "revId": "9493fe8f11a058e32c9ba18a58cd3b1d1ecc63df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0724e3f1_6688dda9",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/BasePackBitmapIndex.java",
         "patchSetId": 1
