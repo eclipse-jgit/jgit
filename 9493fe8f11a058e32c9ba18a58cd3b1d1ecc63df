@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0724e3f1_26a70541",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-10-26T17:57:00Z",
+      "side": 1,
+      "message": "enhancement\n\nOr the subject could name the subsystem to make the effect of the patch more obvious: e.g.,\n\n\n Bitmap builder: avoid synthetic accessors",
+      "range": {
+        "startLine": 7,
+        "startChar": 12,
+        "endLine": 7,
+        "endChar": 22
+      },
+      "revId": "9493fe8f11a058e32c9ba18a58cd3b1d1ecc63df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_6688dda9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/BasePackBitmapIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-10-26T17:57:00Z",
+      "side": 1,
+      "message": "This changes the visibility of these fields because StoredBitmap is visible outside the current file.\n\nI think that\u0027s okay (especially since this code is all package-private), but maybe it\u0027s worth a javadoc comment to say they are internal fields that are only visible for performance reasons? (Or alternatively, should calling code start accessing StoredBitmap.flags directly instead of using getFlags?)",
+      "range": {
+        "startLine": 75,
+        "startChar": 0,
+        "endLine": 76,
+        "endChar": 18
+      },
+      "revId": "9493fe8f11a058e32c9ba18a58cd3b1d1ecc63df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_a60db5c9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/BitmapIndexImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-10-26T17:57:00Z",
+      "side": 1,
+      "message": "This one makes the code shorter and is otherwise a no-op except for the performance effect. Obviously good.\n\nDo we want to encourage doing this jgit-wide? Is there a tool that can detect accidental inclusion of redundant \u0027private\u0027 qualifiers? (e.g., SmartServiceInfoRefs.Chain.filterIdx, UrlPipeline.Chain.filters, etc).",
+      "range": {
+        "startLine": 119,
+        "startChar": 0,
+        "endLine": 119,
+        "endChar": 34
+      },
+      "revId": "9493fe8f11a058e32c9ba18a58cd3b1d1ecc63df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_c631c976",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/BitmapIndexImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-10-26T17:57:00Z",
+      "side": 1,
+      "message": "This was formerly a private implementation detail with public accessor getEwahCompressedBitmap(). Making it package-public would allows people to use the bitmap field directly instead.\n\nPlease add a javadoc indicating whether callers should do that (I have no strong opinion either way).",
+      "range": {
+        "startLine": 297,
+        "startChar": 0,
+        "endLine": 298,
+        "endChar": 36
+      },
+      "revId": "9493fe8f11a058e32c9ba18a58cd3b1d1ecc63df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_e62e8d15",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-10-26T17:57:00Z",
+      "side": 1,
+      "message": "Worth a comment to say these are only package-public for performance reasons",
+      "range": {
+        "startLine": 327,
+        "startChar": 0,
+        "endLine": 333,
+        "endChar": 57
+      },
+      "revId": "9493fe8f11a058e32c9ba18a58cd3b1d1ecc63df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_4645d9ca",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-10-26T17:57:00Z",
+      "side": 1,
+      "message": "Worth a javadoc comment to say whether callers should use the getter in preference to these (or perhaps eliminating the getter and having callers use the fields directly).",
+      "range": {
+        "startLine": 460,
+        "startChar": 0,
+        "endLine": 461,
+        "endChar": 18
+      },
+      "revId": "9493fe8f11a058e32c9ba18a58cd3b1d1ecc63df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
