@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "0724e3f1_a9a2a628",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/BasePackBitmapIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-10-26T22:22:29Z",
+      "side": 1,
+      "message": "Much of the JGit code doesn\u0027t use accessors and instead directly references the member variables of inner classes. I\u0027ll propagate that style and remove the getter methods in these inner classes. That bypasses the performance problem with no additional commentary needed. (It would be good to explicitly document these types of coding style considerations. The EGit contributor guide is already crowded. Maybe the JGit README.md file?)\n\nIn other places (like bitmapContainer) where there is not external access to the inner class\u0027s member variable, I\u0027ll annotate with a \"visible for performance\" comment.",
+      "parentUuid": "0724e3f1_6688dda9",
+      "range": {
+        "startLine": 75,
+        "startChar": 0,
+        "endLine": 76,
+        "endChar": 18
+      },
+      "revId": "9493fe8f11a058e32c9ba18a58cd3b1d1ecc63df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0724e3f1_a60db5c9",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/BitmapIndexImpl.java",
         "patchSetId": 1
@@ -59,6 +83,30 @@
       "writtenOn": "2015-10-26T17:57:00Z",
       "side": 1,
       "message": "This one makes the code shorter and is otherwise a no-op except for the performance effect. Obviously good.\n\nDo we want to encourage doing this jgit-wide? Is there a tool that can detect accidental inclusion of redundant \u0027private\u0027 qualifiers? (e.g., SmartServiceInfoRefs.Chain.filterIdx, UrlPipeline.Chain.filters, etc).",
+      "range": {
+        "startLine": 119,
+        "startChar": 0,
+        "endLine": 119,
+        "endChar": 34
+      },
+      "revId": "9493fe8f11a058e32c9ba18a58cd3b1d1ecc63df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_c9e9da79",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/BitmapIndexImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-10-26T22:22:29Z",
+      "side": 1,
+      "message": "I don\u0027t know of any tools that detect this. For consistency between inner and outer classes you would actually want to keep the \"private\" modifier here, since it is not accessed outside of this class. It is only because the Eclipse compiler introduces overhead that we want to remove it. If you hoisted this out to be an independent class you would want to add it back.\n\nYou want to do something like @VisibleForPerformance here. Short of that I just added per-line comments.",
+      "parentUuid": "0724e3f1_a60db5c9",
       "range": {
         "startLine": 119,
         "startChar": 0,
@@ -94,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "0724e3f1_29d196c4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/BitmapIndexImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-10-26T22:22:29Z",
+      "side": 1,
+      "message": "No, it was already accessed directly from CompressedBitmapBuilder. I removed the accessor and replaced the single usage.",
+      "parentUuid": "0724e3f1_c631c976",
+      "range": {
+        "startLine": 297,
+        "startChar": 0,
+        "endLine": 298,
+        "endChar": 36
+      },
+      "revId": "9493fe8f11a058e32c9ba18a58cd3b1d1ecc63df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0724e3f1_e62e8d15",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
         "patchSetId": 1
@@ -117,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "0724e3f1_099ad2f4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-10-26T22:22:29Z",
+      "side": 1,
+      "message": "I removed all the accessors. Reduced StoredEntry to package private since it isn\u0027t used outside of the package.",
+      "parentUuid": "0724e3f1_e62e8d15",
+      "range": {
+        "startLine": 327,
+        "startChar": 0,
+        "endLine": 333,
+        "endChar": 57
+      },
+      "revId": "9493fe8f11a058e32c9ba18a58cd3b1d1ecc63df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0724e3f1_4645d9ca",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
         "patchSetId": 1
@@ -128,6 +224,30 @@
       "writtenOn": "2015-10-26T17:57:00Z",
       "side": 1,
       "message": "Worth a javadoc comment to say whether callers should use the getter in preference to these (or perhaps eliminating the getter and having callers use the fields directly).",
+      "range": {
+        "startLine": 460,
+        "startChar": 0,
+        "endLine": 461,
+        "endChar": 18
+      },
+      "revId": "9493fe8f11a058e32c9ba18a58cd3b1d1ecc63df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_49932ade",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-10-26T22:22:29Z",
+      "side": 1,
+      "message": "Removed the getters in favor of direct access to the inner class members.",
+      "parentUuid": "0724e3f1_4645d9ca",
       "range": {
         "startLine": 460,
         "startChar": 0,
