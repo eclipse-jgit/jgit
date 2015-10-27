@@ -232,7 +232,7 @@ public class UnpackedObject {
 		}
 	}
 
-	private static void checkValidEndOfStream(InputStream in, Inflater inf,
+	static void checkValidEndOfStream(InputStream in, Inflater inf,
 			AnyObjectId id, final byte[] buf) throws IOException,
 			CorruptObjectException {
 		for (;;) {
@@ -266,7 +266,7 @@ public class UnpackedObject {
 		}
 	}
 
-	private static boolean isStandardFormat(final byte[] hdr) {
+	static boolean isStandardFormat(final byte[] hdr) {
 		/*
 		 * We must determine if the buffer contains the standard
 		 * zlib-deflated stream or the experimental format based
@@ -298,7 +298,7 @@ public class UnpackedObject {
 		return (fb & 0x8f) == 0x08 && (((fb << 8) | hdr[1] & 0xff) % 31) == 0;
 	}
 
-	private static InputStream inflate(final InputStream in, final long size,
+	static InputStream inflate(final InputStream in, final long size,
 			final ObjectId id) {
 		final Inflater inf = InflaterCache.get();
 		return new InflaterInputStream(in, inf) {
@@ -334,11 +334,11 @@ public class UnpackedObject {
 		return new InflaterInputStream(in, inf, BUFFER_SIZE);
 	}
 
-	private static BufferedInputStream buffer(InputStream in) {
+	static BufferedInputStream buffer(InputStream in) {
 		return new BufferedInputStream(in, BUFFER_SIZE);
 	}
 
-	private static int readSome(InputStream in, final byte[] hdr, int off,
+	static int readSome(InputStream in, final byte[] hdr, int off,
 			int cnt) throws IOException {
 		int avail = 0;
 		while (0 < cnt) {
@@ -363,7 +363,7 @@ public class UnpackedObject {
 
 		private final FileObjectDatabase source;
 
-		private LargeObject(int type, long size, File path, AnyObjectId id,
+		LargeObject(int type, long size, File path, AnyObjectId id,
 				FileObjectDatabase db) {
 			this.type = type;
 			this.size = size;

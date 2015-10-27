@@ -138,7 +138,7 @@ public class RefDirectory extends RefDatabase {
 
 	private final File gitDir;
 
-	private final File refsDir;
+	final File refsDir;
 
 	private final ReflogWriter logWriter;
 
@@ -155,7 +155,7 @@ public class RefDirectory extends RefDatabase {
 	private final AtomicReference<RefList<LooseRef>> looseRefs = new AtomicReference<RefList<LooseRef>>();
 
 	/** Immutable sorted list of packed references. */
-	private final AtomicReference<PackedRefList> packedRefs = new AtomicReference<PackedRefList>();
+	final AtomicReference<PackedRefList> packedRefs = new AtomicReference<PackedRefList>();
 
 	/**
 	 * Number of modifications made to this database.
@@ -901,7 +901,7 @@ public class RefDirectory extends RefDatabase {
 		return n;
 	}
 
-	private LooseRef scanRef(LooseRef ref, String name) throws IOException {
+	LooseRef scanRef(LooseRef ref, String name) throws IOException {
 		final File path = fileFor(name);
 		FileSnapshot currentSnapshot = null;
 

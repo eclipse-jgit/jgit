@@ -218,7 +218,7 @@ public class PackWriter implements AutoCloseable {
 	}
 
 	@SuppressWarnings("unchecked")
-	private BlockList<ObjectToPack> objectsLists[] = new BlockList[OBJ_TAG + 1];
+	BlockList<ObjectToPack> objectsLists[] = new BlockList[OBJ_TAG + 1];
 	{
 		objectsLists[OBJ_COMMIT] = new BlockList<ObjectToPack>();
 		objectsLists[OBJ_TREE] = new BlockList<ObjectToPack>();
@@ -249,7 +249,7 @@ public class PackWriter implements AutoCloseable {
 	/** {@link #reader} recast to the reuse interface, if it supports it. */
 	private final ObjectReuseAsIs reuseSupport;
 
-	private final PackConfig config;
+	final PackConfig config;
 
 	private final PackStatistics.Accumulator stats;
 
