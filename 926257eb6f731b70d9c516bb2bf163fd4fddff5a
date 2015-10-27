@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0724e3f1_903edf74",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-10-27T22:59:43Z",
+      "side": 1,
+      "message": "stray space",
+      "range": {
+        "startLine": 25,
+        "startChar": 35,
+        "endLine": 25,
+        "endChar": 36
+      },
+      "revId": "926257eb6f731b70d9c516bb2bf163fd4fddff5a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_f0359b90",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-10-27T22:59:43Z",
+      "side": 1,
+      "message": "I had trouble understanding this note at first. I think s/mix this .../mix this ... up/ would make it easier to read.",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 14
+      },
+      "revId": "926257eb6f731b70d9c516bb2bf163fd4fddff5a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
