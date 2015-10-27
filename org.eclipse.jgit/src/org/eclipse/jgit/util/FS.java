@@ -556,6 +556,14 @@ public abstract class FS {
 			return null;
 		}
 
+		// Bug 480782: Check if the discovered git executable is JGit CLI
+		String v = readPipe(gitExe.getParentFile(),
+				new String[] { "git", "--version" }, //$NON-NLS-1$ //$NON-NLS-2$
+				Charset.defaultCharset().name());
+		if (v.startsWith("jgit")) { //$NON-NLS-1$
+			return null;
+		}
+
 		// Trick Git into printing the path to the config file by using "echo"
 		// as the editor.
 		Map<String, String> env = new HashMap<>();
