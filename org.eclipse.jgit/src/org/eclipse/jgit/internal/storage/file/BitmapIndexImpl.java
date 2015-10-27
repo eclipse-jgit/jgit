@@ -63,11 +63,11 @@ import org.eclipse.jgit.util.BlockList;
 public class BitmapIndexImpl implements BitmapIndex {
 	private static final int EXTRA_BITS = 10 * 1024;
 
-	private final PackBitmapIndex packIndex;
+	final PackBitmapIndex packIndex;
 
-	private final MutableBitmapIndex mutableIndex;
+	final MutableBitmapIndex mutableIndex;
 
-	private final int indexObjectCount;
+	final int indexObjectCount;
 
 	/**
 	 * Creates a BitmapIndex that is back by Compressed bitmaps.
@@ -96,7 +96,7 @@ public class BitmapIndexImpl implements BitmapIndex {
 		return new CompressedBitmapBuilder();
 	}
 
-	private int findPosition(AnyObjectId objectId) {
+	int findPosition(AnyObjectId objectId) {
 		int position = packIndex.findPosition(objectId);
 		if (position < 0) {
 			position = mutableIndex.findPosition(objectId);
@@ -106,7 +106,7 @@ public class BitmapIndexImpl implements BitmapIndex {
 		return position;
 	}
 
-	private int addObject(AnyObjectId objectId, int type) {
+	int addObject(AnyObjectId objectId, int type) {
 		int position = findPosition(objectId);
 		if (position < 0) {
 			position = mutableIndex.addObject(objectId, type);
@@ -122,11 +122,11 @@ public class BitmapIndexImpl implements BitmapIndex {
 
 		private BitSet toRemove;
 
-		private ComboBitset() {
+		ComboBitset() {
 			this(new EWAHCompressedBitmap());
 		}
 
-		private ComboBitset(EWAHCompressedBitmap bitmap) {
+		ComboBitset(EWAHCompressedBitmap bitmap) {
 			this.inflatingBitmap = new InflatingBitSet(bitmap);
 		}
 
@@ -289,15 +289,15 @@ public class BitmapIndexImpl implements BitmapIndex {
 			return true;
 		}
 
-		private BitmapIndexImpl getBitmapIndex() {
+		BitmapIndexImpl getBitmapIndex() {
 			return BitmapIndexImpl.this;
 		}
 	}
 
 	final class CompressedBitmap implements Bitmap {
-		private final EWAHCompressedBitmap bitmap;
+		final EWAHCompressedBitmap bitmap;
 
-		private CompressedBitmap(EWAHCompressedBitmap bitmap) {
+		CompressedBitmap(EWAHCompressedBitmap bitmap) {
 			this.bitmap = bitmap;
 		}
 
@@ -387,7 +387,7 @@ public class BitmapIndexImpl implements BitmapIndex {
 			return bitmap;
 		}
 
-		private BitmapIndexImpl getPackBitmapIndex() {
+		BitmapIndexImpl getPackBitmapIndex() {
 			return BitmapIndexImpl.this;
 		}
 	}
@@ -429,9 +429,9 @@ public class BitmapIndexImpl implements BitmapIndex {
 	}
 
 	private static final class MutableEntry extends ObjectIdOwnerMap.Entry {
-		private final int type;
+		final int type;
 
-		private final int position;
+		final int position;
 
 		MutableEntry(AnyObjectId objectId, int type, int position) {
 			super(objectId);
@@ -456,7 +456,7 @@ public class BitmapIndexImpl implements BitmapIndex {
 		}
 	}
 
-	private boolean isSameCompressedBitmap(Bitmap other) {
+	boolean isSameCompressedBitmap(Bitmap other) {
 		if (other instanceof CompressedBitmap) {
 			CompressedBitmap b = (CompressedBitmap) other;
 			return this == b.getPackBitmapIndex();
@@ -464,7 +464,7 @@ public class BitmapIndexImpl implements BitmapIndex {
 		return false;
 	}
 
-	private boolean isSameCompressedBitmapBuilder(Bitmap other) {
+	boolean isSameCompressedBitmapBuilder(Bitmap other) {
 		if (other instanceof CompressedBitmapBuilder) {
 			CompressedBitmapBuilder b = (CompressedBitmapBuilder) other;
 			return this == b.getBitmapIndex();
@@ -472,7 +472,7 @@ public class BitmapIndexImpl implements BitmapIndex {
 		return false;
 	}
 
-	private static final EWAHCompressedBitmap ones(int sizeInBits) {
+	static final EWAHCompressedBitmap ones(int sizeInBits) {
 		EWAHCompressedBitmap mask = new EWAHCompressedBitmap();
 		mask.addStreamOfEmptyWords(
 				true, sizeInBits / EWAHCompressedBitmap.wordinbits);

@@ -120,11 +120,11 @@ public class LockFile {
 
 	private boolean haveLck;
 
-	private FileOutputStream os;
+	FileOutputStream os;
 
 	private boolean needSnapshot;
 
-	private boolean fsync;
+	boolean fsync;
 
 	private FileSnapshot commitSnapshot;
 

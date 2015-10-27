@@ -67,7 +67,7 @@ class PackIndexV1 extends PackIndex {
 
 	private final long[] idxHeader;
 
-	private byte[][] idxdata;
+	byte[][] idxdata;
 
 	private long objectCnt;
 
@@ -233,9 +233,9 @@ class PackIndexV1 extends PackIndex {
 	}
 
 	private class IndexV1Iterator extends EntriesIterator {
-		private int levelOne;
+		int levelOne;
 
-		private int levelTwo;
+		int levelTwo;
 
 		@Override
 		protected MutableEntry initEntry() {

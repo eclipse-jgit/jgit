@@ -73,7 +73,7 @@ final class DeltaTask implements Callable<Object> {
 		final int endIndex;
 
 		private long totalWeight;
-		private long bytesPerUnit;
+		long bytesPerUnit;
 
 		Block(int threads, PackConfig config, ObjectReader reader,
 				DeltaCache dc, ThreadSafeProgressMonitor pm,
@@ -250,7 +250,7 @@ final class DeltaTask implements Callable<Object> {
 	}
 
 	private final Block block;
-	private final LinkedList<Slice> slices;
+	final LinkedList<Slice> slices;
 
 	private ObjectReader or;
 	private DeltaWindow dw;

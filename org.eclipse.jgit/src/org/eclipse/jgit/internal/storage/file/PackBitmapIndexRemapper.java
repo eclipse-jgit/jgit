@@ -66,7 +66,7 @@ public class PackBitmapIndexRemapper extends PackBitmapIndex
 		implements Iterable<PackBitmapIndexRemapper.Entry> {
 
 	private final BasePackBitmapIndex oldPackIndex;
-	private final PackBitmapIndex newPackIndex;
+	final PackBitmapIndex newPackIndex;
 	private final ObjectIdOwnerMap<StoredBitmap> convertedBitmaps;
 	private final BitSet inflated;
 	private final int[] prevToNewMapping;
@@ -199,7 +199,7 @@ public class PackBitmapIndexRemapper extends PackBitmapIndex
 	public final class Entry extends ObjectId {
 		private final int flags;
 
-		private Entry(AnyObjectId src, int flags) {
+		Entry(AnyObjectId src, int flags) {
 			super(src);
 			this.flags = flags;
 		}
