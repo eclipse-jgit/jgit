@@ -45,22 +45,25 @@
 package org.eclipse.jgit.treewalk;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.attributes.Attribute;
+import org.eclipse.jgit.attributes.Attribute.State;
 import org.eclipse.jgit.attributes.Attributes;
 import org.eclipse.jgit.attributes.AttributesNode;
 import org.eclipse.jgit.attributes.AttributesNodeProvider;
 import org.eclipse.jgit.attributes.AttributesProvider;
-import org.eclipse.jgit.attributes.Attribute.State;
 import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.StopWalkException;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.MutableObjectId;
@@ -70,6 +73,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
+import org.eclipse.jgit.util.QuotedString;
 import org.eclipse.jgit.util.RawParseUtils;
 
 /**
@@ -115,6 +119,12 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 *            Type of operation you want to retrieve the git attributes for.
 	 */
 	private OperationType operationType = OperationType.CHECKOUT_OP;
+
+	/**
+	 * The filter command as defined in gitattributes. The keys are
+	 * filterName+"."+filterCommandType. E.g. "lfs.clean"
+	 */
+	private Map<String, String> filterCommandsByNameDotType = new HashMap<String, String>();
 
 	/**
 	 * @param operationType
@@ -259,6 +269,8 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	/** Cached attribute for the current entry */
 	private Attributes attrs = null;
 
+	private Config config;
+
 	/**
 	 * Create a new tree walker for a given repository.
 	 *
@@ -269,6 +281,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 */
 	public TreeWalk(final Repository repo) {
 		this(repo.newObjectReader(), true);
+		config = repo.getConfig();
 		attributesNodeProvider = repo.createAttributesNodeProvider();
 	}
 
@@ -1307,5 +1320,67 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	private static AttributesNode getAttributesNode(AttributesNode value,
 			AttributesNode defaultValue) {
 		return (value == null) ? defaultValue : value;
+	}
+
+	/**
+	 * Inspect config and attributes to return a filtercommand applicable for
+	 * the current path
+	 *
+	 * @param filterCommandType
+	 *            which type of filterCommand should be executed. E.g. "clean",
+	 *            "smudge"
+	 * @return a filter command
+	 * @throws IOException
+	 * @since 4.2
+	 */
+	public String getFilterCommand(String filterCommandType)
+			throws IOException {
+		Attributes attributes = getAttributes();
+
+		Attribute f = attributes.getAttribute(Constants.ATTR_FILTER);
+		if (f == null) {
+			return null;
+		}
+		String filterValue = f.getValue();
+		if (filterValue == null) {
+			return null;
+		}
+
+		String filterCommand = getFilterCommandDefinition(filterValue,
+				filterCommandType);
+		if (filterCommand == null) {
+			return null;
+		}
+		return filterCommand.replaceAll("%f", //$NON-NLS-1$
+				QuotedString.BOURNE.quote((getPathString())));
+	}
+
+	/**
+	 * Get the filter command how it is defined in gitconfig. The returned
+	 * string may contain "%f" which needs to be replaced by the current path
+	 * before executing the filter command. These filter definitions are cached
+	 * for better performance.
+	 *
+	 * @param filterDriverName
+	 *            The name of the filter driver as it is referenced in the
+	 *            gitattributes file. E.g. "lfs". For each filter driver there
+	 *            may be many commands defined in the .gitconfig
+	 * @param filterCommandType
+	 *            The type of the filter command for a specific filter driver.
+	 *            May be "clean" or "smudge".
+	 * @return the definition of the command to be executed for this filter
+	 *         driver and filter command
+	 */
+	private String getFilterCommandDefinition(String filterDriverName,
+			String filterCommandType) {
+		String key = filterDriverName + "." + filterCommandType; //$NON-NLS-1$
+		String filterCommand = filterCommandsByNameDotType.get(key);
+		if (filterCommand != null)
+			return filterCommand;
+		filterCommand = config.getString(Constants.ATTR_FILTER,
+				filterDriverName, filterCommandType);
+		if (filterCommand != null)
+			filterCommandsByNameDotType.put(key, filterCommand);
+		return filterCommand;
 	}
 }

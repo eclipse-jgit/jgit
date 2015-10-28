@@ -283,6 +283,18 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	}
 
 	/**
+	 * Replaces '\' by '/'
+	 *
+	 * @param str
+	 *            the string in which backslashes should be replaced
+	 * @return the resulting string with slashes
+	 */
+	public static String slashify(String str) {
+		str = str.replace('\\', '/');
+		return str;
+	}
+
+	/**
 	 * Waits until it is guaranteed that a subsequent file modification has a
 	 * younger modification timestamp than the modification timestamp of the
 	 * given file. This is done by touching a temporary file, reading the
