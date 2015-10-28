@@ -983,6 +983,7 @@ public class DirCache {
 			FileTreeIterator fIter = new FileTreeIterator(repository);
 			walk.addTree(iIter);
 			walk.addTree(fIter);
+			fIter.setDirCacheIterator(walk, 0);
 			walk.setRecursive(true);
 			while (walk.next()) {
 				iIter = walk.getTree(0, DirCacheIterator.class);
