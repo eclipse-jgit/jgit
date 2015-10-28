@@ -272,6 +272,23 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	}
 
 	/**
+	 * Return a standardized path. Replaces '\' by '/' and "^<driveletter>:" by
+	 * "/cygdrive/<driveletter>"
+	 *
+	 * @param str
+	 *            the path to be standardized
+	 * @return a standardized path
+	 */
+	public static String standardizePath(String str) {
+		str = str.replace('\\', '/');
+		if (str.matches("^[A-Z]:.*")) {
+			str = "/cygdrive/" + str.substring(0, 1).toLowerCase()
+					+ str.substring(2);
+		}
+		return str;
+	}
+
+	/**
 	 * Waits until it is guaranteed that a subsequent file modification has a
 	 * younger modification timestamp than the modification timestamp of the
 	 * given file. This is done by touching a temporary file, reading the
