@@ -52,6 +52,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.eclipse.jgit.junit.JGitTestUtil;
+import org.eclipse.jgit.util.FS.ExecutionResult;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -161,6 +162,45 @@ public class RunExternalScriptTest {
 				new ProcessBuilder("/bin/sh", script.getPath(), "a", "b", "c"),
 				out, err, (InputStream) null);
 		assertEquals(127, rc);
+	}
+
+	@Test
+	public void testCopyStdInExecute()
+			throws IOException, InterruptedException {
+		String inputStr = "a\nb\rc\r\nd";
+		File script = writeTempFile("cat -");
+		ProcessBuilder pb = new ProcessBuilder("/bin/sh", script.getPath());
+		ExecutionResult res = FS.DETECTED.execute(pb,
+				new ByteArrayInputStream(inputStr.getBytes()));
+		assertEquals(0, res.getRc());
+		assertEquals(inputStr, new String(res.getStdout().toByteArray()));
+		assertEquals("", new String(res.getStderr().toByteArray()));
+	}
+
+	@Test
+	public void testStdErrExecute() throws IOException, InterruptedException {
+		File script = writeTempFile("echo hi >&2");
+		ProcessBuilder pb = new ProcessBuilder("/bin/sh", script.getPath());
+		ExecutionResult res = FS.DETECTED.execute(pb, null);
+		assertEquals(0, res.getRc());
+		assertEquals("", new String(res.getStdout().toByteArray()));
+		assertEquals("hi" + sep, new String(res.getStderr().toByteArray()));
+	}
+
+	@Test
+	public void testAllTogetherBinExecute()
+			throws IOException, InterruptedException {
+		String inputStr = "a\nb\rc\r\nd";
+		File script = writeTempFile(
+				"echo $#,$1,$2,$3,$4,$5,$6 >&2 ; cat -; exit 5");
+		ProcessBuilder pb = new ProcessBuilder("/bin/sh", script.getPath(), "a",
+				"b", "c");
+		ExecutionResult res = FS.DETECTED.execute(pb,
+				new ByteArrayInputStream(inputStr.getBytes()));
+		assertEquals(5, res.getRc());
+		assertEquals(inputStr, new String(res.getStdout().toByteArray()));
+		assertEquals("3,a,b,c,,," + sep,
+				new String(res.getStderr().toByteArray()));
 	}
 
 	private File writeTempFile(String body) throws IOException {
