@@ -83,16 +83,16 @@ public class ObjectIdOwnerMap<V extends ObjectIdOwnerMap.Entry> implements
 	 * The low {@link #bits} of the SHA-1 are used to select the segment from
 	 * this directory. Each segment is constant sized at 2^SEGMENT_BITS.
 	 */
-	private V[][] directory;
+	V[][] directory;
 
 	/** Total number of objects in this map. */
-	private int size;
+	int size;
 
 	/** The map doubles in capacity when {@link #size} reaches this target. */
 	private int grow;
 
 	/** Number of low bits used to form the index into {@link #directory}. */
-	private int bits;
+	int bits;
 
 	/** Low bit mask to index into {@link #directory}, {@code 2^bits-1}. */
 	private int mask;

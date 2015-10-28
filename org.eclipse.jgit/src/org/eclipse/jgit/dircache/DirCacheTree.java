@@ -103,7 +103,7 @@ public class DirCacheTree {
 	private DirCacheTree parent;
 
 	/** Name of this tree within its parent. */
-	private byte[] encodedName;
+	byte[] encodedName;
 
 	/** Number of {@link DirCacheEntry} records that belong to this tree. */
 	private int entrySpan;

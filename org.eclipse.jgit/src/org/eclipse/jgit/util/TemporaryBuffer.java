@@ -69,7 +69,7 @@ public abstract class TemporaryBuffer extends OutputStream {
 	protected static final int DEFAULT_IN_CORE_LIMIT = 1024 * 1024;
 
 	/** Chain of data, if we are still completely in-core; otherwise null. */
-	private ArrayList<Block> blocks;
+	ArrayList<Block> blocks;
 
 	/**
 	 * Maximum number of bytes we will permit storing in memory.
