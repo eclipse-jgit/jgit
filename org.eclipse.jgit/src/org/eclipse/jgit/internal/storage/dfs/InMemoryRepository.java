@@ -43,7 +43,7 @@ public class InMemoryRepository extends DfsRepository {
 		}
 	}
 
-	private static final AtomicInteger packId = new AtomicInteger();
+	static final AtomicInteger packId = new AtomicInteger();
 
 	private final DfsObjDatabase objdb;
 
@@ -60,7 +60,7 @@ public class InMemoryRepository extends DfsRepository {
 		this(new Builder().setRepositoryDescription(repoDesc));
 	}
 
-	private InMemoryRepository(Builder builder) {
+	InMemoryRepository(Builder builder) {
 		super(builder);
 		objdb = new MemObjDatabase(this);
 		refdb = new MemRefDatabase();
@@ -139,7 +139,7 @@ public class InMemoryRepository extends DfsRepository {
 	}
 
 	private static class MemPack extends DfsPackDescription {
-		private final Map<PackExt, byte[]>
+		final Map<PackExt, byte[]>
 				fileMap = new HashMap<PackExt, byte[]>();
 
 		MemPack(String name, DfsRepositoryDescription repoDesc) {

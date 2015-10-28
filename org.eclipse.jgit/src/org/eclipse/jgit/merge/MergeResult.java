@@ -70,7 +70,7 @@ import org.eclipse.jgit.util.IntList;
 public class MergeResult<S extends Sequence> implements Iterable<MergeChunk> {
 	private final List<S> sequences;
 
-	private final IntList chunks = new IntList();
+	final IntList chunks = new IntList();
 
 	private boolean containsConflicts = false;
 
@@ -127,7 +127,7 @@ public class MergeResult<S extends Sequence> implements Iterable<MergeChunk> {
 		return sequences;
 	}
 
-	private static final ConflictState[] states = ConflictState.values();
+	static final ConflictState[] states = ConflictState.values();
 
 	/**
 	 * @return an iterator over the MergeChunks. The iterator does not support

@@ -148,7 +148,7 @@ public abstract class ContentSource {
 
 		private String current;
 
-		private WorkingTreeIterator ptr;
+		WorkingTreeIterator ptr;
 
 		WorkingTreeSource(WorkingTreeIterator iterator) {
 			this.tw = new TreeWalk((ObjectReader) null);

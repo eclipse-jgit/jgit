@@ -94,7 +94,7 @@ import java.util.List;
  */
 public class HistogramDiff extends LowLevelDiffAlgorithm {
 	/** Algorithm to use when there are too many element occurrences. */
-	private DiffAlgorithm fallback = MyersDiff.INSTANCE;
+	DiffAlgorithm fallback = MyersDiff.INSTANCE;
 
 	/**
 	 * Maximum number of positions to consider for a given element hash.
@@ -103,7 +103,7 @@ public class HistogramDiff extends LowLevelDiffAlgorithm {
 	 * size is capped to ensure search is linear time at O(len_A + len_B) rather
 	 * than quadratic at O(len_A * len_B).
 	 */
-	private int maxChainLength = 64;
+	int maxChainLength = 64;
 
 	/**
 	 * Set the algorithm used when there are too many element occurrences.
