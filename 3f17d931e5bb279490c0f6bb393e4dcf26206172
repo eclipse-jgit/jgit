@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0724e3f1_e062e807",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-10-28T22:18:01Z",
+      "side": 1,
+      "message": "I was struggling with vocabulary for this. \"Chains\" is great.",
+      "parentUuid": "0724e3f1_ddc4ebda",
+      "range": {
+        "startLine": 184,
+        "startChar": 28,
+        "endLine": 184,
+        "endChar": 43
+      },
+      "revId": "3f17d931e5bb279490c0f6bb393e4dcf26206172",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0724e3f1_3d626780",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2015-10-28T19:59:09Z",
       "side": 1,
       "message": "I\u0027m having trouble understanding this. Why does sorting lead to better compression?\n\nc is a commit we want to build a bitmap for.\n\nfullBitmap lists its ancestors that are not ancestors of one of the reusedCommits.\n\nmergedBranches is a collection of lists of bitmaps. We want to add c to one of them.\n\nmatchedBranches is created by filtering mergedBranches to ancestors of c.\n\nWe are going to add c to the longest one of those. The reuseWalker flag indicates whether it\u0027s at the beginning of the list.\n\nThen they\u0027ll be concatenated to produce the part of the output of selectCommits corresponding to entry.\n\nSo the resulting list of BitmapCommits looks like this:\n\n (reused commits)\n C, reuseWalker \u003d\u003d false, FLAG_REUSE\n\n (for each want)\n C1, reuseWalker \u003d\u003d false, (FLAG_REUSE if and only if distant)\n C2, reuseWalker \u003d\u003d true, ...\n ...\n D1, reuseWalker \u003d\u003d false, ...\n D2, reuseWalker \u003d\u003d true, ...\n ...\n\n (for each want that wasn\u0027t selected in the above loop)\n C, reuseWalker \u003d\u003d false, 0\n\nWhen reuseWalker is true, the PackWriterBitmapWalker can start from the previous bitmap because the previous commit is an ancestor of the next one. So at first glance this seems to be about efficiency of generating bitmaps instead of being about compression.",
+      "range": {
+        "startLine": 266,
+        "startChar": 0,
+        "endLine": 268,
+        "endChar": 15
+      },
+      "revId": "3f17d931e5bb279490c0f6bb393e4dcf26206172",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_a0ae309e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-10-28T22:18:01Z",
+      "side": 1,
+      "message": "It is about run-length encoding the result of xor compression between subsequent commits.\n\nAscii art:\n            o--o...o--o\n           /           \\\nmaster o--o--o...o--o---o--o...o\n\nIf you do a strict historical ordering then commits from the top \"chain\" are interspersed with all other chains, meaning that the nearest ancestor may be a long way back in history, creating a \"busier\" xor result and poorer run-length encoding.",
+      "parentUuid": "0724e3f1_3d626780",
       "range": {
         "startLine": 266,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "0724e3f1_c02244ab",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-10-28T22:18:01Z",
+      "side": 1,
+      "message": "Done. I\u0027ll refactor this variable away in a subsequent patch, so no need to document now.",
+      "parentUuid": "0724e3f1_7db33f80",
+      "range": {
+        "startLine": 269,
+        "startChar": 29,
+        "endLine": 269,
+        "endChar": 44
+      },
+      "revId": "3f17d931e5bb279490c0f6bb393e4dcf26206172",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0724e3f1_5db0fb71",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
         "patchSetId": 1
@@ -82,6 +154,30 @@
       "writtenOn": "2015-10-28T20:08:20Z",
       "side": 1,
       "message": "This is the chain we will append to. \u0027longestCandidate\u0027?",
+      "range": {
+        "startLine": 278,
+        "startChar": 23,
+        "endLine": 278,
+        "endChar": 36
+      },
+      "revId": "3f17d931e5bb279490c0f6bb393e4dcf26206172",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_6029d888",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-10-28T22:18:01Z",
+      "side": 1,
+      "message": "Use \"longestAncestorChain\"",
+      "parentUuid": "0724e3f1_5db0fb71",
       "range": {
         "startLine": 278,
         "startChar": 23,
