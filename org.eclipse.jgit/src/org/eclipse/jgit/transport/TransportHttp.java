@@ -218,16 +218,16 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 			sslVerify = rc.getBoolean("http", "sslVerify", true); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
-		private HttpConfig() {
+		HttpConfig() {
 			this(new Config());
 		}
 	}
 
-	private final URL baseUrl;
+	final URL baseUrl;
 
 	private final URL objectsUrl;
 
-	private final HttpConfig http;
+	final HttpConfig http;
 
 	private final ProxySelector proxySelector;
 

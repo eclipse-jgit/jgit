@@ -125,10 +125,10 @@ public class TransportAmazonS3 extends HttpTransport implements WalkTransport {
 	};
 
 	/** User information necessary to connect to S3. */
-	private final AmazonS3 s3;
+	final AmazonS3 s3;
 
 	/** Bucket the remote repository is stored in. */
-	private final String bucket;
+	final String bucket;
 
 	/**
 	 * Key prefix which all objects related to the repository start with.

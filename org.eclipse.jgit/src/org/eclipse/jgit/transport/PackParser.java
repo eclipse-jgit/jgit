@@ -122,14 +122,14 @@ public abstract class PackParser {
 
 	private InputStream in;
 
-	private byte[] buf;
+	byte[] buf;
 
 	/** Position in the input stream of {@code buf[0]}. */
 	private long bBase;
 
 	private int bOffset;
 
-	private int bAvail;
+	int bAvail;
 
 	private ObjectChecker objCheck;
 
@@ -1141,13 +1141,13 @@ public abstract class PackParser {
 	}
 
 	// Consume cnt bytes from the buffer.
-	private void use(final int cnt) {
+	void use(final int cnt) {
 		bOffset += cnt;
 		bAvail -= cnt;
 	}
 
 	// Ensure at least need bytes are available in in {@link #buf}.
-	private int fill(final Source src, final int need) throws IOException {
+	int fill(final Source src, final int need) throws IOException {
 		while (bAvail < need) {
 			int next = bOffset + bAvail;
 			int free = buf.length - next;

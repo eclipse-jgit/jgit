@@ -71,8 +71,8 @@ import com.jcraft.jsch.Session;
  * to the constructor.
  */
 public class JschSession implements RemoteSession {
-	private final Session sock;
-	private final URIish uri;
+	final Session sock;
+	final URIish uri;
 
 	/**
 	 * Create a new session object by passing the real Jsch session and the URI
@@ -119,7 +119,7 @@ public class JschSession implements RemoteSession {
 	private class JschProcess extends Process {
 		private ChannelExec channel;
 
-		private final int timeout;
+		final int timeout;
 
 		private InputStream inputStream;
 
@@ -141,7 +141,7 @@ public class JschSession implements RemoteSession {
 		 * @throws IOException
 		 *             on problems opening streams
 		 */
-		private JschProcess(final String commandName, int tms)
+		JschProcess(final String commandName, int tms)
 				throws TransportException, IOException {
 			timeout = tms;
 			try {

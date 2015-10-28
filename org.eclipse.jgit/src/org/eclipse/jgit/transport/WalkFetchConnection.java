@@ -115,10 +115,10 @@ import org.eclipse.jgit.util.FileUtils;
  */
 class WalkFetchConnection extends BaseFetchConnection {
 	/** The repository this transport fetches into, or pushes out of. */
-	private final Repository local;
+	final Repository local;
 
 	/** If not null the validator for received objects. */
-	private final ObjectChecker objCheck;
+	final ObjectChecker objCheck;
 
 	/**
 	 * List of all remote repositories we may need to get objects out of.
@@ -180,12 +180,12 @@ class WalkFetchConnection extends BaseFetchConnection {
 	 */
 	private final HashMap<ObjectId, List<Throwable>> fetchErrors;
 
-	private String lockMessage;
+	String lockMessage;
 
-	private final List<PackLock> packLocks;
+	final List<PackLock> packLocks;
 
 	/** Inserter to write objects onto {@link #local}. */
-	private final ObjectInserter inserter;
+	final ObjectInserter inserter;
 
 	/** Inserter to read objects from {@link #local}. */
 	private final ObjectReader reader;

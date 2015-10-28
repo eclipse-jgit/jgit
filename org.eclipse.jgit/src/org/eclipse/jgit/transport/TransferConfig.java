@@ -72,13 +72,13 @@ public class TransferConfig {
 	private final boolean safeForMacOS;
 	private final boolean allowTipSha1InWant;
 	private final boolean allowReachableSha1InWant;
-	private final String[] hideRefs;
+	final String[] hideRefs;
 
 	TransferConfig(final Repository db) {
 		this(db.getConfig());
 	}
 
-	private TransferConfig(final Config rc) {
+	TransferConfig(final Config rc) {
 		checkReceivedObjects = rc.getBoolean(
 				"fetch", "fsckobjects", //$NON-NLS-1$ //$NON-NLS-2$
 				rc.getBoolean("transfer", "fsckobjects", false)); //$NON-NLS-1$ //$NON-NLS-2$

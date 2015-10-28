@@ -103,7 +103,7 @@ class WalkPushConnection extends BaseConnection implements PushConnection {
 	private final URIish uri;
 
 	/** Database connection to the remote repository. */
-	private final WalkRemoteObjectDatabase dest;
+	final WalkRemoteObjectDatabase dest;
 
 	/** The configured transport we were constructed by. */
 	private final Transport transport;
