@@ -247,6 +247,37 @@ public abstract class TemporaryBuffer extends OutputStream {
 	}
 
 	/**
+	 * Convert this buffer's contents into a contiguous byte array. If this size
+	 * of the buffer exceeds the limit only return the first {@code limit} bytes
+	 * <p>
+	 * The buffer is only complete after {@link #close()} has been invoked.
+	 *
+	 * @param limit
+	 *            the maximum number of bytes to be returned
+	 *
+	 * @return the byte array limited to {@code limit} bytes.
+	 * @throws IOException
+	 *             an error occurred reading from a local temporary file
+	 * @throws OutOfMemoryError
+	 *             the buffer cannot fit in memory
+	 *
+	 * @since 4.2
+	 */
+	public byte[] toByteArray(int limit) throws IOException {
+		final long len = Math.min(length(), limit);
+		if (Integer.MAX_VALUE < len)
+			throw new OutOfMemoryError(
+					JGitText.get().lengthExceedsMaximumArraySize);
+		final byte[] out = new byte[(int) len];
+		int outPtr = 0;
+		for (final Block b : blocks) {
+			System.arraycopy(b.buffer, 0, out, outPtr, b.count);
+			outPtr += b.count;
+		}
+		return out;
+	}
+
+	/**
 	 * Send this buffer to an output stream.
 	 * <p>
 	 * This method may only be invoked after {@link #close()} has completed
