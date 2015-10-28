@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "0724e3f1_ddc4ebda",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-10-28T20:08:20Z",
+      "side": 1,
+      "message": "How about something like \u0027chains\u0027, since these are chains in the partially ordered set of commits under the ancestry relation? \u003chttps://en.wikipedia.org/wiki/Total_order#Chains\u003e\n\nMore importantly, this probably deserves a comment explaining its purpose. ;-)",
+      "range": {
+        "startLine": 184,
+        "startChar": 28,
+        "endLine": 184,
+        "endChar": 43
+      },
+      "revId": "3f17d931e5bb279490c0f6bb393e4dcf26206172",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0724e3f1_3d626780",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
         "patchSetId": 1
@@ -18,6 +41,52 @@
         "startChar": 0,
         "endLine": 268,
         "endChar": 15
+      },
+      "revId": "3f17d931e5bb279490c0f6bb393e4dcf26206172",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_7db33f80",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-10-28T20:08:20Z",
+      "side": 1,
+      "message": "This is a filtered subset of the chains in mergedBranches. How about something like \u0027candidateChains\u0027 (with a comment explaining that we are looking for those chains where the last item is an ancestor of c so we can append c to it)?",
+      "range": {
+        "startLine": 269,
+        "startChar": 29,
+        "endLine": 269,
+        "endChar": 44
+      },
+      "revId": "3f17d931e5bb279490c0f6bb393e4dcf26206172",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_5db0fb71",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-10-28T20:08:20Z",
+      "side": 1,
+      "message": "This is the chain we will append to. \u0027longestCandidate\u0027?",
+      "range": {
+        "startLine": 278,
+        "startChar": 23,
+        "endLine": 278,
+        "endChar": 36
       },
       "revId": "3f17d931e5bb279490c0f6bb393e4dcf26206172",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
