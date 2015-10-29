@@ -58,7 +58,7 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.IndexWriteException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.JGitText;
-import org.eclipse.jgit.lib.CoreConfig.AutoCRLF;
+import org.eclipse.jgit.lib.CoreConfig.StreamType;
 import org.eclipse.jgit.lib.CoreConfig.SymLinks;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectChecker;
@@ -79,7 +79,7 @@ import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.SystemReader;
-import org.eclipse.jgit.util.io.AutoCRLFOutputStream;
+import org.eclipse.jgit.util.io.StreamConversionFactory;
 
 /**
  * This class handles checking out one or two trees merging with the index.
@@ -1205,17 +1205,16 @@ public class DirCacheCheckout {
 			return;
 		}
 
-		File tmpFile = File.createTempFile(
-				"._" + f.getName(), null, parentDir); //$NON-NLS-1$
-		OutputStream channel = new FileOutputStream(tmpFile);
-		if (opt.getAutoCRLF() == AutoCRLF.TRUE)
-			channel = new AutoCRLFOutputStream(channel);
-		try {
+		StreamType streamType = StreamConversionFactory.checkOutStreamType(repo,
+				entry.getPathString(), entry.getFileMode());
+		boolean convertCRLF = (streamType != StreamType.DIRECT);
+
+		File tmpFile = File.createTempFile("._" + f.getName(), null, parentDir); //$NON-NLS-1$
+		try (OutputStream channel = StreamConversionFactory
+				.checkOutStream(new FileOutputStream(tmpFile), streamType)) {
 			ol.copyTo(channel);
-		} finally {
-			channel.close();
 		}
-		entry.setLength(opt.getAutoCRLF() == AutoCRLF.TRUE ? //
+		entry.setLength(convertCRLF ? //
 				tmpFile.length() // AutoCRLF wants on-disk-size
 				: (int) ol.getSize());
 

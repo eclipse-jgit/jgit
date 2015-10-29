@@ -61,12 +61,13 @@ import org.eclipse.jgit.diff.RawTextComparator;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.lib.CoreConfig.AutoCRLF;
-import org.eclipse.jgit.treewalk.WorkingTreeOptions;
+import org.eclipse.jgit.lib.CoreConfig.StreamType;
 import org.eclipse.jgit.util.IO;
-import org.eclipse.jgit.util.io.EolCanonicalizingInputStream;
+import org.eclipse.jgit.util.io.AutoLFInputStream;
+import org.eclipse.jgit.util.io.StreamConversionFactory;
 
 /**
  * Blame command for building a {@link BlameResult} for a file path.
@@ -233,30 +234,27 @@ public class BlameCommand extends GitCommand<BlameResult> {
 		}
 	}
 
-	private RawText getRawText(File inTree) throws IOException,
+	private RawText getRawText(File inTree)
+			throws IOException,
 			FileNotFoundException {
 		RawText rawText;
 
-		WorkingTreeOptions workingTreeOptions = getRepository().getConfig()
-				.get(WorkingTreeOptions.KEY);
-		AutoCRLF autoCRLF = workingTreeOptions.getAutoCRLF();
-		switch (autoCRLF) {
-		case FALSE:
-		case INPUT:
-			// Git used the repo format on checkout, but other tools
-			// may change the format to CRLF. We ignore that here.
-			rawText = new RawText(inTree);
-			break;
-		case TRUE:
-			EolCanonicalizingInputStream in = new EolCanonicalizingInputStream(
+		StreamType streamType = StreamConversionFactory.checkOutStreamType(
+				getRepository(), path, FileMode.REGULAR_FILE);
+		switch (streamType) {
+		case TEXT_CRLF:
+		case AUTO_CRLF:
+			AutoLFInputStream in = new AutoLFInputStream(
 					new FileInputStream(inTree), true);
 			// Canonicalization should lead to same or shorter length
 			// (CRLF to LF), so the file size on disk is an upper size bound
 			rawText = new RawText(toByteArray(in, (int) inTree.length()));
 			break;
 		default:
-			throw new IllegalArgumentException(
-					"Unknown autocrlf option " + autoCRLF); //$NON-NLS-1$
+			// Git used the repo format on checkout, but other tools
+			// may change the format to CRLF. We ignore that here.
+			rawText = new RawText(inTree);
+			break;
 		}
 		return rawText;
 	}

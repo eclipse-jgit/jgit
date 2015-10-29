@@ -50,7 +50,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Map;
 
 import org.eclipse.jgit.lib.Constants;
 
@@ -63,21 +62,10 @@ import org.eclipse.jgit.lib.Constants;
  */
 public class AttributesNode {
 	/** The rules that have been parsed into this node. */
-	private final List<AttributesRule> rules;
+	private final List<AttributesRule> rules = new ArrayList<AttributesRule>();
 
 	/** Create an empty ignore node with no rules. */
 	public AttributesNode() {
-		rules = new ArrayList<AttributesRule>();
-	}
-
-	/**
-	 * Create an ignore node with given rules.
-	 *
-	 * @param rules
-	 *            list of rules.
-	 **/
-	public AttributesNode(List<AttributesRule> rules) {
-		this.rules = rules;
 	}
 
 	/**
@@ -124,8 +112,16 @@ public class AttributesNode {
 	}
 
 	/**
+	 * @return true if there are no rules in this node
+	 */
+	public boolean isEmpty() {
+		return rules.isEmpty();
+	}
+
+	/**
 	 * Returns the matching attributes for an entry path.
 	 *
+	 * @param manager
 	 * @param entryPath
 	 *            the path to test. The path must be relative to this attribute
 	 *            node's own repository path, and in repository path format
@@ -134,11 +130,12 @@ public class AttributesNode {
 	 *            true if the target item is a directory.
 	 * @param attributes
 	 *            Map that will hold the attributes matching this entry path. If
-	 *            it is not empty, this method will NOT override any
-	 *            existing entry.
+	 *            it is not empty, this method will NOT override any existing
+	 *            entry.
+	 * @throws IOException
 	 */
-	public void getAttributes(String entryPath, boolean isDirectory,
-			Map<String, Attribute> attributes) {
+	public void getAttributes(AttributeManager manager, String entryPath,
+			boolean isDirectory, AttributeSet attributes) throws IOException {
 		// Parse rules in the reverse order that they were read since the last
 		// entry should be used
 		ListIterator<AttributesRule> ruleIterator = rules.listIterator(rules
@@ -151,9 +148,17 @@ public class AttributesNode {
 				// Parses the attributes in the reverse order that they were
 				// read since the last entry should be used
 				while (attributeIte.hasPrevious()) {
-					Attribute attr = attributeIte.previous();
-					if (!attributes.containsKey(attr.getKey()))
-						attributes.put(attr.getKey(), attr);
+					Attribute raw = attributeIte.previous();
+					if (manager == null) {
+						// testing only
+						if (!attributes.containsKey(raw.getKey()))
+							attributes.putAttribute(raw);
+					} else {
+						for (Attribute attr : manager.expandMacro(raw)) {
+							if (!attributes.containsKey(attr.getKey()))
+								attributes.putAttribute(attr);
+						}
+					}
 				}
 			}
 		}

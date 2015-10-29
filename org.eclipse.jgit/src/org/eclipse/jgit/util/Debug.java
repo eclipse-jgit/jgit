@@ -1,7 +1,4 @@
 /*
- * Copyright (C) 2010, 2013 Marc Strapetz <marc.strapetz@syntevo.com>
- * and other copyright owners as documented in the project's IP log.
- *
  * This program and the accompanying materials are made available
  * under the terms of the Eclipse Distribution License v1.0 which
  * accompanies this distribution, is reproduced below, and is
@@ -41,32 +38,34 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.util.io;
-
-import java.io.InputStream;
+package org.eclipse.jgit.util;
 
 /**
- * @deprecated use AutoLFInputStream instead
+ * Simple log facility, only used for debug and analysis purposes
  */
-@Deprecated
-public class EolCanonicalizingInputStream extends AutoLFInputStream {
+public final class Debug {
 
-	/**
-	 * @param in
-	 * @param detectBinary
-	 */
-	public EolCanonicalizingInputStream(InputStream in, boolean detectBinary) {
-		super(in, detectBinary);
+	private Debug() {
 	}
 
 	/**
-	 * @param in
-	 * @param detectBinary
-	 * @param abortIfBinary
+	 * @return true if info log is enabled
 	 */
-	public EolCanonicalizingInputStream(InputStream in, boolean detectBinary,
-			boolean abortIfBinary) {
-		super(in, detectBinary, abortIfBinary);
+	public static boolean isInfo() {
+		return false;
 	}
 
+	/**
+	 * @return true if detail log is enabled
+	 */
+	public static boolean isDetail() {
+		return false;
+	}
+
+	/**
+	 * @param message
+	 */
+	public static void println(String message) {
+		System.out.println(message);
+	}
 }
