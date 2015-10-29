@@ -70,6 +70,7 @@ import org.eclipse.jgit.api.errors.RefNotFoundException;
 import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheEntry;
+import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
@@ -84,6 +85,7 @@ import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.util.FileUtils;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class CheckoutCommandTest extends RepositoryTestCase {
@@ -553,5 +555,226 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 			}
 		}
 		org.junit.Assume.assumeTrue(foundUnsmudged);
+	}
+
+	@Test
+	public void testSmudgeFilter_modifyExisting() throws IOException, GitAPIException {
+		File script = writeTempFile("sed s/o/e/ -");
+		StoredConfig config = git.getRepository().getConfig();
+		config.setString("filter", "tstFilter", "smudge",
+				"sh " + script.getPath());
+		config.save();
+
+		writeTrashFile(".gitattributes", "*.txt filter=tstFilter");
+		git.add().addFilepattern(".gitattributes").call();
+		git.commit().setMessage("add filter").call();
+
+		writeTrashFile("src/a.tmp", "x");
+		writeTrashFile("src/a.txt", "x");
+		git.add().addFilepattern("src/a.tmp").addFilepattern("src/a.txt")
+				.call();
+		RevCommit content1 = git.commit().setMessage("add content").call();
+
+		writeTrashFile("src/a.tmp", "foo");
+		writeTrashFile("src/a.txt", "foo");
+		git.add().addFilepattern("src/a.tmp").addFilepattern("src/a.txt")
+				.call();
+		RevCommit content2 = git.commit().setMessage("changed content").call();
+
+		git.checkout().setName(content1.getName()).call();
+		git.checkout().setName(content2.getName()).call();
+
+		assertEquals(
+				"[.gitattributes, mode:100644, content:*.txt filter=tstFilter][Test.txt, mode:100644, content:Some change][src/a.tmp, mode:100644, content:foo][src/a.txt, mode:100644, content:foo]",
+				indexState(CONTENT));
+		assertEquals("foo", read("src/a.tmp"));
+		assertEquals("feo", read("src/a.txt"));
+	}
+
+	@Test
+	public void testSmudgeFilter_createNew()
+			throws IOException, GitAPIException {
+		File script = writeTempFile("sed s/o/e/ -");
+		StoredConfig config = git.getRepository().getConfig();
+		config.setString("filter", "tstFilter", "smudge",
+				"sh " + script.getPath());
+		config.save();
+
+		writeTrashFile("foo", "foo");
+		git.add().addFilepattern("foo").call();
+		RevCommit initial = git.commit().setMessage("initial").call();
+
+		writeTrashFile(".gitattributes", "*.txt filter=tstFilter");
+		git.add().addFilepattern(".gitattributes").call();
+		git.commit().setMessage("add filter").call();
+
+		writeTrashFile("src/a.tmp", "foo");
+		writeTrashFile("src/a.txt", "foo");
+		git.add().addFilepattern("src/a.tmp").addFilepattern("src/a.txt")
+				.call();
+		RevCommit content = git.commit().setMessage("added content").call();
+
+		git.checkout().setName(initial.getName()).call();
+		git.checkout().setName(content.getName()).call();
+
+		assertEquals(
+				"[.gitattributes, mode:100644, content:*.txt filter=tstFilter][Test.txt, mode:100644, content:Some change][foo, mode:100644, content:foo][src/a.tmp, mode:100644, content:foo][src/a.txt, mode:100644, content:foo]",
+				indexState(CONTENT));
+		assertEquals("foo", read("src/a.tmp"));
+		assertEquals("feo", read("src/a.txt"));
+	}
+
+	@Test
+	@Ignore
+	public void testSmudgeAndClean() throws IOException, GitAPIException {
+		// @TODO: fix this test
+		File clean_filter = writeTempFile("sed s/V1/@version/g -");
+		File smudge_filter = writeTempFile("sed s/@version/V1/g -");
+
+		Git git = new Git(db);
+		StoredConfig config = git.getRepository().getConfig();
+		config.setString("filter", "tstFilter", "smudge",
+				"sh " + smudge_filter.getPath());
+		config.setString("filter", "tstFilter", "clean",
+				"sh " + clean_filter.getPath());
+		config.save();
+		writeTrashFile(".gitattributes", "*.txt filter=tstFilter");
+		git.add().addFilepattern(".gitattributes").call();
+		git.commit().setMessage("add attributes").call();
+
+		writeTrashFile("filterTest.txt", "hello world, V1");
+		git.add().addFilepattern("filterTest.txt").call();
+		git.commit().setMessage("add filterText.txt").call();
+		assertEquals(
+				"[.gitattributes, mode:100644, content:*.txt filter=tstFilter][Test.txt, mode:100644, content:Some other change][filterTest.txt, mode:100644, content:hello world, @version]",
+				indexState(CONTENT));
+
+		git.checkout().setCreateBranch(true).setName("test2").call();
+		writeTrashFile("filterTest.txt", "bon giorno world, V1");
+		git.add().addFilepattern("filterTest.txt").call();
+		git.commit().setMessage("modified filterText.txt").call();
+
+		assertTrue(git.status().call().isClean());
+		assertEquals(
+				"[.gitattributes, mode:100644, content:*.txt filter=tstFilter][Test.txt, mode:100644, content:Some other change][filterTest.txt, mode:100644, content:bon giorno world, @version]",
+				indexState(CONTENT));
+
+		git.checkout().setName("refs/heads/test").call();
+		assertTrue(git.status().call().isClean());
+		assertEquals(
+				"[.gitattributes, mode:100644, content:*.txt filter=tstFilter][Test.txt, mode:100644, content:Some other change][filterTest.txt, mode:100644, content:hello world, @version]",
+				indexState(CONTENT));
+		assertEquals("hello world, V1", read("filterTest.txt"));
+	}
+
+	//
+	// /**
+	// * The path of an added file name contains ';' and afterwards malicious
+	// * commands. Make sure when calling filter commands to properly escape the
+	// * filenames
+	// *
+	// * @throws IOException
+	// * @throws GitAPIException
+	// */
+	// @Test
+	// public void testCommandInjection() throws IOException, GitAPIException {
+	// writeTrashFile("; echo virus", "foo");
+	// File script = writeTempFile("sed s/o/e/ -");
+	//
+	// Git git = new Git(db);
+	// StoredConfig config = git.getRepository().getConfig();
+	// config.setString("filter", "tstFilter", "clean",
+	// "sh " + script.getPath() + " %f");
+	// writeTrashFile(".gitattributes", "* filter=tstFilter");
+	//
+	// git.add().addFilepattern("; echo virus").call();
+	// // Without proper escaping the content would be "feovirus". The sed
+	// // command and the "echo virus" would contribute to the content
+	// assertEquals("[; echo virus, mode:100644, content:feo]",
+	// indexState(CONTENT));
+	// }
+	//
+	// @Test
+	// public void testBadCleanFilter() throws IOException, GitAPIException {
+	// writeTrashFile("a.txt", "foo");
+	// File script = writeTempFile("sedfoo s/o/e/ -");
+	//
+	// Git git = new Git(db);
+	// StoredConfig config = git.getRepository().getConfig();
+	// config.setString("filter", "tstFilter", "clean",
+	// "sh " + script.getPath());
+	// config.save();
+	// writeTrashFile(".gitattributes", "*.txt filter=tstFilter");
+	//
+	// try {
+	// git.add().addFilepattern("a.txt").call();
+	// fail("Didn't received the expected exception");
+	// } catch (FilterFailedException e) {
+	// assertEquals(127, e.getReturnCode());
+	// }
+	// }
+	//
+	// @Test
+	// public void testBadCleanFilter2() throws IOException, GitAPIException {
+	// writeTrashFile("a.txt", "foo");
+	// File script = writeTempFile("sed s/o/e/ -");
+	//
+	// Git git = new Git(db);
+	// StoredConfig config = git.getRepository().getConfig();
+	// config.setString("filter", "tstFilter", "clean",
+	// "shfoo " + script.getPath());
+	// config.save();
+	// writeTrashFile(".gitattributes", "*.txt filter=tstFilter");
+	//
+	// try {
+	// git.add().addFilepattern("a.txt").call();
+	// fail("Didn't received the expected exception");
+	// } catch (FilterFailedException e) {
+	// assertEquals(127, e.getReturnCode());
+	// }
+	// }
+	//
+	// @Test
+	// public void testCleanFilterReturning12() throws IOException,
+	// GitAPIException {
+	// writeTrashFile("a.txt", "foo");
+	// File script = writeTempFile("exit 12");
+	//
+	// Git git = new Git(db);
+	// StoredConfig config = git.getRepository().getConfig();
+	// config.setString("filter", "tstFilter", "clean",
+	// "sh " + script.getPath());
+	// config.save();
+	// writeTrashFile(".gitattributes", "*.txt filter=tstFilter");
+	//
+	// try {
+	// git.add().addFilepattern("a.txt").call();
+	// fail("Didn't received the expected exception");
+	// } catch (FilterFailedException e) {
+	// assertEquals(12, e.getReturnCode());
+	// }
+	// }
+	//
+	// @Test
+	// public void testSmudgeFilter() throws IOException, GitAPIException {
+	// writeTrashFile("a.txt", "foo");
+	// File script = writeTempFile("sed s/o/e/ -");
+	//
+	// Git git = new Git(db);
+	// StoredConfig config = git.getRepository().getConfig();
+	// config.setString("filter", "tstFilter", "smudge",
+	// "sh " + script.getPath());
+	// config.save();
+	// writeTrashFile(".gitattributes", "*.txt filter=tstFilter");
+	//
+	// git.add().addFilepattern("a.txt").call();
+	//
+	// assertEquals("[a.txt, mode:100644, content:foo]", indexState(CONTENT));
+	// }
+
+	private File writeTempFile(String body) throws IOException {
+		File f = File.createTempFile("AddCommandTest_", "");
+		JGitTestUtil.write(f, body);
+		return f;
 	}
 }

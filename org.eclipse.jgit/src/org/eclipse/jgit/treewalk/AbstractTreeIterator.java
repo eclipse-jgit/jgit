@@ -49,6 +49,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 
+import org.eclipse.jgit.attributes.AttributesNode;
 import org.eclipse.jgit.dircache.DirCacheCheckout;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -91,6 +92,13 @@ public abstract class AbstractTreeIterator {
 
 	/** The iterator this current entry is path equal to. */
 	AbstractTreeIterator matches;
+
+	/**
+	 * If there is a .gitattributes file present, the parsed rules from it.
+	 * 
+	 * @since 4.2
+	 */
+	protected AttributesNode attributesNode;
 
 	/**
 	 * Number of entries we moved forward to force a D/F conflict match.
