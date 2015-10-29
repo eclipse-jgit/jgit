@@ -269,29 +269,22 @@ class PackWriterBitmapPreparer {
 					// selected commit to fullBitmap.
 				}
 
-				// Sort the commits by independent chains in its history,
-				// yielding better compression when building bitmaps.
-				List<List<BitmapCommit>> candidateChain = new ArrayList<
-						List<BitmapCommit>>();
+				// Sort the commits by independent chains in this branch's
+				// history, yielding better compression when building bitmaps.
+				List<BitmapCommit> longestAncestorChain = null;
 				for (List<BitmapCommit> chain : chains) {
 					BitmapCommit mostRecentCommit = chain.get(chain.size() - 1);
 					if (fullBitmap.contains(mostRecentCommit)) {
-						candidateChain.add(chain);
-					}
-				}
-
-				List<BitmapCommit> longestAncestorChain;
-				if (candidateChain.isEmpty()) {
-					longestAncestorChain = new ArrayList<BitmapCommit>();
-					chains.add(longestAncestorChain);
-				} else {
-					longestAncestorChain = candidateChain.get(0);
-					// Append to longest
-					for (List<BitmapCommit> chain : candidateChain) {
-						if (chain.size() > longestAncestorChain.size()) {
+						if (longestAncestorChain == null
+								|| longestAncestorChain.size() < chain.size()) {
 							longestAncestorChain = chain;
 						}
 					}
+				}
+
+				if (longestAncestorChain == null) {
+					longestAncestorChain = new ArrayList<BitmapCommit>();
+					chains.add(longestAncestorChain);
 				}
 				longestAncestorChain.add(new BitmapCommit(
 						c, !longestAncestorChain.isEmpty(), flags));
