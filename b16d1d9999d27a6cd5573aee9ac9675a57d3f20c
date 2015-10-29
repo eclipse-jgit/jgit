@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0724e3f1_cb9f053e",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/ResetTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-10-29T09:11:40Z",
+      "side": 1,
+      "message": "I would add a test with path but without the explicit \u0027--\u0027. Just to check that first path and commitId are not exchanged.\n\nHave you noticed that help page is strange. I always expected that after -- only pathes are allowed. No more options after --. But our help page doesn\u0027t show this. And even the program works correctly if --hard comes after --. That may be a problem in args4j\n\nchris@vblub14:~/git/jgit$ jgit reset --help\n\n  jgit reset name [VAL ...] [-- path ... ...] [--hard] [--help (-h)] [--mixed] [--soft]\n  \n   name        : Reset current HEAD to the specified state\n   --hard      : Resets the index and working tree\n   --help (-h) : display this help text\n   --mixed     : Resets the index but not the working tree\n   --soft      : Resets without touching the index file nor   the working tree",
+      "revId": "b16d1d9999d27a6cd5573aee9ac9675a57d3f20c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
