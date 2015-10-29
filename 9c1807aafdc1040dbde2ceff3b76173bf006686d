@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0724e3f1_4badd51f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/AddCommandTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-10-29T14:01:43Z",
+      "side": 1,
+      "message": "s/received/receive/",
+      "range": {
+        "startLine": 205,
+        "startChar": 16,
+        "endLine": 205,
+        "endChar": 24
+      },
+      "revId": "9c1807aafdc1040dbde2ceff3b76173bf006686d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_c6589c08",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/AddCommandTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-10-29T14:01:43Z",
+      "side": 1,
+      "message": "s/received/receive/",
+      "range": {
+        "startLine": 225,
+        "startChar": 16,
+        "endLine": 225,
+        "endChar": 24
+      },
+      "revId": "9c1807aafdc1040dbde2ceff3b76173bf006686d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_a65da8f7",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/AddCommandTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-10-29T14:01:43Z",
+      "side": 1,
+      "message": "s/received/receive/",
+      "range": {
+        "startLine": 246,
+        "startChar": 16,
+        "endLine": 246,
+        "endChar": 24
+      },
+      "revId": "9c1807aafdc1040dbde2ceff3b76173bf006686d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_663f308d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-10-29T14:01:43Z",
+      "side": 1,
+      "message": "?",
+      "revId": "9c1807aafdc1040dbde2ceff3b76173bf006686d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_a6c80820",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1465,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-10-29T14:01:43Z",
+      "side": 1,
+      "message": "missing braces ?",
+      "revId": "9c1807aafdc1040dbde2ceff3b76173bf006686d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_06cab416",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1477,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-10-29T14:01:43Z",
+      "side": 1,
+      "message": "missing braces ?",
+      "revId": "9c1807aafdc1040dbde2ceff3b76173bf006686d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
