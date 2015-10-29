@@ -52,15 +52,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.jgit.api.errors.FilterFailedException;
 import org.eclipse.jgit.errors.CheckoutConflictException;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.IndexWriteException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.CoreConfig.AutoCRLF;
 import org.eclipse.jgit.lib.CoreConfig.SymLinks;
 import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectChecker;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
@@ -76,6 +79,7 @@ import org.eclipse.jgit.treewalk.WorkingTreeIterator;
 import org.eclipse.jgit.treewalk.WorkingTreeOptions;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.FS.ExecutionResult;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.SystemReader;
@@ -85,9 +89,10 @@ import org.eclipse.jgit.util.io.AutoCRLFOutputStream;
  * This class handles checking out one or two trees merging with the index.
  */
 public class DirCacheCheckout {
+	private static final int MAX_EXCEPTION_TEXT_SIZE = 10 * 1024;
 	private Repository repo;
 
-	private HashMap<String, ObjectId> updated = new HashMap<String, ObjectId>();
+	private HashMap<String, String> updated = new HashMap<String, String>();
 
 	private ArrayList<String> conflicts = new ArrayList<String>();
 
@@ -112,9 +117,9 @@ public class DirCacheCheckout {
 	private boolean emptyDirCache;
 
 	/**
-	 * @return a list of updated paths and objectIds
+	 * @return a list of updated paths and smudgeFilterCommands
 	 */
-	public Map<String, ObjectId> getUpdated() {
+	public Map<String, String> getUpdated() {
 		return updated;
 	}
 
@@ -447,7 +452,8 @@ public class DirCacheCheckout {
 			for (String path : updated.keySet()) {
 				DirCacheEntry entry = dc.getEntry(path);
 				if (!FileMode.GITLINK.equals(entry.getRawMode()))
-					checkoutEntry(repo, entry, objectReader, false);
+					checkoutEntry(repo, entry, objectReader, false,
+							updated.get(path));
 			}
 
 			// commit the index builder - a new index is persisted
@@ -996,9 +1002,12 @@ public class DirCacheCheckout {
 		removed.add(path);
 	}
 
-	private void update(String path, ObjectId mId, FileMode mode) {
+	private void update(String path, ObjectId mId, FileMode mode)
+			throws IOException {
 		if (!FileMode.TREE.equals(mode)) {
-			updated.put(path, mId);
+			updated.put(path,
+					walk.getFilterCommand(Constants.ATTR_FILTER_TYPE_SMUDGE));
+
 			DirCacheEntry entry = new DirCacheEntry(path, DirCacheEntry.STAGE_0);
 			entry.setObjectId(mId);
 			entry.setFileMode(mode);
@@ -1150,7 +1159,7 @@ public class DirCacheCheckout {
 	 */
 	public static void checkoutEntry(Repository repo, DirCacheEntry entry,
 			ObjectReader or) throws IOException {
-		checkoutEntry(repo, entry, or, false);
+		checkoutEntry(repo, entry, or, false, null);
 	}
 
 	/**
@@ -1186,6 +1195,46 @@ public class DirCacheCheckout {
 	 */
 	public static void checkoutEntry(Repository repo, DirCacheEntry entry,
 			ObjectReader or, boolean deleteRecursive) throws IOException {
+		checkoutEntry(repo, entry, or, deleteRecursive, null);
+	}
+
+	/**
+	 * Updates the file in the working tree with content and mode from an entry
+	 * in the index. The new content is first written to a new temporary file in
+	 * the same directory as the real file. Then that new file is renamed to the
+	 * final filename.
+	 *
+	 * <p>
+	 * <b>Note:</b> if the entry path on local file system exists as a file, it
+	 * will be deleted and if it exists as a directory, it will be deleted
+	 * recursively, independently if has any content.
+	 * </p>
+	 *
+	 * <p>
+	 * TODO: this method works directly on File IO, we may need another
+	 * abstraction (like WorkingTreeIterator). This way we could tell e.g.
+	 * Eclipse that Files in the workspace got changed
+	 * </p>
+	 *
+	 * @param repo
+	 *            repository managing the destination work tree.
+	 * @param entry
+	 *            the entry containing new mode and content
+	 * @param or
+	 *            object reader to use for checkout
+	 * @param deleteRecursive
+	 *            true to recursively delete final path if it exists on the file
+	 *            system
+	 * @param smudgeFilterCommand
+	 *            the filter command to be run for smudging the entry to be
+	 *            checked out
+	 *
+	 * @throws IOException
+	 * @since 4.2
+	 */
+	public static void checkoutEntry(Repository repo, DirCacheEntry entry,
+			ObjectReader or, boolean deleteRecursive,
+			String smudgeFilterCommand) throws IOException {
 		ObjectLoader ol = or.open(entry.getObjectId());
 		File f = new File(repo.getWorkTree(), entry.getPathString());
 		File parentDir = f.getParentFile();
@@ -1210,14 +1259,52 @@ public class DirCacheCheckout {
 		OutputStream channel = new FileOutputStream(tmpFile);
 		if (opt.getAutoCRLF() == AutoCRLF.TRUE)
 			channel = new AutoCRLFOutputStream(channel);
-		try {
-			ol.copyTo(channel);
-		} finally {
-			channel.close();
+		if (smudgeFilterCommand != null) {
+			ProcessBuilder filterProcessBuilder = fs
+					.runInShell(smudgeFilterCommand, new String[0]);
+			filterProcessBuilder.directory(repo.getWorkTree());
+			filterProcessBuilder.environment().put(Constants.GIT_DIR_KEY,
+					repo.getDirectory().getAbsolutePath());
+			ExecutionResult result;
+			int rc;
+			try {
+				// TODO: wire correctly with AUTOCRLF
+				result = fs.execute(filterProcessBuilder, ol.openStream());
+				rc = result.getRc();
+				if (rc == 0) {
+					result.getStdout().writeTo(channel,
+							NullProgressMonitor.INSTANCE);
+				}
+			} catch (IOException | InterruptedException e) {
+				throw new IOException(new FilterFailedException(e,
+						smudgeFilterCommand, entry.getPathString()));
+
+			} finally {
+				channel.close();
+			}
+			if (rc != 0) {
+				throw new IOException(new FilterFailedException(rc,
+						smudgeFilterCommand, entry.getPathString(),
+						result.getStdout().toByteArray(MAX_EXCEPTION_TEXT_SIZE),
+						RawParseUtils.decode(result.getStderr()
+								.toByteArray(MAX_EXCEPTION_TEXT_SIZE))));
+			}
+		} else {
+			try {
+				ol.copyTo(channel);
+			} finally {
+				channel.close();
+			}
 		}
-		entry.setLength(opt.getAutoCRLF() == AutoCRLF.TRUE ? //
-				tmpFile.length() // AutoCRLF wants on-disk-size
-				: (int) ol.getSize());
+		// The entry needs to correspond to the on-disk filesize. If the content
+		// was filtered (either by autocrlf handling or smudge filters) ask the
+		// filesystem again for the length. Otherwise the objectloader knows the
+		// size
+		if (opt.getAutoCRLF() == AutoCRLF.TRUE || smudgeFilterCommand != null) {
+			entry.setLength(tmpFile.length());
+		} else {
+			entry.setLength(ol.getSize());
+		}
 
 		if (opt.isFileMode() && fs.supportsExecute()) {
 			if (FileMode.EXECUTABLE_FILE.equals(entry.getRawMode())) {
