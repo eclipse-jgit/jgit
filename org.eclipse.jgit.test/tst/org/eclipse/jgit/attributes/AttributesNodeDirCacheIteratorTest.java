@@ -42,19 +42,12 @@
  */
 package org.eclipse.jgit.attributes;
 
-import static java.util.Arrays.asList;
-import static org.hamcrest.CoreMatchers.hasItem;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.attributes.Attribute.State;
@@ -75,6 +68,8 @@ public class AttributesNodeDirCacheIteratorTest extends RepositoryTestCase {
 	private static final FileMode F = FileMode.REGULAR_FILE;
 
 	private static Attribute EOL_LF = new Attribute("eol", "lf");
+
+	private static Attribute EOL_CRLF = new Attribute("eol", "crlf");
 
 	private static Attribute DELTA_UNSET = new Attribute("delta", State.UNSET);
 
@@ -110,18 +105,21 @@ public class AttributesNodeDirCacheIteratorTest extends RepositoryTestCase {
 		walk = beginWalk();
 
 		assertIteration(F, ".gitattributes");
-		assertIteration(F, "readme.txt", asList(EOL_LF));
+		assertIteration(F, "readme.txt", new AttributeSet(EOL_LF));
 
 		assertIteration(D, "src");
 
 		assertIteration(D, "src/config");
 		assertIteration(F, "src/config/.gitattributes");
-		assertIteration(F, "src/config/readme.txt", asList(DELTA_UNSET));
-		assertIteration(F, "src/config/windows.file", null);
-		assertIteration(F, "src/config/windows.txt", asList(DELTA_UNSET));
+		assertIteration(F, "src/config/readme.txt",
+				new AttributeSet(DELTA_UNSET, EOL_LF));
+		assertIteration(F, "src/config/windows.file",
+				new AttributeSet(EOL_CRLF));
+		assertIteration(F, "src/config/windows.txt",
+				new AttributeSet(DELTA_UNSET, EOL_CRLF));
 
-		assertIteration(F, "windows.file", null);
-		assertIteration(F, "windows.txt", asList(EOL_LF));
+		assertIteration(F, "windows.file", new AttributeSet(EOL_CRLF));
+		assertIteration(F, "windows.txt", new AttributeSet(EOL_CRLF));
 
 		endWalk();
 	}
@@ -232,48 +230,29 @@ public class AttributesNodeDirCacheIteratorTest extends RepositoryTestCase {
 
 	private void assertIteration(FileMode type, String pathName)
 			throws IOException {
-		assertIteration(type, pathName, Collections.<Attribute> emptyList());
+		assertIteration(type, pathName, new AttributeSet());
 	}
 
 	private void assertIteration(FileMode type, String pathName,
-			List<Attribute> nodeAttrs) throws IOException {
+			AttributeSet expectedAttrs) throws IOException {
 		assertTrue("walk has entry", walk.next());
 		assertEquals(pathName, walk.getPathString());
 		assertEquals(type, walk.getFileMode(0));
 		DirCacheIterator itr = walk.getTree(0, DirCacheIterator.class);
 		assertNotNull("has tree", itr);
 
-		AttributesNode attributeNode = itr.getEntryAttributesNode(db
-				.newObjectReader());
-		assertAttributeNode(pathName, attributeNode, nodeAttrs);
+		AttributeSet actualAttrs = db.getAttributeManager()
+				.getAttributes(pathName, type);
+		assertAttributes(expectedAttrs, actualAttrs);
 
 		if (D.equals(type))
 			walk.enterSubtree();
 
 	}
 
-	private void assertAttributeNode(String pathName,
-			AttributesNode attributeNode, List<Attribute> nodeAttrs) {
-		if (attributeNode == null)
-			assertTrue(nodeAttrs == null || nodeAttrs.isEmpty());
-		else {
-
-			Map<String, Attribute> entryAttributes = new LinkedHashMap<String, Attribute>();
-			attributeNode.getAttributes(pathName, false, entryAttributes);
-
-			if (nodeAttrs != null && !nodeAttrs.isEmpty()) {
-				for (Attribute attribute : nodeAttrs) {
-					assertThat(entryAttributes.values(), hasItem(attribute));
-				}
-			} else {
-				assertTrue(
-						"The entry "
-								+ pathName
-								+ " should not have any attributes. Instead, the following attributes are applied to this file "
-								+ entryAttributes.toString(),
-						entryAttributes.isEmpty());
-			}
-		}
+	private void assertAttributes(AttributeSet expectedAttrs,
+			AttributeSet actualAttrs) {
+		assertEquals(expectedAttrs, actualAttrs);
 	}
 
 	private void writeAttributesFile(String name, String... rules)

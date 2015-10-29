@@ -81,6 +81,8 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 
 	private long[] mtime;
 
+	private FileTreeIterator root;
+
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
@@ -97,6 +99,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 			writeTrashFile(s, s);
 			mtime[i] = new File(trash, s).lastModified();
 		}
+		root = new FileTreeIterator(db);
 	}
 
 	@Test
@@ -116,8 +119,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 	public void testEmptyIfRootIsFile() throws Exception {
 		final File r = new File(trash, paths[0]);
 		assertTrue(r.isFile());
-		final FileTreeIterator fti = new FileTreeIterator(r, db.getFS(),
-				db.getConfig().get(WorkingTreeOptions.KEY));
+		final FileTreeIterator fti = new FileTreeIterator(root, r, null);
 		assertTrue(fti.first());
 		assertTrue(fti.eof());
 	}
@@ -126,8 +128,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 	public void testEmptyIfRootDoesNotExist() throws Exception {
 		final File r = new File(trash, "not-existing-file");
 		assertFalse(r.exists());
-		final FileTreeIterator fti = new FileTreeIterator(r, db.getFS(),
-				db.getConfig().get(WorkingTreeOptions.KEY));
+		final FileTreeIterator fti = new FileTreeIterator(root, r, null);
 		assertTrue(fti.first());
 		assertTrue(fti.eof());
 	}
@@ -138,8 +139,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 		assertFalse(r.exists());
 		FileUtils.mkdir(r);
 
-		final FileTreeIterator fti = new FileTreeIterator(r, db.getFS(),
-				db.getConfig().get(WorkingTreeOptions.KEY));
+		final FileTreeIterator fti = new FileTreeIterator(root, r, null);
 		assertTrue(fti.first());
 		assertTrue(fti.eof());
 	}
@@ -157,7 +157,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 			parent.next(1);
 
 		final FileTreeIterator childIter = new FileTreeIterator(parent, r,
-				db.getFS());
+				null);
 		assertTrue(childIter.first());
 		assertTrue(childIter.eof());
 
@@ -183,8 +183,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 
 	@Test
 	public void testSimpleIterate() throws Exception {
-		final FileTreeIterator top = new FileTreeIterator(trash, db.getFS(),
-				db.getConfig().get(WorkingTreeOptions.KEY));
+		final FileTreeIterator top = new FileTreeIterator(db);
 
 		assertTrue(top.first());
 		assertFalse(top.eof());
@@ -233,8 +232,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 
 	@Test
 	public void testComputeFileObjectId() throws Exception {
-		final FileTreeIterator top = new FileTreeIterator(trash, db.getFS(),
-				db.getConfig().get(WorkingTreeOptions.KEY));
+		final FileTreeIterator top = new FileTreeIterator(db);
 
 		final MessageDigest md = Constants.newMessageDigest();
 		md.update(Constants.encodeASCII(Constants.TYPE_BLOB));
@@ -261,8 +259,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 		git.add().addFilepattern("file").call();
 		DirCacheEntry dce = db.readDirCache().getEntry("file");
 		TreeWalk tw = new TreeWalk(db);
-		FileTreeIterator fti = new FileTreeIterator(trash, db.getFS(), db
-				.getConfig().get(WorkingTreeOptions.KEY));
+		FileTreeIterator fti = new FileTreeIterator(db);
 		tw.addTree(fti);
 		DirCacheIterator dci = new DirCacheIterator(db.readDirCache());
 		tw.addTree(dci);
@@ -294,8 +291,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 		try (ObjectReader objectReader = db.newObjectReader()) {
 			DirCacheCheckout.checkoutEntry(db, dce, objectReader);
 
-			FileTreeIterator fti = new FileTreeIterator(trash, db.getFS(),
-					db.getConfig().get(WorkingTreeOptions.KEY));
+			FileTreeIterator fti = new FileTreeIterator(db);
 			while (!fti.getEntryPathString().equals("symlink"))
 				fti.next(1);
 			assertFalse(fti.isModified(dce, false, objectReader));
@@ -320,8 +316,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 		// same timestamp as the file we look at.
 		db.getIndexFile().setLastModified(lastModified);
 		DirCacheEntry dce = db.readDirCache().getEntry("file");
-		FileTreeIterator fti = new FileTreeIterator(trash, db.getFS(), db
-				.getConfig().get(WorkingTreeOptions.KEY));
+		FileTreeIterator fti = new FileTreeIterator(db);
 		while (!fti.getEntryPathString().equals("file"))
 			fti.next(1);
 		// If the rounding trick does not work we could skip the compareMetaData
@@ -456,8 +451,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 
 		TreeWalk walk = new TreeWalk(db);
 		DirCacheIterator indexIter = new DirCacheIterator(db.readDirCache());
-		FileTreeIterator workTreeIter = new FileTreeIterator(db.getWorkTree(),
-				db.getFS(), db.getConfig().get(WorkingTreeOptions.KEY));
+		FileTreeIterator workTreeIter = new FileTreeIterator(db);
 		walk.addTree(indexIter);
 		walk.addTree(workTreeIter);
 		walk.setFilter(PathFilter.create(path));
