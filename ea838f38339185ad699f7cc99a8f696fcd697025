@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0724e3f1_2606d8d7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-10-29T14:01:17Z",
+      "side": 1,
+      "message": "maybe link to http://git-scm.com/docs/gitattributes#_checking_out_and_checking_in",
+      "revId": "ea838f38339185ad699f7cc99a8f696fcd697025",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_26fb783b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-10-29T14:01:17Z",
+      "side": 1,
+      "message": "missing line break before javadoc",
+      "range": {
+        "startLine": 105,
+        "startChar": 15,
+        "endLine": 105,
+        "endChar": 18
+      },
+      "revId": "ea838f38339185ad699f7cc99a8f696fcd697025",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_860fc4ea",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-10-29T14:01:17Z",
+      "side": 1,
+      "message": "bad indentation",
+      "range": {
+        "startLine": 113,
+        "startChar": 3,
+        "endLine": 113,
+        "endChar": 15
+      },
+      "revId": "ea838f38339185ad699f7cc99a8f696fcd697025",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_0633d4ac",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 1108,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-10-29T14:01:17Z",
+      "side": 1,
+      "message": "s/retrieves/retrieve/",
+      "range": {
+        "startLine": 1108,
+        "startChar": 46,
+        "endLine": 1108,
+        "endChar": 55
+      },
+      "revId": "ea838f38339185ad699f7cc99a8f696fcd697025",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_c667fc9a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 1243,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-10-29T14:01:17Z",
+      "side": 1,
+      "message": "s/implement/implements/",
+      "range": {
+        "startLine": 1243,
+        "startChar": 16,
+        "endLine": 1243,
+        "endChar": 25
+      },
+      "revId": "ea838f38339185ad699f7cc99a8f696fcd697025",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
