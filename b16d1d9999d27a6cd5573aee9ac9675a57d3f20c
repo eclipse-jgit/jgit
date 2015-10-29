@@ -16,6 +16,24 @@
       "revId": "b16d1d9999d27a6cd5573aee9ac9675a57d3f20c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_2b1ce1f4",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/ResetTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 621
+      },
+      "writtenOn": "2015-10-29T10:02:51Z",
+      "side": 1,
+      "message": "I added the additional test.\n\nI introduced the \"-- path\" argument in the same way like in the checkout command. The latter has the same issue.",
+      "parentUuid": "0724e3f1_cb9f053e",
+      "revId": "b16d1d9999d27a6cd5573aee9ac9675a57d3f20c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
