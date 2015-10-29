@@ -48,6 +48,7 @@ import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Config.SectionParser;
 import org.eclipse.jgit.lib.CoreConfig.AutoCRLF;
 import org.eclipse.jgit.lib.CoreConfig.CheckStat;
+import org.eclipse.jgit.lib.CoreConfig.EOL;
 import org.eclipse.jgit.lib.CoreConfig.HideDotFiles;
 import org.eclipse.jgit.lib.CoreConfig.SymLinks;
 
@@ -64,6 +65,8 @@ public class WorkingTreeOptions {
 
 	private final AutoCRLF autoCRLF;
 
+	private final EOL eol;
+
 	private final CheckStat checkStat;
 
 	private final SymLinks symlinks;
@@ -73,8 +76,11 @@ public class WorkingTreeOptions {
 	private WorkingTreeOptions(final Config rc) {
 		fileMode = rc.getBoolean(ConfigConstants.CONFIG_CORE_SECTION,
 				ConfigConstants.CONFIG_KEY_FILEMODE, true);
-		autoCRLF = rc.getEnum(ConfigConstants.CONFIG_CORE_SECTION, null,
-				ConfigConstants.CONFIG_KEY_AUTOCRLF, AutoCRLF.FALSE);
+		autoCRLF = rc.getEnum(AutoCRLF.values(),
+				ConfigConstants.CONFIG_CORE_SECTION, null,
+				ConfigConstants.CONFIG_KEY_AUTOCRLF, AutoCRLF.INPUT);
+		eol = rc.getEnum(ConfigConstants.CONFIG_CORE_SECTION, null,
+				ConfigConstants.CONFIG_KEY_EOL, EOL.NATIVE);
 		checkStat = rc.getEnum(ConfigConstants.CONFIG_CORE_SECTION, null,
 				ConfigConstants.CONFIG_KEY_CHECKSTAT, CheckStat.DEFAULT);
 		symlinks = rc.getEnum(ConfigConstants.CONFIG_CORE_SECTION, null,
@@ -92,6 +98,11 @@ public class WorkingTreeOptions {
 	/** @return how automatic CRLF conversion has been configured. */
 	public AutoCRLF getAutoCRLF() {
 		return autoCRLF;
+	}
+
+	/** @return how text line endings should be normalized. */
+	public EOL getEOL() {
+		return eol;
 	}
 
 	/**

@@ -1,7 +1,4 @@
 /*
- * Copyright (C) 2010, 2013 Marc Strapetz <marc.strapetz@syntevo.com>
- * and other copyright owners as documented in the project's IP log.
- *
  * This program and the accompanying materials are made available
  * under the terms of the Eclipse Distribution License v1.0 which
  * accompanies this distribution, is reproduced below, and is
@@ -41,32 +38,38 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.util.io;
+package org.eclipse.jgit.events;
 
-import java.io.InputStream;
+import java.io.File;
+import java.util.Collection;
 
-/**
- * @deprecated use AutoLFInputStream instead
- */
-@Deprecated
-public class EolCanonicalizingInputStream extends AutoLFInputStream {
+/** Describes a change to one or more .git* files in the working tree. */
+public class DotFileChangedEvent
+		extends RepositoryEvent<DotFileChangedListener> {
+
+	private final Collection<File> files;
 
 	/**
-	 * @param in
-	 * @param detectBinary
+	 * @param files
 	 */
-	public EolCanonicalizingInputStream(InputStream in, boolean detectBinary) {
-		super(in, detectBinary);
+	public DotFileChangedEvent(Collection<File> files) {
+		this.files = files;
 	}
 
 	/**
-	 * @param in
-	 * @param detectBinary
-	 * @param abortIfBinary
+	 * @return the added, changed, removed files
 	 */
-	public EolCanonicalizingInputStream(InputStream in, boolean detectBinary,
-			boolean abortIfBinary) {
-		super(in, detectBinary, abortIfBinary);
+	public Collection<File> getFiles() {
+		return files;
 	}
 
+	@Override
+	public Class<DotFileChangedListener> getListenerType() {
+		return DotFileChangedListener.class;
+	}
+
+	@Override
+	public void dispatch(DotFileChangedListener listener) {
+		listener.onDotFileChanged(this);
+	}
 }

@@ -1,7 +1,4 @@
 /*
- * Copyright (C) 2010, 2013 Marc Strapetz <marc.strapetz@syntevo.com>
- * and other copyright owners as documented in the project's IP log.
- *
  * This program and the accompanying materials are made available
  * under the terms of the Eclipse Distribution License v1.0 which
  * accompanies this distribution, is reproduced below, and is
@@ -41,32 +38,82 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.util.io;
+package org.eclipse.jgit.util;
 
-import java.io.InputStream;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.FileVisitResult;
+import java.nio.file.FileVisitor;
+import java.nio.file.Path;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.jgit.lib.Constants;
 
 /**
- * @deprecated use AutoLFInputStream instead
+ * {@link FileVisitor} that collects .gitattributes and .gitignore files
  */
-@Deprecated
-public class EolCanonicalizingInputStream extends AutoLFInputStream {
+public class DotFileCollector implements FileVisitor<Path> {
+	private final ArrayList<File> collector = new ArrayList<>();
 
 	/**
-	 * @param in
-	 * @param detectBinary
+	 * @return the live list containing all collected .gitattributes and
+	 *         .gitignore files
 	 */
-	public EolCanonicalizingInputStream(InputStream in, boolean detectBinary) {
-		super(in, detectBinary);
+	public List<File> getCollectedFiles() {
+		return collector;
+	}
+
+	@Override
+	public FileVisitResult preVisitDirectory(Path dir,
+			BasicFileAttributes attrs) throws IOException {
+		if (dir.endsWith(Constants.DOT_GIT))
+			return FileVisitResult.SKIP_SUBTREE;
+		return FileVisitResult.CONTINUE;
+	}
+
+	@Override
+	public FileVisitResult visitFile(Path file, BasicFileAttributes attrs)
+			throws IOException {
+		if (attrs.isRegularFile()) {
+			String name = file.getFileName().toString();
+			if (name.charAt(0) == '.') {
+				switch (name) {
+				case Constants.DOT_GIT_ATTRIBUTES:
+				case Constants.DOT_GIT_IGNORE:
+					collector.add(file.toFile());
+					break;
+				}
+			}
+		}
+		return FileVisitResult.CONTINUE;
 	}
 
 	/**
-	 * @param in
-	 * @param detectBinary
-	 * @param abortIfBinary
+	 * @param file
 	 */
-	public EolCanonicalizingInputStream(InputStream in, boolean detectBinary,
-			boolean abortIfBinary) {
-		super(in, detectBinary, abortIfBinary);
+	public void visitFile(File file) {
+		String name = file.getName();
+		if (name.charAt(0) == '.') {
+			switch (name) {
+			case Constants.DOT_GIT_ATTRIBUTES:
+			case Constants.DOT_GIT_IGNORE:
+				collector.add(file);
+				break;
+			}
+		}
 	}
 
+	@Override
+	public FileVisitResult visitFileFailed(Path file, IOException exc)
+			throws IOException {
+		return FileVisitResult.CONTINUE;
+	}
+
+	@Override
+	public FileVisitResult postVisitDirectory(Path dir, IOException exc)
+			throws IOException {
+		return FileVisitResult.CONTINUE;
+	}
 }

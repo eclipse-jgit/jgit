@@ -64,6 +64,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.eclipse.jgit.attributes.AttributesHierarchy;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.errors.AmbiguousObjectException;
 import org.eclipse.jgit.errors.CorruptObjectException;
@@ -75,6 +76,7 @@ import org.eclipse.jgit.events.IndexChangedEvent;
 import org.eclipse.jgit.events.IndexChangedListener;
 import org.eclipse.jgit.events.ListenerList;
 import org.eclipse.jgit.events.RepositoryEvent;
+import org.eclipse.jgit.ignore.IgnoreHierarchy;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -85,6 +87,7 @@ import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.DotFileTree;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
@@ -124,6 +127,12 @@ public abstract class Repository implements AutoCloseable {
 	private final File indexFile;
 
 	/**
+	 * The cache for .gitignore and .gitattributes and possibly other .git*
+	 * files in the workFile tree
+	 */
+	private final DotFileTree dotFileTree;
+
+	/**
 	 * Initialize a new repository instance.
 	 *
 	 * @param options
@@ -134,6 +143,8 @@ public abstract class Repository implements AutoCloseable {
 		fs = options.getFS();
 		workTree = options.getWorkTree();
 		indexFile = options.getIndexFile();
+
+		dotFileTree = new DotFileTree(this);
 	}
 
 	/** @return listeners observing only events on this repository. */
@@ -204,10 +215,37 @@ public abstract class Repository implements AutoCloseable {
 	/** @return the reference database which stores the reference namespace. */
 	public abstract RefDatabase getRefDatabase();
 
+
+	/**
+	 * check for changed git config, .gitattributes and .gitignore files
+	 * <p>
+	 * Affects {@link #getConfig()} {@link #getAttributesHierarchy()}
+	 * {@link #getIgnoreHierarchy()}
+	 */
+	public void refreshConfig() {
+		dotFileTree.reset();
+	}
+
 	/**
 	 * @return the configuration of this repository
 	 */
 	public abstract StoredConfig getConfig();
+
+	/**
+	 * @return the {@link AttributesHierarchy} that manages the .gitattributes
+	 *         files in the {@link #getWorkTree()}
+	 */
+	public AttributesHierarchy getAttributesHierarchy() {
+		return dotFileTree.getAttributesHierarchy();
+	}
+
+	/**
+	 * @return the {@link IgnoreHierarchy} that manages the .gitattributes files
+	 *         in the {@link #getWorkTree()}
+	 */
+	public IgnoreHierarchy getIgnoreHierarchy() {
+		return dotFileTree.getIgnoreHierarchy();
+	}
 
 	/**
 	 * @return the used file system abstraction

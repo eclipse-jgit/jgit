@@ -273,6 +273,11 @@ public final class Constants {
 	public static final String INFO_EXCLUDE = "info/exclude";
 
 	/**
+	 * Attributes-override-file
+	 */
+	public static final String INFO_ATTRIBUTES = "info/attributes";
+
+	/**
 	 * The system property that contains the system user name
 	 *
 	 * @since 3.6

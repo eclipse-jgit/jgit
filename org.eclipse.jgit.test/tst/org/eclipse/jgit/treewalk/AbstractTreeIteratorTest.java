@@ -53,14 +53,14 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
-import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.junit.Test;
 
 
-public class AbstractTreeIteratorTest {
+public class AbstractTreeIteratorTest extends RepositoryTestCase {
 	private static String prefix(String path) {
 		final int s = path.lastIndexOf('/');
 		return s > 0 ? path.substring(0, s) : "";
@@ -68,7 +68,8 @@ public class AbstractTreeIteratorTest {
 
 	public class FakeTreeIterator extends WorkingTreeIterator {
 		public FakeTreeIterator(String pathName, FileMode fileMode) {
-			super(prefix(pathName), new Config().get(WorkingTreeOptions.KEY));
+			super(prefix(pathName), db.getConfig().get(WorkingTreeOptions.KEY));
+			initRootIterator(db);
 			mode = fileMode.getBits();
 
 			final int s = pathName.lastIndexOf('/');

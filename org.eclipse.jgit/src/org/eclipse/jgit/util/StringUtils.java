@@ -44,7 +44,9 @@
 package org.eclipse.jgit.util;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.jgit.internal.JGitText;
 
@@ -331,5 +333,33 @@ public final class StringUtils {
 				buf[o++] = ch;
 		}
 		return new String(buf, 0, o);
+	}
+
+	/**
+	 * @param path
+	 *            containing the '/' path separator
+	 * @return the list of non-empty path elements without the '/' separator
+	 *         <p>
+	 *         The returned list is mutable
+	 */
+	public static List<String> splitPath(String path) {
+		ArrayList<String> list = new ArrayList<>();
+		if (path == null)
+			return list;
+		int len = path.length();
+		int pos = 0;
+		int next = path.indexOf('/', pos);
+		while (next >= 0) {
+			if (next - pos > 0) {
+				list.add(path.substring(pos, next));
+			}
+			pos = next + 1;
+			next = path.indexOf('/', pos);
+		}
+		if (pos < len) {
+			list.add(path.substring(pos, len));
+		}
+
+		return list;
 	}
 }

@@ -82,6 +82,14 @@ public abstract class GitCommand<T> implements Callable<T> {
 	 */
 	protected GitCommand(Repository repo) {
 		this.repo = repo;
+		// TODO this code may be moved to a default interceptor around the
+		// call() method: make the call() method final and add another method to
+		// be implemented by subclasses: protected abstract T callImpl();
+		// checkCallable is then moved to: public final T
+		// call(){checkCallable();callImpl();}
+		if (repo != null) {
+			repo.refreshConfig();
+		}
 	}
 
 	/**

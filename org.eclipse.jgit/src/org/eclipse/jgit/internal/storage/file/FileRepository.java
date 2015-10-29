@@ -371,10 +371,9 @@ public class FileRepository extends Repository {
 		return refs;
 	}
 
-	/**
-	 * @return the configuration of this repository
-	 */
-	public FileBasedConfig getConfig() {
+	@Override
+	public void refreshConfig() {
+		super.refreshConfig();
 		if (systemConfig.isOutdated()) {
 			try {
 				loadSystemConfig();
@@ -396,6 +395,13 @@ public class FileRepository extends Repository {
 					throw new RuntimeException(e);
 				}
 		}
+	}
+
+	/**
+	 * @return the configuration of this repository Call
+	 *         {@link #refreshConfig()} in order to check for filesystem changes
+	 */
+	public FileBasedConfig getConfig() {
 		return repoConfig;
 	}
 
@@ -443,6 +449,7 @@ public class FileRepository extends Repository {
 
 	@Override
 	public void scanForRepoChanges() throws IOException {
+		refreshConfig();
 		getRefDatabase().getRefs(ALL); // This will look for changes to refs
 		detectIndexChanges();
 	}

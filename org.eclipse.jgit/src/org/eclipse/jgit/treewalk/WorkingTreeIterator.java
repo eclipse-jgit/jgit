@@ -48,8 +48,6 @@ package org.eclipse.jgit.treewalk;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
@@ -59,11 +57,9 @@ import java.nio.charset.CharsetEncoder;
 import java.security.MessageDigest;
 import java.text.MessageFormat;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
 
-import org.eclipse.jgit.attributes.AttributesNode;
-import org.eclipse.jgit.attributes.AttributesRule;
+import org.eclipse.jgit.attributes.AttributeSet;
 import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheEntry;
@@ -71,12 +67,10 @@ import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.NoWorkTreeException;
-import org.eclipse.jgit.ignore.FastIgnoreRule;
-import org.eclipse.jgit.ignore.IgnoreNode;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.CoreConfig;
 import org.eclipse.jgit.lib.CoreConfig.CheckStat;
+import org.eclipse.jgit.lib.CoreConfig.StreamType;
 import org.eclipse.jgit.lib.CoreConfig.SymLinks;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
@@ -87,7 +81,8 @@ import org.eclipse.jgit.submodule.SubmoduleWalk;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
-import org.eclipse.jgit.util.io.EolCanonicalizingInputStream;
+import org.eclipse.jgit.util.io.AutoLFInputStream;
+import org.eclipse.jgit.util.io.StreamConversionFactory;
 
 /**
  * Walks a working directory tree as part of a {@link TreeWalk}.
@@ -131,33 +126,12 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	/** Current position within {@link #entries}. */
 	private int ptr;
 
-	/** If there is a .gitignore file present, the parsed rules from it. */
-	private IgnoreNode ignoreNode;
-
-	/** If there is a .gitattributes file present, the parsed rules from it. */
-	private AttributesNode attributesNode;
-
-	/** Repository that is the root level being iterated over */
-	protected Repository repository;
-
 	/** Cached canonical length, initialized from {@link #idBuffer()} */
 	private long canonLen = -1;
 
 	/** The offset of the content id in {@link #idBuffer()} */
 	private int contentIdOffset;
 
-	/**
-	 * Holds the {@link AttributesNode} that is stored in
-	 * $GIT_DIR/info/attributes file.
-	 */
-	private AttributesNode infoAttributeNode;
-
-	/**
-	 * Holds the {@link AttributesNode} that is stored in global attribute file.
-	 *
-	 * @see CoreConfig#getAttributesFile()
-	 */
-	private AttributesNode globalAttributeNode;
 
 	/**
 	 * Create a new iterator with no parent.
@@ -202,8 +176,6 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	protected WorkingTreeIterator(final WorkingTreeIterator p) {
 		super(p);
 		state = p.state;
-		infoAttributeNode = p.infoAttributeNode;
-		globalAttributeNode = p.globalAttributeNode;
 	}
 
 	/**
@@ -216,17 +188,14 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	 *            the repository.
 	 */
 	protected void initRootIterator(Repository repo) {
-		repository = repo;
-		Entry entry;
-		if (ignoreNode instanceof PerDirectoryIgnoreNode)
-			entry = ((PerDirectoryIgnoreNode) ignoreNode).entry;
-		else
-			entry = null;
-		ignoreNode = new RootIgnoreNode(entry, repo);
+		state.repository = repo;
+	}
 
-		infoAttributeNode = new InfoAttributesNode(repo);
-
-		globalAttributeNode = new GlobalAttributesNode(repo);
+	/**
+	 * @return the repository
+	 */
+	protected Repository getRepository() {
+		return state.repository;
 	}
 
 	/**
@@ -297,11 +266,11 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	 * @return non-null submodule id
 	 */
 	protected byte[] idSubmodule(Entry e) {
-		if (repository == null)
+		if (state.repository == null)
 			return zeroid;
 		File directory;
 		try {
-			directory = repository.getWorkTree();
+			directory = state.repository.getWorkTree();
 		} catch (NoWorkTreeException nwte) {
 			return zeroid;
 		}
@@ -370,7 +339,8 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 
 	private InputStream possiblyFilteredInputStream(final Entry e,
 			final InputStream is, final long len) throws IOException {
-		if (!mightNeedCleaning()) {
+		StreamType streamType = checkInStreamType();
+		if (streamType == StreamType.DIRECT) {
 			canonLen = len;
 			return is;
 		}
@@ -412,16 +382,9 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		}
 	}
 
-	private boolean mightNeedCleaning() {
-		switch (getOptions().getAutoCRLF()) {
-		case FALSE:
-		default:
-			return false;
-
-		case TRUE:
-		case INPUT:
-			return true;
-		}
+	private StreamType checkInStreamType() throws IOException {
+		return StreamConversionFactory.checkInStreamType(state.repository,
+				getEntryPathString(), FileMode.fromBits(mode));
 	}
 
 	private static boolean isBinary(byte[] content, int sz) {
@@ -448,7 +411,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	}
 
 	private static InputStream filterClean(InputStream in) {
-		return new EolCanonicalizingInputStream(in, true);
+		return new AutoLFInputStream(in, true);
 	}
 
 	/**
@@ -569,10 +532,11 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	 */
 	public InputStream openEntryStream() throws IOException {
 		InputStream rawis = current().openInputStream();
-		if (mightNeedCleaning())
-			return filterClean(rawis);
-		else
+		StreamType streamType = checkInStreamType();
+		if (streamType == StreamType.DIRECT)
 			return rawis;
+		else
+			return filterClean(rawis);
 	}
 
 	/**
@@ -583,124 +547,19 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	 *             a relevant ignore rule file exists but cannot be read.
 	 */
 	public boolean isEntryIgnored() throws IOException {
-		return isEntryIgnored(pathLen);
+		return state.repository.getIgnoreHierarchy()
+				.isIgnored(getEntryPathString(), FileMode.fromBits(mode));
 	}
 
 	/**
-	 * Determine if the entry path is ignored by an ignore rule.
-	 *
-	 * @param pLen
-	 *            the length of the path in the path buffer.
-	 * @return true if the entry is ignored by an ignore rule.
+	 * @return attributes with all macros expanded
 	 * @throws IOException
-	 *             a relevant ignore rule file exists but cannot be read.
 	 */
-	protected boolean isEntryIgnored(final int pLen) throws IOException {
-		return isEntryIgnored(pLen, mode, false);
+	public AttributeSet getAttributes() throws IOException {
+		return state.repository.getAttributesHierarchy()
+				.getAttributes(getEntryPathString(), FileMode.fromBits(mode));
 	}
 
-	/**
-	 * Determine if the entry path is ignored by an ignore rule. Consider
-	 * possible rule negation from child iterator.
-	 *
-	 * @param pLen
-	 *            the length of the path in the path buffer.
-	 * @param fileMode
-	 *            the original iterator file mode
-	 * @param negatePrevious
-	 *            true if the previous matching iterator rule was negation
-	 * @return true if the entry is ignored by an ignore rule.
-	 * @throws IOException
-	 *             a relevant ignore rule file exists but cannot be read.
-	 */
-	private boolean isEntryIgnored(final int pLen, int fileMode,
-			boolean negatePrevious)
-			throws IOException {
-		IgnoreNode rules = getIgnoreNode();
-		if (rules != null) {
-			// The ignore code wants path to start with a '/' if possible.
-			// If we have the '/' in our path buffer because we are inside
-			// a subdirectory include it in the range we convert to string.
-			//
-			int pOff = pathOffset;
-			if (0 < pOff)
-				pOff--;
-			String p = TreeWalk.pathOf(path, pOff, pLen);
-			switch (rules.isIgnored(p, FileMode.TREE.equals(fileMode),
-					negatePrevious)) {
-			case IGNORED:
-				return true;
-			case NOT_IGNORED:
-				return false;
-			case CHECK_PARENT:
-				negatePrevious = false;
-				break;
-			case CHECK_PARENT_NEGATE_FIRST_MATCH:
-				negatePrevious = true;
-				break;
-			}
-		}
-		if (parent instanceof WorkingTreeIterator)
-			return ((WorkingTreeIterator) parent).isEntryIgnored(pLen, fileMode,
-					negatePrevious);
-		return false;
-	}
-
-	private IgnoreNode getIgnoreNode() throws IOException {
-		if (ignoreNode instanceof PerDirectoryIgnoreNode)
-			ignoreNode = ((PerDirectoryIgnoreNode) ignoreNode).load();
-		return ignoreNode;
-	}
-
-	/**
-	 * Retrieves the {@link AttributesNode} for the current entry.
-	 *
-	 * @return {@link AttributesNode} for the current entry.
-	 * @throws IOException
-	 *             if an error is raised while parsing the .gitattributes file
-	 * @since 3.7
-	 */
-	public AttributesNode getEntryAttributesNode() throws IOException {
-		if (attributesNode instanceof PerDirectoryAttributesNode)
-			attributesNode = ((PerDirectoryAttributesNode) attributesNode)
-					.load();
-		return attributesNode;
-	}
-
-	/**
-	 * Retrieves the {@link AttributesNode} that holds the information located
-	 * in $GIT_DIR/info/attributes file.
-	 *
-	 * @return the {@link AttributesNode} that holds the information located in
-	 *         $GIT_DIR/info/attributes file.
-	 * @throws IOException
-	 *             if an error is raised while parsing the attributes file
-	 * @since 3.7
-	 */
-	public AttributesNode getInfoAttributesNode() throws IOException {
-		if (infoAttributeNode instanceof InfoAttributesNode)
-			infoAttributeNode = ((InfoAttributesNode) infoAttributeNode).load();
-		return infoAttributeNode;
-	}
-
-	/**
-	 * Retrieves the {@link AttributesNode} that holds the information located
-	 * in system-wide file.
-	 *
-	 * @return the {@link AttributesNode} that holds the information located in
-	 *         system-wide file.
-	 * @throws IOException
-	 *             IOException if an error is raised while parsing the
-	 *             attributes file
-	 * @see CoreConfig#getAttributesFile()
-	 * @since 3.7
-	 */
-	public AttributesNode getGlobalAttributesNode() throws IOException {
-		if (globalAttributeNode instanceof GlobalAttributesNode)
-			globalAttributeNode = ((GlobalAttributesNode) globalAttributeNode)
-					.load();
-		return globalAttributeNode;
-	}
 
 	private static final Comparator<Entry> ENTRY_CMP = new Comparator<Entry>() {
 		public int compare(final Entry o1, final Entry o2) {
@@ -753,10 +612,6 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 				continue;
 			if (Constants.DOT_GIT.equals(name))
 				continue;
-			if (Constants.DOT_GIT_IGNORE.equals(name))
-				ignoreNode = new PerDirectoryIgnoreNode(e);
-			if (Constants.DOT_GIT_ATTRIBUTES.equals(name))
-				attributesNode = new PerDirectoryAttributesNode(e);
 			if (i != o)
 				entries[o] = e;
 			e.encodeName(nameEncoder);
@@ -999,9 +854,12 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 			// Content differs: that's a real change, perhaps
 			if (reader == null) // deprecated use, do no further checks
 				return true;
-			switch (getOptions().getAutoCRLF()) {
-			case INPUT:
-			case TRUE:
+
+			StreamType streamType = checkInStreamType();
+			switch (streamType) {
+			case DIRECT:
+				break;
+			default:
 				InputStream dcIn = null;
 				try {
 					ObjectLoader loader = reader.open(entry.getObjectId());
@@ -1010,18 +868,18 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 
 					// We need to compute the length, but only if it is not
 					// a binary stream.
-					dcIn = new EolCanonicalizingInputStream(
+					dcIn = new AutoLFInputStream(
 							loader.openStream(), true, true /* abort if binary */);
 					long dcInLen;
 					try {
 						dcInLen = computeLength(dcIn);
-					} catch (EolCanonicalizingInputStream.IsBinaryException e) {
+					} catch (AutoLFInputStream.IsBinaryException e) {
 						return true;
 					} finally {
 						dcIn.close();
 					}
 
-					dcIn = new EolCanonicalizingInputStream(
+					dcIn = new AutoLFInputStream(
 							loader.openStream(), true);
 					byte[] autoCrLfHash = computeHash(dcIn, dcInLen);
 					boolean changed = getEntryObjectId().compareTo(
@@ -1037,8 +895,6 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 							// empty
 						}
 				}
-			case FALSE:
-				break;
 			}
 			return true;
 		}
@@ -1202,164 +1058,10 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		public abstract InputStream openInputStream() throws IOException;
 	}
 
-	/** Magic type indicating we know rules exist, but they aren't loaded. */
-	private static class PerDirectoryIgnoreNode extends IgnoreNode {
-		final Entry entry;
-
-		PerDirectoryIgnoreNode(Entry entry) {
-			super(Collections.<FastIgnoreRule> emptyList());
-			this.entry = entry;
-		}
-
-		IgnoreNode load() throws IOException {
-			IgnoreNode r = new IgnoreNode();
-			InputStream in = entry.openInputStream();
-			try {
-				r.parse(in);
-			} finally {
-				in.close();
-			}
-			return r.getRules().isEmpty() ? null : r;
-		}
-	}
-
-	/** Magic type indicating there may be rules for the top level. */
-	private static class RootIgnoreNode extends PerDirectoryIgnoreNode {
-		final Repository repository;
-
-		RootIgnoreNode(Entry entry, Repository repository) {
-			super(entry);
-			this.repository = repository;
-		}
-
-		@Override
-		IgnoreNode load() throws IOException {
-			IgnoreNode r;
-			if (entry != null) {
-				r = super.load();
-				if (r == null)
-					r = new IgnoreNode();
-			} else {
-				r = new IgnoreNode();
-			}
-
-			FS fs = repository.getFS();
-			String path = repository.getConfig().get(CoreConfig.KEY)
-					.getExcludesFile();
-			if (path != null) {
-				File excludesfile;
-				if (path.startsWith("~/")) //$NON-NLS-1$
-					excludesfile = fs.resolve(fs.userHome(), path.substring(2));
-				else
-					excludesfile = fs.resolve(null, path);
-				loadRulesFromFile(r, excludesfile);
-			}
-
-			File exclude = fs.resolve(repository.getDirectory(),
-					Constants.INFO_EXCLUDE);
-			loadRulesFromFile(r, exclude);
-
-			return r.getRules().isEmpty() ? null : r;
-		}
-
-		private static void loadRulesFromFile(IgnoreNode r, File exclude)
-				throws FileNotFoundException, IOException {
-			if (FS.DETECTED.exists(exclude)) {
-				FileInputStream in = new FileInputStream(exclude);
-				try {
-					r.parse(in);
-				} finally {
-					in.close();
-				}
-			}
-		}
-	}
-
-	/** Magic type indicating we know rules exist, but they aren't loaded. */
-	private static class PerDirectoryAttributesNode extends AttributesNode {
-		final Entry entry;
-
-		PerDirectoryAttributesNode(Entry entry) {
-			super(Collections.<AttributesRule> emptyList());
-			this.entry = entry;
-		}
-
-		AttributesNode load() throws IOException {
-			AttributesNode r = new AttributesNode();
-			InputStream in = entry.openInputStream();
-			try {
-				r.parse(in);
-			} finally {
-				in.close();
-			}
-			return r.getRules().isEmpty() ? null : r;
-		}
-	}
-
-	/**
-	 * Attributes node loaded from global system-wide file.
-	 */
-	private static class GlobalAttributesNode extends AttributesNode {
-		final Repository repository;
-
-		GlobalAttributesNode(Repository repository) {
-			this.repository = repository;
-		}
-
-		AttributesNode load() throws IOException {
-			AttributesNode r = new AttributesNode();
-
-			FS fs = repository.getFS();
-			String path = repository.getConfig().get(CoreConfig.KEY)
-					.getAttributesFile();
-			if (path != null) {
-				File attributesFile;
-				if (path.startsWith("~/")) //$NON-NLS-1$
-					attributesFile = fs.resolve(fs.userHome(),
-							path.substring(2));
-				else
-					attributesFile = fs.resolve(null, path);
-				loadRulesFromFile(r, attributesFile);
-			}
-			return r.getRules().isEmpty() ? null : r;
-		}
-	}
-
-	/** Magic type indicating there may be rules for the top level. */
-	private static class InfoAttributesNode extends AttributesNode {
-		final Repository repository;
-
-		InfoAttributesNode(Repository repository) {
-			this.repository = repository;
-		}
-
-		AttributesNode load() throws IOException {
-			AttributesNode r = new AttributesNode();
-
-			FS fs = repository.getFS();
-
-			File attributes = fs.resolve(repository.getDirectory(),
-					"info/attributes"); //$NON-NLS-1$
-			loadRulesFromFile(r, attributes);
-
-			return r.getRules().isEmpty() ? null : r;
-		}
-
-	}
-
-	private static void loadRulesFromFile(AttributesNode r, File attrs)
-			throws FileNotFoundException, IOException {
-		if (attrs.exists()) {
-			FileInputStream in = new FileInputStream(attrs);
-			try {
-				r.parse(in);
-			} finally {
-				in.close();
-			}
-		}
-	}
-
 	private static final class IteratorState {
+		/** Repository that is the root level being iterated over */
+		Repository repository;
+
 		/** Options used to process the working tree. */
 		final WorkingTreeOptions options;
 

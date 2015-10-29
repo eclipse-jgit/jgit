@@ -46,6 +46,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.file.Files;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,8 +58,9 @@ import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.IndexWriteException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.events.DotFileChangedEvent;
 import org.eclipse.jgit.internal.JGitText;
-import org.eclipse.jgit.lib.CoreConfig.AutoCRLF;
+import org.eclipse.jgit.lib.CoreConfig.StreamType;
 import org.eclipse.jgit.lib.CoreConfig.SymLinks;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectChecker;
@@ -75,11 +77,12 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.WorkingTreeIterator;
 import org.eclipse.jgit.treewalk.WorkingTreeOptions;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
+import org.eclipse.jgit.util.DotFileCollector;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.SystemReader;
-import org.eclipse.jgit.util.io.AutoCRLFOutputStream;
+import org.eclipse.jgit.util.io.StreamConversionFactory;
 
 /**
  * This class handles checking out one or two trees merging with the index.
@@ -1184,7 +1187,7 @@ public class DirCacheCheckout {
 	 * @throws IOException
 	 * @since 4.2
 	 */
-	public static void checkoutEntry(Repository repo, DirCacheEntry entry,
+	public static void checkoutEntry(final Repository repo, DirCacheEntry entry,
 			ObjectReader or, boolean deleteRecursive) throws IOException {
 		ObjectLoader ol = or.open(entry.getObjectId());
 		File f = new File(repo.getWorkTree(), entry.getPathString());
@@ -1192,30 +1195,36 @@ public class DirCacheCheckout {
 		FileUtils.mkdirs(parentDir, true);
 		FS fs = repo.getFS();
 		WorkingTreeOptions opt = repo.getConfig().get(WorkingTreeOptions.KEY);
+		DotFileCollector collector = new DotFileCollector();
 		if (entry.getFileMode() == FileMode.SYMLINK
 				&& opt.getSymLinks() == SymLinks.TRUE) {
 			byte[] bytes = ol.getBytes();
 			String target = RawParseUtils.decode(bytes);
 			if (deleteRecursive && f.isDirectory()) {
+				Files.walkFileTree(f.toPath(), collector);
 				FileUtils.delete(f, FileUtils.RECURSIVE);
 			}
 			fs.createSymLink(f, target);
 			entry.setLength(bytes.length);
 			entry.setLastModified(fs.lastModified(f));
+			collector.visitFile(f);
+			if (!collector.getCollectedFiles().isEmpty()) {
+				repo.fireEvent(
+						new DotFileChangedEvent(collector.getCollectedFiles()));
+			}
 			return;
 		}
 
-		File tmpFile = File.createTempFile(
-				"._" + f.getName(), null, parentDir); //$NON-NLS-1$
-		OutputStream channel = new FileOutputStream(tmpFile);
-		if (opt.getAutoCRLF() == AutoCRLF.TRUE)
-			channel = new AutoCRLFOutputStream(channel);
-		try {
+		StreamType streamType = StreamConversionFactory.checkOutStreamType(repo,
+				entry.getPathString(), entry.getFileMode());
+		boolean convertCRLF = (streamType != StreamType.DIRECT);
+
+		File tmpFile = File.createTempFile("._" + f.getName(), null, parentDir); //$NON-NLS-1$
+		try (OutputStream channel = StreamConversionFactory
+				.checkOutStream(new FileOutputStream(tmpFile), streamType)) {
 			ol.copyTo(channel);
-		} finally {
-			channel.close();
 		}
-		entry.setLength(opt.getAutoCRLF() == AutoCRLF.TRUE ? //
+		entry.setLength(convertCRLF ? //
 				tmpFile.length() // AutoCRLF wants on-disk-size
 				: (int) ol.getSize());
 
@@ -1230,6 +1239,7 @@ public class DirCacheCheckout {
 		}
 		try {
 			if (deleteRecursive && f.isDirectory()) {
+				Files.walkFileTree(f.toPath(), collector);
 				FileUtils.delete(f, FileUtils.RECURSIVE);
 			}
 			FileUtils.rename(tmpFile, f);
@@ -1243,6 +1253,11 @@ public class DirCacheCheckout {
 			}
 		}
 		entry.setLastModified(f.lastModified());
+		collector.visitFile(f);
+		if (!collector.getCollectedFiles().isEmpty()) {
+			repo.fireEvent(
+					new DotFileChangedEvent(collector.getCollectedFiles()));
+		}
 	}
 
 	@SuppressWarnings("deprecation")
