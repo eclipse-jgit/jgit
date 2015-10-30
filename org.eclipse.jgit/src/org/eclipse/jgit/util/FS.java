@@ -560,7 +560,7 @@ public abstract class FS {
 		String v = readPipe(gitExe.getParentFile(),
 				new String[] { "git", "--version" }, //$NON-NLS-1$ //$NON-NLS-2$
 				Charset.defaultCharset().name());
-		if (v.startsWith("jgit")) { //$NON-NLS-1$
+		if (v != null && v.startsWith("jgit")) { //$NON-NLS-1$
 			return null;
 		}
 
