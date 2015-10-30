@@ -60,6 +60,7 @@ import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -477,7 +478,7 @@ public abstract class FS {
 				}
 			}
 		} catch (IOException e) {
-			LOG.debug("Caught exception in FS.readPipe()", e); //$NON-NLS-1$
+			LOG.error("Caught exception in FS.readPipe()", e); //$NON-NLS-1$
 		}
 		if (debug) {
 			LOG.debug("readpipe returns null"); //$NON-NLS-1$
@@ -489,32 +490,20 @@ public abstract class FS {
 		private final Process p;
 		private final String desc;
 		private final String dir;
-		private final boolean debug = LOG.isDebugEnabled();
 		final AtomicBoolean fail = new AtomicBoolean();
 
 		GobblerThread(Process p, String[] command, File dir) {
 			this.p = p;
-			if (debug) {
-				this.desc = Arrays.asList(command).toString();
-				this.dir = dir.toString();
-			} else {
-				this.desc = null;
-				this.dir = null;
-			}
+			this.desc = Arrays.toString(command);
+			this.dir = Objects.toString(dir);
 		}
 
 		public void run() {
 			InputStream is = p.getErrorStream();
 			try {
 				int ch;
-				if (debug) {
-					while ((ch = is.read()) != -1) {
-						System.err.print((char) ch);
-					}
-				} else {
-					while (is.read() != -1) {
-						// ignore
-					}
+				while ((ch = is.read()) != -1) {
+					System.err.print((char) ch);
 				}
 			} catch (IOException e) {
 				logError(e);
@@ -529,12 +518,9 @@ public abstract class FS {
 		}
 
 		private void logError(Throwable t) {
-			if (!debug) {
-				return;
-			}
 			String msg = MessageFormat.format(
 					JGitText.get().exceptionCaughtDuringExcecutionOfCommand, desc, dir);
-			LOG.debug(msg, t);
+			LOG.error(msg, t);
 		}
 	}
 
