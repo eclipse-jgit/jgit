@@ -154,6 +154,11 @@ class PackWriterBitmapPreparer {
 		 * majority of calculations performed.
 		 */
 		pm.beginTask(JGitText.get().selectingCommits, ProgressMonitor.UNKNOWN);
+
+		// Build bitmaps for all of the branch tips and set up reuse of bitmaps
+		// from the previous pack. setupTipCommitBitmaps() also marks the
+		// commits corresponding to reused bitmaps as "uninteresting" in the
+		// RevWalk so that only new commits will be discovered.
 		RevWalk rw = new RevWalk(reader);
 		rw.setRetainBody(false);
 		CommitSelectionHelper selectionHelper = setupTipCommitBitmaps(rw,
@@ -178,8 +183,8 @@ class PackWriterBitmapPreparer {
 		int totalWants = selectionHelper.peeledWants.size();
 
 		for (BitmapBuilderEntry entry : selectionHelper.tipCommitBitmaps) {
-			BitmapBuilder bitmap = entry.getBuilder();
-			int cardinality = bitmap.cardinality();
+			BitmapBuilder tipBitmap = entry.getBuilder();
+			int cardinality = tipBitmap.cardinality();
 
 			// Within this branch, keep ordered lists of commits representing
 			// chains in its history, where each chain is a "sub-branch".
@@ -219,7 +224,7 @@ class PackWriterBitmapPreparer {
 				}
 
 				// Ignore commits that are not in this branch
-				if (!bitmap.contains(c)) {
+				if (!tipBitmap.contains(c)) {
 					continue;
 				}
 
@@ -255,18 +260,25 @@ class PackWriterBitmapPreparer {
 				nextFlg = nextIn == distantCommitSpan
 						? PackBitmapIndex.FLAG_REUSE : 0;
 
-				BitmapBuilder fullBitmap = commitBitmapIndex.newBitmapBuilder();
+				// Perform a revwalk to get the set of all reachable commits
+				// from the current commit, excluding reused commits.
+				// PackWriterBitmapWalker.newRevFilter() adds all of those
+				// reachable commits to currentCommitBitmap, which for
+				// efficiency has writeBitmaps as a backing index (via
+				// commitBitmapIndex--it's overly subtle).
+				BitmapBuilder currentCommitBitmap = commitBitmapIndex
+						.newBitmapBuilder();
 				rw.reset();
 				rw.markStart(c);
 				for (AnyObjectId objectId : selectionHelper.reusedCommits) {
 					rw.markUninteresting(rw.parseCommit(objectId));
 				}
-				rw.setRevFilter(
-						PackWriterBitmapWalker.newRevFilter(null, fullBitmap));
+				rw.setRevFilter(PackWriterBitmapWalker.newRevFilter(null,
+						currentCommitBitmap));
 
 				while (rw.next() != null) {
 					// The RevFilter adds the reachable commits from this
-					// selected commit to fullBitmap.
+					// selected commit to currentCommitBitmap.
 				}
 
 				// Sort the commits by independent chains in this branch's
@@ -274,7 +286,7 @@ class PackWriterBitmapPreparer {
 				List<BitmapCommit> longestAncestorChain = null;
 				for (List<BitmapCommit> chain : chains) {
 					BitmapCommit mostRecentCommit = chain.get(chain.size() - 1);
-					if (fullBitmap.contains(mostRecentCommit)) {
+					if (currentCommitBitmap.contains(mostRecentCommit)) {
 						if (longestAncestorChain == null
 								|| longestAncestorChain.size() < chain.size()) {
 							longestAncestorChain = chain;
@@ -288,7 +300,10 @@ class PackWriterBitmapPreparer {
 				}
 				longestAncestorChain.add(new BitmapCommit(
 						c, !longestAncestorChain.isEmpty(), flags));
-				writeBitmaps.addBitmap(c, fullBitmap, 0);
+
+				// Adding the newly seen commits to writeBitmaps makes the
+				// next revwalk to fill in currentCommiBitmap more efficient.
+				writeBitmaps.addBitmap(c, currentCommitBitmap, 0);
 			}
 
 			for (List<BitmapCommit> chain : chains) {
