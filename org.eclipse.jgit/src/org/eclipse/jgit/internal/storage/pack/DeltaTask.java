@@ -145,7 +145,7 @@ final class DeltaTask implements Callable<Object> {
 						}
 						s = i = topPaths.get(nextTop++).slice.endIndex;
 					} else {
-						w += list[i++].getWeight();
+						w += getAdjustedWeight(list[i++]);
 					}
 				}
 
@@ -180,8 +180,8 @@ final class DeltaTask implements Callable<Object> {
 					threads);
 			int cp = beginIndex;
 			int ch = list[cp].getPathHash();
-			long cw = list[cp].getWeight();
-			totalWeight = list[cp].getWeight();
+			long cw = getAdjustedWeight(list[cp]);
+			totalWeight = cw;
 
 			for (int i = cp + 1; i < endIndex; i++) {
 				ObjectToPack o = list[i];
@@ -206,11 +206,9 @@ final class DeltaTask implements Callable<Object> {
 					ch = o.getPathHash();
 					cw = 0;
 				}
-				if (o.isEdge() || o.doNotAttemptDelta()) {
-					continue;
-				}
-				cw += o.getWeight();
-				totalWeight += o.getWeight();
+				int weight = getAdjustedWeight(o);
+				cw += weight;
+				totalWeight += weight;
 			}
 
 			// Sort by starting index to identify gaps later.
@@ -226,6 +224,15 @@ final class DeltaTask implements Callable<Object> {
 			}
 			return topPaths;
 		}
+	}
+
+	private static int getAdjustedWeight(ObjectToPack o) {
+		// Edge objects and those with reused deltas do not need to be
+		// compressed. For compression calculations, ignore their weights.
+		if (o.isEdge() || o.doNotAttemptDelta()) {
+			return 0;
+		}
+		return o.getWeight();
 	}
 
 	static final class WeightedPath implements Comparable<WeightedPath> {
