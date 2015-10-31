@@ -101,19 +101,25 @@ final class DeltaTask implements Callable<Object> {
 				DeltaTask maxTask = null;
 				Slice maxSlice = null;
 				int maxWork = 0;
+				List<DeltaTask> completed = new ArrayList<>();
 
 				for (DeltaTask task : tasks) {
 					Slice s = task.remaining();
-					if (s != null && maxWork < s.size()) {
+					if (s == null) {
+						completed.add(task);
+					} else if (maxWork < s.size()) {
 						maxTask = task;
 						maxSlice = s;
 						maxWork = s.size();
 					}
 				}
-				if (maxTask == null)
+				if (maxTask == null) {
 					return null;
-				if (maxTask.tryStealWork(maxSlice))
+				}
+				tasks.removeAll(completed);
+				if (maxTask.tryStealWork(maxSlice)) {
 					return forThread.initWindow(maxSlice);
+				}
 			}
 		}
 
