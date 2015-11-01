@@ -67,6 +67,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.eclipse.jdt.annotation.Nullable;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
@@ -407,6 +408,7 @@ public abstract class FS {
 	 *            to be used to parse the command's output
 	 * @return the one-line output of the command
 	 */
+	@Nullable
 	protected static String readPipe(File dir, String[] command, String encoding) {
 		return readPipe(dir, command, encoding, null);
 	}
@@ -426,6 +428,7 @@ public abstract class FS {
 	 * @return the one-line output of the command
 	 * @since 4.0
 	 */
+	@Nullable
 	protected static String readPipe(File dir, String[] command, String encoding, Map<String, String> env) {
 		final boolean debug = LOG.isDebugEnabled();
 		try {
@@ -439,36 +442,30 @@ public abstract class FS {
 				pb.environment().putAll(env);
 			}
 			Process p = pb.start();
-			BufferedReader lineRead = new BufferedReader(
-					new InputStreamReader(p.getInputStream(), encoding));
 			p.getOutputStream().close();
 			GobblerThread gobbler = new GobblerThread(p, command, dir);
 			gobbler.start();
 			String r = null;
-			try {
+			try (BufferedReader lineRead = new BufferedReader(
+					new InputStreamReader(p.getInputStream(), encoding))) {
 				r = lineRead.readLine();
 				if (debug) {
 					LOG.debug("readpipe may return '" + r + "'"); //$NON-NLS-1$ //$NON-NLS-2$
-					LOG.debug("(ignoring remaing output:"); //$NON-NLS-1$
-				}
-				String l;
-				while ((l = lineRead.readLine()) != null) {
-					if (debug) {
+					LOG.debug("remaining output:\n"); //$NON-NLS-1$
+					String l;
+					while ((l = lineRead.readLine()) != null) {
 						LOG.debug(l);
 					}
 				}
-			} finally {
-				p.getErrorStream().close();
-				lineRead.close();
 			}
 
 			for (;;) {
 				try {
 					int rc = p.waitFor();
 					gobbler.join();
-					if (rc == 0 && r != null && r.length() > 0
-							&& !gobbler.fail.get())
+					if (rc == 0 && !gobbler.fail.get()) {
 						return r;
+					}
 					if (debug) {
 						LOG.debug("readpipe rc=" + rc); //$NON-NLS-1$
 					}
@@ -499,21 +496,23 @@ public abstract class FS {
 		}
 
 		public void run() {
-			InputStream is = p.getErrorStream();
-			try {
+			StringBuilder err = new StringBuilder();
+			try (InputStream is = p.getErrorStream()) {
 				int ch;
 				while ((ch = is.read()) != -1) {
-					System.err.print((char) ch);
+					err.append((char) ch);
 				}
 			} catch (IOException e) {
-				logError(e);
-				fail.set(true);
-			}
-			try {
-				is.close();
-			} catch (IOException e) {
-				logError(e);
-				fail.set(true);
+				if (p.exitValue() != 0) {
+					logError(e);
+					fail.set(true);
+				} else {
+					// ignore. git terminated faster and stream was just closed
+				}
+			} finally {
+				if (err.length() > 0) {
+					LOG.error(err.toString());
+				}
 			}
 		}
 
@@ -546,7 +545,7 @@ public abstract class FS {
 		String v = readPipe(gitExe.getParentFile(),
 				new String[] { "git", "--version" }, //$NON-NLS-1$ //$NON-NLS-2$
 				Charset.defaultCharset().name());
-		if (v.startsWith("jgit")) { //$NON-NLS-1$
+		if (v != null && v.startsWith("jgit")) { //$NON-NLS-1$
 			return null;
 		}
 
