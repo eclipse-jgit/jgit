@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0724e3f1_a913af89",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/AddCommandTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-11-02T07:28:45Z",
+      "side": 1,
+      "message": "setting input to \u0027-\u0027 isn\u0027t supported on Mac hence these tests fail with the error message \"sed: -: No such file or directory\". AFAIK if no input is given sed defaults to read the standard input on Mac and Linux\n\nmore occurrences below",
+      "range": {
+        "startLine": 122,
+        "startChar": 41,
+        "endLine": 122,
+        "endChar": 43
+      },
+      "revId": "19267213c742586d00e3bc5129169a3aa8d1e7a6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_0958fb5c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/errors/FilterFailedException.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-11-02T07:28:45Z",
+      "side": 1,
+      "message": "we should add the stderr output to the message\n\n... , stderr",
+      "revId": "19267213c742586d00e3bc5129169a3aa8d1e7a6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
