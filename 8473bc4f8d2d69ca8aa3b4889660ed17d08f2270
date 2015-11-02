@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0724e3f1_69ced7d9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 510,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-11-02T12:06:09Z",
+      "side": 1,
+      "message": "Any chance to hide this IOException only if it is because of a already closed error stream? Maybe there are other problems with reading from stderr which we don\u0027t want to hide (even if rc\u003d0)",
+      "revId": "8473bc4f8d2d69ca8aa3b4889660ed17d08f2270",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0724e3f1_e9376767",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-11-02T12:06:09Z",
+      "side": 0,
+      "message": "We lost this close() on the error stream. Wasn\u0027t it needed?",
+      "revId": "3601c8cdf116f7bac2f624b46a22cba2e4f14d92",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_29e97f2d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-11-02T12:06:09Z",
+      "side": 0,
+      "message": "When a process returns not a single byte on stdout do you expect \"\" or null? I guess null, or? We should document this.",
+      "revId": "3601c8cdf116f7bac2f624b46a22cba2e4f14d92",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
