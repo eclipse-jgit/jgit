@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0724e3f1_b213148a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-11-02T23:54:37Z",
+      "side": 1,
+      "message": "I don\u0027t understand this part of the comment. Can you say more about it? What does it mean that writeBitmaps is the backing index? What is overly subtle here? Is the comment meant to be a TODO?",
+      "range": {
+        "startLine": 266,
+        "startChar": 49,
+        "endLine": 268,
+        "endChar": 46
+      },
+      "revId": "db1012976a5a620c9a1275b487dd612e74aa6b1d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
