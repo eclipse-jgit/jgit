@@ -46,6 +46,30 @@
       "revId": "ff7f6da7b27f03f7571f9e771689507782f0d00b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_721d1c99",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-11-02T23:51:31Z",
+      "side": 1,
+      "message": "Where did the cleanup go?\n\nRe-pushed as https://git.eclipse.org/r/59523",
+      "parentUuid": "0724e3f1_afda8fdd",
+      "range": {
+        "startLine": 187,
+        "startChar": 0,
+        "endLine": 187,
+        "endChar": 48
+      },
+      "revId": "ff7f6da7b27f03f7571f9e771689507782f0d00b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
