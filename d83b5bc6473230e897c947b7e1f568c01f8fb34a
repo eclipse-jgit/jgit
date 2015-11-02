@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0724e3f1_e91ac72c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2015-11-02T10:41:53Z",
+      "side": 1,
+      "message": "regarding bug 342372 please allow me some short comments:\n1) I think it could be a try to have all config file related operations attached to the repo in a lazy manner. That way a single tree iteration collects all hierarchy info at once.\nDuring the call of a GitCommand (subclasses of it) it is discussable if a change of the git repo config should or should not immediately be read from disk. That said, every command makes this new config facility refresh and then freeze.\n2) In order to get checkout files added to the config tree (that is freezed to wild changes) a simple form of the \"java7-style-file-WatchService\" could be implemented using the (very clever) FS.java abstraction in jgit. If all file operations within jgit would use the repo FS member (and not FileUtils directly) then there could be a IFileChanged listener on FS. The repo config tree could listen on this and update its config tree as needed.\nThis is basically influenced by DirCheckout.checkoutEntry.\n3)I am currently testing a variant of this in an improvement to my patch 59345. First tests show a sgnificant performance gain due to the fact that File.exists and File.lastModified is not called anymore for every Repository.getConfig, isIgnored and getAttributes operation. \nThat way the \u0027git status\u0027 command of one of our repo with 30000+ files was reduced from 4.4seconds to 2.5seconds including full eol-handling.\nI will try to come up with a patch proposal asap. May be a basis for further discussions on this.\n\n4) In order to have every git command calling a refresh on the config before call() it is a typical pattern to make the GitCommand.call method final. That way GitCommand.call could first check if it is callable at all (existing logic) and then refresh the config snapshot. After These steps it calls a new abstract protected method callImpl() that is implemented by all subclasses.",
+      "revId": "d83b5bc6473230e897c947b7e1f568c01f8fb34a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
