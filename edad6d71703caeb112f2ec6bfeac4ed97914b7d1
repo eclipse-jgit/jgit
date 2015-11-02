@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0724e3f1_896b4be4",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CheckoutCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 562,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-11-02T07:30:11Z",
+      "side": 1,
+      "message": "setting input to \u0027-\u0027 isn\u0027t supported on Mac hence these tests fail with the error message \"sed: -: No such file or directory\". AFAIK if no input is given sed defaults to read the standard input on Mac and Linux\n\nmore occurrences below",
+      "range": {
+        "startLine": 562,
+        "startChar": 41,
+        "endLine": 562,
+        "endChar": 43
+      },
+      "revId": "edad6d71703caeb112f2ec6bfeac4ed97914b7d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
