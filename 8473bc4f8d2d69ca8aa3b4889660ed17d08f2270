@@ -16,6 +16,24 @@
       "revId": "8473bc4f8d2d69ca8aa3b4889660ed17d08f2270",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_09b0fb47",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 510,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-11-02T12:24:00Z",
+      "side": 1,
+      "message": "I haven\u0027t found any other way to detect if the steam is closed. We could add literal error message check, but not sure if this is reliable across various JVM implementations.",
+      "parentUuid": "0724e3f1_69ced7d9",
+      "revId": "8473bc4f8d2d69ca8aa3b4889660ed17d08f2270",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
