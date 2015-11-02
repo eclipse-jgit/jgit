@@ -22,6 +22,30 @@
       "revId": "ff7f6da7b27f03f7571f9e771689507782f0d00b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_afda8fdd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-11-02T20:30:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0724e3f1_0ff59b79",
+      "range": {
+        "startLine": 187,
+        "startChar": 0,
+        "endLine": 187,
+        "endChar": 48
+      },
+      "revId": "ff7f6da7b27f03f7571f9e771689507782f0d00b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
