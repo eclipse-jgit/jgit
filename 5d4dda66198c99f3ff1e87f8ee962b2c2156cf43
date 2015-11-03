@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0724e3f1_dd76997c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 597,
+      "author": {
+        "id": 621
+      },
+      "writtenOn": "2015-11-03T13:31:15Z",
+      "side": 1,
+      "message": "This change is required for the successful execution of the tests. Without this check URIish with host \u003d\u003d null is not considered equal to URIish with host \u003d\u003d \"\", which is a bug.",
+      "range": {
+        "startLine": 596,
+        "startChar": 0,
+        "endLine": 597,
+        "endChar": 15
+      },
+      "revId": "5d4dda66198c99f3ff1e87f8ee962b2c2156cf43",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
