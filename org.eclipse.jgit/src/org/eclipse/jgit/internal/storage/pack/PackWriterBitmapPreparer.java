@@ -263,8 +263,8 @@ class PackWriterBitmapPreparer {
 				for (AnyObjectId objectId : selectionHelper.reusedCommits) {
 					rw.markUninteresting(rw.parseCommit(objectId));
 				}
-				rw.setRevFilter(
-						PackWriterBitmapWalker.newRevFilter(null, fullBitmap));
+				rw.setRevFilter(PackWriterBitmapWalker.newRevFilter(
+						selectionHelper.reusedCommitsBitmap, fullBitmap));
 
 				while (rw.next() != null) {
 					// The RevFilter adds the reachable commits from this
@@ -453,7 +453,7 @@ class PackWriterBitmapPreparer {
 		}
 
 		return new CommitSelectionHelper(peeledWant, commits, pos,
-				orderedTipCommitBitmaps, reuseCommits);
+				orderedTipCommitBitmaps, reuse, reuseCommits);
 	}
 
 	/*-
@@ -554,6 +554,8 @@ class PackWriterBitmapPreparer {
 	private static final class CommitSelectionHelper implements Iterable<RevCommit> {
 		final Set<? extends ObjectId> peeledWants;
 		final List<BitmapBuilderEntry> tipCommitBitmaps;
+
+		final BitmapBuilder reusedCommitsBitmap;
 		final Iterable<BitmapCommit> reusedCommits;
 		final RevCommit[] commitsByOldest;
 		final int commitStartPos;
@@ -561,11 +563,13 @@ class PackWriterBitmapPreparer {
 		CommitSelectionHelper(Set<? extends ObjectId> peeledWant,
 				RevCommit[] commitsByOldest, int commitStartPos,
 				List<BitmapBuilderEntry> bitmapEntries,
+				BitmapBuilder reusedCommitsBitmap,
 				Iterable<BitmapCommit> reuse) {
 			this.peeledWants = peeledWant;
 			this.commitsByOldest = commitsByOldest;
 			this.commitStartPos = commitStartPos;
 			this.tipCommitBitmaps = bitmapEntries;
+			this.reusedCommitsBitmap = reusedCommitsBitmap;
 			this.reusedCommits = reuse;
 		}
 
