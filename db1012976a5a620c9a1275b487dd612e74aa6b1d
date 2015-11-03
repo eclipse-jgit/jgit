@@ -46,6 +46,30 @@
       "revId": "db1012976a5a620c9a1275b487dd612e74aa6b1d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_325444ce",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-11-03T02:26:32Z",
+      "side": 1,
+      "message": "I was not planning to follow up on this as a TODO. The class relationships are complex and I think it would be nice to rework them but that is out of scope for the performance fix. It sounds like you might have an idea of how to simplify the code further.\n\nOne thing I learned from talking to Shawn is that there was a conscious decision to not reuse bitmaps when building bitmaps. I think that makes sense because if some git implementation introduces a bug in bitmap generation, you would like to be able to fix mangled repositories by just packing with a newer version that doesn\u0027t rely on bitmaps.\n\nMy claim \"reachable commits from the current commit, excluding reused commits\" is not what the code is doing. It really is all commits reachable from the current commit, with no exclusions. And the \"or-ing\" claim isn\u0027t quite correct.\n\nWhat happens is that the RevFilter always adds the object, but CompressedBitmapBuilder.add() is smart in that if it finds that the commit being added has a corresponding bitmap, ORs in that bitmap into its bitset so that it contains the full set of reachable commits and then aborts the RevWalk.",
+      "parentUuid": "0724e3f1_5287381e",
+      "range": {
+        "startLine": 266,
+        "startChar": 49,
+        "endLine": 268,
+        "endChar": 46
+      },
+      "revId": "db1012976a5a620c9a1275b487dd612e74aa6b1d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
