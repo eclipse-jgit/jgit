@@ -389,7 +389,6 @@ class PackWriterBitmapPreparer {
 
 			RevCommit rc = (RevCommit) ro;
 			reuseCommits.add(new BitmapCommit(rc, false, entry.getFlags()));
-			rw.markUninteresting(rc);
 			if (!reuse.contains(rc)) {
 				EWAHCompressedBitmap bitmap = bitmapRemapper.ofObjectType(
 						bitmapRemapper.getBitmap(rc), Constants.OBJ_COMMIT);
