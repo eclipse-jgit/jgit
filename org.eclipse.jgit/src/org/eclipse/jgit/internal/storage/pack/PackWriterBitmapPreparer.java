@@ -262,9 +262,6 @@ class PackWriterBitmapPreparer {
 				BitmapBuilder fullBitmap = commitBitmapIndex.newBitmapBuilder();
 				rw.reset();
 				rw.markStart(c);
-				for (AnyObjectId objectId : selectionHelper.reusedCommits) {
-					rw.markUninteresting(rw.parseCommit(objectId));
-				}
 				rw.setRevFilter(PackWriterBitmapWalker.newRevFilter(
 						selectionHelper.reusedCommitsBitmap, fullBitmap));
 
