@@ -339,18 +339,19 @@ class PackWriterBitmapPreparer {
 			if ((entry.getFlags() & FLAG_REUSE) != FLAG_REUSE) {
 				continue;
 			}
-
 			RevObject ro = rw.peel(rw.parseAny(entry));
-			if (ro instanceof RevCommit) {
-				RevCommit rc = (RevCommit) ro;
-				reuseCommits.add(new BitmapCommit(rc, false, entry.getFlags()));
-				rw.markUninteresting(rc);
-				// PackBitmapIndexRemapper.ofObjectType() ties the underlying
-				// bitmap in the old pack into the new bitmap builder.
-				bitmapRemapper.ofObjectType(bitmapRemapper.getBitmap(rc),
-						Constants.OBJ_COMMIT).trim();
-				reuse.add(rc, Constants.OBJ_COMMIT);
+			if (!(ro instanceof RevCommit)) {
+				continue;
 			}
+
+			RevCommit rc = (RevCommit) ro;
+			reuseCommits.add(new BitmapCommit(rc, false, entry.getFlags()));
+			rw.markUninteresting(rc);
+			// PackBitmapIndexRemapper.ofObjectType() ties the underlying
+			// bitmap in the old pack into the new bitmap builder.
+			bitmapRemapper.ofObjectType(bitmapRemapper.getBitmap(rc),
+					Constants.OBJ_COMMIT).trim();
+			reuse.add(rc, Constants.OBJ_COMMIT);
 		}
 
 		// Add branch tips that are not represented in old bitmap indices. Set
@@ -360,16 +361,18 @@ class PackWriterBitmapPreparer {
 		Set<RevCommit> peeledWant = new HashSet<RevCommit>(want.size());
 		for (AnyObjectId objectId : want) {
 			RevObject ro = rw.peel(rw.parseAny(objectId));
-			if (ro instanceof RevCommit && !reuse.contains(ro)) {
-				RevCommit rc = (RevCommit) ro;
-				peeledWant.add(rc);
-				rw.markStart(rc);
-
-				BitmapBuilder bitmap = commitBitmapIndex.newBitmapBuilder();
-				bitmap.or(reuse);
-				bitmap.add(rc, Constants.OBJ_COMMIT);
-				tipCommitBitmaps.add(new BitmapBuilderEntry(rc, bitmap));
+			if (!(ro instanceof RevCommit) || reuse.contains(ro)) {
+				continue;
 			}
+
+			RevCommit rc = (RevCommit) ro;
+			peeledWant.add(rc);
+			rw.markStart(rc);
+
+			BitmapBuilder bitmap = commitBitmapIndex.newBitmapBuilder();
+			bitmap.or(reuse);
+			bitmap.add(rc, Constants.OBJ_COMMIT);
+			tipCommitBitmaps.add(new BitmapBuilderEntry(rc, bitmap));
 		}
 
 		// Create a list of commits in reverse order (older to newer).
@@ -382,10 +385,11 @@ class PackWriterBitmapPreparer {
 			commits[--pos] = rc;
 			for (BitmapBuilderEntry entry : tipCommitBitmaps) {
 				BitmapBuilder bitmap = entry.getBuilder();
-				if (bitmap.contains(rc)) {
-					for (RevCommit c : rc.getParents()) {
-						bitmap.add(c, Constants.OBJ_COMMIT);
-					}
+				if (!bitmap.contains(rc)) {
+					continue;
+				}
+				for (RevCommit c : rc.getParents()) {
+					bitmap.add(c, Constants.OBJ_COMMIT);
 				}
 			}
 			pm.update(1);
