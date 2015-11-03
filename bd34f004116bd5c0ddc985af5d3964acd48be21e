@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0724e3f1_528d788d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BaseRepositoryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2015-11-03T10:55:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0724e3f1_143cbe7d",
+      "revId": "bd34f004116bd5c0ddc985af5d3964acd48be21e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0724e3f1_3439028c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BaseRepositoryBuilder.java",
         "patchSetId": 2
@@ -54,6 +72,42 @@
     },
     {
       "key": {
+        "uuid": "0724e3f1_1297809f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BaseRepositoryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2015-11-03T10:55:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0724e3f1_3439028c",
+      "revId": "bd34f004116bd5c0ddc985af5d3964acd48be21e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_d2c968bf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BaseRepositoryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2015-11-03T10:55:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0724e3f1_03659838",
+      "revId": "bd34f004116bd5c0ddc985af5d3964acd48be21e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0724e3f1_f43e4a75",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BaseRepositoryBuilder.java",
         "patchSetId": 2
@@ -65,6 +119,24 @@
       "writtenOn": "2015-10-21T12:11:31Z",
       "side": 1,
       "message": "again: @since tag needed.",
+      "revId": "bd34f004116bd5c0ddc985af5d3964acd48be21e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_f29bccc7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BaseRepositoryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2015-11-03T10:55:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0724e3f1_f43e4a75",
       "revId": "bd34f004116bd5c0ddc985af5d3964acd48be21e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -88,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "0724e3f1_329284ab",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2015-11-03T10:55:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0724e3f1_d429863b",
+      "revId": "bd34f004116bd5c0ddc985af5d3964acd48be21e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0724e3f1_d4286610",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
         "patchSetId": 2
@@ -105,6 +195,24 @@
     },
     {
       "key": {
+        "uuid": "0724e3f1_92aa50cf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2015-11-03T10:55:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0724e3f1_d4286610",
+      "revId": "bd34f004116bd5c0ddc985af5d3964acd48be21e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0724e3f1_54e7565a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
         "patchSetId": 2
@@ -116,6 +224,24 @@
       "writtenOn": "2015-10-21T12:11:31Z",
       "side": 1,
       "message": "Wouldn\u0027t it be nice to be able to ask a RefDatabase about the actual search path. E.g. adding a abstract getSearchPath() here and implement that in RefDirectory().",
+      "revId": "bd34f004116bd5c0ddc985af5d3964acd48be21e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_927530f0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2015-11-03T10:55:19Z",
+      "side": 1,
+      "message": "getSearchPath() would not be used and modified search paths is a quite specific functionality so I think currently it\u0027s not important enough to justify a new method in this class.",
+      "parentUuid": "0724e3f1_54e7565a",
       "revId": "bd34f004116bd5c0ddc985af5d3964acd48be21e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
