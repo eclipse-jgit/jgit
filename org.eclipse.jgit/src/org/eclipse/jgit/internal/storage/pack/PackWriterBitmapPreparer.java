@@ -379,7 +379,6 @@ class PackWriterBitmapPreparer {
 
 			RevCommit rc = (RevCommit) ro;
 			reuseCommits.add(new BitmapCommit(rc, false, entry.getFlags()));
-			rw.markUninteresting(rc);
 			// PackBitmapIndexRemapper.ofObjectType() ties the underlying
 			// bitmap in the old pack into the new bitmap builder.
 			bitmapRemapper.ofObjectType(bitmapRemapper.getBitmap(rc),
