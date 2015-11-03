@@ -44,6 +44,7 @@
 package org.eclipse.jgit.internal.storage.pack;
 
 import static org.eclipse.jgit.internal.storage.file.PackBitmapIndex.FLAG_REUSE;
+import static org.eclipse.jgit.revwalk.RevFlag.SEEN;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -72,6 +73,7 @@ import org.eclipse.jgit.revwalk.ObjectWalk;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.util.BlockList;
 import org.eclipse.jgit.util.SystemReader;
@@ -310,6 +312,35 @@ class PackWriterBitmapPreparer {
 		return revCommit.getCommitTime() > inactiveBranchTimestamp;
 	}
 
+	private static class ExcludeBitmapRevFilter extends RevFilter {
+		private final BitmapBuilder exclude;
+
+		ExcludeBitmapRevFilter(BitmapBuilder exclude) {
+			this.exclude = exclude;
+		}
+
+		@Override
+		public final boolean include(RevWalk rw, RevCommit c) {
+			if (!exclude.contains(c)) {
+				return true;
+			}
+			for (RevCommit p : c.getParents()) {
+				p.add(SEEN);
+			}
+			return false;
+		}
+
+		@Override
+		public final ExcludeBitmapRevFilter clone() {
+			return this;
+		}
+
+		@Override
+		public final boolean requiresCommitBody() {
+			return false;
+		}
+	}
+
 	/**
 	 * For each of the {@code want}s, which represent the tip commit of each
 	 * branch, set up an initial {@link BitmapBuilder}. Reuse previously built
@@ -332,7 +363,9 @@ class PackWriterBitmapPreparer {
 	private CommitSelectionHelper setupTipCommitBitmaps(RevWalk rw,
 			int expectedCommitCount) throws IncorrectObjectTypeException,
 					IOException, MissingObjectException {
-		BitmapBuilder reuse = commitBitmapIndex.newBitmapBuilder();
+		final BitmapBuilder reuse = commitBitmapIndex.newBitmapBuilder();
+		rw.setRevFilter(new ExcludeBitmapRevFilter(reuse));
+
 		List<BitmapCommit> reuseCommits = new ArrayList<BitmapCommit>();
 		for (PackBitmapIndexRemapper.Entry entry : bitmapRemapper) {
 			// More recent commits did not have the reuse flag set, so skip them
