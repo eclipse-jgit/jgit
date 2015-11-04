@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67ccbf7d_56feb477",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/BitmapIndexImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-11-04T17:28:25Z",
+      "side": 1,
+      "message": "s/addObjectPosition/findOrInsert/",
+      "range": {
+        "startLine": 122,
+        "startChar": 5,
+        "endLine": 122,
+        "endChar": 22
+      },
+      "revId": "a632512f4d4f8068077a1e702e2b92663079b29c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
