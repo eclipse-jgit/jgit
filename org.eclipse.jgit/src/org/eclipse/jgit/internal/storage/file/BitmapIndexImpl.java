@@ -318,7 +318,8 @@ public class BitmapIndexImpl implements BitmapIndex {
 			return true;
 		}
 
-		BitmapIndexImpl getBitmapIndex() {
+		@Override
+		public BitmapIndexImpl getBitmapIndex() {
 			return BitmapIndexImpl.this;
 		}
 	}
