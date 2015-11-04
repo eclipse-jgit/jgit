@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "67ccbf7d_c55cccc8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-11-04T01:53:53Z",
+      "side": 1,
+      "message": "How about NotInBitmapFilter?",
+      "parentUuid": "67ccbf7d_c5d12cc6",
+      "range": {
+        "startLine": 315,
+        "startChar": 22,
+        "endLine": 315,
+        "endChar": 44
+      },
+      "revId": "3bdc41048fbb40ed92a6cf5a5409536f2b7e7b25",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67ccbf7d_85e724a1",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
         "patchSetId": 2
@@ -64,6 +88,30 @@
         "startChar": 16,
         "endLine": 316,
         "endChar": 29
+      },
+      "revId": "3bdc41048fbb40ed92a6cf5a5409536f2b7e7b25",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_854ba401",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-11-04T01:53:53Z",
+      "side": 1,
+      "message": "The field represents a set of commits to exclude from the walk.\n\nHow about excludedCommits? Or just bitmap?",
+      "parentUuid": "67ccbf7d_85e724a1",
+      "range": {
+        "startLine": 316,
+        "startChar": 30,
+        "endLine": 316,
+        "endChar": 37
       },
       "revId": "3bdc41048fbb40ed92a6cf5a5409536f2b7e7b25",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
