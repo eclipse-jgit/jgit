@@ -46,6 +46,30 @@
       "revId": "99d404009428ef42658cf1aa78069ee5382f6bd7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_36b1302e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-11-04T16:06:59Z",
+      "side": 1,
+      "message": "I\u0027m not making my point very well. This loop is setting up the full reachability bitmap for each branch tip. It may be the case that some of the commits for which we are reusing bitmaps are not reachable by a particular branch. If not, then the bitmaps for those commits should not be used to build the bitmap for that branch tip. This line seems to be violating that.",
+      "parentUuid": "67ccbf7d_6589407a",
+      "range": {
+        "startLine": 375,
+        "startChar": 0,
+        "endLine": 375,
+        "endChar": 20
+      },
+      "revId": "99d404009428ef42658cf1aa78069ee5382f6bd7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
