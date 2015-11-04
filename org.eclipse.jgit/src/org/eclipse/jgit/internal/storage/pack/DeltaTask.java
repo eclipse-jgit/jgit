@@ -226,7 +226,7 @@ final class DeltaTask implements Callable<Object> {
 		}
 	}
 
-	private static int getAdjustedWeight(ObjectToPack o) {
+	static int getAdjustedWeight(ObjectToPack o) {
 		// Edge objects and those with reused deltas do not need to be
 		// compressed. For compression calculations, ignore their weights.
 		if (o.isEdge() || o.doNotAttemptDelta()) {
