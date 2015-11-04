@@ -70,6 +70,30 @@
       "revId": "99d404009428ef42658cf1aa78069ee5382f6bd7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_16dc2cdb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-11-04T18:53:28Z",
+      "side": 1,
+      "message": "Upshot of in-person conversation:\n\n- the bitmap.or(reuse) and bitmap.andNot(reuse) calls do not appear to be needed. Will add a change to remove those calls\n- the content of the BitmapBuilder in tipCommitBitmaps is underdocumented. Will add a comment in the same or a followup change.",
+      "parentUuid": "67ccbf7d_36b1302e",
+      "range": {
+        "startLine": 375,
+        "startChar": 0,
+        "endLine": 375,
+        "endChar": 20
+      },
+      "revId": "99d404009428ef42658cf1aa78069ee5382f6bd7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
