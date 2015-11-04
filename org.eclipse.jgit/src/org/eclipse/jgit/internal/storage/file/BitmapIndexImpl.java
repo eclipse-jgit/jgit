@@ -85,6 +85,7 @@ public class BitmapIndexImpl implements BitmapIndex {
 		return packIndex;
 	}
 
+	@Override
 	public CompressedBitmap getBitmap(AnyObjectId objectId) {
 		EWAHCompressedBitmap compressed = packIndex.getBitmap(objectId);
 		if (compressed == null)
@@ -103,6 +104,7 @@ public class BitmapIndexImpl implements BitmapIndex {
 		return new CompressedBitmap(b);
 	}
 
+	@Override
 	public CompressedBitmapBuilder newBitmapBuilder() {
 		return new CompressedBitmapBuilder();
 	}
@@ -211,6 +213,7 @@ public class BitmapIndexImpl implements BitmapIndex {
 	private final class CompressedBitmapBuilder implements BitmapBuilder {
 		private ComboBitset bitset = new ComboBitset();
 
+		@Override
 		public boolean add(AnyObjectId objectId, int type) {
 			int position = addObject(objectId, type);
 			if (bitset.contains(position))
@@ -226,17 +229,20 @@ public class BitmapIndexImpl implements BitmapIndex {
 			return true;
 		}
 
+		@Override
 		public boolean contains(AnyObjectId objectId) {
 			int position = findPosition(objectId);
 			return 0 <= position && bitset.contains(position);
 		}
 
+		@Override
 		public void remove(AnyObjectId objectId) {
 			int position = findPosition(objectId);
 			if (0 <= position)
 				bitset.remove(position);
 		}
 
+		@Override
 		public CompressedBitmapBuilder or(Bitmap other) {
 			if (isSameCompressedBitmap(other)) {
 				bitset.or(((CompressedBitmap) other).bitmap);
@@ -249,6 +255,7 @@ public class BitmapIndexImpl implements BitmapIndex {
 			return this;
 		}
 
+		@Override
 		public CompressedBitmapBuilder andNot(Bitmap other) {
 			if (isSameCompressedBitmap(other)) {
 				bitset.andNot(((CompressedBitmap) other).bitmap);
@@ -261,6 +268,7 @@ public class BitmapIndexImpl implements BitmapIndex {
 			return this;
 		}
 
+		@Override
 		public CompressedBitmapBuilder xor(Bitmap other) {
 			if (isSameCompressedBitmap(other)) {
 				bitset.xor(((CompressedBitmap) other).bitmap);
@@ -274,18 +282,22 @@ public class BitmapIndexImpl implements BitmapIndex {
 		}
 
 		/** @return the fully built immutable bitmap */
+		@Override
 		public CompressedBitmap build() {
 			return new CompressedBitmap(bitset.combine());
 		}
 
+		@Override
 		public Iterator<BitmapObject> iterator() {
 			return build().iterator();
 		}
 
+		@Override
 		public int cardinality() {
 			return bitset.combine().cardinality();
 		}
 
+		@Override
 		public boolean removeAllOrNone(PackBitmapIndex index) {
 			if (!packIndex.equals(index))
 				return false;
@@ -312,14 +324,17 @@ public class BitmapIndexImpl implements BitmapIndex {
 			this.bitmap = bitmap;
 		}
 
+		@Override
 		public CompressedBitmap or(Bitmap other) {
 			return new CompressedBitmap(bitmap.or(bitmapOf(other)));
 		}
 
+		@Override
 		public CompressedBitmap andNot(Bitmap other) {
 			return new CompressedBitmap(bitmap.andNot(bitmapOf(other)));
 		}
 
+		@Override
 		public CompressedBitmap xor(Bitmap other) {
 			return new CompressedBitmap(bitmap.xor(bitmapOf(other)));
 		}
@@ -338,6 +353,7 @@ public class BitmapIndexImpl implements BitmapIndex {
 			return packIndex.ofObjectType(bitmap, type).intIterator();
 		}
 
+		@Override
 		public Iterator<BitmapObject> iterator() {
 			final IntIterator dynamic = bitmap.andNot(ones(indexObjectCount))
 					.intIterator();
