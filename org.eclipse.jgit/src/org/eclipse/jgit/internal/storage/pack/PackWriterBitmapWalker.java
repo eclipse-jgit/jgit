@@ -167,9 +167,18 @@ final class PackWriterBitmapWalker {
 
 		@Override
 		public final boolean include(RevWalk walker, RevCommit cmit) {
-			if (bitmap.add(cmit, Constants.OBJ_COMMIT)) {
+			BitmapIndex index = bitmap.getBitmapIndex();
+			Bitmap visitedBitmap;
+
+			if (bitmap.contains(cmit)) {
+				// already included
+			} else if ((visitedBitmap = index.getBitmap(cmit)) != null) {
+				bitmap.or(visitedBitmap);
+			} else {
+				bitmap.addObject(cmit, Constants.OBJ_COMMIT);
 				return true;
 			}
+
 			for (RevCommit p : cmit.getParents()) {
 				p.add(RevFlag.SEEN);
 			}
@@ -202,9 +211,18 @@ final class PackWriterBitmapWalker {
 
 		@Override
 		public final boolean include(RevWalk walker, RevCommit cmit) {
-			if (!seen.contains(cmit) && bitmap.add(cmit, Constants.OBJ_COMMIT)) {
+			BitmapIndex index = bitmap.getBitmapIndex();
+			Bitmap visitedBitmap;
+
+			if (seen.contains(cmit) || bitmap.contains(cmit)) {
+				// already seen or included
+			} else if ((visitedBitmap = index.getBitmap(cmit)) != null) {
+				bitmap.or(visitedBitmap);
+			} else {
+				bitmap.addObject(cmit, Constants.OBJ_COMMIT);
 				return true;
 			}
+
 			for (RevCommit p : cmit.getParents()) {
 				p.add(RevFlag.SEEN);
 			}
