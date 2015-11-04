@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "67ccbf7d_852f2412",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-11-04T02:50:02Z",
+      "side": 1,
+      "message": "*add clarifying comments, I mean. Sorry, I\u0027m doing a bad job of typing today.",
+      "parentUuid": "67ccbf7d_45351c60",
+      "range": {
+        "startLine": 400,
+        "startChar": 0,
+        "endLine": 400,
+        "endChar": 63
+      },
+      "revId": "b9e0d087d322ecea69f716eb5f06334d55c99853",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67ccbf7d_e5263042",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
         "patchSetId": 3
@@ -83,6 +107,30 @@
       "writtenOn": "2015-11-04T02:40:00Z",
       "side": 1,
       "message": "This is the line I am worried about.",
+      "range": {
+        "startLine": 420,
+        "startChar": 0,
+        "endLine": 420,
+        "endChar": 20
+      },
+      "revId": "b9e0d087d322ecea69f716eb5f06334d55c99853",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_a54348c7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-11-04T02:50:02Z",
+      "side": 1,
+      "message": "On line 449 all the bits in \u0027reuse\u0027 are cleared. Definitely sounds worth a comment here. Will do.",
+      "parentUuid": "67ccbf7d_e5263042",
       "range": {
         "startLine": 420,
         "startChar": 0,
