@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "67ccbf7d_45351c60",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-11-04T02:47:01Z",
+      "side": 1,
+      "message": "Gerrit does a bad job of showing the right context for changes between rebased patchsets. The change you\u0027re commenting on comes from https://git.eclipse.org/r/59622 --- there\u0027s more context there. (If you diff against the base, the change goes away.)\n\nProbably we should discuss on that change. \u0027reuse\u0027 was always meant to be a union of the ancestry sets of reused bitmaps. Happy to add clarify the code and add tests if you have a good idea of what to test.",
+      "parentUuid": "67ccbf7d_c5192c07",
+      "range": {
+        "startLine": 400,
+        "startChar": 0,
+        "endLine": 400,
+        "endChar": 63
+      },
+      "revId": "b9e0d087d322ecea69f716eb5f06334d55c99853",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67ccbf7d_e5263042",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
         "patchSetId": 3
