@@ -110,8 +110,12 @@ final class PackWriterBitmapWalker {
 		}
 
 		if (marked) {
-			RevFilter filter = newRevFilter(seen, bitmapResult);
-			walker.setRevFilter(filter);
+			if (seen == null) {
+				walker.setRevFilter(new AddToBitmapFilter(bitmapResult));
+			} else {
+				walker.setRevFilter(
+						new AddUnseenToBitmapFilter(seen, bitmapResult));
+			}
 
 			while (walker.next() != null) {
 				// Iterate through all of the commits. The BitmapRevFilter does
@@ -141,14 +145,7 @@ final class PackWriterBitmapWalker {
 		walker.reset();
 	}
 
-	static RevFilter newRevFilter(BitmapBuilder seen, BitmapBuilder bitmapResult) {
-		if (seen != null) {
-			return new AddUnseenToBitmapFilter(seen, bitmapResult);
-		}
-		return new AddToBitmapFilter(bitmapResult);
-	}
-
-	private static class AddToBitmapFilter extends NoCommitBodyRevFilter {
+	static class AddToBitmapFilter extends NoCommitBodyRevFilter {
 		private final BitmapBuilder bitmap;
 
 		/**
@@ -186,7 +183,7 @@ final class PackWriterBitmapWalker {
 		}
 	}
 
-	private static class AddUnseenToBitmapFilter extends NoCommitBodyRevFilter {
+	static class AddUnseenToBitmapFilter extends NoCommitBodyRevFilter {
 		private final BitmapBuilder seen;
 		private final BitmapBuilder bitmap;
 
