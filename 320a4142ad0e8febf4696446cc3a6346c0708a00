@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "67ccbf7d_05807497",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-11-04T01:48:44Z",
+      "side": 1,
+      "message": "Looking more closely, this looks wrong. Details at https://git.eclipse.org/r/59622.\n\nThanks for clearing this code up.",
+      "parentUuid": "0724e3f1_00075890",
+      "range": {
+        "startLine": 339,
+        "startChar": 27,
+        "endLine": 339,
+        "endChar": 35
+      },
+      "revId": "320a4142ad0e8febf4696446cc3a6346c0708a00",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0724e3f1_c023802f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
         "patchSetId": 3
