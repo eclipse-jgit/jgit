@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67ccbf7d_d6ad6471",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapWalker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-11-04T18:24:51Z",
+      "side": 1,
+      "message": "This method name is generic and can not be interpreted without visiting this method. Since it is package private and has only two callers, I\u0027d suggest replacing it with separate addToBitmapFilter() and addUnseenToBitmapFilter() methods.",
+      "range": {
+        "startLine": 144,
+        "startChar": 18,
+        "endLine": 144,
+        "endChar": 30
+      },
+      "revId": "811b22bdabd33990e06f55cb4307410adc011714",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_96f11c8d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapWalker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-11-04T18:24:51Z",
+      "side": 1,
+      "message": "Style nit: This is Javadoc for the class so move it above the class. I have no issues with using Javadoc vs. block comments on private classes and members. If the item in question isn\u0027t dead simple and requires some comments to understand, it is nice to have the IDE pop up the Javadoc for it.\n\nSame below.",
+      "range": {
+        "startLine": 154,
+        "startChar": 0,
+        "endLine": 163,
+        "endChar": 5
+      },
+      "revId": "811b22bdabd33990e06f55cb4307410adc011714",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_b6b0e0c6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapWalker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-11-04T18:24:51Z",
+      "side": 1,
+      "message": "Not sure how much readability splitting this out as a base class adds. RevFilter itself doesn\u0027t do this kind of hierarchy for its nested filters. I slightly prefer seeing the entire filter on a single screen. But this is named well now. Up to you.",
+      "range": {
+        "startLine": 215,
+        "startChar": 0,
+        "endLine": 215,
+        "endChar": 72
+      },
+      "revId": "811b22bdabd33990e06f55cb4307410adc011714",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_56a23484",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapWalker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-11-04T18:24:51Z",
+      "side": 1,
+      "message": "Should clone for these be throwing UnsupportedOperationException since it isn\u0027t thread safe?",
+      "range": {
+        "startLine": 218,
+        "startChar": 0,
+        "endLine": 218,
+        "endChar": 15
+      },
+      "revId": "811b22bdabd33990e06f55cb4307410adc011714",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
