@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67ccbf7d_f66c28ad",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapWalker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-11-04T18:49:27Z",
+      "side": 1,
+      "message": "Inlining bitmap.getBitmapIndex() here avoids the additional lookup that isn\u0027t needed if the first conditional statement is met. Not sure how big a performance gain that is, but since this is a RevWalk filter, probably worth doing.",
+      "range": {
+        "startLine": 175,
+        "startChar": 31,
+        "endLine": 175,
+        "endChar": 36
+      },
+      "revId": "3aa21d19711c938ce3147c4440db6dc806bca68a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_56c6b414",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapWalker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-11-04T18:49:27Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 219,
+        "startChar": 31,
+        "endLine": 219,
+        "endChar": 36
+      },
+      "revId": "3aa21d19711c938ce3147c4440db6dc806bca68a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
