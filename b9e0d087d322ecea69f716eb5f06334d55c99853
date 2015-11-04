@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67ccbf7d_c58e8cb8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-11-04T02:40:00Z",
+      "side": 1,
+      "message": "This is a change from before that concerns me.",
+      "range": {
+        "startLine": 327,
+        "startChar": 23,
+        "endLine": 329,
+        "endChar": 20
+      },
+      "revId": "b9e0d087d322ecea69f716eb5f06334d55c99853",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_c5192c07",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-11-04T02:40:00Z",
+      "side": 1,
+      "message": "I think this goes to far. Consider a long-lived branch that diverged from the mainline, and there are reusable bitmaps for both the mainline and the branch. By unioning them all here, you get incorrect bitmaps at the branch tips that report commits that aren\u0027t reachable at those tips. We probably need a test for this.",
+      "range": {
+        "startLine": 400,
+        "startChar": 0,
+        "endLine": 400,
+        "endChar": 63
+      },
+      "revId": "b9e0d087d322ecea69f716eb5f06334d55c99853",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_e5263042",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-11-04T02:40:00Z",
+      "side": 1,
+      "message": "This is the line I am worried about.",
+      "range": {
+        "startLine": 420,
+        "startChar": 0,
+        "endLine": 420,
+        "endChar": 20
+      },
+      "revId": "b9e0d087d322ecea69f716eb5f06334d55c99853",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
