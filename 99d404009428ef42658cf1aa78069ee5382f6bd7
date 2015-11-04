@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67ccbf7d_c5a4cc05",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-11-04T07:05:29Z",
+      "side": 1,
+      "message": "This line just looks wrong to me. We can\u0027t assume that all the reused bitmaps from a previous pack are all in a single linear history, so ORing in \"reuse\" here seems incorrect.\n\nI think the way to move forward is to simplify and clarify semantics (like you are doing by replacing BitmapBuilder.add()) and add tests that verify those semantics. Then maybe things won\u0027t be so murky. I\u0027ll think about a test for this.",
+      "range": {
+        "startLine": 375,
+        "startChar": 0,
+        "endLine": 375,
+        "endChar": 20
+      },
+      "revId": "99d404009428ef42658cf1aa78069ee5382f6bd7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
