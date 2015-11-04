@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67ccbf7d_c5d12cc6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-11-04T01:01:17Z",
+      "side": 1,
+      "message": "This filter doesn\u0027t \"exclude bitmaps\", it solely limits the walk based on commits reachable from the commits provided by the \"reuse\" bitmap, so \"NotReachableViaBitmapRevFilter\" or \"NotReachableViaBitmap\" makes this more readable to me.",
+      "range": {
+        "startLine": 315,
+        "startChar": 22,
+        "endLine": 315,
+        "endChar": 44
+      },
+      "revId": "3bdc41048fbb40ed92a6cf5a5409536f2b7e7b25",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_85e724a1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-11-04T01:01:17Z",
+      "side": 1,
+      "message": "s/exlcude/commits/",
+      "range": {
+        "startLine": 316,
+        "startChar": 30,
+        "endLine": 316,
+        "endChar": 37
+      },
+      "revId": "3bdc41048fbb40ed92a6cf5a5409536f2b7e7b25",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_25e81874",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-11-04T01:01:17Z",
+      "side": 1,
+      "message": "Only uses the \"contains\" method which in in the \"Bitmap\" superclass, so s/BitmapBuilder/Bitmap/",
+      "range": {
+        "startLine": 316,
+        "startChar": 16,
+        "endLine": 316,
+        "endChar": 29
+      },
+      "revId": "3bdc41048fbb40ed92a6cf5a5409536f2b7e7b25",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
