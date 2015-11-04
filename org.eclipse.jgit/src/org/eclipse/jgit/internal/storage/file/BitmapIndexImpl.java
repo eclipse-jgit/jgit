@@ -225,6 +225,12 @@ public class BitmapIndexImpl implements BitmapIndex {
 		}
 
 		@Override
+		public BitmapBuilder set(AnyObjectId objectId, int type) {
+			bitset.set(addObject(objectId, type));
+			return this;
+		}
+
+		@Override
 		public void remove(AnyObjectId objectId) {
 			int position = findPosition(objectId);
 			if (0 <= position)
