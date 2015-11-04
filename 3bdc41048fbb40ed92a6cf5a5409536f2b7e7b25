@@ -116,6 +116,30 @@
       "revId": "3bdc41048fbb40ed92a6cf5a5409536f2b7e7b25",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_25b73874",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-11-04T02:07:13Z",
+      "side": 1,
+      "message": "Bitmap doesn\u0027t have contains() but BitmapBuilder does.\n\nBitmap probably should. But it\u0027s public API, so I\u0027m not going to approach that in this change. :/",
+      "parentUuid": "67ccbf7d_25e81874",
+      "range": {
+        "startLine": 316,
+        "startChar": 16,
+        "endLine": 316,
+        "endChar": 29
+      },
+      "revId": "3bdc41048fbb40ed92a6cf5a5409536f2b7e7b25",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
