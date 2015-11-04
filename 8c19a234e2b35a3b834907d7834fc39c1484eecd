@@ -22,6 +22,30 @@
       "revId": "8c19a234e2b35a3b834907d7834fc39c1484eecd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_85bc8425",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BitmapIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-11-04T06:10:46Z",
+      "side": 1,
+      "message": "Sounds good. I\u0027ll go with addObject.",
+      "parentUuid": "67ccbf7d_e5ef1026",
+      "range": {
+        "startLine": 152,
+        "startChar": 0,
+        "endLine": 152,
+        "endChar": 52
+      },
+      "revId": "8c19a234e2b35a3b834907d7834fc39c1484eecd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
