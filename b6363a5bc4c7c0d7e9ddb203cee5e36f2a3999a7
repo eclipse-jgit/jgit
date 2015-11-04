@@ -22,6 +22,29 @@
       "revId": "b6363a5bc4c7c0d7e9ddb203cee5e36f2a3999a7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_f616e853",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BitmapIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-11-04T20:16:09Z",
+      "side": 1,
+      "message": "@since tag\n\nWording is a bit awkward (midnight coding :-). Maybe just \"The BitmapIndex for this BitmapBuilder\"",
+      "range": {
+        "startLine": 208,
+        "startChar": 0,
+        "endLine": 208,
+        "endChar": 68
+      },
+      "revId": "b6363a5bc4c7c0d7e9ddb203cee5e36f2a3999a7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
