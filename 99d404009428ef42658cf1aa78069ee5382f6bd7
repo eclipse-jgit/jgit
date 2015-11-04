@@ -22,6 +22,30 @@
       "revId": "99d404009428ef42658cf1aa78069ee5382f6bd7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_6589407a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-11-04T07:12:51Z",
+      "side": 1,
+      "message": "I don\u0027t think there\u0027s any assumption of linearity. I wonder if it\u0027s a vestige of some code path that doesn\u0027t exist any more. I can do a little history mining tomorrow.\n\nBut (luckily?) if I am reading correctly it would be safe to remove this line. Consider where this bitmap is used after this line:\n\n1. It gets recorded in tipCommitBitmaps\n2. In the while((rc \u003d rw.next()) !\u003d null) walk, we check if it contains each commit \u0027rc\u0027. Luckily the commits in \u0027reuse\u0027 cannot appear as \u0027rc\u0027, since each commit in reuseCommits has already been marked uninteresting.\n3. We then AND the bitmap against the complement of reuse.\n\nSo the OR-ing against reuse would have had no effect, since it was soon undone.",
+      "parentUuid": "67ccbf7d_c5a4cc05",
+      "range": {
+        "startLine": 375,
+        "startChar": 0,
+        "endLine": 375,
+        "endChar": 20
+      },
+      "revId": "99d404009428ef42658cf1aa78069ee5382f6bd7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
