@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67ccbf7d_e5ef1026",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BitmapIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-11-04T05:32:35Z",
+      "side": 1,
+      "message": "I like the symmetry of this function signature with remove(), but the pair should really be add/remove or set/unset.  I prefer add/remove. Maybe use \"addObject\" for now and migrate to where we want to be over the next couple of releases?",
+      "range": {
+        "startLine": 152,
+        "startChar": 0,
+        "endLine": 152,
+        "endChar": 52
+      },
+      "revId": "8c19a234e2b35a3b834907d7834fc39c1484eecd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
