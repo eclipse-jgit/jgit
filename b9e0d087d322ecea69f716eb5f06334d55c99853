@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "67ccbf7d_c9c4e28a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-11-05T20:12:32Z",
+      "side": 1,
+      "message": "Withdraw my objection.",
+      "parentUuid": "67ccbf7d_c58e8cb8",
+      "range": {
+        "startLine": 327,
+        "startChar": 23,
+        "endLine": 329,
+        "endChar": 20
+      },
+      "revId": "b9e0d087d322ecea69f716eb5f06334d55c99853",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67ccbf7d_56bcf455",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
         "patchSetId": 3
@@ -60,6 +84,30 @@
       "side": 1,
       "message": "Yeah, I suppose so. CompressedBitmapBuilder isn\u0027t thread-safe.\n\nLots of other RevFilters \u0027return this\u0027 instead of admitting lack of support. Time to change habits.",
       "parentUuid": "67ccbf7d_56bcf455",
+      "range": {
+        "startLine": 351,
+        "startChar": 0,
+        "endLine": 351,
+        "endChar": 15
+      },
+      "revId": "b9e0d087d322ecea69f716eb5f06334d55c99853",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_e9c1a677",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-11-05T20:12:32Z",
+      "side": 1,
+      "message": "This is my remaining nit.",
+      "parentUuid": "67ccbf7d_56a3142f",
       "range": {
         "startLine": 351,
         "startChar": 0,
