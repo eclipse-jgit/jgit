@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "67ccbf7d_b7a7fa07",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapWalker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-11-05T19:48:57Z",
+      "side": 1,
+      "message": "Done\n\nI see you addressed this in a follow up patch.",
+      "parentUuid": "67ccbf7d_d6ad6471",
+      "range": {
+        "startLine": 144,
+        "startChar": 18,
+        "endLine": 144,
+        "endChar": 30
+      },
+      "revId": "811b22bdabd33990e06f55cb4307410adc011714",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67ccbf7d_96f11c8d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapWalker.java",
         "patchSetId": 1
