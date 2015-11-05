@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67ccbf7d_f1ca72b2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2015-11-05T10:05:12Z",
+      "side": 1,
+      "message": "this patch adds basic attribute support as it\u0027s name says.\nTherefore it looks good, but is no solution for the real issue eol, just a small step towards it.\nThat\u0027s ok.\n\nHowever there are several questions that arise. \nThese are not blocking this commit, but should partly be addressed\nin order to have a good base to continue.\n\n1) What is the transaction boundary? Currently a new AttributesNodeProvider MAY be created \nwhen needed. The effective global and info nodes are then cached/freezed on exactly that version when created on the working tree.\nOn the other hand a call to FileRepository.getConfig always checks for repo config changes using FileSnapshot.\nThe transaction therefore uses the life repo config and a potentially dirty attributes/ignore nodes config.\nThere are two options: real-time config data or freeze time config using a transactional concept (not JTA, just the theory of it).\nWhat sense does it make, that the git config changes while a checkout is done? none.\n\nMy recommendation is the same as in the bug description: Use the git commands as the transaction boundary.\nTherefore use the good practice pattern of the Callables already in jgit and delegate the current call to a callImpl in subclasses.\nThis allows for per-command refresh of whatever state of the repository. Even ThreadLocals.\nThen the git config and attributes/ignore should only be refreshed before and/or after a git command.\n(An exception is of course the instant ignore/attributes update while doing the treewalk)\n\nWhen doing the realtime data strategy, what happens is that every call to getAttribute for every file in the repo will HAVE TO call\ngetConfig()....getAutoCRLF() and also getAttributes(path,...) and check on all involved .gitattributes files if they have changed.\nThis leads to very many filestat and may even though produce corrupt results due a just missed change in the filesystem while processing the working tree in a certain order.\n\nFor attribute macro support i can imagine that the AttributesNodeProvider can be the starting point.\nBut again, what is the concept here? Will every getAttributes calculation for every file in the repo create a new \nAttributesNodeProvider using repo.newAttributesNodeProvider or is there some freeze point?\nIf the former is the case then every attributes calculation on a path will have to create a new macro resolution context, which in some projects\nmay be rather expensive. Again why should that macro context change during a git command? (and again excluding the case when the treewalker detects a new .gitattribute/.gitignore on its first traversal).\n\nLast but not least I think this patch should be committed in order to get ahead with the eol issue afterwards.\nDo you want me to create a patch on top of Arthurs? using per git command freeze and performance caching?\n\nWhat can always be of use are my tests EndOfLineRepositoryTest and AttributesHierarchyTest which are RepositoryTestCases and try to test the git logic regarding eol, attributes and macros.",
+      "revId": "6ee88cba80acdf3ab49fbbffcee095216a2218ea",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
