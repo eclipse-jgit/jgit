@@ -116,7 +116,15 @@ final class PackWriterBitmapWalker {
 			while (walker.next() != null) {
 				// Iterate through all of the commits. The BitmapRevFilter does
 				// the work.
+				//
+				// filter.include returns true for commits that do not have
+				// a bitmap in bitmapIndex and are not reachable from a
+				// bitmap in bitmapIndex encountered earlier in the walk.
+				// Thus the number of commits returned by next() measures how
+				// much history was traversed without being able to make use
+				// of bitmaps.
 				pm.update(1);
+				countOfBitmapIndexMisses++;
 			}
 
 			RevObject ro;
@@ -124,7 +132,6 @@ final class PackWriterBitmapWalker {
 				bitmapResult.add(ro, ro.getType());
 				pm.update(1);
 			}
-			countOfBitmapIndexMisses += filter.getCountOfLoadedCommits();
 		}
 
 		return bitmapResult;
@@ -154,14 +161,11 @@ final class PackWriterBitmapWalker {
 	}
 
 	static abstract class BitmapRevFilter extends RevFilter {
-		private long countOfLoadedCommits;
-
 		protected abstract boolean load(RevCommit cmit);
 
 		@Override
 		public final boolean include(RevWalk walker, RevCommit cmit) {
 			if (load(cmit)) {
-				countOfLoadedCommits++;
 				return true;
 			}
 			for (RevCommit p : cmit.getParents())
@@ -177,10 +181,6 @@ final class PackWriterBitmapWalker {
 		@Override
 		public final boolean requiresCommitBody() {
 			return false;
-		}
-
-		long getCountOfLoadedCommits() {
-			return countOfLoadedCommits;
 		}
 	}
 }
