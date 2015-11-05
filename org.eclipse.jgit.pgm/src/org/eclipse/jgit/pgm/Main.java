@@ -54,7 +54,6 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.jgit.awtui.AwtAuthenticator;
 import org.eclipse.jgit.awtui.AwtCredentialsProvider;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.lib.Repository;
@@ -117,7 +116,6 @@ public class Main {
 	protected void run(final String[] argv) {
 		try {
 			if (!installConsole()) {
-				AwtAuthenticator.install();
 				AwtCredentialsProvider.install();
 			}
 			configureHttpProxy();
@@ -251,7 +249,6 @@ public class Main {
 
 	private static boolean installConsole() {
 		try {
-			install("org.eclipse.jgit.console.ConsoleAuthenticator"); //$NON-NLS-1$
 			install("org.eclipse.jgit.console.ConsoleCredentialsProvider"); //$NON-NLS-1$
 			return true;
 		} catch (ClassNotFoundException e) {
