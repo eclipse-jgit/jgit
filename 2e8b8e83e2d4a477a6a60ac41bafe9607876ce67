@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67ccbf7d_f7534262",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-11-05T20:09:49Z",
+      "side": 0,
+      "message": "You lost this trim() call. Since this is a transient object that is immediately discarded, that is fine. I didn\u0027t look at what trim did but I shouldn\u0027t have carried it forward in the first place.",
+      "range": {
+        "startLine": 353,
+        "startChar": 27,
+        "endLine": 353,
+        "endChar": 31
+      },
+      "revId": "2e8b8e83e2d4a477a6a60ac41bafe9607876ce67",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
