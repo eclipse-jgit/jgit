@@ -16,6 +16,24 @@
       "revId": "6ee88cba80acdf3ab49fbbffcee095216a2218ea",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_8c79086f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-11-06T08:58:14Z",
+      "side": 1,
+      "message": "Ok, got your points. But since the \"transactional\" issues are different from the change here I don\u0027t want to mix it. I would suggest we discuss on the bug or even better on the jgit mailing list jgit-dev@eclipse.org. Could you forward your comments to that list? Same text as here, just another forum to discuss.\n\nRegarding the relevance to this change: have you noticed that this change doesn\u0027t have many problems with excessive config reads. In a 50.000 files repo the whole java process (including starting java,reading jar files) needs 64.000 io calls to compute a jgit status. We are mainly doing one stat per working tree file and we are not touching the config per once per working tree file.",
+      "parentUuid": "67ccbf7d_f1ca72b2",
+      "revId": "6ee88cba80acdf3ab49fbbffcee095216a2218ea",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
