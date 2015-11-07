@@ -89,10 +89,10 @@ class PackWriterBitmapPreparer {
 
 	private static final int DAY_IN_SECONDS = 24 * 60 * 60;
 
-	private static final Comparator<BitmapBuilderEntry> ORDER_BY_DESCENDING_CARDINALITY = new Comparator<BitmapBuilderEntry>() {
+	private static final Comparator<BitmapBuilderEntry> ORDER_BY_CARDINALITY = new Comparator<BitmapBuilderEntry>() {
 		public int compare(BitmapBuilderEntry a, BitmapBuilderEntry b) {
-			return Integer.signum(b.getBuilder().cardinality()
-					- a.getBuilder().cardinality());
+			return Integer.signum(a.getBuilder().cardinality()
+					- b.getBuilder().cardinality());
 		}
 	};
 
@@ -449,8 +449,9 @@ class PackWriterBitmapPreparer {
 		List<BitmapBuilderEntry> orderedTipCommitBitmaps = new ArrayList<>(
 				tipCommitBitmaps.size());
 		while (!tipCommitBitmaps.isEmpty()) {
-			Collections.sort(tipCommitBitmaps, ORDER_BY_DESCENDING_CARDINALITY);
-			BitmapBuilderEntry largest = tipCommitBitmaps.remove(0);
+			BitmapBuilderEntry largest =
+					Collections.max(tipCommitBitmaps, ORDER_BY_CARDINALITY);
+			tipCommitBitmaps.remove(largest);
 			orderedTipCommitBitmaps.add(largest);
 
 			// Update the remaining paths, by removing the objects from
