@@ -410,7 +410,6 @@ class PackWriterBitmapPreparer {
 			rw.markStart(rc);
 
 			BitmapBuilder bitmap = commitBitmapIndex.newBitmapBuilder();
-			bitmap.or(reuse);
 			bitmap.addObject(rc, Constants.OBJ_COMMIT);
 			tipCommitBitmaps.add(new BitmapBuilderEntry(rc, bitmap));
 		}
@@ -430,17 +429,13 @@ class PackWriterBitmapPreparer {
 					continue;
 				}
 				for (RevCommit c : rc.getParents()) {
+					if (reuse.contains(c)) {
+						continue;
+					}
 					bitmap.addObject(c, Constants.OBJ_COMMIT);
 				}
 			}
 			pm.update(1);
-		}
-
-		// Remove the reused bitmaps from the tip commit bitmaps
-		if (!reuseCommits.isEmpty()) {
-			for (BitmapBuilderEntry entry : tipCommitBitmaps) {
-				entry.getBuilder().andNot(reuse);
-			}
 		}
 
 		// Sort the tip commit bitmaps. Find the one containing the most
