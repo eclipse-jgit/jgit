@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67ccbf7d_3315b76f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/BitmapIndexImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-11-09T01:11:24Z",
+      "side": 0,
+      "message": "I added the PackBitmapIndex parameter as a safety feature.\n\nAn EWAHCompressedBitmap represents a sequence of bits. A CompressedBitmap represents a set of commits, by mapping those bits to the objects listed in a BitmapIndex. The BitmapIndex parameter saves me from accidentally reusing the bits in the wrong context. (All other methods on BitmapIndexImpl work with BitmapIndex instead of EWAHCompressedBitmap so they avoid this problem.)\n\nSince the BitmapIndexImpl is associated to exactly one BitmapIndex, that\u0027s probably overly cautious. Another option would have been to put the toBitmap method in PackBitmapIndex (which I think I didn\u0027t do for lazy reasons).",
+      "range": {
+        "startLine": 96,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 28
+      },
+      "revId": "087b5051ff9f53eb7b0106568d5a9eb2d86180c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
