@@ -65,7 +65,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import org.eclipse.jdt.annotation.Nullable;
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
@@ -404,7 +404,8 @@ public abstract class FS {
 	 *            as component array
 	 * @param encoding
 	 *            to be used to parse the command's output
-	 * @return the one-line output of the command
+	 * @return the one-line output of the command or {@code null} if there is
+	 *         none
 	 */
 	@Nullable
 	protected static String readPipe(File dir, String[] command, String encoding) {
@@ -423,7 +424,8 @@ public abstract class FS {
 	 * @param env
 	 *            Map of environment variables to be merged with those of the
 	 *            current process
-	 * @return the one-line output of the command
+	 * @return the one-line output of the command or {@code null} if there is
+	 *         none
 	 * @since 4.0
 	 */
 	@Nullable
