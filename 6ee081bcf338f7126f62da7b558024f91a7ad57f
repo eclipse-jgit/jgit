@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67ccbf7d_f00c224b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/BitmapIndexImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-11-09T17:54:48Z",
+      "side": 1,
+      "message": "\"vector of bits\"",
+      "range": {
+        "startLine": 319,
+        "startChar": 61,
+        "endLine": 320,
+        "endChar": 12
+      },
+      "revId": "6ee081bcf338f7126f62da7b558024f91a7ad57f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_100a662c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-11-09T17:54:48Z",
+      "side": 1,
+      "message": "s/commitBitmapIndex.//",
+      "range": {
+        "startLine": 393,
+        "startChar": 13,
+        "endLine": 393,
+        "endChar": 30
+      },
+      "revId": "6ee081bcf338f7126f62da7b558024f91a7ad57f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
