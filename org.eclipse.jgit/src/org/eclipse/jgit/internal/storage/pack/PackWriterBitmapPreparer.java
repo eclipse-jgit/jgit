@@ -390,7 +390,7 @@ class PackWriterBitmapPreparer {
 			if (!reuse.contains(rc)) {
 				EWAHCompressedBitmap bitmap = bitmapRemapper.ofObjectType(
 						bitmapRemapper.getBitmap(rc), Constants.OBJ_COMMIT);
-				reuse.or(commitBitmapIndex.toBitmap(writeBitmaps, bitmap));
+				reuse.or(commitBitmapIndex.toBitmap(bitmap));
 			}
 		}
 

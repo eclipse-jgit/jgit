@@ -93,15 +93,19 @@ public class BitmapIndexImpl implements BitmapIndex {
 		return new CompressedBitmap(compressed);
 	}
 
-	public CompressedBitmap toBitmap(PackBitmapIndex i,
-			EWAHCompressedBitmap b) {
-		if (i != packIndex) {
-			throw new IllegalArgumentException();
-		}
-		if (b == null) {
+	/**
+	 * Wraps the provided {@link EWAHCompressedBitmap} in a
+	 * {@link CompressedBitmap}.
+	 *
+	 * @param bitmap
+	 *            an {@link EWAHCompressedBitmap}
+	 * @return a {@link CompressedBitmap} wrapping the input bitmap
+	 */
+	public CompressedBitmap toBitmap(EWAHCompressedBitmap bitmap) {
+		if (bitmap == null) {
 			return null;
 		}
-		return new CompressedBitmap(b);
+		return new CompressedBitmap(bitmap);
 	}
 
 	@Override
