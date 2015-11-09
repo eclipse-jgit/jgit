@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <component id="org.eclipse.jgit" version="2">
+    <resource path="src/org/eclipse/jgit/lib/BitmapIndex.java" type="org.eclipse.jgit.lib.BitmapIndex$BitmapBuilder">
+        <filter comment="interface is implemented by extenders but not clients of the API" id="403804204">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.BitmapIndex.BitmapBuilder"/>
+                <message_argument value="addObject(AnyObjectId, int)"/>
+            </message_arguments>
+        </filter>
+        <filter comment="interface is implemented by extenders but not clients of the API" id="403804204">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.BitmapIndex.BitmapBuilder"/>
+                <message_argument value="getBitmapIndex()"/>
+            </message_arguments>
+        </filter>
+    </resource>
     <resource path="src/org/eclipse/jgit/transport/PushCertificate.java" type="org.eclipse.jgit.transport.PushCertificate">
         <filter comment="PushCertificate wasn't really usable in 4.0" id="338722907">
             <message_arguments>
