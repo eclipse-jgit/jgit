@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67ccbf7d_3383f4a7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-11-09T22:38:26Z",
+      "side": 1,
+      "message": "Should mention the motivation:\n\nThis allows building without a copy of org.eclipse.jdt.annotation.Nullable present (e.g., when using alternate build systems).",
+      "revId": "ca3ea18371d95a38738156287f300a289fb2c3ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
