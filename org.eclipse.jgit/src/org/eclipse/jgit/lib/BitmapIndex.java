@@ -206,7 +206,9 @@ public interface BitmapIndex {
 		int cardinality();
 
 		/**
-		 * The BitmapIndex for this BitmapBuilder.
+		 * Get the BitmapIndex for this BitmapBuilder.
+		 *
+		 * @return the BitmapIndex for this BitmapBuilder
 		 *
 		 * @since 4.2
 		 */

@@ -327,6 +327,12 @@ public class BitmapIndexImpl implements BitmapIndex {
 		final EWAHCompressedBitmap bitmap;
 		final BitmapIndexImpl bitmapIndex;
 
+		/**
+		 * Construct compressed bitmap for given bitmap and bitmap index
+		 *
+		 * @param bitmap
+		 * @param bitmapIndex
+		 */
 		public CompressedBitmap(EWAHCompressedBitmap bitmap, BitmapIndexImpl bitmapIndex) {
 			this.bitmap = bitmap;
 			this.bitmapIndex = bitmapIndex;
