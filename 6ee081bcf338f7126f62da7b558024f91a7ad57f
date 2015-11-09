@@ -69,6 +69,30 @@
       "revId": "6ee081bcf338f7126f62da7b558024f91a7ad57f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_1057c652",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-11-09T19:21:57Z",
+      "side": 1,
+      "message": "You are right of course. We discussed this offline and making CompressedBitmap static with an additional explicit Bitmap ctor argument will clear up some confusion and make this read:\nreuse.or(new CompressedBitmap(commitBitmapIndex, bitmap));",
+      "parentUuid": "67ccbf7d_5025ce5b",
+      "range": {
+        "startLine": 393,
+        "startChar": 13,
+        "endLine": 393,
+        "endChar": 30
+      },
+      "revId": "6ee081bcf338f7126f62da7b558024f91a7ad57f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
