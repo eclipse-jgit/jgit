@@ -93,17 +93,6 @@ public class BitmapIndexImpl implements BitmapIndex {
 		return new CompressedBitmap(compressed);
 	}
 
-	public CompressedBitmap toBitmap(PackBitmapIndex i,
-			EWAHCompressedBitmap b) {
-		if (i != packIndex) {
-			throw new IllegalArgumentException();
-		}
-		if (b == null) {
-			return null;
-		}
-		return new CompressedBitmap(b);
-	}
-
 	@Override
 	public CompressedBitmapBuilder newBitmapBuilder() {
 		return new CompressedBitmapBuilder();
@@ -324,10 +313,17 @@ public class BitmapIndexImpl implements BitmapIndex {
 		}
 	}
 
-	final class CompressedBitmap implements Bitmap {
+	/**
+	 * Wrapper for a {@link EWAHCompressedBitmap}.
+	 * <p>
+	 * For a EWAHCompressedBitmap {@code bitmap} representing a set of
+	 * integers, {@code new CompressedBitmap(bitmap)} represents the objects
+	 * at those positions in {@code packIndex}.
+	 */
+	public final class CompressedBitmap implements Bitmap {
 		final EWAHCompressedBitmap bitmap;
 
-		CompressedBitmap(EWAHCompressedBitmap bitmap) {
+		public CompressedBitmap(EWAHCompressedBitmap bitmap) {
 			this.bitmap = bitmap;
 		}
 
