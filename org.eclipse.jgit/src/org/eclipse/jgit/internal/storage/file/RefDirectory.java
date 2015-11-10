@@ -262,6 +262,30 @@ public class RefDirectory extends RefDatabase {
 	}
 
 	@Override
+	public Ref exactRef(String name) throws IOException {
+		RefList<Ref> packed = getPackedRefs();
+		Ref ref;
+		try {
+			ref = readRef(name, packed);
+			if (ref != null) {
+				ref = resolve(ref, 0, null, null, packed);
+			}
+		} catch (IOException e) {
+			if (name.contains("/") //$NON-NLS-1$
+					|| !(e.getCause() instanceof InvalidObjectIdException)) {
+				throw e;
+			}
+
+			// While looking for a ref outside of refs/ (e.g., 'config'), we
+			// found a non-ref file (e.g., a config file) instead.  Treat this
+			// as a ref-not-found condition.
+			ref = null;
+		}
+		fireRefsChanged();
+		return ref;
+	}
+
+	@Override
 	public Ref getRef(final String needle) throws IOException {
 		final RefList<Ref> packed = getPackedRefs();
 		Ref ref = null;
