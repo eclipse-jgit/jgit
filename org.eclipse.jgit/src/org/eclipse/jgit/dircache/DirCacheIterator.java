@@ -103,9 +103,6 @@ public class DirCacheIterator extends AbstractTreeIterator {
 	/** The subtree containing {@link #currentEntry} if this is first entry. */
 	protected DirCacheTree currentSubtree;
 
-	/** Holds an {@link AttributesNode} for the current entry */
-	private AttributesNode attributesNode;
-
 	/**
 	 * Create a new iterator for an already loaded DirCache instance.
 	 * <p>
