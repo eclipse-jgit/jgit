@@ -50,6 +50,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.attributes.Attribute;
 import org.eclipse.jgit.attributes.AttributesNode;
@@ -1131,8 +1132,10 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 
 		WorkingTreeIterator workingTreeIterator = getTree(WorkingTreeIterator.class);
 		DirCacheIterator dirCacheIterator = getTree(DirCacheIterator.class);
+		CanonicalTreeParser other = getTree(CanonicalTreeParser.class);
 
-		if (workingTreeIterator == null && dirCacheIterator == null) {
+		if (workingTreeIterator == null && dirCacheIterator == null
+				&& other == null) {
 			// Can not retrieve the attributes without at least one of the above
 			// iterators.
 			return Collections.<String, Attribute> emptyMap();
@@ -1152,7 +1155,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 
 			// Gets the attributes located on the current entry path
 			getPerDirectoryEntryAttributes(path, isDir, operationType,
-					workingTreeIterator, dirCacheIterator,
+					workingTreeIterator, dirCacheIterator, other,
 					attributes);
 
 			// Gets the attributes located in the global attribute file
@@ -1180,6 +1183,8 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 *            a {@link WorkingTreeIterator} matching the current entry
 	 * @param dirCacheIterator
 	 *            a {@link DirCacheIterator} matching the current entry
+	 * @param other
+	 *            a {@link CanonicalTreeParser} matching the current entry
 	 * @param attributes
 	 *            Non null map holding the existing attributes. This map will be
 	 *            augmented with new entry. None entry will be overrided.
@@ -1189,18 +1194,21 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 */
 	private void getPerDirectoryEntryAttributes(String path, boolean isDir,
 			OperationType opType, WorkingTreeIterator workingTreeIterator,
-			DirCacheIterator dirCacheIterator, Map<String, Attribute> attributes)
+			DirCacheIterator dirCacheIterator, CanonicalTreeParser other,
+			Map<String, Attribute> attributes)
 			throws IOException {
 		// Prevents infinite recurrence
-		if (workingTreeIterator != null || dirCacheIterator != null) {
+		if (workingTreeIterator != null || dirCacheIterator != null
+				|| other != null) {
 			AttributesNode currentAttributesNode = getCurrentAttributesNode(
-					opType, workingTreeIterator, dirCacheIterator);
+					opType, workingTreeIterator, dirCacheIterator, other);
 			if (currentAttributesNode != null) {
 				currentAttributesNode.getAttributes(path, isDir, attributes);
 			}
 			getPerDirectoryEntryAttributes(path, isDir, opType,
 					getParent(workingTreeIterator, WorkingTreeIterator.class),
 					getParent(dirCacheIterator, DirCacheIterator.class),
+					getParent(other, CanonicalTreeParser.class),
 					attributes);
 		}
 	}
@@ -1236,6 +1244,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 * @param opType
 	 * @param workingTreeIterator
 	 * @param dirCacheIterator
+	 * @param other
 	 * @return a {@link AttributesNode} of the current entry,
 	 *         {@link NullPointerException} otherwise.
 	 * @throws IOException
@@ -1243,8 +1252,10 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 *             parsing one on the attributes file.
 	 */
 	private AttributesNode getCurrentAttributesNode(OperationType opType,
-			WorkingTreeIterator workingTreeIterator,
-			DirCacheIterator dirCacheIterator) throws IOException {
+			@Nullable WorkingTreeIterator workingTreeIterator,
+			@Nullable DirCacheIterator dirCacheIterator,
+			@Nullable CanonicalTreeParser other)
+					throws IOException {
 		AttributesNode attributesNode = null;
 		switch (opType) {
 		case CHECKIN_OP:
@@ -1252,17 +1263,30 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 				attributesNode = workingTreeIterator.getEntryAttributesNode();
 			}
 			if (attributesNode == null && dirCacheIterator != null) {
-				attributesNode = dirCacheIterator
-						.getEntryAttributesNode(getObjectReader());
+				attributesNode = getAttributesNode(dirCacheIterator
+						.getEntryAttributesNode(getObjectReader()),
+						attributesNode);
+			}
+			if (attributesNode == null && other != null) {
+				attributesNode = getAttributesNode(
+						other.getEntryAttributesNode(getObjectReader()),
+						attributesNode);
 			}
 			break;
 		case CHECKOUT_OP:
-			if (dirCacheIterator != null) {
-				attributesNode = dirCacheIterator
+			if (other != null) {
+				attributesNode = other
 						.getEntryAttributesNode(getObjectReader());
 			}
+			if (dirCacheIterator != null) {
+				attributesNode = getAttributesNode(dirCacheIterator
+						.getEntryAttributesNode(getObjectReader()),
+						attributesNode);
+			}
 			if (attributesNode == null && workingTreeIterator != null) {
-				attributesNode = workingTreeIterator.getEntryAttributesNode();
+				attributesNode = getAttributesNode(
+						workingTreeIterator.getEntryAttributesNode(),
+						attributesNode);
 			}
 			break;
 		default:
@@ -1273,5 +1297,10 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 		}
 
 		return attributesNode;
+	}
+
+	private static AttributesNode getAttributesNode(AttributesNode value,
+			AttributesNode defaultValue) {
+		return (value == null) ? defaultValue : value;
 	}
 }
