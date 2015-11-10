@@ -1131,8 +1131,10 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 
 		WorkingTreeIterator workingTreeIterator = getTree(WorkingTreeIterator.class);
 		DirCacheIterator dirCacheIterator = getTree(DirCacheIterator.class);
+		CanonicalTreeParser other = getTree(CanonicalTreeParser.class);
 
-		if (workingTreeIterator == null && dirCacheIterator == null) {
+		if (workingTreeIterator == null && dirCacheIterator == null
+				&& other == null) {
 			// Can not retrieve the attributes without at least one of the above
 			// iterators.
 			return Collections.<String, Attribute> emptyMap();
@@ -1152,7 +1154,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 
 			// Gets the attributes located on the current entry path
 			getPerDirectoryEntryAttributes(path, isDir, operationType,
-					workingTreeIterator, dirCacheIterator,
+					workingTreeIterator, dirCacheIterator, other,
 					attributes);
 
 			// Gets the attributes located in the global attribute file
@@ -1180,6 +1182,8 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 *            a {@link WorkingTreeIterator} matching the current entry
 	 * @param dirCacheIterator
 	 *            a {@link DirCacheIterator} matching the current entry
+	 * @param other
+	 *            a {@link CanonicalTreeParser} matching the current entry
 	 * @param attributes
 	 *            Non null map holding the existing attributes. This map will be
 	 *            augmented with new entry. None entry will be overrided.
@@ -1189,18 +1193,21 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 */
 	private void getPerDirectoryEntryAttributes(String path, boolean isDir,
 			OperationType opType, WorkingTreeIterator workingTreeIterator,
-			DirCacheIterator dirCacheIterator, Map<String, Attribute> attributes)
+			DirCacheIterator dirCacheIterator, CanonicalTreeParser other,
+			Map<String, Attribute> attributes)
 			throws IOException {
 		// Prevents infinite recurrence
-		if (workingTreeIterator != null || dirCacheIterator != null) {
+		if (workingTreeIterator != null || dirCacheIterator != null
+				|| other != null) {
 			AttributesNode currentAttributesNode = getCurrentAttributesNode(
-					opType, workingTreeIterator, dirCacheIterator);
+					opType, workingTreeIterator, dirCacheIterator, other);
 			if (currentAttributesNode != null) {
 				currentAttributesNode.getAttributes(path, isDir, attributes);
 			}
 			getPerDirectoryEntryAttributes(path, isDir, opType,
 					getParent(workingTreeIterator, WorkingTreeIterator.class),
 					getParent(dirCacheIterator, DirCacheIterator.class),
+					getParent(other, CanonicalTreeParser.class),
 					attributes);
 		}
 	}
@@ -1236,6 +1243,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 * @param opType
 	 * @param workingTreeIterator
 	 * @param dirCacheIterator
+	 * @param other
 	 * @return a {@link AttributesNode} of the current entry,
 	 *         {@link NullPointerException} otherwise.
 	 * @throws IOException
@@ -1244,7 +1252,8 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 */
 	private AttributesNode getCurrentAttributesNode(OperationType opType,
 			WorkingTreeIterator workingTreeIterator,
-			DirCacheIterator dirCacheIterator) throws IOException {
+			DirCacheIterator dirCacheIterator, CanonicalTreeParser other)
+					throws IOException {
 		AttributesNode attributesNode = null;
 		switch (opType) {
 		case CHECKIN_OP:
@@ -1255,8 +1264,16 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 				attributesNode = dirCacheIterator
 						.getEntryAttributesNode(getObjectReader());
 			}
+			if (attributesNode == null && other != null) {
+				attributesNode = other
+						.getEntryAttributesNode(getObjectReader());
+			}
 			break;
 		case CHECKOUT_OP:
+			if (other != null) {
+				attributesNode = other
+						.getEntryAttributesNode(getObjectReader());
+			}
 			if (dirCacheIterator != null) {
 				attributesNode = dirCacheIterator
 						.getEntryAttributesNode(getObjectReader());
