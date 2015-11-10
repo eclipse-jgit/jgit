@@ -312,8 +312,6 @@ public class UploadPack {
 
 	private PackStatistics statistics;
 
-	private UploadPackLogger logger = UploadPackLogger.NULL;
-
 	/**
 	 * Create a new pack upload for an open repository.
 	 *
@@ -586,28 +584,6 @@ public class UploadPack {
 	}
 
 	/**
-	 * @return the configured logger.
-	 *
-	 * @deprecated Use {@link #getPreUploadHook()}.
-	 */
-	@Deprecated
-	public UploadPackLogger getLogger() {
-		return logger;
-	}
-
-	/**
-	 * Set the logger.
-	 *
-	 * @param logger
-	 *            the logger instance. If null, no logging occurs.
-	 * @deprecated Use {@link #setPreUploadHook(PreUploadHook)}.
-	 */
-	@Deprecated
-	public void setLogger(UploadPackLogger logger) {
-		this.logger = logger;
-	}
-
-	/**
 	 * Check whether the client expects a side-band stream.
 	 *
 	 * @return true if the client has advertised a side-band capability, false
@@ -675,21 +651,6 @@ public class UploadPack {
 				}
 			}
 		}
-	}
-
-	/**
-	 * Get the PackWriter's statistics if a pack was sent to the client.
-	 *
-	 * @return statistics about pack output, if a pack was sent. Null if no pack
-	 *         was sent, such as during the negotation phase of a smart HTTP
-	 *         connection, or if the client was already up-to-date.
-	 * @since 3.0
-	 * @deprecated Use {@link #getStatistics()}.
-	 */
-	@Deprecated
-	public PackWriter.Statistics getPackStatistics() {
-		return statistics == null ? null
-				: new PackWriter.Statistics(statistics);
 	}
 
 	/**
@@ -1547,7 +1508,6 @@ public class UploadPack {
 			statistics = pw.getStatistics();
 			if (statistics != null) {
 				postUploadHook.onPostUpload(statistics);
-				logger.onPackStatistics(new PackWriter.Statistics(statistics));
 			}
 			pw.close();
 		}
