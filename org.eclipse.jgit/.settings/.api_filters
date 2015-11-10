@@ -49,6 +49,20 @@
             </message_arguments>
         </filter>
     </resource>
+    <resource path="src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java" type="org.eclipse.jgit.treewalk.WorkingTreeIterator">
+        <filter comment="attributes weren't really usable in earlier versions" id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.treewalk.WorkingTreeIterator"/>
+                <message_argument value="getGlobalAttributesNode()"/>
+            </message_arguments>
+        </filter>
+        <filter comment="attributes weren't really usable in earlier versions" id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.treewalk.WorkingTreeIterator"/>
+                <message_argument value="getInfoAttributesNode()"/>
+            </message_arguments>
+        </filter>
+    </resource>
     <resource path="src/org/eclipse/jgit/util/FileUtils.java" type="org.eclipse.jgit.util.FileUtils">
         <filter id="338792546">
             <message_arguments>

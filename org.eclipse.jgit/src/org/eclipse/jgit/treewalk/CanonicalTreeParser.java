@@ -45,8 +45,12 @@
 package org.eclipse.jgit.treewalk;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
+import java.util.Collections;
 
+import org.eclipse.jgit.attributes.AttributesNode;
+import org.eclipse.jgit.attributes.AttributesRule;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AnyObjectId;
@@ -54,10 +58,15 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.util.RawParseUtils;
 
 /** Parses raw Git trees from the canonical semi-text/semi-binary format. */
 public class CanonicalTreeParser extends AbstractTreeIterator {
+	private static final int ATTRIBUTESLENGTH = Constants.DOT_GIT_ATTRIBUTES
+			.getBytes().length;
+
 	private static final byte[] EMPTY = {};
 
 	private byte[] raw;
@@ -364,5 +373,57 @@ public class CanonicalTreeParser extends AbstractTreeIterator {
 		}
 		pathLen = tmp;
 		nextPtr = ptr + Constants.OBJECT_ID_LENGTH;
+
+		// Check if this entry is a .gitattributes file
+		if (RawParseUtils.match(path, pathOffset,
+				Constants.DOT_GIT_ATTRIBUTES.getBytes()) == ATTRIBUTESLENGTH)
+			attributesNode = new LazyLoadingAttributesNode(
+					ObjectId.fromRaw(idBuffer(), idOffset()));
+
 	}
+
+	/**
+	 * Retrieve the {@link AttributesNode} for the current entry.
+	 *
+	 * @param reader
+	 *            {@link ObjectReader} used to parse the .gitattributes entry.
+	 * @return {@link AttributesNode} for the current entry.
+	 * @throws IOException
+	 * @since 4.2
+	 */
+	public AttributesNode getEntryAttributesNode(ObjectReader reader)
+			throws IOException {
+		if (attributesNode instanceof LazyLoadingAttributesNode)
+			attributesNode = ((LazyLoadingAttributesNode) attributesNode)
+					.load(reader);
+		return attributesNode;
+	}
+
+	/**
+	 * {@link AttributesNode} implementation that provides lazy loading
+	 */
+	private static class LazyLoadingAttributesNode extends AttributesNode {
+		final ObjectId objectId;
+
+		LazyLoadingAttributesNode(ObjectId objectId) {
+			super(Collections.<AttributesRule> emptyList());
+			this.objectId = objectId;
+
+		}
+
+		AttributesNode load(ObjectReader reader) throws IOException {
+			AttributesNode r = new AttributesNode();
+			ObjectLoader loader = reader.open(objectId);
+			if (loader != null) {
+				InputStream in = loader.openStream();
+				try {
+					r.parse(in);
+				} finally {
+					in.close();
+				}
+			}
+			return r.getRules().isEmpty() ? null : r;
+		}
+	}
+
 }

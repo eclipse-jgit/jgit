@@ -74,8 +74,6 @@ import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.ignore.FastIgnoreRule;
 import org.eclipse.jgit.ignore.IgnoreNode;
 import org.eclipse.jgit.internal.JGitText;
-import org.eclipse.jgit.internal.storage.file.GlobalAttributesNode;
-import org.eclipse.jgit.internal.storage.file.InfoAttributesNode;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.CoreConfig;
 import org.eclipse.jgit.lib.CoreConfig.CheckStat;
@@ -136,9 +134,6 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	/** If there is a .gitignore file present, the parsed rules from it. */
 	private IgnoreNode ignoreNode;
 
-	/** If there is a .gitattributes file present, the parsed rules from it. */
-	private AttributesNode attributesNode;
-
 	/** Repository that is the root level being iterated over */
 	protected Repository repository;
 
@@ -147,19 +142,6 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 
 	/** The offset of the content id in {@link #idBuffer()} */
 	private int contentIdOffset;
-
-	/**
-	 * Holds the {@link AttributesNode} that is stored in
-	 * $GIT_DIR/info/attributes file.
-	 */
-	private AttributesNode infoAttributesNode;
-
-	/**
-	 * Holds the {@link AttributesNode} that is stored in global attribute file.
-	 *
-	 * @see CoreConfig#getAttributesFile()
-	 */
-	private AttributesNode globalAttributesNode;
 
 	/**
 	 * Create a new iterator with no parent.
@@ -204,8 +186,6 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	protected WorkingTreeIterator(final WorkingTreeIterator p) {
 		super(p);
 		state = p.state;
-		infoAttributesNode = p.infoAttributesNode;
-		globalAttributesNode = p.globalAttributesNode;
 	}
 
 	/**
@@ -225,10 +205,6 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		else
 			entry = null;
 		ignoreNode = new RootIgnoreNode(entry, repo);
-
-		infoAttributesNode = new InfoAttributesNode(repo);
-
-		globalAttributesNode = new GlobalAttributesNode(repo);
 	}
 
 	/**
@@ -667,41 +643,6 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 			attributesNode = ((PerDirectoryAttributesNode) attributesNode)
 					.load();
 		return attributesNode;
-	}
-
-	/**
-	 * Retrieves the {@link AttributesNode} that holds the information located
-	 * in $GIT_DIR/info/attributes file.
-	 *
-	 * @return the {@link AttributesNode} that holds the information located in
-	 *         $GIT_DIR/info/attributes file.
-	 * @throws IOException
-	 *             if an error is raised while parsing the attributes file
-	 * @since 3.7
-	 */
-	public AttributesNode getInfoAttributesNode() throws IOException {
-		if (infoAttributesNode instanceof InfoAttributesNode)
-			infoAttributesNode = ((InfoAttributesNode) infoAttributesNode).load();
-		return infoAttributesNode;
-	}
-
-	/**
-	 * Retrieves the {@link AttributesNode} that holds the information located
-	 * in system-wide file.
-	 *
-	 * @return the {@link AttributesNode} that holds the information located in
-	 *         system-wide file.
-	 * @throws IOException
-	 *             IOException if an error is raised while parsing the
-	 *             attributes file
-	 * @see CoreConfig#getAttributesFile()
-	 * @since 3.7
-	 */
-	public AttributesNode getGlobalAttributesNode() throws IOException {
-		if (globalAttributesNode instanceof GlobalAttributesNode)
-			globalAttributesNode = ((GlobalAttributesNode) globalAttributesNode)
-					.load();
-		return globalAttributesNode;
 	}
 
 	private static final Comparator<Entry> ENTRY_CMP = new Comparator<Entry>() {
