@@ -34,6 +34,24 @@
       "revId": "b385c4d131b729d6ed2bb429d82257a109b9373b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_57a5bdb4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-11-11T16:44:47Z",
+      "side": 1,
+      "message": "I mean stable-4.1 --- sorry for the confusion.\n\nI could go either way, myself:\n\nOn one hand exactRef is relatively new so there aren\u0027t too many callers and most callers would have been using getRef before (so this implementation of exactRef adds some correctness and at least doesn\u0027t hurt performance). That makes it tempting to get this fix in in the stable branches and let the faster implementation cook for 4.3.\n\nOn the other hand this fix would introduce a small performance regression which we could avoid by also applying 60108.",
+      "parentUuid": "67ccbf7d_d7362d0c",
+      "revId": "b385c4d131b729d6ed2bb429d82257a109b9373b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
