@@ -290,13 +290,7 @@ public abstract class RefDatabase {
 	 * @since 4.1
 	 */
 	@Nullable
-	public Ref exactRef(String name) throws IOException {
-		Ref ref = getRef(name);
-		if (ref == null || !name.equals(ref.getName())) {
-			return null;
-		}
-		return ref;
-	}
+	public abstract Ref exactRef(String name) throws IOException;
 
 	/**
 	 * Read the specified references.

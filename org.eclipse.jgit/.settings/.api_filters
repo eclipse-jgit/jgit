@@ -38,6 +38,14 @@
             </message_arguments>
         </filter>
     </resource>
+    <resource path="src/org/eclipse/jgit/lib/RefDatabase.java" type="org.eclipse.jgit.lib.RefDatabase">
+        <filter comment="class is extended by extenders but not clients of the API" id="421650549">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.RefDatabase"/>
+                <message_argument value="exactRef(String)"/>
+            </message_arguments>
+        </filter>
+    </resource>
     <resource path="src/org/eclipse/jgit/revwalk/DepthWalk.java" type="org.eclipse.jgit.revwalk.DepthWalk">
         <filter id="403804204">
             <message_arguments>
