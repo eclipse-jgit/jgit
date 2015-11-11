@@ -858,6 +858,36 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
+	public void testGetRef_CycleInSymbolicRef() throws IOException {
+		Ref r;
+
+		writeLooseRef("refs/1", "ref: refs/2\n");
+		writeLooseRef("refs/2", "ref: refs/3\n");
+		writeLooseRef("refs/3", "ref: refs/4\n");
+		writeLooseRef("refs/4", "ref: refs/5\n");
+		writeLooseRef("refs/5", "ref: refs/end\n");
+		writeLooseRef("refs/end", A);
+
+		r = refdir.getRef("1");
+		assertEquals("refs/1", r.getName());
+		assertEquals(A, r.getObjectId());
+		assertTrue(r.isSymbolic());
+
+		writeLooseRef("refs/5", "ref: refs/6\n");
+		writeLooseRef("refs/6", "ref: refs/end\n");
+
+		r = refdir.getRef("1");
+		assertNull("missing 1 due to cycle", r);
+
+		writeLooseRef("refs/heads/1", B);
+
+		r = refdir.getRef("1");
+		assertEquals("refs/heads/1", r.getName());
+		assertEquals(B, r.getObjectId());
+		assertFalse(r.isSymbolic());
+	}
+
+	@Test
 	public void testGetRefs_PackedNotPeeled_Sorted() throws IOException {
 		Map<String, Ref> all;
 
