@@ -16,6 +16,24 @@
       "revId": "b385c4d131b729d6ed2bb429d82257a109b9373b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_d7362d0c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-11-11T16:41:17Z",
+      "side": 1,
+      "message": "This patch is about getting the semantics right. https://git.eclipse.org/r/60108 optimizes it. Should the latter be targeted at stable-2.11 too?",
+      "parentUuid": "67ccbf7d_652a0ab7",
+      "revId": "b385c4d131b729d6ed2bb429d82257a109b9373b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
