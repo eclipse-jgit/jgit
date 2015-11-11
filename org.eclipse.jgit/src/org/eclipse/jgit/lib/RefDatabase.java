@@ -223,7 +223,13 @@ public abstract class RefDatabase {
 	 * @throws IOException
 	 *             the reference space cannot be accessed.
 	 */
-	public abstract Ref getRef(String name) throws IOException;
+	public Ref getRef(String name) throws IOException {
+		String[] names = new String[SEARCH_PATH.length];
+		for (int i = 0; i < SEARCH_PATH.length; i++) {
+			names[i] = SEARCH_PATH[i] + name;
+		}
+		return firstExactRef(names);
+	}
 
 	/**
 	 * Read a single reference.
