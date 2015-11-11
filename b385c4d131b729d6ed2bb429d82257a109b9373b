@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67ccbf7d_652a0ab7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-11-11T07:48:35Z",
+      "side": 1,
+      "message": "Isn\u0027t this quite ineffective? We are implementing a method which explicitly expects a fully qualified ref name and which therefore does not have to deal with iterating SEARCH_PATH. But the implementation is done by calling the expensive method which does all this iterating over the SEARCH_PATH and to throw away the results if we see the input ref name was not the a qualified one. Maybe an internal getRef() method should learn to use a explicitly given SEARCH_PATH.",
+      "revId": "b385c4d131b729d6ed2bb429d82257a109b9373b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
