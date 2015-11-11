@@ -48,6 +48,7 @@ import static org.eclipse.jgit.lib.Constants.R_HEADS;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
 import static org.eclipse.jgit.lib.Ref.Storage.LOOSE;
 import static org.eclipse.jgit.lib.Ref.Storage.NEW;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -1096,6 +1097,28 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 		assertNull(refdir.exactRef("NOT.A.REF.NAME"));
 		assertNull(refdir.exactRef("master"));
 		assertNull(refdir.exactRef("v1.0"));
+	}
+
+	@Test
+	public void testGetAdditionalRefs_OrigHead() throws IOException {
+		writeLooseRef("ORIG_HEAD", A);
+
+		List<Ref> refs = refdir.getAdditionalRefs();
+		assertEquals(1, refs.size());
+
+		Ref r = refs.get(0);
+		assertFalse(r.isSymbolic());
+		assertEquals(A, r.getObjectId());
+		assertEquals("ORIG_HEAD", r.getName());
+		assertFalse(r.isPeeled());
+		assertNull(r.getPeeledObjectId());
+	}
+
+	@Test
+	public void testGetAdditionalRefs_OrigHeadBranch() throws IOException {
+		writeLooseRef("refs/heads/ORIG_HEAD", A);
+		List<Ref> refs = refdir.getAdditionalRefs();
+		assertArrayEquals(new Ref[0], refs.toArray());
 	}
 
 	@Test
