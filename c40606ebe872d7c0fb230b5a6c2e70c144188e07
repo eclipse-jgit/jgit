@@ -1,0 +1,205 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67ccbf7d_aa1a2173",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-11-11T08:21:12Z",
+      "side": 1,
+      "message": "s/Add attribute accessors/Add an attribute accessor to/",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 24
+      },
+      "revId": "c40606ebe872d7c0fb230b5a6c2e70c144188e07",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_ca1f6563",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-11-11T08:21:12Z",
+      "side": 1,
+      "message": "s/it is needed/we need/",
+      "range": {
+        "startLine": 9,
+        "startChar": 27,
+        "endLine": 9,
+        "endChar": 39
+      },
+      "revId": "c40606ebe872d7c0fb230b5a6c2e70c144188e07",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_ea3349f8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-11-11T08:21:12Z",
+      "side": 1,
+      "message": "s/But in this case index and workingtree is/In this case index and workingtree are/",
+      "range": {
+        "startLine": 11,
+        "startChar": 17,
+        "endLine": 11,
+        "endChar": 58
+      },
+      "revId": "c40606ebe872d7c0fb230b5a6c2e70c144188e07",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_0a314df0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-11-11T08:21:12Z",
+      "side": 1,
+      "message": "So we have to search the tree to be checked out for attributes.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 11
+      },
+      "revId": "c40606ebe872d7c0fb230b5a6c2e70c144188e07",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_2a2e1194",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/AbstractTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-11-11T08:21:12Z",
+      "side": 1,
+      "message": "Parsed rules of .gitattributes file if it exists.",
+      "range": {
+        "startLine": 97,
+        "startChar": 4,
+        "endLine": 97,
+        "endChar": 72
+      },
+      "revId": "c40606ebe872d7c0fb230b5a6c2e70c144188e07",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_6acbb94d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/CanonicalTreeParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-11-11T08:21:12Z",
+      "side": 1,
+      "message": "s/Checks/Check/",
+      "range": {
+        "startLine": 377,
+        "startChar": 5,
+        "endLine": 377,
+        "endChar": 11
+      },
+      "revId": "c40606ebe872d7c0fb230b5a6c2e70c144188e07",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_8ad0fdf5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/CanonicalTreeParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-11-11T08:21:12Z",
+      "side": 1,
+      "message": "s/Retrieves/Retrieve/",
+      "range": {
+        "startLine": 386,
+        "startChar": 4,
+        "endLine": 386,
+        "endChar": 13
+      },
+      "revId": "c40606ebe872d7c0fb230b5a6c2e70c144188e07",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_aad5c1e5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/CanonicalTreeParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-11-11T08:21:12Z",
+      "side": 1,
+      "message": "s/facilities//",
+      "range": {
+        "startLine": 404,
+        "startChar": 4,
+        "endLine": 404,
+        "endChar": 14
+      },
+      "revId": "c40606ebe872d7c0fb230b5a6c2e70c144188e07",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_cada0514",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1254,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-11-11T08:21:12Z",
+      "side": 1,
+      "message": "maybe we should mark these trees as @Nullable ?",
+      "revId": "c40606ebe872d7c0fb230b5a6c2e70c144188e07",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
