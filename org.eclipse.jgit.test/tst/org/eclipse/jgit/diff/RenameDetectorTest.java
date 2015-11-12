@@ -48,8 +48,11 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
+import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.diff.DiffEntry.ChangeType;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.junit.TestRepository;
@@ -57,6 +60,10 @@ import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevTree;
+import org.eclipse.jgit.treewalk.FileTreeIterator;
+import org.eclipse.jgit.treewalk.TreeWalk;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -588,6 +595,53 @@ public class RenameDetectorTest extends RepositoryTestCase {
 		assertSame(b, entries.get(1));
 		assertSame(c, entries.get(2));
 		assertSame(d, entries.get(3));
+	}
+
+	@Test
+	public void testDetectDeletedFile() throws Exception {
+		Git git = Git.wrap(db);
+		File file = writeTrashFile("file", "data");
+		git.add().addFilepattern(".").call();
+		RevCommit commit = git.commit().setMessage("").call();
+		file.delete();
+		writeTrashFile("unrelated", "unrelated");
+		List<DiffEntry> entries = scanTrees(new FileTreeIterator(db),
+				commit.getTree());
+
+		rd.addAll(entries);
+		List<DiffEntry> returnedEntries = rd.compute();
+
+		assertEquals(2, returnedEntries.size());
+		assertSame(entries.get(0), returnedEntries.get(0));
+		assertSame(entries.get(1), returnedEntries.get(1));
+	}
+
+	@Test
+	public void testDetectUnstagedRename() throws Exception {
+		Git git = Git.wrap(db);
+		File file = writeTrashFile("file", "data");
+		git.add().addFilepattern(".").call();
+		RevCommit commit = git.commit().setMessage("").call();
+		file.delete();
+		writeTrashFile("renamed-file", "data");
+		List<DiffEntry> entries = scanTrees(new FileTreeIterator(db),
+				commit.getTree());
+
+		rd.addAll(entries);
+		List<DiffEntry> returnedEntries = rd.compute();
+
+		assertEquals(1, returnedEntries.size());
+		assertRename(entries.get(0), entries.get(1), 100,
+				returnedEntries.get(0));
+	}
+
+	private List<DiffEntry> scanTrees(FileTreeIterator p, RevTree tree)
+			throws IOException {
+		try (TreeWalk treeWalk = new TreeWalk(db);) {
+			treeWalk.addTree(tree);
+			treeWalk.addTree(p);
+			return DiffEntry.scan(treeWalk, false);
+		}
 	}
 
 	private ObjectId blob(String content) throws Exception {
