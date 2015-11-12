@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67ccbf7d_0dfc0432",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-11-12T09:55:52Z",
+      "side": 0,
+      "message": "Currently I have not found a real problem with this but wanted to make you aware about the following:\n\nI think we are changing semantics a little bit here. Before one precondition for getRef() to throw an IOException was that the caller specified needle did not contain a \"/\". Even  if we got an IOException from readRef() we sometimes didn\u0027t rethrow that and simply moved to the next searchPath element. That\u0027s not true anymore. Even if the needle contains a \u0027/\u0027 we may throw an IOException.",
+      "range": {
+        "startLine": 301,
+        "startChar": 0,
+        "endLine": 305,
+        "endChar": 5
+      },
+      "revId": "7c1ce730f2320d9f5b08c23c3508c46d78f8b322",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
