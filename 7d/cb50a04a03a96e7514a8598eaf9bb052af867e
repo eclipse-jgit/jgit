@@ -1,0 +1,7 @@
+Code-Review+2: Jonathan Nieder <jrn@google.com>
+Verified+1: Jonathan Nieder <jrn@google.com>
+Submitted-by: Jonathan Nieder <jrn@google.com>
+Submitted-at: Thu, 12 Nov 2015 15:00:18 -0500
+Reviewed-on: https://git.eclipse.org/r/60150
+Project: jgit/jgit
+Branch: refs/heads/stable-4.1
