@@ -16,6 +16,24 @@
       "revId": "f212451a3def4be9792802e41540273f0dea7adc",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_01fccb31",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-11-12T19:40:00Z",
+      "side": 1,
+      "message": "Good call.",
+      "parentUuid": "67ccbf7d_ad74f875",
+      "revId": "f212451a3def4be9792802e41540273f0dea7adc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }

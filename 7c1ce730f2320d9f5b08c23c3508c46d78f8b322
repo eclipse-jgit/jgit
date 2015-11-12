@@ -22,6 +22,30 @@
       "revId": "7c1ce730f2320d9f5b08c23c3508c46d78f8b322",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_21f9cf41",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-11-12T19:40:00Z",
+      "side": 0,
+      "message": "The double-negatives are confusing.  !!needle.contains(\"/\") becomes name.contains(\"/\"). So I think there is no semantic change (but thanks for looking into it --- this kind of thing is exactly what I hope to find in review).",
+      "parentUuid": "67ccbf7d_0dfc0432",
+      "range": {
+        "startLine": 301,
+        "startChar": 0,
+        "endLine": 305,
+        "endChar": 5
+      },
+      "revId": "7c1ce730f2320d9f5b08c23c3508c46d78f8b322",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
