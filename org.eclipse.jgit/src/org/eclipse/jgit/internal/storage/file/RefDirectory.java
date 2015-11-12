@@ -390,23 +390,6 @@ public class RefDirectory extends RefDatabase {
 
 	/** {@inheritDoc} */
 	@Override
-	public Ref getRef(String needle) throws IOException {
-		try {
-			RefList<Ref> packed = getPackedRefs();
-			for (String prefix : SEARCH_PATH) {
-				Ref ref = readAndResolve(prefix + needle, packed);
-				if (ref != null) {
-					return ref;
-				}
-			}
-			return null;
-		} finally {
-			fireRefsChanged();
-		}
-	}
-
-	/** {@inheritDoc} */
-	@Override
 	public Map<String, Ref> getRefs(String prefix) throws IOException {
 		final RefList<LooseRef> oldLoose = looseRefs.get();
 		LooseScanner scan = new LooseScanner(oldLoose);

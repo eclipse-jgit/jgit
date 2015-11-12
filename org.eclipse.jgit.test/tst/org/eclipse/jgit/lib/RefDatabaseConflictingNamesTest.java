@@ -100,11 +100,6 @@ public class RefDatabaseConflictingNamesTest {
 		}
 
 		@Override
-		public Ref getRef(String name) throws IOException {
-			return null;
-		}
-
-		@Override
 		public List<Ref> getAdditionalRefs() throws IOException {
 			return null;
 		}
