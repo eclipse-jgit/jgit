@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67ccbf7d_b0c60f12",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/AbstractTreeIterator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2015-11-12T13:04:05Z",
+      "side": 1,
+      "message": "I assume when adding this field, then DirCacheIterator.attributesNode and WorkingTreeIterator.attributesNode can be deleted. There also is a warning about \"hiding\".",
+      "revId": "45b4f60dd90b3c0ef57dcfeb3868057abfcc0054",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_50df83d1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1149,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2015-11-12T13:04:05Z",
+      "side": 1,
+      "message": "With the new AttributesNodeProvider we could remove the now obsolete methods WorkingTreeIterator.getInfoAttributesNode and WorkingTreeIterator.getGlobalAttributesNode as well as the corresponding fields infoAttributesNode and globalAttributesNode.",
+      "revId": "45b4f60dd90b3c0ef57dcfeb3868057abfcc0054",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
