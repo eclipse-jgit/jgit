@@ -206,16 +206,6 @@ public class RefTreeDatabase extends RefDatabase {
 
 	/** {@inheritDoc} */
 	@Override
-	public Ref getRef(String name) throws IOException {
-		String[] needle = new String[SEARCH_PATH.length];
-		for (int i = 0; i < SEARCH_PATH.length; i++) {
-			needle[i] = SEARCH_PATH[i] + name;
-		}
-		return firstExactRef(needle);
-	}
-
-	/** {@inheritDoc} */
-	@Override
 	public Ref exactRef(String name) throws IOException {
 		if (!repo.isBare() && name.indexOf('/') < 0 && !HEAD.equals(name)) {
 			// Pass through names like MERGE_HEAD, ORIG_HEAD, FETCH_HEAD.
