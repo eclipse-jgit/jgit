@@ -162,6 +162,30 @@
       "revId": "797f94d3319a6bea2cacce707a6a5ee67f00ea17",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_21046fce",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-11-12T19:41:51Z",
+      "side": 1,
+      "message": "Yep, fireRefsChanged() is about noticing when the cached values of refs have changed, which can happen in readRef and resolve.",
+      "parentUuid": "67ccbf7d_01984b49",
+      "range": {
+        "startLine": 284,
+        "startChar": 2,
+        "endLine": 284,
+        "endChar": 20
+      },
+      "revId": "797f94d3319a6bea2cacce707a6a5ee67f00ea17",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
