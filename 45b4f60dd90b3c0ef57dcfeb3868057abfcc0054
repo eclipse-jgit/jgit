@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "67ccbf7d_86f9d190",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/AbstractTreeIterator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-11-12T16:53:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67ccbf7d_b0c60f12",
+      "revId": "45b4f60dd90b3c0ef57dcfeb3868057abfcc0054",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67ccbf7d_50df83d1",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2015-11-12T13:04:05Z",
       "side": 1,
       "message": "With the new AttributesNodeProvider we could remove the now obsolete methods WorkingTreeIterator.getInfoAttributesNode and WorkingTreeIterator.getGlobalAttributesNode as well as the corresponding fields infoAttributesNode and globalAttributesNode.",
+      "revId": "45b4f60dd90b3c0ef57dcfeb3868057abfcc0054",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_467c2991",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1149,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-11-12T16:53:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67ccbf7d_50df83d1",
       "revId": "45b4f60dd90b3c0ef57dcfeb3868057abfcc0054",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
