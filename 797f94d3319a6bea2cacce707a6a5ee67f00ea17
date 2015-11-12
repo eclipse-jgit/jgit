@@ -71,6 +71,30 @@
     },
     {
       "key": {
+        "uuid": "67ccbf7d_e1d0c7c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-11-12T19:36:55Z",
+      "side": 1,
+      "message": "I\u0027m lazy. :)\n\nCommitters have a standing implicit sign-off. I should probably switch to signing off explicitly to set a good example for new contributors.",
+      "parentUuid": "67ccbf7d_a1a23f81",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 11
+      },
+      "revId": "797f94d3319a6bea2cacce707a6a5ee67f00ea17",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67ccbf7d_21470f25",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 2
@@ -82,6 +106,30 @@
       "writtenOn": "2015-11-12T19:32:44Z",
       "side": 1,
       "message": "This comment doesn\u0027t appear at getRef().\n\nDigging deeper, I wonder if we\u0027d rather want to adapt the condition to check exactly that.\n\n    if (!name.startsWith(\"refs/\") \u0026\u0026 e.getCause() instanceof InvalidObjectIdException))\n        ref \u003d null\n    else\n        throw e;",
+      "range": {
+        "startLine": 279,
+        "startChar": 3,
+        "endLine": 281,
+        "endChar": 35
+      },
+      "revId": "797f94d3319a6bea2cacce707a6a5ee67f00ea17",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_61dcb7dc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-11-12T19:36:55Z",
+      "side": 1,
+      "message": "*nod* I added the comment because I needed it to understand the code.\n\nhttps://git.eclipse.org/r/60108 will make the two functions share code.\n\nUsing startsWith(\"refs/\") sounds like a good idea. I\u0027ll try that as a separate change on master.",
+      "parentUuid": "67ccbf7d_21470f25",
       "range": {
         "startLine": 279,
         "startChar": 3,
