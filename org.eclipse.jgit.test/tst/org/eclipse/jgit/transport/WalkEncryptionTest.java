@@ -60,6 +60,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.security.GeneralSecurityException;
@@ -401,14 +402,19 @@ public class WalkEncryptionTest {
 		 * @throws Exception
 		 */
 		static String publicAddress() throws Exception {
-			String service = "http://checkip.amazonaws.com";
-			URL url = new URL(service);
-			BufferedReader reader = new BufferedReader(
-					new InputStreamReader(url.openStream()));
 			try {
-				return reader.readLine();
-			} finally {
-				reader.close();
+				String service = "http://checkip.amazonaws.com";
+				URL url = new URL(service);
+				BufferedReader reader = new BufferedReader(
+						new InputStreamReader(url.openStream()));
+				try {
+					return reader.readLine();
+				} finally {
+					reader.close();
+				}
+			} catch (UnknownHostException e) {
+				return "Can't reach http://checkip.amazonaws.com to"
+						+ " determine public address";
 			}
 		}
 
