@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67ccbf7d_21e38fc4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2015-11-12T19:32:44Z",
+      "side": 1,
+      "message": "Negations are confusing (, specially when having more than one). How about: {Respect, Follow, Handle} symrefs to unborn branch",
+      "range": {
+        "startLine": 7,
+        "startChar": 23,
+        "endLine": 7,
+        "endChar": 36
+      },
+      "revId": "797f94d3319a6bea2cacce707a6a5ee67f00ea17",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_41e093b5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2015-11-12T19:32:44Z",
+      "side": 1,
+      "message": "Mental note: in c git land we start with a lower case after the colon, in JGit we don\u0027t.",
+      "range": {
+        "startLine": 7,
+        "startChar": 23,
+        "endLine": 7,
+        "endChar": 25
+      },
+      "revId": "797f94d3319a6bea2cacce707a6a5ee67f00ea17",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_a1a23f81",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2015-11-12T19:32:44Z",
+      "side": 1,
+      "message": "You used to sign off on JGit too, now you drop it?",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 11
+      },
+      "revId": "797f94d3319a6bea2cacce707a6a5ee67f00ea17",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_21470f25",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2015-11-12T19:32:44Z",
+      "side": 1,
+      "message": "This comment doesn\u0027t appear at getRef().\n\nDigging deeper, I wonder if we\u0027d rather want to adapt the condition to check exactly that.\n\n    if (!name.startsWith(\"refs/\") \u0026\u0026 e.getCause() instanceof InvalidObjectIdException))\n        ref \u003d null\n    else\n        throw e;",
+      "range": {
+        "startLine": 279,
+        "startChar": 3,
+        "endLine": 281,
+        "endChar": 35
+      },
+      "revId": "797f94d3319a6bea2cacce707a6a5ee67f00ea17",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_01984b49",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2015-11-12T19:32:44Z",
+      "side": 1,
+      "message": "mental note: we fire the refs changed event even when just reading it.",
+      "range": {
+        "startLine": 284,
+        "startChar": 2,
+        "endLine": 284,
+        "endChar": 20
+      },
+      "revId": "797f94d3319a6bea2cacce707a6a5ee67f00ea17",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
