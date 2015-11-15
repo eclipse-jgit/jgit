@@ -96,6 +96,9 @@ class Commit extends TextBuiltin {
 			commitCmd.setAmend(amend);
 			commitCmd.setAll(all);
 			Ref head = db.getRef(Constants.HEAD);
+			if (head == null) {
+				throw die(CLIText.get().onBranchToBeBorn);
+			}
 			RevCommit commit;
 			try {
 				commit = commitCmd.call();

@@ -120,7 +120,7 @@ class Merge extends TextBuiltin {
 			throw die(MessageFormat.format(
 					CLIText.get().refDoesNotExistOrNoCommit, ref));
 
-		Ref oldHead = db.getRef(Constants.HEAD);
+		Ref oldHead = getOldHead();
 		MergeResult result;
 		try (Git git = new Git(db)) {
 			MergeCommand mergeCmd = git.merge().setStrategy(mergeStrategy)
@@ -203,6 +203,14 @@ class Merge extends TextBuiltin {
 			outw.println(MessageFormat.format(
 					CLIText.get().unsupportedOperation, result.toString()));
 		}
+	}
+
+	private Ref getOldHead() throws IOException {
+		Ref oldHead = db.getRef(Constants.HEAD);
+		if (oldHead == null) {
+			throw die(CLIText.get().onBranchToBeBorn);
+		}
+		return oldHead;
 	}
 
 	private boolean isMergedInto(Ref oldHead, AnyObjectId src)
