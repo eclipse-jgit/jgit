@@ -120,7 +120,6 @@ class Merge extends TextBuiltin {
 			throw die(MessageFormat.format(
 					CLIText.get().refDoesNotExistOrNoCommit, ref));
 
-		Ref oldHead = db.getRef(Constants.HEAD);
 		MergeResult result;
 		try (Git git = new Git(db)) {
 			MergeCommand mergeCmd = git.merge().setStrategy(mergeStrategy)
@@ -147,7 +146,7 @@ class Merge extends TextBuiltin {
 			outw.println(CLIText.get().alreadyUpToDate);
 			break;
 		case FAST_FORWARD:
-			ObjectId oldHeadId = oldHead.getObjectId();
+			ObjectId oldHeadId = getOldHead().getObjectId();
 			outw.println(MessageFormat.format(CLIText.get().updating, oldHeadId
 					.abbreviate(7).name(), result.getNewHead().abbreviate(7)
 					.name()));
@@ -181,6 +180,7 @@ class Merge extends TextBuiltin {
 				}
 			break;
 		case MERGED:
+			Ref oldHead = getOldHead();
 			String name;
 			if (!isMergedInto(oldHead, src))
 				name = mergeStrategy.getName();
@@ -203,6 +203,14 @@ class Merge extends TextBuiltin {
 			outw.println(MessageFormat.format(
 					CLIText.get().unsupportedOperation, result.toString()));
 		}
+	}
+
+	private Ref getOldHead() throws IOException {
+		Ref oldHead = db.getRef(Constants.HEAD);
+		if (oldHead == null) {
+			throw die(CLIText.get().onBranchToBeBorn);
+		}
+		return oldHead;
 	}
 
 	private boolean isMergedInto(Ref oldHead, AnyObjectId src)
