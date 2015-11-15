@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67ccbf7d_53f782c6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/annotations/NonNull.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-11-15T23:41:16Z",
+      "side": 1,
+      "message": "did you mean org.eclipse.jdt.annotation.NonNull ?",
+      "range": {
+        "startLine": 57,
+        "startChar": 37,
+        "endLine": 57,
+        "endChar": 53
+      },
+      "revId": "bc263991993ab109cf9530acdc8314dd722a630c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
