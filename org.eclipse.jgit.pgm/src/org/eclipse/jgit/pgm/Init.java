@@ -52,7 +52,6 @@ import java.text.MessageFormat;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.InitCommand;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.pgm.internal.CLIText;
 import org.kohsuke.args4j.Option;
 
@@ -72,9 +71,10 @@ class Init extends TextBuiltin {
 		command.setBare(bare);
 		if (gitdir != null)
 			command.setDirectory(new File(gitdir));
-		Repository repository = command.call().getRepository();
+		File directory = db.getDirectory();
+		String absolutePath = directory == null ? "null" //$NON-NLS-1$
+				: directory.getAbsolutePath();
 		outw.println(MessageFormat.format(
-				CLIText.get().initializedEmptyGitRepositoryIn, repository
-						.getDirectory().getAbsolutePath()));
+				CLIText.get().initializedEmptyGitRepositoryIn, absolutePath));
 	}
 }

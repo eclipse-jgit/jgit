@@ -64,6 +64,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.eclipse.jgit.annotations.NonNull;
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.errors.AmbiguousObjectException;
 import org.eclipse.jgit.errors.CorruptObjectException;
@@ -137,6 +139,7 @@ public abstract class Repository implements AutoCloseable {
 	}
 
 	/** @return listeners observing only events on this repository. */
+	@NonNull
 	public ListenerList getListenerList() {
 		return myListeners;
 	}
@@ -182,6 +185,7 @@ public abstract class Repository implements AutoCloseable {
 	public abstract void create(boolean bare) throws IOException;
 
 	/** @return local metadata directory; null if repository isn't local. */
+	@Nullable
 	public File getDirectory() {
 		return gitDir;
 	}
@@ -192,11 +196,13 @@ public abstract class Repository implements AutoCloseable {
 	public abstract ObjectDatabase getObjectDatabase();
 
 	/** @return a new inserter to create objects in {@link #getObjectDatabase()} */
+	@NonNull
 	public ObjectInserter newObjectInserter() {
 		return getObjectDatabase().newInserter();
 	}
 
 	/** @return a new reader to read objects from {@link #getObjectDatabase()} */
+	@NonNull
 	public ObjectReader newObjectReader() {
 		return getObjectDatabase().newReader();
 	}
@@ -212,6 +218,7 @@ public abstract class Repository implements AutoCloseable {
 	/**
 	 * @return the used file system abstraction
 	 */
+	@NonNull
 	public FS getFS() {
 		return fs;
 	}
@@ -244,6 +251,7 @@ public abstract class Repository implements AutoCloseable {
 	 * @throws IOException
 	 *             the object store cannot be accessed.
 	 */
+	@NonNull
 	public ObjectLoader open(final AnyObjectId objectId)
 			throws MissingObjectException, IOException {
 		return getObjectDatabase().open(objectId);
@@ -271,6 +279,7 @@ public abstract class Repository implements AutoCloseable {
 	 * @throws IOException
 	 *             the object store cannot be accessed.
 	 */
+	@NonNull
 	public ObjectLoader open(AnyObjectId objectId, int typeHint)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
@@ -289,6 +298,7 @@ public abstract class Repository implements AutoCloseable {
 	 *             a symbolic ref was passed in and could not be resolved back
 	 *             to the base ref, as the symbolic ref could not be read.
 	 */
+	@NonNull
 	public RefUpdate updateRef(final String ref) throws IOException {
 		return updateRef(ref, false);
 	}
@@ -307,6 +317,7 @@ public abstract class Repository implements AutoCloseable {
 	 *             a symbolic ref was passed in and could not be resolved back
 	 *             to the base ref, as the symbolic ref could not be read.
 	 */
+	@NonNull
 	public RefUpdate updateRef(final String ref, final boolean detach) throws IOException {
 		return getRefDatabase().newUpdate(ref, detach);
 	}
@@ -323,6 +334,7 @@ public abstract class Repository implements AutoCloseable {
 	 *             the rename could not be performed.
 	 *
 	 */
+	@NonNull
 	public RefRename renameRef(final String fromRef, final String toRef) throws IOException {
 		return getRefDatabase().newRename(fromRef, toRef);
 	}
@@ -376,6 +388,7 @@ public abstract class Repository implements AutoCloseable {
 	 * @throws IOException
 	 *             on serious errors
 	 */
+	@Nullable
 	public ObjectId resolve(final String revstr)
 			throws AmbiguousObjectException, IncorrectObjectTypeException,
 			RevisionSyntaxException, IOException {
@@ -401,6 +414,7 @@ public abstract class Repository implements AutoCloseable {
 	 * @throws AmbiguousObjectException
 	 * @throws IOException
 	 */
+	@Nullable
 	public String simplify(final String revstr)
 			throws AmbiguousObjectException, IOException {
 		try (RevWalk rw = new RevWalk(this)) {
@@ -414,6 +428,7 @@ public abstract class Repository implements AutoCloseable {
 		}
 	}
 
+	@Nullable
 	private Object resolve(final RevWalk rw, final String revstr)
 			throws IOException {
 		char[] revChars = revstr.toCharArray();
@@ -717,11 +732,13 @@ public abstract class Repository implements AutoCloseable {
 		return true;
 	}
 
+	@Nullable
 	private RevObject parseSimple(RevWalk rw, String revstr) throws IOException {
 		ObjectId id = resolveSimple(revstr);
 		return id != null ? rw.parseAny(id) : null;
 	}
 
+	@Nullable
 	private ObjectId resolveSimple(final String revstr) throws IOException {
 		if (ObjectId.isId(revstr))
 			return ObjectId.fromString(revstr);
@@ -749,6 +766,7 @@ public abstract class Repository implements AutoCloseable {
 		return null;
 	}
 
+	@Nullable
 	private String resolveReflogCheckout(int checkoutNo)
 			throws IOException {
 		ReflogReader reader = getReflogReader(Constants.HEAD);
@@ -790,6 +808,7 @@ public abstract class Repository implements AutoCloseable {
 		return rw.parseCommit(entry.getNewId());
 	}
 
+	@Nullable
 	private ObjectId resolveAbbreviation(final String revstr) throws IOException,
 			AmbiguousObjectException {
 		AbbreviatedObjectId id = AbbreviatedObjectId.fromString(revstr);
@@ -829,8 +848,9 @@ public abstract class Repository implements AutoCloseable {
 	@SuppressWarnings("nls")
 	public String toString() {
 		String desc;
-		if (getDirectory() != null)
-			desc = getDirectory().getPath();
+		File directory = getDirectory();
+		if (directory != null)
+			desc = directory.getPath();
 		else
 			desc = getClass().getSimpleName() + "-" //$NON-NLS-1$
 					+ System.identityHashCode(this);
@@ -854,6 +874,7 @@ public abstract class Repository implements AutoCloseable {
 	 *         or null if the repository is corrupt and has no HEAD reference.
 	 * @throws IOException
 	 */
+	@Nullable
 	public String getFullBranch() throws IOException {
 		Ref head = getRef(Constants.HEAD);
 		if (head == null)
@@ -877,6 +898,7 @@ public abstract class Repository implements AutoCloseable {
 	 *         or null if the repository is corrupt and has no HEAD reference.
 	 * @throws IOException
 	 */
+	@Nullable
 	public String getBranch() throws IOException {
 		String name = getFullBranch();
 		if (name != null)
@@ -894,6 +916,7 @@ public abstract class Repository implements AutoCloseable {
 	 *
 	 * @return unmodifiable collection of other known objects.
 	 */
+	@NonNull
 	public Set<ObjectId> getAdditionalHaves() {
 		return Collections.emptySet();
 	}
@@ -908,6 +931,7 @@ public abstract class Repository implements AutoCloseable {
 	 * @return the Ref with the given name, or null if it does not exist
 	 * @throws IOException
 	 */
+	@Nullable
 	public Ref getRef(final String name) throws IOException {
 		return getRefDatabase().getRef(name);
 	}
@@ -915,6 +939,7 @@ public abstract class Repository implements AutoCloseable {
 	/**
 	 * @return mutable map of all known refs (heads, tags, remotes).
 	 */
+	@NonNull
 	public Map<String, Ref> getAllRefs() {
 		try {
 			return getRefDatabase().getRefs(RefDatabase.ALL);
@@ -928,6 +953,7 @@ public abstract class Repository implements AutoCloseable {
 	 *         of the entry contains the ref with the full tag name
 	 *         ("refs/tags/v1.0").
 	 */
+	@NonNull
 	public Map<String, Ref> getTags() {
 		try {
 			return getRefDatabase().getRefs(Constants.R_TAGS);
@@ -963,6 +989,7 @@ public abstract class Repository implements AutoCloseable {
 	/**
 	 * @return a map with all objects referenced by a peeled ref.
 	 */
+	@NonNull
 	public Map<AnyObjectId, Set<Ref>> getAllRefsByPeeledObjectId() {
 		Map<String, Ref> allRefs = getAllRefs();
 		Map<AnyObjectId, Set<Ref>> ret = new HashMap<AnyObjectId, Set<Ref>>(allRefs.size());
@@ -992,6 +1019,7 @@ public abstract class Repository implements AutoCloseable {
 	 *             if this is bare, which implies it has no working directory.
 	 *             See {@link #isBare()}.
 	 */
+	@Nullable
 	public File getIndexFile() throws NoWorkTreeException {
 		if (isBare())
 			throw new NoWorkTreeException();
@@ -1016,6 +1044,7 @@ public abstract class Repository implements AutoCloseable {
 	 *             the index file is using a format or extension that this
 	 *             library does not support.
 	 */
+	@NonNull
 	public DirCache readDirCache() throws NoWorkTreeException,
 			CorruptObjectException, IOException {
 		return DirCache.read(this);
@@ -1040,6 +1069,7 @@ public abstract class Repository implements AutoCloseable {
 	 *             the index file is using a format or extension that this
 	 *             library does not support.
 	 */
+	@NonNull
 	public DirCache lockDirCache() throws NoWorkTreeException,
 			CorruptObjectException, IOException {
 		// we want DirCache to inform us so that we can inform registered
@@ -1065,6 +1095,7 @@ public abstract class Repository implements AutoCloseable {
 	/**
 	 * @return an important state
 	 */
+	@NonNull
 	public RepositoryState getRepositoryState() {
 		if (isBare() || getDirectory() == null)
 			return RepositoryState.BARE;
@@ -1241,6 +1272,7 @@ public abstract class Repository implements AutoCloseable {
 	 *             if this is bare, which implies it has no working directory.
 	 *             See {@link #isBare()}.
 	 */
+	@Nullable
 	public File getWorkTree() throws NoWorkTreeException {
 		if (isBare())
 			throw new NoWorkTreeException();
@@ -1282,6 +1314,7 @@ public abstract class Repository implements AutoCloseable {
 	 *         otherwise null.
 	 * @since 3.4
 	 */
+	@Nullable
 	public String shortenRemoteBranchName(String refName) {
 		for (String remote : getRemoteNames()) {
 			String remotePrefix = Constants.R_REMOTES + remote + "/"; //$NON-NLS-1$
@@ -1299,6 +1332,7 @@ public abstract class Repository implements AutoCloseable {
 	 *         otherwise null.
 	 * @since 3.4
 	 */
+	@Nullable
 	public String getRemoteName(String refName) {
 		for (String remote : getRemoteNames()) {
 			String remotePrefix = Constants.R_REMOTES + remote + "/"; //$NON-NLS-1$
@@ -1316,6 +1350,7 @@ public abstract class Repository implements AutoCloseable {
 	 *             the ref could not be accessed.
 	 * @since 3.0
 	 */
+	@Nullable
 	public abstract ReflogReader getReflogReader(String refName)
 			throws IOException;
 
@@ -1331,6 +1366,7 @@ public abstract class Repository implements AutoCloseable {
 	 *             if this is bare, which implies it has no working directory.
 	 *             See {@link #isBare()}.
 	 */
+	@Nullable
 	public String readMergeCommitMsg() throws IOException, NoWorkTreeException {
 		return readCommitMsgFile(Constants.MERGE_MSG);
 	}
@@ -1365,6 +1401,7 @@ public abstract class Repository implements AutoCloseable {
 	 *             See {@link #isBare()}.
 	 * @since 4.0
 	 */
+	@Nullable
 	public String readCommitEditMsg() throws IOException, NoWorkTreeException {
 		return readCommitMsgFile(Constants.COMMIT_EDITMSG);
 	}
@@ -1399,6 +1436,7 @@ public abstract class Repository implements AutoCloseable {
 	 *             if this is bare, which implies it has no working directory.
 	 *             See {@link #isBare()}.
 	 */
+	@Nullable
 	public List<ObjectId> readMergeHeads() throws IOException, NoWorkTreeException {
 		if (isBare() || getDirectory() == null)
 			throw new NoWorkTreeException();
@@ -1442,6 +1480,7 @@ public abstract class Repository implements AutoCloseable {
 	 *             if this is bare, which implies it has no working directory.
 	 *             See {@link #isBare()}.
 	 */
+	@Nullable
 	public ObjectId readCherryPickHead() throws IOException,
 			NoWorkTreeException {
 		if (isBare() || getDirectory() == null)
@@ -1465,6 +1504,7 @@ public abstract class Repository implements AutoCloseable {
 	 *             if this is bare, which implies it has no working directory.
 	 *             See {@link #isBare()}.
 	 */
+	@Nullable
 	public ObjectId readRevertHead() throws IOException, NoWorkTreeException {
 		if (isBare() || getDirectory() == null)
 			throw new NoWorkTreeException();
@@ -1530,6 +1570,7 @@ public abstract class Repository implements AutoCloseable {
 	 *             if this is bare, which implies it has no working directory.
 	 *             See {@link #isBare()}.
 	 */
+	@Nullable
 	public ObjectId readOrigHead() throws IOException, NoWorkTreeException {
 		if (isBare() || getDirectory() == null)
 			throw new NoWorkTreeException();
@@ -1550,6 +1591,7 @@ public abstract class Repository implements AutoCloseable {
 	 *             if this is bare, which implies it has no working directory.
 	 *             See {@link #isBare()}.
 	 */
+	@Nullable
 	public String readSquashCommitMsg() throws IOException {
 		return readCommitMsgFile(Constants.SQUASH_MSG);
 	}
@@ -1571,6 +1613,7 @@ public abstract class Repository implements AutoCloseable {
 		writeCommitMsg(squashMsgFile, msg);
 	}
 
+	@Nullable
 	private String readCommitMsgFile(String msgFilename) throws IOException {
 		if (isBare() || getDirectory() == null)
 			throw new NoWorkTreeException();
@@ -1604,6 +1647,7 @@ public abstract class Repository implements AutoCloseable {
 	 * @return the raw contents or null if the file doesn't exist or is empty
 	 * @throws IOException
 	 */
+	@Nullable
 	private byte[] readGitDirectoryFile(String filename) throws IOException {
 		File file = new File(getDirectory(), filename);
 		try {
@@ -1657,6 +1701,7 @@ public abstract class Repository implements AutoCloseable {
 	 * @throws IOException
 	 * @since 3.2
 	 */
+	@NonNull
 	public List<RebaseTodoLine> readRebaseTodo(String path,
 			boolean includeComments)
 			throws IOException {
@@ -1686,6 +1731,7 @@ public abstract class Repository implements AutoCloseable {
 	 * @return the names of all known remotes
 	 * @since 3.4
 	 */
+	@NonNull
 	public Set<String> getRemoteNames() {
 		return getConfig()
 				.getSubsections(ConfigConstants.CONFIG_REMOTE_SECTION);

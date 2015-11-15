@@ -52,6 +52,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
@@ -284,7 +285,11 @@ public class SubmoduleWalk implements AutoCloseable {
 
 		// Fall back to parent repository's working directory if no remote URL
 		if (remoteUrl == null) {
-			remoteUrl = parent.getWorkTree().getAbsolutePath();
+			File workTree = parent.getWorkTree();
+			if (workTree == null) {
+				throw new NoWorkTreeException();
+			}
+			remoteUrl = workTree.getAbsolutePath();
 			// Normalize slashes to '/'
 			if ('\\' == File.separatorChar)
 				remoteUrl = remoteUrl.replace('\\', '/');

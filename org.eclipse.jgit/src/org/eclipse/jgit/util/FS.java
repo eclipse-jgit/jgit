@@ -821,6 +821,9 @@ public abstract class FS {
 			runDirectory = repository.getDirectory();
 		else
 			runDirectory = repository.getWorkTree();
+		if (runDirectory == null) {
+			return new ProcessResult(Status.NOT_PRESENT);
+		}
 		final String cmd = relativize(runDirectory.getAbsolutePath(),
 				hookPath);
 		ProcessBuilder hookProcess = runInShell(cmd, args);
