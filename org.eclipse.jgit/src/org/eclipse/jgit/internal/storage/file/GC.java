@@ -90,6 +90,7 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Ref.Storage;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.ReflogEntry;
+import org.eclipse.jgit.lib.ReflogReader;
 import org.eclipse.jgit.revwalk.ObjectWalk;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -592,7 +593,11 @@ public class GC {
 	 * @throws IOException
 	 */
 	private Set<ObjectId> listRefLogObjects(Ref ref, long minTime) throws IOException {
-		List<ReflogEntry> rlEntries = repo.getReflogReader(ref.getName())
+		ReflogReader reflogReader = repo.getReflogReader(ref.getName());
+		if (reflogReader == null) {
+			throw new IOException();
+		}
+		List<ReflogEntry> rlEntries = reflogReader
 				.getReverseEntries();
 		if (rlEntries == null || rlEntries.isEmpty())
 			return Collections.<ObjectId> emptySet();
