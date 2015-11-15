@@ -222,6 +222,10 @@ public class CheckoutCommand extends GitCommand<Ref> {
 			}
 
 			Ref headRef = repo.getRef(Constants.HEAD);
+			if (headRef == null) {
+				throw new RefNotFoundException(MessageFormat
+						.format(JGitText.get().refNotResolved, Constants.HEAD));
+			}
 			String shortHeadRef = getShortBranchName(headRef);
 			String refLogMessage = "checkout: moving from " + shortHeadRef; //$NON-NLS-1$
 			ObjectId branch;

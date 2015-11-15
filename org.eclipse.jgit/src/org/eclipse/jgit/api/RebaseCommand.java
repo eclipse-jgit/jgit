@@ -673,7 +673,11 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		if (!currentCommitFile.exists())
 			return;
 
-		String head = repo.resolve(Constants.HEAD).getName();
+		ObjectId headId = repo.resolve(Constants.HEAD);
+		if (headId == null) {
+			return;
+		}
+		String head = headId.getName();
 		String currentCommits = rebaseState.readFile(CURRENT_COMMIT);
 		for (String current : currentCommits.split("\n")) //$NON-NLS-1$
 			RebaseState
@@ -744,6 +748,10 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	private void resetSoftToParent() throws IOException,
 			GitAPIException, CheckoutConflictException {
 		Ref orig_head = repo.getRef(Constants.ORIG_HEAD);
+		if (orig_head == null) {
+			throw new NoHeadException(
+					JGitText.get().cannotRebaseWithoutCurrentHead);
+		}
 		ObjectId orig_headId = orig_head.getObjectId();
 		try {
 			// we have already commited the cherry-picked commit.
