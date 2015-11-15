@@ -201,6 +201,7 @@ public class CLIText extends TranslationBundle {
 	/***/ public String notARevision;
 	/***/ public String notATree;
 	/***/ public String notAValidRefName;
+	/***/ public String notAValidCommitName;
 	/***/ public String notAnIndexFile;
 	/***/ public String notAnObject;
 	/***/ public String notFound;
