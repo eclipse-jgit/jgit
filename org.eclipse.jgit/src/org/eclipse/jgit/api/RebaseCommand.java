@@ -668,12 +668,13 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	}
 
 	private void writeRewrittenHashes() throws RevisionSyntaxException,
-			IOException {
+			IOException, RefNotFoundException {
 		File currentCommitFile = rebaseState.getFile(CURRENT_COMMIT);
 		if (!currentCommitFile.exists())
 			return;
 
-		String head = repo.resolve(Constants.HEAD).getName();
+		ObjectId headId = getHead().getObjectId();
+		String head = headId.getName();
 		String currentCommits = rebaseState.readFile(CURRENT_COMMIT);
 		for (String current : currentCommits.split("\n")) //$NON-NLS-1$
 			RebaseState
@@ -743,8 +744,8 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 
 	private void resetSoftToParent() throws IOException,
 			GitAPIException, CheckoutConflictException {
-		Ref orig_head = repo.getRef(Constants.ORIG_HEAD);
-		ObjectId orig_headId = orig_head.getObjectId();
+		Ref ref = repo.getRef(Constants.ORIG_HEAD);
+		ObjectId orig_head = ref == null ? null : ref.getObjectId();
 		try {
 			// we have already commited the cherry-picked commit.
 			// what we need is to have changes introduced by this
@@ -755,7 +756,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		} finally {
 			// set ORIG_HEAD back to where we started because soft
 			// reset moved it
-			repo.writeOrigHead(orig_headId);
+			repo.writeOrigHead(orig_head);
 		}
 	}
 
