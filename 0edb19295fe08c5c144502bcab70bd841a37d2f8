@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67ccbf7d_b3e36e10",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 906,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-11-15T23:41:29Z",
+      "side": 1,
+      "message": "return null to make this more explicit ?",
+      "range": {
+        "startLine": 906,
+        "startChar": 2,
+        "endLine": 906,
+        "endChar": 14
+      },
+      "revId": "0edb19295fe08c5c144502bcab70bd841a37d2f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_d303924a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1022,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-11-15T23:41:29Z",
+      "side": 1,
+      "message": "how is this nullable ?",
+      "revId": "0edb19295fe08c5c144502bcab70bd841a37d2f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_130eda73",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1275,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-11-15T23:41:29Z",
+      "side": 1,
+      "message": "why is this nullable ?",
+      "revId": "0edb19295fe08c5c144502bcab70bd841a37d2f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
