@@ -1354,8 +1354,9 @@ public abstract class Repository implements AutoCloseable {
 
 	/**
 	 * @param refName
-	 * @return a {@link ReflogReader} for the supplied refname, or null if the
-	 *         named ref does not exist.
+	 * @return a {@link ReflogReader} for the supplied refname (resolved using
+	 *         {@link RefDatabase#SEARCH_PATH}), or null if the named ref does
+	 *         not exist.
 	 * @throws IOException
 	 *             the ref could not be accessed.
 	 * @since 3.0
