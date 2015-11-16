@@ -498,7 +498,7 @@ public class TestRepository<R extends Repository> {
 	 */
 	public CommitBuilder amendRef(String ref) throws Exception {
 		String name = normalizeRef(ref);
-		Ref r = db.getRef(name);
+		Ref r = db.exactRef(name);
 		if (r == null)
 			throw new IOException("Not a ref: " + ref);
 		return amend(pool.parseCommit(r.getObjectId()), branch(name).commit());
