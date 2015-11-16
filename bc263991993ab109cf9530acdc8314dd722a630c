@@ -22,6 +22,30 @@
       "revId": "bc263991993ab109cf9530acdc8314dd722a630c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_f3a25682",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/annotations/NonNull.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-11-16T07:59:11Z",
+      "side": 1,
+      "message": "No, I meant exact this :-) This is the name from widely used but dead JSR-305 annotations :-(\n\nBut it *also* works as a replacement for org.eclipse.jdt.annotation.NonNull which were designed few years later :-)",
+      "parentUuid": "67ccbf7d_53f782c6",
+      "range": {
+        "startLine": 57,
+        "startChar": 37,
+        "endLine": 57,
+        "endChar": 53
+      },
+      "revId": "bc263991993ab109cf9530acdc8314dd722a630c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
