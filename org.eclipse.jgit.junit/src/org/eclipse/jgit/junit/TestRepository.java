@@ -988,7 +988,7 @@ public class TestRepository<R extends Repository> {
 		CommitBuilder(BranchBuilder b) throws Exception {
 			branch = b;
 
-			Ref ref = db.getRef(branch.ref);
+			Ref ref = db.exactRef(branch.ref);
 			if (ref != null && ref.getObjectId() != null)
 				parent(pool.parseCommit(ref.getObjectId()));
 		}
