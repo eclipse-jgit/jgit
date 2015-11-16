@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "67ccbf7d_33ad9e72",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 906,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-11-16T08:09:50Z",
+      "side": 1,
+      "message": "Yep, will do.",
+      "parentUuid": "67ccbf7d_b3e36e10",
+      "range": {
+        "startLine": 906,
+        "startChar": 2,
+        "endLine": 906,
+        "endChar": 14
+      },
+      "revId": "0edb19295fe08c5c144502bcab70bd841a37d2f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67ccbf7d_d303924a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 1
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "67ccbf7d_d38472ee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1022,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-11-16T08:09:50Z",
+      "side": 1,
+      "message": "The field is set via options.getIndexFile() which can return null.",
+      "parentUuid": "67ccbf7d_d303924a",
+      "revId": "0edb19295fe08c5c144502bcab70bd841a37d2f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67ccbf7d_130eda73",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 1
@@ -53,6 +95,24 @@
       "writtenOn": "2015-11-15T23:41:29Z",
       "side": 1,
       "message": "why is this nullable ?",
+      "revId": "0edb19295fe08c5c144502bcab70bd841a37d2f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_53b142c8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1275,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-11-16T08:09:50Z",
+      "side": 1,
+      "message": "Arrgh. My fault, checked the field writers and not the condition above.",
+      "parentUuid": "67ccbf7d_130eda73",
       "revId": "0edb19295fe08c5c144502bcab70bd841a37d2f8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
