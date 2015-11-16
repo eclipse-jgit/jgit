@@ -58,6 +58,8 @@ import java.lang.annotation.Target;
  * <p>
  * Denotes that a local variable, parameter, field, method return value can be
  * {@code null}.
+ *
+ * @since 4.2
  */
 @Documented
 @Retention(RetentionPolicy.CLASS)
