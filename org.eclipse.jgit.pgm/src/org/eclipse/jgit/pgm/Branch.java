@@ -119,7 +119,7 @@ class Branch extends TextBuiltin {
 			if (rename) {
 				String src, dst;
 				if (branches.size() == 1) {
-					final Ref head = db.getRef(Constants.HEAD);
+					final Ref head = db.exactRef(Constants.HEAD);
 					if (head != null && head.isSymbolic())
 						src = head.getLeaf().getName();
 					else
@@ -182,7 +182,7 @@ class Branch extends TextBuiltin {
 	}
 
 	private void list() throws Exception {
-		Ref head = db.getRef(Constants.HEAD);
+		Ref head = db.exactRef(Constants.HEAD);
 		// This can happen if HEAD is stillborn
 		if (head != null) {
 			String current = head.getLeaf().getName();

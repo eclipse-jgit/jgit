@@ -95,7 +95,7 @@ class Commit extends TextBuiltin {
 					commitCmd.setOnly(p);
 			commitCmd.setAmend(amend);
 			commitCmd.setAll(all);
-			Ref head = db.getRef(Constants.HEAD);
+			Ref head = db.exactRef(Constants.HEAD);
 			RevCommit commit;
 			try {
 				commit = commitCmd.call();

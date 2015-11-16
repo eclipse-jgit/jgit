@@ -120,7 +120,7 @@ class Merge extends TextBuiltin {
 			throw die(MessageFormat.format(
 					CLIText.get().refDoesNotExistOrNoCommit, ref));
 
-		Ref oldHead = db.getRef(Constants.HEAD);
+		Ref oldHead = db.exactRef(Constants.HEAD);
 		MergeResult result;
 		try (Git git = new Git(db)) {
 			MergeCommand mergeCmd = git.merge().setStrategy(mergeStrategy)

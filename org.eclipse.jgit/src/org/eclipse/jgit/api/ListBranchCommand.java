@@ -108,7 +108,7 @@ public class ListBranchCommand extends GitCommand<List<Ref>> {
 			Collection<Ref> refs = new ArrayList<Ref>();
 
 			// Also return HEAD if it's detached
-			Ref head = repo.getRef(Constants.HEAD);
+			Ref head = repo.exactRef(Constants.HEAD);
 			if (head != null && head.getLeaf().getName().equals(Constants.HEAD))
 				refs.add(head);
 

@@ -126,7 +126,7 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 		try (RevWalk revWalk = new RevWalk(repo)) {
 
 			// get the head commit
-			Ref headRef = repo.getRef(Constants.HEAD);
+			Ref headRef = repo.exactRef(Constants.HEAD);
 			if (headRef == null)
 				throw new NoHeadException(
 						JGitText.get().commitOnRepoWithoutHEADCurrentlyNotSupported);

@@ -101,7 +101,7 @@ public class SubmoduleSyncCommand extends GitCommand<Map<String, String>> {
 	 * @throws IOException
 	 */
 	protected String getHeadBranch(final Repository subRepo) throws IOException {
-		Ref head = subRepo.getRef(Constants.HEAD);
+		Ref head = subRepo.exactRef(Constants.HEAD);
 		if (head != null && head.isSymbolic())
 			return Repository.shortenRefName(head.getLeaf().getName());
 		else

@@ -854,7 +854,7 @@ public abstract class Repository implements AutoCloseable {
 	 * This is essentially the same as doing:
 	 *
 	 * <pre>
-	 * return getRef(Constants.HEAD).getTarget().getName()
+	 * return exactRef(Constants.HEAD).getTarget().getName()
 	 * </pre>
 	 *
 	 * Except when HEAD is detached, in which case this method returns the
@@ -866,7 +866,7 @@ public abstract class Repository implements AutoCloseable {
 	 * @throws IOException
 	 */
 	public String getFullBranch() throws IOException {
-		Ref head = getRef(Constants.HEAD);
+		Ref head = exactRef(Constants.HEAD);
 		if (head == null)
 			return null;
 		if (head.isSymbolic())
