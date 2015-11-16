@@ -46,6 +46,7 @@
 
 package org.eclipse.jgit.junit;
 
+import static org.eclipse.jgit.lib.Constants.R_HEADS;
 import static org.junit.Assert.assertEquals;
 
 import java.io.File;
@@ -383,7 +384,7 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 			String originalBranch = repo.getFullBranch();
 			boolean empty = repo.resolve(Constants.HEAD) == null;
 			if (!empty) {
-				if (repo.getRef(branch) == null)
+				if (repo.exactRef(R_HEADS + branch) == null)
 					git.branchCreate().setName(branch).call();
 				git.checkout().setName(branch).call();
 			}
