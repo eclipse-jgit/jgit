@@ -2,6 +2,234 @@
   "comments": [
     {
       "key": {
+        "uuid": "67ccbf7d_1ea89ed7",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/RemoteTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-11-16T23:11:26Z",
+      "side": 1,
+      "message": "style nit: we don\u0027t use wildcard imports",
+      "revId": "5d4dda66198c99f3ff1e87f8ee962b2c2156cf43",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_3969fcec",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/RemoteTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-11-16T23:11:26Z",
+      "side": 1,
+      "message": "jgit returns the file URL ending with \".git\" native git omits the postfix \".git\" (tried this using native git 2.6.1 on Mac OS X)",
+      "range": {
+        "startLine": 151,
+        "startChar": 4,
+        "endLine": 151,
+        "endChar": 48
+      },
+      "revId": "5d4dda66198c99f3ff1e87f8ee962b2c2156cf43",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_1e733e0b",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Remote.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-11-16T23:11:26Z",
+      "side": 1,
+      "message": "style nit: missing braces (we changed our style guide [1] to also use braces for single line blocks in new or changed code)\n\n[1] https://wiki.eclipse.org/EGit/Contributor_Guide#Braces_for_one-line_statements",
+      "revId": "5d4dda66198c99f3ff1e87f8ee962b2c2156cf43",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_7918e4a8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RemoteSetUrlCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-11-16T23:11:26Z",
+      "side": 1,
+      "message": "s/aviable/available/",
+      "range": {
+        "startLine": 70,
+        "startChar": 39,
+        "endLine": 70,
+        "endChar": 48
+      },
+      "revId": "5d4dda66198c99f3ff1e87f8ee962b2c2156cf43",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_1d9cb1ee",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RemoteSetUrlCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-11-16T23:11:26Z",
+      "side": 1,
+      "message": "s/aviable/available/",
+      "range": {
+        "startLine": 95,
+        "startChar": 39,
+        "endLine": 95,
+        "endChar": 48
+      },
+      "revId": "5d4dda66198c99f3ff1e87f8ee962b2c2156cf43",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_59c2407c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 716,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-11-16T23:11:26Z",
+      "side": 1,
+      "message": "we prefer active voice in Javadoc, e.g. \n\n- \"Return a command ...\" instead of \"Returns a command ...\"",
+      "range": {
+        "startLine": 716,
+        "startChar": 4,
+        "endLine": 716,
+        "endChar": 11
+      },
+      "revId": "5d4dda66198c99f3ff1e87f8ee962b2c2156cf43",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_9d7ee11e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RemoteAddCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-11-16T23:11:26Z",
+      "side": 1,
+      "message": "missing @since 4.2 tag",
+      "revId": "5d4dda66198c99f3ff1e87f8ee962b2c2156cf43",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_fd4efd13",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RemoteListCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-11-16T23:11:26Z",
+      "side": 1,
+      "message": "missing @since 4.2 tag",
+      "revId": "5d4dda66198c99f3ff1e87f8ee962b2c2156cf43",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_dd5339b7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RemoteRemoveCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-11-16T23:11:26Z",
+      "side": 1,
+      "message": "missing @since 4.2 tag",
+      "revId": "5d4dda66198c99f3ff1e87f8ee962b2c2156cf43",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_3d4535ee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RemoteSetUrlCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-11-16T23:11:26Z",
+      "side": 1,
+      "message": "missing @since 4.2 tag",
+      "revId": "5d4dda66198c99f3ff1e87f8ee962b2c2156cf43",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_7d1fadeb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RemoteSetUrlCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-11-16T23:11:26Z",
+      "side": 1,
+      "message": "this rather looks like an IllegalArgumentException\n\nlooks like we should check this earlier when setURI is called and already fail there if a URI is already set",
+      "revId": "5d4dda66198c99f3ff1e87f8ee962b2c2156cf43",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_fd327d78",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RemoteSetUrlCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-11-16T23:11:26Z",
+      "side": 1,
+      "message": "externalise error messages",
+      "revId": "5d4dda66198c99f3ff1e87f8ee962b2c2156cf43",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0724e3f1_dd76997c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
         "patchSetId": 1
@@ -13,6 +241,30 @@
       "writtenOn": "2015-11-03T13:31:15Z",
       "side": 1,
       "message": "This change is required for the successful execution of the tests. Without this check URIish with host \u003d\u003d null is not considered equal to URIish with host \u003d\u003d \"\", which is a bug.",
+      "range": {
+        "startLine": 596,
+        "startChar": 0,
+        "endLine": 597,
+        "endChar": 15
+      },
+      "revId": "5d4dda66198c99f3ff1e87f8ee962b2c2156cf43",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0724e3f1_bd5805d1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 597,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-11-16T23:11:26Z",
+      "side": 1,
+      "message": "looks ok, add a test in URIishTest covering this case, I\u0027d split this into a separate change and base this change on the fix",
+      "parentUuid": "0724e3f1_dd76997c",
       "range": {
         "startLine": 596,
         "startChar": 0,
