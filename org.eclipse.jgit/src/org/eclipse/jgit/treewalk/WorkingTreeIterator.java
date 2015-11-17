@@ -91,7 +91,7 @@ import org.eclipse.jgit.util.FS.ExecutionResult;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.Paths;
 import org.eclipse.jgit.util.RawParseUtils;
-import org.eclipse.jgit.util.io.EolCanonicalizingInputStream;
+import org.eclipse.jgit.util.io.AutoLFInputStream;
 
 /**
  * Walks a working directory tree as part of a {@link TreeWalk}.
@@ -470,7 +470,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	private InputStream handleAutoCRLF(InputStream in) {
 		AutoCRLF autoCRLF = getOptions().getAutoCRLF();
 		if (autoCRLF == AutoCRLF.TRUE || autoCRLF == AutoCRLF.INPUT) {
-			in = new EolCanonicalizingInputStream(in, true);
+			in = new AutoLFInputStream(in, true);
 		}
 		return in;
 	}
@@ -982,18 +982,18 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 
 					// We need to compute the length, but only if it is not
 					// a binary stream.
-					dcIn = new EolCanonicalizingInputStream(
+					dcIn = new AutoLFInputStream(
 							loader.openStream(), true, true /* abort if binary */);
 					long dcInLen;
 					try {
 						dcInLen = computeLength(dcIn);
-					} catch (EolCanonicalizingInputStream.IsBinaryException e) {
+					} catch (AutoLFInputStream.IsBinaryException e) {
 						return true;
 					} finally {
 						dcIn.close();
 					}
 
-					dcIn = new EolCanonicalizingInputStream(
+					dcIn = new AutoLFInputStream(
 							loader.openStream(), true);
 					byte[] autoCrLfHash = computeHash(dcIn, dcInLen);
 					boolean changed = getEntryObjectId().compareTo(

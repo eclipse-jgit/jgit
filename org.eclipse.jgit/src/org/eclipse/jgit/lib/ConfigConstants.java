@@ -107,6 +107,20 @@ public class ConfigConstants {
 	/** The "autocrlf" key */
 	public static final String CONFIG_KEY_AUTOCRLF = "autocrlf";
 
+	/**
+	 * The "eol" key
+	 *
+	 * @since 4.3
+	 */
+	public static final String CONFIG_KEY_EOL = "eol";
+
+	/**
+	 * The "jgit.forceEOL" key
+	 *
+	 * @since 4.3
+	 */
+	public static final String CONFIG_KEY_FORCE_EOL = "jgit.forceEOL";
+
 	/** The "bare" key */
 	public static final String CONFIG_KEY_BARE = "bare";
 
