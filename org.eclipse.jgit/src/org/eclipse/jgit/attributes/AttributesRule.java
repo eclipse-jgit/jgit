@@ -84,6 +84,13 @@ public class AttributesRule {
 				continue;
 			}
 
+			if (attribute.startsWith("!")) {//$NON-NLS-1$
+				if (attribute.length() > 1)
+					result.add(new Attribute(attribute.substring(1),
+							State.UNSPECIFIED));
+				continue;
+			}
+
 			final int equalsIndex = attribute.indexOf("="); //$NON-NLS-1$
 			if (equalsIndex == -1)
 				result.add(new Attribute(attribute, State.SET));
@@ -199,5 +206,17 @@ public class AttributesRule {
 			return false;
 		boolean match = matcher.matches(relativeTarget, isDirectory);
 		return match;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(pattern);
+		for (Attribute a : attributes) {
+			sb.append(" "); //$NON-NLS-1$
+			sb.append(a);
+		}
+		return sb.toString();
+
 	}
 }
