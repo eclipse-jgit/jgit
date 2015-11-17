@@ -726,7 +726,7 @@ public abstract class Repository implements AutoCloseable {
 				if (i == revChars.length - 1)
 					return tree.copy();
 
-				TreeWalk tw = TreeWalk.forPath(rw.getObjectReader(),
+				TreeWalk tw = TreeWalk.forPath(this, rw.getObjectReader(),
 						new String(revChars, i + 1, revChars.length - i - 1),
 						tree);
 				return tw != null ? tw.getObjectId(0) : null;

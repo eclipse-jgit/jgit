@@ -152,7 +152,7 @@ public class BlobBasedConfig extends Config {
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
 		try (ObjectReader or = db.newObjectReader()) {
-			TreeWalk tree = TreeWalk.forPath(or, path, asTree(or, treeish));
+			TreeWalk tree = TreeWalk.forPath(db, or, path, asTree(or, treeish));
 			if (tree == null)
 				throw new FileNotFoundException(MessageFormat.format(JGitText
 						.get().entryNotFoundByPath, path));

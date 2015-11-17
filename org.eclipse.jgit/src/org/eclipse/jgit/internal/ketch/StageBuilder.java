@@ -133,7 +133,7 @@ public class StageBuilder {
 	public List<ReceiveCommand> makeStageList(Repository git, ObjectId oldTree,
 			ObjectId newTree) throws IOException {
 		try (RevWalk rw = new RevWalk(git);
-				TreeWalk tw = new TreeWalk(rw.getObjectReader());
+				TreeWalk tw = new TreeWalk(git, rw.getObjectReader());
 				ObjectInserter ins = git.newObjectInserter()) {
 			if (AnyObjectId.equals(oldTree, ObjectId.zeroId())) {
 				tw.addTree(new EmptyTreeIterator());

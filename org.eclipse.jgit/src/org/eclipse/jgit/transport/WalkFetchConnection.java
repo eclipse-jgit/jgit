@@ -214,7 +214,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 
 		revWalk = new RevWalk(reader);
 		revWalk.setRetainBody(false);
-		treeWalk = new TreeWalk(reader);
+		treeWalk = new TreeWalk(local, reader);
 		COMPLETE = revWalk.newFlag("COMPLETE"); //$NON-NLS-1$
 		IN_WORK_QUEUE = revWalk.newFlag("IN_WORK_QUEUE"); //$NON-NLS-1$
 		LOCALLY_SEEN = revWalk.newFlag("LOCALLY_SEEN"); //$NON-NLS-1$

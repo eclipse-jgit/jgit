@@ -46,46 +46,16 @@ package org.eclipse.jgit.util.io;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.eclipse.jgit.diff.RawText;
-
 /**
  * An input stream which canonicalizes EOLs bytes on the fly to '\n'.
  *
- * Optionally, a binary check on the first 8000 bytes is performed
- * and in case of binary files, canonicalization is turned off
- * (for the complete file).
+ * Optionally, a binary check on the first 8000 bytes is performed and in case
+ * of binary files, canonicalization is turned off (for the complete file).
+ *
+ * @deprecated use {@link AutoLFInputStream} instead
  */
-public class EolCanonicalizingInputStream extends InputStream {
-	private final byte[] single = new byte[1];
-
-	private final byte[] buf = new byte[8096];
-
-	private final InputStream in;
-
-	private int cnt;
-
-	private int ptr;
-
-	private boolean isBinary;
-
-	private boolean detectBinary;
-
-	private boolean abortIfBinary;
-
-	/**
-	 * A special exception thrown when {@link EolCanonicalizingInputStream} is
-	 * told to throw an exception when attempting to read a binary file. The
-	 * exception may be thrown at any stage during reading.
-	 *
-	 * @since 3.3
-	 */
-	public static class IsBinaryException extends IOException {
-		private static final long serialVersionUID = 1L;
-
-		IsBinaryException() {
-			super();
-		}
-	}
+@Deprecated
+public class EolCanonicalizingInputStream extends AutoLFInputStream {
 
 	/**
 	 * Creates a new InputStream, wrapping the specified stream
@@ -94,10 +64,9 @@ public class EolCanonicalizingInputStream extends InputStream {
 	 *            raw input stream
 	 * @param detectBinary
 	 *            whether binaries should be detected
-	 * @since 2.0
 	 */
 	public EolCanonicalizingInputStream(InputStream in, boolean detectBinary) {
-		this(in, detectBinary, false);
+		super(in, detectBinary);
 	}
 
 	/**
@@ -109,83 +78,25 @@ public class EolCanonicalizingInputStream extends InputStream {
 	 *            whether binaries should be detected
 	 * @param abortIfBinary
 	 *            throw an IOException if the file is binary
-	 * @since 3.3
 	 */
 	public EolCanonicalizingInputStream(InputStream in, boolean detectBinary,
 			boolean abortIfBinary) {
-		this.in = in;
-		this.detectBinary = detectBinary;
-		this.abortIfBinary = abortIfBinary;
-	}
-
-	@Override
-	public int read() throws IOException {
-		final int read = read(single, 0, 1);
-		return read == 1 ? single[0] & 0xff : -1;
-	}
-
-	@Override
-	public int read(byte[] bs, final int off, final int len) throws IOException {
-		if (len == 0)
-			return 0;
-
-		if (cnt == -1)
-			return -1;
-
-		int i = off;
-		final int end = off + len;
-
-		while (i < end) {
-			if (ptr == cnt && !fillBuffer()) {
-				break;
-			}
-
-			byte b = buf[ptr++];
-			if (isBinary || b != '\r') {
-				// Logic for binary files ends here
-				bs[i++] = b;
-				continue;
-			}
-
-			if (ptr == cnt && !fillBuffer()) {
-				bs[i++] = '\r';
-				break;
-			}
-
-			if (buf[ptr] == '\n') {
-				bs[i++] = '\n';
-				ptr++;
-			} else
-				bs[i++] = '\r';
-		}
-
-		return i == off ? -1 : i - off;
+		super(in, detectBinary, abortIfBinary);
 	}
 
 	/**
-	 * @return true if the stream has detected as a binary so far
+	 * A special exception thrown when {@link AutoLFInputStream} is told to
+	 * throw an exception when attempting to read a binary file. The exception
+	 * may be thrown at any stage during reading.
+	 *
 	 * @since 3.3
 	 */
-	public boolean isBinary() {
-		return isBinary;
-	}
+	public static class IsBinaryException extends IOException {
+		private static final long serialVersionUID = 1L;
 
-	@Override
-	public void close() throws IOException {
-		in.close();
-	}
-
-	private boolean fillBuffer() throws IOException {
-		cnt = in.read(buf, 0, buf.length);
-		if (cnt < 1)
-			return false;
-		if (detectBinary) {
-			isBinary = RawText.isBinary(buf, cnt);
-			detectBinary = false;
-			if (isBinary && abortIfBinary)
-				throw new IsBinaryException();
+		IsBinaryException() {
+			super();
 		}
-		ptr = 0;
-		return true;
 	}
+
 }
