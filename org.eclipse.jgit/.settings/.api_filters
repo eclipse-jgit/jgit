@@ -51,6 +51,13 @@
             </message_arguments>
         </filter>
     </resource>
+    <resource path="src/org/eclipse/jgit/treewalk/TreeWalk.java" type="org.eclipse.jgit.treewalk.TreeWalk">
+        <filter comment="added support for handling stream CRLF / LF using gitattributes and core config" id="1143996420">
+            <message_arguments>
+                <message_argument value="getStreamType()"/>
+            </message_arguments>
+        </filter>
+    </resource>
     <resource path="src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java" type="org.eclipse.jgit.treewalk.WorkingTreeIterator">
         <filter comment="attributes weren't really usable in earlier versions" id="338792546">
             <message_arguments>
