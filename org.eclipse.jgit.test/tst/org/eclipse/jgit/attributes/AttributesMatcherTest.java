@@ -293,28 +293,28 @@ public class AttributesMatcherTest {
 	public void testGetters() {
 		AttributesRule r = new AttributesRule("/pattern/", "");
 		assertFalse(r.isNameOnly());
-		assertTrue(r.dirOnly());
+		assertTrue(r.isDirOnly());
 		assertNotNull(r.getAttributes());
 		assertTrue(r.getAttributes().isEmpty());
 		assertEquals(r.getPattern(), "/pattern");
 
 		r = new AttributesRule("/patter?/", "");
 		assertFalse(r.isNameOnly());
-		assertTrue(r.dirOnly());
+		assertTrue(r.isDirOnly());
 		assertNotNull(r.getAttributes());
 		assertTrue(r.getAttributes().isEmpty());
 		assertEquals(r.getPattern(), "/patter?");
 
 		r = new AttributesRule("patt*", "");
 		assertTrue(r.isNameOnly());
-		assertFalse(r.dirOnly());
+		assertFalse(r.isDirOnly());
 		assertNotNull(r.getAttributes());
 		assertTrue(r.getAttributes().isEmpty());
 		assertEquals(r.getPattern(), "patt*");
 
 		r = new AttributesRule("pattern", "attribute1");
 		assertTrue(r.isNameOnly());
-		assertFalse(r.dirOnly());
+		assertFalse(r.isDirOnly());
 		assertNotNull(r.getAttributes());
 		assertFalse(r.getAttributes().isEmpty());
 		assertEquals(r.getAttributes().size(), 1);
@@ -322,28 +322,28 @@ public class AttributesMatcherTest {
 
 		r = new AttributesRule("pattern", "attribute1 -attribute2");
 		assertTrue(r.isNameOnly());
-		assertFalse(r.dirOnly());
+		assertFalse(r.isDirOnly());
 		assertNotNull(r.getAttributes());
 		assertEquals(r.getAttributes().size(), 2);
 		assertEquals(r.getPattern(), "pattern");
 
 		r = new AttributesRule("pattern", "attribute1 \t-attribute2 \t");
 		assertTrue(r.isNameOnly());
-		assertFalse(r.dirOnly());
+		assertFalse(r.isDirOnly());
 		assertNotNull(r.getAttributes());
 		assertEquals(r.getAttributes().size(), 2);
 		assertEquals(r.getPattern(), "pattern");
 
 		r = new AttributesRule("pattern", "attribute1\t-attribute2\t");
 		assertTrue(r.isNameOnly());
-		assertFalse(r.dirOnly());
+		assertFalse(r.isDirOnly());
 		assertNotNull(r.getAttributes());
 		assertEquals(r.getAttributes().size(), 2);
 		assertEquals(r.getPattern(), "pattern");
 
 		r = new AttributesRule("pattern", "attribute1\t -attribute2\t ");
 		assertTrue(r.isNameOnly());
-		assertFalse(r.dirOnly());
+		assertFalse(r.isDirOnly());
 		assertNotNull(r.getAttributes());
 		assertEquals(r.getAttributes().size(), 2);
 		assertEquals(r.getPattern(), "pattern");
@@ -351,7 +351,7 @@ public class AttributesMatcherTest {
 		r = new AttributesRule("pattern",
 				"attribute1 -attribute2  attribute3=value ");
 		assertTrue(r.isNameOnly());
-		assertFalse(r.dirOnly());
+		assertFalse(r.isDirOnly());
 		assertNotNull(r.getAttributes());
 		assertEquals(r.getAttributes().size(), 3);
 		assertEquals(r.getPattern(), "pattern");

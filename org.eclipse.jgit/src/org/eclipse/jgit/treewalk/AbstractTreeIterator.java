@@ -50,6 +50,7 @@ import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 
 import org.eclipse.jgit.attributes.AttributesNode;
+import org.eclipse.jgit.attributes.AttributesHandler;
 import org.eclipse.jgit.dircache.DirCacheCheckout;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -88,8 +89,14 @@ public abstract class AbstractTreeIterator {
 	/** A dummy object id buffer that matches the zero ObjectId. */
 	protected static final byte[] zeroid = new byte[Constants.OBJECT_ID_LENGTH];
 
-	/** Iterator for the parent tree; null if we are the root iterator. */
-	final AbstractTreeIterator parent;
+	/**
+	 * Iterator for the parent tree; null if we are the root iterator.
+	 * <p>
+	 * Used by {@link TreeWalk} and {@link AttributesHandler}
+	 *
+	 * @since 4.3
+	 */
+	public final AbstractTreeIterator parent;
 
 	/** The iterator this current entry is path equal to. */
 	AbstractTreeIterator matches;
