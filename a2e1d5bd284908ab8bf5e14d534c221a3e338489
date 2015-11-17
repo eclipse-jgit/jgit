@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "67ccbf7d_2ffc4a32",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2015-11-17T14:51:41Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "a2e1d5bd284908ab8bf5e14d534c221a3e338489",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67ccbf7d_b466f146",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -42,6 +59,23 @@
         "endLine": 8,
         "endChar": 15
       },
+      "revId": "a2e1d5bd284908ab8bf5e14d534c221a3e338489",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_4ff98e40",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2015-11-17T14:51:41Z",
+      "side": 1,
+      "message": "Done",
       "revId": "a2e1d5bd284908ab8bf5e14d534c221a3e338489",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -71,6 +105,23 @@
     },
     {
       "key": {
+        "uuid": "67ccbf7d_6ff65252",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2015-11-17T14:51:41Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "a2e1d5bd284908ab8bf5e14d534c221a3e338489",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67ccbf7d_547045fc",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -82,6 +133,23 @@
       "writtenOn": "2015-11-17T13:39:58Z",
       "side": 1,
       "message": "Better have a good first line of the commit message. A lot of tools show only the first line of the commit message this one looks ugly then. See our guidlines here:\nhttps://wiki.eclipse.org/EGit/Contributor_Guide#Commit_message_guidelines.",
+      "revId": "a2e1d5bd284908ab8bf5e14d534c221a3e338489",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_8ff3965e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2015-11-17T14:51:41Z",
+      "side": 1,
+      "message": "Done",
       "revId": "a2e1d5bd284908ab8bf5e14d534c221a3e338489",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
