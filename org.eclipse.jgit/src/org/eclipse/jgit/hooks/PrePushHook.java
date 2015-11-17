@@ -113,6 +113,9 @@ public class PrePushHook extends GitHook<String> {
 	 */
 	@Override
 	protected String[] getParameters() {
+		if (remoteName == null) {
+			remoteName = remoteLocation;
+		}
 		return new String[] { remoteName, remoteLocation };
 	}
 
