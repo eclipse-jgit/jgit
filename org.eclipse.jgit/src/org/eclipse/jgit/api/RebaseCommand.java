@@ -743,7 +743,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 
 	private void resetSoftToParent() throws IOException,
 			GitAPIException, CheckoutConflictException {
-		Ref orig_head = repo.getRef(Constants.ORIG_HEAD);
+		Ref orig_head = repo.exactRef(Constants.ORIG_HEAD);
 		ObjectId orig_headId = orig_head.getObjectId();
 		try {
 			// we have already commited the cherry-picked commit.
