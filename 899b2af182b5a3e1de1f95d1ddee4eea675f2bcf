@@ -71,6 +71,213 @@
     },
     {
       "key": {
+        "uuid": "67ccbf7d_ca990cd3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 679,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-11-17T19:26:53Z",
+      "side": 1,
+      "message": "The only caller is processStep. In call():\n\n- ABORT doesn\u0027t call processStep\n- BEGIN reads HEAD and throws an exception if it\u0027s absent in initFilesAndRewind.\n- CONTINUE reads HEAD and throws an exception if it\u0027s absent in continueRebase.\n- SKIP reads HEAD and throws an exception if it\u0027s absent in checkoutCurrentHead.\n- PROCESS_STEPS doesn\u0027t check HEAD\n\nSo this looks like a behavior change in the PROCESS_STEPS case. Should it just throw an exception when HEAD doesn\u0027t resolve (e.g., by calling getHead)?",
+      "range": {
+        "startLine": 676,
+        "startChar": 0,
+        "endLine": 679,
+        "endChar": 3
+      },
+      "revId": "899b2af182b5a3e1de1f95d1ddee4eea675f2bcf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_2aa8b8d7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 753,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-11-17T19:26:53Z",
+      "side": 1,
+      "message": "This is about ORIG_HEAD, not HEAD. And it\u0027s about preserving the old value for it --- we don\u0027t care what value it had.\n\nWould something like this work?\n\n  Ref ref \u003d repo.getRef(ORIG_HEAD);\n  ObjectId oldOrigId \u003d ref \u003d\u003d null ? null : ref.getObjectId();\n  try {\n    ...\n  } finally {\n    repo.writeOrigHead(oldOrigId);\n  }",
+      "range": {
+        "startLine": 752,
+        "startChar": 0,
+        "endLine": 753,
+        "endChar": 52
+      },
+      "revId": "899b2af182b5a3e1de1f95d1ddee4eea675f2bcf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_0a8f747f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RenameBranchCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-11-17T19:26:53Z",
+      "side": 1,
+      "message": "Getting null here indicates repository corruption --- HEAD is always supposed to be either pointing to a (possibly unborn) branch or a specific commit id (the detached head case). I suspect the right long-term fix would be to deprecate getFullBranch and encourage use of a different method that throws an exception in the corrupt case.\n\nC Git prints \"fatal: Not a git repository (or any of the parent directories): .git\" in this case. So how about something like\n\n  throw new NoHeadException(\"Invalid repository --- cannot read HEAD\");\n\n? (Even better would be a new InvalidRepositoryException.)",
+      "range": {
+        "startLine": 124,
+        "startChar": 0,
+        "endLine": 127,
+        "endChar": 5
+      },
+      "revId": "899b2af182b5a3e1de1f95d1ddee4eea675f2bcf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_0a669445",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 597,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-11-17T19:26:53Z",
+      "side": 1,
+      "message": "This can only happen if the ref disappeared after the caller resolved it.\n\nI think it is okay to return Collections.emptySet() in that case.",
+      "range": {
+        "startLine": 597,
+        "startChar": 0,
+        "endLine": 597,
+        "endChar": 29
+      },
+      "revId": "899b2af182b5a3e1de1f95d1ddee4eea675f2bcf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_2a5a787b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefRename.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-11-17T19:26:53Z",
+      "side": 1,
+      "message": "Make sense. If head \u003d\u003d null then the repository is corrupt but we can handle it gracefully.",
+      "range": {
+        "startLine": 173,
+        "startChar": 0,
+        "endLine": 173,
+        "endChar": 42
+      },
+      "revId": "899b2af182b5a3e1de1f95d1ddee4eea675f2bcf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_4a57bc51",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-11-17T19:26:53Z",
+      "side": 1,
+      "message": "I think this should be nullable.\n\nIf that\u0027s inconvenient to callers, it\u0027s worth introducing a variant that throws an exception instead of returning null in the no-File-available case.",
+      "range": {
+        "startLine": 188,
+        "startChar": 0,
+        "endLine": 194,
+        "endChar": 4
+      },
+      "revId": "899b2af182b5a3e1de1f95d1ddee4eea675f2bcf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_6a54804c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-11-17T19:26:53Z",
+      "side": 1,
+      "message": "@NonNull",
+      "range": {
+        "startLine": 217,
+        "startChar": 0,
+        "endLine": 217,
+        "endChar": 46
+      },
+      "revId": "899b2af182b5a3e1de1f95d1ddee4eea675f2bcf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_2cb7f522",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-11-17T19:26:53Z",
+      "side": 1,
+      "message": "@NonNull",
+      "range": {
+        "startLine": 222,
+        "startChar": 0,
+        "endLine": 222,
+        "endChar": 42
+      },
+      "revId": "899b2af182b5a3e1de1f95d1ddee4eea675f2bcf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_4cbc3905",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-11-17T19:26:53Z",
+      "side": 1,
+      "message": "@Nullable --- e.g., InMemoryRepository leaves this null.",
+      "range": {
+        "startLine": 227,
+        "startChar": 0,
+        "endLine": 227,
+        "endChar": 9
+      },
+      "revId": "899b2af182b5a3e1de1f95d1ddee4eea675f2bcf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67ccbf7d_aa4cc81d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 3
@@ -87,6 +294,121 @@
         "startChar": 2,
         "endLine": 419,
         "endChar": 58
+      },
+      "revId": "899b2af182b5a3e1de1f95d1ddee4eea675f2bcf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_cce68922",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 855,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-11-17T19:26:53Z",
+      "side": 1,
+      "message": "@NonNull",
+      "range": {
+        "startLine": 855,
+        "startChar": 0,
+        "endLine": 855,
+        "endChar": 27
+      },
+      "revId": "899b2af182b5a3e1de1f95d1ddee4eea675f2bcf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_ece34d0f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 984,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-11-17T19:26:53Z",
+      "side": 1,
+      "message": "@NonNull",
+      "range": {
+        "startLine": 984,
+        "startChar": 0,
+        "endLine": 984,
+        "endChar": 33
+      },
+      "revId": "899b2af182b5a3e1de1f95d1ddee4eea675f2bcf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_4c0ef974",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1028,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-11-17T19:26:53Z",
+      "side": 1,
+      "message": "@NonNull",
+      "range": {
+        "startLine": 1028,
+        "startChar": 0,
+        "endLine": 1028,
+        "endChar": 10
+      },
+      "revId": "899b2af182b5a3e1de1f95d1ddee4eea675f2bcf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_6c13bd97",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1247,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-11-17T19:26:53Z",
+      "side": 1,
+      "message": "@NonNull",
+      "range": {
+        "startLine": 1247,
+        "startChar": 0,
+        "endLine": 1247,
+        "endChar": 61
+      },
+      "revId": "899b2af182b5a3e1de1f95d1ddee4eea675f2bcf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_cc01293f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1305,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-11-17T19:26:53Z",
+      "side": 1,
+      "message": "@NonNull",
+      "range": {
+        "startLine": 1305,
+        "startChar": 0,
+        "endLine": 1305,
+        "endChar": 54
       },
       "revId": "899b2af182b5a3e1de1f95d1ddee4eea675f2bcf",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
