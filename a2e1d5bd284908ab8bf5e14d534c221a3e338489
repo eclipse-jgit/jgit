@@ -111,6 +111,23 @@
     },
     {
       "key": {
+        "uuid": "67ccbf7d_cfd03ef7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attribute.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2015-11-17T14:51:06Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "a2e1d5bd284908ab8bf5e14d534c221a3e338489",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67ccbf7d_7454694c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attributes.java",
         "patchSetId": 1
@@ -128,6 +145,23 @@
     },
     {
       "key": {
+        "uuid": "67ccbf7d_4fe34ec3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attributes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2015-11-17T14:51:06Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "a2e1d5bd284908ab8bf5e14d534c221a3e338489",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67ccbf7d_4fc26e7c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attributes.java",
         "patchSetId": 1
@@ -139,6 +173,23 @@
       "writtenOn": "2015-11-17T13:39:58Z",
       "side": 1,
       "message": "Please look at https://wiki.eclipse.org/EGit/Contributor_Guide#Checking_for_JGit_API_Changes_using_API_Baseline\n\nI suggest you setup API checks. They give a lot of warnings here about missing @since tags etc.",
+      "revId": "a2e1d5bd284908ab8bf5e14d534c221a3e338489",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_ef7ee25c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attributes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2015-11-17T14:51:06Z",
+      "side": 1,
+      "message": "Done",
       "revId": "a2e1d5bd284908ab8bf5e14d534c221a3e338489",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -168,6 +219,23 @@
     },
     {
       "key": {
+        "uuid": "67ccbf7d_0fdb0619",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attributes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2015-11-17T14:51:06Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "a2e1d5bd284908ab8bf5e14d534c221a3e338489",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67ccbf7d_af2a1ab3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attributes.java",
         "patchSetId": 1
@@ -185,6 +253,23 @@
         "endLine": 143,
         "endChar": 57
       },
+      "revId": "a2e1d5bd284908ab8bf5e14d534c221a3e338489",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_6fc9f24d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attributes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2015-11-17T14:51:06Z",
+      "side": 1,
+      "message": "Done",
       "revId": "a2e1d5bd284908ab8bf5e14d534c221a3e338489",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -214,6 +299,23 @@
     },
     {
       "key": {
+        "uuid": "67ccbf7d_0ff2268f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attributes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2015-11-17T14:51:06Z",
+      "side": 1,
+      "message": "here I return the effective value, not the state",
+      "revId": "a2e1d5bd284908ab8bf5e14d534c221a3e338489",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67ccbf7d_cf5afe55",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
         "patchSetId": 1
@@ -231,6 +333,23 @@
     },
     {
       "key": {
+        "uuid": "67ccbf7d_2f636abd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2015-11-17T14:51:06Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "a2e1d5bd284908ab8bf5e14d534c221a3e338489",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67ccbf7d_ef5fc243",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/AbstractTreeIterator.java",
         "patchSetId": 1
@@ -242,6 +361,23 @@
       "writtenOn": "2015-11-17T13:39:58Z",
       "side": 1,
       "message": "what makes the root tree iterator different from any lower level tree iterator? Is there something special stored in the root iterator?",
+      "revId": "a2e1d5bd284908ab8bf5e14d534c221a3e338489",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_6f6d72a6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/AbstractTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2015-11-17T14:51:06Z",
+      "side": 1,
+      "message": "git spec: \"Custom macro attributes can be defined only in top-level gitattributes files ($GIT_DIR/info/attributes, the .gitattributes file at the top level of the working tree, or the global or system-wide gitattributes files), not in .gitattributes files in working tree subdirectories.\"",
       "revId": "a2e1d5bd284908ab8bf5e14d534c221a3e338489",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
