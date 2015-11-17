@@ -491,6 +491,9 @@ public class WalkEncryptionTest {
 			String http_proxy = System.getProperty(keyHttpProxy,
 					System.getenv(keyHttpProxy));
 			if (http_proxy != null) {
+				if (!http_proxy.startsWith("http://")) {
+					http_proxy = "http://" + http_proxy;
+				}
 				URL url = new URL(http_proxy);
 				System.setProperty("http.proxyHost", url.getHost());
 				System.setProperty("http.proxyPort", "" + url.getPort());
@@ -500,6 +503,9 @@ public class WalkEncryptionTest {
 			String https_proxy = System.getProperty(keyHttpsProxy,
 					System.getenv(keyHttpsProxy));
 			if (https_proxy != null) {
+				if (!https_proxy.startsWith("https://")) {
+					https_proxy = "https://" + https_proxy;
+				}
 				URL url = new URL(https_proxy);
 				System.setProperty("https.proxyHost", url.getHost());
 				System.setProperty("https.proxyPort", "" + url.getPort());
