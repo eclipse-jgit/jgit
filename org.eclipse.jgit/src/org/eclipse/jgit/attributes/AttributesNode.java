@@ -125,6 +125,8 @@ public class AttributesNode {
 	/**
 	 * Returns the matching attributes for an entry path.
 	 *
+	 * @param macroExpander
+	 *            that knows how to expand an {@link Attribute}
 	 * @param entryPath
 	 *            the path to test. The path must be relative to this attribute
 	 *            node's own repository path, and in repository path format
@@ -137,7 +139,7 @@ public class AttributesNode {
 	 *            entry.
 	 * @since 4.2
 	 */
-	public void getAttributes(String entryPath,
+	public void getAttributes(MacroExpander macroExpander, String entryPath,
 			boolean isDirectory, Attributes attributes) {
 		// Parse rules in the reverse order that they were read since the last
 		// entry should be used
@@ -151,9 +153,11 @@ public class AttributesNode {
 				// Parses the attributes in the reverse order that they were
 				// read since the last entry should be used
 				while (attributeIte.hasPrevious()) {
-					Attribute attr = attributeIte.previous();
-					if (!attributes.containsKey(attr.getKey()))
-						attributes.put(attr);
+					Attribute raw = attributeIte.previous();
+					for (Attribute attr : macroExpander.expandMacro(raw)) {
+						if (!attributes.containsKey(attr.getKey()))
+							attributes.put(attr);
+					}
 				}
 			}
 		}
