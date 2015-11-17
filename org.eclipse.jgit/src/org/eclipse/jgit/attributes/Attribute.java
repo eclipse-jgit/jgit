@@ -50,8 +50,10 @@ package org.eclipse.jgit.attributes;
  * <li>Set - represented by {@link State#SET}</li>
  * <li>Unset - represented by {@link State#UNSET}</li>
  * <li>Set to a value - represented by {@link State#CUSTOM}</li>
- * <li>Unspecified - <code>null</code> is used instead of an instance of this
- * class</li>
+ * <li>Unspecified - used in the INFO .gitattributes in order to revert a
+ * previously set attribute key. This is crucial in order to mark an attribute
+ * as unspecified in the Map and preventing following nodes from setting the
+ * attribute</li>
  * </ul>
  * </p>
  *
@@ -68,6 +70,9 @@ public final class Attribute {
 
 		/** the attribute is unset */
 		UNSET,
+
+		/** the attribute is explicitly removed in the INFO .gitattributes */
+		UNSPECIFIED,
 
 		/** the attribute is set to a custom value */
 		CUSTOM
@@ -176,6 +181,8 @@ public final class Attribute {
 			return key;
 		case UNSET:
 			return "-" + key; //$NON-NLS-1$
+		case UNSPECIFIED:
+			return "!" + key; //$NON-NLS-1$
 		case CUSTOM:
 		default:
 			return key + "=" + value; //$NON-NLS-1$
