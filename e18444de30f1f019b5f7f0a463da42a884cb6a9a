@@ -22,6 +22,30 @@
       "revId": "e18444de30f1f019b5f7f0a463da42a884cb6a9a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_b966ec46",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/RenameDetectorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 983
+      },
+      "writtenOn": "2015-11-17T07:50:36Z",
+      "side": 1,
+      "message": "right, this is meant to ensure the behavior you mentioned in comment #3 in bug 481577. It would probably haven been better to discuss and submit that in a separate patch. Let me know if I should remove this test.",
+      "parentUuid": "67ccbf7d_be209da4",
+      "range": {
+        "startLine": 231,
+        "startChar": 12,
+        "endLine": 231,
+        "endChar": 44
+      },
+      "revId": "e18444de30f1f019b5f7f0a463da42a884cb6a9a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
