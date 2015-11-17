@@ -1,0 +1,8 @@
+Verified+1: Hudson CI
+Code-Review+1: Terry Parker <tparker@google.com>
+Code-Review+2: Andrey Loskutov <loskutov@gmx.de>
+Submitted-by: Andrey Loskutov <loskutov@gmx.de>
+Submitted-at: Tue, 17 Nov 2015 12:53:01 -0500
+Reviewed-on: https://git.eclipse.org/r/60439
+Project: jgit/jgit
+Branch: refs/heads/master
