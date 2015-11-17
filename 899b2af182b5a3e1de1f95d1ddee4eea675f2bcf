@@ -2,6 +2,75 @@
   "comments": [
     {
       "key": {
+        "uuid": "67ccbf7d_2a79983a",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Branch.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-11-17T18:15:16Z",
+      "side": 1,
+      "message": "Can decrease nesting using \u0027else if\u0027:\n\n  if (startRef !\u003d null) {\n    startBranch \u003d startRef.getName();\n  } else if (startAt !\u003d null) {\n    startBranch \u003d startAt.name();\n  } else {\n    throw die(...);\n  }\n\nConfusingly, the startBranch doesn\u0027t have to be a ref name. So a clearer message would be something like\n\n    throw die(format(\"Not a valid commit name: \u0027\u0027{0}\u0027\u0027\", startBranch));",
+      "range": {
+        "startLine": 159,
+        "startChar": 0,
+        "endLine": 165,
+        "endChar": 34
+      },
+      "revId": "899b2af182b5a3e1de1f95d1ddee4eea675f2bcf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_4aa89c0f",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Merge.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-11-17T18:15:16Z",
+      "side": 1,
+      "message": "Git has a special case for this case (merge from an unborn branch merges the named commits and resets to the result) but that would be outside the scope of this change.\n\nShould this check happen earlier on, when oldHead is read?",
+      "range": {
+        "startLine": 150,
+        "startChar": 0,
+        "endLine": 152,
+        "endChar": 4
+      },
+      "revId": "899b2af182b5a3e1de1f95d1ddee4eea675f2bcf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_6ab56063",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-11-17T18:15:16Z",
+      "side": 1,
+      "message": "Git allows checkout from an unborn branch. Worth a TODO to support that here, too?",
+      "range": {
+        "startLine": 225,
+        "startChar": 0,
+        "endLine": 228,
+        "endChar": 4
+      },
+      "revId": "899b2af182b5a3e1de1f95d1ddee4eea675f2bcf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67ccbf7d_aa4cc81d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 3
