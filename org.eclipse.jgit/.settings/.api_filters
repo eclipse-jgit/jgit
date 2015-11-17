@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <component id="org.eclipse.jgit" version="2">
+    <resource path="src/org/eclipse/jgit/attributes/AttributesNode.java" type="org.eclipse.jgit.attributes.AttributesNode">
+        <filter comment="attributes weren't really usable in earlier versions" id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.attributes.AttributesNode"/>
+                <message_argument value="getAttributes(String, boolean, Map&lt;String,Attribute&gt;)"/>
+            </message_arguments>
+        </filter>
+        <filter comment="attributes weren't really usable in earlier versions" id="1143996420">
+            <message_arguments>
+                <message_argument value="getAttributes(MacroExpander, String, boolean, Attributes)"/>
+            </message_arguments>
+        </filter>
+    </resource>
     <resource path="src/org/eclipse/jgit/lib/BitmapIndex.java" type="org.eclipse.jgit.lib.BitmapIndex$BitmapBuilder">
         <filter comment="interface is implemented by extenders but not clients of the API" id="403804204">
             <message_arguments>
