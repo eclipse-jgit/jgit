@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67ccbf7d_aa4cc81d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-11-17T18:04:12Z",
+      "side": 1,
+      "message": "For all @return on Javadoc that is @Nullable, please append \",or {@code null} if \u003ccondition\u003e\"",
+      "range": {
+        "startLine": 419,
+        "startChar": 2,
+        "endLine": 419,
+        "endChar": 58
+      },
+      "revId": "899b2af182b5a3e1de1f95d1ddee4eea675f2bcf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
