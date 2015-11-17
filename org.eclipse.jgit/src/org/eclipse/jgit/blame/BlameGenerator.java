@@ -181,7 +181,7 @@ public class BlameGenerator implements AutoCloseable {
 
 		SEEN = revPool.newFlag("SEEN"); //$NON-NLS-1$
 		reader = revPool.getObjectReader();
-		treeWalk = new TreeWalk(reader);
+		treeWalk = new TreeWalk(getRepository(), reader);
 		treeWalk.setRecursive(true);
 	}
 

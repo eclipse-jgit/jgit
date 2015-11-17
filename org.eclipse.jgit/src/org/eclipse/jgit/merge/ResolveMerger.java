@@ -1005,7 +1005,7 @@ public class ResolveMerger extends ThreeWayMerger {
 		builder = dircache.builder();
 		DirCacheBuildIterator buildIt = new DirCacheBuildIterator(builder);
 
-		tw = new NameConflictTreeWalk(reader);
+		tw = new NameConflictTreeWalk(db, reader);
 		tw.addTree(baseTree);
 		tw.addTree(headTree);
 		tw.addTree(mergeTree);

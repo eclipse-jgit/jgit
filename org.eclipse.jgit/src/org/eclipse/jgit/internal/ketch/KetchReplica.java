@@ -697,7 +697,7 @@ public abstract class KetchReplica {
 		List<ReceiveCommand> delta = new ArrayList<>();
 		Map<String, Ref> remote = new HashMap<>(current);
 		try (RevWalk rw = new RevWalk(git);
-				TreeWalk tw = new TreeWalk(rw.getObjectReader())) {
+				TreeWalk tw = new TreeWalk(git, rw.getObjectReader())) {
 			tw.setRecursive(true);
 			tw.addTree(rw.parseCommit(committed).getTree());
 			while (tw.next()) {

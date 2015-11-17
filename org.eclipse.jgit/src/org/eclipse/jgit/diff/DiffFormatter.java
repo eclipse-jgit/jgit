@@ -478,7 +478,7 @@ public class DiffFormatter implements AutoCloseable {
 			throws IOException {
 		assertHaveRepository();
 
-		TreeWalk walk = new TreeWalk(reader);
+		TreeWalk walk = new TreeWalk(db, reader);
 		walk.addTree(a);
 		walk.addTree(b);
 		walk.setRecursive(true);

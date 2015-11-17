@@ -302,7 +302,7 @@ class TextHashFunctions extends TextBuiltin {
 		long lineCnt = 0;
 		try (ObjectReader or = repo.newObjectReader();
 			RevWalk rw = new RevWalk(or);
-			TreeWalk tw = new TreeWalk(or)) {
+				TreeWalk tw = new TreeWalk(repo, or)) {
 			final MutableObjectId id = new MutableObjectId();
 			tw.reset(rw.parseTree(repo.resolve(Constants.HEAD)));
 			tw.setRecursive(true);

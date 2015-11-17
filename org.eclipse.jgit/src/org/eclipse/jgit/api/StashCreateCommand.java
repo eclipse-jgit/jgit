@@ -245,7 +245,7 @@ public class StashCreateCommand extends GitCommand<RevCommit> {
 			DirCache cache = repo.lockDirCache();
 			ObjectId commitId;
 			try (ObjectInserter inserter = repo.newObjectInserter();
-					TreeWalk treeWalk = new TreeWalk(reader)) {
+					TreeWalk treeWalk = new TreeWalk(repo, reader)) {
 
 				treeWalk.setRecursive(true);
 				treeWalk.addTree(headCommit.getTree());

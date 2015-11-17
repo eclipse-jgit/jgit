@@ -176,7 +176,7 @@ class DiffAlgorithms extends TextBuiltin {
 		try (ObjectReader or = db.newObjectReader();
 			RevWalk rw = new RevWalk(or)) {
 			final MutableObjectId id = new MutableObjectId();
-			TreeWalk tw = new TreeWalk(or);
+			TreeWalk tw = new TreeWalk(db, or);
 			tw.setFilter(TreeFilter.ANY_DIFF);
 			tw.setRecursive(true);
 
