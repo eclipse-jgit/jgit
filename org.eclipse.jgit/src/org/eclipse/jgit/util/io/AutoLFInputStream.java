@@ -1,6 +1,5 @@
 /*
- * Copyright (C) 2012, Robin Rosenberg
- * Copyright (C) 2010, 2013 Marc Strapetz <marc.strapetz@syntevo.com>
+ * Copyright (C) 2015, Ivan Motsch <ivan.motsch@bsiag.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -44,38 +43,23 @@
 
 package org.eclipse.jgit.util.io;
 
-import java.io.IOException;
 import java.io.InputStream;
 
-import org.eclipse.jgit.diff.RawText;
-
 /**
- * An InputStream that expands LF to CRLF.
+ * An InputStream that normalizes CRLF to LF.
  *
- * Existing CRLF are not expanded to CRCRLF, but retained as is.
+ * Existing single CR are not changed to LF, but retained as is.
  *
  * Optionally, a binary check on the first 8000 bytes is performed and in case
  * of binary files, canonicalization is turned off (for the complete file).
+ * <p>
+ * This is the former EolCanonicalizingInputStream with a new name in order to
+ * have same naming for all LF / CRLF streams
+ *
+ * @since 4.3
  */
-public class AutoCRLFInputStream extends InputStream {
-
-	static final int BUFFER_SIZE = 8096;
-
-	private final byte[] single = new byte[1];
-
-	private final byte[] buf = new byte[BUFFER_SIZE];
-
-	private final InputStream in;
-
-	private int cnt;
-
-	private int ptr;
-
-	private boolean isBinary;
-
-	private boolean detectBinary;
-
-	private byte last;
+@SuppressWarnings("deprecation")
+public class AutoLFInputStream extends EolCanonicalizingInputStream {
 
 	/**
 	 * Creates a new InputStream, wrapping the specified stream
@@ -84,71 +68,24 @@ public class AutoCRLFInputStream extends InputStream {
 	 *            raw input stream
 	 * @param detectBinary
 	 *            whether binaries should be detected
-	 * @since 2.0
 	 */
-	public AutoCRLFInputStream(InputStream in, boolean detectBinary) {
-		this.in = in;
-		this.detectBinary = detectBinary;
+	public AutoLFInputStream(InputStream in, boolean detectBinary) {
+		super(in, detectBinary);
 	}
 
-	@Override
-	public int read() throws IOException {
-		final int read = read(single, 0, 1);
-		return read == 1 ? single[0] & 0xff : -1;
+	/**
+	 * Creates a new InputStream, wrapping the specified stream
+	 *
+	 * @param in
+	 *            raw input stream
+	 * @param detectBinary
+	 *            whether binaries should be detected
+	 * @param abortIfBinary
+	 *            throw an IOException if the file is binary
+	 */
+	public AutoLFInputStream(InputStream in, boolean detectBinary,
+			boolean abortIfBinary) {
+		super(in, detectBinary, abortIfBinary);
 	}
 
-	@Override
-	public int read(byte[] bs, final int off, final int len) throws IOException {
-		if (len == 0)
-			return 0;
-
-		if (cnt == -1)
-			return -1;
-
-		int i = off;
-		final int end = off + len;
-
-		while (i < end) {
-			if (ptr == cnt && !fillBuffer())
-				break;
-
-			byte b = buf[ptr++];
-			if (isBinary || b != '\n') {
-				// Logic for binary files ends here
-				bs[i++] = last = b;
-				continue;
-			}
-
-			if (b == '\n') {
-				if (last == '\r') {
-					bs[i++] = last = b;
-					continue;
-				}
-				bs[i++] = last = '\r';
-				ptr--;
-			} else
-				bs[i++] = last = b;
-		}
-		int n = i == off ? -1 : i - off;
-		if (n > 0)
-			last = bs[i - 1];
-		return n;
-	}
-
-	@Override
-	public void close() throws IOException {
-		in.close();
-	}
-
-	private boolean fillBuffer() throws IOException {
-		cnt = in.read(buf, 0, buf.length);
-		if (cnt < 1)
-			return false;
-		if (detectBinary) {
-			isBinary = RawText.isBinary(buf, cnt);
-			detectBinary = false;
-		}
-		ptr = 0;
-		return true;
-	}
 }
