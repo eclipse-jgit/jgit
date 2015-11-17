@@ -63,6 +63,7 @@ import org.eclipse.jgit.errors.StopWalkException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.CoreConfig.StreamType;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectId;
@@ -73,6 +74,8 @@ import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.eclipse.jgit.util.QuotedString;
 import org.eclipse.jgit.util.RawParseUtils;
+import org.eclipse.jgit.util.io.StreamTypeManager;
+import org.eclipse.jgit.util.io.StreamTypeProvider;
 
 /**
  * Walks one or more {@link AbstractTreeIterator}s in parallel.
@@ -94,7 +97,8 @@ import org.eclipse.jgit.util.RawParseUtils;
  * Multiple simultaneous TreeWalk instances per {@link Repository} are
  * permitted, even from concurrent threads.
  */
-public class TreeWalk implements AutoCloseable, AttributesProvider {
+public class TreeWalk
+		implements AutoCloseable, AttributesProvider, StreamTypeProvider {
 	private static final AbstractTreeIterator[] NO_TREES = {};
 
 	/**
@@ -269,6 +273,9 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 
 	/** Cached macro expander */
 	private MacroExpander macroExpander;
+
+	/** Cached stream type manager */
+	private StreamTypeManager streamTypeManager;
 
 	private Config config;
 
@@ -514,6 +521,15 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 			throw new JGitInternalException("Error while parsing attributes", //$NON-NLS-1$
 					e);
 		}
+	}
+
+	@Override
+	public StreamType getStreamType() {
+		if (streamTypeManager == null) {
+			streamTypeManager = new StreamTypeManager(
+					config.get(WorkingTreeOptions.KEY), operationType, this);
+		}
+		return streamTypeManager.getStreamType();
 	}
 
 	/** Reset this walker so new tree iterators can be added to it. */
