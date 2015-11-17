@@ -65,6 +65,7 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.NoFilepatternException;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheCheckout;
+import org.eclipse.jgit.dircache.DirCacheCheckout.CheckoutMetadata;
 import org.eclipse.jgit.dircache.DirCacheEditor;
 import org.eclipse.jgit.dircache.DirCacheEditor.PathEdit;
 import org.eclipse.jgit.dircache.DirCacheEntry;
@@ -113,7 +114,7 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 		return dco.getRemoved();
 	}
 
-	private Map<String, String> getUpdated() {
+	private Map<String, CheckoutMetadata> getUpdated() {
 		return dco.getUpdated();
 	}
 
