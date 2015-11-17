@@ -492,7 +492,7 @@ public class CheckoutCommand extends GitCommand<Ref> {
 					.get().branchNameInvalid, name == null ? "<null>" : name)); //$NON-NLS-1$
 
 		if (orphan) {
-			Ref refToCheck = repo.getRef(getBranchName());
+			Ref refToCheck = repo.exactRef(getBranchName());
 			if (refToCheck != null)
 				throw new RefAlreadyExistsException(MessageFormat.format(
 						JGitText.get().refAlreadyExists, name));
