@@ -49,6 +49,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.attributes.Attribute;
 import org.eclipse.jgit.attributes.Attributes;
@@ -64,6 +65,7 @@ import org.eclipse.jgit.errors.StopWalkException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.CoreConfig.EolStreamType;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectId;
@@ -74,6 +76,7 @@ import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.eclipse.jgit.util.QuotedString;
 import org.eclipse.jgit.util.RawParseUtils;
+import org.eclipse.jgit.util.io.EolStreamTypeUtil;
 
 /**
  * Walks one or more {@link AbstractTreeIterator}s in parallel.
@@ -515,6 +518,19 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 			throw new JGitInternalException("Error while parsing attributes", //$NON-NLS-1$
 					e);
 		}
+	}
+
+	/**
+	 * @return the EOL stream type of the current entry using the config and
+	 *         {@link #getAttributes()} Note that this method may return null if
+	 *         the {@link TreeWalk} is not based on a working tree
+	 * @since 4.3
+	 */
+	public @Nullable EolStreamType getEolStreamType() {
+			if (attributesNodeProvider == null || config == null)
+				return null;
+			return EolStreamTypeUtil.detectStreamType(operationType,
+					config.get(WorkingTreeOptions.KEY), getAttributes());
 	}
 
 	/** Reset this walker so new tree iterators can be added to it. */

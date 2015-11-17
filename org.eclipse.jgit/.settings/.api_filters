@@ -16,4 +16,25 @@
             </message_arguments>
         </filter>
     </resource>
+    <resource path="src/org/eclipse/jgit/dircache/DirCacheCheckout.java" type="org.eclipse.jgit.dircache.DirCacheCheckout">
+        <filter comment="add eol stream type conversion" id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.dircache.DirCacheCheckout"/>
+                <message_argument value="checkoutEntry(Repository, DirCacheEntry, ObjectReader, boolean)"/>
+            </message_arguments>
+        </filter>
+        <filter comment="add eol stream type conversion" id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.dircache.DirCacheCheckout"/>
+                <message_argument value="checkoutEntry(Repository, DirCacheEntry, ObjectReader, boolean, String)"/>
+            </message_arguments>
+        </filter>
+        <filter comment="add eol stream type conversion" id="1141899266">
+            <message_arguments>
+                <message_argument value="4.2"/>
+                <message_argument value="4.3"/>
+                <message_argument value="checkoutEntry(Repository, DirCacheEntry, ObjectReader, boolean, DirCacheCheckout.CheckoutMetadata)"/>
+            </message_arguments>
+        </filter>
+    </resource>
 </component>
