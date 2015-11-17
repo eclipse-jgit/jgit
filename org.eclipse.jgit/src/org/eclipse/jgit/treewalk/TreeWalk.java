@@ -54,6 +54,7 @@ import org.eclipse.jgit.attributes.Attributes;
 import org.eclipse.jgit.attributes.AttributesNode;
 import org.eclipse.jgit.attributes.AttributesNodeProvider;
 import org.eclipse.jgit.attributes.AttributesProvider;
+import org.eclipse.jgit.attributes.MacroExpanderImpl;
 import org.eclipse.jgit.attributes.Attribute.State;
 import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.errors.CorruptObjectException;
@@ -253,6 +254,8 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	private boolean postChildren;
 
 	private AttributesNodeProvider attributesNodeProvider;
+
+	private final MacroExpanderImpl macroExpander = new MacroExpanderImpl();
 
 	AbstractTreeIterator currentHead;
 
@@ -1150,21 +1153,18 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 			// Gets the info attributes node
 			AttributesNode infoNodeAttr = attributesNodeProvider
 					.getInfoAttributesNode();
+			 // Gets the current tree root node
+			AttributesNode rootNodeAttr = getRootAttributesNode(operationType,
+					workingTreeIterator, dirCacheIterator, other);
 
-			// TODO imotsch: this will follow in the next proposal:
-			/*
-			 * // Gets the current tree root node AttributesNode rootNodeAttr =
-			 * getRootAttributesNode(operationType, workingTreeIterator,
-			 * dirCacheIterator, other);
-			 *
-			 * // Update the macro expander using the global node, the info node
-			 * // and the current root node updateMacroExpander(globalNodeAttr,
-			 * infoNodeAttr, rootNodeAttr);
-			 */
+			// Update the macro expander using the global node, the info node
+			// and the current root node
+			macroExpander.updateWhenDifferent(globalNodeAttr, infoNodeAttr,
+					rootNodeAttr);
 
 			// Gets the info attributes
 			if (infoNodeAttr != null) {
-				infoNodeAttr.getAttributes(path, isDir,
+				infoNodeAttr.getAttributes(macroExpander, path, isDir,
 						attributes);
 			}
 
@@ -1175,7 +1175,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 
 			// Gets the attributes located in the global attribute file
 			if (globalNodeAttr != null) {
-				globalNodeAttr.getAttributes(path, isDir,
+				globalNodeAttr.getAttributes(macroExpander, path, isDir,
 						attributes);
 			}
 		} catch (IOException e) {
@@ -1223,7 +1223,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 			AttributesNode currentAttributesNode = getCurrentAttributesNode(
 					opType, workingTreeIterator, dirCacheIterator, other);
 			if (currentAttributesNode != null) {
-				currentAttributesNode.getAttributes(path, isDir,
+				currentAttributesNode.getAttributes(macroExpander, path, isDir,
 						attributes);
 			}
 			getPerDirectoryEntryAttributes(path, isDir, opType,
@@ -1240,6 +1240,17 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 			AbstractTreeIterator parent = current.parent;
 			if (type.isInstance(parent)) {
 				return type.cast(parent);
+			}
+		}
+		return null;
+	}
+
+	private static <T extends AbstractTreeIterator> T getRoot(T current,
+			Class<T> type) {
+		if (current != null) {
+			AbstractTreeIterator root = current.root;
+			if (type.isInstance(root)) {
+				return type.cast(root);
 			}
 		}
 		return null;
@@ -1323,5 +1334,89 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	private static AttributesNode getAttributesNode(AttributesNode value,
 			AttributesNode defaultValue) {
 		return (value == null) ? defaultValue : value;
+	}
+
+	/**
+	 * Gets the {@link AttributesNode} for the root folder. This is needed for
+	 * the git macro expansion facilty that requires the global, the info and
+	 * the root attributes node.
+	 * <p>
+	 * This method implements the fallback mechanism between the index and the
+	 * working tree depending on the operation type
+	 * </p>
+	 *
+	 * @param opType
+	 * @param workingTreeIterator
+	 * @param dirCacheIterator
+	 * @param other
+	 * @return the root {@link AttributesNode} of the tree,
+	 *         {@link NullPointerException} otherwise.
+	 * @throws IOException
+	 *             It raises an {@link IOException} if a problem appears while
+	 *             parsing one on the attributes file.
+	 */
+	private AttributesNode getRootAttributesNode(OperationType opType,
+			@Nullable WorkingTreeIterator workingTreeIterator,
+			@Nullable DirCacheIterator dirCacheIterator,
+			@Nullable CanonicalTreeParser other) throws IOException {
+		AttributesNode attributesNode = null;
+		switch (opType) {
+		case CHECKIN_OP:
+			if (workingTreeIterator != null) {
+				WorkingTreeIterator root = getRoot(workingTreeIterator,
+						WorkingTreeIterator.class);
+				if (root != null) {
+					attributesNode = root.getEntryAttributesNode();
+				}
+			}
+			if (attributesNode == null && dirCacheIterator != null) {
+				DirCacheIterator root = getRoot(dirCacheIterator,
+						DirCacheIterator.class);
+				if (root != null) {
+					attributesNode = root
+							.getEntryAttributesNode(getObjectReader());
+				}
+ 			}
+			if (attributesNode == null && other != null) {
+				CanonicalTreeParser root = getRoot(other,
+						CanonicalTreeParser.class);
+				if (root != null) {
+					attributesNode = root
+						.getEntryAttributesNode(getObjectReader());
+				}
+			}
+			break;
+		case CHECKOUT_OP:
+			if (other != null) {
+				CanonicalTreeParser root = getRoot(other,
+						CanonicalTreeParser.class);
+				if (root != null) {
+					attributesNode = root
+						.getEntryAttributesNode(getObjectReader());
+				}
+			}
+			if (dirCacheIterator != null) {
+				DirCacheIterator root = getRoot(dirCacheIterator,
+						DirCacheIterator.class);
+				if (root != null) {
+					attributesNode = root
+						.getEntryAttributesNode(getObjectReader());
+				}
+			}
+			if (attributesNode == null && workingTreeIterator != null) {
+				WorkingTreeIterator root = getRoot(workingTreeIterator,
+						WorkingTreeIterator.class);
+				if (root != null) {
+					attributesNode = root.getEntryAttributesNode();
+				}
+			}
+			break;
+		default:
+			throw new IllegalStateException(
+					"The only operation type handled are:" //$NON-NLS-1$
+							+ OperationType.CHECKIN_OP + "," //$NON-NLS-1$
+							+ OperationType.CHECKOUT_OP);
+		}
+		return attributesNode;
 	}
 }

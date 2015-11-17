@@ -92,7 +92,8 @@ public abstract class AbstractTreeIterator {
 
 	/**
 	 * Fast access to the root of the iterator. Used for attributes macro
-	 * expander.
+	 * expander in order to detect if the current root has changed and
+	 * therefore the macro cache is invalid.
 	 */
 	final AbstractTreeIterator root;
 
