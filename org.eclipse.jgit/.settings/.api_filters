@@ -41,10 +41,18 @@
         </filter>
     </resource>
     <resource path="src/org/eclipse/jgit/attributes/AttributesNode.java" type="org.eclipse.jgit.attributes.AttributesNode">
-        <filter comment="attributes weren't really usable in earlier versions" id="338792546">
+        <filter comment="moved to new AttributesManager" id="338792546">
             <message_arguments>
                 <message_argument value="org.eclipse.jgit.attributes.AttributesNode"/>
-                <message_argument value="getAttributes(String, boolean, Map&lt;String,Attribute&gt;)"/>
+                <message_argument value="getAttributes(String, boolean, Attributes)"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/attributes/AttributesRule.java" type="org.eclipse.jgit.attributes.AttributesRule">
+        <filter comment="used only in tests: bean naming" id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.attributes.AttributesRule"/>
+                <message_argument value="dirOnly()"/>
             </message_arguments>
         </filter>
     </resource>
@@ -88,20 +96,6 @@
         <filter comment="PushCertificates haven't been really usable in 4.0" id="338849923">
             <message_arguments>
                 <message_argument value="org.eclipse.jgit.transport.PushCertificateParser"/>
-            </message_arguments>
-        </filter>
-    </resource>
-    <resource path="src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java" type="org.eclipse.jgit.treewalk.WorkingTreeIterator">
-        <filter comment="attributes weren't really usable in earlier versions" id="338792546">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.treewalk.WorkingTreeIterator"/>
-                <message_argument value="getGlobalAttributesNode()"/>
-            </message_arguments>
-        </filter>
-        <filter comment="attributes weren't really usable in earlier versions" id="338792546">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.treewalk.WorkingTreeIterator"/>
-                <message_argument value="getInfoAttributesNode()"/>
             </message_arguments>
         </filter>
     </resource>

@@ -251,14 +251,17 @@ public class AttributesNodeDirCacheIteratorTest extends RepositoryTestCase {
 	}
 
 	private void assertAttributesNode(String pathName,
-			AttributesNode attributesNode, List<Attribute> nodeAttrs) {
+			AttributesNode attributesNode, List<Attribute> nodeAttrs)
+					throws IOException {
 		if (attributesNode == null)
 			assertTrue(nodeAttrs == null || nodeAttrs.isEmpty());
 		else {
 
 			Attributes entryAttributes = new Attributes();
-			attributesNode.getAttributes(pathName,
-					false, entryAttributes);
+			new AttributesHandler(walk).mergeAttributes(attributesNode,
+					pathName,
+					false,
+					entryAttributes);
 
 			if (nodeAttrs != null && !nodeAttrs.isEmpty()) {
 				for (Attribute attribute : nodeAttrs) {
