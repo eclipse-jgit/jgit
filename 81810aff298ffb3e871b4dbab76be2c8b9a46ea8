@@ -46,6 +46,30 @@
       "revId": "81810aff298ffb3e871b4dbab76be2c8b9a46ea8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_ac578550",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/WalkEncryptionTest.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 504,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2015-11-18T02:53:29Z",
+      "side": 1,
+      "message": "Yes, as I wrote, my proxy is \"localhost:3100\" intentionally without the scheme.  This is working as expected for other uses.\n\nI can\u0027t prefix it with http:// because it\u0027s not an http proxy.  Also, even if I replace it with an http proxy, the tests are failing because my corporate proxy is blocking the outgoing requests.\n\nHence my question, should these tests be active by default?",
+      "parentUuid": "67ccbf7d_6ce81d72",
+      "range": {
+        "startLine": 504,
+        "startChar": 4,
+        "endLine": 504,
+        "endChar": 34
+      },
+      "revId": "81810aff298ffb3e871b4dbab76be2c8b9a46ea8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
