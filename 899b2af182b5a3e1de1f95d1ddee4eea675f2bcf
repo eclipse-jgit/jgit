@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "67ccbf7d_15031485",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Branch.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-11-18T21:32:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67ccbf7d_2a79983a",
+      "range": {
+        "startLine": 159,
+        "startChar": 0,
+        "endLine": 165,
+        "endChar": 34
+      },
+      "revId": "899b2af182b5a3e1de1f95d1ddee4eea675f2bcf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67ccbf7d_4aa89c0f",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Merge.java",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2015-11-17T18:15:16Z",
       "side": 1,
       "message": "Git has a special case for this case (merge from an unborn branch merges the named commits and resets to the result) but that would be outside the scope of this change.\n\nShould this check happen earlier on, when oldHead is read?",
+      "range": {
+        "startLine": 150,
+        "startChar": 0,
+        "endLine": 152,
+        "endChar": 4
+      },
+      "revId": "899b2af182b5a3e1de1f95d1ddee4eea675f2bcf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_f5c870bb",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Merge.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-11-18T21:32:36Z",
+      "side": 1,
+      "message": "Code wise, the oldHead is only needed here and in the MERGED case below. Moving the check to the place where it was read would change the command behavior. I\u0027ve changed the way the ref was acquired and moved it (together with NP check to a method).",
+      "parentUuid": "67ccbf7d_4aa89c0f",
       "range": {
         "startLine": 150,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "67ccbf7d_e0e34c0f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-11-18T21:32:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67ccbf7d_6ab56063",
+      "range": {
+        "startLine": 225,
+        "startChar": 0,
+        "endLine": 228,
+        "endChar": 4
+      },
+      "revId": "899b2af182b5a3e1de1f95d1ddee4eea675f2bcf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67ccbf7d_ca990cd3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
         "patchSetId": 3
@@ -82,6 +154,30 @@
       "writtenOn": "2015-11-17T19:26:53Z",
       "side": 1,
       "message": "The only caller is processStep. In call():\n\n- ABORT doesn\u0027t call processStep\n- BEGIN reads HEAD and throws an exception if it\u0027s absent in initFilesAndRewind.\n- CONTINUE reads HEAD and throws an exception if it\u0027s absent in continueRebase.\n- SKIP reads HEAD and throws an exception if it\u0027s absent in checkoutCurrentHead.\n- PROCESS_STEPS doesn\u0027t check HEAD\n\nSo this looks like a behavior change in the PROCESS_STEPS case. Should it just throw an exception when HEAD doesn\u0027t resolve (e.g., by calling getHead)?",
+      "range": {
+        "startLine": 676,
+        "startChar": 0,
+        "endLine": 679,
+        "endChar": 3
+      },
+      "revId": "899b2af182b5a3e1de1f95d1ddee4eea675f2bcf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_a066a419",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 679,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-11-18T21:32:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67ccbf7d_ca990cd3",
       "range": {
         "startLine": 676,
         "startChar": 0,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "67ccbf7d_40379808",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 753,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-11-18T21:32:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67ccbf7d_2aa8b8d7",
+      "range": {
+        "startLine": 752,
+        "startChar": 0,
+        "endLine": 753,
+        "endChar": 52
+      },
+      "revId": "899b2af182b5a3e1de1f95d1ddee4eea675f2bcf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67ccbf7d_0a8f747f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RenameBranchCommand.java",
         "patchSetId": 3
@@ -128,6 +248,30 @@
       "writtenOn": "2015-11-17T19:26:53Z",
       "side": 1,
       "message": "Getting null here indicates repository corruption --- HEAD is always supposed to be either pointing to a (possibly unborn) branch or a specific commit id (the detached head case). I suspect the right long-term fix would be to deprecate getFullBranch and encourage use of a different method that throws an exception in the corrupt case.\n\nC Git prints \"fatal: Not a git repository (or any of the parent directories): .git\" in this case. So how about something like\n\n  throw new NoHeadException(\"Invalid repository --- cannot read HEAD\");\n\n? (Even better would be a new InvalidRepositoryException.)",
+      "range": {
+        "startLine": 124,
+        "startChar": 0,
+        "endLine": 127,
+        "endChar": 5
+      },
+      "revId": "899b2af182b5a3e1de1f95d1ddee4eea675f2bcf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_008f503a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RenameBranchCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-11-18T21:32:36Z",
+      "side": 1,
+      "message": "I would like to keep the changes at minimum in this review. NoHeadException would be also do the job here.",
+      "parentUuid": "67ccbf7d_0a8f747f",
       "range": {
         "startLine": 124,
         "startChar": 0,
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "67ccbf7d_20945448",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 597,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-11-18T21:32:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67ccbf7d_0a669445",
+      "range": {
+        "startLine": 597,
+        "startChar": 0,
+        "endLine": 597,
+        "endChar": 29
+      },
+      "revId": "899b2af182b5a3e1de1f95d1ddee4eea675f2bcf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67ccbf7d_2a5a787b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefRename.java",
         "patchSetId": 3
@@ -174,6 +342,30 @@
       "writtenOn": "2015-11-17T19:26:53Z",
       "side": 1,
       "message": "Make sense. If head \u003d\u003d null then the repository is corrupt but we can handle it gracefully.",
+      "range": {
+        "startLine": 173,
+        "startChar": 0,
+        "endLine": 173,
+        "endChar": 42
+      },
+      "revId": "899b2af182b5a3e1de1f95d1ddee4eea675f2bcf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_e0b26c7a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefRename.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-11-18T21:32:36Z",
+      "side": 1,
+      "message": "OK.",
+      "parentUuid": "67ccbf7d_2a5a787b",
       "range": {
         "startLine": 173,
         "startChar": 0,
@@ -209,6 +401,30 @@
     },
     {
       "key": {
+        "uuid": "67ccbf7d_80bfe0a6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-11-18T21:32:36Z",
+      "side": 1,
+      "message": "Can we postpone this to the next change and replace with TODO? There are few cases in JGit and ~50 errors in JGit where this shows new compile errors...",
+      "parentUuid": "67ccbf7d_4a57bc51",
+      "range": {
+        "startLine": 188,
+        "startChar": 0,
+        "endLine": 194,
+        "endChar": 4
+      },
+      "revId": "899b2af182b5a3e1de1f95d1ddee4eea675f2bcf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67ccbf7d_6a54804c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 3
@@ -220,6 +436,30 @@
       "writtenOn": "2015-11-17T19:26:53Z",
       "side": 1,
       "message": "@NonNull",
+      "range": {
+        "startLine": 217,
+        "startChar": 0,
+        "endLine": 217,
+        "endChar": 46
+      },
+      "revId": "899b2af182b5a3e1de1f95d1ddee4eea675f2bcf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_a07f8485",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-11-18T21:32:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67ccbf7d_6a54804c",
       "range": {
         "startLine": 217,
         "startChar": 0,
@@ -255,6 +495,30 @@
     },
     {
       "key": {
+        "uuid": "67ccbf7d_e0798ca0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-11-18T21:32:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67ccbf7d_2cb7f522",
+      "range": {
+        "startLine": 222,
+        "startChar": 0,
+        "endLine": 222,
+        "endChar": 42
+      },
+      "revId": "899b2af182b5a3e1de1f95d1ddee4eea675f2bcf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67ccbf7d_4cbc3905",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 3
@@ -266,6 +530,30 @@
       "writtenOn": "2015-11-17T19:26:53Z",
       "side": 1,
       "message": "@Nullable --- e.g., InMemoryRepository leaves this null.",
+      "range": {
+        "startLine": 227,
+        "startChar": 0,
+        "endLine": 227,
+        "endChar": 9
+      },
+      "revId": "899b2af182b5a3e1de1f95d1ddee4eea675f2bcf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_a03144f2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-11-18T21:32:36Z",
+      "side": 1,
+      "message": "Good catch. Can we postpone this to the next change and replace with TODO? There are 32 new compile errors in JGit...",
+      "parentUuid": "67ccbf7d_4cbc3905",
       "range": {
         "startLine": 227,
         "startChar": 0,
@@ -324,6 +612,30 @@
     },
     {
       "key": {
+        "uuid": "67ccbf7d_40a87862",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 855,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-11-18T21:32:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67ccbf7d_cce68922",
+      "range": {
+        "startLine": 855,
+        "startChar": 0,
+        "endLine": 855,
+        "endChar": 27
+      },
+      "revId": "899b2af182b5a3e1de1f95d1ddee4eea675f2bcf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67ccbf7d_ece34d0f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 3
@@ -335,6 +647,30 @@
       "writtenOn": "2015-11-17T19:26:53Z",
       "side": 1,
       "message": "@NonNull",
+      "range": {
+        "startLine": 984,
+        "startChar": 0,
+        "endLine": 984,
+        "endChar": 33
+      },
+      "revId": "899b2af182b5a3e1de1f95d1ddee4eea675f2bcf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_60ad7c71",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 984,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-11-18T21:32:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67ccbf7d_ece34d0f",
       "range": {
         "startLine": 984,
         "startChar": 0,
@@ -370,6 +706,30 @@
     },
     {
       "key": {
+        "uuid": "67ccbf7d_a0aea46a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1028,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-11-18T21:32:36Z",
+      "side": 1,
+      "message": "This is not true for InMemoryRepository",
+      "parentUuid": "67ccbf7d_4c0ef974",
+      "range": {
+        "startLine": 1028,
+        "startChar": 0,
+        "endLine": 1028,
+        "endChar": 10
+      },
+      "revId": "899b2af182b5a3e1de1f95d1ddee4eea675f2bcf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67ccbf7d_6c13bd97",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 3
@@ -393,6 +753,30 @@
     },
     {
       "key": {
+        "uuid": "67ccbf7d_c0bba8a7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1247,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-11-18T21:32:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67ccbf7d_6c13bd97",
+      "range": {
+        "startLine": 1247,
+        "startChar": 0,
+        "endLine": 1247,
+        "endChar": 61
+      },
+      "revId": "899b2af182b5a3e1de1f95d1ddee4eea675f2bcf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67ccbf7d_cc01293f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 3
@@ -404,6 +788,30 @@
       "writtenOn": "2015-11-17T19:26:53Z",
       "side": 1,
       "message": "@NonNull",
+      "range": {
+        "startLine": 1305,
+        "startChar": 0,
+        "endLine": 1305,
+        "endChar": 54
+      },
+      "revId": "899b2af182b5a3e1de1f95d1ddee4eea675f2bcf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_008590e7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1305,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-11-18T21:32:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67ccbf7d_cc01293f",
       "range": {
         "startLine": 1305,
         "startChar": 0,
