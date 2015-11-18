@@ -1,0 +1,471 @@
+/*
+ * Copyright (C) 2015, Google Inc.
+ * and other copyright owners as documented in the project's IP log.
+ *
+ * This program and the accompanying materials are made available
+ * under the terms of the Eclipse Distribution License v1.0 which
+ * accompanies this distribution, is reproduced below, and is
+ * available at http://www.eclipse.org/org/documents/edl-v10.php
+ *
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or
+ * without modification, are permitted provided that the following
+ * conditions are met:
+ *
+ * - Redistributions of source code must retain the above copyright
+ *   notice, this list of conditions and the following disclaimer.
+ *
+ * - Redistributions in binary form must reproduce the above
+ *   copyright notice, this list of conditions and the following
+ *   disclaimer in the documentation and/or other materials provided
+ *   with the distribution.
+ *
+ * - Neither the name of the Eclipse Foundation, Inc. nor the
+ *   names of its contributors may be used to endorse or promote
+ *   products derived from this software without specific prior
+ *   written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND
+ * CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+ * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package org.eclipse.jgit.internal.storage.reftree;
+
+import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
+import static org.eclipse.jgit.lib.Constants.R_REFS;
+import static org.eclipse.jgit.lib.Constants.encode;
+import static org.eclipse.jgit.lib.FileMode.GITLINK;
+import static org.eclipse.jgit.lib.FileMode.SYMLINK;
+import static org.eclipse.jgit.lib.FileMode.TYPE_GITLINK;
+import static org.eclipse.jgit.lib.FileMode.TYPE_SYMLINK;
+import static org.eclipse.jgit.lib.Ref.Storage.PACKED;
+import static org.eclipse.jgit.transport.ReceiveCommand.Result.LOCK_FAILURE;
+import static org.eclipse.jgit.transport.ReceiveCommand.Result.NOT_ATTEMPTED;
+import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_OTHER_REASON;
+
+import java.io.IOException;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
+import org.eclipse.jgit.annotations.Nullable;
+import org.eclipse.jgit.dircache.DirCache;
+import org.eclipse.jgit.dircache.DirCacheEditor;
+import org.eclipse.jgit.dircache.DirCacheEditor.DeletePath;
+import org.eclipse.jgit.dircache.DirCacheEditor.PathEdit;
+import org.eclipse.jgit.dircache.DirCacheEntry;
+import org.eclipse.jgit.errors.CorruptObjectException;
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectIdRef;
+import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.SymbolicRef;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevTree;
+import org.eclipse.jgit.util.RawParseUtils;
+import org.eclipse.jgit.util.RefList;
+
+/**
+ * Tree of references in the reference graph.
+ * <p>
+ * The root corresponds to the {@code "refs/"} subdirectory, for example the
+ * default reference {@code "refs/heads/master"} is stored as
+ * {@code "heads/master"} in a {@code RefTree}.
+ * <p>
+ * Normal references are stored as {@link FileMode#GITLINK} entries.
+ * <p>
+ * Symbolic references are stored as {@link FileMode#SYMLINK} entries, with the
+ * blob storing the name of the target reference.
+ * <p>
+ * Annotated tags also store the peeled object using a {@code GITLINK} entry
+ * with the suffix <code>"^{}"</code>, for example {@code "tags/v1.0"} will
+ * point to the annotated tag while <code>"tags/v1.0^{}"</code> stores the
+ * commit the tag annotates.
+ * <p>
+ * {@code HEAD} is a special case and stored as {@code "..HEAD"}.
+ */
+public class RefTree {
+	private static final int MAX_SYMBOLIC_REF_DEPTH = 5;
+	static final String ROOT_DOTDOT = ".."; //$NON-NLS-1$
+	static final String PEELED_SUFFIX = "^{}"; //$NON-NLS-1$
+
+	/**
+	 * Create an empty reference tree.
+	 *
+	 * @return a new empty reference tree.
+	 */
+	public static RefTree newEmptyTree() {
+		return new RefTree(null, DirCache.newInCore());
+	}
+
+	/**
+	 * Load a reference tree.
+	 *
+	 * @param reader
+	 *            reader to scan the reference tree with. This reader may be
+	 *            retained by the RefTree for the life of the tree in order to
+	 *            support lazy loading of entries.
+	 * @param commit
+	 *            the revision of the ref tree to read.
+	 * @return the ref tree read from the commit.
+	 * @throws IOException
+	 *             the repository cannot be accessed through the reader.
+	 * @throws CorruptObjectException
+	 *             a tree object is corrupt and cannot be read.
+	 * @throws IncorrectObjectTypeException
+	 *             a tree object wasn't actually a tree.
+	 * @throws MissingObjectException
+	 *             a reference tree object doesn't exist.
+	 */
+	public static RefTree read(ObjectReader reader, RevCommit commit)
+			throws MissingObjectException, IncorrectObjectTypeException,
+			CorruptObjectException, IOException {
+		return read(reader, commit.getTree());
+	}
+
+	/**
+	 * Load a reference tree.
+	 *
+	 * @param reader
+	 *            reader to scan the reference tree with. This reader may be
+	 *            retained by the RefTree for the life of the tree in order to
+	 *            support lazy loading of entries.
+	 * @param tree
+	 *            the tree to read.
+	 * @return the ref tree read from the commit.
+	 * @throws IOException
+	 *             the repository cannot be accessed through the reader.
+	 * @throws CorruptObjectException
+	 *             a tree object is corrupt and cannot be read.
+	 * @throws IncorrectObjectTypeException
+	 *             a tree object wasn't actually a tree.
+	 * @throws MissingObjectException
+	 *             a reference tree object doesn't exist.
+	 */
+	public static RefTree read(ObjectReader reader, RevTree tree)
+			throws MissingObjectException, IncorrectObjectTypeException,
+			CorruptObjectException, IOException {
+		return readTree(reader, tree);
+	}
+
+	/**
+	 * Load a reference tree.
+	 *
+	 * @param reader
+	 *            reader to scan the reference tree with. This reader may be
+	 *            retained by the RefTree for the life of the tree in order to
+	 *            support lazy loading of entries.
+	 * @param treeId
+	 *            the tree to read.
+	 * @return the ref tree read from the commit.
+	 * @throws IOException
+	 *             the repository cannot be accessed through the reader.
+	 * @throws CorruptObjectException
+	 *             a tree object is corrupt and cannot be read.
+	 * @throws IncorrectObjectTypeException
+	 *             a tree object wasn't actually a tree.
+	 * @throws MissingObjectException
+	 *             a reference tree object doesn't exist.
+	 */
+	public static RefTree readTree(ObjectReader reader, AnyObjectId treeId)
+			throws MissingObjectException, IncorrectObjectTypeException,
+			CorruptObjectException, IOException {
+		return new RefTree(reader, DirCache.read(reader, treeId));
+	}
+
+	/** Borrowed reader to access the repository. */
+	private final ObjectReader reader;
+	private DirCache contents;
+	private Set<String> pendingBlobs;
+
+	private RefTree(ObjectReader reader, DirCache dc) {
+		this.reader = reader;
+		this.contents = dc;
+	}
+
+	/**
+	 * Read one reference.
+	 *
+	 * @param name
+	 *            name of the reference to read.
+	 * @return the reference; null if it does not exist.
+	 * @throws IOException
+	 *             cannot read a symbolic reference target.
+	 */
+	@Nullable
+	public Ref getRef(String name) throws IOException {
+		Ref r = readRef(name);
+		if (r == null) {
+			return r;
+		} else if (r.isSymbolic()) {
+			return resolve(r, 0);
+		}
+
+		DirCacheEntry p = contents.getEntry(peeledPath(name));
+		if (p != null && p.getRawMode() == TYPE_GITLINK) {
+			return new ObjectIdRef.PeeledTag(PACKED, r.getName(),
+					r.getObjectId(), p.getObjectId());
+		}
+		return r;
+	}
+
+	/**
+	 * Read references below the specified prefix.
+	 *
+	 * @param prefix
+	 * @return list of matching references.
+	 * @throws IOException
+	 *             cannot read a symbolic reference target.
+	 */
+	public RefList<Ref> getRefList(String prefix) throws IOException {
+		boolean skipRoot = false;
+		if (prefix.equals(R_REFS)) {
+			prefix = ""; //$NON-NLS-1$
+			skipRoot = true;
+		} else if (prefix.startsWith(R_REFS)) {
+			prefix = prefix.substring(R_REFS.length());
+		}
+
+		RefList.Builder<Ref> out = new RefList.Builder<Ref>();
+		for (DirCacheEntry entry : contents.getEntriesWithin(prefix)) {
+			String path = entry.getPathString();
+			if (skipRoot && path.startsWith(ROOT_DOTDOT)) {
+				continue;
+			} else if (path.endsWith(PEELED_SUFFIX)) {
+				if (entry.getRawMode() == TYPE_GITLINK) {
+					peel(out, path, entry);
+				}
+				continue;
+			}
+
+			Ref r = toRef(entry, path);
+			if (r == null) {
+				continue;
+			} else if (r.isSymbolic()) {
+				r = resolve(r, 0);
+			}
+			out.add(r);
+		}
+		return out.toRefList();
+	}
+
+	private static void peel(RefList.Builder<Ref> all, String path,
+			DirCacheEntry entry) {
+		String name = refName(path.substring(0, path.length() - 3));
+		for (int idx = all.size() - 1; 0 <= idx; idx--) {
+			Ref r = all.get(idx);
+			int cmp = r.getName().compareTo(name);
+			if (cmp == 0) {
+				all.set(idx, new ObjectIdRef.PeeledTag(PACKED, r.getName(),
+						r.getObjectId(), entry.getObjectId()));
+				break;
+			} else if (cmp < 0) {
+				// Stray peeled name without matching base name; skip entry.
+				break;
+			}
+		}
+	}
+
+	private Ref readRef(String name) throws IOException {
+		String path = refPath(name);
+		DirCacheEntry e = contents.getEntry(path);
+		return e != null ? toRef(e, path) : null;
+	}
+
+	private Ref toRef(DirCacheEntry e, String path) throws IOException {
+		String name = refName(path);
+		int mode = e.getRawMode();
+		if (mode == TYPE_GITLINK) {
+			ObjectId id = e.getObjectId();
+			return new ObjectIdRef.PeeledNonTag(PACKED, name, id);
+
+		} else if (mode == TYPE_SYMLINK) {
+			ObjectId id = e.getObjectId();
+			byte[] bin = reader.open(id, OBJ_BLOB).getCachedBytes();
+			String dst = RawParseUtils.decode(bin);
+			Ref trg = new ObjectIdRef.Unpeeled(PACKED, dst, null);
+			return new SymbolicRef(name, trg);
+		}
+
+		return null; // garbage file or something; not a reference.
+	}
+
+	private Ref resolve(Ref ref, int depth) throws IOException {
+		if (ref.isSymbolic() && depth < MAX_SYMBOLIC_REF_DEPTH) {
+			Ref r = readRef(ref.getTarget().getName());
+			if (r == null) {
+				return ref;
+			}
+			Ref dst = resolve(r, depth + 1);
+			return new SymbolicRef(ref.getName(), dst);
+		}
+		return ref;
+	}
+
+	/**
+	 * Attempt a batch of commands against this RefTree.
+	 *
+	 * @param cmdList
+	 *            to apply. All commands should be state NOT_ATTEMPTED.
+	 * @return true if the commands applied; false if they were rejected.
+	 */
+	public boolean apply(Collection<Command> cmdList) {
+		try {
+			DirCacheEditor ed = contents.editor();
+			for (Command cmd : cmdList) {
+				apply(ed, cmd);
+			}
+			ed.finish();
+			return true;
+		} catch (LockFailureException e) {
+			return abort(cmdList);
+		}
+	}
+
+	private void apply(DirCacheEditor ed, final Command cmd) {
+		String path = refPath(cmd.getRefName());
+		Ref oldRef = cmd.getOldRef();
+		final Ref newRef = cmd.getNewRef();
+
+		if (newRef == null) {
+			checkRef(contents.getEntry(path), cmd);
+			ed.add(new DeletePath(path));
+			cleanupPeeledRef(ed, oldRef);
+			return;
+		}
+
+		if (newRef.isSymbolic()) {
+			final String dst = newRef.getTarget().getName();
+			ed.add(new PathEdit(path) {
+				@Override
+				public void apply(DirCacheEntry ent) {
+					checkRef(ent, cmd);
+					ent.setFileMode(SYMLINK);
+					ent.setObjectId(Command.symref(dst));
+					if (pendingBlobs == null) {
+						pendingBlobs = new HashSet<>();
+					}
+					pendingBlobs.add(dst);
+				}
+			});
+			cleanupPeeledRef(ed, oldRef);
+			return;
+		}
+
+		ed.add(new PathEdit(path) {
+			@Override
+			public void apply(DirCacheEntry ent) {
+				checkRef(ent, cmd);
+				ent.setFileMode(GITLINK);
+				ent.setObjectId(newRef.getObjectId());
+			}
+		});
+
+		if (newRef.getPeeledObjectId() != null) {
+			ed.add(new PathEdit(peeledPath(newRef.getName())) {
+				@Override
+				public void apply(DirCacheEntry ent) {
+					ent.setFileMode(GITLINK);
+					ent.setObjectId(newRef.getPeeledObjectId());
+				}
+			});
+		} else {
+			cleanupPeeledRef(ed, oldRef);
+		}
+	}
+
+	private static void checkRef(@Nullable DirCacheEntry ent, Command cmd) {
+		if (!cmd.checkRef(ent)) {
+			cmd.setResult(LOCK_FAILURE);
+			throw new LockFailureException();
+		}
+	}
+
+	private static void cleanupPeeledRef(DirCacheEditor ed, Ref ref) {
+		if (ref != null && !ref.isSymbolic()
+				&& ref.getPeeledObjectId() != null) {
+			ed.add(new DeletePath(peeledPath(ref.getName())));
+		}
+	}
+
+	private static boolean abort(Iterable<Command> cmdList) {
+		for (Command cmd : cmdList) {
+			if (cmd.getResult() == NOT_ATTEMPTED) {
+				reject(cmd, JGitText.get().transactionAborted);
+			}
+		}
+		return false;
+	}
+
+	private static void reject(Command cmd, String msg) {
+		cmd.setResult(REJECTED_OTHER_REASON, msg);
+	}
+
+	private static String refName(String path) {
+		if (path.startsWith(ROOT_DOTDOT)) {
+			return path.substring(2);
+		}
+		return R_REFS + path;
+	}
+
+	private static String refPath(String name) {
+		if (name.startsWith(R_REFS)) {
+			return name.substring(R_REFS.length());
+		}
+		return ROOT_DOTDOT + name;
+	}
+
+	private static String peeledPath(String name) {
+		return refPath(name) + PEELED_SUFFIX;
+	}
+
+	/**
+	 * Write this reference tree.
+	 *
+	 * @param inserter
+	 *            inserter to use when writing trees to the object database.
+	 *            Caller is responsible for flushing the inserter before trying
+	 *            to read the objects, or exposing them through a reference.
+	 * @return the top level tree.
+	 * @throws IOException
+	 *             a tree could not be written.
+	 */
+	public ObjectId writeTree(ObjectInserter inserter) throws IOException {
+		if (pendingBlobs != null) {
+			for (String s : pendingBlobs) {
+				inserter.insert(OBJ_BLOB, encode(s));
+			}
+			pendingBlobs = null;
+		}
+		return contents.writeTree(inserter);
+	}
+
+	/** Releases the ObjectReader remembered by the tree. */
+	public void close() {
+		if (reader != null) {
+			reader.close();
+		}
+	}
+
+	private static class LockFailureException extends RuntimeException {
+		private static final long serialVersionUID = 1L;
+	}
+}
