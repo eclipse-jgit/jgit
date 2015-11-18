@@ -1,0 +1,187 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67ccbf7d_6cc73dde",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/AddCommandTest.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-11-18T00:07:48Z",
+      "side": 1,
+      "message": "so you want to write another test for this case ?",
+      "revId": "4de5c94cb5a3a824731a77d44b007bccfd797b96",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_2cbd3552",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/AddCommandTest.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-11-18T00:07:48Z",
+      "side": 1,
+      "message": "we don\u0027t use sed in the test anymore but tr",
+      "range": {
+        "startLine": 206,
+        "startChar": 66,
+        "endLine": 206,
+        "endChar": 69
+      },
+      "revId": "4de5c94cb5a3a824731a77d44b007bccfd797b96",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_4cc279cf",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/AddCommandTest.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-11-18T00:07:48Z",
+      "side": 1,
+      "message": "s/received/receive/",
+      "range": {
+        "startLine": 226,
+        "startChar": 16,
+        "endLine": 226,
+        "endChar": 24
+      },
+      "revId": "4de5c94cb5a3a824731a77d44b007bccfd797b96",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_8caba10c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/AddCommandTest.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-11-18T00:07:48Z",
+      "side": 1,
+      "message": "s/received/receive/",
+      "range": {
+        "startLine": 246,
+        "startChar": 16,
+        "endLine": 246,
+        "endChar": 24
+      },
+      "revId": "4de5c94cb5a3a824731a77d44b007bccfd797b96",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_aca86510",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/AddCommandTest.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-11-18T00:07:48Z",
+      "side": 1,
+      "message": "s/received/receive/",
+      "range": {
+        "startLine": 267,
+        "startChar": 16,
+        "endLine": 267,
+        "endChar": 24
+      },
+      "revId": "4de5c94cb5a3a824731a77d44b007bccfd797b96",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_ecb26d7a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/AddCommand.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-11-18T00:07:48Z",
+      "side": 1,
+      "message": "missing braces",
+      "revId": "4de5c94cb5a3a824731a77d44b007bccfd797b96",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_ec242d3b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 1353,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-11-18T00:07:48Z",
+      "side": 1,
+      "message": "s/how/as/",
+      "range": {
+        "startLine": 1353,
+        "startChar": 27,
+        "endLine": 1353,
+        "endChar": 30
+      },
+      "revId": "4de5c94cb5a3a824731a77d44b007bccfd797b96",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_8c92c1d8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-11-18T00:07:48Z",
+      "side": 1,
+      "message": "fix TODO ?",
+      "revId": "4de5c94cb5a3a824731a77d44b007bccfd797b96",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_ec898dae",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 1327,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-11-18T00:07:48Z",
+      "side": 1,
+      "message": "looks like this method could be declared private",
+      "revId": "4de5c94cb5a3a824731a77d44b007bccfd797b96",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
