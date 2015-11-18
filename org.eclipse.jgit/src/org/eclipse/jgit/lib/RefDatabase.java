@@ -82,8 +82,10 @@ public abstract class RefDatabase {
 	 * <p>
 	 * If the reference is nested deeper than this depth, the implementation
 	 * should either fail, or at least claim the reference does not exist.
+	 *
+	 * @since 4.2
 	 */
-	protected static final int MAX_SYMBOLIC_REF_DEPTH = 5;
+	public static final int MAX_SYMBOLIC_REF_DEPTH = 5;
 
 	/** Magic value for {@link #getRefs(String)} to return all references. */
 	public static final String ALL = "";//$NON-NLS-1$
