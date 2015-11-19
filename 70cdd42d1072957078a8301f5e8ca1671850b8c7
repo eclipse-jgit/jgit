@@ -22,6 +22,30 @@
       "revId": "70cdd42d1072957078a8301f5e8ca1671850b8c7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_b62eeb91",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-11-19T22:07:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67ccbf7d_f62073a5",
+      "range": {
+        "startLine": 90,
+        "startChar": 46,
+        "endLine": 90,
+        "endChar": 51
+      },
+      "revId": "70cdd42d1072957078a8301f5e8ca1671850b8c7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
