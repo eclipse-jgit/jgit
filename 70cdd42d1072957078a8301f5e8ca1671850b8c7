@@ -69,6 +69,30 @@
       "revId": "70cdd42d1072957078a8301f5e8ca1671850b8c7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_56dbdf17",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-11-19T22:12:09Z",
+      "side": 1,
+      "message": "Ah, yes it does. Strange API. Thanks for finding it.\n\nRebaseCommand, LoadCachedPack, LockFile, ObjectDirectory, RefDirectory, ReflogReaderImpl, UnpackedObject, Repository, FileBasedConfig might have similar bugs.",
+      "parentUuid": "67ccbf7d_16d157f8",
+      "range": {
+        "startLine": 421,
+        "startChar": 0,
+        "endLine": 423,
+        "endChar": 57
+      },
+      "revId": "70cdd42d1072957078a8301f5e8ca1671850b8c7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
