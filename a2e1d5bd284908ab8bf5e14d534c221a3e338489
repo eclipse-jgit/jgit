@@ -196,6 +196,24 @@
     },
     {
       "key": {
+        "uuid": "67ccbf7d_e1c6ee3c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attribute.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-11-19T14:06:13Z",
+      "side": 1,
+      "message": "Is this really done? When we can use \"!custom\" in every .gitattributes file we should say so. I would write:\n\n  Unspecified - used to revert  ...",
+      "parentUuid": "67ccbf7d_cfd03ef7",
+      "revId": "a2e1d5bd284908ab8bf5e14d534c221a3e338489",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67ccbf7d_7454694c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attributes.java",
         "patchSetId": 1
@@ -378,6 +396,24 @@
       "writtenOn": "2015-11-17T14:51:06Z",
       "side": 1,
       "message": "here I return the effective value, not the state",
+      "revId": "a2e1d5bd284908ab8bf5e14d534c221a3e338489",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_41895a31",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attributes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-11-19T14:06:13Z",
+      "side": 1,
+      "message": "yes, my fault. I agree",
+      "parentUuid": "67ccbf7d_0ff2268f",
       "revId": "a2e1d5bd284908ab8bf5e14d534c221a3e338489",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
