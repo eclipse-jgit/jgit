@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2009, Daniel Cheng (aka SDiZ) <git@sdiz.net>
  * Copyright (C) 2009, Daniel Cheng (aka SDiZ) <j16sdiz+freenet@gmail.com>
+ * Copyright (C) 2015 Thomas Meyer <thomas@m3y3r.de>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -51,14 +52,19 @@ import java.util.List;
 import java.util.Map;
 
 import org.kohsuke.args4j.Argument;
+import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.Option;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.pgm.internal.CLIText;;
 
 @Command(usage = "usage_RevParse")
 class RevParse extends TextBuiltin {
 	@Option(name = "--all", usage = "usage_RevParseAll")
-	boolean all = false;
+	boolean all;
+
+	@Option(name = "--verify", usage = "usage_RevParseVerify")
+	boolean verify;
 
 	@Argument(index = 0, metaVar = "metaVar_commitish")
 	private final List<ObjectId> commits = new ArrayList<ObjectId>();
@@ -67,11 +73,17 @@ class RevParse extends TextBuiltin {
 	protected void run() throws Exception {
 		if (all) {
 			Map<String, Ref> allRefs = db.getRefDatabase().getRefs(ALL);
-			for (final Ref r : allRefs.values())
+			for (final Ref r : allRefs.values()) {
 				outw.println(r.getObjectId().name());
+			}
 		} else {
-			for (final ObjectId o : commits)
+			if (verify && commits.size() > 1) {
+				throw new CmdLineException(CLIText.get().needSingleRevision);
+			}
+
+			for (final ObjectId o : commits) {
 				outw.println(o.name());
+			}
 		}
 	}
 }
