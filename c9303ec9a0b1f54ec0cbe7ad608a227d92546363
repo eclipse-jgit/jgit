@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67ccbf7d_b6f0ab04",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-11-19T23:36:40Z",
+      "side": 1,
+      "message": "Worth mentioning that this only applies to $HOME/.gitconfig, not /etc/gitconfig and .git/config, and either summarizing or pointing to git.git commit 4698c8feb1bb (config: allow inaccessible configuration under $HOME, 2013-04-12) for an explanation of why.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 53
+      },
+      "revId": "c9303ec9a0b1f54ec0cbe7ad608a227d92546363",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_96f3a710",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-11-19T23:36:40Z",
+      "side": 1,
+      "message": "Does this lose the parent Config?",
+      "range": {
+        "startLine": 120,
+        "startChar": 0,
+        "endLine": 120,
+        "endChar": 42
+      },
+      "revId": "c9303ec9a0b1f54ec0cbe7ad608a227d92546363",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
