@@ -81,7 +81,7 @@ public class StashListCommand extends GitCommand<Collection<RevCommit>> {
 		checkCallable();
 
 		try {
-			if (repo.getRef(Constants.R_STASH) == null)
+			if (repo.exactRef(Constants.R_STASH) == null)
 				return Collections.emptyList();
 		} catch (IOException e) {
 			throw new InvalidRefNameException(MessageFormat.format(

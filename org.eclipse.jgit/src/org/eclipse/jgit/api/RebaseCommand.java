@@ -418,7 +418,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 
 	private void updateStashRef(ObjectId commitId, PersonIdent refLogIdent,
 			String refLogMessage) throws IOException {
-		Ref currentRef = repo.getRef(Constants.R_STASH);
+		Ref currentRef = repo.exactRef(Constants.R_STASH);
 		RefUpdate refUpdate = repo.updateRef(Constants.R_STASH);
 		refUpdate.setNewObjectId(commitId);
 		refUpdate.setRefLogIdent(refLogIdent);
