@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67ccbf7d_766383bc",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/internal/CLIText.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-11-19T22:41:50Z",
+      "side": 1,
+      "message": "If this file had a copyright notice for everyone who contributed a string, it would be very long. Please don\u0027t.",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 52
+      },
+      "revId": "1640846cd7a54c62847b6efd9ffcb5f28f4dc1bc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
