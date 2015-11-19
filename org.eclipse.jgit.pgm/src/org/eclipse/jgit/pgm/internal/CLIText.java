@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2010, 2013 Sasa Zivkov <sasa.zivkov@sap.com>
  * Copyright (C) 2013, Obeo
+ * Copyright (C) 2015 Thomas Meyer <thomas@m3y3r.de>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -183,6 +184,7 @@ public class CLIText extends TranslationBundle {
 	/***/ public String metaVar_version;
 	/***/ public String mostCommonlyUsedCommandsAre;
 	/***/ public String needApprovalToDestroyCurrentRepository;
+	/***/ public String needSingleRevision;
 	/***/ public String noGitRepositoryConfigured;
 	/***/ public String noNamesFound;
 	/***/ public String noSuchFile;
