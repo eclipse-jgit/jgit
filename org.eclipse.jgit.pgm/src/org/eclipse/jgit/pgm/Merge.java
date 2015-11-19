@@ -114,7 +114,7 @@ class Merge extends TextBuiltin {
 		}
 
 		// determine the other revision we want to merge with HEAD
-		final Ref srcRef = db.getRef(ref);
+		final Ref srcRef = db.findRef(ref);
 		final ObjectId src = db.resolve(ref + "^{commit}"); //$NON-NLS-1$
 		if (src == null)
 			throw die(MessageFormat.format(

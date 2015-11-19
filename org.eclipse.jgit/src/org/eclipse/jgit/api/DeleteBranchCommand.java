@@ -114,7 +114,7 @@ public class DeleteBranchCommand extends GitCommand<List<String>> {
 					for (String branchName : branchNames) {
 						if (branchName == null)
 							continue;
-						Ref currentRef = repo.getRef(branchName);
+						Ref currentRef = repo.findRef(branchName);
 						if (currentRef == null)
 							continue;
 
@@ -130,7 +130,7 @@ public class DeleteBranchCommand extends GitCommand<List<String>> {
 			for (String branchName : branchNames) {
 				if (branchName == null)
 					continue;
-				Ref currentRef = repo.getRef(branchName);
+				Ref currentRef = repo.findRef(branchName);
 				if (currentRef == null)
 					continue;
 				String fullName = currentRef.getName();

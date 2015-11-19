@@ -344,7 +344,7 @@ public class PushCommand extends
 		} else {
 			Ref src;
 			try {
-				src = repo.getRef(nameOrSpec);
+				src = repo.findRef(nameOrSpec);
 			} catch (IOException e) {
 				throw new JGitInternalException(
 						JGitText.get().exceptionCaughtDuringExecutionOfPushCommand,

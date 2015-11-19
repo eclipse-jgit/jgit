@@ -206,7 +206,7 @@ public class StashCreateCommand extends GitCommand<RevCommit> {
 			String refLogMessage) throws IOException {
 		if (ref == null)
 			return;
-		Ref currentRef = repo.getRef(ref);
+		Ref currentRef = repo.findRef(ref);
 		RefUpdate refUpdate = repo.updateRef(ref);
 		refUpdate.setNewObjectId(commitId);
 		refUpdate.setRefLogIdent(refLogIdent);

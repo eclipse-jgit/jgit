@@ -79,7 +79,7 @@ public class BranchTrackingStatus {
 		if (trackingBranch == null)
 			return null;
 
-		Ref tracking = repository.getRef(trackingBranch);
+		Ref tracking = repository.findRef(trackingBranch);
 		if (tracking == null)
 			return null;
 
