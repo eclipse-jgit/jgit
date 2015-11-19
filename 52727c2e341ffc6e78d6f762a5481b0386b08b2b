@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67ccbf7d_4661702c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-11-19T11:59:11Z",
+      "side": 1,
+      "message": "I am not sure what you really want to fix here. Do you really want to allow  \n\n  git.checkout()....setName(\"xyz\").addPath(\"a.txt\").call() ?\n\nThis should be disallowed. We should use\n\n  git.checkout()....setStartPoint(\"xyz\").addPath(\"a.txt\").call()\n\nThe javadoc of setName() tells so. If I try out this change but I leave out the modifications in this block then the tests fail. But if I change the test to use setStartPoint() instead of setName() then they work. I guess we don\u0027t need this modification.\n\nMaybe we should really enrich processOptions() and throw exceptions when a combination of options is set which we don\u0027t support. Like:\n\n- pathes are specfied AND createBranch is true\n- pathes are specfied AND name is specified",
+      "range": {
+        "startLine": 394,
+        "startChar": 0,
+        "endLine": 399,
+        "endChar": 5
+      },
+      "revId": "52727c2e341ffc6e78d6f762a5481b0386b08b2b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_865a9879",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-11-19T11:59:11Z",
+      "side": 1,
+      "message": "The fix here is really needed. +1",
+      "range": {
+        "startLine": 451,
+        "startChar": 0,
+        "endLine": 466,
+        "endChar": 64
+      },
+      "revId": "52727c2e341ffc6e78d6f762a5481b0386b08b2b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
