@@ -269,7 +269,7 @@ public class CheckoutCommand extends GitCommand<Ref> {
 			} finally {
 				dc.unlock();
 			}
-			Ref ref = repo.getRef(name);
+			Ref ref = repo.findRef(name);
 			if (ref != null && !ref.getName().startsWith(Constants.R_HEADS))
 				ref = null;
 			String toName = Repository.shortenRefName(name);
