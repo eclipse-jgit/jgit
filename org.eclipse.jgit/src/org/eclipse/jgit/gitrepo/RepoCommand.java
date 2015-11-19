@@ -42,6 +42,9 @@
  */
 package org.eclipse.jgit.gitrepo;
 
+import static org.eclipse.jgit.lib.Constants.DEFAULT_REMOTE_NAME;
+import static org.eclipse.jgit.lib.Constants.R_REMOTES;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -574,7 +577,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	private static String findRef(String ref, Repository repo)
 			throws IOException {
 		if (!ObjectId.isId(ref)) {
-			Ref r = repo.getRef(Constants.DEFAULT_REMOTE_NAME + "/" + ref); //$NON-NLS-1$
+			Ref r = repo.exactRef(R_REMOTES + DEFAULT_REMOTE_NAME + "/" + ref); //$NON-NLS-1$
 			if (r != null)
 				return r.getName();
 		}
