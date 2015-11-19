@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67ccbf7d_36a81b62",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/RevParse.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-11-19T22:28:46Z",
+      "side": 1,
+      "message": "style nit: missing space after \u0027if\u0027",
+      "range": {
+        "startLine": 79,
+        "startChar": 3,
+        "endLine": 79,
+        "endChar": 7
+      },
+      "revId": "547d928146e81223288524ff40da5cb997cd0670",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
