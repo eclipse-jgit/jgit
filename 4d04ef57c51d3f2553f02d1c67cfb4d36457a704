@@ -33,6 +33,23 @@
       "revId": "4d04ef57c51d3f2553f02d1c67cfb4d36457a704",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_c7dc97de",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-11-20T16:22:12Z",
+      "side": 1,
+      "message": "we should log a warning here so that users who have wrong permissions on ~/.gitconfig by mistake have a chance to detect the problem",
+      "revId": "4d04ef57c51d3f2553f02d1c67cfb4d36457a704",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
