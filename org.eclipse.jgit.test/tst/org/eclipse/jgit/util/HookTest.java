@@ -92,11 +92,9 @@ public class HookTest extends RepositoryTestCase {
 			fail("expected commit-msg hook to abort commit");
 		} catch (AbortedByHookException e) {
 			assertEquals("unexpected error message from commit-msg hook",
-					"Rejected by \"commit-msg\" hook.\nstderr"
-							+ System.lineSeparator(),
+					"Rejected by \"commit-msg\" hook.\nstderr\n",
 					e.getMessage());
-			assertEquals("unexpected output from commit-msg hook",
-					"test" + System.lineSeparator(),
+			assertEquals("unexpected output from commit-msg hook", "test\n",
 					out.toString());
 		}
 	}
@@ -114,7 +112,7 @@ public class HookTest extends RepositoryTestCase {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		git.commit().setMessage("commit")
 				.setHookOutputStream(new PrintStream(out)).call();
-		assertEquals(".git/COMMIT_EDITMSG" + System.lineSeparator(),
+		assertEquals(".git/COMMIT_EDITMSG\n",
 				out.toString("UTF-8"));
 	}
 
@@ -147,11 +145,10 @@ public class HookTest extends RepositoryTestCase {
 				new String[] {
 				"arg1", "arg2" },
 				new PrintStream(out), new PrintStream(err), "stdin");
-		assertEquals("unexpected hook output", "test arg1 arg2"
-				+ System.lineSeparator() + "stdin" + System.lineSeparator(),
+
+		assertEquals("unexpected hook output", "test arg1 arg2\nstdin\n",
 				out.toString("UTF-8"));
-		assertEquals("unexpected output on stderr stream",
-				"stderr" + System.lineSeparator(),
+		assertEquals("unexpected output on stderr stream", "stderr\n",
 				err.toString("UTF-8"));
 		assertEquals("unexpected exit code", 0, res.getExitCode());
 		assertEquals("unexpected process status", ProcessResult.Status.OK,
@@ -175,11 +172,9 @@ public class HookTest extends RepositoryTestCase {
 			fail("expected pre-commit hook to abort commit");
 		} catch (AbortedByHookException e) {
 			assertEquals("unexpected error message from pre-commit hook",
-					"Rejected by \"pre-commit\" hook.\nstderr"
-							+ System.lineSeparator(),
+					"Rejected by \"pre-commit\" hook.\nstderr\n",
 					e.getMessage());
-			assertEquals("unexpected output from pre-commit hook",
-					"test" + System.lineSeparator(),
+			assertEquals("unexpected output from pre-commit hook", "test\n",
 					out.toString());
 		}
 	}
