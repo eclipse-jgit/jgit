@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67ccbf7d_895d48c4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1216,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-11-20T12:12:01Z",
+      "side": 1,
+      "message": "how is this related to ignoring non-accessiblility of ~/.gitconfig ?",
+      "revId": "4d04ef57c51d3f2553f02d1c67cfb4d36457a704",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_a95a0cc7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1272,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-11-20T12:12:01Z",
+      "side": 1,
+      "message": "how is this related to ignoring non-accessibility of ~/.gitconfig ?",
+      "revId": "4d04ef57c51d3f2553f02d1c67cfb4d36457a704",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
