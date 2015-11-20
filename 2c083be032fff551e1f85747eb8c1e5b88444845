@@ -119,6 +119,86 @@
       "revId": "2c083be032fff551e1f85747eb8c1e5b88444845",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_417f9a59",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1163,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-11-20T08:41:19Z",
+      "side": 1,
+      "message": "remove this comment from this commit.",
+      "range": {
+        "startLine": 1154,
+        "startChar": 0,
+        "endLine": 1163,
+        "endChar": 6
+      },
+      "revId": "2c083be032fff551e1f85747eb8c1e5b88444845",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_e16a6e8d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1168,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-11-20T08:41:19Z",
+      "side": 1,
+      "message": "Be careful not to touch the lines you are not interested in. This addition of newline is not needed. Remember: Reviewers will look at each changed line and adding such newlines just adds noise. The JGit projects comes with formatter settings and if I feed these three lines to the formatter he will remote the newline you added.",
+      "range": {
+        "startLine": 1167,
+        "startChar": 43,
+        "endLine": 1168,
+        "endChar": 6
+      },
+      "revId": "2c083be032fff551e1f85747eb8c1e5b88444845",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_015752d7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1174,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-11-20T08:41:19Z",
+      "side": 1,
+      "message": "same as above",
+      "revId": "2c083be032fff551e1f85747eb8c1e5b88444845",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_215c56f9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1227,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-11-20T08:41:19Z",
+      "side": 1,
+      "message": "nit: newline",
+      "revId": "2c083be032fff551e1f85747eb8c1e5b88444845",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
