@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67ccbf7d_47232765",
+        "filename": "org.eclipse.jgit.pgm.test/org.eclipse.jgit.pgm--All-Tests (Java7).launch",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-11-20T16:30:55Z",
+      "side": 1,
+      "message": "is this really needed? This has nothing to do with removing bundle references",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 95
+      },
+      "revId": "4b8826dee138e0d690faa83c24818a11b5ef4ede",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_07191f39",
+        "filename": "org.eclipse.jgit.test/org.eclipse.jgit.core--All-Tests (Java 7).launch",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-11-20T16:30:55Z",
+      "side": 1,
+      "message": "Is this really needed?",
+      "revId": "4b8826dee138e0d690faa83c24818a11b5ef4ede",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
