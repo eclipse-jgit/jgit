@@ -1590,6 +1590,9 @@ public abstract class Repository implements AutoCloseable {
 		try {
 			return RawParseUtils.decode(IO.readFully(mergeMsgFile));
 		} catch (FileNotFoundException e) {
+			if (mergeMsgFile.exists()) {
+				throw e;
+			}
 			// the file has disappeared in the meantime ignore it
 			return null;
 		}
@@ -1621,6 +1624,9 @@ public abstract class Repository implements AutoCloseable {
 			byte[] raw = IO.readFully(file);
 			return raw.length > 0 ? raw : null;
 		} catch (FileNotFoundException notFound) {
+			if (file.exists()) {
+				throw notFound;
+			}
 			return null;
 		}
 	}
