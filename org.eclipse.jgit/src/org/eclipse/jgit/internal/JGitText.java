@@ -510,6 +510,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String packfileIsTruncatedNoParam;
 	/***/ public String packHandleIsStale;
 	/***/ public String packHasUnresolvedDeltas;
+	/***/ public String packInaccessible;
 	/***/ public String packingCancelledDuringObjectsWriting;
 	/***/ public String packObjectCountMismatch;
 	/***/ public String packRefs;

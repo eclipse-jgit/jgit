@@ -227,6 +227,10 @@ public class LockFile {
 				fis.close();
 			}
 		} catch (FileNotFoundException fnfe) {
+			if (ref.exists()) {
+				unlock();
+				throw fnfe;
+			}
 			// Don't worry about a file that doesn't exist yet, it
 			// conceptually has no current content to copy.
 			//
