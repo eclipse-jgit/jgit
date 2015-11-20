@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "67ccbf7d_8c41d6c0",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/RemoteTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 621
+      },
+      "writtenOn": "2015-11-20T14:49:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67ccbf7d_1ea89ed7",
+      "revId": "5d4dda66198c99f3ff1e87f8ee962b2c2156cf43",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67ccbf7d_3969fcec",
         "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/RemoteTest.java",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2015-11-16T23:11:26Z",
       "side": 1,
       "message": "jgit returns the file URL ending with \".git\" native git omits the postfix \".git\" (tried this using native git 2.6.1 on Mac OS X)",
+      "range": {
+        "startLine": 151,
+        "startChar": 4,
+        "endLine": 151,
+        "endChar": 48
+      },
+      "revId": "5d4dda66198c99f3ff1e87f8ee962b2c2156cf43",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_4c942e97",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/RemoteTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 621
+      },
+      "writtenOn": "2015-11-20T14:49:15Z",
+      "side": 1,
+      "message": "The \u0027update\u0027 subcommand calls the existing Fetch command. So this is an issue in the Fetch command. I suggest it is fixed in a separate patch.",
+      "parentUuid": "67ccbf7d_3969fcec",
       "range": {
         "startLine": 151,
         "startChar": 4,
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "67ccbf7d_ec7fc2d1",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Remote.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 621
+      },
+      "writtenOn": "2015-11-20T14:49:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67ccbf7d_1e733e0b",
+      "revId": "5d4dda66198c99f3ff1e87f8ee962b2c2156cf43",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67ccbf7d_7918e4a8",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RemoteSetUrlCommandTest.java",
         "patchSetId": 1
@@ -70,6 +130,30 @@
       "writtenOn": "2015-11-16T23:11:26Z",
       "side": 1,
       "message": "s/aviable/available/",
+      "range": {
+        "startLine": 70,
+        "startChar": 39,
+        "endLine": 70,
+        "endChar": 48
+      },
+      "revId": "5d4dda66198c99f3ff1e87f8ee962b2c2156cf43",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_2c8a8a6f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RemoteSetUrlCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 621
+      },
+      "writtenOn": "2015-11-20T14:49:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67ccbf7d_7918e4a8",
       "range": {
         "startLine": 70,
         "startChar": 39,
@@ -105,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "67ccbf7d_4c8fce7e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RemoteSetUrlCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 621
+      },
+      "writtenOn": "2015-11-20T14:49:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0724e3f1_1d9cb1ee",
+      "range": {
+        "startLine": 95,
+        "startChar": 39,
+        "endLine": 95,
+        "endChar": 48
+      },
+      "revId": "5d4dda66198c99f3ff1e87f8ee962b2c2156cf43",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67ccbf7d_59c2407c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
         "patchSetId": 1
@@ -116,6 +224,30 @@
       "writtenOn": "2015-11-16T23:11:26Z",
       "side": 1,
       "message": "we prefer active voice in Javadoc, e.g. \n\n- \"Return a command ...\" instead of \"Returns a command ...\"",
+      "range": {
+        "startLine": 716,
+        "startChar": 4,
+        "endLine": 716,
+        "endChar": 11
+      },
+      "revId": "5d4dda66198c99f3ff1e87f8ee962b2c2156cf43",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_8c70f6fd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 716,
+      "author": {
+        "id": 621
+      },
+      "writtenOn": "2015-11-20T14:49:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67ccbf7d_59c2407c",
       "range": {
         "startLine": 716,
         "startChar": 4,
@@ -145,6 +277,24 @@
     },
     {
       "key": {
+        "uuid": "67ccbf7d_ec66e247",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RemoteAddCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 621
+      },
+      "writtenOn": "2015-11-20T14:49:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0724e3f1_9d7ee11e",
+      "revId": "5d4dda66198c99f3ff1e87f8ee962b2c2156cf43",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0724e3f1_fd4efd13",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RemoteListCommand.java",
         "patchSetId": 1
@@ -156,6 +306,24 @@
       "writtenOn": "2015-11-16T23:11:26Z",
       "side": 1,
       "message": "missing @since 4.2 tag",
+      "revId": "5d4dda66198c99f3ff1e87f8ee962b2c2156cf43",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_0c6ce626",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RemoteListCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 621
+      },
+      "writtenOn": "2015-11-20T14:49:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0724e3f1_fd4efd13",
       "revId": "5d4dda66198c99f3ff1e87f8ee962b2c2156cf43",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -179,6 +347,24 @@
     },
     {
       "key": {
+        "uuid": "67ccbf7d_2c61aa2d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RemoteRemoveCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 621
+      },
+      "writtenOn": "2015-11-20T14:49:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0724e3f1_dd5339b7",
+      "revId": "5d4dda66198c99f3ff1e87f8ee962b2c2156cf43",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0724e3f1_3d4535ee",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RemoteSetUrlCommand.java",
         "patchSetId": 1
@@ -190,6 +376,24 @@
       "writtenOn": "2015-11-16T23:11:26Z",
       "side": 1,
       "message": "missing @since 4.2 tag",
+      "revId": "5d4dda66198c99f3ff1e87f8ee962b2c2156cf43",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_4c66ee46",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RemoteSetUrlCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 621
+      },
+      "writtenOn": "2015-11-20T14:49:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0724e3f1_3d4535ee",
       "revId": "5d4dda66198c99f3ff1e87f8ee962b2c2156cf43",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
