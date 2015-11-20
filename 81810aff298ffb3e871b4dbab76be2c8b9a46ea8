@@ -70,6 +70,30 @@
       "revId": "81810aff298ffb3e871b4dbab76be2c8b9a46ea8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_a7f07304",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/WalkEncryptionTest.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 504,
+      "author": {
+        "id": 60115
+      },
+      "writtenOn": "2015-11-20T17:35:30Z",
+      "side": 1,
+      "message": "OK, I see you point. \nI will send a PR to make proxy setup \ndependent on CI server presence detection.",
+      "parentUuid": "67ccbf7d_ac578550",
+      "range": {
+        "startLine": 504,
+        "startChar": 4,
+        "endLine": 504,
+        "endChar": 34
+      },
+      "revId": "81810aff298ffb3e871b4dbab76be2c8b9a46ea8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
