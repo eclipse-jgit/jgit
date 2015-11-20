@@ -21,12 +21,6 @@
                 <message_argument value="createAttributesNodeProvider()"/>
             </message_arguments>
         </filter>
-        <filter id="336695337">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.lib.Repository"/>
-                <message_argument value="newAttributesNodeProvider()"/>
-            </message_arguments>
-        </filter>
     </resource>
     <resource path="src/org/eclipse/jgit/transport/PushCertificate.java" type="org.eclipse.jgit.transport.PushCertificate">
         <filter comment="PushCertificate wasn't really usable in 4.0" id="338722907">
