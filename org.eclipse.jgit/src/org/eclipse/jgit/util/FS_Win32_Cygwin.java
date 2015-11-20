@@ -162,11 +162,6 @@ public class FS_Win32_Cygwin extends FS_Win32 {
 				errRedirect, stdinArgs);
 	}
 
-	@Override
-	public boolean supportsSymlinks() {
-		return true;
-	}
-
 	/**
 	 * @since 3.7
 	 */
