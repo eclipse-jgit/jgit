@@ -980,6 +980,9 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		try {
 			raw = IO.readFully(authorScriptFile);
 		} catch (FileNotFoundException notFound) {
+			if (authorScriptFile.exists()) {
+				throw notFound;
+			}
 			return null;
 		}
 		return parseAuthor(raw);

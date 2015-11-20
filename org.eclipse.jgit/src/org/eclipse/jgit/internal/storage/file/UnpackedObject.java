@@ -399,6 +399,9 @@ public class UnpackedObject {
 			try {
 				in = buffer(new FileInputStream(path));
 			} catch (FileNotFoundException gone) {
+				if (path.exists()) {
+					throw gone;
+				}
 				// If the loose file no longer exists, it may have been
 				// moved into a pack file in the mean time. Try again
 				// to locate the object.
