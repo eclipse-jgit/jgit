@@ -46,6 +46,30 @@
       "revId": "a247b46aee4f72eb53b4cc55ce3225540f90cfd4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_8f88dd00",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 563,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-11-24T20:49:32Z",
+      "side": 1,
+      "message": "The packWasDeleted case was lost. I\u0027ll try an edit.\n\n(An alternative would be to only use the packInaccessible message and eliminate packWasDeleted completely. I\u0027m happy either way, as long as warnTmpl !\u003d null whenever we removePack.)",
+      "parentUuid": "67ccbf7d_5d2e9a46",
+      "range": {
+        "startLine": 563,
+        "startChar": 0,
+        "endLine": 563,
+        "endChar": 4
+      },
+      "revId": "a247b46aee4f72eb53b4cc55ce3225540f90cfd4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
