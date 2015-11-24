@@ -53,6 +53,8 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.security.DigestOutputStream;
 import java.text.MessageFormat;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.jgit.internal.storage.file.LockFile;
 import org.eclipse.jgit.lfs.errors.CorruptLongObjectException;
@@ -64,7 +66,7 @@ import org.eclipse.jgit.util.FS;
  *
  * @since 4.2
  */
-public class PlainFSRepository {
+public class PlainFSRepository implements LargeFileRepository {
 
 	/**
 	 * Output stream writing content to a {@link LockFile} which is committed on
@@ -131,24 +133,31 @@ public class PlainFSRepository {
 		}
 	}
 
-	private Path dir;
+	private final String url;
+	private final Path dir;
 
 	private AtomicObjectOutputStream out;
 
+
 	/**
+	 * @param url
+	 *            external URL of this repository
 	 * @param dir
 	 *            storage directory
 	 * @throws IOException
 	 */
-	public PlainFSRepository(Path dir) throws IOException {
+	public PlainFSRepository(String url, Path dir) throws IOException {
+		this.url = url;
 		this.dir = dir;
 		Files.createDirectories(dir);
 	}
 
-	/**
-	 * @param id
-	 * @return whether the object exists
-	 */
+	@Override
+	public String getUrl(AnyLongObjectId id) {
+		return url;
+	}
+
+	@Override
 	public boolean exists(AnyLongObjectId id) {
 		return Files.exists(getPath(id));
 	}
@@ -160,6 +169,13 @@ public class PlainFSRepository {
 	 */
 	public long getLength(AnyLongObjectId id) throws IOException {
 		return Files.size(getPath(id));
+	}
+
+	@Override
+	public Map<String, String> getHeaders(AnyLongObjectId id) {
+		Map<String, String> result = new HashMap<>();
+		result.put("Authorization", "not:required"); //$NON-NLS-1$ //$NON-NLS-2$
+		return result;
 	}
 
 	/**
