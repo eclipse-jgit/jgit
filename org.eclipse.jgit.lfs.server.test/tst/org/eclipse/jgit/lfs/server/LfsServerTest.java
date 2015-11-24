@@ -119,7 +119,7 @@ public abstract class LfsServerTest {
 		server = new AppServer();
 		ServletContextHandler app = server.addContext("/lfs");
 		dir = Paths.get(tmp.toString(), "lfs");
-		this.repository = new PlainFSRepository(dir);
+		this.repository = new PlainFSRepository(null, dir);
 		servlet = new LargeObjectServlet(repository, timeout);
 		app.addServlet(new ServletHolder(servlet), "/objects/*");
 		server.setUp();
