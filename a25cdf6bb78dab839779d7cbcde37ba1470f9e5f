@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67ccbf7d_04358fdd",
+        "filename": "org.eclipse.jgit/.settings/.api_filters",
+        "patchSetId": 7
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-11-25T10:48:12Z",
+      "side": 1,
+      "message": "MacroExpander? That class is not known yet. This complete \u003cfilter\u003e block should be removed",
+      "range": {
+        "startLine": 12,
+        "startChar": 55,
+        "endLine": 12,
+        "endChar": 68
+      },
+      "revId": "a25cdf6bb78dab839779d7cbcde37ba1470f9e5f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_642adb7f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/AbstractTreeIterator.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-11-25T10:48:12Z",
+      "side": 1,
+      "message": "Shouldn\u0027t the changes in this file belong to the followup request where macro-expansion is handled?",
+      "revId": "a25cdf6bb78dab839779d7cbcde37ba1470f9e5f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
