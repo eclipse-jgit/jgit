@@ -151,6 +151,7 @@ public class MockSystemReader extends SystemReader {
 	 *
 	 * @param secDelta
 	 *            number of seconds to add to the current time.
+	 * @since 4.2
 	 */
 	public void tick(final int secDelta) {
 		now += secDelta * 1000L;
