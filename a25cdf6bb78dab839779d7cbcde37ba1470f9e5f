@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "67ccbf7d_175f83f3",
+        "filename": "org.eclipse.jgit/.settings/.api_filters",
+        "patchSetId": 7
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2015-11-25T14:59:39Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "a25cdf6bb78dab839779d7cbcde37ba1470f9e5f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67ccbf7d_642adb7f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/AbstractTreeIterator.java",
         "patchSetId": 7
@@ -36,6 +53,23 @@
       "writtenOn": "2015-11-25T10:48:12Z",
       "side": 1,
       "message": "Shouldn\u0027t the changes in this file belong to the followup request where macro-expansion is handled?",
+      "revId": "a25cdf6bb78dab839779d7cbcde37ba1470f9e5f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_d7543bd1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/AbstractTreeIterator.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2015-11-25T14:59:39Z",
+      "side": 1,
+      "message": "Done",
       "revId": "a25cdf6bb78dab839779d7cbcde37ba1470f9e5f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
