@@ -108,6 +108,17 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 		return JGitTestUtil.writeTrashFile(db, name, data);
 	}
 
+	/**
+	 * Create a symbolic link
+	 *
+	 * @param link
+	 *            the path of the symbolic link to create
+	 * @param target
+	 *            the target of the symbolic link
+	 * @return the path to the symbolic link
+	 * @throws Exception
+	 * @since 4.2
+	 */
 	protected Path writeLink(final String link, final String target)
 			throws Exception {
 		return JGitTestUtil.writeLink(db, link, target);
