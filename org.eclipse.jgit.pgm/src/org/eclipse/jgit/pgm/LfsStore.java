@@ -18,6 +18,9 @@ class LfsStore extends TextBuiltin {
 	@Option(name = "--port", aliases = { "-p" }, usage = "usage_LFSPort")
 	int port;
 
+	@Option(name = "--storeUrl", aliases = { "-u" }, usage = "usage_LFSStoreUrl")
+	String storeUrl;
+
 	@Argument(required = true, metaVar = "metaVar_directory", usage = "usage_LFSDirectory")
 	String directory;
 
@@ -28,7 +31,11 @@ class LfsStore extends TextBuiltin {
 		Path dir = Paths.get(directory);
 		PlainFSRepository repository = new PlainFSRepository(dir);
 		LargeObjectServlet content = new LargeObjectServlet(repository, 30000);
-		LfsProtocolServlet protocol = new LfsProtocolServlet();
+		if (storeUrl == null) {
+			// TODO: get real host name from the OS
+			storeUrl = "http://localhost:" + port + "/";
+		}
+		LfsProtocolServlet protocol = new LfsProtocolServlet(storeUrl);
 		app.addServlet(new ServletHolder(content), "/objects/*");
 		app.addServlet(new ServletHolder(protocol), "/info/lfs");
 		server.setUp();

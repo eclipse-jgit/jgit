@@ -62,6 +62,15 @@ public class LfsProtocolServlet extends HttpServlet {
 		List<LfsObjectInfo> objects;
 	}
 
+	private final String objectStoreUrl;
+
+	/**
+	 * @param objectStoreUrl
+	 */
+	public LfsProtocolServlet(String objectStoreUrl) {
+		this.objectStoreUrl = objectStoreUrl;
+	}
+
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException, IOException {
@@ -91,7 +100,7 @@ public class LfsProtocolServlet extends HttpServlet {
 				info.actions = new HashMap<>();
 				Action a = new Action();
 				info.actions.put(request.operation, a);
-				a.href = "https://localhost:8081/objects";
+				a.href = objectStoreUrl;
 				a.header = new Header();
 				a.header.key = "Key";
 				a.header.value = "value";
