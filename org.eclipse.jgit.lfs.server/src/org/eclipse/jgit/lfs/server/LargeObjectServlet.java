@@ -68,8 +68,7 @@ import org.eclipse.jgit.lfs.server.internal.LfsServerText;
  *
  * @since 4.2
  */
-@WebServlet(name = "LargeObjectServlet", urlPatterns = {
-		"/lfs/objects/*" }, asyncSupported = true)
+@WebServlet(asyncSupported = true)
 public class LargeObjectServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
