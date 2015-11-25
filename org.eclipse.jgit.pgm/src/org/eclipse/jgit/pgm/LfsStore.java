@@ -8,6 +8,7 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jgit.junit.http.AppServer;
 import org.eclipse.jgit.lfs.lib.PlainFSRepository;
 import org.eclipse.jgit.lfs.server.LargeObjectServlet;
+import org.eclipse.jgit.lfs.server.LfsProtocolServlet;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
@@ -23,11 +24,13 @@ class LfsStore extends TextBuiltin {
 	protected void run() throws Exception {
 		outw.println("Starting LFS Store in: " + directory);
 		AppServer server = new AppServer(port);
-		ServletContextHandler app = server.addContext("/lfs");
+		ServletContextHandler app = server.addContext("/");
 		Path dir = Paths.get(directory);
 		PlainFSRepository repository = new PlainFSRepository(dir);
-		LargeObjectServlet servlet = new LargeObjectServlet(repository, 30000);
-		app.addServlet(new ServletHolder(servlet), "/objects/*");
+		LargeObjectServlet content = new LargeObjectServlet(repository, 30000);
+		LfsProtocolServlet protocol = new LfsProtocolServlet();
+		app.addServlet(new ServletHolder(content), "/objects/*");
+		app.addServlet(new ServletHolder(protocol), "/info/lfs");
 		server.setUp();
 		outw.println("Running on http://localhost:" + server.getPort()
 				+ "/lfs/objects/*");
