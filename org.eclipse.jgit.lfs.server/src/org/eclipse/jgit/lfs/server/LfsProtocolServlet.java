@@ -3,9 +3,12 @@ package org.eclipse.jgit.lfs.server;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.Reader;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,6 +31,16 @@ import com.google.gson.GsonBuilder;
 public class LfsProtocolServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
+
+	private static class LfsObject {
+		String oid;
+		long size;
+	}
+
+	private static class LfsRequest {
+		String operation;
+		List<LfsObject> objects;
+	}
 
 	private static class Header {
 		String key;
@@ -63,28 +76,28 @@ public class LfsProtocolServlet extends HttpServlet {
 						FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
 				.setPrettyPrinting();
 
-		ResponseBody body = new ResponseBody();
-		body.objects = new ArrayList<>();
-		LfsObjectInfo info = new LfsObjectInfo();
-		body.objects.add(info);
-		info.oid = "111111";
-		info.size = 123;
-		info.actions = new HashMap<>();
-		Action a = new Action();
-		info.actions.put("upload", a);
-		a.href = "https://localhost:8081/objects";
-		a.header = new Header();
-		a.header.key = "Key";
-		a.header.value = "value";
-
-		a = new Action();
-		info.actions.put("verify", a);
-		a.href = "https://localhost:8081/objects";
-		a.header = new Header();
-		a.header.key = "Key";
-		a.header.value = "value";
-
 		Gson gson = gb.create();
+		Reader r = new BufferedReader(new InputStreamReader(req.getInputStream(), UTF_8));
+		LfsRequest request = gson.fromJson(r, LfsRequest.class);
+
+		ResponseBody body = new ResponseBody();
+		if (request.objects.size() > 0) {
+			body.objects = new ArrayList<>();
+			for (LfsObject o : request.objects) {
+				LfsObjectInfo info = new LfsObjectInfo();
+				body.objects.add(info);
+				info.oid = o.oid;
+				info.size = o.size;
+				info.actions = new HashMap<>();
+				Action a = new Action();
+				info.actions.put(request.operation, a);
+				a.href = "https://localhost:8081/objects";
+				a.header = new Header();
+				a.header.key = "Key";
+				a.header.value = "value";
+			}
+		}
+
 		gson.toJson(body, w);
 
 		w.flush();
