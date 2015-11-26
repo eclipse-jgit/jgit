@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67ccbf7d_8b28c7ba",
+        "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/RepositoryTestCase.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-11-26T14:11:09Z",
+      "side": 1,
+      "message": "missing @since 4.2 tag, no idea why API tooling isn\u0027t complaining about this new public method in an exported package",
+      "revId": "65679e897112a7d26da029a735bbc8d79542727e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
