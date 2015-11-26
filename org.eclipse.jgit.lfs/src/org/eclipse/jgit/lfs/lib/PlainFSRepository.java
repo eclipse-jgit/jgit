@@ -131,18 +131,28 @@ public class PlainFSRepository implements LargeFileRepository {
 		}
 	}
 
-	private Path dir;
+	private final String url;
+	private final Path dir;
 
 	private AtomicObjectOutputStream out;
 
+
 	/**
+	 * @param url
+	 *            external URL of this repository
 	 * @param dir
 	 *            storage directory
 	 * @throws IOException
 	 */
-	public PlainFSRepository(Path dir) throws IOException {
+	public PlainFSRepository(String url, Path dir) throws IOException {
+		this.url = url;
 		this.dir = dir;
 		Files.createDirectories(dir);
+	}
+
+	@Override
+	public String getUrl() {
+		return url;
 	}
 
 	@Override

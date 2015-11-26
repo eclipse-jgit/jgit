@@ -6,6 +6,7 @@ import java.nio.file.Paths;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jgit.junit.http.AppServer;
+import org.eclipse.jgit.lfs.lib.LargeFileRepository;
 import org.eclipse.jgit.lfs.lib.PlainFSRepository;
 import org.eclipse.jgit.lfs.server.LargeObjectServlet;
 import org.eclipse.jgit.lfs.server.LfsProtocolServlet;
@@ -42,14 +43,17 @@ class LfsStore extends TextBuiltin {
 		AppServer server = new AppServer(port);
 		ServletContextHandler app = server.addContext("/");
 		Path dir = Paths.get(directory);
-		PlainFSRepository repository = new PlainFSRepository(dir);
+		LargeFileRepository repository;
 
 		if (runStore) {
+			repository = new PlainFSRepository(getStoreUrl(), dir);
 			LargeObjectServlet content = new LargeObjectServlet(repository, 30000);
 			app.addServlet(new ServletHolder(content), STORE_PATH);
+		} else {
+			repository = getLargeFileRepository();
 		}
 
-		LfsProtocolServlet protocol = new LfsProtocolServlet(getStoreUrl());
+		LfsProtocolServlet protocol = new LfsProtocolServlet(repository);
 		app.addServlet(new ServletHolder(protocol), PROTOCOL_PATH);
 
 		server.setUp();
@@ -78,5 +82,9 @@ class LfsStore extends TextBuiltin {
 			protocolUrl = "http://localhost:" + port + PROTOCOL_PATH;
 		}
 		return protocolUrl;
+	}
+
+	private LargeFileRepository getLargeFileRepository() {
+		throw new UnsupportedOperationException("not yet implemented");
 	}
 }

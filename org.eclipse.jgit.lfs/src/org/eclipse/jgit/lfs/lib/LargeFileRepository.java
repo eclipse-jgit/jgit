@@ -54,6 +54,11 @@ import java.nio.channels.WritableByteChannel;
 public interface LargeFileRepository {
 
 	/**
+	 * @return URL of the large file repository
+	 */
+	public String getUrl();
+
+	/**
 	 * @param id
 	 *            id of the object
 	 * @return {@code true} if the object exists, {@code false} otherwise
