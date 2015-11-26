@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67ccbf7d_eb8cf643",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-11-26T00:27:07Z",
+      "side": 1,
+      "message": "s/succeeded/succeed/",
+      "range": {
+        "startLine": 9,
+        "startChar": 49,
+        "endLine": 9,
+        "endChar": 58
+      },
+      "revId": "86d93ed5d42700c49d1b875df4e747c2c5360540",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_0b83da10",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-11-26T00:27:07Z",
+      "side": 1,
+      "message": "/seperator/separator/",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 9
+      },
+      "revId": "86d93ed5d42700c49d1b875df4e747c2c5360540",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_4b7de28b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/RunExternalScriptTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-11-26T00:27:07Z",
+      "side": 1,
+      "message": "constant should be static",
+      "revId": "86d93ed5d42700c49d1b875df4e747c2c5360540",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
