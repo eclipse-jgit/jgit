@@ -15,11 +15,9 @@ import org.kohsuke.args4j.Option;
 @Command(common = true, usage = "usage_runLfsStore")
 class LfsStore extends TextBuiltin {
 
-	private static final String OBJECTS = "objects/";
-
-	private static final String STORE_PATH = "/" + OBJECTS + "*";
-
-	private static final String PROTOCOL_PATH = "/info/lfs";
+	private static final String OBJECTS = "objects/"; //$NON-NLS-1$
+	private static final String STORE_PATH = "/" + OBJECTS + "*"; //$NON-NLS-1$//$NON-NLS-2$
+	private static final String PROTOCOL_PATH = "/info/lfs"; //$NON-NLS-1$
 
 	@Option(name = "--port", aliases = { "-p" }, usage = "usage_LFSPort")
 	int port;
@@ -27,13 +25,18 @@ class LfsStore extends TextBuiltin {
 	@Option(name = "--store-url", aliases = { "-u" }, usage = "usage_LFSStoreUrl")
 	String storeUrl;
 
-	@Option(name = "--no-run-store", usage = "usage_LFSRunStore")
-	boolean noRunStore;
+	@Option(name = "--run-store", usage = "usage_LFSRunStore")
+	boolean runStore = true;
 
 	@Argument(required = true, metaVar = "metaVar_directory", usage = "usage_LFSDirectory")
 	String directory;
 
 	String protocolUrl;
+
+	@Option(name = "--no-run-store", usage = "usage_LFSRunStore")
+	void setNoRunStore(@SuppressWarnings("unused") boolean ignored) {
+		runStore = false;
+	}
 
 	protected void run() throws Exception {
 		AppServer server = new AppServer(port);
@@ -41,7 +44,7 @@ class LfsStore extends TextBuiltin {
 		Path dir = Paths.get(directory);
 		PlainFSRepository repository = new PlainFSRepository(dir);
 
-		if (!noRunStore) {
+		if (runStore) {
 			LargeObjectServlet content = new LargeObjectServlet(repository, 30000);
 			app.addServlet(new ServletHolder(content), STORE_PATH);
 		}
@@ -51,7 +54,7 @@ class LfsStore extends TextBuiltin {
 
 		server.setUp();
 
-		if (!noRunStore) {
+		if (runStore) {
 		  outw.println("LFS objects located in: " + directory);
 		}
 		outw.println("LFS store URL: " + getStoreUrl());
@@ -60,11 +63,11 @@ class LfsStore extends TextBuiltin {
 
 	private String getStoreUrl() {
 		if (storeUrl == null) {
-			if (noRunStore) {
-				die("Local store not running and no --store-url specified");
-			} else {
+			if (runStore) {
 				// TODO: get real host name from the OS
 				storeUrl = "http://localhost:" + port + "/" + OBJECTS;
+			} else {
+				die("Local store not running and no --store-url specified");
 			}
 		}
 		return storeUrl;
