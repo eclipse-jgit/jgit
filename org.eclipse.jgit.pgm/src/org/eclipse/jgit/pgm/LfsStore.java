@@ -18,7 +18,8 @@ class LfsStore extends TextBuiltin {
 
 	private static final String OBJECTS = "objects/"; //$NON-NLS-1$
 	private static final String STORE_PATH = "/" + OBJECTS + "*"; //$NON-NLS-1$//$NON-NLS-2$
-	private static final String PROTOCOL_PATH = "/info/lfs"; //$NON-NLS-1$
+
+	private static final String PROTOCOL_PATH = "/lfs/objects/batch"; //$NON-NLS-1$
 
 	@Option(name = "--port", aliases = { "-p" }, usage = "usage_LFSPort")
 	int port;
