@@ -67,6 +67,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -483,9 +484,10 @@ public class GC {
 				return false;
 			return r1.getTarget().getName().equals(r2.getTarget().getName());
 		} else {
-			if (r2.isSymbolic())
+			if (r2.isSymbolic()) {
 				return false;
-			return r1.getObjectId().equals(r2.getObjectId());
+			}
+			return Objects.equals(r1.getObjectId(), r2.getObjectId());
 		}
 	}
 
