@@ -560,6 +560,8 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		lastStepWasForward = newHead != null;
 		if (!lastStepWasForward) {
 			ObjectId headId = getHead().getObjectId();
+			// getHead() checks for null
+			assert headId != null;
 			if (!AnyObjectId.equals(headId, newParents.get(0)))
 				checkoutCommit(headId.getName(), newParents.get(0));
 
@@ -674,6 +676,8 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			return;
 
 		ObjectId headId = getHead().getObjectId();
+		// getHead() checks for null
+		assert headId != null;
 		String head = headId.getName();
 		String currentCommits = rebaseState.readFile(CURRENT_COMMIT);
 		for (String current : currentCommits.split("\n")) //$NON-NLS-1$
@@ -1073,11 +1077,12 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 
 		Ref head = getHead();
 
-		String headName = getHeadName(head);
 		ObjectId headId = head.getObjectId();
-		if (headId == null)
+		if (headId == null) {
 			throw new RefNotFoundException(MessageFormat.format(
 					JGitText.get().refNotResolved, Constants.HEAD));
+		}
+		String headName = getHeadName(head);
 		RevCommit headCommit = walk.lookupCommit(headId);
 		RevCommit upstream = walk.lookupCommit(upstreamCommit.getId());
 
@@ -1188,10 +1193,14 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 
 	private static String getHeadName(Ref head) {
 		String headName;
-		if (head.isSymbolic())
+		if (head.isSymbolic()) {
 			headName = head.getTarget().getName();
-		else
-			headName = head.getObjectId().getName();
+		} else {
+			ObjectId headId = head.getObjectId();
+			// the callers are checking this already
+			assert headId != null;
+			headName = headId.getName();
+		}
 		return headName;
 	}
 
