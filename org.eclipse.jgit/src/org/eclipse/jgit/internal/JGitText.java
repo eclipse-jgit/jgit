@@ -158,6 +158,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String cannotStoreObjects;
 	/***/ public String cannotResolveUniquelyAbbrevObjectId;
 	/***/ public String cannotUnloadAModifiedTree;
+	/***/ public String cannotUpdateUnbornBranch;
 	/***/ public String cannotWorkWithOtherStagesThanZeroRightNow;
 	/***/ public String cannotWriteObjectsPath;
 	/***/ public String canOnlyCherryPickCommitsWithOneParent;
@@ -663,6 +664,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String transportProtoSFTP;
 	/***/ public String transportProtoSSH;
 	/***/ public String transportProtoTest;
+	/***/ public String transportProvidedRefWithNoObjectId;
 	/***/ public String transportSSHRetryInterrupt;
 	/***/ public String treeEntryAlreadyExists;
 	/***/ public String treeFilterMarkerTooManyFilters;

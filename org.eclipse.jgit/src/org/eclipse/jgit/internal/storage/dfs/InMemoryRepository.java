@@ -334,11 +334,14 @@ public class InMemoryRepository extends DfsRepository {
 						reject(cmds);
 						return;
 					}
-				} else if (r.isSymbolic() || r.getObjectId() == null
-						|| !r.getObjectId().equals(c.getOldId())) {
-					c.setResult(ReceiveCommand.Result.LOCK_FAILURE);
-					reject(cmds);
-					return;
+				} else {
+					ObjectId objectId = r.getObjectId();
+					if (r.isSymbolic() || objectId == null
+							|| !objectId.equals(c.getOldId())) {
+						c.setResult(ReceiveCommand.Result.LOCK_FAILURE);
+						reject(cmds);
+						return;
+					}
 				}
 			}
 
