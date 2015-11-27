@@ -267,6 +267,10 @@ class WalkFetchConnection extends BaseFetchConnection {
 		final HashSet<ObjectId> inWorkQueue = new HashSet<ObjectId>();
 		for (final Ref r : want) {
 			final ObjectId id = r.getObjectId();
+			if (id == null) {
+				throw new TransportException(MessageFormat
+						.format(JGitText.get().cannotRead, r.getName()));
+			}
 			try {
 				final RevObject obj = revWalk.parseAny(id);
 				if (obj.has(COMPLETE))

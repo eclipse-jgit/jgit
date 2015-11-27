@@ -331,9 +331,14 @@ public class CheckoutCommand extends GitCommand<Ref> {
 	}
 
 	private String getShortBranchName(Ref headRef) {
-		if (headRef.getTarget().getName().equals(headRef.getName()))
-			return headRef.getTarget().getObjectId().getName();
-		return Repository.shortenRefName(headRef.getTarget().getName());
+		Ref target = headRef.getTarget();
+		if (target.getName().equals(headRef.getName())) {
+			ObjectId objectId = target.getObjectId();
+			if (objectId != null) {
+				return objectId.getName();
+			}
+		}
+		return Repository.shortenRefName(target.getName());
 	}
 
 	/**
