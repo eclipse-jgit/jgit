@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "67ccbf7d_82cfc425",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attributes.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2015-11-27T10:38:48Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "0e87a9a1d5e6fca3f2b6f3f41d38f4f28e3b80d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67ccbf7d_a844b1d0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attributes.java",
         "patchSetId": 9
@@ -42,6 +59,23 @@
         "endLine": 92,
         "endChar": 45
       },
+      "revId": "0e87a9a1d5e6fca3f2b6f3f41d38f4f28e3b80d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_a2d5a8b3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attributes.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2015-11-27T10:38:48Z",
+      "side": 1,
+      "message": "Done",
       "revId": "0e87a9a1d5e6fca3f2b6f3f41d38f4f28e3b80d1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -71,6 +105,23 @@
     },
     {
       "key": {
+        "uuid": "67ccbf7d_c2d0ecc2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attributes.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2015-11-27T10:38:48Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "0e87a9a1d5e6fca3f2b6f3f41d38f4f28e3b80d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67ccbf7d_68e62960",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attributes.java",
         "patchSetId": 9
@@ -94,6 +145,23 @@
     },
     {
       "key": {
+        "uuid": "67ccbf7d_e2dfb0cf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attributes.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2015-11-27T10:38:48Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "0e87a9a1d5e6fca3f2b6f3f41d38f4f28e3b80d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67ccbf7d_88e9ad2f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attributes.java",
         "patchSetId": 9
@@ -105,6 +173,23 @@
       "writtenOn": "2015-11-26T13:43:52Z",
       "side": 1,
       "message": "should we also add isUnspecified, isCustom ?",
+      "revId": "0e87a9a1d5e6fca3f2b6f3f41d38f4f28e3b80d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_c2f70c4c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attributes.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2015-11-27T10:38:48Z",
+      "side": 1,
+      "message": "Done",
       "revId": "0e87a9a1d5e6fca3f2b6f3f41d38f4f28e3b80d1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
