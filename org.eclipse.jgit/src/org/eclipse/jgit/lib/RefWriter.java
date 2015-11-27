@@ -119,13 +119,17 @@ public abstract class RefWriter {
 				continue;
 			}
 
-			r.getObjectId().copyTo(tmp, w);
-			w.write('\t');
-			w.write(r.getName());
-			w.write('\n');
+			ObjectId objectId = r.getObjectId();
+			if (objectId != null) {
+				objectId.copyTo(tmp, w);
+				w.write('\t');
+				w.write(r.getName());
+				w.write('\n');
+			}
 
-			if (r.getPeeledObjectId() != null) {
-				r.getPeeledObjectId().copyTo(tmp, w);
+			ObjectId peeledObjectId = r.getPeeledObjectId();
+			if (peeledObjectId != null) {
+				peeledObjectId.copyTo(tmp, w);
 				w.write('\t');
 				w.write(r.getName());
 				w.write("^{}\n"); //$NON-NLS-1$
@@ -167,14 +171,18 @@ public abstract class RefWriter {
 			if (r.getStorage() != Ref.Storage.PACKED)
 				continue;
 
-			r.getObjectId().copyTo(tmp, w);
-			w.write(' ');
-			w.write(r.getName());
-			w.write('\n');
+			ObjectId objectId = r.getObjectId();
+			if (objectId != null) {
+				objectId.copyTo(tmp, w);
+				w.write(' ');
+				w.write(r.getName());
+				w.write('\n');
+			}
 
-			if (r.getPeeledObjectId() != null) {
+			ObjectId peeledObjectId = r.getPeeledObjectId();
+			if (peeledObjectId != null) {
 				w.write('^');
-				r.getPeeledObjectId().copyTo(tmp, w);
+				peeledObjectId.copyTo(tmp, w);
 				w.write('\n');
 			}
 		}

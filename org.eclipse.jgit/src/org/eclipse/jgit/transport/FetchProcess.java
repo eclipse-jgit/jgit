@@ -397,11 +397,14 @@ class FetchProcess {
 	private void expandFetchTags() throws TransportException {
 		final Map<String, Ref> haveRefs = localRefs();
 		for (final Ref r : conn.getRefs()) {
-			if (!isTag(r))
+			if (!isTag(r)) {
 				continue;
+			}
 			final Ref local = haveRefs.get(r.getName());
-			if (local == null || !r.getObjectId().equals(local.getObjectId()))
+			ObjectId localId = local != null ? local.getObjectId() : null;
+			if (localId == null || !localId.equals(r.getObjectId())) {
 				wantTag(r);
+			}
 		}
 	}
 
@@ -413,6 +416,10 @@ class FetchProcess {
 	private void want(final Ref src, final RefSpec spec)
 			throws TransportException {
 		final ObjectId newId = src.getObjectId();
+		if (newId == null) {
+			throw new TransportException(MessageFormat.format(
+					JGitText.get().remoteDoesNotHaveSpec, spec.getSource()));
+		}
 		if (spec.getDestination() != null) {
 			final TrackingRefUpdate tru = createUpdate(spec, newId);
 			if (newId.equals(tru.getOldObjectId()))

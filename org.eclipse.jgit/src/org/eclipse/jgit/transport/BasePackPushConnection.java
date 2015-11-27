@@ -232,8 +232,16 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 
 			final StringBuilder sb = new StringBuilder();
 			final Ref advertisedRef = getRef(rru.getRemoteName());
-			final ObjectId oldId = (advertisedRef == null ? ObjectId.zeroId()
-					: advertisedRef.getObjectId());
+			ObjectId oldId = null;
+			if (advertisedRef != null) {
+				ObjectId objectId = advertisedRef.getObjectId();
+				if (objectId != null) {
+					oldId = objectId;
+				}
+			}
+			if (oldId == null) {
+				oldId = ObjectId.zeroId();
+			}
 			sb.append(oldId.name());
 			sb.append(' ');
 			sb.append(rru.getNewObjectId().name());

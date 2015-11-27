@@ -148,8 +148,10 @@ class Merge extends TextBuiltin {
 			break;
 		case FAST_FORWARD:
 			ObjectId oldHeadId = oldHead.getObjectId();
-			outw.println(MessageFormat.format(CLIText.get().updating, oldHeadId
-					.abbreviate(7).name(), result.getNewHead().abbreviate(7)
+			String oldHeadIdName = oldHeadId != null
+					? oldHeadId.abbreviate(7).name() : oldHead.getName();
+			outw.println(MessageFormat.format(CLIText.get().updating,
+					oldHeadIdName, result.getNewHead().abbreviate(7)
 					.name()));
 			outw.println(result.getMergeStatus().toString());
 			break;
