@@ -56,15 +56,20 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import org.eclipse.jgit.errors.UnsupportedCredentialItem;
+import org.eclipse.jgit.transport.ChainingCredentialsProvider;
 import org.eclipse.jgit.transport.CredentialItem;
 import org.eclipse.jgit.transport.CredentialsProvider;
+import org.eclipse.jgit.transport.NetRCCredentialsProvider;
 import org.eclipse.jgit.transport.URIish;
 
 /** Interacts with the user during authentication by using AWT/Swing dialogs. */
 public class AwtCredentialsProvider extends CredentialsProvider {
 	/** Install this implementation as the default. */
 	public static void install() {
-		CredentialsProvider.setDefault(new AwtCredentialsProvider());
+		final AwtCredentialsProvider c = new AwtCredentialsProvider();
+		CredentialsProvider cp = new ChainingCredentialsProvider(
+				new NetRCCredentialsProvider(), c);
+		CredentialsProvider.setDefault(cp);
 	}
 
 	@Override
