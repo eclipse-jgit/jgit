@@ -51,9 +51,7 @@ import java.util.Arrays;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
-import org.eclipse.jgit.treewalk.AbstractTreeIterator;
-import org.eclipse.jgit.treewalk.CanonicalTreeParser;
-import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.treewalk.RawTreeIterator;
 
 /**
  * Updates a {@link DirCache} by adding individual {@link DirCacheEntry}s.
@@ -163,28 +161,68 @@ public class DirCacheBuilder extends BaseDirCacheEditor {
 	 * @throws IOException
 	 *             a tree cannot be read to iterate through its entries.
 	 */
-	public void addTree(final byte[] pathPrefix, final int stage,
-			final ObjectReader reader, final AnyObjectId tree) throws IOException {
-		final TreeWalk tw = new TreeWalk(reader);
-		tw.addTree(new CanonicalTreeParser(pathPrefix, reader, tree
-				.toObjectId()));
-		tw.setRecursive(true);
-		if (tw.next()) {
-			final DirCacheEntry newEntry = toEntry(stage, tw);
-			beforeAdd(newEntry);
-			fastAdd(newEntry);
-			while (tw.next())
-				fastAdd(toEntry(stage, tw));
+	public void addTree(byte[] pathPrefix, int stage, ObjectReader reader,
+			AnyObjectId tree) throws IOException {
+		pathPrefix = normalizePrefix(pathPrefix);
+		RawTreeIterator p = new RawTreeIterator(reader, tree);
+		while (p.hasNext()) {
+			p.next();
+			if (p.isTree()) {
+				p = p.enter(reader);
+			} else {
+				DirCacheEntry e = toEntry(pathPrefix, stage, p);
+				beforeAdd(e);
+				fastAdd(e);
+				break;
+			}
+			if (!p.hasNext()) {
+				p = p.exit();
+			}
+		}
+
+		// Remaining entries are properly sorted.
+		while (p.hasNext()) {
+			p.next();
+			if (p.isTree()) {
+				p = p.enter(reader);
+			} else {
+				fastAdd(toEntry(pathPrefix, stage, p));
+			}
+			if (!p.hasNext()) {
+				p = p.exit();
+			}
 		}
 	}
 
-	private DirCacheEntry toEntry(final int stage, final TreeWalk tw) {
-		final DirCacheEntry e = new DirCacheEntry(tw.getRawPath(), stage);
-		final AbstractTreeIterator i;
+	private static byte[] normalizePrefix(byte[] pathPrefix) {
+		if (pathPrefix == null) {
+			return new byte[0];
+		}
 
-		i = tw.getTree(0, AbstractTreeIterator.class);
-		e.setFileMode(tw.getFileMode(0));
-		e.setObjectIdFromRaw(i.idBuffer(), i.idOffset());
+		int n = pathPrefix.length;
+		if (n == 0 || pathPrefix[n - 1] == '/') {
+			return pathPrefix;
+		}
+
+		byte[] tmp = new byte[n + 1];
+		System.arraycopy(pathPrefix, 0, tmp, 0, n);
+		tmp[n] = '/';
+		return tmp;
+	}
+
+	private static DirCacheEntry toEntry(byte[] prefix, int stage,
+			RawTreeIterator i) {
+		int prefixLen = prefix.length;
+		int pathLen = i.getPathLength();
+		byte[] path = new byte[prefixLen + pathLen];
+		if (prefixLen > 0) {
+			System.arraycopy(prefix, 0, path, 0, prefixLen);
+		}
+		i.copyPath(path, prefixLen, pathLen);
+
+		DirCacheEntry e = new DirCacheEntry(path, stage);
+		e.setFileMode(i.getRawMode());
+		e.setObjectIdFromRaw(i.buffer(), i.idOffset());
 		return e;
 	}
 

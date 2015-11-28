@@ -505,6 +505,10 @@ public class DirCacheEntry {
 		NB.encodeInt32(info, infoOffset + P_MODE, mode.getBits());
 	}
 
+	void setFileMode(int mode) {
+		NB.encodeInt32(info, infoOffset + P_MODE, mode);
+	}
+
 	/**
 	 * Get the cached creation time of this file, in milliseconds.
 	 *

@@ -59,6 +59,7 @@ import java.io.IOException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.TreeFormatter;
+import org.eclipse.jgit.util.RawParseUtils;
 import org.junit.Test;
 
 public class RawTreeIteratorTest {
@@ -179,7 +180,7 @@ public class RawTreeIteratorTest {
 	}
 
 	@Test
-	public void testLongEntryName() throws Exception {
+	public void testLongEntryName() {
 		int n = AbstractTreeIterator.DEFAULT_PATH_SIZE * 4;
 		StringBuilder b = new StringBuilder(n);
 		for (int i = 0; i < n; i++) {
@@ -194,5 +195,65 @@ public class RawTreeIteratorTest {
 		assertTrue(itr.hasNext());
 		assertSame(itr, itr.next());
 		assertEquals(name, itr.getName());
+	}
+
+	@Test
+	public void testSubtreeDepth2() {
+		TreeFormatter tree = new TreeFormatter();
+		tree.append("src", TREE, idA);
+		RawTreeIterator root = new RawTreeIterator(tree.toByteArray());
+		assertSame(root, root.next());
+		assertTrue(root.isTree());
+
+		tree = new TreeFormatter();
+		tree.append("main", TREE, idB);
+		RawTreeIterator src = enter(root, tree);
+		assertSame(src, src.next());
+		assertTrue(src.isTree());
+
+		byte[] path = new byte[2 + src.getPathLength()];
+		path[0] = 'A';
+		path[1] = 'B';
+		src.copyPath(path, 2, path.length - 2);
+		assertEquals("ABsrc/main", RawParseUtils.decode(path));
+
+		assertSame(root, src.exit());
+		assertSame(root, root.exit());
+	}
+
+	@Test
+	public void testSubtreeDepth3() {
+		TreeFormatter tree = new TreeFormatter();
+		tree.append("src", TREE, idA);
+		RawTreeIterator root = new RawTreeIterator(tree.toByteArray());
+		assertSame(root, root.next());
+		assertTrue(root.isTree());
+
+		tree = new TreeFormatter();
+		tree.append("main", TREE, idB);
+		RawTreeIterator src = enter(root, tree);
+		assertSame(src, src.next());
+		assertTrue(src.isTree());
+
+		tree = new TreeFormatter();
+		tree.append("foo.c", REGULAR_FILE, idC);
+		RawTreeIterator main = enter(src, tree);
+		assertSame(main, main.next());
+		assertEquals("foo.c", main.getName());
+
+		byte[] path = new byte[2 + main.getPathLength()];
+		path[0] = 'A';
+		path[1] = 'B';
+		main.copyPath(path, 2, path.length - 2);
+		assertEquals("ABsrc/main/foo.c", RawParseUtils.decode(path));
+
+		assertSame(src, main.exit());
+		assertSame(root, src.exit());
+		assertSame(root, root.exit());
+	}
+
+	private static RawTreeIterator enter(RawTreeIterator parent,
+			TreeFormatter tree) {
+		return new RawTreeIterator.Subtree(parent, tree.toByteArray());
 	}
 }

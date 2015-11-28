@@ -74,10 +74,10 @@ import org.eclipse.jgit.lib.ObjectReader;
  */
 public class RawTreeIterator implements Iterable<RawTreeIterator>,
 		Iterator<RawTreeIterator> {
-	private byte[] raw;
-	private int mode;
-	private int namePtr;
-	private int nextPtr;
+	byte[] raw;
+	int mode;
+	int namePtr;
+	int nextPtr;
 
 	/**
 	 * Create a new iterator to read the given tree contents.
@@ -132,7 +132,7 @@ public class RawTreeIterator implements Iterable<RawTreeIterator>,
 		return namePtr;
 	}
 
-	private final int nameEnd() {
+	final int nameEnd() {
 		return nextPtr - (1 + OBJECT_ID_LENGTH);
 	}
 
@@ -154,6 +154,31 @@ public class RawTreeIterator implements Iterable<RawTreeIterator>,
 	/** @return name of the current entry, as a string. */
 	public final String getName() {
 		return decode(CHARSET, raw, namePtr, nameEnd());
+	}
+
+	/** @return length of the name of the current entry, in bytes. */
+	public final int getNameLength() {
+		return nameEnd() - namePtr;
+	}
+
+	/** @return length of the path name to this entry, in bytes. */
+	public int getPathLength() {
+		return getNameLength();
+	}
+
+	/**
+	 * Make a copy of the path to this entry into the caller's buffer.
+	 *
+	 * @param out
+	 *            buffer to write the path into.
+	 * @param outPos
+	 *            first position to write the path at.
+	 * @param pathLen
+	 *            expected length of the path. This should be the prior result
+	 *            from {@link #getPathLength()}.
+	 */
+	public void copyPath(byte[] out, int outPos, int pathLen) {
+		System.arraycopy(raw, namePtr, out, outPos, pathLen);
 	}
 
 	/**
@@ -251,6 +276,47 @@ public class RawTreeIterator implements Iterable<RawTreeIterator>,
 		out.fromRaw(raw, idOffset());
 	}
 
+	/** @return true if the current entry is a subtree. */
+	public final boolean isTree() {
+		return (mode & TYPE_MASK) == TYPE_TREE;
+	}
+
+	/**
+	 * Enter into the specified subtree.
+	 *
+	 * @param reader
+	 *            reader to access the subtree.
+	 * @return the subtree iterator.
+	 * @throws IOException
+	 *             the subtree contents cannot be loaded.
+	 */
+	public final Subtree enter(ObjectReader reader) throws IOException {
+		return enter(reader, new MutableObjectId());
+	}
+
+	/**
+	 * Enter into the specified subtree.
+	 *
+	 * @param reader
+	 *            reader to access the subtree.
+	 * @param idBuf
+	 *            buffer to store the subtree's ObjectId in while opening it.
+	 * @return the subtree iterator.
+	 * @throws IOException
+	 *             the subtree contents cannot be loaded.
+	 */
+	public final Subtree enter(ObjectReader reader, MutableObjectId idBuf)
+			throws IOException {
+		idBuf.fromRaw(raw, idOffset());
+		byte[] tree = reader.open(idBuf, OBJ_TREE).getCachedBytes();
+		return new Subtree(this, tree);
+	}
+
+	/** @return parent tree iterator or {@code this}. */
+	public RawTreeIterator exit() {
+		return this;
+	}
+
 	/**
 	 * Resets this parser to the beginning and returns {@code this}.
 	 *
@@ -299,5 +365,64 @@ public class RawTreeIterator implements Iterable<RawTreeIterator>,
 	public String toString() {
 		return String.format("RawTreeIterator[%o %s %s]", //$NON-NLS-1$
 				Integer.valueOf(mode), getName(), getObjectId().name());
+	}
+
+	/** Iterator over a subtree's contents. */
+	public static class Subtree extends RawTreeIterator {
+		private final RawTreeIterator parent;
+
+		Subtree(RawTreeIterator parent, byte[] raw) {
+			super(raw);
+			this.parent = parent;
+		}
+
+		@Override
+		public final RawTreeIterator exit() {
+			return parent;
+		}
+
+		/** @return parent iterator that dove into this subtree. */
+		public final RawTreeIterator parent() {
+			return parent;
+		}
+
+		@Override
+		public final int getPathLength() {
+			int len = getNameLength();
+			for (RawTreeIterator p = parent;;) {
+				len++; // Account for the '/' between entries.
+				len += p.getNameLength();
+				if (p instanceof Subtree) {
+					p = ((Subtree) p).parent;
+				} else {
+					return len;
+				}
+			}
+		}
+
+		@Override
+		public final void copyPath(byte[] out, int outPos, int pathLen) {
+			int outPtr = outPos + pathLen;
+			for (RawTreeIterator p = this;;) {
+				int nameLen = p.getNameLength();
+				int o = outPtr - nameLen;
+				System.arraycopy(p.raw, p.namePtr, out, o, nameLen);
+				outPtr = o;
+				if (p instanceof Subtree) {
+					out[--outPtr] = '/';
+					p = ((Subtree) p).parent;
+				} else {
+					break;
+				}
+			}
+		}
+
+		@Override
+		public String toString() {
+			byte[] path = new byte[getPathLength()];
+			copyPath(path, 0, path.length);
+			return String.format("RawTreeIterator[%o %s %s]", //$NON-NLS-1$
+					Integer.valueOf(mode), decode(path), getObjectId().name());
+		}
 	}
 }
