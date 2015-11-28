@@ -339,4 +339,19 @@ public abstract class SystemReader {
 	public void checkPath(String path) throws CorruptObjectException {
 		platformChecker.checkPath(path);
 	}
+
+	/**
+	 * Check tree path entry for validity.
+	 * <p>
+	 * Scans a multi-directory path string such as {@code "src/main.c"}.
+	 *
+	 * @param path
+	 *            path string to scan.
+	 * @throws CorruptObjectException
+	 *             path is invalid.
+	 * @since 4.2
+	 */
+	public void checkPath(byte[] path) throws CorruptObjectException {
+		platformChecker.checkPath(path, 0, path.length);
+	}
 }
