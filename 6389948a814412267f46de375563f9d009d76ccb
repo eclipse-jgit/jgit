@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67ccbf7d_68ec5e88",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/CanonicalTreeParser.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-11-28T07:24:14Z",
+      "side": 1,
+      "message": "While adding a novel feature, this created a bottleneck in some rather critical code. You cannot be allocating a new byte array using the random default platform encoding every time we consider a tree entry. No.\n\nhttps://git.eclipse.org/r/61512 should help.",
+      "revId": "6389948a814412267f46de375563f9d009d76ccb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
