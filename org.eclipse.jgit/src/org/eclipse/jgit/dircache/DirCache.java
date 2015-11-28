@@ -877,8 +877,8 @@ public class DirCache {
 	 */
 	public DirCacheEntry[] getEntriesWithin(String path) {
 		if (path.length() == 0) {
-			final DirCacheEntry[] r = new DirCacheEntry[sortedEntries.length];
-			System.arraycopy(sortedEntries, 0, r, 0, sortedEntries.length);
+			DirCacheEntry[] r = new DirCacheEntry[entryCnt];
+			System.arraycopy(sortedEntries, 0, r, 0, entryCnt);
 			return r;
 		}
 		if (!path.endsWith("/")) //$NON-NLS-1$
