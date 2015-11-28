@@ -24,6 +24,7 @@ import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Ref.Storage;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.SymbolicRef;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTag;
@@ -54,7 +55,7 @@ public class InMemoryRepository extends DfsRepository {
 	static final AtomicInteger packId = new AtomicInteger();
 
 	private final DfsObjDatabase objdb;
-	private final DfsRefDatabase refdb;
+	private final RefDatabase refdb;
 	private boolean performsAtomicTransactions = true;
 
 	/**
@@ -80,7 +81,7 @@ public class InMemoryRepository extends DfsRepository {
 	}
 
 	@Override
-	public DfsRefDatabase getRefDatabase() {
+	public RefDatabase getRefDatabase() {
 		return refdb;
 	}
 
