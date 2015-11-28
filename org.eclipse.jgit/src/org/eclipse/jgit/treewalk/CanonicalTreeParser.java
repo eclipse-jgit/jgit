@@ -64,10 +64,10 @@ import org.eclipse.jgit.util.RawParseUtils;
 
 /** Parses raw Git trees from the canonical semi-text/semi-binary format. */
 public class CanonicalTreeParser extends AbstractTreeIterator {
-	private static final int ATTRIBUTESLENGTH = Constants.DOT_GIT_ATTRIBUTES
-			.getBytes().length;
-
 	private static final byte[] EMPTY = {};
+
+	private static final byte[] ATTRS = Constants
+			.encode(Constants.DOT_GIT_ATTRIBUTES);
 
 	private byte[] raw;
 
@@ -375,11 +375,9 @@ public class CanonicalTreeParser extends AbstractTreeIterator {
 		nextPtr = ptr + Constants.OBJECT_ID_LENGTH;
 
 		// Check if this entry is a .gitattributes file
-		if (RawParseUtils.match(path, pathOffset,
-				Constants.DOT_GIT_ATTRIBUTES.getBytes()) == ATTRIBUTESLENGTH)
-			attributesNode = new LazyLoadingAttributesNode(
-					ObjectId.fromRaw(idBuffer(), idOffset()));
-
+		if (path[pathOffset] == '.'
+				&& RawParseUtils.match(path, pathOffset, ATTRS) > 0)
+			attributesNode = new LazyLoadingAttributesNode(idOffset());
 	}
 
 	/**
@@ -402,18 +400,18 @@ public class CanonicalTreeParser extends AbstractTreeIterator {
 	/**
 	 * {@link AttributesNode} implementation that provides lazy loading
 	 */
-	private static class LazyLoadingAttributesNode extends AttributesNode {
-		final ObjectId objectId;
+	private class LazyLoadingAttributesNode extends AttributesNode {
+		private final int idOffset;
 
-		LazyLoadingAttributesNode(ObjectId objectId) {
+		LazyLoadingAttributesNode(int idOffset) {
 			super(Collections.<AttributesRule> emptyList());
-			this.objectId = objectId;
-
+			this.idOffset = idOffset;
 		}
 
 		AttributesNode load(ObjectReader reader) throws IOException {
 			AttributesNode r = new AttributesNode();
-			ObjectLoader loader = reader.open(objectId);
+			ObjectId id = ObjectId.fromRaw(raw, idOffset);
+			ObjectLoader loader = reader.open(id);
 			if (loader != null) {
 				InputStream in = loader.openStream();
 				try {
@@ -425,5 +423,4 @@ public class CanonicalTreeParser extends AbstractTreeIterator {
 			return r.getRules().isEmpty() ? null : r;
 		}
 	}
-
 }
