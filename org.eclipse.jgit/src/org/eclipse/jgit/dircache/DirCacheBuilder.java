@@ -102,8 +102,9 @@ public class DirCacheBuilder extends BaseDirCacheEditor {
 	 */
 	public void add(final DirCacheEntry newEntry) {
 		if (newEntry.getRawMode() == 0)
-			throw new IllegalArgumentException(MessageFormat.format(JGitText.get().fileModeNotSetForPath
-					, newEntry.getPathString()));
+			throw new IllegalArgumentException(MessageFormat.format(
+					JGitText.get().fileModeNotSetForPath,
+					newEntry.getPathString()));
 		beforeAdd(newEntry);
 		fastAdd(newEntry);
 	}
@@ -242,9 +243,9 @@ public class DirCacheBuilder extends BaseDirCacheEditor {
 		sorted = true;
 	}
 
-	private static IllegalStateException bad(final DirCacheEntry a,
-			final String msg) {
-		return new IllegalStateException(msg + ": " + a.getStage() + " " //$NON-NLS-1$ //$NON-NLS-2$
-				+ a.getPathString());
+	private static IllegalStateException bad(DirCacheEntry a, String msg) {
+		return new IllegalStateException(String.format(
+				"%s: %d %s", //$NON-NLS-1$
+				msg, Integer.valueOf(a.getStage()), a.getPathString()));
 	}
 }

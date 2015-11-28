@@ -499,8 +499,8 @@ public class DirCacheEntry {
 		switch (mode.getBits() & FileMode.TYPE_MASK) {
 		case FileMode.TYPE_MISSING:
 		case FileMode.TYPE_TREE:
-			throw new IllegalArgumentException(MessageFormat.format(JGitText.get().invalidModeForPath
-					, mode, getPathString()));
+			throw new IllegalArgumentException(MessageFormat.format(
+					JGitText.get().invalidModeForPath, mode, getPathString()));
 		}
 		NB.encodeInt32(info, infoOffset + P_MODE, mode.getBits());
 	}
