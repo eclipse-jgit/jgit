@@ -61,6 +61,7 @@ import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.filter.ObjectFilter;
+import org.eclipse.jgit.treewalk.RawTreeIterator;
 import org.eclipse.jgit.util.RawParseUtils;
 
 /**
@@ -702,31 +703,16 @@ public class ObjectWalk extends RevWalk {
 			return;
 		tree.flags |= UNINTERESTING;
 
-		byte[] raw = reader.open(tree, OBJ_TREE).getCachedBytes();
-		for (int ptr = 0; ptr < raw.length;) {
-			byte c = raw[ptr];
-			int mode = c - '0';
-			for (;;) {
-				c = raw[++ptr];
-				if (' ' == c)
-					break;
-				mode <<= 3;
-				mode += c - '0';
-			}
-			while (raw[++ptr] != 0) {
-				// Skip entry name.
-			}
-			ptr++; // Skip NUL after entry name.
-
-			switch (mode >>> TYPE_SHIFT) {
+		for (RawTreeIterator itr : new RawTreeIterator(reader, tree)) {
+			switch (itr.getRawMode() >>> TYPE_SHIFT) {
 			case TYPE_FILE:
 			case TYPE_SYMLINK:
-				idBuffer.fromRaw(raw, ptr);
+				itr.getObjectId(idBuffer);
 				lookupBlob(idBuffer).flags |= UNINTERESTING;
 				break;
 
 			case TYPE_TREE:
-				idBuffer.fromRaw(raw, ptr);
+				itr.getObjectId(idBuffer);
 				markTreeUninteresting(lookupTree(idBuffer));
 				break;
 
@@ -734,13 +720,12 @@ public class ObjectWalk extends RevWalk {
 				break;
 
 			default:
-				idBuffer.fromRaw(raw, ptr);
+				itr.getObjectId(idBuffer);
 				throw new CorruptObjectException(MessageFormat.format(
 						JGitText.get().corruptObjectInvalidMode3,
-						String.format("%o", Integer.valueOf(mode)), //$NON-NLS-1$
+						String.format("%o", Integer.valueOf(itr.getRawMode())), //$NON-NLS-1$
 						idBuffer.name(), "", tree)); //$NON-NLS-1$
 			}
-			ptr += ID_SZ;
 		}
 	}
 
