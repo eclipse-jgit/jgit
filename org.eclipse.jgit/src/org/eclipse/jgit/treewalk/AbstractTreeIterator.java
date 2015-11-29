@@ -345,7 +345,7 @@ public abstract class AbstractTreeIterator {
 		return pathCompare(buf, pos, end, pathMode, 0);
 	}
 
-	private int pathCompare(byte[] b, int bPos, int bEnd, int bMode, int aPos) {
+	int pathCompare(byte[] b, int bPos, int bEnd, int bMode, int aPos) {
 		final byte[] a = path;
 		final int aEnd = pathLen;
 

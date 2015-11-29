@@ -267,7 +267,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	AbstractTreeIterator currentHead;
 
 	/** Cached attribute for the current entry */
-	private Attributes attrs = null;
+	private Attributes attrs;
 
 	private Config config;
 
