@@ -144,6 +144,9 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	/** Repository that is the root level being iterated over */
 	protected Repository repository;
 
+	/** Subtree repository if the iterator is created for a subtree */
+	private Repository subtreeRepository;
+
 	/** Cached canonical length, initialized from {@link #idBuffer()} */
 	private long canonLen = -1;
 
@@ -193,7 +196,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	protected WorkingTreeIterator(final WorkingTreeIterator p) {
 		super(p);
 		state = p.state;
-		repository = p.repository;
+		subtreeRepository = p.repository;
 	}
 
 	/**
@@ -440,12 +443,14 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		in = handleAutoCRLF(in);
 		String filterCommand = getCleanFilterCommand();
 		if (filterCommand != null) {
-			FS fs = repository.getFS();
+			Repository repo = repository != null ? repository
+					: subtreeRepository;
+			FS fs = repo.getFS();
 			ProcessBuilder filterProcessBuilder = fs.runInShell(filterCommand,
 					new String[0]);
-			filterProcessBuilder.directory(repository.getWorkTree());
+			filterProcessBuilder.directory(repo.getWorkTree());
 			filterProcessBuilder.environment().put(Constants.GIT_DIR_KEY,
-					repository.getDirectory().getAbsolutePath());
+					repo.getDirectory().getAbsolutePath());
 			ExecutionResult result;
 			try {
 				result = fs.execute(filterProcessBuilder, in);
