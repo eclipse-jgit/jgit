@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67ccbf7d_e3640f15",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/CanonicalTreeParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-11-29T07:11:35Z",
+      "side": 1,
+      "message": "A child iterator shares the same path buffer with its parent. If TreeWalk dives into a child tree named \"src\" and then asks the parent iterator to find \".gitattributes\" the parent clobbers the path component for the child. This leads to \"srctblah\" being checked out instead of \"src/blah\".",
+      "revId": "11746b3b01a45d3d6286ff691c7489afebcde56c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
