@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67ccbf7d_43fa1b84",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-11-29T14:32:49Z",
+      "side": 1,
+      "message": "This single change causes failures of EGit SubmoduleAndContainerTreeIteratorTest.",
+      "revId": "5d9f595eb87fba31c2253051102116fc7876e6c0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
