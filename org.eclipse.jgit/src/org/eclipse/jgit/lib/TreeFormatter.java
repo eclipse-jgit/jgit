@@ -56,7 +56,7 @@ import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTree;
-import org.eclipse.jgit.treewalk.CanonicalTreeParser;
+import org.eclipse.jgit.treewalk.RawTreeIterator;
 import org.eclipse.jgit.util.TemporaryBuffer;
 
 /**
@@ -337,13 +337,10 @@ public class TreeFormatter {
 	@Override
 	public String toString() {
 		byte[] raw = toByteArray();
-
-		CanonicalTreeParser p = new CanonicalTreeParser();
-		p.reset(raw);
-
+		RawTreeIterator p = new RawTreeIterator(raw);
 		StringBuilder r = new StringBuilder();
 		r.append("Tree={");
-		if (!p.eof()) {
+		if (p.hasNext()) {
 			r.append('\n');
 			try {
 				new ObjectChecker().checkTree(raw);
@@ -352,15 +349,15 @@ public class TreeFormatter {
 				r.append('\n');
 			}
 		}
-		while (!p.eof()) {
-			final FileMode mode = p.getEntryFileMode();
+		while (p.hasNext()) {
+			FileMode mode = p.getFileMode();
 			r.append(mode);
 			r.append(' ');
 			r.append(Constants.typeString(mode.getObjectType()));
 			r.append(' ');
-			r.append(p.getEntryObjectId().name());
+			r.append(p.getObjectId().name());
 			r.append(' ');
-			r.append(p.getEntryPathString());
+			r.append(p.getName());
 			r.append('\n');
 			p.next();
 		}
