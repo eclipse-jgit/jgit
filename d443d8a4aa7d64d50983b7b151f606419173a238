@@ -93,6 +93,30 @@
       "revId": "d443d8a4aa7d64d50983b7b151f606419173a238",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47cfbb72_4408c067",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheBuilder.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-11-30T23:38:36Z",
+      "side": 1,
+      "message": "Above, \"addTree\" is recursive. \"readTree\" is not. Lack of symmetry makes the code jarring to read. addTree is already public API, so \"readTree\" is a really bad name for this. \"createTreeParser\" would be better.",
+      "parentUuid": "47cfbb72_04e31812",
+      "range": {
+        "startLine": 192,
+        "startChar": 36,
+        "endLine": 192,
+        "endChar": 44
+      },
+      "revId": "d443d8a4aa7d64d50983b7b151f606419173a238",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
