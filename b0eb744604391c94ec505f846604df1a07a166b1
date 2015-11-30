@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "67ccbf7d_b4b15fcb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-11-30T15:20:32Z",
+      "side": 1,
+      "message": "This is accurate. I stand by what I wrote in the commit message.\n\nEvery AbstractTreeIterator (which CanonicalTreeParser is) contains a path byte[]. When the iterator dives into a subtree it supplies its path instance to its child (1). They share the same byte[].\n\nThis allows the child to append his current entry name (2) to the end of the byte[] and have a contiguous representation of the path of a file.\n\nDiving again into a grandchild tree, the grandchild shares the same path buffer instance as both ancestors. So the granchild can append his name again (3):\n\n  path \u003d {\"src/main/frobinator.c\"}\n           ^1 ^2   ^3\n\nUpon creation each child iterator adds \"/\" to the path buffer at the end of the parent\u0027s entry, and then appends its own entries as it parses them.\n\nIf the parent suddenly goes back and reprocesses his entries using the same path buffer it overwrites its entry name:\n\n  path \u003d {\".gitattributesnator.c\"}\n  path \u003d {\"src/main/frobinator.c\"}\n           ^1 ^2   ^3\n\nNotice we have lost much of \"/main/frobi\". The parent has replaced contents in the path buffer with a longer entry name, and since the path buffer was shared down into the children, the children have lost the text they contributed.\n\nThis behavior is fine if the children are done and get discarded. Its not fine when the children are still referenced by TreeWalk and are still being iterated.",
+      "parentUuid": "67ccbf7d_f401273e",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 37
+      },
+      "revId": "b0eb744604391c94ec505f846604df1a07a166b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67ccbf7d_343d4feb",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/CanonicalTreeParser.java",
         "patchSetId": 5
@@ -36,6 +60,24 @@
       "writtenOn": "2015-11-30T14:51:14Z",
       "side": 1,
       "message": "Just for info:\nIt took me a little bit to find out why this works. I tried to write a test which checks that a \".content\" file has really the attributes defined by a \".gitattributes\". I thought that since .gitattributes is not parsed when .content is processed this could fail (you mentioned this problem in the commit message). But I learned that \u0027raw\u0027 is a buffer to a complete Tree data structure (and not only up to the point we parsed so far). Therefore this temporary \"itr\" TreeParser can \"overtake\" the original TreeParser and look ahead.",
+      "revId": "b0eb744604391c94ec505f846604df1a07a166b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_349e2f44",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/CanonicalTreeParser.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-11-30T15:20:32Z",
+      "side": 1,
+      "message": "Correct. It is too slow to incrementally load the contents of a tree. We pull the entire contents into a contiguous byte[] in one step from the storage layer and then can parse the byte[] incrementally here.\n\nSo raw contains the complete listing. Unfortunately the format cannot be searched by binary search (believe me I\u0027ve tried, its mixed text/binary format makes it ambiguous and thus impossible). So we have to linearly scan to find anything.\n\nSo \"this\" is scanning files for TreeWalk, but to look ahead or behind we need the 2nd CanonicalTreeParser to go through other entries.",
+      "parentUuid": "67ccbf7d_343d4feb",
       "revId": "b0eb744604391c94ec505f846604df1a07a166b1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
