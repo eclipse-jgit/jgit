@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "47cfbb72_047078c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-11-30T23:54:10Z",
+      "side": 1,
+      "message": "Yes, we discard children once we are done with a subtree. So when \"src/main/a\" is done we discard the children for \"main\" and \"a\" and those are probably reclaimed by Java GC before we enter \"src/other/b\".\n\nThe issue here was TreeWalk\u0027s get attributes code walking up the tree. It would get attributes for \"src/main/a\", then \"src/main\", then \"src\". If \"src\" resets itself to look for .gitattributes it clobbers its live children \"src/main\" and \"src/main/a\".",
+      "parentUuid": "47cfbb72_c1192207",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 37
+      },
+      "revId": "b0eb744604391c94ec505f846604df1a07a166b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67ccbf7d_343d4feb",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/CanonicalTreeParser.java",
         "patchSetId": 5
