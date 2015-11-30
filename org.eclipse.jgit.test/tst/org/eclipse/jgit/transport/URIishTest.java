@@ -928,4 +928,19 @@ public class URIishTest {
 			}
 		}
 	}
+
+	@Test
+	public void testStringConstructor() throws Exception {
+		String str = "http://example.com/";
+		URIish u = new URIish(str);
+		assertEquals("example.com", u.getHost());
+		assertEquals("/", u.getPath());
+		assertEquals(str, u.toString());
+
+		str = "http://example.com";
+		u = new URIish(str);
+		assertEquals("example.com", u.getHost());
+		assertEquals("", u.getPath());
+		assertEquals(str, u.toString());
+	}
 }
