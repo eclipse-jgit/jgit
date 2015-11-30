@@ -117,6 +117,30 @@
       "revId": "d443d8a4aa7d64d50983b7b151f606419173a238",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47cfbb72_8429e8bf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheBuilder.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-11-30T23:46:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47cfbb72_4408c067",
+      "range": {
+        "startLine": 192,
+        "startChar": 36,
+        "endLine": 192,
+        "endChar": 44
+      },
+      "revId": "d443d8a4aa7d64d50983b7b151f606419173a238",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
