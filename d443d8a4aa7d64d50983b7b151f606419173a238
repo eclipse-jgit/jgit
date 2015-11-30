@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "47cfbb72_64bb040e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheBuilder.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-11-30T23:10:11Z",
+      "side": 1,
+      "message": "Why is it safe to not do the beforeAdd validation here?",
+      "range": {
+        "startLine": 186,
+        "startChar": 0,
+        "endLine": 186,
+        "endChar": 31
+      },
+      "revId": "d443d8a4aa7d64d50983b7b151f606419173a238",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47cfbb72_419992d0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheBuilder.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-11-30T23:10:11Z",
+      "side": 1,
+      "message": "\"readTree\" is a bit misleading. It is only initializing the parser, which from what I can tell only reads in the single \"tree\" root object. Maybe \"readTreeRoot\"?",
+      "range": {
+        "startLine": 192,
+        "startChar": 36,
+        "endLine": 192,
+        "endChar": 44
+      },
+      "revId": "d443d8a4aa7d64d50983b7b151f606419173a238",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
