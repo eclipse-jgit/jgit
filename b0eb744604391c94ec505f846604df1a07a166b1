@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67ccbf7d_f401273e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-11-30T14:51:14Z",
+      "side": 1,
+      "message": "Don\u0027t get this. While we are processing a child how could a parent iterator being reset and influence us? Or should the sentence be\n\n\"Resetting a child to look for .gitattributes may overwrite path buffer used by a parent iterator.\"",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 37
+      },
+      "revId": "b0eb744604391c94ec505f846604df1a07a166b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ccbf7d_343d4feb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/CanonicalTreeParser.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-11-30T14:51:14Z",
+      "side": 1,
+      "message": "Just for info:\nIt took me a little bit to find out why this works. I tried to write a test which checks that a \".content\" file has really the attributes defined by a \".gitattributes\". I thought that since .gitattributes is not parsed when .content is processed this could fail (you mentioned this problem in the commit message). But I learned that \u0027raw\u0027 is a buffer to a complete Tree data structure (and not only up to the point we parsed so far). Therefore this temporary \"itr\" TreeParser can \"overtake\" the original TreeParser and look ahead.",
+      "revId": "b0eb744604391c94ec505f846604df1a07a166b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
