@@ -44,6 +44,7 @@
 package org.eclipse.jgit.internal.storage.reftree;
 
 import static org.eclipse.jgit.internal.storage.reftree.RefTreeDb.R_TXN_COMMITTED;
+import static org.eclipse.jgit.transport.ReceiveCommand.Result.OK;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_OTHER_REASON;
 
 import java.io.IOException;
@@ -142,6 +143,9 @@ class Batch extends BatchRefUpdate {
 		case NEW:
 		case FAST_FORWARD:
 		case NO_CHANGE:
+			for (Command c : todo) {
+				c.setResult(OK);
+			}
 			refdb.refresh();
 			break;
 
