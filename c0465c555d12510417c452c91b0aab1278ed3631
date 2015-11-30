@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67ccbf7d_b4ab1f0c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-11-30T15:37:47Z",
+      "side": 1,
+      "message": "Good you found this. I was not executing EGit tests, my fault.\n\nSomehow this looks strange. Why should we store two different repositories? Each treewalk should walk only the working tree for one repo. When we reach points where the workingtree of other repositories (submodules!) start then we should not dive into them. How could the repo of a child differ from the repo of a parent?\n\nI\u0027ll investigate further",
+      "range": {
+        "startLine": 446,
+        "startChar": 0,
+        "endLine": 448,
+        "endChar": 24
+      },
+      "revId": "c0465c555d12510417c452c91b0aab1278ed3631",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
