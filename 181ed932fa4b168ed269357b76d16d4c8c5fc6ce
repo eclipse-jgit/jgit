@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67ccbf7d_2388b7a8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-11-30T00:17:12Z",
+      "side": 1,
+      "message": "This ironically shows just how crazily tuned the CanonicalTreeParser is. I\u0027m measuring on my laptop for 39,000 entries:\n\n  CanonicalTreeParser avg 35.9063 ms\n  RawTreeIterator     avg 37.8125 ms\n\nSo its really hard to beat CanonicalTreeParser, it is consistently measuring throughput some 54 path entires per millisecond faster than RawTreeIterator. Both of them are faster here than TreeWalk.\n\nSo RawTreeIterator is lightweight for the recursive invocation usage in CanonicalTreeParser to read .gitattributes but its still not adequate for recursive bulk usage. There must be something subtle about the path construction that is more efficient for the JIT under CanonicalTreeParser than with RawTreeIterator\u0027s approach to doing the concat.",
+      "revId": "181ed932fa4b168ed269357b76d16d4c8c5fc6ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
