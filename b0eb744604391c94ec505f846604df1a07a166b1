@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "47cfbb72_c1192207",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-11-30T21:57:15Z",
+      "side": 1,
+      "message": "I still didn\u0027t get where the problem is until your last sentence. I had the wrong assumption we always don\u0027t reference the children anymore once we are done with a subtree. I agree, the children are corrupted when parent resets and thats a problem if they are still referenced.\n\nSide question: how do we manage sharing the same path buffer when we are entering multiple subtrees on the same level. We first visit src/main/a, fall back to src/ and then visit src/other/b. At least when we appending the \u0027/b\u0027 don\u0027t we invalidate the path for the entry src/main/a.",
+      "parentUuid": "67ccbf7d_b4b15fcb",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 37
+      },
+      "revId": "b0eb744604391c94ec505f846604df1a07a166b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67ccbf7d_343d4feb",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/CanonicalTreeParser.java",
         "patchSetId": 5
@@ -78,6 +102,24 @@
       "side": 1,
       "message": "Correct. It is too slow to incrementally load the contents of a tree. We pull the entire contents into a contiguous byte[] in one step from the storage layer and then can parse the byte[] incrementally here.\n\nSo raw contains the complete listing. Unfortunately the format cannot be searched by binary search (believe me I\u0027ve tried, its mixed text/binary format makes it ambiguous and thus impossible). So we have to linearly scan to find anything.\n\nSo \"this\" is scanning files for TreeWalk, but to look ahead or behind we need the 2nd CanonicalTreeParser to go through other entries.",
       "parentUuid": "67ccbf7d_343d4feb",
+      "revId": "b0eb744604391c94ec505f846604df1a07a166b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47cfbb72_e1262642",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/CanonicalTreeParser.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-11-30T21:57:15Z",
+      "side": 1,
+      "message": "ok",
+      "parentUuid": "67ccbf7d_349e2f44",
       "revId": "b0eb744604391c94ec505f846604df1a07a166b1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
