@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "47cfbb72_8422c85f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-12-01T05:49:09Z",
+      "side": 1,
+      "message": "That was the missing bit: the code for attributes re-visits parents before a subtree is fully processed. +2",
+      "parentUuid": "47cfbb72_047078c9",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 37
+      },
+      "revId": "b0eb744604391c94ec505f846604df1a07a166b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67ccbf7d_343d4feb",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/CanonicalTreeParser.java",
         "patchSetId": 5
