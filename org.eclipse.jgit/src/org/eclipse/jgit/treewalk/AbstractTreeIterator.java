@@ -328,6 +328,42 @@ public abstract class AbstractTreeIterator {
 	}
 
 	/**
+	 * Seek the iterator on a file, if present.
+	 *
+	 * @param name
+	 *            file name to find (will not find a directory).
+	 * @return true if the file exists in this tree; false otherwise.
+	 * @throws CorruptObjectException
+	 *             tree is invalid.
+	 * @since 4.2
+	 */
+	public boolean findFile(String name) throws CorruptObjectException {
+		return findFile(Constants.encode(name));
+	}
+
+	/**
+	 * Seek the iterator on a file, if present.
+	 *
+	 * @param name
+	 *            file name to find (will not find a directory).
+	 * @return true if the file exists in this tree; false otherwise.
+	 * @throws CorruptObjectException
+	 *             tree is invalid.
+	 * @since 4.2
+	 */
+	public boolean findFile(byte[] name) throws CorruptObjectException {
+		for (; !eof(); next(1)) {
+			int cmp = pathCompare(name, 0, name.length, 0, pathOffset);
+			if (cmp == 0) {
+				return true;
+			} else if (cmp > 0) {
+				return false;
+			}
+		}
+		return false;
+	}
+
+	/**
 	 * Compare the path of this current entry to a raw buffer.
 	 *
 	 * @param buf

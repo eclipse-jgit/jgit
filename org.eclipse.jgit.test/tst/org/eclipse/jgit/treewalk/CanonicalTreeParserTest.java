@@ -43,6 +43,8 @@
 
 package org.eclipse.jgit.treewalk;
 
+import static org.eclipse.jgit.lib.FileMode.REGULAR_FILE;
+import static org.eclipse.jgit.lib.FileMode.SYMLINK;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
@@ -50,9 +52,11 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayOutputStream;
 
+import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.TreeFormatter;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -368,5 +372,42 @@ public class CanonicalTreeParserTest {
 		assertFalse(ctp.eof());
 		assertEquals(name, RawParseUtils.decode(Constants.CHARSET, ctp.path,
 				ctp.pathOffset, ctp.pathLen));
+	}
+
+	@Test
+	public void testFindAttributesWhenFirst() throws CorruptObjectException {
+		TreeFormatter tree = new TreeFormatter();
+		tree.append(".gitattributes", REGULAR_FILE, hash_a);
+		ctp.reset(tree.toByteArray());
+
+		assertTrue(ctp.findFile(".gitattributes"));
+		assertEquals(REGULAR_FILE.getBits(), ctp.getEntryRawMode());
+		assertEquals(".gitattributes", ctp.getEntryPathString());
+		assertEquals(hash_a, ctp.getEntryObjectId());
+	}
+
+	@Test
+	public void testFindAttributesWhenSecond() throws CorruptObjectException {
+		TreeFormatter tree = new TreeFormatter();
+		tree.append(".config", SYMLINK, hash_a);
+		tree.append(".gitattributes", REGULAR_FILE, hash_foo);
+		ctp.reset(tree.toByteArray());
+
+		assertTrue(ctp.findFile(".gitattributes"));
+		assertEquals(REGULAR_FILE.getBits(), ctp.getEntryRawMode());
+		assertEquals(".gitattributes", ctp.getEntryPathString());
+		assertEquals(hash_foo, ctp.getEntryObjectId());
+	}
+
+	@Test
+	public void testFindAttributesWhenMissing() throws CorruptObjectException {
+		TreeFormatter tree = new TreeFormatter();
+		tree.append("src", REGULAR_FILE, hash_a);
+		tree.append("zoo", REGULAR_FILE, hash_foo);
+		ctp.reset(tree.toByteArray());
+
+		assertFalse(ctp.findFile(".gitattributes"));
+		assertEquals(11, ctp.idOffset()); // Did not walk the entire tree.
+		assertEquals("src", ctp.getEntryPathString());
 	}
 }
