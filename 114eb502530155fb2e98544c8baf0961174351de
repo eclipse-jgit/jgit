@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "47cfbb72_e449d487",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Merge.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-12-01T00:04:57Z",
+      "side": 1,
+      "message": "The \u0027oldHeadId \u003d\u003d null\u0027 case is when merging into an unborn branch. (In the previous review I had thought that was \u0027oldHead \u003d\u003d null\u0027. Sorry for the confusion. I\u0027ll try introducing a well-documented getHead() method to Repository in a separate patch to simplify.\n\nTurns out that MergeCommand has support for that case. It performs a DirCacheCheckout, then a RefUpdate, then returns status FAST_FORWARD. Which brings us here (thanks for catching it).\n\nIn C git, a normal fast-forward merge prints \"Updating %s..%s\" but a fast-forward merge into an unborn branch is silent. To match that, jgit merge could do something like\n\n  if (oldHeadId !\u003d null) {\n    String oldId \u003d oldHeadId.abbreviate(7).name();\n    String newId \u003d result.getNewHead().abbreviate(7).name();\n    outw.println(format(CLIText.get().updating, oldId, newId));\n  }",
+      "range": {
+        "startLine": 151,
+        "startChar": 0,
+        "endLine": 155,
+        "endChar": 15
+      },
+      "revId": "114eb502530155fb2e98544c8baf0961174351de",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
