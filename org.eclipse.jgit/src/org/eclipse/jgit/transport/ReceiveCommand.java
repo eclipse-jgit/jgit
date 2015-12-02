@@ -136,7 +136,7 @@ public class ReceiveCommand {
 	 *            desired status to filter by.
 	 * @return a copy of the command list containing only those commands with
 	 *         the desired status.
-	 * @since 4.3
+	 * @since 4.2
 	 */
 	public static List<ReceiveCommand> filter(Iterable<ReceiveCommand> in,
 			Result want) {
