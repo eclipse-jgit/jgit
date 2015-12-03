@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27d6470d_c68e96b8",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LargeFileRepository.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 247
+      },
+      "writtenOn": "2015-12-03T11:56:09Z",
+      "side": 1,
+      "message": "Is this an upload or a download URL? They are not necessarily the same.",
+      "range": {
+        "startLine": 58,
+        "startChar": 12,
+        "endLine": 58,
+        "endChar": 15
+      },
+      "revId": "09baa35448ea38726bc3b46e17003041268a0246",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
