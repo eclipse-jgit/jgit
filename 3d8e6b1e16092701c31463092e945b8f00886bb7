@@ -22,6 +22,30 @@
       "revId": "3d8e6b1e16092701c31463092e945b8f00886bb7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_34cbe84e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushProcess.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-12-03T18:09:33Z",
+      "side": 1,
+      "message": "Yep, C git elides those too.",
+      "parentUuid": "27d6470d_34f9288f",
+      "range": {
+        "startLine": 194,
+        "startChar": 0,
+        "endLine": 194,
+        "endChar": 52
+      },
+      "revId": "3d8e6b1e16092701c31463092e945b8f00886bb7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
