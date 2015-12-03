@@ -752,6 +752,9 @@ public abstract class Transport {
 	/** Should push produce thin-pack when sending objects to remote repository. */
 	private boolean pushThin = DEFAULT_PUSH_THIN;
 
+	/** Should push be all-or-nothing atomic behavior? */
+	private boolean pushAtomic;
+
 	/** Should push just check for operation result, not really push. */
 	private boolean dryRun;
 
@@ -967,6 +970,31 @@ public abstract class Transport {
 	 */
 	public void setPushThin(final boolean pushThin) {
 		this.pushThin = pushThin;
+	}
+
+	/**
+	 * Default setting is false.
+	 *
+	 * @return true if push requires all-or-nothing atomic behavior.
+	 * @since 4.2
+	 */
+	public boolean isPushAtomic() {
+		return pushAtomic;
+	}
+
+	/**
+	 * Request atomic push (all references succeed, or none do).
+	 * <p>
+	 * Server must also support atomic push. If the server does not support the
+	 * feature the push will abort without making changes.
+	 *
+	 * @param atomic
+	 *            true when push should be an all-or-nothing operation.
+	 * @see PackTransport
+	 * @since 4.2
+	 */
+	public void setPushAtomic(final boolean atomic) {
+		this.pushAtomic = atomic;
 	}
 
 	/**

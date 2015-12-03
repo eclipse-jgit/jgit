@@ -79,6 +79,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String atLeastOnePathIsRequired;
 	/***/ public String atLeastOnePatternIsRequired;
 	/***/ public String atLeastTwoFiltersNeeded;
+	/***/ public String atomicPushNotSupported;
 	/***/ public String authenticationNotSupported;
 	/***/ public String badBase64InputCharacterAt;
 	/***/ public String badEntryDelimiter;
