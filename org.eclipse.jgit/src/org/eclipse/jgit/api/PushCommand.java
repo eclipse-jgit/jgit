@@ -89,9 +89,8 @@ public class PushCommand extends
 	private String receivePack = RemoteConfig.DEFAULT_RECEIVE_PACK;
 
 	private boolean dryRun;
-
+	private boolean atomic;
 	private boolean force;
-
 	private boolean thin = Transport.DEFAULT_PUSH_THIN;
 
 	private OutputStream out;
@@ -145,6 +144,7 @@ public class PushCommand extends
 			transports = Transport.openAll(repo, remote, Transport.Operation.PUSH);
 			for (final Transport transport : transports) {
 				transport.setPushThin(thin);
+				transport.setPushAtomic(atomic);
 				if (receivePack != null)
 					transport.setOptionReceivePack(receivePack);
 				transport.setDryRun(dryRun);
@@ -393,6 +393,29 @@ public class PushCommand extends
 	public PushCommand setThin(boolean thin) {
 		checkCallable();
 		this.thin = thin;
+		return this;
+	}
+
+	/**
+	 * @return true if all-or-nothing behavior is requested.
+	 * @since 4.2
+	 */
+	public boolean isAtomic() {
+		return atomic;
+	}
+
+	/**
+	 * Requests atomic push (all references updated, or no updates).
+	 *
+	 * Default setting is false.
+	 *
+	 * @param atomic
+	 * @return {@code this}
+	 * @since 4.2
+	 */
+	public PushCommand setAtomic(boolean atomic) {
+		checkCallable();
+		this.atomic = atomic;
 		return this;
 	}
 
