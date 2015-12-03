@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27d6470d_34f9288f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushProcess.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-12-03T17:53:57Z",
+      "side": 1,
+      "message": "In the non-atomic case, we optimize out this kind of update because it is a no-op. In the atomic case, it would not be a no-op any more: a ref update with equal old-sha1 and new-sha1 can cause the rest of the push to be aborted if old-sha1 doesn\u0027t match.\n\nIt\u0027s possible that we want to elide it anyway, though. I\u0027ll check what C git does.",
+      "range": {
+        "startLine": 194,
+        "startChar": 0,
+        "endLine": 194,
+        "endChar": 52
+      },
+      "revId": "3d8e6b1e16092701c31463092e945b8f00886bb7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
