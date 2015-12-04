@@ -1,0 +1,20 @@
+SRCS = glob(['src/**'])
+RESOURCES = glob(['resources/**'])
+
+java_library(
+  name = 'jgit',
+  srcs = SRCS,
+  resources = RESOURCES,
+  deps = [
+    '//lib:javaewah',
+    '//lib:jsch',
+    '//lib:httpcomponents',
+    '//lib:slf4j-api',
+  ],
+  visibility = ['PUBLIC'],
+)
+
+java_sources(
+  name = 'jgit_src',
+  srcs = SRCS + RESOURCES,
+)

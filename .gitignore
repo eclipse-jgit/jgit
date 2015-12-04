@@ -1,2 +1,4 @@
 /target
 /.project
+/buck-cache
+/buck-out

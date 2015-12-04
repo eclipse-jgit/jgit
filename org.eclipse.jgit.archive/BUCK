@@ -1,0 +1,13 @@
+java_library(
+  name = 'jgit-archive',
+  srcs = glob(
+    ['src/**'],
+    excludes = ['src/org/eclipse/jgit/archive/FormatActivator.java'],
+  ),
+  resources = glob(['resources/**']),
+  provided_deps = [
+    '//org.eclipse.jgit:jgit',
+    '//lib:commons-compress',
+  ],
+  visibility = ['PUBLIC'],
+)
