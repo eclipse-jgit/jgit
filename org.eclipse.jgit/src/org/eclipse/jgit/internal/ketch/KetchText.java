@@ -54,11 +54,16 @@ public class KetchText extends TranslationBundle {
 	}
 
 	// @formatter:off
+	/***/ public String accepted;
 	/***/ public String cannotFetchFromLocalReplica;
+	/***/ public String failed;
 	/***/ public String leaderFailedToStore;
 	/***/ public String localReplicaRequired;
 	/***/ public String mismatchedTxnNamespace;
 	/***/ public String outsideTxnNamespace;
+	/***/ public String proposingUpdates;
 	/***/ public String queuedProposalFailedToApply;
+	/***/ public String starting;
 	/***/ public String unsupportedVoterCount;
+	/***/ public String waitingForQueue;
 }
