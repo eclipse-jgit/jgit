@@ -86,7 +86,7 @@ import org.slf4j.LoggerFactory;
  * leader is discarded.
  * <p>
  * In Ketch all push requests are issued through the leader. The steps are as
- * follows:
+ * follows (see {@link KetchPreReceive} for an example):
  * <ul>
  * <li>Create a {@link Proposal} with the
  * {@link org.eclipse.jgit.transport.ReceiveCommand}s that represent the push.
