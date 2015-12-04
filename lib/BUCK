@@ -1,0 +1,70 @@
+jsch = '0.1.53'
+javaewah = '0.7.9'
+junit = '4.11'
+servlet_api = '3.1.0'
+httpclient = '4.3.6'
+slf4j_api = '1.7.2'
+commons_compress = '1.6'
+
+maven_jar(
+  name = 'jsch',
+  bin_sha1 = '658b682d5c817b27ae795637dfec047c63d29935',
+  src_sha1 = '791359d94d6edcace686a56d0727ee093a2f7c33',
+  group = 'com.jcraft',
+  artifact = 'jsch',
+  version = jsch,
+)
+
+maven_jar(
+  name = 'javaewah',
+  bin_sha1 = 'eceaf316a8faf0e794296ebe158ae110c7d72a5a',
+  src_sha1 = 'a50d78eb630e05439461f3130b94b3bcd1ea6f03',
+  group = 'com.googlecode.javaewah',
+  artifact = 'JavaEWAH',
+  version = javaewah,
+)
+
+maven_jar(
+  name = 'httpcomponents',
+  bin_sha1 = '4c47155e3e6c9a41a28db36680b828ced53b8af4',
+  src_sha1 = 'af4d76be0c46ee26b0d9d1d4a34d244a633cac84',
+  group = 'org.apache.httpcomponents',
+  artifact = 'httpclient',
+  version = httpclient,
+)
+
+maven_jar(
+  name = 'slf4j-api',
+  bin_sha1 = '0081d61b7f33ebeab314e07de0cc596f8e858d97',
+  src_sha1 = '58d38f68d4a867d4552ae27960bb348d7eaa1297',
+  group = 'org.slf4j',
+  artifact = 'slf4j-api',
+  version = slf4j_api,
+)
+
+maven_jar(
+  name = 'servlet-api',
+  bin_sha1 = '3cd63d075497751784b2fa84be59432f4905bf7c',
+  src_sha1 = 'ab3976d4574c48d22dc1abf6a9e8bd0fdf928223',
+  group = 'javax.servlet',
+  artifact = 'javax.servlet-api',
+  version = servlet_api,
+)
+
+maven_jar(
+  name = 'commons-compress',
+  bin_sha1 = 'c7d9b580aff9e9f1998361f16578e63e5c064699',
+  src_sha1 = '396b81bdfd0fb617178e1707ef64832215307c78',
+  group = 'org.apache.commons',
+  artifact = 'commons-compress',
+  version = commons_compress,
+)
+
+maven_jar(
+  name = 'junit',
+  bin_sha1 = 'c7d9b580aff9e9f1998361f16578e63e5c064699',
+  src_sha1 = '396b81bdfd0fb617178e1707ef64832215307c78',
+  group = 'junit',
+  artifact = 'junit',
+  version = junit,
+)
