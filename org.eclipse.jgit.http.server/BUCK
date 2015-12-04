@@ -1,0 +1,10 @@
+java_library(
+  name = 'jgit-servlet',
+  srcs = glob(['src/**']),
+  resources = glob(['resources/**']),
+  provided_deps = [
+    '//org.eclipse.jgit:jgit',
+    '//lib:servlet-api',
+  ],
+  visibility = ['PUBLIC'],
+)

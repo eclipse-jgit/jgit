@@ -1,0 +1,42 @@
+def java_sources(
+    name,
+    srcs,
+    visibility = ['PUBLIC']
+  ):
+  java_library(
+    name = name,
+    resources = srcs,
+    visibility = visibility,
+  )
+
+def maven_jar(
+    name,
+    group,
+    artifact,
+    version,
+    bin_sha1,
+    src_sha1,
+    visibility = ['PUBLIC']):
+  jar_name = '%s__jar' % name
+  src_name = '%s__src' % name
+
+  remote_file(
+    name = jar_name,
+    sha1 = bin_sha1,
+    url = 'mvn:%s:%s:jar:%s' % (group, artifact, version),
+    out = '%s.jar' % jar_name,
+  )
+
+  remote_file(
+    name = src_name,
+    sha1 = src_sha1,
+    url = 'mvn:%s:%s:src:%s' % (group, artifact, version),
+    out = '%s.jar' % src_name,
+  )
+
+  prebuilt_jar(
+    name = name,
+    binary_jar = ':' + jar_name,
+    source_jar = ':' + src_name,
+    visibility = visibility)
+
