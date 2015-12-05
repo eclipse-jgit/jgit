@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "27d6470d_5d2facc4",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Merge.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-12-05T18:25:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47cfbb72_e449d487",
+      "range": {
+        "startLine": 151,
+        "startChar": 0,
+        "endLine": 155,
+        "endChar": 15
+      },
+      "revId": "114eb502530155fb2e98544c8baf0961174351de",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47cfbb72_24a73cc6",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/RevParse.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2015-12-01T00:49:00Z",
       "side": 1,
       "message": "getRefs skips dangling symrefs, so r.getObjectId() should never be null. This could error out:\n\n  ObjectId id \u003d r.getObjectId();\n  if (id \u003d\u003d null) {\n    throw new AssertionError(\n       String.format(\"getRefs returned unresolved ref %s\", r));\n  }\n  outw.println(id.name());",
+      "range": {
+        "startLine": 77,
+        "startChar": 0,
+        "endLine": 78,
+        "endChar": 67
+      },
+      "revId": "114eb502530155fb2e98544c8baf0961174351de",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_7d2470e6",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/RevParse.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-12-05T18:25:20Z",
+      "side": 1,
+      "message": "I haven\u0027t used AssertionError, this seem to be uncommon in jgit. Instead, in the next patch I\u0027ve added assert statements here and in similar code later.",
+      "parentUuid": "47cfbb72_24a73cc6",
       "range": {
         "startLine": 77,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "27d6470d_9d2934c0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-12-05T18:25:20Z",
+      "side": 1,
+      "message": "Similar to the previous case, I\u0027ve added an assert here.",
+      "parentUuid": "47cfbb72_64b144fb",
+      "range": {
+        "startLine": 334,
+        "startChar": 0,
+        "endLine": 341,
+        "endChar": 53
+      },
+      "revId": "114eb502530155fb2e98544c8baf0961174351de",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47cfbb72_04a238ad",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
         "patchSetId": 2
@@ -82,6 +154,30 @@
       "writtenOn": "2015-12-01T00:49:00Z",
       "side": 1,
       "message": "unnecessary parens.\n\nI wonder if a getHeadId(Ref) helper would make sense (e.g. tryFastForward also does the same call-getHead().getObjectId()-and-examine-the-result thing).",
+      "range": {
+        "startLine": 564,
+        "startChar": 0,
+        "endLine": 564,
+        "endChar": 27
+      },
+      "revId": "114eb502530155fb2e98544c8baf0961174351de",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_bd1d189d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 564,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-12-05T18:25:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47cfbb72_04a238ad",
       "range": {
         "startLine": 564,
         "startChar": 0,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "27d6470d_dd1adca1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 680,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-12-05T18:25:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47cfbb72_248e5c3e",
+      "range": {
+        "startLine": 680,
+        "startChar": 0,
+        "endLine": 680,
+        "endChar": 26
+      },
+      "revId": "114eb502530155fb2e98544c8baf0961174351de",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47cfbb72_848d6840",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
         "patchSetId": 2
@@ -128,6 +248,30 @@
       "writtenOn": "2015-12-01T00:49:00Z",
       "side": 1,
       "message": "likewise",
+      "range": {
+        "startLine": 1201,
+        "startChar": 0,
+        "endLine": 1201,
+        "endChar": 27
+      },
+      "revId": "114eb502530155fb2e98544c8baf0961174351de",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_fd17a076",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1201,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-12-05T18:25:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47cfbb72_848d6840",
       "range": {
         "startLine": 1201,
         "startChar": 0,
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "27d6470d_1d15246f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-12-05T18:25:20Z",
+      "side": 1,
+      "message": "sure.",
+      "parentUuid": "47cfbb72_24f9fc8e",
+      "range": {
+        "startLine": 488,
+        "startChar": 0,
+        "endLine": 492,
+        "endChar": 16
+      },
+      "revId": "114eb502530155fb2e98544c8baf0961174351de",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47cfbb72_84080837",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 2
@@ -186,6 +354,30 @@
     },
     {
       "key": {
+        "uuid": "27d6470d_3d558826",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1132,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-12-05T18:25:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47cfbb72_84080837",
+      "range": {
+        "startLine": 1132,
+        "startChar": 0,
+        "endLine": 1132,
+        "endChar": 28
+      },
+      "revId": "114eb502530155fb2e98544c8baf0961174351de",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47cfbb72_6403041b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 2
@@ -197,6 +389,30 @@
       "writtenOn": "2015-12-01T00:49:00Z",
       "side": 1,
       "message": "All callers use a non-null id",
+      "range": {
+        "startLine": 1151,
+        "startChar": 0,
+        "endLine": 1151,
+        "endChar": 28
+      },
+      "revId": "114eb502530155fb2e98544c8baf0961174351de",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_5d5a4c57",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1151,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-12-05T18:25:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47cfbb72_6403041b",
       "range": {
         "startLine": 1151,
         "startChar": 0,
