@@ -22,6 +22,109 @@
       "revId": "2faefa1dc774761a8874e7c3b2077d655afaa270",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_60184736",
+        "filename": "BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-12-06T22:08:49Z",
+      "side": 1,
+      "message": "what about sources for the other bundles ?",
+      "revId": "2faefa1dc774761a8874e7c3b2077d655afaa270",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_c02d934a",
+        "filename": "BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-12-06T22:08:49Z",
+      "side": 1,
+      "message": "why servlet and not http-server which would better match the bundle name ?",
+      "range": {
+        "startLine": 14,
+        "startChar": 15,
+        "endLine": 14,
+        "endChar": 22
+      },
+      "revId": "2faefa1dc774761a8874e7c3b2077d655afaa270",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_4013431a",
+        "filename": "BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-12-06T22:08:49Z",
+      "side": 1,
+      "message": "s/jnit/junit/",
+      "range": {
+        "startLine": 32,
+        "startChar": 10,
+        "endLine": 32,
+        "endChar": 14
+      },
+      "revId": "2faefa1dc774761a8874e7c3b2077d655afaa270",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_801d4b27",
+        "filename": "org.eclipse.jgit.archive/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-12-06T22:08:49Z",
+      "side": 1,
+      "message": "why is this class excluded ?",
+      "range": {
+        "startLine": 3,
+        "startChar": 68,
+        "endLine": 3,
+        "endChar": 83
+      },
+      "revId": "2faefa1dc774761a8874e7c3b2077d655afaa270",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_a0224f5f",
+        "filename": "tools/default.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-12-06T22:08:49Z",
+      "side": 1,
+      "message": "can we move this under tools/buck/ as long as we still need a Maven build",
+      "revId": "2faefa1dc774761a8874e7c3b2077d655afaa270",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
