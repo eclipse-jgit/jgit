@@ -22,6 +22,30 @@
       "revId": "09baa35448ea38726bc3b46e17003041268a0246",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_e075373e",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LargeFileRepository.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-12-06T22:12:21Z",
+      "side": 1,
+      "message": "So you envision an implementation where you upload an object x to url A and download it from url B ? Why is this useful ?",
+      "parentUuid": "27d6470d_c68e96b8",
+      "range": {
+        "startLine": 58,
+        "startChar": 12,
+        "endLine": 58,
+        "endChar": 15
+      },
+      "revId": "09baa35448ea38726bc3b46e17003041268a0246",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
