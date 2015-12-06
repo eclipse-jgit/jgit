@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "27d6470d_f5dfbaf7",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/attributes/MacroExpanderTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2015-12-06T15:19:19Z",
+      "side": 1,
+      "message": "thx",
+      "revId": "48c0002b4b587e41dde75d424085da7aff6f7e4f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27d6470d_147a64dc",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesNode.java",
         "patchSetId": 6
@@ -30,6 +47,23 @@
       "writtenOn": "2015-12-03T21:21:29Z",
       "side": 1,
       "message": "I would love to get rid of this parameter",
+      "revId": "48c0002b4b587e41dde75d424085da7aff6f7e4f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_a03b2ff3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesNode.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2015-12-06T15:19:19Z",
+      "side": 1,
+      "message": "Done\r\nmoved the whole method to MacroExpander. That one has the complete knowledge about how to parse, merge and interpret attributes",
       "revId": "48c0002b4b587e41dde75d424085da7aff6f7e4f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -59,6 +93,23 @@
     },
     {
       "key": {
+        "uuid": "27d6470d_c04f538c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/MacroExpander.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2015-12-06T15:19:19Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "48c0002b4b587e41dde75d424085da7aff6f7e4f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27d6470d_8912e191",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/MacroExpanderImpl.java",
         "patchSetId": 6
@@ -76,6 +127,23 @@
         "endLine": 91,
         "endChar": 33
       },
+      "revId": "48c0002b4b587e41dde75d424085da7aff6f7e4f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_e04c579a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/MacroExpanderImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2015-12-06T15:19:19Z",
+      "side": 1,
+      "message": "Done",
       "revId": "48c0002b4b587e41dde75d424085da7aff6f7e4f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -105,6 +173,23 @@
     },
     {
       "key": {
+        "uuid": "27d6470d_004a1b7b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/MacroExpanderImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2015-12-06T15:19:19Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "48c0002b4b587e41dde75d424085da7aff6f7e4f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27d6470d_c91a29a2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/MacroExpanderImpl.java",
         "patchSetId": 6
@@ -122,6 +207,23 @@
         "endLine": 105,
         "endChar": 57
       },
+      "revId": "48c0002b4b587e41dde75d424085da7aff6f7e4f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_20471f73",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/MacroExpanderImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2015-12-06T15:19:19Z",
+      "side": 1,
+      "message": "Done",
       "revId": "48c0002b4b587e41dde75d424085da7aff6f7e4f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -151,6 +253,23 @@
     },
     {
       "key": {
+        "uuid": "27d6470d_40a7c3c4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/MacroExpanderImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2015-12-06T15:19:19Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "48c0002b4b587e41dde75d424085da7aff6f7e4f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27d6470d_0915f16e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/MacroExpanderImpl.java",
         "patchSetId": 6
@@ -168,6 +287,23 @@
         "endLine": 114,
         "endChar": 50
       },
+      "revId": "48c0002b4b587e41dde75d424085da7aff6f7e4f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_60acc7a8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/MacroExpanderImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2015-12-06T15:19:19Z",
+      "side": 1,
+      "message": "Done",
       "revId": "48c0002b4b587e41dde75d424085da7aff6f7e4f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -197,6 +333,23 @@
     },
     {
       "key": {
+        "uuid": "27d6470d_80b1cbfd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/MacroExpanderImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2015-12-06T15:19:19Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "48c0002b4b587e41dde75d424085da7aff6f7e4f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27d6470d_a94fa58c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/MacroExpanderImpl.java",
         "patchSetId": 6
@@ -214,6 +367,23 @@
         "endLine": 135,
         "endChar": 24
       },
+      "revId": "48c0002b4b587e41dde75d424085da7aff6f7e4f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_a0b6cff1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/MacroExpanderImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2015-12-06T15:19:19Z",
+      "side": 1,
+      "message": "Done",
       "revId": "48c0002b4b587e41dde75d424085da7aff6f7e4f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -243,6 +413,23 @@
     },
     {
       "key": {
+        "uuid": "27d6470d_c09af37a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/MacroExpanderImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2015-12-06T15:19:19Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "48c0002b4b587e41dde75d424085da7aff6f7e4f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27d6470d_0947b172",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/MacroExpanderImpl.java",
         "patchSetId": 6
@@ -266,6 +453,23 @@
     },
     {
       "key": {
+        "uuid": "27d6470d_e097f74f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/MacroExpanderImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2015-12-06T15:19:19Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "48c0002b4b587e41dde75d424085da7aff6f7e4f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27d6470d_ef00cd3b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/AbstractTreeIterator.java",
         "patchSetId": 6
@@ -277,6 +481,23 @@
       "writtenOn": "2015-12-03T21:21:29Z",
       "side": 1,
       "message": "Instead storing a reference to the root iterator couldn\u0027t we directly store a AttributesNode which contains the merged content of global/info/root-worktree .gitattributes?",
+      "revId": "48c0002b4b587e41dde75d424085da7aff6f7e4f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_f5ba5aa4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/AbstractTreeIterator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2015-12-06T15:19:19Z",
+      "side": 1,
+      "message": "OK, I will give it a try with one node.",
       "revId": "48c0002b4b587e41dde75d424085da7aff6f7e4f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -300,6 +521,23 @@
     },
     {
       "key": {
+        "uuid": "27d6470d_00a5bbb5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1170,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2015-12-06T15:19:19Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "48c0002b4b587e41dde75d424085da7aff6f7e4f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27d6470d_cff309d8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
         "patchSetId": 6
@@ -317,6 +555,23 @@
         "endLine": 1363,
         "endChar": 45
       },
+      "revId": "48c0002b4b587e41dde75d424085da7aff6f7e4f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_20a2bfad",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1363,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2015-12-06T15:19:19Z",
+      "side": 1,
+      "message": "Done",
       "revId": "48c0002b4b587e41dde75d424085da7aff6f7e4f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
