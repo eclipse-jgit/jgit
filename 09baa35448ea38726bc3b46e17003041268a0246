@@ -46,6 +46,30 @@
       "revId": "09baa35448ea38726bc3b46e17003041268a0246",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_f6309dee",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/lib/LargeFileRepository.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 247
+      },
+      "writtenOn": "2015-12-07T14:22:36Z",
+      "side": 1,
+      "message": "I wouldn\u0027t say that *I* envision it but it seems to me that the LFS protocol as proposed be github distinguished between an upload, a download and a verify url. I think we\u0027d better stick closer  to the protocol outlined here: https://github.com/github/git-lfs/blob/master/docs/api/http-v1-batch.md.\n\nAlso in REST it is not unusual to POST to a collection but to get a single element from a collection by specifying it\u0027s ID in the URL, like\n\nupload:\n POST .../LOBs\n{\n  id: \u003csha256\u003e,\n  lob: \u003cdata\u003e\n}\n\ndownload:\nGET .../LOBs/\u003csha256\u003e\n\nsee also : https://en.wikipedia.org/wiki/Representational_state_transfer#Example",
+      "parentUuid": "27d6470d_e075373e",
+      "range": {
+        "startLine": 58,
+        "startChar": 12,
+        "endLine": 58,
+        "endChar": 15
+      },
+      "revId": "09baa35448ea38726bc3b46e17003041268a0246",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
