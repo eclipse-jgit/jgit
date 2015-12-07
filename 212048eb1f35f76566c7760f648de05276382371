@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "27d6470d_529f92b0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1162,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-12-07T22:52:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27d6470d_b2fc5ee6",
+      "range": {
+        "startLine": 1162,
+        "startChar": 0,
+        "endLine": 1162,
+        "endChar": 27
+      },
+      "revId": "212048eb1f35f76566c7760f648de05276382371",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27d6470d_d201e279",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Ref.java",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2015-12-07T22:39:08Z",
       "side": 1,
       "message": "to indicate a ref that does not exist yet or a symbolic ref pointing to an unborn branch",
+      "range": {
+        "startLine": 185,
+        "startChar": 0,
+        "endLine": 185,
+        "endChar": 67
+      },
+      "revId": "212048eb1f35f76566c7760f648de05276382371",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_727f36d4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Ref.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-12-07T22:52:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27d6470d_d201e279",
       "range": {
         "startLine": 185,
         "startChar": 0,
