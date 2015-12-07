@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27d6470d_121a6afa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-12-07T22:06:12Z",
+      "side": 1,
+      "message": "Link to: [4] https://github.com/google/guice/blob/master/core/src/com/google/inject/internal/Nullability.java",
+      "range": {
+        "startLine": 22,
+        "startChar": 18,
+        "endLine": 22,
+        "endChar": 28
+      },
+      "revId": "339b0271ec09b1fc68c6675bc8c0aff693fac148",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
