@@ -1,0 +1,211 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27d6470d_15c2547b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1165,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-12-08T00:21:05Z",
+      "side": 1,
+      "message": "optional: this can go in ObjectIdRef.Unpeeled",
+      "range": {
+        "startLine": 1159,
+        "startChar": 0,
+        "endLine": 1165,
+        "endChar": 3
+      },
+      "revId": "79ecf88f8102331e81d445c169a69c60e155c8b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_d5646c17",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefWriter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-12-08T00:21:05Z",
+      "side": 1,
+      "message": "Interesting.\n\nThis means that trying to build info/refs if there\u0027s a symref-to-unborn-branch other than HEAD would fail. For comparison, C git skips those unless GIT_REF_PARANOIA is set to 1 or true.\n\nThis step comes after the actual push has occurred so it seems safer to skip the symref like C git does:\n\n  if (objectId \u003d\u003d null) {\n    // Symrefs to unborn branches aren\u0027t advertised in the info/refs file.\n    continue;\n  }",
+      "range": {
+        "startLine": 126,
+        "startChar": 0,
+        "endLine": 129,
+        "endChar": 4
+      },
+      "revId": "79ecf88f8102331e81d445c169a69c60e155c8b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_55705cca",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefWriter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-12-08T00:21:05Z",
+      "side": 1,
+      "message": "This shouldn\u0027t be possible --- symrefs cannot have storage PACKED. To guard against it:\n\n if (objectId \u003d\u003d null) {\n   // A packed ref cannot be a symref, let alone a symref\n   // to an unborn branch.\n   throw new NullPointerException();\n }\n ...",
+      "range": {
+        "startLine": 180,
+        "startChar": 0,
+        "endLine": 183,
+        "endChar": 4
+      },
+      "revId": "79ecf88f8102331e81d445c169a69c60e155c8b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_354af87b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-12-08T00:21:05Z",
+      "side": 1,
+      "message": "The wants come from doFetch(), which passed them on from FetchConnection#fetch(). They come from the ref advertisement, so they should always point to an object id, but no one in the call chain validated them so that\u0027s up to us.\n\nPeople usually would call Transport#fetch instead of using the protocol directly. Transport#fetch builds the list of wants using refs it obtained from the Connection. Those always have an objectId --- though it can sometimes be 0{40} --- except in the \"dumb http\" path where HEAD can be a symref to an unborn branch.\n\nSince this code path is trying to check whether we already have the object pointed to by this remote ref and if not fetch it, why not do\n\n  if (objectId \u003d\u003d null) {\n    continue;\n  }\n\nsince there is nothing to fetch in that case?",
+      "range": {
+        "startLine": 468,
+        "startChar": 0,
+        "endLine": 471,
+        "endChar": 4
+      },
+      "revId": "79ecf88f8102331e81d445c169a69c60e155c8b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_357cb890",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1377,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-12-08T00:21:05Z",
+      "side": 1,
+      "message": "This means bypassing the check if ref is a symref to an unborn branch. It would be safer to keep the check in that case:\n\n  if (cmd.getType() \u003d\u003d ReceiveCommand.Type.DELETE \u0026\u0026 ref !\u003d null) {\n    ObjectId id \u003d ref.getObjectId();\n    if (id \u003d\u003d null) {\n      id \u003d ObjectId.zeroId();\n    }\n    if (!ObjectId.zeroId().equals(...)\n        \u0026\u0026 !id.equals(...)) {\n      cmd.setResult(REJECTED_OTHER_REASON, \"invalid old id sent\");\n      continue;\n    }\n  }",
+      "range": {
+        "startLine": 1376,
+        "startChar": 0,
+        "endLine": 1377,
+        "endChar": 24
+      },
+      "revId": "79ecf88f8102331e81d445c169a69c60e155c8b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_5514dc4a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1397,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-12-08T00:21:05Z",
+      "side": 1,
+      "message": "ref.getObjectId() \u003d\u003d null would indicate a symref to an unborn branch, not a missing ref. An UPDATE doesn\u0027t make sense there (while a CREATE would make sense, though JGit doesn\u0027t handle it yet).\n\n  if (ref \u003d\u003d null) {\n    ...\n  }\n  ObjectId id \u003d ref.getObjectId();\n  if (id \u003d\u003d null) {\n    cmd.setResult(REJECTED_OTHER_REASON, \"cannot update unborn branch\");\n  }\n  if (!id.equals(cmd.getOldId())) {\n    ...\n  }",
+      "range": {
+        "startLine": 1391,
+        "startChar": 0,
+        "endLine": 1397,
+        "endChar": 5
+      },
+      "revId": "79ecf88f8102331e81d445c169a69c60e155c8b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_b51a8873",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchProcess.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-12-08T00:21:05Z",
+      "side": 1,
+      "message": "r.getObjectId is always non-null with the in-tree transports. (The only transport that advertises a ref without an object id is \u0027dumb http\u0027, which only does so for HEAD.) So if r.getObjectId is null, then something strange is happening.\n\nSince we don\u0027t have a way of fetching symrefs as opposed to their targets, adding such a tag as a \u0027want\u0027 wouldn\u0027t accomplish anything. So how about:\n\n  ObjectId id \u003d r.getObjectId();\n  if (id \u003d\u003d null) {\n    continue;\n  }\n  Ref local \u003d haveRefs.get(r.getName());\n  if (local \u003d\u003d null || !id.equals(local.getObjectId()) {\n    wantTag(r);\n  }",
+      "range": {
+        "startLine": 404,
+        "startChar": 0,
+        "endLine": 407,
+        "endChar": 4
+      },
+      "revId": "79ecf88f8102331e81d445c169a69c60e155c8b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_b5d528e6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchProcess.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-12-08T00:21:05Z",
+      "side": 1,
+      "message": "If newId \u003d\u003d null then the transport advertised this ref as a symref to an unborn branch. This can happen if I try to fetch \u0027HEAD\u0027 over dumb http and HEAD points to an unborn branch.\n\nI think that\u0027s a bug in HttpTransport. Transports shouldn\u0027t do that and none of the others do. So this seems like an API validation exception and not e.g. a protocol problem --- something like\n\n  if (newId \u003d\u003d null) {\n    // The transport advertised a ref without an object id.\n    // This is not supposed to happen (ref advertisements pointing\n    // to 0{40} would use ObjectId.zeroId()).\n    throw new NullPointerException(\n      String.format(\"Transport provided ref %s with no object id\", src));\n  }",
+      "range": {
+        "startLine": 418,
+        "startChar": 0,
+        "endLine": 422,
+        "endChar": 3
+      },
+      "revId": "79ecf88f8102331e81d445c169a69c60e155c8b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_d5daac13",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/WalkFetchConnection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-12-08T00:21:05Z",
+      "side": 1,
+      "message": "Same thought as in the other files: this condition is more like an API error and not a protocol or higher-level error, so it should use a RuntimeException such as NPE instead of TransportException.",
+      "range": {
+        "startLine": 270,
+        "startChar": 0,
+        "endLine": 273,
+        "endChar": 4
+      },
+      "revId": "79ecf88f8102331e81d445c169a69c60e155c8b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
