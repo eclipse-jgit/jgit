@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27d6470d_752000a4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/annotations/Nullable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2015-12-08T00:03:55Z",
+      "side": 1,
+      "message": "The current JGit/Eclipse convention is to always have \u003cp\u003e on its own line, with no blank lines before or after it.",
+      "range": {
+        "startLine": 59,
+        "startChar": 3,
+        "endLine": 59,
+        "endChar": 6
+      },
+      "revId": "7b302029446e90c9454c4725a958d0b13fd98354",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
