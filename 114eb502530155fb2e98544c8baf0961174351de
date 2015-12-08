@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "27d6470d_92e03a44",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/RevParse.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-12-08T00:21:09Z",
+      "side": 1,
+      "message": "This is an interesting use of assert --- it essentially functions as a comment. It would be helpful to also include a comment explaining why the assertion holds:\n\n // getRefs skips dangling symrefs, so objectId should never be null.\n assert objectId !\u003d null;\n\nThe more general issue with assert is that runtime checking of assertions can be (and often is) disabled. Here we luck out because if a future code change ends up allowing objectId to be null, the objectId.name() call will catch that and throw NPE (good).\n\nBut that general issue with assert makes it tempting to avoid as a pattern anyway (except in code e.g. guarded by an \u0027if\u0027 where a runtime check would definitely not be useful). I suspect that\u0027s part of why jgit uses assert sparingly:\n\n $ git grep --cached -e \u0027assert[ (]\u0027 |wc -l\n 36\n\nIf we want a runtime impossible-condition check, explicitly throwing AssertionError or NPE would be a way to do it (and I suppose that since it\u0027s an impossible condition it wouldn\u0027t need a message):\n\n // getRefs skips dangling symrefs, so objectId should never be null.\n if (objectId \u003d\u003d null) {\n   throw new AssertionError();\n }\n\nOn second thought, since getRefs is a method callers often reimplement, the paranoid check seems worthwhile --- this is what e.g. http://docs.guava-libraries.googlecode.com/git/javadoc/com/google/common/base/Verify.html is for. It\u0027s redundant but good protection in case the code changes later. We can use NPE instead of VerifyException.\n\n // getRefs skips dangling symrefs, so objectId should never be null.\n if (objectId \u003d\u003d null) {\n   throw new NullPointerException();\n }",
+      "parentUuid": "27d6470d_7d2470e6",
+      "range": {
+        "startLine": 77,
+        "startChar": 0,
+        "endLine": 78,
+        "endChar": 67
+      },
+      "revId": "114eb502530155fb2e98544c8baf0961174351de",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47cfbb72_64b144fb",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutCommand.java",
         "patchSetId": 2
@@ -143,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "27d6470d_d2eac221",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-12-08T00:21:09Z",
+      "side": 1,
+      "message": "Nice --- this is a lot clearer than the code in the base version.\n\nSame thought re defensive programming:\n\n // Detached HEAD. Every non-symbolic ref in the ref database has an\n // object id, so this cannot be null.\n ObjectId id \u003d headRef.getObject();\n if (id \u003d\u003d null) {\n   throw new NullPointerException();\n }\n return id.getName();",
+      "parentUuid": "27d6470d_9d2934c0",
+      "range": {
+        "startLine": 334,
+        "startChar": 0,
+        "endLine": 341,
+        "endChar": 53
+      },
+      "revId": "114eb502530155fb2e98544c8baf0961174351de",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47cfbb72_04a238ad",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
         "patchSetId": 2
@@ -178,6 +226,30 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "47cfbb72_04a238ad",
+      "range": {
+        "startLine": 564,
+        "startChar": 0,
+        "endLine": 564,
+        "endChar": 27
+      },
+      "revId": "114eb502530155fb2e98544c8baf0961174351de",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_f2cee6d8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 564,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-12-08T00:21:09Z",
+      "side": 1,
+      "message": "Thanks.\n\nUnlike the other examples, this is safe since the code that guarantees the assertion is our own code (so use of assert here is uncontroversial).",
+      "parentUuid": "27d6470d_bd1d189d",
       "range": {
         "startLine": 564,
         "startChar": 0,
