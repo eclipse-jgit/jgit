@@ -186,6 +186,55 @@ public class ApplyCommandTest extends RepositoryTestCase {
 				b.getString(0, b.size(), false));
 	}
 
+	@Test
+	public void testNonASCII() throws Exception {
+		ApplyResult result = init("NonASCII");
+		assertEquals(1, result.getUpdatedFiles().size());
+		assertEquals(new File(db.getWorkTree(), "NonASCII"),
+				result.getUpdatedFiles().get(0));
+		checkFile(new File(db.getWorkTree(), "NonASCII"),
+				b.getString(0, b.size(), false));
+	}
+
+	@Test
+	public void testNonASCII2() throws Exception {
+		ApplyResult result = init("NonASCII2");
+		assertEquals(1, result.getUpdatedFiles().size());
+		assertEquals(new File(db.getWorkTree(), "NonASCII2"),
+				result.getUpdatedFiles().get(0));
+		checkFile(new File(db.getWorkTree(), "NonASCII2"),
+				b.getString(0, b.size(), false));
+	}
+
+	@Test
+	public void testNonASCIIAdd() throws Exception {
+		ApplyResult result = init("NonASCIIAdd");
+		assertEquals(1, result.getUpdatedFiles().size());
+		assertEquals(new File(db.getWorkTree(), "NonASCIIAdd"),
+				result.getUpdatedFiles().get(0));
+		checkFile(new File(db.getWorkTree(), "NonASCIIAdd"),
+				b.getString(0, b.size(), false));
+	}
+
+	@Test
+	public void testNonASCIIAdd2() throws Exception {
+		ApplyResult result = init("NonASCIIAdd2", false, true);
+		assertEquals(1, result.getUpdatedFiles().size());
+		assertEquals(new File(db.getWorkTree(), "NonASCIIAdd2"),
+				result.getUpdatedFiles().get(0));
+		checkFile(new File(db.getWorkTree(), "NonASCIIAdd2"),
+				b.getString(0, b.size(), false));
+	}
+
+	@Test
+	public void testNonASCIIDel() throws Exception {
+		ApplyResult result = init("NonASCIIDel", true, false);
+		assertEquals(1, result.getUpdatedFiles().size());
+		assertEquals(new File(db.getWorkTree(), "NonASCIIDel"),
+				result.getUpdatedFiles().get(0));
+		assertFalse(new File(db.getWorkTree(), "NonASCIIDel").exists());
+	}
+
 	private static byte[] readFile(final String patchFile) throws IOException {
 		final InputStream in = getTestResource(patchFile);
 		if (in == null) {

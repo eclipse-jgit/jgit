@@ -1,0 +1,7 @@
+diff --git a/NonASCIIAdd b/NonASCIIAdd
+index 2e65efe..7898192 100644
+--- a/NonASCIIAdd
++++ b/NonASCIIAdd
+@@ -0,0 +1 @@
++あ
+\ No newline at end of file
