@@ -1,0 +1,8 @@
+diff --git a/NonASCIIAdd2 b/NonASCIIAdd2
+new file mode 100644
+index 2e65efe..7898192 100644
+--- /dev/null
++++ b/NonASCIIAdd2
+@@ -0,0 +1 @@
++あ
+\ No newline at end of file

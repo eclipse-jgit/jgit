@@ -1,0 +1,9 @@
+diff --git a/NonASCIIDel b/NonASCIIDel
+deleted file mode 100644
+new file mode 100644
+index 2e65efe..7898192 100644
+--- a/NonASCIIDel
++++ /dev/null
+@@ -1 +0,0 @@
+-あ
+\ No newline at end of file
