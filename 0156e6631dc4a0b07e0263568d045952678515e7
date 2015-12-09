@@ -22,6 +22,30 @@
       "revId": "0156e6631dc4a0b07e0263568d045952678515e7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_72572ba0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 5648
+      },
+      "writtenOn": "2015-12-09T23:53:54Z",
+      "side": 1,
+      "message": "I did this mostly out of an abundance of caution.  If we get into this case and the path -\u003e section name mapping doesn\u0027t exist, we probably have other problems and ought to return null anyway.\n\nI think the problem with checking null earlier is we may have changed our modulesConfig (possibly?), or the SubmoduleWalk may have moved on to a new submodule -- so we can\u0027t really check in advance (unless we did the check in next(), which would require we load the .gitmodules config at that point in time).",
+      "parentUuid": "27d6470d_f2397b8c",
+      "range": {
+        "startLine": 612,
+        "startChar": 5,
+        "endLine": 612,
+        "endChar": 15
+      },
+      "revId": "0156e6631dc4a0b07e0263568d045952678515e7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
