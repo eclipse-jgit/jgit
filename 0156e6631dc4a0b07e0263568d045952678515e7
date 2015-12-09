@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27d6470d_f2397b8c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2015-12-09T23:38:05Z",
+      "side": 1,
+      "message": "Why do we need to have the null check here and at the places further down?\n\nWould it make sense to ensure that it cannot be null before?",
+      "range": {
+        "startLine": 612,
+        "startChar": 5,
+        "endLine": 612,
+        "endChar": 15
+      },
+      "revId": "0156e6631dc4a0b07e0263568d045952678515e7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
