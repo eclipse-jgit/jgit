@@ -40,10 +40,11 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.eclipse.jgit.lfs.lib;
+package org.eclipse.jgit.lfs.server;
 
 import java.io.IOException;
-import java.util.Map;
+
+import org.eclipse.jgit.lfs.lib.AnyLongObjectId;
 
 /**
  * Abstraction of a repository for storing large objects
@@ -54,31 +55,30 @@ public interface LargeFileRepository {
 
 	/**
 	 * @param id
-	 *            id of the object
-	 * @return URL of the large file repository
+	 *            id of the object to download
+	 * @return Action for downloading the object
 	 */
-	public String getUrl(AnyLongObjectId id);
+	public Response.Action getDownloadAction(AnyLongObjectId id);
+
+	/**
+	 * @param id
+	 *            id of the object to upload
+	 * @return Action for uploading the object
+	 */
+	public Response.Action getUploadAction(AnyLongObjectId id);
+
+	/**
+	 * @param id
+	 * @return Action for verifying the object
+	 */
+	public Response.Action getVerifyAction(AnyLongObjectId id);
 
 	/**
 	 * @param id
 	 *            id of the object
-	 * @return {@code true} if the object exists, {@code false} otherwise
-	 */
-	public boolean exists(AnyLongObjectId id);
-
-	/**
-	 * @param id
-	 *            id of the object
-	 * @return length of the object content in bytes
+	 * @return length of the object content in bytes, -1 if the object doesn't
+	 *         exist
 	 * @throws IOException
 	 */
 	public long getLength(AnyLongObjectId id) throws IOException;
-
-	/**
-	 * @param id
-	 *            id of the object
-	 * @return Set of HTTP headers (key, value) which will be passed to the
-	 *         upload/download request
-	 */
-	public Map<String, String> getHeaders(AnyLongObjectId id);
 }

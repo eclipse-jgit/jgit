@@ -61,7 +61,6 @@ import org.apache.http.HttpStatus;
 import org.eclipse.jgit.lfs.errors.CorruptLongObjectException;
 import org.eclipse.jgit.lfs.lib.AnyLongObjectId;
 import org.eclipse.jgit.lfs.lib.Constants;
-import org.eclipse.jgit.lfs.lib.PlainFSRepository;
 
 /**
  * Handle asynchronous object upload

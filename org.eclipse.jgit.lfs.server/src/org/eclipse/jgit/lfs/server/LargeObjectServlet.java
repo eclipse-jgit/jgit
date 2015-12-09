@@ -57,7 +57,6 @@ import org.eclipse.jgit.lfs.errors.InvalidLongObjectIdException;
 import org.eclipse.jgit.lfs.lib.AnyLongObjectId;
 import org.eclipse.jgit.lfs.lib.Constants;
 import org.eclipse.jgit.lfs.lib.LongObjectId;
-import org.eclipse.jgit.lfs.lib.PlainFSRepository;
 import org.eclipse.jgit.lfs.server.internal.LfsServerText;
 
 /**
@@ -105,7 +104,7 @@ public class LargeObjectServlet extends HttpServlet {
 			HttpServletResponse rsp) throws ServletException, IOException {
 		AnyLongObjectId obj = getObjectToTransfer(req, rsp);
 		if (obj != null) {
-			if (!repository.exists(obj)) {
+			if (repository.getLength(obj) == -1) {
 				sendError(rsp, HttpStatus.SC_NOT_FOUND, MessageFormat
 						.format(LfsServerText.get().objectNotFound, obj));
 				return;

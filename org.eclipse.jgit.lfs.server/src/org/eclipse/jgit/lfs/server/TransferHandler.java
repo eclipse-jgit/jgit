@@ -43,12 +43,12 @@
 
 package org.eclipse.jgit.lfs.server;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.jgit.lfs.lib.LargeFileRepository;
 import org.eclipse.jgit.lfs.lib.LongObjectId;
 
 class TransferHandler {
@@ -64,7 +64,7 @@ class TransferHandler {
 		this.objects = objects;
 	}
 
-	Response.Body process() {
+	Response.Body process() throws IOException {
 		Response.Body body = new Response.Body();
 		if (objects.size() > 0) {
 			body.objects = new ArrayList<>();
@@ -77,7 +77,7 @@ class TransferHandler {
 
 				LongObjectId oid = LongObjectId.fromString(o.oid);
 				addAction(UPLOAD, oid, info.actions);
-				if (repository.exists(oid)) {
+				if (repository.getLength(oid) >= 0) {
 					addAction(DOWNLOAD, oid, info.actions);
 				}
 			}
@@ -87,11 +87,18 @@ class TransferHandler {
 
 	private void addAction(String name, LongObjectId oid,
 			Map<String, Response.Action> actions) {
-		Response.Action action = new Response.Action();
-		action.href = repository.getUrl(oid) + oid.getName();
-		action.header = new HashMap<>();
-		// TODO: when should this be used:
-		action.header.put("Authorization", "not:required");
-		actions.put(name, action);
+		switch (name) {
+		case "download": //$NON-NLS-1$
+			actions.put(name, repository.getDownloadAction(oid));
+			break;
+		case "upload": //$NON-NLS-1$
+			actions.put(name, repository.getUploadAction(oid));
+			break;
+		case "verify": //$NON-NLS-1$
+			actions.put(name, repository.getVerifyAction(oid));
+			break;
+		default:
+			// TODO: bad-request? what is github returning in such case?
+		}
 	}
 }

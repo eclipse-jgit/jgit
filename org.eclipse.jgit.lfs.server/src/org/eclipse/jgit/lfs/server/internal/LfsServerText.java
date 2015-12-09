@@ -58,6 +58,7 @@ public class LfsServerText extends TranslationBundle {
 	}
 
 	// @formatter:off
+	/***/ public String corruptLongObject;
 	/***/ public String invalidPathInfo;
 	/***/ public String objectNotFound;
 }

@@ -58,7 +58,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.http.HttpStatus;
 import org.eclipse.jgit.lfs.lib.AnyLongObjectId;
 import org.eclipse.jgit.lfs.lib.Constants;
-import org.eclipse.jgit.lfs.lib.PlainFSRepository;
 import org.eclipse.jgit.util.HttpSupport;
 
 /**

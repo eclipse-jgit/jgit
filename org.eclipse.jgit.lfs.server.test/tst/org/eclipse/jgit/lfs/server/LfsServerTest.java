@@ -76,7 +76,6 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jgit.junit.http.AppServer;
 import org.eclipse.jgit.lfs.lib.AnyLongObjectId;
 import org.eclipse.jgit.lfs.lib.Constants;
-import org.eclipse.jgit.lfs.lib.PlainFSRepository;
 import org.eclipse.jgit.lfs.lib.LongObjectId;
 import org.eclipse.jgit.lfs.test.LongObjectIdTestUtils;
 import org.eclipse.jgit.util.FileUtils;

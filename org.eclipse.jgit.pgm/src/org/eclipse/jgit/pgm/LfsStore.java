@@ -49,10 +49,10 @@ import java.nio.file.Paths;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jgit.junit.http.AppServer;
-import org.eclipse.jgit.lfs.lib.LargeFileRepository;
-import org.eclipse.jgit.lfs.lib.PlainFSRepository;
+import org.eclipse.jgit.lfs.server.LargeFileRepository;
 import org.eclipse.jgit.lfs.server.LargeObjectServlet;
 import org.eclipse.jgit.lfs.server.LfsProtocolServlet;
+import org.eclipse.jgit.lfs.server.PlainFSRepository;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 

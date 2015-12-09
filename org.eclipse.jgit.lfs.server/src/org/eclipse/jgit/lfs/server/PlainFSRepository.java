@@ -40,7 +40,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.eclipse.jgit.lfs.lib;
+package org.eclipse.jgit.lfs.server;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -54,11 +54,14 @@ import java.nio.file.StandardOpenOption;
 import java.security.DigestOutputStream;
 import java.text.MessageFormat;
 import java.util.HashMap;
-import java.util.Map;
 
 import org.eclipse.jgit.internal.storage.file.LockFile;
 import org.eclipse.jgit.lfs.errors.CorruptLongObjectException;
-import org.eclipse.jgit.lfs.internal.LfsText;
+import org.eclipse.jgit.lfs.lib.AnyLongObjectId;
+import org.eclipse.jgit.lfs.lib.Constants;
+import org.eclipse.jgit.lfs.lib.LongObjectId;
+import org.eclipse.jgit.lfs.server.Response.Action;
+import org.eclipse.jgit.lfs.server.internal.LfsServerText;
 import org.eclipse.jgit.util.FS;
 
 /**
@@ -119,7 +122,9 @@ public class PlainFSRepository implements LargeFileRepository {
 					} else {
 						abort();
 						throw new CorruptLongObjectException(id, contentHash,
-								MessageFormat.format(LfsText.get().corruptLongObject, contentHash, id));
+								MessageFormat.format(
+										LfsServerText.get().corruptLongObject,
+										contentHash, id));
 					}
 				}
 			} finally {
@@ -153,13 +158,26 @@ public class PlainFSRepository implements LargeFileRepository {
 	}
 
 	@Override
-	public String getUrl(AnyLongObjectId id) {
-		return url;
+	public Response.Action getDownloadAction(AnyLongObjectId id) {
+		return getAction(id);
 	}
 
 	@Override
-	public boolean exists(AnyLongObjectId id) {
-		return Files.exists(getPath(id));
+	public Action getUploadAction(AnyLongObjectId id) {
+		return getAction(id);
+	}
+
+	@Override
+	public Action getVerifyAction(AnyLongObjectId id) {
+		return getAction(id);
+	}
+
+	private Response.Action getAction(AnyLongObjectId id) {
+		Response.Action a = new Response.Action();
+		a.href = url + id.getName();
+		a.header = new HashMap<>();
+		a.header.put("Authorization", "not:required"); //$NON-NLS-1$ //$NON-NLS-2$
+		return a;
 	}
 
 	/**
@@ -168,14 +186,12 @@ public class PlainFSRepository implements LargeFileRepository {
 	 * @throws IOException
 	 */
 	public long getLength(AnyLongObjectId id) throws IOException {
-		return Files.size(getPath(id));
-	}
-
-	@Override
-	public Map<String, String> getHeaders(AnyLongObjectId id) {
-		Map<String, String> result = new HashMap<>();
-		result.put("Authorization", "not:required"); //$NON-NLS-1$ //$NON-NLS-2$
-		return result;
+		Path p = getPath(id);
+		if (Files.exists(p)) {
+			return Files.size(p);
+		} else {
+			return -1;
+		}
 	}
 
 	/**
