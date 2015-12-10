@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "27d6470d_cd24dce8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-12-10T08:06:51Z",
+      "side": 1,
+      "message": "How about extracting this in a variable and reuse it in the next statement?",
+      "range": {
+        "startLine": 463,
+        "startChar": 53,
+        "endLine": 464,
+        "endChar": 62
+      },
+      "revId": "0156e6631dc4a0b07e0263568d045952678515e7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27d6470d_f2397b8c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleWalk.java",
         "patchSetId": 1
