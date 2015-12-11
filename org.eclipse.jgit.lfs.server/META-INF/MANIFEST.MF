@@ -5,11 +5,9 @@ Bundle-SymbolicName: org.eclipse.jgit.lfs.server
 Bundle-Version: 4.2.0.qualifier
 Bundle-Localization: plugin
 Bundle-Vendor: %provider_name
-Export-Package: org.eclipse.jgit.lfs.server;version="4.2.0";
-  uses:="javax.servlet,
-   javax.servlet.http,
-   org.eclipse.jgit.lfs.lib",
- org.eclipse.jgit.lfs.server.internal;version="4.2.0";x-internal:=true
+Export-Package: org.eclipse.jgit.lfs.server;version="4.2.0";uses:="javax.servlet,javax.servlet.http,org.eclipse.jgit.lfs.lib",
+ org.eclipse.jgit.lfs.server.internal;version="4.2.0";x-internal:=true,
+ org.eclipse.jgit.lfs.server.s3
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Import-Package: com.google.gson;version="2.2.4",
  javax.servlet;version="[3.1.0,4.0.0)",

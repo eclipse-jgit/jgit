@@ -64,7 +64,7 @@ public class UploadTest extends LfsServerTest {
 		String TEXT = "test";
 		AnyLongObjectId id = putContent(TEXT);
 		assertTrue("expect object " + id.name() + " to exist",
-				repository.exists(id));
+				repository.getLength(id) >= 0);
 		assertEquals("expected object length " + TEXT.length(), TEXT.length(),
 				repository.getLength(id));
 	}
@@ -80,7 +80,7 @@ public class UploadTest extends LfsServerTest {
 			assertEquals("Status: 400. Bad Request", e.getMessage());
 		}
 		assertFalse("expect object " + id.name() + " not to exist",
-				repository.exists(id));
+				repository.getLength(id) >= 0);
 	}
 
 	@SuppressWarnings("boxing")
@@ -94,7 +94,7 @@ public class UploadTest extends LfsServerTest {
 				MessageFormat.format("uploaded 10 MiB random data in {0}ms",
 						(System.nanoTime() - start) / 1e6));
 		assertTrue("expect object " + id.name() + " to exist",
-				repository.exists(id));
+				repository.getLength(id) >= 0);
 		assertEquals("expected object length " + Files.size(f), Files.size(f),
 				repository.getLength(id));
 	}

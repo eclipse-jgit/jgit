@@ -53,21 +53,29 @@ public interface Response {
 	/**
 	 */
 	class Action {
-		String href;
-		Map<String, String> header;
+		public String href;
+		public Map<String, String> header;
+	}
+
+	/**
+	 */
+	class Error {
+		public int code;
+		public String message;
 	}
 
 	/**
 	 */
 	class ObjectInfo {
-		String oid;
-		long size;
-		Map<String, Action> actions;
+		public String oid;
+		public long size;
+		public Map<String, Action> actions;
+		public Error error;
 	}
 
 	/**
 	 */
 	class Body {
-		List<ObjectInfo> objects;
+		public List<ObjectInfo> objects;
 	}
 }

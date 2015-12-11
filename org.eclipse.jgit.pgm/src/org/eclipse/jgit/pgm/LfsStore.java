@@ -53,11 +53,19 @@ import org.eclipse.jgit.lfs.server.LargeFileRepository;
 import org.eclipse.jgit.lfs.server.LargeObjectServlet;
 import org.eclipse.jgit.lfs.server.LfsProtocolServlet;
 import org.eclipse.jgit.lfs.server.PlainFSRepository;
+import org.eclipse.jgit.lfs.server.s3.AmazonS3Repository;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
+import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.PropertiesFileCredentialsProvider;
+
 @Command(common = true, usage = "usage_runLfsStore")
 class LfsStore extends TextBuiltin {
+
+	static enum StoreType {
+		PLAINFS, S3;
+	}
 
 	private static final String OBJECTS = "objects/"; //$NON-NLS-1$
 	private static final String STORE_PATH = "/" + OBJECTS + "*"; //$NON-NLS-1$//$NON-NLS-2$
@@ -67,36 +75,43 @@ class LfsStore extends TextBuiltin {
 	@Option(name = "--port", aliases = { "-p" }, usage = "usage_LFSPort")
 	int port;
 
+	@Option(name = "--store", usage = "usage_LFSRunStore")
+	StoreType storeType;
+
 	@Option(name = "--store-url", aliases = { "-u" }, usage = "usage_LFSStoreUrl")
 	String storeUrl;
 
-	@Option(name = "--run-store", usage = "usage_LFSRunStore")
-	boolean runStore = true;
-
-	@Argument(required = true, metaVar = "metaVar_directory", usage = "usage_LFSDirectory")
+	@Argument(required = false, metaVar = "metaVar_directory", usage = "usage_LFSDirectory")
 	String directory;
 
 	String protocolUrl;
 
-	@Option(name = "--no-run-store", usage = "usage_LFSRunStore")
-	void setNoRunStore(@SuppressWarnings("unused") boolean ignored) {
-		runStore = false;
-	}
-
 	protected void run() throws Exception {
 		AppServer server = new AppServer(port);
 		ServletContextHandler app = server.addContext("/");
-		Path dir = Paths.get(directory);
 		LargeFileRepository repository;
 
-		if (runStore) {
+		switch (storeType) {
+		case PLAINFS:
+			Path dir = Paths.get(directory);
 			PlainFSRepository plainFSRepo = new PlainFSRepository(getStoreUrl(),
 					dir);
 			LargeObjectServlet content = new LargeObjectServlet(plainFSRepo, 30000);
 			app.addServlet(new ServletHolder(content), STORE_PATH);
 			repository = plainFSRepo;
-		} else {
-			repository = getLargeFileRepository();
+			break;
+
+		case S3:
+			String home = System.getProperty("user.home"); //$NON-NLS-1$
+			AWSCredentials credentials = new PropertiesFileCredentialsProvider(
+					home + "/.aws/credentials").getCredentials(); //$NON-NLS-1$
+			repository = new AmazonS3Repository("eu-central-1", //$NON-NLS-1$
+					"test-gerrit-lfs", //$NON-NLS-1$
+					credentials, 300);
+			break;
+		default:
+			throw new IllegalArgumentException(
+					"Unknown store type: " + storeType); //$NON-NLS-1$
 		}
 
 		LfsProtocolServlet protocol = new LfsProtocolServlet(repository);
@@ -104,20 +119,20 @@ class LfsStore extends TextBuiltin {
 
 		server.setUp();
 
-		if (runStore) {
-		  outw.println("LFS objects located in: " + directory);
+		outw.println("LFS protocol URL: " + getProtocolUrl()); //$NON-NLS-1$
+		if (storeType == StoreType.PLAINFS) {
+			outw.println("LFS objects located in: " + directory); //$NON-NLS-1$
+			outw.println("LFS store URL: " + getStoreUrl()); //$NON-NLS-1$
 		}
-		outw.println("LFS store URL: " + getStoreUrl());
-		outw.println("LFS protocol URL: " + getProtocolUrl());
 	}
 
 	private String getStoreUrl() {
 		if (storeUrl == null) {
-			if (runStore) {
+			if (storeType == StoreType.PLAINFS) {
 				// TODO: get real host name from the OS
-				storeUrl = "http://localhost:" + port + "/" + OBJECTS;
+				storeUrl = "http://localhost:" + port + "/" + OBJECTS; //$NON-NLS-1$ //$NON-NLS-2$
 			} else {
-				die("Local store not running and no --store-url specified");
+				die("Local store not running and no --store-url specified"); //$NON-NLS-1$
 			}
 		}
 		return storeUrl;
@@ -128,9 +143,5 @@ class LfsStore extends TextBuiltin {
 			protocolUrl = "http://localhost:" + port + PROTOCOL_PATH;
 		}
 		return protocolUrl;
-	}
-
-	private LargeFileRepository getLargeFileRepository() {
-		throw new UnsupportedOperationException("not yet implemented");
 	}
 }

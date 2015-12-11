@@ -130,29 +130,21 @@ public class LfsProtocolServlet extends HttpServlet {
 		GsonBuilder gb = new GsonBuilder()
 				.setFieldNamingPolicy(
 						FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-				.setPrettyPrinting();
+				.setPrettyPrinting().disableHtmlEscaping();
 
 		Gson gson = gb.create();
 		Reader r = new BufferedReader(new InputStreamReader(req.getInputStream(), UTF_8));
 		LfsRequest request = gson.fromJson(r, LfsRequest.class);
 
-		Response.Body body;
-		if ("upload".equals(request.operation)
-				|| "download".equals(request.operation)) {
-
-			LargeFileRepository repo = getLargeFileRepository();
-			if (repo == null) {
-				res.setStatus(SC_SERVICE_UNAVAILABLE);
-				return;
-			}
-
-			body = new TransferHandler(repo, request.objects).process();
-		} else {
-			throw new UnsupportedOperationException(
-					request.operation + " not supported");
+		LargeFileRepository repo = getLargeFileRepository();
+		if (repo == null) {
+			res.setStatus(SC_SERVICE_UNAVAILABLE);
+			return;
 		}
 
-		gson.toJson(body, w);
+		TransferHandler handler = TransferHandler
+				.forOperation(request.operation, repo, request.objects);
+		gson.toJson(handler.process(), w);
 		w.flush();
 	}
 }

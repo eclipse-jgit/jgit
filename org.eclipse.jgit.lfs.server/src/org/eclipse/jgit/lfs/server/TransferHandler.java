@@ -43,62 +43,119 @@
 
 package org.eclipse.jgit.lfs.server;
 
+import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
+
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.jgit.lfs.lib.LongObjectId;
+import org.eclipse.jgit.lfs.server.Response.Action;
+import org.eclipse.jgit.lfs.server.Response.Body;
+import org.eclipse.jgit.lfs.server.internal.LfsServerText;
 
-class TransferHandler {
+abstract class TransferHandler {
 
-	private static final String DOWNLOAD = "download"; //$NON-NLS-1$
-	private static final String UPLOAD = "upload"; //$NON-NLS-1$
+	static final String DOWNLOAD = "download"; //$NON-NLS-1$
 
-	private final LargeFileRepository repository;
-	private final List<LfsObject> objects;
+	static final String UPLOAD = "upload"; //$NON-NLS-1$
 
-	TransferHandler(LargeFileRepository repository, List<LfsObject> objects) {
+	static final String VERIFY = "verify"; //$NON-NLS-1$
+
+	static TransferHandler forOperation(String operation,
+			LargeFileRepository repository, List<LfsObject> objects) {
+		switch (operation) {
+		case TransferHandler.UPLOAD:
+			return new Upload(repository, objects);
+		case TransferHandler.DOWNLOAD:
+			return new Download(repository, objects);
+		case TransferHandler.VERIFY:
+		default:
+			throw new UnsupportedOperationException(
+					operation + " not supported");
+		}
+	}
+
+	protected final LargeFileRepository repository;
+	protected final List<LfsObject> objects;
+
+	protected TransferHandler(LargeFileRepository repository,
+			List<LfsObject> objects) {
 		this.repository = repository;
 		this.objects = objects;
 	}
 
-	Response.Body process() throws IOException {
-		Response.Body body = new Response.Body();
-		if (objects.size() > 0) {
-			body.objects = new ArrayList<>();
-			for (LfsObject o : objects) {
-				Response.ObjectInfo info = new Response.ObjectInfo();
-				body.objects.add(info);
-				info.oid = o.oid;
-				info.size = o.size;
-				info.actions = new HashMap<>();
+	protected abstract Response.Body process() throws IOException;
 
-				LongObjectId oid = LongObjectId.fromString(o.oid);
-				addAction(UPLOAD, oid, info.actions);
-				if (repository.getLength(oid) >= 0) {
-					addAction(DOWNLOAD, oid, info.actions);
+	private static class Upload extends TransferHandler {
+
+		protected Upload(LargeFileRepository repository,
+				List<LfsObject> objects) {
+			super(repository, objects);
+		}
+
+		@Override
+		protected Body process() throws IOException {
+			Response.Body body = new Response.Body();
+			if (objects.size() > 0) {
+				body.objects = new ArrayList<>();
+				for (LfsObject o : objects) {
+					Response.ObjectInfo info = new Response.ObjectInfo();
+					body.objects.add(info);
+					info.oid = o.oid;
+					info.size = o.size;
+
+					LongObjectId oid = LongObjectId.fromString(o.oid);
+					if (repository.getLength(oid) == -1) {
+						info.actions = new HashMap<>();
+						info.actions.put(UPLOAD,
+								repository.getUploadAction(oid));
+						Action verify = repository.getVerifyAction(oid);
+						if (verify != null) {
+							info.actions.put(VERIFY, verify);
+						}
+					}
 				}
 			}
+			return body;
 		}
-		return body;
 	}
 
-	private void addAction(String name, LongObjectId oid,
-			Map<String, Response.Action> actions) {
-		switch (name) {
-		case "download": //$NON-NLS-1$
-			actions.put(name, repository.getDownloadAction(oid));
-			break;
-		case "upload": //$NON-NLS-1$
-			actions.put(name, repository.getUploadAction(oid));
-			break;
-		case "verify": //$NON-NLS-1$
-			actions.put(name, repository.getVerifyAction(oid));
-			break;
-		default:
-			// TODO: bad-request? what is github returning in such case?
+	private static class Download extends TransferHandler {
+
+		protected Download(LargeFileRepository repository,
+				List<LfsObject> objects) {
+			super(repository, objects);
+		}
+
+		@Override
+		protected Body process() throws IOException {
+			Response.Body body = new Response.Body();
+			if (objects.size() > 0) {
+				body.objects = new ArrayList<>();
+				for (LfsObject o : objects) {
+					Response.ObjectInfo info = new Response.ObjectInfo();
+					body.objects.add(info);
+					info.oid = o.oid;
+					info.size = o.size;
+
+					LongObjectId oid = LongObjectId.fromString(o.oid);
+					if (repository.getLength(oid) >= 0) {
+						info.actions = new HashMap<>();
+						info.actions.put(DOWNLOAD,
+								repository.getDownloadAction(oid));
+					} else {
+						info.error = new Response.Error();
+						info.error.code = SC_NOT_FOUND;
+						info.error.message = MessageFormat.format(
+								LfsServerText.get().objectNotFound,
+								oid.getName());
+					}
+				}
+			}
+			return body;
 		}
 	}
 }
