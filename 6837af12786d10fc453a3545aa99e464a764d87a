@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "27d6470d_a58fa801",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 32011
+      },
+      "writtenOn": "2015-12-12T10:31:36Z",
+      "side": 1,
+      "message": "I think a fix is needed for misleading comments regarding BaseRepositoryBuilder.bare field and its counterpart in this change. While inspecting the behaviour of this field i\u0027ve observed that\nnew RepositoryBuilder().setGitDir(SOME_DIR).setup().isBare() returns true (for SOME_DIR !\u003d “.git”) which contradicts with virtually all the comments and javadoc stating that this field is true only if forced. While apparently the reason for this behaviour is setBare fallback in BaseRepositoryBuilder.guessWorkTreeOrFail, i believe the behaviour is correct (at least similar to original git implementation) and it is the documentation and comments that should be changed.",
+      "range": {
+        "startLine": 129,
+        "startChar": 5,
+        "endLine": 129,
+        "endChar": 58
+      },
+      "revId": "6837af12786d10fc453a3545aa99e464a764d87a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27d6470d_a6727204",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 1
@@ -13,6 +36,30 @@
       "writtenOn": "2015-12-03T13:01:25Z",
       "side": 1,
       "message": "we have a field \"bare\" now but the method \"isBare()\" is not using it. Strange",
+      "range": {
+        "startLine": 1338,
+        "startChar": 2,
+        "endLine": 1338,
+        "endChar": 25
+      },
+      "revId": "6837af12786d10fc453a3545aa99e464a764d87a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_8592a426",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1338,
+      "author": {
+        "id": 32011
+      },
+      "writtenOn": "2015-12-12T10:31:36Z",
+      "side": 1,
+      "message": "Thanks, it’s a very good point in fact. I hadn’t put much thought on it initially but now i agree, it’s really strange. The issue is, from Repository class point of view, we have no control over the abstract create(bare) function, and it should alter what isBare will return subsequently. Or should it? I have no idea what repo.isBare() should return in ambiguous cases like after the code below.\n\nRepository repo \u003d new RepositoryBuilder().setWorkTree(dir).build();\nrepo.create(true);\n\nFurthermore, concrete classes implementing this function have two potentially contradicting sources to test bare. One is the function argument and the other is isBare method. And of course FileRepository class uses both :). I naively wish create(bare) function would have never existed or at least been protected, but since it exists and public and we have backwards compatibility burden on our back, only option i can come up with is this \"minimally invasive\" solution of NOT adding bare field to Repository class and using create(isBare()) in create() method.",
+      "parentUuid": "27d6470d_a6727204",
       "range": {
         "startLine": 1338,
         "startChar": 2,
