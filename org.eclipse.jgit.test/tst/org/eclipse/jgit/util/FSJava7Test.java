@@ -57,6 +57,7 @@ import java.util.Set;
 
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.junit.After;
+import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -87,6 +88,7 @@ public class FSJava7Test {
 	 */
 	@Test
 	public void testSymlinkAttributes() throws IOException, InterruptedException {
+		Assume.assumeTrue(FS.DETECTED.supportsSymlinks());
 		FS fs = FS.DETECTED;
 		File link = new File(trash, "ä");
 		File target = new File(trash, "å");

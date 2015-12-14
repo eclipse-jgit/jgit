@@ -52,15 +52,16 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.eclipse.jgit.junit.JGitTestUtil;
+import org.eclipse.jgit.util.FS.ExecutionResult;
 import org.junit.Before;
 import org.junit.Test;
 
 public class RunExternalScriptTest {
+	private static final String LF = "\n";
+
 	private ByteArrayOutputStream out;
 
 	private ByteArrayOutputStream err;
-
-	private String sep = System.getProperty("line.separator");
 
 	@Before
 	public void setUp() throws Exception {
@@ -73,7 +74,7 @@ public class RunExternalScriptTest {
 		String inputStr = "a\nb\rc\r\nd";
 		File script = writeTempFile("cat -");
 		int rc = FS.DETECTED.runProcess(
-				new ProcessBuilder("/bin/sh", script.getPath()), out, err,
+				new ProcessBuilder("sh", script.getPath()), out, err,
 				new ByteArrayInputStream(inputStr.getBytes()));
 		assertEquals(0, rc);
 		assertEquals(inputStr, new String(out.toByteArray()));
@@ -84,7 +85,7 @@ public class RunExternalScriptTest {
 	public void testCopyNullStdIn() throws IOException, InterruptedException {
 		File script = writeTempFile("cat -");
 		int rc = FS.DETECTED.runProcess(
-				new ProcessBuilder("/bin/sh", script.getPath()), out, err,
+				new ProcessBuilder("sh", script.getPath()), out, err,
 				(InputStream) null);
 		assertEquals(0, rc);
 		assertEquals("", new String(out.toByteArray()));
@@ -94,7 +95,8 @@ public class RunExternalScriptTest {
 	@Test
 	public void testArguments() throws IOException, InterruptedException {
 		File script = writeTempFile("echo $#,$1,$2,$3,$4,$5,$6");
-		int rc = FS.DETECTED.runProcess(new ProcessBuilder("/bin/bash",
+		int rc = FS.DETECTED.runProcess(
+				new ProcessBuilder("sh",
 				script.getPath(), "a", "b", "c"), out, err, (InputStream) null);
 		assertEquals(0, rc);
 		assertEquals("3,a,b,c,,,\n", new String(out.toByteArray()));
@@ -105,7 +107,7 @@ public class RunExternalScriptTest {
 	public void testRc() throws IOException, InterruptedException {
 		File script = writeTempFile("exit 3");
 		int rc = FS.DETECTED.runProcess(
-				new ProcessBuilder("/bin/sh", script.getPath(), "a", "b", "c"),
+				new ProcessBuilder("sh", script.getPath(), "a", "b", "c"),
 				out, err, (InputStream) null);
 		assertEquals(3, rc);
 		assertEquals("", new String(out.toByteArray()));
@@ -116,7 +118,7 @@ public class RunExternalScriptTest {
 	public void testNullStdout() throws IOException, InterruptedException {
 		File script = writeTempFile("echo hi");
 		int rc = FS.DETECTED.runProcess(
-				new ProcessBuilder("/bin/sh", script.getPath()), null, err,
+				new ProcessBuilder("sh", script.getPath()), null, err,
 				(InputStream) null);
 		assertEquals(0, rc);
 		assertEquals("", new String(out.toByteArray()));
@@ -127,11 +129,11 @@ public class RunExternalScriptTest {
 	public void testStdErr() throws IOException, InterruptedException {
 		File script = writeTempFile("echo hi >&2");
 		int rc = FS.DETECTED.runProcess(
-				new ProcessBuilder("/bin/sh", script.getPath()), null, err,
+				new ProcessBuilder("sh", script.getPath()), null, err,
 				(InputStream) null);
 		assertEquals(0, rc);
 		assertEquals("", new String(out.toByteArray()));
-		assertEquals("hi" + sep, new String(err.toByteArray()));
+		assertEquals("hi" + LF, new String(err.toByteArray()));
 	}
 
 	@Test
@@ -139,11 +141,11 @@ public class RunExternalScriptTest {
 		String inputStr = "a\nb\rc\r\nd";
 		File script = writeTempFile("echo $#,$1,$2,$3,$4,$5,$6 >&2 ; cat -; exit 5");
 		int rc = FS.DETECTED.runProcess(
-				new ProcessBuilder("/bin/sh", script.getPath(), "a", "b", "c"),
+				new ProcessBuilder("sh", script.getPath(), "a", "b", "c"),
 				out, err, new ByteArrayInputStream(inputStr.getBytes()));
 		assertEquals(5, rc);
 		assertEquals(inputStr, new String(out.toByteArray()));
-		assertEquals("3,a,b,c,,," + sep, new String(err.toByteArray()));
+		assertEquals("3,a,b,c,,," + LF, new String(err.toByteArray()));
 	}
 
 	@Test(expected = IOException.class)
@@ -158,9 +160,48 @@ public class RunExternalScriptTest {
 	public void testWrongScript() throws IOException, InterruptedException {
 		File script = writeTempFile("cat-foo -");
 		int rc = FS.DETECTED.runProcess(
-				new ProcessBuilder("/bin/sh", script.getPath(), "a", "b", "c"),
+				new ProcessBuilder("sh", script.getPath(), "a", "b", "c"),
 				out, err, (InputStream) null);
 		assertEquals(127, rc);
+	}
+
+	@Test
+	public void testCopyStdInExecute()
+			throws IOException, InterruptedException {
+		String inputStr = "a\nb\rc\r\nd";
+		File script = writeTempFile("cat -");
+		ProcessBuilder pb = new ProcessBuilder("sh", script.getPath());
+		ExecutionResult res = FS.DETECTED.execute(pb,
+				new ByteArrayInputStream(inputStr.getBytes()));
+		assertEquals(0, res.getRc());
+		assertEquals(inputStr, new String(res.getStdout().toByteArray()));
+		assertEquals("", new String(res.getStderr().toByteArray()));
+	}
+
+	@Test
+	public void testStdErrExecute() throws IOException, InterruptedException {
+		File script = writeTempFile("echo hi >&2");
+		ProcessBuilder pb = new ProcessBuilder("sh", script.getPath());
+		ExecutionResult res = FS.DETECTED.execute(pb, null);
+		assertEquals(0, res.getRc());
+		assertEquals("", new String(res.getStdout().toByteArray()));
+		assertEquals("hi" + LF, new String(res.getStderr().toByteArray()));
+	}
+
+	@Test
+	public void testAllTogetherBinExecute()
+			throws IOException, InterruptedException {
+		String inputStr = "a\nb\rc\r\nd";
+		File script = writeTempFile(
+				"echo $#,$1,$2,$3,$4,$5,$6 >&2 ; cat -; exit 5");
+		ProcessBuilder pb = new ProcessBuilder("sh", script.getPath(), "a",
+				"b", "c");
+		ExecutionResult res = FS.DETECTED.execute(pb,
+				new ByteArrayInputStream(inputStr.getBytes()));
+		assertEquals(5, res.getRc());
+		assertEquals(inputStr, new String(res.getStdout().toByteArray()));
+		assertEquals("3,a,b,c,,," + LF,
+				new String(res.getStderr().toByteArray()));
 	}
 
 	private File writeTempFile(String body) throws IOException {

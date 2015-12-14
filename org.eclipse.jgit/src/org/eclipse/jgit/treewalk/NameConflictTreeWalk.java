@@ -96,7 +96,7 @@ public class NameConflictTreeWalk extends TreeWalk {
 	 *            the repository the walker will obtain data from.
 	 */
 	public NameConflictTreeWalk(final Repository repo) {
-		this(repo.newObjectReader());
+		super(repo);
 	}
 
 	/**

@@ -44,6 +44,9 @@
 
 package org.eclipse.jgit.dircache;
 
+import static org.eclipse.jgit.lib.FileMode.TYPE_MASK;
+import static org.eclipse.jgit.lib.FileMode.TYPE_TREE;
+
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.Arrays;
@@ -51,9 +54,7 @@ import java.util.Arrays;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
-import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
-import org.eclipse.jgit.treewalk.TreeWalk;
 
 /**
  * Updates a {@link DirCache} by adding individual {@link DirCacheEntry}s.
@@ -102,8 +103,9 @@ public class DirCacheBuilder extends BaseDirCacheEditor {
 	 */
 	public void add(final DirCacheEntry newEntry) {
 		if (newEntry.getRawMode() == 0)
-			throw new IllegalArgumentException(MessageFormat.format(JGitText.get().fileModeNotSetForPath
-					, newEntry.getPathString()));
+			throw new IllegalArgumentException(MessageFormat.format(
+					JGitText.get().fileModeNotSetForPath,
+					newEntry.getPathString()));
 		beforeAdd(newEntry);
 		fastAdd(newEntry);
 	}
@@ -162,27 +164,56 @@ public class DirCacheBuilder extends BaseDirCacheEditor {
 	 * @throws IOException
 	 *             a tree cannot be read to iterate through its entries.
 	 */
-	public void addTree(final byte[] pathPrefix, final int stage,
-			final ObjectReader reader, final AnyObjectId tree) throws IOException {
-		final TreeWalk tw = new TreeWalk(reader);
-		tw.addTree(new CanonicalTreeParser(pathPrefix, reader, tree
-				.toObjectId()));
-		tw.setRecursive(true);
-		if (tw.next()) {
-			final DirCacheEntry newEntry = toEntry(stage, tw);
-			beforeAdd(newEntry);
-			fastAdd(newEntry);
-			while (tw.next())
-				fastAdd(toEntry(stage, tw));
+	public void addTree(byte[] pathPrefix, int stage, ObjectReader reader,
+			AnyObjectId tree) throws IOException {
+		CanonicalTreeParser p = createTreeParser(pathPrefix, reader, tree);
+		while (!p.eof()) {
+			if (isTree(p)) {
+				p = enterTree(p, reader);
+				continue;
+			}
+
+			DirCacheEntry first = toEntry(stage, p);
+			beforeAdd(first);
+			fastAdd(first);
+			p = p.next();
+			break;
+		}
+
+		// Rest of tree entries are correctly sorted; use fastAdd().
+		while (!p.eof()) {
+			if (isTree(p)) {
+				p = enterTree(p, reader);
+			} else {
+				fastAdd(toEntry(stage, p));
+				p = p.next();
+			}
 		}
 	}
 
-	private DirCacheEntry toEntry(final int stage, final TreeWalk tw) {
-		final DirCacheEntry e = new DirCacheEntry(tw.getRawPath(), stage);
-		final AbstractTreeIterator i;
+	private static CanonicalTreeParser createTreeParser(byte[] pathPrefix,
+			ObjectReader reader, AnyObjectId tree) throws IOException {
+		return new CanonicalTreeParser(pathPrefix, reader, tree);
+	}
 
-		i = tw.getTree(0, AbstractTreeIterator.class);
-		e.setFileMode(tw.getFileMode(0));
+	private static boolean isTree(CanonicalTreeParser p) {
+		return (p.getEntryRawMode() & TYPE_MASK) == TYPE_TREE;
+	}
+
+	private static CanonicalTreeParser enterTree(CanonicalTreeParser p,
+			ObjectReader reader) throws IOException {
+		p = p.createSubtreeIterator(reader);
+		return p.eof() ? p.next() : p;
+	}
+
+	private static DirCacheEntry toEntry(int stage, CanonicalTreeParser i) {
+		byte[] buf = i.getEntryPathBuffer();
+		int len = i.getEntryPathLength();
+		byte[] path = new byte[len];
+		System.arraycopy(buf, 0, path, 0, len);
+
+		DirCacheEntry e = new DirCacheEntry(path, stage);
+		e.setFileMode(i.getEntryRawMode());
 		e.setObjectIdFromRaw(i.idBuffer(), i.idOffset());
 		return e;
 	}
@@ -242,9 +273,9 @@ public class DirCacheBuilder extends BaseDirCacheEditor {
 		sorted = true;
 	}
 
-	private static IllegalStateException bad(final DirCacheEntry a,
-			final String msg) {
-		return new IllegalStateException(msg + ": " + a.getStage() + " " //$NON-NLS-1$ //$NON-NLS-2$
-				+ a.getPathString());
+	private static IllegalStateException bad(DirCacheEntry a, String msg) {
+		return new IllegalStateException(String.format(
+				"%s: %d %s", //$NON-NLS-1$
+				msg, Integer.valueOf(a.getStage()), a.getPathString()));
 	}
 }

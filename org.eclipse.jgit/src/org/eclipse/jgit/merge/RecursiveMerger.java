@@ -57,8 +57,6 @@ import java.util.List;
 import java.util.TimeZone;
 
 import org.eclipse.jgit.dircache.DirCache;
-import org.eclipse.jgit.dircache.DirCacheBuilder;
-import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.NoMergeBaseException;
 import org.eclipse.jgit.internal.JGitText;
@@ -70,7 +68,6 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.EmptyTreeIterator;
-import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.WorkingTreeIterator;
 
 /**
@@ -181,7 +178,7 @@ public class RecursiveMerger extends ResolveMerger {
 		WorkingTreeIterator oldWTreeIt = workingTreeIterator;
 		workingTreeIterator = null;
 		try {
-			dircache = dircacheFromTree(currentBase.getTree());
+			dircache = DirCache.read(reader, currentBase.getTree());
 			inCore = true;
 
 			List<RevCommit> parents = new ArrayList<RevCommit>();
@@ -255,31 +252,5 @@ public class RecursiveMerger extends ResolveMerger {
 				name, name + "@JGit", //$NON-NLS-1$
 				new Date((time + 1) * 1000L),
 				TimeZone.getTimeZone("GMT+0000")); //$NON-NLS-1$
-	}
-
-	/**
-	 * Create a new in memory dircache which has the same content as a given
-	 * tree.
-	 *
-	 * @param treeId
-	 *            the tree which should be used to fill the dircache
-	 * @return a new in memory dircache
-	 * @throws IOException
-	 */
-	private DirCache dircacheFromTree(ObjectId treeId) throws IOException {
-		DirCache ret = DirCache.newInCore();
-		DirCacheBuilder aBuilder = ret.builder();
-		try (TreeWalk atw = new TreeWalk(reader)) {
-			atw.addTree(treeId);
-			atw.setRecursive(true);
-			while (atw.next()) {
-				DirCacheEntry e = new DirCacheEntry(atw.getRawPath());
-				e.setFileMode(atw.getFileMode(0));
-				e.setObjectId(atw.getObjectId(0));
-				aBuilder.add(e);
-			}
-		}
-		aBuilder.finish();
-		return ret;
 	}
 }

@@ -162,17 +162,15 @@ public class FS_Win32_Cygwin extends FS_Win32 {
 				errRedirect, stdinArgs);
 	}
 
-	@Override
-	public boolean supportsSymlinks() {
-		return true;
-	}
-
 	/**
 	 * @since 3.7
 	 */
 	@Override
 	public File findHook(Repository repository, String hookName) {
 		final File gitdir = repository.getDirectory();
+		if (gitdir == null) {
+			return null;
+		}
 		final Path hookPath = gitdir.toPath().resolve(Constants.HOOKS)
 				.resolve(hookName);
 		if (Files.isExecutable(hookPath))

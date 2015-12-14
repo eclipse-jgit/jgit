@@ -137,7 +137,11 @@ public class URIish implements Serializable {
 			+ OPT_PORT_P //
 			+ "(" // open a group capturing the user-home-dir-part //$NON-NLS-1$
 			+ (USER_HOME_P + "?") //$NON-NLS-1$
-			+ "[\\\\/])" //$NON-NLS-1$
+			+ "(?:" // start non capturing group for host //$NON-NLS-1$
+					// separator or end of line
+			+ "[\\\\/])|$" //$NON-NLS-1$
+			+ ")" // close non capturing group for the host//$NON-NLS-1$
+					// separator or end of line
 			+ ")?" // close the optional group containing hostname //$NON-NLS-1$
 			+ "(.+)?" //$NON-NLS-1$
 			+ "$"); //$NON-NLS-1$
@@ -593,6 +597,8 @@ public class URIish implements Serializable {
 	private static boolean eq(final String a, final String b) {
 		if (a == b)
 			return true;
+		if (StringUtils.isEmptyOrNull(a) && StringUtils.isEmptyOrNull(b))
+			return true;
 		if (a == null || b == null)
 			return false;
 		return a.equals(b);
@@ -638,7 +644,7 @@ public class URIish implements Serializable {
 
 		if (getPath() != null) {
 			if (getScheme() != null) {
-				if (!getPath().startsWith("/")) //$NON-NLS-1$
+				if (!getPath().startsWith("/") && !getPath().isEmpty()) //$NON-NLS-1$
 					r.append('/');
 			} else if (getHost() != null)
 				r.append(':');
@@ -709,9 +715,9 @@ public class URIish implements Serializable {
 	 */
 	public String getHumanishName() throws IllegalArgumentException {
 		String s = getPath();
-		if ("/".equals(s)) //$NON-NLS-1$
+		if ("/".equals(s) || "".equals(s)) //$NON-NLS-1$
 			s = getHost();
-		if ("".equals(s) || s == null) //$NON-NLS-1$
+		if (s == null) // $NON-NLS-1$
 			throw new IllegalArgumentException();
 
 		String[] elements;

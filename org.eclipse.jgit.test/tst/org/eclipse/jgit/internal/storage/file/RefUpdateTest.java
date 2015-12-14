@@ -347,7 +347,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		Result update = updateRef.update();
 		assertEquals(Result.FORCED, update);
 		assertEquals(ppid, db.resolve("HEAD"));
-		Ref ref = db.getRef("HEAD");
+		Ref ref = db.exactRef("HEAD");
 		assertEquals("HEAD", ref.getName());
 		assertTrue("is detached", !ref.isSymbolic());
 
@@ -377,7 +377,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		Result update = updateRef.update();
 		assertEquals(Result.NEW, update);
 		assertEquals(ppid, db.resolve("HEAD"));
-		Ref ref = db.getRef("HEAD");
+		Ref ref = db.exactRef("HEAD");
 		assertEquals("HEAD", ref.getName());
 		assertTrue("is detached", !ref.isSymbolic());
 
@@ -681,13 +681,13 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 	public void testRenameBranchAlsoInPack() throws IOException {
 		ObjectId rb = db.resolve("refs/heads/b");
 		ObjectId rb2 = db.resolve("refs/heads/b~1");
-		assertEquals(Ref.Storage.PACKED, db.getRef("refs/heads/b").getStorage());
+		assertEquals(Ref.Storage.PACKED, db.exactRef("refs/heads/b").getStorage());
 		RefUpdate updateRef = db.updateRef("refs/heads/b");
 		updateRef.setNewObjectId(rb2);
 		updateRef.setForceUpdate(true);
 		Result update = updateRef.update();
 		assertEquals("internal check new ref is loose", Result.FORCED, update);
-		assertEquals(Ref.Storage.LOOSE, db.getRef("refs/heads/b").getStorage());
+		assertEquals(Ref.Storage.LOOSE, db.exactRef("refs/heads/b").getStorage());
 		writeReflog(db, rb, "Just a message", "refs/heads/b");
 		assertTrue("log on old branch", new File(db.getDirectory(),
 				"logs/refs/heads/b").exists());

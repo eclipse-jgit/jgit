@@ -48,6 +48,7 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.jgit.diff.DiffEntry.ChangeType;
@@ -224,6 +225,19 @@ public class RenameDetectorTest extends RepositoryTestCase {
 		assertRename(d, c, 100, entries.get(0));
 		assertCopy(d, a, 100, entries.get(1));
 		assertCopy(d, b, 100, entries.get(2));
+	}
+
+	@Test
+	public void testExactRename_UnstagedFile() throws Exception {
+		ObjectId aId = blob("foo");
+		DiffEntry a = DiffEntry.delete(PATH_A, aId);
+		DiffEntry b = DiffEntry.add(PATH_B, aId);
+
+		rd.addAll(Arrays.asList(a, b));
+		List<DiffEntry> entries = rd.compute();
+
+		assertEquals(1, entries.size());
+		assertRename(a, b, 100, entries.get(0));
 	}
 
 	@Test
@@ -424,6 +438,23 @@ public class RenameDetectorTest extends RepositoryTestCase {
 
 		// Deletes should be first
 		List<DiffEntry> entries = rd.compute();
+		assertEquals(2, entries.size());
+		assertSame(a, entries.get(0));
+		assertSame(b, entries.get(1));
+	}
+
+	@Test
+	public void testNoRenames_UntrackedFile() throws Exception {
+		ObjectId aId = blob("foo");
+		ObjectId bId = ObjectId
+				.fromString("3049eb6eee7e1318f4e78e799bf33f1e54af9cbf");
+
+		DiffEntry a = DiffEntry.delete(PATH_A, aId);
+		DiffEntry b = DiffEntry.add(PATH_B, bId);
+
+		rd.addAll(Arrays.asList(a, b));
+		List<DiffEntry> entries = rd.compute();
+
 		assertEquals(2, entries.size());
 		assertSame(a, entries.get(0));
 		assertSame(b, entries.get(1));

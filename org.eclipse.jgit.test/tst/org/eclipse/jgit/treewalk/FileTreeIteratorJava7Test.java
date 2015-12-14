@@ -67,6 +67,7 @@ import org.junit.Test;
 public class FileTreeIteratorJava7Test extends RepositoryTestCase {
 	@Test
 	public void testFileModeSymLinkIsNotATree() throws IOException {
+		org.junit.Assume.assumeTrue(FS.DETECTED.supportsSymlinks());
 		FS fs = db.getFS();
 		// mål = target in swedish, just to get som unicode in here
 		writeTrashFile("mål/data", "targetdata");
@@ -163,6 +164,7 @@ public class FileTreeIteratorJava7Test extends RepositoryTestCase {
 	 */
 	@Test
 	public void testSymlinkActuallyModified() throws Exception {
+		org.junit.Assume.assumeTrue(FS.DETECTED.supportsSymlinks());
 		final String NORMALIZED = "target";
 		final byte[] NORMALIZED_BYTES = Constants.encode(NORMALIZED);
 		try (ObjectInserter oi = db.newObjectInserter()) {

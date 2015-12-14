@@ -76,7 +76,7 @@ public class SquashMessageFormatterTest extends SampleDataRepositoryTestCase {
 		Git git = new Git(db);
 		revCommit = git.commit().setMessage("squash_me").call();
 
-		Ref master = db.getRef("refs/heads/master");
+		Ref master = db.exactRef("refs/heads/master");
 		String message = msgFormatter.format(Arrays.asList(revCommit), master);
 		assertEquals(
 				"Squashed commit of the following:\n\ncommit "

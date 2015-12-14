@@ -117,9 +117,12 @@ class RebuildCommitGraph extends TextBuiltin {
 	@Override
 	protected void run() throws Exception {
 		if (!really && !db.getRefDatabase().getRefs(ALL).isEmpty()) {
+			File directory = db.getDirectory();
+			String absolutePath = directory == null ? "null" //$NON-NLS-1$
+					: directory.getAbsolutePath();
 			errw.println(
 				MessageFormat.format(CLIText.get().fatalThisProgramWillDestroyTheRepository
-					, db.getDirectory().getAbsolutePath(), REALLY));
+					, absolutePath, REALLY));
 			throw die(CLIText.get().needApprovalToDestroyCurrentRepository);
 		}
 		if (!refList.isFile())

@@ -47,6 +47,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.text.MessageFormat;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -183,6 +184,7 @@ class PushProcess {
 
 	private Map<String, RemoteRefUpdate> prepareRemoteUpdates()
 			throws TransportException {
+		boolean atomic = transport.isPushAtomic();
 		final Map<String, RemoteRefUpdate> result = new HashMap<String, RemoteRefUpdate>();
 		for (final RemoteRefUpdate rru : toPush.values()) {
 			final Ref advertisedRef = connection.getRef(rru.getRemoteName());
@@ -205,7 +207,13 @@ class PushProcess {
 			if (rru.isExpectingOldObjectId()
 					&& !rru.getExpectedOldObjectId().equals(advertisedOld)) {
 				rru.setStatus(Status.REJECTED_REMOTE_CHANGED);
+				if (atomic) {
+					return rejectAll();
+				}
 				continue;
+			}
+			if (!rru.isExpectingOldObjectId()) {
+				rru.setExpectedOldObjectId(advertisedOld);
 			}
 
 			// create ref (hasn't existed on remote side) and delete ref
@@ -236,12 +244,26 @@ class PushProcess {
 						JGitText.get().readingObjectsFromLocalRepositoryFailed, x.getMessage()), x);
 			}
 			rru.setFastForward(fastForward);
-			if (!fastForward && !rru.isForceUpdate())
+			if (!fastForward && !rru.isForceUpdate()) {
 				rru.setStatus(Status.REJECTED_NONFASTFORWARD);
-			else
+				if (atomic) {
+					return rejectAll();
+				}
+			} else {
 				result.put(rru.getRemoteName(), rru);
+			}
 		}
 		return result;
+	}
+
+	private Map<String, RemoteRefUpdate> rejectAll() {
+		for (RemoteRefUpdate rru : toPush.values()) {
+			if (rru.getStatus() == Status.NOT_ATTEMPTED) {
+				rru.setStatus(RemoteRefUpdate.Status.REJECTED_OTHER_REASON);
+				rru.setMessage(JGitText.get().transactionAborted);
+			}
+		}
+		return Collections.emptyMap();
 	}
 
 	private void modifyUpdatesForDryRun() {

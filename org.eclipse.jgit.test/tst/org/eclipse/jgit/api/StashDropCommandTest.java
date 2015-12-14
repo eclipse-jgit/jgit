@@ -96,13 +96,13 @@ public class StashDropCommandTest extends RepositoryTestCase {
 	@Test
 	public void dropWithInvalidLogIndex() throws Exception {
 		write(committedFile, "content2");
-		Ref stashRef = git.getRepository().getRef(Constants.R_STASH);
+		Ref stashRef = git.getRepository().exactRef(Constants.R_STASH);
 		assertNull(stashRef);
 		RevCommit stashed = git.stashCreate().call();
 		assertNotNull(stashed);
-		stashRef = git.getRepository().getRef(Constants.R_STASH);
-		assertEquals(stashed, git.getRepository().getRef(Constants.R_STASH)
-				.getObjectId());
+		stashRef = git.getRepository().exactRef(Constants.R_STASH);
+		assertEquals(stashed,
+				git.getRepository().exactRef(Constants.R_STASH).getObjectId());
 		try {
 			assertNull(git.stashDrop().setStashRef(100).call());
 			fail("Exception not thrown");
@@ -115,15 +115,15 @@ public class StashDropCommandTest extends RepositoryTestCase {
 	@Test
 	public void dropSingleStashedCommit() throws Exception {
 		write(committedFile, "content2");
-		Ref stashRef = git.getRepository().getRef(Constants.R_STASH);
+		Ref stashRef = git.getRepository().exactRef(Constants.R_STASH);
 		assertNull(stashRef);
 		RevCommit stashed = git.stashCreate().call();
 		assertNotNull(stashed);
-		stashRef = git.getRepository().getRef(Constants.R_STASH);
-		assertEquals(stashed, git.getRepository().getRef(Constants.R_STASH)
-				.getObjectId());
+		stashRef = git.getRepository().exactRef(Constants.R_STASH);
+		assertEquals(stashed,
+				git.getRepository().exactRef(Constants.R_STASH).getObjectId());
 		assertNull(git.stashDrop().call());
-		stashRef = git.getRepository().getRef(Constants.R_STASH);
+		stashRef = git.getRepository().exactRef(Constants.R_STASH);
 		assertNull(stashRef);
 
 		ReflogReader reader = git.getRepository().getReflogReader(
@@ -134,25 +134,25 @@ public class StashDropCommandTest extends RepositoryTestCase {
 	@Test
 	public void dropAll() throws Exception {
 		write(committedFile, "content2");
-		Ref stashRef = git.getRepository().getRef(Constants.R_STASH);
+		Ref stashRef = git.getRepository().exactRef(Constants.R_STASH);
 		assertNull(stashRef);
 		RevCommit firstStash = git.stashCreate().call();
 		assertNotNull(firstStash);
-		stashRef = git.getRepository().getRef(Constants.R_STASH);
+		stashRef = git.getRepository().exactRef(Constants.R_STASH);
 		assertNotNull(stashRef);
-		assertEquals(firstStash, git.getRepository().getRef(Constants.R_STASH)
-				.getObjectId());
+		assertEquals(firstStash,
+				git.getRepository().exactRef(Constants.R_STASH).getObjectId());
 
 		write(committedFile, "content3");
 		RevCommit secondStash = git.stashCreate().call();
 		assertNotNull(secondStash);
-		stashRef = git.getRepository().getRef(Constants.R_STASH);
+		stashRef = git.getRepository().exactRef(Constants.R_STASH);
 		assertNotNull(stashRef);
-		assertEquals(secondStash, git.getRepository().getRef(Constants.R_STASH)
-				.getObjectId());
+		assertEquals(secondStash,
+				git.getRepository().exactRef(Constants.R_STASH).getObjectId());
 
 		assertNull(git.stashDrop().setAll(true).call());
-		assertNull(git.getRepository().getRef(Constants.R_STASH));
+		assertNull(git.getRepository().exactRef(Constants.R_STASH));
 
 		ReflogReader reader = git.getRepository().getReflogReader(
 				Constants.R_STASH);
@@ -162,25 +162,25 @@ public class StashDropCommandTest extends RepositoryTestCase {
 	@Test
 	public void dropFirstStashedCommit() throws Exception {
 		write(committedFile, "content2");
-		Ref stashRef = git.getRepository().getRef(Constants.R_STASH);
+		Ref stashRef = git.getRepository().exactRef(Constants.R_STASH);
 		assertNull(stashRef);
 		RevCommit firstStash = git.stashCreate().call();
 		assertNotNull(firstStash);
-		stashRef = git.getRepository().getRef(Constants.R_STASH);
+		stashRef = git.getRepository().exactRef(Constants.R_STASH);
 		assertNotNull(stashRef);
-		assertEquals(firstStash, git.getRepository().getRef(Constants.R_STASH)
-				.getObjectId());
+		assertEquals(firstStash,
+				git.getRepository().exactRef(Constants.R_STASH).getObjectId());
 
 		write(committedFile, "content3");
 		RevCommit secondStash = git.stashCreate().call();
 		assertNotNull(secondStash);
-		stashRef = git.getRepository().getRef(Constants.R_STASH);
+		stashRef = git.getRepository().exactRef(Constants.R_STASH);
 		assertNotNull(stashRef);
-		assertEquals(secondStash, git.getRepository().getRef(Constants.R_STASH)
-				.getObjectId());
+		assertEquals(secondStash,
+				git.getRepository().exactRef(Constants.R_STASH).getObjectId());
 
 		assertEquals(firstStash, git.stashDrop().call());
-		stashRef = git.getRepository().getRef(Constants.R_STASH);
+		stashRef = git.getRepository().exactRef(Constants.R_STASH);
 		assertNotNull(stashRef);
 		assertEquals(firstStash, stashRef.getObjectId());
 
@@ -196,33 +196,33 @@ public class StashDropCommandTest extends RepositoryTestCase {
 	@Test
 	public void dropMiddleStashCommit() throws Exception {
 		write(committedFile, "content2");
-		Ref stashRef = git.getRepository().getRef(Constants.R_STASH);
+		Ref stashRef = git.getRepository().exactRef(Constants.R_STASH);
 		assertNull(stashRef);
 		RevCommit firstStash = git.stashCreate().call();
 		assertNotNull(firstStash);
-		stashRef = git.getRepository().getRef(Constants.R_STASH);
+		stashRef = git.getRepository().exactRef(Constants.R_STASH);
 		assertNotNull(stashRef);
-		assertEquals(firstStash, git.getRepository().getRef(Constants.R_STASH)
-				.getObjectId());
+		assertEquals(firstStash,
+				git.getRepository().exactRef(Constants.R_STASH).getObjectId());
 
 		write(committedFile, "content3");
 		RevCommit secondStash = git.stashCreate().call();
 		assertNotNull(secondStash);
-		stashRef = git.getRepository().getRef(Constants.R_STASH);
+		stashRef = git.getRepository().exactRef(Constants.R_STASH);
 		assertNotNull(stashRef);
-		assertEquals(secondStash, git.getRepository().getRef(Constants.R_STASH)
-				.getObjectId());
+		assertEquals(secondStash,
+				git.getRepository().exactRef(Constants.R_STASH).getObjectId());
 
 		write(committedFile, "content4");
 		RevCommit thirdStash = git.stashCreate().call();
 		assertNotNull(thirdStash);
-		stashRef = git.getRepository().getRef(Constants.R_STASH);
+		stashRef = git.getRepository().exactRef(Constants.R_STASH);
 		assertNotNull(stashRef);
-		assertEquals(thirdStash, git.getRepository().getRef(Constants.R_STASH)
-				.getObjectId());
+		assertEquals(thirdStash,
+				git.getRepository().exactRef(Constants.R_STASH).getObjectId());
 
 		assertEquals(thirdStash, git.stashDrop().setStashRef(1).call());
-		stashRef = git.getRepository().getRef(Constants.R_STASH);
+		stashRef = git.getRepository().exactRef(Constants.R_STASH);
 		assertNotNull(stashRef);
 		assertEquals(thirdStash, stashRef.getObjectId());
 
@@ -241,46 +241,46 @@ public class StashDropCommandTest extends RepositoryTestCase {
 	@Test
 	public void dropBoundaryStashedCommits() throws Exception {
 		write(committedFile, "content2");
-		Ref stashRef = git.getRepository().getRef(Constants.R_STASH);
+		Ref stashRef = git.getRepository().exactRef(Constants.R_STASH);
 		assertNull(stashRef);
 		RevCommit firstStash = git.stashCreate().call();
 		assertNotNull(firstStash);
-		stashRef = git.getRepository().getRef(Constants.R_STASH);
+		stashRef = git.getRepository().exactRef(Constants.R_STASH);
 		assertNotNull(stashRef);
-		assertEquals(firstStash, git.getRepository().getRef(Constants.R_STASH)
-				.getObjectId());
+		assertEquals(firstStash,
+				git.getRepository().exactRef(Constants.R_STASH).getObjectId());
 
 		write(committedFile, "content3");
 		RevCommit secondStash = git.stashCreate().call();
 		assertNotNull(secondStash);
-		stashRef = git.getRepository().getRef(Constants.R_STASH);
+		stashRef = git.getRepository().exactRef(Constants.R_STASH);
 		assertNotNull(stashRef);
-		assertEquals(secondStash, git.getRepository().getRef(Constants.R_STASH)
-				.getObjectId());
+		assertEquals(secondStash,
+				git.getRepository().exactRef(Constants.R_STASH).getObjectId());
 
 		write(committedFile, "content4");
 		RevCommit thirdStash = git.stashCreate().call();
 		assertNotNull(thirdStash);
-		stashRef = git.getRepository().getRef(Constants.R_STASH);
+		stashRef = git.getRepository().exactRef(Constants.R_STASH);
 		assertNotNull(stashRef);
-		assertEquals(thirdStash, git.getRepository().getRef(Constants.R_STASH)
-				.getObjectId());
+		assertEquals(thirdStash,
+				git.getRepository().exactRef(Constants.R_STASH).getObjectId());
 
 		write(committedFile, "content5");
 		RevCommit fourthStash = git.stashCreate().call();
 		assertNotNull(fourthStash);
-		stashRef = git.getRepository().getRef(Constants.R_STASH);
+		stashRef = git.getRepository().exactRef(Constants.R_STASH);
 		assertNotNull(stashRef);
-		assertEquals(fourthStash, git.getRepository().getRef(Constants.R_STASH)
-				.getObjectId());
+		assertEquals(fourthStash,
+				git.getRepository().exactRef(Constants.R_STASH).getObjectId());
 
 		assertEquals(thirdStash, git.stashDrop().call());
-		stashRef = git.getRepository().getRef(Constants.R_STASH);
+		stashRef = git.getRepository().exactRef(Constants.R_STASH);
 		assertNotNull(stashRef);
 		assertEquals(thirdStash, stashRef.getObjectId());
 
 		assertEquals(thirdStash, git.stashDrop().setStashRef(2).call());
-		stashRef = git.getRepository().getRef(Constants.R_STASH);
+		stashRef = git.getRepository().exactRef(Constants.R_STASH);
 		assertNotNull(stashRef);
 		assertEquals(thirdStash, stashRef.getObjectId());
 

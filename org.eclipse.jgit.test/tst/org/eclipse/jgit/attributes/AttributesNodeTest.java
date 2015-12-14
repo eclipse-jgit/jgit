@@ -49,10 +49,6 @@ import static org.junit.Assert.assertEquals;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
 
 import org.junit.After;
 import org.junit.Test;
@@ -60,7 +56,7 @@ import org.junit.Test;
 /**
  * Test {@link AttributesNode}
  */
-public class AttributeNodeTest {
+public class AttributesNodeTest {
 
 	private static final Attribute A_SET_ATTR = new Attribute("A", SET);
 
@@ -104,8 +100,8 @@ public class AttributeNodeTest {
 		is = new ByteArrayInputStream(attributeFileContent.getBytes());
 		AttributesNode node = new AttributesNode();
 		node.parse(is);
-		assertAttribute("file.type1", node, Collections.<Attribute> emptySet());
-		assertAttribute("file.type2", node, Collections.<Attribute> emptySet());
+		assertAttribute("file.type1", node, new Attributes());
+		assertAttribute("file.type2", node, new Attributes());
 	}
 
 	@Test
@@ -115,7 +111,7 @@ public class AttributeNodeTest {
 		is = new ByteArrayInputStream(attributeFileContent.getBytes());
 		AttributesNode node = new AttributesNode();
 		node.parse(is);
-		assertAttribute("file.type1", node, Collections.<Attribute> emptySet());
+		assertAttribute("file.type1", node, new Attributes());
 		assertAttribute("file.type2", node, asSet(A_UNSET_ATTR));
 	}
 
@@ -127,8 +123,8 @@ public class AttributeNodeTest {
 		is = new ByteArrayInputStream(attributeFileContent.getBytes());
 		AttributesNode node = new AttributesNode();
 		node.parse(is);
-		assertAttribute("file.type1", node, Collections.<Attribute> emptySet());
-		assertAttribute("file.type2", node, Collections.<Attribute> emptySet());
+		assertAttribute("file.type1", node, new Attributes());
+		assertAttribute("file.type2", node, new Attributes());
 		assertAttribute("file.type3", node, asSet(new Attribute("attr", "")));
 	}
 
@@ -166,17 +162,14 @@ public class AttributeNodeTest {
 	}
 
 	private void assertAttribute(String path, AttributesNode node,
-			Set<Attribute> attrs) {
-		HashMap<String, Attribute> attributes = new HashMap<String, Attribute>();
+			Attributes attrs) {
+		Attributes attributes = new Attributes();
 		node.getAttributes(path, false, attributes);
-		assertEquals(attrs, new HashSet<Attribute>(attributes.values()));
+		assertEquals(attrs, attributes);
 	}
 
-	static Set<Attribute> asSet(Attribute... attrs) {
-		Set<Attribute> result = new HashSet<Attribute>();
-		for (Attribute attr : attrs)
-			result.add(attr);
-		return result;
+	static Attributes asSet(Attribute... attrs) {
+		return new Attributes(attrs);
 	}
 
 }

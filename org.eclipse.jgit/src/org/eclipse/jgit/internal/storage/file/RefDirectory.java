@@ -262,6 +262,30 @@ public class RefDirectory extends RefDatabase {
 	}
 
 	@Override
+	public Ref exactRef(String name) throws IOException {
+		RefList<Ref> packed = getPackedRefs();
+		Ref ref;
+		try {
+			ref = readRef(name, packed);
+			if (ref != null) {
+				ref = resolve(ref, 0, null, null, packed);
+			}
+		} catch (IOException e) {
+			if (name.contains("/") //$NON-NLS-1$
+					|| !(e.getCause() instanceof InvalidObjectIdException)) {
+				throw e;
+			}
+
+			// While looking for a ref outside of refs/ (e.g., 'config'), we
+			// found a non-ref file (e.g., a config file) instead.  Treat this
+			// as a ref-not-found condition.
+			ref = null;
+		}
+		fireRefsChanged();
+		return ref;
+	}
+
+	@Override
 	public Ref getRef(final String needle) throws IOException {
 		final RefList<Ref> packed = getPackedRefs();
 		Ref ref = null;
@@ -270,6 +294,8 @@ public class RefDirectory extends RefDatabase {
 				ref = readRef(prefix + needle, packed);
 				if (ref != null) {
 					ref = resolve(ref, 0, null, null, packed);
+				}
+				if (ref != null) {
 					break;
 				}
 			} catch (IOException e) {
@@ -762,6 +788,9 @@ public class RefDirectory extends RefDatabase {
 						new DigestInputStream(new FileInputStream(packedRefsFile),
 								digest), CHARSET));
 			} catch (FileNotFoundException noPackedRefs) {
+				if (packedRefsFile.exists()) {
+					throw noPackedRefs;
+				}
 				// Ignore it and leave the new list empty.
 				return PackedRefList.NO_PACKED_REFS;
 			}
@@ -918,7 +947,10 @@ public class RefDirectory extends RefDatabase {
 		try {
 			buf = IO.readSome(path, limit);
 		} catch (FileNotFoundException noFile) {
-			return null; // doesn't exist; not a reference.
+			if (path.exists() && path.isFile()) {
+				throw noFile;
+			}
+			return null; // doesn't exist or no file; not a reference.
 		}
 
 		int n = buf.length;

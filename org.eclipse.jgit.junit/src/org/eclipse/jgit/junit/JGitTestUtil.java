@@ -241,6 +241,17 @@ public abstract class JGitTestUtil {
 		FileUtils.delete(path);
 	}
 
+	/**
+	 * @param db
+	 *            the repository
+	 * @param link
+	 *            the path of the symbolic link to create
+	 * @param target
+	 *            the target of the symbolic link
+	 * @return the path to the symbolic link
+	 * @throws Exception
+	 * @since 4.2
+	 */
 	public static Path writeLink(Repository db, String link,
 			String target) throws Exception {
 		return FileUtils.createSymLink(new File(db.getWorkTree(), link),
