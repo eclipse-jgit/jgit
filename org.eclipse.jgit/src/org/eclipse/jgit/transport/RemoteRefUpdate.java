@@ -125,7 +125,7 @@ public class RemoteRefUpdate {
 		OK;
 	}
 
-	private final ObjectId expectedOldObjectId;
+	private ObjectId expectedOldObjectId;
 
 	private final ObjectId newObjectId;
 
@@ -438,6 +438,10 @@ public class RemoteRefUpdate {
 	 */
 	public String getMessage() {
 		return message;
+	}
+
+	void setExpectedOldObjectId(ObjectId id) {
+		expectedOldObjectId = id;
 	}
 
 	void setStatus(final Status status) {
