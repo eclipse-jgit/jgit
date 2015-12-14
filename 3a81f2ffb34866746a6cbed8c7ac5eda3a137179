@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27d6470d_ebe0a144",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/MacroExpander.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-12-14T13:30:09Z",
+      "side": 1,
+      "message": "do we really need to expose these two methods to the outside. Shouldn\u0027t we do this merging internally in this class.",
+      "range": {
+        "startLine": 125,
+        "startChar": 1,
+        "endLine": 146,
+        "endChar": 2
+      },
+      "revId": "3a81f2ffb34866746a6cbed8c7ac5eda3a137179",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_6bd2d1ca",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-12-14T13:30:09Z",
+      "side": 1,
+      "message": "My main concern here is where the code is located. I think currently we pollute TreeWalk too much. It seems strange to me that TreeWalk learns about a MacroExpander. A treewalk knows all the different trees participating in the walk. Additionaly he knows the opType (CHECKOUT, CHECKIN). He shouldn\u0027t know the details about how to compute the effective set of attributes. The code to merge AttributeNodes, epxands macros belongs in my eyes in the org.eclipse.jgit.attributes package. E.g. if you would have constructor for macroexpander taking AttributesNodeProvider and three TreeIterators then we could do the work in the attributes package.",
+      "range": {
+        "startLine": 274,
+        "startChar": 1,
+        "endLine": 274,
+        "endChar": 36
+      },
+      "revId": "3a81f2ffb34866746a6cbed8c7ac5eda3a137179",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_bb644016",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1155,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-12-14T13:30:09Z",
+      "side": 1,
+      "message": "see my comments on getCurrentTreeNode. I think we don\u0027t need this changes.",
+      "range": {
+        "startLine": 1150,
+        "startChar": 0,
+        "endLine": 1155,
+        "endChar": 31
+      },
+      "revId": "3a81f2ffb34866746a6cbed8c7ac5eda3a137179",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_4b1d0df2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1190,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-12-14T13:30:09Z",
+      "side": 1,
+      "message": "The MacroExpander knows info and global nodes. Why should TreeWalk care to call all this in the correct order. That knowledge about how to merge current,info,global should be hidden in the MacroExpander.",
+      "range": {
+        "startLine": 1183,
+        "startChar": 3,
+        "endLine": 1190,
+        "endChar": 64
+      },
+      "revId": "3a81f2ffb34866746a6cbed8c7ac5eda3a137179",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_eb350162",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1191,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-12-14T13:30:09Z",
+      "side": 1,
+      "message": "Ivan, what do you think about the idea that only AttributesNode know about macroexpander. And that AttributesNode.getRules() returns a set of expanded rules.",
+      "revId": "3a81f2ffb34866746a6cbed8c7ac5eda3a137179",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_1b18cca7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1258,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-12-14T13:30:09Z",
+      "side": 1,
+      "message": "why do you rename this method? For me the old name getTree is better than getCurrentTreeNode (I don\u0027t know treeNodes; the word \"current\" makes make think that this method checks whether the returned tree really matches the current head of the walk line in line 700)",
+      "range": {
+        "startLine": 1258,
+        "startChar": 44,
+        "endLine": 1258,
+        "endChar": 62
+      },
+      "revId": "3a81f2ffb34866746a6cbed8c7ac5eda3a137179",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_0b70654e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1351,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-12-14T13:30:09Z",
+      "side": 1,
+      "message": "Every MacroExpander needs to know a root attributes node. And he is the only one interested in the attributes at the root level. All other use cases need the effective merged set of Attributes. getRootAttributesNode() and the logic of  getRootTreeNode() could go into a constructor of MacroExpander",
+      "range": {
+        "startLine": 1351,
+        "startChar": 24,
+        "endLine": 1351,
+        "endChar": 45
+      },
+      "revId": "3a81f2ffb34866746a6cbed8c7ac5eda3a137179",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
