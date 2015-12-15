@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27d6470d_c30e61c4",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/URIishTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-12-15T07:50:19Z",
+      "side": 1,
+      "message": "I would even test that pass with \u0027@\u0027 does work. I tested \"ssh://user.name@example:lima.com@gondo:lowe:grillo@example.com:33/some/p ath\" and it works great",
+      "revId": "2a60b1cc525e9fefa49d6739dcaec8b6b5d5e9ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
