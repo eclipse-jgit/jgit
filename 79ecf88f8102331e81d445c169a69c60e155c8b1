@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "27d6470d_e336050c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1165,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-12-15T00:01:16Z",
+      "side": 1,
+      "message": "Oh! Yep, my mistake (not sure how I ended up so confused).",
+      "parentUuid": "27d6470d_c594ac9c",
+      "range": {
+        "startLine": 1159,
+        "startChar": 0,
+        "endLine": 1165,
+        "endChar": 3
+      },
+      "revId": "79ecf88f8102331e81d445c169a69c60e155c8b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27d6470d_d5646c17",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefWriter.java",
         "patchSetId": 4
