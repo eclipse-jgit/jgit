@@ -1551,6 +1551,8 @@ public class PackWriter implements AutoCloseable {
 			if (zbuf != null) {
 				out.writeHeader(otp, otp.getCachedSize());
 				out.write(zbuf);
+				typeStats.cntDeltas++;
+				typeStats.deltaBytes += out.length() - otp.getOffset();
 				return;
 			}
 		}

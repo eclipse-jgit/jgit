@@ -48,6 +48,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -79,6 +80,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.pack.PackConfig;
+import org.eclipse.jgit.storage.pack.PackStatistics;
 import org.eclipse.jgit.test.resources.SampleDataRepositoryTestCase;
 import org.eclipse.jgit.transport.PackParser;
 import org.junit.After;
@@ -436,6 +438,38 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 
 		assertTrue(sizePack4 > sizePack4Thin);
 	}
+
+	@Test
+	public void testDeltaStatistics() throws Exception {
+		config.setDeltaCompress(true);
+		FileRepository repo = createBareRepository();
+		TestRepository<FileRepository> testRepo = new TestRepository<FileRepository>(repo);
+		ArrayList<RevObject> blobs = new ArrayList<>();
+		blobs.add(testRepo.blob(genDeltableData(1000)));
+		blobs.add(testRepo.blob(genDeltableData(1005)));
+
+		try (PackWriter pw = new PackWriter(repo)) {
+			NullProgressMonitor m = NullProgressMonitor.INSTANCE;
+			pw.preparePack(blobs.iterator());
+			pw.writePack(m, m, os);
+			PackStatistics stats = pw.getStatistics();
+			assertEquals(1, stats.getTotalDeltas());
+			assertTrue("Delta bytes not set.",
+					stats.byObjectType(OBJ_BLOB).getDeltaBytes() > 0);
+		}
+	}
+
+	// Generate consistent junk data for building files that delta well
+	private String genDeltableData(int length) {
+		assertTrue("Generated data must have a length > 0", length > 0);
+		char[] data = {'a', 'b', 'c', '\n'};
+		StringBuilder builder = new StringBuilder(length);
+		for (int i = 0; i < length; i++) {
+			builder.append(data[i % 4]);
+		}
+		return builder.toString();
+	}
+
 
 	@Test
 	public void testWriteIndex() throws Exception {
