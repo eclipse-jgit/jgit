@@ -114,7 +114,7 @@ class LfsStore extends TextBuiltin {
 			readAWSKeys();
 			repository = new AmazonS3Repository("eu-central-1", //$NON-NLS-1$
 					"test-gerrit-lfs", //$NON-NLS-1$
-					accessKey, secretKey, 300);
+					300, "REDUCED_REDUNDANCY", accessKey, secretKey); //$NON-NLS-1$
 			break;
 		default:
 			throw new IllegalArgumentException(
