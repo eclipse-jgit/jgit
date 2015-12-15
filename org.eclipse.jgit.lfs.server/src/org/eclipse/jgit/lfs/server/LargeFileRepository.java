@@ -63,9 +63,11 @@ public interface LargeFileRepository {
 	/**
 	 * @param id
 	 *            id of the object to upload
+	 * @param size
+	 *            size of the object to be uploaded
 	 * @return Action for uploading the object
 	 */
-	public Response.Action getUploadAction(AnyLongObjectId id);
+	public Response.Action getUploadAction(AnyLongObjectId id, long size);
 
 	/**
 	 * @param id

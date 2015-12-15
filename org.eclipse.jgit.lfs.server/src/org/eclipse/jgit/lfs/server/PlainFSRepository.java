@@ -163,7 +163,7 @@ public class PlainFSRepository implements LargeFileRepository {
 	}
 
 	@Override
-	public Action getUploadAction(AnyLongObjectId id) {
+	public Action getUploadAction(AnyLongObjectId id, long size) {
 		return getAction(id);
 	}
 

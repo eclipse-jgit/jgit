@@ -111,7 +111,7 @@ abstract class TransferHandler {
 					if (repository.getLength(oid) == -1) {
 						info.actions = new HashMap<>();
 						info.actions.put(UPLOAD,
-								repository.getUploadAction(oid));
+								repository.getUploadAction(oid, o.size));
 						Action verify = repository.getVerifyAction(oid);
 						if (verify != null) {
 							info.actions.put(VERIFY, verify);
