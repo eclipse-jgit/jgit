@@ -104,7 +104,7 @@ public class LargeObjectServlet extends HttpServlet {
 			HttpServletResponse rsp) throws ServletException, IOException {
 		AnyLongObjectId obj = getObjectToTransfer(req, rsp);
 		if (obj != null) {
-			if (repository.getLength(obj) == -1) {
+			if (repository.getSize(obj) == -1) {
 				sendError(rsp, HttpStatus.SC_NOT_FOUND, MessageFormat
 						.format(LfsServerText.get().objectNotFound, obj));
 				return;

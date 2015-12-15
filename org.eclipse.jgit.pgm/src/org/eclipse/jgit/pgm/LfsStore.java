@@ -43,22 +43,24 @@
 
 package org.eclipse.jgit.pgm;
 
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.junit.http.AppServer;
 import org.eclipse.jgit.lfs.server.LargeFileRepository;
 import org.eclipse.jgit.lfs.server.LargeObjectServlet;
 import org.eclipse.jgit.lfs.server.LfsProtocolServlet;
 import org.eclipse.jgit.lfs.server.PlainFSRepository;
 import org.eclipse.jgit.lfs.server.s3.AmazonS3Repository;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.util.FS;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
-
-import com.amazonaws.auth.AWSCredentials;
-import com.amazonaws.auth.PropertiesFileCredentialsProvider;
 
 @Command(common = true, usage = "usage_runLfsStore")
 class LfsStore extends TextBuiltin {
@@ -68,6 +70,7 @@ class LfsStore extends TextBuiltin {
 	}
 
 	private static final String OBJECTS = "objects/"; //$NON-NLS-1$
+
 	private static final String STORE_PATH = "/" + OBJECTS + "*"; //$NON-NLS-1$//$NON-NLS-2$
 
 	private static final String PROTOCOL_PATH = "/lfs/objects/batch"; //$NON-NLS-1$
@@ -78,7 +81,8 @@ class LfsStore extends TextBuiltin {
 	@Option(name = "--store", usage = "usage_LFSRunStore")
 	StoreType storeType;
 
-	@Option(name = "--store-url", aliases = { "-u" }, usage = "usage_LFSStoreUrl")
+	@Option(name = "--store-url", aliases = {
+			"-u" }, usage = "usage_LFSStoreUrl")
 	String storeUrl;
 
 	@Argument(required = false, metaVar = "metaVar_directory", usage = "usage_LFSDirectory")
@@ -86,9 +90,13 @@ class LfsStore extends TextBuiltin {
 
 	String protocolUrl;
 
+	String accessKey;
+
+	String secretKey;
+
 	protected void run() throws Exception {
 		AppServer server = new AppServer(port);
-		ServletContextHandler app = server.addContext("/");
+		ServletContextHandler app = server.addContext("/"); //$NON-NLS-1$
 		LargeFileRepository repository;
 
 		switch (storeType) {
@@ -96,18 +104,17 @@ class LfsStore extends TextBuiltin {
 			Path dir = Paths.get(directory);
 			PlainFSRepository plainFSRepo = new PlainFSRepository(getStoreUrl(),
 					dir);
-			LargeObjectServlet content = new LargeObjectServlet(plainFSRepo, 30000);
+			LargeObjectServlet content = new LargeObjectServlet(plainFSRepo,
+					30000);
 			app.addServlet(new ServletHolder(content), STORE_PATH);
 			repository = plainFSRepo;
 			break;
 
 		case S3:
-			String home = System.getProperty("user.home"); //$NON-NLS-1$
-			AWSCredentials credentials = new PropertiesFileCredentialsProvider(
-					home + "/.aws/credentials").getCredentials(); //$NON-NLS-1$
+			readAWSKeys();
 			repository = new AmazonS3Repository("eu-central-1", //$NON-NLS-1$
 					"test-gerrit-lfs", //$NON-NLS-1$
-					credentials, 300);
+					accessKey, secretKey, 300);
 			break;
 		default:
 			throw new IllegalArgumentException(
@@ -123,6 +130,24 @@ class LfsStore extends TextBuiltin {
 		if (storeType == StoreType.PLAINFS) {
 			outw.println("LFS objects located in: " + directory); //$NON-NLS-1$
 			outw.println("LFS store URL: " + getStoreUrl()); //$NON-NLS-1$
+		}
+	}
+
+	private void readAWSKeys() throws IOException, ConfigInvalidException {
+		String credentialsPath = System.getProperty("user.home") //$NON-NLS-1$
+				+ "/.aws/credentials"; //$NON-NLS-1$
+		FileBasedConfig c = new FileBasedConfig(new File(credentialsPath),
+				FS.DETECTED);
+		c.load();
+		accessKey = c.getString("default", null, "accessKey"); //$NON-NLS-1$//$NON-NLS-2$
+		secretKey = c.getString("default", null, "secretKey"); //$NON-NLS-1$ //$NON-NLS-2$
+		if (accessKey == null || accessKey.isEmpty()) {
+			throw new IllegalStateException(
+					"No accessKey in " + credentialsPath);
+		}
+		if (secretKey == null || secretKey.isEmpty()) {
+			throw new IllegalStateException(
+					"No secretKey in " + credentialsPath);
 		}
 	}
 

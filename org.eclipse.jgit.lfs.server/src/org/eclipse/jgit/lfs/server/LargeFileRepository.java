@@ -82,5 +82,5 @@ public interface LargeFileRepository {
 	 *         exist
 	 * @throws IOException
 	 */
-	public long getLength(AnyLongObjectId id) throws IOException;
+	public long getSize(AnyLongObjectId id) throws IOException;
 }

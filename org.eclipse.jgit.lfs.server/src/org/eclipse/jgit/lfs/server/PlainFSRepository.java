@@ -185,7 +185,8 @@ public class PlainFSRepository implements LargeFileRepository {
 	 * @return the length of the large object
 	 * @throws IOException
 	 */
-	public long getLength(AnyLongObjectId id) throws IOException {
+	@Override
+	public long getSize(AnyLongObjectId id) throws IOException {
 		Path p = getPath(id);
 		if (Files.exists(p)) {
 			return Files.size(p);

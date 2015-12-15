@@ -73,8 +73,8 @@ abstract class TransferHandler {
 			return new Download(repository, objects);
 		case TransferHandler.VERIFY:
 		default:
-			throw new UnsupportedOperationException(
-					operation + " not supported");
+			throw new UnsupportedOperationException(MessageFormat.format(
+					LfsServerText.get().unsupportedOperation, operation));
 		}
 	}
 
@@ -108,7 +108,7 @@ abstract class TransferHandler {
 					info.size = o.size;
 
 					LongObjectId oid = LongObjectId.fromString(o.oid);
-					if (repository.getLength(oid) == -1) {
+					if (repository.getSize(oid) == -1) {
 						info.actions = new HashMap<>();
 						info.actions.put(UPLOAD,
 								repository.getUploadAction(oid, o.size));
@@ -142,7 +142,7 @@ abstract class TransferHandler {
 					info.size = o.size;
 
 					LongObjectId oid = LongObjectId.fromString(o.oid);
-					if (repository.getLength(oid) >= 0) {
+					if (repository.getSize(oid) >= 0) {
 						info.actions = new HashMap<>();
 						info.actions.put(DOWNLOAD,
 								repository.getDownloadAction(oid));
