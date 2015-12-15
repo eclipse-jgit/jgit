@@ -861,10 +861,13 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 * Test if the supplied path matches the current entry's path.
 	 * <p>
 	 * This method tests that the supplied path is exactly equal to the current
-	 * entry, or is one of its parent directories. It is faster to use this
+	 * entry or is one of its parent directories. It is faster to use this
 	 * method then to use {@link #getPathString()} to first create a String
 	 * object, then test <code>startsWith</code> or some other type of string
 	 * match function.
+	 * <p>
+	 * If the current entry is a subtree, then all paths within the subtree
+	 * are considered to match it.
 	 *
 	 * @param p
 	 *            path buffer to test. Callers should ensure the path does not
@@ -900,7 +903,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 			// If p[ci] == '/' then pattern matches this subtree,
 			// otherwise we cannot be certain so we return -1.
 			//
-			return p[ci] == '/' ? 0 : -1;
+			return p[ci] == '/' && FileMode.TREE.equals(t.mode) ? 0 : -1;
 		}
 
 		// Both strings are identical.
