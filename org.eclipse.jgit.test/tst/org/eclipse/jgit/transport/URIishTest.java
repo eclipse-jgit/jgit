@@ -469,6 +469,48 @@ public class URIishTest {
 	}
 
 	@Test
+	public void testSshProtoWithEmailUserAndPort() throws Exception {
+		final String str = "ssh://user.name@example.com@example.com:33/some/p ath";
+		URIish u = new URIish(str);
+		assertEquals("ssh", u.getScheme());
+		assertTrue(u.isRemote());
+		assertEquals("/some/p ath", u.getRawPath());
+		assertEquals("/some/p ath", u.getPath());
+		assertEquals("example.com", u.getHost());
+		assertEquals("user.name@example.com", u.getUser());
+		assertNull(u.getPass());
+		assertEquals(33, u.getPort());
+		assertEquals("ssh://user.name%40example.com@example.com:33/some/p ath",
+				u.toPrivateString());
+		assertEquals("ssh://user.name%40example.com@example.com:33/some/p%20ath",
+				u.toPrivateASCIIString());
+		assertEquals(u.setPass(null).toPrivateString(), u.toString());
+		assertEquals(u.setPass(null).toPrivateASCIIString(), u.toASCIIString());
+		assertEquals(u, new URIish(str));
+	}
+
+	@Test
+	public void testSshProtoWithEmailUserPassAndPort() throws Exception {
+		final String str = "ssh://user.name@example.com:pass@word@example.com:33/some/p ath";
+		URIish u = new URIish(str);
+		assertEquals("ssh", u.getScheme());
+		assertTrue(u.isRemote());
+		assertEquals("/some/p ath", u.getRawPath());
+		assertEquals("/some/p ath", u.getPath());
+		assertEquals("example.com", u.getHost());
+		assertEquals("user.name@example.com", u.getUser());
+		assertEquals("pass@word", u.getPass());
+		assertEquals(33, u.getPort());
+		assertEquals("ssh://user.name%40example.com:pass%40word@example.com:33/some/p ath",
+				u.toPrivateString());
+		assertEquals("ssh://user.name%40example.com:pass%40word@example.com:33/some/p%20ath",
+				u.toPrivateASCIIString());
+		assertEquals(u.setPass(null).toPrivateString(), u.toString());
+		assertEquals(u.setPass(null).toPrivateASCIIString(), u.toASCIIString());
+		assertEquals(u, new URIish(str));
+	}
+
+	@Test
 	public void testSshProtoWithADUserPassAndPort() throws Exception {
 		final String str = "ssh://DOMAIN\\user:pass@example.com:33/some/p ath";
 		URIish u = new URIish(str);
