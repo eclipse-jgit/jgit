@@ -132,12 +132,22 @@ public class PathFilterGroupTest {
 	@Test
 	public void testKeyIsPrefixOfFilter() throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
-		assertMatches(Sets.of("b/c"), fakeWalk("b"));
-		assertMatches(Sets.of("c/d/e", "c/d/f"), fakeWalk("c/d"));
-		assertMatches(Sets.of("c/d/e", "c/d/f"), fakeWalk("c"));
-		assertMatches(Sets.of("d/e/f/g", "d/e/f/g.x"), fakeWalk("d/e/f"));
-		assertMatches(Sets.of("d/e/f/g", "d/e/f/g.x"), fakeWalk("d/e"));
-		assertMatches(Sets.of("d/e/f/g", "d/e/f/g.x"), fakeWalk("d"));
+		assertMatches(Sets.of("b/c"), fakeWalkAtSubtree("b"));
+		assertMatches(Sets.of("c/d/e", "c/d/f"), fakeWalkAtSubtree("c/d"));
+		assertMatches(Sets.of("c/d/e", "c/d/f"), fakeWalkAtSubtree("c"));
+		assertMatches(Sets.of("d/e/f/g", "d/e/f/g.x"),
+				fakeWalkAtSubtree("d/e/f"));
+		assertMatches(Sets.of("d/e/f/g", "d/e/f/g.x"),
+				fakeWalkAtSubtree("d/e"));
+		assertMatches(Sets.of("d/e/f/g", "d/e/f/g.x"), fakeWalkAtSubtree("d"));
+
+		assertNoMatches(fakeWalk("b"));
+		assertNoMatches(fakeWalk("c/d"));
+		assertNoMatches(fakeWalk("c"));
+		assertNoMatches(fakeWalk("d/e/f"));
+		assertNoMatches(fakeWalk("d/e"));
+		assertNoMatches(fakeWalk("d"));
+
 	}
 
 	@Test
@@ -263,4 +273,25 @@ public class PathFilterGroupTest {
 		return ret;
 	}
 
+	TreeWalk fakeWalkAtSubtree(final String path) throws IOException {
+		DirCache dc = DirCache.newInCore();
+		DirCacheEditor dce = dc.editor();
+		dce.add(new DirCacheEditor.PathEdit(path + "/README") {
+			public void apply(DirCacheEntry ent) {
+				ent.setFileMode(FileMode.REGULAR_FILE);
+			}
+		});
+		dce.finish();
+
+		TreeWalk ret = new TreeWalk((ObjectReader) null);
+		ret.addTree(new DirCacheIterator(dc));
+		ret.next();
+		while (!path.equals(ret.getPathString())) {
+			if (ret.isSubtree()) {
+				ret.enterSubtree();
+			}
+			ret.next();
+		}
+		return ret;
+	}
 }
