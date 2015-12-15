@@ -101,7 +101,7 @@ class ObjectDownloadListener implements WriteListener {
 		this.outChannel = Channels.newChannel(out);
 
 		response.addHeader(HttpSupport.HDR_CONTENT_LENGTH,
-				String.valueOf(repository.getLength(id)));
+				String.valueOf(repository.getSize(id)));
 		response.setContentType(Constants.HDR_APPLICATION_OCTET_STREAM);
 	}
 

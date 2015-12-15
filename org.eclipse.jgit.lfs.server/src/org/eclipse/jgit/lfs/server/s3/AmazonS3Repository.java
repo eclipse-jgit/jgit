@@ -43,19 +43,10 @@
 package org.eclipse.jgit.lfs.server.s3;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.Date;
 
 import org.eclipse.jgit.lfs.lib.AnyLongObjectId;
 import org.eclipse.jgit.lfs.server.LargeFileRepository;
 import org.eclipse.jgit.lfs.server.Response;
-
-import com.amazonaws.HttpMethod;
-import com.amazonaws.auth.AWSCredentials;
-import com.amazonaws.regions.Region;
-import com.amazonaws.regions.Regions;
-import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
 
 /**
  * Repository storing large objects in the Amazon S3 storage
@@ -64,72 +55,58 @@ import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
  */
 public class AmazonS3Repository implements LargeFileRepository {
 
-	private final Region region;
-
+	private final String region;
 	private final String bucket;
-
-	private AWSCredentials credentials;
-
+	private final S3V4Signer signer;
 	private int presignedUrlValidity;
 
 	/**
 	 * @param region
 	 * @param bucket
-	 * @param credentials
+	 * @param accessKey
+	 * @param secretKey
 	 * @param presignedUrlValidity
 	 *            validity period for presigned URLs, in seconds
 	 */
-	public AmazonS3Repository(String region, String bucket,
-			AWSCredentials credentials, int presignedUrlValidity) {
-		this.region = Region.getRegion(Regions.fromName(region));
+	public AmazonS3Repository(String region, String bucket, String accessKey,
+			String secretKey, int presignedUrlValidity) {
+		this.region = region;
 		this.bucket = bucket;
-		this.credentials = credentials;
+		this.signer = new S3V4Signer(accessKey, secretKey);
 		this.presignedUrlValidity = presignedUrlValidity;
 	}
 
 	@Override
-	public long getLength(AnyLongObjectId id) throws IOException {
-		// return 0;
-		return -1;
+	public long getSize(AnyLongObjectId id) throws IOException {
+		return 0;
+		// return -1;
 	}
 
 	@Override
 	public Response.Action getDownloadAction(AnyLongObjectId id) {
-		AmazonS3Client s3client = new AmazonS3Client(credentials);
-		s3client.setRegion(region);
-        Date expiration = new Date();
-		long expiresAt = expiration.getTime() + 1000 * presignedUrlValidity;
-		expiration.setTime(expiresAt);
-
-		GeneratePresignedUrlRequest req = new GeneratePresignedUrlRequest(
-				bucket, id.getName());
-		req.setMethod(HttpMethod.GET);
-		req.setExpiration(expiration);
-
-		URL url = s3client.generatePresignedUrl(req);
-		System.out.println("URL: " + url);
+		String url = signer.presignGetRequestUrl(region, bucket, id.getName(),
+				presignedUrlValidity);
 		Response.Action a = new Response.Action();
-		a.href = url.toString();
+		a.href = url;
 		return a;
 	}
 
 	@Override
-	public Response.Action getUploadAction(AnyLongObjectId id) {
-		AmazonS3Client s3client = new AmazonS3Client(credentials);
-		s3client.setRegion(region);
-        Date expiration = new Date();
-		long expiresAt = expiration.getTime() + 1000 * presignedUrlValidity;
-		expiration.setTime(expiresAt);
-
-		GeneratePresignedUrlRequest req = new GeneratePresignedUrlRequest(
-				bucket, id.getName());
-		req.setMethod(HttpMethod.PUT);
-		req.setExpiration(expiration);
-
-		URL url = s3client.generatePresignedUrl(req);
-		Response.Action a = new Response.Action();
-		a.href = url.toString();
-		return a;
+	public Response.Action getUploadAction(AnyLongObjectId id, long size) {
+		return null;
+		/*
+		 * AmazonS3Client s3client = new AmazonS3Client(credentials);
+		 * s3client.setRegion(region); Date expiration = new Date(); long
+		 * expiresAt = expiration.getTime() + 1000 * presignedUrlValidity;
+		 * expiration.setTime(expiresAt);
+		 *
+		 * GeneratePresignedUrlRequest req = new GeneratePresignedUrlRequest(
+		 * bucket, id.getName()); req.setMethod(HttpMethod.PUT);
+		 * req.setExpiration(expiration);
+		 *
+		 * URL url = s3client.generatePresignedUrl(req); Response.Action a = new
+		 * Response.Action(); a.href = url.toString(); return a;
+		 */
 	}
 
 	@Override
