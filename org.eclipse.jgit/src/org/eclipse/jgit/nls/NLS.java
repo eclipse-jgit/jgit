@@ -71,11 +71,12 @@ public class NLS {
 	/** The root locale constant. It is defined here because the Locale.ROOT is not defined in Java 5 */
 	public static final Locale ROOT_LOCALE = new Locale("", "", ""); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
-	private static final InheritableThreadLocal<NLS> local = new InheritableThreadLocal<NLS>() {
-		protected NLS initialValue() {
-			return new NLS(Locale.getDefault());
-		}
-	};
+	private static final ThreadLocal<NLS> local;
+	static {
+		// do not subclass InheritableThreadLocal to avoid memory leaks
+		local = new InheritableThreadLocal<NLS>();
+		local.set(new NLS(Locale.getDefault()));
+	}
 
 	/**
 	 * Sets the locale for the calling thread.
