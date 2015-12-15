@@ -105,12 +105,11 @@ public class NetRCCredentialsProvider extends CredentialsProvider {
 			throw new UnsupportedCredentialItem(uri, i.getClass().getName()
 					+ ":" + i.getPromptText()); //$NON-NLS-1$
 		}
-		return true;
+		return !isAnyNull(items);
 	}
 
 	@Override
 	public boolean isInteractive() {
 		return false;
 	}
-
 }

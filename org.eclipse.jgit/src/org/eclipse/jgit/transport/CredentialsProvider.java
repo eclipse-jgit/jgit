@@ -81,6 +81,20 @@ public abstract class CredentialsProvider {
 	}
 
 	/**
+	 * @param items
+	 *            credential items to check
+	 * @return {@code true} if any of the passed items is null, {@code false}
+	 *         otherwise
+	 * @since 4.2
+	 */
+	protected static boolean isAnyNull(CredentialItem... items) {
+		for (CredentialItem i : items)
+			if (i == null)
+				return true;
+		return false;
+	}
+
+	/**
 	 * Check if the provider is interactive with the end-user.
 	 *
 	 * An interactive provider may try to open a dialog box, or prompt for input
