@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "27d6470d_2350ed28",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/RevParse.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-12-15T00:00:43Z",
+      "side": 1,
+      "message": "ping",
+      "parentUuid": "27d6470d_92e03a44",
+      "range": {
+        "startLine": 77,
+        "startChar": 0,
+        "endLine": 78,
+        "endChar": 67
+      },
+      "revId": "114eb502530155fb2e98544c8baf0961174351de",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47cfbb72_64b144fb",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutCommand.java",
         "patchSetId": 2
@@ -179,6 +203,30 @@
       "side": 1,
       "message": "Nice --- this is a lot clearer than the code in the base version.\n\nSame thought re defensive programming:\n\n // Detached HEAD. Every non-symbolic ref in the ref database has an\n // object id, so this cannot be null.\n ObjectId id \u003d headRef.getObject();\n if (id \u003d\u003d null) {\n   throw new NullPointerException();\n }\n return id.getName();",
       "parentUuid": "27d6470d_9d2934c0",
+      "range": {
+        "startLine": 334,
+        "startChar": 0,
+        "endLine": 341,
+        "endChar": 53
+      },
+      "revId": "114eb502530155fb2e98544c8baf0961174351de",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_033cc9ea",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-12-15T00:00:43Z",
+      "side": 1,
+      "message": "ping",
+      "parentUuid": "27d6470d_d2eac221",
       "range": {
         "startLine": 334,
         "startChar": 0,
