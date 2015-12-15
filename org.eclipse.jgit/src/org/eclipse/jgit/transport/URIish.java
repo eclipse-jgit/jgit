@@ -83,7 +83,7 @@ public class URIish implements Serializable {
 	 * capturing groups: the first containing the user and the second containing
 	 * the password
 	 */
-	private static final String OPT_USER_PWD_P = "(?:([^/:@]+)(?::([^\\\\/]+))?@)?"; //$NON-NLS-1$
+	private static final String OPT_USER_PWD_P = "(?:([^/:]+)(?::([^\\\\/]+))?@)?"; //$NON-NLS-1$
 
 	/**
 	 * Part of a pattern which matches the host part of URIs. Defines one
