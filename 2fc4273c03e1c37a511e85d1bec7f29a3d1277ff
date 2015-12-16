@@ -2,6 +2,144 @@
   "comments": [
     {
       "key": {
+        "uuid": "27d6470d_31ad8ca4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-12-16T22:07:10Z",
+      "side": 1,
+      "message": "Can you explain this further? Looking at the git-worktree manpage, it looks like that feature works similarly to GIT_OBJECT_DIR --- it changes the path to the packed-refs file and the directory containing all refs, not the list of prefixes by which refnames are implicitly expanded when looking them up. In the context of JGit, it should affect both exactRef and getRef.\n\nDid you mean the gitnamespaces feature? (That also doesn\u0027t change the SEARCH_PATH behavior, but it prepends all ref lookups with a common string, which is a little closer.)",
+      "range": {
+        "startLine": 9,
+        "startChar": 52,
+        "endLine": 10,
+        "endChar": 53
+      },
+      "revId": "2fc4273c03e1c37a511e85d1bec7f29a3d1277ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_51377008",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-12-16T22:07:10Z",
+      "side": 1,
+      "message": "nit: s/refSearchPaths/refSearchPath/\n\nEven though there are multiple pathnames in a search path, common usage is to refer to the entire collection in the singular (see for example https://gcc.gnu.org/onlinedocs/cpp/Search-Path.html).",
+      "range": {
+        "startLine": 147,
+        "startChar": 0,
+        "endLine": 147,
+        "endChar": 39
+      },
+      "revId": "2fc4273c03e1c37a511e85d1bec7f29a3d1277ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_713c74ec",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-12-16T22:07:10Z",
+      "side": 1,
+      "message": "Likewise.",
+      "range": {
+        "startLine": 178,
+        "startChar": 48,
+        "endLine": 178,
+        "endChar": 63
+      },
+      "revId": "2fc4273c03e1c37a511e85d1bec7f29a3d1277ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_d17380d6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BaseRepositoryBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-12-16T22:07:10Z",
+      "side": 1,
+      "message": "nit: s/refSearchPaths/refSearchPath/",
+      "range": {
+        "startLine": 138,
+        "startChar": 0,
+        "endLine": 138,
+        "endChar": 37
+      },
+      "revId": "2fc4273c03e1c37a511e85d1bec7f29a3d1277ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_f17084cc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BaseRepositoryBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-12-16T22:07:10Z",
+      "side": 1,
+      "message": "Likewise.",
+      "range": {
+        "startLine": 329,
+        "startChar": 0,
+        "endLine": 350,
+        "endChar": 2
+      },
+      "revId": "2fc4273c03e1c37a511e85d1bec7f29a3d1277ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_3142ec67",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-12-16T22:07:10Z",
+      "side": 1,
+      "message": "What is a gitRoot? Other javadoc comments don\u0027t use that term.",
+      "range": {
+        "startLine": 86,
+        "startChar": 45,
+        "endLine": 86,
+        "endChar": 68
+      },
+      "revId": "2fc4273c03e1c37a511e85d1bec7f29a3d1277ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27d6470d_315bcc5b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
         "patchSetId": 3
