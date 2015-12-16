@@ -47,6 +47,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.jgit.api.Git;
@@ -577,5 +578,26 @@ public class CheckoutTest extends CLIRepositoryTestCase {
 		assertArrayEquals(new String[] { "* branch_1", "  master", "" },
 				execute("git branch"));
 		assertEquals("Hello world b", read(b));
+	}
+
+	@Test
+	public void testCheckouSingleFile() throws Exception {
+		Git git = new Git(db);
+		File a = writeTrashFile("a", "file a");
+		git.add().addFilepattern(".").call();
+		git.commit().setMessage("commit file a").call();
+		writeTrashFile("a", "Hello world a");
+		assertEquals("[]", Arrays.toString(execute("git checkout -- a")));
+		assertEquals("file a", read(a));
+	}
+
+	@Test
+	public void testCheckoutLink() throws Exception {
+		Git git = new Git(db);
+		writeLink("a", "link_a");
+		git.add().addFilepattern(".").call();
+		git.commit().setMessage("commit link a").call();
+		writeTrashFile("a", "Hello world a");
+		assertEquals("[]", Arrays.toString(execute("git checkout -- a")));
 	}
 }
