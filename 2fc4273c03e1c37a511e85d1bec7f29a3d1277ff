@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27d6470d_315bcc5b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-12-16T21:57:40Z",
+      "side": 1,
+      "message": "Are these semantics different in the RefDirectory subclass? Maybe the doc comment should say \"of the search path\".",
+      "range": {
+        "startLine": 222,
+        "startChar": 35,
+        "endLine": 222,
+        "endChar": 64
+      },
+      "revId": "2fc4273c03e1c37a511e85d1bec7f29a3d1277ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
