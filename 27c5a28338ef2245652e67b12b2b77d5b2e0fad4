@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27d6470d_9279fda1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-12-16T04:29:15Z",
+      "side": 1,
+      "message": "Oh that is so evil. Thanks for fixing it.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 52
+      },
+      "revId": "27c5a28338ef2245652e67b12b2b77d5b2e0fad4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_12096d39",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackConnection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-12-16T04:29:15Z",
+      "side": 1,
+      "message": "I think we could just do this as:\n\n  if (myTimer \u003d\u003d null) {\n    myTimer \u003d ...\n  }\n\nThat way we don\u0027t create and shutdown a thread for no reason. Instead we create just one thread. I don\u0027t see anything in the timeout code that requires throwing away the one made in the constructor.",
+      "range": {
+        "startLine": 146,
+        "startChar": 0,
+        "endLine": 150,
+        "endChar": 75
+      },
+      "revId": "27c5a28338ef2245652e67b12b2b77d5b2e0fad4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
