@@ -46,6 +46,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,6 +75,18 @@ public class CLIRepositoryTestCase extends LocalDiskRepositoryTestCase {
 		for (String cmd : cmds)
 			result.addAll(CLIGitCommand.execute(cmd, db));
 		return result.toArray(new String[0]);
+	}
+
+	/**
+	 * @param link
+	 *            the path of the symbolic link to create
+	 * @param target
+	 *            the target of the symbolic link
+	 * @return the path to the symbolic link
+	 * @throws Exception
+	 */
+	protected Path writeLink(String link, String target) throws Exception {
+		return JGitTestUtil.writeLink(db, link, target);
 	}
 
 	protected File writeTrashFile(final String name, final String data)
