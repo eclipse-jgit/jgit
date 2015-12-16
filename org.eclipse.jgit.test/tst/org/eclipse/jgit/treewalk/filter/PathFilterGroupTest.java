@@ -43,11 +43,18 @@
 
 package org.eclipse.jgit.treewalk.filter;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheEditor;
@@ -58,6 +65,7 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.StopWalkException;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.Sets;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.junit.Before;
 import org.junit.Test;
@@ -65,6 +73,8 @@ import org.junit.Test;
 public class PathFilterGroupTest {
 
 	private TreeFilter filter;
+
+	private Map<String, TreeFilter> singles;
 
 	@Before
 	public void setup() {
@@ -81,64 +91,75 @@ public class PathFilterGroupTest {
 				};
 		// @formatter:on
 		filter = PathFilterGroup.createFromStrings(paths);
+		singles = new HashMap<>();
+		for (String path : paths) {
+			singles.put(path, PathFilterGroup.createFromStrings(path));
+		}
 	}
 
 	@Test
 	public void testExact() throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
-		assertTrue(filter.include(fakeWalk("a")));
-		assertTrue(filter.include(fakeWalk("b/c")));
-		assertTrue(filter.include(fakeWalk("c/d/e")));
-		assertTrue(filter.include(fakeWalk("c/d/f")));
-		assertTrue(filter.include(fakeWalk("d/e/f/g")));
-		assertTrue(filter.include(fakeWalk("d/e/f/g.x")));
+		assertMatches(Sets.of("a"), fakeWalk("a"));
+		assertMatches(Sets.of("b/c"), fakeWalk("b/c"));
+		assertMatches(Sets.of("c/d/e"), fakeWalk("c/d/e"));
+		assertMatches(Sets.of("c/d/f"), fakeWalk("c/d/f"));
+		assertMatches(Sets.of("d/e/f/g"), fakeWalk("d/e/f/g"));
+		assertMatches(Sets.of("d/e/f/g.x"), fakeWalk("d/e/f/g.x"));
 	}
 
 	@Test
 	public void testNoMatchButClose() throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
-		assertFalse(filter.include(fakeWalk("a+")));
-		assertFalse(filter.include(fakeWalk("b+/c")));
-		assertFalse(filter.include(fakeWalk("c+/d/e")));
-		assertFalse(filter.include(fakeWalk("c+/d/f")));
-		assertFalse(filter.include(fakeWalk("c/d.a")));
-		assertFalse(filter.include(fakeWalk("d+/e/f/g")));
+		assertNoMatches(fakeWalk("a+"));
+		assertNoMatches(fakeWalk("b+/c"));
+		assertNoMatches(fakeWalk("c+/d/e"));
+		assertNoMatches(fakeWalk("c+/d/f"));
+		assertNoMatches(fakeWalk("c/d.a"));
+		assertNoMatches(fakeWalk("d+/e/f/g"));
 	}
 
 	@Test
 	public void testJustCommonPrefixIsNotMatch() throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
-		assertFalse(filter.include(fakeWalk("b/a")));
-		assertFalse(filter.include(fakeWalk("b/d")));
-		assertFalse(filter.include(fakeWalk("c/d/a")));
-		assertFalse(filter.include(fakeWalk("d/e/e")));
+		assertNoMatches(fakeWalk("b/a"));
+		assertNoMatches(fakeWalk("b/d"));
+		assertNoMatches(fakeWalk("c/d/a"));
+		assertNoMatches(fakeWalk("d/e/e"));
+		assertNoMatches(fakeWalk("d/e/f/g.y"));
 	}
 
 	@Test
 	public void testKeyIsPrefixOfFilter() throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
-		assertTrue(filter.include(fakeWalk("b")));
-		assertTrue(filter.include(fakeWalk("c/d")));
-		assertTrue(filter.include(fakeWalk("c/d")));
-		assertTrue(filter.include(fakeWalk("c")));
-		assertTrue(filter.include(fakeWalk("d/e/f")));
-		assertTrue(filter.include(fakeWalk("d/e")));
-		assertTrue(filter.include(fakeWalk("d")));
+		assertMatches(Sets.of("b/c"), fakeWalkAtSubtree("b"));
+		assertMatches(Sets.of("c/d/e", "c/d/f"), fakeWalkAtSubtree("c/d"));
+		assertMatches(Sets.of("c/d/e", "c/d/f"), fakeWalkAtSubtree("c"));
+		assertMatches(Sets.of("d/e/f/g", "d/e/f/g.x"),
+				fakeWalkAtSubtree("d/e/f"));
+		assertMatches(Sets.of("d/e/f/g", "d/e/f/g.x"),
+				fakeWalkAtSubtree("d/e"));
+		assertMatches(Sets.of("d/e/f/g", "d/e/f/g.x"), fakeWalkAtSubtree("d"));
+
+		assertNoMatches(fakeWalk("b"));
+		assertNoMatches(fakeWalk("c/d"));
+		assertNoMatches(fakeWalk("c"));
+		assertNoMatches(fakeWalk("d/e/f"));
+		assertNoMatches(fakeWalk("d/e"));
+		assertNoMatches(fakeWalk("d"));
+
 	}
 
 	@Test
 	public void testFilterIsPrefixOfKey() throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
-		assertTrue(filter.include(fakeWalk("a/b")));
-		assertTrue(filter.include(fakeWalk("b/c/d")));
-		assertTrue(filter.include(fakeWalk("c/d/e/f")));
-		assertTrue(filter.include(fakeWalk("c/d/f/g")));
-		assertTrue(filter.include(fakeWalk("d/e/f/g/h")));
-		assertTrue(filter.include(fakeWalk("d/e/f/g/y")));
-		assertTrue(filter.include(fakeWalk("d/e/f/g.x/h")));
-		// listed before g/y, so can't StopWalk here, but it's not included
-		// either
-		assertFalse(filter.include(fakeWalk("d/e/f/g.y")));
+		assertMatches(Sets.of("a"), fakeWalk("a/b"));
+		assertMatches(Sets.of("b/c"), fakeWalk("b/c/d"));
+		assertMatches(Sets.of("c/d/e"), fakeWalk("c/d/e/f"));
+		assertMatches(Sets.of("c/d/f"), fakeWalk("c/d/f/g"));
+		assertMatches(Sets.of("d/e/f/g"), fakeWalk("d/e/f/g/h"));
+		assertMatches(Sets.of("d/e/f/g"), fakeWalk("d/e/f/g/y"));
+		assertMatches(Sets.of("d/e/f/g.x"), fakeWalk("d/e/f/g.x/h"));
 	}
 
 	@Test
@@ -182,12 +203,54 @@ public class PathFilterGroupTest {
 		// less obvious #2 due to git sorting order
 		filter.include(fakeWalk("d/e/f/g/h.txt"));
 
+		// listed before g/y, so can't StopWalk here
+		filter.include(fakeWalk("d/e/f/g.y"));
+		singles.get("d/e/f/g").include(fakeWalk("d/e/f/g.y"));
+
 		// non-ascii
 		try {
 			filter.include(fakeWalk("\u00C0"));
 			fail("StopWalkException expected");
 		} catch (StopWalkException e) {
 			// good
+		}
+	}
+
+	private void assertNoMatches(TreeWalk tw) throws MissingObjectException,
+			IncorrectObjectTypeException, IOException {
+		assertMatches(Sets.<String> of(), tw);
+	}
+
+	private void assertMatches(Set<String> expect, TreeWalk tw)
+			throws MissingObjectException, IncorrectObjectTypeException,
+			IOException {
+		List<String> actual = new ArrayList<>();
+		for (String path : singles.keySet()) {
+			if (includes(singles.get(path), tw)) {
+				actual.add(path);
+			}
+		}
+
+		String[] e = expect.toArray(new String[expect.size()]);
+		String[] a = actual.toArray(new String[actual.size()]);
+		Arrays.sort(e);
+		Arrays.sort(a);
+		assertArrayEquals(e, a);
+
+		if (expect.isEmpty()) {
+			assertFalse(includes(filter, tw));
+		} else {
+			assertTrue(includes(filter, tw));
+		}
+	}
+
+	private static boolean includes(TreeFilter f, TreeWalk tw)
+			throws MissingObjectException, IncorrectObjectTypeException,
+			IOException {
+		try {
+			return f.include(tw);
+		} catch (StopWalkException e) {
+			return false;
 		}
 	}
 
@@ -210,4 +273,25 @@ public class PathFilterGroupTest {
 		return ret;
 	}
 
+	TreeWalk fakeWalkAtSubtree(final String path) throws IOException {
+		DirCache dc = DirCache.newInCore();
+		DirCacheEditor dce = dc.editor();
+		dce.add(new DirCacheEditor.PathEdit(path + "/README") {
+			public void apply(DirCacheEntry ent) {
+				ent.setFileMode(FileMode.REGULAR_FILE);
+			}
+		});
+		dce.finish();
+
+		TreeWalk ret = new TreeWalk((ObjectReader) null);
+		ret.addTree(new DirCacheIterator(dc));
+		ret.next();
+		while (!path.equals(ret.getPathString())) {
+			if (ret.isSubtree()) {
+				ret.enterSubtree();
+			}
+			ret.next();
+		}
+		return ret;
+	}
 }
