@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27d6470d_6e19f506",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProgressSpinner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-12-16T20:35:22Z",
+      "side": 1,
+      "message": "optional: MIN_REFRESH_MILLIS?",
+      "range": {
+        "startLine": 63,
+        "startChar": 27,
+        "endLine": 63,
+        "endChar": 38
+      },
+      "revId": "abe7c376d93a824d307cc3e0240c73b8260ca952",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
