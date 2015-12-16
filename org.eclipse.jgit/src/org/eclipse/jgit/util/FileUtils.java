@@ -409,7 +409,9 @@ public class FileUtils {
 			throws IOException {
 		Path nioPath = path.toPath();
 		if (Files.exists(nioPath, LinkOption.NOFOLLOW_LINKS)) {
-			if (Files.isRegularFile(nioPath)) {
+			BasicFileAttributes attrs = Files.readAttributes(nioPath,
+					BasicFileAttributes.class, LinkOption.NOFOLLOW_LINKS);
+			if (attrs.isRegularFile() || attrs.isSymbolicLink()) {
 				delete(path);
 			} else {
 				delete(path, EMPTY_DIRECTORIES_ONLY | RECURSIVE);
