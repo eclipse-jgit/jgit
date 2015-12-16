@@ -43,10 +43,12 @@
 package org.eclipse.jgit.api;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 
 import org.eclipse.jgit.api.CheckoutCommand.Stage;
 import org.eclipse.jgit.api.errors.JGitInternalException;
@@ -59,6 +61,9 @@ import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.RepositoryState;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.FileUtils;
+import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -72,6 +77,8 @@ public class PathCheckoutCommandTest extends RepositoryTestCase {
 	private static final String FILE2 = "Test2.txt";
 
 	private static final String FILE3 = "Test3.txt";
+
+	private static final String LINK = "link";
 
 	Git git;
 
@@ -96,6 +103,64 @@ public class PathCheckoutCommandTest extends RepositoryTestCase {
 		writeTrashFile(FILE2, "c");
 		git.add().addFilepattern(FILE1).addFilepattern(FILE2).call();
 		git.commit().setMessage("Third commit").call();
+	}
+
+	@Test
+	public void testUpdateSymLink() throws Exception {
+		Assume.assumeTrue(FS.DETECTED.supportsSymlinks());
+
+		Path path = writeLink(LINK, FILE1);
+		git.add().addFilepattern(LINK).call();
+		git.commit().setMessage("Added link").call();
+		assertEquals("3", read(path.toFile()));
+
+		writeLink(LINK, FILE2);
+		assertEquals("c", read(path.toFile()));
+
+		CheckoutCommand co = git.checkout();
+		co.addPath(LINK).call();
+
+		assertEquals("3", read(path.toFile()));
+	}
+
+	@Test
+	public void testUpdateBrokenSymLinkToDirectory() throws Exception {
+		Assume.assumeTrue(FS.DETECTED.supportsSymlinks());
+
+		Path path = writeLink(LINK, "f");
+		git.add().addFilepattern(LINK).call();
+		git.commit().setMessage("Added link").call();
+		assertEquals("f", FileUtils.readSymLink(path.toFile()));
+		assertTrue(path.toFile().exists());
+
+		writeLink(LINK, "link_to_nowhere");
+		assertFalse(path.toFile().exists());
+		assertEquals("link_to_nowhere", FileUtils.readSymLink(path.toFile()));
+
+		CheckoutCommand co = git.checkout();
+		co.addPath(LINK).call();
+
+		assertEquals("f", FileUtils.readSymLink(path.toFile()));
+	}
+
+	@Test
+	public void testUpdateBrokenSymLink() throws Exception {
+		Assume.assumeTrue(FS.DETECTED.supportsSymlinks());
+
+		Path path = writeLink(LINK, FILE1);
+		git.add().addFilepattern(LINK).call();
+		git.commit().setMessage("Added link").call();
+		assertEquals("3", read(path.toFile()));
+		assertEquals(FILE1, FileUtils.readSymLink(path.toFile()));
+
+		writeLink(LINK, "link_to_nowhere");
+		assertFalse(path.toFile().exists());
+		assertEquals("link_to_nowhere", FileUtils.readSymLink(path.toFile()));
+
+		CheckoutCommand co = git.checkout();
+		co.addPath(LINK).call();
+
+		assertEquals("3", read(path.toFile()));
 	}
 
 	@Test
