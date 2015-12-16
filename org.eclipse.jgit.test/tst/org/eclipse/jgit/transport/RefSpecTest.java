@@ -341,6 +341,41 @@ public class RefSpecTest {
 	}
 
 	@Test
+	public void testWildcardAfterText1() {
+		RefSpec a = new RefSpec("refs/heads/*/for-linus:refs/remotes/mine/*-blah");
+		assertTrue(a.isWildcard());
+		assertTrue(a.matchDestination("refs/remotes/mine/x-blah"));
+		assertTrue(a.matchDestination("refs/remotes/mine/foo-blah"));
+		assertTrue(a.matchDestination("refs/remotes/mine/foo/x-blah"));
+		assertFalse(a.matchDestination("refs/remotes/origin/foo/x-blah"));
+
+		RefSpec b = a.expandFromSource("refs/heads/foo/for-linus");
+		assertEquals("refs/remotes/mine/foo-blah", b.getDestination());
+		RefSpec c = a.expandFromDestination("refs/remotes/mine/foo-blah");
+		assertEquals("refs/heads/foo/for-linus", c.getSource());
+	}
+
+	@Test
+	public void testWildcardAfterText2() {
+		RefSpec a = new RefSpec("refs/heads*/for-linus:refs/remotes/mine/*");
+		assertTrue(a.isWildcard());
+		assertTrue(a.matchSource("refs/headsx/for-linus"));
+		assertTrue(a.matchSource("refs/headsfoo/for-linus"));
+		assertTrue(a.matchSource("refs/headsx/foo/for-linus"));
+		assertFalse(a.matchSource("refs/headx/for-linus"));
+
+		RefSpec b = a.expandFromSource("refs/headsx/for-linus");
+		assertEquals("refs/remotes/mine/x", b.getDestination());
+		RefSpec c = a.expandFromDestination("refs/remotes/mine/x");
+		assertEquals("refs/headsx/for-linus", c.getSource());
+
+		RefSpec d = a.expandFromSource("refs/headsx/foo/for-linus");
+		assertEquals("refs/remotes/mine/x/foo", d.getDestination());
+		RefSpec e = a.expandFromDestination("refs/remotes/mine/x/foo");
+		assertEquals("refs/headsx/foo/for-linus", e.getSource());
+	}
+
+	@Test
 	public void testWildcardMirror() {
 		RefSpec a = new RefSpec("*:*");
 		assertTrue(a.isWildcard());
@@ -401,21 +436,6 @@ public class RefSpecTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void invalidWhenMoreThanOneWildcardInDestination() {
 		assertNotNull(new RefSpec("refs/heads/*:refs/heads/*/*"));
-	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void invalidWhenWildcardAfterText() {
-		assertNotNull(new RefSpec("refs/heads/wrong*:refs/heads/right/*"));
-	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void invalidWhenWildcardBeforeText() {
-		assertNotNull(new RefSpec("*wrong:right/*"));
-	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void invalidWhenWildcardBeforeTextAtEnd() {
-		assertNotNull(new RefSpec("refs/heads/*wrong:right/*"));
 	}
 
 	@Test(expected = IllegalArgumentException.class)
