@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27d6470d_b40a6a2a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/FileUtilTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-12-17T09:34:55Z",
+      "side": 1,
+      "message": "This assertion is not needed anymore",
+      "range": {
+        "startLine": 431,
+        "startChar": 2,
+        "endLine": 431,
+        "endChar": 36
+      },
+      "revId": "b3db27f6704718e9d5724f91a4936ef1d9ace463",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_d417ee4e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/FileUtilTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-12-17T09:34:55Z",
+      "side": 1,
+      "message": "This assertion is not needed anymore",
+      "range": {
+        "startLine": 443,
+        "startChar": 2,
+        "endLine": 443,
+        "endChar": 36
+      },
+      "revId": "b3db27f6704718e9d5724f91a4936ef1d9ace463",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
