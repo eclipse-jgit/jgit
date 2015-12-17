@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "27d6470d_742aa2b3",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/FileUtilTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-12-17T09:04:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27d6470d_540e7e74",
+      "revId": "e80d591b431dd54c2f7ea7bb52b07aa078425ef0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27d6470d_1404f652",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/FileUtilTest.java",
         "patchSetId": 3
@@ -30,6 +48,30 @@
       "writtenOn": "2015-12-17T08:55:15Z",
       "side": 1,
       "message": "Do we really want this tests to run even if our fs is telling it is not supporting symlinks? I not then I would propose:\n\n\tFS fs \u003d FS.DETECTED;\n\tAssume.assumeTrue(fs.supportsSymlinks());\n\tFile file \u003d new File(trash, \"x\");\n\ttry {\n\t\tfs.createSymLink(file, \"y\");\n\t} catch (IOException e) {\n\t\tfail(\"FS claims to support symlinks but attempt to create symlink failed\");\n\t}\n\nor even shorter:\n\n\tFS fs \u003d FS.DETECTED;\n\tAssume.assumeTrue(fs.supportsSymlinks());\n\tFile file \u003d new File(trash, \"x\");\n\tfs.createSymLink(file, \"y\");",
+      "range": {
+        "startLine": 446,
+        "startChar": 0,
+        "endLine": 459,
+        "endChar": 36
+      },
+      "revId": "e80d591b431dd54c2f7ea7bb52b07aa078425ef0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_54259ee0",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/FileUtilTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-12-17T09:04:56Z",
+      "side": 1,
+      "message": "Sure. I will update it. I\u0027ve just copy/pasted existing tests but this is no excuse.",
+      "parentUuid": "27d6470d_1404f652",
       "range": {
         "startLine": 446,
         "startChar": 0,
