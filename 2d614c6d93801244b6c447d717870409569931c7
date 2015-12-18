@@ -16,6 +16,29 @@
       "revId": "2d614c6d93801244b6c447d717870409569931c7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_55c755dd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/AddCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-12-18T20:25:24Z",
+      "side": 1,
+      "message": "This looks like an unrelated change. Is it needed? Could it happen in a separate commit?",
+      "range": {
+        "startLine": 143,
+        "startChar": 0,
+        "endLine": 143,
+        "endChar": 63
+      },
+      "revId": "2d614c6d93801244b6c447d717870409569931c7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
