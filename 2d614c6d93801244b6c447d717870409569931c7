@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27d6470d_b5c98150",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1182,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-12-18T18:11:06Z",
+      "side": 1,
+      "message": "This test was added in a406ebf4018f (change Ifc6c61592d9b54d26c66367163acdebea369145c). But is now broken by fixing a different bug. Which makes me wonder if this test was working as expected.",
+      "revId": "2d614c6d93801244b6c447d717870409569931c7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
