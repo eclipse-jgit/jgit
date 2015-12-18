@@ -43,6 +43,7 @@
 package org.eclipse.jgit.dircache;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -152,6 +153,21 @@ public class DirCachePathEditTest {
 		assertEquals(DirCacheEntry.STAGE_1, entries.get(0).getStage());
 		assertEquals(DirCacheEntry.STAGE_2, entries.get(1).getStage());
 		assertEquals(DirCacheEntry.STAGE_3, entries.get(2).getStage());
+	}
+
+	@Test
+	public void testFileOverlapsTree() throws Exception {
+		DirCache dc = DirCache.newInCore();
+		DirCacheEditor editor = dc.editor();
+		editor.add(new AddEdit("a"));
+		editor.add(new AddEdit("a/b"));
+		editor.finish();
+
+		DirCacheEntry a = dc.getEntry(0);
+		DirCacheEntry ab = dc.getEntry(1);
+		assertEquals("a", a.getPathString());
+		assertEquals("a/b", ab.getPathString());
+		fail("This test should not have passed.");
 	}
 
 	private static DirCacheEntry createEntry(String path, int stage) {
