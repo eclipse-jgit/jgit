@@ -93,6 +93,17 @@ public class DirCacheEditor extends BaseDirCacheEditor {
 	}
 
 	/**
+	 * @param check
+	 *            if true, check for name conflicts during finish.
+	 * @return {@code this}
+	 * @since 4.2
+	 */
+	public DirCacheEditor setCheckNameConflicts(boolean check) {
+		checkNameConflicts = check;
+		return this;
+	}
+
+	/**
 	 * Append one edit command to the list of commands to be applied.
 	 * <p>
 	 * Edit commands may be added in any order chosen by the application. They

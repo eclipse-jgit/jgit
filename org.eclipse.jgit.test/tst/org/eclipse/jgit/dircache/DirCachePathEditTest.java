@@ -43,13 +43,21 @@
 package org.eclipse.jgit.dircache;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jgit.dircache.DirCacheEditor.PathEdit;
+import org.eclipse.jgit.errors.CorruptObjectException;
+import org.eclipse.jgit.errors.DirCacheNameConflictException;
+import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.lib.ObjectChecker;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.junit.Test;
 
 public class DirCachePathEditTest {
@@ -152,6 +160,85 @@ public class DirCachePathEditTest {
 		assertEquals(DirCacheEntry.STAGE_1, entries.get(0).getStage());
 		assertEquals(DirCacheEntry.STAGE_2, entries.get(1).getStage());
 		assertEquals(DirCacheEntry.STAGE_3, entries.get(2).getStage());
+	}
+
+	@Test
+	public void knownBrokenTestFileOverlapsTree() throws Exception {
+		DirCache dc = DirCache.newInCore();
+		DirCacheEditor editor = dc.editor().setCheckNameConflicts(false);
+		editor.add(new AddEdit("a"));
+		editor.add(new AddEdit("a/b"));
+		editor.finish();
+
+		assertEquals(2, dc.getEntryCount());
+		assertEquals("a", dc.getEntry(0).getPathString());
+		assertEquals(FileMode.REGULAR_FILE, dc.getEntry(0).getFileMode());
+
+		assertEquals("a/b", dc.getEntry(1).getPathString());
+		assertEquals(FileMode.REGULAR_FILE, dc.getEntry(0).getFileMode());
+
+		try (InMemoryRepository git = new InMemoryRepository(
+				new DfsRepositoryDescription("test"))) {
+			ObjectId rootId;
+			try (ObjectInserter ins = git.newObjectInserter()) {
+				rootId = dc.writeTree(ins);
+				ins.flush();
+			}
+
+			try (ObjectReader reader = git.newObjectReader()) {
+				byte[] raw = reader.open(rootId).getCachedBytes();
+				try {
+					new ObjectChecker().checkTree(raw);
+					fail("ObjectChecker accepts invalid tree");
+				} catch (CorruptObjectException err) {
+					assertEquals("duplicate entry names", err.getMessage());
+				}
+			}
+		}
+	}
+
+	@Test
+	public void testFileOverlapsTree() throws Exception {
+		DirCache dc = DirCache.newInCore();
+		DirCacheEditor editor = dc.editor().setCheckNameConflicts(true);
+		editor.add(new AddEdit("a"));
+		editor.add(new AddEdit("a/b"));
+		try {
+			editor.finish();
+			fail("Expected DirCacheNameConflictException to be thrown");
+		} catch (DirCacheNameConflictException e) {
+			assertEquals("a a/b", e.getMessage());
+			assertEquals("a", e.getPath1());
+			assertEquals("a/b", e.getPath2());
+		}
+
+		editor = dc.editor().setCheckNameConflicts(true);
+		editor.add(new AddEdit("A.c"));
+		editor.add(new AddEdit("A/c"));
+		editor.add(new AddEdit("A0c"));
+		editor.add(new AddEdit("A"));
+		try {
+			editor.finish();
+			fail("Expected DirCacheNameConflictException to be thrown");
+		} catch (DirCacheNameConflictException e) {
+			assertEquals("A A/c", e.getMessage());
+			assertEquals("A", e.getPath1());
+			assertEquals("A/c", e.getPath2());
+		}
+
+		editor = dc.editor().setCheckNameConflicts(true);
+		editor.add(new AddEdit("A.c"));
+		editor.add(new AddEdit("A/b/c/d"));
+		editor.add(new AddEdit("A/b/c"));
+		editor.add(new AddEdit("A0c"));
+		try {
+			editor.finish();
+			fail("Expected DirCacheNameConflictException to be thrown");
+		} catch (DirCacheNameConflictException e) {
+			assertEquals("A/b/c A/b/c/d", e.getMessage());
+			assertEquals("A/b/c", e.getPath1());
+			assertEquals("A/b/c/d", e.getPath2());
+		}
 	}
 
 	private static DirCacheEntry createEntry(String path, int stage) {
