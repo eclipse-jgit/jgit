@@ -87,6 +87,17 @@ public class DirCacheBuilder extends BaseDirCacheEditor {
 	}
 
 	/**
+	 * @param check
+	 *            if true, check for name conflicts during finish.
+	 * @return {@code this}
+	 * @since 4.2
+	 */
+	public DirCacheBuilder setCheckNameConflicts(boolean check) {
+		checkNameConflicts = check;
+		return this;
+	}
+
+	/**
 	 * Append one entry into the resulting entry list.
 	 * <p>
 	 * The entry is placed at the end of the entry list. If the entry causes the
