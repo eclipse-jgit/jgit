@@ -39,6 +39,30 @@
       "revId": "2d614c6d93801244b6c447d717870409569931c7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_b5b50166",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/AddCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-12-18T20:29:04Z",
+      "side": 1,
+      "message": "(by unrelated I don\u0027t actually mean unrelated --- I mean that it is not part of the change to the DirCache API that is the subject of the change.\n\nTo avoid breaking out-of-tree callers, it is useful if this commit fixing the DirCache API doesn\u0027t touch any callers. That makes it easier to be confident that this won\u0027t require changes in all out-of-tree callers too.\n\nIt\u0027s likely that the API change reveals problems in callers, which can be motivation for making additional commits before or after the API change.\n\nThat also makes the fixes to callers easier to review, since they get their own commit message.)",
+      "parentUuid": "27d6470d_55c755dd",
+      "range": {
+        "startLine": 143,
+        "startChar": 0,
+        "endLine": 143,
+        "endChar": 63
+      },
+      "revId": "2d614c6d93801244b6c447d717870409569931c7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
