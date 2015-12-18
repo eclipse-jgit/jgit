@@ -63,7 +63,7 @@ import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
-import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.treewalk.NameConflictTreeWalk;
 import org.eclipse.jgit.treewalk.TreeWalk.OperationType;
 import org.eclipse.jgit.treewalk.WorkingTreeIterator;
 import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
@@ -140,7 +140,7 @@ public class AddCommand extends GitCommand<DirCache> {
 			addAll = true;
 
 		try (ObjectInserter inserter = repo.newObjectInserter();
-				final TreeWalk tw = new TreeWalk(repo)) {
+				NameConflictTreeWalk tw = new NameConflictTreeWalk(repo)) {
 			tw.setOperationType(OperationType.CHECKIN_OP);
 			dc = repo.lockDirCache();
 			DirCacheIterator c;
