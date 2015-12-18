@@ -43,11 +43,13 @@
 package org.eclipse.jgit.dircache;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jgit.dircache.DirCacheEditor.PathEdit;
+import org.eclipse.jgit.errors.DirCacheNameConflictException;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
@@ -210,6 +212,50 @@ public class DirCachePathEditTest {
 		assertEquals("b/c/d/f", dc.getEntry(2).getPathString());
 		assertEquals("b/g/h/i", dc.getEntry(3).getPathString());
 		assertEquals("e", dc.getEntry(4).getPathString());
+	}
+
+	@Test
+	public void testFileOverlapsTree() throws Exception {
+		DirCache dc = DirCache.newInCore();
+		DirCacheEditor editor = dc.editor();
+		editor.add(new AddEdit("a"));
+		editor.add(new AddEdit("a/b").setReplace(false));
+		try {
+			editor.finish();
+			fail("Expected DirCacheNameConflictException to be thrown");
+		} catch (DirCacheNameConflictException e) {
+			assertEquals("a a/b", e.getMessage());
+			assertEquals("a", e.getPath1());
+			assertEquals("a/b", e.getPath2());
+		}
+
+		editor = dc.editor();
+		editor.add(new AddEdit("A.c"));
+		editor.add(new AddEdit("A/c").setReplace(false));
+		editor.add(new AddEdit("A0c"));
+		editor.add(new AddEdit("A"));
+		try {
+			editor.finish();
+			fail("Expected DirCacheNameConflictException to be thrown");
+		} catch (DirCacheNameConflictException e) {
+			assertEquals("A A/c", e.getMessage());
+			assertEquals("A", e.getPath1());
+			assertEquals("A/c", e.getPath2());
+		}
+
+		editor = dc.editor();
+		editor.add(new AddEdit("A.c"));
+		editor.add(new AddEdit("A/b/c/d").setReplace(false));
+		editor.add(new AddEdit("A/b/c"));
+		editor.add(new AddEdit("A0c"));
+		try {
+			editor.finish();
+			fail("Expected DirCacheNameConflictException to be thrown");
+		} catch (DirCacheNameConflictException e) {
+			assertEquals("A/b/c A/b/c/d", e.getMessage());
+			assertEquals("A/b/c", e.getPath1());
+			assertEquals("A/b/c/d", e.getPath2());
+		}
 	}
 
 	private static DirCacheEntry createEntry(String path, int stage) {
