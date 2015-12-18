@@ -51,6 +51,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -449,6 +450,8 @@ public class RepoCommand extends GitCommand<RevCommit> {
 			ObjectInserter inserter = repo.newObjectInserter();
 			try (RevWalk rw = new RevWalk(repo)) {
 				Config cfg = new Config();
+				// isNestedCopyfile expects a sorted list of projects.
+				Collections.sort(bareProjects);
 				for (RepoProject proj : bareProjects) {
 					String name = proj.getPath();
 					String nameUri = proj.getName();
@@ -473,6 +476,8 @@ public class RepoCommand extends GitCommand<RevCommit> {
 					builder.add(dcEntry);
 
 					for (CopyFile copyfile : proj.getCopyFiles()) {
+						if (isNestedCopyfile(copyfile, bareProjects))
+							continue;
 						byte[] src = callback.readFile(
 								nameUri, proj.getRevision(), copyfile.src);
 						objectId = inserter.insert(Constants.OBJ_BLOB, src);
@@ -582,5 +587,21 @@ public class RepoCommand extends GitCommand<RevCommit> {
 				return r.getName();
 		}
 		return ref;
+	}
+
+	private boolean isNestedCopyfile(
+			CopyFile copyfile, List<RepoProject> sortedProjects) {
+		if (copyfile.dest.indexOf('/') == -1)
+			// If the copyfile is at root level then it won't be nested.
+			return false;
+		for (RepoProject proj : sortedProjects) {
+			if (proj.getPath().compareTo(copyfile.dest) > 0)
+				// Early return as remaining projects can't be ancestor of this
+				// copyfile config.
+				return false;
+			if (proj.isAncestorOf(copyfile.dest))
+				return true;
+		}
+		return false;
 	}
 }
