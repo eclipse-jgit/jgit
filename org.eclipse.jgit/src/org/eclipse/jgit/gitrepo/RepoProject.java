@@ -273,7 +273,19 @@ public class RepoProject implements Comparable<RepoProject> {
 	 * @return true if this sub repo is the ancestor of given sub repo.
 	 */
 	public boolean isAncestorOf(RepoProject that) {
-		return that.getPathWithSlash().startsWith(this.getPathWithSlash());
+		return isAncestorOf(that.getPathWithSlash());
+	}
+
+	/**
+	 * Check if this sub repo is the ancestor of given path.
+	 *
+	 * @param path
+	 *            non null
+	 * @return true if this sub repo is the ancestor of given path.
+	 * @since 4.2
+	 */
+	public boolean isAncestorOf(String path) {
+		return path.startsWith(getPathWithSlash());
 	}
 
 	@Override
