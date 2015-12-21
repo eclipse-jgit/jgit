@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "27d6470d_eb208ca5",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1182,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-12-21T08:36:46Z",
+      "side": 1,
+      "message": "Yes, it was working as expected. \n\nSee bug 474973 for the use case: if user changes entry type (e.g. from file to directory or from link to directory), and adds few files into that new directory, jgit fails to checkout that directory.\n\nCLI git has no issues in that case, it simply deletes the new directory structure if it is not added to the index.\n\nWith the current patch the old bug re-appears:\n\ngit init changeMode\ncd changeMode\ntouch a\ngit add a\ngit commit -m \"added file\"\nrm a\nmkdir -p a/b\ntouch a/b/text.txt\ngit add a/b/text.txt\ngit status\nOn branch master\nChanges to be committed:\nrenamed:    a -\u003e a/b/text.txt\ngit checkout HEAD a\ngit status\nOn branch master\nnothing to commit, working directory clean\n\nNow redo all the steps but replace \"git checkout HEAD a\" with \"jgit checkout HEAD a\" and observe unexpected error and wrong repository state afterwards:\n\njgit checkout HEAD a\nfatal: a a/b/text.txt\ngit status\nOn branch master\nChanges to be committed:\n        renamed:    a -\u003e a/b/text.txt\nChanges not staged for commit:\n        deleted:    a/b/text.txt\nUntracked files:\n        a",
+      "parentUuid": "27d6470d_b5c98150",
+      "revId": "2d614c6d93801244b6c447d717870409569931c7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27d6470d_55c755dd",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/AddCommand.java",
         "patchSetId": 4
