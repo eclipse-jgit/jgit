@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27d6470d_6e73aa0a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-12-21T22:19:22Z",
+      "side": 1,
+      "message": "Please don\u0027t catch NPE.",
+      "range": {
+        "startLine": 428,
+        "startChar": 25,
+        "endLine": 428,
+        "endChar": 48
+      },
+      "revId": "fd3893a90693b08ed50fb91d014cf502619c6a3d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_ee66da47",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-12-21T22:19:22Z",
+      "side": 1,
+      "message": "When is this exception likely to be thrown?\n\nThis would be easier to understand with a narrower scope:\n\n if (inputStream \u003d\u003d null \u0026\u0026 path \u003d\u003d null)\n   throw new IllegalArgumentException(pathNotConfigured);\n\n ...\n ManifestParser parser \u003d ...\n try (InputStream in \u003d\n     inputStream \u003d\u003d null ? new FileInputStream(path) : inputStream) {\n   parser.read(in);\n } catch (IOException e) {\n   throw new GitAPIException(\"Cannot read manifest\", e);\n }\n for (RepoProject proj : parser.getFilteredProjects()) {\n   ...\n }\n\nBut that is all orthogonal to the topic of this CL. I think the simplest thing in the context of this CL would be to either make that change in a parent commit or undo the use of try-with-resources. Sorry for the complication.",
+      "range": {
+        "startLine": 428,
+        "startChar": 11,
+        "endLine": 428,
+        "endChar": 22
+      },
+      "revId": "fd3893a90693b08ed50fb91d014cf502619c6a3d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_e9b1742e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-12-21T22:19:22Z",
+      "side": 1,
+      "message": "I still think it would be simpler to have this sort happen when bareProjects is created. The problem is that this is far enough away from both the isNestedCopyfile call and the code that builds bareProjects is that it is following the control flow to be sure sort is actually called (and to preserve that property as the code gets modified).\n\nThe bareProjects inherit their order from filteredProjects, which inherits its order from projects, which inherits its order from the manifest. One option would be to make bareProjects always sorted:\n\n  List\u003cRepoProject\u003e projects \u003d null;\n  if (repo.isBare()) {\n    projects \u003d new ArrayList\u003c\u003e();\n  }\n  for (RepoProject proj : parser.getFilteredProjects()) {\n    addSubmodule(projects, proj);\n  }\n  sort(projects);\n  bareProjects \u003d projects;",
+      "range": {
+        "startLine": 439,
+        "startChar": 0,
+        "endLine": 440,
+        "endChar": 35
+      },
+      "revId": "fd3893a90693b08ed50fb91d014cf502619c6a3d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
