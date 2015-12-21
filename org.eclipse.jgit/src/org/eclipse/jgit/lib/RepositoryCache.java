@@ -113,7 +113,7 @@ public class RepositoryCache {
 	 * <p>
 	 * During registration the cache automatically increments the usage counter,
 	 * permitting it to retain the reference. A {@link FileKey} for the
-	 * repository's {@link Repository#getDirectory()} is used to index the
+	 * repository's {@link Repository#getGitDir(boolean)} is used to index the
 	 * repository in the cache.
 	 * <p>
 	 * If another repository already is registered in the cache at this
@@ -383,10 +383,47 @@ public class RepositoryCache {
 		 *         Git directory.
 		 */
 		public static boolean isGitRepository(final File dir, FS fs) {
-			return fs.resolve(dir, "objects").exists() //$NON-NLS-1$
-					&& fs.resolve(dir, "refs").exists() //$NON-NLS-1$
-					&& isValidHead(new File(dir, Constants.HEAD));
+			/*
+			 * Bug 477475 - git 2.5 worktree support
+			 *
+			 * Andre Bossert <anb0s@anbos.de>
+			 *
+			 * https://bugs.eclipse.org/bugs/show_bug.cgi?id=477475
+			 * https://git.eclipse.org/r/#/c/54404/
+			 *
+			 * This code tries to check for valid repo but has only GIT_DIR path
+			 * for worktree support we need the GIT_COMMON_DIR to and check
+			 * objects and refs there and HEAD should be checked in GIT_DIR of
+			 * worktree --> we need complete FileRepository here with setup()
+			 * called to have the GIT_COMMON_DIR and other parameters.
+			 *
+			 * TODO: question: do we have bad performance, because Cache creates
+			 * full FileRepository ???
+			 *
+			 */
+			try {
+				FileRepository fileRep = getGitRepository(dir);
+				return fs.resolve(fileRep.getGitDir(true), "objects").exists() //$NON-NLS-1$
+						&& fs.resolve(fileRep.getGitDir(true), "refs").exists() //$NON-NLS-1$
+						&& isValidHead(new File(fileRep.getGitDir(false),
+								Constants.HEAD));
+			} catch (IOException e) {
+				return false;
+			}
 		}
+
+		/**
+		 * @param dir
+		 *            the GIT_DIR path
+		 * @return the FileRepository builded
+		 * @throws IOException
+		 * @since 4.3
+		 */
+		private static FileRepository getGitRepository(final File dir)
+				throws IOException {
+			return new FileRepository(dir);
+		}
+
 
 		private static boolean isValidHead(final File head) {
 			final String ref = readFirstLine(head);

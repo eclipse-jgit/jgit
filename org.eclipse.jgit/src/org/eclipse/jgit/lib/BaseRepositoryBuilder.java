@@ -128,6 +128,8 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 
 	private File gitDir;
 
+	private File gitCommonDir;
+
 	private File objectDirectory;
 
 	private List<File> alternateObjectDirectories;
@@ -185,6 +187,28 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 	/** @return the meta data directory; null if not set. */
 	public File getGitDir() {
 		return gitDir;
+	}
+
+	/**
+	 * Set $GIT_COMMON_DIR.
+	 *
+	 * @param gitCommonDir
+	 *            {@code GIT_DIR}, the repository meta directory.
+	 * @return {@code this} (for chaining calls).
+	 * @since 4.3
+	 */
+	public B setGitCommonDir(File gitCommonDir) {
+		this.gitCommonDir = gitCommonDir;
+		this.config = null;
+		return self();
+	}
+
+	/**
+	 * @return $GIT_COMMON_DIR; null if not set.
+	 * @since 4.3
+	 */
+	public File getGitCommonDir() {
+		return gitCommonDir;
 	}
 
 	/**
@@ -606,6 +630,18 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 			else
 				setGitDir(getSymRef(getWorkTree(), dotGit, safeFS()));
 		}
+
+		if (getGitCommonDir() == null) {
+			File commonDirFile = new File(getGitDir(), "commondir");
+			if (commonDirFile.isFile()) {
+				String commonDirPath = new String(IO.readFully(commonDirFile)).trim();
+				if (!new File(commonDirPath).isAbsolute())
+					gitCommonDir = new File(getGitDir(), commonDirPath)
+							.getCanonicalFile();
+				else
+					gitCommonDir = new File(commonDirPath);
+			}
+		}
 	}
 
 	/**
@@ -646,8 +682,12 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 	 *             the repository could not be accessed
 	 */
 	protected void setupInternals() throws IOException {
-		if (getObjectDirectory() == null && getGitDir() != null)
-			setObjectDirectory(safeFS().resolve(getGitDir(), "objects")); //$NON-NLS-1$
+		if (getObjectDirectory() == null) {
+			if (getGitCommonDir() != null)
+				setObjectDirectory(safeFS().resolve(getGitCommonDir(), "objects")); //$NON-NLS-1$
+			else if (getGitDir() != null)
+				setObjectDirectory(safeFS().resolve(getGitDir(), "objects")); //$NON-NLS-1$
+		}
 	}
 
 	/**
@@ -720,6 +760,40 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 			// use the parent of the directory
 			//
 			return getGitDir().getParentFile();
+		}
+
+		/*
+		 * Bug 477475 - git 2.5 worktree support
+		 *
+		 * Andre Bossert <anb0s@anbos.de>
+		 *
+		 * https://bugs.eclipse.org/bugs/show_bug.cgi?id=477475
+		 * https://git.eclipse.org/r/#/c/54404/
+		 *
+		 * we are in .git ($GIT_DIR) folder of the worktree
+		 * "...\.git\worktrees\<worktree-name>" and want to get the worktree
+		 * path so here we have an opposite link "gitdir" showing to the ".git"
+		 * file located in the worktree read it and convert it to absolute path
+		 * if it's relative
+		 *
+		 * TODO: then link is broken in Git 2.5 - 2.6 (gitdir = .git) and fixed
+		 * with Git 2.7
+		 * TODO: do we need some workaround for this ?
+		 *
+		 */
+		if (getGitDir() != null) {
+			File gitDirFile = new File(getGitDir(), "gitdir");
+			if (gitDirFile.isFile()) {
+				String workDirPath = new String(IO.readFully(gitDirFile)).trim();
+				File workTreeDotGitFile = new File(workDirPath);
+				if (!workTreeDotGitFile.isAbsolute()) {
+					workTreeDotGitFile = new File(getGitDir(), workDirPath)
+							.getCanonicalFile();
+				}
+				if (workTreeDotGitFile != null) {
+					return workTreeDotGitFile.getParentFile();
+				}
+			}
 		}
 
 		// We have to assume we are bare.
