@@ -1044,8 +1044,9 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		long length = entry.getLength();
 		byte[] content = new byte[(int) length];
 		InputStream is = entry.openInputStream();
-		IO.readFully(is, content, 0, (int) length);
-		return FS.detect().normalize(RawParseUtils.decode(content));
+		int bytesRead = IO.readFully(is, content, 0);
+		return FS.detect()
+				.normalize(RawParseUtils.decode(content, 0, bytesRead));
 	}
 
 	private static long computeLength(InputStream in) throws IOException {
