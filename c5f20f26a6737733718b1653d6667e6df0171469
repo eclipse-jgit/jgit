@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27d6470d_ae285237",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-12-21T18:33:40Z",
+      "side": 1,
+      "message": "(not about this change) could this be a try-with-resources? E.g.\n\n try (InputStream in \u003d inputStream !\u003d null ? inputStream : new FileInputStream(path)) {\n   ...\n }",
+      "range": {
+        "startLine": 438,
+        "startChar": 0,
+        "endLine": 438,
+        "endChar": 13
+      },
+      "revId": "c5f20f26a6737733718b1653d6667e6df0171469",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_2e352290",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-12-21T18:33:40Z",
+      "side": 1,
+      "message": "This seems like an odd place for this sort call. Would it make sense for it to go immediately after the addSubmodule loop above?\n\n for (RepoProject proj : ...) {\n   addSubmodule(...);\n }\n if (repo.isBare()) {\n   sort(bareProjects);\n }",
+      "range": {
+        "startLine": 453,
+        "startChar": 0,
+        "endLine": 454,
+        "endChar": 35
+      },
+      "revId": "c5f20f26a6737733718b1653d6667e6df0171469",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_ce25965e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-12-21T18:33:40Z",
+      "side": 1,
+      "message": "Can this be static?",
+      "range": {
+        "startLine": 592,
+        "startChar": 0,
+        "endLine": 592,
+        "endChar": 34
+      },
+      "revId": "c5f20f26a6737733718b1653d6667e6df0171469",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_ee65fa94",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 604,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-12-21T18:33:40Z",
+      "side": 1,
+      "message": "Looks sane.\n\nAn alternative implementation would be to iterate over the path components of copyFile and look up each string in bareProjects. That would be extra complication for not much performance benefit --- this is simpler.",
+      "range": {
+        "startLine": 597,
+        "startChar": 0,
+        "endLine": 604,
+        "endChar": 3
+      },
+      "revId": "c5f20f26a6737733718b1653d6667e6df0171469",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
