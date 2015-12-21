@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "27d6470d_2ee6025f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2015-12-21T21:00:02Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "27d6470d_ae285237",
+      "range": {
+        "startLine": 438,
+        "startChar": 0,
+        "endLine": 438,
+        "endChar": 13
+      },
+      "revId": "c5f20f26a6737733718b1653d6667e6df0171469",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27d6470d_2e352290",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2015-12-21T18:33:40Z",
       "side": 1,
       "message": "This seems like an odd place for this sort call. Would it make sense for it to go immediately after the addSubmodule loop above?\n\n for (RepoProject proj : ...) {\n   addSubmodule(...);\n }\n if (repo.isBare()) {\n   sort(bareProjects);\n }",
+      "range": {
+        "startLine": 453,
+        "startChar": 0,
+        "endLine": 454,
+        "endChar": 35
+      },
+      "revId": "c5f20f26a6737733718b1653d6667e6df0171469",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_ced6766b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2015-12-21T21:00:02Z",
+      "side": 1,
+      "message": "Actually parser.getFilteredProjects will return a sorted List of projects in the current implementation, but that\u0027s not guaranteed in anyway (and is not relied on before introducing isNestedCopyfile) so I added this sort to guarantee it\u0027s sorted (and if it\u0027s already sorted, resorting will be quite fast). I just feel it\u0027s more meaningful to put it near the code that really need it to be sorted (call to isNestedCopyfile), and of course, sort it before the loop is more efficient than sort it in the loop.\n\nPut the sort call before won\u0027t make much sense there, as that\u0027s too far away from the code that relies on it being sorted.",
+      "parentUuid": "27d6470d_2e352290",
       "range": {
         "startLine": 453,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "27d6470d_ee9edaea",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2015-12-21T21:00:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27d6470d_ce25965e",
+      "range": {
+        "startLine": 592,
+        "startChar": 0,
+        "endLine": 592,
+        "endChar": 34
+      },
+      "revId": "c5f20f26a6737733718b1653d6667e6df0171469",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27d6470d_ee65fa94",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
         "patchSetId": 2
@@ -82,6 +154,30 @@
       "writtenOn": "2015-12-21T18:33:40Z",
       "side": 1,
       "message": "Looks sane.\n\nAn alternative implementation would be to iterate over the path components of copyFile and look up each string in bareProjects. That would be extra complication for not much performance benefit --- this is simpler.",
+      "range": {
+        "startLine": 597,
+        "startChar": 0,
+        "endLine": 604,
+        "endChar": 3
+      },
+      "revId": "c5f20f26a6737733718b1653d6667e6df0171469",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_8ecc6ee1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 604,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2015-12-21T21:00:02Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "27d6470d_ee65fa94",
       "range": {
         "startLine": 597,
         "startChar": 0,
