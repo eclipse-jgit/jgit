@@ -149,11 +149,24 @@ public class JschSession implements RemoteSession {
 				channel.setCommand(commandName);
 				setupStreams();
 				channel.connect(timeout > 0 ? timeout * 1000 : 0);
-				if (!channel.isConnected())
+				if (!channel.isConnected()) {
+					closeOutputStream();
 					throw new TransportException(uri,
 							JGitText.get().connectionFailed);
+				}
 			} catch (JSchException e) {
+				closeOutputStream();
 				throw new TransportException(uri, e.getMessage(), e);
+			}
+		}
+
+		private void closeOutputStream() {
+			if (outputStream != null) {
+				try {
+					outputStream.close();
+				} catch (IOException ioe) {
+					// ignore
+				}
 			}
 		}
 
