@@ -1,0 +1,30 @@
+blob
+mark :1
+data 10
+äéü.txt
+blob
+mark :2
+data 8
+test.txt
+blob
+mark :3
+data 5
+Test
+
+blob
+mark :4
+data 7
+äéü
+
+reset refs/heads/master
+commit refs/heads/master
+mark :5
+author A U Thor <author@example.com> 1450727513 +0100
+committer A U Thor <author@example.com> 1450727513 +0100
+data 26
+Initial commit with links
+M 120000 :1 testfolder/aeu.txt
+M 120000 :2 testfolder/link.txt
+M 100644 :3 testfolder/test.txt
+M 100644 :4 testfolder/äéü.txt
+

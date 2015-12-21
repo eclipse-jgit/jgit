@@ -1008,10 +1008,10 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 
 			return false;
 		} else {
-			if (mode == FileMode.SYMLINK.getBits())
-				return !new File(readContentAsNormalizedString(current()))
-						.equals(new File((readContentAsNormalizedString(entry,
-								reader))));
+			if (mode == FileMode.SYMLINK.getBits()) {
+				return !new File(readSymlinkTarget(current())).equals(
+						new File(readContentAsNormalizedString(entry, reader)));
+			}
 			// Content differs: that's a real change, perhaps
 			if (reader == null) // deprecated use, do no further checks
 				return true;
@@ -1057,12 +1057,30 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		return FS.detect().normalize(RawParseUtils.decode(cachedBytes));
 	}
 
-	private static String readContentAsNormalizedString(Entry entry) throws IOException {
+	/**
+	 * Reads the target of a symlink as a string. This default implementation
+	 * fully reads the entry's input stream and converts it to a normalized
+	 * string. Subclasses may override to provide more specialized
+	 * implementations.
+	 *
+	 * @param entry
+	 *            to read
+	 * @return the entry's content as a normalized string
+	 * @throws IOException
+	 *             if the entry cannot be read or does not denote a symlink
+	 * @since 4.6
+	 */
+	protected String readSymlinkTarget(Entry entry) throws IOException {
+		if (!entry.getMode().equals(FileMode.SYMLINK)) {
+			throw new java.nio.file.NotLinkException(entry.getName());
+		}
 		long length = entry.getLength();
 		byte[] content = new byte[(int) length];
-		InputStream is = entry.openInputStream();
-		IO.readFully(is, content, 0, (int) length);
-		return FS.detect().normalize(RawParseUtils.decode(content));
+		try (InputStream is = entry.openInputStream()) {
+			int bytesRead = IO.readFully(is, content, 0);
+			return FS.detect()
+					.normalize(RawParseUtils.decode(content, 0, bytesRead));
+		}
 	}
 
 	private static long computeLength(InputStream in) throws IOException {
