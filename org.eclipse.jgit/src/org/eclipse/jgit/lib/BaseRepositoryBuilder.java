@@ -128,6 +128,8 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 
 	private File gitDir;
 
+	private File gitCommonDir;
+
 	private File objectDirectory;
 
 	private List<File> alternateObjectDirectories;
@@ -185,6 +187,24 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 	/** @return the meta data directory; null if not set. */
 	public File getGitDir() {
 		return gitDir;
+	}
+
+	/**
+	 * Set $GIT_COMMON_DIR.
+	 *
+	 * @param gitCommonDir
+	 *            {@code GIT_DIR}, the repository meta directory.
+	 * @return {@code this} (for chaining calls).
+	 */
+	public B setGitCommonDir(File gitCommonDir) {
+		this.gitCommonDir = gitCommonDir;
+		this.config = null;
+		return self();
+	}
+
+	/** @return $GIT_COMMON_DIR; null if not set. */
+	public File getGitCommonDir() {
+		return gitCommonDir;
 	}
 
 	/**
@@ -606,6 +626,17 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 			else
 				setGitDir(getSymRef(getWorkTree(), dotGit, safeFS()));
 		}
+
+		if (getGitCommonDir() == null) {
+			File commonDirFile = new File(getGitDir(), "commondir");
+			if (commonDirFile.isFile()) {
+				String commonDirPath = new String(IO.readFully(commonDirFile)).trim();
+				if (!new File(commonDirPath).isAbsolute())
+					gitCommonDir = new File(gitDir, commonDirPath).getCanonicalFile();
+				else
+					gitCommonDir = new File(commonDirPath);
+			}
+		}
 	}
 
 	/**
@@ -646,8 +677,12 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 	 *             the repository could not be accessed
 	 */
 	protected void setupInternals() throws IOException {
-		if (getObjectDirectory() == null && getGitDir() != null)
-			setObjectDirectory(safeFS().resolve(getGitDir(), "objects")); //$NON-NLS-1$
+		if (getObjectDirectory() == null) {
+			if (getGitCommonDir() != null)
+				setObjectDirectory(safeFS().resolve(getGitCommonDir(), "objects")); //$NON-NLS-1$
+			else if (getGitDir() != null)
+				setObjectDirectory(safeFS().resolve(getGitDir(), "objects")); //$NON-NLS-1$
+		}
 	}
 
 	/**

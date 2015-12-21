@@ -141,6 +141,8 @@ public class RefDirectory extends RefDatabase {
 
 	final File refsDir;
 
+	private final File refsCommonDir;
+
 	private final ReflogWriter logWriter;
 
 	private final File packedRefsFile;
@@ -177,10 +179,12 @@ public class RefDirectory extends RefDatabase {
 	RefDirectory(final FileRepository db) {
 		final FS fs = db.getFS();
 		parent = db;
-		gitDir = db.getDirectory();
+		gitDir = db.getGitDir(false);
 		logWriter = new ReflogWriter(db);
 		refsDir = fs.resolve(gitDir, R_REFS);
-		packedRefsFile = fs.resolve(gitDir, PACKED_REFS);
+		final File gitCommonDir = db.getGitCommonDir();
+		refsCommonDir = gitCommonDir != null ? fs.resolve(gitCommonDir, R_REFS) : refsDir;
+		packedRefsFile = fs.resolve(gitCommonDir != null ? gitCommonDir : gitDir, PACKED_REFS);
 
 		looseRefs.set(RefList.<LooseRef> emptyList());
 		packedRefs.set(PackedRefList.NO_PACKED_REFS);
@@ -382,7 +386,7 @@ public class RefDirectory extends RefDatabase {
 		void scan(String prefix) {
 			if (ALL.equals(prefix)) {
 				scanOne(HEAD);
-				scanTree(R_REFS, refsDir);
+				scanTree(R_REFS, refsCommonDir);
 
 				// If any entries remain, they are deleted, drop them.
 				if (newLoose == null && curIdx < curLoose.size())
@@ -390,7 +394,7 @@ public class RefDirectory extends RefDatabase {
 
 			} else if (prefix.startsWith(R_REFS) && prefix.endsWith("/")) { //$NON-NLS-1$
 				curIdx = -(curLoose.find(prefix) + 1);
-				File dir = new File(refsDir, prefix.substring(R_REFS.length()));
+				File dir = new File(refsCommonDir, prefix.substring(R_REFS.length()));
 				scanTree(prefix, dir);
 
 				// Skip over entries still within the prefix; these have
@@ -1035,7 +1039,7 @@ public class RefDirectory extends RefDatabase {
 	 *             a temporary name cannot be allocated.
 	 */
 	RefDirectoryUpdate newTemporaryUpdate() throws IOException {
-		File tmp = File.createTempFile("renamed_", "_ref", refsDir); //$NON-NLS-1$ //$NON-NLS-2$
+		File tmp = File.createTempFile("renamed_", "_ref", refsCommonDir); //$NON-NLS-1$ //$NON-NLS-2$
 		String name = Constants.R_REFS + tmp.getName();
 		Ref ref = new ObjectIdRef.Unpeeled(NEW, name, null);
 		return new RefDirectoryUpdate(this, ref);
@@ -1052,7 +1056,7 @@ public class RefDirectory extends RefDatabase {
 	File fileFor(String name) {
 		if (name.startsWith(R_REFS)) {
 			name = name.substring(R_REFS.length());
-			return new File(refsDir, name);
+			return new File(refsCommonDir, name);
 		}
 		return new File(gitDir, name);
 	}
