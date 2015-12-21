@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "27d6470d_6e348ae2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2015-12-21T16:07:58Z",
+      "side": 1,
+      "message": "Thanks, Jonathan, for your ideas and pointers. So I think my first approach was conceptually wrong. For patch set #4, I\u0027ve changed code to the way Git works (at least as I understand):\n\nRepository.gitDir will now be .git/worktree/foo and there is an additional Repository.gitCommonDir which should be used according to the definition from your reference [1].\n\nThe patch already works fine for resolving HEAD and refs/-refs and solves issues with reading MERGE_HEAD, ... I\u0027ve deprecated Repository.getDirectory() which should be replaced by Repository.getGitDir() for which you will *always* have to specify whether the gitCommonDir should be considered. Does that make sense?",
+      "parentUuid": "27d6470d_31266cc0",
+      "range": {
+        "startLine": 9,
+        "startChar": 35,
+        "endLine": 9,
+        "endChar": 51
+      },
+      "revId": "2fc4273c03e1c37a511e85d1bec7f29a3d1277ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27d6470d_31ad8ca4",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
