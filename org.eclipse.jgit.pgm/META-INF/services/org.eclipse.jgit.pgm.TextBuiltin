@@ -38,6 +38,7 @@ org.eclipse.jgit.pgm.UploadPack
 org.eclipse.jgit.pgm.Version
 
 org.eclipse.jgit.pgm.debug.DiffAlgorithms
+org.eclipse.jgit.pgm.debug.LfsStore
 org.eclipse.jgit.pgm.debug.MakeCacheTree
 org.eclipse.jgit.pgm.debug.ReadDirCache
 org.eclipse.jgit.pgm.debug.RebuildCommitGraph
