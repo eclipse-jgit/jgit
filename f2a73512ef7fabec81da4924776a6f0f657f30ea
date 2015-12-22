@@ -167,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "27d6470d_7f3192ef",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/ManifestParser.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-12-22T21:47:16Z",
+      "side": 1,
+      "message": "Never mind --- it\u0027s a protected method.\n\nWithout using clone(), my suggestion would look like\n\n List\u003cCopyFile\u003e copyFiles \u003d new ArrayList\u003c\u003e();\n copyFiles.addAll(proj.getCopyFiles());\n proj.clearCopyFiles();\n for (CopyFile f : copyFiles) {\n   if (!isNestedCopyFile(f)) {\n     proj.addCopyFile(f);\n   }\n }",
+      "parentUuid": "27d6470d_ff25a2b3",
+      "range": {
+        "startLine": 348,
+        "startChar": 0,
+        "endLine": 355,
+        "endChar": 32
+      },
+      "revId": "f2a73512ef7fabec81da4924776a6f0f657f30ea",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27d6470d_ff2f62c2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/ManifestParser.java",
         "patchSetId": 6
