@@ -9,8 +9,18 @@ java_library(
     '//org.eclipse.jgit:jgit',
     '//org.eclipse.jgit.archive:jgit-archive',
     '//org.eclipse.jgit.http.apache:http-apache',
+    '//org.eclipse.jgit.lfs.server:jgit-lfs-server',
     '//org.eclipse.jgit.ui:ui',
     '//lib:args4j',
+    '//lib:httpcomponents',
+    '//lib:httpcore',
+    '//lib/jetty:http',
+    '//lib/jetty:io',
+    '//lib/jetty:server',
+    '//lib/jetty:servlet',
+    '//lib/jetty:security',
+    '//lib/jetty:util',
+    '//lib:servlet-api'
   ],
   visibility = ['PUBLIC'],
 )
