@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27d6470d_49b7c0ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-12-22T00:37:37Z",
+      "side": 1,
+      "message": "I suspect that instead of helping, this would hurt matters.\n\nBefore this change, file/dir changes are treated as different entries (because pathCompare uses lastPathChar to pretend there is a \u0027/\u0027 at the end of the directory entry). So AddCommand would separately notice that files under that a file has been added and entries under that path have been removed, resulting in a valid index.\n\nAfter this change, the addition of the file would be missed because as a D/F conflict entry, it is skipped in a recursive walk.\n\nI\u0027m a little worried that no test caught this. Could AddCommandTest get tests for replacement of a dir by a file and of a file by a dir? E.g.\n\n @Test\n public void testAddCanReplaceFileByDirectory() {\n   try (Git git \u003d new Git(db)) {\n     writeTrashFile(\"df\", \"before replacement\");\n     git.add().addFilepattern(\"df\").call();\n     assertEquals(\"[df, mode:100644, content:before replacement]\", indexState(CONTENT));\n\n     FileUtils.delete(new File(db.getWorkTree(), \"df\"));\n     writeTrashFile(\"df/f\", \"after replacement\");\n     git.add().addFilepattern(\"df\").call();\n     assertEquals(\"[df/f, mode:100644, content:after replacement]\", indexState(CONTENT));\n   }\n }\n\n @Test\n public void testAddCanReplaceDirectoryByFile() {\n   try (Git git \u003d new Git(db)) {\n     writeTrashFile(\"df/f\", \"before replacement\");\n     git.add().addFilepattern(\"df\").call();\n     assertEquals(\"[df/f, mode:100644, content:before replacement]\", indexState(CONTENT));\n\n     FileUtils.delete(new File(db.getWorkTree(), \"df\"), RECURSIVE);\n     writeTrashFile(\"df\", \"after replacement\");\n     git.add().addFilepattern(\"df\").call();\n     assertEquals(\"[df, mode:100644, content:after replacement]\", indexState(CONTENT));\n   }\n }",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 58
+      },
+      "revId": "7bc842da697d7cf0f3ba36fcc021ae048fd3264f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
