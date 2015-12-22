@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27d6470d_7ff432c1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/ManifestParser.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-12-22T20:24:36Z",
+      "side": 1,
+      "message": "nit: s/sits/sit/",
+      "range": {
+        "startLine": 344,
+        "startChar": 27,
+        "endLine": 344,
+        "endChar": 32
+      },
+      "revId": "f2a73512ef7fabec81da4924776a6f0f657f30ea",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_9f01f63f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/ManifestParser.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-12-22T20:24:36Z",
+      "side": 1,
+      "message": "optional: can use new ArrayList\u003c\u003e()",
+      "range": {
+        "startLine": 347,
+        "startChar": 30,
+        "endLine": 347,
+        "endChar": 56
+      },
+      "revId": "f2a73512ef7fabec81da4924776a6f0f657f30ea",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_bffeba9e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/ManifestParser.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-12-22T20:24:36Z",
+      "side": 1,
+      "message": "Could simplify by writing directly to proj:\n\n List\u003cCopyFile\u003e copyFiles \u003d proj.getCopyFiles().clone();\n proj.clearCopyFiles();\n for (CopyFile f : copyFiles) {\n   if (!isNestedCopyFile(f)) {\n     proj.addCopyFile(f);\n   }\n }",
+      "range": {
+        "startLine": 348,
+        "startChar": 0,
+        "endLine": 355,
+        "endChar": 32
+      },
+      "revId": "f2a73512ef7fabec81da4924776a6f0f657f30ea",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_ff2f62c2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/ManifestParser.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-12-22T20:24:36Z",
+      "side": 1,
+      "message": "nit: missing braces around if bodies (https://wiki.eclipse.org/EGit/Contributor_Guide#Braces_for_one-line_statements)",
+      "range": {
+        "startLine": 378,
+        "startChar": 0,
+        "endLine": 385,
+        "endChar": 17
+      },
+      "revId": "f2a73512ef7fabec81da4924776a6f0f657f30ea",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_1f25e6e1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoProject.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-12-22T20:24:36Z",
+      "side": 1,
+      "message": "nit: s/is the ancestor of given path/is an ancestor of the given path/ or \u0027contains the provided path\u0027",
+      "range": {
+        "startLine": 289,
+        "startChar": 46,
+        "endLine": 289,
+        "endChar": 57
+      },
+      "revId": "f2a73512ef7fabec81da4924776a6f0f657f30ea",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_3f2aaab2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoProject.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-12-22T20:24:36Z",
+      "side": 1,
+      "message": "can use @NonNull to document that outside the javadoc.\n\nThis could say something like \"path to be checked to see if it is within this repository\"",
+      "range": {
+        "startLine": 292,
+        "startChar": 15,
+        "endLine": 292,
+        "endChar": 23
+      },
+      "revId": "f2a73512ef7fabec81da4924776a6f0f657f30ea",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_5f1e8e98",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoProject.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-12-22T20:24:36Z",
+      "side": 1,
+      "message": "nit: s/is the ancestor of given path/contains the provided path/",
+      "range": {
+        "startLine": 293,
+        "startChar": 37,
+        "endLine": 293,
+        "endChar": 63
+      },
+      "revId": "f2a73512ef7fabec81da4924776a6f0f657f30ea",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
