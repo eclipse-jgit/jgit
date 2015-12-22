@@ -191,6 +191,30 @@
     },
     {
       "key": {
+        "uuid": "27d6470d_bf2b1a81",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/ManifestParser.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-12-22T21:49:39Z",
+      "side": 1,
+      "message": "Or\n\n List\u003cCopyFile\u003e copyFiles \u003d new ArrayList\u003c\u003e(proj.getCopyFiles());\n proj.clearCopyFiles();\n ...",
+      "parentUuid": "27d6470d_7f3192ef",
+      "range": {
+        "startLine": 348,
+        "startChar": 0,
+        "endLine": 355,
+        "endChar": 32
+      },
+      "revId": "f2a73512ef7fabec81da4924776a6f0f657f30ea",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27d6470d_ff2f62c2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/ManifestParser.java",
         "patchSetId": 6
