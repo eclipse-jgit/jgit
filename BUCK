@@ -46,6 +46,23 @@ genrule(
 )
 
 java_library(
+  name = 'jgit-lfs-server',
+  exported_deps = [
+    ':jgit',
+    ':jgit-lfs',
+    '//org.eclipse.jgit.lfs.server:jgit-lfs-server'
+  ],
+  visibility = ['PUBLIC'],
+)
+
+genrule(
+  name = 'jgit-lfs-server_src',
+  cmd = 'ln -s $(location //org.eclipse.jgit.lfs.server:jgit-lfs-server_src) $OUT',
+  out = 'jgit-lfs-server_src.zip',
+  visibility = ['PUBLIC'],
+)
+
+java_library(
   name = 'junit',
   exported_deps = [
     ':jgit',

@@ -1,0 +1,22 @@
+SRCS = glob(['src/**'])
+RESOURCES = glob(['resources/**'])
+
+java_library(
+  name = 'jgit-lfs-server',
+  srcs = SRCS,
+  resources = RESOURCES,
+  deps = [
+    '//org.eclipse.jgit.http.apache:http-apache',
+    '//org.eclipse.jgit:jgit',
+    '//org.eclipse.jgit.lfs:jgit-lfs',
+    '//lib:gson',
+    '//lib:httpcore',
+    '//lib:servlet-api'
+  ],
+  visibility = ['PUBLIC'],
+)
+
+java_sources(
+  name = 'jgit-lfs-server_src',
+  srcs = SRCS + RESOURCES,
+)
