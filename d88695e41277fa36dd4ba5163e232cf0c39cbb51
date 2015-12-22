@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27d6470d_dfc1befc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/ManifestParser.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-12-22T22:57:17Z",
+      "side": 1,
+      "message": "That\u0027s subtle. Thanks for explaining.\n\nIt\u0027s too bad we can\u0027t use Guava\u0027s Ordering.isOrdered to enforce it at the top of removeNestedCopyfiles(). I suppose it could do a sort (which is O(n) for already-sorted lists in Java 7 and newer) but I don\u0027t mind either way.",
+      "range": {
+        "startLine": 383,
+        "startChar": 24,
+        "endLine": 383,
+        "endChar": 51
+      },
+      "revId": "d88695e41277fa36dd4ba5163e232cf0c39cbb51",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
