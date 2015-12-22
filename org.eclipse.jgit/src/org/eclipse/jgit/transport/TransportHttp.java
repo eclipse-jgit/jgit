@@ -67,9 +67,6 @@ import java.net.MalformedURLException;
 import java.net.Proxy;
 import java.net.ProxySelector;
 import java.net.URL;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
-import java.security.cert.X509Certificate;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -82,11 +79,6 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
-
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.SSLSession;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
 
 import org.eclipse.jgit.errors.NoRemoteRepositoryException;
 import org.eclipse.jgit.errors.NotSupportedException;
@@ -538,7 +530,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		HttpConnection conn = connectionFactory.create(u, proxy);
 
 		if (!http.sslVerify && "https".equals(u.getProtocol())) { //$NON-NLS-1$
-			disableSslVerify(conn);
+			HttpSupport.disableSslVerify(conn);
 		}
 
 		conn.setRequestMethod(method);
@@ -560,19 +552,6 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		}
 		authMethod.configureRequest(conn);
 		return conn;
-	}
-
-	private void disableSslVerify(HttpConnection conn)
-			throws IOException {
-		final TrustManager[] trustAllCerts = new TrustManager[] { new DummyX509TrustManager() };
-		try {
-			conn.configure(null, trustAllCerts, null);
-			conn.setHostnameVerifier(new DummyHostnameVerifier());
-		} catch (KeyManagementException e) {
-			throw new IOException(e.getMessage());
-		} catch (NoSuchAlgorithmException e) {
-			throw new IOException(e.getMessage());
-		}
 	}
 
 	final InputStream openInputStream(HttpConnection conn)
@@ -1000,27 +979,6 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 				sendRequest();
 			openResponse();
 			in.add(openInputStream(conn));
-		}
-	}
-
-	private static class DummyX509TrustManager implements X509TrustManager {
-		public X509Certificate[] getAcceptedIssuers() {
-			return null;
-		}
-
-		public void checkClientTrusted(X509Certificate[] certs, String authType) {
-			// no check
-		}
-
-		public void checkServerTrusted(X509Certificate[] certs, String authType) {
-			// no check
-		}
-	}
-
-	private static class DummyHostnameVerifier implements HostnameVerifier {
-		public boolean verify(String hostname, SSLSession session) {
-			// always accept
-			return true;
 		}
 	}
 }
