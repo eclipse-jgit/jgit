@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "27d6470d_bf25da5e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2015-12-23T00:37:07Z",
+      "side": 1,
+      "message": "Applied this patch on master and maven didn\u0027t complain anything on Mac 10.11.",
+      "parentUuid": "27d6470d_ff93e25e",
+      "revId": "0530aa878a4655458cc2b24b3530afd63752ec5d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27d6470d_5f2e8e46",
         "filename": "org.eclipse.jgit.test/tst-rsrc/org/eclipse/jgit/indexdiff/filerepo.git.zip",
         "patchSetId": 2
