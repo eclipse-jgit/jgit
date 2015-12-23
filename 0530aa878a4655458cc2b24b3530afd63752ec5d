@@ -16,6 +16,46 @@
       "revId": "0530aa878a4655458cc2b24b3530afd63752ec5d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_5f2e8e46",
+        "filename": "org.eclipse.jgit.test/tst-rsrc/org/eclipse/jgit/indexdiff/filerepo.git.zip",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-12-23T00:35:51Z",
+      "side": 1,
+      "message": "I had to be extra cautious in reviewing this because the .git/config in a git repository can provide arbitrary code for git to execute.\n\nIt would have been safer and easier to review if the repo were in a bundle file (see man git-bundle) or a fast-import stream. E.g. given a fast-import stream:\n \n blob\n mark :1\n data 10\n äéü.txt\n blob\n mark :2\n data 8\n test.txt\n blob\n mark :3\n data 5\n Test\n \n blob\n mark :4\n data 7\n äéü\n \n reset refs/heads/master\n commit refs/heads/master\n mark :5\n author A U Thor \u003cauthor@example.com\u003e 1450727513 +0100\n committer Tom \u003ctw201207@gmail.com\u003e 1450727513 +0100\n data 26\n Initial commit with links\n M 120000 :1 testfolder/aeu.txt\n M 120000 :2 testfolder/link.txt\n M 100644 :3 testfolder/test.txt\n M 100644 :4 \"testfolder/\\303\\244\\303\\251\\303\\274.txt\"\n \n(I generated the above by running \u0027git fast-export master\u0027 in the test repository) I can revive the repository with\n\n git init filerepo\n git -C filerepo fast-import \u003c/path/to/fast-export/output\n git -C filerepo checkout -f",
+      "revId": "0530aa878a4655458cc2b24b3530afd63752ec5d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_df3a9e82",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/indexdiff/IndexDiffWithSymlinkTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2015-12-23T00:35:51Z",
+      "side": 1,
+      "message": "Will this continue to work with future versions of Java? Is there some other way to read the raw symlink --- e.g., does invoking \"readlink\" do the trick?",
+      "range": {
+        "startLine": 188,
+        "startChar": 0,
+        "endLine": 189,
+        "endChar": 45
+      },
+      "revId": "0530aa878a4655458cc2b24b3530afd63752ec5d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
