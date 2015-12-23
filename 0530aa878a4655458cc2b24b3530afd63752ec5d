@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "27d6470d_18d09d3e",
+        "filename": "org.eclipse.jgit.test/tst-rsrc/org/eclipse/jgit/indexdiff/filerepo.git.zip",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2015-12-23T20:11:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27d6470d_1fb8862f",
+      "revId": "0530aa878a4655458cc2b24b3530afd63752ec5d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27d6470d_df3a9e82",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/indexdiff/IndexDiffWithSymlinkTest.java",
         "patchSetId": 2
@@ -125,6 +143,30 @@
       "side": 1,
       "message": "I see no way to obtain the raw bytes using readlink/stat. To make this future-proof, I could just skip the assertions on the raw path content if rawPath() returns null.\n\nOr try to verify the length only (10 for NFC, 13 for NFD) -- if there\u0027s a way to obtain that safely. Maybe ls -l aeu.txt and extract the number from the output. Other options might be\n* Java: BasicFileAttributes.size(), but the semantics of that method is undefined (implementation-specific) for links\n* stat -f \"%z\" aeu.txt (MacOS/BSD) or stat -c \"%s\" aeu.txt (GNU stat) -- we don\u0027t know which one is installed",
       "parentUuid": "27d6470d_df3a9e82",
+      "range": {
+        "startLine": 188,
+        "startChar": 0,
+        "endLine": 189,
+        "endChar": 45
+      },
+      "revId": "0530aa878a4655458cc2b24b3530afd63752ec5d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_f8c05974",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/indexdiff/IndexDiffWithSymlinkTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2015-12-23T20:11:24Z",
+      "side": 1,
+      "message": "Done by not checking raw path contents if they\u0027re unavailable.",
+      "parentUuid": "27d6470d_ffb20250",
       "range": {
         "startLine": 188,
         "startChar": 0,
