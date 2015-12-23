@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "27d6470d_5fc12e96",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2015-12-23T10:17:30Z",
+      "side": 1,
+      "message": "Ok, so it works not just for me :-), and 10.11 behaves still the same way regarding NFC/NFD. Thanks for checking.",
+      "parentUuid": "27d6470d_bf25da5e",
+      "revId": "0530aa878a4655458cc2b24b3530afd63752ec5d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27d6470d_5f2e8e46",
         "filename": "org.eclipse.jgit.test/tst-rsrc/org/eclipse/jgit/indexdiff/filerepo.git.zip",
         "patchSetId": 2
