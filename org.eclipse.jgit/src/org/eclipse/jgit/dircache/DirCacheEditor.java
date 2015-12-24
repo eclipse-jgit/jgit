@@ -274,10 +274,11 @@ public class DirCacheEditor extends BaseDirCacheEditor {
 		 *            only the subtree's contents are matched by the command.
 		 *            The special case "" (not "/"!) deletes all entries.
 		 */
-		public DeleteTree(final String entryPath) {
-			super(
-					(entryPath.endsWith("/") || entryPath.length() == 0) ? entryPath //$NON-NLS-1$
-							: entryPath + "/"); //$NON-NLS-1$
+		public DeleteTree(String entryPath) {
+			super(entryPath.isEmpty()
+					|| entryPath.charAt(entryPath.length() - 1) == '/'
+					? entryPath
+					: entryPath + '/');
 		}
 
 		public void apply(final DirCacheEntry ent) {
