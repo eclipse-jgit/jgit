@@ -149,9 +149,11 @@ public class DirCacheEditor extends BaseDirCacheEditor {
 			if (missing) {
 				final DirCacheEntry ent = new DirCacheEntry(e.path);
 				e.apply(ent);
-				if (ent.getRawMode() == 0)
-					throw new IllegalArgumentException(MessageFormat.format(JGitText.get().fileModeNotSetForPath
-							, ent.getPathString()));
+				if (ent.getRawMode() == 0) {
+					throw new IllegalArgumentException(MessageFormat.format(
+							JGitText.get().fileModeNotSetForPath,
+							ent.getPathString()));
+				}
 				fastAdd(ent);
 			} else {
 				// Apply to all entries of the current path (different stages)
