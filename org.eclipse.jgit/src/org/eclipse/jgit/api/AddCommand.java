@@ -45,6 +45,7 @@ package org.eclipse.jgit.api;
 
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.eclipse.jgit.lib.FileMode.GITLINK;
+import static org.eclipse.jgit.lib.FileMode.TYPE_TREE;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -66,7 +67,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
-import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.treewalk.NameConflictTreeWalk;
 import org.eclipse.jgit.treewalk.TreeWalk.OperationType;
 import org.eclipse.jgit.treewalk.WorkingTreeIterator;
 import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
@@ -141,7 +142,7 @@ public class AddCommand extends GitCommand<DirCache> {
 		boolean addAll = filepatterns.contains("."); //$NON-NLS-1$
 
 		try (ObjectInserter inserter = repo.newObjectInserter();
-				final TreeWalk tw = new TreeWalk(repo)) {
+				NameConflictTreeWalk tw = new NameConflictTreeWalk(repo)) {
 			tw.setOperationType(OperationType.CHECKIN_OP);
 			dc = repo.lockDirCache();
 
@@ -151,7 +152,6 @@ public class AddCommand extends GitCommand<DirCache> {
 				workingTreeIterator = new FileTreeIterator(repo);
 			workingTreeIterator.setDirCacheIterator(tw, 0);
 			tw.addTree(workingTreeIterator);
-			tw.setRecursive(true);
 			if (!addAll)
 				tw.setFilter(PathFilterGroup.createFromStrings(filepatterns));
 
@@ -180,9 +180,14 @@ public class AddCommand extends GitCommand<DirCache> {
 					continue;
 				}
 
+				if (tw.isSubtree() && !tw.isDirectoryFileConflict()) {
+					tw.enterSubtree();
+					continue;
+				}
+
 				if (f == null) { // working tree file does not exist
-					if (c != null
-							&& (!update || GITLINK == c.getEntryFileMode())) {
+					if (entry != null
+							&& (!update || GITLINK == entry.getFileMode())) {
 						builder.add(entry);
 					}
 					continue;
@@ -193,6 +198,14 @@ public class AddCommand extends GitCommand<DirCache> {
 					// the user specified the file to be added JGit does
 					// not consider the file for addition.
 					builder.add(entry);
+					continue;
+				}
+
+				if (f.getEntryRawMode() == TYPE_TREE) {
+					// Index entry exists and is symlink, gitlink or file,
+					// otherwise the tree would have been entered above.
+					// Replace the index entry by diving into tree of files.
+					tw.enterSubtree();
 					continue;
 				}
 

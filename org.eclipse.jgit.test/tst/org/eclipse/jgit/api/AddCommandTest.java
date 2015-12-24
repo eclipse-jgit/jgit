@@ -777,10 +777,63 @@ public class AddCommandTest extends RepositoryTestCase {
 
 		assertEquals("[a.txt, mode:100644, content:more content,"
 				+ " assume-unchanged:false][b.txt, mode:100644,"
- + "" + ""
+				+ "" + ""
 				+ " content:content, assume-unchanged:true]",
 				indexState(CONTENT
 				| ASSUME_UNCHANGED));
+	}
+
+	@Test
+	public void testAddCanReplaceFileByDirectory()
+			throws IOException, NoFilepatternException, GitAPIException {
+		try (Git git = new Git(db)) {
+			writeTrashFile("df", "before replacement");
+			git.add().addFilepattern("df").call();
+			assertEquals("[df, mode:100644, content:before replacement]",
+					indexState(CONTENT));
+			FileUtils.delete(new File(db.getWorkTree(), "df"));
+			writeTrashFile("df/f", "after replacement");
+			git.add().addFilepattern("df").call();
+			assertEquals("[df/f, mode:100644, content:after replacement]",
+					indexState(CONTENT));
+		}
+	}
+
+	@Test
+	public void testAddCanReplaceDirectoryByFile()
+			throws IOException, NoFilepatternException, GitAPIException {
+		try (Git git = new Git(db)) {
+			writeTrashFile("df/f", "before replacement");
+			git.add().addFilepattern("df").call();
+			assertEquals("[df/f, mode:100644, content:before replacement]",
+					indexState(CONTENT));
+			FileUtils.delete(new File(db.getWorkTree(), "df"),
+					FileUtils.RECURSIVE);
+			writeTrashFile("df", "after replacement");
+			git.add().addFilepattern("df").call();
+			assertEquals("[df, mode:100644, content:after replacement]",
+					indexState(CONTENT));
+		}
+	}
+
+	@Test
+	public void testAddCanReplaceFileByPartOfDirectory()
+			throws IOException, NoFilepatternException, GitAPIException {
+		try (Git git = new Git(db)) {
+			writeTrashFile("df", "before replacement");
+			writeTrashFile("z", "z");
+			git.add().addFilepattern("df").addFilepattern("z").call();
+			assertEquals("[df, mode:100644, content:before replacement]" +
+					"[z, mode:100644, content:z]",
+					indexState(CONTENT));
+			FileUtils.delete(new File(db.getWorkTree(), "df"));
+			writeTrashFile("df/a", "after replacement");
+			writeTrashFile("df/b", "unrelated file");
+			git.add().addFilepattern("df/a").call();
+			assertEquals("[df/a, mode:100644, content:after replacement]" +
+					"[z, mode:100644, content:z]",
+					indexState(CONTENT));
+		}
 	}
 
 	@Test
