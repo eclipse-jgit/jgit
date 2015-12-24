@@ -282,11 +282,14 @@ public class TreeFormatter {
 	 *             the tree could not be stored.
 	 */
 	public ObjectId insertTo(ObjectInserter ins) throws IOException {
-		if (buf != null)
+		if (buf != null) {
+			new ObjectChecker().checkTree(buf, ptr);
 			return ins.insert(OBJ_TREE, buf, 0, ptr);
+		}
 
-		final long len = overflowBuffer.length();
-		return ins.insert(OBJ_TREE, len, overflowBuffer.openInputStream());
+		byte[] b = overflowBuffer.toByteArray();
+		new ObjectChecker().checkTree(b);
+		return ins.insert(OBJ_TREE, b);
 	}
 
 	/**

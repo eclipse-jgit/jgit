@@ -382,8 +382,12 @@ public class ObjectChecker {
 	 * @throws CorruptObjectException
 	 *             if any error was detected.
 	 */
-	public void checkTree(final byte[] raw) throws CorruptObjectException {
-		final int sz = raw.length;
+	public void checkTree(byte[] raw) throws CorruptObjectException {
+		checkTree(raw, raw.length);
+	}
+
+	void checkTree(final byte[] raw, final int sz)
+			throws CorruptObjectException {
 		int ptr = 0;
 		int lastNameB = 0, lastNameE = 0, lastMode = 0;
 		Set<String> normalized = windows || macosx
