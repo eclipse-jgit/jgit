@@ -59,13 +59,16 @@ import org.eclipse.jgit.api.errors.NoFilepatternException;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEntry;
+import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.lib.ObjectChecker;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.treewalk.TreeWalk;
@@ -393,6 +396,46 @@ public class AddCommandTest extends RepositoryTestCase {
 		assertEquals(
 				"[sub/a.txt, mode:100644, content:content]",
 				indexState(CONTENT));
+	}
+
+	@Test
+	public void fileReplacedByDirectoryIsFineButCreatesCorruptRepository()
+			throws IOException, GitAPIException {
+		File file = new File(db.getWorkTree(), "sub");
+		FileUtils.createNewFile(file);
+		PrintWriter writer = new PrintWriter(file);
+		writer.print("content");
+		writer.close();
+
+		Git git = new Git(db);
+		git.add().addFilepattern("sub").call();
+		assertEquals(
+				"[sub, mode:100644, content:content]",
+				indexState(CONTENT));
+
+		FileUtils.delete(file);
+		FileUtils.mkdir(file);
+		file = new File(db.getWorkTree(), "sub/a.txt");
+		FileUtils.createNewFile(file);
+		writer = new PrintWriter(file);
+		writer.print("other");
+		writer.close();
+		git.add().addFilepattern("sub/a.txt").call();
+		assertEquals(
+				"[sub, mode:100644, content:content]" +
+				"[sub/a.txt, mode:100644, content:other]",
+				indexState(CONTENT));
+
+		RevCommit c = git.commit().setMessage("ok").call();
+		try (ObjectReader or = db.newObjectReader()) {
+			byte[] raw = or.open(c.getTree()).getCachedBytes();
+			try {
+				new ObjectChecker().checkTree(raw);
+				fail("ObjectChecker should catch corruption");
+			} catch (CorruptObjectException e) {
+				assertEquals("duplicate entry names", e.getMessage());
+			}
+		}
 	}
 
 	@Test
