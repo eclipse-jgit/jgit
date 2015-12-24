@@ -155,7 +155,7 @@ public class AddCommand extends GitCommand<DirCache> {
 			if (!addAll)
 				tw.setFilter(PathFilterGroup.createFromStrings(filepatterns));
 
-			String lastAddedFile = null;
+			byte[] lastAdded = null;
 
 			while (tw.next()) {
 				DirCacheIterator c = tw.getTree(0, DirCacheIterator.class);
@@ -168,8 +168,9 @@ public class AddCommand extends GitCommand<DirCache> {
 					continue;
 				}
 
-				String path = tw.getPathString();
-				if (path.equals(lastAddedFile)) {
+				if (lastAdded != null
+						&& lastAdded.length == tw.getPathLength()
+						&& tw.isPathPrefix(lastAdded, lastAdded.length) == 0) {
 					// In case of an existing merge conflict the
 					// DirCacheBuildIterator iterates over all stages of
 					// this path, we however want to add only one
@@ -194,13 +195,15 @@ public class AddCommand extends GitCommand<DirCache> {
 					continue;
 				}
 
-				long sz = f.getEntryLength();
-				DirCacheEntry entry = new DirCacheEntry(path);
+				byte[] path = tw.getRawPath();
+				DirCacheEntry entry = c != null && c.getDirCacheEntry() != null
+						? c.getDirCacheEntry()
+						: new DirCacheEntry(path);
 				FileMode mode = f.getIndexFileMode(c);
 				entry.setFileMode(mode);
 
 				if (GITLINK != mode) {
-					entry.setLength(sz);
+					entry.setLength(f.getEntryLength());
 					entry.setLastModified(f.getEntryLastModified());
 					long len = f.getEntryContentLength();
 					try (InputStream in = f.openEntryStream()) {
@@ -208,10 +211,12 @@ public class AddCommand extends GitCommand<DirCache> {
 						entry.setObjectId(id);
 					}
 				} else {
+					entry.setLength(0);
+					entry.setLastModified(0);
 					entry.setObjectId(f.getEntryObjectId());
 				}
 				builder.add(entry);
-				lastAddedFile = path;
+				lastAdded = path;
 			}
 			inserter.flush();
 			builder.commit();
