@@ -57,6 +57,7 @@ import org.eclipse.jgit.attributes.Attributes;
 import org.eclipse.jgit.attributes.AttributesNode;
 import org.eclipse.jgit.attributes.AttributesNodeProvider;
 import org.eclipse.jgit.attributes.AttributesProvider;
+import org.eclipse.jgit.dircache.DirCacheBuildIterator;
 import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -256,7 +257,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 
 	private boolean postOrderTraversal;
 
-	private int depth;
+	int depth;
 
 	private boolean advance;
 
@@ -665,9 +666,26 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 				return true;
 			}
 		} catch (StopWalkException stop) {
-			for (final AbstractTreeIterator t : trees)
-				t.stopWalk();
+			stopWalk();
 			return false;
+		}
+	}
+
+	/**
+	 * Notify iterators the walk is aborting.
+	 * <p>
+	 * Primarily to notify {@link DirCacheBuildIterator} the walk is aborting so
+	 * that it can copy any remaining entries.
+	 *
+	 * @throws IOException
+	 *             if traversal of remaining entries throws an exception during
+	 *             object access. This should never occur as remaining trees
+	 *             should already be in memory, however the methods used to
+	 *             finish traversal are declared to throw IOException.
+	 */
+	void stopWalk() throws IOException {
+		for (AbstractTreeIterator t : trees) {
+			t.stopWalk();
 		}
 	}
 
@@ -1065,7 +1083,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 		}
 	}
 
-	private void exitSubtree() {
+	void exitSubtree() {
 		depth--;
 		for (int i = 0; i < trees.length; i++)
 			trees[i] = trees[i].parent;

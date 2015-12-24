@@ -43,6 +43,7 @@
  */
 package org.eclipse.jgit.api;
 
+import static org.eclipse.jgit.util.FileUtils.RECURSIVE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -777,10 +778,105 @@ public class AddCommandTest extends RepositoryTestCase {
 
 		assertEquals("[a.txt, mode:100644, content:more content,"
 				+ " assume-unchanged:false][b.txt, mode:100644,"
- + "" + ""
 				+ " content:content, assume-unchanged:true]",
 				indexState(CONTENT
 				| ASSUME_UNCHANGED));
+	}
+
+	@Test
+	public void testReplaceFileWithDirectory()
+			throws IOException, NoFilepatternException, GitAPIException {
+		try (Git git = new Git(db)) {
+			writeTrashFile("df", "before replacement");
+			git.add().addFilepattern("df").call();
+			assertEquals("[df, mode:100644, content:before replacement]",
+					indexState(CONTENT));
+			FileUtils.delete(new File(db.getWorkTree(), "df"));
+			writeTrashFile("df/f", "after replacement");
+			git.add().addFilepattern("df").call();
+			assertEquals("[df/f, mode:100644, content:after replacement]",
+					indexState(CONTENT));
+		}
+	}
+
+	@Test
+	public void testReplaceDirectoryWithFile()
+			throws IOException, NoFilepatternException, GitAPIException {
+		try (Git git = new Git(db)) {
+			writeTrashFile("df/f", "before replacement");
+			git.add().addFilepattern("df").call();
+			assertEquals("[df/f, mode:100644, content:before replacement]",
+					indexState(CONTENT));
+			FileUtils.delete(new File(db.getWorkTree(), "df"), RECURSIVE);
+			writeTrashFile("df", "after replacement");
+			git.add().addFilepattern("df").call();
+			assertEquals("[df, mode:100644, content:after replacement]",
+					indexState(CONTENT));
+		}
+	}
+
+	@Test
+	public void testReplaceFileByPartOfDirectory()
+			throws IOException, NoFilepatternException, GitAPIException {
+		try (Git git = new Git(db)) {
+			writeTrashFile("src/main", "df", "before replacement");
+			writeTrashFile("src/main", "z", "z");
+			writeTrashFile("z", "z2");
+			git.add().addFilepattern("src/main/df")
+				.addFilepattern("src/main/z")
+				.addFilepattern("z")
+				.call();
+			assertEquals(
+					"[src/main/df, mode:100644, content:before replacement]" +
+					"[src/main/z, mode:100644, content:z]" +
+					"[z, mode:100644, content:z2]",
+					indexState(CONTENT));
+			FileUtils.delete(new File(db.getWorkTree(), "src/main/df"));
+			writeTrashFile("src/main/df", "a", "after replacement");
+			writeTrashFile("src/main/df", "b", "unrelated file");
+			git.add().addFilepattern("src/main/df/a").call();
+			assertEquals(
+					"[src/main/df/a, mode:100644, content:after replacement]" +
+					"[src/main/z, mode:100644, content:z]" +
+					"[z, mode:100644, content:z2]",
+					indexState(CONTENT));
+		}
+	}
+
+	@Test
+	public void testReplaceDirectoryConflictsWithFile()
+			throws IOException, NoFilepatternException, GitAPIException {
+		DirCache dc = db.lockDirCache();
+		try (ObjectInserter oi = db.newObjectInserter()) {
+			DirCacheBuilder builder = dc.builder();
+			File f = writeTrashFile("a", "df", "content");
+			addEntryToBuilder("a", f, oi, builder, 1);
+
+			f = writeTrashFile("a", "df", "other content");
+			addEntryToBuilder("a/df", f, oi, builder, 3);
+
+			f = writeTrashFile("a", "df", "our content");
+			addEntryToBuilder("a/df", f, oi, builder, 2);
+
+			f = writeTrashFile("z", "z");
+			addEntryToBuilder("z", f, oi, builder, 0);
+			builder.commit();
+		}
+		assertEquals(
+				"[a, mode:100644, stage:1, content:content]" +
+				"[a/df, mode:100644, stage:2, content:our content]" +
+				"[a/df, mode:100644, stage:3, content:other content]" +
+				"[z, mode:100644, content:z]",
+				indexState(CONTENT));
+
+		try (Git git = new Git(db)) {
+			FileUtils.delete(new File(db.getWorkTree(), "a"), RECURSIVE);
+			writeTrashFile("a", "merged");
+			git.add().addFilepattern("a").call();
+			assertEquals("[a, mode:100644, content:merged]" +
+					"[z, mode:100644, content:z]",
+					indexState(CONTENT));
+		}
 	}
 
 	@Test
