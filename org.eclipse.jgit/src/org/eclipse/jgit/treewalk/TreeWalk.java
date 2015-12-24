@@ -256,7 +256,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 
 	private boolean postOrderTraversal;
 
-	private int depth;
+	int depth;
 
 	private boolean advance;
 
@@ -665,9 +665,15 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 				return true;
 			}
 		} catch (StopWalkException stop) {
-			for (final AbstractTreeIterator t : trees)
-				t.stopWalk();
+			stopWalk();
 			return false;
+		}
+	}
+
+	@SuppressWarnings("unused")
+	void stopWalk() throws IOException {
+		for (AbstractTreeIterator t : trees) {
+			t.stopWalk();
 		}
 	}
 
@@ -1065,7 +1071,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 		}
 	}
 
-	private void exitSubtree() {
+	void exitSubtree() {
 		depth--;
 		for (int i = 0; i < trees.length; i++)
 			trees[i] = trees[i].parent;

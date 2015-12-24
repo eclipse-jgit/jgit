@@ -692,6 +692,14 @@ public abstract class AbstractTreeIterator {
 	}
 
 	/**
+	 * @return true if the iterator implements {@link #stopWalk()}.
+	 * @since 4.2
+	 */
+	protected boolean needsStopWalk() {
+		return false;
+	}
+
+	/**
 	 * @return the length of the name component of the path for the current entry
 	 */
 	public int getNameLength() {
