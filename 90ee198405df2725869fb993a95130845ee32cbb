@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "27d6470d_e107c4d2",
+        "filename": "org.eclipse.jgit.pgm.test/src/org/eclipse/jgit/pgm/CLIGitCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-12-28T21:13:25Z",
+      "side": 1,
+      "message": "Since I wanted to have a command line argument, I couldn\u0027t use the env. variable. But I will change the name to -Dgit_work_tree\u003dpath_to_work_tree",
+      "parentUuid": "27d6470d_61e9f477",
+      "revId": "90ee198405df2725869fb993a95130845ee32cbb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27d6470d_81ec3889",
         "filename": "org.eclipse.jgit.pgm.test/src/org/eclipse/jgit/pgm/CLIGitCommand.java",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "27d6470d_a11e9c1f",
+        "filename": "org.eclipse.jgit.pgm.test/src/org/eclipse/jgit/pgm/CLIGitCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-12-28T21:13:25Z",
+      "side": 1,
+      "message": "This is a test plugin. Do we need API checks here too???",
+      "parentUuid": "27d6470d_81ec3889",
+      "revId": "90ee198405df2725869fb993a95130845ee32cbb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27d6470d_a1e3fc94",
         "filename": "org.eclipse.jgit.pgm.test/src/org/eclipse/jgit/pgm/CLIGitCommand.java",
         "patchSetId": 2
@@ -47,6 +83,30 @@
       "writtenOn": "2015-12-28T20:15:23Z",
       "side": 1,
       "message": "so this is the path to the working tree GIT_WORK_TREE, appending .git yields GIT_DIR",
+      "range": {
+        "startLine": 93,
+        "startChar": 42,
+        "endLine": 93,
+        "endChar": 50
+      },
+      "revId": "90ee198405df2725869fb993a95130845ee32cbb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_c121e05d",
+        "filename": "org.eclipse.jgit.pgm.test/src/org/eclipse/jgit/pgm/CLIGitCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-12-28T21:13:25Z",
+      "side": 1,
+      "message": "Exact. .git is what FileRepository wants.",
+      "parentUuid": "27d6470d_a1e3fc94",
       "range": {
         "startLine": 93,
         "startChar": 42,
