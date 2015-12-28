@@ -86,6 +86,7 @@ public class CmdLineParser extends org.kohsuke.args4j.CmdLineParser {
 		registerHandler(RefSpec.class, RefSpecHandler.class);
 		registerHandler(RevCommit.class, RevCommitHandler.class);
 		registerHandler(RevTree.class, RevTreeHandler.class);
+		registerHandler(List.class, OptionWithValuesListHandler.class);
 	}
 
 	private final Repository db;

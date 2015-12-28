@@ -85,6 +85,7 @@ public class CLIText extends TranslationBundle {
 	/***/ public String branchCreatedFrom;
 	/***/ public String branchDetachedHEAD;
 	/***/ public String branchIsNotAnAncestorOfYourCurrentHEAD;
+	/***/ public String branchNameRequired;
 	/***/ public String branchNotFound;
 	/***/ public String cacheTreePathInfo;
 	/***/ public String configFileNotFound;
@@ -184,6 +185,7 @@ public class CLIText extends TranslationBundle {
 	/***/ public String metaVar_uriish;
 	/***/ public String metaVar_url;
 	/***/ public String metaVar_user;
+	/***/ public String metaVar_values;
 	/***/ public String metaVar_version;
 	/***/ public String mostCommonlyUsedCommandsAre;
 	/***/ public String needApprovalToDestroyCurrentRepository;

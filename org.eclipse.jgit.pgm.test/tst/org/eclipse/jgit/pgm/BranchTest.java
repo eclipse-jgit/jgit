@@ -43,6 +43,11 @@
 package org.eclipse.jgit.pgm;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import java.io.File;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.CLIRepositoryTestCase;
@@ -62,8 +67,9 @@ public class BranchTest extends CLIRepositoryTestCase {
 
 	@Test
 	public void testList() throws Exception {
+		assertEquals("* master", toString(execute("git branch")));
 		assertEquals("* master 6fd41be initial commit",
-				execute("git branch -v")[0]);
+				toString(execute("git branch -v")));
 	}
 
 	@Test
@@ -71,8 +77,10 @@ public class BranchTest extends CLIRepositoryTestCase {
 		RefUpdate updateRef = db.updateRef(Constants.HEAD, true);
 		updateRef.setNewObjectId(db.resolve("6fd41be"));
 		updateRef.update();
-		assertEquals("* (no branch) 6fd41be initial commit",
-				execute("git branch -v")[0]);
+		assertEquals(
+				toString("* (no branch) 6fd41be initial commit",
+						"master      6fd41be initial commit"),
+				toString(execute("git branch -v")));
 	}
 
 	@Test
@@ -80,15 +88,175 @@ public class BranchTest extends CLIRepositoryTestCase {
 		new Git(db).branchCreate().setName("initial").call();
 		RevCommit second = new Git(db).commit().setMessage("second commit")
 				.call();
-		assertArrayOfLinesEquals(new String[] { "  initial", "* master", "" },
-				execute("git branch --contains 6fd41be"));
-		assertArrayOfLinesEquals(new String[] { "* master", "" },
-				execute("git branch --contains " + second.name()));
+		assertEquals(toString("  initial", "* master"),
+				toString(execute("git branch --contains 6fd41be")));
+		assertEquals("* master",
+				toString(execute("git branch --contains " + second.name())));
 	}
 
 	@Test
 	public void testExistingBranch() throws Exception {
 		assertEquals("fatal: A branch named 'master' already exists.",
-				executeUnchecked("git branch master")[0]);
+				toString(executeUnchecked("git branch master")));
+	}
+
+	@Test
+	public void testRenameSingleArg() throws Exception {
+		try {
+			toString(execute("git branch -m"));
+			fail("Must die");
+		} catch (Die e) {
+			// expected, requires argument
+		}
+		String result = toString(execute("git branch -m slave"));
+		assertEquals("", result);
+		result = toString(execute("git branch -a"));
+		assertEquals("* slave", result);
+	}
+
+	@Test
+	public void testRenameTwoArgs() throws Exception {
+		String result = toString(execute("git branch -m master slave"));
+		assertEquals("", result);
+		result = toString(execute("git branch -a"));
+		assertEquals("* slave", result);
+	}
+
+	@Test
+	public void testCreate() throws Exception {
+		try {
+			toString(execute("git branch a b"));
+			fail("Must die");
+		} catch (Die e) {
+			// expected, too many arguments
+		}
+		String result = toString(execute("git branch second"));
+		assertEquals("", result);
+		result = toString(execute("git branch"));
+		assertEquals(toString("* master", "second"), result);
+		result = toString(execute("git branch -v"));
+		assertEquals(toString("* master 6fd41be initial commit",
+				"second 6fd41be initial commit"), result);
+	}
+
+	@Test
+	public void testDelete() throws Exception {
+		try {
+			toString(execute("git branch -d"));
+			fail("Must die");
+		} catch (Die e) {
+			// expected, requires argument
+		}
+		String result = toString(execute("git branch second"));
+		assertEquals("", result);
+		result = toString(execute("git branch -d second"));
+		assertEquals("", result);
+		result = toString(execute("git branch"));
+		assertEquals("* master", result);
+	}
+
+	@Test
+	public void testDeleteMultiple() throws Exception {
+		String result = toString(execute("git branch second",
+				"git branch third", "git branch fourth"));
+		assertEquals("", result);
+		result = toString(execute("git branch -d second third fourth"));
+		assertEquals("", result);
+		result = toString(execute("git branch"));
+		assertEquals("* master", result);
+	}
+
+	@Test
+	public void testDeleteForce() throws Exception {
+		try {
+			toString(execute("git branch -D"));
+			fail("Must die");
+		} catch (Die e) {
+			// expected, requires argument
+		}
+		String result = toString(execute("git branch second"));
+		assertEquals("", result);
+		result = toString(execute("git checkout second"));
+		assertEquals("Switched to branch 'second'", result);
+
+		File a = writeTrashFile("a", "a");
+		assertTrue(a.exists());
+		execute("git add a", "git commit -m 'added a'");
+
+		result = toString(execute("git checkout master"));
+		assertEquals("Switched to branch 'master'", result);
+
+		result = toString(execute("git branch"));
+		assertEquals(toString("* master", "second"), result);
+
+		try {
+			toString(execute("git branch -d second"));
+			fail("Must die");
+		} catch (Die e) {
+			// expected, the current HEAD is on second and not merged to master
+		}
+		result = toString(execute("git branch -D second"));
+		assertEquals("", result);
+
+		result = toString(execute("git branch"));
+		assertEquals("* master", result);
+	}
+
+	@Test
+	public void testDeleteForceMultiple() throws Exception {
+		String result = toString(execute("git branch second",
+				"git branch third", "git branch fourth"));
+
+		assertEquals("", result);
+		result = toString(execute("git checkout second"));
+		assertEquals("Switched to branch 'second'", result);
+
+		File a = writeTrashFile("a", "a");
+		assertTrue(a.exists());
+		execute("git add a", "git commit -m 'added a'");
+
+		result = toString(execute("git checkout master"));
+		assertEquals("Switched to branch 'master'", result);
+
+		result = toString(execute("git branch"));
+		assertEquals(toString("fourth", "* master", "second", "third"), result);
+
+		try {
+			toString(execute("git branch -d second third fourth"));
+			fail("Must die");
+		} catch (Die e) {
+			// expected, the current HEAD is on second and not merged to master
+		}
+		result = toString(execute("git branch"));
+		assertEquals(toString("fourth", "* master", "second", "third"), result);
+
+		result = toString(execute("git branch -D second third fourth"));
+		assertEquals("", result);
+
+		result = toString(execute("git branch"));
+		assertEquals("* master", result);
+	}
+
+	@Test
+	public void testCreateFromOldCommit() throws Exception {
+		File a = writeTrashFile("a", "a");
+		assertTrue(a.exists());
+		execute("git add a", "git commit -m 'added a'");
+		File b = writeTrashFile("b", "b");
+		assertTrue(b.exists());
+		execute("git add b", "git commit -m 'added b'");
+		String result = toString(execute("git log -n 1 --reverse"));
+		String firstCommitId = result.substring("commit ".length(),
+				result.indexOf('\n'));
+
+		result = toString(execute("git branch -f second " + firstCommitId));
+		assertEquals("", result);
+
+		result = toString(execute("git branch"));
+		assertEquals(toString("* master", "second"), result);
+
+		result = toString(execute("git checkout second"));
+		assertEquals("Switched to branch 'second'", result);
+		assertFalse(b.exists());
 	}
 }
