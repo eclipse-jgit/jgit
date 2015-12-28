@@ -86,6 +86,21 @@ public class Die extends RuntimeException {
 	 * @since 3.4
 	 */
 	public Die(boolean aborted) {
+		this(aborted, null);
+	}
+
+	/**
+	 * Construct a new exception reflecting the fact that the command execution
+	 * has been aborted before running.
+	 *
+	 * @param aborted
+	 *            boolean indicating the fact the execution has been aborted
+	 * @param cause
+	 *            can be null
+	 * @since 4.2
+	 */
+	public Die(boolean aborted, final Throwable cause) {
+		super(cause != null ? cause.getMessage() : null, cause);
 		this.aborted = aborted;
 	}
 
