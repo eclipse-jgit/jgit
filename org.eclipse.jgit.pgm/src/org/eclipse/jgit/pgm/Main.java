@@ -170,7 +170,7 @@ public class Main {
 	}
 
 	private void execute(final String[] argv) throws Exception {
-		final CmdLineParser clp = new CmdLineParser(this);
+		final CmdLineParser clp = new SubcommandLineParser(this);
 		PrintWriter writer = new PrintWriter(System.err);
 		try {
 			clp.parseArgument(argv);
@@ -333,6 +333,21 @@ public class Main {
 						new CachedAuthenticator.CachedAuthentication(proxyHost,
 								proxyPort, user, pass));
 			}
+		}
+	}
+
+	/**
+	 * Parser for subcommands which doesn't stop parsing on help options and so
+	 * proceeds all specified options
+	 */
+	static class SubcommandLineParser extends CmdLineParser {
+		public SubcommandLineParser(Object bean) {
+			super(bean);
+		}
+
+		@Override
+		protected boolean containsHelp(String... args) {
+			return false;
 		}
 	}
 }
