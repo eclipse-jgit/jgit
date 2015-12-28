@@ -43,10 +43,12 @@
 package org.eclipse.jgit.pgm;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.pgm.internal.CLIText;
 import org.eclipse.jgit.pgm.opt.CmdLineParser;
@@ -67,6 +69,35 @@ public class CLIGitCommand {
 
 	public List<String> getArguments() {
 		return arguments;
+	}
+
+	/**
+	 * Executes git commands (with arguments) specified on the command line. The
+	 * git repository (same for all commands) can be specified via system
+	 * property "-Dgit_work_tree=path_to_work_tree". If the property is not set,
+	 * current directory is used.
+	 *
+	 * @param args
+	 *            each element in the array must be a valid git command line,
+	 *            e.g. "git branch -h"
+	 * @throws Exception
+	 */
+	public static void main(String[] args) throws Exception {
+		String workDir = System.getProperty("git_work_tree");
+		if (workDir == null) {
+			workDir = ".";
+			System.out.println(
+					"System property 'git_work_tree' not specified, using current directory: "
+							+ new File(workDir).getAbsolutePath());
+		}
+		try (Repository db = new FileRepository(workDir + "/.git")) {
+			for (String cmd : args) {
+				List<String> result = execute(cmd, db);
+				for (String line : result) {
+					System.out.println(line);
+				}
+			}
+		}
 	}
 
 	public static List<String> execute(String str, Repository db)
