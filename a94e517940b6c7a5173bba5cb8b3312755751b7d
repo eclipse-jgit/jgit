@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "27d6470d_c17d6059",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/AddCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-12-28T18:49:12Z",
+      "side": 1,
+      "message": "Correct, previously we ignored stage and used the paths being identical to indicate its the same path and we are skipping stages.\n\nHere I am using the fact that its cheaper to check stage than it is to compare the paths to short-circuit out of the conditional without checking the path on every entry.\n\nSo this doesn\u0027t really change when we continue. We should continue in the same cases where we did before.\n\nAnd we still check the path because the stage \u003e 0 is not sufficient to ensure its the same path. It could be some other path\u0027s conflict. So we do still check the path. We just assume stage \u003e 0 is not common and therefore use it to avoid more expensive tests (path check) that we know would fail.",
+      "parentUuid": "27d6470d_a1605c02",
+      "range": {
+        "startLine": 172,
+        "startChar": 7,
+        "endLine": 175,
+        "endChar": 59
+      },
+      "revId": "a94e517940b6c7a5173bba5cb8b3312755751b7d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27d6470d_e16984ed",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/AddCommand.java",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2015-12-28T13:17:25Z",
       "side": 1,
       "message": "I old code when we reached this line we have bee sure that entry was a fresh constructed object (and therefore length/lastmodified\u003d0). Now you reuse the old entry and therefore reset the length/lastmodified values. But what is with the other attributes of the reused entry like assumeValid,updateNeeded. Could it be we have to reset them also?",
+      "range": {
+        "startLine": 215,
+        "startChar": 5,
+        "endLine": 216,
+        "endChar": 30
+      },
+      "revId": "a94e517940b6c7a5173bba5cb8b3312755751b7d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_e16344ba",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/AddCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-12-28T18:49:12Z",
+      "side": 1,
+      "message": "I think the old code was wrong. By not reusing the old entry we lost things like the assumeValid and updateNeeded flags.",
+      "parentUuid": "27d6470d_e16984ed",
       "range": {
         "startLine": 215,
         "startChar": 5,
