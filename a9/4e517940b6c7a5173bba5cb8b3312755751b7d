@@ -1,0 +1,8 @@
+Verified+1: Hudson CI
+Code-Review+1: Christian Halstrick <christian.halstrick@sap.com>
+Code-Review+2: Shawn Pearce <andrea.ross@eclipse.org>
+Submitted-by: Shawn Pearce <andrea.ross@eclipse.org>
+Submitted-at: Mon, 28 Dec 2015 14:24:30 -0500
+Reviewed-on: https://git.eclipse.org/r/63257
+Project: jgit/jgit
+Branch: refs/heads/master
