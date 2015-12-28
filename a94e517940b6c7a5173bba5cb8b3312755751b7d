@@ -93,6 +93,30 @@
       "revId": "a94e517940b6c7a5173bba5cb8b3312755751b7d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_615734d7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/AddCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-12-28T19:24:28Z",
+      "side": 1,
+      "message": "assumeValid can never be true in the existing entry by this point. Above we test entry !\u003d null \u0026\u0026 entry.isAssumeValid() and keep the exiting entry without looking at the working tree. This means we never get here with assumeValid set.\n\nSo we never need to clear assumeValid in this part of the code.\n\nupdateNeeded is only used in the unit tests. Doesn\u0027t look like it cares if we left it true here or force it false.",
+      "parentUuid": "27d6470d_e16344ba",
+      "range": {
+        "startLine": 215,
+        "startChar": 5,
+        "endLine": 216,
+        "endChar": 30
+      },
+      "revId": "a94e517940b6c7a5173bba5cb8b3312755751b7d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
