@@ -52,17 +52,15 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.InputStreamReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.lang.Object;
-import java.lang.String;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Callable;
-import java.util.concurrent.Executors;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -71,9 +69,7 @@ import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.lib.CLIRepositoryTestCase;
 import org.eclipse.jgit.lib.FileMode;
-import org.eclipse.jgit.pgm.CLIGitCommand;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class ArchiveTest extends CLIRepositoryTestCase {
@@ -89,7 +85,6 @@ public class ArchiveTest extends CLIRepositoryTestCase {
 		emptyTree = db.resolve("HEAD^{tree}").abbreviate(12).name();
 	}
 
-	@Ignore("Some versions of java.util.zip refuse to write an empty ZIP")
 	@Test
 	public void testEmptyArchive() throws Exception {
 		byte[] result = CLIGitCommand.rawExecute(
