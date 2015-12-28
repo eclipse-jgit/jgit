@@ -800,8 +800,11 @@ public class DirCache {
 	 *         information. If &lt; 0 the entry does not exist in the index.
 	 * @since 3.4
 	 */
-	public int findEntry(final byte[] p, final int pLen) {
-		int low = 0;
+	public int findEntry(byte[] p, int pLen) {
+		return findEntry(0, p, pLen);
+	}
+
+	int findEntry(int low, byte[] p, int pLen) {
 		int high = entryCnt;
 		while (low < high) {
 			int mid = (low + high) >>> 1;

@@ -154,6 +154,64 @@ public class DirCachePathEditTest {
 		assertEquals(DirCacheEntry.STAGE_3, entries.get(2).getStage());
 	}
 
+	@Test
+	public void testFileReplacesTree() throws Exception {
+		DirCache dc = DirCache.newInCore();
+		DirCacheEditor editor = dc.editor();
+		editor.add(new AddEdit("a"));
+		editor.add(new AddEdit("b/c"));
+		editor.add(new AddEdit("b/d"));
+		editor.add(new AddEdit("e"));
+		editor.finish();
+
+		editor = dc.editor();
+		editor.add(new AddEdit("b"));
+		editor.finish();
+
+		assertEquals(3, dc.getEntryCount());
+		assertEquals("a", dc.getEntry(0).getPathString());
+		assertEquals("b", dc.getEntry(1).getPathString());
+		assertEquals("e", dc.getEntry(2).getPathString());
+
+		dc.clear();
+		editor = dc.editor();
+		editor.add(new AddEdit("A.c"));
+		editor.add(new AddEdit("A/c"));
+		editor.add(new AddEdit("A0c"));
+		editor.finish();
+
+		editor = dc.editor();
+		editor.add(new AddEdit("A"));
+		editor.finish();
+		assertEquals(3, dc.getEntryCount());
+		assertEquals("A", dc.getEntry(0).getPathString());
+		assertEquals("A.c", dc.getEntry(1).getPathString());
+		assertEquals("A0c", dc.getEntry(2).getPathString());
+	}
+
+	@Test
+	public void testTreeReplacesFile() throws Exception {
+		DirCache dc = DirCache.newInCore();
+		DirCacheEditor editor = dc.editor();
+		editor.add(new AddEdit("a"));
+		editor.add(new AddEdit("ab"));
+		editor.add(new AddEdit("b"));
+		editor.add(new AddEdit("e"));
+		editor.finish();
+
+		editor = dc.editor();
+		editor.add(new AddEdit("b/c/d/f"));
+		editor.add(new AddEdit("b/g/h/i"));
+		editor.finish();
+
+		assertEquals(5, dc.getEntryCount());
+		assertEquals("a", dc.getEntry(0).getPathString());
+		assertEquals("ab", dc.getEntry(1).getPathString());
+		assertEquals("b/c/d/f", dc.getEntry(2).getPathString());
+		assertEquals("b/g/h/i", dc.getEntry(3).getPathString());
+		assertEquals("e", dc.getEntry(4).getPathString());
+	}
+
 	private static DirCacheEntry createEntry(String path, int stage) {
 		DirCacheEntry entry = new DirCacheEntry(path, stage);
 		entry.setFileMode(FileMode.REGULAR_FILE);
