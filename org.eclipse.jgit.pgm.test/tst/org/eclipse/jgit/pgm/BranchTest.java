@@ -91,4 +91,20 @@ public class BranchTest extends CLIRepositoryTestCase {
 		assertEquals("fatal: A branch named 'master' already exists.",
 				execute("git branch master")[0]);
 	}
+
+	@Test
+	public void testRenameBranch() throws Exception {
+		String[] out = execute("git branch -m master slave");
+		assertArrayOfLinesEquals(new String[] { "" }, out);
+		out = execute("git branch -a");
+		assertArrayOfLinesEquals(new String[] { "* slave", "" }, out);
+	}
+
+	@Test
+	public void testRenameBranchSingleName() throws Exception {
+		String[] out = execute("git branch -m slave");
+		assertArrayOfLinesEquals(new String[] { "" }, out);
+		out = execute("git branch -a");
+		assertArrayOfLinesEquals(new String[] { "* slave", "" }, out);
+	}
 }
