@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27d6470d_a1605c02",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/AddCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-12-28T13:17:25Z",
+      "side": 1,
+      "message": "You are not only replacing unnecessary Strings but you are also modifying when we continue. You are adding that we continue only when stage is \u003e0. I do think that\u0027s correct but I want to understand better. Before we where ignoring stage and just relied on the fact that current path equals previous path. Have you changed this just to make the code clearer and faster or was something wrong with looking only at the pathes? Can it happen that path.equals(lastpath) and current entry has stage\u003d\u003d0?",
+      "range": {
+        "startLine": 172,
+        "startChar": 7,
+        "endLine": 175,
+        "endChar": 59
+      },
+      "revId": "a94e517940b6c7a5173bba5cb8b3312755751b7d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_e16984ed",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/AddCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-12-28T13:17:25Z",
+      "side": 1,
+      "message": "I old code when we reached this line we have bee sure that entry was a fresh constructed object (and therefore length/lastmodified\u003d0). Now you reuse the old entry and therefore reset the length/lastmodified values. But what is with the other attributes of the reused entry like assumeValid,updateNeeded. Could it be we have to reset them also?",
+      "range": {
+        "startLine": 215,
+        "startChar": 5,
+        "endLine": 216,
+        "endChar": 30
+      },
+      "revId": "a94e517940b6c7a5173bba5cb8b3312755751b7d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
