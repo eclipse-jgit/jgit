@@ -70,10 +70,20 @@ public class CLIRepositoryTestCase extends LocalDiskRepositoryTestCase {
 		trash = db.getWorkTree();
 	}
 
+	/**
+	 * Executes specified git commands (with arguments)
+	 *
+	 * @param cmds
+	 *            each string argument must be a valid git command line, e.g.
+	 *            "git branch -h"
+	 * @return command output
+	 * @throws Exception
+	 */
 	protected String[] execute(String... cmds) throws Exception {
 		List<String> result = new ArrayList<String>(cmds.length);
-		for (String cmd : cmds)
+		for (String cmd : cmds) {
 			result.addAll(CLIGitCommand.execute(cmd, db));
+		}
 		return result.toArray(new String[0]);
 	}
 
