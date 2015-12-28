@@ -50,6 +50,7 @@ import java.util.List;
 
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.pgm.TextBuiltin.TerminatedByHelpException;
 import org.eclipse.jgit.pgm.internal.CLIText;
 import org.eclipse.jgit.pgm.opt.CmdLineParser;
 import org.eclipse.jgit.pgm.opt.SubcommandHandler;
@@ -120,12 +121,15 @@ public class CLIGitCommand {
 		System.arraycopy(args, 1, argv, 0, args.length - 1);
 
 		CLIGitCommand bean = new CLIGitCommand();
-		final CmdLineParser clp = new CmdLineParser(bean);
+		final CmdLineParser clp = new TestCmdLineParser(bean);
 		clp.parseArgument(argv);
 
 		final TextBuiltin cmd = bean.getSubcommand();
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		cmd.outs = baos;
+		ByteArrayOutputStream errs = new ByteArrayOutputStream();
+		cmd.errs = errs;
+		boolean seenHelp = TextBuiltin.containsHelp(argv);
 		if (cmd.requiresRepository())
 			cmd.init(db, null);
 		else
@@ -133,9 +137,22 @@ public class CLIGitCommand {
 		try {
 			cmd.execute(bean.getArguments().toArray(
 					new String[bean.getArguments().size()]));
+		} catch (TerminatedByHelpException e) {
+			seenHelp = true;
+			// this is not a failure, command execution should just not happen
 		} finally {
-			if (cmd.outw != null)
+			if (cmd.outw != null) {
 				cmd.outw.flush();
+			}
+			if (cmd.errw != null) {
+				cmd.errw.flush();
+			}
+			if (seenHelp) {
+				return errs.toByteArray();
+			} else if (errs.size() > 0) {
+				// forward the errors to the standard err
+				System.err.print(errs.toString());
+			}
 		}
 		return baos.toByteArray();
 	}
@@ -195,4 +212,14 @@ public class CLIGitCommand {
 		return list.toArray(new String[list.size()]);
 	}
 
+	static class TestCmdLineParser extends CmdLineParser {
+		public TestCmdLineParser(Object bean) {
+			super(bean);
+		}
+
+		@Override
+		protected boolean containsHelp(String... args) {
+			return false;
+		}
+	}
 }
