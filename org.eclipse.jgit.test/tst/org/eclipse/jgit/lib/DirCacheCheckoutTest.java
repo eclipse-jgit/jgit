@@ -1084,7 +1084,7 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 		assertWorkDir(mkmap(linkName, "a", fname, "a"));
 
 		Status st = git.status().call();
-		assertFalse(st.isClean());
+		assertTrue(st.isClean());
 	}
 
 	@Test
@@ -1213,9 +1213,7 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 		assertWorkDir(mkmap(fname, "a"));
 
 		Status st = git.status().call();
-		assertFalse(st.isClean());
-		assertEquals(1, st.getAdded().size());
-		assertTrue(st.getAdded().contains(fname + "/dir/file1"));
+		assertTrue(st.isClean());
 	}
 
 	@Test
