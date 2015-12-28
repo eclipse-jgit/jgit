@@ -42,6 +42,7 @@
  */
 package org.eclipse.jgit.pgm;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -95,6 +96,12 @@ public class RepoTest extends CLIRepositoryTestCase {
 		git.commit().setMessage("Initial commit").call();
 
 		resolveRelativeUris();
+	}
+
+	@Test
+	public void testMissingPath() throws Exception {
+		assertEquals("fatal: Argument \"path\" is required",
+				execute("git repo")[0]);
 	}
 
 	@Test
