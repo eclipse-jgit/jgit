@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27d6470d_47cb2096",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/BaseDirCacheEditor.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-12-29T23:50:14Z",
+      "side": 1,
+      "message": "I must confess I didn\u0027t get this comparison. If the \"a\" path is longer as \"b\" we compare \u0027/\u0027 or \u0027\\0\u0027 with something (non-\u0027/\u0027) in the \"middle\" of \"a\". If we have \u0027\\0\u0027 (file at \"b\") this will be always \u003e 0 (OK), but if we have \u0027/\u0027 at \"b\" (dir at \"b\"), it might be \u003c or \u003e 0, but shouldn\u0027t this be \u003c 0, since we expect that \"a\" path must be from the parent of \"b\"?.\n\nSomething like:\nint a \u003d aPath[aPos] \u0026 0xff;\nint b \u003d lastPathChar(bMode);\nreturn b \u003d\u003d 0 ? a : -1;",
+      "range": {
+        "startLine": 191,
+        "startChar": 33,
+        "endLine": 191,
+        "endChar": 45
+      },
+      "revId": "b71ba69410db5e50dd10c5c40e96699c9de7e5e8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_ac8a136d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/BaseDirCacheEditor.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-12-29T23:50:14Z",
+      "side": 1,
+      "message": "Why not just 0?",
+      "range": {
+        "startLine": 200,
+        "startChar": 35,
+        "endLine": 200,
+        "endChar": 39
+      },
+      "revId": "b71ba69410db5e50dd10c5c40e96699c9de7e5e8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_0ca4df01",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEditor.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-12-29T23:50:14Z",
+      "side": 1,
+      "message": "shouldn\u0027t be \"mid - 1\"?",
+      "range": {
+        "startLine": 241,
+        "startChar": 4,
+        "endLine": 241,
+        "endChar": 14
+      },
+      "revId": "b71ba69410db5e50dd10c5c40e96699c9de7e5e8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
