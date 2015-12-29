@@ -16,6 +16,24 @@
       "revId": "8550be887f2e1355314acd219ef5eb8441a7ea3a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_0ccbffc8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 673,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-12-29T19:34:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27d6470d_ec925bd9",
+      "revId": "8550be887f2e1355314acd219ef5eb8441a7ea3a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
