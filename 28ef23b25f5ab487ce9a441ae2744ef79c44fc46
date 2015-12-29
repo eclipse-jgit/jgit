@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27d6470d_4cc7c7a9",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/indexdiff/IndexDiffWithSymlinkTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-12-29T22:43:11Z",
+      "side": 1,
+      "message": "you are now using fast-import",
+      "range": {
+        "startLine": 83,
+        "startChar": 59,
+        "endLine": 84,
+        "endChar": 13
+      },
+      "revId": "28ef23b25f5ab487ce9a441ae2744ef79c44fc46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
