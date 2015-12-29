@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "27d6470d_07e838ee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/BaseDirCacheEditor.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-12-29T23:58:58Z",
+      "side": 1,
+      "message": "No. Git sorts paths by flat string order:\n\n  a \u003d \"Q.c\"\n  b \u003d \"Q\" bMode \u003d TREE\n\nWe need to sort b comparing / with the . in a because if put a file named \"c\" inside of Q the ordering is:\n\n  Q.c\n  Q/c\n\nSo directory Q must come after file Q.c. So yes when b is a tree we compare a / with the next position of a.",
+      "parentUuid": "27d6470d_47cb2096",
+      "range": {
+        "startLine": 191,
+        "startChar": 33,
+        "endLine": 191,
+        "endChar": 45
+      },
+      "revId": "b71ba69410db5e50dd10c5c40e96699c9de7e5e8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27d6470d_ac8a136d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/BaseDirCacheEditor.java",
         "patchSetId": 5
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "27d6470d_47e2400e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/BaseDirCacheEditor.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-12-29T23:58:58Z",
+      "side": 1,
+      "message": "Good point, but I went with NUL char literal here to match the \u0027/\u0027 char literal from a readability perspective.",
+      "parentUuid": "27d6470d_ac8a136d",
+      "range": {
+        "startLine": 200,
+        "startChar": 35,
+        "endLine": 200,
+        "endChar": 39
+      },
+      "revId": "b71ba69410db5e50dd10c5c40e96699c9de7e5e8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27d6470d_0ca4df01",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEditor.java",
         "patchSetId": 5
@@ -59,6 +107,30 @@
       "writtenOn": "2015-12-29T23:50:14Z",
       "side": 1,
       "message": "shouldn\u0027t be \"mid - 1\"?",
+      "range": {
+        "startLine": 241,
+        "startChar": 4,
+        "endLine": 241,
+        "endChar": 14
+      },
+      "revId": "b71ba69410db5e50dd10c5c40e96699c9de7e5e8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_a70eac71",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEditor.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-12-29T23:58:58Z",
+      "side": 1,
+      "message": "No. high is 1 past the end point. If we did mid - 1 here we\u0027d move the end point down 1 position to low and fail to find some entries that may be of interest.",
+      "parentUuid": "27d6470d_0ca4df01",
       "range": {
         "startLine": 241,
         "startChar": 4,
