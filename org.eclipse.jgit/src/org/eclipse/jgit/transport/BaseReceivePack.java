@@ -55,6 +55,7 @@ import static org.eclipse.jgit.transport.SideBandOutputStream.CH_PROGRESS;
 import static org.eclipse.jgit.transport.SideBandOutputStream.MAX_BUF;
 
 import java.io.EOFException;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -71,6 +72,7 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.errors.TooLargePackException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.file.LazyObjectIdSetFile;
 import org.eclipse.jgit.internal.storage.file.PackLock;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Config;
@@ -79,6 +81,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectChecker;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectIdSet;
 import org.eclipse.jgit.lib.ObjectIdSubclassMap;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -320,6 +323,7 @@ public abstract class BaseReceivePack {
 		final boolean allowInvalidPersonIdent;
 		final boolean safeForWindows;
 		final boolean safeForMacOS;
+		final String fsckSkipList;
 
 		final boolean allowCreates;
 		final boolean allowDeletes;
@@ -332,6 +336,7 @@ public abstract class BaseReceivePack {
 			checkReceivedObjects = config.getBoolean(
 					"receive", "fsckobjects", //$NON-NLS-1$ //$NON-NLS-2$
 					config.getBoolean("transfer", "fsckobjects", false)); //$NON-NLS-1$ //$NON-NLS-2$
+			fsckSkipList = config.getString("fsck", null, "skipList"); //$NON-NLS-1$ //$NON-NLS-2$
 			allowLeadingZeroFileMode = checkReceivedObjects
 					&& config.getBoolean("fsck", "allowLeadingZeroFileMode", false); //$NON-NLS-1$ //$NON-NLS-2$
 			allowInvalidPersonIdent = checkReceivedObjects
@@ -357,7 +362,15 @@ public abstract class BaseReceivePack {
 				.setAllowLeadingZeroFileMode(allowLeadingZeroFileMode)
 				.setAllowInvalidPersonIdent(allowInvalidPersonIdent)
 				.setSafeForWindows(safeForWindows)
-				.setSafeForMacOS(safeForMacOS);
+				.setSafeForMacOS(safeForMacOS)
+				.setSkipList(skipList());
+		}
+
+		private ObjectIdSet skipList() {
+			if (fsckSkipList != null && !fsckSkipList.isEmpty()) {
+				return new LazyObjectIdSetFile(new File(fsckSkipList));
+			}
+			return null;
 		}
 	}
 
