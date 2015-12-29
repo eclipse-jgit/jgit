@@ -67,7 +67,7 @@ import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectIdOwnerMap;
+import org.eclipse.jgit.lib.ObjectIdSet;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -87,7 +87,7 @@ public class DfsGarbageCollector {
 
 	private final List<PackStatistics> newPackStats;
 
-	private final List<PackWriter.ObjectIdSet> newPackObj;
+	private final List<ObjectIdSet> newPackObj;
 
 	private DfsReader ctx;
 
@@ -117,7 +117,7 @@ public class DfsGarbageCollector {
 		objdb = repo.getObjectDatabase();
 		newPackDesc = new ArrayList<DfsPackDescription>(4);
 		newPackStats = new ArrayList<PackStatistics>(4);
-		newPackObj = new ArrayList<PackWriter.ObjectIdSet>(4);
+		newPackObj = new ArrayList<ObjectIdSet>(4);
 
 		packConfig = new PackConfig(repo);
 		packConfig.setIndexVersion(2);
@@ -288,7 +288,7 @@ public class DfsGarbageCollector {
 			return;
 
 		try (PackWriter pw = newPackWriter()) {
-			for (PackWriter.ObjectIdSet packedObjs : newPackObj)
+			for (ObjectIdSet packedObjs : newPackObj)
 				pw.excludeObjects(packedObjs);
 			pw.preparePack(pm, nonHeads, allHeads);
 			if (0 < pw.getObjectCount())
@@ -328,7 +328,7 @@ public class DfsGarbageCollector {
 	}
 
 	private boolean anyPackHas(AnyObjectId id) {
-		for (PackWriter.ObjectIdSet packedObjs : newPackObj)
+		for (ObjectIdSet packedObjs : newPackObj)
 			if (packedObjs.contains(id))
 				return true;
 		return false;
@@ -389,17 +389,10 @@ public class DfsGarbageCollector {
 			}
 		}
 
-		final ObjectIdOwnerMap<ObjectIdOwnerMap.Entry> packedObjs = pw
-				.getObjectSet();
-		newPackObj.add(new PackWriter.ObjectIdSet() {
-			public boolean contains(AnyObjectId objectId) {
-				return packedObjs.contains(objectId);
-			}
-		});
-
 		PackStatistics stats = pw.getStatistics();
 		pack.setPackStats(stats);
 		newPackStats.add(stats);
+		newPackObj.add(pw.getObjectSet());
 
 		DfsBlockCache.getInstance().getOrCreate(pack, null);
 		return pack;
