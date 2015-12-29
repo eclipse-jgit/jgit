@@ -822,7 +822,7 @@ public class TestRepository<R extends Repository> {
 					break;
 
 				final byte[] bin = db.open(o, o.getType()).getCachedBytes();
-				oc.checkCommit(bin);
+				oc.checkCommit(o, bin);
 				assertHash(o, bin);
 			}
 
@@ -832,7 +832,7 @@ public class TestRepository<R extends Repository> {
 					break;
 
 				final byte[] bin = db.open(o, o.getType()).getCachedBytes();
-				oc.check(o.getType(), bin);
+				oc.check(o, o.getType(), bin);
 				assertHash(o, bin);
 			}
 		}
