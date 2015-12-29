@@ -44,6 +44,10 @@
 
 package org.eclipse.jgit.lib;
 
+import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
+import static org.eclipse.jgit.lib.Constants.OBJ_COMMIT;
+import static org.eclipse.jgit.lib.Constants.OBJ_TAG;
+import static org.eclipse.jgit.lib.Constants.OBJ_TREE;
 import static org.eclipse.jgit.util.RawParseUtils.match;
 import static org.eclipse.jgit.util.RawParseUtils.nextLF;
 import static org.eclipse.jgit.util.RawParseUtils.parseBase10;
@@ -54,6 +58,7 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.util.MutableInteger;
@@ -99,14 +104,27 @@ public class ObjectChecker {
 	public static final byte[] tagger = Constants.encodeASCII("tagger "); //$NON-NLS-1$
 
 	private final MutableObjectId tempId = new MutableObjectId();
-
 	private final MutableInteger ptrout = new MutableInteger();
 
+	private ObjectIdSet skipList;
 	private boolean allowZeroMode;
-
 	private boolean allowInvalidPersonIdent;
 	private boolean windows;
 	private boolean macosx;
+
+	/**
+	 * Enable accepting specific malformed (but not horribly broken) objects.
+	 *
+	 * @param objects
+	 *            collection of object names known to be broken in a non-fatal
+	 *            way that should be ignored by the checker.
+	 * @return {@code this}
+	 * @since 4.2
+	 */
+	public ObjectChecker setSkipList(@Nullable ObjectIdSet objects) {
+		skipList = objects;
+		return this;
+	}
 
 	/**
 	 * Enable accepting leading zero mode in tree entries.
@@ -183,19 +201,40 @@ public class ObjectChecker {
 	 * @throws CorruptObjectException
 	 *             if an error is identified.
 	 */
-	public void check(final int objType, final byte[] raw)
+	public void check(int objType, byte[] raw)
+			throws CorruptObjectException {
+		check(idFor(objType, raw), objType, raw);
+	}
+
+	/**
+	 * Check an object for parsing errors.
+	 *
+	 * @param id
+	 *            identify of the object being checked.
+	 * @param objType
+	 *            type of the object. Must be a valid object type code in
+	 *            {@link Constants}.
+	 * @param raw
+	 *            the raw data which comprises the object. This should be in the
+	 *            canonical format (that is the format used to generate the
+	 *            ObjectId of the object). The array is never modified.
+	 * @throws CorruptObjectException
+	 *             if an error is identified.
+	 * @since 4.2
+	 */
+	public void check(@Nullable AnyObjectId id, int objType, byte[] raw)
 			throws CorruptObjectException {
 		switch (objType) {
-		case Constants.OBJ_COMMIT:
-			checkCommit(raw);
+		case OBJ_COMMIT:
+			checkCommit(id, raw);
 			break;
-		case Constants.OBJ_TAG:
-			checkTag(raw);
+		case OBJ_TAG:
+			checkTag(id, raw);
 			break;
-		case Constants.OBJ_TREE:
-			checkTree(raw);
+		case OBJ_TREE:
+			checkTree(id, raw);
 			break;
-		case Constants.OBJ_BLOB:
+		case OBJ_BLOB:
 			checkBlob(raw);
 			break;
 		default:
@@ -214,9 +253,9 @@ public class ObjectChecker {
 		}
 	}
 
-	private int personIdent(final byte[] raw, int ptr) {
-		if (allowInvalidPersonIdent)
-			return nextLF(raw, ptr) - 1;
+	private int personIdent(byte[] raw, int ptr, @Nullable AnyObjectId id) {
+		if (allowInvalidPersonIdent || skip(id))
+			return nextLF(raw, ptr);
 
 		final int emailB = nextLF(raw, ptr, '<');
 		if (emailB == ptr || raw[emailB - 1] != '<')
@@ -238,7 +277,11 @@ public class ObjectChecker {
 		parseBase10(raw, ptr + 1, ptrout); // tz offset
 		if (ptr + 1 == ptrout.value)
 			return -1;
-		return ptrout.value;
+
+		ptr = ptrout.value;
+		if (raw[ptr++] == '\n')
+			return ptr;
+		return -1;
 	}
 
 	/**
@@ -249,7 +292,23 @@ public class ObjectChecker {
 	 * @throws CorruptObjectException
 	 *             if any error was detected.
 	 */
-	public void checkCommit(final byte[] raw) throws CorruptObjectException {
+	public void checkCommit(byte[] raw) throws CorruptObjectException {
+		checkCommit(idFor(OBJ_COMMIT, raw), raw);
+	}
+
+	/**
+	 * Check a commit for errors.
+	 *
+	 * @param id
+	 *            identity of the object being checked.
+	 * @param raw
+	 *            the commit data. The array is never modified.
+	 * @throws CorruptObjectException
+	 *             if any error was detected.
+	 * @since 4.2
+	 */
+	public void checkCommit(@Nullable AnyObjectId id, byte[] raw)
+			throws CorruptObjectException {
 		int ptr = 0;
 
 		if ((ptr = match(raw, ptr, tree)) < 0)
@@ -266,19 +325,27 @@ public class ObjectChecker {
 						JGitText.get().corruptObjectInvalidParent);
 		}
 
-		if ((ptr = match(raw, ptr, author)) < 0)
+		int p = match(raw, ptr, author);
+		if (p > ptr) {
+			if ((ptr = personIdent(raw, p, id)) < 0) {
+				throw new CorruptObjectException(
+						JGitText.get().corruptObjectInvalidAuthor);
+			}
+		} else if (!skip(id)) {
 			throw new CorruptObjectException(
 					JGitText.get().corruptObjectNoAuthor);
-		if ((ptr = personIdent(raw, ptr)) < 0 || raw[ptr++] != '\n')
-			throw new CorruptObjectException(
-					JGitText.get().corruptObjectInvalidAuthor);
+		}
 
-		if ((ptr = match(raw, ptr, committer)) < 0)
+		p = match(raw, ptr, committer);
+		if (p > ptr) {
+			if ((ptr = personIdent(raw, p, id)) < 0) {
+				throw new CorruptObjectException(
+						JGitText.get().corruptObjectInvalidCommitter);
+			}
+		} else if (!skip(id)) {
 			throw new CorruptObjectException(
 					JGitText.get().corruptObjectNoCommitter);
-		if ((ptr = personIdent(raw, ptr)) < 0 || raw[ptr++] != '\n')
-			throw new CorruptObjectException(
-					JGitText.get().corruptObjectInvalidCommitter);
+		}
 	}
 
 	/**
@@ -289,7 +356,23 @@ public class ObjectChecker {
 	 * @throws CorruptObjectException
 	 *             if any error was detected.
 	 */
-	public void checkTag(final byte[] raw) throws CorruptObjectException {
+	public void checkTag(byte[] raw) throws CorruptObjectException {
+		checkTag(idFor(OBJ_TAG, raw), raw);
+	}
+
+	/**
+	 * Check an annotated tag for errors.
+	 *
+	 * @param id
+	 *            identity of the object being checked.
+	 * @param raw
+	 *            the tag data. The array is never modified.
+	 * @throws CorruptObjectException
+	 *             if any error was detected.
+	 * @since 4.2
+	 */
+	public void checkTag(@Nullable AnyObjectId id, byte[] raw)
+			throws CorruptObjectException {
 		int ptr = 0;
 
 		if ((ptr = match(raw, ptr, object)) < 0)
@@ -304,15 +387,16 @@ public class ObjectChecker {
 					JGitText.get().corruptObjectNoTypeHeader);
 		ptr = nextLF(raw, ptr);
 
-		if ((ptr = match(raw, ptr, tag)) < 0)
+		if (match(raw, ptr, tag) < 0 && !skip(id))
 			throw new CorruptObjectException(
 					JGitText.get().corruptObjectNoTagHeader);
 		ptr = nextLF(raw, ptr);
 
 		if ((ptr = match(raw, ptr, tagger)) > 0) {
-			if ((ptr = personIdent(raw, ptr)) < 0 || raw[ptr++] != '\n')
+			if ((ptr = personIdent(raw, ptr, id)) < 0) {
 				throw new CorruptObjectException(
 						JGitText.get().corruptObjectInvalidTagger);
+			}
 		}
 	}
 
@@ -381,11 +465,28 @@ public class ObjectChecker {
 	 * @throws CorruptObjectException
 	 *             if any error was detected.
 	 */
-	public void checkTree(final byte[] raw) throws CorruptObjectException {
+	public void checkTree(byte[] raw) throws CorruptObjectException {
+		checkTree(idFor(OBJ_TREE, raw), raw);
+	}
+
+	/**
+	 * Check a canonical formatted tree for errors.
+	 *
+	 * @param id
+	 *            identity of the object being checked.
+	 * @param raw
+	 *            the raw tree data. The array is never modified.
+	 * @throws CorruptObjectException
+	 *             if any error was detected.
+	 * @since 4.2
+	 */
+	public void checkTree(@Nullable AnyObjectId id, byte[] raw)
+			throws CorruptObjectException {
 		final int sz = raw.length;
 		int ptr = 0;
 		int lastNameB = 0, lastNameE = 0, lastMode = 0;
-		Set<String> normalized = windows || macosx
+		boolean skip = skip(id);
+		Set<String> normalized = !skip && (windows || macosx)
 				? new HashSet<String>()
 				: null;
 
@@ -401,7 +502,7 @@ public class ObjectChecker {
 				if (c < '0' || c > '7')
 					throw new CorruptObjectException(
 							JGitText.get().corruptObjectInvalidModeChar);
-				if (thisMode == 0 && c == '0' && !allowZeroMode)
+				if (thisMode == 0 && c == '0' && !allowZeroMode && !skip)
 					throw new CorruptObjectException(
 							JGitText.get().corruptObjectInvalidModeStartsZero);
 				thisMode <<= 3;
@@ -418,16 +519,16 @@ public class ObjectChecker {
 			if (ptr == sz || raw[ptr] != 0)
 				throw new CorruptObjectException(
 						JGitText.get().corruptObjectTruncatedInName);
-			checkPathSegment2(raw, thisNameB, ptr);
+			checkPathSegment2(raw, thisNameB, ptr, skip);
 			if (normalized != null) {
 				if (!normalized.add(normalize(raw, thisNameB, ptr)))
 					throw new CorruptObjectException(
 							JGitText.get().corruptObjectDuplicateEntryNames);
-			} else if (duplicateName(raw, thisNameB, ptr))
+			} else if (!skip && duplicateName(raw, thisNameB, ptr))
 				throw new CorruptObjectException(
 						JGitText.get().corruptObjectDuplicateEntryNames);
 
-			if (lastNameB != 0) {
+			if (!skip && lastNameB != 0) {
 				final int cmp = pathCompare(raw, lastNameB, lastNameE,
 						lastMode, thisNameB, ptr, thisMode);
 				if (cmp > 0)
@@ -466,6 +567,19 @@ public class ObjectChecker {
 			}
 		}
 		return ptr;
+	}
+
+	@SuppressWarnings("resource")
+	@Nullable
+	private ObjectId idFor(int objType, byte[] raw) {
+		if (skipList != null) {
+			return new ObjectInserter.Formatter().idFor(objType, raw);
+		}
+		return null;
+	}
+
+	private boolean skip(@Nullable AnyObjectId id) {
+		return skipList != null && id != null && skipList.contains(id);
 	}
 
 	/**
@@ -522,10 +636,10 @@ public class ObjectChecker {
 		if (e < end && raw[e] == 0)
 			throw new CorruptObjectException(
 					JGitText.get().corruptObjectNameContainsNullByte);
-		checkPathSegment2(raw, ptr, end);
+		checkPathSegment2(raw, ptr, end, false);
 	}
 
-	private void checkPathSegment2(byte[] raw, int ptr, int end)
+	private void checkPathSegment2(byte[] raw, int ptr, int end, boolean skip)
 			throws CorruptObjectException {
 		if (ptr == end)
 			throw new CorruptObjectException(
@@ -541,36 +655,38 @@ public class ObjectChecker {
 							JGitText.get().corruptObjectNameDotDot);
 				break;
 			case 4:
-				if (isGit(raw, ptr + 1))
+				if (!skip && isGit(raw, ptr + 1))
 					throw new CorruptObjectException(String.format(
 							JGitText.get().corruptObjectInvalidName,
 							RawParseUtils.decode(raw, ptr, end)));
 				break;
 			default:
-				if (end - ptr > 4 && isNormalizedGit(raw, ptr + 1, end))
+				if (!skip && end - ptr > 4
+						&& isNormalizedGit(raw, ptr + 1, end))
 					throw new CorruptObjectException(String.format(
 							JGitText.get().corruptObjectInvalidName,
 							RawParseUtils.decode(raw, ptr, end)));
 			}
-		} else if (isGitTilde1(raw, ptr, end)) {
+		} else if (!skip && isGitTilde1(raw, ptr, end)) {
 			throw new CorruptObjectException(String.format(
 					JGitText.get().corruptObjectInvalidName,
 					RawParseUtils.decode(raw, ptr, end)));
 		}
-
-		if (macosx && isMacHFSGit(raw, ptr, end))
-			throw new CorruptObjectException(String.format(
-					JGitText.get().corruptObjectInvalidNameIgnorableUnicode,
-					RawParseUtils.decode(raw, ptr, end)));
-
-		if (windows) {
-			// Windows ignores space and dot at end of file name.
-			if (raw[end - 1] == ' ' || raw[end - 1] == '.')
+		if (!skip) {
+			if (macosx && isMacHFSGit(raw, ptr, end))
 				throw new CorruptObjectException(String.format(
-						JGitText.get().corruptObjectInvalidNameEnd,
-						Character.valueOf(((char) raw[end - 1]))));
-			if (end - ptr >= 3)
-				checkNotWindowsDevice(raw, ptr, end);
+						JGitText.get().corruptObjectInvalidNameIgnorableUnicode,
+						RawParseUtils.decode(raw, ptr, end)));
+
+			if (windows) {
+				// Windows ignores space and dot at end of file name.
+				if (raw[end - 1] == ' ' || raw[end - 1] == '.')
+					throw new CorruptObjectException(String.format(
+							JGitText.get().corruptObjectInvalidNameEnd,
+							Character.valueOf(((char) raw[end - 1]))));
+				if (end - ptr >= 3)
+					checkNotWindowsDevice(raw, ptr, end);
+			}
 		}
 	}
 
