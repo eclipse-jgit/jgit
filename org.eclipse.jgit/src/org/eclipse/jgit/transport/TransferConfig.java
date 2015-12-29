@@ -43,13 +43,16 @@
 
 package org.eclipse.jgit.transport;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.jgit.annotations.Nullable;
+import org.eclipse.jgit.internal.storage.file.LazyObjectIdSetFile;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Config.SectionParser;
 import org.eclipse.jgit.lib.ObjectChecker;
+import org.eclipse.jgit.lib.ObjectIdSet;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.SystemReader;
@@ -68,6 +71,7 @@ public class TransferConfig {
 
 	private final boolean fetchFsck;
 	private final boolean receiveFsck;
+	private final String fsckSkipList;
 	private final boolean allowLeadingZeroFileMode;
 	private final boolean allowInvalidPersonIdent;
 	private final boolean safeForWindows;
@@ -84,6 +88,7 @@ public class TransferConfig {
 		boolean fsck = rc.getBoolean("transfer", "fsckobjects", false); //$NON-NLS-1$ //$NON-NLS-2$
 		fetchFsck = rc.getBoolean("fetch", "fsckobjects", fsck); //$NON-NLS-1$ //$NON-NLS-2$
 		receiveFsck = rc.getBoolean("receive", "fsckobjects", fsck); //$NON-NLS-1$ //$NON-NLS-2$
+		fsckSkipList = rc.getString("fsck", null, "skipList"); //$NON-NLS-1$ //$NON-NLS-2$
 		allowLeadingZeroFileMode = rc.getBoolean("fsck", "allowLeadingZeroFileMode", false); //$NON-NLS-1$ //$NON-NLS-2$
 		allowInvalidPersonIdent = rc.getBoolean("fsck", "allowInvalidPersonIdent", false); //$NON-NLS-1$ //$NON-NLS-2$
 		safeForWindows = rc.getBoolean("fsck", "safeForWindows", //$NON-NLS-1$ //$NON-NLS-2$
@@ -126,7 +131,15 @@ public class TransferConfig {
 			.setAllowLeadingZeroFileMode(allowLeadingZeroFileMode)
 			.setAllowInvalidPersonIdent(allowInvalidPersonIdent)
 			.setSafeForWindows(safeForWindows)
-			.setSafeForMacOS(safeForMacOS);
+			.setSafeForMacOS(safeForMacOS)
+			.setSkipList(skipList());
+	}
+
+	private ObjectIdSet skipList() {
+		if (fsckSkipList != null && !fsckSkipList.isEmpty()) {
+			return new LazyObjectIdSetFile(new File(fsckSkipList));
+		}
+		return null;
 	}
 
 	/**
