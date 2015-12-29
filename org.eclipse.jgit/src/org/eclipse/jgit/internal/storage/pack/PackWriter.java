@@ -99,6 +99,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdOwnerMap;
+import org.eclipse.jgit.lib.ObjectIdSet;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.ProgressMonitor;
@@ -160,18 +161,6 @@ import org.eclipse.jgit.util.TemporaryBuffer;
  */
 public class PackWriter implements AutoCloseable {
 	private static final int PACK_VERSION_GENERATED = 2;
-
-	/** A collection of object ids. */
-	public interface ObjectIdSet {
-		/**
-		 * Returns true if the objectId is contained within the collection.
-		 *
-		 * @param objectId
-		 *            the objectId to find
-		 * @return whether the collection contains the objectId.
-		 */
-		boolean contains(AnyObjectId objectId);
-	}
 
 	private static final Map<WeakReference<PackWriter>, Boolean> instances =
 			new ConcurrentHashMap<WeakReference<PackWriter>, Boolean>();
