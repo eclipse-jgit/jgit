@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27d6470d_8c170f05",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/opt/CmdLineParser.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2015-12-29T15:22:44Z",
+      "side": 1,
+      "message": "you could skip checking the last entry in the list of options by checking for \"i+1\u003coptions.size()\". The last entry is always at the right position",
+      "range": {
+        "startLine": 316,
+        "startChar": 18,
+        "endLine": 316,
+        "endChar": 36
+      },
+      "revId": "aabbc58341c2381a2c5907b82c50691a296ae6c9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
