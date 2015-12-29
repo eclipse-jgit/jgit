@@ -60,7 +60,7 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.pgm.internal.CLIText;
 import org.kohsuke.args4j.Option;
-
+import org.kohsuke.args4j.spi.RestOfArgumentsHandler;
 import org.eclipse.jgit.pgm.opt.UntrackedFilesHandler;
 
 /**
@@ -83,7 +83,7 @@ class Status extends TextBuiltin {
 	@Option(name = "--untracked-files", aliases = { "-u", "-uno", "-uall" }, usage = "usage_untrackedFilesMode", handler = UntrackedFilesHandler.class)
 	protected String untrackedFilesMode = "all"; // default value //$NON-NLS-1$
 
-	@Option(name = "--", metaVar = "metaVar_path", multiValued = true)
+	@Option(name = "--", metaVar = "metaVar_path", multiValued = true, handler = RestOfArgumentsHandler.class)
 	protected List<String> filterPaths;
 
 	@Override
