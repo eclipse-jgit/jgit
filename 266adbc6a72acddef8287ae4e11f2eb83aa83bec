@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27d6470d_8740c85f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-12-30T00:46:19Z",
+      "side": 1,
+      "message": "s/away/way/",
+      "range": {
+        "startLine": 121,
+        "startChar": 15,
+        "endLine": 121,
+        "endChar": 19
+      },
+      "revId": "266adbc6a72acddef8287ae4e11f2eb83aa83bec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_a7378c07",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-12-30T00:46:19Z",
+      "side": 1,
+      "message": "s/identify/identity/",
+      "range": {
+        "startLine": 304,
+        "startChar": 15,
+        "endLine": 304,
+        "endChar": 23
+      },
+      "revId": "266adbc6a72acddef8287ae4e11f2eb83aa83bec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_c73ad0ef",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2015-12-30T00:46:19Z",
+      "side": 1,
+      "message": "s/identify/identity/",
+      "range": {
+        "startLine": 368,
+        "startChar": 15,
+        "endLine": 368,
+        "endChar": 23
+      },
+      "revId": "266adbc6a72acddef8287ae4e11f2eb83aa83bec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
