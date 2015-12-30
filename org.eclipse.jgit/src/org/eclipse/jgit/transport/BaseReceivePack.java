@@ -293,18 +293,20 @@ public abstract class BaseReceivePack {
 		db = into;
 		walk = new RevWalk(db);
 
-		final ReceiveConfig cfg = db.getConfig().get(ReceiveConfig.KEY);
-		objectChecker = cfg.newObjectChecker();
-		allowCreates = cfg.allowCreates;
+		TransferConfig tc = db.getConfig().get(TransferConfig.KEY);
+		objectChecker = tc.newReceiveObjectChecker();
+
+		ReceiveConfig rc = db.getConfig().get(ReceiveConfig.KEY);
+		allowCreates = rc.allowCreates;
 		allowAnyDeletes = true;
-		allowBranchDeletes = cfg.allowDeletes;
-		allowNonFastForwards = cfg.allowNonFastForwards;
-		allowOfsDelta = cfg.allowOfsDelta;
+		allowBranchDeletes = rc.allowDeletes;
+		allowNonFastForwards = rc.allowNonFastForwards;
+		allowOfsDelta = rc.allowOfsDelta;
 		advertiseRefsHook = AdvertiseRefsHook.DEFAULT;
 		refFilter = RefFilter.DEFAULT;
 		advertisedHaves = new HashSet<ObjectId>();
 		clientShallowCommits = new HashSet<ObjectId>();
-		signedPushConfig = cfg.signedPush;
+		signedPushConfig = rc.signedPush;
 	}
 
 	/** Configuration for receive operations. */
@@ -315,32 +317,13 @@ public abstract class BaseReceivePack {
 			}
 		};
 
-		final boolean checkReceivedObjects;
-		final boolean allowLeadingZeroFileMode;
-		final boolean allowInvalidPersonIdent;
-		final boolean safeForWindows;
-		final boolean safeForMacOS;
-
 		final boolean allowCreates;
 		final boolean allowDeletes;
 		final boolean allowNonFastForwards;
 		final boolean allowOfsDelta;
-
 		final SignedPushConfig signedPush;
 
 		ReceiveConfig(final Config config) {
-			checkReceivedObjects = config.getBoolean(
-					"receive", "fsckobjects", //$NON-NLS-1$ //$NON-NLS-2$
-					config.getBoolean("transfer", "fsckobjects", false)); //$NON-NLS-1$ //$NON-NLS-2$
-			allowLeadingZeroFileMode = checkReceivedObjects
-					&& config.getBoolean("fsck", "allowLeadingZeroFileMode", false); //$NON-NLS-1$ //$NON-NLS-2$
-			allowInvalidPersonIdent = checkReceivedObjects
-					&& config.getBoolean("fsck", "allowInvalidPersonIdent", false); //$NON-NLS-1$ //$NON-NLS-2$
-			safeForWindows = checkReceivedObjects
-					&& config.getBoolean("fsck", "safeForWindows", false); //$NON-NLS-1$ //$NON-NLS-2$
-			safeForMacOS = checkReceivedObjects
-					&& config.getBoolean("fsck", "safeForMacOS", false); //$NON-NLS-1$ //$NON-NLS-2$
-
 			allowCreates = true;
 			allowDeletes = !config.getBoolean("receive", "denydeletes", false); //$NON-NLS-1$ //$NON-NLS-2$
 			allowNonFastForwards = !config.getBoolean("receive", //$NON-NLS-1$
@@ -348,16 +331,6 @@ public abstract class BaseReceivePack {
 			allowOfsDelta = config.getBoolean("repack", "usedeltabaseoffset", //$NON-NLS-1$ //$NON-NLS-2$
 					true);
 			signedPush = SignedPushConfig.KEY.parse(config);
-		}
-
-		ObjectChecker newObjectChecker() {
-			if (!checkReceivedObjects)
-				return null;
-			return new ObjectChecker()
-				.setAllowLeadingZeroFileMode(allowLeadingZeroFileMode)
-				.setAllowInvalidPersonIdent(allowInvalidPersonIdent)
-				.setSafeForWindows(safeForWindows)
-				.setSafeForMacOS(safeForMacOS);
 		}
 	}
 
