@@ -48,6 +48,14 @@ import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.eclipse.jgit.lib.Constants.OBJ_COMMIT;
 import static org.eclipse.jgit.lib.Constants.OBJ_TAG;
 import static org.eclipse.jgit.lib.Constants.OBJ_TREE;
+import static org.eclipse.jgit.lib.ObjectChecker.ErrorType.DUPLICATE_ENTRIES;
+import static org.eclipse.jgit.lib.ObjectChecker.ErrorType.EMPTY_NAME;
+import static org.eclipse.jgit.lib.ObjectChecker.ErrorType.FULL_PATHNAME;
+import static org.eclipse.jgit.lib.ObjectChecker.ErrorType.HAS_DOT;
+import static org.eclipse.jgit.lib.ObjectChecker.ErrorType.HAS_DOTDOT;
+import static org.eclipse.jgit.lib.ObjectChecker.ErrorType.HAS_DOTGIT;
+import static org.eclipse.jgit.lib.ObjectChecker.ErrorType.TREE_NOT_SORTED;
+import static org.eclipse.jgit.lib.ObjectChecker.ErrorType.ZERO_PADDED_FILEMODE;
 import static org.eclipse.jgit.util.RawParseUtils.match;
 import static org.eclipse.jgit.util.RawParseUtils.nextLF;
 import static org.eclipse.jgit.util.RawParseUtils.parseBase10;
@@ -55,10 +63,12 @@ import static org.eclipse.jgit.util.RawParseUtils.parseBase10;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.MessageFormat;
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 
+import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.internal.JGitText;
@@ -104,11 +114,30 @@ public class ObjectChecker {
 	/** Header "tagger " */
 	public static final byte[] tagger = Constants.encodeASCII("tagger "); //$NON-NLS-1$
 
+	/**
+	 * Potential issues identified by the checker.
+	 *
+	 * @since 4.2
+	 */
+	public enum ErrorType {
+		// @formatter:off
+		// These names match git-core so that fsck section keys also match.
+		/***/ DUPLICATE_ENTRIES,
+		/***/ TREE_NOT_SORTED,
+		/***/ ZERO_PADDED_FILEMODE,
+		/***/ EMPTY_NAME,
+		/***/ FULL_PATHNAME,
+		/***/ HAS_DOT,
+		/***/ HAS_DOTDOT,
+		/***/ HAS_DOTGIT;
+		// @formatter:on
+	}
+
 	private final MutableObjectId tempId = new MutableObjectId();
 	private final MutableInteger ptrout = new MutableInteger();
 
+	private EnumSet<ErrorType> errors = EnumSet.allOf(ErrorType.class);
 	private ObjectIdSet skipList;
-	private boolean allowZeroMode;
 	private boolean allowInvalidPersonIdent;
 	private boolean windows;
 	private boolean macosx;
@@ -128,20 +157,57 @@ public class ObjectChecker {
 	}
 
 	/**
+	 * Configure error types to be ignored across all objects.
+	 *
+	 * @param ids
+	 *            error types to ignore. The caller's set is copied.
+	 * @return {@code this}
+	 * @since 4.2
+	 */
+	public ObjectChecker setIgnore(@Nullable Set<ErrorType> ids) {
+		errors = EnumSet.allOf(ErrorType.class);
+		if (ids != null) {
+			errors.removeAll(ids);
+		}
+		return this;
+	}
+
+	/**
+	 * Add message type to be ignored across all objects.
+	 *
+	 * @param id
+	 *            error type to ignore.
+	 * @param ignore
+	 *            true to ignore this error; false to treat the error as an
+	 *            error and throw.
+	 * @return {@code this}
+	 * @since 4.2
+	 */
+	public ObjectChecker setIgnore(ErrorType id, boolean ignore) {
+		if (ignore) {
+			errors.remove(id);
+		} else {
+			errors.add(id);
+		}
+		return this;
+	}
+
+	/**
 	 * Enable accepting leading zero mode in tree entries.
 	 * <p>
 	 * Some broken Git libraries generated leading zeros in the mode part of
 	 * tree entries. This is technically incorrect but gracefully allowed by
 	 * git-core. JGit rejects such trees by default, but may need to accept
 	 * them on broken histories.
+	 * <p>
+	 * Same as {@code setIgnore(ZERO_PADDED_FILEMODE, allow)}.
 	 *
 	 * @param allow allow leading zero mode.
 	 * @return {@code this}.
 	 * @since 3.4
 	 */
 	public ObjectChecker setAllowLeadingZeroFileMode(boolean allow) {
-		allowZeroMode = allow;
-		return this;
+		return setIgnore(ZERO_PADDED_FILEMODE, allow);
 	}
 
 	/**
@@ -487,7 +553,8 @@ public class ObjectChecker {
 		int ptr = 0;
 		int lastNameB = 0, lastNameE = 0, lastMode = 0;
 		boolean skip = skip(id);
-		Set<String> normalized = !skip && (windows || macosx)
+		Set<String> normalized = (windows || macosx)
+				&& report(DUPLICATE_ENTRIES, skip)
 				? new HashSet<String>()
 				: null;
 
@@ -503,7 +570,8 @@ public class ObjectChecker {
 				if (c < '0' || c > '7')
 					throw new CorruptObjectException(
 							JGitText.get().corruptObjectInvalidModeChar);
-				if (thisMode == 0 && c == '0' && !allowZeroMode && !skip)
+				if (thisMode == 0 && c == '0'
+						&& report(ZERO_PADDED_FILEMODE, skip))
 					throw new CorruptObjectException(
 							JGitText.get().corruptObjectInvalidModeStartsZero);
 				thisMode <<= 3;
@@ -516,7 +584,7 @@ public class ObjectChecker {
 						Integer.valueOf(thisMode)));
 
 			final int thisNameB = ptr;
-			ptr = scanPathSegment(raw, ptr, sz);
+			ptr = scanPathSegment(raw, ptr, sz, skip);
 			if (ptr == sz || raw[ptr] != 0)
 				throw new CorruptObjectException(
 						JGitText.get().corruptObjectTruncatedInName);
@@ -525,11 +593,12 @@ public class ObjectChecker {
 				if (!normalized.add(normalize(raw, thisNameB, ptr)))
 					throw new CorruptObjectException(
 							JGitText.get().corruptObjectDuplicateEntryNames);
-			} else if (!skip && duplicateName(raw, thisNameB, ptr))
+			} else if (report(DUPLICATE_ENTRIES, skip)
+					&& duplicateName(raw, thisNameB, ptr))
 				throw new CorruptObjectException(
 						JGitText.get().corruptObjectDuplicateEntryNames);
 
-			if (!skip && lastNameB != 0) {
+			if (lastNameB != 0 && report(TREE_NOT_SORTED, skip)) {
 				final int cmp = pathCompare(raw, lastNameB, lastNameE,
 						lastMode, thisNameB, ptr, thisMode);
 				if (cmp > 0)
@@ -548,13 +617,13 @@ public class ObjectChecker {
 		}
 	}
 
-	private int scanPathSegment(byte[] raw, int ptr, int end)
+	private int scanPathSegment(byte[] raw, int ptr, int end, boolean skip)
 			throws CorruptObjectException {
 		for (; ptr < end; ptr++) {
 			byte c = raw[ptr];
 			if (c == 0)
 				return ptr;
-			if (c == '/')
+			if (c == '/' && report(FULL_PATHNAME, skip))
 				throw new CorruptObjectException(
 						JGitText.get().corruptObjectNameContainsSlash);
 			if (windows && isInvalidOnWindows(c)) {
@@ -581,6 +650,10 @@ public class ObjectChecker {
 
 	private boolean skip(@Nullable AnyObjectId id) {
 		return skipList != null && id != null && skipList.contains(id);
+	}
+
+	private boolean report(@NonNull ErrorType m, boolean skip) {
+		return !skip && errors.contains(m);
 	}
 
 	/**
@@ -633,7 +706,7 @@ public class ObjectChecker {
 	 */
 	public void checkPathSegment(byte[] raw, int ptr, int end)
 			throws CorruptObjectException {
-		int e = scanPathSegment(raw, ptr, end);
+		int e = scanPathSegment(raw, ptr, end, false);
 		if (e < end && raw[e] == 0)
 			throw new CorruptObjectException(
 					JGitText.get().corruptObjectNameContainsNullByte);
@@ -642,52 +715,59 @@ public class ObjectChecker {
 
 	private void checkPathSegment2(byte[] raw, int ptr, int end, boolean skip)
 			throws CorruptObjectException {
-		if (ptr == end)
-			throw new CorruptObjectException(
-					JGitText.get().corruptObjectNameZeroLength);
+		if (ptr == end) {
+			if (report(EMPTY_NAME, skip)) {
+				throw new CorruptObjectException(
+						JGitText.get().corruptObjectNameZeroLength);
+			}
+			return;
+		}
+
 		if (raw[ptr] == '.') {
 			switch (end - ptr) {
 			case 1:
-				throw new CorruptObjectException(
-						JGitText.get().corruptObjectNameDot);
+				if (report(HAS_DOT, skip)) {
+					throw new CorruptObjectException(
+							JGitText.get().corruptObjectNameDot);
+				}
+				break;
 			case 2:
-				if (raw[ptr + 1] == '.')
+				if (raw[ptr + 1] == '.' && report(HAS_DOTDOT, skip)) {
 					throw new CorruptObjectException(
 							JGitText.get().corruptObjectNameDotDot);
+				}
 				break;
 			case 4:
-				if (!skip && isGit(raw, ptr + 1))
+				if (report(HAS_DOTGIT, skip) && isGit(raw, ptr + 1))
 					throw new CorruptObjectException(String.format(
 							JGitText.get().corruptObjectInvalidName,
 							RawParseUtils.decode(raw, ptr, end)));
 				break;
 			default:
-				if (!skip && end - ptr > 4
+				if (end - ptr > 4 && report(HAS_DOTGIT, skip)
 						&& isNormalizedGit(raw, ptr + 1, end))
 					throw new CorruptObjectException(String.format(
 							JGitText.get().corruptObjectInvalidName,
 							RawParseUtils.decode(raw, ptr, end)));
 			}
-		} else if (!skip && isGitTilde1(raw, ptr, end)) {
+		} else if (report(HAS_DOTGIT, skip) && isGitTilde1(raw, ptr, end)) {
 			throw new CorruptObjectException(String.format(
 					JGitText.get().corruptObjectInvalidName,
 					RawParseUtils.decode(raw, ptr, end)));
 		}
-		if (!skip) {
-			if (macosx && isMacHFSGit(raw, ptr, end))
-				throw new CorruptObjectException(String.format(
-						JGitText.get().corruptObjectInvalidNameIgnorableUnicode,
-						RawParseUtils.decode(raw, ptr, end)));
+		if (macosx && report(HAS_DOTGIT, skip) && isMacHFSGit(raw, ptr, end))
+			throw new CorruptObjectException(String.format(
+					JGitText.get().corruptObjectInvalidNameIgnorableUnicode,
+					RawParseUtils.decode(raw, ptr, end)));
 
-			if (windows) {
-				// Windows ignores space and dot at end of file name.
-				if (raw[end - 1] == ' ' || raw[end - 1] == '.')
-					throw new CorruptObjectException(String.format(
-							JGitText.get().corruptObjectInvalidNameEnd,
-							Character.valueOf(((char) raw[end - 1]))));
-				if (end - ptr >= 3)
-					checkNotWindowsDevice(raw, ptr, end);
-			}
+		if (!skip && windows) {
+			// Windows ignores space and dot at end of file name.
+			if (raw[end - 1] == ' ' || raw[end - 1] == '.')
+				throw new CorruptObjectException(String.format(
+						JGitText.get().corruptObjectInvalidNameEnd,
+						Character.valueOf(((char) raw[end - 1]))));
+			if (end - ptr >= 3)
+				checkNotWindowsDevice(raw, ptr, end);
 		}
 	}
 
