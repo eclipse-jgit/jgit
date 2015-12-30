@@ -55,7 +55,6 @@ import static org.eclipse.jgit.transport.SideBandOutputStream.CH_PROGRESS;
 import static org.eclipse.jgit.transport.SideBandOutputStream.MAX_BUF;
 
 import java.io.EOFException;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -72,7 +71,6 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.errors.TooLargePackException;
 import org.eclipse.jgit.internal.JGitText;
-import org.eclipse.jgit.internal.storage.file.LazyObjectIdSetFile;
 import org.eclipse.jgit.internal.storage.file.PackLock;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Config;
@@ -81,7 +79,6 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectChecker;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectIdSet;
 import org.eclipse.jgit.lib.ObjectIdSubclassMap;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -296,18 +293,20 @@ public abstract class BaseReceivePack {
 		db = into;
 		walk = new RevWalk(db);
 
-		final ReceiveConfig cfg = db.getConfig().get(ReceiveConfig.KEY);
-		objectChecker = cfg.newObjectChecker();
-		allowCreates = cfg.allowCreates;
+		TransferConfig tc = db.getConfig().get(TransferConfig.KEY);
+		objectChecker = tc.newReceiveObjectChecker();
+
+		ReceiveConfig rc = db.getConfig().get(ReceiveConfig.KEY);
+		allowCreates = rc.allowCreates;
 		allowAnyDeletes = true;
-		allowBranchDeletes = cfg.allowDeletes;
-		allowNonFastForwards = cfg.allowNonFastForwards;
-		allowOfsDelta = cfg.allowOfsDelta;
+		allowBranchDeletes = rc.allowDeletes;
+		allowNonFastForwards = rc.allowNonFastForwards;
+		allowOfsDelta = rc.allowOfsDelta;
 		advertiseRefsHook = AdvertiseRefsHook.DEFAULT;
 		refFilter = RefFilter.DEFAULT;
 		advertisedHaves = new HashSet<ObjectId>();
 		clientShallowCommits = new HashSet<ObjectId>();
-		signedPushConfig = cfg.signedPush;
+		signedPushConfig = rc.signedPush;
 	}
 
 	/** Configuration for receive operations. */
@@ -318,34 +317,13 @@ public abstract class BaseReceivePack {
 			}
 		};
 
-		final boolean checkReceivedObjects;
-		final boolean allowLeadingZeroFileMode;
-		final boolean allowInvalidPersonIdent;
-		final boolean safeForWindows;
-		final boolean safeForMacOS;
-		final String fsckSkipList;
-
 		final boolean allowCreates;
 		final boolean allowDeletes;
 		final boolean allowNonFastForwards;
 		final boolean allowOfsDelta;
-
 		final SignedPushConfig signedPush;
 
 		ReceiveConfig(final Config config) {
-			checkReceivedObjects = config.getBoolean(
-					"receive", "fsckobjects", //$NON-NLS-1$ //$NON-NLS-2$
-					config.getBoolean("transfer", "fsckobjects", false)); //$NON-NLS-1$ //$NON-NLS-2$
-			fsckSkipList = config.getString("fsck", null, "skipList"); //$NON-NLS-1$ //$NON-NLS-2$
-			allowLeadingZeroFileMode = checkReceivedObjects
-					&& config.getBoolean("fsck", "allowLeadingZeroFileMode", false); //$NON-NLS-1$ //$NON-NLS-2$
-			allowInvalidPersonIdent = checkReceivedObjects
-					&& config.getBoolean("fsck", "allowInvalidPersonIdent", false); //$NON-NLS-1$ //$NON-NLS-2$
-			safeForWindows = checkReceivedObjects
-					&& config.getBoolean("fsck", "safeForWindows", false); //$NON-NLS-1$ //$NON-NLS-2$
-			safeForMacOS = checkReceivedObjects
-					&& config.getBoolean("fsck", "safeForMacOS", false); //$NON-NLS-1$ //$NON-NLS-2$
-
 			allowCreates = true;
 			allowDeletes = !config.getBoolean("receive", "denydeletes", false); //$NON-NLS-1$ //$NON-NLS-2$
 			allowNonFastForwards = !config.getBoolean("receive", //$NON-NLS-1$
@@ -353,24 +331,6 @@ public abstract class BaseReceivePack {
 			allowOfsDelta = config.getBoolean("repack", "usedeltabaseoffset", //$NON-NLS-1$ //$NON-NLS-2$
 					true);
 			signedPush = SignedPushConfig.KEY.parse(config);
-		}
-
-		ObjectChecker newObjectChecker() {
-			if (!checkReceivedObjects)
-				return null;
-			return new ObjectChecker()
-				.setAllowLeadingZeroFileMode(allowLeadingZeroFileMode)
-				.setAllowInvalidPersonIdent(allowInvalidPersonIdent)
-				.setSafeForWindows(safeForWindows)
-				.setSafeForMacOS(safeForMacOS)
-				.setSkipList(skipList());
-		}
-
-		private ObjectIdSet skipList() {
-			if (fsckSkipList != null && !fsckSkipList.isEmpty()) {
-				return new LazyObjectIdSetFile(new File(fsckSkipList));
-			}
-			return null;
 		}
 	}
 
