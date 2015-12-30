@@ -185,14 +185,15 @@ public class JGitText extends TranslationBundle {
 	/***/ public String connectionTimeOut;
 	/***/ public String contextMustBeNonNegative;
 	/***/ public String corruptionDetectedReReadingAt;
+	/***/ public String corruptObjectBadDate;
+	/***/ public String corruptObjectBadEmail;
 	/***/ public String corruptObjectBadStream;
 	/***/ public String corruptObjectBadStreamCorruptHeader;
+	/***/ public String corruptObjectBadTimezone;
 	/***/ public String corruptObjectDuplicateEntryNames;
 	/***/ public String corruptObjectGarbageAfterSize;
 	/***/ public String corruptObjectIncorrectLength;
 	/***/ public String corruptObjectIncorrectSorting;
-	/***/ public String corruptObjectInvalidAuthor;
-	/***/ public String corruptObjectInvalidCommitter;
 	/***/ public String corruptObjectInvalidEntryMode;
 	/***/ public String corruptObjectInvalidMode;
 	/***/ public String corruptObjectInvalidModeChar;
@@ -211,11 +212,11 @@ public class JGitText extends TranslationBundle {
 	/***/ public String corruptObjectInvalidNamePrn;
 	/***/ public String corruptObjectInvalidObject;
 	/***/ public String corruptObjectInvalidParent;
-	/***/ public String corruptObjectInvalidTagger;
 	/***/ public String corruptObjectInvalidTree;
 	/***/ public String corruptObjectInvalidType;
 	/***/ public String corruptObjectInvalidType2;
 	/***/ public String corruptObjectMalformedHeader;
+	/***/ public String corruptObjectMissingEmail;
 	/***/ public String corruptObjectNameContainsByte;
 	/***/ public String corruptObjectNameContainsChar;
 	/***/ public String corruptObjectNameContainsNullByte;
@@ -241,6 +242,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String corruptObjectTruncatedInMode;
 	/***/ public String corruptObjectTruncatedInName;
 	/***/ public String corruptObjectTruncatedInObjectId;
+	/***/ public String corruptObjectZeroId;
 	/***/ public String corruptPack;
 	/***/ public String couldNotCheckOutBecauseOfConflicts;
 	/***/ public String couldNotDeleteLockFileShouldNotHappen;
@@ -492,6 +494,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String objectAtHasBadZlibStream;
 	/***/ public String objectAtPathDoesNotHaveId;
 	/***/ public String objectIsCorrupt;
+	/***/ public String objectIsCorrupt3;
 	/***/ public String objectIsNotA;
 	/***/ public String objectNotFound;
 	/***/ public String objectNotFoundIn;
