@@ -144,7 +144,7 @@ class Remote extends TextBuiltin {
 	}
 
 	@Override
-	public void printUsageAndExit(final String message, final CmdLineParser clp)
+	public void printUsage(final String message, final CmdLineParser clp)
 			throws IOException {
 		errw.println(message);
 		errw.println("jgit remote [--verbose (-v)] [--help (-h)]"); //$NON-NLS-1$
@@ -160,7 +160,6 @@ class Remote extends TextBuiltin {
 		errw.println();
 
 		errw.flush();
-		throw die(true);
 	}
 
 	private void print(List<RemoteConfig> remotes) throws IOException {

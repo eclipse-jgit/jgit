@@ -44,6 +44,7 @@ package org.eclipse.jgit.pgm;
 
 import static org.eclipse.jgit.lib.Constants.MASTER;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 
@@ -54,6 +55,13 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
 
 public class StatusTest extends CLIRepositoryTestCase {
+
+	@Test
+	public void testPathOptionHelp() throws Exception {
+		String[] result = execute("git status -h");
+		assertTrue("Unexpected argument: " + result[1],
+				result[1].endsWith("[-- path ... ...]"));
+	}
 
 	@Test
 	public void testStatusDefault() throws Exception {
