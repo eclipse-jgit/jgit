@@ -73,7 +73,7 @@ public class DescribeTest extends CLIRepositoryTestCase {
 	public void testNoHead() throws Exception {
 		assertArrayEquals(
 				new String[] { "fatal: No names found, cannot describe anything." },
-				execute("git describe"));
+				executeUnchecked("git describe"));
 	}
 
 	@Test
@@ -81,7 +81,7 @@ public class DescribeTest extends CLIRepositoryTestCase {
 		git.commit().setMessage("initial commit").call();
 		assertArrayEquals(
 				new String[] { "fatal: No names found, cannot describe anything." },
-				execute("git describe"));
+				executeUnchecked("git describe"));
 	}
 
 	@Test
@@ -119,7 +119,7 @@ public class DescribeTest extends CLIRepositoryTestCase {
 
 	@Test
 	public void testHelpArgumentAfterUnknown() throws Exception {
-		String[] output = execute("git describe -XYZ -h");
+		String[] output = executeUnchecked("git describe -XYZ -h");
 		String all = Arrays.toString(output);
 		assertTrue("Unexpected help output: " + all,
 				all.contains("jgit describe"));

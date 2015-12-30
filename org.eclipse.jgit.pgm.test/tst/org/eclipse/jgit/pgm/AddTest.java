@@ -65,7 +65,7 @@ public class AddTest extends CLIRepositoryTestCase {
 	@Test
 	public void testAddNothing() throws Exception {
 		assertEquals("fatal: Argument \"filepattern\" is required", //
-				execute("git add")[0]);
+				executeUnchecked("git add")[0]);
 	}
 
 	@Test

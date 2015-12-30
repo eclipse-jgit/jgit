@@ -103,7 +103,7 @@ public class RepoTest extends CLIRepositoryTestCase {
 	@Test
 	public void testMissingPath() throws Exception {
 		assertEquals("fatal: Argument \"path\" is required",
-				execute("git repo")[0]);
+				executeUnchecked("git repo")[0]);
 	}
 
 	/**
