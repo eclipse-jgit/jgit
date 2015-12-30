@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_1fa7e3c5",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/indexdiff/IndexDiffWithSymlinkTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-12-30T21:46:40Z",
+      "side": 1,
+      "message": "TreeFormatter will happily accept anything with its:\n\n  append(byte[] name, FileMode mode, AnyObjectId id)",
+      "parentUuid": "07d9433e_df72dbd3",
+      "revId": "542cf2e93784dfbca0e1d3c98d0cebee1375ee0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_3f082767",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
         "patchSetId": 5
