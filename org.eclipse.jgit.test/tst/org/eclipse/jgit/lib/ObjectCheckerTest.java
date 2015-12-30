@@ -53,6 +53,14 @@ import static org.eclipse.jgit.lib.Constants.OBJ_TAG;
 import static org.eclipse.jgit.lib.Constants.OBJ_TREE;
 import static org.eclipse.jgit.lib.Constants.encode;
 import static org.eclipse.jgit.lib.Constants.encodeASCII;
+import static org.eclipse.jgit.lib.ObjectChecker.ErrorType.DUPLICATE_ENTRIES;
+import static org.eclipse.jgit.lib.ObjectChecker.ErrorType.EMPTY_NAME;
+import static org.eclipse.jgit.lib.ObjectChecker.ErrorType.FULL_PATHNAME;
+import static org.eclipse.jgit.lib.ObjectChecker.ErrorType.HAS_DOT;
+import static org.eclipse.jgit.lib.ObjectChecker.ErrorType.HAS_DOTDOT;
+import static org.eclipse.jgit.lib.ObjectChecker.ErrorType.HAS_DOTGIT;
+import static org.eclipse.jgit.lib.ObjectChecker.ErrorType.TREE_NOT_SORTED;
+import static org.eclipse.jgit.lib.ObjectChecker.ErrorType.ZERO_PADDED_FILEMODE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
@@ -130,7 +138,7 @@ public class ObjectCheckerTest {
 		b.append("committer <> 0 +0000\n");
 
 		byte[] data = encodeASCII(b.toString());
-		assertCorrupt("invalid author", OBJ_COMMIT, data);
+		assertCorrupt("bad date", OBJ_COMMIT, data);
 		checker.setAllowInvalidPersonIdent(true);
 		checker.checkCommit(data);
 
@@ -146,7 +154,7 @@ public class ObjectCheckerTest {
 		b.append("committer b <b@c> <b@c> 0 +0000\n");
 
 		byte[] data = encodeASCII(b.toString());
-		assertCorrupt("invalid committer", OBJ_COMMIT, data);
+		assertCorrupt("bad date", OBJ_COMMIT, data);
 		checker.setAllowInvalidPersonIdent(true);
 		checker.checkCommit(data);
 
@@ -300,7 +308,6 @@ public class ObjectCheckerTest {
 
 		byte[] data = encodeASCII(b.toString());
 		assertCorrupt("invalid tree", OBJ_COMMIT, data);
-		assertSkipListRejects("invalid tree", OBJ_COMMIT, data);
 	}
 
 	@Test
@@ -425,7 +432,7 @@ public class ObjectCheckerTest {
 		b.append("author A. U. Thor <foo 1 +0000\n");
 
 		byte[] data = encodeASCII(b.toString());
-		assertCorrupt("invalid author", OBJ_COMMIT, data);
+		assertCorrupt("bad email", OBJ_COMMIT, data);
 		assertSkipListAccepts(OBJ_COMMIT, data);
 	}
 
@@ -439,7 +446,7 @@ public class ObjectCheckerTest {
 		b.append("author A. U. Thor foo> 1 +0000\n");
 
 		byte[] data = encodeASCII(b.toString());
-		assertCorrupt("invalid author", OBJ_COMMIT, data);
+		assertCorrupt("missing email", OBJ_COMMIT, data);
 		assertSkipListAccepts(OBJ_COMMIT, data);
 	}
 
@@ -453,7 +460,7 @@ public class ObjectCheckerTest {
 		b.append("author 1 +0000\n");
 
 		byte[] data = encodeASCII(b.toString());
-		assertCorrupt("invalid author", OBJ_COMMIT, data);
+		assertCorrupt("missing email", OBJ_COMMIT, data);
 		assertSkipListAccepts(OBJ_COMMIT, data);
 	}
 
@@ -467,7 +474,7 @@ public class ObjectCheckerTest {
 		b.append("author a <b> +0000\n");
 
 		byte[] data = encodeASCII(b.toString());
-		assertCorrupt("invalid author", OBJ_COMMIT, data);
+		assertCorrupt("bad date", OBJ_COMMIT, data);
 		assertSkipListAccepts(OBJ_COMMIT, data);
 	}
 
@@ -481,7 +488,7 @@ public class ObjectCheckerTest {
 		b.append("author a <b>\n");
 
 		byte[] data = encodeASCII(b.toString());
-		assertCorrupt("invalid author", OBJ_COMMIT, data);
+		assertCorrupt("bad date", OBJ_COMMIT, data);
 		assertSkipListAccepts(OBJ_COMMIT, data);
 	}
 
@@ -495,7 +502,7 @@ public class ObjectCheckerTest {
 		b.append("author a <b> z");
 
 		byte[] data = encodeASCII(b.toString());
-		assertCorrupt("invalid author", OBJ_COMMIT, data);
+		assertCorrupt("bad date", OBJ_COMMIT, data);
 		assertSkipListAccepts(OBJ_COMMIT, data);
 	}
 
@@ -509,7 +516,7 @@ public class ObjectCheckerTest {
 		b.append("author a <b> 1 z");
 
 		byte[] data = encodeASCII(b.toString());
-		assertCorrupt("invalid author", OBJ_COMMIT, data);
+		assertCorrupt("bad time zone", OBJ_COMMIT, data);
 		assertSkipListAccepts(OBJ_COMMIT, data);
 	}
 
@@ -524,7 +531,7 @@ public class ObjectCheckerTest {
 		b.append("committer a <");
 
 		byte[] data = encodeASCII(b.toString());
-		assertCorrupt("invalid committer", OBJ_COMMIT, data);
+		assertCorrupt("bad email", OBJ_COMMIT, data);
 		assertSkipListAccepts(OBJ_COMMIT, data);
 	}
 
@@ -686,7 +693,7 @@ public class ObjectCheckerTest {
 		b.append("tagger \n");
 
 		byte[] data = encodeASCII(b.toString());
-		assertCorrupt("invalid tagger", OBJ_TAG, data);
+		assertCorrupt("missing email", OBJ_TAG, data);
 		checker.setAllowInvalidPersonIdent(true);
 		checker.checkTag(data);
 
@@ -706,7 +713,7 @@ public class ObjectCheckerTest {
 		b.append("tagger a < 1 +000\n");
 
 		byte[] data = encodeASCII(b.toString());
-		assertCorrupt("invalid tagger", OBJ_TAG, data);
+		assertCorrupt("bad email", OBJ_TAG, data);
 		assertSkipListAccepts(OBJ_TAG, data);
 	}
 
@@ -842,6 +849,9 @@ public class ObjectCheckerTest {
 
 		checker.setAllowLeadingZeroFileMode(false);
 		assertSkipListAccepts(OBJ_TREE, data);
+
+		checker.setIgnore(ZERO_PADDED_FILEMODE, true);
+		checker.checkTree(data);
 	}
 
 	@Test
@@ -905,39 +915,48 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidTreeNameContainsSlash() {
+	public void testInvalidTreeNameContainsSlash()
+			throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 a/b");
 		byte[] data = encodeASCII(b.toString());
 		assertCorrupt("name contains '/'", OBJ_TREE, data);
-		assertSkipListRejects("name contains '/'", OBJ_TREE, data);
+		assertSkipListAccepts(OBJ_TREE, data);
+		checker.setIgnore(FULL_PATHNAME, true);
+		checker.checkTree(data);
 	}
 
 	@Test
-	public void testInvalidTreeNameIsEmpty() {
+	public void testInvalidTreeNameIsEmpty() throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 ");
 		byte[] data = encodeASCII(b.toString());
 		assertCorrupt("zero length name", OBJ_TREE, data);
-		assertSkipListRejects("zero length name", OBJ_TREE, data);
+		assertSkipListAccepts(OBJ_TREE, data);
+		checker.setIgnore(EMPTY_NAME, true);
+		checker.checkTree(data);
 	}
 
 	@Test
-	public void testInvalidTreeNameIsDot() {
+	public void testInvalidTreeNameIsDot() throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 .");
 		byte[] data = encodeASCII(b.toString());
 		assertCorrupt("invalid name '.'", OBJ_TREE, data);
-		assertSkipListRejects("invalid name '.'", OBJ_TREE, data);
+		assertSkipListAccepts(OBJ_TREE, data);
+		checker.setIgnore(HAS_DOT, true);
+		checker.checkTree(data);
 	}
 
 	@Test
-	public void testInvalidTreeNameIsDotDot() {
+	public void testInvalidTreeNameIsDotDot() throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 ..");
 		byte[] data = encodeASCII(b.toString());
 		assertCorrupt("invalid name '..'", OBJ_TREE, data);
-		assertSkipListRejects("invalid name '..'", OBJ_TREE, data);
+		assertSkipListAccepts(OBJ_TREE, data);
+		checker.setIgnore(HAS_DOTDOT, true);
+		checker.checkTree(data);
 	}
 
 	@Test
@@ -947,6 +966,8 @@ public class ObjectCheckerTest {
 		byte[] data = encodeASCII(b.toString());
 		assertCorrupt("invalid name '.git'", OBJ_TREE, data);
 		assertSkipListAccepts(OBJ_TREE, data);
+		checker.setIgnore(HAS_DOTGIT, true);
+		checker.checkTree(data);
 	}
 
 	@Test
@@ -957,6 +978,8 @@ public class ObjectCheckerTest {
 		byte[] data = encodeASCII(b.toString());
 		assertCorrupt("invalid name '.GiT'", OBJ_TREE, data);
 		assertSkipListAccepts(OBJ_TREE, data);
+		checker.setIgnore(HAS_DOTGIT, true);
+		checker.checkTree(data);
 	}
 
 	@Test
@@ -974,6 +997,8 @@ public class ObjectCheckerTest {
 				"invalid name '.gi\u200Ct' contains ignorable Unicode characters",
 				OBJ_TREE, data);
 		assertSkipListAccepts(OBJ_TREE, data);
+		checker.setIgnore(HAS_DOTGIT, true);
+		checker.checkTree(data);
 	}
 
 	@Test
@@ -992,6 +1017,8 @@ public class ObjectCheckerTest {
 				"invalid name '\u206B.git' contains ignorable Unicode characters",
 				OBJ_TREE, data);
 		assertSkipListAccepts(OBJ_TREE, data);
+		checker.setIgnore(HAS_DOTGIT, true);
+		checker.checkTree(data);
 	}
 
 	@Test
@@ -1010,6 +1037,8 @@ public class ObjectCheckerTest {
 				"invalid name '.git\uFEFF' contains ignorable Unicode characters",
 				OBJ_TREE, data);
 		assertSkipListAccepts(OBJ_TREE, data);
+		checker.setIgnore(HAS_DOTGIT, true);
+		checker.checkTree(data);
 	}
 
 	private static byte[] concat(byte[] b1, byte[] b2) {
@@ -1096,6 +1125,8 @@ public class ObjectCheckerTest {
 		byte[] data = encodeASCII(b.toString());
 		assertCorrupt("invalid name '.git.'", OBJ_TREE, data);
 		assertSkipListAccepts(OBJ_TREE, data);
+		checker.setIgnore(HAS_DOTGIT, true);
+		checker.checkTree(data);
 	}
 
 	@Test
@@ -1114,6 +1145,8 @@ public class ObjectCheckerTest {
 		byte[] data = encodeASCII(b.toString());
 		assertCorrupt("invalid name '.git '", OBJ_TREE, data);
 		assertSkipListAccepts(OBJ_TREE, data);
+		checker.setIgnore(HAS_DOTGIT, true);
+		checker.checkTree(data);
 	}
 
 	@Test
@@ -1160,6 +1193,8 @@ public class ObjectCheckerTest {
 		byte[] data = encodeASCII(b.toString());
 		assertCorrupt("invalid name '.git. '", OBJ_TREE, data);
 		assertSkipListAccepts(OBJ_TREE, data);
+		checker.setIgnore(HAS_DOTGIT, true);
+		checker.checkTree(data);
 	}
 
 	@Test
@@ -1170,6 +1205,8 @@ public class ObjectCheckerTest {
 		byte[] data = encodeASCII(b.toString());
 		assertCorrupt("invalid name '.git . '", OBJ_TREE, data);
 		assertSkipListAccepts(OBJ_TREE, data);
+		checker.setIgnore(HAS_DOTGIT, true);
+		checker.checkTree(data);
 	}
 
 	@Test
@@ -1179,6 +1216,8 @@ public class ObjectCheckerTest {
 		byte[] data = encodeASCII(b.toString());
 		assertCorrupt("invalid name 'GIT~1'", OBJ_TREE, data);
 		assertSkipListAccepts(OBJ_TREE, data);
+		checker.setIgnore(HAS_DOTGIT, true);
+		checker.checkTree(data);
 	}
 
 	@Test
@@ -1188,6 +1227,8 @@ public class ObjectCheckerTest {
 		byte[] data = encodeASCII(b.toString());
 		assertCorrupt("invalid name 'GiT~1'", OBJ_TREE, data);
 		assertSkipListAccepts(OBJ_TREE, data);
+		checker.setIgnore(HAS_DOTGIT, true);
+		checker.checkTree(data);
 	}
 
 	@Test
@@ -1224,6 +1265,8 @@ public class ObjectCheckerTest {
 		byte[] data = encodeASCII(b.toString());
 		assertCorrupt("incorrectly sorted", OBJ_TREE, data);
 		assertSkipListAccepts(OBJ_TREE, data);
+		checker.setIgnore(TREE_NOT_SORTED, true);
+		checker.checkTree(data);
 	}
 
 	@Test
@@ -1234,6 +1277,8 @@ public class ObjectCheckerTest {
 		byte[] data = encodeASCII(b.toString());
 		assertCorrupt("incorrectly sorted", OBJ_TREE, data);
 		assertSkipListAccepts(OBJ_TREE, data);
+		checker.setIgnore(TREE_NOT_SORTED, true);
+		checker.checkTree(data);
 	}
 
 	@Test
@@ -1244,6 +1289,8 @@ public class ObjectCheckerTest {
 		byte[] data = encodeASCII(b.toString());
 		assertCorrupt("incorrectly sorted", OBJ_TREE, data);
 		assertSkipListAccepts(OBJ_TREE, data);
+		checker.setIgnore(TREE_NOT_SORTED, true);
+		checker.checkTree(data);
 	}
 
 	@Test
@@ -1254,6 +1301,8 @@ public class ObjectCheckerTest {
 		byte[] data = encodeASCII(b.toString());
 		assertCorrupt("duplicate entry names", OBJ_TREE, data);
 		assertSkipListAccepts(OBJ_TREE, data);
+		checker.setIgnore(DUPLICATE_ENTRIES, true);
+		checker.checkTree(data);
 	}
 
 	@Test
@@ -1264,6 +1313,8 @@ public class ObjectCheckerTest {
 		byte[] data = encodeASCII(b.toString());
 		assertCorrupt("duplicate entry names", OBJ_TREE, data);
 		assertSkipListAccepts(OBJ_TREE, data);
+		checker.setIgnore(DUPLICATE_ENTRIES, true);
+		checker.checkTree(data);
 	}
 
 	@Test
@@ -1274,6 +1325,8 @@ public class ObjectCheckerTest {
 		byte[] data = encodeASCII(b.toString());
 		assertCorrupt("duplicate entry names", OBJ_TREE, data);
 		assertSkipListAccepts(OBJ_TREE, data);
+		checker.setIgnore(DUPLICATE_ENTRIES, true);
+		checker.checkTree(data);
 	}
 
 	@Test
@@ -1288,30 +1341,36 @@ public class ObjectCheckerTest {
 		byte[] data = encodeASCII(b.toString());
 		assertCorrupt("duplicate entry names", OBJ_TREE, data);
 		assertSkipListAccepts(OBJ_TREE, data);
+		checker.setIgnore(DUPLICATE_ENTRIES, true);
+		checker.checkTree(data);
 	}
 
 	@Test
 	public void testInvalidTreeDuplicateNames5()
 			throws UnsupportedEncodingException, CorruptObjectException {
 		StringBuilder b = new StringBuilder();
-		entry(b, "100644 a");
 		entry(b, "100644 A");
+		entry(b, "100644 a");
 		byte[] data = b.toString().getBytes("UTF-8");
 		checker.setSafeForWindows(true);
 		assertCorrupt("duplicate entry names", OBJ_TREE, data);
 		assertSkipListAccepts(OBJ_TREE, data);
+		checker.setIgnore(DUPLICATE_ENTRIES, true);
+		checker.checkTree(data);
 	}
 
 	@Test
 	public void testInvalidTreeDuplicateNames6()
 			throws UnsupportedEncodingException, CorruptObjectException {
 		StringBuilder b = new StringBuilder();
-		entry(b, "100644 a");
 		entry(b, "100644 A");
+		entry(b, "100644 a");
 		byte[] data = b.toString().getBytes("UTF-8");
 		checker.setSafeForMacOS(true);
 		assertCorrupt("duplicate entry names", OBJ_TREE, data);
 		assertSkipListAccepts(OBJ_TREE, data);
+		checker.setIgnore(DUPLICATE_ENTRIES, true);
+		checker.checkTree(data);
 	}
 
 	@Test
@@ -1324,6 +1383,8 @@ public class ObjectCheckerTest {
 		checker.setSafeForMacOS(true);
 		assertCorrupt("duplicate entry names", OBJ_TREE, data);
 		assertSkipListAccepts(OBJ_TREE, data);
+		checker.setIgnore(DUPLICATE_ENTRIES, true);
+		checker.checkTree(data);
 	}
 
 	@Test
