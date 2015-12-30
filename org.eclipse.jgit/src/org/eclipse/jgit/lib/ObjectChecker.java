@@ -48,9 +48,8 @@ import static org.eclipse.jgit.util.RawParseUtils.match;
 import static org.eclipse.jgit.util.RawParseUtils.nextLF;
 import static org.eclipse.jgit.util.RawParseUtils.parseBase10;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.text.MessageFormat;
+import java.text.Normalizer;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
@@ -790,58 +789,6 @@ public class ObjectChecker {
 
 	private String normalize(byte[] raw, int ptr, int end) {
 		String n = RawParseUtils.decode(raw, ptr, end).toLowerCase(Locale.US);
-		return macosx ? Normalizer.normalize(n) : n;
-	}
-
-	private static class Normalizer {
-		// TODO Simplify invocation to Normalizer after dropping Java 5.
-		private static final Method normalize;
-		private static final Object nfc;
-		static {
-			Method method;
-			Object formNfc;
-			try {
-				Class<?> formClazz = Class.forName("java.text.Normalizer$Form"); //$NON-NLS-1$
-				formNfc = formClazz.getField("NFC").get(null); //$NON-NLS-1$
-				method = Class.forName("java.text.Normalizer") //$NON-NLS-1$
-					.getMethod("normalize", CharSequence.class, formClazz); //$NON-NLS-1$
-			} catch (ClassNotFoundException e) {
-				method = null;
-				formNfc = null;
-			} catch (NoSuchFieldException e) {
-				method = null;
-				formNfc = null;
-			} catch (NoSuchMethodException e) {
-				method = null;
-				formNfc = null;
-			} catch (SecurityException e) {
-				method = null;
-				formNfc = null;
-			} catch (IllegalArgumentException e) {
-				method = null;
-				formNfc = null;
-			} catch (IllegalAccessException e) {
-				method = null;
-				formNfc = null;
-			}
-			normalize = method;
-			nfc = formNfc;
-		}
-
-		static String normalize(String in) {
-			if (normalize == null)
-				return in;
-			try {
-				return (String) normalize.invoke(null, in, nfc);
-			} catch (IllegalAccessException e) {
-				return in;
-			} catch (InvocationTargetException e) {
-				if (e.getCause() instanceof RuntimeException)
-					throw (RuntimeException) e.getCause();
-				if (e.getCause() instanceof Error)
-					throw (Error) e.getCause();
-				return in;
-			}
-		}
+		return macosx ? Normalizer.normalize(n, Normalizer.Form.NFC) : n;
 	}
 }
