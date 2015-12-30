@@ -140,6 +140,24 @@
       "revId": "b71ba69410db5e50dd10c5c40e96699c9de7e5e8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_e71ef496",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEditor.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1179
+      },
+      "writtenOn": "2015-12-30T00:11:02Z",
+      "side": 1,
+      "message": "But we just tested entries[mid] one line above?",
+      "parentUuid": "27d6470d_a70eac71",
+      "revId": "b71ba69410db5e50dd10c5c40e96699c9de7e5e8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
