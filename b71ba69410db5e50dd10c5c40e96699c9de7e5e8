@@ -158,6 +158,24 @@
       "revId": "b71ba69410db5e50dd10c5c40e96699c9de7e5e8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27d6470d_0765980e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEditor.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-12-30T00:33:59Z",
+      "side": 1,
+      "message": "Yes and the code treats this as [low, high).\n\nLow is inclusive, high is exclusive.\n\nBy setting high \u003d mid we never consider mid again. If we set high \u003d mid - 1, we will also never consider the value at mid -1. Which is wrong. We haven\u0027t considered it yet. It might be the thing we are looking for.",
+      "parentUuid": "27d6470d_e71ef496",
+      "revId": "b71ba69410db5e50dd10c5c40e96699c9de7e5e8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
