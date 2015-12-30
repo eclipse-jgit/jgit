@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07d9433e_1f03634d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/indexdiff/IndexDiffWithSymlinkTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-12-30T20:20:13Z",
+      "side": 1,
+      "message": "If only we had a library in Java that supported creating objects in a Git repository, we wouldn\u0027t need to depend on executing git fast-import from a JUnit test.",
+      "revId": "542cf2e93784dfbca0e1d3c98d0cebee1375ee0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_3f082767",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1049,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-12-30T20:20:13Z",
+      "side": 1,
+      "message": "This is crazy. The symlink is read as a string, encoded as a byte sequence, shoved through an InputStream which we leak above, then decoded using a different FS instance than was used to read the symlink.\n\nI have to wonder how much of the NFC-NFD bug is just caused by all of the transitions going on here.",
+      "range": {
+        "startLine": 1048,
+        "startChar": 0,
+        "endLine": 1049,
+        "endChar": 60
+      },
+      "revId": "542cf2e93784dfbca0e1d3c98d0cebee1375ee0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
