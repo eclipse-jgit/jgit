@@ -1,0 +1,44 @@
+java_library(
+  name = 'pgm',
+  srcs = glob(['src/**']),
+  resources = glob(['resources/**']),
+  deps = [
+    ':services',
+    '//org.eclipse.jgit:jgit',
+    '//org.eclipse.jgit.archive:jgit-archive',
+    '//org.eclipse.jgit.http.apache:http-apache',
+    '//org.eclipse.jgit.ui:ui',
+    '//lib:args4j',
+  ],
+  visibility = ['PUBLIC'],
+)
+
+genrule(
+  name = 'services__jar',
+  cmd = 'zip -qr $OUT .',
+  srcs = glob(['META-INF/services/*']),
+  out = 'services.jar',
+)
+
+prebuilt_jar(
+  name = 'services',
+  binary_jar = ':services__jar',
+)
+
+java_binary(
+  name = 'jgit_jar',
+  main_class = 'org.eclipse.jgit.pgm.Main',
+  deps = [
+    ':pgm',
+    '//lib:slf4j-simple',
+  ],
+)
+
+genrule(
+  name = 'jgit',
+  cmd = 'cat $SRCDIR/jgit.sh $(location :jgit_jar) >$OUT;' +
+        'chmod a+x $OUT',
+  srcs = ['jgit.sh'],
+  out = 'jgit',
+  visibility = ['PUBLIC'],
+)

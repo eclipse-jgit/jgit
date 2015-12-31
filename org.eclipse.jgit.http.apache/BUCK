@@ -1,0 +1,12 @@
+java_library(
+  name = 'http-apache',
+  srcs = glob(['src/**']),
+  resources = glob(['resources/**']),
+  deps = [
+    '//org.eclipse.jgit:jgit',
+    '//lib:commons-logging',
+    '//lib:httpcomponents',
+    '//lib:httpcore',
+  ],
+  visibility = ['PUBLIC'],
+)
