@@ -96,3 +96,21 @@ maven_jar(
   artifact = 'junit',
   version = '4.11',
 )
+
+maven_jar(
+  name = 'hamcrest-library',
+  bin_sha1 = '4785a3c21320980282f9f33d0d1264a69040538f',
+  src_sha1 = '047a7ee46628ab7133129cd7cef1e92657bc275e',
+  group = 'org.hamcrest',
+  artifact = 'hamcrest-library',
+  version = '1.3',
+)
+
+maven_jar(
+  name = 'hamcrest-core',
+  bin_sha1 = '42a25dc3219429f0e5d060061f71acb49bf010a0',
+  src_sha1 = '1dc37250fbc78e23a65a67fbbaf71d2e9cbc3c0b',
+  group = 'org.hamcrest',
+  artifact = 'hamcrest-core',
+  version = '1.3',
+)

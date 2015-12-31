@@ -1,0 +1,17 @@
+java_test(
+  name = 'all',
+  labels = ['lib'],
+  srcs = glob(['**/*.java']),
+  deps = [
+    '//org.eclipse.jgit:jgit',
+    '//org.eclipse.jgit.junit:junit',
+    '//org.eclipse.jgit.pgm:pgm',
+    '//org.eclipse.jgit.ui:ui',
+    '//lib:hamcrest-core',
+    '//lib:hamcrest-library',
+    '//lib:javaewah',
+    '//lib:junit',
+    '//lib:slf4j-api',
+  ],
+  source_under_test = ['//org.eclipse.jgit:jgit'],
+)
