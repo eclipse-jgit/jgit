@@ -83,6 +83,7 @@ public final class RawParseUtils {
 	static {
 		encodingAliases = new HashMap<String, Charset>();
 		encodingAliases.put("latin-1", Charset.forName("ISO-8859-1")); //$NON-NLS-1$ //$NON-NLS-2$
+		encodingAliases.put("'utf8'", Charset.forName("UTF-8")); //$NON-NLS-1$ //$NON-NLS-2$
 
 		digits10 = new byte['9' + 1];
 		Arrays.fill(digits10, (byte) -1);
