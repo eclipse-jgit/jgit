@@ -40,5 +40,6 @@ java_binary(
   deps = [
     ':pgm',
     '//lib:slf4j-simple',
+    '//lib:tukaani-xz',
   ],
 )

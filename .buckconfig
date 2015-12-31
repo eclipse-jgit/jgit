@@ -2,7 +2,7 @@
   includes = //tools/default.defs
 
 [java]
-  src_roots = src, resources
+  src_roots = src, resources, tst
 
 [project]
   ignore = .git
