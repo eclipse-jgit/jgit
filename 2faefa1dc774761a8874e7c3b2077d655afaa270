@@ -88,6 +88,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_3f182735",
+        "filename": "BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-12-31T18:00:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27d6470d_4013431a",
+      "range": {
+        "startLine": 32,
+        "startChar": 10,
+        "endLine": 32,
+        "endChar": 14
+      },
+      "revId": "2faefa1dc774761a8874e7c3b2077d655afaa270",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27d6470d_801d4b27",
         "filename": "org.eclipse.jgit.archive/BUCK",
         "patchSetId": 1
@@ -99,6 +123,30 @@
       "writtenOn": "2015-12-06T22:08:49Z",
       "side": 1,
       "message": "why is this class excluded ?",
+      "range": {
+        "startLine": 3,
+        "startChar": 68,
+        "endLine": 3,
+        "endChar": 83
+      },
+      "revId": "2faefa1dc774761a8874e7c3b2077d655afaa270",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_5f1deb23",
+        "filename": "org.eclipse.jgit.archive/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2015-12-31T18:00:54Z",
+      "side": 1,
+      "message": "It requires OSGI APIs and the OSGI JAR is not in the deps list. So it can\u0027t compile. I think that\u0027s a sane approach. Buck can\u0027t build an OSGI binary anyway.",
+      "parentUuid": "27d6470d_801d4b27",
       "range": {
         "startLine": 3,
         "startChar": 68,
