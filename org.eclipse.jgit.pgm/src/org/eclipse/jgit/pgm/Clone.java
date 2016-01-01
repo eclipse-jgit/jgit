@@ -50,6 +50,7 @@ import org.eclipse.jgit.api.CloneCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.pgm.internal.CLIText;
 import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.util.SystemReader;
@@ -69,6 +70,9 @@ class Clone extends AbstractFetchCommand {
 
 	@Option(name = "--bare", usage = "usage_bareClone")
 	private boolean isBare;
+
+	@Option(name = "--quiet", usage = "usage_quiet")
+	private Boolean quiet;
 
 	@Argument(index = 0, required = true, metaVar = "metaVar_uriish")
 	private String sourceUri;
@@ -109,10 +113,16 @@ class Clone extends AbstractFetchCommand {
 
 		command.setGitDir(gitdir == null ? null : new File(gitdir));
 		command.setDirectory(localNameF);
-		outw.println(MessageFormat.format(CLIText.get().cloningInto, localName));
+		boolean msgs = quiet == null || !quiet.booleanValue();
+		if (msgs) {
+			command.setProgressMonitor(new TextProgressMonitor(errw));
+			outw.println(MessageFormat.format(
+					CLIText.get().cloningInto, localName));
+			outw.flush();
+		}
 		try {
 			db = command.call().getRepository();
-			if (db.resolve(Constants.HEAD) == null)
+			if (msgs && db.resolve(Constants.HEAD) == null)
 				outw.println(CLIText.get().clonedEmptyRepository);
 		} catch (InvalidRemoteException e) {
 			throw die(MessageFormat.format(CLIText.get().doesNotExist,
@@ -121,8 +131,9 @@ class Clone extends AbstractFetchCommand {
 			if (db != null)
 				db.close();
 		}
-
-		outw.println();
-		outw.flush();
+		if (msgs) {
+			outw.println();
+			outw.flush();
+		}
 	}
 }
