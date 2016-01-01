@@ -78,12 +78,8 @@ import org.eclipse.jgit.util.RawParseUtils;
  * @see SideBandOutputStream
  */
 class SideBandInputStream extends InputStream {
-	private static final String PFX_REMOTE = JGitText.get().prefixRemote;
-
 	static final int CH_DATA = 1;
-
 	static final int CH_PROGRESS = 2;
-
 	static final int CH_ERROR = 3;
 
 	private static Pattern P_UNBOUNDED = Pattern
@@ -174,7 +170,7 @@ class SideBandInputStream extends InputStream {
 				continue;
 			case CH_ERROR:
 				eof = true;
-				throw new TransportException(PFX_REMOTE + readString(available));
+				throw new TransportException(remote(readString(available)));
 			default:
 				throw new PackProtocolException(
 						MessageFormat.format(JGitText.get().invalidChannel,
@@ -241,7 +237,18 @@ class SideBandInputStream extends InputStream {
 	}
 
 	private void beginTask(final int totalWorkUnits) {
-		monitor.beginTask(PFX_REMOTE + currentTask, totalWorkUnits);
+		monitor.beginTask(remote(currentTask), totalWorkUnits);
+	}
+
+	private static String remote(String msg) {
+		String prefix = JGitText.get().prefixRemote;
+		StringBuilder r = new StringBuilder(prefix.length() + msg.length() + 1);
+		r.append(prefix);
+		if (prefix.length() > 0 && prefix.charAt(prefix.length() - 1) != ' ') {
+			r.append(' ');
+		}
+		r.append(msg);
+		return r.toString();
 	}
 
 	private String readString(final int len) throws IOException {
