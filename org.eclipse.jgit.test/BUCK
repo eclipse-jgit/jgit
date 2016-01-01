@@ -68,6 +68,7 @@ for src in TESTS:
       '//lib:slf4j-simple',
     ] + DEPS.get(src, []),
     source_under_test = ['//org.eclipse.jgit:jgit'],
+    vm_args = ['-Xmx256m', '-Dfile.encoding=UTF-8'],
   )
 
 java_library(

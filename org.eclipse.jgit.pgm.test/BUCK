@@ -22,6 +22,7 @@ for t in TESTS:
       '//lib:tukaani-xz',
     ],
     source_under_test = ['//org.eclipse.jgit.pgm:pgm'],
+    vm_args = ['-Xmx256m', '-Dfile.encoding=UTF-8'],
   )
 
 java_library(
