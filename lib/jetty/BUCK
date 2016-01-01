@@ -1,0 +1,56 @@
+VERSION = '9.2.13.v20150730'
+GROUP = 'org.eclipse.jetty'
+
+maven_jar(
+  name = 'servlet',
+  bin_sha1 = '5ad6e38015a97ae9a60b6c2ad744ccfa9cf93a50',
+  src_sha1 = '78fbec19321150552d91f9e079c2f2ca33222b01',
+  group = GROUP,
+  artifact = 'jetty-servlet',
+  version = VERSION,
+)
+
+maven_jar(
+  name = 'security',
+  bin_sha1 = 'cc7c7f27ec4cc279253be1675d9e47e58b995943',
+  src_sha1 = '75632ebdf8bd651faafb97106c92496db59e165d',
+  group = GROUP,
+  artifact = 'jetty-security',
+  version = VERSION,
+)
+
+maven_jar(
+  name = 'server',
+  bin_sha1 = '5be7d1da0a7abffd142de3091d160717c120b6ab',
+  src_sha1 = '203e123f83efe2a5b8a9c74854c7897fe3563302',
+  group = GROUP,
+  artifact = 'jetty-server',
+  version = VERSION,
+)
+
+maven_jar(
+  name = 'http',
+  bin_sha1 = '23a745d9177ef67ef53cc46b9b70c5870082efc2',
+  src_sha1 = '5f87f7ff2057cd4b0995bc4fffe17b2aff64c130',
+  group = GROUP,
+  artifact = 'jetty-http',
+  version = VERSION,
+)
+
+maven_jar(
+  name = 'io',
+  bin_sha1 = '7a351e6a1b63dfd56b6632623f7ca2793ffb67ad',
+  src_sha1 = 'bbd61a84b748fc295456e1c5c3070aaf40a68f62',
+  group = GROUP,
+  artifact = 'jetty-io',
+  version = VERSION,
+)
+
+maven_jar(
+  name = 'util',
+  bin_sha1 = 'c101476360a7cdd0670462de04053507d5e70c97',
+  src_sha1 = '15ceecce141971b4e0facb861b3d10120ad6ce03',
+  group = GROUP,
+  artifact = 'jetty-util',
+  version = VERSION,
+)

@@ -1,0 +1,40 @@
+TESTS = glob(['tst/**/*.java'])
+
+for t in TESTS:
+  n = t[len('tst/'):len(t)-len('.java')].replace('/', '.')
+  java_test(
+    name = n,
+    labels = ['http'],
+    srcs = [t],
+    deps = [
+      ':helpers',
+      '//org.eclipse.jgit:jgit',
+      '//org.eclipse.jgit.http.apache:http-apache',
+      '//org.eclipse.jgit.http.server:jgit-servlet',
+      '//org.eclipse.jgit.junit:junit',
+      '//org.eclipse.jgit.junit.http:junit-http',
+      '//lib:hamcrest-core',
+      '//lib:hamcrest-library',
+      '//lib:junit',
+      '//lib:servlet-api',
+      '//lib/jetty:http',
+      '//lib/jetty:io',
+      '//lib/jetty:server',
+      '//lib/jetty:servlet',
+      '//lib/jetty:security',
+      '//lib/jetty:util',
+    ],
+    source_under_test = ['//org.eclipse.jgit.http.server:jgit-servlet'],
+  )
+
+java_library(
+  name = 'helpers',
+  srcs = glob(['src/**/*.java']),
+  deps = [
+    '//org.eclipse.jgit:jgit',
+    '//org.eclipse.jgit.http.server:jgit-servlet',
+    '//org.eclipse.jgit.junit:junit',
+    '//org.eclipse.jgit.junit.http:junit-http',
+    '//lib:junit',
+  ],
+)

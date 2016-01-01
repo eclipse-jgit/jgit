@@ -1,0 +1,18 @@
+java_library(
+  name = 'junit-http',
+  srcs = glob(['src/**']),
+  resources = glob(['resources/**']),
+  provided_deps = [
+    '//org.eclipse.jgit:jgit',
+    '//org.eclipse.jgit.http.server:jgit-servlet',
+    '//org.eclipse.jgit.junit:junit',
+    '//lib:junit',
+    '//lib:servlet-api',
+    '//lib/jetty:http',
+    '//lib/jetty:server',
+    '//lib/jetty:servlet',
+    '//lib/jetty:security',
+    '//lib/jetty:util',
+  ],
+  visibility = ['PUBLIC'],
+)
