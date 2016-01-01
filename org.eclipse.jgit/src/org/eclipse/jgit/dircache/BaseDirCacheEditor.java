@@ -44,7 +44,12 @@
 
 package org.eclipse.jgit.dircache;
 
+import static org.eclipse.jgit.lib.FileMode.TREE;
+import static org.eclipse.jgit.lib.FileMode.TYPE_TREE;
+
 import java.io.IOException;
+
+import org.eclipse.jgit.errors.DirCacheNameConflictException;
 
 /**
  * Generic update/editing support for {@link DirCache}.
@@ -168,12 +173,105 @@ abstract class BaseDirCacheEditor {
 	 * {@link #finish()}, and only after {@link #entries} is sorted.
 	 */
 	protected void replace() {
+		checkNameConflicts();
 		if (entryCnt < entries.length / 2) {
 			final DirCacheEntry[] n = new DirCacheEntry[entryCnt];
 			System.arraycopy(entries, 0, n, 0, entryCnt);
 			entries = n;
 		}
 		cache.replace(entries, entryCnt);
+	}
+
+	private void checkNameConflicts() {
+		int end = entryCnt - 1;
+		for (int eIdx = 0; eIdx < end; eIdx++) {
+			DirCacheEntry e = entries[eIdx];
+			if (e.getStage() != 0) {
+				continue;
+			}
+
+			byte[] ePath = e.path;
+			int prefixLen = lastSlash(ePath) + 1;
+
+			for (int nIdx = eIdx + 1; nIdx < entryCnt; nIdx++) {
+				DirCacheEntry n = entries[nIdx];
+				if (n.getStage() != 0) {
+					continue;
+				}
+
+				byte[] nPath = n.path;
+				if (!startsWith(ePath, nPath, prefixLen)) {
+					// Different prefix; this entry is in another directory.
+					break;
+				}
+
+				int s = nextSlash(nPath, prefixLen);
+				int m = s < nPath.length ? TYPE_TREE : n.getRawMode();
+				int cmp = pathCompare(
+						ePath, prefixLen, ePath.length, TYPE_TREE,
+						nPath, prefixLen, s, m);
+				if (cmp < 0) {
+					break;
+				} else if (cmp == 0) {
+					throw new DirCacheNameConflictException(
+							e.getPathString(),
+							n.getPathString());
+				}
+			}
+		}
+	}
+
+	private static int lastSlash(byte[] path) {
+		for (int i = path.length - 1; i >= 0; i--) {
+			if (path[i] == '/') {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	private static int nextSlash(byte[] b, int p) {
+		final int n = b.length;
+		for (; p < n; p++) {
+			if (b[p] == '/') {
+				return p;
+			}
+		}
+		return n;
+	}
+
+	private static boolean startsWith(byte[] a, byte[] b, int n) {
+		if (b.length < n) {
+			return false;
+		}
+		for (n--; n >= 0; n--) {
+			if (a[n] != b[n]) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	static int pathCompare(byte[] aPath, int aPos, int aEnd, int aMode,
+			byte[] bPath, int bPos, int bEnd, int bMode) {
+		while (aPos < aEnd && bPos < bEnd) {
+			int cmp = (aPath[aPos++] & 0xff) - (bPath[bPos++] & 0xff);
+			if (cmp != 0) {
+				return cmp;
+			}
+		}
+
+		if (aPos < aEnd) {
+			return (aPath[aPos] & 0xff) - lastPathChar(bMode);
+		}
+		if (bPos < bEnd) {
+			return lastPathChar(aMode) - (bPath[bPos] & 0xff);
+		}
+		return 0;
+	}
+
+	private static int lastPathChar(int mode) {
+		return TREE.equals(mode) ? '/' : '\0';
 	}
 
 	/**

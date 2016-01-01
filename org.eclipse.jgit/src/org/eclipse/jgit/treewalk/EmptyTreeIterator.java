@@ -142,4 +142,9 @@ public class EmptyTreeIterator extends AbstractTreeIterator {
 		if (parent != null)
 			parent.stopWalk();
 	}
+
+	@Override
+	protected boolean needsStopWalk() {
+		return parent != null && parent.needsStopWalk();
+	}
 }
