@@ -42,7 +42,7 @@
  */
 package org.eclipse.jgit.pgm;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 import org.eclipse.jgit.lib.CLIRepositoryTestCase;
 import org.junit.Test;
@@ -54,26 +54,27 @@ public class CommitTest extends CLIRepositoryTestCase {
 		writeTrashFile("a", "a");
 		writeTrashFile("b", "a");
 		String result = toString(execute("git add a"));
-		assertTrue("Unexpected output: " + result, result.isEmpty());
+		assertEquals("", result);
 
 		result = toString(execute("git status -- a"));
-		assertTrue("Unexpected output: " + result,
-				result.contains("new file:   a"));
+		assertEquals(toString("On branch master", "Changes to be committed:",
+				"new file:   a"), result);
 
 		result = toString(execute("git status -- b"));
-		assertTrue("Unexpected output: " + result,
-				result.trim().contains("Untracked files:\n	b"));
+		assertEquals(toString("On branch master", "Untracked files:", "b"),
+				result);
 
 		result = toString(execute("git commit a -m 'added a'"));
-		assertTrue("Unexpected output: " + result, result.contains("added a"));
+		assertEquals(
+				"[master 8cb3ef7e5171aaee1792df6302a5a0cd30425f7a] added a",
+				result);
 
 		result = toString(execute("git status -- a"));
-		assertTrue("Unexpected output: " + result,
-				result.trim().equals("On branch master"));
+		assertEquals("On branch master", result);
 
 		result = toString(execute("git status -- b"));
-		assertTrue("Unexpected output: " + result,
-				result.trim().contains("Untracked files:\n	b"));
+		assertEquals(toString("On branch master", "Untracked files:", "b"),
+				result);
 	}
 
 	@Test
@@ -81,21 +82,19 @@ public class CommitTest extends CLIRepositoryTestCase {
 		writeTrashFile("a", "a");
 		writeTrashFile("b", "a");
 		String result = toString(execute("git add a b"));
-		assertTrue("Unexpected output: " + result, result.isEmpty());
+		assertEquals("", result);
 
 		result = toString(execute("git status -- a b"));
-		assertTrue("Unexpected output: " + result,
-				result.contains("new file:   a"));
-		assertTrue("Unexpected output: " + result,
-				result.contains("new file:   b"));
+		assertEquals(toString("On branch master", "Changes to be committed:",
+				"new file:   a", "new file:   b"), result);
 
 		result = toString(execute("git commit -m 'added a b'"));
-		assertTrue("Unexpected output: " + result,
-				result.contains("added a b"));
+		assertEquals(
+				"[master 3c93fa8e3a28ee26690498be78016edcb3a38c73] added a b",
+				result);
 
 		result = toString(execute("git status -- a b"));
-		assertTrue("Unexpected output: " + result,
-				result.trim().equals("On branch master"));
+		assertEquals("On branch master", result);
 	}
 
 }

@@ -223,19 +223,23 @@ public class CLIRepositoryTestCase extends LocalDiskRepositoryTestCase {
 		assertEquals(toString(expected), toString(actual));
 	}
 
-	public static String toString(String[] lines) {
+	public static String toString(String... lines) {
 		return toString(Arrays.asList(lines));
 	}
 
 	public static String toString(List<String> lines) {
 		StringBuilder b = new StringBuilder();
 		for (String s : lines) {
+			// trim indentation, to simplify tests
+			s = s.trim();
 			if (s != null && !s.isEmpty()) {
 				b.append(s);
-				if (!s.endsWith("\n")) {
-					b.append('\n');
-				}
+				b.append('\n');
 			}
+		}
+		// delete last line break to allow simpler tests with one line compare
+		if (b.length() > 0 && b.charAt(b.length() - 1) == '\n') {
+			b.deleteCharAt(b.length() - 1);
 		}
 		return b.toString();
 	}
