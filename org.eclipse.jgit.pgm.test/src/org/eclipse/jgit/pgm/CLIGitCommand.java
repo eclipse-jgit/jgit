@@ -42,33 +42,31 @@
  */
 package org.eclipse.jgit.pgm;
 
+import static org.junit.Assert.assertNull;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.pgm.TextBuiltin.TerminatedByHelpException;
-import org.eclipse.jgit.pgm.internal.CLIText;
-import org.eclipse.jgit.pgm.opt.CmdLineParser;
-import org.eclipse.jgit.pgm.opt.SubcommandHandler;
 import org.eclipse.jgit.util.IO;
-import org.kohsuke.args4j.Argument;
 
-public class CLIGitCommand {
-	@Argument(index = 0, metaVar = "metaVar_command", required = true, handler = SubcommandHandler.class)
-	private TextBuiltin subcommand;
+public class CLIGitCommand extends Main {
 
-	@Argument(index = 1, metaVar = "metaVar_arg")
-	private List<String> arguments = new ArrayList<String>();
+	private final Result result;
 
-	public TextBuiltin getSubcommand() {
-		return subcommand;
-	}
+	private final Repository db;
 
-	public List<String> getArguments() {
-		return arguments;
+	public CLIGitCommand(Repository db) {
+		super();
+		this.db = db;
+		result = new Result();
 	}
 
 	/**
@@ -102,57 +100,82 @@ public class CLIGitCommand {
 
 	public static List<String> execute(String str, Repository db)
 			throws Exception {
+		Result result = executeRaw(str, db);
+		return getOutput(result);
+	}
+
+	public static Result executeRaw(String str, Repository db)
+			throws Exception {
+		CLIGitCommand cmd = new CLIGitCommand(db);
+		cmd.run(str);
+		return cmd.result;
+	}
+
+	public static List<String> executeUnchecked(String str, Repository db)
+			throws Exception {
+		CLIGitCommand cmd = new CLIGitCommand(db);
 		try {
-			return IO.readLines(new String(rawExecute(str, db)));
-		} catch (Die e) {
-			return IO.readLines(CLIText.fatalError(e.getMessage()));
+			cmd.run(str);
+			return getOutput(cmd.result);
+		} catch (Throwable e) {
+			return cmd.result.errLines();
 		}
 	}
 
-	public static byte[] rawExecute(String str, Repository db)
+	private static List<String> getOutput(Result result) {
+		if (result.ex instanceof TerminatedByHelpException) {
+			return result.errLines();
+		}
+		return result.outLines();
+	}
+
+	private void run(String commandLine) throws Exception {
+		String[] argv = convertToMainArgs(commandLine);
+		try {
+			super.run(argv);
+		} catch (TerminatedByHelpException e) {
+			// this is not a failure, super called exit() on help
+		} finally {
+			writer.flush();
+		}
+	}
+
+	private static String[] convertToMainArgs(String str)
 			throws Exception {
 		String[] args = split(str);
-		if (!args[0].equalsIgnoreCase("git") || args.length < 2)
+		if (!args[0].equalsIgnoreCase("git") || args.length < 2) {
 			throw new IllegalArgumentException(
 					"Expected 'git <command> [<args>]', was:" + str);
+		}
 		String[] argv = new String[args.length - 1];
 		System.arraycopy(args, 1, argv, 0, args.length - 1);
+		return argv;
+	}
 
-		CLIGitCommand bean = new CLIGitCommand();
-		final CmdLineParser clp = new TestCmdLineParser(bean);
-		clp.parseArgument(argv);
+	@Override
+	PrintWriter createErrorWriter() {
+		return new PrintWriter(result.err);
+	}
 
-		final TextBuiltin cmd = bean.getSubcommand();
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		cmd.outs = baos;
-		ByteArrayOutputStream errs = new ByteArrayOutputStream();
-		cmd.errs = errs;
-		boolean seenHelp = TextBuiltin.containsHelp(argv);
-		if (cmd.requiresRepository())
-			cmd.init(db, null);
-		else
-			cmd.init(null, null);
-		try {
-			cmd.execute(bean.getArguments().toArray(
-					new String[bean.getArguments().size()]));
-		} catch (TerminatedByHelpException e) {
-			seenHelp = true;
-			// this is not a failure, command execution should just not happen
-		} finally {
-			if (cmd.outw != null) {
-				cmd.outw.flush();
-			}
-			if (cmd.errw != null) {
-				cmd.errw.flush();
-			}
-			if (seenHelp) {
-				return errs.toByteArray();
-			} else if (errs.size() > 0) {
-				// forward the errors to the standard err
-				System.err.print(errs.toString());
-			}
+	void init(final TextBuiltin cmd) throws IOException {
+		cmd.outs = result.out;
+		cmd.errs = result.err;
+		super.init(cmd);
+	}
+
+	@Override
+	protected Repository openGitDir(String aGitdir) throws IOException {
+		assertNull(aGitdir);
+		return db;
+	}
+
+	@Override
+	void exit(int status, Exception t) throws Exception {
+		if (t == null) {
+			t = new IllegalStateException(Integer.toString(status));
 		}
-		return baos.toByteArray();
+		result.ex = t;
+		throw t;
 	}
 
 	/**
@@ -210,14 +233,36 @@ public class CLIGitCommand {
 		return list.toArray(new String[list.size()]);
 	}
 
-	static class TestCmdLineParser extends CmdLineParser {
-		public TestCmdLineParser(Object bean) {
-			super(bean);
+	public static class Result {
+		public final ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+		public final ByteArrayOutputStream err = new ByteArrayOutputStream();
+
+		public Exception ex;
+
+		public byte[] outBytes() {
+			return out.toByteArray();
 		}
 
-		@Override
-		protected boolean containsHelp(String... args) {
-			return false;
+		public byte[] errBytes() {
+			return err.toByteArray();
+		}
+
+		public String outString() {
+			return out.toString();
+		}
+
+		public List<String> outLines() {
+			return IO.readLines(out.toString());
+		}
+
+		public String errString() {
+			return err.toString();
+		}
+
+		public List<String> errLines() {
+			return IO.readLines(err.toString());
 		}
 	}
+
 }
