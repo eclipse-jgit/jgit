@@ -43,6 +43,7 @@
 package org.eclipse.jgit.pgm;
 
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -50,6 +51,7 @@ import java.util.Arrays;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.CLIRepositoryTestCase;
+import org.eclipse.jgit.pgm.internal.CLIText;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -71,17 +73,15 @@ public class DescribeTest extends CLIRepositoryTestCase {
 
 	@Test
 	public void testNoHead() throws Exception {
-		assertArrayEquals(
-				new String[] { "fatal: No names found, cannot describe anything." },
-				executeUnchecked("git describe"));
+		assertEquals(CLIText.fatalError(CLIText.get().noNamesFound),
+				toString(executeUnchecked("git describe")));
 	}
 
 	@Test
 	public void testHeadNoTag() throws Exception {
 		git.commit().setMessage("initial commit").call();
-		assertArrayEquals(
-				new String[] { "fatal: No names found, cannot describe anything." },
-				executeUnchecked("git describe"));
+		assertEquals(CLIText.fatalError(CLIText.get().noNamesFound),
+				toString(executeUnchecked("git describe")));
 	}
 
 	@Test
