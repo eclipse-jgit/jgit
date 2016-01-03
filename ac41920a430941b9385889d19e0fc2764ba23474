@@ -16,6 +16,24 @@
       "revId": "ac41920a430941b9385889d19e0fc2764ba23474",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_a2b0a0c6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransferConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-03T02:10:48Z",
+      "side": 1,
+      "message": "Could be, but no. We\u0027ve been pretty heavily penalized for synthetic accessors created by the compiler when you use private around things that are private but can\u0027t really be private at runtime.\n\nPackage visible is good enough. I trust folks in the package to not go mucking around too badly with other parts of the package.",
+      "parentUuid": "07d9433e_62d21846",
+      "revId": "ac41920a430941b9385889d19e0fc2764ba23474",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
