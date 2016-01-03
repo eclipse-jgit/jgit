@@ -277,8 +277,16 @@ public abstract class TextBuiltin {
 	}
 
 	/**
-	 * @return the resource bundle that will be passed to args4j for purpose
-	 *         of string localization
+	 * @return error writer, typically this is standard error.
+	 * @since 4.2
+	 */
+	public ThrowingPrintWriter getErrorWriter() {
+		return errw;
+	}
+
+	/**
+	 * @return the resource bundle that will be passed to args4j for purpose of
+	 *         string localization
 	 */
 	protected ResourceBundle getResourceBundle() {
 		return CLIText.get().resourceBundle();
