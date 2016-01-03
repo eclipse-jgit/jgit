@@ -303,7 +303,7 @@ public class HttpClientTests extends HttpTestCase {
 				fail("connection opened even info/refs needs auth basic");
 			} catch (TransportException err) {
 				String exp = dumbAuthBasicURI + ": "
-						+ JGitText.get().notAuthorized;
+						+ JGitText.get().noCredentialsProvider;
 				assertEquals(exp, err.getMessage());
 			}
 		} finally {
@@ -347,7 +347,7 @@ public class HttpClientTests extends HttpTestCase {
 				fail("connection opened even though service disabled");
 			} catch (TransportException err) {
 				String exp = smartAuthBasicURI + ": "
-						+ JGitText.get().notAuthorized;
+						+ JGitText.get().noCredentialsProvider;
 				assertEquals(exp, err.getMessage());
 			}
 		} finally {
@@ -369,7 +369,8 @@ public class HttpClientTests extends HttpTestCase {
 				t.openFetch();
 				fail("connection opened even though service disabled");
 			} catch (TransportException err) {
-				String exp = smartAuthNoneURI + ": Git access forbidden";
+				String exp = smartAuthNoneURI + ": "
+						+ JGitText.get().serviceNotEnabledNoName;
 				assertEquals(exp, err.getMessage());
 			}
 		} finally {
