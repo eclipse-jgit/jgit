@@ -128,7 +128,7 @@ public class Main {
 		} catch (Die err) {
 			if (err.isAborted())
 				System.exit(1);
-			System.err.println(MessageFormat.format(CLIText.get().fatalError, err.getMessage()));
+			System.err.println(CLIText.fatalError(err.getMessage()));
 			if (showStackTrace)
 				err.printStackTrace();
 			System.exit(128);
@@ -147,10 +147,10 @@ public class Main {
 			}
 			if (!showStackTrace && err.getCause() != null
 					&& err instanceof TransportException)
-				System.err.println(MessageFormat.format(CLIText.get().fatalError, err.getCause().getMessage()));
+				System.err.println(CLIText.fatalError(err.getCause().getMessage()));
 
 			if (err.getClass().getName().startsWith("org.eclipse.jgit.errors.")) { //$NON-NLS-1$
-				System.err.println(MessageFormat.format(CLIText.get().fatalError, err.getMessage()));
+				System.err.println(CLIText.fatalError(err.getMessage()));
 				if (showStackTrace)
 					err.printStackTrace();
 				System.exit(128);
@@ -176,7 +176,7 @@ public class Main {
 			clp.parseArgument(argv);
 		} catch (CmdLineException err) {
 			if (argv.length > 0 && !help && !version) {
-				writer.println(MessageFormat.format(CLIText.get().fatalError, err.getMessage()));
+				writer.println(CLIText.fatalError(err.getMessage()));
 				writer.flush();
 				System.exit(1);
 			}

@@ -216,7 +216,7 @@ public abstract class TextBuiltin {
 		try {
 			clp.parseArgument(args);
 		} catch (CmdLineException err) {
-			this.errw.println(MessageFormat.format(CLIText.get().fatalError, err.getMessage()));
+			this.errw.println(CLIText.fatalError(err.getMessage()));
 			if (help) {
 				printUsage("", clp); //$NON-NLS-1$
 			}
