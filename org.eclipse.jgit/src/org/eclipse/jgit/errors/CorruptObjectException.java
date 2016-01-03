@@ -49,8 +49,10 @@ package org.eclipse.jgit.errors;
 import java.io.IOException;
 import java.text.MessageFormat;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.ObjectChecker;
 import org.eclipse.jgit.lib.ObjectId;
 
 /**
@@ -59,15 +61,24 @@ import org.eclipse.jgit.lib.ObjectId;
 public class CorruptObjectException extends IOException {
 	private static final long serialVersionUID = 1L;
 
+	private ObjectChecker.ErrorType errorType;
+
 	/**
-	 * Construct a CorruptObjectException for reporting a problem specified
-	 * object id
+	 * Report a specific error condition discovered in an object.
 	 *
+	 * @param type
+	 *            type of error
 	 * @param id
+	 *            identity of the bad object
 	 * @param why
+	 *            description of the error.
+	 * @since 4.2
 	 */
-	public CorruptObjectException(final AnyObjectId id, final String why) {
-		this(id.toObjectId(), why);
+	public CorruptObjectException(ObjectChecker.ErrorType type, AnyObjectId id,
+			String why) {
+		super(MessageFormat.format(JGitText.get().objectIsCorrupt3,
+				type.getMessageId(), id.name(), why));
+		this.errorType = type;
 	}
 
 	/**
@@ -77,7 +88,18 @@ public class CorruptObjectException extends IOException {
 	 * @param id
 	 * @param why
 	 */
-	public CorruptObjectException(final ObjectId id, final String why) {
+	public CorruptObjectException(AnyObjectId id, String why) {
+		super(MessageFormat.format(JGitText.get().objectIsCorrupt, id.name(), why));
+	}
+
+	/**
+	 * Construct a CorruptObjectException for reporting a problem specified
+	 * object id
+	 *
+	 * @param id
+	 * @param why
+	 */
+	public CorruptObjectException(ObjectId id, String why) {
 		super(MessageFormat.format(JGitText.get().objectIsCorrupt, id.name(), why));
 	}
 
@@ -87,7 +109,7 @@ public class CorruptObjectException extends IOException {
 	 *
 	 * @param why
 	 */
-	public CorruptObjectException(final String why) {
+	public CorruptObjectException(String why) {
 		super(why);
 	}
 
@@ -104,5 +126,16 @@ public class CorruptObjectException extends IOException {
 	public CorruptObjectException(String why, Throwable cause) {
 		super(why);
 		initCause(cause);
+	}
+
+	/**
+	 * Specific error condition identified by {@link ObjectChecker}.
+	 *
+	 * @return error condition or null.
+	 * @since 4.2
+	 */
+	@Nullable
+	public ObjectChecker.ErrorType getErrorType() {
+		return errorType;
 	}
 }
