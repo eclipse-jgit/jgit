@@ -1,0 +1,9 @@
+def git_version():
+  import subprocess
+  cmd = ['git', 'describe', '--always', '--match', 'v[0-9].*', '--dirty']
+  p = subprocess.Popen(cmd, stdout = subprocess.PIPE)
+  v = p.communicate()[0].strip()
+  r = p.returncode
+  if r != 0:
+    raise subprocess.CalledProcessError(r, ' '.join(cmd))
+  return v
