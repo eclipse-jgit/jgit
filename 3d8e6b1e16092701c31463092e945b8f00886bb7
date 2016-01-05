@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_cbb058c8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/InMemoryRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-05T22:03:20Z",
+      "side": 1,
+      "message": "Oops. Yes. That\u0027s true. I missed it in the implementation here.",
+      "parentUuid": "07d9433e_abf1548c",
+      "revId": "3d8e6b1e16092701c31463092e945b8f00886bb7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27d6470d_34f9288f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushProcess.java",
         "patchSetId": 2
