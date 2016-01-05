@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "07d9433e_abf1548c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/InMemoryRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2016-01-05T21:49:14Z",
+      "side": 1,
+      "message": "This doesn\u0027t work with the way Gerrit currently uses BatchRefUpdates. In some cases Gerrit will set the status on one of the commands in the batch to REJECTED_OTHER_REASON, but still attempt to execute the batch, under the assumption that the batch will fail.\n\nI think we need to add another loop before this one, which rejects all other ReceiveCommands if any of the input ReceiveCommands was rejected before execute() began.",
+      "revId": "3d8e6b1e16092701c31463092e945b8f00886bb7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27d6470d_34f9288f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushProcess.java",
         "patchSetId": 2
