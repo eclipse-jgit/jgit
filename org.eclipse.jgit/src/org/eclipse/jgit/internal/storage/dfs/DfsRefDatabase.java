@@ -262,6 +262,11 @@ public abstract class DfsRefDatabase extends RefDatabase {
 	}
 
 	@Override
+	public void refresh() {
+		clearCache();
+	}
+
+	@Override
 	public void close() {
 		clearCache();
 	}
