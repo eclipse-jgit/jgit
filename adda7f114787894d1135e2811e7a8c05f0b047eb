@@ -1,0 +1,487 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07d9433e_1cf60451",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-06T23:52:44Z",
+      "side": 1,
+      "message": "Move the \u0027why\u0027 before the \u0027what\u0027.\n\nAs for \"updating the tree in one step\", this simplifies that rather than enabling it, right? Also prefix with \"A RefTree can be used to...\".\n\nAdd a further explanation that a RefTree can be used to create a compact representation of an entire repository\u0027s state as a single SHA-1.",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 67
+      },
+      "revId": "adda7f114787894d1135e2811e7a8c05f0b047eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_3cf3c860",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/reftree/RefTreeTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-06T23:52:44Z",
+      "side": 1,
+      "message": "s/2015/2016/g",
+      "range": {
+        "startLine": 2,
+        "startChar": 20,
+        "endLine": 2,
+        "endChar": 21
+      },
+      "revId": "adda7f114787894d1135e2811e7a8c05f0b047eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_f7a41b05",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/reftree/RefTreeTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-06T23:52:44Z",
+      "side": 1,
+      "message": "Not changing the result status makes these tests highly unintuitive.",
+      "range": {
+        "startLine": 107,
+        "startChar": 0,
+        "endLine": 107,
+        "endChar": 45
+      },
+      "revId": "adda7f114787894d1135e2811e7a8c05f0b047eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_97890f7d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/reftree/RefTreeTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-06T23:52:44Z",
+      "side": 1,
+      "message": "Please add a positive test that applies updates in the right order.",
+      "range": {
+        "startLine": 179,
+        "startChar": 0,
+        "endLine": 179,
+        "endChar": 53
+      },
+      "revId": "adda7f114787894d1135e2811e7a8c05f0b047eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_dc065cd8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/reftree/RefTreeTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-06T23:52:44Z",
+      "side": 1,
+      "message": "This seems like a misuse of try-with-resources, since the RevWalk lives on in the returned Command object. It\u0027s probably better to expand the Command API for a new ctor that takes a Repository object so it can manage closing the RevWalk.",
+      "range": {
+        "startLine": 257,
+        "startChar": 0,
+        "endLine": 257,
+        "endChar": 40
+      },
+      "revId": "adda7f114787894d1135e2811e7a8c05f0b047eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_3c0e68ef",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-06T23:52:44Z",
+      "side": 1,
+      "message": "It clones the info too.",
+      "range": {
+        "startLine": 298,
+        "startChar": 43,
+        "endLine": 298,
+        "endChar": 61
+      },
+      "revId": "adda7f114787894d1135e2811e7a8c05f0b047eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_dc2d7c4a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/Command.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-06T23:52:44Z",
+      "side": 1,
+      "message": "2016",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 21
+      },
+      "revId": "adda7f114787894d1135e2811e7a8c05f0b047eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_177dffd4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/Command.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-06T23:52:44Z",
+      "side": 1,
+      "message": "More explanation of how this differs from ReceiveCommand is warranted. Isn\u0027t it only ever applies to RefTree\u0027s? Why would it ever wrap a ReceiveCommand?",
+      "range": {
+        "startLine": 69,
+        "startChar": 1,
+        "endLine": 69,
+        "endChar": 64
+      },
+      "revId": "adda7f114787894d1135e2811e7a8c05f0b047eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_377a03dd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/Command.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-06T23:52:44Z",
+      "side": 1,
+      "message": "Why NETWORK rather than NEW?",
+      "range": {
+        "startLine": 137,
+        "startChar": 37,
+        "endLine": 137,
+        "endChar": 44
+      },
+      "revId": "adda7f114787894d1135e2811e7a8c05f0b047eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_72b65927",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/Command.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-06T23:52:44Z",
+      "side": 1,
+      "message": "This was a bit confusing at first. A comment \"Checks that the current directory entry is consistent with either the old or the new ref\" would help.",
+      "range": {
+        "startLine": 242,
+        "startChar": 0,
+        "endLine": 242,
+        "endChar": 48
+      },
+      "revId": "adda7f114787894d1135e2811e7a8c05f0b047eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_3751235b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/Command.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-06T23:52:44Z",
+      "side": 1,
+      "message": "s/cur/ent/g or s/cur/entry/g to be consistent.",
+      "range": {
+        "startLine": 242,
+        "startChar": 42,
+        "endLine": 242,
+        "endChar": 45
+      },
+      "revId": "adda7f114787894d1135e2811e7a8c05f0b047eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_3714c34a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTree.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-06T23:52:44Z",
+      "side": 1,
+      "message": "2016",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 21
+      },
+      "revId": "adda7f114787894d1135e2811e7a8c05f0b047eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_97d58fe6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTree.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-06T23:52:44Z",
+      "side": 1,
+      "message": "Why this separate public method?  read(ObjectReader reader, RevTree tree) seems like the minimal API you need here.",
+      "range": {
+        "startLine": 193,
+        "startChar": 1,
+        "endLine": 193,
+        "endChar": 72
+      },
+      "revId": "adda7f114787894d1135e2811e7a8c05f0b047eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_b718d304",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTree.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-06T23:52:44Z",
+      "side": 1,
+      "message": "RefDatabase.exactRef() has a different semantic meaning--it means search for my input as the entire path, not using search paths.\n\nMaybe change this to \"resolvedRef()\" or \"peeledResolvedRef()\" if in JGit terminology, resolved only applies to symling resolution.",
+      "range": {
+        "startLine": 219,
+        "startChar": 12,
+        "endLine": 219,
+        "endChar": 20
+      },
+      "revId": "adda7f114787894d1135e2811e7a8c05f0b047eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_f7cb3bc6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTree.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-06T23:52:44Z",
+      "side": 1,
+      "message": "Can the chain ever be longer? Explain why in comments. I\u0027m assuming this is handling ..HEAD -\u003e HEAD -\u003e refs/\u003csomething\u003e. But I had to think about it for a while so spell out what this supports.",
+      "range": {
+        "startLine": 227,
+        "startChar": 0,
+        "endLine": 227,
+        "endChar": 56
+      },
+      "revId": "adda7f114787894d1135e2811e7a8c05f0b047eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_32ccd1ad",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTree.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-06T23:52:44Z",
+      "side": 1,
+      "message": "Can this be LOOSE? Does it matter?",
+      "range": {
+        "startLine": 229,
+        "startChar": 36,
+        "endLine": 229,
+        "endChar": 42
+      },
+      "revId": "adda7f114787894d1135e2811e7a8c05f0b047eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_52d87566",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTree.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-06T23:52:44Z",
+      "side": 1,
+      "message": "Can this be LOOSE? Does it matter?",
+      "range": {
+        "startLine": 244,
+        "startChar": 39,
+        "endLine": 244,
+        "endChar": 45
+      },
+      "revId": "adda7f114787894d1135e2811e7a8c05f0b047eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_b722935f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTree.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-06T23:52:44Z",
+      "side": 1,
+      "message": "Is returning a not-fully-resolved reference with no other status the right thing to do here? Is it better to fail with an IOException that states \"unsupported symlink depth\"?",
+      "range": {
+        "startLine": 262,
+        "startChar": 26,
+        "endLine": 262,
+        "endChar": 56
+      },
+      "revId": "adda7f114787894d1135e2811e7a8c05f0b047eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_57adc7f3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTree.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-06T23:52:44Z",
+      "side": 1,
+      "message": "This...seems like a bad thing. What is the justification?",
+      "range": {
+        "startLine": 279,
+        "startChar": 0,
+        "endLine": 281,
+        "endChar": 68
+      },
+      "revId": "adda7f114787894d1135e2811e7a8c05f0b047eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_3741230d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTree.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-06T23:52:44Z",
+      "side": 1,
+      "message": "s/c/cmd/ for consistency.",
+      "range": {
+        "startLine": 298,
+        "startChar": 16,
+        "endLine": 298,
+        "endChar": 18
+      },
+      "revId": "adda7f114787894d1135e2811e7a8c05f0b047eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_17925f28",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTree.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-06T23:52:44Z",
+      "side": 1,
+      "message": "Also null the reference to the reader.",
+      "range": {
+        "startLine": 454,
+        "startChar": 0,
+        "endLine": 454,
+        "endChar": 18
+      },
+      "revId": "adda7f114787894d1135e2811e7a8c05f0b047eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
