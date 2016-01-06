@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07d9433e_17a5ffb5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/InMemoryRepository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-01-06T20:17:22Z",
+      "side": 1,
+      "message": "From a quick glance at callers, (c.getResult() \u003d\u003d OK) is impossible. Anything else means the ref update was rejected. So lgtm.",
+      "range": {
+        "startLine": 313,
+        "startChar": 0,
+        "endLine": 313,
+        "endChar": 64
+      },
+      "revId": "4c9eda17bea2a5f9c2d4905d2a9e43cc832a432d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
