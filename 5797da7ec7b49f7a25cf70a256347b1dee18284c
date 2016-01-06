@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07d9433e_1cc9a44e",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/RebuildRefTree.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-06T23:53:50Z",
+      "side": 1,
+      "message": "Nit: slightly more idiomatic to combine these lines.",
+      "range": {
+        "startLine": 115,
+        "startChar": 0,
+        "endLine": 117,
+        "endChar": 27
+      },
+      "revId": "5797da7ec7b49f7a25cf70a256347b1dee18284c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
