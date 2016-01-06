@@ -1,0 +1,7 @@
+Code-Review+2: Jonathan Nieder <jrn@google.com>
+Verified+1: Shawn Pearce <spearce@spearce.org>
+Submitted-by: Shawn Pearce <spearce@spearce.org>
+Submitted-at: Wed, 06 Jan 2016 15:18:02 -0500
+Reviewed-on: https://git.eclipse.org/r/63671
+Project: jgit/jgit
+Branch: refs/heads/master
