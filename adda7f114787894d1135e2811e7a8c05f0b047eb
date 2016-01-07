@@ -215,6 +215,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_77300672",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/reftree/RefTreeTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-07T23:22:01Z",
+      "side": 1,
+      "message": "Good points. NOT_ATTEMPTED happened because once-upon-a-time we never thought we\u0027d retry anything. Or have multiple stages. And so NOT_ATTEMPTED got baked into a public API that we can\u0027t easily change now.\n\nIn hindsight that was all a bad thing. But we are stuck with it until at least JGit 5.0. And even then I\u0027m worried about breaking applications. Just adding isComplete() as a method is still going to cause some difficulties in Gerrit Code Review and other downstream code consuming this enum.",
+      "parentUuid": "07d9433e_f7d416b8",
+      "range": {
+        "startLine": 107,
+        "startChar": 0,
+        "endLine": 107,
+        "endChar": 45
+      },
+      "revId": "adda7f114787894d1135e2811e7a8c05f0b047eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_97890f7d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/reftree/RefTreeTest.java",
         "patchSetId": 8
@@ -792,6 +816,30 @@
       "side": 1,
       "message": "I\u0027m not thinking up \"new random constraints\". I\u0027m trying to understand the code be reading it in depth. And nothing in RefDatabase/DfsRefDatabase talks about getRef/exactRef returning peeled/unpeeled values, or how that depends on the underlying storage system. These fairly significant design principles that are not easily discoverable.\n\nThis code explicitly unpeels the reference whereas RefDatabase.exactRef() doesn\u0027t. From what you say it sounds like RefDatabase.exactRef() can return a unpeeled reference because it is just passing through whatever the underlying storage system provides.\n\nSo the two are not equivalent, although they share the same name. At a minimum, please add JavaDoc here that explains that this \"exactRef\" always returns resolve and peeled references.",
       "parentUuid": "07d9433e_d4f1d08b",
+      "range": {
+        "startLine": 219,
+        "startChar": 12,
+        "endLine": 219,
+        "endChar": 20
+      },
+      "revId": "adda7f114787894d1135e2811e7a8c05f0b047eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_b7e52e54",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTree.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-07T23:22:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_774c861d",
       "range": {
         "startLine": 219,
         "startChar": 12,
