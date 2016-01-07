@@ -191,6 +191,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_f7d416b8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/reftree/RefTreeTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-07T22:30:48Z",
+      "side": 1,
+      "message": "I already see a Google-internal case where setResult(NOT_ATTEMPTED) is used to retry a command. That is just a lie. From use cases I see NOT_ATTEMPTED is always NOT_COMPLETED. Calling something what it isn\u0027t is just plain confusing. I hate that kind of cognitive overhead.\n\nReceiveCommand.Result is public API so we can\u0027t just globally substitute everything. And I haven\u0027t yet seen the follow up patches to know what the intermediate states will be. If Command didn\u0027t try to reuse ReceiveCommand.Result then this wouldn\u0027t be an issue. But I can\u0027t tell yet whether that is a good decision.\n\nOnce the set of patches are in I want to revisit this. Creating a Result.isComplete() or similar method and using it in all the places where \"result \u003d\u003d NOT_ATTEMPTED\" is currently used may make sense.",
+      "parentUuid": "07d9433e_94f74881",
+      "range": {
+        "startLine": 107,
+        "startChar": 0,
+        "endLine": 107,
+        "endChar": 45
+      },
+      "revId": "adda7f114787894d1135e2811e7a8c05f0b047eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_97890f7d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/reftree/RefTreeTest.java",
         "patchSetId": 8
@@ -756,6 +780,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_774c861d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTree.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-07T22:30:48Z",
+      "side": 1,
+      "message": "I\u0027m not thinking up \"new random constraints\". I\u0027m trying to understand the code be reading it in depth. And nothing in RefDatabase/DfsRefDatabase talks about getRef/exactRef returning peeled/unpeeled values, or how that depends on the underlying storage system. These fairly significant design principles that are not easily discoverable.\n\nThis code explicitly unpeels the reference whereas RefDatabase.exactRef() doesn\u0027t. From what you say it sounds like RefDatabase.exactRef() can return a unpeeled reference because it is just passing through whatever the underlying storage system provides.\n\nSo the two are not equivalent, although they share the same name. At a minimum, please add JavaDoc here that explains that this \"exactRef\" always returns resolve and peeled references.",
+      "parentUuid": "07d9433e_d4f1d08b",
+      "range": {
+        "startLine": 219,
+        "startChar": 12,
+        "endLine": 219,
+        "endChar": 20
+      },
+      "revId": "adda7f114787894d1135e2811e7a8c05f0b047eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_f7cb3bc6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTree.java",
         "patchSetId": 8
@@ -839,6 +887,30 @@
       "side": 1,
       "message": "Its resolved at storage time not at read time.\n\nIn your example \"tag M2 -\u003e tag M1 -\u003e commit M\" the peeled id for tag M2 is always M. It skips over tag M1.\n\nIn RefTree code that happens automatically inside the Command constructor. RevWalk.peel(RevObject) uses a loop to walk the chain of tags to the terminal non-tag and returns that non-tag (e.g. M). And we store M in the RefTree under \"M2^{}\".",
       "parentUuid": "07d9433e_b40d2c79",
+      "range": {
+        "startLine": 227,
+        "startChar": 0,
+        "endLine": 227,
+        "endChar": 56
+      },
+      "revId": "adda7f114787894d1135e2811e7a8c05f0b047eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_b7460ef9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTree.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-07T22:30:48Z",
+      "side": 1,
+      "message": "Ok, thanks for the explanation.",
+      "parentUuid": "07d9433e_54ddc0fe",
       "range": {
         "startLine": 227,
         "startChar": 0,
