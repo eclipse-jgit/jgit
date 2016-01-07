@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07d9433e_d4c0f076",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTree.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-07T16:45:42Z",
+      "side": 1,
+      "message": "Add a comment: Limit the depth of symbolic ref dereferencing to avoid cycles, but resolve at this depth to allow cleanup of bad symrefs.\n\nNit: Also, reorder the variables public/package private/private.\n\nWhy not define in terms of RefDatabase.MAX_SYMBOLIC_REF_DEPTH? In this context the constant should result in a valid reference, whereas that constant claims \"If the reference is nested deeper than this depth, the implementation should either fail, or at least claim the reference does not exist.\" If that isn\u0027t actually true then that JavaDoc should get updated and the constant used directly.",
+      "range": {
+        "startLine": 107,
+        "startChar": 0,
+        "endLine": 107,
+        "endChar": 53
+      },
+      "revId": "a8e9bebd38e7d2f4a683b3670a4fa0c63d0d4002",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
