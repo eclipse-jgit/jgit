@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_74f2c493",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-07T17:52:22Z",
+      "side": 1,
+      "message": "I didn\u0027t understand what you wanted from me, so I was going to ask you in person today. But sounds like we have to figure it out over computer.",
+      "parentUuid": "07d9433e_11a8aa0e",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 67
+      },
+      "revId": "adda7f114787894d1135e2811e7a8c05f0b047eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_3cf3c860",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/reftree/RefTreeTest.java",
         "patchSetId": 8
@@ -131,6 +155,30 @@
       "side": 1,
       "message": "If this is part of a multi-stage operation, then \"NOT_ATTEMPTED\" is a misnomer. It should be \"NOT_COMPLETED\". What state is important to know? Is it only whether no part the multi-stage operation has occurred? If so then NOT_ATTEMPTED is the right name. Is it only that the multi-stage operation is not complete? Then NOT_COMPLETED. Is it important to know whether some checkpoint in the multi-stage operation has been reached? Then you need additional status.",
       "parentUuid": "07d9433e_f27ee989",
+      "range": {
+        "startLine": 107,
+        "startChar": 0,
+        "endLine": 107,
+        "endChar": 45
+      },
+      "revId": "adda7f114787894d1135e2811e7a8c05f0b047eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_94f74881",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/reftree/RefTreeTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-07T17:52:22Z",
+      "side": 1,
+      "message": "I really really do not want to add another value to the status enum. That\u0027s going to ripple out in some very nasty ways as NOT_ATTEMPTED and NOT_COMPLETED need to be handled the same way in a lot of places.",
+      "parentUuid": "07d9433e_111a6afa",
       "range": {
         "startLine": 107,
         "startChar": 0,
@@ -684,6 +732,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_d4f1d08b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTree.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-07T17:52:22Z",
+      "side": 1,
+      "message": "It does peel. It depends on the storage system.\n\nIn $DAY_JOB\u0027s version of DfsRefDatabase every reference is always stored fully peeled. So $DAY_JOB\u0027s DfsRefDatbase.exactRef) always returns a peeled value. It never returns an unpeeled value. Yet we don\u0027t produce unpeeled data there and we don\u0027t add an exactPeeledRef method.\n\nIn RefDirectory it depends on the storage type. If the ref was found in the packed-refs file *and* that file has the with-peeled annotation, every ref in the file is already peeled. If a ref is found in the packed-refs file by RefDirectory.exactRef() the result is peeled. It doesn\u0027t unpeel the result to satisfy some new random constraint you thought up. And RefDirectory certainly doesn\u0027t have a exactPeeledRef for the same.\n\nSo no.",
+      "parentUuid": "07d9433e_14e978f3",
+      "range": {
+        "startLine": 219,
+        "startChar": 12,
+        "endLine": 219,
+        "endChar": 20
+      },
+      "revId": "adda7f114787894d1135e2811e7a8c05f0b047eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_f7cb3bc6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTree.java",
         "patchSetId": 8
@@ -743,6 +815,30 @@
       "side": 1,
       "message": "I\u0027m thinking of the case where tag M2 -\u003e tag M1 -\u003e commit M. IIRC I\u0027ve seen places where peeling is done recursively.",
       "parentUuid": "07d9433e_12a50db6",
+      "range": {
+        "startLine": 227,
+        "startChar": 0,
+        "endLine": 227,
+        "endChar": 56
+      },
+      "revId": "adda7f114787894d1135e2811e7a8c05f0b047eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_54ddc0fe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTree.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-07T17:52:22Z",
+      "side": 1,
+      "message": "Its resolved at storage time not at read time.\n\nIn your example \"tag M2 -\u003e tag M1 -\u003e commit M\" the peeled id for tag M2 is always M. It skips over tag M1.\n\nIn RefTree code that happens automatically inside the Command constructor. RevWalk.peel(RevObject) uses a loop to walk the chain of tags to the terminal non-tag and returns that non-tag (e.g. M). And we store M in the RefTree under \"M2^{}\".",
+      "parentUuid": "07d9433e_b40d2c79",
       "range": {
         "startLine": 227,
         "startChar": 0,
@@ -1097,6 +1193,30 @@
       "side": 1,
       "message": "On my first reading (but at this point the current Gerrit scrolling bugs are killing me) it appeared that the reader is only initialized in the ctor and never reopened, so in the context of this class you can\u0027t reuse it. Not setting the reference null here leaves a dangling reference. Given that you will initialize/load a RefTree and then likely keep it around for a long time, this seems bad.",
       "parentUuid": "07d9433e_d281e508",
+      "range": {
+        "startLine": 454,
+        "startChar": 0,
+        "endLine": 454,
+        "endChar": 18
+      },
+      "revId": "adda7f114787894d1135e2811e7a8c05f0b047eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_b4a7ec91",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTree.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-07T17:52:22Z",
+      "side": 1,
+      "message": "Ok. I\u0027ll rewrite this class to force the caller to alway pass in an ObjectReader since you don\u0027t like it being a property.",
+      "parentUuid": "07d9433e_f46894ea",
       "range": {
         "startLine": 454,
         "startChar": 0,
