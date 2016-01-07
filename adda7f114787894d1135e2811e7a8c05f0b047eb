@@ -71,6 +71,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_f27ee989",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/reftree/RefTreeTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-07T04:27:55Z",
+      "side": 1,
+      "message": "Noted, but I think its the right thing to do in the larger context of what we are attempting.\n\nIf I make this OK here, I\u0027m just going to have to come back in another 5 or 10 commits and change it to NOT_ATTEMPTED.",
+      "parentUuid": "07d9433e_f7a41b05",
+      "range": {
+        "startLine": 107,
+        "startChar": 0,
+        "endLine": 107,
+        "endChar": 45
+      },
+      "revId": "adda7f114787894d1135e2811e7a8c05f0b047eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_97890f7d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/reftree/RefTreeTest.java",
         "patchSetId": 8
@@ -82,6 +106,30 @@
       "writtenOn": "2016-01-06T23:52:44Z",
       "side": 1,
       "message": "Please add a positive test that applies updates in the right order.",
+      "range": {
+        "startLine": 179,
+        "startChar": 0,
+        "endLine": 179,
+        "endChar": 53
+      },
+      "revId": "adda7f114787894d1135e2811e7a8c05f0b047eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_127c2d90",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/reftree/RefTreeTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-07T04:27:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_97890f7d",
       "range": {
         "startLine": 179,
         "startChar": 0,
@@ -117,6 +165,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_327931a0",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/reftree/RefTreeTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-07T04:27:55Z",
+      "side": 1,
+      "message": "No it doesn\u0027t live. Its just used in the constructor.",
+      "parentUuid": "07d9433e_dc065cd8",
+      "range": {
+        "startLine": 257,
+        "startChar": 0,
+        "endLine": 257,
+        "endChar": 40
+      },
+      "revId": "adda7f114787894d1135e2811e7a8c05f0b047eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_3c0e68ef",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
         "patchSetId": 8
@@ -128,6 +200,30 @@
       "writtenOn": "2016-01-06T23:52:44Z",
       "side": 1,
       "message": "It clones the info too.",
+      "range": {
+        "startLine": 298,
+        "startChar": 43,
+        "endLine": 298,
+        "endChar": 61
+      },
+      "revId": "adda7f114787894d1135e2811e7a8c05f0b047eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_92367d0b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-07T04:27:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_3c0e68ef",
       "range": {
         "startLine": 298,
         "startChar": 43,
@@ -163,6 +259,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_b23b81f3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/Command.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-07T04:27:55Z",
+      "side": 1,
+      "message": "And this is why I hate JGit at Eclipse.\n\nThe code was written and first published in 2015. But sure we can update the date to 2016 because now its 2016.\n\nDone.",
+      "parentUuid": "07d9433e_dc2d7c4a",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 21
+      },
+      "revId": "adda7f114787894d1135e2811e7a8c05f0b047eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_177dffd4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/Command.java",
         "patchSetId": 8
@@ -186,6 +306,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_d24f258c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/Command.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-07T04:27:55Z",
+      "side": 1,
+      "message": "I tried expanding on the Javadoc here.\n\nThe ReceiveCommand stuff isn\u0027t useful much here, its mostly for a future commit you haven\u0027t seen yet. But it was easier to define the wrapping constructor in this commit.",
+      "parentUuid": "07d9433e_177dffd4",
+      "range": {
+        "startLine": 69,
+        "startChar": 1,
+        "endLine": 69,
+        "endChar": 64
+      },
+      "revId": "adda7f114787894d1135e2811e7a8c05f0b047eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_377a03dd",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/Command.java",
         "patchSetId": 8
@@ -197,6 +341,30 @@
       "writtenOn": "2016-01-06T23:52:44Z",
       "side": 1,
       "message": "Why NETWORK rather than NEW?",
+      "range": {
+        "startLine": 137,
+        "startChar": 37,
+        "endLine": 137,
+        "endChar": 44
+      },
+      "revId": "adda7f114787894d1135e2811e7a8c05f0b047eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_124a6d7b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/Command.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-07T04:27:55Z",
+      "side": 1,
+      "message": "It doesn\u0027t actually matter. NETWORK, NEW, PACKED, LOOSE... the storage here is ignored.\n\nI used NETWORK because its probably a ReceiveCommand that came in from a git push client over the network that caused this Command to be created and processed. Really loose relationship there. :)  But the storage is irrelevant, and unfortunately required by the constructors.",
+      "parentUuid": "07d9433e_377a03dd",
       "range": {
         "startLine": 137,
         "startChar": 37,
@@ -255,6 +423,54 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_52a795c4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/Command.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-07T04:27:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_3751235b",
+      "range": {
+        "startLine": 242,
+        "startChar": 42,
+        "endLine": 242,
+        "endChar": 45
+      },
+      "revId": "adda7f114787894d1135e2811e7a8c05f0b047eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_32477173",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/Command.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-07T04:27:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_72b65927",
+      "range": {
+        "startLine": 242,
+        "startChar": 0,
+        "endLine": 242,
+        "endChar": 48
+      },
+      "revId": "adda7f114787894d1135e2811e7a8c05f0b047eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_3714c34a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTree.java",
         "patchSetId": 8
@@ -266,6 +482,30 @@
       "writtenOn": "2016-01-06T23:52:44Z",
       "side": 1,
       "message": "2016",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 21
+      },
+      "revId": "adda7f114787894d1135e2811e7a8c05f0b047eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_72ac99a8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTree.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-07T04:27:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_3714c34a",
       "range": {
         "startLine": 2,
         "startChar": 17,
@@ -301,6 +541,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_92b11dfe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTree.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-07T04:27:55Z",
+      "side": 1,
+      "message": "Done\n\nThis was patterned after NoteMap, which offers many overloads for reading. Maybe that is overkill. I only had a couple of call sites impacted and only 1 unit test now had more work to do than before.\n\nIn general for low-level types in JGit like this I try to accept AnyObjectId where I can and where its \"clear\" the type is going to be correct because it avoids unnecessary overhead of making a RevWalk object pool to allocate a RevTree or whatever just to assert type.\n\nBut I think in most places we are using a RefTree we are getting it based on a commit SHA-1. Which means we need to parse the commit object to get its tree header. And the fastest way to do that today in JGit is use a RevWalk, which will give you a RevTree.",
+      "parentUuid": "07d9433e_97d58fe6",
+      "range": {
+        "startLine": 193,
+        "startChar": 1,
+        "endLine": 193,
+        "endChar": 72
+      },
+      "revId": "adda7f114787894d1135e2811e7a8c05f0b047eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_b718d304",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTree.java",
         "patchSetId": 8
@@ -312,6 +576,30 @@
       "writtenOn": "2016-01-06T23:52:44Z",
       "side": 1,
       "message": "RefDatabase.exactRef() has a different semantic meaning--it means search for my input as the entire path, not using search paths.\n\nMaybe change this to \"resolvedRef()\" or \"peeledResolvedRef()\" if in JGit terminology, resolved only applies to symling resolution.",
+      "range": {
+        "startLine": 219,
+        "startChar": 12,
+        "endLine": 219,
+        "endChar": 20
+      },
+      "revId": "adda7f114787894d1135e2811e7a8c05f0b047eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_f297c94f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTree.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-07T04:27:55Z",
+      "side": 1,
+      "message": "But this exactRef is doing the same thing. It reads the input you give it, and only that input. There\u0027s no search path here.",
+      "parentUuid": "07d9433e_b718d304",
       "range": {
         "startLine": 219,
         "startChar": 12,
@@ -347,6 +635,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_12a50db6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTree.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-07T04:27:55Z",
+      "side": 1,
+      "message": "No, you misunderstood the code. Peeled is a tag\u0027s object, it can be only 1 value.\n\nYou are thinking about the isSymbolic() case above on line 224. We handle up to 5 levels using recursion. 5 is a magic number hardcoded limit because anything more is batshit insane.",
+      "parentUuid": "07d9433e_f7cb3bc6",
+      "range": {
+        "startLine": 227,
+        "startChar": 0,
+        "endLine": 227,
+        "endChar": 56
+      },
+      "revId": "adda7f114787894d1135e2811e7a8c05f0b047eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_32ccd1ad",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTree.java",
         "patchSetId": 8
@@ -358,6 +670,30 @@
       "writtenOn": "2016-01-06T23:52:44Z",
       "side": 1,
       "message": "Can this be LOOSE? Does it matter?",
+      "range": {
+        "startLine": 229,
+        "startChar": 36,
+        "endLine": 229,
+        "endChar": 42
+      },
+      "revId": "adda7f114787894d1135e2811e7a8c05f0b047eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_32a211ae",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTree.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-07T04:27:55Z",
+      "side": 1,
+      "message": "Doesn\u0027t matter. LOOSE vs. PACKED are hints for RefDirectory that leaked into the API years ago and is a fixture in the API but is irrelevant for other implementations like this one.\n\nI use PACKED here because semantically this is more like PACKED than LOOSE. Editing a PACKED reference may require writing more than one reference to make the change, as several things share a single storage file. Similar here, several refs may share the same tree object.",
+      "parentUuid": "07d9433e_32ccd1ad",
       "range": {
         "startLine": 229,
         "startChar": 36,
@@ -393,6 +729,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_528eb53e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTree.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-07T04:27:55Z",
+      "side": 1,
+      "message": "Doesn\u0027t matter, see above why I prefer PACKED.",
+      "parentUuid": "07d9433e_52d87566",
+      "range": {
+        "startLine": 244,
+        "startChar": 39,
+        "endLine": 244,
+        "endChar": 45
+      },
+      "revId": "adda7f114787894d1135e2811e7a8c05f0b047eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_b722935f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTree.java",
         "patchSetId": 8
@@ -404,6 +764,30 @@
       "writtenOn": "2016-01-06T23:52:44Z",
       "side": 1,
       "message": "Is returning a not-fully-resolved reference with no other status the right thing to do here? Is it better to fail with an IOException that states \"unsupported symlink depth\"?",
+      "range": {
+        "startLine": 262,
+        "startChar": 26,
+        "endLine": 262,
+        "endChar": 56
+      },
+      "revId": "adda7f114787894d1135e2811e7a8c05f0b047eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_7293b961",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTree.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-07T04:27:55Z",
+      "side": 1,
+      "message": "No. In other commits we\u0027ll need exactRef() above to give us a close approximation to the current reference in order to handle update computations.\n\nIf a ref is too deeply nested we need to still be able to read at least part of its path so we can construct a Command to delete it.\n\nSo this check just keeps us from recursing forever. If its too long of a chain we return what we know. Its good enough.\n\nThrowing would be disastrous here as we wouldn\u0027t be able to read a broken reference in order to prepare an update to remove the broken reference.",
+      "parentUuid": "07d9433e_b722935f",
       "range": {
         "startLine": 262,
         "startChar": 26,
@@ -439,6 +823,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_92883d30",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTree.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-07T04:27:55Z",
+      "side": 1,
+      "message": "Future commits need to do more work after asking the RefTree to update itself with the ref.\n\nThat future work may take time.\nThat future work may still fail for other reasons.\n\nSo we leave the status alone here on success.\nCaller (and that future work) will need to set the success case.",
+      "parentUuid": "07d9433e_57adc7f3",
+      "range": {
+        "startLine": 279,
+        "startChar": 0,
+        "endLine": 281,
+        "endChar": 68
+      },
+      "revId": "adda7f114787894d1135e2811e7a8c05f0b047eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_3741230d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTree.java",
         "patchSetId": 8
@@ -462,6 +870,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_b28d4140",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTree.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-07T04:27:55Z",
+      "side": 1,
+      "message": "Done, but I had used c here to avoid line wrapping.",
+      "parentUuid": "07d9433e_3741230d",
+      "range": {
+        "startLine": 298,
+        "startChar": 16,
+        "endLine": 298,
+        "endChar": 18
+      },
+      "revId": "adda7f114787894d1135e2811e7a8c05f0b047eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_17925f28",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTree.java",
         "patchSetId": 8
@@ -473,6 +905,30 @@
       "writtenOn": "2016-01-06T23:52:44Z",
       "side": 1,
       "message": "Also null the reference to the reader.",
+      "range": {
+        "startLine": 454,
+        "startChar": 0,
+        "endLine": 454,
+        "endChar": 18
+      },
+      "revId": "adda7f114787894d1135e2811e7a8c05f0b047eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_d281e508",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTree.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-07T04:27:55Z",
+      "side": 1,
+      "message": "No, we almost never do that.  A reader can be reused and restarted and just closed again.",
+      "parentUuid": "07d9433e_17925f28",
       "range": {
         "startLine": 454,
         "startChar": 0,
