@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_11a8aa0e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-07T16:47:30Z",
+      "side": 1,
+      "message": "Ping.",
+      "parentUuid": "07d9433e_1cf60451",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 67
+      },
+      "revId": "adda7f114787894d1135e2811e7a8c05f0b047eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_3cf3c860",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/reftree/RefTreeTest.java",
         "patchSetId": 8
@@ -83,6 +107,30 @@
       "side": 1,
       "message": "Noted, but I think its the right thing to do in the larger context of what we are attempting.\n\nIf I make this OK here, I\u0027m just going to have to come back in another 5 or 10 commits and change it to NOT_ATTEMPTED.",
       "parentUuid": "07d9433e_f7a41b05",
+      "range": {
+        "startLine": 107,
+        "startChar": 0,
+        "endLine": 107,
+        "endChar": 45
+      },
+      "revId": "adda7f114787894d1135e2811e7a8c05f0b047eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_111a6afa",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/reftree/RefTreeTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-07T16:47:30Z",
+      "side": 1,
+      "message": "If this is part of a multi-stage operation, then \"NOT_ATTEMPTED\" is a misnomer. It should be \"NOT_COMPLETED\". What state is important to know? Is it only whether no part the multi-stage operation has occurred? If so then NOT_ATTEMPTED is the right name. Is it only that the multi-stage operation is not complete? Then NOT_COMPLETED. Is it important to know whether some checkpoint in the multi-stage operation has been reached? Then you need additional status.",
+      "parentUuid": "07d9433e_f27ee989",
       "range": {
         "startLine": 107,
         "startChar": 0,
@@ -612,6 +660,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_14e978f3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTree.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-07T16:47:30Z",
+      "side": 1,
+      "message": "Ok, but RefDatabase.exactRef() doesn\u0027t doesn\u0027t appear to peel the reference, so this should be extractPeeledRef().",
+      "parentUuid": "07d9433e_f297c94f",
+      "range": {
+        "startLine": 219,
+        "startChar": 12,
+        "endLine": 219,
+        "endChar": 20
+      },
+      "revId": "adda7f114787894d1135e2811e7a8c05f0b047eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_f7cb3bc6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTree.java",
         "patchSetId": 8
@@ -647,6 +719,30 @@
       "side": 1,
       "message": "No, you misunderstood the code. Peeled is a tag\u0027s object, it can be only 1 value.\n\nYou are thinking about the isSymbolic() case above on line 224. We handle up to 5 levels using recursion. 5 is a magic number hardcoded limit because anything more is batshit insane.",
       "parentUuid": "07d9433e_f7cb3bc6",
+      "range": {
+        "startLine": 227,
+        "startChar": 0,
+        "endLine": 227,
+        "endChar": 56
+      },
+      "revId": "adda7f114787894d1135e2811e7a8c05f0b047eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_b40d2c79",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTree.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-07T16:47:30Z",
+      "side": 1,
+      "message": "I\u0027m thinking of the case where tag M2 -\u003e tag M1 -\u003e commit M. IIRC I\u0027ve seen places where peeling is done recursively.",
+      "parentUuid": "07d9433e_12a50db6",
       "range": {
         "startLine": 227,
         "startChar": 0,
@@ -800,6 +896,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_d412b092",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTree.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-07T16:47:30Z",
+      "side": 1,
+      "message": "More comments on the MAX_SYMBOLIC_REF_DEPTH line above.",
+      "parentUuid": "07d9433e_7293b961",
+      "range": {
+        "startLine": 262,
+        "startChar": 26,
+        "endLine": 262,
+        "endChar": 56
+      },
+      "revId": "adda7f114787894d1135e2811e7a8c05f0b047eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_57adc7f3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTree.java",
         "patchSetId": 8
@@ -835,6 +955,30 @@
       "side": 1,
       "message": "Future commits need to do more work after asking the RefTree to update itself with the ref.\n\nThat future work may take time.\nThat future work may still fail for other reasons.\n\nSo we leave the status alone here on success.\nCaller (and that future work) will need to set the success case.",
       "parentUuid": "07d9433e_57adc7f3",
+      "range": {
+        "startLine": 279,
+        "startChar": 0,
+        "endLine": 281,
+        "endChar": 68
+      },
+      "revId": "adda7f114787894d1135e2811e7a8c05f0b047eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_54fea0a1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTree.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-07T16:47:30Z",
+      "side": 1,
+      "message": "Then status should be \"NOT_COMPLETE\".",
+      "parentUuid": "07d9433e_92883d30",
       "range": {
         "startLine": 279,
         "startChar": 0,
@@ -929,6 +1073,30 @@
       "side": 1,
       "message": "No, we almost never do that.  A reader can be reused and restarted and just closed again.",
       "parentUuid": "07d9433e_17925f28",
+      "range": {
+        "startLine": 454,
+        "startChar": 0,
+        "endLine": 454,
+        "endChar": 18
+      },
+      "revId": "adda7f114787894d1135e2811e7a8c05f0b047eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_f46894ea",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTree.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-07T16:47:30Z",
+      "side": 1,
+      "message": "On my first reading (but at this point the current Gerrit scrolling bugs are killing me) it appeared that the reader is only initialized in the ctor and never reopened, so in the context of this class you can\u0027t reuse it. Not setting the reference null here leaves a dangling reference. Given that you will initialize/load a RefTree and then likely keep it around for a long time, this seems bad.",
+      "parentUuid": "07d9433e_d281e508",
       "range": {
         "startLine": 454,
         "startChar": 0,
