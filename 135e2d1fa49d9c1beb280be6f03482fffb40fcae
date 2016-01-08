@@ -1,0 +1,510 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07d9433e_463b5250",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/Batch.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-08T23:09:45Z",
+      "side": 1,
+      "message": "s/parentId/parentCommitId/",
+      "range": {
+        "startLine": 188,
+        "startChar": 3,
+        "endLine": 188,
+        "endChar": 11
+      },
+      "revId": "135e2d1fa49d9c1beb280be6f03482fffb40fcae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_c69da2ed",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/Batch.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-08T23:09:45Z",
+      "side": 1,
+      "message": "Nit: For symmetry with the \"if\" clause move this below parentTree.",
+      "range": {
+        "startLine": 192,
+        "startChar": 0,
+        "endLine": 192,
+        "endChar": 33
+      },
+      "revId": "135e2d1fa49d9c1beb280be6f03482fffb40fcae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_a6e5fe53",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/Batch.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-08T23:09:45Z",
+      "side": 1,
+      "message": "Why a 2nd statusless execute function? It doesn\u0027t have any of the safety in the overridden execute() above.",
+      "range": {
+        "startLine": 204,
+        "startChar": 0,
+        "endLine": 204,
+        "endChar": 66
+      },
+      "revId": "135e2d1fa49d9c1beb280be6f03482fffb40fcae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_06414abe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/Batch.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-08T23:09:45Z",
+      "side": 1,
+      "message": "ObjectInserter appears to never return null. Are the \"nextId !\u003d null\" checks above really needed?\n\nAlso, initially I thought \"nextId\" infered some kind of iteration. \"newCommitId\" makes this more readable, IMHO.",
+      "range": {
+        "startLine": 237,
+        "startChar": 0,
+        "endLine": 237,
+        "endChar": 26
+      },
+      "revId": "135e2d1fa49d9c1beb280be6f03482fffb40fcae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_fab07bc7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTreeDb.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-08T23:09:45Z",
+      "side": 1,
+      "message": "@since required for non-API? There are only ~12 @since in the jgit/internal/storage packages.",
+      "range": {
+        "startLine": 77,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 13
+      },
+      "revId": "135e2d1fa49d9c1beb280be6f03482fffb40fcae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_2b3e1742",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTreeDb.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-08T23:09:45Z",
+      "side": 1,
+      "message": "All other RefDatabase- and ObjectDatabase-derived classes have the fully expanded \"Database\" suffix, so consider doing the same here.",
+      "range": {
+        "startLine": 79,
+        "startChar": 13,
+        "endLine": 79,
+        "endChar": 22
+      },
+      "revId": "135e2d1fa49d9c1beb280be6f03482fffb40fcae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_fa979b18",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTreeDb.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-08T23:09:45Z",
+      "side": 1,
+      "message": "Undefined at this point. Explain how this RefDatabase is layered upon a \"bootstrap\" database in the class JavaDoc, e.g.,:\nThe storage for RefTreeDatabase has two parts. The main part is a native Git tree object stored under the {@code refs/txn} namespace. To avoid cycles, references to {@code refs/txn} are not stored in that tree object, but instead in a \"bootstrap\" layer, which is a separate RefDatabase.",
+      "range": {
+        "startLine": 83,
+        "startChar": 41,
+        "endLine": 83,
+        "endChar": 57
+      },
+      "revId": "135e2d1fa49d9c1beb280be6f03482fffb40fcae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_ebceefd8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTreeDb.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-08T23:09:45Z",
+      "side": 1,
+      "message": "This defines how a RefTreeDb handles references to the bootstrap layer. The bootstrap DB itself is passive so BootstrapBehavior isn\u0027t quite right. Maybe rename this \"Layering\" so comparisons can be \"if (layering \u003d\u003d SHOW_ALL || layering \u003d\u003d HIDE_REFS_TXN || layering \u003d\u003d REJECT_REFS_TXN)\"",
+      "range": {
+        "startLine": 84,
+        "startChar": 13,
+        "endLine": 84,
+        "endChar": 30
+      },
+      "revId": "135e2d1fa49d9c1beb280be6f03482fffb40fcae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_8be00344",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTreeDb.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-08T23:09:45Z",
+      "side": 1,
+      "message": "s/.../and reject updates in its namespace/",
+      "range": {
+        "startLine": 95,
+        "startChar": 30,
+        "endLine": 95,
+        "endChar": 63
+      },
+      "revId": "135e2d1fa49d9c1beb280be6f03482fffb40fcae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_6bdbbf9b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTreeDb.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-08T23:09:45Z",
+      "side": 1,
+      "message": "s/However updates/Updates/",
+      "range": {
+        "startLine": 98,
+        "startChar": 30,
+        "endLine": 98,
+        "endChar": 45
+      },
+      "revId": "135e2d1fa49d9c1beb280be6f03482fffb40fcae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_abfce7e5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTreeDb.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-08T23:09:45Z",
+      "side": 1,
+      "message": "The motivation for this isn\u0027t clear yet.",
+      "range": {
+        "startLine": 109,
+        "startChar": 47,
+        "endLine": 111,
+        "endChar": 20
+      },
+      "revId": "135e2d1fa49d9c1beb280be6f03482fffb40fcae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_7a9d4b46",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/Rename.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-08T23:09:45Z",
+      "side": 1,
+      "message": "Please change to \"src\", \"dst\" to match RefRename\u0027s ctor.",
+      "range": {
+        "startLine": 67,
+        "startChar": 25,
+        "endLine": 67,
+        "endChar": 49
+      },
+      "revId": "135e2d1fa49d9c1beb280be6f03482fffb40fcae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_baa7d391",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/Rename.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-08T23:09:45Z",
+      "side": 1,
+      "message": "s/o/src/",
+      "range": {
+        "startLine": 101,
+        "startChar": 13,
+        "endLine": 101,
+        "endChar": 25
+      },
+      "revId": "135e2d1fa49d9c1beb280be6f03482fffb40fcae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_662056a4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/Scanner.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-08T23:09:45Z",
+      "side": 1,
+      "message": "In Javadoc, classes are nouns. This uses a verb phrase, which is appropriate for method Javadoc. So \"A tree parser that extracts the list of references from a {@link RefTree}.\"",
+      "range": {
+        "startLine": 74,
+        "startChar": 4,
+        "endLine": 74,
+        "endChar": 27
+      },
+      "revId": "135e2d1fa49d9c1beb280be6f03482fffb40fcae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_6655b625",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/Scanner.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-08T23:09:45Z",
+      "side": 1,
+      "message": "It builds a Scanner.Result object that contains the list of references in the tree.",
+      "range": {
+        "startLine": 74,
+        "startChar": 46,
+        "endLine": 74,
+        "endChar": 53
+      },
+      "revId": "135e2d1fa49d9c1beb280be6f03482fffb40fcae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_a60dfe78",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/Scanner.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-08T23:09:45Z",
+      "side": 1,
+      "message": "More explicit as \"refTreeId\"?",
+      "range": {
+        "startLine": 81,
+        "startChar": 17,
+        "endLine": 81,
+        "endChar": 19
+      },
+      "revId": "135e2d1fa49d9c1beb280be6f03482fffb40fcae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_a636de0a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/Scanner.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-08T23:09:45Z",
+      "side": 1,
+      "message": "Javadoc for these parameters would be helpful.",
+      "range": {
+        "startLine": 92,
+        "startChar": 0,
+        "endLine": 93,
+        "endChar": 36
+      },
+      "revId": "135e2d1fa49d9c1beb280be6f03482fffb40fcae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_86ac7aa9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/Scanner.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-08T23:09:45Z",
+      "side": 1,
+      "message": "Seems like we should have a Paths.stripTrailingSeparator() utility method somewhere.",
+      "range": {
+        "startLine": 168,
+        "startChar": 0,
+        "endLine": 171,
+        "endChar": 3
+      },
+      "revId": "135e2d1fa49d9c1beb280be6f03482fffb40fcae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_4614324b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/Scanner.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-08T23:09:45Z",
+      "side": 1,
+      "message": "CanonicalTreeParser is an AbstractTreeIterator. curElementHasPeelSuffix(Parser|Iterator) reads easier.",
+      "range": {
+        "startLine": 207,
+        "startChar": 24,
+        "endLine": 207,
+        "endChar": 36
+      },
+      "revId": "135e2d1fa49d9c1beb280be6f03482fffb40fcae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_a6d5fee5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/Update.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-08T23:09:45Z",
+      "side": 1,
+      "message": "\"Update\" is pretty generic. Subclasses are more specific, so maybe \"RefTreeUpdate\"?",
+      "range": {
+        "startLine": 67,
+        "startChar": 6,
+        "endLine": 67,
+        "endChar": 12
+      },
+      "revId": "135e2d1fa49d9c1beb280be6f03482fffb40fcae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_e6be26ab",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/Update.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-08T23:09:45Z",
+      "side": 1,
+      "message": "s/result/desiredResult/",
+      "range": {
+        "startLine": 134,
+        "startChar": 9,
+        "endLine": 134,
+        "endChar": 15
+      },
+      "revId": "135e2d1fa49d9c1beb280be6f03482fffb40fcae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_26cbaeb8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/Update.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-08T23:09:45Z",
+      "side": 1,
+      "message": "Seems like this would be useful in the base RefUpdate class.",
+      "range": {
+        "startLine": 153,
+        "startChar": 0,
+        "endLine": 153,
+        "endChar": 73
+      },
+      "revId": "135e2d1fa49d9c1beb280be6f03482fffb40fcae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
