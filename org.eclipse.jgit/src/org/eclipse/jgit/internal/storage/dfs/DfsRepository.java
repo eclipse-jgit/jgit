@@ -107,7 +107,7 @@ public abstract class DfsRepository extends Repository {
 
 	/** {@inheritDoc} */
 	@Override
-	public void create(boolean bare) throws IOException {
+	public void create() throws IOException {
 		if (exists())
 			throw new IOException(MessageFormat.format(
 					JGitText.get().repositoryAlreadyExists, "")); //$NON-NLS-1$
