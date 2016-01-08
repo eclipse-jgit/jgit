@@ -139,7 +139,10 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 	/** Directories limiting the search for a Git repository. */
 	private List<File> ceilingDirectories;
 
-	/** True only if the caller wants to force bare behavior. */
+	/**
+	 * True if the caller explicitly calls setBare or repository is inferred as
+	 * bare by either setup or build methods.
+	 */
 	private boolean bare;
 
 	/** True if the caller requires the repository to exist. */
@@ -271,10 +274,13 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 	}
 
 	/**
-	 * Force the repository to be treated as bare (have no working directory).
+	 * Explicitly set repository as bare (have no working directory).
 	 * <p>
-	 * If bare the working directory aspects of the repository won't be
-	 * configured, and will not be accessible.
+	 * If bare, the working directory aspects (i.e. work tree and index file) of
+	 * the repository won't be configured, and will not be accessible.
+	 * <p>
+	 * This method reverts the effects of {@link #setWorkTree(File)} and
+	 * {@link #setIndexFile(File)}.
 	 *
 	 * @return {@code this} (for chaining calls).
 	 */
@@ -285,7 +291,11 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 		return self();
 	}
 
-	/** @return true if this repository was forced bare by {@link #setBare()}. */
+	/**
+	 * @return true if this repository was explicitly set bare by
+	 *         {@link #setBare()} or inferred as bare by either {@link #setup()}
+	 *         or {@link #build()} methods.
+	 */
 	public boolean isBare() {
 		return bare;
 	}
@@ -310,6 +320,8 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 
 	/**
 	 * Set the top level directory of the working files.
+	 * <p>
+	 * This method reverts the effects of {@link #setBare()}.
 	 *
 	 * @param workTree
 	 *            {@code GIT_WORK_TREE}, the working directory of the checkout.
@@ -317,6 +329,9 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 	 */
 	public B setWorkTree(File workTree) {
 		this.workTree = workTree;
+		if (workTree != null) {
+			this.bare = false;
+		}
 		return self();
 	}
 
@@ -330,7 +345,7 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 	 * <p>
 	 * The location of the index file tracking the status information for each
 	 * checked out file in {@code workTree}. This may be null to assume the
-	 * default {@code gitDiir/index}.
+	 * default {@code gitDir/index}.
 	 *
 	 * @param indexFile
 	 *            {@code GIT_INDEX_FILE}, the index file location.

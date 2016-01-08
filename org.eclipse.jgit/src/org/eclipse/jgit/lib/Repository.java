@@ -161,29 +161,43 @@ public abstract class Repository implements AutoCloseable {
 	}
 
 	/**
-	 * Create a new Git repository.
-	 * <p>
-	 * Repository with working tree is created using this method. This method is
-	 * the same as {@code create(false)}.
+	 * Create a new Git repository initializing the necessary files and
+	 * directories.
 	 *
 	 * @throws IOException
-	 * @see #create(boolean)
+	 *             in case of IO problem
 	 */
-	public void create() throws IOException {
-		create(false);
-	}
+	public abstract void create() throws IOException;
 
 	/**
 	 * Create a new Git repository initializing the necessary files and
 	 * directories.
+	 * <p>
+	 * This method is provided solely for backwards compatibility. Please use
+	 * {@link #create()} method instead.
+	 * <p>
+	 * Since instances of this class are immutable and intended to be created
+	 * with an appropriate builder, it's impossible to change whether repository
+	 * is bare or not after construction. Therefore {@code bare} argument of
+	 * this function has to be redundantly equal to {@code isBare()}.
 	 *
 	 * @param bare
-	 *            if true, a bare repository (a repository without a working
-	 *            directory) is created.
+	 *            has to be equal to {@code isBare()}.
 	 * @throws IOException
-	 *             in case of IO problem
+	 * @throws IllegalArgumentException
+	 *             in case {@code bare} paremeter is not equal to
+	 *             {@code isBare()}
+	 * @see #create()
 	 */
-	public abstract void create(boolean bare) throws IOException;
+	@Deprecated
+	public final void create(boolean bare) throws IOException {
+		if (bare != isBare()) {
+			throw new IllegalArgumentException(
+					MessageFormat.format(JGitText.get().expectedGot,
+							Boolean.valueOf(isBare()), Boolean.valueOf(bare)));
+		}
+		create();
+	}
 
 	/**
 	 * @return local metadata directory; {@code null} if repository isn't local.
