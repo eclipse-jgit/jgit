@@ -45,7 +45,10 @@ package org.eclipse.jgit.util;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.eclipse.jgit.util.Paths.pathCompare;
 
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.FileMode;
 import org.junit.Test;
 
 public class PathsTest {
@@ -58,5 +61,46 @@ public class PathsTest {
 		assertEquals("a/boo", Paths.stripTrailingSeparator("a/boo/"));
 		assertEquals("a/boo", Paths.stripTrailingSeparator("a/boo//"));
 		assertEquals("a/boo", Paths.stripTrailingSeparator("a/boo///"));
+	}
+
+	@Test
+	public void testPathCompare() {
+		byte[] a = Constants.encode("afoo/bar.c");
+		byte[] b = Constants.encode("bfoo/bar.c");
+
+		assertEquals(0, pathCompare(a, 1, a.length, 0, b, 1, b.length, 0));
+		assertEquals(-1, pathCompare(a, 0, a.length, 0, b, 0, b.length, 0));
+		assertEquals(1, pathCompare(b, 0, b.length, 0, a, 0, a.length, 0));
+
+		a = Constants.encode("a");
+		b = Constants.encode("aa");
+		assertEquals(-97, pathCompare(a, 0, a.length, 0, b, 0, b.length, 0));
+		assertEquals(0, pathCompare(a, 0, a.length, 0, b, 0, 1, 0));
+		assertEquals(0, pathCompare(a, 0, a.length, 0, b, 1, 2, 0));
+
+		a = Constants.encode("a");
+		b = Constants.encode("a");
+		assertEquals(0, pathCompare(
+				a, 0, a.length, FileMode.TREE.getBits(),
+				b, 0, b.length, FileMode.TREE.getBits()));
+		assertEquals(0, pathCompare(
+				a, 0, a.length, FileMode.REGULAR_FILE.getBits(),
+				b, 0, b.length, FileMode.REGULAR_FILE.getBits()));
+		assertEquals(-47, pathCompare(
+				a, 0, a.length, FileMode.REGULAR_FILE.getBits(),
+				b, 0, b.length, FileMode.TREE.getBits()));
+		assertEquals(47, pathCompare(
+				a, 0, a.length, FileMode.TREE.getBits(),
+				b, 0, b.length, FileMode.REGULAR_FILE.getBits()));
+
+		a = Constants.encode("a.c");
+		b = Constants.encode("a");
+		byte[] c = Constants.encode("a0c");
+		assertEquals(-1, pathCompare(
+				a, 0, a.length, FileMode.REGULAR_FILE.getBits(),
+				b, 0, b.length, FileMode.TREE.getBits()));
+		assertEquals(-1, pathCompare(
+				b, 0, b.length, FileMode.TREE.getBits(),
+				c, 0, c.length, FileMode.REGULAR_FILE.getBits()));
 	}
 }
