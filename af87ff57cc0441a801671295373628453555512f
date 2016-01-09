@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07d9433e_1a98ba49",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ObjectCheckerTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1343,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-09T07:16:08Z",
+      "side": 1,
+      "message": "You fixed a bug in ObjectChecker but it looked like a problem when dealing with segments rather than file modes.\n\nJust checking--does this test case cover that bug?",
+      "range": {
+        "startLine": 1343,
+        "startChar": 0,
+        "endLine": 1343,
+        "endChar": 50
+      },
+      "revId": "af87ff57cc0441a801671295373628453555512f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
