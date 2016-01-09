@@ -48,6 +48,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.jgit.internal.storage.reftree.RefTree;
+import org.eclipse.jgit.internal.storage.reftree.RefTreeDatabase;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -59,12 +60,11 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.pgm.Command;
 import org.eclipse.jgit.pgm.TextBuiltin;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.kohsuke.args4j.Argument;
 
 @Command(usage = "usage_RebuildRefTree")
 class RebuildRefTree extends TextBuiltin {
-	@Argument(index = 0, required = true, metaVar = "metaVar_ref", usage = "usage_updateRef")
-	String refName;
+	private String txnNamespace;
+	private String txnCommitted;
 
 	@Override
 	protected void run() throws Exception {
@@ -72,10 +72,25 @@ class RebuildRefTree extends TextBuiltin {
 				RevWalk rw = new RevWalk(reader);
 				ObjectInserter inserter = db.newObjectInserter()) {
 			RefDatabase refDb = db.getRefDatabase();
+			if (refDb instanceof RefTreeDatabase) {
+				RefTreeDatabase d = (RefTreeDatabase) refDb;
+				refDb = d.getBootstrap();
+				txnNamespace = d.getTxnNamespace();
+				txnCommitted = d.getTxnCommitted();
+			} else {
+				RefTreeDatabase d = new RefTreeDatabase(db, refDb);
+				txnNamespace = d.getTxnNamespace();
+				txnCommitted = d.getTxnCommitted();
+			}
+
+			errw.format("Rebuilding %s from %s", //$NON-NLS-1$
+					txnCommitted, refDb.getClass().getSimpleName());
+			errw.println();
+			errw.flush();
 
 			CommitBuilder b = new CommitBuilder();
-			Ref ref = db.getRefDatabase().exactRef(refName);
-			RefUpdate update = db.updateRef(refName);
+			Ref ref = refDb.exactRef(txnCommitted);
+			RefUpdate update = refDb.newUpdate(txnCommitted, true);
 			ObjectId oldTreeId;
 
 			if (ref != null && ref.getObjectId() != null) {
@@ -116,10 +131,10 @@ class RebuildRefTree extends TextBuiltin {
 			= new ArrayList<>();
 
 		for (Ref r : refMap.values()) {
-			if (refName.equals(r.getName())) {
+			if (r.getName().equals(txnCommitted)
+					|| r.getName().startsWith(txnNamespace)) {
 				continue;
 			}
-
 			cmds.add(new org.eclipse.jgit.internal.storage.reftree.Command(
 					null,
 					db.peel(r)));

@@ -55,6 +55,7 @@ import java.util.Map;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.lib.BatchRefUpdate;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.Ref;
@@ -95,6 +96,36 @@ public class RefTreeDatabase extends RefDatabase {
 	 * @param bootstrap
 	 *            bootstrap reference database storing the references that
 	 *            anchor the {@link RefTree}.
+	 */
+	public RefTreeDatabase(Repository repo, RefDatabase bootstrap) {
+		Config cfg = repo.getConfig();
+		String committed = cfg.getString("reftree", null, "committedRef"); //$NON-NLS-1$ //$NON-NLS-2$
+		if (committed == null || committed.isEmpty()) {
+			committed = "refs/txn/committed"; //$NON-NLS-1$
+		}
+
+		String namespace = cfg.getString("reftree", null, "namespace"); //$NON-NLS-1$ //$NON-NLS-2$
+		if (namespace == null || namespace.isEmpty()) {
+			int s = committed.lastIndexOf('/');
+			if (s > 0) {
+				namespace = committed.substring(0, s);
+			}
+		}
+
+		this.repo = repo;
+		this.bootstrap = bootstrap;
+		this.txnNamespace = initNamespace(namespace);
+		this.txnCommitted = committed;
+	}
+
+	/**
+	 * Create a RefTreeDb for a repository.
+	 *
+	 * @param repo
+	 *            the repository using references in this database.
+	 * @param bootstrap
+	 *            bootstrap reference database storing the references that
+	 *            anchor the {@link RefTree}.
 	 * @param txnNamespace
 	 *            if non-empty the namespace containing the references that
 	 *            store the RefTree. To minimize confusion this namespace is
@@ -107,13 +138,15 @@ public class RefTreeDatabase extends RefDatabase {
 			String txnNamespace, String txnCommitted) {
 		this.repo = repo;
 		this.bootstrap = bootstrap;
+		this.txnNamespace = initNamespace(txnNamespace);
 		this.txnCommitted = txnCommitted;
+	}
 
+	private static String initNamespace(String txnNamespace) {
 		if (txnNamespace == null || txnNamespace.isEmpty()) {
-			this.txnNamespace = null;
-		} else {
-			this.txnNamespace = stripTrailingSeparator(txnNamespace) + '/';
+			return null;
 		}
+		return stripTrailingSeparator(txnNamespace) + '/';
 	}
 
 	Repository getRepository() {
