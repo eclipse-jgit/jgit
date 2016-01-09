@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07d9433e_fa64f616",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-01-09T01:01:12Z",
+      "side": 1,
+      "message": "how can I create the refs/txn/committed reference ? \n\nI tried the following in a new empty directory:\n\n jgit init\n echo content \u003e a\n jgit commit -a -m initial\n jgit debug-rebuild-ref-tree refs/heads/master\n jgit debug-rebuild-ref-tree HEAD\n\nwhich created the RefTree objects but not the refs/txn/committed reference",
+      "revId": "38592fc445aa332c3ec625eec0ea21a8b1e4bf28",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
