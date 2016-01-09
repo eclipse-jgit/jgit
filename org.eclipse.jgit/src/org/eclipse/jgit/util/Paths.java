@@ -43,6 +43,9 @@
 
 package org.eclipse.jgit.util;
 
+import static org.eclipse.jgit.lib.FileMode.TYPE_MASK;
+import static org.eclipse.jgit.lib.FileMode.TYPE_TREE;
+
 /**
  * Utility functions for paths inside of a Git repository.
  *
@@ -70,6 +73,54 @@ public class Paths {
 			i--;
 		} while (path.charAt(i - 1) == '/');
 		return path.substring(0, i);
+	}
+
+	/**
+	 * Compare two paths according to Git path sort ordering rules.
+	 *
+	 * @param aPath
+	 *            first path buffer. The range {@code [aPos, aEnd)} is used.
+	 * @param aPos
+	 *            index into {@code aPath} where the first path starts.
+	 * @param aEnd
+	 *            1 past last index of {@code aPath}.
+	 * @param aMode
+	 *            mode of the first file. Trees are sorted as though
+	 *            {@code aPath[aEnd] == '/'}, even if aEnd does not exist.
+	 * @param bPath
+	 *            second path buffer. The range {@code [bPos, bEnd)} is used.
+	 * @param bPos
+	 *            index into {@code bPath} where the second path starts.
+	 * @param bEnd
+	 *            1 past last index of {@code bPath}.
+	 * @param bMode
+	 *            mode of the second file. Trees are sorted as though
+	 *            {@code bPath[bEnd] == '/'}, even if bEnd does not exist.
+	 * @return &lt;0 if {@code aPath} sorts before {@code bPath};
+	 *         0 if the paths are the same;
+	 *         &gt;0 if {@code aPath} sorts after {@code bPath}.
+	 */
+	public static int pathCompare(byte[] aPath, int aPos, int aEnd, int aMode,
+			byte[] bPath, int bPos, int bEnd, int bMode) {
+		while (aPos < aEnd && bPos < bEnd) {
+			int cmp = (aPath[aPos++] & 0xff) - (bPath[bPos++] & 0xff);
+			if (cmp != 0) {
+				return cmp;
+			}
+		}
+
+		int a = lastPathChar(aPath, aPos, aEnd, aMode);
+		int b = lastPathChar(bPath, bPos, bEnd, bMode);
+		return a - b;
+	}
+
+	private static int lastPathChar(byte[] path, int pos, int end, int mode) {
+		if (pos < end) {
+			return path[pos] & 0xff;
+		} else if ((mode & TYPE_MASK) == TYPE_TREE) {
+			return '/';
+		}
+		return 0;
 	}
 
 	private Paths() {
