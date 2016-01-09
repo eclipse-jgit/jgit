@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07d9433e_faf1568b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/reftree/RefTreeDbTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-09T06:45:52Z",
+      "side": 1,
+      "message": "This confused me until I understood that update() performs a RefTreeUpdate on refs/txn/commited vs. the one on refs/txn/tmp immediately above.\n\nChanging the helper methods may help: \n\nObjectId txnCommitted() -\u003e ObjectId getTxnCommittedRef()\n\nvoid update() -\u003e ObjectId updateTxnCommittedRef()",
+      "revId": "30296b332ecef97617832c9bb8d1f1e6f23df130",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_7ac6263f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/reftree/RefTreeDbTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 439,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-09T06:45:52Z",
+      "side": 1,
+      "message": "testUnionBehavior_DirectWriteToHeadsViaBootstrapNotVisible\n\nBut if you wrote via the bootstrap to refs/txn/tmp, that would be visible, wouldn\u0027t it? If so add a test showing that. This indicates that \"UNION\" was not the right concept for this layering.",
+      "revId": "30296b332ecef97617832c9bb8d1f1e6f23df130",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_7add46ff",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/reftree/RefTreeDbTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-09T06:45:52Z",
+      "side": 1,
+      "message": "Duplicate line.",
+      "revId": "30296b332ecef97617832c9bb8d1f1e6f23df130",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_9a9daa49",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/reftree/RefTreeDbTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-09T06:45:52Z",
+      "side": 1,
+      "message": "Add a comment that writing to HEADS via the bootstrap invalidates the RefTree under refs/txn/committed, so subsequent writes to that tree will fail.",
+      "revId": "30296b332ecef97617832c9bb8d1f1e6f23df130",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_baa26e81",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/reftree/RefTreeDbTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-09T06:45:52Z",
+      "side": 1,
+      "message": "testRejectBehavior_RefTreeUpdateRefusesTxnNamespace\n\nI see below that the default is REJECT_REFS_TXN. Probably better to explicitly set that in all tests that rely on it.\n\nAdd a testUnionBehavior_RefTreeUpdateRefusesTxnNamespace test too.",
+      "revId": "30296b332ecef97617832c9bb8d1f1e6f23df130",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_daa73291",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/reftree/RefTreeDbTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-09T06:45:52Z",
+      "side": 1,
+      "message": "Hmm, I hadn\u0027t understood that was how it worked. HIDE_REFS_TXN doesn\u0027t indicate that, but neither did HIDDEN. Maybe Layering enum values should be:\nSHOW_ALL -\u003e (back to) UNION (refs/txn served by bootstrap)\nHIDE_REFS_TXN -\u003e ALL_REFTREE (refs/txn served by reftree)\nREJECT_REFS_TXN -\u003e HIDE_REFS_TXN (refs/txn not served and attempts to modify it are rejected)\n\nI\u0027m not 100% sure yet that the use cases justify this complexity.",
+      "revId": "30296b332ecef97617832c9bb8d1f1e6f23df130",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
