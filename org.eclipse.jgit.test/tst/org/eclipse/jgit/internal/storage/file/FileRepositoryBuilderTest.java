@@ -104,7 +104,7 @@ public class FileRepositoryBuilderTest extends LocalDiskRepositoryTestCase {
 		Repository r = createWorkRepository();
 		StoredConfig config = r.getConfig();
 		config.setLong(ConfigConstants.CONFIG_CORE_SECTION, null,
-				ConfigConstants.CONFIG_KEY_REPO_FORMAT_VERSION, 1);
+				ConfigConstants.CONFIG_KEY_REPO_FORMAT_VERSION, 999999);
 		config.save();
 
 		try {

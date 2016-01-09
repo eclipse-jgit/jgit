@@ -54,6 +54,7 @@ import java.util.Map;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.lib.BatchRefUpdate;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.Ref;
@@ -87,6 +88,28 @@ public class RefTreeDatabase extends RefDatabase {
 	@Nullable
 	private final String txnNamespace;
 	private volatile Scanner.Result refs;
+
+	/**
+	 * Create a RefTreeDb for a repository.
+	 *
+	 * @param repo
+	 *            the repository using references in this database.
+	 * @param bootstrap
+	 *            bootstrap reference database storing the references that
+	 *            anchor the {@link RefTree}.
+	 */
+	public RefTreeDatabase(Repository repo, RefDatabase bootstrap) {
+		Config cfg = repo.getConfig();
+		String committed = cfg.getString("reftree", null, "committedRef"); //$NON-NLS-1$ //$NON-NLS-2$
+		if (committed == null || committed.isEmpty()) {
+			committed = "refs/txn/committed"; //$NON-NLS-1$
+		}
+
+		this.repo = repo;
+		this.bootstrap = bootstrap;
+		this.txnNamespace = initNamespace(committed);
+		this.txnCommitted = committed;
+	}
 
 	/**
 	 * Create a RefTreeDb for a repository.
