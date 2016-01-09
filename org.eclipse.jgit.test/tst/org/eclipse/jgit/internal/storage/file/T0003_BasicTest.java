@@ -67,7 +67,6 @@ import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
-import org.eclipse.jgit.lib.FileTreeEntry;
 import org.eclipse.jgit.lib.ObjectDatabase;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -75,7 +74,6 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.TagBuilder;
-import org.eclipse.jgit.lib.Tree;
 import org.eclipse.jgit.lib.TreeFormatter;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTag;
@@ -419,29 +417,6 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void test012_SubtreeExternalSorting() throws IOException {
-		final ObjectId emptyBlob = insertEmptyBlob();
-		final Tree t = new Tree(db);
-		final FileTreeEntry e0 = t.addFile("a-");
-		final FileTreeEntry e1 = t.addFile("a-b");
-		final FileTreeEntry e2 = t.addFile("a/b");
-		final FileTreeEntry e3 = t.addFile("a=");
-		final FileTreeEntry e4 = t.addFile("a=b");
-
-		e0.setId(emptyBlob);
-		e1.setId(emptyBlob);
-		e2.setId(emptyBlob);
-		e3.setId(emptyBlob);
-		e4.setId(emptyBlob);
-
-		final Tree a = (Tree) t.findTreeMember("a");
-		a.setId(insertTree(a));
-		assertEquals(ObjectId
-				.fromString("b47a8f0a4190f7572e11212769090523e23eb1ea"),
-				insertTree(t));
-	}
-
-	@Test
 	public void test020_createBlobTag() throws IOException {
 		final ObjectId emptyId = insertEmptyBlob();
 		final TagBuilder t = new TagBuilder();
@@ -464,9 +439,8 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 	@Test
 	public void test021_createTreeTag() throws IOException {
 		final ObjectId emptyId = insertEmptyBlob();
-		final Tree almostEmptyTree = new Tree(db);
-		almostEmptyTree.addEntry(new FileTreeEntry(almostEmptyTree, emptyId,
-				"empty".getBytes(), false));
+		TreeFormatter almostEmptyTree = new TreeFormatter();
+		almostEmptyTree.append("empty", FileMode.REGULAR_FILE, emptyId);
 		final ObjectId almostEmptyTreeId = insertTree(almostEmptyTree);
 		final TagBuilder t = new TagBuilder();
 		t.setObjectId(almostEmptyTreeId, Constants.OBJ_TREE);
@@ -488,9 +462,8 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 	@Test
 	public void test022_createCommitTag() throws IOException {
 		final ObjectId emptyId = insertEmptyBlob();
-		final Tree almostEmptyTree = new Tree(db);
-		almostEmptyTree.addEntry(new FileTreeEntry(almostEmptyTree, emptyId,
-				"empty".getBytes(), false));
+		TreeFormatter almostEmptyTree = new TreeFormatter();
+		almostEmptyTree.append("empty", FileMode.REGULAR_FILE, emptyId);
 		final ObjectId almostEmptyTreeId = insertTree(almostEmptyTree);
 		final CommitBuilder almostEmptyCommit = new CommitBuilder();
 		almostEmptyCommit.setAuthor(new PersonIdent(author, 1154236443000L,
@@ -520,9 +493,8 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 	@Test
 	public void test023_createCommitNonAnullii() throws IOException {
 		final ObjectId emptyId = insertEmptyBlob();
-		final Tree almostEmptyTree = new Tree(db);
-		almostEmptyTree.addEntry(new FileTreeEntry(almostEmptyTree, emptyId,
-				"empty".getBytes(), false));
+		TreeFormatter almostEmptyTree = new TreeFormatter();
+		almostEmptyTree.append("empty", FileMode.REGULAR_FILE, emptyId);
 		final ObjectId almostEmptyTreeId = insertTree(almostEmptyTree);
 		CommitBuilder commit = new CommitBuilder();
 		commit.setTreeId(almostEmptyTreeId);
@@ -542,9 +514,8 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 	@Test
 	public void test024_createCommitNonAscii() throws IOException {
 		final ObjectId emptyId = insertEmptyBlob();
-		final Tree almostEmptyTree = new Tree(db);
-		almostEmptyTree.addEntry(new FileTreeEntry(almostEmptyTree, emptyId,
-				"empty".getBytes(), false));
+		TreeFormatter almostEmptyTree = new TreeFormatter();
+		almostEmptyTree.append("empty", FileMode.REGULAR_FILE, emptyId);
 		final ObjectId almostEmptyTreeId = insertTree(almostEmptyTree);
 		CommitBuilder commit = new CommitBuilder();
 		commit.setTreeId(almostEmptyTreeId);
@@ -744,14 +715,6 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 			oi.flush();
 		}
 		return emptyId;
-	}
-
-	private ObjectId insertTree(Tree tree) throws IOException {
-		try (ObjectInserter oi = db.newObjectInserter()) {
-			ObjectId id = oi.insert(Constants.OBJ_TREE, tree.format());
-			oi.flush();
-			return id;
-		}
 	}
 
 	private ObjectId insertTree(TreeFormatter tree) throws IOException {
