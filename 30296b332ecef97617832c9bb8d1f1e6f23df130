@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_1a1d1af3",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/reftree/RefTreeDbTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-09T20:52:48Z",
+      "side": 1,
+      "message": "Renamed txnCommitted() to getTxnCommitted().\n\nLeaving update() alone because it doesn\u0027t update refs/txn/committed refs in this test. Its updating \"user\" refs inside of the RefTree so that they can be read back using RefTreeDatabase.",
+      "parentUuid": "07d9433e_faf1568b",
+      "revId": "30296b332ecef97617832c9bb8d1f1e6f23df130",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_7ac6263f",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/reftree/RefTreeDbTest.java",
         "patchSetId": 11
@@ -30,6 +48,24 @@
       "writtenOn": "2016-01-09T06:45:52Z",
       "side": 1,
       "message": "testUnionBehavior_DirectWriteToHeadsViaBootstrapNotVisible\n\nBut if you wrote via the bootstrap to refs/txn/tmp, that would be visible, wouldn\u0027t it? If so add a test showing that. This indicates that \"UNION\" was not the right concept for this layering.",
+      "revId": "30296b332ecef97617832c9bb8d1f1e6f23df130",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_da2ad202",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/reftree/RefTreeDbTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 439,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-09T20:52:48Z",
+      "side": 1,
+      "message": "I think I see your point about the layering now. I\u0027m going to remove it altogether and just disallow writes to refs/txn/ namespace.",
+      "parentUuid": "07d9433e_7ac6263f",
       "revId": "30296b332ecef97617832c9bb8d1f1e6f23df130",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
