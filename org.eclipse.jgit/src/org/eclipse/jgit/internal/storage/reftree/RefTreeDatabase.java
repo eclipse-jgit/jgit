@@ -54,6 +54,7 @@ import java.util.Map;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.lib.BatchRefUpdate;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.Ref;
