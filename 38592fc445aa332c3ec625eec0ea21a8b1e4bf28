@@ -16,6 +16,24 @@
       "revId": "38592fc445aa332c3ec625eec0ea21a8b1e4bf28",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_ba250eb5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-09T03:03:43Z",
+      "side": 1,
+      "message": "Use\n\n  jgit debug-rebuild-ref-tree refs/txn/committed\n\nThe argument is the output name not the input.",
+      "parentUuid": "07d9433e_fa64f616",
+      "revId": "38592fc445aa332c3ec625eec0ea21a8b1e4bf28",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
