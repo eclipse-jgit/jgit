@@ -1327,10 +1327,24 @@ public class ObjectCheckerTest {
 	}
 
 	@Test
-	public void testInvalidTreeDuplicateNames1() throws CorruptObjectException {
+	public void testInvalidTreeDuplicateNames1_File()
+			throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 a");
 		entry(b, "100644 a");
+		byte[] data = encodeASCII(b.toString());
+		assertCorrupt("duplicate entry names", OBJ_TREE, data);
+		assertSkipListAccepts(OBJ_TREE, data);
+		checker.setIgnore(DUPLICATE_ENTRIES, true);
+		checker.checkTree(data);
+	}
+
+	@Test
+	public void testInvalidTreeDuplicateNames1_Tree()
+			throws CorruptObjectException {
+		StringBuilder b = new StringBuilder();
+		entry(b, "40000 a");
+		entry(b, "40000 a");
 		byte[] data = encodeASCII(b.toString());
 		assertCorrupt("duplicate entry names", OBJ_TREE, data);
 		assertSkipListAccepts(OBJ_TREE, data);

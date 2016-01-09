@@ -44,8 +44,8 @@
 
 package org.eclipse.jgit.dircache;
 
-import static org.eclipse.jgit.lib.FileMode.TREE;
 import static org.eclipse.jgit.lib.FileMode.TYPE_TREE;
+import static org.eclipse.jgit.util.Paths.compareSameName;
 
 import java.io.IOException;
 
@@ -207,8 +207,8 @@ abstract class BaseDirCacheEditor {
 
 				int s = nextSlash(nPath, prefixLen);
 				int m = s < nPath.length ? TYPE_TREE : n.getRawMode();
-				int cmp = pathCompare(
-						ePath, prefixLen, ePath.length, TYPE_TREE,
+				int cmp = compareSameName(
+						ePath, prefixLen, ePath.length,
 						nPath, prefixLen, s, m);
 				if (cmp < 0) {
 					break;
@@ -250,28 +250,6 @@ abstract class BaseDirCacheEditor {
 			}
 		}
 		return true;
-	}
-
-	static int pathCompare(byte[] aPath, int aPos, int aEnd, int aMode,
-			byte[] bPath, int bPos, int bEnd, int bMode) {
-		while (aPos < aEnd && bPos < bEnd) {
-			int cmp = (aPath[aPos++] & 0xff) - (bPath[bPos++] & 0xff);
-			if (cmp != 0) {
-				return cmp;
-			}
-		}
-
-		if (aPos < aEnd) {
-			return (aPath[aPos] & 0xff) - lastPathChar(bMode);
-		}
-		if (bPos < bEnd) {
-			return lastPathChar(aMode) - (bPath[bPos] & 0xff);
-		}
-		return 0;
-	}
-
-	private static int lastPathChar(int mode) {
-		return TREE.equals(mode) ? '/' : '\0';
 	}
 
 	/**

@@ -89,6 +89,7 @@ import org.eclipse.jgit.submodule.SubmoduleWalk;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FS.ExecutionResult;
 import org.eclipse.jgit.util.IO;
+import org.eclipse.jgit.util.Paths;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.io.EolCanonicalizingInputStream;
 
@@ -692,30 +693,12 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	}
 
 	private static final Comparator<Entry> ENTRY_CMP = new Comparator<Entry>() {
-		public int compare(final Entry o1, final Entry o2) {
-			final byte[] a = o1.encodedName;
-			final byte[] b = o2.encodedName;
-			final int aLen = o1.encodedNameLen;
-			final int bLen = o2.encodedNameLen;
-			int cPos;
-
-			for (cPos = 0; cPos < aLen && cPos < bLen; cPos++) {
-				final int cmp = (a[cPos] & 0xff) - (b[cPos] & 0xff);
-				if (cmp != 0)
-					return cmp;
-			}
-
-			if (cPos < aLen)
-				return (a[cPos] & 0xff) - lastPathChar(o2);
-			if (cPos < bLen)
-				return lastPathChar(o1) - (b[cPos] & 0xff);
-			return lastPathChar(o1) - lastPathChar(o2);
+		public int compare(Entry a, Entry b) {
+			return Paths.compare(
+					a.encodedName, 0, a.encodedNameLen, a.getMode().getBits(),
+					b.encodedName, 0, b.encodedNameLen, b.getMode().getBits());
 		}
 	};
-
-	static int lastPathChar(final Entry e) {
-		return e.getMode() == FileMode.TREE ? '/' : '\0';
-	}
 
 	/**
 	 * Constructor helper.

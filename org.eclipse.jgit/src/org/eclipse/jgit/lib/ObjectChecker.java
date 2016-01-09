@@ -77,6 +77,8 @@ import static org.eclipse.jgit.lib.ObjectChecker.ErrorType.TREE_NOT_SORTED;
 import static org.eclipse.jgit.lib.ObjectChecker.ErrorType.UNKNOWN_TYPE;
 import static org.eclipse.jgit.lib.ObjectChecker.ErrorType.WIN32_BAD_NAME;
 import static org.eclipse.jgit.lib.ObjectChecker.ErrorType.ZERO_PADDED_FILEMODE;
+import static org.eclipse.jgit.util.Paths.compare;
+import static org.eclipse.jgit.util.Paths.compareSameName;
 import static org.eclipse.jgit.util.RawParseUtils.nextLF;
 import static org.eclipse.jgit.util.RawParseUtils.parseBase10;
 
@@ -541,25 +543,6 @@ public class ObjectChecker {
 		}
 	}
 
-	private static int lastPathChar(final int mode) {
-		return FileMode.TREE.equals(mode) ? '/' : '\0';
-	}
-
-	private static int pathCompare(final byte[] raw, int aPos, final int aEnd,
-			final int aMode, int bPos, final int bEnd, final int bMode) {
-		while (aPos < aEnd && bPos < bEnd) {
-			final int cmp = (raw[aPos++] & 0xff) - (raw[bPos++] & 0xff);
-			if (cmp != 0)
-				return cmp;
-		}
-
-		if (aPos < aEnd)
-			return (raw[aPos] & 0xff) - lastPathChar(bMode);
-		if (bPos < bEnd)
-			return lastPathChar(aMode) - (raw[bPos] & 0xff);
-		return 0;
-	}
-
 	private static boolean duplicateName(final byte[] raw,
 			final int thisNamePos, final int thisNameEnd) {
 		final int sz = raw.length;
@@ -587,8 +570,9 @@ public class ObjectChecker {
 			if (nextNamePos + 1 == nextPtr)
 				return false;
 
-			final int cmp = pathCompare(raw, thisNamePos, thisNameEnd,
-					FileMode.TREE.getBits(), nextNamePos, nextPtr - 1, nextMode);
+			int cmp = compareSameName(
+					raw, thisNamePos, thisNameEnd,
+					raw, nextNamePos, nextPtr - 1, nextMode);
 			if (cmp < 0)
 				return false;
 			else if (cmp == 0)
@@ -676,8 +660,9 @@ public class ObjectChecker {
 			}
 
 			if (lastNameB != 0) {
-				final int cmp = pathCompare(raw, lastNameB, lastNameE,
-						lastMode, thisNameB, ptr, thisMode);
+				int cmp = compare(
+						raw, lastNameB, lastNameE, lastMode,
+						raw, thisNameB, ptr, thisMode);
 				if (cmp > 0) {
 					report(TREE_NOT_SORTED, id,
 							JGitText.get().corruptObjectIncorrectSorting);
