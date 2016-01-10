@@ -100,15 +100,15 @@ import org.eclipse.jgit.util.RawParseUtils;
  * blob storing the name of the target reference.
  * <p>
  * Annotated tags also store the peeled object using a {@code GITLINK} entry
- * with the suffix <code>"^{}"</code>, for example {@code "tags/v1.0"} stores
- * the annotated tag object, while <code>"tags/v1.0^{}"</code> stores the commit
- * the tag annotates.
+ * with the suffix <code>" ^"</code> (space carrot), for example
+ * {@code "tags/v1.0"} stores the annotated tag object, while
+ * <code>"tags/v1.0 ^"</code> stores the commit the tag annotates.
  * <p>
  * {@code HEAD} is a special case and stored as {@code "..HEAD"}.
  */
 public class RefTree {
 	/** Suffix applied to GITLINK to indicate its the peeled value of a tag. */
-	public static final String PEELED_SUFFIX = "^{}"; //$NON-NLS-1$
+	public static final String PEELED_SUFFIX = " ^"; //$NON-NLS-1$
 	static final String ROOT_DOTDOT = ".."; //$NON-NLS-1$
 
 	/**
