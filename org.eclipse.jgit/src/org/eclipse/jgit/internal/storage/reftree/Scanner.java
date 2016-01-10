@@ -230,7 +230,7 @@ class Scanner {
 	private static boolean curElementHasPeelSuffix(AbstractTreeIterator itr) {
 		int n = itr.getEntryPathLength();
 		byte[] c = itr.getEntryPathBuffer();
-		return n > 3 && c[n - 3] == '^' && c[n - 2] == '{' && c[n - 1] == '}';
+		return n > 2 && c[n - 2] == ' ' && c[n - 1] == '^';
 	}
 
 	private static void peel(RefList.Builder<Ref> all, CanonicalTreeParser p) {
@@ -272,7 +272,7 @@ class Scanner {
 		byte[] buf = p.getEntryPathBuffer();
 		int len = p.getEntryPathLength();
 		if (peel) {
-			len -= 3;
+			len -= 2;
 		}
 		int ptr = 0;
 		if (RawParseUtils.match(buf, ptr, REFS_DOT_DOT) > 0) {
