@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07d9433e_2466411c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/Paths.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-01-11T20:14:24Z",
+      "side": 1,
+      "message": "I wasn\u0027t able to figure out what this function does based on the name alone. Likewise based on the first paragraph of the javadoc.\n\nIs this meant as a D/F conflict-aware sort function? After a while of reading, it seems like aPath is meant to be fixed and bPath is meant to vary; what do aPath and bPath represent here? (e.g., is aPath a path used in path-limiting, while bPath is a tree entry to match against it?) Can you give some examples in the javadoc? E.g. does\n\n  dfAwareCompare(\"a\", \"a\", MODE_TREE) \u003d\u003d 0\n  dfAwareCompare(\"a.\", \"a\", MODE_TREE) \u003c 0\n  dfAwareCompare(\"a\", \"a.\", MODE_TREE) \u003e 0\n  dfAwareCompare(\"a\", \"a0\", MODE_TREE) \u003e 0\n\n? What happens when there are subdirectories --- e.g., is\n\n  dfAwareCompare(\"a\", \"a/b\", MODE_FILE) \u003c 0\n\nbecause a/ comes before a/b?",
+      "range": {
+        "startLine": 153,
+        "startChar": 19,
+        "endLine": 153,
+        "endChar": 35
+      },
+      "revId": "1243e25aadfb810bb39127473e80b3a5cb761883",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
