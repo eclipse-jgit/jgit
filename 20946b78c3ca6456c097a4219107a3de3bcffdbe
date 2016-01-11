@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07d9433e_c9e20e92",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTreeDatabase.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-11T19:49:20Z",
+      "side": 1,
+      "message": "Why not automatically deduce this from txnCommitted? I don\u0027t find it to be too much of a limitation to say that the committed reference path has is \u003cnamespace\u003e/\u003cpath\u003e where \"path\" needs to be a single segment.\n\nOr is there a valid use case for leaving this null? That isn\u0027t explained here.",
+      "range": {
+        "startLine": 98,
+        "startChar": 0,
+        "endLine": 102,
+        "endChar": 48
+      },
+      "revId": "20946b78c3ca6456c097a4219107a3de3bcffdbe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_29045ace",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTreeDatabase.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-11T19:49:20Z",
+      "side": 1,
+      "message": "Inline the variable.",
+      "range": {
+        "startLine": 222,
+        "startChar": 28,
+        "endLine": 222,
+        "endChar": 33
+      },
+      "revId": "20946b78c3ca6456c097a4219107a3de3bcffdbe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
