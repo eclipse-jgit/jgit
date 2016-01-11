@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_248f21b6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTreeDatabase.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-11T21:55:43Z",
+      "side": 1,
+      "message": "Good point; I was thinking about a use case like txnCommitted \u003d \"REFTREE\" which was discussed on the Git mailing list. In that case the only sane namespace is txnNamespace \u003d \"\" or null, aka no namespace. Which can still be inferred from the txnCommitted name.",
+      "parentUuid": "07d9433e_c9e20e92",
+      "range": {
+        "startLine": 98,
+        "startChar": 0,
+        "endLine": 102,
+        "endChar": 48
+      },
+      "revId": "20946b78c3ca6456c097a4219107a3de3bcffdbe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_29045ace",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTreeDatabase.java",
         "patchSetId": 12
@@ -36,6 +60,30 @@
       "writtenOn": "2016-01-11T19:49:20Z",
       "side": 1,
       "message": "Inline the variable.",
+      "range": {
+        "startLine": 222,
+        "startChar": 28,
+        "endLine": 222,
+        "endChar": 33
+      },
+      "revId": "20946b78c3ca6456c097a4219107a3de3bcffdbe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_8409cdbe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTreeDatabase.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-11T21:55:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_29045ace",
       "range": {
         "startLine": 222,
         "startChar": 28,
