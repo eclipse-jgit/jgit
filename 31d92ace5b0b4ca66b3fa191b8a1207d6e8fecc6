@@ -22,6 +22,30 @@
       "revId": "31d92ace5b0b4ca66b3fa191b8a1207d6e8fecc6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_84846ded",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevTag.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-11T20:47:30Z",
+      "side": 1,
+      "message": "I decided against it for now. There\u0027s only two uses and I don\u0027t want this public.",
+      "parentUuid": "07d9433e_a4f7b180",
+      "range": {
+        "startLine": 252,
+        "startChar": 0,
+        "endLine": 258,
+        "endChar": 2
+      },
+      "revId": "31d92ace5b0b4ca66b3fa191b8a1207d6e8fecc6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
