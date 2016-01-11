@@ -22,6 +22,30 @@
       "revId": "fbbbd4cba7a7761de34aacc93c502e988bfe8c2c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_0444ddce",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTreeDatabase.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-11T21:56:46Z",
+      "side": 1,
+      "message": "Done, but in the ancestor commit which introduces the variable and allows it to be null.",
+      "parentUuid": "07d9433e_697ae2dd",
+      "range": {
+        "startLine": 88,
+        "startChar": 0,
+        "endLine": 88,
+        "endChar": 35
+      },
+      "revId": "fbbbd4cba7a7761de34aacc93c502e988bfe8c2c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
