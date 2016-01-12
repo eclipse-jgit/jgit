@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07d9433e_8a28ef37",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-12T23:49:53Z",
+      "side": 1,
+      "message": "I was suggesting enhancing the PackWriter.preparePack() API directly with via an explicit value (null object pattern) so that over time all calls where there are no \"haves\" will look like pw.preparePack(wants, NONE);",
+      "range": {
+        "startLine": 312,
+        "startChar": 0,
+        "endLine": 312,
+        "endChar": 38
+      },
+      "revId": "40051505d7aaccfe2efaf5f3022f1d99a3976554",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
