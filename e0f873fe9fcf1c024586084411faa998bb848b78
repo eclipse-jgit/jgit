@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07d9433e_041e9821",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-12T19:17:43Z",
+      "side": 1,
+      "message": "Nit: above the empty set is passed (preparePack turns null into an empty set, but why not be consistent and just pass that here). Consider adding a HAVE_NONE constant to PackWriter.",
+      "range": {
+        "startLine": 310,
+        "startChar": 32,
+        "endLine": 310,
+        "endChar": 36
+      },
+      "revId": "e0f873fe9fcf1c024586084411faa998bb848b78",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_c44cb01f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTreeNames.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-12T19:17:43Z",
+      "side": 1,
+      "message": "nit: {@code true}",
+      "range": {
+        "startLine": 55,
+        "startChar": 12,
+        "endLine": 55,
+        "endChar": 16
+      },
+      "revId": "e0f873fe9fcf1c024586084411faa998bb848b78",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_6476844b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTreeNames.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-12T19:17:43Z",
+      "side": 1,
+      "message": "If \"stage\" has a special connotation, extract it as a constant with a JavaDoc description.",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 62
+      },
+      "revId": "e0f873fe9fcf1c024586084411faa998bb848b78",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
