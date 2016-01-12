@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07d9433e_2430fc6d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 581,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-01-12T19:36:28Z",
+      "side": 1,
+      "message": "Should this treat the heads and nonHeads as haves, like the corresponding DfsGarbageCollector code does?\n\n(The writePack call for heads passes Collections.emptySet() here, so at first it wasn\u0027t obvious to me that null is permitted. But the callee also converts null to Collections.emptySet(). As a separate cleanup, it would be nice to simplify by making this parameter @NonNull.)",
+      "range": {
+        "startLine": 581,
+        "startChar": 38,
+        "endLine": 581,
+        "endChar": 43
+      },
+      "revId": "6aa8fb429bf27fb4d07dfa66984f583c1d99549d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
