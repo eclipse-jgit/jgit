@@ -109,7 +109,8 @@ public class UsernamePasswordCredentialsProvider extends CredentialsProvider {
 				continue;
 			}
 			if (i instanceof CredentialItem.StringType) {
-				if (i.getPromptText().equals("Password: ")) { //$NON-NLS-1$
+				String promptText = i.getPromptText();
+				if (promptText.matches("(?i)(\\bpassword\\b|\\bpassphrase\\b)(\\s)?(for)?(\\s)?(.*)?(:?)")) { //$NON-NLS-1$
 					((CredentialItem.StringType) i).setValue(new String(
 							password));
 					continue;
