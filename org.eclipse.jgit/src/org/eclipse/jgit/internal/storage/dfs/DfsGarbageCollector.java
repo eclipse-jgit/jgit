@@ -44,6 +44,7 @@
 package org.eclipse.jgit.internal.storage.dfs;
 
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.GC;
+import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.GC_TXN;
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.UNREACHABLE_GARBAGE;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.BITMAP_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
@@ -63,6 +64,7 @@ import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource;
 import org.eclipse.jgit.internal.storage.file.PackIndex;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
+import org.eclipse.jgit.internal.storage.reftree.RefTreeNames;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
@@ -99,9 +101,8 @@ public class DfsGarbageCollector {
 	private List<DfsPackFile> packsBefore;
 
 	private Set<ObjectId> allHeads;
-
 	private Set<ObjectId> nonHeads;
-
+	private Set<ObjectId> txnHeads;
 	private Set<ObjectId> tagTargets;
 
 	/**
@@ -204,12 +205,15 @@ public class DfsGarbageCollector {
 
 			allHeads = new HashSet<ObjectId>();
 			nonHeads = new HashSet<ObjectId>();
+			txnHeads = new HashSet<ObjectId>();
 			tagTargets = new HashSet<ObjectId>();
 			for (Ref ref : refsBefore.values()) {
 				if (ref.isSymbolic() || ref.getObjectId() == null)
 					continue;
 				if (isHead(ref))
 					allHeads.add(ref.getObjectId());
+				else if (RefTreeNames.isRefTree(refdb, ref.getName()))
+					txnHeads.add(ref.getObjectId());
 				else
 					nonHeads.add(ref.getObjectId());
 				if (ref.getPeeledObjectId() != null)
@@ -221,6 +225,7 @@ public class DfsGarbageCollector {
 			try {
 				packHeads(pm);
 				packRest(pm);
+				packRefTreeGraph(pm);
 				packGarbage(pm);
 				objdb.commitPack(newPackDesc, toPrune());
 				rollback = false;
@@ -292,6 +297,19 @@ public class DfsGarbageCollector {
 			pw.preparePack(pm, nonHeads, allHeads);
 			if (0 < pw.getObjectCount())
 				writePack(GC, pw, pm);
+		}
+	}
+
+	private void packRefTreeGraph(ProgressMonitor pm) throws IOException {
+		if (txnHeads.isEmpty())
+			return;
+
+		try (PackWriter pw = newPackWriter()) {
+			for (ObjectIdSet packedObjs : newPackObj)
+				pw.excludeObjects(packedObjs);
+			pw.preparePack(pm, txnHeads, null);
+			if (0 < pw.getObjectCount())
+				writePack(GC_TXN, pw, pm);
 		}
 	}
 
