@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_1dbfc2a8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchSystem.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-13T23:38:17Z",
+      "side": 1,
+      "message": "So this is a default default default. :)\n\nI expect real applications (e.g. Gerrit) to use their own configuration files to select how this ScheduledExecutorService should work, make the ScheduledExecutorService itself, and pass it to the constructor above that accepts a ScheduledExecutorService. Doing so would then completely bypass this code.",
+      "parentUuid": "07d9433e_ba089c68",
+      "revId": "ac604cb87aab9cf332ca827c08b58fe0929daea5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_9a03d84b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchSystem.java",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_5dc94a4d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchSystem.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-13T23:38:17Z",
+      "side": 1,
+      "message": "I don\u0027t think you want them daemon. If they are currently replicating, you kind of want that to execute through. But again see above about this being a default default default; real servers should configure this thread pool using their own native configuration system and pass that executor into the constructor.\n\nIn fact some servers may subclass KetchSystem and override methods like newCommitter() to supply name/email values it finds more suitable, like customizing it to its site (\"ketch@eclipse.org\") or if it wants them per-server (\"ketch@`hostname`\").\n\nI\u0027m leaving a number of configuration possibilities on the table for embedders/application builders.\n\n`jgit daemon` itself may one day grow a flag that knows how to setup this thread pool itself. But its too early for that. I\u0027m still thinking jgit daemon is just a simple excuse to play with the prototype and real applications are going to be things like Gerrit and GitBlit.",
+      "parentUuid": "07d9433e_9a03d84b",
+      "revId": "ac604cb87aab9cf332ca827c08b58fe0929daea5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_bab6dc23",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/ReplicaConfig.java",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2016-01-13T17:30:11Z",
       "side": 1,
       "message": "Worth adding \u0027secs\u0027 here as well?",
+      "revId": "ac604cb87aab9cf332ca827c08b58fe0929daea5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_9df2f290",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/ReplicaConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-13T23:38:17Z",
+      "side": 1,
+      "message": "Done, will push a respin later after I gather more feedback.",
+      "parentUuid": "07d9433e_bab6dc23",
       "revId": "ac604cb87aab9cf332ca827c08b58fe0929daea5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -81,6 +135,24 @@
       "writtenOn": "2016-01-13T17:30:11Z",
       "side": 1,
       "message": "Worth having \u0027hrs\u0027 as well?",
+      "revId": "ac604cb87aab9cf332ca827c08b58fe0929daea5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_7dc60e3f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/ReplicaConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-13T23:38:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_3ac2cc7b",
       "revId": "ac604cb87aab9cf332ca827c08b58fe0929daea5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
