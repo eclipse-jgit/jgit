@@ -22,6 +22,30 @@
       "revId": "0784ae4d405a4f98bc9700ff89e89cce8336ec66",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_6a41ebbd",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackWriterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-13T00:11:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_2a19a307",
+      "range": {
+        "startLine": 553,
+        "startChar": 54,
+        "endLine": 553,
+        "endChar": 70
+      },
+      "revId": "0784ae4d405a4f98bc9700ff89e89cce8336ec66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
