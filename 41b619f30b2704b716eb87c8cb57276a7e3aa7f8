@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07d9433e_d0e8e676",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UsernamePasswordCredentialsProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-01-13T07:34:51Z",
+      "side": 1,
+      "message": "Shouldn\u0027t it always end on \u0027:\u0027? Currently \u0027password\u0027 must be followed by \u0027:\u0027 but \u0027passphrase for\u0027 can be suffixed by everything. Not even a space after \u0027for\u0027 is required.",
+      "revId": "41b619f30b2704b716eb87c8cb57276a7e3aa7f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
