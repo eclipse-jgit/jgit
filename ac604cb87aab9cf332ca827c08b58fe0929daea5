@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "07d9433e_ba089c68",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchSystem.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2016-01-13T17:43:26Z",
+      "side": 1,
+      "message": "This should probably be a configurable option, since some JVMs report number of sockets vs number of cores. Useful to have a default that can be overridden?",
+      "revId": "ac604cb87aab9cf332ca827c08b58fe0929daea5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_9a03d84b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchSystem.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2016-01-13T17:43:26Z",
+      "side": 1,
+      "message": "Is it worth creating these threads as daemon threads?",
+      "revId": "ac604cb87aab9cf332ca827c08b58fe0929daea5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_bab6dc23",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/ReplicaConfig.java",
         "patchSetId": 2
