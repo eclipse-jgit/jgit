@@ -22,6 +22,30 @@
       "revId": "40051505d7aaccfe2efaf5f3022f1d99a3976554",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_6a8f2bb5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-13T00:04:38Z",
+      "side": 1,
+      "message": "Change Ifda4450f5e488cbfefd728382b7d30797e229217 does this.",
+      "parentUuid": "07d9433e_8a28ef37",
+      "range": {
+        "startLine": 312,
+        "startChar": 0,
+        "endLine": 312,
+        "endChar": 38
+      },
+      "revId": "40051505d7aaccfe2efaf5f3022f1d99a3976554",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
