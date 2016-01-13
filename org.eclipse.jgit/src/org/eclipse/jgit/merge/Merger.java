@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2008-2013, Google Inc.
+ * Copyright (C) 2016, Laurent Delaigue <laurent.delaigue@obeo.fr>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -51,9 +52,11 @@ import org.eclipse.jgit.errors.NoMergeBaseException;
 import org.eclipse.jgit.errors.NoMergeBaseException.MergeBaseFailureReason;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
@@ -86,6 +89,13 @@ public abstract class Merger {
 
 	/** The trees matching every entry in {@link #sourceObjects}. */
 	protected RevTree[] sourceTrees;
+
+	/**
+	 * A progress monitor.
+	 *
+	 * @since 4.2
+	 */
+	protected ProgressMonitor monitor = NullProgressMonitor.INSTANCE;
 
 	/**
 	 * Create a new merge instance for a repository.
@@ -290,4 +300,20 @@ public abstract class Merger {
 	 * @return resulting tree, if {@link #merge(AnyObjectId[])} returned true.
 	 */
 	public abstract ObjectId getResultTreeId();
+
+	/**
+	 * Set a progress monitor.
+	 *
+	 * @param monitor
+	 *            Monitor to use, can be null to indicate no progress reporting
+	 *            is desired.
+	 * @since 4.2
+	 */
+	public void setProgressMonitor(ProgressMonitor monitor) {
+		if (monitor == null) {
+			this.monitor = NullProgressMonitor.INSTANCE;
+		} else {
+			this.monitor = monitor;
+		}
+	}
 }
