@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2010, Christian Halstrick <christian.halstrick@sap.com>
  * Copyright (C) 2010, Mathias Kinzler <mathias.kinzler@sap.com>
+ * Copyright (C) 2016, Laurent Delaigue <laurent.delaigue@obeo.fr>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -326,6 +327,7 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 			MergeCommand merge = new MergeCommand(repo);
 			merge.include(upstreamName, commitToMerge);
 			merge.setStrategy(strategy);
+			merge.setProgressMonitor(monitor);
 			MergeResult mergeRes = merge.call();
 			monitor.update(1);
 			result = new PullResult(fetchRes, remote, mergeRes);

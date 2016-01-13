@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2010, 2013 Mathias Kinzler <mathias.kinzler@sap.com>
+ * Copyright (C) 2016, Laurent Delaigue <laurent.delaigue@obeo.fr>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -611,6 +612,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 					// their non-first parents rewritten
 					MergeCommand merge = git.merge()
 							.setFastForward(MergeCommand.FastForwardMode.NO_FF)
+							.setProgressMonitor(monitor)
 							.setCommit(false);
 					for (int i = 1; i < commitToPick.getParentCount(); i++)
 						merge.include(newParents.get(i));
