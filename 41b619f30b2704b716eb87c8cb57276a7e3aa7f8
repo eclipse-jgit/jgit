@@ -16,6 +16,24 @@
       "revId": "41b619f30b2704b716eb87c8cb57276a7e3aa7f8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_840e23ed",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UsernamePasswordCredentialsProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 69945
+      },
+      "writtenOn": "2016-01-13T15:00:53Z",
+      "side": 1,
+      "message": "No, because the sshd\u0027s password prompt is depending on the os where the repo is. Some systems appending \":\" at the end of the message and some not. But you\u0027re right. My regex is too specific at this point. I\u0027ll update the check.",
+      "parentUuid": "07d9433e_d0e8e676",
+      "revId": "41b619f30b2704b716eb87c8cb57276a7e3aa7f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
