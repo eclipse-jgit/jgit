@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07d9433e_ba2fbcc3",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/ketch/KetchText.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2016-01-13T17:46:43Z",
+      "side": 1,
+      "message": "Most other messages don\u0027t have punctuation - why do these?",
+      "revId": "591c932bd388726da4e888764ce454108fcdeaec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
