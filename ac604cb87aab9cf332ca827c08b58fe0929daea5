@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07d9433e_bab6dc23",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/ReplicaConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2016-01-13T17:30:11Z",
+      "side": 1,
+      "message": "Worth adding \u0027secs\u0027 here as well?",
+      "revId": "ac604cb87aab9cf332ca827c08b58fe0929daea5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_1ac50884",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/ReplicaConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2016-01-13T17:30:11Z",
+      "side": 1,
+      "message": "Worth having \u0027mins\u0027 here as well?",
+      "revId": "ac604cb87aab9cf332ca827c08b58fe0929daea5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_3ac2cc7b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/ReplicaConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2016-01-13T17:30:11Z",
+      "side": 1,
+      "message": "Worth having \u0027hrs\u0027 as well?",
+      "revId": "ac604cb87aab9cf332ca827c08b58fe0929daea5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
