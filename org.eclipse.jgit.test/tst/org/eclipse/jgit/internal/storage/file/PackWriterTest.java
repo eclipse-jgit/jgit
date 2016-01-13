@@ -49,6 +49,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.eclipse.jgit.internal.storage.pack.PackWriter.NONE;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -87,9 +88,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class PackWriterTest extends SampleDataRepositoryTestCase {
-
-	private static final Set<ObjectId> EMPTY_SET_OBJECT = Collections
-			.<ObjectId> emptySet();
 
 	private static final List<RevObject> EMPTY_LIST_REVS = Collections
 			.<RevObject> emptyList();
@@ -171,7 +169,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 	 */
 	@Test
 	public void testWriteEmptyPack1() throws IOException {
-		createVerifyOpenPack(EMPTY_SET_OBJECT, EMPTY_SET_OBJECT, false, false);
+		createVerifyOpenPack(NONE, NONE, false, false);
 
 		assertEquals(0, writer.getObjectCount());
 		assertEquals(0, pack.getObjectCount());
@@ -204,8 +202,8 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 		final ObjectId nonExisting = ObjectId
 				.fromString("0000000000000000000000000000000000000001");
 		try {
-			createVerifyOpenPack(EMPTY_SET_OBJECT, Collections.singleton(
-					nonExisting), false, false);
+			createVerifyOpenPack(NONE, Collections.singleton(nonExisting),
+					false, false);
 			fail("Should have thrown MissingObjectException");
 		} catch (MissingObjectException x) {
 			// expected
@@ -221,8 +219,8 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 	public void testIgnoreNonExistingObjects() throws IOException {
 		final ObjectId nonExisting = ObjectId
 				.fromString("0000000000000000000000000000000000000001");
-		createVerifyOpenPack(EMPTY_SET_OBJECT, Collections.singleton(
-				nonExisting), false, true);
+		createVerifyOpenPack(NONE, Collections.singleton(nonExisting),
+				false, true);
 		// shouldn't throw anything
 	}
 
@@ -240,8 +238,8 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 		final ObjectId nonExisting = ObjectId
 				.fromString("0000000000000000000000000000000000000001");
 		new GC(db).gc();
-		createVerifyOpenPack(EMPTY_SET_OBJECT,
-				Collections.singleton(nonExisting), false, true, true);
+		createVerifyOpenPack(NONE, Collections.singleton(nonExisting), false,
+				true, true);
 		// shouldn't throw anything
 	}
 
@@ -552,8 +550,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 			pw.setReuseDeltaCommits(false);
 			for (ObjectIdSet idx : excludeObjects)
 				pw.excludeObjects(idx);
-			pw.preparePack(NullProgressMonitor.INSTANCE, want,
-					Collections.<ObjectId> emptySet());
+			pw.preparePack(NullProgressMonitor.INSTANCE, want, NONE);
 			String id = pw.computeName().getName();
 			File packdir = new File(repo.getObjectsDirectory(), "pack");
 			File packFile = new File(packdir, "pack-" + id + ".pack");
@@ -576,7 +573,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 		final HashSet<ObjectId> interestings = new HashSet<ObjectId>();
 		interestings.add(ObjectId
 				.fromString("82c6b885ff600be425b4ea96dee75dca255b69e7"));
-		createVerifyOpenPack(interestings, EMPTY_SET_OBJECT, false, false);
+		createVerifyOpenPack(interestings, NONE, false, false);
 
 		final ObjectId expectedOrder[] = new ObjectId[] {
 				ObjectId.fromString("82c6b885ff600be425b4ea96dee75dca255b69e7"),
