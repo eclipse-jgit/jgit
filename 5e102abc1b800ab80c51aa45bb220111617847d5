@@ -46,6 +46,52 @@
       "revId": "5e102abc1b800ab80c51aa45bb220111617847d5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_ca94b79c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 677,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-13T00:27:35Z",
+      "side": 1,
+      "message": "Hopefully we get the point where all nullable parameters are annotated with @Nullable and anything else is assumed to be @NonNull. \n\nSince this is a central class it may make sense to annotate this for a couple of release cycles, but maybe we pull it back out after that?",
+      "range": {
+        "startLine": 677,
+        "startChar": 25,
+        "endLine": 677,
+        "endChar": 33
+      },
+      "revId": "5e102abc1b800ab80c51aa45bb220111617847d5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_0ab85f2f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 700,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-13T00:27:35Z",
+      "side": 1,
+      "message": "nit: {@code null}",
+      "range": {
+        "startLine": 700,
+        "startChar": 55,
+        "endLine": 700,
+        "endChar": 59
+      },
+      "revId": "5e102abc1b800ab80c51aa45bb220111617847d5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
