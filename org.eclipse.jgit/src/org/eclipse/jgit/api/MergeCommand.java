@@ -330,6 +330,7 @@ public class MergeCommand extends GitCommand<MergeResult> {
 					repo.writeSquashCommitMsg(squashMessage);
 				}
 				Merger merger = mergeStrategy.newMerger(repo);
+				merger.setProgressMonitor(monitor);
 				boolean noProblems;
 				Map<String, org.eclipse.jgit.merge.MergeResult<?>> lowLevelResults = null;
 				Map<String, MergeFailureReason> failingPaths = null;

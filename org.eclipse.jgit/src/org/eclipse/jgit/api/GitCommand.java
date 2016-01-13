@@ -43,6 +43,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.NullProgressMonitor;
+import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
 
 /**
@@ -75,6 +77,13 @@ public abstract class GitCommand<T> implements Callable<T> {
 	private AtomicBoolean callable = new AtomicBoolean(true);
 
 	/**
+	 * A progress monitor.
+	 * 
+	 * @since 4.2
+	 */
+	protected ProgressMonitor monitor;
+
+	/**
 	 * Creates a new command which interacts with a single repository
 	 *
 	 * @param repo
@@ -102,6 +111,25 @@ public abstract class GitCommand<T> implements Callable<T> {
 	 */
 	protected void setCallable(boolean callable) {
 		this.callable.set(callable);
+	}
+
+	/**
+	 * The progress monitor associated with the diff operation. By default, this
+	 * is set to <code>NullProgressMonitor</code>
+	 *
+	 * @see NullProgressMonitor
+	 *
+	 * @param monitor
+	 *            A progress monitor
+	 * @return this instance
+	 * @since 4.2
+	 */
+	public GitCommand<T> setProgressMonitor(ProgressMonitor monitor) {
+		if (monitor == null) {
+			monitor = NullProgressMonitor.INSTANCE;
+		}
+		this.monitor = monitor;
+		return this;
 	}
 
 	/**
