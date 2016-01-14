@@ -104,37 +104,38 @@ public class BranchCommandTest extends RepositoryTestCase {
 
 	private Git setUpRepoWithRemote() throws Exception {
 		Repository remoteRepository = createWorkRepository();
-		Git remoteGit = new Git(remoteRepository);
-		// commit something
-		writeTrashFile("Test.txt", "Hello world");
-		remoteGit.add().addFilepattern("Test.txt").call();
-		initialCommit = remoteGit.commit().setMessage("Initial commit").call();
-		writeTrashFile("Test.txt", "Some change");
-		remoteGit.add().addFilepattern("Test.txt").call();
-		secondCommit = remoteGit.commit().setMessage("Second commit").call();
-		// create a master branch
-		RefUpdate rup = remoteRepository.updateRef("refs/heads/master");
-		rup.setNewObjectId(initialCommit.getId());
-		rup.forceUpdate();
+		try (Git remoteGit = new Git(remoteRepository)) {
+			// commit something
+			writeTrashFile("Test.txt", "Hello world");
+			remoteGit.add().addFilepattern("Test.txt").call();
+			initialCommit = remoteGit.commit().setMessage("Initial commit").call();
+			writeTrashFile("Test.txt", "Some change");
+			remoteGit.add().addFilepattern("Test.txt").call();
+			secondCommit = remoteGit.commit().setMessage("Second commit").call();
+			// create a master branch
+			RefUpdate rup = remoteRepository.updateRef("refs/heads/master");
+			rup.setNewObjectId(initialCommit.getId());
+			rup.forceUpdate();
 
-		Repository localRepository = createWorkRepository();
-		Git localGit = new Git(localRepository);
-		StoredConfig config = localRepository.getConfig();
-		RemoteConfig rc = new RemoteConfig(config, "origin");
-		rc.addURI(new URIish(remoteRepository.getDirectory().getAbsolutePath()));
-		rc.addFetchRefSpec(new RefSpec("+refs/heads/*:refs/remotes/origin/*"));
-		rc.update(config);
-		config.save();
-		FetchResult res = localGit.fetch().setRemote("origin").call();
-		assertFalse(res.getTrackingRefUpdates().isEmpty());
-		rup = localRepository.updateRef("refs/heads/master");
-		rup.setNewObjectId(initialCommit.getId());
-		rup.forceUpdate();
-		rup = localRepository.updateRef(Constants.HEAD);
-		rup.link("refs/heads/master");
-		rup.setNewObjectId(initialCommit.getId());
-		rup.update();
-		return localGit;
+			Repository localRepository = createWorkRepository();
+			Git localGit = new Git(localRepository);
+			StoredConfig config = localRepository.getConfig();
+			RemoteConfig rc = new RemoteConfig(config, "origin");
+			rc.addURI(new URIish(remoteRepository.getDirectory().getAbsolutePath()));
+			rc.addFetchRefSpec(new RefSpec("+refs/heads/*:refs/remotes/origin/*"));
+			rc.update(config);
+			config.save();
+			FetchResult res = localGit.fetch().setRemote("origin").call();
+			assertFalse(res.getTrackingRefUpdates().isEmpty());
+			rup = localRepository.updateRef("refs/heads/master");
+			rup.setNewObjectId(initialCommit.getId());
+			rup.forceUpdate();
+			rup = localRepository.updateRef(Constants.HEAD);
+			rup.link("refs/heads/master");
+			rup.setNewObjectId(initialCommit.getId());
+			rup.update();
+			return localGit;
+		}
 	}
 
 	@Test
@@ -192,8 +193,7 @@ public class BranchCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testListAllBranchesShouldNotDie() throws Exception {
-		Git git = setUpRepoWithRemote();
-		git.branchList().setListMode(ListMode.ALL).call();
+		setUpRepoWithRemote().branchList().setListMode(ListMode.ALL).call();
 	}
 
 	@Test
