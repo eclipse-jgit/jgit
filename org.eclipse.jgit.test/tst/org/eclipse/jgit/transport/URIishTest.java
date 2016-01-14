@@ -64,6 +64,7 @@ public class URIishTest {
 
 	private static final String GIT_SCHEME = "git://";
 
+	@SuppressWarnings("unused")
 	@Test
 	public void shouldRaiseErrorOnEmptyURI() throws Exception {
 		try {
@@ -74,6 +75,7 @@ public class URIishTest {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	@Test
 	public void shouldRaiseErrorOnNullURI() throws Exception {
 		try {
