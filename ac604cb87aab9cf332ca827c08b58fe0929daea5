@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "07d9433e_7d8fee02",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/ElectionRound.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-01-14T05:56:24Z",
+      "side": 1,
+      "message": "Author date is December 2015.  Should this also be 2015?",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 21
+      },
+      "revId": "ac604cb87aab9cf332ca827c08b58fe0929daea5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_5de06ab5",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchLeader.java",
         "patchSetId": 2
@@ -25,6 +48,29 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_9d6f52a5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchLeader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-01-14T05:56:24Z",
+      "side": 1,
+      "message": "\"opened repository\"?",
+      "range": {
+        "startLine": 225,
+        "startChar": 12,
+        "endLine": 225,
+        "endChar": 31
+      },
+      "revId": "ac604cb87aab9cf332ca827c08b58fe0929daea5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_1db182c9",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchLeader.java",
         "patchSetId": 2
@@ -41,6 +87,29 @@
         "startChar": 15,
         "endLine": 434,
         "endChar": 37
+      },
+      "revId": "ac604cb87aab9cf332ca827c08b58fe0929daea5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_1d6342bd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchReplica.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-01-14T05:56:24Z",
+      "side": 1,
+      "message": "\"description of\"",
+      "range": {
+        "startLine": 219,
+        "startChar": 13,
+        "endLine": 219,
+        "endChar": 21
       },
       "revId": "ac604cb87aab9cf332ca827c08b58fe0929daea5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
