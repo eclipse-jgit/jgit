@@ -75,11 +75,13 @@ public class T0001_PersonIdentTest {
 				p.toExternalString());
 	}
 
+	@SuppressWarnings("unused")
 	@Test(expected = IllegalArgumentException.class)
 	public void nullForNameShouldThrowIllegalArgumentException() {
 		new PersonIdent(null, "author@example.com");
 	}
 
+	@SuppressWarnings("unused")
 	@Test(expected = IllegalArgumentException.class)
 	public void nullForEmailShouldThrowIllegalArgumentException() {
 		new PersonIdent("A U Thor", null);
