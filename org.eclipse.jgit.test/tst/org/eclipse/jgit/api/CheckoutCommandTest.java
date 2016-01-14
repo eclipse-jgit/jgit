@@ -417,20 +417,20 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 			InvalidRemoteException, TransportException {
 		// create second repository
 		Repository db2 = createWorkRepository();
-		Git git2 = new Git(db2);
+		try (Git git2 = new Git(db2)) {
+			// setup the second repository to fetch from the first repository
+			final StoredConfig config = db2.getConfig();
+			RemoteConfig remoteConfig = new RemoteConfig(config, "origin");
+			URIish uri = new URIish(db.getDirectory().toURI().toURL());
+			remoteConfig.addURI(uri);
+			remoteConfig.update(config);
+			config.save();
 
-		// setup the second repository to fetch from the first repository
-		final StoredConfig config = db2.getConfig();
-		RemoteConfig remoteConfig = new RemoteConfig(config, "origin");
-		URIish uri = new URIish(db.getDirectory().toURI().toURL());
-		remoteConfig.addURI(uri);
-		remoteConfig.update(config);
-		config.save();
-
-		// fetch from first repository
-		RefSpec spec = new RefSpec("+refs/heads/*:refs/remotes/origin/*");
-		git2.fetch().setRemote("origin").setRefSpecs(spec).call();
-		return db2;
+			// fetch from first repository
+			RefSpec spec = new RefSpec("+refs/heads/*:refs/remotes/origin/*");
+			git2.fetch().setRemote("origin").setRefSpecs(spec).call();
+			return db2;
+		}
 	}
 
 	private CheckoutCommand newOrphanBranchCommand() {
@@ -639,40 +639,41 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 		File clean_filter = writeTempFile("sed s/V1/@version/g -");
 		File smudge_filter = writeTempFile("sed s/@version/V1/g -");
 
-		Git git = new Git(db);
-		StoredConfig config = git.getRepository().getConfig();
-		config.setString("filter", "tstFilter", "smudge",
-				"sh " + slashify(smudge_filter.getPath()));
-		config.setString("filter", "tstFilter", "clean",
-				"sh " + slashify(clean_filter.getPath()));
-		config.save();
-		writeTrashFile(".gitattributes", "*.txt filter=tstFilter");
-		git.add().addFilepattern(".gitattributes").call();
-		git.commit().setMessage("add attributes").call();
+		try (Git git2 = new Git(db)) {
+			StoredConfig config = git.getRepository().getConfig();
+			config.setString("filter", "tstFilter", "smudge",
+					"sh " + slashify(smudge_filter.getPath()));
+			config.setString("filter", "tstFilter", "clean",
+					"sh " + slashify(clean_filter.getPath()));
+			config.save();
+			writeTrashFile(".gitattributes", "*.txt filter=tstFilter");
+			git2.add().addFilepattern(".gitattributes").call();
+			git2.commit().setMessage("add attributes").call();
 
-		writeTrashFile("filterTest.txt", "hello world, V1");
-		git.add().addFilepattern("filterTest.txt").call();
-		git.commit().setMessage("add filterText.txt").call();
-		assertEquals(
-				"[.gitattributes, mode:100644, content:*.txt filter=tstFilter][Test.txt, mode:100644, content:Some other change][filterTest.txt, mode:100644, content:hello world, @version]",
-				indexState(CONTENT));
+			writeTrashFile("filterTest.txt", "hello world, V1");
+			git2.add().addFilepattern("filterTest.txt").call();
+			git2.commit().setMessage("add filterText.txt").call();
+			assertEquals(
+					"[.gitattributes, mode:100644, content:*.txt filter=tstFilter][Test.txt, mode:100644, content:Some other change][filterTest.txt, mode:100644, content:hello world, @version]",
+					indexState(CONTENT));
 
-		git.checkout().setCreateBranch(true).setName("test2").call();
-		writeTrashFile("filterTest.txt", "bon giorno world, V1");
-		git.add().addFilepattern("filterTest.txt").call();
-		git.commit().setMessage("modified filterText.txt").call();
+			git2.checkout().setCreateBranch(true).setName("test2").call();
+			writeTrashFile("filterTest.txt", "bon giorno world, V1");
+			git2.add().addFilepattern("filterTest.txt").call();
+			git2.commit().setMessage("modified filterText.txt").call();
 
-		assertTrue(git.status().call().isClean());
-		assertEquals(
-				"[.gitattributes, mode:100644, content:*.txt filter=tstFilter][Test.txt, mode:100644, content:Some other change][filterTest.txt, mode:100644, content:bon giorno world, @version]",
-				indexState(CONTENT));
+			assertTrue(git2.status().call().isClean());
+			assertEquals(
+					"[.gitattributes, mode:100644, content:*.txt filter=tstFilter][Test.txt, mode:100644, content:Some other change][filterTest.txt, mode:100644, content:bon giorno world, @version]",
+					indexState(CONTENT));
 
-		git.checkout().setName("refs/heads/test").call();
-		assertTrue(git.status().call().isClean());
-		assertEquals(
-				"[.gitattributes, mode:100644, content:*.txt filter=tstFilter][Test.txt, mode:100644, content:Some other change][filterTest.txt, mode:100644, content:hello world, @version]",
-				indexState(CONTENT));
-		assertEquals("hello world, V1", read("filterTest.txt"));
+			git2.checkout().setName("refs/heads/test").call();
+			assertTrue(git2.status().call().isClean());
+			assertEquals(
+					"[.gitattributes, mode:100644, content:*.txt filter=tstFilter][Test.txt, mode:100644, content:Some other change][filterTest.txt, mode:100644, content:hello world, @version]",
+					indexState(CONTENT));
+			assertEquals("hello world, V1", read("filterTest.txt"));
+		}
 	}
 
 	private File writeTempFile(String body) throws IOException {
