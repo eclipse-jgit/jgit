@@ -63,6 +63,8 @@ import org.eclipse.jgit.pgm.internal.CLIText;
  * we can execute at runtime with the remaining arguments of the parser.
  */
 public class SubcommandHandler extends OptionHandler<TextBuiltin> {
+	private final org.eclipse.jgit.pgm.opt.CmdLineParser clp;
+
 	/**
 	 * Create a new handler for the command name.
 	 * <p>
@@ -75,6 +77,7 @@ public class SubcommandHandler extends OptionHandler<TextBuiltin> {
 	public SubcommandHandler(final CmdLineParser parser,
 			final OptionDef option, final Setter<? super TextBuiltin> setter) {
 		super(parser, option, setter);
+		clp = (org.eclipse.jgit.pgm.opt.CmdLineParser) parser;
 	}
 
 	@Override
@@ -82,7 +85,7 @@ public class SubcommandHandler extends OptionHandler<TextBuiltin> {
 		final String name = params.getParameter(0);
 		final CommandRef cr = CommandCatalog.get(name);
 		if (cr == null)
-			throw new CmdLineException(MessageFormat.format(
+			throw new CmdLineException(clp, MessageFormat.format(
 					CLIText.get().notAJgitCommand, name));
 
 		// Force option parsing to stop. Everything after us should
