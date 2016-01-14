@@ -89,7 +89,7 @@ class Reset extends TextBuiltin {
 				if (hard)
 					mode = selectMode(mode, ResetType.HARD);
 				if (mode == null)
-					throw die("no reset mode set");
+					throw die("no reset mode set"); //$NON-NLS-1$
 				command.setMode(mode);
 			}
 			command.call();
@@ -98,7 +98,7 @@ class Reset extends TextBuiltin {
 
 	private static ResetType selectMode(ResetType mode, ResetType want) {
 		if (mode != null)
-			throw die("reset modes are mutually exclusive, select one");
+			throw die("reset modes are mutually exclusive, select one"); //$NON-NLS-1$
 		return want;
 	}
 }
