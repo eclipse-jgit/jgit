@@ -751,7 +751,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 			assertNull(db.resolve(toName));
 			assertEquals(oldFromLog.toString(), db.getReflogReader(fromName)
 					.getReverseEntries().toString());
-			if (oldHeadId != null)
+			if (oldHeadId != null && oldHeadLog != null)
 				assertEquals(oldHeadLog.toString(), db.getReflogReader(
 						Constants.HEAD).getReverseEntries().toString());
 		} finally {
