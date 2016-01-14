@@ -136,7 +136,7 @@ class DiffAlgorithms extends TextBuiltin {
 	protected void run() throws Exception {
 		mxBean = ManagementFactory.getThreadMXBean();
 		if (!mxBean.isCurrentThreadCpuTimeSupported())
-			throw die("Current thread CPU time not supported on this JRE");
+			throw die("Current thread CPU time not supported on this JRE"); //$NON-NLS-1$
 
 		if (gitDirs.isEmpty()) {
 			RepositoryBuilder rb = new RepositoryBuilder() //
@@ -248,18 +248,18 @@ class DiffAlgorithms extends TextBuiltin {
 			File parent = directory.getParentFile();
 			if (name.equals(Constants.DOT_GIT) && parent != null)
 				name = parent.getName();
-			outw.println(name + ": start at " + startId.name());
+			outw.println(name + ": start at " + startId.name()); //$NON-NLS-1$
 		}
 
-		outw.format("  %12d files,     %8d commits\n", valueOf(files),
+		outw.format("  %12d files,     %8d commits\n", valueOf(files), //$NON-NLS-1$
 				valueOf(commits));
-		outw.format("  N=%10d min lines, %8d max lines\n", valueOf(minN),
+		outw.format("  N=%10d min lines, %8d max lines\n", valueOf(minN), //$NON-NLS-1$
 				valueOf(maxN));
 
-		outw.format("%-25s %12s ( %12s  %12s )\n", //
-				"Algorithm", "Time(ns)", "Time(ns) on", "Time(ns) on");
-		outw.format("%-25s %12s ( %12s  %12s )\n", //
-				"", "", "N=" + minN, "N=" + maxN);
+		outw.format("%-25s %12s ( %12s  %12s )\n", //$NON-NLS-1$
+				"Algorithm", "Time(ns)", "Time(ns) on", "Time(ns) on"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		outw.format("%-25s %12s ( %12s  %12s )\n", //$NON-NLS-1$
+				"", "", "N=" + minN, "N=" + maxN); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		outw.println("-----------------------------------------------------" //$NON-NLS-1$
 				+ "----------------"); //$NON-NLS-1$
 
@@ -335,9 +335,9 @@ class DiffAlgorithms extends TextBuiltin {
 				}
 			}
 		} catch (IllegalArgumentException e) {
-			throw die("Cannot determine names", e);
+			throw die("Cannot determine names", e); //$NON-NLS-1$
 		} catch (IllegalAccessException e) {
-			throw die("Cannot determine names", e);
+			throw die("Cannot determine names", e); //$NON-NLS-1$
 		}
 
 		return all;

@@ -324,7 +324,7 @@ class Log extends RevWalkTextBuiltin {
 			return false;
 		if (emptyLine)
 			outw.println();
-		outw.print("Notes");
+		outw.print("Notes"); //$NON-NLS-1$
 		if (label != null) {
 			outw.print(" ("); //$NON-NLS-1$
 			outw.print(label);

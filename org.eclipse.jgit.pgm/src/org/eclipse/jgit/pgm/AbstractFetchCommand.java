@@ -129,20 +129,20 @@ abstract class AbstractFetchCommand extends TextBuiltin {
 			final TrackingRefUpdate u) {
 		final RefUpdate.Result r = u.getResult();
 		if (r == RefUpdate.Result.LOCK_FAILURE)
-			return "[lock fail]";
+			return "[lock fail]"; //$NON-NLS-1$
 		if (r == RefUpdate.Result.IO_FAILURE)
-			return "[i/o error]";
+			return "[i/o error]"; //$NON-NLS-1$
 		if (r == RefUpdate.Result.REJECTED)
-			return "[rejected]";
+			return "[rejected]"; //$NON-NLS-1$
 		if (ObjectId.zeroId().equals(u.getNewObjectId()))
-			return "[deleted]";
+			return "[deleted]"; //$NON-NLS-1$
 
 		if (r == RefUpdate.Result.NEW) {
 			if (u.getRemoteName().startsWith(Constants.R_HEADS))
-				return "[new branch]";
+				return "[new branch]"; //$NON-NLS-1$
 			else if (u.getLocalName().startsWith(Constants.R_TAGS))
-				return "[new tag]";
-			return "[new]";
+				return "[new tag]"; //$NON-NLS-1$
+			return "[new]"; //$NON-NLS-1$
 		}
 
 		if (r == RefUpdate.Result.FORCED) {
@@ -158,7 +158,7 @@ abstract class AbstractFetchCommand extends TextBuiltin {
 		}
 
 		if (r == RefUpdate.Result.NO_CHANGE)
-			return "[up to date]";
+			return "[up to date]"; //$NON-NLS-1$
 		return "[" + r.name() + "]"; //$NON-NLS-1$//$NON-NLS-2$
 	}
 
