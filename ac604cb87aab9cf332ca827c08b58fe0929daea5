@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "07d9433e_5de06ab5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchLeader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-01-14T00:02:48Z",
+      "side": 1,
+      "message": "Are more voters bad? (Scalability, etc)\n\nOtherwise a check for the number being uneven should do fine?\n\nAlso do we want to see `1` as a special case, crippled multi master or not allow it (Why would anyone use it?)",
+      "range": {
+        "startLine": 207,
+        "startChar": 4,
+        "endLine": 207,
+        "endChar": 20
+      },
+      "revId": "ac604cb87aab9cf332ca827c08b58fe0929daea5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_1db182c9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchLeader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-01-14T00:02:48Z",
+      "side": 1,
+      "message": "This seems to calculate \u003e50% number for acceptance with the assumption voters.length is uneven.\n\nIs that sufficient or would anyone want say a majority of more than 2/3 or 3/4? or n/2+1 +2 extra as backup, or any other formula which sounds reasonable?",
+      "range": {
+        "startLine": 434,
+        "startChar": 15,
+        "endLine": 434,
+        "endChar": 37
+      },
+      "revId": "ac604cb87aab9cf332ca827c08b58fe0929daea5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_ba089c68",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchSystem.java",
         "patchSetId": 2
