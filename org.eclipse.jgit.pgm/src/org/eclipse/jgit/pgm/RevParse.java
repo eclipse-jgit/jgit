@@ -56,7 +56,7 @@ import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.Option;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.pgm.internal.CLIText;;
+import org.eclipse.jgit.pgm.internal.CLIText;
 
 @Command(usage = "usage_RevParse")
 class RevParse extends TextBuiltin {
