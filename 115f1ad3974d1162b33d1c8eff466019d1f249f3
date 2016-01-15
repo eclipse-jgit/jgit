@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07d9433e_f08960ae",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTreeDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-01-15T10:32:16Z",
+      "side": 1,
+      "message": "I wanted to try this out on a client side repo. I compiled this patchset and tried:\n\n  \u003e mkdir testRepo\n  \u003e cd testRepo/\n  \u003e jgit init\n  Initialized empty Git repository in /tmp/testRepo/.git\n  \u003e git config extensions.refsStorage reftree\n  \u003e git config core.repositoryformatversion 1\n  \u003e jgit config -l --local\n  core.filemode\u003dtrue\n  core.logallrefupdates\u003dtrue\n  core.repositoryformatversion\u003d1\n  extensions.refsStorage\u003dreftree\n  \u003e touch a\n  \u003e jgit add a\n  \u003e jgit commit -m initial\n  fatal: You are on a branch yet to be born\n\nIs it be possible to use commandline jgit on clientside (non-bare) repo and try out the new RefTreeDatabse",
+      "revId": "115f1ad3974d1162b33d1c8eff466019d1f249f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}

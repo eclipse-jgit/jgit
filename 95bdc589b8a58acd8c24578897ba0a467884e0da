@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07d9433e_f0b2407a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTreeDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-01-15T10:32:16Z",
+      "side": 0,
+      "message": "Have you thought at the use case where this RefDatabase is used on client side e.g. in in combination with EGit? getAdditionalRefs() was once intruduced (in a4f7992) to be able to return FETCH_HEAD,MERGE_HEAD,ORIG_HEAD. IIRC to be compatible with CGit we didn\u0027t wanted these refs to be returned by getRefs(ALL). How was RefTreeDatabase supposed to expose FETCH_HEAD if not by this method?",
+      "revId": "95bdc589b8a58acd8c24578897ba0a467884e0da",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
