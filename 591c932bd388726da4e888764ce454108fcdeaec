@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_ad986382",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/ketch/KetchText.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-15T00:28:00Z",
+      "side": 1,
+      "message": "They are formatted out to the client and I wanted to show . on success and ! on failure as it read nicer to me than just ending a line.",
+      "parentUuid": "07d9433e_ba2fbcc3",
+      "revId": "591c932bd388726da4e888764ce454108fcdeaec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_dacba019",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchPreReceive.java",
         "patchSetId": 1
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_cd4a077b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchPreReceive.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-15T00:28:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_dacba019",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 21
+      },
+      "revId": "591c932bd388726da4e888764ce454108fcdeaec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_fad064c4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchPreReceive.java",
         "patchSetId": 1
@@ -53,6 +95,30 @@
       "writtenOn": "2016-01-14T08:02:17Z",
       "side": 1,
       "message": "s/handling/for handling/",
+      "range": {
+        "startLine": 65,
+        "startChar": 18,
+        "endLine": 65,
+        "endChar": 26
+      },
+      "revId": "591c932bd388726da4e888764ce454108fcdeaec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_ed47cb6f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchPreReceive.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-15T00:28:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_fad064c4",
       "range": {
         "startLine": 65,
         "startChar": 18,
