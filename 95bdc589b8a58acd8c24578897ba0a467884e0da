@@ -16,6 +16,24 @@
       "revId": "95bdc589b8a58acd8c24578897ba0a467884e0da",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_6123c465",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTreeDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-15T18:37:56Z",
+      "side": 0,
+      "message": "I didn\u0027t consider RefTree on the client side; I\u0027ve been focused on the server side use of this for Ketch. There\u0027s no reason why RefTree can\u0027t be used on client side, except bugs in implementation. :)\n\nFETCH_HEAD, MERGE_HEAD, ORIG_HEAD, etc. as coded are going to wind up in the RefTree storage and be reported by getRefs(ALL) because they were stored there.\n\nMaybe we need to rework the update paths to say that refs outside of the \"refs/\" namespace that are not named \"HEAD\" should be shoved down to the bootstrap layer and allow these more transient names like FETCH_HEAD and MERGE_HEAD in $GIT_DIR to be managed by the bootstrap layer, which is probably going to remain RefDirectory or look a lot like RefDirectory (small text file per ref).",
+      "parentUuid": "07d9433e_f0b2407a",
+      "revId": "95bdc589b8a58acd8c24578897ba0a467884e0da",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
