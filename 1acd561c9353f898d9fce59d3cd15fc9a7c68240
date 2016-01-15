@@ -22,6 +22,30 @@
       "revId": "1acd561c9353f898d9fce59d3cd15fc9a7c68240",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_ed70abcc",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Daemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-15T00:17:49Z",
+      "side": 1,
+      "message": "Not right now. The only way URISyntaxException is thrown in the current code is a follower URL is incorrectly specified in the leader\u0027s config file. So the message text is currently correct.",
+      "parentUuid": "07d9433e_a77fa9d2",
+      "range": {
+        "startLine": 200,
+        "startChar": 23,
+        "endLine": 200,
+        "endChar": 41
+      },
+      "revId": "1acd561c9353f898d9fce59d3cd15fc9a7c68240",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
