@@ -99,7 +99,8 @@ public class IndexDiffTest extends RepositoryTestCase {
 	public void testAdded() throws IOException {
 		writeTrashFile("file1", "file1");
 		writeTrashFile("dir/subfile", "dir/subfile");
-		ObjectId tree = insertTree(new TreeFormatter());
+		Tree tree = new Tree(db);
+		tree.setId(insertTree(tree));
 
 		DirCache index = db.lockDirCache();
 		DirCacheEditor editor = index.editor();
@@ -107,7 +108,7 @@ public class IndexDiffTest extends RepositoryTestCase {
 		editor.add(add(db, trash, "dir/subfile"));
 		editor.commit();
 		FileTreeIterator iterator = new FileTreeIterator(db);
-		IndexDiff diff = new IndexDiff(db, tree, iterator);
+		IndexDiff diff = new IndexDiff(db, tree.getId(), iterator);
 		diff.diff();
 		assertEquals(2, diff.getAdded().size());
 		assertTrue(diff.getAdded().contains("file1"));
@@ -123,16 +124,18 @@ public class IndexDiffTest extends RepositoryTestCase {
 		writeTrashFile("file2", "file2");
 		writeTrashFile("dir/file3", "dir/file3");
 
-		TreeFormatter dir = new TreeFormatter();
-		dir.append("file3", FileMode.REGULAR_FILE, ObjectId.fromString("873fb8d667d05436d728c52b1d7a09528e6eb59b"));
-
-		TreeFormatter tree = new TreeFormatter();
-		tree.append("file2", FileMode.REGULAR_FILE, ObjectId.fromString("30d67d4672d5c05833b7192cc77a79eaafb5c7ad"));
-		tree.append("dir", FileMode.TREE, insertTree(dir));
-		ObjectId treeId = insertTree(tree);
+		Tree tree = new Tree(db);
+		tree.addFile("file2");
+		tree.addFile("dir/file3");
+		assertEquals(2, tree.memberCount());
+		tree.findBlobMember("file2").setId(ObjectId.fromString("30d67d4672d5c05833b7192cc77a79eaafb5c7ad"));
+		Tree tree2 = (Tree) tree.findTreeMember("dir");
+		tree2.findBlobMember("file3").setId(ObjectId.fromString("873fb8d667d05436d728c52b1d7a09528e6eb59b"));
+		tree2.setId(insertTree(tree2));
+		tree.setId(insertTree(tree));
 
 		FileTreeIterator iterator = new FileTreeIterator(db);
-		IndexDiff diff = new IndexDiff(db, treeId, iterator);
+		IndexDiff diff = new IndexDiff(db, tree.getId(), iterator);
 		diff.diff();
 		assertEquals(2, diff.getRemoved().size());
 		assertTrue(diff.getRemoved().contains("file2"));
@@ -154,16 +157,16 @@ public class IndexDiffTest extends RepositoryTestCase {
 
 		writeTrashFile("dir/file3", "changed");
 
-		TreeFormatter dir = new TreeFormatter();
-		dir.append("file3", FileMode.REGULAR_FILE, ObjectId.fromString("0123456789012345678901234567890123456789"));
+		Tree tree = new Tree(db);
+		tree.addFile("file2").setId(ObjectId.fromString("0123456789012345678901234567890123456789"));
+		tree.addFile("dir/file3").setId(ObjectId.fromString("0123456789012345678901234567890123456789"));
+		assertEquals(2, tree.memberCount());
 
-		TreeFormatter tree = new TreeFormatter();
-		tree.append("dir", FileMode.TREE, insertTree(dir));
-		tree.append("file2", FileMode.REGULAR_FILE, ObjectId.fromString("0123456789012345678901234567890123456789"));
-		ObjectId treeId = insertTree(tree);
-
+		Tree tree2 = (Tree) tree.findTreeMember("dir");
+		tree2.setId(insertTree(tree2));
+		tree.setId(insertTree(tree));
 		FileTreeIterator iterator = new FileTreeIterator(db);
-		IndexDiff diff = new IndexDiff(db, treeId, iterator);
+		IndexDiff diff = new IndexDiff(db, tree.getId(), iterator);
 		diff.diff();
 		assertEquals(2, diff.getChanged().size());
 		assertTrue(diff.getChanged().contains("file2"));
@@ -311,16 +314,17 @@ public class IndexDiffTest extends RepositoryTestCase {
 		git.add().addFilepattern("a=c").call();
 		git.add().addFilepattern("a=d").call();
 
-		TreeFormatter tree = new TreeFormatter();
+		Tree tree = new Tree(db);
 		// got the hash id'd from the data using echo -n a.b|git hash-object -t blob --stdin
-		tree.append("a.b", FileMode.REGULAR_FILE, ObjectId.fromString("f6f28df96c2b40c951164286e08be7c38ec74851"));
-		tree.append("a.c", FileMode.REGULAR_FILE, ObjectId.fromString("6bc0e647512d2a0bef4f26111e484dc87df7f5ca"));
-		tree.append("a=c", FileMode.REGULAR_FILE, ObjectId.fromString("06022365ddbd7fb126761319633bf73517770714"));
-		tree.append("a=d", FileMode.REGULAR_FILE, ObjectId.fromString("fa6414df3da87840700e9eeb7fc261dd77ccd5c2"));
-		ObjectId treeId = insertTree(tree);
+		tree.addFile("a.b").setId(ObjectId.fromString("f6f28df96c2b40c951164286e08be7c38ec74851"));
+		tree.addFile("a.c").setId(ObjectId.fromString("6bc0e647512d2a0bef4f26111e484dc87df7f5ca"));
+		tree.addFile("a=c").setId(ObjectId.fromString("06022365ddbd7fb126761319633bf73517770714"));
+		tree.addFile("a=d").setId(ObjectId.fromString("fa6414df3da87840700e9eeb7fc261dd77ccd5c2"));
+
+		tree.setId(insertTree(tree));
 
 		FileTreeIterator iterator = new FileTreeIterator(db);
-		IndexDiff diff = new IndexDiff(db, treeId, iterator);
+		IndexDiff diff = new IndexDiff(db, tree.getId(), iterator);
 		diff.diff();
 		assertEquals(0, diff.getChanged().size());
 		assertEquals(0, diff.getAdded().size());
@@ -352,27 +356,24 @@ public class IndexDiffTest extends RepositoryTestCase {
 				.addFilepattern("a/c").addFilepattern("a=c")
 				.addFilepattern("a=d").call();
 
-
+		Tree tree = new Tree(db);
 		// got the hash id'd from the data using echo -n a.b|git hash-object -t blob --stdin
-		TreeFormatter bb = new TreeFormatter();
-		bb.append("b", FileMode.REGULAR_FILE, ObjectId.fromString("8d840bd4e2f3a48ff417c8e927d94996849933fd"));
+		tree.addFile("a.b").setId(ObjectId.fromString("f6f28df96c2b40c951164286e08be7c38ec74851"));
+		tree.addFile("a.c").setId(ObjectId.fromString("6bc0e647512d2a0bef4f26111e484dc87df7f5ca"));
+		tree.addFile("a/b.b/b").setId(ObjectId.fromString("8d840bd4e2f3a48ff417c8e927d94996849933fd"));
+		tree.addFile("a/b").setId(ObjectId.fromString("db89c972fc57862eae378f45b74aca228037d415"));
+		tree.addFile("a/c").setId(ObjectId.fromString("52ad142a008aeb39694bafff8e8f1be75ed7f007"));
+		tree.addFile("a=c").setId(ObjectId.fromString("06022365ddbd7fb126761319633bf73517770714"));
+		tree.addFile("a=d").setId(ObjectId.fromString("fa6414df3da87840700e9eeb7fc261dd77ccd5c2"));
 
-		TreeFormatter a = new TreeFormatter();
-		a.append("b", FileMode.REGULAR_FILE, ObjectId
-				.fromString("db89c972fc57862eae378f45b74aca228037d415"));
-		a.append("b.b", FileMode.TREE, insertTree(bb));
-		a.append("c", FileMode.REGULAR_FILE, ObjectId.fromString("52ad142a008aeb39694bafff8e8f1be75ed7f007"));
-
-		TreeFormatter tree = new TreeFormatter();
-		tree.append("a.b", FileMode.REGULAR_FILE, ObjectId.fromString("f6f28df96c2b40c951164286e08be7c38ec74851"));
-		tree.append("a.c", FileMode.REGULAR_FILE, ObjectId.fromString("6bc0e647512d2a0bef4f26111e484dc87df7f5ca"));
-		tree.append("a", FileMode.TREE, insertTree(a));
-		tree.append("a=c", FileMode.REGULAR_FILE, ObjectId.fromString("06022365ddbd7fb126761319633bf73517770714"));
-		tree.append("a=d", FileMode.REGULAR_FILE, ObjectId.fromString("fa6414df3da87840700e9eeb7fc261dd77ccd5c2"));
-		ObjectId treeId = insertTree(tree);
+		Tree tree3 = (Tree) tree.findTreeMember("a/b.b");
+		tree3.setId(insertTree(tree3));
+		Tree tree2 = (Tree) tree.findTreeMember("a");
+		tree2.setId(insertTree(tree2));
+		tree.setId(insertTree(tree));
 
 		FileTreeIterator iterator = new FileTreeIterator(db);
-		IndexDiff diff = new IndexDiff(db, treeId, iterator);
+		IndexDiff diff = new IndexDiff(db, tree.getId(), iterator);
 		diff.diff();
 		assertEquals(0, diff.getChanged().size());
 		assertEquals(0, diff.getAdded().size());
@@ -382,9 +383,9 @@ public class IndexDiffTest extends RepositoryTestCase {
 		assertEquals(Collections.EMPTY_SET, diff.getUntrackedFolders());
 	}
 
-	private ObjectId insertTree(TreeFormatter tree) throws IOException {
+	private ObjectId insertTree(Tree tree) throws IOException {
 		try (ObjectInserter oi = db.newObjectInserter()) {
-			ObjectId id = oi.insert(tree);
+			ObjectId id = oi.insert(Constants.OBJ_TREE, tree.format());
 			oi.flush();
 			return id;
 		}
