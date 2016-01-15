@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07d9433e_70947097",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefUpdateTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 754,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-01-15T10:43:41Z",
+      "side": 1,
+      "message": "not sure whether this is needed but it\u0027s not harmful. We will get the NPE when (oldHeadId!\u003dnull \u0026\u0026 oldHeadLog\u003d\u003dnull). But if you look at line 724 this will not be the case. Anyhow: +1",
+      "revId": "56634de0cc3b0fd0d66bd867210e7e2d74451cea",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
