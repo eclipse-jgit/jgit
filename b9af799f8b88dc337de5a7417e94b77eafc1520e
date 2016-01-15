@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07d9433e_81fc4834",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 7214
+      },
+      "writtenOn": "2016-01-15T18:29:37Z",
+      "side": 1,
+      "message": "I think this sentence is not very useful in the comment.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 46
+      },
+      "revId": "b9af799f8b88dc337de5a7417e94b77eafc1520e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_a1d22cc7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 7214
+      },
+      "writtenOn": "2016-01-15T18:29:37Z",
+      "side": 1,
+      "message": "Wouldn\u0027t it be also making sense to use the monitor in other git commands, such as the RebaseCommand, which would have to forward it again when doing merges through git.merge() and so on?\n\nI know this is just a first step (introducing and using it in merges), but I\u0027m wondering how this could be introduced without a lot of modifications (e.g. in the methods in class Git) to forward it to called commands that may potentially be also long-running.",
+      "range": {
+        "startLine": 333,
+        "startChar": 4,
+        "endLine": 333,
+        "endChar": 39
+      },
+      "revId": "b9af799f8b88dc337de5a7417e94b77eafc1520e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
