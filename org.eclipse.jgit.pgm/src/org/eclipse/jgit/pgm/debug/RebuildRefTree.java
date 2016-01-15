@@ -43,9 +43,11 @@
 
 package org.eclipse.jgit.pgm.debug;
 
+import static org.eclipse.jgit.lib.Constants.HEAD;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.jgit.internal.storage.reftree.RefTree;
 import org.eclipse.jgit.internal.storage.reftree.RefTreeDatabase;
@@ -108,7 +110,7 @@ class RebuildRefTree extends TextBuiltin {
 				oldTreeId = ObjectId.zeroId();
 			}
 
-			RefTree tree = rebuild(refDb.getRefs(RefDatabase.ALL));
+			RefTree tree = rebuild(refDb);
 			b.setTreeId(tree.writeTree(inserter));
 			b.setAuthor(new PersonIdent(db));
 			b.setCommitter(b.getAuthor());
@@ -139,12 +141,19 @@ class RebuildRefTree extends TextBuiltin {
 		}
 	}
 
-	private RefTree rebuild(Map<String, Ref> refMap) {
+	private RefTree rebuild(RefDatabase refdb) throws IOException {
 		RefTree tree = RefTree.newEmptyTree();
 		List<org.eclipse.jgit.internal.storage.reftree.Command> cmds
 			= new ArrayList<>();
 
-		for (Ref r : refMap.values()) {
+		Ref head = refdb.exactRef(HEAD);
+		if (head != null) {
+			cmds.add(new org.eclipse.jgit.internal.storage.reftree.Command(
+					null,
+					head));
+		}
+
+		for (Ref r : refdb.getRefs(RefDatabase.ALL).values()) {
 			if (r.getName().equals(txnCommitted)
 					|| r.getName().startsWith(txnNamespace)) {
 				continue;
