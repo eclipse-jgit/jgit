@@ -43,6 +43,7 @@
 
 package org.eclipse.jgit.internal.storage.reftree;
 
+import static org.eclipse.jgit.lib.Constants.HEAD;
 import static org.eclipse.jgit.lib.Ref.Storage.LOOSE;
 import static org.eclipse.jgit.lib.Ref.Storage.PACKED;
 
@@ -189,12 +190,19 @@ public class RefTreeDatabase extends RefDatabase {
 
 	@Override
 	public Ref getRef(String name) throws IOException {
-		return findRef(getRefs(ALL), name);
+		String[] needle = new String[SEARCH_PATH.length];
+		for (int i = 0; i < SEARCH_PATH.length; i++) {
+			needle[i] = SEARCH_PATH[i] + name;
+		}
+		return firstExactRef(needle);
 	}
 
 	@Override
 	public Ref exactRef(String name) throws IOException {
-		if (conflictsWithBootstrap(name)) {
+		if (!repo.isBare() && name.indexOf('/') < 0 && !HEAD.equals(name)) {
+			// Pass through names like MERGE_HEAD, ORIG_HEAD, FETCH_HEAD.
+			return bootstrap.exactRef(name);
+		} else if (conflictsWithBootstrap(name)) {
 			return null;
 		}
 
@@ -311,6 +319,9 @@ public class RefTreeDatabase extends RefDatabase {
 
 	@Override
 	public RefUpdate newUpdate(String name, boolean detach) throws IOException {
+		if (!repo.isBare() && name.indexOf('/') < 0 && !HEAD.equals(name)) {
+			return bootstrap.newUpdate(name, detach);
+		}
 		if (conflictsWithBootstrap(name)) {
 			return new AlwaysFailUpdate(this, name);
 		}
@@ -345,7 +356,13 @@ public class RefTreeDatabase extends RefDatabase {
 			return true;
 		} else if (txnCommitted.equals(name)) {
 			return true;
-		} else if (name.length() > txnCommitted.length()
+		}
+
+		if (name.indexOf('/') < 0 && !HEAD.equals(name)) {
+			return true;
+		}
+
+		if (name.length() > txnCommitted.length()
 				&& name.charAt(txnCommitted.length()) == '/'
 				&& name.startsWith(txnCommitted)) {
 			return true;

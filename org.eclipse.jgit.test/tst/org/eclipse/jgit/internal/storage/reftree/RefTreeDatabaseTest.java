@@ -44,6 +44,7 @@
 package org.eclipse.jgit.internal.storage.reftree;
 
 import static org.eclipse.jgit.lib.Constants.HEAD;
+import static org.eclipse.jgit.lib.Constants.ORIG_HEAD;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
 import static org.eclipse.jgit.lib.Ref.Storage.LOOSE;
@@ -464,6 +465,27 @@ public class RefTreeDatabaseTest {
 
 		assertEquals(REJECTED_OTHER_REASON, cmd.getResult());
 		assertEquals(JGitText.get().funnyRefname, cmd.getMessage());
+		assertEquals(txnId, getTxnCommitted());
+	}
+
+	@Test
+	public void testUpdate_RefusesOrigHeadOnBare() throws IOException {
+		assertTrue(refdb.getRepository().isBare());
+		ObjectId txnId = getTxnCommitted();
+
+		RefUpdate orig = refdb.newUpdate(ORIG_HEAD, true);
+		orig.setNewObjectId(B);
+		assertEquals(RefUpdate.Result.LOCK_FAILURE, orig.update());
+		assertEquals(txnId, getTxnCommitted());
+
+		ReceiveCommand cmd = command(null, B, ORIG_HEAD);
+		BatchRefUpdate batch = refdb.newBatchUpdate();
+		batch.addCommand(cmd);
+		batch.execute(new RevWalk(repo), NullProgressMonitor.INSTANCE);
+		assertEquals(REJECTED_OTHER_REASON, cmd.getResult());
+		assertEquals(
+				MessageFormat.format(JGitText.get().invalidRefName, ORIG_HEAD),
+				cmd.getMessage());
 		assertEquals(txnId, getTxnCommitted());
 	}
 
