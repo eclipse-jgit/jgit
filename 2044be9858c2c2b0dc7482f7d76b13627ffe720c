@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_eda26bac",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchLeaderCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-15T00:33:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_fd085e37",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 21
+      },
+      "revId": "2044be9858c2c2b0dc7482f7d76b13627ffe720c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_dd1aba74",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchLeaderCache.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2016-01-14T08:02:59Z",
       "side": 1,
       "message": "Suggested:\nA cache of live leader instances, keyed by repository. \n\u003cp\u003e\nKetch only assigns a leader to a repository when needed. If {@link #get(...)} is called for a repository that does not have a leader, the leader is created and added to the cache.",
+      "range": {
+        "startLine": 56,
+        "startChar": 25,
+        "endLine": 56,
+        "endChar": 34
+      },
+      "revId": "2044be9858c2c2b0dc7482f7d76b13627ffe720c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_0d8f8f3a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchLeaderCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-15T00:33:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_dd1aba74",
       "range": {
         "startLine": 56,
         "startChar": 25,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_2d945348",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchLeaderCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-15T00:33:13Z",
+      "side": 1,
+      "message": "That\u0027s all future TBD. Given a manually elected system running as a proof of concept there is no need for changing leadership or expiring leadership.",
+      "parentUuid": "07d9433e_fd1f7e62",
+      "range": {
+        "startLine": 57,
+        "startChar": 13,
+        "endLine": 57,
+        "endChar": 29
+      },
+      "revId": "2044be9858c2c2b0dc7482f7d76b13627ffe720c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_7d144e4b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchLeaderCache.java",
         "patchSetId": 1
@@ -82,6 +154,30 @@
       "writtenOn": "2016-01-14T08:02:59Z",
       "side": 1,
       "message": "s/instance/instance for a given repository/",
+      "range": {
+        "startLine": 75,
+        "startChar": 22,
+        "endLine": 75,
+        "endChar": 30
+      },
+      "revId": "2044be9858c2c2b0dc7482f7d76b13627ffe720c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_4d899731",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchLeaderCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-15T00:33:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_7d144e4b",
       "range": {
         "startLine": 75,
         "startChar": 22,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_6d8e5b3c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchLeaderCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-15T00:33:13Z",
+      "side": 1,
+      "message": "I\u0027m just going to drop the String id part.",
+      "parentUuid": "07d9433e_bd25f6b4",
+      "range": {
+        "startLine": 86,
+        "startChar": 1,
+        "endLine": 86,
+        "endChar": 61
+      },
+      "revId": "2044be9858c2c2b0dc7482f7d76b13627ffe720c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_1d0d0245",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchLeaderCache.java",
         "patchSetId": 1
@@ -128,6 +248,24 @@
       "writtenOn": "2016-01-14T08:02:59Z",
       "side": 1,
       "message": "nit: unneeded blank lines",
+      "revId": "2044be9858c2c2b0dc7482f7d76b13627ffe720c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_cd7cc793",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchLeaderCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-15T00:33:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_1d0d0245",
       "revId": "2044be9858c2c2b0dc7482f7d76b13627ffe720c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
