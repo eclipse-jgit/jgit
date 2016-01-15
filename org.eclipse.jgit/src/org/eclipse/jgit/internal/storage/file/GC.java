@@ -629,15 +629,16 @@ public class GC {
 	}
 
 	/**
-	 * Returns a map of all refs and additional refs (e.g. FETCH_HEAD,
+	 * Returns a collection of all refs and additional refs (e.g. FETCH_HEAD,
 	 * MERGE_HEAD, ...)
 	 *
-	 * @return a map where names of refs point to ref objects
+	 * @return a collection of refs pointing to live objects.
 	 * @throws IOException
 	 */
 	private Collection<Ref> getAllRefs() throws IOException {
-		Collection<Ref> refs = RefTreeNames.allRefs(repo.getRefDatabase());
-		List<Ref> addl = repo.getRefDatabase().getAdditionalRefs();
+		RefDatabase refdb = repo.getRefDatabase();
+		Collection<Ref> refs = refdb.getRefs(RefDatabase.ALL).values();
+		List<Ref> addl = refdb.getAdditionalRefs();
 		if (!addl.isEmpty()) {
 			List<Ref> all = new ArrayList<>(refs.size() + addl.size());
 			all.addAll(refs);
