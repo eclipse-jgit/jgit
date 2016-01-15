@@ -47,10 +47,11 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
-import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.FileTreeEntry;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
-import org.eclipse.jgit.lib.TreeFormatter;
+import org.eclipse.jgit.lib.Tree;
 import org.junit.Test;
 
 @SuppressWarnings("deprecation")
@@ -219,24 +220,28 @@ public class ObjectWalkTest extends RevWalkTestCase {
 				.fromString("abbbfafe3129f85747aba7bfac992af77134c607");
 		final RevTree tree_root, tree_A, tree_AB;
 		final RevCommit b;
-		try (ObjectInserter inserter = db.newObjectInserter()) {
-			ObjectId empty = inserter.insert(new TreeFormatter());
+		{
+			Tree root = new Tree(db);
+			Tree A = root.addTree("A");
+			FileTreeEntry B = root.addFile("B");
+			B.setId(bId);
 
-			TreeFormatter A = new TreeFormatter();
-			A.append("A", FileMode.TREE, empty);
-			A.append("B", FileMode.TREE, empty);
-			ObjectId idA = inserter.insert(A);
+			Tree A_A = A.addTree("A");
+			Tree A_B = A.addTree("B");
 
-			TreeFormatter root = new TreeFormatter();
-			root.append("A", FileMode.TREE, idA);
-			root.append("B", FileMode.REGULAR_FILE, bId);
-			ObjectId idRoot = inserter.insert(root);
-			inserter.flush();
+			try (final ObjectInserter inserter = db.newObjectInserter()) {
+				A_A.setId(inserter.insert(Constants.OBJ_TREE, A_A.format()));
+				A_B.setId(inserter.insert(Constants.OBJ_TREE, A_B.format()));
+				A.setId(inserter.insert(Constants.OBJ_TREE, A.format()));
+				root.setId(inserter.insert(Constants.OBJ_TREE, root.format()));
+				inserter.flush();
+			}
 
-			tree_root = objw.parseTree(idRoot);
-			tree_A = objw.parseTree(idA);
-			tree_AB = objw.parseTree(empty);
-			b = commit(tree_root);
+			tree_root = rw.parseTree(root.getId());
+			tree_A = rw.parseTree(A.getId());
+			tree_AB = rw.parseTree(A_A.getId());
+			assertSame(tree_AB, rw.parseTree(A_B.getId()));
+			b = commit(rw.parseTree(root.getId()));
 		}
 
 		markStart(b);

@@ -44,6 +44,7 @@
 package org.eclipse.jgit.treewalk;
 
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
+import static org.eclipse.jgit.lib.Constants.OBJ_TREE;
 import static org.eclipse.jgit.lib.Constants.encode;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -53,10 +54,11 @@ import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
-import org.eclipse.jgit.lib.TreeFormatter;
+import org.eclipse.jgit.lib.Tree;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.junit.Test;
 
+@SuppressWarnings("deprecation")
 public class TreeWalkBasicDiffTest extends RepositoryTestCase {
 	@Test
 	public void testMissingSubtree_DetectFileAdded_FileModified()
@@ -70,63 +72,62 @@ public class TreeWalkBasicDiffTest extends RepositoryTestCase {
 
 			// Create sub-a/empty, sub-c/empty = hello.
 			{
-				TreeFormatter root = new TreeFormatter();
+				final Tree root = new Tree(db);
 				{
-					TreeFormatter subA = new TreeFormatter();
-					subA.append("empty", FileMode.REGULAR_FILE, aFileId);
-					root.append("sub-a", FileMode.TREE, inserter.insert(subA));
+					final Tree subA = root.addTree("sub-a");
+					subA.addFile("empty").setId(aFileId);
+					subA.setId(inserter.insert(OBJ_TREE, subA.format()));
 				}
 				{
-					TreeFormatter subC = new TreeFormatter();
-					subC.append("empty", FileMode.REGULAR_FILE, cFileId1);
-					root.append("sub-c", FileMode.TREE, inserter.insert(subC));
+					final Tree subC = root.addTree("sub-c");
+					subC.addFile("empty").setId(cFileId1);
+					subC.setId(inserter.insert(OBJ_TREE, subC.format()));
 				}
-				oldTree = inserter.insert(root);
+				oldTree = inserter.insert(OBJ_TREE, root.format());
 			}
 
 			// Create sub-a/empty, sub-b/empty, sub-c/empty.
 			{
-				TreeFormatter root = new TreeFormatter();
+				final Tree root = new Tree(db);
 				{
-					TreeFormatter subA = new TreeFormatter();
-					subA.append("empty", FileMode.REGULAR_FILE, aFileId);
-					root.append("sub-a", FileMode.TREE, inserter.insert(subA));
+					final Tree subA = root.addTree("sub-a");
+					subA.addFile("empty").setId(aFileId);
+					subA.setId(inserter.insert(OBJ_TREE, subA.format()));
 				}
 				{
-					TreeFormatter subB = new TreeFormatter();
-					subB.append("empty", FileMode.REGULAR_FILE, bFileId);
-					root.append("sub-b", FileMode.TREE, inserter.insert(subB));
+					final Tree subB = root.addTree("sub-b");
+					subB.addFile("empty").setId(bFileId);
+					subB.setId(inserter.insert(OBJ_TREE, subB.format()));
 				}
 				{
-					TreeFormatter subC = new TreeFormatter();
-					subC.append("empty", FileMode.REGULAR_FILE, cFileId2);
-					root.append("sub-c", FileMode.TREE, inserter.insert(subC));
+					final Tree subC = root.addTree("sub-c");
+					subC.addFile("empty").setId(cFileId2);
+					subC.setId(inserter.insert(OBJ_TREE, subC.format()));
 				}
-				newTree = inserter.insert(root);
+				newTree = inserter.insert(OBJ_TREE, root.format());
 			}
 			inserter.flush();
 		}
 
-		try (TreeWalk tw = new TreeWalk(db)) {
-			tw.reset(oldTree, newTree);
-			tw.setRecursive(true);
-			tw.setFilter(TreeFilter.ANY_DIFF);
+		final TreeWalk tw = new TreeWalk(db);
+		tw.reset(oldTree, newTree);
+		tw.setRecursive(true);
+		tw.setFilter(TreeFilter.ANY_DIFF);
 
-			assertTrue(tw.next());
-			assertEquals("sub-b/empty", tw.getPathString());
-			assertEquals(FileMode.MISSING, tw.getFileMode(0));
-			assertEquals(FileMode.REGULAR_FILE, tw.getFileMode(1));
-			assertEquals(ObjectId.zeroId(), tw.getObjectId(0));
-			assertEquals(bFileId, tw.getObjectId(1));
+		assertTrue(tw.next());
+		assertEquals("sub-b/empty", tw.getPathString());
+		assertEquals(FileMode.MISSING, tw.getFileMode(0));
+		assertEquals(FileMode.REGULAR_FILE, tw.getFileMode(1));
+		assertEquals(ObjectId.zeroId(), tw.getObjectId(0));
+		assertEquals(bFileId, tw.getObjectId(1));
 
-			assertTrue(tw.next());
-			assertEquals("sub-c/empty", tw.getPathString());
-			assertEquals(FileMode.REGULAR_FILE, tw.getFileMode(0));
-			assertEquals(FileMode.REGULAR_FILE, tw.getFileMode(1));
-			assertEquals(cFileId1, tw.getObjectId(0));
-			assertEquals(cFileId2, tw.getObjectId(1));
+		assertTrue(tw.next());
+		assertEquals("sub-c/empty", tw.getPathString());
+		assertEquals(FileMode.REGULAR_FILE, tw.getFileMode(0));
+		assertEquals(FileMode.REGULAR_FILE, tw.getFileMode(1));
+		assertEquals(cFileId1, tw.getObjectId(0));
+		assertEquals(cFileId2, tw.getObjectId(1));
 
-			assertFalse(tw.next());
-		}
+		assertFalse(tw.next());
 	}
 }
