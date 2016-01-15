@@ -124,6 +124,17 @@ public class RefTreeDatabaseTest {
 		assertTrue("no references", refdb.getRefs(ALL).isEmpty());
 		assertTrue("no references", refdb.getRefs(R_HEADS).isEmpty());
 		assertTrue("no references", refdb.getRefs(R_TAGS).isEmpty());
+		assertTrue("no references", refdb.getAdditionalRefs().isEmpty());
+	}
+
+	@Test
+	public void testGetAdditionalRefs() throws IOException {
+		update("refs/heads/master", A);
+
+		List<Ref> addl = refdb.getAdditionalRefs();
+		assertEquals(1, addl.size());
+		assertEquals("refs/txn/committed", addl.get(0).getName());
+		assertEquals(getTxnCommitted(), addl.get(0).getObjectId());
 	}
 
 	@Test
