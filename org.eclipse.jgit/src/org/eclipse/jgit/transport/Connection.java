@@ -59,8 +59,7 @@ import org.eclipse.jgit.lib.Ref;
  *
  * @see Transport
  */
-public interface Connection {
-
+public interface Connection extends AutoCloseable {
 	/**
 	 * Get the complete map of refs advertised as available for fetching or
 	 * pushing.
