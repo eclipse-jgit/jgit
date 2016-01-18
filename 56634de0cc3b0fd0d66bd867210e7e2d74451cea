@@ -16,6 +16,24 @@
       "revId": "56634de0cc3b0fd0d66bd867210e7e2d74451cea",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_4735f08e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefUpdateTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 754,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-01-18T02:01:22Z",
+      "side": 1,
+      "message": "Right, this was purely to kill the warning in Eclipse.",
+      "parentUuid": "07d9433e_70947097",
+      "revId": "56634de0cc3b0fd0d66bd867210e7e2d74451cea",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
