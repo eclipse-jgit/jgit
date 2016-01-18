@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_f99dc447",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/ElectionRound.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_9c958b13",
+      "range": {
+        "startLine": 62,
+        "startChar": 3,
+        "endLine": 62,
+        "endChar": 47
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_5c84e3e8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/ElectionRound.java",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2016-01-18T07:46:22Z",
       "side": 1,
       "message": "I don\u0027t see why the publishing of the new term should be delayed. Get rid of  the \"newTerm\" local and just directly assign to the \"term\" member variable?",
+      "range": {
+        "startLine": 128,
+        "startChar": 0,
+        "endLine": 128,
+        "endChar": 17
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_19a34888",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/ElectionRound.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_5c84e3e8",
       "range": {
         "startLine": 128,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_0c5ce8f8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchLeader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_dcb8f3ad",
+      "range": {
+        "startLine": 70,
+        "startChar": 3,
+        "endLine": 70,
+        "endChar": 9
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_21f8dc70",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchLeader.java",
         "patchSetId": 3
@@ -82,6 +154,30 @@
       "writtenOn": "2016-01-18T07:46:22Z",
       "side": 1,
       "message": "This is a great explanation, thanks. \n\nI had expected that Leader objects could come and go but that Replica objects might be long lived. The choice made here, where the Replica objects are owned by the Leader and only live for the Leader\u0027s term makes sense in minimizing the resource footprint when you want to support millions of repositories that receive infrequent write traffic.\n\nHowever, it has the following implications for the overall architecture: Ketch should aim to minimize the number new leader elections and/or ensure that creation of Leader and Replica objects it relatively inexpensive. Since Leader election involves a network round trip to establish a new term, so long as object creation only requires access to local state, we should be good. I\u0027m starting to keep some documentation that we can add to an overview document.\n\nSomewhere we need to document the \"life of a push request\". Currently this seems like the best place. Here is my stab at it:\n\u003cp\u003e\nIn Ketch a push request is issued through the leader. The steps are as follows (see {@link KetchPreRecieve} for an example):\n\u003cul\u003e\n\u003cli\u003eCreate a {@link Proposal} with the {@link ReceiveCommand}s that represent the push\n\u003cli\u003eInvoke  {@link #queueProposal()} on the leader\n\u003cli\u003eInvoke {@link Proposal#await()}\n\u003cli\u003eTo see the status of the push, check {@link Proposal#getCommands()}, looking at {@link Command#getResult()}\n\u003c/ul\u003e\n\u003cp\u003e\nThe leader gains consensus by first pushing the needed objects and a {@link RefTree} representing the desired target repository state to the {@code refs/txn/accepted} branch on each of the replicas. Once a majority has succeeded, the leader commits the state by either pushing the {@code refs/txn/accepted} value to {@code refs/txn/committed} (for Ketch-aware replicas) or by pushing updates to {@code refs/heads/master}, etc. for stock git replicas.\n\u003cp\u003e\nInternally, the actual transport to replicas is performed on background threads via the {@link KetchSystem}\u0027s executor service. For performance, the {@link KetchLeader}, {@link KetchReplica} and {@link Proposal} objects share some state, and may invoke each other\u0027s methods on different threads. This access is protected by the leader\u0027s {@link #lock} object. Care must be taken to prevent concurrent access by correctly obtaining the leader\u0027s lock.",
+      "range": {
+        "startLine": 88,
+        "startChar": 22,
+        "endLine": 88,
+        "endChar": 33
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_2c51acdf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchLeader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "07d9433e_21f8dc70",
       "range": {
         "startLine": 88,
         "startChar": 22,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_ccdcc0de",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchLeader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_276b8c69",
+      "range": {
+        "startLine": 127,
+        "startChar": 28,
+        "endLine": 127,
+        "endChar": 40
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_c1e010b8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchLeader.java",
         "patchSetId": 3
@@ -128,6 +248,30 @@
       "writtenOn": "2016-01-18T07:46:22Z",
       "side": 1,
       "message": "nit: {@code true}",
+      "range": {
+        "startLine": 132,
+        "startChar": 7,
+        "endLine": 132,
+        "endChar": 11
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_ece8a476",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchLeader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_c1e010b8",
       "range": {
         "startLine": 132,
         "startChar": 7,
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_0c194839",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchLeader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_076688a0",
+      "range": {
+        "startLine": 133,
+        "startChar": 14,
+        "endLine": 133,
+        "endChar": 18
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_a195cc12",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchLeader.java",
         "patchSetId": 3
@@ -174,6 +342,30 @@
       "writtenOn": "2016-01-18T07:46:22Z",
       "side": 1,
       "message": "s/./ or {@link refTree} is replaced with a fresh copy to isolate it from any running rounds./",
+      "range": {
+        "startLine": 134,
+        "startChar": 73,
+        "endLine": 134,
+        "endChar": 74
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_ec134418",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchLeader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_a195cc12",
       "range": {
         "startLine": 134,
         "startChar": 73,
@@ -209,6 +401,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_6cfc9433",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchLeader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_a1606caf",
+      "range": {
+        "startLine": 142,
+        "startChar": 18,
+        "endLine": 142,
+        "endChar": 29
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_7c98c74a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchLeader.java",
         "patchSetId": 3
@@ -220,6 +436,30 @@
       "writtenOn": "2016-01-18T07:46:22Z",
       "side": 1,
       "message": "s/Top/End/",
+      "range": {
+        "startLine": 144,
+        "startChar": 5,
+        "endLine": 144,
+        "endChar": 8
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_8cf9d843",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchLeader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_7c98c74a",
       "range": {
         "startLine": 144,
         "startChar": 5,
@@ -255,6 +495,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_acf69c4e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchLeader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_fc84d7ed",
+      "range": {
+        "startLine": 271,
+        "startChar": 13,
+        "endLine": 271,
+        "endChar": 25
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_01e91878",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchReplica.java",
         "patchSetId": 3
@@ -266,6 +530,30 @@
       "writtenOn": "2016-01-18T07:46:22Z",
       "side": 1,
       "message": "s/or/or a/",
+      "range": {
+        "startLine": 90,
+        "startChar": 47,
+        "endLine": 90,
+        "endChar": 49
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_2c1e0c22",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchReplica.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_01e91878",
       "range": {
         "startLine": 90,
         "startChar": 47,
@@ -301,6 +589,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_4c235065",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchReplica.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_8779b83c",
+      "range": {
+        "startLine": 105,
+        "startChar": 22,
+        "endLine": 105,
+        "endChar": 34
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_c1f65050",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchReplica.java",
         "patchSetId": 3
@@ -312,6 +624,30 @@
       "writtenOn": "2016-01-18T07:46:22Z",
       "side": 1,
       "message": "s/replica/replica in establishing consensus/",
+      "range": {
+        "startLine": 109,
+        "startChar": 24,
+        "endLine": 109,
+        "endChar": 31
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_6c0734d5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchReplica.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_c1f65050",
       "range": {
         "startLine": 109,
         "startChar": 24,
@@ -347,6 +683,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_cc0e80ee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchReplica.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Correct. In FAST we allow the two pushes to run concurrently with each other. This allows the commit to potentially go faster as it has less to transfer than if it were combined with the next batch which is sending objects.",
+      "parentUuid": "07d9433e_2119bc39",
+      "range": {
+        "startLine": 130,
+        "startChar": 34,
+        "endLine": 131,
+        "endChar": 19
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_a104eccf",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchReplica.java",
         "patchSetId": 3
@@ -358,6 +718,30 @@
       "writtenOn": "2016-01-18T07:46:22Z",
       "side": 1,
       "message": "This reads like the commit is never sent alone, that we may wait an hour until a new proposal comes in. If that\u0027s not true, change to \"If the next proposal is available, batch the commit with it, otherwise just send the commit. This generates less nework...\"",
+      "range": {
+        "startLine": 136,
+        "startChar": 5,
+        "endLine": 136,
+        "endChar": 40
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_ec3a6482",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchReplica.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Correct we don\u0027t wait to commit when there\u0027s no proposal so I used your text.",
+      "parentUuid": "07d9433e_a104eccf",
       "range": {
         "startLine": 136,
         "startChar": 5,
@@ -393,6 +777,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_6c2e5447",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchReplica.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_e780c49a",
+      "range": {
+        "startLine": 304,
+        "startChar": 6,
+        "endLine": 304,
+        "endChar": 17
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_4747b0f6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchReplica.java",
         "patchSetId": 3
@@ -404,6 +812,30 @@
       "writtenOn": "2016-01-18T07:46:22Z",
       "side": 1,
       "message": "s/c/committed/, to be consistent with other methods.",
+      "range": {
+        "startLine": 307,
+        "startChar": 9,
+        "endLine": 307,
+        "endChar": 10
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_4c3a7081",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchReplica.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Done, but with the line wrapping its forcing I don\u0027t think it has improved the readability of this code at all.",
+      "parentUuid": "07d9433e_4747b0f6",
       "range": {
         "startLine": 307,
         "startChar": 9,
@@ -439,6 +871,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_8c2b9833",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchReplica.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_074da818",
+      "range": {
+        "startLine": 330,
+        "startChar": 6,
+        "endLine": 330,
+        "endChar": 17
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_a776bc47",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchReplica.java",
         "patchSetId": 3
@@ -450,6 +906,30 @@
       "writtenOn": "2016-01-18T07:46:22Z",
       "side": 1,
       "message": "s/commit/prepareTxnCommitted/",
+      "range": {
+        "startLine": 338,
+        "startChar": 14,
+        "endLine": 338,
+        "endChar": 20
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_ac285c37",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchReplica.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_a776bc47",
       "range": {
         "startLine": 338,
         "startChar": 14,
@@ -485,6 +965,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_cc25a05e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchReplica.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_2752acb5",
+      "range": {
+        "startLine": 374,
+        "startChar": 10,
+        "endLine": 374,
+        "endChar": 11
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_e757e49d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchReplica.java",
         "patchSetId": 3
@@ -496,6 +1000,30 @@
       "writtenOn": "2016-01-18T07:46:22Z",
       "side": 1,
       "message": "s/nextPush/runNextPushRequest/\n\nDoes this always need to be called with the leader\u0027s lock held.\n\nEnough going on here to warrant JavaDoc.",
+      "range": {
+        "startLine": 379,
+        "startChar": 14,
+        "endLine": 379,
+        "endChar": 22
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_4c75103e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchReplica.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_e757e49d",
       "range": {
         "startLine": 379,
         "startChar": 14,
@@ -531,6 +1059,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_0c6b0869",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchReplica.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_674cb41a",
+      "range": {
+        "startLine": 380,
+        "startChar": 8,
+        "endLine": 380,
+        "endChar": 9
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_a75ddcc3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchReplica.java",
         "patchSetId": 3
@@ -542,6 +1094,30 @@
       "writtenOn": "2016-01-18T07:46:22Z",
       "side": 1,
       "message": "s/n/cmd/",
+      "range": {
+        "startLine": 392,
+        "startChar": 23,
+        "endLine": 392,
+        "endChar": 24
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_6c79f439",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchReplica.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_a75ddcc3",
       "range": {
         "startLine": 392,
         "startChar": 23,
@@ -577,6 +1153,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_8c763848",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchReplica.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_8760d878",
+      "range": {
+        "startLine": 393,
+        "startChar": 11,
+        "endLine": 393,
+        "endChar": 13
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_c75ae0c8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchReplica.java",
         "patchSetId": 3
@@ -588,6 +1188,30 @@
       "writtenOn": "2016-01-18T07:46:22Z",
       "side": 1,
       "message": "s/n/cmd/",
+      "range": {
+        "startLine": 432,
+        "startChar": 22,
+        "endLine": 432,
+        "endChar": 23
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_ac83fca4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchReplica.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_c75ae0c8",
       "range": {
         "startLine": 432,
         "startChar": 22,
@@ -623,6 +1247,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_ec4c241f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchReplica.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 512,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_27bd4c52",
+      "range": {
+        "startLine": 512,
+        "startChar": 25,
+        "endLine": 512,
+        "endChar": 30
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_47c250cf",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchReplica.java",
         "patchSetId": 3
@@ -634,6 +1282,30 @@
       "writtenOn": "2016-01-18T07:46:22Z",
       "side": 1,
       "message": "Why have a void function with invisible side effects? Make this return the new state and assign it to the \"state\" variable. Shouldn\u0027t it reset the state to \"CURRENT\" if its other conditions aren\u0027t triggered?",
+      "range": {
+        "startLine": 553,
+        "startChar": 0,
+        "endLine": 553,
+        "endChar": 38
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_0c5228b5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchReplica.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Done. I\u0027m reasonably certain it shouldn\u0027t return CURRENT.",
+      "parentUuid": "07d9433e_47c250cf",
       "range": {
         "startLine": 553,
         "startChar": 0,
@@ -669,6 +1341,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_2c47ecf7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchReplica.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 673,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_07b84861",
+      "range": {
+        "startLine": 673,
+        "startChar": 38,
+        "endLine": 673,
+        "endChar": 44
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_41e6c05f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/LeaderSnapshot.java",
         "patchSetId": 3
@@ -680,6 +1376,30 @@
       "writtenOn": "2016-01-18T07:46:22Z",
       "side": 1,
       "message": "nits: \"A snapshot\", and end with a period.",
+      "range": {
+        "startLine": 53,
+        "startChar": 45,
+        "endLine": 53,
+        "endChar": 50
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_99ae786b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/LeaderSnapshot.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_41e6c05f",
       "range": {
         "startLine": 53,
         "startChar": 45,
@@ -715,6 +1435,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_198a68f8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/LocalReplica.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_479970ff",
+      "range": {
+        "startLine": 190,
+        "startChar": 36,
+        "endLine": 190,
+        "endChar": 58
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_c7b58065",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/LocalReplica.java",
         "patchSetId": 3
@@ -726,6 +1470,30 @@
       "writtenOn": "2016-01-18T07:46:22Z",
       "side": 1,
       "message": "I think I\u0027ve seen this replicated elsewhere. If so pull out into a utility routine.",
+      "range": {
+        "startLine": 224,
+        "startChar": 0,
+        "endLine": 224,
+        "endChar": 64
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_593a3081",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/LocalReplica.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Done, I created a new base commit for the series that creates this utility method and then used it in Ketch.",
+      "parentUuid": "07d9433e_c7b58065",
       "range": {
         "startLine": 224,
         "startChar": 0,
@@ -784,6 +1552,54 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_8c7f1886",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/LogId.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_815a8879",
+      "range": {
+        "startLine": 50,
+        "startChar": 3,
+        "endLine": 50,
+        "endChar": 11
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_6c82d40d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/LogId.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_61bd841f",
+      "range": {
+        "startLine": 50,
+        "startChar": 43,
+        "endLine": 50,
+        "endChar": 51
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_01959895",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/LogId.java",
         "patchSetId": 3
@@ -795,6 +1611,30 @@
       "writtenOn": "2016-01-18T07:46:22Z",
       "side": 1,
       "message": "Add:\nLogId provides a performance optimization for Ketch, the same information can be obtained by performing a {@link RevWalk}.",
+      "range": {
+        "startLine": 52,
+        "startChar": 1,
+        "endLine": 53,
+        "endChar": 51
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_4c20b0a0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/LogId.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_01959895",
       "range": {
         "startLine": 52,
         "startChar": 1,
@@ -830,6 +1670,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_8ce398c2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/LogId.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Added some text about why",
+      "parentUuid": "07d9433e_a1578c50",
+      "range": {
+        "startLine": 55,
+        "startChar": 3,
+        "endLine": 55,
+        "endChar": 75
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_c154904e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/LogId.java",
         "patchSetId": 3
@@ -841,6 +1705,30 @@
       "writtenOn": "2016-01-18T07:46:22Z",
       "side": 1,
       "message": "Add:\nThis differs from Raft, where leader election uses the log index and the term number to determine which replica holds a sufficiently up-to-date log. Since Ketch uses a git tree object for storage of its replicated log, it keeps the term number as Raft does but uses standard git operations to determine the log index.",
+      "range": {
+        "startLine": 55,
+        "startChar": 3,
+        "endLine": 57,
+        "endChar": 46
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_2c7fec5a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/LogId.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_c154904e",
       "range": {
         "startLine": 55,
         "startChar": 3,
@@ -876,6 +1764,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_6c98144b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/LogId.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Hmm. Maybe you are right. Renamed LogIndex.",
+      "parentUuid": "07d9433e_7cbfe7a7",
+      "range": {
+        "startLine": 59,
+        "startChar": 6,
+        "endLine": 59,
+        "endChar": 11
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_e1b2747a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/Proposal.java",
         "patchSetId": 3
@@ -887,6 +1799,30 @@
       "writtenOn": "2016-01-18T07:46:22Z",
       "side": 1,
       "message": "s/quick/quickly/",
+      "range": {
+        "startLine": 234,
+        "startChar": 64,
+        "endLine": 234,
+        "endChar": 69
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_b9bb3ca8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/Proposal.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_e1b2747a",
       "range": {
         "startLine": 234,
         "startChar": 64,
@@ -922,6 +1858,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_ec6fc4a3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/ProposalRound.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_c7282039",
+      "range": {
+        "startLine": 132,
+        "startChar": 5,
+        "endLine": 132,
+        "endChar": 29
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_e725245e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/ProposalRound.java",
         "patchSetId": 3
@@ -933,6 +1893,30 @@
       "writtenOn": "2016-01-18T07:46:22Z",
       "side": 1,
       "message": "s/.../run, and it/",
+      "range": {
+        "startLine": 132,
+        "startChar": 59,
+        "endLine": 133,
+        "endChar": 9
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_0c75c870",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/ProposalRound.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_e725245e",
       "range": {
         "startLine": 132,
         "startChar": 59,
@@ -968,6 +1952,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_6c63b4bc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/ProposalRound.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_4770904f",
+      "range": {
+        "startLine": 165,
+        "startChar": 11,
+        "endLine": 165,
+        "endChar": 15
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_6775943e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/ProposalRound.java",
         "patchSetId": 3
@@ -979,6 +1987,30 @@
       "writtenOn": "2016-01-18T07:46:22Z",
       "side": 1,
       "message": "s/oldTree/oldTreeId/",
+      "range": {
+        "startLine": 166,
+        "startChar": 11,
+        "endLine": 166,
+        "endChar": 18
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_8c60f8af",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/ProposalRound.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_6775943e",
       "range": {
         "startLine": 166,
         "startChar": 11,
@@ -1014,6 +2046,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_ac6dbca8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/ProposalRound.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_a72b1c33",
+      "range": {
+        "startLine": 221,
+        "startChar": 0,
+        "endLine": 222,
+        "endChar": 29
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_872e1844",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/ProposalRound.java",
         "patchSetId": 3
@@ -1025,6 +2081,30 @@
       "writtenOn": "2016-01-18T07:46:22Z",
       "side": 1,
       "message": "s/Collapse/For each branch, collapse/",
+      "range": {
+        "startLine": 240,
+        "startChar": 5,
+        "endLine": 240,
+        "endChar": 13
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_ec56e4d9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/ProposalRound.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_872e1844",
       "range": {
         "startLine": 240,
         "startChar": 5,
@@ -1060,6 +2140,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_6cc57483",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/RemoteGitReplica.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Well, a stock Git server can act as a voter without being Ketch-aware.\n\nI added instead:\n\n * \u003cp\u003e\n * The remote replica may be fully Ketch-aware, or a standard Git server.",
+      "parentUuid": "07d9433e_879298d8",
+      "range": {
+        "startLine": 78,
+        "startChar": 50,
+        "endLine": 78,
+        "endChar": 58
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_a78f9cb3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/RemoteGitReplica.java",
         "patchSetId": 3
@@ -1071,6 +2175,30 @@
       "writtenOn": "2016-01-18T07:46:22Z",
       "side": 1,
       "message": "s/tn/transport/\nAlso, try with resources?",
+      "range": {
+        "startLine": 147,
+        "startChar": 12,
+        "endLine": 147,
+        "endChar": 14
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_ec2a64b4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/RemoteGitReplica.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Done. Transport did not implement AutoCloseable so I had to add a commit to the series to introduce that.",
+      "parentUuid": "07d9433e_a78f9cb3",
       "range": {
         "startLine": 147,
         "startChar": 12,
@@ -1106,6 +2234,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_ac73fcd6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/RemoteGitReplica.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_e789a4ae",
+      "range": {
+        "startLine": 193,
+        "startChar": 24,
+        "endLine": 193,
+        "endChar": 29
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_070a08b1",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/RemoteGitReplica.java",
         "patchSetId": 3
@@ -1117,6 +2269,30 @@
       "writtenOn": "2016-01-18T07:46:22Z",
       "side": 1,
       "message": "s/commit/prepareCommit/",
+      "range": {
+        "startLine": 212,
+        "startChar": 14,
+        "endLine": 212,
+        "endChar": 20
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_cc7040cd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/RemoteGitReplica.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_070a08b1",
       "range": {
         "startLine": 212,
         "startChar": 14,
@@ -1152,6 +2328,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_ec3c24f1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/RemoteGitReplica.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_c78ca0c1",
+      "range": {
+        "startLine": 239,
+        "startChar": 21,
+        "endLine": 239,
+        "endChar": 22
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_471410d0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/ReplicaPushRequest.java",
         "patchSetId": 3
@@ -1163,6 +2363,30 @@
       "writtenOn": "2016-01-18T07:46:22Z",
       "side": 1,
       "message": "nit: s/Request/A request/",
+      "range": {
+        "startLine": 55,
+        "startChar": 3,
+        "endLine": 55,
+        "endChar": 10
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_997038fe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/ReplicaPushRequest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_471410d0",
       "range": {
         "startLine": 55,
         "startChar": 3,
@@ -1198,6 +2422,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_f966a447",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/ReplicaPushRequest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Its inside afterPush(), see the line saying leader.lock.lock(). Comment stands.",
+      "parentUuid": "07d9433e_67191407",
+      "range": {
+        "startLine": 110,
+        "startChar": 0,
+        "endLine": 111,
+        "endChar": 54
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_871d38f5",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/ReplicaPushRequest.java",
         "patchSetId": 3
@@ -1209,6 +2457,30 @@
       "writtenOn": "2016-01-18T07:46:22Z",
       "side": 1,
       "message": "Same concern. Is this needed?",
+      "range": {
+        "startLine": 143,
+        "startChar": 0,
+        "endLine": 144,
+        "endChar": 68
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_5966b046",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/ReplicaPushRequest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Yes",
+      "parentUuid": "07d9433e_871d38f5",
       "range": {
         "startLine": 143,
         "startChar": 0,
@@ -1244,6 +2516,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_d9b800ae",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/ReplicaSnapshot.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_61ebc426",
+      "range": {
+        "startLine": 49,
+        "startChar": 3,
+        "endLine": 49,
+        "endChar": 11
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_6102e47e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/Round.java",
         "patchSetId": 3
@@ -1255,6 +2551,30 @@
       "writtenOn": "2016-01-18T07:46:22Z",
       "side": 1,
       "message": "Add:\nIn Raft a log entry represents a state transition at a specific index in the replicated log. The leader can only append log entries to the log.\n\u003cp\u003e\nIn Ketch a log entry normally gets committed under the {@code refs/txn} namespace. This occurs when:\n\u003cul\u003e \n\u003cli\u003ea replica wants to establish itself as a new leader by proposing a new term (see {@link ElectionRound})\n\u003cli\u003ean established leader wants to gain consensus on new {@link Proposal}s (see {@link ProposalRound})\n\u003cli\u003ean established leader wants to commit new state after gaining consensus on new {@link Proposal}s\n\u003c/ul\u003e\n\nIs that last one true or are commits handled without Rounds?",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 60
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_6c50142a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/Round.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Copied most of your proposed comment to the code.\n\nThe last one is not true. Broadcasting commit is not handled with a Round.",
+      "parentUuid": "07d9433e_6102e47e",
       "range": {
         "startLine": 52,
         "startChar": 0,
@@ -1290,6 +2610,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_8c4d5896",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/Round.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_9cbcabb3",
+      "range": {
+        "startLine": 55,
+        "startChar": 13,
+        "endLine": 55,
+        "endChar": 24
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_dcc6333d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/Round.java",
         "patchSetId": 3
@@ -1301,6 +2645,30 @@
       "writtenOn": "2016-01-18T07:46:22Z",
       "side": 1,
       "message": "This belongs after the paragraph that states what the method does.",
+      "range": {
+        "startLine": 65,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 62
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_ac4a1c79",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/Round.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_dcc6333d",
       "range": {
         "startLine": 65,
         "startChar": 0,
@@ -1336,6 +2704,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_8c98f882",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/Round.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Yes, it does sometimes modify the RefTree. Sentence added to the JavaDoc.",
+      "parentUuid": "07d9433e_bcc96f50",
+      "range": {
+        "startLine": 67,
+        "startChar": 16,
+        "endLine": 67,
+        "endChar": 31
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_1c8a5bf8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/Round.java",
         "patchSetId": 3
@@ -1347,6 +2739,30 @@
       "writtenOn": "2016-01-18T07:46:22Z",
       "side": 1,
       "message": "Add JavaDoc for this. I don\u0027t love this name. Methods always start with verbs but \"accept\" really refers to refs/txn/accepted. Maybe better as \"runAsync\". Or \"queue\"? If you were going after the visitor pattern nomenclature, this doesn\u0027t map to the visitor pattern.",
+      "range": {
+        "startLine": 76,
+        "startChar": 6,
+        "endLine": 76,
+        "endChar": 17
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_aca5bcb7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/Round.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Renamed runAsync, added a JavaDoc.",
+      "parentUuid": "07d9433e_1c8a5bf8",
       "range": {
         "startLine": 76,
         "startChar": 6,
@@ -1382,6 +2798,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_2c89ac32",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/Round.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_7ce607d6",
+      "range": {
+        "startLine": 84,
+        "startChar": 12,
+        "endLine": 84,
+        "endChar": 16
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_a71a3cf8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/StageBuilder.java",
         "patchSetId": 3
@@ -1393,6 +2833,30 @@
       "writtenOn": "2016-01-18T07:46:22Z",
       "side": 1,
       "message": "s/.../by chaining commits./",
+      "range": {
+        "startLine": 75,
+        "startChar": 44,
+        "endLine": 75,
+        "endChar": 69
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_f965c494",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/StageBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_a71a3cf8",
       "range": {
         "startLine": 75,
         "startChar": 44,
@@ -1428,6 +2892,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_196b4869",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/StageBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_01311875",
+      "range": {
+        "startLine": 194,
+        "startChar": 5,
+        "endLine": 194,
+        "endChar": 12
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_a1414cc0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/StageBuilder.java",
         "patchSetId": 3
@@ -1439,6 +2927,30 @@
       "writtenOn": "2016-01-18T07:46:22Z",
       "side": 1,
       "message": "This is a magic number that I don\u0027t understand. Why is 128 a good number for batching? Worth a comment or pulling out as a constant with JavaDoc.",
+      "range": {
+        "startLine": 199,
+        "startChar": 33,
+        "endLine": 199,
+        "endChar": 36
+      },
+      "revId": "e4dd8d5b0149b1c77676f63d7d3481f6b5775a10",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_39700c4f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/StageBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-18T21:45:32Z",
+      "side": 1,
+      "message": "128 is just WAG. Pulled out to a constant with some JavaDoc.",
+      "parentUuid": "07d9433e_a1414cc0",
       "range": {
         "startLine": 199,
         "startChar": 33,
