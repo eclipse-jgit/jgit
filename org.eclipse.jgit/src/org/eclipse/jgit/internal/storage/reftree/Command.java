@@ -49,12 +49,14 @@ import static org.eclipse.jgit.lib.FileMode.TYPE_GITLINK;
 import static org.eclipse.jgit.lib.FileMode.TYPE_SYMLINK;
 import static org.eclipse.jgit.lib.Ref.Storage.NETWORK;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.NOT_ATTEMPTED;
+import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_OTHER_REASON;
 
 import java.io.IOException;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -79,6 +81,30 @@ import org.eclipse.jgit.transport.ReceiveCommand.Result;
  * for processing.
  */
 public class Command {
+	/**
+	 * Set unprocessed commands as failed due to transaction aborted.
+	 * <p>
+	 * If a command is still {@link Result#NOT_ATTEMPTED} it will be set to
+	 * {@link Result#REJECTED_OTHER_REASON}. If {@code why} is non-null its
+	 * contents will be used as the message for the first command status.
+	 *
+	 * @param commands
+	 *            commands to mark as failed.
+	 * @param why
+	 *            optional message to set on the first aborted command.
+	 */
+	public static void abort(Iterable<Command> commands, @Nullable String why) {
+		if (why == null || why.isEmpty()) {
+			why = JGitText.get().transactionAborted;
+		}
+		for (Command c : commands) {
+			if (c.getResult() == NOT_ATTEMPTED) {
+				c.setResult(REJECTED_OTHER_REASON, why);
+				why = JGitText.get().transactionAborted;
+			}
+		}
+	}
+
 	private final Ref oldRef;
 	private final Ref newRef;
 	private final ReceiveCommand cmd;

@@ -55,7 +55,6 @@ import static org.eclipse.jgit.lib.Ref.Storage.NEW;
 import static org.eclipse.jgit.lib.Ref.Storage.PACKED;
 import static org.eclipse.jgit.lib.RefDatabase.MAX_SYMBOLIC_REF_DEPTH;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.LOCK_FAILURE;
-import static org.eclipse.jgit.transport.ReceiveCommand.Result.NOT_ATTEMPTED;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_OTHER_REASON;
 
 import java.io.IOException;
@@ -248,7 +247,8 @@ public class RefTree {
 				if (!isValidRef(cmd)) {
 					cmd.setResult(REJECTED_OTHER_REASON,
 							JGitText.get().funnyRefname);
-					return abort(cmdList);
+					Command.abort(cmdList, null);
+					return false;
 				}
 				apply(ed, cmd);
 			}
@@ -264,9 +264,11 @@ public class RefTree {
 					break;
 				}
 			}
-			return abort(cmdList);
+			Command.abort(cmdList, null);
+			return false;
 		} catch (LockFailureException e) {
-			return abort(cmdList);
+			Command.abort(cmdList, null);
+			return false;
 		}
 	}
 
@@ -340,19 +342,6 @@ public class RefTree {
 				&& (!ref.isPeeled() || ref.getPeeledObjectId() != null)) {
 			ed.add(new DeletePath(peeledPath(ref.getName())));
 		}
-	}
-
-	private static boolean abort(Iterable<Command> cmdList) {
-		for (Command cmd : cmdList) {
-			if (cmd.getResult() == NOT_ATTEMPTED) {
-				reject(cmd, JGitText.get().transactionAborted);
-			}
-		}
-		return false;
-	}
-
-	private static void reject(Command cmd, String msg) {
-		cmd.setResult(REJECTED_OTHER_REASON, msg);
 	}
 
 	/**
