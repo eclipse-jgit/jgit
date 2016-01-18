@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_073be887",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/ElectionRound.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-01-18T02:00:08Z",
+      "side": 1,
+      "message": "\u003e Next year I just won\u0027t bother writing anything interesting during the months of November and December.\n\nOr I\u0027ll just stop commenting on copyright years during the months of January and February ;)",
+      "parentUuid": "07d9433e_2d429367",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 21
+      },
+      "revId": "ac604cb87aab9cf332ca827c08b58fe0929daea5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_1d5a627b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/ElectionRound.java",
         "patchSetId": 2
