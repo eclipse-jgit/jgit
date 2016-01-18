@@ -117,8 +117,7 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 		checkCallable();
 
 		try {
-			Transport transport = Transport.open(repo, remote);
-			try {
+			try (Transport transport = Transport.open(repo, remote)) {
 				transport.setCheckFetchedObjects(checkFetchedObjects);
 				transport.setRemoveDeletedRefs(isRemoveDeletedRefs());
 				transport.setDryRun(dryRun);
@@ -129,8 +128,6 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 
 				FetchResult result = transport.fetch(monitor, refSpecs);
 				return result;
-			} finally {
-				transport.close();
 			}
 		} catch (NoRemoteRepositoryException e) {
 			throw new InvalidRemoteException(MessageFormat.format(
