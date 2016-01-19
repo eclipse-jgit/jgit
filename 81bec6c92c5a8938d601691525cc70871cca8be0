@@ -256,6 +256,30 @@
       "revId": "81bec6c92c5a8938d601691525cc70871cca8be0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_3bad5c72",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1357,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-19T22:24:02Z",
+      "side": 1,
+      "message": "Got it. I hadn\u0027t seen this form of narrowing before. It should stay as is.\n\nPlease add:\n\u003cp\u003e\nAutoClosable.close() declares that it throws {@link Exception}. Implementers shouldn\u0027t actually throw checked exceptions, so this override narrows the signature to prevent them from doing so.",
+      "parentUuid": "07d9433e_1b1b387a",
+      "range": {
+        "startLine": 1349,
+        "startChar": 0,
+        "endLine": 1357,
+        "endChar": 30
+      },
+      "revId": "81bec6c92c5a8938d601691525cc70871cca8be0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
