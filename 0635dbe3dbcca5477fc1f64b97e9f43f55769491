@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07d9433e_80f439c2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/ChangeIdUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2016-01-19T16:51:52Z",
+      "side": 1,
+      "message": "Oops. I blame Eclipse.",
+      "revId": "0635dbe3dbcca5477fc1f64b97e9f43f55769491",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
