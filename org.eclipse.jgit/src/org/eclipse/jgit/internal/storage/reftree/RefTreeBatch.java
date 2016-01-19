@@ -98,7 +98,7 @@ class RefTreeBatch extends BatchRefUpdate {
 				}
 				if (c.getType() == UPDATE_NONFASTFORWARD) {
 					c.setResult(REJECTED_NONFASTFORWARD);
-					reject();
+					ReceiveCommand.abort(getCommands());
 					return;
 				}
 			}
@@ -106,15 +106,6 @@ class RefTreeBatch extends BatchRefUpdate {
 		}
 		init(rw);
 		execute(rw, todo);
-	}
-
-	private void reject() {
-		String aborted = JGitText.get().transactionAborted;
-		for (ReceiveCommand c : getCommands()) {
-			if (c.getResult() == NOT_ATTEMPTED) {
-				c.setResult(REJECTED_OTHER_REASON, aborted);
-			}
-		}
 	}
 
 	void init(RevWalk rw) throws IOException {
@@ -150,13 +141,13 @@ class RefTreeBatch extends BatchRefUpdate {
 	void execute(RevWalk rw, List<Command> todo) throws IOException {
 		for (Command c : todo) {
 			if (c.getResult() != NOT_ATTEMPTED) {
-				reject(todo, JGitText.get().transactionAborted);
+				Command.abort(todo, null);
 				return;
 			}
 			if (refdb.conflictsWithBootstrap(c.getRefName())) {
 				c.setResult(REJECTED_OTHER_REASON, MessageFormat
 						.format(JGitText.get().invalidRefName, c.getRefName()));
-				reject(todo, JGitText.get().transactionAborted);
+				Command.abort(todo, null);
 				return;
 			}
 		}
@@ -210,7 +201,7 @@ class RefTreeBatch extends BatchRefUpdate {
 				c.setResult(OK);
 			}
 		} else {
-			reject(todo, commit.getResult().name());
+			Command.abort(todo, commit.getResult().name());
 		}
 	}
 
@@ -227,14 +218,5 @@ class RefTreeBatch extends BatchRefUpdate {
 		}
 		u.addCommand(commit);
 		u.execute(rw, NullProgressMonitor.INSTANCE);
-	}
-
-	private static void reject(List<Command> todo, String msg) {
-		for (Command c : todo) {
-			if (c.getResult() == NOT_ATTEMPTED) {
-				c.setResult(REJECTED_OTHER_REASON, msg);
-				msg = JGitText.get().transactionAborted;
-			}
-		}
 	}
 }

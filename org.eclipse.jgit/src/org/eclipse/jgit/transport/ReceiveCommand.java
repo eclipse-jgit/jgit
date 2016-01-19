@@ -43,6 +43,9 @@
 
 package org.eclipse.jgit.transport;
 
+import static org.eclipse.jgit.transport.ReceiveCommand.Result.NOT_ATTEMPTED;
+import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_OTHER_REASON;
+
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -166,6 +169,25 @@ public class ReceiveCommand {
 	public static List<ReceiveCommand> filter(List<ReceiveCommand> commands,
 			Result want) {
 		return filter((Iterable<ReceiveCommand>) commands, want);
+	}
+
+	/**
+	 * Set unprocessed commands as failed due to transaction aborted.
+	 * <p>
+	 * If a command is still {@link Result#NOT_ATTEMPTED} it will be set to
+	 * {@link Result#REJECTED_OTHER_REASON}.
+	 *
+	 * @param commands
+	 *            commands to mark as failed.
+	 * @since 4.2
+	 */
+	public static void abort(Iterable<ReceiveCommand> commands) {
+		for (ReceiveCommand c : commands) {
+			if (c.getResult() == NOT_ATTEMPTED) {
+				c.setResult(REJECTED_OTHER_REASON,
+						JGitText.get().transactionAborted);
+			}
+		}
 	}
 
 	private final ObjectId oldId;

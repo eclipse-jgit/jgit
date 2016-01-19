@@ -1453,10 +1453,7 @@ public abstract class BaseReceivePack {
 	 * @since 3.6
 	 */
 	protected void failPendingCommands() {
-		for (ReceiveCommand cmd : commands) {
-			if (cmd.getResult() == Result.NOT_ATTEMPTED)
-				cmd.setResult(Result.REJECTED_OTHER_REASON, JGitText.get().transactionAborted);
-		}
+		ReceiveCommand.abort(commands);
 	}
 
 	/**
