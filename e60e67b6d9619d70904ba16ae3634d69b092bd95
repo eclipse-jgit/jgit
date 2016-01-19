@@ -46,6 +46,30 @@
       "revId": "e60e67b6d9619d70904ba16ae3634d69b092bd95",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_dbd8f068",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-01-19T20:39:29Z",
+      "side": 1,
+      "message": "You\u0027re talking about dead code detection in a try-catch block?\n\nhttps://wiki.eclipse.org/Evolving_Java-based_APIs#API_Prime_Directive says it\u0027s okay not to care. But I also don\u0027t mind waiting.",
+      "parentUuid": "07d9433e_7bc2847c",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 48
+      },
+      "revId": "e60e67b6d9619d70904ba16ae3634d69b092bd95",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
