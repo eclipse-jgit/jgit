@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07d9433e_4f234265",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/HttpClientTests.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-01-19T04:30:16Z",
+      "side": 1,
+      "message": "Could these be combined into a single try-with-resource block?",
+      "range": {
+        "startLine": 198,
+        "startChar": 2,
+        "endLine": 199,
+        "endChar": 44
+      },
+      "revId": "05bb530eab7f77ceda38d5483abd8e2cbbaf5a86",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_ef3a5682",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/FetchCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-01-19T04:30:16Z",
+      "side": 1,
+      "message": "Move this to the outer try-block and reduce a level of indentation?",
+      "range": {
+        "startLine": 120,
+        "startChar": 3,
+        "endLine": 120,
+        "endChar": 60
+      },
+      "revId": "05bb530eab7f77ceda38d5483abd8e2cbbaf5a86",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
