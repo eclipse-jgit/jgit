@@ -30,6 +30,16 @@
             </message_arguments>
         </filter>
     </resource>
+    <resource path="src/org/eclipse/jgit/lib/RepositoryCache.java" type="org.eclipse.jgit.lib.RepositoryCache">
+        <filter id="647004193">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.RepositoryCache.getKeys()"/>
+                <message_argument value="ConcurrentHashMap"/>
+                <message_argument value="keySet()"/>
+                <message_argument value="JavaSE-1.7"/>
+            </message_arguments>
+        </filter>
+    </resource>
     <resource path="src/org/eclipse/jgit/transport/PushCertificate.java" type="org.eclipse.jgit.transport.PushCertificate">
         <filter comment="PushCertificate wasn't really usable in 4.0" id="338722907">
             <message_arguments>
