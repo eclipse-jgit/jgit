@@ -280,6 +280,30 @@
       "revId": "81bec6c92c5a8938d601691525cc70871cca8be0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_1b7fb85a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1357,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-19T22:27:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_3bad5c72",
+      "range": {
+        "startLine": 1349,
+        "startChar": 0,
+        "endLine": 1357,
+        "endChar": 30
+      },
+      "revId": "81bec6c92c5a8938d601691525cc70871cca8be0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
