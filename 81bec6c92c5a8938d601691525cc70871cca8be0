@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_1b609800",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/HttpClientTests.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-19T22:07:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_2ffd1ee1",
+      "range": {
+        "startLine": 215,
+        "startChar": 2,
+        "endLine": 216,
+        "endChar": 44
+      },
+      "revId": "81bec6c92c5a8938d601691525cc70871cca8be0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_4f02627e",
         "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/HttpClientTests.java",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_3b655c11",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/HttpClientTests.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-19T22:07:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_4f02627e",
+      "range": {
+        "startLine": 233,
+        "startChar": 2,
+        "endLine": 234,
+        "endChar": 44
+      },
+      "revId": "81bec6c92c5a8938d601691525cc70871cca8be0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_6ff64604",
         "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/HttpClientTests.java",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2016-01-19T07:31:05Z",
       "side": 1,
       "message": "And here",
+      "range": {
+        "startLine": 342,
+        "startChar": 2,
+        "endLine": 343,
+        "endChar": 44
+      },
+      "revId": "81bec6c92c5a8938d601691525cc70871cca8be0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_5b6940eb",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/HttpClientTests.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-19T22:07:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_6ff64604",
       "range": {
         "startLine": 342,
         "startChar": 2,
@@ -151,6 +223,30 @@
       "writtenOn": "2016-01-19T20:39:42Z",
       "side": 1,
       "message": "Drop this declaration and move the JavaDoc close to the \"implements AutoClosable\"",
+      "range": {
+        "startLine": 1349,
+        "startChar": 0,
+        "endLine": 1357,
+        "endChar": 30
+      },
+      "revId": "81bec6c92c5a8938d601691525cc70871cca8be0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_1b1b387a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1357,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-19T22:07:15Z",
+      "side": 1,
+      "message": "Can\u0027t for a lot of reasons.\n\nBy redeclaring close() here we have told implementors they cannot throw any checked exceptions. That allows us to promise to callers that although AutoCloseable says it can throw Exception, we will never throw Exception, so they don\u0027t have to catch Exception from us.\n\nSo we have to keep our close() override to narrow the exception set to only RuntimeException and Error.\n\nWe also have to keep our close() to keep API compatibility. Existing Java bytecode is complied to call our close method. I don\u0027t think we can delete it and still be binary API compatible. So the method has to stick around until at least JGit 5.0.\n\nBut even then we don\u0027t want to delete close() because of the mentioned throws issue above. We don\u0027t want to throw Exception. We want to throw nothing here.",
+      "parentUuid": "07d9433e_3bc1dc78",
       "range": {
         "startLine": 1349,
         "startChar": 0,
