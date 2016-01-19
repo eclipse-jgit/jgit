@@ -54,6 +54,8 @@ package org.eclipse.jgit.lib;
  * To lookup information about multiple paths at once, use a
  * {@link org.eclipse.jgit.treewalk.TreeWalk} and obtain the current entry's
  * information from its getter methods.
+ * @noreference This class is not intended to be referenced by clients.
+ * @noextend This class is not intended to be subclassed by clients.
  */
 @Deprecated
 public class SymlinkTreeEntry extends TreeEntry {
