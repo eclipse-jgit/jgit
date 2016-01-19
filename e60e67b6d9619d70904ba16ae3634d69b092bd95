@@ -70,6 +70,30 @@
       "revId": "e60e67b6d9619d70904ba16ae3634d69b092bd95",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_db3ab082",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2016-01-19T22:58:01Z",
+      "side": 1,
+      "message": "I was more thinking of \"API changes must not invalidate formerly legal Client code\" just below that.\n\nBut really I just want this change, so I\u0027m going to rewrite the commit description and submit.",
+      "parentUuid": "07d9433e_dbd8f068",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 48
+      },
+      "revId": "e60e67b6d9619d70904ba16ae3634d69b092bd95",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
