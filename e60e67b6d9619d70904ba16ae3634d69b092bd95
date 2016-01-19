@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07d9433e_1bbc1804",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-01-19T20:35:12Z",
+      "side": 1,
+      "message": "From https://docs.oracle.com/javase/specs/jls/se7/html/jls-13.html#jls-13.4.21:\n\n Changes to the throws clause of methods or constructors do\n not break compatibility with pre-existing binaries; these\n clauses are checked only at compile time.\n\nWhat would this break?",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 48
+      },
+      "revId": "e60e67b6d9619d70904ba16ae3634d69b092bd95",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
