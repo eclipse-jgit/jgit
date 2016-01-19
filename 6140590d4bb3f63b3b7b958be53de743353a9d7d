@@ -1,0 +1,234 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07d9433e_403cf1eb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchLeader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-19T18:28:24Z",
+      "side": 1,
+      "message": "End the sentence with a period.",
+      "range": {
+        "startLine": 180,
+        "startChar": 40,
+        "endLine": 180,
+        "endChar": 46
+      },
+      "revId": "6140590d4bb3f63b3b7b958be53de743353a9d7d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_a07cdd91",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchLeader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-19T18:28:24Z",
+      "side": 1,
+      "message": "Should notification be issued while holding the lock? All of the listeners should be aware that they are holding the lock, to prevent accidental deadlocks. Either update the documentation in Proposal or invoke this after releasing the lock.",
+      "range": {
+        "startLine": 349,
+        "startChar": 0,
+        "endLine": 349,
+        "endChar": 32
+      },
+      "revId": "6140590d4bb3f63b3b7b958be53de743353a9d7d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_c0c6413d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchReplica.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-19T18:28:24Z",
+      "side": 1,
+      "message": "This name reads like it unconditionally pushes the commit state, but only does so when not batching with another proposal.\n\nI can\u0027t think of a good name so maybe pull the conditionals out of pushCommitAsync() and create a new boolean shouldPushUnbatchedCommit() that combines them with the 2 terms here?",
+      "range": {
+        "startLine": 416,
+        "startChar": 3,
+        "endLine": 416,
+        "endChar": 18
+      },
+      "revId": "6140590d4bb3f63b3b7b958be53de743353a9d7d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_40f23190",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/LagCheck.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-19T18:28:24Z",
+      "side": 1,
+      "message": "nit: s/if KetchReplica /if a KetchReplica\ns/behind leader/behind the leader/",
+      "range": {
+        "startLine": 65,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 75
+      },
+      "revId": "6140590d4bb3f63b3b7b958be53de743353a9d7d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_2089ad32",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/Proposal.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-19T18:28:24Z",
+      "side": 1,
+      "message": "s/is finished/changes state/",
+      "range": {
+        "startLine": 226,
+        "startChar": 51,
+        "endLine": 226,
+        "endChar": 62
+      },
+      "revId": "6140590d4bb3f63b3b7b958be53de743353a9d7d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_807fd985",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/Proposal.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-19T18:28:24Z",
+      "side": 1,
+      "message": "Will this always be invoked while holding a leader lock?",
+      "range": {
+        "startLine": 234,
+        "startChar": 13,
+        "endLine": 234,
+        "endChar": 24
+      },
+      "revId": "6140590d4bb3f63b3b7b958be53de743353a9d7d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_005ca9f8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/RemoteGitReplica.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-19T18:28:24Z",
+      "side": 1,
+      "message": "s/tn/transport\n\nI see \"tn\" and think \"txn\".",
+      "range": {
+        "startLine": 166,
+        "startChar": 57,
+        "endLine": 166,
+        "endChar": 59
+      },
+      "revId": "6140590d4bb3f63b3b7b958be53de743353a9d7d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_c041e10d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/ReplicaPushRequest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-19T18:28:24Z",
+      "side": 1,
+      "message": "From you comments on ps3,  afterPush() is the method that may take significant time. This one should be documented as always holding the leader lock.",
+      "range": {
+        "startLine": 111,
+        "startChar": 0,
+        "endLine": 112,
+        "endChar": 54
+      },
+      "revId": "6140590d4bb3f63b3b7b958be53de743353a9d7d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_60d575b1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/Round.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-19T18:28:24Z",
+      "side": 1,
+      "message": "s/commit/a commit/",
+      "range": {
+        "startLine": 79,
+        "startChar": 12,
+        "endLine": 79,
+        "endChar": 18
+      },
+      "revId": "6140590d4bb3f63b3b7b958be53de743353a9d7d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_00c74910",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/StageBuilder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-19T18:28:24Z",
+      "side": 1,
+      "message": "TEMP_PARENT_BATCH_SIZE? This isn\u0027t an upper limit on the number of temp commits to create.",
+      "range": {
+        "startLine": 87,
+        "startChar": 26,
+        "endLine": 87,
+        "endChar": 38
+      },
+      "revId": "6140590d4bb3f63b3b7b958be53de743353a9d7d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
