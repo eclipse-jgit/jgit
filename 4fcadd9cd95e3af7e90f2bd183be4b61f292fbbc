@@ -107,6 +107,97 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_800a792a",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/LfsStore.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2016-01-19T17:34:49Z",
+      "side": 1,
+      "message": "this should have been private already in the change where it was first introduced",
+      "revId": "4fcadd9cd95e3af7e90f2bd183be4b61f292fbbc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_c014814d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/LfsStore.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2016-01-19T17:34:49Z",
+      "side": 1,
+      "message": "this should also have been done in the change where this option was introduced",
+      "revId": "4fcadd9cd95e3af7e90f2bd183be4b61f292fbbc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_e020a5a5",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/LfsStore.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2016-01-19T17:34:49Z",
+      "side": 1,
+      "message": "same as the previous comment",
+      "revId": "4fcadd9cd95e3af7e90f2bd183be4b61f292fbbc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_40db1118",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/LfsStore.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2016-01-19T17:34:49Z",
+      "side": 1,
+      "message": "Looks like this is mandatory when using S3 (see the checkOptions method). One more reason to introduce subcommands, then we can let args4j enforce mandatory options/arguments.\n\nFurther, mandatory parameters are usually better given as Arguments because it requires less typing.",
+      "revId": "4fcadd9cd95e3af7e90f2bd183be4b61f292fbbc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_603495e2",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/LfsStore.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2016-01-19T17:34:49Z",
+      "side": 1,
+      "message": "All these options are only allowed for the S3 store type. However, we cannot express this clearly using just args4j annotations.\n\nA good approach is to add subcommands for each store type. Each subcommand then defines only its supported options. In that case it would look like this example:\n\n  $ jgit debug-lfs-store s3 --region ... --bucket ... ...\n\n  $ jgit debug-lfs-store plainfs --port ... DIR",
+      "range": {
+        "startLine": 189,
+        "startChar": 0,
+        "endLine": 206,
+        "endChar": 34
+      },
+      "revId": "4fcadd9cd95e3af7e90f2bd183be4b61f292fbbc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_4ac17077",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
         "patchSetId": 2
