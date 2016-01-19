@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07d9433e_cacca0b0",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/s3/S3Config.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-01-19T08:38:19Z",
+      "side": 1,
+      "message": "missing since tag",
+      "revId": "4fcadd9cd95e3af7e90f2bd183be4b61f292fbbc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_ead88468",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/s3/S3Repository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-01-19T08:38:19Z",
+      "side": 1,
+      "message": "missing since tag",
+      "revId": "4fcadd9cd95e3af7e90f2bd183be4b61f292fbbc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_2ad34c49",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/s3/SignerV4.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-01-19T08:38:19Z",
+      "side": 1,
+      "message": "class doesn\u0027t need to be public API",
+      "revId": "4fcadd9cd95e3af7e90f2bd183be4b61f292fbbc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_4ac17077",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-01-19T08:38:19Z",
+      "side": 1,
+      "message": "this refactoring should be done in a separate change",
+      "revId": "4fcadd9cd95e3af7e90f2bd183be4b61f292fbbc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_4ad89063",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/HttpSupport.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-01-19T08:38:19Z",
+      "side": 1,
+      "message": "refactoring should be done in a separate change",
+      "revId": "4fcadd9cd95e3af7e90f2bd183be4b61f292fbbc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
