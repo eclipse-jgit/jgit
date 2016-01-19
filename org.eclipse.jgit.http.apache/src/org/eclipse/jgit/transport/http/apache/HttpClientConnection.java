@@ -42,6 +42,11 @@
  */
 package org.eclipse.jgit.transport.http.apache;
 
+import static org.eclipse.jgit.util.HttpSupport.METHOD_GET;
+import static org.eclipse.jgit.util.HttpSupport.METHOD_HEAD;
+import static org.eclipse.jgit.util.HttpSupport.METHOD_POST;
+import static org.eclipse.jgit.util.HttpSupport.METHOD_PUT;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -76,6 +81,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpHead;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpUriRequest;
@@ -250,13 +256,15 @@ public class HttpClientConnection implements HttpConnection {
 
 	public void setRequestMethod(String method) throws ProtocolException {
 		this.method = method;
-		if ("GET".equalsIgnoreCase(method)) //$NON-NLS-1$
+		if (METHOD_GET.equalsIgnoreCase(method)) {
 			req = new HttpGet(url.toString());
-		else if ("PUT".equalsIgnoreCase(method)) //$NON-NLS-1$
+		} else if (METHOD_HEAD.equalsIgnoreCase(method)) {
+			req = new HttpHead(url.toString());
+		} else if (METHOD_PUT.equalsIgnoreCase(method)) {
 			req = new HttpPut(url.toString());
-		else if ("POST".equalsIgnoreCase(method)) //$NON-NLS-1$
+		} else if (METHOD_POST.equalsIgnoreCase(method)) {
 			req = new HttpPost(url.toString());
-		else {
+		} else {
 			this.method = null;
 			throw new UnsupportedOperationException();
 		}
