@@ -68,6 +68,98 @@
       "revId": "81bec6c92c5a8938d601691525cc70871cca8be0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_bbcc0caf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Connection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-19T20:39:42Z",
+      "side": 1,
+      "message": "Same comments I made about AutoCloseable for the Transport class apply here.",
+      "range": {
+        "startLine": 62,
+        "startChar": 36,
+        "endLine": 62,
+        "endChar": 49
+      },
+      "revId": "81bec6c92c5a8938d601691525cc70871cca8be0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_1bd33849",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Connection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-19T20:39:42Z",
+      "side": 1,
+      "message": "This is now redundant.",
+      "range": {
+        "startLine": 111,
+        "startChar": 0,
+        "endLine": 111,
+        "endChar": 21
+      },
+      "revId": "81bec6c92c5a8938d601691525cc70871cca8be0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_fbb69424",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-19T20:39:42Z",
+      "side": 1,
+      "message": "IIUC, technically this is a breaking API change, since even though close() is already declared by this class, AutoClosable.close() declares that it throws Exception, which changes the post condition of the function. :-(\n\nThat said, none of the current implementations throw exceptions, so the call sites will only be surprised when the first subclasser decides to throw one.\n\nMaybe add JavaDoc that specifies that implementers shouldn\u0027t throw exceptions?",
+      "range": {
+        "startLine": 101,
+        "startChar": 32,
+        "endLine": 101,
+        "endChar": 56
+      },
+      "revId": "81bec6c92c5a8938d601691525cc70871cca8be0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_3bc1dc78",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1357,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-01-19T20:39:42Z",
+      "side": 1,
+      "message": "Drop this declaration and move the JavaDoc close to the \"implements AutoClosable\"",
+      "range": {
+        "startLine": 1349,
+        "startChar": 0,
+        "endLine": 1357,
+        "endChar": 30
+      },
+      "revId": "81bec6c92c5a8938d601691525cc70871cca8be0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
