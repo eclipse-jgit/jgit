@@ -22,6 +22,30 @@
       "revId": "e60e67b6d9619d70904ba16ae3634d69b092bd95",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_7bc2847c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2016-01-19T20:36:54Z",
+      "side": 1,
+      "message": "People upgrading their JGit library from 4.N to 4.N+1 and expecting their existing code to still compile.",
+      "parentUuid": "07d9433e_1bbc1804",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 48
+      },
+      "revId": "e60e67b6d9619d70904ba16ae3634d69b092bd95",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
