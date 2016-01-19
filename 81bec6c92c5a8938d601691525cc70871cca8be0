@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07d9433e_2ffd1ee1",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/HttpClientTests.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-01-19T07:31:05Z",
+      "side": 1,
+      "message": "This can also be combined, like the one at line 198.",
+      "range": {
+        "startLine": 215,
+        "startChar": 2,
+        "endLine": 216,
+        "endChar": 44
+      },
+      "revId": "81bec6c92c5a8938d601691525cc70871cca8be0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_4f02627e",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/HttpClientTests.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-01-19T07:31:05Z",
+      "side": 1,
+      "message": "And this one.",
+      "range": {
+        "startLine": 233,
+        "startChar": 2,
+        "endLine": 234,
+        "endChar": 44
+      },
+      "revId": "81bec6c92c5a8938d601691525cc70871cca8be0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_6ff64604",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/HttpClientTests.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-01-19T07:31:05Z",
+      "side": 1,
+      "message": "And here",
+      "range": {
+        "startLine": 342,
+        "startChar": 2,
+        "endLine": 343,
+        "endChar": 44
+      },
+      "revId": "81bec6c92c5a8938d601691525cc70871cca8be0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
