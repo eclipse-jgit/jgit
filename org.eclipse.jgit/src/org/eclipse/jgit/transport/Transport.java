@@ -98,7 +98,7 @@ import org.eclipse.jgit.storage.pack.PackConfig;
  * Transport instances and the connections they create are not thread-safe.
  * Callers must ensure a transport is accessed by only one thread at a time.
  */
-public abstract class Transport {
+public abstract class Transport implements AutoCloseable {
 	/** Type of operation a Transport is being opened for. */
 	public enum Operation {
 		/** Transport is to fetch objects locally. */
@@ -1353,6 +1353,10 @@ public abstract class Transport {
 	 * must close that network socket, disconnecting the two peers. If the
 	 * remote repository is actually local (same system) this method must close
 	 * any open file handles used to read the "remote" repository.
+	 * <p>
+	 * {@code AutoClosable.close()} declares that it throws {@link Exception}.
+	 * Implementers shouldn't throw checked exceptions. This override narrows
+	 * the signature to prevent them from doing so.
 	 */
 	public abstract void close();
 }

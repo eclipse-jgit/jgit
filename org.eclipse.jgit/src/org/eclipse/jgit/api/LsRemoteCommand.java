@@ -182,13 +182,9 @@ public class LsRemoteCommand extends
 			org.eclipse.jgit.api.errors.TransportException {
 		checkCallable();
 
-		Transport transport = null;
-		FetchConnection fc = null;
-		try {
-			if (repo != null)
-				transport = Transport.open(repo, remote);
-			else
-				transport = Transport.open(new URIish(remote));
+		try (Transport transport = repo != null
+				? Transport.open(repo, remote)
+				: Transport.open(new URIish(remote))) {
 			transport.setOptionUploadPack(uploadPack);
 			configure(transport);
 			Collection<RefSpec> refSpecs = new ArrayList<RefSpec>(1);
@@ -199,19 +195,20 @@ public class LsRemoteCommand extends
 				refSpecs.add(new RefSpec("refs/heads/*:refs/remotes/origin/*")); //$NON-NLS-1$
 			Collection<Ref> refs;
 			Map<String, Ref> refmap = new HashMap<String, Ref>();
-			fc = transport.openFetch();
-			refs = fc.getRefs();
-			if (refSpecs.isEmpty())
-				for (Ref r : refs)
-					refmap.put(r.getName(), r);
-			else
-				for (Ref r : refs)
-					for (RefSpec rs : refSpecs)
-						if (rs.matchSource(r)) {
-							refmap.put(r.getName(), r);
-							break;
-						}
-			return refmap;
+			try (FetchConnection fc = transport.openFetch()) {
+				refs = fc.getRefs();
+				if (refSpecs.isEmpty())
+					for (Ref r : refs)
+						refmap.put(r.getName(), r);
+				else
+					for (Ref r : refs)
+						for (RefSpec rs : refSpecs)
+							if (rs.matchSource(r)) {
+								refmap.put(r.getName(), r);
+								break;
+							}
+				return refmap;
+			}
 		} catch (URISyntaxException e) {
 			throw new InvalidRemoteException(MessageFormat.format(
 					JGitText.get().invalidRemote, remote));
@@ -223,11 +220,6 @@ public class LsRemoteCommand extends
 			throw new org.eclipse.jgit.api.errors.TransportException(
 					e.getMessage(),
 					e);
-		} finally {
-			if (fc != null)
-				fc.close();
-			if (transport != null)
-				transport.close();
 		}
 	}
 

@@ -112,12 +112,9 @@ public class AtomicPushTest {
 	public void pushNonAtomic() throws Exception {
 		PushResult r;
 		server.setPerformsAtomicTransactions(false);
-		Transport tn = testProtocol.open(uri, client, "server");
-		try {
+		try (Transport tn = testProtocol.open(uri, client, "server")) {
 			tn.setPushAtomic(false);
 			r = tn.push(NullProgressMonitor.INSTANCE, commands());
-		} finally {
-			tn.close();
 		}
 
 		RemoteRefUpdate one = r.getRemoteUpdate("refs/heads/one");
@@ -131,12 +128,9 @@ public class AtomicPushTest {
 	@Test
 	public void pushAtomicClientGivesUpEarly() throws Exception {
 		PushResult r;
-		Transport tn = testProtocol.open(uri, client, "server");
-		try {
+		try (Transport tn = testProtocol.open(uri, client, "server")) {
 			tn.setPushAtomic(true);
 			r = tn.push(NullProgressMonitor.INSTANCE, commands());
-		} finally {
-			tn.close();
 		}
 
 		RemoteRefUpdate one = r.getRemoteUpdate("refs/heads/one");
@@ -167,8 +161,7 @@ public class AtomicPushTest {
 				ObjectId.zeroId()));
 
 		server.setPerformsAtomicTransactions(false);
-		Transport tn = testProtocol.open(uri, client, "server");
-		try {
+		try (Transport tn = testProtocol.open(uri, client, "server")) {
 			tn.setPushAtomic(true);
 			tn.push(NullProgressMonitor.INSTANCE, cmds);
 			fail("did not throw TransportException");
@@ -176,8 +169,6 @@ public class AtomicPushTest {
 			assertEquals(
 					uri + ": " + JGitText.get().atomicPushNotSupported,
 					e.getMessage());
-		} finally {
-			tn.close();
 		}
 	}
 
