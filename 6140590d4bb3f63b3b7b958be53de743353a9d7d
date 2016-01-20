@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_9789dc34",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-20T07:07:55Z",
+      "side": 1,
+      "message": "I try to use spearce.org with JGit since I got involved there before I joined Google, and google.com in Gerrit since its after I joined Google.\n\nTruth is I do a lot of my work on my Google laptop and forget to configure my JGit repository to have user.email \u003d spearce@spearce.org so I\u0027ve sometimes committed to JGit as sop@google.com. Eh.",
+      "parentUuid": "07d9433e_572bd4b8",
+      "revId": "6140590d4bb3f63b3b7b958be53de743353a9d7d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_f7f228d4",
         "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/ketch/KetchText.properties",
         "patchSetId": 5
@@ -30,6 +48,30 @@
       "writtenOn": "2016-01-20T03:15:04Z",
       "side": 1,
       "message": "\"leaderFailedToStore\" for consistency with the actual message, and with the other definition at line 6?",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 2,
+        "endChar": 17
+      },
+      "revId": "6140590d4bb3f63b3b7b958be53de743353a9d7d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_b78c2043",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/ketch/KetchText.properties",
+        "patchSetId": 5
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-20T07:07:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_f7f228d4",
       "range": {
         "startLine": 2,
         "startChar": 0,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_d782840b",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/ketch/KetchText.properties",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-20T07:07:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_7707f857",
+      "range": {
+        "startLine": 7,
+        "startChar": 51,
+        "endLine": 7,
+        "endChar": 59
+      },
+      "revId": "6140590d4bb3f63b3b7b958be53de743353a9d7d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_403cf1eb",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchLeader.java",
         "patchSetId": 5
@@ -76,6 +142,30 @@
       "writtenOn": "2016-01-19T18:28:24Z",
       "side": 1,
       "message": "End the sentence with a period.",
+      "range": {
+        "startLine": 180,
+        "startChar": 40,
+        "endLine": 180,
+        "endChar": 46
+      },
+      "revId": "6140590d4bb3f63b3b7b958be53de743353a9d7d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_f77dc88e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchLeader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-20T07:07:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_403cf1eb",
       "range": {
         "startLine": 180,
         "startChar": 40,
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_177dcc8c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchLeader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-20T07:07:55Z",
+      "side": 1,
+      "message": "Oy vey. I notify while holding the lock here to prevent a race with the background thread picked by scheduleLeader(). It also grabs the lock. If it grabbed the lock and set the proposal state to RUNNING before we set it to QUEUED that would be an incorrect state change.\n\nQUEUED is not a done state for Proposal so no user listeners run here. Its a fast operation inside of Proposal to set the state field to QUEUED and returns immediately.\n\nSo I don\u0027t think we need to do anything here.",
+      "parentUuid": "07d9433e_a07cdd91",
+      "range": {
+        "startLine": 349,
+        "startChar": 0,
+        "endLine": 349,
+        "endChar": 32
+      },
+      "revId": "6140590d4bb3f63b3b7b958be53de743353a9d7d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_c0c6413d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchReplica.java",
         "patchSetId": 5
@@ -122,6 +236,30 @@
       "writtenOn": "2016-01-19T18:28:24Z",
       "side": 1,
       "message": "This name reads like it unconditionally pushes the commit state, but only does so when not batching with another proposal.\n\nI can\u0027t think of a good name so maybe pull the conditionals out of pushCommitAsync() and create a new boolean shouldPushUnbatchedCommit() that combines them with the 2 terms here?",
+      "range": {
+        "startLine": 416,
+        "startChar": 3,
+        "endLine": 416,
+        "endChar": 18
+      },
+      "revId": "6140590d4bb3f63b3b7b958be53de743353a9d7d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_57ccb464",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchReplica.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-20T07:07:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_c0c6413d",
       "range": {
         "startLine": 416,
         "startChar": 3,
@@ -157,6 +295,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_3778109b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/LagCheck.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-20T07:07:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_40f23190",
+      "range": {
+        "startLine": 65,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 75
+      },
+      "revId": "6140590d4bb3f63b3b7b958be53de743353a9d7d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_2089ad32",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/Proposal.java",
         "patchSetId": 5
@@ -168,6 +330,30 @@
       "writtenOn": "2016-01-19T18:28:24Z",
       "side": 1,
       "message": "s/is finished/changes state/",
+      "range": {
+        "startLine": 226,
+        "startChar": 51,
+        "endLine": 226,
+        "endChar": 62
+      },
+      "revId": "6140590d4bb3f63b3b7b958be53de743353a9d7d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_57faf483",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/Proposal.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-20T07:07:55Z",
+      "side": 1,
+      "message": "No, when its done. The runnables only get invoked when the Proposal enters into either state EXECUTED or ABORTED. The intermediate states like QUEUED do not trigger the runnable.",
+      "parentUuid": "07d9433e_2089ad32",
       "range": {
         "startLine": 226,
         "startChar": 51,
@@ -203,6 +389,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_17186c7f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/Proposal.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-20T07:07:55Z",
+      "side": 1,
+      "message": "Oy vey, yes. I reworked KetchLeader slightly so it can drop the leader lock while running notifyState(EXECUTED) so that the listeners are run without the leader lock held.",
+      "parentUuid": "07d9433e_807fd985",
+      "range": {
+        "startLine": 234,
+        "startChar": 13,
+        "endLine": 234,
+        "endChar": 24
+      },
+      "revId": "6140590d4bb3f63b3b7b958be53de743353a9d7d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_005ca9f8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/RemoteGitReplica.java",
         "patchSetId": 5
@@ -214,6 +424,30 @@
       "writtenOn": "2016-01-19T18:28:24Z",
       "side": 1,
       "message": "s/tn/transport\n\nI see \"tn\" and think \"txn\".",
+      "range": {
+        "startLine": 166,
+        "startChar": 57,
+        "endLine": 166,
+        "endChar": 59
+      },
+      "revId": "6140590d4bb3f63b3b7b958be53de743353a9d7d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_572114a6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/RemoteGitReplica.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-20T07:07:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_005ca9f8",
       "range": {
         "startLine": 166,
         "startChar": 57,
@@ -249,6 +483,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_772458b7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/ReplicaPushRequest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-20T07:07:55Z",
+      "side": 1,
+      "message": "Added JavaDoc to afterPush().",
+      "parentUuid": "07d9433e_c041e10d",
+      "range": {
+        "startLine": 111,
+        "startChar": 0,
+        "endLine": 112,
+        "endChar": 54
+      },
+      "revId": "6140590d4bb3f63b3b7b958be53de743353a9d7d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_60d575b1",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/Round.java",
         "patchSetId": 5
@@ -272,6 +530,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_b71ee066",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/Round.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-20T07:07:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_60d575b1",
+      "range": {
+        "startLine": 79,
+        "startChar": 12,
+        "endLine": 79,
+        "endChar": 18
+      },
+      "revId": "6140590d4bb3f63b3b7b958be53de743353a9d7d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_00c74910",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/StageBuilder.java",
         "patchSetId": 5
@@ -283,6 +565,30 @@
       "writtenOn": "2016-01-19T18:28:24Z",
       "side": 1,
       "message": "TEMP_PARENT_BATCH_SIZE? This isn\u0027t an upper limit on the number of temp commits to create.",
+      "range": {
+        "startLine": 87,
+        "startChar": 26,
+        "endLine": 87,
+        "endChar": 38
+      },
+      "revId": "6140590d4bb3f63b3b7b958be53de743353a9d7d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_d73444e4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/StageBuilder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-20T07:07:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_00c74910",
       "range": {
         "startLine": 87,
         "startChar": 26,
