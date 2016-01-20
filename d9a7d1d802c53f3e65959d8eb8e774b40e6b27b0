@@ -16,6 +16,29 @@
       "revId": "d9a7d1d802c53f3e65959d8eb8e774b40e6b27b0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_faba0db5",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CommitCommandTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-01-20T10:14:09Z",
+      "side": 1,
+      "message": "get",
+      "range": {
+        "startLine": 502,
+        "startChar": 16,
+        "endLine": 502,
+        "endChar": 19
+      },
+      "revId": "d9a7d1d802c53f3e65959d8eb8e774b40e6b27b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
