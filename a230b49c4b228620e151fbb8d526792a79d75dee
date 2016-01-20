@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_7a243db7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-01-20T10:11:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_da0d4946",
+      "range": {
+        "startLine": 470,
+        "startChar": 6,
+        "endLine": 470,
+        "endChar": 11
+      },
+      "revId": "a230b49c4b228620e151fbb8d526792a79d75dee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_fa084d35",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2016-01-20T10:10:55Z",
       "side": 1,
       "message": "this is not recognized as a todo by Eclipse correct syntax is TODO",
+      "range": {
+        "startLine": 528,
+        "startChar": 6,
+        "endLine": 528,
+        "endChar": 11
+      },
+      "revId": "a230b49c4b228620e151fbb8d526792a79d75dee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_9a1bc178",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-01-20T10:11:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_fa084d35",
       "range": {
         "startLine": 528,
         "startChar": 6,
