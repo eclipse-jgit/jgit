@@ -574,18 +574,13 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 * @param p
 	 *            an iterator to walk over. The iterator should be new, with no
 	 *            parent, and should still be positioned before the first entry.
-	 *            The tree which the iterator operates on must have the same root
-	 *            as other trees in the walk.
-	 *
+	 *            The tree which the iterator operates on must have the same
+	 *            root as other trees in the walk.
 	 * @return position of this tree within the walker.
-	 * @throws CorruptObjectException
-	 *             the iterator was unable to obtain its first entry, due to
-	 *             possible data corruption within the backing data store.
 	 */
-	public int addTree(final AbstractTreeIterator p)
-			throws CorruptObjectException {
-		final int n = trees.length;
-		final AbstractTreeIterator[] newTrees = new AbstractTreeIterator[n + 1];
+	public int addTree(AbstractTreeIterator p) {
+		int n = trees.length;
+		AbstractTreeIterator[] newTrees = new AbstractTreeIterator[n + 1];
 
 		System.arraycopy(trees, 0, newTrees, 0, n);
 		newTrees[n] = p;
