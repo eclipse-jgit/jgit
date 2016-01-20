@@ -1,0 +1,7 @@
+Code-Review+2: Terry Parker <tparker@google.com>
+Verified+1: Hudson CI
+Submitted-by: Shawn Pearce <spearce@spearce.org>
+Submitted-at: Wed, 20 Jan 2016 11:03:46 -0500
+Reviewed-on: https://git.eclipse.org/r/64779
+Project: jgit/jgit
+Branch: refs/heads/master
