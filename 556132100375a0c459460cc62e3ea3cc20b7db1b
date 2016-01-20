@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07d9433e_3ddb8fe5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UsernamePasswordCredentialsProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-01-20T14:02:56Z",
+      "side": 1,
+      "message": "looks like this part of the pattern doesn\u0027t help to differentiate between texts which should match and those which should not match since (.*)? already allows arbitrary text",
+      "range": {
+        "startLine": 113,
+        "startChar": 88,
+        "endLine": 113,
+        "endChar": 92
+      },
+      "revId": "556132100375a0c459460cc62e3ea3cc20b7db1b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_ddd543b3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UsernamePasswordCredentialsProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-01-20T14:02:56Z",
+      "side": 1,
+      "message": "looks like this part of the pattern doesn\u0027t help to differentiate between texts which should match and those which should not match since (.*)? already allows arbitrary text",
+      "range": {
+        "startLine": 113,
+        "startChar": 65,
+        "endLine": 113,
+        "endChar": 83
+      },
+      "revId": "556132100375a0c459460cc62e3ea3cc20b7db1b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
