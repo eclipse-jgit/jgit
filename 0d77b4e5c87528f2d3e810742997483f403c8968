@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07d9433e_1745cc19",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/SideBandOutputStreamTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-01-20T08:22:50Z",
+      "side": 1,
+      "message": "Took me a while to find out why we would need such a method",
+      "range": {
+        "startLine": 198,
+        "startChar": 0,
+        "endLine": 203,
+        "endChar": 2
+      },
+      "revId": "0d77b4e5c87528f2d3e810742997483f403c8968",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_37401008",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/SideBandOutputStreamTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-01-20T08:22:50Z",
+      "side": 1,
+      "message": "Wouldn\u0027t it be easier to read if we would have blocks like\n\n  ...\n  try (s \u003d new SideBandOutputStream(-1, MAX_BUF, rawOut)) {\n    fail(\"Accepted -1 channel number\");\n  } catch (IllegalArgumentException e) {\n    assertEquals(\"channel -1 must be in range [1, 255]\", e.getMessage());\n  }\n  ...",
+      "range": {
+        "startLine": 207,
+        "startChar": 0,
+        "endLine": 212,
+        "endChar": 3
+      },
+      "revId": "0d77b4e5c87528f2d3e810742997483f403c8968",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
