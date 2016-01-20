@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07d9433e_3a2ab57e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CommitCommandTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-01-20T10:13:19Z",
+      "side": 1,
+      "message": "use try-with-resource to avoid warning",
+      "revId": "d9a7d1d802c53f3e65959d8eb8e774b40e6b27b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
