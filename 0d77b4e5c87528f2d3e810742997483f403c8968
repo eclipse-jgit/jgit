@@ -93,6 +93,30 @@
       "revId": "0d77b4e5c87528f2d3e810742997483f403c8968",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_d707e4d2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/SideBandOutputStreamTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-01-20T08:32:16Z",
+      "side": 1,
+      "message": "No need to change. +1 from me.",
+      "parentUuid": "07d9433e_77ec5888",
+      "range": {
+        "startLine": 207,
+        "startChar": 0,
+        "endLine": 212,
+        "endChar": 3
+      },
+      "revId": "0d77b4e5c87528f2d3e810742997483f403c8968",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
