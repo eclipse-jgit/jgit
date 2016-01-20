@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_17e06c8c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/SideBandOutputStreamTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-01-20T08:29:02Z",
+      "side": 1,
+      "message": "I deliberately put this method declaration directly before the first method that uses it :)",
+      "parentUuid": "07d9433e_1745cc19",
+      "range": {
+        "startLine": 198,
+        "startChar": 0,
+        "endLine": 203,
+        "endChar": 2
+      },
+      "revId": "0d77b4e5c87528f2d3e810742997483f403c8968",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_37401008",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/SideBandOutputStreamTest.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2016-01-20T08:22:50Z",
       "side": 1,
       "message": "Wouldn\u0027t it be easier to read if we would have blocks like\n\n  ...\n  try (s \u003d new SideBandOutputStream(-1, MAX_BUF, rawOut)) {\n    fail(\"Accepted -1 channel number\");\n  } catch (IllegalArgumentException e) {\n    assertEquals(\"channel -1 must be in range [1, 255]\", e.getMessage());\n  }\n  ...",
+      "range": {
+        "startLine": 207,
+        "startChar": 0,
+        "endLine": 212,
+        "endChar": 3
+      },
+      "revId": "0d77b4e5c87528f2d3e810742997483f403c8968",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_77ec5888",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/SideBandOutputStreamTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-01-20T08:29:02Z",
+      "side": 1,
+      "message": "It would actually be:\n\n try (SideBandOutputStream s \u003d new SideBandOutputStream(-1, MAX_BUF, rawOut)) {\n\nwhich is much longer and repetitive.\n\nBut, if you prefer it like that, I will change it.",
+      "parentUuid": "07d9433e_37401008",
       "range": {
         "startLine": 207,
         "startChar": 0,
