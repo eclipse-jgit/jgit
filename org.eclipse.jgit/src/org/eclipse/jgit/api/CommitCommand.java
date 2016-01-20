@@ -179,7 +179,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 
 			processOptions(state, rw);
 
-			if (all && !repo.isBare() && repo.getWorkTree() != null) {
+			if (all && !repo.isBare()) {
 				try (Git git = new Git(repo)) {
 					git.add()
 							.addFilepattern(".") //$NON-NLS-1$

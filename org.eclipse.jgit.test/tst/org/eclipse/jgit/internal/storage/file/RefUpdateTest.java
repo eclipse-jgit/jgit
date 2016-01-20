@@ -558,13 +558,15 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		assertEquals(ppid, db.resolve("refs/heads/master"));
 
 		// real test
-		RevCommit old = new RevWalk(db).parseCommit(ppid);
-		RefUpdate updateRef2 = db.updateRef("refs/heads/master");
-		updateRef2.setExpectedOldObjectId(old);
-		updateRef2.setNewObjectId(pid);
-		Result update2 = updateRef2.update();
-		assertEquals(Result.FAST_FORWARD, update2);
-		assertEquals(pid, db.resolve("refs/heads/master"));
+		try (RevWalk rw = new RevWalk(db)) {
+			RevCommit old = rw.parseCommit(ppid);
+			RefUpdate updateRef2 = db.updateRef("refs/heads/master");
+			updateRef2.setExpectedOldObjectId(old);
+			updateRef2.setNewObjectId(pid);
+			Result update2 = updateRef2.update();
+			assertEquals(Result.FAST_FORWARD, update2);
+			assertEquals(pid, db.resolve("refs/heads/master"));
+		}
 	}
 
 	/**
@@ -707,9 +709,10 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 
 		// Create new Repository instance, to reread caches and make sure our
 		// assumptions are persistent.
-		Repository ndb = new FileRepository(db.getDirectory());
-		assertEquals(rb2, ndb.resolve("refs/heads/new/name"));
-		assertNull(ndb.resolve("refs/heads/b"));
+		try (Repository ndb = new FileRepository(db.getDirectory())) {
+			assertEquals(rb2, ndb.resolve("refs/heads/new/name"));
+			assertNull(ndb.resolve("refs/heads/b"));
+		}
 	}
 
 	public void tryRenameWhenLocked(String toLock, String fromName,
@@ -751,7 +754,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 			assertNull(db.resolve(toName));
 			assertEquals(oldFromLog.toString(), db.getReflogReader(fromName)
 					.getReverseEntries().toString());
-			if (oldHeadId != null)
+			if (oldHeadId != null && oldHeadLog != null)
 				assertEquals(oldHeadLog.toString(), db.getReflogReader(
 						Constants.HEAD).getReverseEntries().toString());
 		} finally {

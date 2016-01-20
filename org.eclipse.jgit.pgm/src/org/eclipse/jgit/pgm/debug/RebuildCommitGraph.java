@@ -167,7 +167,7 @@ class RebuildCommitGraph extends TextBuiltin {
 			}
 		}
 
-		pm.beginTask("Rewriting commits", queue.size());
+		pm.beginTask("Rewriting commits", queue.size()); //$NON-NLS-1$
 		try (ObjectInserter oi = db.newObjectInserter()) {
 			final ObjectId emptyTree = oi.insert(Constants.OBJ_TREE,
 					new byte[] {});
@@ -203,7 +203,7 @@ class RebuildCommitGraph extends TextBuiltin {
 					newc.setAuthor(new PersonIdent(me, new Date(t.commitTime)));
 					newc.setCommitter(newc.getAuthor());
 					newc.setParentIds(newParents);
-					newc.setMessage("ORIGINAL " + t.oldId.name() + "\n"); //$NON-NLS-2$
+					newc.setMessage("ORIGINAL " + t.oldId.name() + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
 					t.newId = oi.insert(newc);
 					rewrites.put(t.oldId, t.newId);
 					pm.update(1);

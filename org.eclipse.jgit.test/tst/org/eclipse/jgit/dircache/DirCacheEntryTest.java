@@ -69,6 +69,7 @@ public class DirCacheEntryTest {
 		assertFalse(isValidPath("a\u0000b"));
 	}
 
+	@SuppressWarnings("unused")
 	private static boolean isValidPath(String path) {
 		try {
 			new DirCacheEntry(path);
@@ -78,6 +79,7 @@ public class DirCacheEntryTest {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	@Test
 	public void testCreate_ByStringPath() {
 		assertEquals("a", new DirCacheEntry("a").getPathString());
@@ -91,6 +93,7 @@ public class DirCacheEntryTest {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	@Test
 	public void testCreate_ByStringPathAndStage() {
 		DirCacheEntry e;

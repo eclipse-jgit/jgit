@@ -51,7 +51,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;
@@ -64,24 +63,16 @@ public class URIishTest {
 
 	private static final String GIT_SCHEME = "git://";
 
-	@Test
+	@SuppressWarnings("unused")
+	@Test(expected = URISyntaxException.class)
 	public void shouldRaiseErrorOnEmptyURI() throws Exception {
-		try {
-			new URIish("");
-			fail("expecting an exception");
-		} catch (URISyntaxException e) {
-			// expected
-		}
+		new URIish("");
 	}
 
-	@Test
+	@SuppressWarnings("unused")
+	@Test(expected = URISyntaxException.class)
 	public void shouldRaiseErrorOnNullURI() throws Exception {
-		try {
-			new URIish((String) null);
-			fail("expecting an exception");
-		} catch (URISyntaxException e) {
-			// expected
-		}
+		new URIish((String) null);
 	}
 
 	@Test
@@ -634,34 +625,19 @@ public class URIishTest {
 		assertEquals(u, new URIish(str));
 	}
 
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void testGetNullHumanishName() {
-		try {
-			new URIish().getHumanishName();
-			fail("path must be not null");
-		} catch (IllegalArgumentException e) {
-			// expected
-		}
+		new URIish().getHumanishName();
 	}
 
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void testGetEmptyHumanishName() throws URISyntaxException {
-		try {
-			new URIish(GIT_SCHEME).getHumanishName();
-			fail("empty path is useless");
-		} catch (IllegalArgumentException e) {
-			// expected
-		}
+		new URIish(GIT_SCHEME).getHumanishName();
 	}
 
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void testGetAbsEmptyHumanishName() {
-		try {
-			new URIish().getHumanishName();
-			fail("empty path is useless");
-		} catch (IllegalArgumentException e) {
-			// expected
-		}
+		new URIish().getHumanishName();
 	}
 
 	@Test

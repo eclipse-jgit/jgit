@@ -74,7 +74,7 @@ class Config extends TextBuiltin {
 			list();
 		else
 			throw new NotSupportedException(
-					"only --list option is currently supported");
+					"only --list option is currently supported"); //$NON-NLS-1$
 	}
 
 	private void list() throws IOException, ConfigInvalidException {

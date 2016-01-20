@@ -109,7 +109,7 @@ public class AbstractTreeIteratorHandler extends
 			try {
 				dirc = DirCache.read(new File(name), FS.DETECTED);
 			} catch (IOException e) {
-				throw new CmdLineException(MessageFormat.format(CLIText.get().notAnIndexFile, name), e);
+				throw new CmdLineException(clp, MessageFormat.format(CLIText.get().notAnIndexFile, name), e);
 			}
 			setter.addValue(new DirCacheIterator(dirc));
 			return 1;
@@ -119,20 +119,20 @@ public class AbstractTreeIteratorHandler extends
 		try {
 			id = clp.getRepository().resolve(name);
 		} catch (IOException e) {
-			throw new CmdLineException(e.getMessage());
+			throw new CmdLineException(clp, e.getMessage());
 		}
 		if (id == null)
-			throw new CmdLineException(MessageFormat.format(CLIText.get().notATree, name));
+			throw new CmdLineException(clp, MessageFormat.format(CLIText.get().notATree, name));
 
 		final CanonicalTreeParser p = new CanonicalTreeParser();
 		try (ObjectReader curs = clp.getRepository().newObjectReader()) {
 			p.reset(curs, clp.getRevWalk().parseTree(id));
 		} catch (MissingObjectException e) {
-			throw new CmdLineException(MessageFormat.format(CLIText.get().notATree, name));
+			throw new CmdLineException(clp, MessageFormat.format(CLIText.get().notATree, name));
 		} catch (IncorrectObjectTypeException e) {
-			throw new CmdLineException(MessageFormat.format(CLIText.get().notATree, name));
+			throw new CmdLineException(clp, MessageFormat.format(CLIText.get().notATree, name));
 		} catch (IOException e) {
-			throw new CmdLineException(MessageFormat.format(CLIText.get().cannotReadBecause, name, e.getMessage()));
+			throw new CmdLineException(clp, MessageFormat.format(CLIText.get().cannotReadBecause, name, e.getMessage()));
 		}
 
 		setter.addValue(p);
