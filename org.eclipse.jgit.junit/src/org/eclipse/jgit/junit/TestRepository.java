@@ -1155,8 +1155,7 @@ public class TestRepository<R extends Repository> {
 			return self;
 		}
 
-		private void insertChangeId(org.eclipse.jgit.lib.CommitBuilder c)
-				throws IOException {
+		private void insertChangeId(org.eclipse.jgit.lib.CommitBuilder c) {
 			if (changeId == null)
 				return;
 			int idx = ChangeIdUtil.indexOfChangeId(message, "\n");
