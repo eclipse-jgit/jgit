@@ -72,53 +72,53 @@ public class BlameCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testSingleRevision() throws Exception {
-		Git git = new Git(db);
+		try (Git git = new Git(db)) {
+			String[] content = new String[] { "first", "second", "third" };
 
-		String[] content = new String[] { "first", "second", "third" };
+			writeTrashFile("file.txt", join(content));
+			git.add().addFilepattern("file.txt").call();
+			RevCommit commit = git.commit().setMessage("create file").call();
 
-		writeTrashFile("file.txt", join(content));
-		git.add().addFilepattern("file.txt").call();
-		RevCommit commit = git.commit().setMessage("create file").call();
+			BlameCommand command = new BlameCommand(db);
+			command.setFilePath("file.txt");
+			BlameResult lines = command.call();
+			assertNotNull(lines);
+			assertEquals(3, lines.getResultContents().size());
 
-		BlameCommand command = new BlameCommand(db);
-		command.setFilePath("file.txt");
-		BlameResult lines = command.call();
-		assertNotNull(lines);
-		assertEquals(3, lines.getResultContents().size());
-
-		for (int i = 0; i < 3; i++) {
-			assertEquals(commit, lines.getSourceCommit(i));
-			assertEquals(i, lines.getSourceLine(i));
+			for (int i = 0; i < 3; i++) {
+				assertEquals(commit, lines.getSourceCommit(i));
+				assertEquals(i, lines.getSourceLine(i));
+			}
 		}
 	}
 
 	@Test
 	public void testTwoRevisions() throws Exception {
-		Git git = new Git(db);
+		try (Git git = new Git(db)) {
+			String[] content1 = new String[] { "first", "second" };
+			writeTrashFile("file.txt", join(content1));
+			git.add().addFilepattern("file.txt").call();
+			RevCommit commit1 = git.commit().setMessage("create file").call();
 
-		String[] content1 = new String[] { "first", "second" };
-		writeTrashFile("file.txt", join(content1));
-		git.add().addFilepattern("file.txt").call();
-		RevCommit commit1 = git.commit().setMessage("create file").call();
+			String[] content2 = new String[] { "first", "second", "third" };
+			writeTrashFile("file.txt", join(content2));
+			git.add().addFilepattern("file.txt").call();
+			RevCommit commit2 = git.commit().setMessage("create file").call();
 
-		String[] content2 = new String[] { "first", "second", "third" };
-		writeTrashFile("file.txt", join(content2));
-		git.add().addFilepattern("file.txt").call();
-		RevCommit commit2 = git.commit().setMessage("create file").call();
+			BlameCommand command = new BlameCommand(db);
+			command.setFilePath("file.txt");
+			BlameResult lines = command.call();
+			assertEquals(3, lines.getResultContents().size());
 
-		BlameCommand command = new BlameCommand(db);
-		command.setFilePath("file.txt");
-		BlameResult lines = command.call();
-		assertEquals(3, lines.getResultContents().size());
+			assertEquals(commit1, lines.getSourceCommit(0));
+			assertEquals(0, lines.getSourceLine(0));
 
-		assertEquals(commit1, lines.getSourceCommit(0));
-		assertEquals(0, lines.getSourceLine(0));
+			assertEquals(commit1, lines.getSourceCommit(1));
+			assertEquals(1, lines.getSourceLine(1));
 
-		assertEquals(commit1, lines.getSourceCommit(1));
-		assertEquals(1, lines.getSourceLine(1));
-
-		assertEquals(commit2, lines.getSourceCommit(2));
-		assertEquals(2, lines.getSourceLine(2));
+			assertEquals(commit2, lines.getSourceCommit(2));
+			assertEquals(2, lines.getSourceLine(2));
+		}
 	}
 
 	@Test
@@ -138,200 +138,200 @@ public class BlameCommandTest extends RepositoryTestCase {
 
 	private void testRename(final String sourcePath, final String destPath)
 			throws Exception {
-		Git git = new Git(db);
+		try (Git git = new Git(db)) {
+			String[] content1 = new String[] { "a", "b", "c" };
+			writeTrashFile(sourcePath, join(content1));
+			git.add().addFilepattern(sourcePath).call();
+			RevCommit commit1 = git.commit().setMessage("create file").call();
 
-		String[] content1 = new String[] { "a", "b", "c" };
-		writeTrashFile(sourcePath, join(content1));
-		git.add().addFilepattern(sourcePath).call();
-		RevCommit commit1 = git.commit().setMessage("create file").call();
+			writeTrashFile(destPath, join(content1));
+			git.add().addFilepattern(destPath).call();
+			git.rm().addFilepattern(sourcePath).call();
+			git.commit().setMessage("moving file").call();
 
-		writeTrashFile(destPath, join(content1));
-		git.add().addFilepattern(destPath).call();
-		git.rm().addFilepattern(sourcePath).call();
-		git.commit().setMessage("moving file").call();
+			String[] content2 = new String[] { "a", "b", "c2" };
+			writeTrashFile(destPath, join(content2));
+			git.add().addFilepattern(destPath).call();
+			RevCommit commit3 = git.commit().setMessage("editing file").call();
 
-		String[] content2 = new String[] { "a", "b", "c2" };
-		writeTrashFile(destPath, join(content2));
-		git.add().addFilepattern(destPath).call();
-		RevCommit commit3 = git.commit().setMessage("editing file").call();
+			BlameCommand command = new BlameCommand(db);
+			command.setFollowFileRenames(true);
+			command.setFilePath(destPath);
+			BlameResult lines = command.call();
 
-		BlameCommand command = new BlameCommand(db);
-		command.setFollowFileRenames(true);
-		command.setFilePath(destPath);
-		BlameResult lines = command.call();
+			assertEquals(commit1, lines.getSourceCommit(0));
+			assertEquals(0, lines.getSourceLine(0));
+			assertEquals(sourcePath, lines.getSourcePath(0));
 
-		assertEquals(commit1, lines.getSourceCommit(0));
-		assertEquals(0, lines.getSourceLine(0));
-		assertEquals(sourcePath, lines.getSourcePath(0));
+			assertEquals(commit1, lines.getSourceCommit(1));
+			assertEquals(1, lines.getSourceLine(1));
+			assertEquals(sourcePath, lines.getSourcePath(1));
 
-		assertEquals(commit1, lines.getSourceCommit(1));
-		assertEquals(1, lines.getSourceLine(1));
-		assertEquals(sourcePath, lines.getSourcePath(1));
-
-		assertEquals(commit3, lines.getSourceCommit(2));
-		assertEquals(2, lines.getSourceLine(2));
-		assertEquals(destPath, lines.getSourcePath(2));
+			assertEquals(commit3, lines.getSourceCommit(2));
+			assertEquals(2, lines.getSourceLine(2));
+			assertEquals(destPath, lines.getSourcePath(2));
+		}
 	}
 
 	@Test
 	public void testTwoRenames() throws Exception {
-		Git git = new Git(db);
+		try (Git git = new Git(db)) {
+			// Commit 1: Add file.txt
+			String[] content1 = new String[] { "a" };
+			writeTrashFile("file.txt", join(content1));
+			git.add().addFilepattern("file.txt").call();
+			RevCommit commit1 = git.commit().setMessage("create file").call();
 
-		// Commit 1: Add file.txt
-		String[] content1 = new String[] { "a" };
-		writeTrashFile("file.txt", join(content1));
-		git.add().addFilepattern("file.txt").call();
-		RevCommit commit1 = git.commit().setMessage("create file").call();
+			// Commit 2: Rename to file1.txt
+			writeTrashFile("file1.txt", join(content1));
+			git.add().addFilepattern("file1.txt").call();
+			git.rm().addFilepattern("file.txt").call();
+			git.commit().setMessage("moving file").call();
 
-		// Commit 2: Rename to file1.txt
-		writeTrashFile("file1.txt", join(content1));
-		git.add().addFilepattern("file1.txt").call();
-		git.rm().addFilepattern("file.txt").call();
-		git.commit().setMessage("moving file").call();
+			// Commit 3: Edit file1.txt
+			String[] content2 = new String[] { "a", "b" };
+			writeTrashFile("file1.txt", join(content2));
+			git.add().addFilepattern("file1.txt").call();
+			RevCommit commit3 = git.commit().setMessage("editing file").call();
 
-		// Commit 3: Edit file1.txt
-		String[] content2 = new String[] { "a", "b" };
-		writeTrashFile("file1.txt", join(content2));
-		git.add().addFilepattern("file1.txt").call();
-		RevCommit commit3 = git.commit().setMessage("editing file").call();
+			// Commit 4: Rename to file2.txt
+			writeTrashFile("file2.txt", join(content2));
+			git.add().addFilepattern("file2.txt").call();
+			git.rm().addFilepattern("file1.txt").call();
+			git.commit().setMessage("moving file again").call();
 
-		// Commit 4: Rename to file2.txt
-		writeTrashFile("file2.txt", join(content2));
-		git.add().addFilepattern("file2.txt").call();
-		git.rm().addFilepattern("file1.txt").call();
-		git.commit().setMessage("moving file again").call();
+			BlameCommand command = new BlameCommand(db);
+			command.setFollowFileRenames(true);
+			command.setFilePath("file2.txt");
+			BlameResult lines = command.call();
 
-		BlameCommand command = new BlameCommand(db);
-		command.setFollowFileRenames(true);
-		command.setFilePath("file2.txt");
-		BlameResult lines = command.call();
+			assertEquals(commit1, lines.getSourceCommit(0));
+			assertEquals(0, lines.getSourceLine(0));
+			assertEquals("file.txt", lines.getSourcePath(0));
 
-		assertEquals(commit1, lines.getSourceCommit(0));
-		assertEquals(0, lines.getSourceLine(0));
-		assertEquals("file.txt", lines.getSourcePath(0));
-
-		assertEquals(commit3, lines.getSourceCommit(1));
-		assertEquals(1, lines.getSourceLine(1));
-		assertEquals("file1.txt", lines.getSourcePath(1));
+			assertEquals(commit3, lines.getSourceCommit(1));
+			assertEquals(1, lines.getSourceLine(1));
+			assertEquals("file1.txt", lines.getSourcePath(1));
+		}
 	}
 
 	@Test
 	public void testDeleteTrailingLines() throws Exception {
-		Git git = new Git(db);
+		try (Git git = new Git(db)) {
+			String[] content1 = new String[] { "a", "b", "c", "d" };
+			String[] content2 = new String[] { "a", "b" };
 
-		String[] content1 = new String[] { "a", "b", "c", "d" };
-		String[] content2 = new String[] { "a", "b" };
+			writeTrashFile("file.txt", join(content2));
+			git.add().addFilepattern("file.txt").call();
+			RevCommit commit1 = git.commit().setMessage("create file").call();
 
-		writeTrashFile("file.txt", join(content2));
-		git.add().addFilepattern("file.txt").call();
-		RevCommit commit1 = git.commit().setMessage("create file").call();
+			writeTrashFile("file.txt", join(content1));
+			git.add().addFilepattern("file.txt").call();
+			git.commit().setMessage("edit file").call();
 
-		writeTrashFile("file.txt", join(content1));
-		git.add().addFilepattern("file.txt").call();
-		git.commit().setMessage("edit file").call();
+			writeTrashFile("file.txt", join(content2));
+			git.add().addFilepattern("file.txt").call();
+			git.commit().setMessage("edit file").call();
 
-		writeTrashFile("file.txt", join(content2));
-		git.add().addFilepattern("file.txt").call();
-		git.commit().setMessage("edit file").call();
+			BlameCommand command = new BlameCommand(db);
 
-		BlameCommand command = new BlameCommand(db);
+			command.setFilePath("file.txt");
+			BlameResult lines = command.call();
+			assertEquals(content2.length, lines.getResultContents().size());
 
-		command.setFilePath("file.txt");
-		BlameResult lines = command.call();
-		assertEquals(content2.length, lines.getResultContents().size());
+			assertEquals(commit1, lines.getSourceCommit(0));
+			assertEquals(commit1, lines.getSourceCommit(1));
 
-		assertEquals(commit1, lines.getSourceCommit(0));
-		assertEquals(commit1, lines.getSourceCommit(1));
-
-		assertEquals(0, lines.getSourceLine(0));
-		assertEquals(1, lines.getSourceLine(1));
+			assertEquals(0, lines.getSourceLine(0));
+			assertEquals(1, lines.getSourceLine(1));
+		}
 	}
 
 	@Test
 	public void testDeleteMiddleLines() throws Exception {
-		Git git = new Git(db);
+		try (Git git = new Git(db)) {
+			String[] content1 = new String[] { "a", "b", "c", "d", "e" };
+			String[] content2 = new String[] { "a", "c", "e" };
 
-		String[] content1 = new String[] { "a", "b", "c", "d", "e" };
-		String[] content2 = new String[] { "a", "c", "e" };
+			writeTrashFile("file.txt", join(content2));
+			git.add().addFilepattern("file.txt").call();
+			RevCommit commit1 = git.commit().setMessage("edit file").call();
 
-		writeTrashFile("file.txt", join(content2));
-		git.add().addFilepattern("file.txt").call();
-		RevCommit commit1 = git.commit().setMessage("edit file").call();
+			writeTrashFile("file.txt", join(content1));
+			git.add().addFilepattern("file.txt").call();
+			git.commit().setMessage("edit file").call();
 
-		writeTrashFile("file.txt", join(content1));
-		git.add().addFilepattern("file.txt").call();
-		git.commit().setMessage("edit file").call();
+			writeTrashFile("file.txt", join(content2));
+			git.add().addFilepattern("file.txt").call();
+			git.commit().setMessage("edit file").call();
 
-		writeTrashFile("file.txt", join(content2));
-		git.add().addFilepattern("file.txt").call();
-		git.commit().setMessage("edit file").call();
+			BlameCommand command = new BlameCommand(db);
 
-		BlameCommand command = new BlameCommand(db);
+			command.setFilePath("file.txt");
+			BlameResult lines = command.call();
+			assertEquals(content2.length, lines.getResultContents().size());
 
-		command.setFilePath("file.txt");
-		BlameResult lines = command.call();
-		assertEquals(content2.length, lines.getResultContents().size());
+			assertEquals(commit1, lines.getSourceCommit(0));
+			assertEquals(0, lines.getSourceLine(0));
 
-		assertEquals(commit1, lines.getSourceCommit(0));
-		assertEquals(0, lines.getSourceLine(0));
+			assertEquals(commit1, lines.getSourceCommit(1));
+			assertEquals(1, lines.getSourceLine(1));
 
-		assertEquals(commit1, lines.getSourceCommit(1));
-		assertEquals(1, lines.getSourceLine(1));
-
-		assertEquals(commit1, lines.getSourceCommit(2));
-		assertEquals(2, lines.getSourceLine(2));
+			assertEquals(commit1, lines.getSourceCommit(2));
+			assertEquals(2, lines.getSourceLine(2));
+		}
 	}
 
 	@Test
 	public void testEditAllLines() throws Exception {
-		Git git = new Git(db);
+		try (Git git = new Git(db)) {
+			String[] content1 = new String[] { "a", "1" };
+			String[] content2 = new String[] { "b", "2" };
 
-		String[] content1 = new String[] { "a", "1" };
-		String[] content2 = new String[] { "b", "2" };
+			writeTrashFile("file.txt", join(content1));
+			git.add().addFilepattern("file.txt").call();
+			git.commit().setMessage("edit file").call();
 
-		writeTrashFile("file.txt", join(content1));
-		git.add().addFilepattern("file.txt").call();
-		git.commit().setMessage("edit file").call();
+			writeTrashFile("file.txt", join(content2));
+			git.add().addFilepattern("file.txt").call();
+			RevCommit commit2 = git.commit().setMessage("create file").call();
 
-		writeTrashFile("file.txt", join(content2));
-		git.add().addFilepattern("file.txt").call();
-		RevCommit commit2 = git.commit().setMessage("create file").call();
+			BlameCommand command = new BlameCommand(db);
 
-		BlameCommand command = new BlameCommand(db);
-
-		command.setFilePath("file.txt");
-		BlameResult lines = command.call();
-		assertEquals(content2.length, lines.getResultContents().size());
-		assertEquals(commit2, lines.getSourceCommit(0));
-		assertEquals(commit2, lines.getSourceCommit(1));
+			command.setFilePath("file.txt");
+			BlameResult lines = command.call();
+			assertEquals(content2.length, lines.getResultContents().size());
+			assertEquals(commit2, lines.getSourceCommit(0));
+			assertEquals(commit2, lines.getSourceCommit(1));
+		}
 	}
 
 	@Test
 	public void testMiddleClearAllLines() throws Exception {
-		Git git = new Git(db);
+		try (Git git = new Git(db)) {
+			String[] content1 = new String[] { "a", "b", "c" };
 
-		String[] content1 = new String[] { "a", "b", "c" };
+			writeTrashFile("file.txt", join(content1));
+			git.add().addFilepattern("file.txt").call();
+			git.commit().setMessage("edit file").call();
 
-		writeTrashFile("file.txt", join(content1));
-		git.add().addFilepattern("file.txt").call();
-		git.commit().setMessage("edit file").call();
+			writeTrashFile("file.txt", "");
+			git.add().addFilepattern("file.txt").call();
+			git.commit().setMessage("create file").call();
 
-		writeTrashFile("file.txt", "");
-		git.add().addFilepattern("file.txt").call();
-		git.commit().setMessage("create file").call();
+			writeTrashFile("file.txt", join(content1));
+			git.add().addFilepattern("file.txt").call();
+			RevCommit commit3 = git.commit().setMessage("edit file").call();
 
-		writeTrashFile("file.txt", join(content1));
-		git.add().addFilepattern("file.txt").call();
-		RevCommit commit3 = git.commit().setMessage("edit file").call();
+			BlameCommand command = new BlameCommand(db);
 
-		BlameCommand command = new BlameCommand(db);
-
-		command.setFilePath("file.txt");
-		BlameResult lines = command.call();
-		assertEquals(content1.length, lines.getResultContents().size());
-		assertEquals(commit3, lines.getSourceCommit(0));
-		assertEquals(commit3, lines.getSourceCommit(1));
-		assertEquals(commit3, lines.getSourceCommit(2));
+			command.setFilePath("file.txt");
+			BlameResult lines = command.call();
+			assertEquals(content1.length, lines.getResultContents().size());
+			assertEquals(commit3, lines.getSourceCommit(0));
+			assertEquals(commit3, lines.getSourceCommit(1));
+			assertEquals(commit3, lines.getSourceCommit(2));
+		}
 	}
 
 	@Test
@@ -361,130 +361,132 @@ public class BlameCommandTest extends RepositoryTestCase {
 
 	private void testCoreAutoCrlf(AutoCRLF modeForCommitting,
 			AutoCRLF modeForReset) throws Exception {
-		Git git = new Git(db);
-		FileBasedConfig config = db.getConfig();
-		config.setEnum(ConfigConstants.CONFIG_CORE_SECTION, null,
-				ConfigConstants.CONFIG_KEY_AUTOCRLF, modeForCommitting);
-		config.save();
+		try (Git git = new Git(db)) {
+			FileBasedConfig config = db.getConfig();
+			config.setEnum(ConfigConstants.CONFIG_CORE_SECTION, null,
+					ConfigConstants.CONFIG_KEY_AUTOCRLF, modeForCommitting);
+			config.save();
 
-		String joinedCrlf = "a\r\nb\r\nc\r\n";
-		File trashFile = writeTrashFile("file.txt", joinedCrlf);
-		git.add().addFilepattern("file.txt").call();
-		RevCommit commit = git.commit().setMessage("create file").call();
+			String joinedCrlf = "a\r\nb\r\nc\r\n";
+			File trashFile = writeTrashFile("file.txt", joinedCrlf);
+			git.add().addFilepattern("file.txt").call();
+			RevCommit commit = git.commit().setMessage("create file").call();
 
-		// re-create file from the repo
-		trashFile.delete();
-		config.setEnum(ConfigConstants.CONFIG_CORE_SECTION, null,
-				ConfigConstants.CONFIG_KEY_AUTOCRLF, modeForReset);
-		config.save();
-		git.reset().setMode(ResetType.HARD).call();
+			// re-create file from the repo
+			trashFile.delete();
+			config.setEnum(ConfigConstants.CONFIG_CORE_SECTION, null,
+					ConfigConstants.CONFIG_KEY_AUTOCRLF, modeForReset);
+			config.save();
+			git.reset().setMode(ResetType.HARD).call();
 
-		BlameCommand command = new BlameCommand(db);
-		command.setFilePath("file.txt");
-		BlameResult lines = command.call();
+			BlameCommand command = new BlameCommand(db);
+			command.setFilePath("file.txt");
+			BlameResult lines = command.call();
 
-		assertEquals(3, lines.getResultContents().size());
-		assertEquals(commit, lines.getSourceCommit(0));
-		assertEquals(commit, lines.getSourceCommit(1));
-		assertEquals(commit, lines.getSourceCommit(2));
+			assertEquals(3, lines.getResultContents().size());
+			assertEquals(commit, lines.getSourceCommit(0));
+			assertEquals(commit, lines.getSourceCommit(1));
+			assertEquals(commit, lines.getSourceCommit(2));
+		}
 	}
 
 	@Test
 	public void testConflictingMerge1() throws Exception {
-		Git git = new Git(db);
+		try (Git git = new Git(db)) {
+			RevCommit base = commitFile("file.txt", join("0", "1", "2", "3", "4"),
+					"master");
 
-		RevCommit base = commitFile("file.txt", join("0", "1", "2", "3", "4"),
-				"master");
+			git.checkout().setName("side").setCreateBranch(true)
+					.setStartPoint(base).call();
+			RevCommit side = commitFile("file.txt",
+					join("0", "1 side", "2", "3 on side", "4"), "side");
 
-		git.checkout().setName("side").setCreateBranch(true)
-				.setStartPoint(base).call();
-		RevCommit side = commitFile("file.txt",
-				join("0", "1 side", "2", "3 on side", "4"), "side");
+			commitFile("file.txt", join("0", "1", "2"), "master");
 
-		commitFile("file.txt", join("0", "1", "2"), "master");
+			checkoutBranch("refs/heads/master");
+			git.merge().include(side).call();
 
-		checkoutBranch("refs/heads/master");
-		git.merge().include(side).call();
+			// The merge results in a conflict, which we resolve using mostly the
+			// side branch contents. Especially the "4" survives.
+			RevCommit merge = commitFile("file.txt",
+					join("0", "1 side", "2", "3 resolved", "4"), "master");
 
-		// The merge results in a conflict, which we resolve using mostly the
-		// side branch contents. Especially the "4" survives.
-		RevCommit merge = commitFile("file.txt",
-				join("0", "1 side", "2", "3 resolved", "4"), "master");
+			BlameCommand command = new BlameCommand(db);
+			command.setFilePath("file.txt");
+			BlameResult lines = command.call();
 
-		BlameCommand command = new BlameCommand(db);
-		command.setFilePath("file.txt");
-		BlameResult lines = command.call();
-
-		assertEquals(5, lines.getResultContents().size());
-		assertEquals(base, lines.getSourceCommit(0));
-		assertEquals(side, lines.getSourceCommit(1));
-		assertEquals(base, lines.getSourceCommit(2));
-		assertEquals(merge, lines.getSourceCommit(3));
-		assertEquals(base, lines.getSourceCommit(4));
+			assertEquals(5, lines.getResultContents().size());
+			assertEquals(base, lines.getSourceCommit(0));
+			assertEquals(side, lines.getSourceCommit(1));
+			assertEquals(base, lines.getSourceCommit(2));
+			assertEquals(merge, lines.getSourceCommit(3));
+			assertEquals(base, lines.getSourceCommit(4));
+		}
 	}
 
 	// this test inverts the order of the master and side commit and is
 	// otherwise identical to testConflictingMerge1
 	@Test
 	public void testConflictingMerge2() throws Exception {
-		Git git = new Git(db);
+		try (Git git = new Git(db)) {
+			RevCommit base = commitFile("file.txt", join("0", "1", "2", "3", "4"),
+					"master");
 
-		RevCommit base = commitFile("file.txt", join("0", "1", "2", "3", "4"),
-				"master");
+			commitFile("file.txt", join("0", "1", "2"), "master");
 
-		commitFile("file.txt", join("0", "1", "2"), "master");
+			git.checkout().setName("side").setCreateBranch(true)
+					.setStartPoint(base).call();
+			RevCommit side = commitFile("file.txt",
+					join("0", "1 side", "2", "3 on side", "4"), "side");
 
-		git.checkout().setName("side").setCreateBranch(true)
-				.setStartPoint(base).call();
-		RevCommit side = commitFile("file.txt",
-				join("0", "1 side", "2", "3 on side", "4"), "side");
+			checkoutBranch("refs/heads/master");
+			git.merge().include(side).call();
 
-		checkoutBranch("refs/heads/master");
-		git.merge().include(side).call();
+			// The merge results in a conflict, which we resolve using mostly the
+			// side branch contents. Especially the "4" survives.
+			RevCommit merge = commitFile("file.txt",
+					join("0", "1 side", "2", "3 resolved", "4"), "master");
 
-		// The merge results in a conflict, which we resolve using mostly the
-		// side branch contents. Especially the "4" survives.
-		RevCommit merge = commitFile("file.txt",
-				join("0", "1 side", "2", "3 resolved", "4"), "master");
+			BlameCommand command = new BlameCommand(db);
+			command.setFilePath("file.txt");
+			BlameResult lines = command.call();
 
-		BlameCommand command = new BlameCommand(db);
-		command.setFilePath("file.txt");
-		BlameResult lines = command.call();
-
-		assertEquals(5, lines.getResultContents().size());
-		assertEquals(base, lines.getSourceCommit(0));
-		assertEquals(side, lines.getSourceCommit(1));
-		assertEquals(base, lines.getSourceCommit(2));
-		assertEquals(merge, lines.getSourceCommit(3));
-		assertEquals(base, lines.getSourceCommit(4));
+			assertEquals(5, lines.getResultContents().size());
+			assertEquals(base, lines.getSourceCommit(0));
+			assertEquals(side, lines.getSourceCommit(1));
+			assertEquals(base, lines.getSourceCommit(2));
+			assertEquals(merge, lines.getSourceCommit(3));
+			assertEquals(base, lines.getSourceCommit(4));
+		}
 	}
 
 	@Test
 	public void testWhitespaceMerge() throws Exception {
-		Git git = new Git(db);
-		RevCommit base = commitFile("file.txt", join("0", "1", "2"), "master");
-		RevCommit side = commitFile("file.txt", join("0", "1", "   2 side  "),
-				"side");
+		try (Git git = new Git(db)) {
+			RevCommit base = commitFile("file.txt", join("0", "1", "2"), "master");
+			RevCommit side = commitFile("file.txt", join("0", "1", "   2 side  "),
+					"side");
 
-		checkoutBranch("refs/heads/master");
-		git.merge().setFastForward(FastForwardMode.NO_FF).include(side).call();
+			checkoutBranch("refs/heads/master");
+			git.merge().setFastForward(FastForwardMode.NO_FF).include(side).call();
 
-		// change whitespace, so the merge content is not identical to side, but
-		// is the same when ignoring whitespace
-		writeTrashFile("file.txt", join("0", "1", "2 side"));
-		RevCommit merge = git.commit().setAll(true).setMessage("merge")
-				.setAmend(true)
-				.call();
+			// change whitespace, so the merge content is not identical to side, but
+			// is the same when ignoring whitespace
+			writeTrashFile("file.txt", join("0", "1", "2 side"));
+			RevCommit merge = git.commit().setAll(true).setMessage("merge")
+					.setAmend(true)
+					.call();
 
-		BlameCommand command = new BlameCommand(db);
-		command.setFilePath("file.txt")
-				.setTextComparator(RawTextComparator.WS_IGNORE_ALL)
-				.setStartCommit(merge.getId());
-		BlameResult lines = command.call();
+			BlameCommand command = new BlameCommand(db);
+			command.setFilePath("file.txt")
+					.setTextComparator(RawTextComparator.WS_IGNORE_ALL)
+					.setStartCommit(merge.getId());
+			BlameResult lines = command.call();
 
-		assertEquals(3, lines.getResultContents().size());
-		assertEquals(base, lines.getSourceCommit(0));
-		assertEquals(base, lines.getSourceCommit(1));
-		assertEquals(side, lines.getSourceCommit(2));
+			assertEquals(3, lines.getResultContents().size());
+			assertEquals(base, lines.getSourceCommit(0));
+			assertEquals(base, lines.getSourceCommit(1));
+			assertEquals(side, lines.getSourceCommit(2));
+		}
 	}
 }
