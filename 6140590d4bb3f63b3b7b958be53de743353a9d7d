@@ -2,6 +2,69 @@
   "comments": [
     {
       "key": {
+        "uuid": "07d9433e_572bd4b8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-01-20T03:15:04Z",
+      "side": 1,
+      "message": "Just out of curiosity: is there are reason to sometimes commit as @google.com and sometimes as @spearce.org?",
+      "revId": "6140590d4bb3f63b3b7b958be53de743353a9d7d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_f7f228d4",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/ketch/KetchText.properties",
+        "patchSetId": 5
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-01-20T03:15:04Z",
+      "side": 1,
+      "message": "\"leaderFailedToStore\" for consistency with the actual message, and with the other definition at line 6?",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 2,
+        "endChar": 17
+      },
+      "revId": "6140590d4bb3f63b3b7b958be53de743353a9d7d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_7707f857",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/ketch/KetchText.properties",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-01-20T03:15:04Z",
+      "side": 1,
+      "message": "The value passed to {1} is an array of integers as defined in KetchLeader.java:\n\n  Integer[] valid \u003d {1, 3, 5, 7, 9};\n\nso would it be better to say \"expected one of\" here?\n\nThen the message will be something like:\n\n unsupported voter count 4, expected one of 1, 3, 5, 7, 9",
+      "range": {
+        "startLine": 7,
+        "startChar": 51,
+        "endLine": 7,
+        "endChar": 59
+      },
+      "revId": "6140590d4bb3f63b3b7b958be53de743353a9d7d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_403cf1eb",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/ketch/KetchLeader.java",
         "patchSetId": 5
