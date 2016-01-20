@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07d9433e_fd74c742",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-01-20T14:32:03Z",
+      "side": 1,
+      "message": "why only at the end ?",
+      "range": {
+        "startLine": 7,
+        "startChar": 23,
+        "endLine": 7,
+        "endChar": 36
+      },
+      "revId": "dcc858fdf0035d4aa7f911a600f320a395beb30c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_1d840bad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-01-20T14:32:03Z",
+      "side": 1,
+      "message": "I tried with git 2.6.4 (on Mac) and I was able to create a tag @:\n\n $ git tag @\n\ndoesn\u0027t raise an error and I can also do e.g.\n\n $ git log @",
+      "revId": "dcc858fdf0035d4aa7f911a600f320a395beb30c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
