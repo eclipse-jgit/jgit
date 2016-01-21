@@ -56,7 +56,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.jgit.attributes.Attribute.State;
-import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.FileMode;
@@ -253,7 +252,7 @@ public class AttributesNodeWorkingTreeIteratorTest extends RepositoryTestCase {
 		writeTrashFile(name, data.toString());
 	}
 
-	private TreeWalk beginWalk() throws CorruptObjectException {
+	private TreeWalk beginWalk() {
 		TreeWalk newWalk = new TreeWalk(db);
 		newWalk.addTree(new FileTreeIterator(db));
 		return newWalk;
