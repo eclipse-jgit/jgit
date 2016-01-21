@@ -45,18 +45,29 @@ package org.eclipse.jgit.pgm;
 
 import java.io.File;
 import java.net.InetSocketAddress;
+import java.net.URISyntaxException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
 
+import org.eclipse.jgit.internal.ketch.KetchLeader;
+import org.eclipse.jgit.internal.ketch.KetchLeaderCache;
+import org.eclipse.jgit.internal.ketch.KetchPreReceive;
+import org.eclipse.jgit.internal.ketch.KetchSystem;
+import org.eclipse.jgit.internal.ketch.KetchText;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.pgm.internal.CLIText;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.storage.file.WindowCacheConfig;
 import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.transport.DaemonClient;
 import org.eclipse.jgit.transport.DaemonService;
+import org.eclipse.jgit.transport.ReceivePack;
 import org.eclipse.jgit.transport.resolver.FileResolver;
+import org.eclipse.jgit.transport.resolver.ReceivePackFactory;
+import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
+import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 import org.eclipse.jgit.util.FS;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
@@ -89,6 +100,13 @@ class Daemon extends TextBuiltin {
 
 	@Option(name = "--export-all", usage = "usage_exportWithoutGitDaemonExportOk")
 	boolean exportAll;
+
+	@Option(name = "--ketch")
+	KetchServerType ketchServerType;
+
+	enum KetchServerType {
+		LEADER;
+	}
 
 	@Argument(required = true, metaVar = "metaVar_directory", usage = "usage_directoriesToExport")
 	final List<File> directory = new ArrayList<File>();
@@ -146,7 +164,9 @@ class Daemon extends TextBuiltin {
 			service(d, n).setOverridable(true);
 		for (final String n : forbidOverride)
 			service(d, n).setOverridable(false);
-
+		if (ketchServerType == KetchServerType.LEADER) {
+			startKetchLeader(d);
+		}
 		d.start();
 		outw.println(MessageFormat.format(CLIText.get().listeningOn, d.getAddress()));
 	}
@@ -158,5 +178,30 @@ class Daemon extends TextBuiltin {
 		if (svc == null)
 			throw die(MessageFormat.format(CLIText.get().serviceNotSupported, n));
 		return svc;
+	}
+
+	private void startKetchLeader(org.eclipse.jgit.transport.Daemon daemon) {
+		KetchSystem system = new KetchSystem();
+		final KetchLeaderCache leaders = new KetchLeaderCache(system);
+		final ReceivePackFactory<DaemonClient> factory;
+
+		factory = daemon.getReceivePackFactory();
+		daemon.setReceivePackFactory(new ReceivePackFactory<DaemonClient>() {
+			@Override
+			public ReceivePack create(DaemonClient req, Repository repo)
+					throws ServiceNotEnabledException,
+					ServiceNotAuthorizedException {
+				ReceivePack rp = factory.create(req, repo);
+				KetchLeader leader;
+				try {
+					leader = leaders.get(repo);
+				} catch (URISyntaxException err) {
+					throw new ServiceNotEnabledException(
+							KetchText.get().invalidFollowerUri, err);
+				}
+				rp.setPreReceiveHook(new KetchPreReceive(leader));
+				return rp;
+			}
+		});
 	}
 }

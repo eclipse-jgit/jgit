@@ -256,6 +256,16 @@ public class Daemon {
 	}
 
 	/**
+	 * Get the factory used to construct per-request ReceivePack.
+	 *
+	 * @return the factory.
+	 * @since 4.2
+	 */
+	public ReceivePackFactory<DaemonClient> getReceivePackFactory() {
+		return receivePackFactory;
+	}
+
+	/**
 	 * Set the factory to construct and configure per-request ReceivePack.
 	 *
 	 * @param factory
