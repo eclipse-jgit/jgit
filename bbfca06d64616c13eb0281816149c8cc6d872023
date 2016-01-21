@@ -22,6 +22,30 @@
       "revId": "bbfca06d64616c13eb0281816149c8cc6d872023",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_4646c476",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftree/RefTreeDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-01-21T05:31:50Z",
+      "side": 1,
+      "message": "You search for a needle in a haystack.",
+      "parentUuid": "07d9433e_663d88ea",
+      "range": {
+        "startLine": 193,
+        "startChar": 11,
+        "endLine": 193,
+        "endChar": 17
+      },
+      "revId": "bbfca06d64616c13eb0281816149c8cc6d872023",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
