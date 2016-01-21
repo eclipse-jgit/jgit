@@ -339,7 +339,7 @@ public class DiffFormatterTest extends RepositoryTestCase {
 					+ "@@ -1 +1 @@\n" + "-folder\n"
 					+ "\\ No newline at end of file\n" + "+folder change\n"
 					+ "\\ No newline at end of file\n";
-	
+
 			assertEquals(expected, actual);
 		}
 	}
@@ -371,7 +371,7 @@ public class DiffFormatterTest extends RepositoryTestCase {
 					+ "@@ -0,0 +1 @@\n"
 					+ "+folder\n"
 					+ "\\ No newline at end of file\n";
-	
+
 			assertEquals(expected, actual);
 		}
 	}
