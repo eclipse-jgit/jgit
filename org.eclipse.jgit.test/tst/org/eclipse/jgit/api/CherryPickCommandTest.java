@@ -88,136 +88,139 @@ public class CherryPickCommandTest extends RepositoryTestCase {
 	private void doTestCherryPick(boolean noCommit) throws IOException,
 			JGitInternalException,
 			GitAPIException {
-		Git git = new Git(db);
+		try (Git git = new Git(db)) {
+			writeTrashFile("a", "first line\nsec. line\nthird line\n");
+			git.add().addFilepattern("a").call();
+			RevCommit firstCommit = git.commit().setMessage("create a").call();
 
-		writeTrashFile("a", "first line\nsec. line\nthird line\n");
-		git.add().addFilepattern("a").call();
-		RevCommit firstCommit = git.commit().setMessage("create a").call();
+			writeTrashFile("b", "content\n");
+			git.add().addFilepattern("b").call();
+			git.commit().setMessage("create b").call();
 
-		writeTrashFile("b", "content\n");
-		git.add().addFilepattern("b").call();
-		git.commit().setMessage("create b").call();
+			writeTrashFile("a", "first line\nsec. line\nthird line\nfourth line\n");
+			git.add().addFilepattern("a").call();
+			git.commit().setMessage("enlarged a").call();
 
-		writeTrashFile("a", "first line\nsec. line\nthird line\nfourth line\n");
-		git.add().addFilepattern("a").call();
-		git.commit().setMessage("enlarged a").call();
+			writeTrashFile("a",
+					"first line\nsecond line\nthird line\nfourth line\n");
+			git.add().addFilepattern("a").call();
+			RevCommit fixingA = git.commit().setMessage("fixed a").call();
 
-		writeTrashFile("a",
-				"first line\nsecond line\nthird line\nfourth line\n");
-		git.add().addFilepattern("a").call();
-		RevCommit fixingA = git.commit().setMessage("fixed a").call();
+			git.branchCreate().setName("side").setStartPoint(firstCommit).call();
+			checkoutBranch("refs/heads/side");
 
-		git.branchCreate().setName("side").setStartPoint(firstCommit).call();
-		checkoutBranch("refs/heads/side");
+			writeTrashFile("a", "first line\nsec. line\nthird line\nfeature++\n");
+			git.add().addFilepattern("a").call();
+			git.commit().setMessage("enhanced a").call();
 
-		writeTrashFile("a", "first line\nsec. line\nthird line\nfeature++\n");
-		git.add().addFilepattern("a").call();
-		git.commit().setMessage("enhanced a").call();
+			CherryPickResult pickResult = git.cherryPick().include(fixingA)
+					.setNoCommit(noCommit).call();
 
-		CherryPickResult pickResult = git.cherryPick().include(fixingA)
-				.setNoCommit(noCommit).call();
-
-		assertEquals(CherryPickStatus.OK, pickResult.getStatus());
-		assertFalse(new File(db.getWorkTree(), "b").exists());
-		checkFile(new File(db.getWorkTree(), "a"),
-				"first line\nsecond line\nthird line\nfeature++\n");
-		Iterator<RevCommit> history = git.log().call().iterator();
-		if (!noCommit)
-			assertEquals("fixed a", history.next().getFullMessage());
-		assertEquals("enhanced a", history.next().getFullMessage());
-		assertEquals("create a", history.next().getFullMessage());
-		assertFalse(history.hasNext());
+			assertEquals(CherryPickStatus.OK, pickResult.getStatus());
+			assertFalse(new File(db.getWorkTree(), "b").exists());
+			checkFile(new File(db.getWorkTree(), "a"),
+					"first line\nsecond line\nthird line\nfeature++\n");
+			Iterator<RevCommit> history = git.log().call().iterator();
+			if (!noCommit)
+				assertEquals("fixed a", history.next().getFullMessage());
+			assertEquals("enhanced a", history.next().getFullMessage());
+			assertEquals("create a", history.next().getFullMessage());
+			assertFalse(history.hasNext());
+		}
 	}
 
     @Test
     public void testSequentialCherryPick() throws IOException, JGitInternalException,
             GitAPIException {
-        Git git = new Git(db);
+        try (Git git = new Git(db)) {
+	        writeTrashFile("a", "first line\nsec. line\nthird line\n");
+	        git.add().addFilepattern("a").call();
+	        RevCommit firstCommit = git.commit().setMessage("create a").call();
 
-        writeTrashFile("a", "first line\nsec. line\nthird line\n");
-        git.add().addFilepattern("a").call();
-        RevCommit firstCommit = git.commit().setMessage("create a").call();
+	        writeTrashFile("a", "first line\nsec. line\nthird line\nfourth line\n");
+	        git.add().addFilepattern("a").call();
+	        RevCommit enlargingA = git.commit().setMessage("enlarged a").call();
 
-        writeTrashFile("a", "first line\nsec. line\nthird line\nfourth line\n");
-        git.add().addFilepattern("a").call();
-        RevCommit enlargingA = git.commit().setMessage("enlarged a").call();
+	        writeTrashFile("a",
+	                "first line\nsecond line\nthird line\nfourth line\n");
+	        git.add().addFilepattern("a").call();
+	        RevCommit fixingA = git.commit().setMessage("fixed a").call();
 
-        writeTrashFile("a",
-                "first line\nsecond line\nthird line\nfourth line\n");
-        git.add().addFilepattern("a").call();
-        RevCommit fixingA = git.commit().setMessage("fixed a").call();
+	        git.branchCreate().setName("side").setStartPoint(firstCommit).call();
+	        checkoutBranch("refs/heads/side");
 
-        git.branchCreate().setName("side").setStartPoint(firstCommit).call();
-        checkoutBranch("refs/heads/side");
+	        writeTrashFile("b", "nothing to do with a");
+	        git.add().addFilepattern("b").call();
+	        git.commit().setMessage("create b").call();
 
-        writeTrashFile("b", "nothing to do with a");
-        git.add().addFilepattern("b").call();
-        git.commit().setMessage("create b").call();
+	        CherryPickResult result = git.cherryPick().include(enlargingA).include(fixingA).call();
+	        assertEquals(CherryPickResult.CherryPickStatus.OK, result.getStatus());
 
-        CherryPickResult result = git.cherryPick().include(enlargingA).include(fixingA).call();
-        assertEquals(CherryPickResult.CherryPickStatus.OK, result.getStatus());
-
-        Iterator<RevCommit> history = git.log().call().iterator();
-        assertEquals("fixed a", history.next().getFullMessage());
-        assertEquals("enlarged a", history.next().getFullMessage());
-        assertEquals("create b", history.next().getFullMessage());
-        assertEquals("create a", history.next().getFullMessage());
-        assertFalse(history.hasNext());
+	        Iterator<RevCommit> history = git.log().call().iterator();
+	        assertEquals("fixed a", history.next().getFullMessage());
+	        assertEquals("enlarged a", history.next().getFullMessage());
+	        assertEquals("create b", history.next().getFullMessage());
+	        assertEquals("create a", history.next().getFullMessage());
+	        assertFalse(history.hasNext());
+        }
     }
 
 	@Test
 	public void testCherryPickDirtyIndex() throws Exception {
-		Git git = new Git(db);
-		RevCommit sideCommit = prepareCherryPick(git);
+		try (Git git = new Git(db)) {
+			RevCommit sideCommit = prepareCherryPick(git);
 
-		// modify and add file a
-		writeTrashFile("a", "a(modified)");
-		git.add().addFilepattern("a").call();
-		// do not commit
+			// modify and add file a
+			writeTrashFile("a", "a(modified)");
+			git.add().addFilepattern("a").call();
+			// do not commit
 
-		doCherryPickAndCheckResult(git, sideCommit,
-				MergeFailureReason.DIRTY_INDEX);
+			doCherryPickAndCheckResult(git, sideCommit,
+					MergeFailureReason.DIRTY_INDEX);
+		}
 	}
 
 	@Test
 	public void testCherryPickDirtyWorktree() throws Exception {
-		Git git = new Git(db);
-		RevCommit sideCommit = prepareCherryPick(git);
+		try (Git git = new Git(db)) {
+			RevCommit sideCommit = prepareCherryPick(git);
 
-		// modify file a
-		writeTrashFile("a", "a(modified)");
-		// do not add and commit
+			// modify file a
+			writeTrashFile("a", "a(modified)");
+			// do not add and commit
 
-		doCherryPickAndCheckResult(git, sideCommit,
-				MergeFailureReason.DIRTY_WORKTREE);
+			doCherryPickAndCheckResult(git, sideCommit,
+					MergeFailureReason.DIRTY_WORKTREE);
+		}
 	}
 
 	@Test
 	public void testCherryPickConflictResolution() throws Exception {
-		Git git = new Git(db);
-		RevCommit sideCommit = prepareCherryPick(git);
+		try (Git git = new Git(db)) {
+			RevCommit sideCommit = prepareCherryPick(git);
 
-		CherryPickResult result = git.cherryPick().include(sideCommit.getId())
-				.call();
+			CherryPickResult result = git.cherryPick().include(sideCommit.getId())
+					.call();
 
-		assertEquals(CherryPickStatus.CONFLICTING, result.getStatus());
-		assertTrue(new File(db.getDirectory(), Constants.MERGE_MSG).exists());
-		assertEquals("side\n\nConflicts:\n\ta\n", db.readMergeCommitMsg());
-		assertTrue(new File(db.getDirectory(), Constants.CHERRY_PICK_HEAD)
-				.exists());
-		assertEquals(sideCommit.getId(), db.readCherryPickHead());
-		assertEquals(RepositoryState.CHERRY_PICKING, db.getRepositoryState());
+			assertEquals(CherryPickStatus.CONFLICTING, result.getStatus());
+			assertTrue(new File(db.getDirectory(), Constants.MERGE_MSG).exists());
+			assertEquals("side\n\nConflicts:\n\ta\n", db.readMergeCommitMsg());
+			assertTrue(new File(db.getDirectory(), Constants.CHERRY_PICK_HEAD)
+					.exists());
+			assertEquals(sideCommit.getId(), db.readCherryPickHead());
+			assertEquals(RepositoryState.CHERRY_PICKING, db.getRepositoryState());
 
-		// Resolve
-		writeTrashFile("a", "a");
-		git.add().addFilepattern("a").call();
+			// Resolve
+			writeTrashFile("a", "a");
+			git.add().addFilepattern("a").call();
 
-		assertEquals(RepositoryState.CHERRY_PICKING_RESOLVED,
-				db.getRepositoryState());
+			assertEquals(RepositoryState.CHERRY_PICKING_RESOLVED,
+					db.getRepositoryState());
 
-		git.commit().setOnly("a").setMessage("resolve").call();
+			git.commit().setOnly("a").setMessage("resolve").call();
 
-		assertEquals(RepositoryState.SAFE, db.getRepositoryState());
+			assertEquals(RepositoryState.SAFE, db.getRepositoryState());
+		}
 	}
 
 	@Test
@@ -251,85 +254,88 @@ public class CherryPickCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testCherryPickConflictReset() throws Exception {
-		Git git = new Git(db);
+		try (Git git = new Git(db)) {
+			RevCommit sideCommit = prepareCherryPick(git);
 
-		RevCommit sideCommit = prepareCherryPick(git);
+			CherryPickResult result = git.cherryPick().include(sideCommit.getId())
+					.call();
 
-		CherryPickResult result = git.cherryPick().include(sideCommit.getId())
-				.call();
+			assertEquals(CherryPickStatus.CONFLICTING, result.getStatus());
+			assertEquals(RepositoryState.CHERRY_PICKING, db.getRepositoryState());
+			assertTrue(new File(db.getDirectory(), Constants.CHERRY_PICK_HEAD)
+					.exists());
 
-		assertEquals(CherryPickStatus.CONFLICTING, result.getStatus());
-		assertEquals(RepositoryState.CHERRY_PICKING, db.getRepositoryState());
-		assertTrue(new File(db.getDirectory(), Constants.CHERRY_PICK_HEAD)
-				.exists());
+			git.reset().setMode(ResetType.MIXED).setRef("HEAD").call();
 
-		git.reset().setMode(ResetType.MIXED).setRef("HEAD").call();
-
-		assertEquals(RepositoryState.SAFE, db.getRepositoryState());
-		assertFalse(new File(db.getDirectory(), Constants.CHERRY_PICK_HEAD)
-				.exists());
+			assertEquals(RepositoryState.SAFE, db.getRepositoryState());
+			assertFalse(new File(db.getDirectory(), Constants.CHERRY_PICK_HEAD)
+					.exists());
+		}
 	}
 
 	@Test
 	public void testCherryPickOverExecutableChangeOnNonExectuableFileSystem()
 			throws Exception {
-		Git git = new Git(db);
-		File file = writeTrashFile("test.txt", "a");
-		assertNotNull(git.add().addFilepattern("test.txt").call());
-		assertNotNull(git.commit().setMessage("commit1").call());
+		try (Git git = new Git(db)) {
+			File file = writeTrashFile("test.txt", "a");
+			assertNotNull(git.add().addFilepattern("test.txt").call());
+			assertNotNull(git.commit().setMessage("commit1").call());
 
-		assertNotNull(git.checkout().setCreateBranch(true).setName("a").call());
+			assertNotNull(git.checkout().setCreateBranch(true).setName("a").call());
 
-		writeTrashFile("test.txt", "b");
-		assertNotNull(git.add().addFilepattern("test.txt").call());
-		RevCommit commit2 = git.commit().setMessage("commit2").call();
-		assertNotNull(commit2);
+			writeTrashFile("test.txt", "b");
+			assertNotNull(git.add().addFilepattern("test.txt").call());
+			RevCommit commit2 = git.commit().setMessage("commit2").call();
+			assertNotNull(commit2);
 
-		assertNotNull(git.checkout().setName(Constants.MASTER).call());
+			assertNotNull(git.checkout().setName(Constants.MASTER).call());
 
-		DirCache cache = db.lockDirCache();
-		cache.getEntry("test.txt").setFileMode(FileMode.EXECUTABLE_FILE);
-		cache.write();
-		assertTrue(cache.commit());
-		cache.unlock();
+			DirCache cache = db.lockDirCache();
+			cache.getEntry("test.txt").setFileMode(FileMode.EXECUTABLE_FILE);
+			cache.write();
+			assertTrue(cache.commit());
+			cache.unlock();
 
-		assertNotNull(git.commit().setMessage("commit3").call());
+			assertNotNull(git.commit().setMessage("commit3").call());
 
-		db.getFS().setExecute(file, false);
-		git.getRepository()
-				.getConfig()
-				.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
-						ConfigConstants.CONFIG_KEY_FILEMODE, false);
+			db.getFS().setExecute(file, false);
+			git.getRepository()
+					.getConfig()
+					.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+							ConfigConstants.CONFIG_KEY_FILEMODE, false);
 
-		CherryPickResult result = git.cherryPick().include(commit2).call();
-		assertNotNull(result);
-		assertEquals(CherryPickStatus.OK, result.getStatus());
+			CherryPickResult result = git.cherryPick().include(commit2).call();
+			assertNotNull(result);
+			assertEquals(CherryPickStatus.OK, result.getStatus());
+		}
 	}
 
 	@Test
 	public void testCherryPickConflictMarkers() throws Exception {
-		Git git = new Git(db);
-		RevCommit sideCommit = prepareCherryPick(git);
+		try (Git git = new Git(db)) {
+			RevCommit sideCommit = prepareCherryPick(git);
 
-		CherryPickResult result = git.cherryPick().include(sideCommit.getId())
-				.call();
-		assertEquals(CherryPickStatus.CONFLICTING, result.getStatus());
+			CherryPickResult result = git.cherryPick().include(sideCommit.getId())
+					.call();
+			assertEquals(CherryPickStatus.CONFLICTING, result.getStatus());
 
-		String expected = "<<<<<<< master\na(master)\n=======\na(side)\n>>>>>>> 527460a side\n";
-		checkFile(new File(db.getWorkTree(), "a"), expected);
+			String expected = "<<<<<<< master\na(master)\n=======\na(side)\n>>>>>>> 527460a side\n";
+			checkFile(new File(db.getWorkTree(), "a"), expected);
+		}
 	}
 
 	@Test
 	public void testCherryPickOurCommitName() throws Exception {
-		Git git = new Git(db);
-		RevCommit sideCommit = prepareCherryPick(git);
+		try (Git git = new Git(db)) {
+			RevCommit sideCommit = prepareCherryPick(git);
 
-		CherryPickResult result = git.cherryPick().include(sideCommit.getId())
-				.setOurCommitName("custom name").call();
-		assertEquals(CherryPickStatus.CONFLICTING, result.getStatus());
+			CherryPickResult result = git.cherryPick().include(sideCommit.getId())
+					.setOurCommitName("custom name").call();
+			assertEquals(CherryPickStatus.CONFLICTING, result.getStatus());
 
-		String expected = "<<<<<<< custom name\na(master)\n=======\na(side)\n>>>>>>> 527460a side\n";
-		checkFile(new File(db.getWorkTree(), "a"), expected);
+			String expected = "<<<<<<< custom name\na(master)\n=======\na(side)\n>>>>>>> 527460a side\n";
+			checkFile(new File(db.getWorkTree(), "a"), expected);
+		}
 	}
 
 	private RevCommit prepareCherryPick(final Git git) throws Exception {
@@ -399,43 +405,43 @@ public class CherryPickCommandTest extends RepositoryTestCase {
 	 */
 	@Test
 	public void testCherryPickMerge() throws Exception {
-		Git git = new Git(db);
+		try (Git git = new Git(db)) {
+			commitFile("file", "1\n2\n3\n", "master");
+			commitFile("file", "1\n2\n3\n", "side");
+			checkoutBranch("refs/heads/side");
+			RevCommit commitD = commitFile("file", "1\n2\n3\n4\n5\n", "side2");
+			commitFile("file", "a\n2\n3\n", "side");
+			MergeResult mergeResult = git.merge().include(commitD).call();
+			ObjectId commitM = mergeResult.getNewHead();
+			checkoutBranch("refs/heads/master");
+			RevCommit commitT = commitFile("another", "t", "master");
 
-		commitFile("file", "1\n2\n3\n", "master");
-		commitFile("file", "1\n2\n3\n", "side");
-		checkoutBranch("refs/heads/side");
-		RevCommit commitD = commitFile("file", "1\n2\n3\n4\n5\n", "side2");
-		commitFile("file", "a\n2\n3\n", "side");
-		MergeResult mergeResult = git.merge().include(commitD).call();
-		ObjectId commitM = mergeResult.getNewHead();
-		checkoutBranch("refs/heads/master");
-		RevCommit commitT = commitFile("another", "t", "master");
+			try {
+				git.cherryPick().include(commitM).call();
+				fail("merges should not be cherry-picked by default");
+			} catch (MultipleParentsNotAllowedException e) {
+				// expected
+			}
+			try {
+				git.cherryPick().include(commitM).setMainlineParentNumber(3).call();
+				fail("specifying a non-existent parent should fail");
+			} catch (JGitInternalException e) {
+				// expected
+				assertTrue(e.getMessage().endsWith(
+						"does not have a parent number 3."));
+			}
 
-		try {
-			git.cherryPick().include(commitM).call();
-			fail("merges should not be cherry-picked by default");
-		} catch (MultipleParentsNotAllowedException e) {
-			// expected
+			CherryPickResult result = git.cherryPick().include(commitM)
+					.setMainlineParentNumber(1).call();
+			assertEquals(CherryPickStatus.OK, result.getStatus());
+			checkFile(new File(db.getWorkTree(), "file"), "1\n2\n3\n4\n5\n");
+
+			git.reset().setMode(ResetType.HARD).setRef(commitT.getName()).call();
+
+			CherryPickResult result2 = git.cherryPick().include(commitM)
+					.setMainlineParentNumber(2).call();
+			assertEquals(CherryPickStatus.OK, result2.getStatus());
+			checkFile(new File(db.getWorkTree(), "file"), "a\n2\n3\n");
 		}
-		try {
-			git.cherryPick().include(commitM).setMainlineParentNumber(3).call();
-			fail("specifying a non-existent parent should fail");
-		} catch (JGitInternalException e) {
-			// expected
-			assertTrue(e.getMessage().endsWith(
-					"does not have a parent number 3."));
-		}
-
-		CherryPickResult result = git.cherryPick().include(commitM)
-				.setMainlineParentNumber(1).call();
-		assertEquals(CherryPickStatus.OK, result.getStatus());
-		checkFile(new File(db.getWorkTree(), "file"), "1\n2\n3\n4\n5\n");
-
-		git.reset().setMode(ResetType.HARD).setRef(commitT.getName()).call();
-
-		CherryPickResult result2 = git.cherryPick().include(commitM)
-				.setMainlineParentNumber(2).call();
-		assertEquals(CherryPickStatus.OK, result2.getStatus());
-		checkFile(new File(db.getWorkTree(), "file"), "a\n2\n3\n");
 	}
 }
