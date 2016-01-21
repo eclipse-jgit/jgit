@@ -46,6 +46,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.junit.Assume.assumeFalse;
 
 import java.io.File;
 import java.io.IOException;
@@ -259,8 +260,7 @@ public class CommitAndLogCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testModeChange() throws IOException, GitAPIException {
-		if (System.getProperty("os.name").startsWith("Windows"))
-			return; // SKIP
+		assumeFalse(System.getProperty("os.name").startsWith("Windows"));// SKIP
 		try (Git git = new Git(db)) {
 			// create file
 			File file = new File(db.getWorkTree(), "a.txt");
