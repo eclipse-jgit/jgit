@@ -85,103 +85,107 @@ public class ArchiveCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void archiveHeadAllFiles() throws IOException, GitAPIException {
-		Git git = new Git(db);
-		writeTrashFile("file_1.txt", "content_1_1");
-		git.add().addFilepattern("file_1.txt").call();
-		git.commit().setMessage("create file").call();
+		try (Git git = new Git(db)) {
+			writeTrashFile("file_1.txt", "content_1_1");
+			git.add().addFilepattern("file_1.txt").call();
+			git.commit().setMessage("create file").call();
 
-		writeTrashFile("file_1.txt", "content_1_2");
-		writeTrashFile("file_2.txt", "content_2_2");
-		git.add().addFilepattern(".").call();
-		git.commit().setMessage("updated file").call();
+			writeTrashFile("file_1.txt", "content_1_2");
+			writeTrashFile("file_2.txt", "content_2_2");
+			git.add().addFilepattern(".").call();
+			git.commit().setMessage("updated file").call();
 
-		git.archive().setOutputStream(new MockOutputStream())
-				.setFormat(format.SUFFIXES.get(0))
-				.setTree(git.getRepository().resolve("HEAD")).call();
+			git.archive().setOutputStream(new MockOutputStream())
+					.setFormat(format.SUFFIXES.get(0))
+					.setTree(git.getRepository().resolve("HEAD")).call();
 
-		assertEquals(UNEXPECTED_ARCHIVE_SIZE, 2, format.size());
-		assertEquals(UNEXPECTED_FILE_CONTENTS, "content_1_2", format.getByPath("file_1.txt"));
-		assertEquals(UNEXPECTED_FILE_CONTENTS, "content_2_2", format.getByPath("file_2.txt"));
+			assertEquals(UNEXPECTED_ARCHIVE_SIZE, 2, format.size());
+			assertEquals(UNEXPECTED_FILE_CONTENTS, "content_1_2", format.getByPath("file_1.txt"));
+			assertEquals(UNEXPECTED_FILE_CONTENTS, "content_2_2", format.getByPath("file_2.txt"));
+		}
 	}
 
 	@Test
 	public void archiveHeadSpecificPath() throws IOException, GitAPIException {
-		Git git = new Git(db);
-		writeTrashFile("file_1.txt", "content_1_1");
-		git.add().addFilepattern("file_1.txt").call();
-		git.commit().setMessage("create file").call();
+		try (Git git = new Git(db)) {
+			writeTrashFile("file_1.txt", "content_1_1");
+			git.add().addFilepattern("file_1.txt").call();
+			git.commit().setMessage("create file").call();
 
-		writeTrashFile("file_1.txt", "content_1_2");
-		String expectedFilePath = "some_directory/file_2.txt";
-		writeTrashFile(expectedFilePath, "content_2_2");
-		git.add().addFilepattern(".").call();
-		git.commit().setMessage("updated file").call();
+			writeTrashFile("file_1.txt", "content_1_2");
+			String expectedFilePath = "some_directory/file_2.txt";
+			writeTrashFile(expectedFilePath, "content_2_2");
+			git.add().addFilepattern(".").call();
+			git.commit().setMessage("updated file").call();
 
-		git.archive().setOutputStream(new MockOutputStream())
-				.setFormat(format.SUFFIXES.get(0))
-				.setTree(git.getRepository().resolve("HEAD"))
-				.setPaths(expectedFilePath).call();
+			git.archive().setOutputStream(new MockOutputStream())
+					.setFormat(format.SUFFIXES.get(0))
+					.setTree(git.getRepository().resolve("HEAD"))
+					.setPaths(expectedFilePath).call();
 
-		assertEquals(UNEXPECTED_ARCHIVE_SIZE, 2, format.size());
-		assertEquals(UNEXPECTED_FILE_CONTENTS, "content_2_2", format.getByPath(expectedFilePath));
-		assertNull(UNEXPECTED_TREE_CONTENTS, format.getByPath("some_directory"));
+			assertEquals(UNEXPECTED_ARCHIVE_SIZE, 2, format.size());
+			assertEquals(UNEXPECTED_FILE_CONTENTS, "content_2_2", format.getByPath(expectedFilePath));
+			assertNull(UNEXPECTED_TREE_CONTENTS, format.getByPath("some_directory"));
+		}
 	}
 
 	@Test
 	public void archiveByIdSpecificFile() throws IOException, GitAPIException {
-		Git git = new Git(db);
-		writeTrashFile("file_1.txt", "content_1_1");
-		git.add().addFilepattern("file_1.txt").call();
-		RevCommit first = git.commit().setMessage("create file").call();
+		try (Git git = new Git(db)) {
+			writeTrashFile("file_1.txt", "content_1_1");
+			git.add().addFilepattern("file_1.txt").call();
+			RevCommit first = git.commit().setMessage("create file").call();
 
-		writeTrashFile("file_1.txt", "content_1_2");
-		String expectedFilePath = "some_directory/file_2.txt";
-		writeTrashFile(expectedFilePath, "content_2_2");
-		git.add().addFilepattern(".").call();
-		git.commit().setMessage("updated file").call();
+			writeTrashFile("file_1.txt", "content_1_2");
+			String expectedFilePath = "some_directory/file_2.txt";
+			writeTrashFile(expectedFilePath, "content_2_2");
+			git.add().addFilepattern(".").call();
+			git.commit().setMessage("updated file").call();
 
-		Map<String, Object> options = new HashMap<>();
-		Integer opt = Integer.valueOf(42);
-		options.put("foo", opt);
-		MockOutputStream out = new MockOutputStream();
-		git.archive().setOutputStream(out)
-				.setFormat(format.SUFFIXES.get(0))
-				.setFormatOptions(options)
-				.setTree(first)
-				.setPaths("file_1.txt").call();
+			Map<String, Object> options = new HashMap<>();
+			Integer opt = Integer.valueOf(42);
+			options.put("foo", opt);
+			MockOutputStream out = new MockOutputStream();
+			git.archive().setOutputStream(out)
+					.setFormat(format.SUFFIXES.get(0))
+					.setFormatOptions(options)
+					.setTree(first)
+					.setPaths("file_1.txt").call();
 
-		assertEquals(opt.intValue(), out.getFoo());
-		assertEquals(UNEXPECTED_ARCHIVE_SIZE, 1, format.size());
-		assertEquals(UNEXPECTED_FILE_CONTENTS, "content_1_1", format.getByPath("file_1.txt"));
+			assertEquals(opt.intValue(), out.getFoo());
+			assertEquals(UNEXPECTED_ARCHIVE_SIZE, 1, format.size());
+			assertEquals(UNEXPECTED_FILE_CONTENTS, "content_1_1", format.getByPath("file_1.txt"));
+		}
 	}
 
 	@Test
 	public void archiveByDirectoryPath() throws GitAPIException, IOException {
-		Git git = new Git(db);
-		writeTrashFile("file_0.txt", "content_0_1");
-		git.add().addFilepattern("file_0.txt").call();
-		git.commit().setMessage("commit_1").call();
+		try (Git git = new Git(db)) {
+			writeTrashFile("file_0.txt", "content_0_1");
+			git.add().addFilepattern("file_0.txt").call();
+			git.commit().setMessage("commit_1").call();
 
-		writeTrashFile("file_0.txt", "content_0_2");
-		String expectedFilePath1 = "some_directory/file_1.txt";
-		writeTrashFile(expectedFilePath1, "content_1_2");
-		String expectedFilePath2 = "some_directory/file_2.txt";
-		writeTrashFile(expectedFilePath2, "content_2_2");
-	        String expectedFilePath3 = "some_directory/nested_directory/file_3.txt";
-		writeTrashFile(expectedFilePath3, "content_3_2");
-		git.add().addFilepattern(".").call();
-		git.commit().setMessage("commit_2").call();
-		git.archive().setOutputStream(new MockOutputStream())
-				.setFormat(format.SUFFIXES.get(0))
-				.setTree(git.getRepository().resolve("HEAD"))
-				.setPaths("some_directory/").call();
+			writeTrashFile("file_0.txt", "content_0_2");
+			String expectedFilePath1 = "some_directory/file_1.txt";
+			writeTrashFile(expectedFilePath1, "content_1_2");
+			String expectedFilePath2 = "some_directory/file_2.txt";
+			writeTrashFile(expectedFilePath2, "content_2_2");
+		        String expectedFilePath3 = "some_directory/nested_directory/file_3.txt";
+			writeTrashFile(expectedFilePath3, "content_3_2");
+			git.add().addFilepattern(".").call();
+			git.commit().setMessage("commit_2").call();
+			git.archive().setOutputStream(new MockOutputStream())
+					.setFormat(format.SUFFIXES.get(0))
+					.setTree(git.getRepository().resolve("HEAD"))
+					.setPaths("some_directory/").call();
 
-		assertEquals(UNEXPECTED_ARCHIVE_SIZE, 5, format.size());
-		assertEquals(UNEXPECTED_FILE_CONTENTS, "content_1_2", format.getByPath(expectedFilePath1));
-		assertEquals(UNEXPECTED_FILE_CONTENTS, "content_2_2", format.getByPath(expectedFilePath2));
-		assertEquals(UNEXPECTED_FILE_CONTENTS, "content_3_2", format.getByPath(expectedFilePath3));
-		assertNull(UNEXPECTED_TREE_CONTENTS, format.getByPath("some_directory"));
-		assertNull(UNEXPECTED_TREE_CONTENTS, format.getByPath("some_directory/nested_directory"));
+			assertEquals(UNEXPECTED_ARCHIVE_SIZE, 5, format.size());
+			assertEquals(UNEXPECTED_FILE_CONTENTS, "content_1_2", format.getByPath(expectedFilePath1));
+			assertEquals(UNEXPECTED_FILE_CONTENTS, "content_2_2", format.getByPath(expectedFilePath2));
+			assertEquals(UNEXPECTED_FILE_CONTENTS, "content_3_2", format.getByPath(expectedFilePath3));
+			assertNull(UNEXPECTED_TREE_CONTENTS, format.getByPath("some_directory"));
+			assertNull(UNEXPECTED_TREE_CONTENTS, format.getByPath("some_directory/nested_directory"));
+		}
 	}
 
 	private class MockFormat implements ArchiveCommand.Format<MockOutputStream> {

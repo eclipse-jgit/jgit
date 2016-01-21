@@ -317,30 +317,31 @@ public class DiffFormatterTest extends RepositoryTestCase {
 		File folder = new File(db.getDirectory().getParent(), "folder");
 		FileUtils.mkdir(folder);
 		write(new File(folder, "folder.txt"), "folder");
-		Git git = new Git(db);
-		git.add().addFilepattern(".").call();
-		git.commit().setMessage("Initial commit").call();
-		write(new File(folder, "folder.txt"), "folder change");
+		try (Git git = new Git(db);
+				ByteArrayOutputStream os = new ByteArrayOutputStream();
+				DiffFormatter dfmt = new DiffFormatter(new SafeBufferedOutputStream(os))) {
+			git.add().addFilepattern(".").call();
+			git.commit().setMessage("Initial commit").call();
+			write(new File(folder, "folder.txt"), "folder change");
+			dfmt.setRepository(db);
+			dfmt.setPathFilter(PathFilter.create("folder"));
+			DirCacheIterator oldTree = new DirCacheIterator(db.readDirCache());
+			FileTreeIterator newTree = new FileTreeIterator(db);
 
-		ByteArrayOutputStream os = new ByteArrayOutputStream();
-		DiffFormatter dfmt = new DiffFormatter(new SafeBufferedOutputStream(os));
-		dfmt.setRepository(db);
-		dfmt.setPathFilter(PathFilter.create("folder"));
-		DirCacheIterator oldTree = new DirCacheIterator(db.readDirCache());
-		FileTreeIterator newTree = new FileTreeIterator(db);
-		dfmt.format(oldTree, newTree);
-		dfmt.flush();
+			dfmt.format(oldTree, newTree);
+			dfmt.flush();
 
-		String actual = os.toString("UTF-8");
-		String expected =
- "diff --git a/folder/folder.txt b/folder/folder.txt\n"
-				+ "index 0119635..95c4c65 100644\n"
-				+ "--- a/folder/folder.txt\n" + "+++ b/folder/folder.txt\n"
-				+ "@@ -1 +1 @@\n" + "-folder\n"
-				+ "\\ No newline at end of file\n" + "+folder change\n"
-				+ "\\ No newline at end of file\n";
+			String actual = os.toString("UTF-8");
+			String expected =
+					"diff --git a/folder/folder.txt b/folder/folder.txt\n"
+					+ "index 0119635..95c4c65 100644\n"
+					+ "--- a/folder/folder.txt\n" + "+++ b/folder/folder.txt\n"
+					+ "@@ -1 +1 @@\n" + "-folder\n"
+					+ "\\ No newline at end of file\n" + "+folder change\n"
+					+ "\\ No newline at end of file\n";
 
-		assertEquals(expected, actual);
+			assertEquals(expected, actual);
+		}
 	}
 
 	@Test
@@ -349,29 +350,30 @@ public class DiffFormatterTest extends RepositoryTestCase {
 		File folder = new File(db.getDirectory().getParent(), "folder");
 		FileUtils.mkdir(folder);
 		write(new File(folder, "folder.txt"), "folder");
-		Git git = new Git(db);
-		git.add().addFilepattern(".").call();
-		RevCommit commit = git.commit().setMessage("Initial commit").call();
-		write(new File(folder, "folder.txt"), "folder change");
+		try (Git git = new Git(db);
+				ByteArrayOutputStream os = new ByteArrayOutputStream();
+				DiffFormatter dfmt = new DiffFormatter(new SafeBufferedOutputStream(os))) {
+			git.add().addFilepattern(".").call();
+			RevCommit commit = git.commit().setMessage("Initial commit").call();
+			write(new File(folder, "folder.txt"), "folder change");
 
-		ByteArrayOutputStream os = new ByteArrayOutputStream();
-		DiffFormatter dfmt = new DiffFormatter(new SafeBufferedOutputStream(os));
-		dfmt.setRepository(db);
-		dfmt.setPathFilter(PathFilter.create("folder"));
-		dfmt.format(null, commit.getTree().getId());
-		dfmt.flush();
+			dfmt.setRepository(db);
+			dfmt.setPathFilter(PathFilter.create("folder"));
+			dfmt.format(null, commit.getTree().getId());
+			dfmt.flush();
 
-		String actual = os.toString("UTF-8");
-		String expected = "diff --git a/folder/folder.txt b/folder/folder.txt\n"
-				+ "new file mode 100644\n"
-				+ "index 0000000..0119635\n"
-				+ "--- /dev/null\n"
-				+ "+++ b/folder/folder.txt\n"
-				+ "@@ -0,0 +1 @@\n"
-				+ "+folder\n"
-				+ "\\ No newline at end of file\n";
+			String actual = os.toString("UTF-8");
+			String expected = "diff --git a/folder/folder.txt b/folder/folder.txt\n"
+					+ "new file mode 100644\n"
+					+ "index 0000000..0119635\n"
+					+ "--- /dev/null\n"
+					+ "+++ b/folder/folder.txt\n"
+					+ "@@ -0,0 +1 @@\n"
+					+ "+folder\n"
+					+ "\\ No newline at end of file\n";
 
-		assertEquals(expected, actual);
+			assertEquals(expected, actual);
+		}
 	}
 
 	@Test
@@ -380,43 +382,45 @@ public class DiffFormatterTest extends RepositoryTestCase {
 		File folder = new File(db.getDirectory().getParent(), "folder");
 		FileUtils.mkdir(folder);
 		write(new File(folder, "folder.txt"), "folder");
-		Git git = new Git(db);
-		git.add().addFilepattern(".").call();
-		RevCommit commit = git.commit().setMessage("Initial commit").call();
-		write(new File(folder, "folder.txt"), "folder change");
+		try (Git git = new Git(db);
+				ByteArrayOutputStream os = new ByteArrayOutputStream();
+				DiffFormatter dfmt = new DiffFormatter(new SafeBufferedOutputStream(os));) {
+			git.add().addFilepattern(".").call();
+			RevCommit commit = git.commit().setMessage("Initial commit").call();
+			write(new File(folder, "folder.txt"), "folder change");
 
-		ByteArrayOutputStream os = new ByteArrayOutputStream();
-		DiffFormatter dfmt = new DiffFormatter(new SafeBufferedOutputStream(os));
-		dfmt.setRepository(db);
-		dfmt.setPathFilter(PathFilter.create("folder"));
-		dfmt.format(commit.getTree().getId(), null);
-		dfmt.flush();
+			dfmt.setRepository(db);
+			dfmt.setPathFilter(PathFilter.create("folder"));
+			dfmt.format(commit.getTree().getId(), null);
+			dfmt.flush();
 
-		String actual = os.toString("UTF-8");
-		String expected = "diff --git a/folder/folder.txt b/folder/folder.txt\n"
-				+ "deleted file mode 100644\n"
-				+ "index 0119635..0000000\n"
-				+ "--- a/folder/folder.txt\n"
-				+ "+++ /dev/null\n"
-				+ "@@ -1 +0,0 @@\n"
-				+ "-folder\n"
-				+ "\\ No newline at end of file\n";
+			String actual = os.toString("UTF-8");
+			String expected = "diff --git a/folder/folder.txt b/folder/folder.txt\n"
+					+ "deleted file mode 100644\n"
+					+ "index 0119635..0000000\n"
+					+ "--- a/folder/folder.txt\n"
+					+ "+++ /dev/null\n"
+					+ "@@ -1 +0,0 @@\n"
+					+ "-folder\n"
+					+ "\\ No newline at end of file\n";
 
-		assertEquals(expected, actual);
+			assertEquals(expected, actual);
+		}
 	}
 
 	@Test
 	public void testDiffNullToNull() throws Exception {
-		ByteArrayOutputStream os = new ByteArrayOutputStream();
-		DiffFormatter dfmt = new DiffFormatter(new SafeBufferedOutputStream(os));
-		dfmt.setRepository(db);
-		dfmt.format((AnyObjectId) null, null);
-		dfmt.flush();
+		try (ByteArrayOutputStream os = new ByteArrayOutputStream();
+				DiffFormatter dfmt = new DiffFormatter(new SafeBufferedOutputStream(os))) {
+			dfmt.setRepository(db);
+			dfmt.format((AnyObjectId) null, null);
+			dfmt.flush();
 
-		String actual = os.toString("UTF-8");
-		String expected = "";
+			String actual = os.toString("UTF-8");
+			String expected = "";
 
-		assertEquals(expected, actual);
+			assertEquals(expected, actual);
+		}
 	}
 
 	private static String makeDiffHeader(String pathA, String pathB,
