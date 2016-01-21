@@ -338,6 +338,20 @@ public class ManifestParser extends DefaultHandler {
 			else
 				last = p;
 		}
+		removeNestedCopyfiles();
+	}
+
+	/** Remove copyfiles that sit in a subdirectory of any other project. */
+	void removeNestedCopyfiles() {
+		for (RepoProject proj : filteredProjects) {
+			List<CopyFile> copyfiles = new ArrayList<>(proj.getCopyFiles());
+			proj.clearCopyFiles();
+			for (CopyFile copyfile : copyfiles) {
+				if (!isNestedCopyfile(copyfile)) {
+					proj.addCopyFile(copyfile);
+				}
+			}
+		}
 	}
 
 	boolean inGroups(RepoProject proj) {
@@ -354,6 +368,24 @@ public class ManifestParser extends DefaultHandler {
 		for (String group : plusGroups) {
 			if (proj.inGroup(group))
 				return true;
+		}
+		return false;
+	}
+
+	private boolean isNestedCopyfile(CopyFile copyfile) {
+		if (copyfile.dest.indexOf('/') == -1) {
+			// If the copyfile is at root level then it won't be nested.
+			return false;
+		}
+		for (RepoProject proj : filteredProjects) {
+			if (proj.getPath().compareTo(copyfile.dest) > 0) {
+				// Early return as remaining projects can't be ancestor of this
+				// copyfile config (filteredProjects is sorted).
+				return false;
+			}
+			if (proj.isAncestorOf(copyfile.dest)) {
+				return true;
+			}
 		}
 		return false;
 	}

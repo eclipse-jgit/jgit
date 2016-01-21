@@ -1,7 +1,5 @@
 /*
- * Copyright (C) 2009, Jonas Fonseca <fonseca@diku.dk>
- * Copyright (C) 2007, Robin Rosenberg <robin.rosenberg@dewire.com>
- * Copyright (C) 2007, Shawn O. Pearce <spearce@spearce.org>
+ * Copyright (C) 2015, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -46,42 +44,21 @@
 package org.eclipse.jgit.lib;
 
 /**
- * A tree entry representing a gitlink entry used for submodules.
+ * Simple set of ObjectIds.
+ * <p>
+ * Usually backed by a read-only data structure such as
+ * {@link org.eclipse.jgit.internal.storage.file.PackIndex}. Mutable types like
+ * {@link ObjectIdOwnerMap} also implement the interface by checking keys.
  *
- * Note. Java cannot really handle these as file system objects.
- *
- * @deprecated To look up information about a single path, use
- * {@link org.eclipse.jgit.treewalk.TreeWalk#forPath(Repository, String, org.eclipse.jgit.revwalk.RevTree)}.
- * To lookup information about multiple paths at once, use a
- * {@link org.eclipse.jgit.treewalk.TreeWalk} and obtain the current entry's
- * information from its getter methods.
+ * @since 4.2
  */
-@Deprecated
-public class GitlinkTreeEntry extends TreeEntry {
-
+public interface ObjectIdSet {
 	/**
-	 * Construct a {@link GitlinkTreeEntry} with the specified name and SHA-1 in
-	 * the specified parent
+	 * Returns true if the objectId is contained within the collection.
 	 *
-	 * @param parent
-	 * @param id
-	 * @param nameUTF8
+	 * @param objectId
+	 *            the objectId to find
+	 * @return whether the collection contains the objectId.
 	 */
-	public GitlinkTreeEntry(final Tree parent, final ObjectId id,
-			final byte[] nameUTF8) {
-		super(parent, id, nameUTF8);
-	}
-
-	public FileMode getMode() {
-		return FileMode.GITLINK;
-	}
-
-	@Override
-	public String toString() {
-		final StringBuilder r = new StringBuilder();
-		r.append(ObjectId.toString(getId()));
-		r.append(" G "); //$NON-NLS-1$
-		r.append(getFullName());
-		return r.toString();
-	}
+	boolean contains(AnyObjectId objectId);
 }

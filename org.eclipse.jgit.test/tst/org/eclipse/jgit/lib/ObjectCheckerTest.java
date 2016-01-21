@@ -45,8 +45,25 @@
 package org.eclipse.jgit.lib;
 
 import static java.lang.Integer.valueOf;
-import static java.lang.Long.valueOf;
+import static org.eclipse.jgit.lib.Constants.OBJECT_ID_LENGTH;
+import static org.eclipse.jgit.lib.Constants.OBJ_BAD;
+import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
+import static org.eclipse.jgit.lib.Constants.OBJ_COMMIT;
+import static org.eclipse.jgit.lib.Constants.OBJ_TAG;
+import static org.eclipse.jgit.lib.Constants.OBJ_TREE;
+import static org.eclipse.jgit.lib.Constants.encode;
+import static org.eclipse.jgit.lib.Constants.encodeASCII;
+import static org.eclipse.jgit.lib.ObjectChecker.ErrorType.DUPLICATE_ENTRIES;
+import static org.eclipse.jgit.lib.ObjectChecker.ErrorType.EMPTY_NAME;
+import static org.eclipse.jgit.lib.ObjectChecker.ErrorType.FULL_PATHNAME;
+import static org.eclipse.jgit.lib.ObjectChecker.ErrorType.HAS_DOT;
+import static org.eclipse.jgit.lib.ObjectChecker.ErrorType.HAS_DOTDOT;
+import static org.eclipse.jgit.lib.ObjectChecker.ErrorType.HAS_DOTGIT;
+import static org.eclipse.jgit.lib.ObjectChecker.ErrorType.NULL_SHA1;
+import static org.eclipse.jgit.lib.ObjectChecker.ErrorType.TREE_NOT_SORTED;
+import static org.eclipse.jgit.lib.ObjectChecker.ErrorType.ZERO_PADDED_FILEMODE;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.fail;
 
 import java.io.UnsupportedEncodingException;
@@ -67,15 +84,10 @@ public class ObjectCheckerTest {
 
 	@Test
 	public void testInvalidType() {
-		try {
-			checker.check(Constants.OBJ_BAD, new byte[0]);
-			fail("Did not throw CorruptObjectException");
-		} catch (CorruptObjectException e) {
-			final String m = e.getMessage();
-			assertEquals(MessageFormat.format(
-					JGitText.get().corruptObjectInvalidType2,
-					valueOf(Constants.OBJ_BAD)), m);
-		}
+		String msg = MessageFormat.format(
+				JGitText.get().corruptObjectInvalidType2,
+				valueOf(OBJ_BAD));
+		assertCorrupt(msg, OBJ_BAD, new byte[0]);
 	}
 
 	@Test
@@ -84,13 +96,13 @@ public class ObjectCheckerTest {
 		checker.checkBlob(new byte[0]);
 		checker.checkBlob(new byte[1]);
 
-		checker.check(Constants.OBJ_BLOB, new byte[0]);
-		checker.check(Constants.OBJ_BLOB, new byte[1]);
+		checker.check(OBJ_BLOB, new byte[0]);
+		checker.check(OBJ_BLOB, new byte[1]);
 	}
 
 	@Test
 	public void testValidCommitNoParent() throws CorruptObjectException {
-		final StringBuilder b = new StringBuilder();
+		StringBuilder b = new StringBuilder();
 
 		b.append("tree ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
@@ -99,14 +111,14 @@ public class ObjectCheckerTest {
 		b.append("author A. U. Thor <author@localhost> 1 +0000\n");
 		b.append("committer A. U. Thor <author@localhost> 1 +0000\n");
 
-		final byte[] data = Constants.encodeASCII(b.toString());
+		byte[] data = encodeASCII(b.toString());
 		checker.checkCommit(data);
-		checker.check(Constants.OBJ_COMMIT, data);
+		checker.check(OBJ_COMMIT, data);
 	}
 
 	@Test
 	public void testValidCommitBlankAuthor() throws CorruptObjectException {
-		final StringBuilder b = new StringBuilder();
+		StringBuilder b = new StringBuilder();
 
 		b.append("tree ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
@@ -115,9 +127,9 @@ public class ObjectCheckerTest {
 		b.append("author <> 0 +0000\n");
 		b.append("committer <> 0 +0000\n");
 
-		final byte[] data = Constants.encodeASCII(b.toString());
+		byte[] data = encodeASCII(b.toString());
 		checker.checkCommit(data);
-		checker.check(Constants.OBJ_COMMIT, data);
+		checker.check(OBJ_COMMIT, data);
 	}
 
 	@Test
@@ -127,15 +139,13 @@ public class ObjectCheckerTest {
 		b.append("author b <b@c> <b@c> 0 +0000\n");
 		b.append("committer <> 0 +0000\n");
 
-		byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkCommit(data);
-			fail("Did not catch corrupt object");
-		} catch (CorruptObjectException e) {
-			assertEquals("invalid author", e.getMessage());
-		}
+		byte[] data = encodeASCII(b.toString());
+		assertCorrupt("bad date", OBJ_COMMIT, data);
 		checker.setAllowInvalidPersonIdent(true);
 		checker.checkCommit(data);
+
+		checker.setAllowInvalidPersonIdent(false);
+		assertSkipListAccepts(OBJ_COMMIT, data);
 	}
 
 	@Test
@@ -145,20 +155,18 @@ public class ObjectCheckerTest {
 		b.append("author <> 0 +0000\n");
 		b.append("committer b <b@c> <b@c> 0 +0000\n");
 
-		byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkCommit(data);
-			fail("Did not catch corrupt object");
-		} catch (CorruptObjectException e) {
-			assertEquals("invalid committer", e.getMessage());
-		}
+		byte[] data = encodeASCII(b.toString());
+		assertCorrupt("bad date", OBJ_COMMIT, data);
 		checker.setAllowInvalidPersonIdent(true);
 		checker.checkCommit(data);
+
+		checker.setAllowInvalidPersonIdent(false);
+		assertSkipListAccepts(OBJ_COMMIT, data);
 	}
 
 	@Test
 	public void testValidCommit1Parent() throws CorruptObjectException {
-		final StringBuilder b = new StringBuilder();
+		StringBuilder b = new StringBuilder();
 
 		b.append("tree ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
@@ -171,14 +179,14 @@ public class ObjectCheckerTest {
 		b.append("author A. U. Thor <author@localhost> 1 +0000\n");
 		b.append("committer A. U. Thor <author@localhost> 1 +0000\n");
 
-		final byte[] data = Constants.encodeASCII(b.toString());
+		byte[] data = encodeASCII(b.toString());
 		checker.checkCommit(data);
-		checker.check(Constants.OBJ_COMMIT, data);
+		checker.check(OBJ_COMMIT, data);
 	}
 
 	@Test
 	public void testValidCommit2Parent() throws CorruptObjectException {
-		final StringBuilder b = new StringBuilder();
+		StringBuilder b = new StringBuilder();
 
 		b.append("tree ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
@@ -195,14 +203,14 @@ public class ObjectCheckerTest {
 		b.append("author A. U. Thor <author@localhost> 1 +0000\n");
 		b.append("committer A. U. Thor <author@localhost> 1 +0000\n");
 
-		final byte[] data = Constants.encodeASCII(b.toString());
+		byte[] data = encodeASCII(b.toString());
 		checker.checkCommit(data);
-		checker.check(Constants.OBJ_COMMIT, data);
+		checker.check(OBJ_COMMIT, data);
 	}
 
 	@Test
 	public void testValidCommit128Parent() throws CorruptObjectException {
-		final StringBuilder b = new StringBuilder();
+		StringBuilder b = new StringBuilder();
 
 		b.append("tree ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
@@ -217,15 +225,15 @@ public class ObjectCheckerTest {
 		b.append("author A. U. Thor <author@localhost> 1 +0000\n");
 		b.append("committer A. U. Thor <author@localhost> 1 +0000\n");
 
-		final byte[] data = Constants.encodeASCII(b.toString());
+		byte[] data = encodeASCII(b.toString());
 		checker.checkCommit(data);
-		checker.check(Constants.OBJ_COMMIT, data);
+		checker.check(OBJ_COMMIT, data);
 	}
 
 	@Test
 	public void testValidCommitNormalTime() throws CorruptObjectException {
-		final StringBuilder b = new StringBuilder();
-		final String when = "1222757360 -0730";
+		StringBuilder b = new StringBuilder();
+		String when = "1222757360 -0730";
 
 		b.append("tree ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
@@ -234,843 +242,539 @@ public class ObjectCheckerTest {
 		b.append("author A. U. Thor <author@localhost> " + when + "\n");
 		b.append("committer A. U. Thor <author@localhost> " + when + "\n");
 
-		final byte[] data = Constants.encodeASCII(b.toString());
+		byte[] data = encodeASCII(b.toString());
 		checker.checkCommit(data);
-		checker.check(Constants.OBJ_COMMIT, data);
+		checker.check(OBJ_COMMIT, data);
 	}
 
 	@Test
 	public void testInvalidCommitNoTree1() {
-		final StringBuilder b = new StringBuilder();
-
+		StringBuilder b = new StringBuilder();
 		b.append("parent ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
 		b.append('\n');
-
-		final byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkCommit(data);
-			fail("Did not catch corrupt object");
-		} catch (CorruptObjectException e) {
-			assertEquals("no tree header", e.getMessage());
-		}
+		assertCorrupt("no tree header", OBJ_COMMIT, b);
 	}
 
 	@Test
 	public void testInvalidCommitNoTree2() {
-		final StringBuilder b = new StringBuilder();
-
+		StringBuilder b = new StringBuilder();
 		b.append("trie ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
 		b.append('\n');
-
-		final byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkCommit(data);
-			fail("Did not catch corrupt object");
-		} catch (CorruptObjectException e) {
-			assertEquals("no tree header", e.getMessage());
-		}
+		assertCorrupt("no tree header", OBJ_COMMIT, b);
 	}
 
 	@Test
 	public void testInvalidCommitNoTree3() {
-		final StringBuilder b = new StringBuilder();
-
+		StringBuilder b = new StringBuilder();
 		b.append("tree");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
 		b.append('\n');
-
-		final byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkCommit(data);
-			fail("Did not catch corrupt object");
-		} catch (CorruptObjectException e) {
-			assertEquals("no tree header", e.getMessage());
-		}
+		assertCorrupt("no tree header", OBJ_COMMIT, b);
 	}
 
 	@Test
 	public void testInvalidCommitNoTree4() {
-		final StringBuilder b = new StringBuilder();
-
+		StringBuilder b = new StringBuilder();
 		b.append("tree\t");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
 		b.append('\n');
-
-		final byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkCommit(data);
-			fail("Did not catch corrupt object");
-		} catch (CorruptObjectException e) {
-			assertEquals("no tree header", e.getMessage());
-		}
+		assertCorrupt("no tree header", OBJ_COMMIT, b);
 	}
 
 	@Test
 	public void testInvalidCommitInvalidTree1() {
-		final StringBuilder b = new StringBuilder();
-
+		StringBuilder b = new StringBuilder();
 		b.append("tree ");
 		b.append("zzzzfa841874ccc9f2ef7c48d0c76226f89b7189");
 		b.append('\n');
-
-		final byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkCommit(data);
-			fail("Did not catch corrupt object");
-		} catch (CorruptObjectException e) {
-			assertEquals("invalid tree", e.getMessage());
-		}
+		assertCorrupt("invalid tree", OBJ_COMMIT, b);
 	}
 
 	@Test
 	public void testInvalidCommitInvalidTree2() {
-		final StringBuilder b = new StringBuilder();
-
+		StringBuilder b = new StringBuilder();
 		b.append("tree ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
 		b.append("z\n");
-
-		final byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkCommit(data);
-			fail("Did not catch corrupt object");
-		} catch (CorruptObjectException e) {
-			assertEquals("invalid tree", e.getMessage());
-		}
+		assertCorrupt("invalid tree", OBJ_COMMIT, b);
 	}
 
 	@Test
 	public void testInvalidCommitInvalidTree3() {
-		final StringBuilder b = new StringBuilder();
-
+		StringBuilder b = new StringBuilder();
 		b.append("tree ");
 		b.append("be9b");
 		b.append("\n");
 
-		final byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkCommit(data);
-			fail("Did not catch corrupt object");
-		} catch (CorruptObjectException e) {
-			assertEquals("invalid tree", e.getMessage());
-		}
+		byte[] data = encodeASCII(b.toString());
+		assertCorrupt("invalid tree", OBJ_COMMIT, data);
 	}
 
 	@Test
 	public void testInvalidCommitInvalidTree4() {
-		final StringBuilder b = new StringBuilder();
-
+		StringBuilder b = new StringBuilder();
 		b.append("tree  ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
 		b.append('\n');
-
-		final byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkCommit(data);
-			fail("Did not catch corrupt object");
-		} catch (CorruptObjectException e) {
-			assertEquals("invalid tree", e.getMessage());
-		}
+		assertCorrupt("invalid tree", OBJ_COMMIT, b);
 	}
 
 	@Test
 	public void testInvalidCommitInvalidParent1() {
-		final StringBuilder b = new StringBuilder();
-
+		StringBuilder b = new StringBuilder();
 		b.append("tree ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
 		b.append('\n');
-
 		b.append("parent ");
 		b.append("\n");
-
-		final byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkCommit(data);
-			fail("Did not catch corrupt object");
-		} catch (CorruptObjectException e) {
-			assertEquals("invalid parent", e.getMessage());
-		}
+		assertCorrupt("invalid parent", OBJ_COMMIT, b);
 	}
 
 	@Test
 	public void testInvalidCommitInvalidParent2() {
-		final StringBuilder b = new StringBuilder();
-
+		StringBuilder b = new StringBuilder();
 		b.append("tree ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
 		b.append('\n');
-
 		b.append("parent ");
 		b.append("zzzzfa841874ccc9f2ef7c48d0c76226f89b7189");
 		b.append("\n");
-
-		final byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkCommit(data);
-			fail("Did not catch corrupt object");
-		} catch (CorruptObjectException e) {
-			assertEquals("invalid parent", e.getMessage());
-		}
+		assertCorrupt("invalid parent", OBJ_COMMIT, b);
 	}
 
 	@Test
 	public void testInvalidCommitInvalidParent3() {
-		final StringBuilder b = new StringBuilder();
-
+		StringBuilder b = new StringBuilder();
 		b.append("tree ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
 		b.append('\n');
-
 		b.append("parent  ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
 		b.append("\n");
-
-		final byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkCommit(data);
-			fail("Did not catch corrupt object");
-		} catch (CorruptObjectException e) {
-			assertEquals("invalid parent", e.getMessage());
-		}
+		assertCorrupt("invalid parent", OBJ_COMMIT, b);
 	}
 
 	@Test
 	public void testInvalidCommitInvalidParent4() {
-		final StringBuilder b = new StringBuilder();
-
+		StringBuilder b = new StringBuilder();
 		b.append("tree ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
 		b.append('\n');
-
 		b.append("parent  ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
 		b.append("z\n");
-
-		final byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkCommit(data);
-			fail("Did not catch corrupt object");
-		} catch (CorruptObjectException e) {
-			assertEquals("invalid parent", e.getMessage());
-		}
+		assertCorrupt("invalid parent", OBJ_COMMIT, b);
 	}
 
 	@Test
 	public void testInvalidCommitInvalidParent5() {
-		final StringBuilder b = new StringBuilder();
-
+		StringBuilder b = new StringBuilder();
 		b.append("tree ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
 		b.append('\n');
-
 		b.append("parent\t");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
 		b.append("\n");
 
-		final byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkCommit(data);
-			fail("Did not catch corrupt object");
-		} catch (CorruptObjectException e) {
-			// Yes, really, we complain about author not being
-			// found as the invalid parent line wasn't consumed.
-			assertEquals("no author", e.getMessage());
-		}
+		byte[] data = encodeASCII(b.toString());
+		// Yes, really, we complain about author not being
+		// found as the invalid parent line wasn't consumed.
+		assertCorrupt("no author", OBJ_COMMIT, data);
 	}
 
 	@Test
-	public void testInvalidCommitNoAuthor() {
-		final StringBuilder b = new StringBuilder();
-
+	public void testInvalidCommitNoAuthor() throws CorruptObjectException {
+		StringBuilder b = new StringBuilder();
 		b.append("tree ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
 		b.append('\n');
-
 		b.append("committer A. U. Thor <author@localhost> 1 +0000\n");
 
-		final byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkCommit(data);
-			fail("Did not catch corrupt object");
-		} catch (CorruptObjectException e) {
-			// Yes, really, we complain about author not being
-			// found as the invalid parent line wasn't consumed.
-			assertEquals("no author", e.getMessage());
-		}
+		byte[] data = encodeASCII(b.toString());
+		assertCorrupt("no author", OBJ_COMMIT, data);
+		assertSkipListAccepts(OBJ_COMMIT, data);
 	}
 
 	@Test
-	public void testInvalidCommitNoCommitter1() {
-		final StringBuilder b = new StringBuilder();
-
+	public void testInvalidCommitNoCommitter1() throws CorruptObjectException {
+		StringBuilder b = new StringBuilder();
 		b.append("tree ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
 		b.append('\n');
-
 		b.append("author A. U. Thor <author@localhost> 1 +0000\n");
 
-		final byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkCommit(data);
-			fail("Did not catch corrupt object");
-		} catch (CorruptObjectException e) {
-			// Yes, really, we complain about author not being
-			// found as the invalid parent line wasn't consumed.
-			assertEquals("no committer", e.getMessage());
-		}
+		byte[] data = encodeASCII(b.toString());
+		assertCorrupt("no committer", OBJ_COMMIT, data);
+		assertSkipListAccepts(OBJ_COMMIT, data);
 	}
 
 	@Test
-	public void testInvalidCommitNoCommitter2() {
-		final StringBuilder b = new StringBuilder();
-
+	public void testInvalidCommitNoCommitter2() throws CorruptObjectException {
+		StringBuilder b = new StringBuilder();
 		b.append("tree ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
 		b.append('\n');
-
 		b.append("author A. U. Thor <author@localhost> 1 +0000\n");
 		b.append("\n");
 
-		final byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkCommit(data);
-			fail("Did not catch corrupt object");
-		} catch (CorruptObjectException e) {
-			// Yes, really, we complain about author not being
-			// found as the invalid parent line wasn't consumed.
-			assertEquals("no committer", e.getMessage());
-		}
+		byte[] data = encodeASCII(b.toString());
+		assertCorrupt("no committer", OBJ_COMMIT, data);
+		assertSkipListAccepts(OBJ_COMMIT, data);
 	}
 
 	@Test
-	public void testInvalidCommitInvalidAuthor1() {
-		final StringBuilder b = new StringBuilder();
-
+	public void testInvalidCommitInvalidAuthor1()
+			throws CorruptObjectException {
+		StringBuilder b = new StringBuilder();
 		b.append("tree ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
 		b.append('\n');
-
 		b.append("author A. U. Thor <foo 1 +0000\n");
 
-		final byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkCommit(data);
-			fail("Did not catch corrupt object");
-		} catch (CorruptObjectException e) {
-			// Yes, really, we complain about author not being
-			// found as the invalid parent line wasn't consumed.
-			assertEquals("invalid author", e.getMessage());
-		}
+		byte[] data = encodeASCII(b.toString());
+		assertCorrupt("bad email", OBJ_COMMIT, data);
+		assertSkipListAccepts(OBJ_COMMIT, data);
 	}
 
 	@Test
-	public void testInvalidCommitInvalidAuthor2() {
-		final StringBuilder b = new StringBuilder();
-
+	public void testInvalidCommitInvalidAuthor2()
+			throws CorruptObjectException {
+		StringBuilder b = new StringBuilder();
 		b.append("tree ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
 		b.append('\n');
-
 		b.append("author A. U. Thor foo> 1 +0000\n");
 
-		final byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkCommit(data);
-			fail("Did not catch corrupt object");
-		} catch (CorruptObjectException e) {
-			// Yes, really, we complain about author not being
-			// found as the invalid parent line wasn't consumed.
-			assertEquals("invalid author", e.getMessage());
-		}
+		byte[] data = encodeASCII(b.toString());
+		assertCorrupt("missing email", OBJ_COMMIT, data);
+		assertSkipListAccepts(OBJ_COMMIT, data);
 	}
 
 	@Test
-	public void testInvalidCommitInvalidAuthor3() {
-		final StringBuilder b = new StringBuilder();
-
+	public void testInvalidCommitInvalidAuthor3()
+			throws CorruptObjectException {
+		StringBuilder b = new StringBuilder();
 		b.append("tree ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
 		b.append('\n');
-
 		b.append("author 1 +0000\n");
 
-		final byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkCommit(data);
-			fail("Did not catch corrupt object");
-		} catch (CorruptObjectException e) {
-			// Yes, really, we complain about author not being
-			// found as the invalid parent line wasn't consumed.
-			assertEquals("invalid author", e.getMessage());
-		}
+		byte[] data = encodeASCII(b.toString());
+		assertCorrupt("missing email", OBJ_COMMIT, data);
+		assertSkipListAccepts(OBJ_COMMIT, data);
 	}
 
 	@Test
-	public void testInvalidCommitInvalidAuthor4() {
-		final StringBuilder b = new StringBuilder();
-
+	public void testInvalidCommitInvalidAuthor4()
+			throws CorruptObjectException {
+		StringBuilder b = new StringBuilder();
 		b.append("tree ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
 		b.append('\n');
-
 		b.append("author a <b> +0000\n");
 
-		final byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkCommit(data);
-			fail("Did not catch corrupt object");
-		} catch (CorruptObjectException e) {
-			// Yes, really, we complain about author not being
-			// found as the invalid parent line wasn't consumed.
-			assertEquals("invalid author", e.getMessage());
-		}
+		byte[] data = encodeASCII(b.toString());
+		assertCorrupt("bad date", OBJ_COMMIT, data);
+		assertSkipListAccepts(OBJ_COMMIT, data);
 	}
 
 	@Test
-	public void testInvalidCommitInvalidAuthor5() {
-		final StringBuilder b = new StringBuilder();
-
+	public void testInvalidCommitInvalidAuthor5()
+			throws CorruptObjectException {
+		StringBuilder b = new StringBuilder();
 		b.append("tree ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
 		b.append('\n');
-
 		b.append("author a <b>\n");
 
-		final byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkCommit(data);
-			fail("Did not catch corrupt object");
-		} catch (CorruptObjectException e) {
-			// Yes, really, we complain about author not being
-			// found as the invalid parent line wasn't consumed.
-			assertEquals("invalid author", e.getMessage());
-		}
+		byte[] data = encodeASCII(b.toString());
+		assertCorrupt("bad date", OBJ_COMMIT, data);
+		assertSkipListAccepts(OBJ_COMMIT, data);
 	}
 
 	@Test
-	public void testInvalidCommitInvalidAuthor6() {
-		final StringBuilder b = new StringBuilder();
-
+	public void testInvalidCommitInvalidAuthor6()
+			throws CorruptObjectException {
+		StringBuilder b = new StringBuilder();
 		b.append("tree ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
 		b.append('\n');
-
 		b.append("author a <b> z");
 
-		final byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkCommit(data);
-			fail("Did not catch corrupt object");
-		} catch (CorruptObjectException e) {
-			// Yes, really, we complain about author not being
-			// found as the invalid parent line wasn't consumed.
-			assertEquals("invalid author", e.getMessage());
-		}
+		byte[] data = encodeASCII(b.toString());
+		assertCorrupt("bad date", OBJ_COMMIT, data);
+		assertSkipListAccepts(OBJ_COMMIT, data);
 	}
 
 	@Test
-	public void testInvalidCommitInvalidAuthor7() {
-		final StringBuilder b = new StringBuilder();
-
+	public void testInvalidCommitInvalidAuthor7()
+			throws CorruptObjectException {
+		StringBuilder b = new StringBuilder();
 		b.append("tree ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
 		b.append('\n');
-
 		b.append("author a <b> 1 z");
 
-		final byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkCommit(data);
-			fail("Did not catch corrupt object");
-		} catch (CorruptObjectException e) {
-			// Yes, really, we complain about author not being
-			// found as the invalid parent line wasn't consumed.
-			assertEquals("invalid author", e.getMessage());
-		}
+		byte[] data = encodeASCII(b.toString());
+		assertCorrupt("bad time zone", OBJ_COMMIT, data);
+		assertSkipListAccepts(OBJ_COMMIT, data);
 	}
 
 	@Test
-	public void testInvalidCommitInvalidCommitter() {
-		final StringBuilder b = new StringBuilder();
-
+	public void testInvalidCommitInvalidCommitter()
+			throws CorruptObjectException {
+		StringBuilder b = new StringBuilder();
 		b.append("tree ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
 		b.append('\n');
-
 		b.append("author a <b> 1 +0000\n");
 		b.append("committer a <");
 
-		final byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkCommit(data);
-			fail("Did not catch corrupt object");
-		} catch (CorruptObjectException e) {
-			// Yes, really, we complain about author not being
-			// found as the invalid parent line wasn't consumed.
-			assertEquals("invalid committer", e.getMessage());
-		}
+		byte[] data = encodeASCII(b.toString());
+		assertCorrupt("bad email", OBJ_COMMIT, data);
+		assertSkipListAccepts(OBJ_COMMIT, data);
 	}
 
 	@Test
 	public void testValidTag() throws CorruptObjectException {
-		final StringBuilder b = new StringBuilder();
-
+		StringBuilder b = new StringBuilder();
 		b.append("object ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
 		b.append('\n');
-
 		b.append("type commit\n");
 		b.append("tag test-tag\n");
 		b.append("tagger A. U. Thor <author@localhost> 1 +0000\n");
 
-		final byte[] data = Constants.encodeASCII(b.toString());
+		byte[] data = encodeASCII(b.toString());
 		checker.checkTag(data);
-		checker.check(Constants.OBJ_TAG, data);
+		checker.check(OBJ_TAG, data);
 	}
 
 	@Test
 	public void testInvalidTagNoObject1() {
-		final StringBuilder b = new StringBuilder();
-
-		final byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkTag(data);
-			fail("incorrectly accepted invalid tag");
-		} catch (CorruptObjectException e) {
-			assertEquals("no object header", e.getMessage());
-		}
+		assertCorrupt("no object header", OBJ_TAG, new byte[0]);
 	}
 
 	@Test
 	public void testInvalidTagNoObject2() {
-		final StringBuilder b = new StringBuilder();
-
+		StringBuilder b = new StringBuilder();
 		b.append("object\t");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
 		b.append('\n');
-
-		final byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkTag(data);
-			fail("incorrectly accepted invalid tag");
-		} catch (CorruptObjectException e) {
-			assertEquals("no object header", e.getMessage());
-		}
+		assertCorrupt("no object header", OBJ_TAG, b);
 	}
 
 	@Test
 	public void testInvalidTagNoObject3() {
-		final StringBuilder b = new StringBuilder();
-
+		StringBuilder b = new StringBuilder();
 		b.append("obejct ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
 		b.append('\n');
-
-		final byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkTag(data);
-			fail("incorrectly accepted invalid tag");
-		} catch (CorruptObjectException e) {
-			assertEquals("no object header", e.getMessage());
-		}
+		assertCorrupt("no object header", OBJ_TAG, b);
 	}
 
 	@Test
 	public void testInvalidTagNoObject4() {
-		final StringBuilder b = new StringBuilder();
-
+		StringBuilder b = new StringBuilder();
 		b.append("object ");
 		b.append("zz9bfa841874ccc9f2ef7c48d0c76226f89b7189");
 		b.append('\n');
-
-		final byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkTag(data);
-			fail("incorrectly accepted invalid tag");
-		} catch (CorruptObjectException e) {
-			assertEquals("invalid object", e.getMessage());
-		}
+		assertCorrupt("invalid object", OBJ_TAG, b);
 	}
 
 	@Test
 	public void testInvalidTagNoObject5() {
-		final StringBuilder b = new StringBuilder();
-
+		StringBuilder b = new StringBuilder();
 		b.append("object ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
 		b.append(" \n");
-
-		final byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkTag(data);
-			fail("incorrectly accepted invalid tag");
-		} catch (CorruptObjectException e) {
-			assertEquals("invalid object", e.getMessage());
-		}
+		assertCorrupt("invalid object", OBJ_TAG, b);
 	}
 
 	@Test
 	public void testInvalidTagNoObject6() {
-		final StringBuilder b = new StringBuilder();
-
+		StringBuilder b = new StringBuilder();
 		b.append("object ");
 		b.append("be9");
-
-		final byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkTag(data);
-			fail("incorrectly accepted invalid tag");
-		} catch (CorruptObjectException e) {
-			assertEquals("invalid object", e.getMessage());
-		}
+		assertCorrupt("invalid object", OBJ_TAG, b);
 	}
 
 	@Test
 	public void testInvalidTagNoType1() {
-		final StringBuilder b = new StringBuilder();
-
+		StringBuilder b = new StringBuilder();
 		b.append("object ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
 		b.append('\n');
-
-		final byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkTag(data);
-			fail("incorrectly accepted invalid tag");
-		} catch (CorruptObjectException e) {
-			assertEquals("no type header", e.getMessage());
-		}
+		assertCorrupt("no type header", OBJ_TAG, b);
 	}
 
 	@Test
 	public void testInvalidTagNoType2() {
-		final StringBuilder b = new StringBuilder();
-
+		StringBuilder b = new StringBuilder();
 		b.append("object ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
 		b.append('\n');
-
 		b.append("type\tcommit\n");
-
-		final byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkTag(data);
-			fail("incorrectly accepted invalid tag");
-		} catch (CorruptObjectException e) {
-			assertEquals("no type header", e.getMessage());
-		}
+		assertCorrupt("no type header", OBJ_TAG, b);
 	}
 
 	@Test
 	public void testInvalidTagNoType3() {
-		final StringBuilder b = new StringBuilder();
-
+		StringBuilder b = new StringBuilder();
 		b.append("object ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
 		b.append('\n');
-
 		b.append("tpye commit\n");
-
-		final byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkTag(data);
-			fail("incorrectly accepted invalid tag");
-		} catch (CorruptObjectException e) {
-			assertEquals("no type header", e.getMessage());
-		}
+		assertCorrupt("no type header", OBJ_TAG, b);
 	}
 
 	@Test
 	public void testInvalidTagNoType4() {
-		final StringBuilder b = new StringBuilder();
-
+		StringBuilder b = new StringBuilder();
 		b.append("object ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
 		b.append('\n');
-
 		b.append("type commit");
-
-		final byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkTag(data);
-			fail("incorrectly accepted invalid tag");
-		} catch (CorruptObjectException e) {
-			assertEquals("no tag header", e.getMessage());
-		}
+		assertCorrupt("no tag header", OBJ_TAG, b);
 	}
 
 	@Test
 	public void testInvalidTagNoTagHeader1() {
-		final StringBuilder b = new StringBuilder();
-
+		StringBuilder b = new StringBuilder();
 		b.append("object ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
 		b.append('\n');
-
 		b.append("type commit\n");
-
-		final byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkTag(data);
-			fail("incorrectly accepted invalid tag");
-		} catch (CorruptObjectException e) {
-			assertEquals("no tag header", e.getMessage());
-		}
+		assertCorrupt("no tag header", OBJ_TAG, b);
 	}
 
 	@Test
 	public void testInvalidTagNoTagHeader2() {
-		final StringBuilder b = new StringBuilder();
-
+		StringBuilder b = new StringBuilder();
 		b.append("object ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
 		b.append('\n');
-
 		b.append("type commit\n");
 		b.append("tag\tfoo\n");
-
-		final byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkTag(data);
-			fail("incorrectly accepted invalid tag");
-		} catch (CorruptObjectException e) {
-			assertEquals("no tag header", e.getMessage());
-		}
+		assertCorrupt("no tag header", OBJ_TAG, b);
 	}
 
 	@Test
 	public void testInvalidTagNoTagHeader3() {
-		final StringBuilder b = new StringBuilder();
-
+		StringBuilder b = new StringBuilder();
 		b.append("object ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
 		b.append('\n');
-
 		b.append("type commit\n");
 		b.append("tga foo\n");
-
-		final byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkTag(data);
-			fail("incorrectly accepted invalid tag");
-		} catch (CorruptObjectException e) {
-			assertEquals("no tag header", e.getMessage());
-		}
+		assertCorrupt("no tag header", OBJ_TAG, b);
 	}
 
 	@Test
 	public void testValidTagHasNoTaggerHeader() throws CorruptObjectException {
-		final StringBuilder b = new StringBuilder();
-
+		StringBuilder b = new StringBuilder();
 		b.append("object ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
 		b.append('\n');
-
 		b.append("type commit\n");
 		b.append("tag foo\n");
-
-		checker.checkTag(Constants.encodeASCII(b.toString()));
+		checker.checkTag(encodeASCII(b.toString()));
 	}
 
 	@Test
 	public void testInvalidTagInvalidTaggerHeader1()
 			throws CorruptObjectException {
-		final StringBuilder b = new StringBuilder();
-
+		StringBuilder b = new StringBuilder();
 		b.append("object ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
 		b.append('\n');
-
 		b.append("type commit\n");
 		b.append("tag foo\n");
 		b.append("tagger \n");
 
-		final byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkTag(data);
-			fail("incorrectly accepted invalid tag");
-		} catch (CorruptObjectException e) {
-			assertEquals("invalid tagger", e.getMessage());
-		}
+		byte[] data = encodeASCII(b.toString());
+		assertCorrupt("missing email", OBJ_TAG, data);
 		checker.setAllowInvalidPersonIdent(true);
 		checker.checkTag(data);
+
+		checker.setAllowInvalidPersonIdent(false);
+		assertSkipListAccepts(OBJ_TAG, data);
 	}
 
 	@Test
-	public void testInvalidTagInvalidTaggerHeader3() {
-		final StringBuilder b = new StringBuilder();
-
+	public void testInvalidTagInvalidTaggerHeader3()
+			throws CorruptObjectException {
+		StringBuilder b = new StringBuilder();
 		b.append("object ");
 		b.append("be9bfa841874ccc9f2ef7c48d0c76226f89b7189");
 		b.append('\n');
-
 		b.append("type commit\n");
 		b.append("tag foo\n");
 		b.append("tagger a < 1 +000\n");
 
-		final byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkTag(data);
-			fail("incorrectly accepted invalid tag");
-		} catch (CorruptObjectException e) {
-			assertEquals("invalid tagger", e.getMessage());
-		}
+		byte[] data = encodeASCII(b.toString());
+		assertCorrupt("bad email", OBJ_TAG, data);
+		assertSkipListAccepts(OBJ_TAG, data);
 	}
 
 	@Test
 	public void testValidEmptyTree() throws CorruptObjectException {
 		checker.checkTree(new byte[0]);
-		checker.check(Constants.OBJ_TREE, new byte[0]);
+		checker.check(OBJ_TREE, new byte[0]);
 	}
 
 	@Test
 	public void testValidTree1() throws CorruptObjectException {
-		final StringBuilder b = new StringBuilder();
+		StringBuilder b = new StringBuilder();
 		entry(b, "100644 regular-file");
-		final byte[] data = Constants.encodeASCII(b.toString());
-		checker.checkTree(data);
+		checker.checkTree(encodeASCII(b.toString()));
 	}
 
 	@Test
 	public void testValidTree2() throws CorruptObjectException {
-		final StringBuilder b = new StringBuilder();
+		StringBuilder b = new StringBuilder();
 		entry(b, "100755 executable");
-		final byte[] data = Constants.encodeASCII(b.toString());
-		checker.checkTree(data);
+		checker.checkTree(encodeASCII(b.toString()));
 	}
 
 	@Test
 	public void testValidTree3() throws CorruptObjectException {
-		final StringBuilder b = new StringBuilder();
+		StringBuilder b = new StringBuilder();
 		entry(b, "40000 tree");
-		final byte[] data = Constants.encodeASCII(b.toString());
-		checker.checkTree(data);
+		checker.checkTree(encodeASCII(b.toString()));
 	}
 
 	@Test
 	public void testValidTree4() throws CorruptObjectException {
-		final StringBuilder b = new StringBuilder();
+		StringBuilder b = new StringBuilder();
 		entry(b, "120000 symlink");
-		final byte[] data = Constants.encodeASCII(b.toString());
-		checker.checkTree(data);
+		checker.checkTree(encodeASCII(b.toString()));
 	}
 
 	@Test
 	public void testValidTree5() throws CorruptObjectException {
-		final StringBuilder b = new StringBuilder();
+		StringBuilder b = new StringBuilder();
 		entry(b, "160000 git link");
-		final byte[] data = Constants.encodeASCII(b.toString());
-		checker.checkTree(data);
+		checker.checkTree(encodeASCII(b.toString()));
 	}
 
 	@Test
 	public void testValidTree6() throws CorruptObjectException {
-		final StringBuilder b = new StringBuilder();
+		StringBuilder b = new StringBuilder();
 		entry(b, "100644 .a");
-		final byte[] data = Constants.encodeASCII(b.toString());
+		checker.checkTree(encodeASCII(b.toString()));
+	}
+
+	@Test
+	public void testNullSha1InTreeEntry() throws CorruptObjectException {
+		byte[] data = concat(
+				encodeASCII("100644 A"), new byte[] { '\0' },
+				new byte[OBJECT_ID_LENGTH]);
+		assertCorrupt("entry points to null SHA-1", OBJ_TREE, data);
+		assertSkipListAccepts(OBJ_TREE, data);
+		checker.setIgnore(NULL_SHA1, true);
 		checker.checkTree(data);
 	}
 
@@ -1084,357 +788,326 @@ public class ObjectCheckerTest {
 
 	@Test
 	public void testValidTreeSorting1() throws CorruptObjectException {
-		final StringBuilder b = new StringBuilder();
+		StringBuilder b = new StringBuilder();
 		entry(b, "100644 fooaaa");
 		entry(b, "100755 foobar");
-		final byte[] data = Constants.encodeASCII(b.toString());
-		checker.checkTree(data);
+		checker.checkTree(encodeASCII(b.toString()));
 	}
 
 	@Test
 	public void testValidTreeSorting2() throws CorruptObjectException {
-		final StringBuilder b = new StringBuilder();
+		StringBuilder b = new StringBuilder();
 		entry(b, "100755 fooaaa");
 		entry(b, "100644 foobar");
-		final byte[] data = Constants.encodeASCII(b.toString());
-		checker.checkTree(data);
+		checker.checkTree(encodeASCII(b.toString()));
 	}
 
 	@Test
 	public void testValidTreeSorting3() throws CorruptObjectException {
-		final StringBuilder b = new StringBuilder();
+		StringBuilder b = new StringBuilder();
 		entry(b, "40000 a");
 		entry(b, "100644 b");
-		final byte[] data = Constants.encodeASCII(b.toString());
-		checker.checkTree(data);
+		checker.checkTree(encodeASCII(b.toString()));
 	}
 
 	@Test
 	public void testValidTreeSorting4() throws CorruptObjectException {
-		final StringBuilder b = new StringBuilder();
+		StringBuilder b = new StringBuilder();
 		entry(b, "100644 a");
 		entry(b, "40000 b");
-		final byte[] data = Constants.encodeASCII(b.toString());
-		checker.checkTree(data);
+		checker.checkTree(encodeASCII(b.toString()));
 	}
 
 	@Test
 	public void testValidTreeSorting5() throws CorruptObjectException {
-		final StringBuilder b = new StringBuilder();
+		StringBuilder b = new StringBuilder();
 		entry(b, "100644 a.c");
 		entry(b, "40000 a");
 		entry(b, "100644 a0c");
-		final byte[] data = Constants.encodeASCII(b.toString());
-		checker.checkTree(data);
+		checker.checkTree(encodeASCII(b.toString()));
 	}
 
 	@Test
 	public void testValidTreeSorting6() throws CorruptObjectException {
-		final StringBuilder b = new StringBuilder();
+		StringBuilder b = new StringBuilder();
 		entry(b, "40000 a");
 		entry(b, "100644 apple");
-		final byte[] data = Constants.encodeASCII(b.toString());
-		checker.checkTree(data);
+		checker.checkTree(encodeASCII(b.toString()));
 	}
 
 	@Test
 	public void testValidTreeSorting7() throws CorruptObjectException {
-		final StringBuilder b = new StringBuilder();
+		StringBuilder b = new StringBuilder();
 		entry(b, "40000 an orang");
 		entry(b, "40000 an orange");
-		final byte[] data = Constants.encodeASCII(b.toString());
-		checker.checkTree(data);
+		checker.checkTree(encodeASCII(b.toString()));
 	}
 
 	@Test
 	public void testValidTreeSorting8() throws CorruptObjectException {
-		final StringBuilder b = new StringBuilder();
+		StringBuilder b = new StringBuilder();
 		entry(b, "100644 a");
 		entry(b, "100644 a0c");
 		entry(b, "100644 b");
-		final byte[] data = Constants.encodeASCII(b.toString());
-		checker.checkTree(data);
+		checker.checkTree(encodeASCII(b.toString()));
 	}
 
 	@Test
 	public void testAcceptTreeModeWithZero() throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "040000 a");
+		byte[] data = encodeASCII(b.toString());
 		checker.setAllowLeadingZeroFileMode(true);
-		checker.checkTree(Constants.encodeASCII(b.toString()));
+		checker.checkTree(data);
+
+		checker.setAllowLeadingZeroFileMode(false);
+		assertSkipListAccepts(OBJ_TREE, data);
+
+		checker.setIgnore(ZERO_PADDED_FILEMODE, true);
+		checker.checkTree(data);
 	}
 
 	@Test
 	public void testInvalidTreeModeStartsWithZero1() {
-		final StringBuilder b = new StringBuilder();
+		StringBuilder b = new StringBuilder();
 		entry(b, "0 a");
-		final byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkTree(data);
-			fail("incorrectly accepted an invalid tree");
-		} catch (CorruptObjectException e) {
-			assertEquals("mode starts with '0'", e.getMessage());
-		}
+		assertCorrupt("mode starts with '0'", OBJ_TREE, b);
 	}
 
 	@Test
 	public void testInvalidTreeModeStartsWithZero2() {
-		final StringBuilder b = new StringBuilder();
+		StringBuilder b = new StringBuilder();
 		entry(b, "0100644 a");
-		final byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkTree(data);
-			fail("incorrectly accepted an invalid tree");
-		} catch (CorruptObjectException e) {
-			assertEquals("mode starts with '0'", e.getMessage());
-		}
+		assertCorrupt("mode starts with '0'", OBJ_TREE, b);
 	}
 
 	@Test
 	public void testInvalidTreeModeStartsWithZero3() {
-		final StringBuilder b = new StringBuilder();
+		StringBuilder b = new StringBuilder();
 		entry(b, "040000 a");
-		final byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkTree(data);
-			fail("incorrectly accepted an invalid tree");
-		} catch (CorruptObjectException e) {
-			assertEquals("mode starts with '0'", e.getMessage());
-		}
+		assertCorrupt("mode starts with '0'", OBJ_TREE, b);
 	}
 
 	@Test
 	public void testInvalidTreeModeNotOctal1() {
-		final StringBuilder b = new StringBuilder();
+		StringBuilder b = new StringBuilder();
 		entry(b, "8 a");
-		final byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkTree(data);
-			fail("incorrectly accepted an invalid tree");
-		} catch (CorruptObjectException e) {
-			assertEquals("invalid mode character", e.getMessage());
-		}
+		assertCorrupt("invalid mode character", OBJ_TREE, b);
 	}
 
 	@Test
 	public void testInvalidTreeModeNotOctal2() {
-		final StringBuilder b = new StringBuilder();
+		StringBuilder b = new StringBuilder();
 		entry(b, "Z a");
-		final byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkTree(data);
-			fail("incorrectly accepted an invalid tree");
-		} catch (CorruptObjectException e) {
-			assertEquals("invalid mode character", e.getMessage());
-		}
+		byte[] data = encodeASCII(b.toString());
+		assertCorrupt("invalid mode character", OBJ_TREE, data);
+		assertSkipListRejects("invalid mode character", OBJ_TREE, data);
 	}
 
 	@Test
 	public void testInvalidTreeModeNotSupportedMode1() {
-		final StringBuilder b = new StringBuilder();
+		StringBuilder b = new StringBuilder();
 		entry(b, "1 a");
-		final byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkTree(data);
-			fail("incorrectly accepted an invalid tree");
-		} catch (CorruptObjectException e) {
-			assertEquals("invalid mode 1", e.getMessage());
-		}
+		byte[] data = encodeASCII(b.toString());
+		assertCorrupt("invalid mode 1", OBJ_TREE, data);
+		assertSkipListRejects("invalid mode 1", OBJ_TREE, data);
 	}
 
 	@Test
 	public void testInvalidTreeModeNotSupportedMode2() {
-		final StringBuilder b = new StringBuilder();
+		StringBuilder b = new StringBuilder();
 		entry(b, "170000 a");
-		final byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkTree(data);
-			fail("incorrectly accepted an invalid tree");
-		} catch (CorruptObjectException e) {
-			assertEquals("invalid mode " + 0170000, e.getMessage());
-		}
+		assertCorrupt("invalid mode " + 0170000, OBJ_TREE, b);
 	}
 
 	@Test
 	public void testInvalidTreeModeMissingName() {
-		final StringBuilder b = new StringBuilder();
+		StringBuilder b = new StringBuilder();
 		b.append("100644");
-		final byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkTree(data);
-			fail("incorrectly accepted an invalid tree");
-		} catch (CorruptObjectException e) {
-			assertEquals("truncated in mode", e.getMessage());
-		}
+		assertCorrupt("truncated in mode", OBJ_TREE, b);
 	}
 
 	@Test
-	public void testInvalidTreeNameContainsSlash() {
-		final StringBuilder b = new StringBuilder();
+	public void testInvalidTreeNameContainsSlash()
+			throws CorruptObjectException {
+		StringBuilder b = new StringBuilder();
 		entry(b, "100644 a/b");
-		final byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkTree(data);
-			fail("incorrectly accepted an invalid tree");
-		} catch (CorruptObjectException e) {
-			assertEquals("name contains '/'", e.getMessage());
-		}
+		byte[] data = encodeASCII(b.toString());
+		assertCorrupt("name contains '/'", OBJ_TREE, data);
+		assertSkipListAccepts(OBJ_TREE, data);
+		checker.setIgnore(FULL_PATHNAME, true);
+		checker.checkTree(data);
 	}
 
 	@Test
-	public void testInvalidTreeNameIsEmpty() {
-		final StringBuilder b = new StringBuilder();
+	public void testInvalidTreeNameIsEmpty() throws CorruptObjectException {
+		StringBuilder b = new StringBuilder();
 		entry(b, "100644 ");
-		final byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkTree(data);
-			fail("incorrectly accepted an invalid tree");
-		} catch (CorruptObjectException e) {
-			assertEquals("zero length name", e.getMessage());
-		}
+		byte[] data = encodeASCII(b.toString());
+		assertCorrupt("zero length name", OBJ_TREE, data);
+		assertSkipListAccepts(OBJ_TREE, data);
+		checker.setIgnore(EMPTY_NAME, true);
+		checker.checkTree(data);
 	}
 
 	@Test
-	public void testInvalidTreeNameIsDot() {
-		final StringBuilder b = new StringBuilder();
+	public void testInvalidTreeNameIsDot() throws CorruptObjectException {
+		StringBuilder b = new StringBuilder();
 		entry(b, "100644 .");
-		final byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkTree(data);
-			fail("incorrectly accepted an invalid tree");
-		} catch (CorruptObjectException e) {
-			assertEquals("invalid name '.'", e.getMessage());
-		}
+		byte[] data = encodeASCII(b.toString());
+		assertCorrupt("invalid name '.'", OBJ_TREE, data);
+		assertSkipListAccepts(OBJ_TREE, data);
+		checker.setIgnore(HAS_DOT, true);
+		checker.checkTree(data);
 	}
 
 	@Test
-	public void testInvalidTreeNameIsDotDot() {
-		final StringBuilder b = new StringBuilder();
+	public void testInvalidTreeNameIsDotDot() throws CorruptObjectException {
+		StringBuilder b = new StringBuilder();
 		entry(b, "100644 ..");
-		final byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkTree(data);
-			fail("incorrectly accepted an invalid tree");
-		} catch (CorruptObjectException e) {
-			assertEquals("invalid name '..'", e.getMessage());
-		}
+		byte[] data = encodeASCII(b.toString());
+		assertCorrupt("invalid name '..'", OBJ_TREE, data);
+		assertSkipListAccepts(OBJ_TREE, data);
+		checker.setIgnore(HAS_DOTDOT, true);
+		checker.checkTree(data);
 	}
 
 	@Test
-	public void testInvalidTreeNameIsGit() {
+	public void testInvalidTreeNameIsGit() throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 .git");
-		byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkTree(data);
-			fail("incorrectly accepted an invalid tree");
-		} catch (CorruptObjectException e) {
-			assertEquals("invalid name '.git'", e.getMessage());
-		}
+		byte[] data = encodeASCII(b.toString());
+		assertCorrupt("invalid name '.git'", OBJ_TREE, data);
+		assertSkipListAccepts(OBJ_TREE, data);
+		checker.setIgnore(HAS_DOTGIT, true);
+		checker.checkTree(data);
 	}
 
 	@Test
-	public void testInvalidTreeNameIsMixedCaseGit() {
+	public void testInvalidTreeNameIsMixedCaseGit()
+			throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 .GiT");
-		byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkTree(data);
-			fail("incorrectly accepted an invalid tree");
-		} catch (CorruptObjectException e) {
-			assertEquals("invalid name '.GiT'", e.getMessage());
-		}
+		byte[] data = encodeASCII(b.toString());
+		assertCorrupt("invalid name '.GiT'", OBJ_TREE, data);
+		assertSkipListAccepts(OBJ_TREE, data);
+		checker.setIgnore(HAS_DOTGIT, true);
+		checker.checkTree(data);
 	}
 
 	@Test
-	public void testInvalidTreeNameIsMacHFSGit() {
+	public void testInvalidTreeNameIsMacHFSGit() throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 .gi\u200Ct");
-		byte[] data = Constants.encode(b.toString());
-		try {
-			checker.setSafeForMacOS(true);
-			checker.checkTree(data);
-			fail("incorrectly accepted an invalid tree");
-		} catch (CorruptObjectException e) {
-			assertEquals(
-					"invalid name '.gi\u200Ct' contains ignorable Unicode characters",
-					e.getMessage());
-		}
+		byte[] data = encode(b.toString());
+
+		// Fine on POSIX.
+		checker.checkTree(data);
+
+		// Rejected on Mac OS.
+		checker.setSafeForMacOS(true);
+		assertCorrupt(
+				"invalid name '.gi\u200Ct' contains ignorable Unicode characters",
+				OBJ_TREE, data);
+		assertSkipListAccepts(OBJ_TREE, data);
+		checker.setIgnore(HAS_DOTGIT, true);
+		checker.checkTree(data);
 	}
 
 	@Test
-	public void testInvalidTreeNameIsMacHFSGit2() {
+	public void testInvalidTreeNameIsMacHFSGit2()
+			throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 \u206B.git");
-		byte[] data = Constants.encode(b.toString());
-		try {
-			checker.setSafeForMacOS(true);
-			checker.checkTree(data);
-			fail("incorrectly accepted an invalid tree");
-		} catch (CorruptObjectException e) {
-			assertEquals(
-					"invalid name '\u206B.git' contains ignorable Unicode characters",
-					e.getMessage());
-		}
+		byte[] data = encode(b.toString());
+
+		// Fine on POSIX.
+		checker.checkTree(data);
+
+		// Rejected on Mac OS.
+		checker.setSafeForMacOS(true);
+		assertCorrupt(
+				"invalid name '\u206B.git' contains ignorable Unicode characters",
+				OBJ_TREE, data);
+		assertSkipListAccepts(OBJ_TREE, data);
+		checker.setIgnore(HAS_DOTGIT, true);
+		checker.checkTree(data);
 	}
 
 	@Test
-	public void testInvalidTreeNameIsMacHFSGit3() {
+	public void testInvalidTreeNameIsMacHFSGit3()
+			throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 .git\uFEFF");
-		byte[] data = Constants.encode(b.toString());
-		try {
-			checker.setSafeForMacOS(true);
-			checker.checkTree(data);
-			fail("incorrectly accepted an invalid tree");
-		} catch (CorruptObjectException e) {
-			assertEquals(
-					"invalid name '.git\uFEFF' contains ignorable Unicode characters",
-					e.getMessage());
-		}
+		byte[] data = encode(b.toString());
+
+		// Fine on POSIX.
+		checker.checkTree(data);
+
+		// Rejected on Mac OS.
+		checker.setSafeForMacOS(true);
+		assertCorrupt(
+				"invalid name '.git\uFEFF' contains ignorable Unicode characters",
+				OBJ_TREE, data);
+		assertSkipListAccepts(OBJ_TREE, data);
+		checker.setIgnore(HAS_DOTGIT, true);
+		checker.checkTree(data);
 	}
 
-	private static byte[] concat(byte[] b1, byte[] b2) {
-		byte[] data = new byte[b1.length + b2.length];
-		System.arraycopy(b1, 0, data, 0, b1.length);
-		System.arraycopy(b2, 0, data, b1.length, b2.length);
+	private static byte[] concat(byte[]... b) {
+		int n = 0;
+		for (byte[] a : b) {
+			n += a.length;
+		}
+
+		byte[] data = new byte[n];
+		n = 0;
+		for (byte[] a : b) {
+			System.arraycopy(a, 0, data, n, a.length);
+			n += a.length;
+		}
 		return data;
 	}
 
 	@Test
-	public void testInvalidTreeNameIsMacHFSGitCorruptUTF8AtEnd() {
-		byte[] data = concat(Constants.encode("100644 .git"),
+	public void testInvalidTreeNameIsMacHFSGitCorruptUTF8AtEnd()
+			throws CorruptObjectException {
+		byte[] data = concat(encode("100644 .git"),
 				new byte[] { (byte) 0xef });
 		StringBuilder b = new StringBuilder();
 		entry(b, "");
-		data = concat(data, Constants.encode(b.toString()));
-		try {
-			checker.setSafeForMacOS(true);
-			checker.checkTree(data);
-			fail("incorrectly accepted an invalid tree");
-		} catch (CorruptObjectException e) {
-			assertEquals(
-					"invalid name contains byte sequence '0xef' which is not a valid UTF-8 character",
-					e.getMessage());
-		}
+		data = concat(data, encode(b.toString()));
+
+		// Fine on POSIX.
+		checker.checkTree(data);
+
+		// Rejected on Mac OS.
+		checker.setSafeForMacOS(true);
+		assertCorrupt(
+				"invalid name contains byte sequence '0xef' which is not a valid UTF-8 character",
+				OBJ_TREE, data);
+		assertSkipListAccepts(OBJ_TREE, data);
 	}
 
 	@Test
-	public void testInvalidTreeNameIsMacHFSGitCorruptUTF8AtEnd2() {
-		byte[] data = concat(Constants.encode("100644 .git"), new byte[] {
+	public void testInvalidTreeNameIsMacHFSGitCorruptUTF8AtEnd2()
+			throws CorruptObjectException {
+		byte[] data = concat(encode("100644 .git"),
+				new byte[] {
 				(byte) 0xe2, (byte) 0xab });
 		StringBuilder b = new StringBuilder();
 		entry(b, "");
-		data = concat(data, Constants.encode(b.toString()));
-		try {
-			checker.setSafeForMacOS(true);
-			checker.checkTree(data);
-			fail("incorrectly accepted an invalid tree");
-		} catch (CorruptObjectException e) {
-			assertEquals(
-					"invalid name contains byte sequence '0xe2ab' which is not a valid UTF-8 character",
-					e.getMessage());
-		}
+		data = concat(data, encode(b.toString()));
+
+		// Fine on POSIX.
+		checker.checkTree(data);
+
+		// Rejected on Mac OS.
+		checker.setSafeForMacOS(true);
+		assertCorrupt(
+				"invalid name contains byte sequence '0xe2ab' which is not a valid UTF-8 character",
+				OBJ_TREE, data);
+		assertSkipListAccepts(OBJ_TREE, data);
 	}
 
 	@Test
@@ -1442,7 +1115,7 @@ public class ObjectCheckerTest {
 			throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 .git\u200Cx");
-		byte[] data = Constants.encode(b.toString());
+		byte[] data = encode(b.toString());
 		checker.setSafeForMacOS(true);
 		checker.checkTree(data);
 	}
@@ -1452,7 +1125,7 @@ public class ObjectCheckerTest {
 			throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 .kit\u200C");
-		byte[] data = Constants.encode(b.toString());
+		byte[] data = encode(b.toString());
 		checker.setSafeForMacOS(true);
 		checker.checkTree(data);
 	}
@@ -1462,21 +1135,19 @@ public class ObjectCheckerTest {
 			throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 .git\u200C");
-		byte[] data = Constants.encode(b.toString());
+		byte[] data = encode(b.toString());
 		checker.checkTree(data);
 	}
 
 	@Test
-	public void testInvalidTreeNameIsDotGitDot() {
+	public void testInvalidTreeNameIsDotGitDot() throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 .git.");
-		byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkTree(data);
-			fail("incorrectly accepted an invalid tree");
-		} catch (CorruptObjectException e) {
-			assertEquals("invalid name '.git.'", e.getMessage());
-		}
+		byte[] data = encodeASCII(b.toString());
+		assertCorrupt("invalid name '.git.'", OBJ_TREE, data);
+		assertSkipListAccepts(OBJ_TREE, data);
+		checker.setIgnore(HAS_DOTGIT, true);
+		checker.checkTree(data);
 	}
 
 	@Test
@@ -1484,20 +1155,19 @@ public class ObjectCheckerTest {
 			throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 .git..");
-		checker.checkTree(Constants.encodeASCII(b.toString()));
+		checker.checkTree(encodeASCII(b.toString()));
 	}
 
 	@Test
-	public void testInvalidTreeNameIsDotGitSpace() {
+	public void testInvalidTreeNameIsDotGitSpace()
+			throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 .git ");
-		byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkTree(data);
-			fail("incorrectly accepted an invalid tree");
-		} catch (CorruptObjectException e) {
-			assertEquals("invalid name '.git '", e.getMessage());
-		}
+		byte[] data = encodeASCII(b.toString());
+		assertCorrupt("invalid name '.git '", OBJ_TREE, data);
+		assertSkipListAccepts(OBJ_TREE, data);
+		checker.setIgnore(HAS_DOTGIT, true);
+		checker.checkTree(data);
 	}
 
 	@Test
@@ -1505,7 +1175,7 @@ public class ObjectCheckerTest {
 			throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 .gitfoobar");
-		byte[] data = Constants.encodeASCII(b.toString());
+		byte[] data = encodeASCII(b.toString());
 		checker.checkTree(data);
 	}
 
@@ -1514,7 +1184,7 @@ public class ObjectCheckerTest {
 			throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 .gitfoo bar");
-		byte[] data = Constants.encodeASCII(b.toString());
+		byte[] data = encodeASCII(b.toString());
 		checker.checkTree(data);
 	}
 
@@ -1523,7 +1193,7 @@ public class ObjectCheckerTest {
 			throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 .gitfoobar.");
-		byte[] data = Constants.encodeASCII(b.toString());
+		byte[] data = encodeASCII(b.toString());
 		checker.checkTree(data);
 	}
 
@@ -1532,251 +1202,236 @@ public class ObjectCheckerTest {
 			throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 .gitfoobar..");
-		byte[] data = Constants.encodeASCII(b.toString());
+		byte[] data = encodeASCII(b.toString());
 		checker.checkTree(data);
 	}
 
 	@Test
-	public void testInvalidTreeNameIsDotGitDotSpace() {
+	public void testInvalidTreeNameIsDotGitDotSpace()
+			throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 .git. ");
-		byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkTree(data);
-			fail("incorrectly accepted an invalid tree");
-		} catch (CorruptObjectException e) {
-			assertEquals("invalid name '.git. '", e.getMessage());
-		}
+		byte[] data = encodeASCII(b.toString());
+		assertCorrupt("invalid name '.git. '", OBJ_TREE, data);
+		assertSkipListAccepts(OBJ_TREE, data);
+		checker.setIgnore(HAS_DOTGIT, true);
+		checker.checkTree(data);
 	}
 
 	@Test
-	public void testInvalidTreeNameIsDotGitSpaceDot() {
+	public void testInvalidTreeNameIsDotGitSpaceDot()
+			throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 .git . ");
-		byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkTree(data);
-			fail("incorrectly accepted an invalid tree");
-		} catch (CorruptObjectException e) {
-			assertEquals("invalid name '.git . '", e.getMessage());
-		}
+		byte[] data = encodeASCII(b.toString());
+		assertCorrupt("invalid name '.git . '", OBJ_TREE, data);
+		assertSkipListAccepts(OBJ_TREE, data);
+		checker.setIgnore(HAS_DOTGIT, true);
+		checker.checkTree(data);
 	}
 
 	@Test
-	public void testInvalidTreeNameIsGITTilde1() {
+	public void testInvalidTreeNameIsGITTilde1() throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 GIT~1");
-		byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkTree(data);
-			fail("incorrectly accepted an invalid tree");
-		} catch (CorruptObjectException e) {
-			assertEquals("invalid name 'GIT~1'", e.getMessage());
-		}
+		byte[] data = encodeASCII(b.toString());
+		assertCorrupt("invalid name 'GIT~1'", OBJ_TREE, data);
+		assertSkipListAccepts(OBJ_TREE, data);
+		checker.setIgnore(HAS_DOTGIT, true);
+		checker.checkTree(data);
 	}
 
 	@Test
-	public void testInvalidTreeNameIsGiTTilde1() {
+	public void testInvalidTreeNameIsGiTTilde1() throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 GiT~1");
-		byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkTree(data);
-			fail("incorrectly accepted an invalid tree");
-		} catch (CorruptObjectException e) {
-			assertEquals("invalid name 'GiT~1'", e.getMessage());
-		}
+		byte[] data = encodeASCII(b.toString());
+		assertCorrupt("invalid name 'GiT~1'", OBJ_TREE, data);
+		assertSkipListAccepts(OBJ_TREE, data);
+		checker.setIgnore(HAS_DOTGIT, true);
+		checker.checkTree(data);
 	}
 
 	@Test
 	public void testValidTreeNameIsGitTilde11() throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 GIT~11");
-		byte[] data = Constants.encodeASCII(b.toString());
+		byte[] data = encodeASCII(b.toString());
 		checker.checkTree(data);
 	}
 
 	@Test
 	public void testInvalidTreeTruncatedInName() {
-		final StringBuilder b = new StringBuilder();
+		StringBuilder b = new StringBuilder();
 		b.append("100644 b");
-		final byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkTree(data);
-			fail("incorrectly accepted an invalid tree");
-		} catch (CorruptObjectException e) {
-			assertEquals("truncated in name", e.getMessage());
-		}
+		byte[] data = encodeASCII(b.toString());
+		assertCorrupt("truncated in name", OBJ_TREE, data);
+		assertSkipListRejects("truncated in name", OBJ_TREE, data);
 	}
 
 	@Test
 	public void testInvalidTreeTruncatedInObjectId() {
-		final StringBuilder b = new StringBuilder();
+		StringBuilder b = new StringBuilder();
 		b.append("100644 b\0\1\2");
-		final byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkTree(data);
-			fail("incorrectly accepted an invalid tree");
-		} catch (CorruptObjectException e) {
-			assertEquals("truncated in object id", e.getMessage());
-		}
+		byte[] data = encodeASCII(b.toString());
+		assertCorrupt("truncated in object id", OBJ_TREE, data);
+		assertSkipListRejects("truncated in object id", OBJ_TREE, data);
 	}
 
 	@Test
-	public void testInvalidTreeBadSorting1() {
-		final StringBuilder b = new StringBuilder();
+	public void testInvalidTreeBadSorting1() throws CorruptObjectException {
+		StringBuilder b = new StringBuilder();
 		entry(b, "100644 foobar");
 		entry(b, "100644 fooaaa");
-		final byte[] data = Constants.encodeASCII(b.toString());
+		byte[] data = encodeASCII(b.toString());
+
+		assertCorrupt("incorrectly sorted", OBJ_TREE, data);
+
+		ObjectId id = idFor(OBJ_TREE, data);
 		try {
-			checker.checkTree(data);
-			fail("incorrectly accepted an invalid tree");
+			checker.check(id, OBJ_TREE, data);
+			fail("Did not throw CorruptObjectException");
 		} catch (CorruptObjectException e) {
-			assertEquals("incorrectly sorted", e.getMessage());
+			assertSame(TREE_NOT_SORTED, e.getErrorType());
+			assertEquals("treeNotSorted: object " + id.name()
+					+ ": incorrectly sorted", e.getMessage());
 		}
+
+		assertSkipListAccepts(OBJ_TREE, data);
+		checker.setIgnore(TREE_NOT_SORTED, true);
+		checker.checkTree(data);
 	}
 
 	@Test
-	public void testInvalidTreeBadSorting2() {
-		final StringBuilder b = new StringBuilder();
+	public void testInvalidTreeBadSorting2() throws CorruptObjectException {
+		StringBuilder b = new StringBuilder();
 		entry(b, "40000 a");
 		entry(b, "100644 a.c");
-		final byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkTree(data);
-			fail("incorrectly accepted an invalid tree");
-		} catch (CorruptObjectException e) {
-			assertEquals("incorrectly sorted", e.getMessage());
-		}
+		byte[] data = encodeASCII(b.toString());
+		assertCorrupt("incorrectly sorted", OBJ_TREE, data);
+		assertSkipListAccepts(OBJ_TREE, data);
+		checker.setIgnore(TREE_NOT_SORTED, true);
+		checker.checkTree(data);
 	}
 
 	@Test
-	public void testInvalidTreeBadSorting3() {
-		final StringBuilder b = new StringBuilder();
+	public void testInvalidTreeBadSorting3() throws CorruptObjectException {
+		StringBuilder b = new StringBuilder();
 		entry(b, "100644 a0c");
 		entry(b, "40000 a");
-		final byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkTree(data);
-			fail("incorrectly accepted an invalid tree");
-		} catch (CorruptObjectException e) {
-			assertEquals("incorrectly sorted", e.getMessage());
-		}
+		byte[] data = encodeASCII(b.toString());
+		assertCorrupt("incorrectly sorted", OBJ_TREE, data);
+		assertSkipListAccepts(OBJ_TREE, data);
+		checker.setIgnore(TREE_NOT_SORTED, true);
+		checker.checkTree(data);
 	}
 
 	@Test
-	public void testInvalidTreeDuplicateNames1() {
-		final StringBuilder b = new StringBuilder();
+	public void testInvalidTreeDuplicateNames1_File()
+			throws CorruptObjectException {
+		StringBuilder b = new StringBuilder();
 		entry(b, "100644 a");
 		entry(b, "100644 a");
-		final byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkTree(data);
-			fail("incorrectly accepted an invalid tree");
-		} catch (CorruptObjectException e) {
-			assertEquals("duplicate entry names", e.getMessage());
-		}
+		byte[] data = encodeASCII(b.toString());
+		assertCorrupt("duplicate entry names", OBJ_TREE, data);
+		assertSkipListAccepts(OBJ_TREE, data);
+		checker.setIgnore(DUPLICATE_ENTRIES, true);
+		checker.checkTree(data);
 	}
 
 	@Test
-	public void testInvalidTreeDuplicateNames2() {
-		final StringBuilder b = new StringBuilder();
+	public void testInvalidTreeDuplicateNames1_Tree()
+			throws CorruptObjectException {
+		StringBuilder b = new StringBuilder();
+		entry(b, "40000 a");
+		entry(b, "40000 a");
+		byte[] data = encodeASCII(b.toString());
+		assertCorrupt("duplicate entry names", OBJ_TREE, data);
+		assertSkipListAccepts(OBJ_TREE, data);
+		checker.setIgnore(DUPLICATE_ENTRIES, true);
+		checker.checkTree(data);
+	}
+
+	@Test
+	public void testInvalidTreeDuplicateNames2() throws CorruptObjectException {
+		StringBuilder b = new StringBuilder();
 		entry(b, "100644 a");
 		entry(b, "100755 a");
-		final byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkTree(data);
-			fail("incorrectly accepted an invalid tree");
-		} catch (CorruptObjectException e) {
-			assertEquals("duplicate entry names", e.getMessage());
-		}
+		byte[] data = encodeASCII(b.toString());
+		assertCorrupt("duplicate entry names", OBJ_TREE, data);
+		assertSkipListAccepts(OBJ_TREE, data);
+		checker.setIgnore(DUPLICATE_ENTRIES, true);
+		checker.checkTree(data);
 	}
 
 	@Test
-	public void testInvalidTreeDuplicateNames3() {
-		final StringBuilder b = new StringBuilder();
+	public void testInvalidTreeDuplicateNames3() throws CorruptObjectException {
+		StringBuilder b = new StringBuilder();
 		entry(b, "100644 a");
 		entry(b, "40000 a");
-		final byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkTree(data);
-			fail("incorrectly accepted an invalid tree");
-		} catch (CorruptObjectException e) {
-			assertEquals("duplicate entry names", e.getMessage());
-		}
+		byte[] data = encodeASCII(b.toString());
+		assertCorrupt("duplicate entry names", OBJ_TREE, data);
+		assertSkipListAccepts(OBJ_TREE, data);
+		checker.setIgnore(DUPLICATE_ENTRIES, true);
+		checker.checkTree(data);
 	}
 
 	@Test
-	public void testInvalidTreeDuplicateNames4() {
-		final StringBuilder b = new StringBuilder();
+	public void testInvalidTreeDuplicateNames4() throws CorruptObjectException {
+		StringBuilder b = new StringBuilder();
 		entry(b, "100644 a");
 		entry(b, "100644 a.c");
 		entry(b, "100644 a.d");
 		entry(b, "100644 a.e");
 		entry(b, "40000 a");
 		entry(b, "100644 zoo");
-		final byte[] data = Constants.encodeASCII(b.toString());
-		try {
-			checker.checkTree(data);
-			fail("incorrectly accepted an invalid tree");
-		} catch (CorruptObjectException e) {
-			assertEquals("duplicate entry names", e.getMessage());
-		}
+		byte[] data = encodeASCII(b.toString());
+		assertCorrupt("duplicate entry names", OBJ_TREE, data);
+		assertSkipListAccepts(OBJ_TREE, data);
+		checker.setIgnore(DUPLICATE_ENTRIES, true);
+		checker.checkTree(data);
 	}
 
 	@Test
 	public void testInvalidTreeDuplicateNames5()
-			throws UnsupportedEncodingException {
+			throws UnsupportedEncodingException, CorruptObjectException {
 		StringBuilder b = new StringBuilder();
-		entry(b, "100644 a");
 		entry(b, "100644 A");
+		entry(b, "100644 a");
 		byte[] data = b.toString().getBytes("UTF-8");
-		try {
-			checker.setSafeForWindows(true);
-			checker.checkTree(data);
-			fail("incorrectly accepted an invalid tree");
-		} catch (CorruptObjectException e) {
-			assertEquals("duplicate entry names", e.getMessage());
-		}
+		checker.setSafeForWindows(true);
+		assertCorrupt("duplicate entry names", OBJ_TREE, data);
+		assertSkipListAccepts(OBJ_TREE, data);
+		checker.setIgnore(DUPLICATE_ENTRIES, true);
+		checker.checkTree(data);
 	}
 
 	@Test
 	public void testInvalidTreeDuplicateNames6()
-			throws UnsupportedEncodingException {
+			throws UnsupportedEncodingException, CorruptObjectException {
 		StringBuilder b = new StringBuilder();
-		entry(b, "100644 a");
 		entry(b, "100644 A");
+		entry(b, "100644 a");
 		byte[] data = b.toString().getBytes("UTF-8");
-		try {
-			checker.setSafeForMacOS(true);
-			checker.checkTree(data);
-			fail("incorrectly accepted an invalid tree");
-		} catch (CorruptObjectException e) {
-			assertEquals("duplicate entry names", e.getMessage());
-		}
+		checker.setSafeForMacOS(true);
+		assertCorrupt("duplicate entry names", OBJ_TREE, data);
+		assertSkipListAccepts(OBJ_TREE, data);
+		checker.setIgnore(DUPLICATE_ENTRIES, true);
+		checker.checkTree(data);
 	}
 
 	@Test
 	public void testInvalidTreeDuplicateNames7()
-			throws UnsupportedEncodingException {
-		try {
-			Class.forName("java.text.Normalizer");
-		} catch (ClassNotFoundException e) {
-			// Ignore this test on Java 5 platform.
-			return;
-		}
-
+			throws UnsupportedEncodingException, CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 \u0065\u0301");
 		entry(b, "100644 \u00e9");
 		byte[] data = b.toString().getBytes("UTF-8");
-		try {
-			checker.setSafeForMacOS(true);
-			checker.checkTree(data);
-			fail("incorrectly accepted an invalid tree");
-		} catch (CorruptObjectException e) {
-			assertEquals("duplicate entry names", e.getMessage());
-		}
+		checker.setSafeForMacOS(true);
+		assertCorrupt("duplicate entry names", OBJ_TREE, data);
+		assertSkipListAccepts(OBJ_TREE, data);
+		checker.setIgnore(DUPLICATE_ENTRIES, true);
+		checker.checkTree(data);
 	}
 
 	@Test
@@ -1791,7 +1446,7 @@ public class ObjectCheckerTest {
 	@Test
 	public void testRejectNulInPathSegment() {
 		try {
-			checker.checkPathSegment(Constants.encodeASCII("a\u0000b"), 0, 3);
+			checker.checkPathSegment(encodeASCII("a\u0000b"), 0, 3);
 			fail("incorrectly accepted NUL in middle of name");
 		} catch (CorruptObjectException e) {
 			assertEquals("name contains byte 0x00", e.getMessage());
@@ -1893,13 +1548,65 @@ public class ObjectCheckerTest {
 	private void checkOneName(String name) throws CorruptObjectException {
 		StringBuilder b = new StringBuilder();
 		entry(b, "100644 " + name);
-		checker.checkTree(Constants.encodeASCII(b.toString()));
+		checker.checkTree(encodeASCII(b.toString()));
 	}
 
-	private static void entry(final StringBuilder b, final String modeName) {
+	private static void entry(StringBuilder b, final String modeName) {
 		b.append(modeName);
 		b.append('\0');
-		for (int i = 0; i < Constants.OBJECT_ID_LENGTH; i++)
+		for (int i = 0; i < OBJECT_ID_LENGTH; i++)
 			b.append((char) i);
+	}
+
+	private void assertCorrupt(String msg, int type, StringBuilder b) {
+		assertCorrupt(msg, type, encodeASCII(b.toString()));
+	}
+
+	private void assertCorrupt(String msg, int type, byte[] data) {
+		try {
+			checker.check(type, data);
+			fail("Did not throw CorruptObjectException");
+		} catch (CorruptObjectException e) {
+			assertEquals(msg, e.getMessage());
+		}
+	}
+
+	private void assertSkipListAccepts(int type, byte[] data)
+			throws CorruptObjectException {
+		ObjectId id = idFor(type, data);
+		checker.setSkipList(set(id));
+		checker.check(id, type, data);
+		checker.setSkipList(null);
+	}
+
+	private void assertSkipListRejects(String msg, int type, byte[] data) {
+		ObjectId id = idFor(type, data);
+		checker.setSkipList(set(id));
+		try {
+			checker.check(id, type, data);
+			fail("Did not throw CorruptObjectException");
+		} catch (CorruptObjectException e) {
+			assertEquals(msg, e.getMessage());
+		}
+		checker.setSkipList(null);
+	}
+
+	private static ObjectIdSet set(final ObjectId... ids) {
+		return new ObjectIdSet() {
+			@Override
+			public boolean contains(AnyObjectId objectId) {
+				for (ObjectId id : ids) {
+					if (id.equals(objectId)) {
+						return true;
+					}
+				}
+				return false;
+			}
+		};
+	}
+
+	@SuppressWarnings("resource")
+	private static ObjectId idFor(int type, byte[] raw) {
+		return new ObjectInserter.Formatter().idFor(type, raw);
 	}
 }

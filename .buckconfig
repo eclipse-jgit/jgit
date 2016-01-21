@@ -1,0 +1,15 @@
+[buildfile]
+  includes = //tools/default.defs
+
+[java]
+  src_roots = src, resources, tst
+
+[project]
+  ignore = .git
+
+[cache]
+  mode = dir
+
+[download]
+  maven_repo = http://repo1.maven.org/maven2
+  in_build = true

@@ -79,6 +79,7 @@ public abstract class TransportCommand<C extends GitCommand, T> extends
 	 */
 	protected TransportCommand(final Repository repo) {
 		super(repo);
+		setCredentialsProvider(CredentialsProvider.getDefault());
 	}
 
 	/**

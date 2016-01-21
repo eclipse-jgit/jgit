@@ -409,6 +409,7 @@ public class RepoCommandTest extends RepositoryTestCase {
 					.append("<project path=\"foo\" name=\"").append(defaultUri)
 					.append("\" revision=\"").append(BRANCH).append("\" >")
 					.append("<copyfile src=\"hello.txt\" dest=\"Hello\" />")
+					.append("<copyfile src=\"hello.txt\" dest=\"foo/Hello\" />")
 					.append("</project>").append("</manifest>");
 			JGitTestUtil.writeTrashFile(tempDb, "manifest.xml",
 					xmlContent.toString());
@@ -423,8 +424,12 @@ public class RepoCommandTest extends RepositoryTestCase {
 					.getRepository();
 			// The Hello file should exist
 			File hello = new File(localDb.getWorkTree(), "Hello");
-			localDb.close();
 			assertTrue("The Hello file should exist", hello.exists());
+			// The foo/Hello file should be skipped.
+			File foohello = new File(localDb.getWorkTree(), "foo/Hello");
+			assertFalse(
+					"The foo/Hello file should be skipped", foohello.exists());
+			localDb.close();
 			// The content of Hello file should be expected
 			BufferedReader reader = new BufferedReader(new FileReader(hello));
 			String content = reader.readLine();

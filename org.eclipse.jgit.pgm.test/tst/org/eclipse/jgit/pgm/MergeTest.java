@@ -50,6 +50,7 @@ import java.util.Iterator;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.CLIRepositoryTestCase;
 import org.eclipse.jgit.merge.MergeStrategy;
+import org.eclipse.jgit.pgm.internal.CLIText;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
 import org.junit.Test;
@@ -194,8 +195,9 @@ public class MergeTest extends CLIRepositoryTestCase {
 
 	@Test
 	public void testNoFastForwardAndSquash() throws Exception {
-		assertEquals("fatal: You cannot combine --squash with --no-ff.",
-				execute("git merge master --no-ff --squash")[0]);
+		assertEquals(
+				CLIText.fatalError(CLIText.get().cannotCombineSquashWithNoff),
+				executeUnchecked("git merge master --no-ff --squash")[0]);
 	}
 
 	@Test
@@ -209,8 +211,8 @@ public class MergeTest extends CLIRepositoryTestCase {
 		git.add().addFilepattern("file").call();
 		git.commit().setMessage("commit#2").call();
 
-		assertEquals("fatal: Not possible to fast-forward, aborting.",
-				execute("git merge master --ff-only")[0]);
+		assertEquals(CLIText.fatalError(CLIText.get().ffNotPossibleAborting),
+				executeUnchecked("git merge master --ff-only")[0]);
 	}
 
 	@Test

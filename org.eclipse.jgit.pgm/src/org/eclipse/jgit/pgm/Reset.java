@@ -51,7 +51,7 @@ import org.eclipse.jgit.api.ResetCommand;
 import org.eclipse.jgit.api.ResetCommand.ResetType;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
-import org.kohsuke.args4j.spi.StopOptionHandler;
+import org.kohsuke.args4j.spi.RestOfArgumentsHandler;
 
 @Command(common = true, usage = "usage_reset")
 class Reset extends TextBuiltin {
@@ -65,12 +65,12 @@ class Reset extends TextBuiltin {
 	@Option(name = "--hard", usage = "usage_resetHard")
 	private boolean hard = false;
 
-	@Argument(required = true, index = 0, metaVar = "metaVar_name", usage = "usage_reset")
+	@Argument(required = false, index = 0, metaVar = "metaVar_commitish", usage = "usage_resetReference")
 	private String commit;
 
-	@Argument(index = 1)
-	@Option(name = "--", metaVar = "metaVar_paths", multiValued = true, handler = StopOptionHandler.class)
-	private List<String> paths = new ArrayList<String>();
+	@Argument(required = false, index = 1, metaVar = "metaVar_paths")
+	@Option(name = "--", metaVar = "metaVar_paths", multiValued = true, handler = RestOfArgumentsHandler.class)
+	private List<String> paths = new ArrayList<>();
 
 	@Override
 	protected void run() throws Exception {

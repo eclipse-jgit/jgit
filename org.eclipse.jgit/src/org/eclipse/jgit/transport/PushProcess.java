@@ -188,8 +188,13 @@ class PushProcess {
 		final Map<String, RemoteRefUpdate> result = new HashMap<String, RemoteRefUpdate>();
 		for (final RemoteRefUpdate rru : toPush.values()) {
 			final Ref advertisedRef = connection.getRef(rru.getRemoteName());
-			final ObjectId advertisedOld = (advertisedRef == null ? ObjectId
-					.zeroId() : advertisedRef.getObjectId());
+			ObjectId advertisedOld = null;
+			if (advertisedRef != null) {
+				advertisedOld = advertisedRef.getObjectId();
+			}
+			if (advertisedOld == null) {
+				advertisedOld = ObjectId.zeroId();
+			}
 
 			if (rru.getNewObjectId().equals(advertisedOld)) {
 				if (rru.isDelete()) {

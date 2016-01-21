@@ -43,13 +43,18 @@
 
 package org.eclipse.jgit.revwalk;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.IllegalCharsetNameException;
+import java.nio.charset.UnsupportedCharsetException;
 import java.util.TimeZone;
 
 import org.eclipse.jgit.junit.RepositoryTestCase;
@@ -301,6 +306,86 @@ public class RevCommitParseTest extends RepositoryTestCase {
 		assertEquals("F\u00f6r fattare", c.getAuthorIdent().getName());
 		assertEquals("\u304d\u308c\u3044", c.getShortMessage());
 		assertEquals("\u304d\u308c\u3044\n\nHi\n", c.getFullMessage());
+	}
+
+	@Test
+	public void testParse_incorrectUtf8Name() throws Exception {
+		ByteArrayOutputStream b = new ByteArrayOutputStream();
+		b.write("tree 9788669ad918b6fcce64af8882fc9a81cb6aba67\n"
+				.getBytes(UTF_8));
+		b.write("author au <a@example.com> 1218123387 +0700\n".getBytes(UTF_8));
+		b.write("committer co <c@example.com> 1218123390 -0500\n"
+				.getBytes(UTF_8));
+		b.write("encoding 'utf8'\n".getBytes(UTF_8));
+		b.write("\n".getBytes(UTF_8));
+		b.write("Sm\u00f6rg\u00e5sbord\n".getBytes(UTF_8));
+
+		RevCommit c = new RevCommit(
+				id("9473095c4cb2f12aefe1db8a355fe3fafba42f67"));
+		c.parseCanonical(new RevWalk(db), b.toByteArray());
+		assertEquals("'utf8'", c.getEncodingName());
+		assertEquals("Sm\u00f6rg\u00e5sbord\n", c.getFullMessage());
+
+		try {
+			c.getEncoding();
+			fail("Expected " + IllegalCharsetNameException.class);
+		} catch (IllegalCharsetNameException badName) {
+			assertEquals("'utf8'", badName.getMessage());
+		}
+	}
+
+	@Test
+	public void testParse_illegalEncoding() throws Exception {
+		ByteArrayOutputStream b = new ByteArrayOutputStream();
+		b.write("tree 9788669ad918b6fcce64af8882fc9a81cb6aba67\n".getBytes(UTF_8));
+		b.write("author au <a@example.com> 1218123387 +0700\n".getBytes(UTF_8));
+		b.write("committer co <c@example.com> 1218123390 -0500\n".getBytes(UTF_8));
+		b.write("encoding utf-8logoutputencoding=gbk\n".getBytes(UTF_8));
+		b.write("\n".getBytes(UTF_8));
+		b.write("message\n".getBytes(UTF_8));
+
+		RevCommit c = new RevCommit(
+				id("9473095c4cb2f12aefe1db8a355fe3fafba42f67"));
+		c.parseCanonical(new RevWalk(db), b.toByteArray());
+		assertEquals("utf-8logoutputencoding=gbk", c.getEncodingName());
+		assertEquals("message\n", c.getFullMessage());
+		assertEquals("message", c.getShortMessage());
+		assertTrue(c.getFooterLines().isEmpty());
+		assertEquals("au", c.getAuthorIdent().getName());
+
+		try {
+			c.getEncoding();
+			fail("Expected " + IllegalCharsetNameException.class);
+		} catch (IllegalCharsetNameException badName) {
+			assertEquals("utf-8logoutputencoding=gbk", badName.getMessage());
+		}
+	}
+
+	@Test
+	public void testParse_unsupportedEncoding() throws Exception {
+		ByteArrayOutputStream b = new ByteArrayOutputStream();
+		b.write("tree 9788669ad918b6fcce64af8882fc9a81cb6aba67\n".getBytes(UTF_8));
+		b.write("author au <a@example.com> 1218123387 +0700\n".getBytes(UTF_8));
+		b.write("committer co <c@example.com> 1218123390 -0500\n".getBytes(UTF_8));
+		b.write("encoding it_IT.UTF8\n".getBytes(UTF_8));
+		b.write("\n".getBytes(UTF_8));
+		b.write("message\n".getBytes(UTF_8));
+
+		RevCommit c = new RevCommit(
+				id("9473095c4cb2f12aefe1db8a355fe3fafba42f67"));
+		c.parseCanonical(new RevWalk(db), b.toByteArray());
+		assertEquals("it_IT.UTF8", c.getEncodingName());
+		assertEquals("message\n", c.getFullMessage());
+		assertEquals("message", c.getShortMessage());
+		assertTrue(c.getFooterLines().isEmpty());
+		assertEquals("au", c.getAuthorIdent().getName());
+
+		try {
+			c.getEncoding();
+			fail("Expected " + UnsupportedCharsetException.class);
+		} catch (UnsupportedCharsetException badName) {
+			assertEquals("it_IT.UTF8", badName.getMessage());
+		}
 	}
 
 	@Test

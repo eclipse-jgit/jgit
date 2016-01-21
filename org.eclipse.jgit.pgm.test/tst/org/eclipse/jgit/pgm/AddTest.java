@@ -45,15 +45,12 @@ package org.eclipse.jgit.pgm;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-
-import java.lang.Exception;
-import java.lang.String;
+import static org.junit.Assert.fail;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.lib.CLIRepositoryTestCase;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class AddTest extends CLIRepositoryTestCase {
@@ -66,14 +63,16 @@ public class AddTest extends CLIRepositoryTestCase {
 		git = new Git(db);
 	}
 
-	@Ignore("args4j exit()s on error instead of throwing, JVM goes down")
 	@Test
 	public void testAddNothing() throws Exception {
-		assertEquals("fatal: Argument \"filepattern\" is required", //
-				execute("git add")[0]);
+		try {
+			execute("git add");
+			fail("Must die");
+		} catch (Die e) {
+			// expected, requires argument
+		}
 	}
 
-	@Ignore("args4j exit()s for --help, too")
 	@Test
 	public void testAddUsage() throws Exception {
 		execute("git add --help");

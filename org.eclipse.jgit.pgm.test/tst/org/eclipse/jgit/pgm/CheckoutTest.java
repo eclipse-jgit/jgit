@@ -44,9 +44,14 @@ package org.eclipse.jgit.pgm;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.jgit.api.Git;
@@ -59,7 +64,9 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.FileTreeIterator.FileEntry;
 import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
+import org.junit.Assume;
 import org.junit.Test;
 
 public class CheckoutTest extends CLIRepositoryTestCase {
@@ -109,14 +116,14 @@ public class CheckoutTest extends CLIRepositoryTestCase {
 
 			assertStringArrayEquals(
 					"fatal: A branch named 'master' already exists.",
-					execute("git checkout -b master"));
+				executeUnchecked("git checkout -b master"));
 		}
 	}
 
 	@Test
 	public void testCheckoutNewBranchOnBranchToBeBorn() throws Exception {
 		assertStringArrayEquals("fatal: You are on a branch yet to be born",
-				execute("git checkout -b side"));
+				executeUnchecked("git checkout -b side"));
 	}
 
 	@Test
@@ -597,6 +604,36 @@ public class CheckoutTest extends CLIRepositoryTestCase {
 			assertArrayEquals(new String[] { "* branch_1", "  master", "" },
 					execute("git branch"));
 			assertEquals("Hello world b", read(b));
+		}
+	}
+
+	@Test
+	public void testCheckouSingleFile() throws Exception {
+		try (Git git = new Git(db)) {
+			File a = writeTrashFile("a", "file a");
+			git.add().addFilepattern(".").call();
+			git.commit().setMessage("commit file a").call();
+			writeTrashFile("a", "b");
+			assertEquals("b", read(a));
+			assertEquals("[]", Arrays.toString(execute("git checkout -- a")));
+			assertEquals("file a", read(a));
+		}
+	}
+
+	@Test
+	public void testCheckoutLink() throws Exception {
+		Assume.assumeTrue(FS.DETECTED.supportsSymlinks());
+		try (Git git = new Git(db)) {
+			Path path = writeLink("a", "link_a");
+			assertTrue(Files.isSymbolicLink(path));
+			git.add().addFilepattern(".").call();
+			git.commit().setMessage("commit link a").call();
+			deleteTrashFile("a");
+			writeTrashFile("a", "Hello world a");
+			assertFalse(Files.isSymbolicLink(path));
+			assertEquals("[]", Arrays.toString(execute("git checkout -- a")));
+			assertEquals("link_a", FileUtils.readSymLink(path.toFile()));
+			assertTrue(Files.isSymbolicLink(path));
 		}
 	}
 }

@@ -1,0 +1,70 @@
+include_defs('//tools/git.defs')
+
+java_library(
+  name = 'pgm',
+  srcs = glob(['src/**']),
+  resources = glob(['resources/**']),
+  deps = [
+    ':services',
+    '//org.eclipse.jgit:jgit',
+    '//org.eclipse.jgit.archive:jgit-archive',
+    '//org.eclipse.jgit.http.apache:http-apache',
+    '//org.eclipse.jgit.ui:ui',
+    '//lib:args4j',
+  ],
+  visibility = ['PUBLIC'],
+)
+
+prebuilt_jar(
+  name = 'services',
+  binary_jar = ':services__jar',
+)
+
+genrule(
+  name = 'services__jar',
+  cmd = 'cd $SRCDIR ; zip -qr $OUT .',
+  srcs = glob(['META-INF/services/*']),
+  out = 'services.jar',
+)
+
+genrule(
+  name = 'jgit',
+  cmd = ''.join([
+    'mkdir $TMP/META-INF &&',
+    'cp $(location :binary_manifest) $TMP/META-INF/MANIFEST.MF &&',
+    'cp $(location :jgit_jar) $TMP/jgit.jar &&',
+    'cd $TMP && zip $TMP/jgit.jar META-INF/MANIFEST.MF &&',
+    'cat $SRCDIR/jgit.sh $TMP/jgit.jar >$OUT &&',
+    'chmod a+x $OUT',
+  ]),
+  srcs = ['jgit.sh'],
+  out = 'jgit',
+  visibility = ['PUBLIC'],
+)
+
+java_binary(
+  name = 'jgit_jar',
+  deps = [
+    ':pgm',
+    '//lib:slf4j-simple',
+    '//lib:tukaani-xz',
+  ],
+  blacklist = [
+    'META-INF/DEPENDENCIES',
+    'META-INF/maven/.*',
+  ],
+)
+
+genrule(
+  name = 'binary_manifest',
+  cmd = ';'.join(['echo "%s: %s" >>$OUT' % e for e in [
+    ('Manifest-Version', '1.0'),
+    ('Main-Class', 'org.eclipse.jgit.pgm.Main'),
+    ('Bundle-Version', git_version()),
+    ('Implementation-Title', 'JGit Command Line Interface'),
+    ('Implementation-Vendor', 'Eclipse.org - JGit'),
+    ('Implementation-Vendor-URL', 'http://www.eclipse.org/jgit/'),
+    ('Implementation-Vendor-Id', 'org.eclipse.jgit'),
+  ]] + ['echo >>$OUT']),
+  out = 'MANIFEST.MF',
+)

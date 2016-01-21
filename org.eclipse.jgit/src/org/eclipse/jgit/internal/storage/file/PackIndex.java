@@ -60,6 +60,7 @@ import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectIdSet;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.NB;
 
@@ -72,7 +73,8 @@ import org.eclipse.jgit.util.NB;
  * by ObjectId.
  * </p>
  */
-public abstract class PackIndex implements Iterable<PackIndex.MutableEntry> {
+public abstract class PackIndex
+		implements Iterable<PackIndex.MutableEntry>, ObjectIdSet {
 	/**
 	 * Open an existing pack <code>.idx</code> file for reading.
 	 * <p>
@@ -163,6 +165,11 @@ public abstract class PackIndex implements Iterable<PackIndex.MutableEntry> {
 	 * @return true if the object is listed in this index; false otherwise.
 	 */
 	public boolean hasObject(final AnyObjectId id) {
+		return findOffset(id) != -1;
+	}
+
+	@Override
+	public boolean contains(AnyObjectId id) {
 		return findOffset(id) != -1;
 	}
 

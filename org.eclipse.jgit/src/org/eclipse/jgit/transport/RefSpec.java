@@ -457,10 +457,6 @@ public class RefSpec implements Serializable {
 		if (i != -1) {
 			if (s.indexOf('*', i + 1) > i)
 				return false;
-			if (i > 0 && s.charAt(i - 1) != '/')
-				return false;
-			if (i < s.length() - 1 && s.charAt(i + 1) != '/')
-				return false;
 		}
 		return true;
 	}

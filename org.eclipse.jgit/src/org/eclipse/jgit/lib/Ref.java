@@ -43,6 +43,9 @@
 
 package org.eclipse.jgit.lib;
 
+import org.eclipse.jgit.annotations.NonNull;
+import org.eclipse.jgit.annotations.Nullable;
+
 /**
  * Pairing of a name and the {@link ObjectId} it currently has.
  * <p>
@@ -126,6 +129,7 @@ public interface Ref {
 	 *
 	 * @return name of this ref.
 	 */
+	@NonNull
 	public String getName();
 
 	/**
@@ -156,6 +160,7 @@ public interface Ref {
 	 *
 	 * @return the reference that actually stores the ObjectId value.
 	 */
+	@NonNull
 	public abstract Ref getLeaf();
 
 	/**
@@ -170,22 +175,27 @@ public interface Ref {
 	 *
 	 * @return the target reference, or {@code this}.
 	 */
+	@NonNull
 	public abstract Ref getTarget();
 
 	/**
 	 * Cached value of this ref.
 	 *
-	 * @return the value of this ref at the last time we read it.
+	 * @return the value of this ref at the last time we read it. May be
+	 *         {@code null} to indicate a ref that does not exist yet or a
+	 *         symbolic ref pointing to an unborn branch.
 	 */
+	@Nullable
 	public abstract ObjectId getObjectId();
 
 	/**
 	 * Cached value of <code>ref^{}</code> (the ref peeled to commit).
 	 *
 	 * @return if this ref is an annotated tag the id of the commit (or tree or
-	 *         blob) that the annotated tag refers to; null if this ref does not
-	 *         refer to an annotated tag.
+	 *         blob) that the annotated tag refers to; {@code null} if this ref
+	 *         does not refer to an annotated tag.
 	 */
+	@Nullable
 	public abstract ObjectId getPeeledObjectId();
 
 	/**
@@ -201,5 +211,6 @@ public interface Ref {
 	 *
 	 * @return type of ref.
 	 */
+	@NonNull
 	public abstract Storage getStorage();
 }

@@ -54,6 +54,7 @@ import java.util.regex.Matcher;
 
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.junit.After;
+import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -424,16 +425,25 @@ public class FileUtilTest {
 	@Test
 	public void testCreateSymlink() throws IOException {
 		FS fs = FS.DETECTED;
-		try {
-			fs.createSymLink(new File(trash, "x"), "y");
-		} catch (IOException e) {
-			if (fs.supportsSymlinks())
-				fail("FS claims to support symlinks but attempt to create symlink failed");
-			return;
-		}
-		assertTrue(fs.supportsSymlinks());
+		// show test as ignored if the FS doesn't support symlinks
+		Assume.assumeTrue(fs.supportsSymlinks());
+		fs.createSymLink(new File(trash, "x"), "y");
 		String target = fs.readSymLink(new File(trash, "x"));
 		assertEquals("y", target);
+	}
+
+	@Test
+	public void testCreateSymlinkOverrideExisting() throws IOException {
+		FS fs = FS.DETECTED;
+		// show test as ignored if the FS doesn't support symlinks
+		Assume.assumeTrue(fs.supportsSymlinks());
+		File file = new File(trash, "x");
+		fs.createSymLink(file, "y");
+		String target = fs.readSymLink(file);
+		assertEquals("y", target);
+		fs.createSymLink(file, "z");
+		target = fs.readSymLink(file);
+		assertEquals("z", target);
 	}
 
 	@Test

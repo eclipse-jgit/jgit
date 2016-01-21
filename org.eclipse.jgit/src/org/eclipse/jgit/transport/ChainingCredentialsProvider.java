@@ -113,19 +113,18 @@ public class ChainingCredentialsProvider extends CredentialsProvider {
 			throws UnsupportedCredentialItem {
 		for (CredentialsProvider p : credentialProviders) {
 			if (p.supports(items)) {
-				p.get(uri, items);
-				if (isAnyNull(items))
+				if (!p.get(uri, items)) {
+					if (p.isInteractive()) {
+						return false; // user cancelled the request
+					}
 					continue;
+				}
+				if (isAnyNull(items)) {
+					continue;
+				}
 				return true;
 			}
 		}
-		return false;
-	}
-
-	private boolean isAnyNull(CredentialItem... items) {
-		for (CredentialItem i : items)
-			if (i == null)
-				return true;
 		return false;
 	}
 }

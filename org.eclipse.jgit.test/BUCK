@@ -1,0 +1,95 @@
+PKG = 'tst/org/eclipse/jgit/'
+HELPERS = glob(['src/**/*.java']) + [PKG + c for c in [
+  'api/AbstractRemoteCommandTest.java',
+  'diff/AbstractDiffTestCase.java',
+  'internal/storage/file/GcTestCase.java',
+  'internal/storage/file/PackIndexTestCase.java',
+  'internal/storage/file/XInputStream.java',
+  'nls/GermanTranslatedBundle.java',
+  'nls/MissingPropertyBundle.java',
+  'nls/NoPropertiesBundle.java',
+  'nls/NonTranslatedBundle.java',
+  'revwalk/RevQueueTestCase.java',
+  'revwalk/RevWalkTestCase.java',
+  'transport/SpiTransport.java',
+  'treewalk/FileTreeIteratorWithTimeControl.java',
+  'treewalk/filter/AlwaysCloneTreeFilter.java',
+  'test/resources/SampleDataRepositoryTestCase.java',
+  'util/CPUTimeStopWatch.java',
+  'util/io/Strings.java',
+]]
+
+DATA = [
+  PKG + 'lib/empty.gitindex.dat',
+  PKG + 'lib/sorttest.gitindex.dat',
+]
+
+TESTS = glob(
+  ['tst/**/*.java'],
+  excludes = HELPERS + DATA,
+)
+
+DEPS = {
+  PKG + 'nls/RootLocaleTest.java': [
+    '//org.eclipse.jgit.pgm:pgm',
+    '//org.eclipse.jgit.ui:ui',
+  ],
+}
+
+for src in TESTS:
+  name = src[len('tst/'):len(src)-len('.java')].replace('/', '.')
+  labels = []
+  if name.startswith('org.eclipse.jgit.'):
+    l = name[len('org.eclipse.jgit.'):]
+    if l.startswith('internal.storage.'):
+      l = l[len('internal.storage.'):]
+    i = l.find('.')
+    if i > 0:
+      labels.append(l[:i])
+    else:
+      labels.append(i)
+  if 'lib' not in labels:
+    labels.append('lib')
+
+  java_test(
+    name = name,
+    labels = labels,
+    srcs = [src],
+    deps = [
+      ':helpers',
+      ':tst_rsrc',
+      '//org.eclipse.jgit:jgit',
+      '//org.eclipse.jgit.junit:junit',
+      '//lib:hamcrest-core',
+      '//lib:hamcrest-library',
+      '//lib:javaewah',
+      '//lib:junit',
+      '//lib:slf4j-api',
+      '//lib:slf4j-simple',
+    ] + DEPS.get(src, []),
+    source_under_test = ['//org.eclipse.jgit:jgit'],
+    vm_args = ['-Xmx256m', '-Dfile.encoding=UTF-8'],
+  )
+
+java_library(
+  name = 'helpers',
+  srcs = HELPERS,
+  resources = DATA,
+  deps = [
+    '//org.eclipse.jgit:jgit',
+    '//org.eclipse.jgit.junit:junit',
+    '//lib:junit',
+  ],
+)
+
+prebuilt_jar(
+  name = 'tst_rsrc',
+  binary_jar = ':tst_rsrc_jar',
+)
+
+genrule(
+  name = 'tst_rsrc_jar',
+  cmd = 'cd $SRCDIR/tst-rsrc ; zip -qr $OUT .',
+  srcs = glob(['tst-rsrc/**']),
+  out = 'tst_rsrc.jar',
+)

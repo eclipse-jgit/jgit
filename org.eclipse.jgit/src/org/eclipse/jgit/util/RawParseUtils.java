@@ -44,6 +44,8 @@
 
 package org.eclipse.jgit.util;
 
+import static java.nio.charset.StandardCharsets.ISO_8859_1;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.ObjectChecker.author;
 import static org.eclipse.jgit.lib.ObjectChecker.committer;
 import static org.eclipse.jgit.lib.ObjectChecker.encoding;
@@ -60,6 +62,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.PersonIdent;
 
@@ -70,7 +73,7 @@ public final class RawParseUtils {
 	 *
 	 * @since 2.2
 	 */
-	public static final Charset UTF8_CHARSET = Charset.forName("UTF-8"); //$NON-NLS-1$
+	public static final Charset UTF8_CHARSET = UTF_8;
 
 	private static final byte[] digits10;
 
@@ -81,8 +84,9 @@ public final class RawParseUtils {
 	private static final Map<String, Charset> encodingAliases;
 
 	static {
-		encodingAliases = new HashMap<String, Charset>();
-		encodingAliases.put("latin-1", Charset.forName("ISO-8859-1")); //$NON-NLS-1$ //$NON-NLS-2$
+		encodingAliases = new HashMap<>();
+		encodingAliases.put("latin-1", ISO_8859_1); //$NON-NLS-1$
+		encodingAliases.put("iso-latin-1", ISO_8859_1); //$NON-NLS-1$
 
 		digits10 = new byte['9' + 1];
 		Arrays.fill(digits10, (byte) -1);
@@ -671,35 +675,60 @@ public final class RawParseUtils {
 	}
 
 	/**
+	 * Parse the "encoding " header as a string.
+	 * <p>
+	 * Locates the "encoding " header (if present) and returns its value.
+	 *
+	 * @param b
+	 *            buffer to scan.
+	 * @return the encoding header as specified in the commit; null if the
+	 *         header was not present and should be assumed.
+	 * @since 4.2
+	 */
+	@Nullable
+	public static String parseEncodingName(final byte[] b) {
+		int enc = encoding(b, 0);
+		if (enc < 0) {
+			return null;
+		}
+		int lf = nextLF(b, enc);
+		return decode(UTF_8, b, enc, lf - 1);
+	}
+
+	/**
 	 * Parse the "encoding " header into a character set reference.
 	 * <p>
 	 * Locates the "encoding " header (if present) by first calling
 	 * {@link #encoding(byte[], int)} and then returns the proper character set
 	 * to apply to this buffer to evaluate its contents as character data.
 	 * <p>
-	 * If no encoding header is present, {@link Constants#CHARSET} is assumed.
+	 * If no encoding header is present {@code UTF-8} is assumed.
 	 *
 	 * @param b
 	 *            buffer to scan.
 	 * @return the Java character set representation. Never null.
+	 * @throws IllegalCharsetNameException
+	 *             if the character set requested by the encoding header is
+	 *             malformed and unsupportable.
+	 * @throws UnsupportedCharsetException
+	 *             if the JRE does not support the character set requested by
+	 *             the encoding header.
 	 */
 	public static Charset parseEncoding(final byte[] b) {
-		final int enc = encoding(b, 0);
-		if (enc < 0)
-			return Constants.CHARSET;
-		final int lf = nextLF(b, enc);
-		String decoded = decode(Constants.CHARSET, b, enc, lf - 1);
+		String enc = parseEncodingName(b);
+		if (enc == null) {
+			return UTF_8;
+		}
+
+		String name = enc.trim();
 		try {
-			return Charset.forName(decoded);
-		} catch (IllegalCharsetNameException badName) {
-			Charset aliased = charsetForAlias(decoded);
-			if (aliased != null)
+			return Charset.forName(name);
+		} catch (IllegalCharsetNameException
+				| UnsupportedCharsetException badName) {
+			Charset aliased = charsetForAlias(name);
+			if (aliased != null) {
 				return aliased;
-			throw badName;
-		} catch (UnsupportedCharsetException badName) {
-			Charset aliased = charsetForAlias(decoded);
-			if (aliased != null)
-				return aliased;
+			}
 			throw badName;
 		}
 	}
@@ -738,7 +767,15 @@ public final class RawParseUtils {
 	 *         parsed.
 	 */
 	public static PersonIdent parsePersonIdent(final byte[] raw, final int nameB) {
-		final Charset cs = parseEncoding(raw);
+		Charset cs;
+		try {
+			cs = parseEncoding(raw);
+		} catch (IllegalCharsetNameException | UnsupportedCharsetException e) {
+			// Assume UTF-8 for person identities, usually this is correct.
+			// If not decode() will fall back to the ISO-8859-1 encoding.
+			cs = UTF_8;
+		}
+
 		final int emailB = nextLF(raw, nameB, '<');
 		final int emailE = nextLF(raw, emailB, '>');
 		if (emailB >= raw.length || raw[emailB] == '\n' ||
@@ -886,7 +923,7 @@ public final class RawParseUtils {
 	 */
 	public static String decode(final byte[] buffer, final int start,
 			final int end) {
-		return decode(Constants.CHARSET, buffer, start, end);
+		return decode(UTF_8, buffer, start, end);
 	}
 
 	/**
@@ -960,23 +997,21 @@ public final class RawParseUtils {
 	public static String decodeNoFallback(final Charset cs,
 			final byte[] buffer, final int start, final int end)
 			throws CharacterCodingException {
-		final ByteBuffer b = ByteBuffer.wrap(buffer, start, end - start);
+		ByteBuffer b = ByteBuffer.wrap(buffer, start, end - start);
 		b.mark();
 
 		// Try our built-in favorite. The assumption here is that
 		// decoding will fail if the data is not actually encoded
 		// using that encoder.
-		//
 		try {
-			return decode(b, Constants.CHARSET);
+			return decode(b, UTF_8);
 		} catch (CharacterCodingException e) {
 			b.reset();
 		}
 
-		if (!cs.equals(Constants.CHARSET)) {
+		if (!cs.equals(UTF_8)) {
 			// Try the suggested encoding, it might be right since it was
 			// provided by the caller.
-			//
 			try {
 				return decode(b, cs);
 			} catch (CharacterCodingException e) {
@@ -986,9 +1021,8 @@ public final class RawParseUtils {
 
 		// Try the default character set. A small group of people
 		// might actually use the same (or very similar) locale.
-		//
-		final Charset defcs = Charset.defaultCharset();
-		if (!defcs.equals(cs) && !defcs.equals(Constants.CHARSET)) {
+		Charset defcs = Charset.defaultCharset();
+		if (!defcs.equals(cs) && !defcs.equals(UTF_8)) {
 			try {
 				return decode(b, defcs);
 			} catch (CharacterCodingException e) {

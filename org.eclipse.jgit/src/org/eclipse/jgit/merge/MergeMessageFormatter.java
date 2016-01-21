@@ -46,6 +46,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.ChangeIdUtil;
@@ -76,22 +77,22 @@ public class MergeMessageFormatter {
 		List<String> commits = new ArrayList<String>();
 		List<String> others = new ArrayList<String>();
 		for (Ref ref : refsToMerge) {
-			if (ref.getName().startsWith(Constants.R_HEADS))
+			if (ref.getName().startsWith(Constants.R_HEADS)) {
 				branches.add("'" + Repository.shortenRefName(ref.getName()) //$NON-NLS-1$
 						+ "'"); //$NON-NLS-1$
-
-			else if (ref.getName().startsWith(Constants.R_REMOTES))
+			} else if (ref.getName().startsWith(Constants.R_REMOTES)) {
 				remoteBranches.add("'" //$NON-NLS-1$
 						+ Repository.shortenRefName(ref.getName()) + "'"); //$NON-NLS-1$
-
-			else if (ref.getName().startsWith(Constants.R_TAGS))
+			} else if (ref.getName().startsWith(Constants.R_TAGS)) {
 				tags.add("'" + Repository.shortenRefName(ref.getName()) + "'"); //$NON-NLS-1$ //$NON-NLS-2$
-
-			else if (ref.getName().equals(ref.getObjectId().getName()))
-				commits.add("'" + ref.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$
-
-			else
-				others.add(ref.getName());
+			} else {
+				ObjectId objectId = ref.getObjectId();
+				if (objectId != null && ref.getName().equals(objectId.getName())) {
+					commits.add("'" + ref.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$
+				} else {
+					others.add(ref.getName());
+				}
+			}
 		}
 
 		List<String> listings = new ArrayList<String>();

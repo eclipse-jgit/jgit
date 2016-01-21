@@ -67,8 +67,8 @@ import java.util.NoSuchElementException;
  * @param <V>
  *            type of subclass of ObjectId that will be stored in the map.
  */
-public class ObjectIdOwnerMap<V extends ObjectIdOwnerMap.Entry> implements
-		Iterable<V> {
+public class ObjectIdOwnerMap<V extends ObjectIdOwnerMap.Entry>
+		implements Iterable<V>, ObjectIdSet {
 	/** Size of the initial directory, will grow as necessary. */
 	private static final int INITIAL_DIRECTORY = 1024;
 

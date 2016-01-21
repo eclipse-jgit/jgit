@@ -16,7 +16,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ObjectId;
@@ -24,6 +23,7 @@ import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Ref.Storage;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.SymbolicRef;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTag;
@@ -54,7 +54,7 @@ public class InMemoryRepository extends DfsRepository {
 	static final AtomicInteger packId = new AtomicInteger();
 
 	private final DfsObjDatabase objdb;
-	private final DfsRefDatabase refdb;
+	private final RefDatabase refdb;
 	private boolean performsAtomicTransactions = true;
 
 	/**
@@ -80,7 +80,7 @@ public class InMemoryRepository extends DfsRepository {
 	}
 
 	@Override
-	public DfsRefDatabase getRefDatabase() {
+	public RefDatabase getRefDatabase() {
 		return refdb;
 	}
 
@@ -310,6 +310,11 @@ public class InMemoryRepository extends DfsRepository {
 			Map<ObjectId, ObjectId> peeled = new HashMap<>();
 			try (RevWalk rw = new RevWalk(getRepository())) {
 				for (ReceiveCommand c : cmds) {
+					if (c.getResult() != ReceiveCommand.Result.NOT_ATTEMPTED) {
+						ReceiveCommand.abort(cmds);
+						return;
+					}
+
 					if (!ObjectId.zeroId().equals(c.getNewId())) {
 						try {
 							RevObject o = rw.parseAny(c.getNewId());
@@ -318,7 +323,7 @@ public class InMemoryRepository extends DfsRepository {
 							}
 						} catch (IOException e) {
 							c.setResult(ReceiveCommand.Result.REJECTED_MISSING_OBJECT);
-							reject(cmds);
+							ReceiveCommand.abort(cmds);
 							return;
 						}
 					}
@@ -331,14 +336,17 @@ public class InMemoryRepository extends DfsRepository {
 				if (r == null) {
 					if (c.getType() != ReceiveCommand.Type.CREATE) {
 						c.setResult(ReceiveCommand.Result.LOCK_FAILURE);
-						reject(cmds);
+						ReceiveCommand.abort(cmds);
 						return;
 					}
-				} else if (r.isSymbolic() || r.getObjectId() == null
-						|| !r.getObjectId().equals(c.getOldId())) {
-					c.setResult(ReceiveCommand.Result.LOCK_FAILURE);
-					reject(cmds);
-					return;
+				} else {
+					ObjectId objectId = r.getObjectId();
+					if (r.isSymbolic() || objectId == null
+							|| !objectId.equals(c.getOldId())) {
+						c.setResult(ReceiveCommand.Result.LOCK_FAILURE);
+						ReceiveCommand.abort(cmds);
+						return;
+					}
 				}
 			}
 
@@ -363,15 +371,6 @@ public class InMemoryRepository extends DfsRepository {
 				c.setResult(ReceiveCommand.Result.OK);
 			}
 			clearCache();
-		}
-
-		private void reject(List<ReceiveCommand> cmds) {
-			for (ReceiveCommand c : cmds) {
-				if (c.getResult() == ReceiveCommand.Result.NOT_ATTEMPTED) {
-					c.setResult(ReceiveCommand.Result.REJECTED_OTHER_REASON,
-							JGitText.get().transactionAborted);
-				}
-			}
 		}
 
 		@Override

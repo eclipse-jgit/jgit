@@ -212,17 +212,20 @@ public abstract class TextBuiltin {
 	 */
 	protected void parseArguments(final String[] args) throws IOException {
 		final CmdLineParser clp = new CmdLineParser(this);
+		help = containsHelp(args);
 		try {
 			clp.parseArgument(args);
 		} catch (CmdLineException err) {
-			if (!help) {
-				this.errw.println(MessageFormat.format(CLIText.get().fatalError, err.getMessage()));
-				throw die(true);
+			this.errw.println(CLIText.fatalError(err.getMessage()));
+			if (help) {
+				printUsage("", clp); //$NON-NLS-1$
 			}
+			throw die(true, err);
 		}
 
 		if (help) {
-			printUsageAndExit(clp);
+			printUsage("", clp); //$NON-NLS-1$
+			throw new TerminatedByHelpException();
 		}
 
 		argWalk = clp.getRevWalkGently();
@@ -246,6 +249,20 @@ public abstract class TextBuiltin {
 	 * @throws IOException
 	 */
 	public void printUsageAndExit(final String message, final CmdLineParser clp) throws IOException {
+		printUsage(message, clp);
+		throw die(true);
+	}
+
+	/**
+	 * @param message
+	 *            non null
+	 * @param clp
+	 *            parser used to print options
+	 * @throws IOException
+	 * @since 4.2
+	 */
+	protected void printUsage(final String message, final CmdLineParser clp)
+			throws IOException {
 		errw.println(message);
 		errw.print("jgit "); //$NON-NLS-1$
 		errw.print(commandName);
@@ -257,12 +274,19 @@ public abstract class TextBuiltin {
 		errw.println();
 
 		errw.flush();
-		throw die(true);
 	}
 
 	/**
-	 * @return the resource bundle that will be passed to args4j for purpose
-	 *         of string localization
+	 * @return error writer, typically this is standard error.
+	 * @since 4.2
+	 */
+	public ThrowingPrintWriter getErrorWriter() {
+		return errw;
+	}
+
+	/**
+	 * @return the resource bundle that will be passed to args4j for purpose of
+	 *         string localization
 	 */
 	protected ResourceBundle getResourceBundle() {
 		return CLIText.get().resourceBundle();
@@ -324,6 +348,19 @@ public abstract class TextBuiltin {
 		return new Die(aborted);
 	}
 
+	/**
+	 * @param aborted
+	 *            boolean indicating that the execution has been aborted before
+	 *            running
+	 * @param cause
+	 *            why the command has failed.
+	 * @return a runtime exception the caller is expected to throw
+	 * @since 4.2
+	 */
+	protected static Die die(boolean aborted, final Throwable cause) {
+		return new Die(aborted, cause);
+	}
+
 	String abbreviateRef(String dst, boolean abbreviateRemote) {
 		if (dst.startsWith(R_HEADS))
 			dst = dst.substring(R_HEADS.length());
@@ -332,5 +369,37 @@ public abstract class TextBuiltin {
 		else if (abbreviateRemote && dst.startsWith(R_REMOTES))
 			dst = dst.substring(R_REMOTES.length());
 		return dst;
+	}
+
+	/**
+	 * @param args
+	 *            non null
+	 * @return true if the given array contains help option
+	 * @since 4.2
+	 */
+	public static boolean containsHelp(String[] args) {
+		for (String str : args) {
+			if (str.equals("-h") || str.equals("--help")) { //$NON-NLS-1$ //$NON-NLS-2$
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Exception thrown by {@link TextBuiltin} if it proceeds 'help' option
+	 *
+	 * @since 4.2
+	 */
+	public static class TerminatedByHelpException extends Die {
+		private static final long serialVersionUID = 1L;
+
+		/**
+		 * Default constructor
+		 */
+		public TerminatedByHelpException() {
+			super(true);
+		}
+
 	}
 }

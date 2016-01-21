@@ -44,6 +44,10 @@
 
 package org.eclipse.jgit.dircache;
 
+import static org.eclipse.jgit.dircache.DirCache.cmp;
+import static org.eclipse.jgit.dircache.DirCacheTree.peq;
+import static org.eclipse.jgit.lib.FileMode.TYPE_TREE;
+
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -53,6 +57,7 @@ import java.util.List;
 
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.util.Paths;
 
 /**
  * Updates a {@link DirCache} by supplying discrete edit commands.
@@ -72,11 +77,12 @@ public class DirCacheEditor extends BaseDirCacheEditor {
 		public int compare(final PathEdit o1, final PathEdit o2) {
 			final byte[] a = o1.path;
 			final byte[] b = o2.path;
-			return DirCache.cmp(a, a.length, b, b.length);
+			return cmp(a, a.length, b, b.length);
 		}
 	};
 
 	private final List<PathEdit> edits;
+	private int editIdx;
 
 	/**
 	 * Construct a new editor.
@@ -126,35 +132,44 @@ public class DirCacheEditor extends BaseDirCacheEditor {
 
 	private void applyEdits() {
 		Collections.sort(edits, EDIT_CMP);
+		editIdx = 0;
 
 		final int maxIdx = cache.getEntryCount();
 		int lastIdx = 0;
-		for (final PathEdit e : edits) {
-			int eIdx = cache.findEntry(e.path, e.path.length);
+		while (editIdx < edits.size()) {
+			PathEdit e = edits.get(editIdx++);
+			int eIdx = cache.findEntry(lastIdx, e.path, e.path.length);
 			final boolean missing = eIdx < 0;
 			if (eIdx < 0)
 				eIdx = -(eIdx + 1);
 			final int cnt = Math.min(eIdx, maxIdx) - lastIdx;
 			if (cnt > 0)
 				fastKeep(lastIdx, cnt);
-			lastIdx = missing ? eIdx : cache.nextEntry(eIdx);
 
-			if (e instanceof DeletePath)
+			if (e instanceof DeletePath) {
+				lastIdx = missing ? eIdx : cache.nextEntry(eIdx);
 				continue;
+			}
 			if (e instanceof DeleteTree) {
 				lastIdx = cache.nextEntry(e.path, e.path.length, eIdx);
 				continue;
 			}
 
 			if (missing) {
-				final DirCacheEntry ent = new DirCacheEntry(e.path);
+				DirCacheEntry ent = new DirCacheEntry(e.path);
 				e.apply(ent);
-				if (ent.getRawMode() == 0)
-					throw new IllegalArgumentException(MessageFormat.format(JGitText.get().fileModeNotSetForPath
-							, ent.getPathString()));
+				if (ent.getRawMode() == 0) {
+					throw new IllegalArgumentException(MessageFormat.format(
+							JGitText.get().fileModeNotSetForPath,
+							ent.getPathString()));
+				}
+				lastIdx = e.replace
+					? deleteOverlappingSubtree(ent, eIdx)
+					: eIdx;
 				fastAdd(ent);
 			} else {
 				// Apply to all entries of the current path (different stages)
+				lastIdx = cache.nextEntry(eIdx);
 				for (int i = eIdx; i < lastIdx; i++) {
 					final DirCacheEntry ent = cache.getEntry(i);
 					e.apply(ent);
@@ -168,6 +183,102 @@ public class DirCacheEditor extends BaseDirCacheEditor {
 			fastKeep(lastIdx, cnt);
 	}
 
+	private int deleteOverlappingSubtree(DirCacheEntry ent, int eIdx) {
+		byte[] entPath = ent.path;
+		int entLen = entPath.length;
+
+		// Delete any file that was previously processed and overlaps
+		// the parent directory for the new entry. Since the editor
+		// always processes entries in path order, binary search back
+		// for the overlap for each parent directory.
+		for (int p = pdir(entPath, entLen); p > 0; p = pdir(entPath, p)) {
+			int i = findEntry(entPath, p);
+			if (i >= 0) {
+				// A file does overlap, delete the file from the array.
+				// No other parents can have overlaps as the file should
+				// have taken care of that itself.
+				int n = --entryCnt - i;
+				System.arraycopy(entries, i + 1, entries, i, n);
+				break;
+			}
+
+			// If at least one other entry already exists in this parent
+			// directory there is no need to continue searching up the tree.
+			i = -(i + 1);
+			if (i < entryCnt && inDir(entries[i], entPath, p)) {
+				break;
+			}
+		}
+
+		int maxEnt = cache.getEntryCount();
+		if (eIdx >= maxEnt) {
+			return maxEnt;
+		}
+
+		DirCacheEntry next = cache.getEntry(eIdx);
+		if (Paths.compare(next.path, 0, next.path.length, 0,
+				entPath, 0, entLen, TYPE_TREE) < 0) {
+			// Next DirCacheEntry sorts before new entry as tree. Defer a
+			// DeleteTree command to delete any entries if they exist. This
+			// case only happens for A, A.c, A/c type of conflicts (rare).
+			insertEdit(new DeleteTree(entPath));
+			return eIdx;
+		}
+
+		// Next entry may be contained by the entry-as-tree, skip if so.
+		while (eIdx < maxEnt && inDir(cache.getEntry(eIdx), entPath, entLen)) {
+			eIdx++;
+		}
+		return eIdx;
+	}
+
+	private int findEntry(byte[] p, int pLen) {
+		int low = 0;
+		int high = entryCnt;
+		while (low < high) {
+			int mid = (low + high) >>> 1;
+			int cmp = cmp(p, pLen, entries[mid]);
+			if (cmp < 0) {
+				high = mid;
+			} else if (cmp == 0) {
+				while (mid > 0 && cmp(p, pLen, entries[mid - 1]) == 0) {
+					mid--;
+				}
+				return mid;
+			} else {
+				low = mid + 1;
+			}
+		}
+		return -(low + 1);
+	}
+
+	private void insertEdit(DeleteTree d) {
+		for (int i = editIdx; i < edits.size(); i++) {
+			int cmp = EDIT_CMP.compare(d, edits.get(i));
+			if (cmp < 0) {
+				edits.add(i, d);
+				return;
+			} else if (cmp == 0) {
+				return;
+			}
+		}
+		edits.add(d);
+	}
+
+	private static boolean inDir(DirCacheEntry e, byte[] path, int pLen) {
+		return e.path.length > pLen && e.path[pLen] == '/'
+				&& peq(path, e.path, pLen);
+	}
+
+	private static int pdir(byte[] path, int e) {
+		for (e--; e > 0; e--) {
+			if (path[e] == '/') {
+				return e;
+			}
+		}
+		return 0;
+	}
+
 	/**
 	 * Any index record update.
 	 * <p>
@@ -179,6 +290,7 @@ public class DirCacheEditor extends BaseDirCacheEditor {
 	 */
 	public abstract static class PathEdit {
 		final byte[] path;
+		boolean replace = true;
 
 		/**
 		 * Create a new update command by path name.
@@ -188,6 +300,10 @@ public class DirCacheEditor extends BaseDirCacheEditor {
 		 */
 		public PathEdit(final String entryPath) {
 			path = Constants.encode(entryPath);
+		}
+
+		PathEdit(byte[] path) {
+			this.path = path;
 		}
 
 		/**
@@ -202,6 +318,22 @@ public class DirCacheEditor extends BaseDirCacheEditor {
 		}
 
 		/**
+		 * Configure if a file can replace a directory (or vice versa).
+		 * <p>
+		 * Default is {@code true} as this is usually the desired behavior.
+		 *
+		 * @param ok
+		 *            if true a file can replace a directory, or a directory can
+		 *            replace a file.
+		 * @return {@code this}
+		 * @since 4.2
+		 */
+		public PathEdit setReplace(boolean ok) {
+			replace = ok;
+			return this;
+		}
+
+		/**
 		 * Apply the update to a single cache entry matching the path.
 		 * <p>
 		 * After apply is invoked the entry is added to the output table, and
@@ -212,6 +344,12 @@ public class DirCacheEditor extends BaseDirCacheEditor {
 		 *            the path is a new path in the index.
 		 */
 		public abstract void apply(DirCacheEntry ent);
+
+		@Override
+		public String toString() {
+			String p = DirCacheEntry.toString(path);
+			return getClass().getSimpleName() + '[' + p + ']';
+		}
 	}
 
 	/**
@@ -272,10 +410,26 @@ public class DirCacheEditor extends BaseDirCacheEditor {
 		 *            only the subtree's contents are matched by the command.
 		 *            The special case "" (not "/"!) deletes all entries.
 		 */
-		public DeleteTree(final String entryPath) {
-			super(
-					(entryPath.endsWith("/") || entryPath.length() == 0) ? entryPath //$NON-NLS-1$
-							: entryPath + "/"); //$NON-NLS-1$
+		public DeleteTree(String entryPath) {
+			super(entryPath.isEmpty()
+					|| entryPath.charAt(entryPath.length() - 1) == '/'
+					? entryPath
+					: entryPath + '/');
+		}
+
+		DeleteTree(byte[] path) {
+			super(appendSlash(path));
+		}
+
+		private static byte[] appendSlash(byte[] path) {
+			int n = path.length;
+			if (n > 0 && path[n - 1] != '/') {
+				byte[] r = new byte[n + 1];
+				System.arraycopy(path, 0, r, 0, n);
+				r[n] = '/';
+				return r;
+			}
+			return path;
 		}
 
 		public void apply(final DirCacheEntry ent) {

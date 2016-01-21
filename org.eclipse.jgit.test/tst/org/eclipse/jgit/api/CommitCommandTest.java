@@ -46,12 +46,15 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
+import org.eclipse.jgit.api.errors.EmtpyCommitException;
 import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.dircache.DirCache;
@@ -474,6 +477,34 @@ public class CommitCommandTest extends RepositoryTestCase {
 		PersonIdent amendedAuthor = amended.getAuthorIdent();
 		assertEquals("New Author", amendedAuthor.getName());
 		assertEquals("newauthor@example.org", amendedAuthor.getEmailAddress());
+	}
+
+	@Test
+	public void commitEmptyCommits() throws Exception {
+		try (Git git = new Git(db)) {
+
+			writeTrashFile("file1", "file1");
+			git.add().addFilepattern("file1").call();
+			RevCommit initial = git.commit().setMessage("initial commit")
+					.call();
+
+			RevCommit emptyFollowUp = git.commit()
+					.setAuthor("New Author", "newauthor@example.org")
+					.setMessage("no change").call();
+
+			assertNotEquals(initial.getId(), emptyFollowUp.getId());
+			assertEquals(initial.getTree().getId(),
+					emptyFollowUp.getTree().getId());
+
+			try {
+				git.commit().setAuthor("New Author", "newauthor@example.org")
+						.setMessage("again no change").setAllowEmpty(false)
+						.call();
+				fail("Didn't get the expected EmtpyCommitException");
+			} catch (EmtpyCommitException e) {
+				// expect this exception
+			}
+		}
 	}
 
 	@Test

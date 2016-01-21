@@ -190,10 +190,8 @@ public class ResetCommand extends GitCommand<Ref> {
 				ObjectId origHead = ru.getOldObjectId();
 				if (origHead != null)
 					repo.writeOrigHead(origHead);
-				result = ru.getRef();
-			} else {
-				result = repo.getRef(Constants.HEAD);
 			}
+			result = repo.exactRef(Constants.HEAD);
 
 			if (mode == null)
 				mode = ResetType.MIXED;

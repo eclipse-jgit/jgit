@@ -43,12 +43,20 @@
 
 package org.eclipse.jgit.transport;
 
+import static org.eclipse.jgit.util.StringUtils.equalsIgnoreCase;
+import static org.eclipse.jgit.util.StringUtils.toLowerCase;
+
+import java.io.File;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.jgit.annotations.Nullable;
+import org.eclipse.jgit.internal.storage.file.LazyObjectIdSetFile;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Config.SectionParser;
 import org.eclipse.jgit.lib.ObjectChecker;
+import org.eclipse.jgit.lib.ObjectIdSet;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.SystemReader;
@@ -58,6 +66,8 @@ import org.eclipse.jgit.util.SystemReader;
  * parameters.
  */
 public class TransferConfig {
+	private static final String FSCK = "fsck"; //$NON-NLS-1$
+
 	/** Key for {@link Config#get(SectionParser)}. */
 	public static final Config.SectionParser<TransferConfig> KEY = new SectionParser<TransferConfig>() {
 		public TransferConfig parse(final Config cfg) {
@@ -65,8 +75,14 @@ public class TransferConfig {
 		}
 	};
 
-	private final boolean checkReceivedObjects;
-	private final boolean allowLeadingZeroFileMode;
+	enum FsckMode {
+		ERROR, WARN, IGNORE;
+	}
+
+	private final boolean fetchFsck;
+	private final boolean receiveFsck;
+	private final String fsckSkipList;
+	private final EnumSet<ObjectChecker.ErrorType> ignore;
 	private final boolean allowInvalidPersonIdent;
 	private final boolean safeForWindows;
 	private final boolean safeForMacOS;
@@ -79,19 +95,46 @@ public class TransferConfig {
 	}
 
 	TransferConfig(final Config rc) {
-		checkReceivedObjects = rc.getBoolean(
-				"fetch", "fsckobjects", //$NON-NLS-1$ //$NON-NLS-2$
-				rc.getBoolean("transfer", "fsckobjects", false)); //$NON-NLS-1$ //$NON-NLS-2$
-		allowLeadingZeroFileMode = checkReceivedObjects
-				&& rc.getBoolean("fsck", "allowLeadingZeroFileMode", false); //$NON-NLS-1$ //$NON-NLS-2$
-		allowInvalidPersonIdent = checkReceivedObjects
-				&& rc.getBoolean("fsck", "allowInvalidPersonIdent", false); //$NON-NLS-1$ //$NON-NLS-2$
-		safeForWindows = checkReceivedObjects
-				&& rc.getBoolean("fsck", "safeForWindows", //$NON-NLS-1$ //$NON-NLS-2$
+		boolean fsck = rc.getBoolean("transfer", "fsckobjects", false); //$NON-NLS-1$ //$NON-NLS-2$
+		fetchFsck = rc.getBoolean("fetch", "fsckobjects", fsck); //$NON-NLS-1$ //$NON-NLS-2$
+		receiveFsck = rc.getBoolean("receive", "fsckobjects", fsck); //$NON-NLS-1$ //$NON-NLS-2$
+		fsckSkipList = rc.getString(FSCK, null, "skipList"); //$NON-NLS-1$
+		allowInvalidPersonIdent = rc.getBoolean(FSCK, "allowInvalidPersonIdent", false); //$NON-NLS-1$
+		safeForWindows = rc.getBoolean(FSCK, "safeForWindows", //$NON-NLS-1$
 						SystemReader.getInstance().isWindows());
-		safeForMacOS = checkReceivedObjects
-				&& rc.getBoolean("fsck", "safeForMacOS", //$NON-NLS-1$ //$NON-NLS-2$
+		safeForMacOS = rc.getBoolean(FSCK, "safeForMacOS", //$NON-NLS-1$
 						SystemReader.getInstance().isMacOS());
+
+		ignore = EnumSet.noneOf(ObjectChecker.ErrorType.class);
+		EnumSet<ObjectChecker.ErrorType> set = EnumSet
+				.noneOf(ObjectChecker.ErrorType.class);
+		for (String key : rc.getNames(FSCK)) {
+			if (equalsIgnoreCase(key, "skipList") //$NON-NLS-1$
+					|| equalsIgnoreCase(key, "allowLeadingZeroFileMode") //$NON-NLS-1$
+					|| equalsIgnoreCase(key, "allowInvalidPersonIdent") //$NON-NLS-1$
+					|| equalsIgnoreCase(key, "safeForWindows") //$NON-NLS-1$
+					|| equalsIgnoreCase(key, "safeForMacOS")) { //$NON-NLS-1$
+				continue;
+			}
+
+			ObjectChecker.ErrorType id = FsckKeyNameHolder.parse(key);
+			if (id != null) {
+				switch (rc.getEnum(FSCK, null, key, FsckMode.ERROR)) {
+				case ERROR:
+					ignore.remove(id);
+					break;
+				case WARN:
+				case IGNORE:
+					ignore.add(id);
+					break;
+				}
+				set.add(id);
+			}
+		}
+		if (!set.contains(ObjectChecker.ErrorType.ZERO_PADDED_FILEMODE)
+				&& rc.getBoolean(FSCK, "allowLeadingZeroFileMode", false)) { //$NON-NLS-1$
+			ignore.add(ObjectChecker.ErrorType.ZERO_PADDED_FILEMODE);
+		}
 
 		allowTipSha1InWant = rc.getBoolean(
 				"uploadpack", "allowtipsha1inwant", false); //$NON-NLS-1$ //$NON-NLS-2$
@@ -105,14 +148,38 @@ public class TransferConfig {
 	 *         enabled in the repository configuration.
 	 * @since 3.6
 	 */
+	@Nullable
 	public ObjectChecker newObjectChecker() {
-		if (!checkReceivedObjects)
+		return newObjectChecker(fetchFsck);
+	}
+
+	/**
+	 * @return checker to verify objects pushed into this repository, or null if
+	 *         checking is not enabled in the repository configuration.
+	 * @since 4.2
+	 */
+	@Nullable
+	public ObjectChecker newReceiveObjectChecker() {
+		return newObjectChecker(receiveFsck);
+	}
+
+	private ObjectChecker newObjectChecker(boolean check) {
+		if (!check) {
 			return null;
+		}
 		return new ObjectChecker()
-			.setAllowLeadingZeroFileMode(allowLeadingZeroFileMode)
+			.setIgnore(ignore)
 			.setAllowInvalidPersonIdent(allowInvalidPersonIdent)
 			.setSafeForWindows(safeForWindows)
-			.setSafeForMacOS(safeForMacOS);
+			.setSafeForMacOS(safeForMacOS)
+			.setSkipList(skipList());
+	}
+
+	private ObjectIdSet skipList() {
+		if (fsckSkipList != null && !fsckSkipList.isEmpty()) {
+			return new LazyObjectIdSetFile(new File(fsckSkipList));
+		}
+		return null;
 	}
 
 	/**
@@ -160,5 +227,35 @@ public class TransferConfig {
 				return p.charAt(p.length() - 1) == '/' && s.startsWith(p);
 			}
 		};
+	}
+
+	static class FsckKeyNameHolder {
+		private static final Map<String, ObjectChecker.ErrorType> errors;
+
+		static {
+			errors = new HashMap<>();
+			for (ObjectChecker.ErrorType m : ObjectChecker.ErrorType.values()) {
+				errors.put(keyNameFor(m.name()), m);
+			}
+		}
+
+		@Nullable
+		static ObjectChecker.ErrorType parse(String key) {
+			return errors.get(toLowerCase(key));
+		}
+
+		private static String keyNameFor(String name) {
+			StringBuilder r = new StringBuilder(name.length());
+			for (int i = 0; i < name.length(); i++) {
+				char c = name.charAt(i);
+				if (c != '_') {
+					r.append(c);
+				}
+			}
+			return toLowerCase(r.toString());
+		}
+
+		private FsckKeyNameHolder() {
+		}
 	}
 }

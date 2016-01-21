@@ -46,12 +46,16 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.pgm.CLIGitCommand;
+import org.eclipse.jgit.pgm.CLIGitCommand.Result;
+import org.eclipse.jgit.pgm.TextBuiltin.TerminatedByHelpException;
 import org.junit.Before;
 
 public class CLIRepositoryTestCase extends LocalDiskRepositoryTestCase {
@@ -69,11 +73,57 @@ public class CLIRepositoryTestCase extends LocalDiskRepositoryTestCase {
 		trash = db.getWorkTree();
 	}
 
+	/**
+	 * Executes specified git commands (with arguments)
+	 *
+	 * @param cmds
+	 *            each string argument must be a valid git command line, e.g.
+	 *            "git branch -h"
+	 * @return command output
+	 * @throws Exception
+	 */
+	protected String[] executeUnchecked(String... cmds) throws Exception {
+		List<String> result = new ArrayList<String>(cmds.length);
+		for (String cmd : cmds) {
+			result.addAll(CLIGitCommand.executeUnchecked(cmd, db));
+		}
+		return result.toArray(new String[0]);
+	}
+
+	/**
+	 * Executes specified git commands (with arguments), throws exception and
+	 * stops execution on first command which output contains a 'fatal:' error
+	 *
+	 * @param cmds
+	 *            each string argument must be a valid git command line, e.g.
+	 *            "git branch -h"
+	 * @return command output
+	 * @throws Exception
+	 */
 	protected String[] execute(String... cmds) throws Exception {
 		List<String> result = new ArrayList<String>(cmds.length);
-		for (String cmd : cmds)
-			result.addAll(CLIGitCommand.execute(cmd, db));
+		for (String cmd : cmds) {
+			Result r = CLIGitCommand.executeRaw(cmd, db);
+			if (r.ex instanceof TerminatedByHelpException) {
+				result.addAll(r.errLines());
+			} else if (r.ex != null) {
+				throw r.ex;
+			}
+			result.addAll(r.outLines());
+		}
 		return result.toArray(new String[0]);
+	}
+
+	/**
+	 * @param link
+	 *            the path of the symbolic link to create
+	 * @param target
+	 *            the target of the symbolic link
+	 * @return the path to the symbolic link
+	 * @throws Exception
+	 */
+	protected Path writeLink(String link, String target) throws Exception {
+		return JGitTestUtil.writeLink(db, link, target);
 	}
 
 	protected File writeTrashFile(final String name, final String data)
@@ -173,15 +223,36 @@ public class CLIRepositoryTestCase extends LocalDiskRepositoryTestCase {
 	}
 
 	protected void assertArrayOfLinesEquals(String[] expected, String[] actual) {
-		assertEquals(toText(expected), toText(actual));
+		assertEquals(toString(expected), toString(actual));
 	}
 
-	private static String toText(String[] lines) {
+	public static String toString(String... lines) {
+		return toString(Arrays.asList(lines));
+	}
+
+	public static String toString(List<String> lines) {
 		StringBuilder b = new StringBuilder();
 		for (String s : lines) {
-			b.append(s);
-			b.append('\n');
+			// trim indentation, to simplify tests
+			s = s.trim();
+			if (s != null && !s.isEmpty()) {
+				b.append(s);
+				b.append('\n');
+			}
+		}
+		// delete last line break to allow simpler tests with one line compare
+		if (b.length() > 0 && b.charAt(b.length() - 1) == '\n') {
+			b.deleteCharAt(b.length() - 1);
 		}
 		return b.toString();
+	}
+
+	public static boolean contains(List<String> lines, String str) {
+		for (String s : lines) {
+			if (s.contains(str)) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

@@ -47,6 +47,7 @@ import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.TreeFormatter;
+import org.eclipse.jgit.util.Paths;
 
 /** A tree entry found in a note branch that isn't a valid note. */
 class NonNoteEntry extends ObjectId {
@@ -74,27 +75,8 @@ class NonNoteEntry extends ObjectId {
 	}
 
 	int pathCompare(byte[] bBuf, int bPos, int bLen, FileMode bMode) {
-		return pathCompare(name, 0, name.length, mode, //
-				bBuf, bPos, bLen, bMode);
-	}
-
-	private static int pathCompare(final byte[] aBuf, int aPos, final int aEnd,
-			final FileMode aMode, final byte[] bBuf, int bPos, final int bEnd,
-			final FileMode bMode) {
-		while (aPos < aEnd && bPos < bEnd) {
-			int cmp = (aBuf[aPos++] & 0xff) - (bBuf[bPos++] & 0xff);
-			if (cmp != 0)
-				return cmp;
-		}
-
-		if (aPos < aEnd)
-			return (aBuf[aPos] & 0xff) - lastPathChar(bMode);
-		if (bPos < bEnd)
-			return lastPathChar(aMode) - (bBuf[bPos] & 0xff);
-		return 0;
-	}
-
-	private static int lastPathChar(final FileMode mode) {
-		return FileMode.TREE.equals(mode.getBits()) ? '/' : '\0';
+		return Paths.compare(
+				name, 0, name.length, mode.getBits(),
+				bBuf, bPos, bLen, bMode.getBits());
 	}
 }

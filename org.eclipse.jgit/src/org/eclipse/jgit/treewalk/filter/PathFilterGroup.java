@@ -245,9 +245,9 @@ public class PathFilterGroup {
 				int hash = hasher.nextHash();
 				if (fullpaths.contains(rp, hasher.length(), hash))
 					return true;
-				if (!hasher.hasNext())
-					if (prefixes.contains(rp, hasher.length(), hash))
-						return true;
+				if (!hasher.hasNext() && walker.isSubtree()
+						&& prefixes.contains(rp, hasher.length(), hash))
+					return true;
 			}
 
 			final int cmp = walker.isPathPrefix(max, max.length);

@@ -1,0 +1,10 @@
+java_library(
+  name = 'junit',
+  srcs = glob(['src/**']),
+  resources = glob(['resources/**']),
+  provided_deps = [
+    '//org.eclipse.jgit:jgit',
+    '//lib:junit',
+  ],
+  visibility = ['PUBLIC'],
+)
