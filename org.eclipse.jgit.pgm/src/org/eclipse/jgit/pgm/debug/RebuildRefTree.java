@@ -43,9 +43,11 @@
 
 package org.eclipse.jgit.pgm.debug;
 
+import static org.eclipse.jgit.lib.Constants.HEAD;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.jgit.internal.storage.reftree.RefTree;
 import org.eclipse.jgit.internal.storage.reftree.RefTreeDatabase;
@@ -57,12 +59,17 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.pgm.Command;
 import org.eclipse.jgit.pgm.TextBuiltin;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.kohsuke.args4j.Option;
 
 @Command(usage = "usage_RebuildRefTree")
 class RebuildRefTree extends TextBuiltin {
+	@Option(name = "--enable", usage = "set extensions.refsStorage = reftree")
+	boolean enable;
+
 	private String txnNamespace;
 	private String txnCommitted;
 
@@ -103,7 +110,7 @@ class RebuildRefTree extends TextBuiltin {
 				oldTreeId = ObjectId.zeroId();
 			}
 
-			RefTree tree = rebuild(refDb.getRefs(RefDatabase.ALL));
+			RefTree tree = rebuild(refDb);
 			b.setTreeId(tree.writeTree(inserter));
 			b.setAuthor(new PersonIdent(db));
 			b.setCommitter(b.getAuthor());
@@ -122,15 +129,31 @@ class RebuildRefTree extends TextBuiltin {
 			default:
 				throw die(String.format("%s: %s", update.getName(), result)); //$NON-NLS-1$
 			}
+
+			if (enable && !(db.getRefDatabase() instanceof RefTreeDatabase)) {
+				StoredConfig cfg = db.getConfig();
+				cfg.setInt("core", null, "repositoryformatversion", 1); //$NON-NLS-1$ //$NON-NLS-2$
+				cfg.setString("extensions", null, "refsStorage", "reftree"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				cfg.save();
+				errw.println("Enabled reftree."); //$NON-NLS-1$
+				errw.flush();
+			}
 		}
 	}
 
-	private RefTree rebuild(Map<String, Ref> refMap) {
+	private RefTree rebuild(RefDatabase refdb) throws IOException {
 		RefTree tree = RefTree.newEmptyTree();
 		List<org.eclipse.jgit.internal.storage.reftree.Command> cmds
 			= new ArrayList<>();
 
-		for (Ref r : refMap.values()) {
+		Ref head = refdb.exactRef(HEAD);
+		if (head != null) {
+			cmds.add(new org.eclipse.jgit.internal.storage.reftree.Command(
+					null,
+					head));
+		}
+
+		for (Ref r : refdb.getRefs(RefDatabase.ALL).values()) {
 			if (r.getName().equals(txnCommitted)
 					|| r.getName().startsWith(txnNamespace)) {
 				continue;
