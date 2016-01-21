@@ -185,14 +185,6 @@ public final class DfsBlockCache {
 		for (int i = 0; i < loadLocks.length; i++)
 			loadLocks[i] = new ReentrantLock(true /* fair */);
 
-		int eb = (int) (tableSize * .1);
-		if (64 < eb)
-			eb = 64;
-		else if (eb < 4)
-			eb = 4;
-		if (tableSize < eb)
-			eb = tableSize;
-
 		maxBytes = cfg.getBlockLimit();
 		maxStreamThroughCache = (long) (maxBytes * cfg.getStreamRatio());
 		blockSize = cfg.getBlockSize();
