@@ -72,7 +72,6 @@ public class FileRepositoryBuilderTest extends LocalDiskRepositoryTestCase {
 				.findGitDir(d).getGitDir());
 	}
 
-	@SuppressWarnings("unused")
 	@Test
 	public void emptyRepositoryFormatVersion() throws Exception {
 		Repository r = createWorkRepository();
@@ -81,10 +80,11 @@ public class FileRepositoryBuilderTest extends LocalDiskRepositoryTestCase {
 				ConfigConstants.CONFIG_KEY_REPO_FORMAT_VERSION, "");
 		config.save();
 
-		new FileRepository(r.getDirectory());
+		try (FileRepository repo = new FileRepository(r.getDirectory())) {
+			// Unused
+		}
 	}
 
-	@SuppressWarnings("unused")
 	@Test
 	public void invalidRepositoryFormatVersion() throws Exception {
 		Repository r = createWorkRepository();
@@ -93,15 +93,13 @@ public class FileRepositoryBuilderTest extends LocalDiskRepositoryTestCase {
 				ConfigConstants.CONFIG_KEY_REPO_FORMAT_VERSION, "notanumber");
 		config.save();
 
-		try {
-			new FileRepository(r.getDirectory());
+		try (FileRepository repo = new FileRepository(r.getDirectory())) {
 			fail("IllegalArgumentException not thrown");
 		} catch (IllegalArgumentException e) {
 			assertNotNull(e.getMessage());
 		}
 	}
 
-	@SuppressWarnings("unused")
 	@Test
 	public void unknownRepositoryFormatVersion() throws Exception {
 		Repository r = createWorkRepository();
@@ -110,75 +108,75 @@ public class FileRepositoryBuilderTest extends LocalDiskRepositoryTestCase {
 				ConfigConstants.CONFIG_KEY_REPO_FORMAT_VERSION, 999999);
 		config.save();
 
-		try {
-			new FileRepository(r.getDirectory());
+		try (FileRepository repo = new FileRepository(r.getDirectory())) {
 			fail("IOException not thrown");
 		} catch (IOException e) {
 			assertNotNull(e.getMessage());
 		}
 	}
 
-	@SuppressWarnings("resource" /* java 7 */)
 	@Test
 	public void absoluteGitDirRef() throws Exception {
 		Repository repo1 = createWorkRepository();
 		File dir = createTempDirectory("dir");
 		File dotGit = new File(dir, Constants.DOT_GIT);
-		new FileWriter(dotGit).append(
-				"gitdir: " + repo1.getDirectory().getAbsolutePath()).close();
-		FileRepositoryBuilder builder = new FileRepositoryBuilder();
+		try (FileWriter writer = new FileWriter(dotGit)) {
+			writer.append("gitdir: " + repo1.getDirectory().getAbsolutePath()).close();
+			FileRepositoryBuilder builder = new FileRepositoryBuilder();
 
-		builder.setWorkTree(dir);
-		builder.setMustExist(true);
-		Repository repo2 = builder.build();
+			builder.setWorkTree(dir);
+			builder.setMustExist(true);
+			Repository repo2 = builder.build();
 
-		assertEquals(repo1.getDirectory().getAbsolutePath(), repo2
-				.getDirectory().getAbsolutePath());
-		assertEquals(dir, repo2.getWorkTree());
+			assertEquals(repo1.getDirectory().getAbsolutePath(), repo2
+					.getDirectory().getAbsolutePath());
+			assertEquals(dir, repo2.getWorkTree());
+		}
 	}
 
-	@SuppressWarnings("resource" /* java 7 */)
 	@Test
 	public void relativeGitDirRef() throws Exception {
 		Repository repo1 = createWorkRepository();
 		File dir = new File(repo1.getWorkTree(), "dir");
 		assertTrue(dir.mkdir());
 		File dotGit = new File(dir, Constants.DOT_GIT);
-		new FileWriter(dotGit).append("gitdir: ../" + Constants.DOT_GIT)
-				.close();
+		try (FileWriter writer = new FileWriter(dotGit)) {
+			writer.append("gitdir: ../" + Constants.DOT_GIT).close();
 
-		FileRepositoryBuilder builder = new FileRepositoryBuilder();
-		builder.setWorkTree(dir);
-		builder.setMustExist(true);
-		Repository repo2 = builder.build();
+			FileRepositoryBuilder builder = new FileRepositoryBuilder();
+			builder.setWorkTree(dir);
+			builder.setMustExist(true);
+			Repository repo2 = builder.build();
 
-		// The tmp directory may be a symlink so the actual path
-		// may not
-		assertEquals(repo1.getDirectory().getCanonicalPath(), repo2
-				.getDirectory().getCanonicalPath());
-		assertEquals(dir, repo2.getWorkTree());
+			// The tmp directory may be a symlink so the actual path
+			// may not
+			assertEquals(repo1.getDirectory().getCanonicalPath(), repo2
+					.getDirectory().getCanonicalPath());
+			assertEquals(dir, repo2.getWorkTree());
+		}
 	}
 
-	@SuppressWarnings("resource" /* java 7 */)
 	@Test
 	public void scanWithGitDirRef() throws Exception {
 		Repository repo1 = createWorkRepository();
 		File dir = createTempDirectory("dir");
 		File dotGit = new File(dir, Constants.DOT_GIT);
-		new FileWriter(dotGit).append(
-				"gitdir: " + repo1.getDirectory().getAbsolutePath()).close();
-		FileRepositoryBuilder builder = new FileRepositoryBuilder();
+		try (FileWriter writer = new FileWriter(dotGit)) {
+			writer.append(
+					"gitdir: " + repo1.getDirectory().getAbsolutePath()).close();
+			FileRepositoryBuilder builder = new FileRepositoryBuilder();
 
-		builder.setWorkTree(dir);
-		builder.findGitDir(dir);
-		assertEquals(repo1.getDirectory().getAbsolutePath(), builder
-				.getGitDir().getAbsolutePath());
-		builder.setMustExist(true);
-		Repository repo2 = builder.build();
+			builder.setWorkTree(dir);
+			builder.findGitDir(dir);
+			assertEquals(repo1.getDirectory().getAbsolutePath(), builder
+					.getGitDir().getAbsolutePath());
+			builder.setMustExist(true);
+			Repository repo2 = builder.build();
 
-		// The tmp directory may be a symlink
-		assertEquals(repo1.getDirectory().getCanonicalPath(), repo2
-				.getDirectory().getCanonicalPath());
-		assertEquals(dir, repo2.getWorkTree());
+			// The tmp directory may be a symlink
+			assertEquals(repo1.getDirectory().getCanonicalPath(), repo2
+					.getDirectory().getCanonicalPath());
+			assertEquals(dir, repo2.getWorkTree());
+		}
 	}
 }
