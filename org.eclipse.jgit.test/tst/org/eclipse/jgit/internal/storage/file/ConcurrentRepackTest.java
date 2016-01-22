@@ -211,7 +211,9 @@ public class ConcurrentRepackTest extends RepositoryTestCase {
 
 	private RevObject parse(final AnyObjectId id)
 			throws MissingObjectException, IOException {
-		return new RevWalk(db).parseAny(id);
+		try (RevWalk rw = new RevWalk(db)) {
+			return rw.parseAny(id);
+		}
 	}
 
 	private File[] pack(final Repository src, final RevObject... list)
@@ -280,7 +282,6 @@ public class ConcurrentRepackTest extends RepositoryTestCase {
 
 	private RevObject writeBlob(final Repository repo, final String data)
 			throws IOException {
-		final RevWalk revWalk = new RevWalk(repo);
 		final byte[] bytes = Constants.encode(data);
 		final ObjectId id;
 		try (ObjectInserter inserter = repo.newObjectInserter()) {
@@ -293,6 +294,8 @@ public class ConcurrentRepackTest extends RepositoryTestCase {
 		} catch (MissingObjectException e) {
 			// Ok
 		}
-		return revWalk.lookupBlob(id);
+		try (RevWalk revWalk = new RevWalk(repo)) {
+			return revWalk.lookupBlob(id);
+		}
 	}
 }
