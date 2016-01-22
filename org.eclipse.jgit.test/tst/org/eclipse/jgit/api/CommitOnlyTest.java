@@ -1294,10 +1294,12 @@ public class CommitOnlyTest extends RepositoryTestCase {
 		try {
 			final Repository repo = git.getRepository();
 			final ObjectId headId = repo.resolve(Constants.HEAD + "^{commit}");
-			final TreeWalk tw = TreeWalk.forPath(repo, path,
-					new RevWalk(repo).parseTree(headId));
-			return new String(tw.getObjectReader().open(tw.getObjectId(0))
-					.getBytes());
+			try (RevWalk rw = new RevWalk(repo)) {
+				final TreeWalk tw = TreeWalk.forPath(repo, path,
+						rw.parseTree(headId));
+				return new String(tw.getObjectReader().open(tw.getObjectId(0))
+						.getBytes());
+			}
 		} catch (Exception e) {
 			return "";
 		}
