@@ -81,15 +81,14 @@ public class ConcurrentRepackTest extends RepositoryTestCase {
 	public void setUp() throws Exception {
 		WindowCacheConfig windowCacheConfig = new WindowCacheConfig();
 		windowCacheConfig.setPackedGitOpenFiles(1);
-		WindowCache.reconfigure(windowCacheConfig);
+		windowCacheConfig.install();
 		super.setUp();
 	}
 
 	@After
 	public void tearDown() throws Exception {
 		super.tearDown();
-		WindowCacheConfig windowCacheConfig = new WindowCacheConfig();
-		WindowCache.reconfigure(windowCacheConfig);
+		new WindowCacheConfig().install();
 	}
 
 	@Test
@@ -206,7 +205,7 @@ public class ConcurrentRepackTest extends RepositoryTestCase {
 	private static void whackCache() {
 		final WindowCacheConfig config = new WindowCacheConfig();
 		config.setPackedGitOpenFiles(1);
-		WindowCache.reconfigure(config);
+		config.install();
 	}
 
 	private RevObject parse(final AnyObjectId id)
