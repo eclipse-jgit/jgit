@@ -259,7 +259,7 @@ public class Daemon {
 	 * Get the factory used to construct per-request ReceivePack.
 	 *
 	 * @return the factory.
-	 * @since 4.2
+	 * @since 4.3
 	 */
 	public ReceivePackFactory<DaemonClient> getReceivePackFactory() {
 		return receivePackFactory;
