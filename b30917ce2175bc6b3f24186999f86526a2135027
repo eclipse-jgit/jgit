@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07d9433e_cf61002f",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2016-01-23T14:38:06Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be updated now to 4.2.0.201601211800-r ?",
+      "range": {
+        "startLine": 195,
+        "startChar": 31,
+        "endLine": 195,
+        "endChar": 51
+      },
+      "revId": "b30917ce2175bc6b3f24186999f86526a2135027",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
