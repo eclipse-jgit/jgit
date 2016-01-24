@@ -73,13 +73,14 @@ public class RepositorySetupWorkDirTest extends LocalDiskRepositoryTestCase {
 	public void testIsBare_CreateRepositoryFromArbitraryGitDir()
 			throws Exception {
 		File gitDir = getFile("workdir");
-		assertTrue(new FileRepository(gitDir).isBare());
+		Repository repo = new FileRepositoryBuilder().setGitDir(gitDir).build();
+		assertTrue(repo.isBare());
 	}
 
 	@Test
 	public void testNotBare_CreateRepositoryFromDotGitGitDir() throws Exception {
 		File gitDir = getFile("workdir", Constants.DOT_GIT);
-		Repository repo = new FileRepository(gitDir);
+		Repository repo = new FileRepositoryBuilder().setGitDir(gitDir).build();
 		assertFalse(repo.isBare());
 		assertWorkdirPath(repo, "workdir");
 		assertGitdirPath(repo, "workdir", Constants.DOT_GIT);
@@ -89,7 +90,7 @@ public class RepositorySetupWorkDirTest extends LocalDiskRepositoryTestCase {
 	public void testWorkdirIsParentDir_CreateRepositoryFromDotGitGitDir()
 			throws Exception {
 		File gitDir = getFile("workdir", Constants.DOT_GIT);
-		Repository repo = new FileRepository(gitDir);
+		Repository repo = new FileRepositoryBuilder().setGitDir(gitDir).build();
 		String workdir = repo.getWorkTree().getName();
 		assertEquals(workdir, "workdir");
 	}
@@ -157,8 +158,8 @@ public class RepositorySetupWorkDirTest extends LocalDiskRepositoryTestCase {
 	@Test
 	public void testExceptionThrown_BareRepoGetWorkDir() throws Exception {
 		File gitDir = getFile("workdir");
-		try {
-			new FileRepository(gitDir).getWorkTree();
+		try (Repository repo = new FileRepository(gitDir)) {
+			repo.getWorkTree();
 			fail("Expected NoWorkTreeException missing");
 		} catch (NoWorkTreeException e) {
 			// expected
@@ -168,8 +169,8 @@ public class RepositorySetupWorkDirTest extends LocalDiskRepositoryTestCase {
 	@Test
 	public void testExceptionThrown_BareRepoGetIndex() throws Exception {
 		File gitDir = getFile("workdir");
-		try {
-			new FileRepository(gitDir).readDirCache();
+		try (Repository repo = new FileRepository(gitDir)) {
+			repo.readDirCache();
 			fail("Expected NoWorkTreeException missing");
 		} catch (NoWorkTreeException e) {
 			// expected
@@ -179,8 +180,8 @@ public class RepositorySetupWorkDirTest extends LocalDiskRepositoryTestCase {
 	@Test
 	public void testExceptionThrown_BareRepoGetIndexFile() throws Exception {
 		File gitDir = getFile("workdir");
-		try {
-			new FileRepository(gitDir).getIndexFile();
+		try (Repository repo = new FileRepository(gitDir)) {
+			repo.getIndexFile();
 			fail("Expected NoWorkTreeException missing");
 		} catch (NoWorkTreeException e) {
 			// expected
