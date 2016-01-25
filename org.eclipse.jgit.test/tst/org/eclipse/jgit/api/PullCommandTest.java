@@ -140,11 +140,12 @@ public class PullCommandTest extends RepositoryTestCase {
 		ObjectId[] mergedCommits = mergeResult.getMergedCommits();
 		assertEquals(targetCommit.getId(), mergedCommits[0]);
 		assertEquals(sourceCommit.getId(), mergedCommits[1]);
-		RevCommit mergeCommit = new RevWalk(dbTarget).parseCommit(mergeResult
-				.getNewHead());
-		String message = "Merge branch 'master' of "
-				+ db.getWorkTree().getAbsolutePath();
-		assertEquals(message, mergeCommit.getShortMessage());
+		try (RevWalk rw = new RevWalk(dbTarget)) {
+			RevCommit mergeCommit = rw.parseCommit(mergeResult.getNewHead());
+			String message = "Merge branch 'master' of "
+					+ db.getWorkTree().getAbsolutePath();
+			assertEquals(message, mergeCommit.getShortMessage());
+		}
 	}
 
 	@Test
@@ -259,11 +260,12 @@ public class PullCommandTest extends RepositoryTestCase {
 		ObjectId[] mergedCommits = mergeResult.getMergedCommits();
 		assertEquals(targetCommit.getId(), mergedCommits[0]);
 		assertEquals(sourceCommit.getId(), mergedCommits[1]);
-		RevCommit mergeCommit = new RevWalk(dbTarget).parseCommit(mergeResult
-				.getNewHead());
-		String message = "Merge branch 'other' of "
-				+ db.getWorkTree().getAbsolutePath();
-		assertEquals(message, mergeCommit.getShortMessage());
+		try (RevWalk rw = new RevWalk(dbTarget)) {
+			RevCommit mergeCommit = rw.parseCommit(mergeResult.getNewHead());
+			String message = "Merge branch 'other' of "
+					+ db.getWorkTree().getAbsolutePath();
+			assertEquals(message, mergeCommit.getShortMessage());
+		}
 	}
 
 	@Test
@@ -293,11 +295,12 @@ public class PullCommandTest extends RepositoryTestCase {
 		ObjectId[] mergedCommits = mergeResult.getMergedCommits();
 		assertEquals(targetCommit.getId(), mergedCommits[0]);
 		assertEquals(sourceCommit.getId(), mergedCommits[1]);
-		RevCommit mergeCommit = new RevWalk(dbTarget).parseCommit(mergeResult
-				.getNewHead());
-		String message = "Merge branch 'other' of "
-				+ db.getWorkTree().getAbsolutePath() + " into other";
-		assertEquals(message, mergeCommit.getShortMessage());
+		try (RevWalk rw = new RevWalk(dbTarget)) {
+			RevCommit mergeCommit = rw.parseCommit(mergeResult.getNewHead());
+			String message = "Merge branch 'other' of "
+					+ db.getWorkTree().getAbsolutePath() + " into other";
+			assertEquals(message, mergeCommit.getShortMessage());
+		}
 	}
 
 	private enum TestPullMode {
