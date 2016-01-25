@@ -77,260 +77,268 @@ public class DiffEntryTest extends RepositoryTestCase {
 	public void shouldListAddedFileInInitialCommit() throws Exception {
 		// given
 		writeTrashFile("a.txt", "content");
-		Git git = new Git(db);
-		git.add().addFilepattern("a.txt").call();
-		RevCommit c = git.commit().setMessage("initial commit").call();
+		try (Git git = new Git(db);
+				TreeWalk walk = new TreeWalk(db)) {
+			git.add().addFilepattern("a.txt").call();
+			RevCommit c = git.commit().setMessage("initial commit").call();
 
-		// when
-		TreeWalk walk = new TreeWalk(db);
-		walk.addTree(new EmptyTreeIterator());
-		walk.addTree(c.getTree());
-		List<DiffEntry> result = DiffEntry.scan(walk);
+			// when
+			walk.addTree(new EmptyTreeIterator());
+			walk.addTree(c.getTree());
+			List<DiffEntry> result = DiffEntry.scan(walk);
 
-		// then
-		assertThat(result, notNullValue());
-		assertThat(Integer.valueOf(result.size()), is(Integer.valueOf(1)));
+			// then
+			assertThat(result, notNullValue());
+			assertThat(Integer.valueOf(result.size()), is(Integer.valueOf(1)));
 
-		DiffEntry entry = result.get(0);
-		assertThat(entry.getChangeType(), is(ChangeType.ADD));
-		assertThat(entry.getNewPath(), is("a.txt"));
-		assertThat(entry.getOldPath(), is(DEV_NULL));
+			DiffEntry entry = result.get(0);
+			assertThat(entry.getChangeType(), is(ChangeType.ADD));
+			assertThat(entry.getNewPath(), is("a.txt"));
+			assertThat(entry.getOldPath(), is(DEV_NULL));
+		}
 	}
 
 	@Test
 	public void shouldListAddedFileBetweenTwoCommits() throws Exception {
 		// given
-		Git git = new Git(db);
-		RevCommit c1 = git.commit().setMessage("initial commit").call();
-		writeTrashFile("a.txt", "content");
-		git.add().addFilepattern("a.txt").call();
-		RevCommit c2 = git.commit().setMessage("second commit").call();
+		try (Git git = new Git(db);
+				TreeWalk walk = new TreeWalk(db)) {
+			RevCommit c1 = git.commit().setMessage("initial commit").call();
+			writeTrashFile("a.txt", "content");
+			git.add().addFilepattern("a.txt").call();
+			RevCommit c2 = git.commit().setMessage("second commit").call();
 
-		// when
-		TreeWalk walk = new TreeWalk(db);
-		walk.addTree(c1.getTree());
-		walk.addTree(c2.getTree());
-		List<DiffEntry> result = DiffEntry.scan(walk);
+			// when
+			walk.addTree(c1.getTree());
+			walk.addTree(c2.getTree());
+			List<DiffEntry> result = DiffEntry.scan(walk);
 
-		// then
-		assertThat(result, notNullValue());
-		assertThat(Integer.valueOf(result.size()), is(Integer.valueOf(1)));
+			// then
+			assertThat(result, notNullValue());
+			assertThat(Integer.valueOf(result.size()), is(Integer.valueOf(1)));
 
-		DiffEntry entry = result.get(0);
-		assertThat(entry.getChangeType(), is(ChangeType.ADD));
-		assertThat(entry.getNewPath(), is("a.txt"));
-		assertThat(entry.getOldPath(), is(DEV_NULL));
+			DiffEntry entry = result.get(0);
+			assertThat(entry.getChangeType(), is(ChangeType.ADD));
+			assertThat(entry.getNewPath(), is("a.txt"));
+			assertThat(entry.getOldPath(), is(DEV_NULL));
+		}
 	}
 
 	@Test
 	public void shouldListModificationBetweenTwoCommits() throws Exception {
 		// given
-		Git git = new Git(db);
-		File file = writeTrashFile("a.txt", "content");
-		git.add().addFilepattern("a.txt").call();
-		RevCommit c1 = git.commit().setMessage("initial commit").call();
-		write(file, "new content");
-		RevCommit c2 = git.commit().setAll(true).setMessage("second commit")
-				.call();
+		try (Git git = new Git(db);
+				TreeWalk walk = new TreeWalk(db)) {
+			File file = writeTrashFile("a.txt", "content");
+			git.add().addFilepattern("a.txt").call();
+			RevCommit c1 = git.commit().setMessage("initial commit").call();
+			write(file, "new content");
+			RevCommit c2 = git.commit().setAll(true).setMessage("second commit")
+					.call();
 
-		// when
-		TreeWalk walk = new TreeWalk(db);
-		walk.addTree(c1.getTree());
-		walk.addTree(c2.getTree());
-		List<DiffEntry> result = DiffEntry.scan(walk);
+			// when
+			walk.addTree(c1.getTree());
+			walk.addTree(c2.getTree());
+			List<DiffEntry> result = DiffEntry.scan(walk);
 
-		// then
-		assertThat(result, notNullValue());
-		assertThat(Integer.valueOf(result.size()), is(Integer.valueOf(1)));
+			// then
+			assertThat(result, notNullValue());
+			assertThat(Integer.valueOf(result.size()), is(Integer.valueOf(1)));
 
-		DiffEntry entry = result.get(0);
-		assertThat(entry.getChangeType(), is(ChangeType.MODIFY));
-		assertThat(entry.getNewPath(), is("a.txt"));
+			DiffEntry entry = result.get(0);
+			assertThat(entry.getChangeType(), is(ChangeType.MODIFY));
+			assertThat(entry.getNewPath(), is("a.txt"));
+		}
 	}
 
 	@Test
 	public void shouldListDeletionBetweenTwoCommits() throws Exception {
 		// given
-		Git git = new Git(db);
-		File file = writeTrashFile("a.txt", "content");
-		git.add().addFilepattern("a.txt").call();
-		RevCommit c1 = git.commit().setMessage("initial commit").call();
-		delete(file);
-		RevCommit c2 = git.commit().setAll(true).setMessage("delete a.txt")
-				.call();
+		try (Git git = new Git(db);
+				TreeWalk walk = new TreeWalk(db)) {
+			File file = writeTrashFile("a.txt", "content");
+			git.add().addFilepattern("a.txt").call();
+			RevCommit c1 = git.commit().setMessage("initial commit").call();
+			delete(file);
+			RevCommit c2 = git.commit().setAll(true).setMessage("delete a.txt")
+					.call();
 
-		// when
-		TreeWalk walk = new TreeWalk(db);
-		walk.addTree(c1.getTree());
-		walk.addTree(c2.getTree());
-		List<DiffEntry> result = DiffEntry.scan(walk);
+			// when
+			walk.addTree(c1.getTree());
+			walk.addTree(c2.getTree());
+			List<DiffEntry> result = DiffEntry.scan(walk);
 
-		// then
-		assertThat(result, notNullValue());
-		assertThat(Integer.valueOf(result.size()), is(Integer.valueOf(1)));
+			// then
+			assertThat(result, notNullValue());
+			assertThat(Integer.valueOf(result.size()), is(Integer.valueOf(1)));
 
-		DiffEntry entry = result.get(0);
-		assertThat(entry.getOldPath(), is("a.txt"));
-		assertThat(entry.getNewPath(), is(DEV_NULL));
-		assertThat(entry.getChangeType(), is(ChangeType.DELETE));
+			DiffEntry entry = result.get(0);
+			assertThat(entry.getOldPath(), is("a.txt"));
+			assertThat(entry.getNewPath(), is(DEV_NULL));
+			assertThat(entry.getChangeType(), is(ChangeType.DELETE));
+		}
 	}
 
 	@Test
 	public void shouldListModificationInDirWithoutModifiedTrees()
 			throws Exception {
 		// given
-		Git git = new Git(db);
-		File tree = new File(new File(db.getWorkTree(), "a"), "b");
-		FileUtils.mkdirs(tree);
-		File file = new File(tree, "c.txt");
-		FileUtils.createNewFile(file);
-		write(file, "content");
-		git.add().addFilepattern("a").call();
-		RevCommit c1 = git.commit().setMessage("initial commit").call();
-		write(file, "new line");
-		RevCommit c2 = git.commit().setAll(true).setMessage("second commit")
-				.call();
+		try (Git git = new Git(db);
+				TreeWalk walk = new TreeWalk(db)) {
+			File tree = new File(new File(db.getWorkTree(), "a"), "b");
+			FileUtils.mkdirs(tree);
+			File file = new File(tree, "c.txt");
+			FileUtils.createNewFile(file);
+			write(file, "content");
+			git.add().addFilepattern("a").call();
+			RevCommit c1 = git.commit().setMessage("initial commit").call();
+			write(file, "new line");
+			RevCommit c2 = git.commit().setAll(true).setMessage("second commit")
+					.call();
 
-		// when
-		TreeWalk walk = new TreeWalk(db);
-		walk.addTree(c1.getTree());
-		walk.addTree(c2.getTree());
-		walk.setRecursive(true);
-		List<DiffEntry> result = DiffEntry.scan(walk);
+			// when
+			walk.addTree(c1.getTree());
+			walk.addTree(c2.getTree());
+			walk.setRecursive(true);
+			List<DiffEntry> result = DiffEntry.scan(walk);
 
-		// then
-		assertThat(result, notNullValue());
-		assertThat(Integer.valueOf(result.size()), is(Integer.valueOf(1)));
+			// then
+			assertThat(result, notNullValue());
+			assertThat(Integer.valueOf(result.size()), is(Integer.valueOf(1)));
 
-		DiffEntry entry = result.get(0);
-		assertThat(entry.getChangeType(), is(ChangeType.MODIFY));
-		assertThat(entry.getNewPath(), is("a/b/c.txt"));
+			DiffEntry entry = result.get(0);
+			assertThat(entry.getChangeType(), is(ChangeType.MODIFY));
+			assertThat(entry.getNewPath(), is("a/b/c.txt"));
+		}
 	}
 
 	@Test
 	public void shouldListModificationInDirWithModifiedTrees() throws Exception {
 		// given
-		Git git = new Git(db);
-		File tree = new File(new File(db.getWorkTree(), "a"), "b");
-		FileUtils.mkdirs(tree);
-		File file = new File(tree, "c.txt");
-		FileUtils.createNewFile(file);
-		write(file, "content");
-		git.add().addFilepattern("a").call();
-		RevCommit c1 = git.commit().setMessage("initial commit").call();
-		write(file, "new line");
-		RevCommit c2 = git.commit().setAll(true).setMessage("second commit")
-				.call();
+		try (Git git = new Git(db);
+				TreeWalk walk = new TreeWalk(db)) {
+			File tree = new File(new File(db.getWorkTree(), "a"), "b");
+			FileUtils.mkdirs(tree);
+			File file = new File(tree, "c.txt");
+			FileUtils.createNewFile(file);
+			write(file, "content");
+			git.add().addFilepattern("a").call();
+			RevCommit c1 = git.commit().setMessage("initial commit").call();
+			write(file, "new line");
+			RevCommit c2 = git.commit().setAll(true).setMessage("second commit")
+					.call();
 
-		// when
-		TreeWalk walk = new TreeWalk(db);
-		walk.addTree(c1.getTree());
-		walk.addTree(c2.getTree());
-		List<DiffEntry> result = DiffEntry.scan(walk, true);
+			// when
+			walk.addTree(c1.getTree());
+			walk.addTree(c2.getTree());
+			List<DiffEntry> result = DiffEntry.scan(walk, true);
 
-		// then
-		assertThat(result, notNullValue());
-		assertThat(Integer.valueOf(result.size()), is(Integer.valueOf(3)));
+			// then
+			assertThat(result, notNullValue());
+			assertThat(Integer.valueOf(result.size()), is(Integer.valueOf(3)));
 
-		DiffEntry entry = result.get(0);
-		assertThat(entry.getChangeType(), is(ChangeType.MODIFY));
-		assertThat(entry.getNewPath(), is("a"));
+			DiffEntry entry = result.get(0);
+			assertThat(entry.getChangeType(), is(ChangeType.MODIFY));
+			assertThat(entry.getNewPath(), is("a"));
 
-		entry = result.get(1);
-		assertThat(entry.getChangeType(), is(ChangeType.MODIFY));
-		assertThat(entry.getNewPath(), is("a/b"));
+			entry = result.get(1);
+			assertThat(entry.getChangeType(), is(ChangeType.MODIFY));
+			assertThat(entry.getNewPath(), is("a/b"));
 
-		entry = result.get(2);
-		assertThat(entry.getChangeType(), is(ChangeType.MODIFY));
-		assertThat(entry.getNewPath(), is("a/b/c.txt"));
+			entry = result.get(2);
+			assertThat(entry.getChangeType(), is(ChangeType.MODIFY));
+			assertThat(entry.getNewPath(), is("a/b/c.txt"));
+		}
 	}
 
 	@Test
 	public void shouldListChangesInWorkingTree() throws Exception {
 		// given
 		writeTrashFile("a.txt", "content");
-		Git git = new Git(db);
-		git.add().addFilepattern("a.txt").call();
-		RevCommit c = git.commit().setMessage("initial commit").call();
-		writeTrashFile("b.txt", "new line");
+		try (Git git = new Git(db);
+				TreeWalk walk = new TreeWalk(db)) {
+			git.add().addFilepattern("a.txt").call();
+			RevCommit c = git.commit().setMessage("initial commit").call();
+			writeTrashFile("b.txt", "new line");
 
-		// when
-		TreeWalk walk = new TreeWalk(db);
-		walk.addTree(c.getTree());
-		walk.addTree(new FileTreeIterator(db));
-		List<DiffEntry> result = DiffEntry.scan(walk, true);
+			// when
+			walk.addTree(c.getTree());
+			walk.addTree(new FileTreeIterator(db));
+			List<DiffEntry> result = DiffEntry.scan(walk, true);
 
-		// then
-		assertThat(Integer.valueOf(result.size()), is(Integer.valueOf(1)));
-		DiffEntry entry = result.get(0);
+			// then
+			assertThat(Integer.valueOf(result.size()), is(Integer.valueOf(1)));
+			DiffEntry entry = result.get(0);
 
-		assertThat(entry.getChangeType(), is(ChangeType.ADD));
-		assertThat(entry.getNewPath(), is("b.txt"));
+			assertThat(entry.getChangeType(), is(ChangeType.ADD));
+			assertThat(entry.getNewPath(), is("b.txt"));
+		}
 	}
 
 	@Test
 	public void shouldMarkEntriesWhenGivenMarkTreeFilter() throws Exception {
 		// given
-		Git git = new Git(db);
-		RevCommit c1 = git.commit().setMessage("initial commit").call();
-		FileUtils.mkdir(new File(db.getWorkTree(), "b"));
-		writeTrashFile("a.txt", "a");
-		writeTrashFile("b/1.txt", "b1");
-		writeTrashFile("b/2.txt", "b2");
-		writeTrashFile("c.txt", "c");
-		git.add().addFilepattern("a.txt").addFilepattern("b")
-				.addFilepattern("c.txt").call();
-		RevCommit c2 = git.commit().setMessage("second commit").call();
-		TreeFilter filterA = PathFilterGroup.createFromStrings("a.txt");
-		TreeFilter filterB = PathFilterGroup.createFromStrings("b");
-		TreeFilter filterB2 = PathFilterGroup.createFromStrings("b/2.txt");
+		try (Git git = new Git(db);
+				TreeWalk walk = new TreeWalk(db)) {
+			RevCommit c1 = git.commit().setMessage("initial commit").call();
+			FileUtils.mkdir(new File(db.getWorkTree(), "b"));
+			writeTrashFile("a.txt", "a");
+			writeTrashFile("b/1.txt", "b1");
+			writeTrashFile("b/2.txt", "b2");
+			writeTrashFile("c.txt", "c");
+			git.add().addFilepattern("a.txt").addFilepattern("b")
+					.addFilepattern("c.txt").call();
+			RevCommit c2 = git.commit().setMessage("second commit").call();
+			TreeFilter filterA = PathFilterGroup.createFromStrings("a.txt");
+			TreeFilter filterB = PathFilterGroup.createFromStrings("b");
+			TreeFilter filterB2 = PathFilterGroup.createFromStrings("b/2.txt");
 
-		// when
-		TreeWalk walk = new TreeWalk(db);
-		walk.addTree(c1.getTree());
-		walk.addTree(c2.getTree());
-		List<DiffEntry> result = DiffEntry.scan(walk, true, new TreeFilter[] {
-				filterA, filterB, filterB2 });
+			// when
+			walk.addTree(c1.getTree());
+			walk.addTree(c2.getTree());
+			List<DiffEntry> result = DiffEntry.scan(walk, true, new TreeFilter[] {
+					filterA, filterB, filterB2 });
 
-		// then
-		assertThat(result, notNullValue());
-		assertEquals(5, result.size());
+			// then
+			assertThat(result, notNullValue());
+			assertEquals(5, result.size());
 
-		DiffEntry entryA = result.get(0);
-		DiffEntry entryB = result.get(1);
-		DiffEntry entryB1 = result.get(2);
-		DiffEntry entryB2 = result.get(3);
-		DiffEntry entryC = result.get(4);
+			DiffEntry entryA = result.get(0);
+			DiffEntry entryB = result.get(1);
+			DiffEntry entryB1 = result.get(2);
+			DiffEntry entryB2 = result.get(3);
+			DiffEntry entryC = result.get(4);
 
-		assertThat(entryA.getNewPath(), is("a.txt"));
-		assertTrue(entryA.isMarked(0));
-		assertFalse(entryA.isMarked(1));
-		assertFalse(entryA.isMarked(2));
-		assertEquals(1, entryA.getTreeFilterMarks());
+			assertThat(entryA.getNewPath(), is("a.txt"));
+			assertTrue(entryA.isMarked(0));
+			assertFalse(entryA.isMarked(1));
+			assertFalse(entryA.isMarked(2));
+			assertEquals(1, entryA.getTreeFilterMarks());
 
-		assertThat(entryB.getNewPath(), is("b"));
-		assertFalse(entryB.isMarked(0));
-		assertTrue(entryB.isMarked(1));
-		assertTrue(entryB.isMarked(2));
-		assertEquals(6, entryB.getTreeFilterMarks());
+			assertThat(entryB.getNewPath(), is("b"));
+			assertFalse(entryB.isMarked(0));
+			assertTrue(entryB.isMarked(1));
+			assertTrue(entryB.isMarked(2));
+			assertEquals(6, entryB.getTreeFilterMarks());
 
-		assertThat(entryB1.getNewPath(), is("b/1.txt"));
-		assertFalse(entryB1.isMarked(0));
-		assertTrue(entryB1.isMarked(1));
-		assertFalse(entryB1.isMarked(2));
-		assertEquals(2, entryB1.getTreeFilterMarks());
+			assertThat(entryB1.getNewPath(), is("b/1.txt"));
+			assertFalse(entryB1.isMarked(0));
+			assertTrue(entryB1.isMarked(1));
+			assertFalse(entryB1.isMarked(2));
+			assertEquals(2, entryB1.getTreeFilterMarks());
 
-		assertThat(entryB2.getNewPath(), is("b/2.txt"));
-		assertFalse(entryB2.isMarked(0));
-		assertTrue(entryB2.isMarked(1));
-		assertTrue(entryB2.isMarked(2));
-		assertEquals(6, entryB2.getTreeFilterMarks());
+			assertThat(entryB2.getNewPath(), is("b/2.txt"));
+			assertFalse(entryB2.isMarked(0));
+			assertTrue(entryB2.isMarked(1));
+			assertTrue(entryB2.isMarked(2));
+			assertEquals(6, entryB2.getTreeFilterMarks());
 
-		assertThat(entryC.getNewPath(), is("c.txt"));
-		assertFalse(entryC.isMarked(0));
-		assertFalse(entryC.isMarked(1));
-		assertFalse(entryC.isMarked(2));
-		assertEquals(0, entryC.getTreeFilterMarks());
+			assertThat(entryC.getNewPath(), is("c.txt"));
+			assertFalse(entryC.isMarked(0));
+			assertFalse(entryC.isMarked(1));
+			assertFalse(entryC.isMarked(2));
+			assertEquals(0, entryC.getTreeFilterMarks());
+		}
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -339,9 +347,10 @@ public class DiffEntryTest extends RepositoryTestCase {
 		// given - we don't need anything here
 
 		// when
-		TreeWalk walk = new TreeWalk(db);
-		walk.addTree(new EmptyTreeIterator());
-		DiffEntry.scan(walk);
+		try (TreeWalk walk = new TreeWalk(db)) {
+			walk.addTree(new EmptyTreeIterator());
+			DiffEntry.scan(walk);
+		}
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -350,11 +359,12 @@ public class DiffEntryTest extends RepositoryTestCase {
 		// given - we don't need anything here
 
 		// when
-		TreeWalk walk = new TreeWalk(db);
-		walk.addTree(new EmptyTreeIterator());
-		walk.addTree(new EmptyTreeIterator());
-		walk.addTree(new EmptyTreeIterator());
-		DiffEntry.scan(walk);
+		try (TreeWalk walk = new TreeWalk(db)) {
+			walk.addTree(new EmptyTreeIterator());
+			walk.addTree(new EmptyTreeIterator());
+			walk.addTree(new EmptyTreeIterator());
+			DiffEntry.scan(walk);
+		}
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -363,46 +373,47 @@ public class DiffEntryTest extends RepositoryTestCase {
 		// given - we don't need anything here
 
 		// when
-		TreeWalk walk = new TreeWalk(db);
-		walk.addTree(new EmptyTreeIterator());
-		walk.addTree(new EmptyTreeIterator());
-		walk.setRecursive(true);
-		DiffEntry.scan(walk, true);
+		try (TreeWalk walk = new TreeWalk(db)) {
+			walk.addTree(new EmptyTreeIterator());
+			walk.addTree(new EmptyTreeIterator());
+			walk.setRecursive(true);
+			DiffEntry.scan(walk, true);
+		}
 	}
 
 	@Test
 	public void shouldReportFileModeChange() throws Exception {
 		writeTrashFile("a.txt", "content");
-		Git git = new Git(db);
-		git.add().addFilepattern("a.txt").call();
-		RevCommit c1 = git.commit().setMessage("initial commit").call();
-		DirCache cache = db.lockDirCache();
-		DirCacheEditor editor = cache.editor();
-		final TreeWalk walk = new TreeWalk(db);
-		walk.addTree(c1.getTree());
-		walk.setRecursive(true);
-		assertTrue(walk.next());
+		try (Git git = new Git(db);
+				TreeWalk walk = new TreeWalk(db)) {
+			git.add().addFilepattern("a.txt").call();
+			RevCommit c1 = git.commit().setMessage("initial commit").call();
+			DirCache cache = db.lockDirCache();
+			DirCacheEditor editor = cache.editor();
+			walk.addTree(c1.getTree());
+			walk.setRecursive(true);
+			assertTrue(walk.next());
 
-		editor.add(new PathEdit("a.txt") {
-
-			public void apply(DirCacheEntry ent) {
-				ent.setFileMode(FileMode.EXECUTABLE_FILE);
-				ent.setObjectId(walk.getObjectId(0));
-			}
-		});
-		assertTrue(editor.commit());
-		RevCommit c2 = git.commit().setMessage("second commit").call();
-		walk.reset();
-		walk.addTree(c1.getTree());
-		walk.addTree(c2.getTree());
-		List<DiffEntry> diffs = DiffEntry.scan(walk, false);
-		assertEquals(1, diffs.size());
-		DiffEntry diff = diffs.get(0);
-		assertEquals(ChangeType.MODIFY,diff.getChangeType());
-		assertEquals(diff.getOldId(), diff.getNewId());
-		assertEquals("a.txt", diff.getOldPath());
-		assertEquals(diff.getOldPath(), diff.getNewPath());
-		assertEquals(FileMode.EXECUTABLE_FILE, diff.getNewMode());
-		assertEquals(FileMode.REGULAR_FILE, diff.getOldMode());
+			editor.add(new PathEdit("a.txt") {
+				public void apply(DirCacheEntry ent) {
+					ent.setFileMode(FileMode.EXECUTABLE_FILE);
+					ent.setObjectId(walk.getObjectId(0));
+				}
+			});
+			assertTrue(editor.commit());
+			RevCommit c2 = git.commit().setMessage("second commit").call();
+			walk.reset();
+			walk.addTree(c1.getTree());
+			walk.addTree(c2.getTree());
+			List<DiffEntry> diffs = DiffEntry.scan(walk, false);
+			assertEquals(1, diffs.size());
+			DiffEntry diff = diffs.get(0);
+			assertEquals(ChangeType.MODIFY,diff.getChangeType());
+			assertEquals(diff.getOldId(), diff.getNewId());
+			assertEquals("a.txt", diff.getOldPath());
+			assertEquals(diff.getOldPath(), diff.getNewPath());
+			assertEquals(FileMode.EXECUTABLE_FILE, diff.getNewMode());
+			assertEquals(FileMode.REGULAR_FILE, diff.getOldMode());
+		}
 	}
 }
