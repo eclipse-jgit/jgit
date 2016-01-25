@@ -104,9 +104,14 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 
 	private void delete(final RefUpdate ref, final Result expected,
 			final boolean exists, final boolean removed) throws IOException {
-		assertEquals(exists, db.getAllRefs().containsKey(ref.getName()));
+		delete(db, ref, expected, exists, removed);
+	}
+
+	private void delete(Repository repo, final RefUpdate ref, final Result expected,
+			final boolean exists, final boolean removed) throws IOException {
+		assertEquals(exists, repo.getAllRefs().containsKey(ref.getName()));
 		assertEquals(expected, ref.delete());
-		assertEquals(!removed, db.getAllRefs().containsKey(ref.getName()));
+		assertEquals(!removed, repo.getAllRefs().containsKey(ref.getName()));
 	}
 
 	@Test
@@ -232,6 +237,17 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		assertEquals(0, db.getReflogReader("HEAD").getReverseEntries().size());
 	}
 
+	@Test
+	public void testDeleteHeadInBareRepo() throws IOException {
+		try (Repository bareRepo = createBareRepository()) {
+			RefUpdate ref = bareRepo.updateRef(Constants.HEAD);
+			ref.setNewObjectId(ObjectId.fromString("0123456789012345678901234567890123456789"));
+			// Create the HEAD ref so we can delete it.
+			assertEquals(Result.NEW, ref.update());
+			ref = bareRepo.updateRef(Constants.HEAD);
+			delete(bareRepo, ref, Result.NO_CHANGE, true, true);
+		}
+	}
 	/**
 	 * Delete a loose ref and make sure the directory in refs is deleted too,
 	 * and the reflog dir too
