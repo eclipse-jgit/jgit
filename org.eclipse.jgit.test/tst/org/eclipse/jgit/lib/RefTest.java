@@ -66,6 +66,7 @@ import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.test.resources.SampleDataRepositoryTestCase;
 import org.junit.Test;
 
+
 /**
  * Misc tests for refs. A lot of things are tested elsewhere so not having a
  * test for a ref related method, does not mean it is untested.
@@ -304,5 +305,18 @@ public class RefTest extends SampleDataRepositoryTestCase {
 		assertSame(dst.getObjectId(), ref.getObjectId());
 		assertSame(dst.getPeeledObjectId(), ref.getPeeledObjectId());
 		assertEquals(dst.isPeeled(), ref.isPeeled());
+	}
+
+	@Test
+	public void testDeleteRef() throws Exception {
+		assertTrue(!db.isBare());
+		RefUpdate update = db.updateRef(Constants.HEAD);
+		// We can't delete HEAD if the repository isn't bare.
+		assertEquals(Result.REJECTED_CURRENT_BRANCH, update.delete());
+
+		Repository bareRepo = createBareRepository();
+		update = bareRepo.updateRef(Constants.HEAD);
+		// We can delete HEAD if the repository is bare.
+		assertEquals(Result.NEW, update.delete());
 	}
 }
