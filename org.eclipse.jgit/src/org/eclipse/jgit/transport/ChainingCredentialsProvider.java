@@ -70,8 +70,6 @@ public class ChainingCredentialsProvider extends CredentialsProvider {
 	public ChainingCredentialsProvider(CredentialsProvider... providers) {
 		this.credentialProviders = new ArrayList<CredentialsProvider>(
 				Arrays.asList(providers));
-		for (CredentialsProvider p : providers)
-			credentialProviders.add(p);
 	}
 
 	/**
