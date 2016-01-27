@@ -22,6 +22,30 @@
       "revId": "6b79bfb5701f01fe3ef12fee1dd8d841c0822036",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_c8b1ecca",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RefTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 62788
+      },
+      "writtenOn": "2016-01-27T19:43:15Z",
+      "side": 1,
+      "message": "I\u0027m happy to move the test, but I don\u0027t understand the purpose of \"... create \"master\" and try another RefUpdate to delete it...\"; what will this test that the other tests don\u0027t already cover?",
+      "parentUuid": "07d9433e_48215ca6",
+      "range": {
+        "startLine": 311,
+        "startChar": 0,
+        "endLine": 311,
+        "endChar": 47
+      },
+      "revId": "6b79bfb5701f01fe3ef12fee1dd8d841c0822036",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
