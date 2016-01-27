@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07d9433e_4bb23633",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/ManifestParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-01-27T23:28:56Z",
+      "side": 1,
+      "message": "optional: this condition could be dropped",
+      "range": {
+        "startLine": 275,
+        "startChar": 22,
+        "endLine": 275,
+        "endChar": 48
+      },
+      "revId": "6ffecd457f8d6ab7041d583331881f9e8b192e0d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_cbc56685",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/ManifestParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-01-27T23:28:56Z",
+      "side": 1,
+      "message": "What happens if there is a default remote but no default revision? E.g. if I write\n\n  \u003cremote name\u003d\"foo\" fetch\u003d\".\" revision\u003d\"bar\" /\u003e\n  \u003cdefault remote\u003d\"foo\" /\u003e\n\nthen should projects use revision \"bar\" or \"master\" by default?",
+      "range": {
+        "startLine": 293,
+        "startChar": 0,
+        "endLine": 293,
+        "endChar": 11
+      },
+      "revId": "6ffecd457f8d6ab7041d583331881f9e8b192e0d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
