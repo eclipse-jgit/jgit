@@ -80,7 +80,7 @@ public class ManifestParser extends DefaultHandler {
 	private final String baseUrl;
 	private final String defaultBranch;
 	private final Repository rootRepo;
-	private final Map<String, String> remotes;
+	private final Map<String, Remote> remotes;
 	private final Set<String> plusGroups;
 	private final Set<String> minusGroups;
 	private final List<RepoProject> projects;
@@ -146,7 +146,7 @@ public class ManifestParser extends DefaultHandler {
 			}
 		}
 
-		remotes = new HashMap<String, String>();
+		remotes = new HashMap<String, Remote>();
 		projects = new ArrayList<RepoProject>();
 		filteredProjects = new ArrayList<RepoProject>();
 	}
@@ -195,14 +195,14 @@ public class ManifestParser extends DefaultHandler {
 		} else if ("remote".equals(qName)) { //$NON-NLS-1$
 			String alias = attributes.getValue("alias"); //$NON-NLS-1$
 			String fetch = attributes.getValue("fetch"); //$NON-NLS-1$
-			remotes.put(attributes.getValue("name"), fetch); //$NON-NLS-1$
+			String revision = attributes.getValue("revision"); //$NON-NLS-1$
+			Remote remote = new Remote(fetch, revision);
+			remotes.put(attributes.getValue("name"), remote); //$NON-NLS-1$
 			if (alias != null)
-				remotes.put(alias, fetch);
+				remotes.put(alias, remote);
 		} else if ("default".equals(qName)) { //$NON-NLS-1$
 			defaultRemote = attributes.getValue("remote"); //$NON-NLS-1$
 			defaultRevision = attributes.getValue("revision"); //$NON-NLS-1$
-			if (defaultRevision == null)
-				defaultRevision = defaultBranch;
 		} else if ("copyfile".equals(qName)) { //$NON-NLS-1$
 			if (currentProject == null)
 				throw new SAXException(RepoText.get().invalidManifest);
@@ -268,8 +268,18 @@ public class ManifestParser extends DefaultHandler {
 		} catch (URISyntaxException e) {
 			throw new SAXException(e);
 		}
+		if (defaultRevision == null && defaultRemote != null) {
+			Remote remote = remotes.get(defaultRemote);
+			if (remote != null) {
+				defaultRevision = remote.revision;
+			}
+			if (defaultRevision == null) {
+				defaultRevision = defaultBranch;
+			}
+		}
 		for (RepoProject proj : projects) {
 			String remote = proj.getRemote();
+			String revision = defaultRevision;
 			if (remote == null) {
 				if (defaultRemote == null) {
 					if (filename != null)
@@ -281,16 +291,22 @@ public class ManifestParser extends DefaultHandler {
 								RepoText.get().errorNoDefault);
 				}
 				remote = defaultRemote;
+			} else {
+				Remote r = remotes.get(remote);
+				if (r != null && r.revision != null) {
+					revision = r.revision;
+				}
 			}
 			String remoteUrl = remoteUrls.get(remote);
 			if (remoteUrl == null) {
-				remoteUrl = baseUri.resolve(remotes.get(remote)).toString();
+				remoteUrl =
+						baseUri.resolve(remotes.get(remote).fetch).toString();
 				if (!remoteUrl.endsWith("/")) //$NON-NLS-1$
 					remoteUrl = remoteUrl + "/"; //$NON-NLS-1$
 				remoteUrls.put(remote, remoteUrl);
 			}
 			proj.setUrl(remoteUrl + proj.getName())
-					.setDefaultRevision(defaultRevision);
+					.setDefaultRevision(revision);
 		}
 
 		filteredProjects.addAll(projects);
@@ -388,5 +404,15 @@ public class ManifestParser extends DefaultHandler {
 			}
 		}
 		return false;
+	}
+
+	private static class Remote {
+		final String fetch;
+		final String revision;
+
+		Remote(String fetch, String revision) {
+			this.fetch = fetch;
+			this.revision = revision;
+		}
 	}
 }
