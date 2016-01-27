@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_4f240bb7",
+        "filename": "org.eclipse.jgit.lfs.server.test/tst/org/eclipse/jgit/lfs/server/LfsServerTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-01-27T01:42:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_9d61fb2f",
+      "range": {
+        "startLine": 88,
+        "startChar": 27,
+        "endLine": 88,
+        "endChar": 34
+      },
+      "revId": "103407868d9bc8e9614096377e24df8ad65af1d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_3d6f0ff0",
         "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/LargeFileRepository.java",
         "patchSetId": 12
@@ -36,6 +60,30 @@
       "writtenOn": "2016-01-20T15:50:57Z",
       "side": 1,
       "message": "move to .api package?",
+      "range": {
+        "startLine": 43,
+        "startChar": 8,
+        "endLine": 43,
+        "endChar": 35
+      },
+      "revId": "103407868d9bc8e9614096377e24df8ad65af1d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_2018c87f",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/LargeFileRepository.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-01-27T01:42:50Z",
+      "side": 1,
+      "message": "throughout jgit all public classes in exported packages not marked x-internal are public API",
+      "parentUuid": "07d9433e_3d6f0ff0",
       "range": {
         "startLine": 43,
         "startChar": 8,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_ef2ebf92",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/LargeFileRepository.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-01-27T01:42:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_5d569333",
+      "range": {
+        "startLine": 73,
+        "startChar": 11,
+        "endLine": 73,
+        "endChar": 13
+      },
+      "revId": "103407868d9bc8e9614096377e24df8ad65af1d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_dd0703d3",
         "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/LargeFileRepository.java",
         "patchSetId": 12
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_0f2a037e",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/LargeFileRepository.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-01-27T01:42:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_dd0703d3",
+      "range": {
+        "startLine": 74,
+        "startChar": 12,
+        "endLine": 74,
+        "endChar": 43
+      },
+      "revId": "103407868d9bc8e9614096377e24df8ad65af1d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_bd4a3ffc",
         "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/LargeObjectServlet.java",
         "patchSetId": 12
@@ -105,6 +201,30 @@
       "writtenOn": "2016-01-20T15:50:57Z",
       "side": 1,
       "message": "I understand that this servlet is particular to the PlainFSRepository. The name of this class should indicate this, I think. Also it should be moved to a package dedicated to the plain FS repo implementation.",
+      "range": {
+        "startLine": 71,
+        "startChar": 13,
+        "endLine": 71,
+        "endChar": 31
+      },
+      "revId": "103407868d9bc8e9614096377e24df8ad65af1d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_38246bb6",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/LargeObjectServlet.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-01-27T01:42:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_bd4a3ffc",
       "range": {
         "startLine": 71,
         "startChar": 13,
@@ -163,6 +283,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_83734c5a",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/LfsProtocolServlet.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-01-27T01:42:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_3db1cf76",
+      "range": {
+        "startLine": 130,
+        "startChar": 0,
+        "endLine": 135,
+        "endChar": 26
+      },
+      "revId": "103407868d9bc8e9614096377e24df8ad65af1d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_1d288b0d",
         "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/ObjectUploadListener.java",
         "patchSetId": 12
@@ -174,6 +318,30 @@
       "writtenOn": "2016-01-20T15:50:57Z",
       "side": 1,
       "message": "Or you return some content, e.g.\n{\n  oid: abc,\n  size: 345,\n  href: \u003curl\u003e\n}",
+      "range": {
+        "startLine": 145,
+        "startChar": 0,
+        "endLine": 146,
+        "endChar": 46
+      },
+      "revId": "103407868d9bc8e9614096377e24df8ad65af1d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_a379303c",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/ObjectUploadListener.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-01-27T01:42:50Z",
+      "side": 1,
+      "message": "The API spec doesn\u0027t mention that the PUT response has a body, see the example in https://github.com/github/git-lfs/tree/master/docs/api",
+      "parentUuid": "07d9433e_1d288b0d",
       "range": {
         "startLine": 145,
         "startChar": 0,
@@ -226,6 +394,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_cfac9b76",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/PlainFSRepository.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-01-27T01:42:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_1d024b42",
+      "range": {
+        "startLine": 43,
+        "startChar": 8,
+        "endLine": 43,
+        "endChar": 35
+      },
+      "revId": "103407868d9bc8e9614096377e24df8ad65af1d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_7d2437b7",
         "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/PlainFSRepository.java",
         "patchSetId": 12
@@ -237,6 +429,30 @@
       "writtenOn": "2016-01-20T15:50:57Z",
       "side": 1,
       "message": "A bit deep indentation levels.\n\nHow about\n\nif (aborted) return;\n\nor\n\nif (!aborted) {\n  try {\n     assertHashIsOK();\n     locked.commit();\n  } finally {\n     out.close();\n  }\n}\n\n\n... \nprivate void assertHashIsOK() {\n  AnyLongObjectId contentHash \u003d LongObjectId\n\t\t\t\t\t\t.fromRaw(out.getMessageDigest().digest());\n\n  if (contentHash.equals(id)) {\n    abort();\n    String msg \u003d MessageFormat.format(LfsServerText.get().corruptLongObject, contentHash, id));\n    throw new CorruptLongObjectException(id, contentHash, msg);\n  }\n}",
+      "range": {
+        "startLine": 116,
+        "startChar": 0,
+        "endLine": 129,
+        "endChar": 1
+      },
+      "revId": "103407868d9bc8e9614096377e24df8ad65af1d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_8f8293db",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/PlainFSRepository.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-01-27T01:42:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_7d2437b7",
       "range": {
         "startLine": 116,
         "startChar": 0,
@@ -295,6 +511,54 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_2f70a780",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/PlainFSRepository.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-01-27T01:42:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_dd3463e4",
+      "range": {
+        "startLine": 177,
+        "startChar": 0,
+        "endLine": 178,
+        "endChar": 76
+      },
+      "revId": "103407868d9bc8e9614096377e24df8ad65af1d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_ef923f27",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/PlainFSRepository.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-01-27T01:42:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_7d17d705",
+      "range": {
+        "startLine": 178,
+        "startChar": 15,
+        "endLine": 178,
+        "endChar": 30
+      },
+      "revId": "103407868d9bc8e9614096377e24df8ad65af1d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_3df2af5b",
         "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/PlainFSRepository.java",
         "patchSetId": 12
@@ -306,6 +570,30 @@
       "writtenOn": "2016-01-20T15:50:57Z",
       "side": 1,
       "message": "static ?",
+      "range": {
+        "startLine": 250,
+        "startChar": 1,
+        "endLine": 250,
+        "endChar": 8
+      },
+      "revId": "103407868d9bc8e9614096377e24df8ad65af1d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_6f7aaf62",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/PlainFSRepository.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-01-27T01:42:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_3df2af5b",
       "range": {
         "startLine": 250,
         "startChar": 1,
@@ -341,6 +629,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_8f7d335a",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/PlainFSRepository.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-01-27T01:42:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_9db2dbfe",
+      "range": {
+        "startLine": 259,
+        "startChar": 1,
+        "endLine": 259,
+        "endChar": 8
+      },
+      "revId": "103407868d9bc8e9614096377e24df8ad65af1d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_fd4be77d",
         "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/Response.java",
         "patchSetId": 12
@@ -352,6 +664,24 @@
       "writtenOn": "2016-01-20T15:50:57Z",
       "side": 1,
       "message": "As this class is part of the API it deserves a more detailed documentation.",
+      "revId": "103407868d9bc8e9614096377e24df8ad65af1d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_af63d7ba",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/Response.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-01-27T01:42:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_fd4be77d",
       "revId": "103407868d9bc8e9614096377e24df8ad65af1d8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -404,6 +734,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_6f51cfde",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/TransferHandler.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-01-27T01:42:50Z",
+      "side": 1,
+      "message": "no, subclasses Upload and Download need access",
+      "parentUuid": "07d9433e_3dc70fab",
+      "range": {
+        "startLine": 81,
+        "startChar": 1,
+        "endLine": 81,
+        "endChar": 10
+      },
+      "revId": "103407868d9bc8e9614096377e24df8ad65af1d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_5d95b394",
         "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/TransferHandler.java",
         "patchSetId": 12
@@ -415,6 +769,30 @@
       "writtenOn": "2016-01-20T15:50:57Z",
       "side": 1,
       "message": "private?",
+      "range": {
+        "startLine": 82,
+        "startChar": 1,
+        "endLine": 82,
+        "endChar": 10
+      },
+      "revId": "103407868d9bc8e9614096377e24df8ad65af1d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_8f5453d0",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/TransferHandler.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-01-27T01:42:50Z",
+      "side": 1,
+      "message": "no, subclasses Upload and Download need access",
+      "parentUuid": "07d9433e_5d95b394",
       "range": {
         "startLine": 82,
         "startChar": 1,
@@ -450,6 +828,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_af4af72a",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/TransferHandler.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-01-27T01:42:50Z",
+      "side": 1,
+      "message": "no, called by subclasses",
+      "parentUuid": "07d9433e_fdbcc723",
+      "range": {
+        "startLine": 84,
+        "startChar": 1,
+        "endLine": 84,
+        "endChar": 10
+      },
+      "revId": "103407868d9bc8e9614096377e24df8ad65af1d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_7d98b7cd",
         "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/TransferHandler.java",
         "patchSetId": 12
@@ -461,6 +863,30 @@
       "writtenOn": "2016-01-20T15:50:57Z",
       "side": 1,
       "message": "package private ?",
+      "range": {
+        "startLine": 90,
+        "startChar": 1,
+        "endLine": 90,
+        "endChar": 10
+      },
+      "revId": "103407868d9bc8e9614096377e24df8ad65af1d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_ef44ff1f",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/TransferHandler.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-01-27T01:42:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_7d98b7cd",
       "range": {
         "startLine": 90,
         "startChar": 1,
@@ -496,6 +922,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_6fcc6f33",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/TransferHandler.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-01-27T01:42:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_fda3e7f8",
+      "range": {
+        "startLine": 105,
+        "startChar": 0,
+        "endLine": 119,
+        "endChar": 6
+      },
+      "revId": "103407868d9bc8e9614096377e24df8ad65af1d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_1da32bfb",
         "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/TransferHandler.java",
         "patchSetId": 12
@@ -507,6 +957,30 @@
       "writtenOn": "2016-01-20T15:50:57Z",
       "side": 1,
       "message": "Why is \u003d\u003d 0 this an issue? Are objects with size 0 illegal?",
+      "range": {
+        "startLine": 145,
+        "startChar": 33,
+        "endLine": 145,
+        "endChar": 37
+      },
+      "revId": "103407868d9bc8e9614096377e24df8ad65af1d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_0f404307",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/TransferHandler.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-01-27T01:42:50Z",
+      "side": 1,
+      "message": "we allow size 0\n\nmaybe we should not since https://github.com/github/git-lfs/blob/master/docs/api/http-v1-batch.md says that size must be positive integer",
+      "parentUuid": "07d9433e_1da32bfb",
       "range": {
         "startLine": 145,
         "startChar": 33,
@@ -542,6 +1016,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_4fc5eb05",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/TransferHandler.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-01-27T01:42:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_3d9e2fb5",
+      "range": {
+        "startLine": 139,
+        "startChar": 0,
+        "endLine": 155,
+        "endChar": 6
+      },
+      "revId": "103407868d9bc8e9614096377e24df8ad65af1d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_3d246f60",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/errors/CorruptLongObjectException.java",
         "patchSetId": 12
@@ -553,6 +1051,30 @@
       "writtenOn": "2016-01-20T15:50:57Z",
       "side": 1,
       "message": "Thrown when the an object id is given that doesn\u0027t match the hash of the object\u0027s content",
+      "range": {
+        "startLine": 49,
+        "startChar": 3,
+        "endLine": 49,
+        "endChar": 68
+      },
+      "revId": "103407868d9bc8e9614096377e24df8ad65af1d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_efdf9fcf",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/errors/CorruptLongObjectException.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-01-27T01:42:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_3d246f60",
       "range": {
         "startLine": 49,
         "startChar": 3,
@@ -588,6 +1110,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_2fe98778",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/errors/CorruptLongObjectException.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-01-27T01:42:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_1d124b10",
+      "range": {
+        "startLine": 57,
+        "startChar": 1,
+        "endLine": 57,
+        "endChar": 8
+      },
+      "revId": "103407868d9bc8e9614096377e24df8ad65af1d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_3d0d4ff2",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/errors/CorruptLongObjectException.java",
         "patchSetId": 12
@@ -599,6 +1145,30 @@
       "writtenOn": "2016-01-20T15:50:57Z",
       "side": 1,
       "message": "final",
+      "range": {
+        "startLine": 59,
+        "startChar": 1,
+        "endLine": 59,
+        "endChar": 8
+      },
+      "revId": "103407868d9bc8e9614096377e24df8ad65af1d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_4fec0b88",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/errors/CorruptLongObjectException.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-01-27T01:42:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_3d0d4ff2",
       "range": {
         "startLine": 59,
         "startChar": 1,
@@ -634,6 +1204,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_6fe38f96",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/errors/CorruptLongObjectException.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-01-27T01:42:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_5d3bf386",
+      "range": {
+        "startLine": 80,
+        "startChar": 12,
+        "endLine": 80,
+        "endChar": 32
+      },
+      "revId": "103407868d9bc8e9614096377e24df8ad65af1d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_bd387f88",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/errors/CorruptLongObjectException.java",
         "patchSetId": 12
@@ -645,6 +1239,30 @@
       "writtenOn": "2016-01-20T15:50:57Z",
       "side": 1,
       "message": "the actual hash of the object\u0027s content",
+      "range": {
+        "startLine": 87,
+        "startChar": 12,
+        "endLine": 87,
+        "endChar": 20
+      },
+      "revId": "103407868d9bc8e9614096377e24df8ad65af1d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_8fe613a4",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/errors/CorruptLongObjectException.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-01-27T01:42:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_bd387f88",
       "range": {
         "startLine": 87,
         "startChar": 12,
