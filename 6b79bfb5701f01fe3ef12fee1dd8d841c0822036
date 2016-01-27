@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07d9433e_48215ca6",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RefTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-01-27T18:52:49Z",
+      "side": 1,
+      "message": "Could this go in RefUpdateTest.java?\n\nE.g. right after testDeleteHead, something like:\n\n  @Test\n  public void testDeleteHeadInBareRepo() throws IOException {\n    try (Repository bareRepo \u003d createBareRepository()) {\n      RefUpdate ref \u003d updateRef(Constants.HEAD);\n      delete(ref, Result.NEW, false, true);\n\n      ... create \"master\" and try another RefUpdate to delete it...\n    }\n  }",
+      "range": {
+        "startLine": 311,
+        "startChar": 0,
+        "endLine": 311,
+        "endChar": 47
+      },
+      "revId": "6b79bfb5701f01fe3ef12fee1dd8d841c0822036",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
