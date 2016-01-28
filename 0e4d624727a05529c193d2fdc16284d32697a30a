@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07d9433e_260d29f2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/MacroExpander.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-01-28T14:30:40Z",
+      "side": 1,
+      "message": "Great that we have the attribute specific code in the attributes package. This class is name \"MacroExpander\" but it does a lot more. I deals with merging attributes, provides access to attributes. We should find a more generic name ... AttributeHandler or something like that\n\nWe definitly need more javadoc here.",
+      "revId": "0e4d624727a05529c193d2fdc16284d32697a30a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_86351592",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/MacroExpander.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-01-28T14:30:40Z",
+      "side": 1,
+      "message": "That\u0027s a possible NPE if treewalk is null. And we do have a public constructor which leaves treewalk null. I would suggest we get rid of this constructor so that we savely can assume treewalk!\u003dnull",
+      "range": {
+        "startLine": 141,
+        "startChar": 2,
+        "endLine": 141,
+        "endChar": 46
+      },
+      "revId": "0e4d624727a05529c193d2fdc16284d32697a30a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_0629053a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/MacroExpander.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-01-28T14:30:40Z",
+      "side": 1,
+      "message": "why do we always do call complicated merge-method for the static InfoAttributes. If info attributes will not change during the run of one Treewalk we should cache the result. Maybe inside mergeInfoAttributes we could cache the data",
+      "range": {
+        "startLine": 146,
+        "startChar": 2,
+        "endLine": 146,
+        "endChar": 21
+      },
+      "revId": "0e4d624727a05529c193d2fdc16284d32697a30a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_a1112390",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/MacroExpander.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-01-28T14:30:40Z",
+      "side": 1,
+      "message": "Have you thought about the idea not merge attributes but to merge attributeNodes? Whenever you enter a new directory you would merge together all the relevant nodes into one currentAttributesNode. That node could be cached and every call to getAttributes() for a specific path could reuse the cached currentAttributesNode. That would reduce the number of merge operations. That number would be tied to the number of folders instead the number of files.",
+      "revId": "0e4d624727a05529c193d2fdc16284d32697a30a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07d9433e_861ef51f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesNode.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-01-28T14:30:40Z",
+      "side": 0,
+      "message": "I love the idea to remove that from AttributesNode.\n\nI rebased this commit on the newest master. But when I work against the newest API Baseline then Eclipse is complaining that we remove this public method. Can you tryout? Rebase and download then newest release from http://www.eclipse.org/downloads/download.php?file\u003d/egit/updates/org.eclipse.egit.repository-4.2.0.201601211800-r.zip. Configure that as your current baseline",
+      "revId": "3d8e6b1e16092701c31463092e945b8f00886bb7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
