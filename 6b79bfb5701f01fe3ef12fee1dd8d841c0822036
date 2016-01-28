@@ -70,6 +70,30 @@
       "revId": "6b79bfb5701f01fe3ef12fee1dd8d841c0822036",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_9c2802bb",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RefTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 62788
+      },
+      "writtenOn": "2016-01-28T17:14:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_cb50062c",
+      "range": {
+        "startLine": 311,
+        "startChar": 0,
+        "endLine": 311,
+        "endChar": 47
+      },
+      "revId": "6b79bfb5701f01fe3ef12fee1dd8d841c0822036",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
