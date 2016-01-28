@@ -260,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_b79b217e",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/LfsProtocolServlet.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-01-28T23:31:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_9d149bd1",
+      "range": {
+        "startLine": 100,
+        "startChar": 0,
+        "endLine": 106,
+        "endChar": 2
+      },
+      "revId": "103407868d9bc8e9614096377e24df8ad65af1d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_3db1cf76",
         "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/LfsProtocolServlet.java",
         "patchSetId": 12
@@ -365,6 +389,24 @@
       "writtenOn": "2016-01-20T15:50:57Z",
       "side": 1,
       "message": "It appears that this class has two responsibilities:\n\n1) It implements the LargeFileRepository interface for the Plain FS Repo and hence serves the protocol API.\n2) It is the implementation of the Plain FS Repo content store.\n\nI think these two concerns would be better addressed by two dedicated classes.",
+      "revId": "103407868d9bc8e9614096377e24df8ad65af1d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_dce7ea1d",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/PlainFSRepository.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-01-28T23:31:58Z",
+      "side": 1,
+      "message": "we think this is not necessary unless there is a second implementation using a different storage but can share the same implementation of LargeFileRepository",
+      "parentUuid": "07d9433e_fd6e8723",
       "revId": "103407868d9bc8e9614096377e24df8ad65af1d8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
