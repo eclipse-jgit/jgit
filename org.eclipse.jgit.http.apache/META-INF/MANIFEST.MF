@@ -7,8 +7,7 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-Localization: plugin
 Bundle-Vendor: %Provider-Name
 Bundle-ActivationPolicy: lazy
-Import-Package: org.apache.commons.logging;version="[1.1.1,2.0.0)",
- org.apache.http;version="[4.1.0,5.0.0)",
+Import-Package: org.apache.http;version="[4.1.0,5.0.0)",
  org.apache.http.client;version="[4.1.0,5.0.0)",
  org.apache.http.client.methods;version="[4.1.0,5.0.0)",
  org.apache.http.client.params;version="[4.1.0,5.0.0)",
