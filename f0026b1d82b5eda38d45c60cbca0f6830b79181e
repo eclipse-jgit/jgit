@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07d9433e_c7cc72d1",
+        "filename": "org.eclipse.jgit.http.apache/src/org/eclipse/jgit/transport/http/apache/HttpClientConnection.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2016-02-01T13:27:47Z",
+      "side": 1,
+      "message": "shouldn\u0027t this be a separate change? it is rather unrelated to the topic of this review",
+      "range": {
+        "startLine": 259,
+        "startChar": 2,
+        "endLine": 267,
+        "endChar": 10
+      },
+      "revId": "f0026b1d82b5eda38d45c60cbca0f6830b79181e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
