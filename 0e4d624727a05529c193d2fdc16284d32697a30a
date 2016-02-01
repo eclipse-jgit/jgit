@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_870eea3f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/MacroExpander.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2016-02-01T12:10:52Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "0e4d624727a05529c193d2fdc16284d32697a30a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_86351592",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/MacroExpander.java",
         "patchSetId": 8
@@ -36,6 +53,23 @@
         "endLine": 141,
         "endChar": 46
       },
+      "revId": "0e4d624727a05529c193d2fdc16284d32697a30a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_67080636",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/MacroExpander.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2016-02-01T12:10:52Z",
+      "side": 1,
+      "message": "Done",
       "revId": "0e4d624727a05529c193d2fdc16284d32697a30a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -65,6 +99,23 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_073c9a7d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/MacroExpander.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2016-02-01T12:10:52Z",
+      "side": 1,
+      "message": "The major issue is that entryPath is the effective path of the file/dir that is to be checked against \r\nall attributes rules. The merge is therefore nothing static.\r\nThe attributes rule cannot be just merged into the child nodes. Basically it would mean to \r\n1) detect for each rule (pattern) in the parent if it is used in the child node\r\n2) Modify the pattern of that rule (from parent) to a child node pattern. e.g. /foo/bar/*.txt would \r\nbe changed to /bar/*.txt in the bar sub folder but no rule is merged down to the /xyz/ subfolder. \r\nHowever this is basically just adding these (modified) rules to the top of the child node. At that point\r\nwe have nothing gained in performance or operation count. Only if we semantically merge attribute rules doing \"similar\"\r\nthings then we can reduce the number of attribute rules.\r\n\r\n-\u003e I see here no difference to the .gitignore rule handling which could much simpler be merged down. The question is why do we not\r\nalso merge down git ignore rules? \r\nI suggest leaving it as is until since there is no safe algorithm that merges such pattern rules together.\r\n\r\nCaching: caching would mean caching the result for every pathString, which would turn out to be a hashmap with every filename in it as a key (?)\r\nNote that attributes rule may handle /a/b/x.txt completely different than /a/b/c/x.txt",
+      "revId": "0e4d624727a05529c193d2fdc16284d32697a30a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_a1112390",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/MacroExpander.java",
         "patchSetId": 8
@@ -76,6 +127,23 @@
       "writtenOn": "2016-01-28T14:30:40Z",
       "side": 1,
       "message": "Have you thought about the idea not merge attributes but to merge attributeNodes? Whenever you enter a new directory you would merge together all the relevant nodes into one currentAttributesNode. That node could be cached and every call to getAttributes() for a specific path could reuse the cached currentAttributesNode. That would reduce the number of merge operations. That number would be tied to the number of folders instead the number of files.",
+      "revId": "0e4d624727a05529c193d2fdc16284d32697a30a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_4736a29d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/MacroExpander.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2016-02-01T12:10:52Z",
+      "side": 1,
+      "message": "see reply before. I see no performance difference when we just add the parent rules on top of the child \r\nnodes rule set unless we find a way to merge together rule patterns (left side) and their rules (right side).\r\nAnd also why do we not do that on gitignore nodes before. This would be only pattern merge.",
       "revId": "0e4d624727a05529c193d2fdc16284d32697a30a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
