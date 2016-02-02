@@ -191,119 +191,122 @@ public class PackFileTest extends LocalDiskRepositoryTestCase {
 
 	@Test
 	public void testDelta_SmallObjectChain() throws Exception {
-		ObjectInserter.Formatter fmt = new ObjectInserter.Formatter();
-		byte[] data0 = new byte[512];
-		Arrays.fill(data0, (byte) 0xf3);
-		ObjectId id0 = fmt.idFor(Constants.OBJ_BLOB, data0);
+		try (ObjectInserter.Formatter fmt = new ObjectInserter.Formatter()) {
+			byte[] data0 = new byte[512];
+			Arrays.fill(data0, (byte) 0xf3);
+			ObjectId id0 = fmt.idFor(Constants.OBJ_BLOB, data0);
 
-		TemporaryBuffer.Heap pack = new TemporaryBuffer.Heap(64 * 1024);
-		packHeader(pack, 4);
-		objectHeader(pack, Constants.OBJ_BLOB, data0.length);
-		deflate(pack, data0);
+			TemporaryBuffer.Heap pack = new TemporaryBuffer.Heap(64 * 1024);
+			packHeader(pack, 4);
+			objectHeader(pack, Constants.OBJ_BLOB, data0.length);
+			deflate(pack, data0);
 
-		byte[] data1 = clone(0x01, data0);
-		byte[] delta1 = delta(data0, data1);
-		ObjectId id1 = fmt.idFor(Constants.OBJ_BLOB, data1);
-		objectHeader(pack, Constants.OBJ_REF_DELTA, delta1.length);
-		id0.copyRawTo(pack);
-		deflate(pack, delta1);
+			byte[] data1 = clone(0x01, data0);
+			byte[] delta1 = delta(data0, data1);
+			ObjectId id1 = fmt.idFor(Constants.OBJ_BLOB, data1);
+			objectHeader(pack, Constants.OBJ_REF_DELTA, delta1.length);
+			id0.copyRawTo(pack);
+			deflate(pack, delta1);
 
-		byte[] data2 = clone(0x02, data1);
-		byte[] delta2 = delta(data1, data2);
-		ObjectId id2 = fmt.idFor(Constants.OBJ_BLOB, data2);
-		objectHeader(pack, Constants.OBJ_REF_DELTA, delta2.length);
-		id1.copyRawTo(pack);
-		deflate(pack, delta2);
+			byte[] data2 = clone(0x02, data1);
+			byte[] delta2 = delta(data1, data2);
+			ObjectId id2 = fmt.idFor(Constants.OBJ_BLOB, data2);
+			objectHeader(pack, Constants.OBJ_REF_DELTA, delta2.length);
+			id1.copyRawTo(pack);
+			deflate(pack, delta2);
 
-		byte[] data3 = clone(0x03, data2);
-		byte[] delta3 = delta(data2, data3);
-		ObjectId id3 = fmt.idFor(Constants.OBJ_BLOB, data3);
-		objectHeader(pack, Constants.OBJ_REF_DELTA, delta3.length);
-		id2.copyRawTo(pack);
-		deflate(pack, delta3);
+			byte[] data3 = clone(0x03, data2);
+			byte[] delta3 = delta(data2, data3);
+			ObjectId id3 = fmt.idFor(Constants.OBJ_BLOB, data3);
+			objectHeader(pack, Constants.OBJ_REF_DELTA, delta3.length);
+			id2.copyRawTo(pack);
+			deflate(pack, delta3);
 
-		digest(pack);
-		PackParser ip = index(pack.toByteArray());
-		ip.setAllowThin(true);
-		ip.parse(NullProgressMonitor.INSTANCE);
+			digest(pack);
+			PackParser ip = index(pack.toByteArray());
+			ip.setAllowThin(true);
+			ip.parse(NullProgressMonitor.INSTANCE);
 
-		assertTrue("has blob", wc.has(id3));
+			assertTrue("has blob", wc.has(id3));
 
-		ObjectLoader ol = wc.open(id3);
-		assertNotNull("created loader", ol);
-		assertEquals(Constants.OBJ_BLOB, ol.getType());
-		assertEquals(data3.length, ol.getSize());
-		assertFalse("is large", ol.isLarge());
-		assertNotNull(ol.getCachedBytes());
-		assertArrayEquals(data3, ol.getCachedBytes());
+			ObjectLoader ol = wc.open(id3);
+			assertNotNull("created loader", ol);
+			assertEquals(Constants.OBJ_BLOB, ol.getType());
+			assertEquals(data3.length, ol.getSize());
+			assertFalse("is large", ol.isLarge());
+			assertNotNull(ol.getCachedBytes());
+			assertArrayEquals(data3, ol.getCachedBytes());
 
-		ObjectStream in = ol.openStream();
-		assertNotNull("have stream", in);
-		assertEquals(Constants.OBJ_BLOB, in.getType());
-		assertEquals(data3.length, in.getSize());
-		byte[] act = new byte[data3.length];
-		IO.readFully(in, act, 0, data3.length);
-		assertTrue("same content", Arrays.equals(act, data3));
-		assertEquals("stream at EOF", -1, in.read());
-		in.close();
+			ObjectStream in = ol.openStream();
+			assertNotNull("have stream", in);
+			assertEquals(Constants.OBJ_BLOB, in.getType());
+			assertEquals(data3.length, in.getSize());
+			byte[] act = new byte[data3.length];
+			IO.readFully(in, act, 0, data3.length);
+			assertTrue("same content", Arrays.equals(act, data3));
+			assertEquals("stream at EOF", -1, in.read());
+			in.close();
+		}
 	}
 
 	@Test
 	public void testDelta_FailsOver2GiB() throws Exception {
-		ObjectInserter.Formatter fmt = new ObjectInserter.Formatter();
-		byte[] base = new byte[] { 'a' };
-		ObjectId idA = fmt.idFor(Constants.OBJ_BLOB, base);
-		ObjectId idB = fmt.idFor(Constants.OBJ_BLOB, new byte[] { 'b' });
+		try (ObjectInserter.Formatter fmt = new ObjectInserter.Formatter()) {
+			byte[] base = new byte[] { 'a' };
+			ObjectId idA = fmt.idFor(Constants.OBJ_BLOB, base);
+			ObjectId idB = fmt.idFor(Constants.OBJ_BLOB, new byte[] { 'b' });
 
-		PackedObjectInfo a = new PackedObjectInfo(idA);
-		PackedObjectInfo b = new PackedObjectInfo(idB);
+			PackedObjectInfo a = new PackedObjectInfo(idA);
+			PackedObjectInfo b = new PackedObjectInfo(idB);
 
-		TemporaryBuffer.Heap pack = new TemporaryBuffer.Heap(64 * 1024);
-		packHeader(pack, 2);
-		a.setOffset(pack.length());
-		objectHeader(pack, Constants.OBJ_BLOB, base.length);
-		deflate(pack, base);
+			TemporaryBuffer.Heap pack = new TemporaryBuffer.Heap(64 * 1024);
+			packHeader(pack, 2);
+			a.setOffset(pack.length());
+			objectHeader(pack, Constants.OBJ_BLOB, base.length);
+			deflate(pack, base);
 
-		ByteArrayOutputStream tmp = new ByteArrayOutputStream();
-		DeltaEncoder de = new DeltaEncoder(tmp, base.length, 3L << 30);
-		de.copy(0, 1);
-		byte[] delta = tmp.toByteArray();
-		b.setOffset(pack.length());
-		objectHeader(pack, Constants.OBJ_REF_DELTA, delta.length);
-		idA.copyRawTo(pack);
-		deflate(pack, delta);
-		byte[] footer = digest(pack);
+			ByteArrayOutputStream tmp = new ByteArrayOutputStream();
+			DeltaEncoder de = new DeltaEncoder(tmp, base.length, 3L << 30);
+			de.copy(0, 1);
+			byte[] delta = tmp.toByteArray();
+			b.setOffset(pack.length());
+			objectHeader(pack, Constants.OBJ_REF_DELTA, delta.length);
+			idA.copyRawTo(pack);
+			deflate(pack, delta);
+			byte[] footer = digest(pack);
 
-		File dir = new File(repo.getObjectDatabase().getDirectory(), "pack");
-		File packName = new File(dir, idA.name() + ".pack");
-		File idxName = new File(dir, idA.name() + ".idx");
+			File dir = new File(repo.getObjectDatabase().getDirectory(),
+					"pack");
+			File packName = new File(dir, idA.name() + ".pack");
+			File idxName = new File(dir, idA.name() + ".idx");
 
-		FileOutputStream f = new FileOutputStream(packName);
-		try {
-			f.write(pack.toByteArray());
-		} finally {
-			f.close();
-		}
+			FileOutputStream f = new FileOutputStream(packName);
+			try {
+				f.write(pack.toByteArray());
+			} finally {
+				f.close();
+			}
 
-		f = new FileOutputStream(idxName);
-		try {
-			List<PackedObjectInfo> list = new ArrayList<PackedObjectInfo>();
-			list.add(a);
-			list.add(b);
-			Collections.sort(list);
-			new PackIndexWriterV1(f).write(list, footer);
-		} finally {
-			f.close();
-		}
+			f = new FileOutputStream(idxName);
+			try {
+				List<PackedObjectInfo> list = new ArrayList<PackedObjectInfo>();
+				list.add(a);
+				list.add(b);
+				Collections.sort(list);
+				new PackIndexWriterV1(f).write(list, footer);
+			} finally {
+				f.close();
+			}
 
-		PackFile packFile = new PackFile(packName, PackExt.INDEX.getBit());
-		try {
-			packFile.get(wc, b);
-			fail("expected LargeObjectException.ExceedsByteArrayLimit");
-		} catch (LargeObjectException.ExceedsByteArrayLimit bad) {
-			assertNull(bad.getObjectId());
-		} finally {
-			packFile.close();
+			PackFile packFile = new PackFile(packName, PackExt.INDEX.getBit());
+			try {
+				packFile.get(wc, b);
+				fail("expected LargeObjectException.ExceedsByteArrayLimit");
+			} catch (LargeObjectException.ExceedsByteArrayLimit bad) {
+				assertNull(bad.getObjectId());
+			} finally {
+				packFile.close();
+			}
 		}
 	}
 
