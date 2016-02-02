@@ -312,7 +312,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 		}
 	}
 
-	private void insertChangeId(ObjectId treeId) throws IOException {
+	private void insertChangeId(ObjectId treeId) {
 		ObjectId firstParentId = null;
 		if (!parents.isEmpty())
 			firstParentId = parents.get(0);
