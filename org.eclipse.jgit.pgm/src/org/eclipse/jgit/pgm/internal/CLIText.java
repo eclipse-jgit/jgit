@@ -150,6 +150,12 @@ public class CLIText extends TranslationBundle {
 	/***/ public String initializedEmptyGitRepositoryIn;
 	/***/ public String invalidHttpProxyOnlyHttpSupported;
 	/***/ public String jgitVersion;
+	/***/ public String lfsNoAccessKey;
+	/***/ public String lfsNoSecretKey;
+	/***/ public String lfsProtocolUrl;
+	/***/ public String lfsStoreDirectory;
+	/***/ public String lfsStoreUrl;
+	/***/ public String lfsUnknownStoreType;
 	/***/ public String lineFormat;
 	/***/ public String listeningOn;
 	/***/ public String mergeCheckoutConflict;
@@ -178,6 +184,7 @@ public class CLIText extends TranslationBundle {
 	/***/ public String metaVar_filepattern;
 	/***/ public String metaVar_gitDir;
 	/***/ public String metaVar_hostName;
+	/***/ public String metaVar_lfsStorage;
 	/***/ public String metaVar_linesOfContext;
 	/***/ public String metaVar_message;
 	/***/ public String metaVar_n;
@@ -192,6 +199,9 @@ public class CLIText extends TranslationBundle {
 	/***/ public String metaVar_refs;
 	/***/ public String metaVar_refspec;
 	/***/ public String metaVar_remoteName;
+	/***/ public String metaVar_s3Bucket;
+	/***/ public String metaVar_s3Region;
+	/***/ public String metaVar_s3StorageClass;
 	/***/ public String metaVar_seconds;
 	/***/ public String metaVar_service;
 	/***/ public String metaVar_treeish;
@@ -237,6 +247,7 @@ public class CLIText extends TranslationBundle {
 	/***/ public String remoteRefObjectChangedIsNotExpectedOne;
 	/***/ public String remoteSideDoesNotSupportDeletingRefs;
 	/***/ public String repaint;
+	/***/ public String s3InvalidBucket;
 	/***/ public String serviceNotSupported;
 	/***/ public String skippingObject;
 	/***/ public String statusFileListFormat;
