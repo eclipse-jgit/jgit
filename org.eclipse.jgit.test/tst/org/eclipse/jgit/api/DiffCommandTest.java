@@ -48,18 +48,12 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
 
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffEntry.ChangeType;
 import org.eclipse.jgit.junit.RepositoryTestCase;
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectReader;
-import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.treewalk.AbstractTreeIterator;
-import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.junit.Test;
 
@@ -151,16 +145,16 @@ public class DiffCommandTest extends RepositoryTestCase {
 		// bad filter
 		DiffCommand diff = git.diff().setShowNameAndStatusOnly(true)
 				.setPathFilter(PathFilter.create("test.txt"))
-				.setOldTree(getTreeIterator("HEAD^^"))
-				.setNewTree(getTreeIterator("HEAD^"));
+				.setOldTree(db.resolve("HEAD^^"))
+				.setNewTree(db.resolve("HEAD^"));
 		List<DiffEntry> entries = diff.call();
 		assertEquals(0, entries.size());
 
 		// no filter, two commits
 		OutputStream out = new ByteArrayOutputStream();
 		diff = git.diff().setOutputStream(out)
-				.setOldTree(getTreeIterator("HEAD^^"))
-				.setNewTree(getTreeIterator("HEAD^"));
+				.setOldTree(db.resolve("HEAD^^"))
+				.setNewTree(db.resolve("HEAD^"));
 		entries = diff.call();
 		assertEquals(1, entries.size());
 		assertEquals(ChangeType.MODIFY, entries.get(0).getChangeType());
@@ -239,17 +233,5 @@ public class DiffCommandTest extends RepositoryTestCase {
 		assertEquals(ChangeType.MODIFY, diff.getChangeType());
 		assertEquals("test.txt", diff.getOldPath());
 		assertEquals("test.txt", diff.getNewPath());
-	}
-
-	private AbstractTreeIterator getTreeIterator(String name)
-			throws IOException {
-		final ObjectId id = db.resolve(name);
-		if (id == null)
-			throw new IllegalArgumentException(name);
-		final CanonicalTreeParser p = new CanonicalTreeParser();
-		try (ObjectReader or = db.newObjectReader()) {
-			p.reset(or, new RevWalk(db).parseTree(id));
-			return p;
-		}
 	}
 }
