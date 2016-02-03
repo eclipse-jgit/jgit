@@ -753,6 +753,30 @@
     },
     {
       "key": {
+        "uuid": "07d9433e_e656cf31",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/Response.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-02-03T10:26:41Z",
+      "side": 1,
+      "message": "this is a public package so it\u0027s part of the public API and specific implementations have been moved to their own package",
+      "parentUuid": "07d9433e_7d40b75e",
+      "range": {
+        "startLine": 44,
+        "startChar": 8,
+        "endLine": 44,
+        "endChar": 35
+      },
+      "revId": "103407868d9bc8e9614096377e24df8ad65af1d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d9433e_3dc70fab",
         "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/TransferHandler.java",
         "patchSetId": 12
