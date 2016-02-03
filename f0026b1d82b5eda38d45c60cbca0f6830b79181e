@@ -22,6 +22,30 @@
       "revId": "f0026b1d82b5eda38d45c60cbca0f6830b79181e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_06ac93a6",
+        "filename": "org.eclipse.jgit.http.apache/src/org/eclipse/jgit/transport/http/apache/HttpClientConnection.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-02-03T10:36:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_c7cc72d1",
+      "range": {
+        "startLine": 259,
+        "startChar": 2,
+        "endLine": 267,
+        "endChar": 10
+      },
+      "revId": "f0026b1d82b5eda38d45c60cbca0f6830b79181e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
