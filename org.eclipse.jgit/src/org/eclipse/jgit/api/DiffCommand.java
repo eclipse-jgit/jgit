@@ -182,6 +182,26 @@ public class DiffCommand extends GitCommand<List<DiffEntry>> {
 	}
 
 	/**
+	 * @param name
+	 *            tag or branch to use as first commit
+	 * @throws NoHeadException
+	 * @throws IOException
+	 */
+	public void setNewName(String name) throws NoHeadException, IOException {
+		newTree = getRevision(name);
+	}
+
+	/**
+	 * @param name
+	 *            tag or branch to use as second commit
+	 * @throws NoHeadException
+	 * @throws IOException
+	 */
+	public void setOldName(String name) throws NoHeadException, IOException {
+		oldTree = getRevision(name);
+	}
+
+	/**
 	 * @param oldTree
 	 *            the previous state
 	 * @return this instance
@@ -273,5 +293,18 @@ public class DiffCommand extends GitCommand<List<DiffEntry>> {
 		}
 		this.monitor = monitor;
 		return this;
+	}
+
+	private AbstractTreeIterator getRevision(String name)
+			throws IOException, NoHeadException {
+		ObjectId head = repo.resolve(name + "^{tree}"); //$NON-NLS-1$
+		if (head == null) {
+			throw new NoHeadException(JGitText.get().cannotReadTree);
+		}
+		CanonicalTreeParser p = new CanonicalTreeParser();
+		try (ObjectReader reader = repo.newObjectReader()) {
+			p.reset(reader, head);
+		}
+		return p;
 	}
 }
