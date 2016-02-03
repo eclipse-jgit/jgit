@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07d9433e_c8047556",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DiffCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-02-03T20:21:07Z",
+      "side": 1,
+      "message": "Could this sanity-check that oldTree and oldTreeish can\u0027t both be set? (I realize the setters enforce that --- I just mean future-proofing and documenting here.) E.g.\n\n  if (oldTree !\u003d null \u0026\u0026 oldTreeish !\u003d null) {\n    // The setter for each clears the other.\n    throw new AssertionError(); \n  } else if (oldTree !\u003d null) {\n    ...\n  } else if (oldTreeish !\u003d null) {\n\nLikewise in resolveNewTree.",
+      "range": {
+        "startLine": 153,
+        "startChar": 0,
+        "endLine": 154,
+        "endChar": 40
+      },
+      "revId": "c77c501e4a5942997a83be91940934bb5f55f431",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
