@@ -94,6 +94,8 @@ public class DiffCommand extends GitCommand<List<DiffEntry>> {
 
 	private ProgressMonitor monitor = NullProgressMonitor.INSTANCE;
 
+	private boolean binary = true;
+
 	/**
 	 * @param repo
 	 */
@@ -115,6 +117,7 @@ public class DiffCommand extends GitCommand<List<DiffEntry>> {
 			diffFmt = new DiffFormatter(new BufferedOutputStream(out));
 		else
 			diffFmt = new DiffFormatter(NullOutputStream.INSTANCE);
+		diffFmt.setBinary(binary);
 		diffFmt.setRepository(repo);
 		diffFmt.setProgressMonitor(monitor);
 		try {
@@ -293,6 +296,17 @@ public class DiffCommand extends GitCommand<List<DiffEntry>> {
 		}
 		this.monitor = monitor;
 		return this;
+	}
+
+	/**
+	 * Specify if binary diff should be generated
+	 *
+	 * @param binary
+	 *            - If set to true then binary diff is generated that can be
+	 *            applied with git-apply
+	 */
+	public void setBinary(boolean binary) {
+		this.binary = binary;
 	}
 
 	private AbstractTreeIterator getRevision(String name)

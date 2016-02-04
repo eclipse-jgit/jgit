@@ -148,6 +148,8 @@ public class DiffFormatter implements AutoCloseable {
 
 	private ContentSource.Pair source;
 
+	private boolean binary;
+
 	/**
 	 * Create a new formatter with a default level of context.
 	 *
@@ -158,6 +160,17 @@ public class DiffFormatter implements AutoCloseable {
 	 */
 	public DiffFormatter(OutputStream out) {
 		this.out = out;
+	}
+
+	/**
+	 * Specify if binary diff should be generated
+	 *
+	 * @param binary
+	 *            - If set to true then binary diff is generated that can be
+	 *            applied with git-apply
+	 */
+	public void setBinary(boolean binary) {
+		this.binary = binary;
 	}
 
 	/** @return the stream we are outputting data to. */
@@ -953,7 +966,7 @@ public class DiffFormatter implements AutoCloseable {
 
 			if (aRaw == BINARY || bRaw == BINARY //
 					|| RawText.isBinary(aRaw) || RawText.isBinary(bRaw)) {
-				formatHeader(buf, ent, true);
+				formatHeader(buf, ent, binary);
 				formatOldNewPaths(buf, ent);
 				writeGitBinaryPatch(buf, aRaw, bRaw);
 				editList = new EditList();
@@ -1163,19 +1176,6 @@ public class DiffFormatter implements AutoCloseable {
 		o.write('\n');
 	}
 
-	/**
-	 * @param o
-	 *            the stream the formatter will write line data to
-	 * @param ent
-	 *            the DiffEntry to create the FileHeader for
-	 * @throws IOException
-	 *             writing to the supplied stream failed.
-	 */
-	protected void formatIndexLine(OutputStream o, DiffEntry ent)
-			throws IOException {
-		formatIndexLine(o, ent, false);
-	}
-
 	private void formatOldNewPaths(ByteArrayOutputStream o, DiffEntry ent)
 			throws IOException {
 		if (ent.oldId.equals(ent.newId))
@@ -1227,9 +1227,13 @@ public class DiffFormatter implements AutoCloseable {
 
 	private void writeGitBinaryPatch(ByteArrayOutputStream buf, byte[] aRaw,
 			byte[] bRaw) throws IOException {
-		buf.write(encodeASCII("GIT binary patch\n")); //$NON-NLS-1$
-		emitBinaryDiffBody(buf, aRaw, bRaw);
-		emitBinaryDiffBody(buf, bRaw, aRaw);
+		if (binary) {
+			buf.write(encodeASCII("GIT binary patch\n")); //$NON-NLS-1$
+			emitBinaryDiffBody(buf, aRaw, bRaw);
+			emitBinaryDiffBody(buf, bRaw, aRaw);
+		} else {
+			buf.write(encodeASCII("Binary files differ\n")); //$NON-NLS-1$
+		}
 	}
 
 	private void emitBinaryDiffBody(ByteArrayOutputStream buf, byte[] aRaw,

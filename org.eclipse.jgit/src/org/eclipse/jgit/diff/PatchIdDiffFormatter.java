@@ -81,8 +81,8 @@ public class PatchIdDiffFormatter extends DiffFormatter {
 	}
 
 	@Override
-	protected void formatIndexLine(OutputStream o, DiffEntry ent)
-			throws IOException {
+	protected void formatIndexLine(OutputStream o, DiffEntry ent,
+			boolean isBinary) throws IOException {
 		// The index line is not taken into account for patch id calculation
 	}
 }
