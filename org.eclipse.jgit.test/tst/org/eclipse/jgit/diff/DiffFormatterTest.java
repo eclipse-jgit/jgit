@@ -260,6 +260,68 @@ public class DiffFormatterTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testCreateFileHeader_AddGitLink() throws Exception {
+		ObjectId adId = blob("a\nd\n");
+		DiffEntry ent = DiffEntry.add("FOO", adId);
+		ent.newMode = FileMode.GITLINK;
+		FileHeader fh = df.toFileHeader(ent);
+
+		String diffHeader = "diff --git a/FOO b/FOO\n" //
+				+ "new file mode " + GITLINK + "\n"
+				+ "index "
+				+ ObjectId.zeroId().abbreviate(8).name()
+				+ ".."
+				+ adId.abbreviate(8).name() + "\n" //
+				+ "--- /dev/null\n"//
+				+ "+++ b/FOO\n";
+		assertEquals(diffHeader, RawParseUtils.decode(fh.getBuffer()));
+
+		assertEquals(1, fh.getHunks().size());
+		HunkHeader hh = fh.getHunks().get(0);
+
+		EditList el = hh.toEditList();
+		assertEquals(1, el.size());
+
+		Edit e = el.get(0);
+		assertEquals(0, e.getBeginA());
+		assertEquals(0, e.getEndA());
+		assertEquals(0, e.getBeginB());
+		assertEquals(1, e.getEndB());
+		assertEquals(Edit.Type.INSERT, e.getType());
+	}
+
+	@Test
+	public void testCreateFileHeader_DeleteGitLink() throws Exception {
+		ObjectId adId = blob("a\nd\n");
+		DiffEntry ent = DiffEntry.delete("FOO", adId);
+		ent.oldMode = FileMode.GITLINK;
+		FileHeader fh = df.toFileHeader(ent);
+
+		String diffHeader = "diff --git a/FOO b/FOO\n" //
+				+ "deleted file mode " + GITLINK + "\n"
+				+ "index "
+				+ adId.abbreviate(8).name()
+				+ ".."
+				+ ObjectId.zeroId().abbreviate(8).name() + "\n" //
+				+ "--- a/FOO\n"//
+				+ "+++ /dev/null\n";
+		assertEquals(diffHeader, RawParseUtils.decode(fh.getBuffer()));
+
+		assertEquals(1, fh.getHunks().size());
+		HunkHeader hh = fh.getHunks().get(0);
+
+		EditList el = hh.toEditList();
+		assertEquals(1, el.size());
+
+		Edit e = el.get(0);
+		assertEquals(0, e.getBeginA());
+		assertEquals(1, e.getEndA());
+		assertEquals(0, e.getBeginB());
+		assertEquals(0, e.getEndB());
+		assertEquals(Edit.Type.DELETE, e.getType());
+	}
+
+	@Test
 	public void testCreateFileHeaderWithoutIndexLine() throws Exception {
 		DiffEntry m = DiffEntry.modify(PATH_A);
 		m.oldMode = FileMode.REGULAR_FILE;
