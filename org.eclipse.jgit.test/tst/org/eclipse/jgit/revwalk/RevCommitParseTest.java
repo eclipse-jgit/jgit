@@ -452,9 +452,10 @@ public class RevCommitParseTest extends RepositoryTestCase {
 	@Test
 	public void testParse_PublicParseMethod()
 			throws UnsupportedEncodingException {
-		ObjectInserter.Formatter fmt = new ObjectInserter.Formatter();
 		CommitBuilder src = new CommitBuilder();
-		src.setTreeId(fmt.idFor(Constants.OBJ_TREE, new byte[] {}));
+		try (ObjectInserter.Formatter fmt = new ObjectInserter.Formatter()) {
+			src.setTreeId(fmt.idFor(Constants.OBJ_TREE, new byte[] {}));
+		}
 		src.setAuthor(author);
 		src.setCommitter(committer);
 		src.setMessage("Test commit\n\nThis is a test.\n");
