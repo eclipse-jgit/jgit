@@ -463,10 +463,11 @@ public class RevTagParseTest extends RepositoryTestCase {
 
 	@Test
 	public void testParse_PublicParseMethod() throws CorruptObjectException {
-		ObjectInserter.Formatter fmt = new ObjectInserter.Formatter();
 		TagBuilder src = new TagBuilder();
-		src.setObjectId(fmt.idFor(Constants.OBJ_TREE, new byte[] {}),
-				Constants.OBJ_TREE);
+		try (ObjectInserter.Formatter fmt = new ObjectInserter.Formatter()) {
+			src.setObjectId(fmt.idFor(Constants.OBJ_TREE, new byte[] {}),
+					Constants.OBJ_TREE);
+		}
 		src.setTagger(committer);
 		src.setTag("a.test");
 		src.setMessage("Test tag\n\nThis is a test.\n");
