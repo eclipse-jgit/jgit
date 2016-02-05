@@ -286,25 +286,25 @@ class TextHashFunctions extends TextBuiltin {
 			else
 				rb.findGitDir(dir);
 
-			Repository db = rb.build();
+			Repository repo = rb.build();
 			try {
-				run(db);
+				run(repo);
 			} finally {
-				db.close();
+				repo.close();
 			}
 		}
 	}
 
-	private void run(Repository db) throws Exception {
+	private void run(Repository repo) throws Exception {
 		List<Function> all = init();
 
 		long fileCnt = 0;
 		long lineCnt = 0;
-		try (ObjectReader or = db.newObjectReader();
+		try (ObjectReader or = repo.newObjectReader();
 			RevWalk rw = new RevWalk(or);
 			TreeWalk tw = new TreeWalk(or)) {
 			final MutableObjectId id = new MutableObjectId();
-			tw.reset(rw.parseTree(db.resolve(Constants.HEAD)));
+			tw.reset(rw.parseTree(repo.resolve(Constants.HEAD)));
 			tw.setRecursive(true);
 
 			while (tw.next()) {
@@ -341,7 +341,7 @@ class TextHashFunctions extends TextBuiltin {
 			}
 		}
 
-		File directory = db.getDirectory();
+		File directory = repo.getDirectory();
 		if (directory != null) {
 			String name = directory.getName();
 			File parent = directory.getParentFile();
