@@ -22,6 +22,30 @@
       "revId": "c77c501e4a5942997a83be91940934bb5f55f431",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07d9433e_51a7293f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DiffCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2016-02-05T17:48:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d9433e_c8047556",
+      "range": {
+        "startLine": 153,
+        "startChar": 0,
+        "endLine": 154,
+        "endChar": 40
+      },
+      "revId": "c77c501e4a5942997a83be91940934bb5f55f431",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
