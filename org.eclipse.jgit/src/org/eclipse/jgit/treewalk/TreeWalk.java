@@ -303,6 +303,8 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 		filter = TreeFilter.ALL;
 		trees = NO_TREES;
 		this.closeReader = closeReader;
+		AttributesHandler.mergeACount = 0;
+		AttributesHandler.mergePDEACount = 0;
 	}
 
 	/** @return the reader this walker is using to load objects. */

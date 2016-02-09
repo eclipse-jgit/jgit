@@ -200,6 +200,10 @@ public class AttributesHandler {
 	}
 
 	/**
+	 *
+	 */
+	public static int mergePDEACount = 0;
+	/**
 	 * Merges the matching working directory attributes for an entry path.
 	 *
 	 * @param entryPath
@@ -222,6 +226,8 @@ public class AttributesHandler {
 			@Nullable DirCacheIterator dirCacheIterator,
 			@Nullable CanonicalTreeParser otherTree, Attributes result)
 					throws IOException {
+		System.out.println("mergePerDirectoryEntryAttributes #"
+				+ mergePDEACount++ + " on path: " + entryPath);
 		// Prevents infinite recurrence
 		if (workingTreeIterator != null || dirCacheIterator != null
 				|| otherTree != null) {
@@ -236,6 +242,10 @@ public class AttributesHandler {
 		}
 	}
 
+	/**
+	 *
+	 */
+	public static int mergeACount = 0;
 	/**
 	 * Merges the matching node attributes for an entry path.
 	 *
@@ -254,6 +264,8 @@ public class AttributesHandler {
 	protected void mergeAttributes(@Nullable AttributesNode node,
 			String entryPath,
 			boolean isDirectory, Attributes result) {
+		System.out.println(
+				"mergeAttributes #" + mergeACount++ + " on path: " + entryPath);
 		if (node == null)
 			return;
 		List<AttributesRule> rules = node.getRules();
