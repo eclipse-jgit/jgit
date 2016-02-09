@@ -666,6 +666,9 @@ public class DiffFormatter implements AutoCloseable {
 	}
 
 	private static byte[] writeGitLinkText(AbbreviatedObjectId id) {
+		if (id.toObjectId().equals(ObjectId.zeroId())) {
+			return EMPTY;
+		}
 		return encodeASCII("Subproject commit " + id.name() //$NON-NLS-1$
 				+ "\n"); //$NON-NLS-1$
 	}

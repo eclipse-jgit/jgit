@@ -463,24 +463,24 @@ public class ResetCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testHardResetAfterSquashMerge() throws Exception {
-		Git g = new Git(db);
+		git = new Git(db);
 
 		writeTrashFile("file1", "file1");
-		g.add().addFilepattern("file1").call();
-		RevCommit first = g.commit().setMessage("initial commit").call();
+		git.add().addFilepattern("file1").call();
+		RevCommit first = git.commit().setMessage("initial commit").call();
 
 		assertTrue(new File(db.getWorkTree(), "file1").exists());
 		createBranch(first, "refs/heads/branch1");
 		checkoutBranch("refs/heads/branch1");
 
 		writeTrashFile("file2", "file2");
-		g.add().addFilepattern("file2").call();
-		g.commit().setMessage("second commit").call();
+		git.add().addFilepattern("file2").call();
+		git.commit().setMessage("second commit").call();
 		assertTrue(new File(db.getWorkTree(), "file2").exists());
 
 		checkoutBranch("refs/heads/master");
 
-		MergeResult result = g.merge()
+		MergeResult result = git.merge()
 				.include(db.exactRef("refs/heads/branch1"))
 				.setSquash(true)
 				.call();
@@ -489,7 +489,7 @@ public class ResetCommandTest extends RepositoryTestCase {
 				result.getMergeStatus());
 		assertNotNull(db.readSquashCommitMsg());
 
-		assertSameAsHead(g.reset().setMode(ResetType.HARD)
+		assertSameAsHead(git.reset().setMode(ResetType.HARD)
 				.setRef(first.getName()).call());
 
 		assertNull(db.readSquashCommitMsg());

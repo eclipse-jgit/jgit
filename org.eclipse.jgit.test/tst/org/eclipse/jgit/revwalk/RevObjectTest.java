@@ -73,9 +73,12 @@ public class RevObjectTest extends RevWalkTestCase {
 		assertTrue(a1.equals((Object) a1));
 		assertFalse(a1.equals(""));
 
-		final RevWalk rw2 = new RevWalk(db);
-		final RevCommit a2 = rw2.parseCommit(a1);
-		final RevCommit b2 = rw2.parseCommit(b1);
+		final RevCommit a2;
+		final RevCommit b2;
+		try (final RevWalk rw2 = new RevWalk(db)) {
+			a2 = rw2.parseCommit(a1);
+			b2 = rw2.parseCommit(b1);
+		}
 		assertNotSame(a1, a2);
 		assertNotSame(b1, b2);
 

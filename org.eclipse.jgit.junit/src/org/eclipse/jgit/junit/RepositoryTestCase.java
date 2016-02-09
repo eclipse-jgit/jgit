@@ -401,8 +401,7 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	 * @return the created commit
 	 */
 	protected RevCommit commitFile(String filename, String contents, String branch) {
-		try {
-			Git git = new Git(db);
+		try (Git git = new Git(db)) {
 			Repository repo = git.getRepository();
 			String originalBranch = repo.getFullBranch();
 			boolean empty = repo.resolve(Constants.HEAD) == null;
@@ -443,8 +442,10 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 			final int stage, final String content) {
 		final DirCacheEntry entry = new DirCacheEntry(path, stage);
 		entry.setFileMode(mode);
-		entry.setObjectId(new ObjectInserter.Formatter().idFor(
-				Constants.OBJ_BLOB, Constants.encode(content)));
+		try (ObjectInserter.Formatter formatter = new ObjectInserter.Formatter()) {
+			entry.setObjectId(formatter.idFor(
+					Constants.OBJ_BLOB, Constants.encode(content)));
+		}
 		return entry;
 	}
 

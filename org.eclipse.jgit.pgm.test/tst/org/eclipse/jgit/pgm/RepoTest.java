@@ -74,28 +74,32 @@ public class RepoTest extends CLIRepositoryTestCase {
 		super.setUp();
 
 		defaultDb = createWorkRepository();
-		Git git = new Git(defaultDb);
-		JGitTestUtil.writeTrashFile(defaultDb, "hello.txt", "world");
-		git.add().addFilepattern("hello.txt").call();
-		git.commit().setMessage("Initial commit").call();
+		try (Git git = new Git(defaultDb)) {
+			JGitTestUtil.writeTrashFile(defaultDb, "hello.txt", "world");
+			git.add().addFilepattern("hello.txt").call();
+			git.commit().setMessage("Initial commit").call();
+		}
 
 		notDefaultDb = createWorkRepository();
-		git = new Git(notDefaultDb);
-		JGitTestUtil.writeTrashFile(notDefaultDb, "world.txt", "hello");
-		git.add().addFilepattern("world.txt").call();
-		git.commit().setMessage("Initial commit").call();
+		try (Git git = new Git(notDefaultDb)) {
+			JGitTestUtil.writeTrashFile(notDefaultDb, "world.txt", "hello");
+			git.add().addFilepattern("world.txt").call();
+			git.commit().setMessage("Initial commit").call();
+		}
 
 		groupADb = createWorkRepository();
-		git = new Git(groupADb);
-		JGitTestUtil.writeTrashFile(groupADb, "a.txt", "world");
-		git.add().addFilepattern("a.txt").call();
-		git.commit().setMessage("Initial commit").call();
+		try (Git git = new Git(groupADb)) {
+			JGitTestUtil.writeTrashFile(groupADb, "a.txt", "world");
+			git.add().addFilepattern("a.txt").call();
+			git.commit().setMessage("Initial commit").call();
+		}
 
 		groupBDb = createWorkRepository();
-		git = new Git(groupBDb);
-		JGitTestUtil.writeTrashFile(groupBDb, "b.txt", "world");
-		git.add().addFilepattern("b.txt").call();
-		git.commit().setMessage("Initial commit").call();
+		try (Git git = new Git(groupBDb)) {
+			JGitTestUtil.writeTrashFile(groupBDb, "b.txt", "world");
+			git.add().addFilepattern("b.txt").call();
+			git.commit().setMessage("Initial commit").call();
+		}
 
 		resolveRelativeUris();
 	}
