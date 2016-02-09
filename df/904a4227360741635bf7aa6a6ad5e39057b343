@@ -1,0 +1,10 @@
+Verified+1: Hudson CI
+Code-Review+1: Jacob Keller <jacob.keller@gmail.com>
+Code-Review+1: David Pursehouse <david.pursehouse@sonymobile.com>
+Code-Review+1: David Ostrovsky <d.ostrovsky@gmx.de>
+Code-Review+2: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-by: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-at: Tue, 09 Feb 2016 17:50:32 -0500
+Reviewed-on: https://git.eclipse.org/r/65903
+Project: jgit/jgit
+Branch: refs/heads/stable-4.1
