@@ -1,0 +1,536 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7dfcf21_142ee193",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-02-11T23:56:06Z",
+      "side": 1,
+      "message": "Stream is a rather generic term, this is about eol conversion types, right ? Maybe better EolStreamType ?",
+      "range": {
+        "startLine": 10,
+        "startChar": 4,
+        "endLine": 10,
+        "endChar": 14
+      },
+      "revId": "5b0d40c6ec8c873475829976fab143b2f93b085b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_342bdd83",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-02-11T23:56:06Z",
+      "side": 1,
+      "message": "Implements support for the git configuration options",
+      "range": {
+        "startLine": 12,
+        "startChar": 43,
+        "endLine": 13,
+        "endChar": 46
+      },
+      "revId": "5b0d40c6ec8c873475829976fab143b2f93b085b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_f43095ee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-02-11T23:56:06Z",
+      "side": 1,
+      "message": "add a bug reference\n\nBug: 486563",
+      "revId": "5b0d40c6ec8c873475829976fab143b2f93b085b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_74d005f5",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/StreamConversionFactoryTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-02-11T23:56:06Z",
+      "side": 1,
+      "message": "EolStreamConversionFactoryTest\n\nwhere is the factory this is testing ? Do you mean the StreamType Manager ? Or did you want to name StreamTypeManager StreamTypeFactory ?",
+      "range": {
+        "startLine": 64,
+        "startChar": 13,
+        "endLine": 64,
+        "endChar": 40
+      },
+      "revId": "5b0d40c6ec8c873475829976fab143b2f93b085b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_7441e561",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/io/AutoLFInputStreamTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-02-11T23:56:06Z",
+      "side": 1,
+      "message": "don\u0027t remove Marc\u0027s copyright",
+      "revId": "5b0d40c6ec8c873475829976fab143b2f93b085b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_d4be39ab",
+        "filename": "org.eclipse.jgit/.settings/.api_filters",
+        "patchSetId": 7
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-02-11T23:56:06Z",
+      "side": 1,
+      "message": "eol conversion",
+      "range": {
+        "startLine": 103,
+        "startChar": 52,
+        "endLine": 103,
+        "endChar": 68
+      },
+      "revId": "5b0d40c6ec8c873475829976fab143b2f93b085b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_9436710b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CoreConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-02-11T23:56:06Z",
+      "side": 1,
+      "message": "4.3",
+      "range": {
+        "startLine": 83,
+        "startChar": 11,
+        "endLine": 83,
+        "endChar": 14
+      },
+      "revId": "5b0d40c6ec8c873475829976fab143b2f93b085b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_b43b6df3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CoreConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-02-11T23:56:06Z",
+      "side": 1,
+      "message": "4.3",
+      "range": {
+        "startLine": 99,
+        "startChar": 11,
+        "endLine": 99,
+        "endChar": 14
+      },
+      "revId": "5b0d40c6ec8c873475829976fab143b2f93b085b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_f4bb35b8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CoreConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-02-11T23:56:06Z",
+      "side": 1,
+      "message": "EolStreamType ?",
+      "range": {
+        "startLine": 101,
+        "startChar": 20,
+        "endLine": 101,
+        "endChar": 30
+      },
+      "revId": "5b0d40c6ec8c873475829976fab143b2f93b085b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_14c9814e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/AutoCRLFOutputStream.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-02-11T23:56:06Z",
+      "side": 1,
+      "message": "8k ?",
+      "range": {
+        "startLine": 56,
+        "startChar": 31,
+        "endLine": 56,
+        "endChar": 35
+      },
+      "revId": "5b0d40c6ec8c873475829976fab143b2f93b085b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_94b111fe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/AutoLFInputStream.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-02-11T23:56:06Z",
+      "side": 1,
+      "message": "why 8000 and not 8k ?",
+      "range": {
+        "startLine": 53,
+        "startChar": 43,
+        "endLine": 53,
+        "endChar": 47
+      },
+      "revId": "5b0d40c6ec8c873475829976fab143b2f93b085b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_d44f198c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/AutoLFInputStream.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-02-11T23:56:06Z",
+      "side": 1,
+      "message": "how can this method exist since 4.2 if this class is new in 4.3 ? remove this since tag",
+      "revId": "5b0d40c6ec8c873475829976fab143b2f93b085b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_f44c159a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/AutoLFInputStream.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-02-11T23:56:06Z",
+      "side": 1,
+      "message": "remove this since tag as this is a new class",
+      "revId": "5b0d40c6ec8c873475829976fab143b2f93b085b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_b4b60df2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/AutoLFOutputStream.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-02-11T23:56:06Z",
+      "side": 1,
+      "message": "why 8000 and not 8k ?",
+      "range": {
+        "startLine": 55,
+        "startChar": 31,
+        "endLine": 55,
+        "endChar": 35
+      },
+      "revId": "5b0d40c6ec8c873475829976fab143b2f93b085b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_d49ab97a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/AutoLFOutputStream.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-02-11T23:56:06Z",
+      "side": 1,
+      "message": "8*1024 ?",
+      "range": {
+        "startLine": 62,
+        "startChar": 32,
+        "endLine": 62,
+        "endChar": 36
+      },
+      "revId": "5b0d40c6ec8c873475829976fab143b2f93b085b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_7493a561",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/AutoLFOutputStream.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-02-11T23:56:06Z",
+      "side": 1,
+      "message": "style nit: missing braces, more of these below",
+      "revId": "5b0d40c6ec8c873475829976fab143b2f93b085b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_b48d2d40",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/EolCanonicalizingInputStream.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-02-11T23:56:06Z",
+      "side": 1,
+      "message": "8k ?",
+      "range": {
+        "startLine": 54,
+        "startChar": 43,
+        "endLine": 54,
+        "endChar": 47
+      },
+      "revId": "5b0d40c6ec8c873475829976fab143b2f93b085b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_d481d908",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/StreamTypeManager.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-02-11T23:56:06Z",
+      "side": 1,
+      "message": "maybe better: Manages line ending conversion of input and output streams",
+      "revId": "5b0d40c6ec8c873475829976fab143b2f93b085b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_f47ed589",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/StreamTypeManager.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-02-11T23:56:06Z",
+      "side": 1,
+      "message": "@since 4.3",
+      "revId": "5b0d40c6ec8c873475829976fab143b2f93b085b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_f4097538",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/StreamTypeManager.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-02-11T23:56:06Z",
+      "side": 1,
+      "message": "explain parameters",
+      "revId": "5b0d40c6ec8c873475829976fab143b2f93b085b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_74f72582",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/StreamTypeProvider.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-02-11T23:56:06Z",
+      "side": 1,
+      "message": "EolStreamTypeProvider",
+      "range": {
+        "startLine": 52,
+        "startChar": 17,
+        "endLine": 52,
+        "endChar": 35
+      },
+      "revId": "5b0d40c6ec8c873475829976fab143b2f93b085b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_542069a3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/StreamTypeProvider.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-02-11T23:56:06Z",
+      "side": 1,
+      "message": "this text sounds like the return type is boolean\n\nDetermine the type of line ending conversion configured in git configuration and git attributes",
+      "revId": "5b0d40c6ec8c873475829976fab143b2f93b085b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_742565b2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/StreamTypeUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-02-11T23:56:06Z",
+      "side": 1,
+      "message": "@since 4.3",
+      "revId": "5b0d40c6ec8c873475829976fab143b2f93b085b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_b4f1ad8c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/StreamTypeUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-02-11T23:56:06Z",
+      "side": 1,
+      "message": "EolStreamTypeUtil ?",
+      "range": {
+        "startLine": 59,
+        "startChar": 19,
+        "endLine": 59,
+        "endChar": 33
+      },
+      "revId": "5b0d40c6ec8c873475829976fab143b2f93b085b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_941af173",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/StreamTypeUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-02-11T23:56:06Z",
+      "side": 1,
+      "message": "explain parameters, also for other public API methods",
+      "revId": "5b0d40c6ec8c873475829976fab143b2f93b085b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_74a2c584",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/StreamTypeUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-02-11T23:56:06Z",
+      "side": 1,
+      "message": "why a system property and not a git config option ?",
+      "range": {
+        "startLine": 243,
+        "startChar": 20,
+        "endLine": 243,
+        "endChar": 35
+      },
+      "revId": "5b0d40c6ec8c873475829976fab143b2f93b085b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
