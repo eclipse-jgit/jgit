@@ -65,6 +65,24 @@
     },
     {
       "key": {
+        "uuid": "e7dfcf21_34b83dab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-02-12T00:00:39Z",
+      "side": 1,
+      "message": "add a reference to the IP review\n\nCQ: 10896",
+      "parentUuid": "e7dfcf21_f43095ee",
+      "revId": "5b0d40c6ec8c873475829976fab143b2f93b085b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7dfcf21_74d005f5",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/StreamConversionFactoryTest.java",
         "patchSetId": 7
