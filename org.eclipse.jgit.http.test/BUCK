@@ -23,6 +23,7 @@ for t in TESTS:
       '//lib/jetty:servlet',
       '//lib/jetty:security',
       '//lib/jetty:util',
+      '//lib:commons-logging',
     ],
     source_under_test = ['//org.eclipse.jgit.http.server:jgit-servlet'],
   )

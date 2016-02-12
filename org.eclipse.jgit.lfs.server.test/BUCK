@@ -28,6 +28,7 @@ for t in TESTS:
       '//lib/jetty:security',
       '//lib/jetty:util',
       '//lib:servlet-api',
+      '//lib:commons-logging',
     ],
     source_under_test = ['//org.eclipse.jgit.lfs.server:jgit-lfs-server'],
     vm_args = ['-Xmx256m', '-Dfile.encoding=UTF-8'],
