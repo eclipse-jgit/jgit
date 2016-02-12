@@ -50,6 +50,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.junit.Assume.assumeTrue;
 
 import java.io.File;
 import java.util.Iterator;
@@ -1221,9 +1222,8 @@ public class MergeCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testFileModeMerge() throws Exception {
-		if (!FS.DETECTED.supportsExecute())
-			return;
 		// Only Java6
+		assumeTrue(FS.DETECTED.supportsExecute());
 		try (Git git = new Git(db)) {
 			writeTrashFile("mergeableMode", "a");
 			setExecutable(git, "mergeableMode", false);
@@ -1260,9 +1260,8 @@ public class MergeCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testFileModeMergeWithDirtyWorkTree() throws Exception {
-		if (!FS.DETECTED.supportsExecute())
-			return;
 		// Only Java6 (or set x bit in index)
+		assumeTrue(FS.DETECTED.supportsExecute());
 
 		try (Git git = new Git(db)) {
 			writeTrashFile("mergeableButDirty", "a");
