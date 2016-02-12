@@ -1,3 +1,11 @@
+[alias]
+  jgit = //:jgit
+  jgit-servlet = //:jgit-servlet
+  jgit-archive = //:jgit-archive
+  jgit-lfs = //:jgit-lfs
+  jgit-lfs-server = //:jgit-lfs-server
+  jgit_bin = //:jgit_bin
+
 [buildfile]
   includes = //tools/default.defs
 
