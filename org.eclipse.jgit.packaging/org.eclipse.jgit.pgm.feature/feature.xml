@@ -26,8 +26,13 @@
          id="org.eclipse.jgit"
          version="0.0.0"/>
 
+   <includes
+         id="org.eclipse.jgit.lfs"
+         version="0.0.0"/>
+
    <requires>
       <import feature="org.eclipse.jgit" version="4.3.0" match="equivalent"/>
+      <import feature="org.eclipse.jgit.lfs" version="4.3.0" match="equivalent"/>
    </requires>
 
    <plugin
