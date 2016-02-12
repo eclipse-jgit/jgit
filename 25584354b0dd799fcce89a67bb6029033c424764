@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7dfcf21_cf6862eb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-02-12T07:46:10Z",
+      "side": 1,
+      "message": "this is misleading, this change doesn\u0027t optimize but adds some tracing to detect what could be improved",
+      "range": {
+        "startLine": 7,
+        "startChar": 5,
+        "endLine": 7,
+        "endChar": 13
+      },
+      "revId": "25584354b0dd799fcce89a67bb6029033c424764",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
