@@ -70,8 +70,7 @@ public class ReflogConfigTest extends RepositoryTestCase {
 
 		// do one commit and check that reflog size is 0: no reflogs should be
 		// written
-		commit("A Commit\n", new PersonIdent(author, commitTime, tz),
-				new PersonIdent(committer, commitTime, tz));
+		commit("A Commit\n", commitTime, tz);
 		commitTime += 60 * 1000;
 		assertTrue(
 				"Reflog for HEAD still contain no entry",
@@ -83,8 +82,7 @@ public class ReflogConfigTest extends RepositoryTestCase {
 		assertTrue(cfg.get(CoreConfig.KEY).isLogAllRefUpdates());
 
 		// do one commit and check that reflog size is increased to 1
-		commit("A Commit\n", new PersonIdent(author, commitTime, tz),
-				new PersonIdent(committer, commitTime, tz));
+		commit("A Commit\n", commitTime, tz);
 		commitTime += 60 * 1000;
 		assertTrue(
 				"Reflog for HEAD should contain one entry",
@@ -96,18 +94,17 @@ public class ReflogConfigTest extends RepositoryTestCase {
 		assertFalse(cfg.get(CoreConfig.KEY).isLogAllRefUpdates());
 
 		// do one commit and check that reflog size is 2
-		commit("A Commit\n", new PersonIdent(author, commitTime, tz),
-				new PersonIdent(committer, commitTime, tz));
+		commit("A Commit\n", commitTime, tz);
 		assertTrue(
 				"Reflog for HEAD should contain two entries",
 				db.getReflogReader(Constants.HEAD).getReverseEntries().size() == 2);
 	}
 
-	private void commit(String commitMsg, PersonIdent author,
-			PersonIdent committer) throws IOException {
+	private void commit(String commitMsg, long commitTime, int tz)
+			throws IOException {
 		final CommitBuilder commit = new CommitBuilder();
-		commit.setAuthor(author);
-		commit.setCommitter(committer);
+		commit.setAuthor(new PersonIdent(author, commitTime, tz));
+		commit.setCommitter(new PersonIdent(committer, commitTime, tz));
 		commit.setMessage(commitMsg);
 		ObjectId id;
 		try (ObjectInserter inserter = db.newObjectInserter()) {

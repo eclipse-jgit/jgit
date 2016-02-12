@@ -872,32 +872,31 @@ public class RecursiveMergerTest extends RepositoryTestCase {
 
 	private String contentAsString(Repository r, ObjectId treeId, String path)
 			throws MissingObjectException, IOException {
-		TreeWalk tw = new TreeWalk(r);
-		tw.addTree(treeId);
-		tw.setFilter(PathFilter.create(path));
-		tw.setRecursive(true);
-		if (!tw.next())
-			return null;
-		AnyObjectId blobId = tw.getObjectId(0);
+		AnyObjectId blobId;
+		try (TreeWalk tw = new TreeWalk(r)) {
+			tw.addTree(treeId);
+			tw.setFilter(PathFilter.create(path));
+			tw.setRecursive(true);
+			if (!tw.next()) {
+				return null;
+			}
+			blobId = tw.getObjectId(0);
+		}
 
 		StringBuilder result = new StringBuilder();
-		BufferedReader br = null;
 		ObjectReader or = r.newObjectReader();
-		try {
-			br = new BufferedReader(new InputStreamReader(or.open(blobId)
-					.openStream()));
+		try (BufferedReader br = new BufferedReader(
+				new InputStreamReader(or.open(blobId).openStream()))) {
 			String line;
 			boolean first = true;
 			while ((line = br.readLine()) != null) {
-				if (!first)
+				if (!first) {
 					result.append('\n');
+				}
 				result.append(line);
 				first = false;
 			}
 			return result.toString();
-		} finally {
-			if (br != null)
-				br.close();
 		}
 	}
 }

@@ -60,124 +60,124 @@ import org.junit.Test;
 public class PostOrderTreeWalkTest extends RepositoryTestCase {
 	@Test
 	public void testInitialize_NoPostOrder() throws Exception {
-		final TreeWalk tw = new TreeWalk(db);
-		assertFalse(tw.isPostOrderTraversal());
+		try (final TreeWalk tw = new TreeWalk(db)) {
+			assertFalse(tw.isPostOrderTraversal());
+		}
 	}
 
 	@Test
 	public void testInitialize_TogglePostOrder() throws Exception {
-		final TreeWalk tw = new TreeWalk(db);
-		assertFalse(tw.isPostOrderTraversal());
-		tw.setPostOrderTraversal(true);
-		assertTrue(tw.isPostOrderTraversal());
-		tw.setPostOrderTraversal(false);
-		assertFalse(tw.isPostOrderTraversal());
+		try (final TreeWalk tw = new TreeWalk(db)) {
+			assertFalse(tw.isPostOrderTraversal());
+			tw.setPostOrderTraversal(true);
+			assertTrue(tw.isPostOrderTraversal());
+			tw.setPostOrderTraversal(false);
+			assertFalse(tw.isPostOrderTraversal());
+		}
 	}
 
 	@Test
 	public void testResetDoesNotAffectPostOrder() throws Exception {
-		final TreeWalk tw = new TreeWalk(db);
-		tw.setPostOrderTraversal(true);
-		assertTrue(tw.isPostOrderTraversal());
-		tw.reset();
-		assertTrue(tw.isPostOrderTraversal());
+		try (final TreeWalk tw = new TreeWalk(db)) {
+			tw.setPostOrderTraversal(true);
+			assertTrue(tw.isPostOrderTraversal());
+			tw.reset();
+			assertTrue(tw.isPostOrderTraversal());
 
-		tw.setPostOrderTraversal(false);
-		assertFalse(tw.isPostOrderTraversal());
-		tw.reset();
-		assertFalse(tw.isPostOrderTraversal());
+			tw.setPostOrderTraversal(false);
+			assertFalse(tw.isPostOrderTraversal());
+			tw.reset();
+			assertFalse(tw.isPostOrderTraversal());
+		}
 	}
 
 	@Test
 	public void testNoPostOrder() throws Exception {
 		final DirCache tree = db.readDirCache();
-		{
-			final DirCacheBuilder b = tree.builder();
+		final DirCacheBuilder b = tree.builder();
 
-			b.add(makeFile("a"));
-			b.add(makeFile("b/c"));
-			b.add(makeFile("b/d"));
-			b.add(makeFile("q"));
+		b.add(makeFile("a"));
+		b.add(makeFile("b/c"));
+		b.add(makeFile("b/d"));
+		b.add(makeFile("q"));
 
-			b.finish();
-			assertEquals(4, tree.getEntryCount());
+		b.finish();
+		assertEquals(4, tree.getEntryCount());
+
+		try (final TreeWalk tw = new TreeWalk(db)) {
+			tw.setPostOrderTraversal(false);
+			tw.addTree(new DirCacheIterator(tree));
+
+			assertModes("a", REGULAR_FILE, tw);
+			assertModes("b", TREE, tw);
+			assertTrue(tw.isSubtree());
+			assertFalse(tw.isPostChildren());
+			tw.enterSubtree();
+			assertModes("b/c", REGULAR_FILE, tw);
+			assertModes("b/d", REGULAR_FILE, tw);
+			assertModes("q", REGULAR_FILE, tw);
 		}
-
-		final TreeWalk tw = new TreeWalk(db);
-		tw.setPostOrderTraversal(false);
-		tw.addTree(new DirCacheIterator(tree));
-
-		assertModes("a", REGULAR_FILE, tw);
-		assertModes("b", TREE, tw);
-		assertTrue(tw.isSubtree());
-		assertFalse(tw.isPostChildren());
-		tw.enterSubtree();
-		assertModes("b/c", REGULAR_FILE, tw);
-		assertModes("b/d", REGULAR_FILE, tw);
-		assertModes("q", REGULAR_FILE, tw);
 	}
 
 	@Test
 	public void testWithPostOrder_EnterSubtree() throws Exception {
 		final DirCache tree = db.readDirCache();
-		{
-			final DirCacheBuilder b = tree.builder();
+		final DirCacheBuilder b = tree.builder();
 
-			b.add(makeFile("a"));
-			b.add(makeFile("b/c"));
-			b.add(makeFile("b/d"));
-			b.add(makeFile("q"));
+		b.add(makeFile("a"));
+		b.add(makeFile("b/c"));
+		b.add(makeFile("b/d"));
+		b.add(makeFile("q"));
 
-			b.finish();
-			assertEquals(4, tree.getEntryCount());
+		b.finish();
+		assertEquals(4, tree.getEntryCount());
+
+		try (final TreeWalk tw = new TreeWalk(db)) {
+			tw.setPostOrderTraversal(true);
+			tw.addTree(new DirCacheIterator(tree));
+
+			assertModes("a", REGULAR_FILE, tw);
+
+			assertModes("b", TREE, tw);
+			assertTrue(tw.isSubtree());
+			assertFalse(tw.isPostChildren());
+			tw.enterSubtree();
+			assertModes("b/c", REGULAR_FILE, tw);
+			assertModes("b/d", REGULAR_FILE, tw);
+
+			assertModes("b", TREE, tw);
+			assertTrue(tw.isSubtree());
+			assertTrue(tw.isPostChildren());
+
+			assertModes("q", REGULAR_FILE, tw);
 		}
-
-		final TreeWalk tw = new TreeWalk(db);
-		tw.setPostOrderTraversal(true);
-		tw.addTree(new DirCacheIterator(tree));
-
-		assertModes("a", REGULAR_FILE, tw);
-
-		assertModes("b", TREE, tw);
-		assertTrue(tw.isSubtree());
-		assertFalse(tw.isPostChildren());
-		tw.enterSubtree();
-		assertModes("b/c", REGULAR_FILE, tw);
-		assertModes("b/d", REGULAR_FILE, tw);
-
-		assertModes("b", TREE, tw);
-		assertTrue(tw.isSubtree());
-		assertTrue(tw.isPostChildren());
-
-		assertModes("q", REGULAR_FILE, tw);
 	}
 
 	@Test
 	public void testWithPostOrder_NoEnterSubtree() throws Exception {
 		final DirCache tree = db.readDirCache();
-		{
-			final DirCacheBuilder b = tree.builder();
+		final DirCacheBuilder b = tree.builder();
 
-			b.add(makeFile("a"));
-			b.add(makeFile("b/c"));
-			b.add(makeFile("b/d"));
-			b.add(makeFile("q"));
+		b.add(makeFile("a"));
+		b.add(makeFile("b/c"));
+		b.add(makeFile("b/d"));
+		b.add(makeFile("q"));
 
-			b.finish();
-			assertEquals(4, tree.getEntryCount());
+		b.finish();
+		assertEquals(4, tree.getEntryCount());
+
+		try (final TreeWalk tw = new TreeWalk(db)) {
+			tw.setPostOrderTraversal(true);
+			tw.addTree(new DirCacheIterator(tree));
+
+			assertModes("a", REGULAR_FILE, tw);
+
+			assertModes("b", TREE, tw);
+			assertTrue(tw.isSubtree());
+			assertFalse(tw.isPostChildren());
+
+			assertModes("q", REGULAR_FILE, tw);
 		}
-
-		final TreeWalk tw = new TreeWalk(db);
-		tw.setPostOrderTraversal(true);
-		tw.addTree(new DirCacheIterator(tree));
-
-		assertModes("a", REGULAR_FILE, tw);
-
-		assertModes("b", TREE, tw);
-		assertTrue(tw.isSubtree());
-		assertFalse(tw.isPostChildren());
-
-		assertModes("q", REGULAR_FILE, tw);
 	}
 
 	private DirCacheEntry makeFile(final String path) throws Exception {

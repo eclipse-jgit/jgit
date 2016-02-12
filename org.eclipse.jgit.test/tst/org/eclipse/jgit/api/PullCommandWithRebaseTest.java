@@ -273,26 +273,27 @@ public class PullCommandWithRebaseTest extends RepositoryTestCase {
 
 		// Get the HEAD and HEAD~1 commits
 		Repository targetRepo = target.getRepository();
-		RevWalk revWalk = new RevWalk(targetRepo);
-		ObjectId headId = targetRepo.resolve(Constants.HEAD);
-		RevCommit root = revWalk.parseCommit(headId);
-		revWalk.markStart(root);
-		// HEAD
-		RevCommit head = revWalk.next();
-		// HEAD~1
-		RevCommit beforeHead = revWalk.next();
+		try (RevWalk revWalk = new RevWalk(targetRepo)) {
+			ObjectId headId = targetRepo.resolve(Constants.HEAD);
+			RevCommit root = revWalk.parseCommit(headId);
+			revWalk.markStart(root);
+			// HEAD
+			RevCommit head = revWalk.next();
+			// HEAD~1
+			RevCommit beforeHead = revWalk.next();
 
-		// verify the commit message on the HEAD commit
-		assertEquals(TARGET_COMMIT_MESSAGE, head.getFullMessage());
-		// verify the commit just before HEAD
-		assertEquals(SOURCE_COMMIT_MESSAGE, beforeHead.getFullMessage());
+			// verify the commit message on the HEAD commit
+			assertEquals(TARGET_COMMIT_MESSAGE, head.getFullMessage());
+			// verify the commit just before HEAD
+			assertEquals(SOURCE_COMMIT_MESSAGE, beforeHead.getFullMessage());
 
-		// verify file states
-		assertFileContentsEqual(sourceFile, SOURCE_FILE_CONTENTS);
-		assertFileContentsEqual(newFile, NEW_FILE_CONTENTS);
-		// verify repository state
-		assertEquals(RepositoryState.SAFE, target
-			.getRepository().getRepositoryState());
+			// verify file states
+			assertFileContentsEqual(sourceFile, SOURCE_FILE_CONTENTS);
+			assertFileContentsEqual(newFile, NEW_FILE_CONTENTS);
+			// verify repository state
+			assertEquals(RepositoryState.SAFE, target
+				.getRepository().getRepositoryState());
+		}
 	}
 
 	@Override
