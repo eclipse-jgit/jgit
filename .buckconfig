@@ -1,10 +1,11 @@
 [alias]
-  jgit = //:jgit
-  jgit-servlet = //:jgit-servlet
-  jgit-archive = //:jgit-archive
-  jgit-lfs = //:jgit-lfs
-  jgit-lfs-server = //:jgit-lfs-server
+  all = //:all
+  jgit = //org.eclipse.jgit:jgit
+  jgit-archive = //org.eclipse.jgit.archive:jgit-archive
   jgit_bin = //:jgit_bin
+  jgit-lfs = //org.eclipse.jgit.lfs:jgit-lfs
+  jgit-lfs-server = //org.eclipse.jgit.lfs.server:jgit-lfs-server
+  jgit-servlet = //org.eclipse.jgit.http.server:jgit-servlet
 
 [buildfile]
   includes = //tools/default.defs
