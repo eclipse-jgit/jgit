@@ -274,7 +274,7 @@ public class InMemoryRepository extends DfsRepository {
 					if (performsAtomicTransactions()) {
 						try {
 							lock.writeLock().lock();
-							batch(walk, getCommands());
+							batch(getCommands());
 						} finally {
 							lock.writeLock().unlock();
 						}
@@ -304,7 +304,7 @@ public class InMemoryRepository extends DfsRepository {
 			return new RefCache(ids.toRefList(), sym.toRefList());
 		}
 
-		private void batch(RevWalk walk, List<ReceiveCommand> cmds) {
+		private void batch(List<ReceiveCommand> cmds) {
 			// Validate that the target exists in a new RevWalk, as the RevWalk
 			// from the RefUpdate might be reading back unflushed objects.
 			Map<ObjectId, ObjectId> peeled = new HashMap<>();
