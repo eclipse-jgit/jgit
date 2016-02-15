@@ -98,17 +98,18 @@ public class DirCacheCGitCompatabilityTest extends LocalDiskRepositoryTestCase {
 		assertEquals(ls.size(), dc.getEntryCount());
 		{
 			final Iterator<CGitIndexRecord> rItr = ls.values().iterator();
-			final TreeWalk tw = new TreeWalk(db);
-			tw.setRecursive(true);
-			tw.addTree(new DirCacheIterator(dc));
-			while (rItr.hasNext()) {
-				final DirCacheIterator dcItr;
+			try (final TreeWalk tw = new TreeWalk(db)) {
+				tw.setRecursive(true);
+				tw.addTree(new DirCacheIterator(dc));
+				while (rItr.hasNext()) {
+					final DirCacheIterator dcItr;
 
-				assertTrue(tw.next());
-				dcItr = tw.getTree(0, DirCacheIterator.class);
-				assertNotNull(dcItr);
+					assertTrue(tw.next());
+					dcItr = tw.getTree(0, DirCacheIterator.class);
+					assertNotNull(dcItr);
 
-				assertEqual(rItr.next(), dcItr.getDirCacheEntry());
+					assertEqual(rItr.next(), dcItr.getDirCacheEntry());
+				}
 			}
 		}
 	}
