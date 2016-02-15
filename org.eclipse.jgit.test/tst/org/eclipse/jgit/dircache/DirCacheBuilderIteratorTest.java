@@ -78,23 +78,24 @@ public class DirCacheBuilderIteratorTest extends RepositoryTestCase {
 
 		final int expIdx = 2;
 		final DirCacheBuilder b = dc.builder();
-		final TreeWalk tw = new TreeWalk(db);
-		tw.addTree(new DirCacheBuildIterator(b));
-		tw.setRecursive(true);
-		tw.setFilter(PathFilterGroup.createFromStrings(Collections
-				.singleton(paths[expIdx])));
+		try (final TreeWalk tw = new TreeWalk(db)) {
+			tw.addTree(new DirCacheBuildIterator(b));
+			tw.setRecursive(true);
+			tw.setFilter(PathFilterGroup.createFromStrings(Collections
+					.singleton(paths[expIdx])));
 
-		assertTrue("found " + paths[expIdx], tw.next());
-		final DirCacheIterator c = tw.getTree(0, DirCacheIterator.class);
-		assertNotNull(c);
-		assertEquals(expIdx, c.ptr);
-		assertSame(ents[expIdx], c.getDirCacheEntry());
-		assertEquals(paths[expIdx], tw.getPathString());
-		assertEquals(mode.getBits(), tw.getRawMode(0));
-		assertSame(mode, tw.getFileMode(0));
-		b.add(c.getDirCacheEntry());
+			assertTrue("found " + paths[expIdx], tw.next());
+			final DirCacheIterator c = tw.getTree(0, DirCacheIterator.class);
+			assertNotNull(c);
+			assertEquals(expIdx, c.ptr);
+			assertSame(ents[expIdx], c.getDirCacheEntry());
+			assertEquals(paths[expIdx], tw.getPathString());
+			assertEquals(mode.getBits(), tw.getRawMode(0));
+			assertSame(mode, tw.getFileMode(0));
+			b.add(c.getDirCacheEntry());
 
-		assertFalse("no more entries", tw.next());
+			assertFalse("no more entries", tw.next());
+		}
 
 		b.finish();
 		assertEquals(ents.length, dc.getEntryCount());
