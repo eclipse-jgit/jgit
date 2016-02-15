@@ -148,8 +148,9 @@ public class IndexDiffTest extends RepositoryTestCase {
 		writeTrashFile("file2", "file2");
 		writeTrashFile("dir/file3", "dir/file3");
 
-		Git git = new Git(db);
-		git.add().addFilepattern("file2").addFilepattern("dir/file3").call();
+		try (Git git = new Git(db)) {
+			git.add().addFilepattern("file2").addFilepattern("dir/file3").call();
+		}
 
 		writeTrashFile("dir/file3", "changed");
 
@@ -177,31 +178,31 @@ public class IndexDiffTest extends RepositoryTestCase {
 
 	@Test
 	public void testConflicting() throws Exception {
-		Git git = new Git(db);
+		try (Git git = new Git(db)) {
+			writeTrashFile("a", "1\na\n3\n");
+			writeTrashFile("b", "1\nb\n3\n");
+			git.add().addFilepattern("a").addFilepattern("b").call();
+			RevCommit initialCommit = git.commit().setMessage("initial").call();
 
-		writeTrashFile("a", "1\na\n3\n");
-		writeTrashFile("b", "1\nb\n3\n");
-		git.add().addFilepattern("a").addFilepattern("b").call();
-		RevCommit initialCommit = git.commit().setMessage("initial").call();
+			// create side branch with two modifications
+			createBranch(initialCommit, "refs/heads/side");
+			checkoutBranch("refs/heads/side");
+			writeTrashFile("a", "1\na(side)\n3\n");
+			writeTrashFile("b", "1\nb\n3\n(side)");
+			git.add().addFilepattern("a").addFilepattern("b").call();
+			RevCommit secondCommit = git.commit().setMessage("side").call();
 
-		// create side branch with two modifications
-		createBranch(initialCommit, "refs/heads/side");
-		checkoutBranch("refs/heads/side");
-		writeTrashFile("a", "1\na(side)\n3\n");
-		writeTrashFile("b", "1\nb\n3\n(side)");
-		git.add().addFilepattern("a").addFilepattern("b").call();
-		RevCommit secondCommit = git.commit().setMessage("side").call();
+			// update a on master to generate conflict
+			checkoutBranch("refs/heads/master");
+			writeTrashFile("a", "1\na(main)\n3\n");
+			git.add().addFilepattern("a").call();
+			git.commit().setMessage("main").call();
 
-		// update a on master to generate conflict
-		checkoutBranch("refs/heads/master");
-		writeTrashFile("a", "1\na(main)\n3\n");
-		git.add().addFilepattern("a").call();
-		git.commit().setMessage("main").call();
-
-		// merge side with master
-		MergeResult result = git.merge().include(secondCommit.getId())
-				.setStrategy(MergeStrategy.RESOLVE).call();
-		assertEquals(MergeStatus.CONFLICTING, result.getMergeStatus());
+			// merge side with master
+			MergeResult result = git.merge().include(secondCommit.getId())
+					.setStrategy(MergeStrategy.RESOLVE).call();
+			assertEquals(MergeStatus.CONFLICTING, result.getMergeStatus());
+		}
 
 		FileTreeIterator iterator = new FileTreeIterator(db);
 		IndexDiff diff = new IndexDiff(db, Constants.HEAD, iterator);
@@ -221,29 +222,29 @@ public class IndexDiffTest extends RepositoryTestCase {
 
 	@Test
 	public void testConflictingDeletedAndModified() throws Exception {
-		Git git = new Git(db);
+		try (Git git = new Git(db)) {
+			writeTrashFile("a", "1\na\n3\n");
+			writeTrashFile("b", "1\nb\n3\n");
+			git.add().addFilepattern("a").addFilepattern("b").call();
+			RevCommit initialCommit = git.commit().setMessage("initial").call();
 
-		writeTrashFile("a", "1\na\n3\n");
-		writeTrashFile("b", "1\nb\n3\n");
-		git.add().addFilepattern("a").addFilepattern("b").call();
-		RevCommit initialCommit = git.commit().setMessage("initial").call();
+			// create side branch and delete "a"
+			createBranch(initialCommit, "refs/heads/side");
+			checkoutBranch("refs/heads/side");
+			git.rm().addFilepattern("a").call();
+			RevCommit secondCommit = git.commit().setMessage("side").call();
 
-		// create side branch and delete "a"
-		createBranch(initialCommit, "refs/heads/side");
-		checkoutBranch("refs/heads/side");
-		git.rm().addFilepattern("a").call();
-		RevCommit secondCommit = git.commit().setMessage("side").call();
+			// update a on master to generate conflict
+			checkoutBranch("refs/heads/master");
+			writeTrashFile("a", "1\na(main)\n3\n");
+			git.add().addFilepattern("a").call();
+			git.commit().setMessage("main").call();
 
-		// update a on master to generate conflict
-		checkoutBranch("refs/heads/master");
-		writeTrashFile("a", "1\na(main)\n3\n");
-		git.add().addFilepattern("a").call();
-		git.commit().setMessage("main").call();
-
-		// merge side with master
-		MergeResult result = git.merge().include(secondCommit.getId())
-				.setStrategy(MergeStrategy.RESOLVE).call();
-		assertEquals(MergeStatus.CONFLICTING, result.getMergeStatus());
+			// merge side with master
+			MergeResult result = git.merge().include(secondCommit.getId())
+					.setStrategy(MergeStrategy.RESOLVE).call();
+			assertEquals(MergeStatus.CONFLICTING, result.getMergeStatus());
+		}
 
 		FileTreeIterator iterator = new FileTreeIterator(db);
 		IndexDiff diff = new IndexDiff(db, Constants.HEAD, iterator);
@@ -262,28 +263,28 @@ public class IndexDiffTest extends RepositoryTestCase {
 
 	@Test
 	public void testConflictingFromMultipleCreations() throws Exception {
-		Git git = new Git(db);
+		try (Git git = new Git(db)) {
+			writeTrashFile("a", "1\na\n3\n");
+			git.add().addFilepattern("a").call();
+			RevCommit initialCommit = git.commit().setMessage("initial").call();
 
-		writeTrashFile("a", "1\na\n3\n");
-		git.add().addFilepattern("a").call();
-		RevCommit initialCommit = git.commit().setMessage("initial").call();
+			createBranch(initialCommit, "refs/heads/side");
+			checkoutBranch("refs/heads/side");
 
-		createBranch(initialCommit, "refs/heads/side");
-		checkoutBranch("refs/heads/side");
+			writeTrashFile("b", "1\nb(side)\n3\n");
+			git.add().addFilepattern("b").call();
+			RevCommit secondCommit = git.commit().setMessage("side").call();
 
-		writeTrashFile("b", "1\nb(side)\n3\n");
-		git.add().addFilepattern("b").call();
-		RevCommit secondCommit = git.commit().setMessage("side").call();
+			checkoutBranch("refs/heads/master");
 
-		checkoutBranch("refs/heads/master");
+			writeTrashFile("b", "1\nb(main)\n3\n");
+			git.add().addFilepattern("b").call();
+			git.commit().setMessage("main").call();
 
-		writeTrashFile("b", "1\nb(main)\n3\n");
-		git.add().addFilepattern("b").call();
-		git.commit().setMessage("main").call();
-
-		MergeResult result = git.merge().include(secondCommit.getId())
-				.setStrategy(MergeStrategy.RESOLVE).call();
-		assertEquals(MergeStatus.CONFLICTING, result.getMergeStatus());
+			MergeResult result = git.merge().include(secondCommit.getId())
+					.setStrategy(MergeStrategy.RESOLVE).call();
+			assertEquals(MergeStatus.CONFLICTING, result.getMergeStatus());
+		}
 
 		FileTreeIterator iterator = new FileTreeIterator(db);
 		IndexDiff diff = new IndexDiff(db, Constants.HEAD, iterator);
@@ -304,11 +305,12 @@ public class IndexDiffTest extends RepositoryTestCase {
 		writeTrashFile("a.c", "a.c");
 		writeTrashFile("a=c", "a=c");
 		writeTrashFile("a=d", "a=d");
-		Git git = new Git(db);
-		git.add().addFilepattern("a.b").call();
-		git.add().addFilepattern("a.c").call();
-		git.add().addFilepattern("a=c").call();
-		git.add().addFilepattern("a=d").call();
+		try (Git git = new Git(db)) {
+			git.add().addFilepattern("a.b").call();
+			git.add().addFilepattern("a.c").call();
+			git.add().addFilepattern("a=c").call();
+			git.add().addFilepattern("a=d").call();
+		}
 
 		TreeFormatter tree = new TreeFormatter();
 		// got the hash id'd from the data using echo -n a.b|git hash-object -t blob --stdin
@@ -338,7 +340,6 @@ public class IndexDiffTest extends RepositoryTestCase {
 	 */
 	@Test
 	public void testUnchangedComplex() throws IOException, GitAPIException {
-		Git git = new Git(db);
 		writeTrashFile("a.b", "a.b");
 		writeTrashFile("a.c", "a.c");
 		writeTrashFile("a/b.b/b", "a/b.b/b");
@@ -346,10 +347,12 @@ public class IndexDiffTest extends RepositoryTestCase {
 		writeTrashFile("a/c", "a/c");
 		writeTrashFile("a=c", "a=c");
 		writeTrashFile("a=d", "a=d");
-		git.add().addFilepattern("a.b").addFilepattern("a.c")
-				.addFilepattern("a/b.b/b").addFilepattern("a/b")
-				.addFilepattern("a/c").addFilepattern("a=c")
-				.addFilepattern("a=d").call();
+		try (Git git = new Git(db)) {
+			git.add().addFilepattern("a.b").addFilepattern("a.c")
+					.addFilepattern("a/b.b/b").addFilepattern("a/b")
+					.addFilepattern("a/c").addFilepattern("a=c")
+					.addFilepattern("a=d").call();
+		}
 
 
 		// got the hash id'd from the data using echo -n a.b|git hash-object -t blob --stdin
@@ -397,11 +400,12 @@ public class IndexDiffTest extends RepositoryTestCase {
 	 */
 	@Test
 	public void testRemovedUntracked() throws Exception{
-		Git git = new Git(db);
 		String path = "file";
-		writeTrashFile(path, "content");
-		git.add().addFilepattern(path).call();
-		git.commit().setMessage("commit").call();
+		try (Git git = new Git(db)) {
+			writeTrashFile(path, "content");
+			git.add().addFilepattern(path).call();
+			git.commit().setMessage("commit").call();
+		}
 		removeFromIndex(path);
 		FileTreeIterator iterator = new FileTreeIterator(db);
 		IndexDiff diff = new IndexDiff(db, Constants.HEAD, iterator);
@@ -417,51 +421,51 @@ public class IndexDiffTest extends RepositoryTestCase {
 	 */
 	@Test
 	public void testUntrackedFolders() throws Exception {
-		Git git = new Git(db);
+		try (Git git = new Git(db)) {
+			IndexDiff diff = new IndexDiff(db, Constants.HEAD,
+					new FileTreeIterator(db));
+			diff.diff();
+			assertEquals(Collections.EMPTY_SET, diff.getUntrackedFolders());
 
-		IndexDiff diff = new IndexDiff(db, Constants.HEAD,
-				new FileTreeIterator(db));
-		diff.diff();
-		assertEquals(Collections.EMPTY_SET, diff.getUntrackedFolders());
+			writeTrashFile("readme", "");
+			writeTrashFile("src/com/A.java", "");
+			writeTrashFile("src/com/B.java", "");
+			writeTrashFile("src/org/A.java", "");
+			writeTrashFile("src/org/B.java", "");
+			writeTrashFile("target/com/A.java", "");
+			writeTrashFile("target/com/B.java", "");
+			writeTrashFile("target/org/A.java", "");
+			writeTrashFile("target/org/B.java", "");
 
-		writeTrashFile("readme", "");
-		writeTrashFile("src/com/A.java", "");
-		writeTrashFile("src/com/B.java", "");
-		writeTrashFile("src/org/A.java", "");
-		writeTrashFile("src/org/B.java", "");
-		writeTrashFile("target/com/A.java", "");
-		writeTrashFile("target/com/B.java", "");
-		writeTrashFile("target/org/A.java", "");
-		writeTrashFile("target/org/B.java", "");
+			git.add().addFilepattern("src").addFilepattern("readme").call();
+			git.commit().setMessage("initial").call();
 
-		git.add().addFilepattern("src").addFilepattern("readme").call();
-		git.commit().setMessage("initial").call();
+			diff = new IndexDiff(db, Constants.HEAD,
+					new FileTreeIterator(db));
+			diff.diff();
+			assertEquals(new HashSet<String>(Arrays.asList("target")),
+					diff.getUntrackedFolders());
 
-		diff = new IndexDiff(db, Constants.HEAD,
-				new FileTreeIterator(db));
-		diff.diff();
-		assertEquals(new HashSet<String>(Arrays.asList("target")),
-				diff.getUntrackedFolders());
+			writeTrashFile("src/tst/A.java", "");
+			writeTrashFile("src/tst/B.java", "");
 
-		writeTrashFile("src/tst/A.java", "");
-		writeTrashFile("src/tst/B.java", "");
+			diff = new IndexDiff(db, Constants.HEAD, new FileTreeIterator(db));
+			diff.diff();
+			assertEquals(new HashSet<String>(Arrays.asList("target", "src/tst")),
+					diff.getUntrackedFolders());
 
-		diff = new IndexDiff(db, Constants.HEAD, new FileTreeIterator(db));
-		diff.diff();
-		assertEquals(new HashSet<String>(Arrays.asList("target", "src/tst")),
-				diff.getUntrackedFolders());
+			git.rm().addFilepattern("src/com/B.java").addFilepattern("src/org")
+					.call();
+			git.commit().setMessage("second").call();
+			writeTrashFile("src/org/C.java", "");
 
-		git.rm().addFilepattern("src/com/B.java").addFilepattern("src/org")
-				.call();
-		git.commit().setMessage("second").call();
-		writeTrashFile("src/org/C.java", "");
-
-		diff = new IndexDiff(db, Constants.HEAD, new FileTreeIterator(db));
-		diff.diff();
-		assertEquals(
-				new HashSet<String>(Arrays.asList("src/org", "src/tst",
-						"target")),
-				diff.getUntrackedFolders());
+			diff = new IndexDiff(db, Constants.HEAD, new FileTreeIterator(db));
+			diff.diff();
+			assertEquals(
+					new HashSet<String>(Arrays.asList("src/org", "src/tst",
+							"target")),
+					diff.getUntrackedFolders());
+		}
 	}
 
 	/**
@@ -471,85 +475,86 @@ public class IndexDiffTest extends RepositoryTestCase {
 	 */
 	@Test
 	public void testUntrackedNotIgnoredFolders() throws Exception {
-		Git git = new Git(db);
+		try (Git git = new Git(db)) {
+			IndexDiff diff = new IndexDiff(db, Constants.HEAD,
+					new FileTreeIterator(db));
+			diff.diff();
+			assertEquals(Collections.EMPTY_SET, diff.getUntrackedFolders());
 
-		IndexDiff diff = new IndexDiff(db, Constants.HEAD,
-				new FileTreeIterator(db));
-		diff.diff();
-		assertEquals(Collections.EMPTY_SET, diff.getUntrackedFolders());
+			writeTrashFile("readme", "");
+			writeTrashFile("sr/com/X.java", "");
+			writeTrashFile("src/com/A.java", "");
+			writeTrashFile("src/org/B.java", "");
+			writeTrashFile("srcs/org/Y.java", "");
+			writeTrashFile("target/com/A.java", "");
+			writeTrashFile("target/org/B.java", "");
+			writeTrashFile(".gitignore", "/target\n/sr");
 
-		writeTrashFile("readme", "");
-		writeTrashFile("sr/com/X.java", "");
-		writeTrashFile("src/com/A.java", "");
-		writeTrashFile("src/org/B.java", "");
-		writeTrashFile("srcs/org/Y.java", "");
-		writeTrashFile("target/com/A.java", "");
-		writeTrashFile("target/org/B.java", "");
-		writeTrashFile(".gitignore", "/target\n/sr");
+			git.add().addFilepattern("readme").addFilepattern(".gitignore")
+					.addFilepattern("srcs/").call();
+			git.commit().setMessage("initial").call();
 
-		git.add().addFilepattern("readme").addFilepattern(".gitignore")
-				.addFilepattern("srcs/").call();
-		git.commit().setMessage("initial").call();
+			diff = new IndexDiff(db, Constants.HEAD, new FileTreeIterator(db));
+			diff.diff();
+			assertEquals(new HashSet<String>(Arrays.asList("src")),
+					diff.getUntrackedFolders());
 
-		diff = new IndexDiff(db, Constants.HEAD, new FileTreeIterator(db));
-		diff.diff();
-		assertEquals(new HashSet<String>(Arrays.asList("src")),
-				diff.getUntrackedFolders());
+			git.add().addFilepattern("src").call();
+			writeTrashFile("sr/com/X1.java", "");
+			writeTrashFile("src/tst/A.java", "");
+			writeTrashFile("src/tst/B.java", "");
+			writeTrashFile("srcs/com/Y1.java", "");
+			deleteTrashFile(".gitignore");
 
-		git.add().addFilepattern("src").call();
-		writeTrashFile("sr/com/X1.java", "");
-		writeTrashFile("src/tst/A.java", "");
-		writeTrashFile("src/tst/B.java", "");
-		writeTrashFile("srcs/com/Y1.java", "");
-		deleteTrashFile(".gitignore");
-
-		diff = new IndexDiff(db, Constants.HEAD, new FileTreeIterator(db));
-		diff.diff();
-		assertEquals(
-				new HashSet<String>(Arrays.asList("srcs/com", "sr", "src/tst",
-						"target")),
-				diff.getUntrackedFolders());
+			diff = new IndexDiff(db, Constants.HEAD, new FileTreeIterator(db));
+			diff.diff();
+			assertEquals(
+					new HashSet<String>(Arrays.asList("srcs/com", "sr", "src/tst",
+							"target")),
+					diff.getUntrackedFolders());
+		}
 	}
 
 	@Test
 	public void testAssumeUnchanged() throws Exception {
-		Git git = new Git(db);
-		String path = "file";
-		writeTrashFile(path, "content");
-		git.add().addFilepattern(path).call();
-		String path2 = "file2";
-		writeTrashFile(path2, "content");
-		String path3 = "file3";
-		writeTrashFile(path3, "some content");
-		git.add().addFilepattern(path2).addFilepattern(path3).call();
-		git.commit().setMessage("commit").call();
-		assumeUnchanged(path2);
-		assumeUnchanged(path3);
-		writeTrashFile(path, "more content");
-		deleteTrashFile(path3);
+		try (Git git = new Git(db)) {
+			String path = "file";
+			writeTrashFile(path, "content");
+			git.add().addFilepattern(path).call();
+			String path2 = "file2";
+			writeTrashFile(path2, "content");
+			String path3 = "file3";
+			writeTrashFile(path3, "some content");
+			git.add().addFilepattern(path2).addFilepattern(path3).call();
+			git.commit().setMessage("commit").call();
+			assumeUnchanged(path2);
+			assumeUnchanged(path3);
+			writeTrashFile(path, "more content");
+			deleteTrashFile(path3);
 
-		FileTreeIterator iterator = new FileTreeIterator(db);
-		IndexDiff diff = new IndexDiff(db, Constants.HEAD, iterator);
-		diff.diff();
-		assertEquals(2, diff.getAssumeUnchanged().size());
-		assertEquals(1, diff.getModified().size());
-		assertEquals(0, diff.getChanged().size());
-		assertTrue(diff.getAssumeUnchanged().contains("file2"));
-		assertTrue(diff.getAssumeUnchanged().contains("file3"));
-		assertTrue(diff.getModified().contains("file"));
+			FileTreeIterator iterator = new FileTreeIterator(db);
+			IndexDiff diff = new IndexDiff(db, Constants.HEAD, iterator);
+			diff.diff();
+			assertEquals(2, diff.getAssumeUnchanged().size());
+			assertEquals(1, diff.getModified().size());
+			assertEquals(0, diff.getChanged().size());
+			assertTrue(diff.getAssumeUnchanged().contains("file2"));
+			assertTrue(diff.getAssumeUnchanged().contains("file3"));
+			assertTrue(diff.getModified().contains("file"));
 
-		git.add().addFilepattern(".").call();
+			git.add().addFilepattern(".").call();
 
-		iterator = new FileTreeIterator(db);
-		diff = new IndexDiff(db, Constants.HEAD, iterator);
-		diff.diff();
-		assertEquals(2, diff.getAssumeUnchanged().size());
-		assertEquals(0, diff.getModified().size());
-		assertEquals(1, diff.getChanged().size());
-		assertTrue(diff.getAssumeUnchanged().contains("file2"));
-		assertTrue(diff.getAssumeUnchanged().contains("file3"));
-		assertTrue(diff.getChanged().contains("file"));
-		assertEquals(Collections.EMPTY_SET, diff.getUntrackedFolders());
+			iterator = new FileTreeIterator(db);
+			diff = new IndexDiff(db, Constants.HEAD, iterator);
+			diff.diff();
+			assertEquals(2, diff.getAssumeUnchanged().size());
+			assertEquals(0, diff.getModified().size());
+			assertEquals(1, diff.getChanged().size());
+			assertTrue(diff.getAssumeUnchanged().contains("file2"));
+			assertTrue(diff.getAssumeUnchanged().contains("file3"));
+			assertTrue(diff.getChanged().contains("file"));
+			assertEquals(Collections.EMPTY_SET, diff.getUntrackedFolders());
+		}
 	}
 
 	@Test
@@ -575,147 +580,148 @@ public class IndexDiffTest extends RepositoryTestCase {
 
 	@Test
 	public void testStageState_mergeAndReset_bug() throws Exception {
-		Git git = new Git(db);
+		try (Git git = new Git(db)) {
+			writeTrashFile("a", "content");
+			git.add().addFilepattern("a").call();
+			RevCommit initialCommit = git.commit().setMessage("initial commit")
+					.call();
 
-		writeTrashFile("a", "content");
-		git.add().addFilepattern("a").call();
-		RevCommit initialCommit = git.commit().setMessage("initial commit")
-				.call();
+			// create branch and add a new file
+			final String branchName = Constants.R_HEADS + "branch";
+			createBranch(initialCommit, branchName);
+			checkoutBranch(branchName);
+			writeTrashFile("b", "second file content - branch");
+			git.add().addFilepattern("b").call();
+			RevCommit branchCommit = git.commit().setMessage("branch commit")
+					.call();
 
-		// create branch and add a new file
-		final String branchName = Constants.R_HEADS + "branch";
-		createBranch(initialCommit, branchName);
-		checkoutBranch(branchName);
-		writeTrashFile("b", "second file content - branch");
-		git.add().addFilepattern("b").call();
-		RevCommit branchCommit = git.commit().setMessage("branch commit")
-				.call();
+			// checkout master and add the same new file
+			checkoutBranch(Constants.R_HEADS + Constants.MASTER);
+			writeTrashFile("b", "second file content - master");
+			git.add().addFilepattern("b").call();
+			git.commit().setMessage("master commit").call();
 
-		// checkout master and add the same new file
-		checkoutBranch(Constants.R_HEADS + Constants.MASTER);
-		writeTrashFile("b", "second file content - master");
-		git.add().addFilepattern("b").call();
-		git.commit().setMessage("master commit").call();
+			// try and merge
+			MergeResult result = git.merge().include(branchCommit).call();
+			assertEquals(MergeStatus.CONFLICTING, result.getMergeStatus());
 
-		// try and merge
-		MergeResult result = git.merge().include(branchCommit).call();
-		assertEquals(MergeStatus.CONFLICTING, result.getMergeStatus());
+			FileTreeIterator iterator = new FileTreeIterator(db);
+			IndexDiff diff = new IndexDiff(db, Constants.HEAD, iterator);
+			diff.diff();
 
-		FileTreeIterator iterator = new FileTreeIterator(db);
-		IndexDiff diff = new IndexDiff(db, Constants.HEAD, iterator);
-		diff.diff();
+			assertTrue(diff.getChanged().isEmpty());
+			assertTrue(diff.getAdded().isEmpty());
+			assertTrue(diff.getRemoved().isEmpty());
+			assertTrue(diff.getMissing().isEmpty());
+			assertTrue(diff.getModified().isEmpty());
+			assertEquals(1, diff.getConflicting().size());
+			assertTrue(diff.getConflicting().contains("b"));
+			assertEquals(StageState.BOTH_ADDED, diff.getConflictingStageStates()
+					.get("b"));
+			assertTrue(diff.getUntrackedFolders().isEmpty());
 
-		assertTrue(diff.getChanged().isEmpty());
-		assertTrue(diff.getAdded().isEmpty());
-		assertTrue(diff.getRemoved().isEmpty());
-		assertTrue(diff.getMissing().isEmpty());
-		assertTrue(diff.getModified().isEmpty());
-		assertEquals(1, diff.getConflicting().size());
-		assertTrue(diff.getConflicting().contains("b"));
-		assertEquals(StageState.BOTH_ADDED, diff.getConflictingStageStates()
-				.get("b"));
-		assertTrue(diff.getUntrackedFolders().isEmpty());
+			// reset file b to its master state without altering the index
+			writeTrashFile("b", "second file content - master");
 
-		// reset file b to its master state without altering the index
-		writeTrashFile("b", "second file content - master");
+			// we should have the same result
+			iterator = new FileTreeIterator(db);
+			diff = new IndexDiff(db, Constants.HEAD, iterator);
+			diff.diff();
 
-		// we should have the same result
-		iterator = new FileTreeIterator(db);
-		diff = new IndexDiff(db, Constants.HEAD, iterator);
-		diff.diff();
-
-		assertTrue(diff.getChanged().isEmpty());
-		assertTrue(diff.getAdded().isEmpty());
-		assertTrue(diff.getRemoved().isEmpty());
-		assertTrue(diff.getMissing().isEmpty());
-		assertTrue(diff.getModified().isEmpty());
-		assertEquals(1, diff.getConflicting().size());
-		assertTrue(diff.getConflicting().contains("b"));
-		assertEquals(StageState.BOTH_ADDED, diff.getConflictingStageStates()
-				.get("b"));
-		assertTrue(diff.getUntrackedFolders().isEmpty());
+			assertTrue(diff.getChanged().isEmpty());
+			assertTrue(diff.getAdded().isEmpty());
+			assertTrue(diff.getRemoved().isEmpty());
+			assertTrue(diff.getMissing().isEmpty());
+			assertTrue(diff.getModified().isEmpty());
+			assertEquals(1, diff.getConflicting().size());
+			assertTrue(diff.getConflicting().contains("b"));
+			assertEquals(StageState.BOTH_ADDED, diff.getConflictingStageStates()
+					.get("b"));
+			assertTrue(diff.getUntrackedFolders().isEmpty());
+		}
 	}
 
 	@Test
 	public void testStageState_simulated_bug() throws Exception {
-		Git git = new Git(db);
+		try (Git git = new Git(db)) {
+			writeTrashFile("a", "content");
+			git.add().addFilepattern("a").call();
+			RevCommit initialCommit = git.commit().setMessage("initial commit")
+					.call();
 
-		writeTrashFile("a", "content");
-		git.add().addFilepattern("a").call();
-		RevCommit initialCommit = git.commit().setMessage("initial commit")
-				.call();
+			// create branch and add a new file
+			final String branchName = Constants.R_HEADS + "branch";
+			createBranch(initialCommit, branchName);
+			checkoutBranch(branchName);
+			writeTrashFile("b", "second file content - branch");
+			git.add().addFilepattern("b").call();
+			git.commit().setMessage("branch commit")
+					.call();
 
-		// create branch and add a new file
-		final String branchName = Constants.R_HEADS + "branch";
-		createBranch(initialCommit, branchName);
-		checkoutBranch(branchName);
-		writeTrashFile("b", "second file content - branch");
-		git.add().addFilepattern("b").call();
-		git.commit().setMessage("branch commit")
-				.call();
+			// checkout master and add the same new file
+			checkoutBranch(Constants.R_HEADS + Constants.MASTER);
+			writeTrashFile("b", "second file content - master");
+			git.add().addFilepattern("b").call();
+			git.commit().setMessage("master commit").call();
 
-		// checkout master and add the same new file
-		checkoutBranch(Constants.R_HEADS + Constants.MASTER);
-		writeTrashFile("b", "second file content - master");
-		git.add().addFilepattern("b").call();
-		git.commit().setMessage("master commit").call();
+			// Simulate a failed merge of branch into master
+			DirCacheBuilder builder = db.lockDirCache().builder();
+			DirCacheEntry entry = createEntry("a", FileMode.REGULAR_FILE, 0,
+					"content");
+			builder.add(entry);
+			entry = createEntry("b", FileMode.REGULAR_FILE, 2,
+					"second file content - master");
+			builder.add(entry);
+			entry = createEntry("b", FileMode.REGULAR_FILE, 3,
+					"second file content - branch");
+			builder.add(entry);
+			builder.commit();
 
-		// Simulate a failed merge of branch into master
-		DirCacheBuilder builder = db.lockDirCache().builder();
-		DirCacheEntry entry = createEntry("a", FileMode.REGULAR_FILE, 0,
-				"content");
-		builder.add(entry);
-		entry = createEntry("b", FileMode.REGULAR_FILE, 2,
-				"second file content - master");
-		builder.add(entry);
-		entry = createEntry("b", FileMode.REGULAR_FILE, 3,
-				"second file content - branch");
-		builder.add(entry);
-		builder.commit();
+			FileTreeIterator iterator = new FileTreeIterator(db);
+			IndexDiff diff = new IndexDiff(db, Constants.HEAD, iterator);
+			diff.diff();
 
-		FileTreeIterator iterator = new FileTreeIterator(db);
-		IndexDiff diff = new IndexDiff(db, Constants.HEAD, iterator);
-		diff.diff();
-
-		assertTrue(diff.getChanged().isEmpty());
-		assertTrue(diff.getAdded().isEmpty());
-		assertTrue(diff.getRemoved().isEmpty());
-		assertTrue(diff.getMissing().isEmpty());
-		assertTrue(diff.getModified().isEmpty());
-		assertEquals(1, diff.getConflicting().size());
-		assertTrue(diff.getConflicting().contains("b"));
-		assertEquals(StageState.BOTH_ADDED, diff.getConflictingStageStates()
-				.get("b"));
-		assertTrue(diff.getUntrackedFolders().isEmpty());
+			assertTrue(diff.getChanged().isEmpty());
+			assertTrue(diff.getAdded().isEmpty());
+			assertTrue(diff.getRemoved().isEmpty());
+			assertTrue(diff.getMissing().isEmpty());
+			assertTrue(diff.getModified().isEmpty());
+			assertEquals(1, diff.getConflicting().size());
+			assertTrue(diff.getConflicting().contains("b"));
+			assertEquals(StageState.BOTH_ADDED, diff.getConflictingStageStates()
+					.get("b"));
+			assertTrue(diff.getUntrackedFolders().isEmpty());
+		}
 	}
 
 	@Test
 	public void testAutoCRLFInput() throws Exception {
-		Git git = new Git(db);
-		FileBasedConfig config = db.getConfig();
+		try (Git git = new Git(db)) {
+			FileBasedConfig config = db.getConfig();
 
-		// Make sure core.autocrlf is false before adding
-		config.setEnum(ConfigConstants.CONFIG_CORE_SECTION, null,
-				ConfigConstants.CONFIG_KEY_AUTOCRLF, AutoCRLF.FALSE);
-		config.save();
+			// Make sure core.autocrlf is false before adding
+			config.setEnum(ConfigConstants.CONFIG_CORE_SECTION, null,
+					ConfigConstants.CONFIG_KEY_AUTOCRLF, AutoCRLF.FALSE);
+			config.save();
 
-		// File is already in repository with CRLF
-		writeTrashFile("crlf.txt", "this\r\ncontains\r\ncrlf\r\n");
-		git.add().addFilepattern("crlf.txt").call();
-		git.commit().setMessage("Add crlf.txt").call();
+			// File is already in repository with CRLF
+			writeTrashFile("crlf.txt", "this\r\ncontains\r\ncrlf\r\n");
+			git.add().addFilepattern("crlf.txt").call();
+			git.commit().setMessage("Add crlf.txt").call();
 
-		// Now set core.autocrlf to input
-		config.setEnum(ConfigConstants.CONFIG_CORE_SECTION, null,
-				ConfigConstants.CONFIG_KEY_AUTOCRLF, AutoCRLF.INPUT);
-		config.save();
+			// Now set core.autocrlf to input
+			config.setEnum(ConfigConstants.CONFIG_CORE_SECTION, null,
+					ConfigConstants.CONFIG_KEY_AUTOCRLF, AutoCRLF.INPUT);
+			config.save();
 
-		FileTreeIterator iterator = new FileTreeIterator(db);
-		IndexDiff diff = new IndexDiff(db, Constants.HEAD, iterator);
-		diff.diff();
+			FileTreeIterator iterator = new FileTreeIterator(db);
+			IndexDiff diff = new IndexDiff(db, Constants.HEAD, iterator);
+			diff.diff();
 
-		assertTrue(
-				"Expected no modified files, but there were: "
-						+ diff.getModified(), diff.getModified().isEmpty());
+			assertTrue(
+					"Expected no modified files, but there were: "
+							+ diff.getModified(), diff.getModified().isEmpty());
+		}
 	}
 
 	private void verifyStageState(StageState expected, int... stages)
