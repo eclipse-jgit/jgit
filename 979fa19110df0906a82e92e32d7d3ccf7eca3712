@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7dfcf21_c683e4df",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-02-15T23:39:15Z",
+      "side": 1,
+      "message": "this is an API breaking duplicate of https://git.eclipse.org/r/#/c/45709/ which was reverted with https://git.eclipse.org/r/#/c/49400/",
+      "revId": "979fa19110df0906a82e92e32d7d3ccf7eca3712",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
