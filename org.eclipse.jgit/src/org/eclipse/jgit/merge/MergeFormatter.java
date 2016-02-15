@@ -102,7 +102,7 @@ public class MergeFormatter {
 	 *            metadata
 	 * @throws IOException
 	 */
-	public void formatMerge(OutputStream out, MergeResult res, String baseName,
+	public void formatMerge(OutputStream out, MergeResult<RawText> res, String baseName,
 			String oursName, String theirsName, String charsetName) throws IOException {
 		List<String> names = new ArrayList<String>(3);
 		names.add(baseName);

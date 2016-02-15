@@ -344,9 +344,6 @@ public class DirCache {
 	/** Our active lock (if we hold it); null if we don't have it locked. */
 	private LockFile myLock;
 
-	/** file system abstraction **/
-	private final FS fs;
-
 	/** Keep track of whether the index has changed or not */
 	private FileSnapshot snapshot;
 
@@ -376,7 +373,6 @@ public class DirCache {
 	 */
 	public DirCache(final File indexLocation, final FS fs) {
 		liveFile = indexLocation;
-		this.fs = fs;
 		clear();
 	}
 
@@ -611,7 +607,7 @@ public class DirCache {
 	public boolean lock() throws IOException {
 		if (liveFile == null)
 			throw new IOException(JGitText.get().dirCacheDoesNotHaveABackingFile);
-		final LockFile tmp = new LockFile(liveFile, fs);
+		final LockFile tmp = new LockFile(liveFile);
 		if (tmp.lock()) {
 			tmp.setNeedStatInformation(true);
 			myLock = tmp;

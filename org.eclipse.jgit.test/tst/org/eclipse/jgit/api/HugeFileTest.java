@@ -51,6 +51,8 @@ import java.util.Collection;
 
 import org.eclipse.jgit.api.ResetCommand.ResetType;
 import org.eclipse.jgit.junit.RepositoryTestCase;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -60,10 +62,24 @@ public class HugeFileTest extends RepositoryTestCase {
 
 	private long lastt = t;
 
+	private Git git;
+
 	private void measure(String name) {
 		long c = System.currentTimeMillis();
 		System.out.println(name + ", dt=" + (c - lastt) / 1000.0 + "s");
 		lastt = c;
+	}
+
+	@Before
+	public void before() {
+		git = new Git(db);
+	}
+
+	@After
+	public void after() {
+		if (git != null) {
+			git.close();
+		}
 	}
 
 	@Ignore("Test takes way too long (~10 minutes) to be part of the standard suite")
@@ -75,7 +91,6 @@ public class HugeFileTest extends RepositoryTestCase {
 		rf.setLength(4429185024L);
 		rf.close();
 		measure("Created file");
-		Git git = new Git(db);
 
 		git.add().addFilepattern("a.txt").call();
 		measure("Added file");

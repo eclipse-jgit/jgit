@@ -255,9 +255,11 @@ public class DirCacheBasicTest extends RepositoryTestCase {
 		DirCacheBuilder b = dc.builder();
 		DirCacheEntry e = new DirCacheEntry(path);
 		e.setFileMode(FileMode.REGULAR_FILE);
-		e.setObjectId(new ObjectInserter.Formatter().idFor(
-				Constants.OBJ_BLOB,
-				Constants.encode(path)));
+		try (ObjectInserter.Formatter formatter = new ObjectInserter.Formatter()) {
+			e.setObjectId(formatter.idFor(
+					Constants.OBJ_BLOB,
+					Constants.encode(path)));
+		}
 		b.add(e);
 		b.commit();
 		db.readDirCache();

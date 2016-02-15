@@ -118,7 +118,7 @@ public class GcPackRefsTest extends GcTestCase {
 		tr.lightweightTag("t1", a);
 		tr.lightweightTag("t2", a);
 		LockFile refLock = new LockFile(new File(repo.getDirectory(),
-				"refs/tags/t1"), repo.getFS());
+				"refs/tags/t1"));
 		try {
 			refLock.lock();
 			gc.packRefs();

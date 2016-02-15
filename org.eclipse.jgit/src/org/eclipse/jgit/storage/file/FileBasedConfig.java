@@ -74,8 +74,6 @@ import org.eclipse.jgit.util.RawParseUtils;
 public class FileBasedConfig extends StoredConfig {
 	private final File configFile;
 
-	private final FS fs;
-
 	private boolean utf8Bom;
 
 	private volatile FileSnapshot snapshot;
@@ -109,7 +107,6 @@ public class FileBasedConfig extends StoredConfig {
 	public FileBasedConfig(Config base, File cfgLocation, FS fs) {
 		super(base);
 		configFile = cfgLocation;
-		this.fs = fs;
 		this.snapshot = FileSnapshot.DIRTY;
 		this.hash = ObjectId.zeroId();
 	}
@@ -203,7 +200,7 @@ public class FileBasedConfig extends StoredConfig {
 			out = Constants.encode(text);
 		}
 
-		final LockFile lf = new LockFile(getFile(), fs);
+		final LockFile lf = new LockFile(getFile());
 		if (!lf.lock())
 			throw new LockFailedException(getFile());
 		try {

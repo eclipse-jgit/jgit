@@ -354,7 +354,7 @@ public class FileRepository extends Repository {
 						ConfigConstants.CONFIG_KEY_WORKTREE, getWorkTree()
 								.getAbsolutePath());
 				LockFile dotGitLockFile = new LockFile(new File(workTree,
-						Constants.DOT_GIT), getFS());
+						Constants.DOT_GIT));
 				try {
 					if (dotGitLockFile.lock()) {
 						dotGitLockFile.write(Constants.encode(Constants.GITDIR

@@ -62,7 +62,7 @@ public class MockServletConfig implements ServletConfig {
 		return parameters.get(name);
 	}
 
-	public Enumeration getInitParameterNames() {
+	public Enumeration<String> getInitParameterNames() {
 		final Iterator<String> i = parameters.keySet().iterator();
 		return new Enumeration<String>() {
 			public boolean hasMoreElements() {
