@@ -742,10 +742,6 @@ public class UploadPack {
 			if (!clientShallowCommits.isEmpty())
 				walk.assumeShallow(clientShallowCommits);
 			sendPack = negotiate();
-		} catch (PackProtocolException err) {
-			reportErrorDuringNegotiate(err.getMessage());
-			throw err;
-
 		} catch (ServiceMayNotContinueException err) {
 			if (!err.isOutput() && err.getMessage() != null) {
 				try {
@@ -756,15 +752,20 @@ public class UploadPack {
 				}
 			}
 			throw err;
-
-		} catch (IOException err) {
-			reportErrorDuringNegotiate(JGitText.get().internalServerError);
-			throw err;
-		} catch (RuntimeException err) {
-			reportErrorDuringNegotiate(JGitText.get().internalServerError);
-			throw err;
-		} catch (Error err) {
-			reportErrorDuringNegotiate(JGitText.get().internalServerError);
+		} catch (IOException | RuntimeException | Error err) {
+			boolean output = false;
+			try {
+				String msg = err instanceof PackProtocolException
+						? err.getMessage()
+						: JGitText.get().internalServerError;
+				pckOut.writeString("ERR " + msg + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
+				output = true;
+			} catch (Throwable err2) {
+				// Ignore this secondary failure, leave output false.
+			}
+			if (output) {
+				throw new UploadPackInternalServerErrorException(err);
+			}
 			throw err;
 		}
 
@@ -779,14 +780,6 @@ public class UploadPack {
 				ids.add(ref.getObjectId());
 		}
 		return ids;
-	}
-
-	private void reportErrorDuringNegotiate(String msg) {
-		try {
-			pckOut.writeString("ERR " + msg + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
-		} catch (Throwable err) {
-			// Ignore this secondary failure.
-		}
 	}
 
 	private void processShallow() throws IOException {

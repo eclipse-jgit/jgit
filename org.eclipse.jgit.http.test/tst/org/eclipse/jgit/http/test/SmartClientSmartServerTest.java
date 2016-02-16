@@ -56,6 +56,7 @@ import static org.junit.Assert.fail;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -89,6 +90,8 @@ import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectIdRef;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.ReflogEntry;
 import org.eclipse.jgit.lib.ReflogReader;
@@ -484,6 +487,25 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 		assertEquals(200, service.getStatus());
 		assertEquals("text/plain; charset=UTF-8",
 				service.getResponseHeader(HDR_CONTENT_TYPE));
+	}
+
+	@Test
+	public void testInvalidWant() throws Exception {
+		@SuppressWarnings("resource")
+		ObjectId id = new ObjectInserter.Formatter().idFor(Constants.OBJ_BLOB,
+				"testInvalidWant".getBytes(StandardCharsets.UTF_8));
+
+		Repository dst = createBareRepository();
+		try (Transport t = Transport.open(dst, remoteURI);
+				FetchConnection c = t.openFetch()) {
+			Ref want = new ObjectIdRef.Unpeeled(Ref.Storage.NETWORK, id.name(),
+					id);
+			c.fetch(NullProgressMonitor.INSTANCE, Collections.singleton(want),
+					Collections.<ObjectId> emptySet());
+			fail("Server accepted want " + id.name());
+		} catch (TransportException err) {
+			assertEquals("want " + id.name() + " not valid", err.getMessage());
+		}
 	}
 
 	@Test
