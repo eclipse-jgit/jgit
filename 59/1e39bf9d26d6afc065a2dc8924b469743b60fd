@@ -1,0 +1,7 @@
+Code-Review+2: Shawn Pearce <spearce@spearce.org>
+Verified+1: Hudson CI
+Submitted-by: Shawn Pearce <spearce@spearce.org>
+Submitted-at: Mon, 15 Feb 2016 19:00:48 -0500
+Reviewed-on: https://git.eclipse.org/r/66659
+Project: jgit/jgit
+Branch: refs/heads/stable-4.2
