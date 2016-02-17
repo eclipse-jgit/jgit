@@ -1179,9 +1179,7 @@ public class UploadPack {
 			}
 			wantIds.clear();
 		} catch (MissingObjectException notFound) {
-			ObjectId id = notFound.getObjectId();
-			throw new PackProtocolException(MessageFormat.format(
-					JGitText.get().wantNotValid, id.name()), notFound);
+			throw new WantNotValidException(notFound.getObjectId(), notFound);
 		} finally {
 			q.release();
 		}
@@ -1206,8 +1204,7 @@ public class UploadPack {
 			if (!up.isBiDirectionalPipe())
 				new ReachableCommitRequestValidator().checkWants(up, wants);
 			else if (!wants.isEmpty())
-				throw new PackProtocolException(MessageFormat.format(
-						JGitText.get().wantNotValid, wants.iterator().next().name()));
+				throw new WantNotValidException(wants.iterator().next());
 		}
 	}
 
@@ -1240,8 +1237,7 @@ public class UploadPack {
 					refIdSet(up.getRepository().getRefDatabase().getRefs(ALL).values());
 				for (ObjectId obj : wants) {
 					if (!refIds.contains(obj))
-						throw new PackProtocolException(MessageFormat.format(
-								JGitText.get().wantNotValid, obj.name()));
+						throw new WantNotValidException(obj);
 				}
 			}
 		}
@@ -1287,14 +1283,11 @@ public class UploadPack {
 			RevObject obj;
 			while ((obj = q.next()) != null) {
 				if (!(obj instanceof RevCommit))
-					throw new PackProtocolException(MessageFormat.format(
-						JGitText.get().wantNotValid, obj.name()));
+					throw new WantNotValidException(obj);
 				walk.markStart((RevCommit) obj);
 			}
 		} catch (MissingObjectException notFound) {
-			ObjectId id = notFound.getObjectId();
-			throw new PackProtocolException(MessageFormat.format(
-					JGitText.get().wantNotValid, id.name()), notFound);
+			throw new WantNotValidException(notFound.getObjectId(), notFound);
 		} finally {
 			q.release();
 		}
@@ -1308,9 +1301,7 @@ public class UploadPack {
 
 		RevCommit bad = walk.next();
 		if (bad != null) {
-			throw new PackProtocolException(MessageFormat.format(
-					JGitText.get().wantNotValid,
-					bad.name()));
+			throw new WantNotValidException(bad);
 		}
 		walk.reset();
 	}
