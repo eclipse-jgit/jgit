@@ -61,6 +61,7 @@
   <properties>
     <tycho-version>0.23.0</tycho-version>
     <tycho-extras-version>${tycho-version}</tycho-extras-version>
+    <target-platform>jgit-4.5</target-platform>
   </properties>
 
   <pluginRepositories>
@@ -227,43 +228,6 @@
   </build>
 
   <profiles>
-    <profile>
-      <id>platform-kepler</id>
-      <activation>
-        <property>
-          <name>platform-version-name</name>
-          <value>kepler</value>
-        </property>
-      </activation>
-      <properties>
-        <target-platform>jgit-4.3</target-platform>
-      </properties>
-    </profile>
-    <profile>
-      <id>platform-luna</id>
-      <activation>
-        <property>
-          <name>platform-version-name</name>
-          <value>luna</value>
-        </property>
-      </activation>
-      <properties>
-        <target-platform>jgit-4.4</target-platform>
-      </properties>
-    </profile>
-    <profile>
-      <id>platform-mars</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-        <property>
-          <name>platform-version-name</name>
-          <value>mars</value>
-        </property>
-      </activation>
-      <properties>
-        <target-platform>jgit-4.5</target-platform>
-      </properties>
-    </profile>
     <profile>
       <id>eclipse-sign</id>
       <build>
