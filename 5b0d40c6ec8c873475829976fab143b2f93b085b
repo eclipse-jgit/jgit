@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "e7dfcf21_c9a3e62d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2016-02-22T11:26:03Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "5b0d40c6ec8c873475829976fab143b2f93b085b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7dfcf21_342bdd83",
         "filename": "/COMMIT_MSG",
         "patchSetId": 7
@@ -42,6 +59,23 @@
         "endLine": 13,
         "endChar": 46
       },
+      "revId": "5b0d40c6ec8c873475829976fab143b2f93b085b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_e998a2fe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2016-02-22T11:26:03Z",
+      "side": 1,
+      "message": "Done",
       "revId": "5b0d40c6ec8c873475829976fab143b2f93b085b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -136,6 +170,23 @@
         "endLine": 64,
         "endChar": 40
       },
+      "revId": "5b0d40c6ec8c873475829976fab143b2f93b085b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_099eaee8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/StreamConversionFactoryTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2016-02-22T11:26:03Z",
+      "side": 1,
+      "message": "Done",
       "revId": "5b0d40c6ec8c873475829976fab143b2f93b085b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -317,6 +368,23 @@
     },
     {
       "key": {
+        "uuid": "e7dfcf21_e91342e6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CoreConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2016-02-22T11:26:03Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "5b0d40c6ec8c873475829976fab143b2f93b085b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7dfcf21_14c9814e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/AutoCRLFOutputStream.java",
         "patchSetId": 7
@@ -340,6 +408,23 @@
     },
     {
       "key": {
+        "uuid": "e7dfcf21_291d2af3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/AutoCRLFOutputStream.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2016-02-22T11:26:03Z",
+      "side": 1,
+      "message": "http://git.kernel.org/cgit/git/git.git/tree/xdiff-interface.c?id\u003dHEAD#l241\r\nbuffer_is_binary\r\n#define FIRST_FEW_BYTES 8000",
+      "revId": "5b0d40c6ec8c873475829976fab143b2f93b085b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7dfcf21_94b111fe",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/AutoLFInputStream.java",
         "patchSetId": 7
@@ -357,6 +442,23 @@
         "endLine": 53,
         "endChar": 47
       },
+      "revId": "5b0d40c6ec8c873475829976fab143b2f93b085b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_29444acf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/AutoLFInputStream.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2016-02-22T11:26:03Z",
+      "side": 1,
+      "message": "http://git.kernel.org/cgit/git/git.git/tree/xdiff-interface.c?id\u003dHEAD#l241\r\nbuffer_is_binary\r\n#define FIRST_FEW_BYTES 8000",
       "revId": "5b0d40c6ec8c873475829976fab143b2f93b085b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -456,6 +558,23 @@
     },
     {
       "key": {
+        "uuid": "e7dfcf21_494196bd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/AutoLFOutputStream.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2016-02-22T11:26:03Z",
+      "side": 1,
+      "message": "http://git.kernel.org/cgit/git/git.git/tree/xdiff-interface.c?id\u003dHEAD#l241\r\nbuffer_is_binary\r\n#define FIRST_FEW_BYTES 8000",
+      "revId": "5b0d40c6ec8c873475829976fab143b2f93b085b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7dfcf21_d49ab97a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/AutoLFOutputStream.java",
         "patchSetId": 7
@@ -473,6 +592,23 @@
         "endLine": 62,
         "endChar": 36
       },
+      "revId": "5b0d40c6ec8c873475829976fab143b2f93b085b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_693e5243",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/AutoLFOutputStream.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2016-02-22T11:26:03Z",
+      "side": 1,
+      "message": "http://git.kernel.org/cgit/git/git.git/tree/xdiff-interface.c?id\u003dHEAD#l241\r\nbuffer_is_binary\r\n#define FIRST_FEW_BYTES 8000",
       "revId": "5b0d40c6ec8c873475829976fab143b2f93b085b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -537,6 +673,23 @@
     },
     {
       "key": {
+        "uuid": "e7dfcf21_893b9e4f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/EolCanonicalizingInputStream.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2016-02-22T11:26:03Z",
+      "side": 1,
+      "message": "http://git.kernel.org/cgit/git/git.git/tree/xdiff-interface.c?id\u003dHEAD#l241\r\nbuffer_is_binary\r\n#define FIRST_FEW_BYTES 8000",
+      "revId": "5b0d40c6ec8c873475829976fab143b2f93b085b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7dfcf21_d481d908",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/StreamTypeManager.java",
         "patchSetId": 7
@@ -548,6 +701,23 @@
       "writtenOn": "2016-02-11T23:56:06Z",
       "side": 1,
       "message": "maybe better: Manages line ending conversion of input and output streams",
+      "revId": "5b0d40c6ec8c873475829976fab143b2f93b085b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_a9dbfa99",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/StreamTypeManager.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2016-02-22T11:26:03Z",
+      "side": 1,
+      "message": "Done",
       "revId": "5b0d40c6ec8c873475829976fab143b2f93b085b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -606,6 +776,23 @@
     },
     {
       "key": {
+        "uuid": "e7dfcf21_c9e04645",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/StreamTypeManager.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2016-02-22T11:26:03Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "5b0d40c6ec8c873475829976fab143b2f93b085b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7dfcf21_74f72582",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/StreamTypeProvider.java",
         "patchSetId": 7
@@ -629,6 +816,23 @@
     },
     {
       "key": {
+        "uuid": "e7dfcf21_e9e50253",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/StreamTypeProvider.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2016-02-22T11:26:03Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "5b0d40c6ec8c873475829976fab143b2f93b085b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7dfcf21_542069a3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/StreamTypeProvider.java",
         "patchSetId": 7
@@ -640,6 +844,23 @@
       "writtenOn": "2016-02-11T23:56:06Z",
       "side": 1,
       "message": "this text sounds like the return type is boolean\n\nDetermine the type of line ending conversion configured in git configuration and git attributes",
+      "revId": "5b0d40c6ec8c873475829976fab143b2f93b085b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_09eb0e27",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/StreamTypeProvider.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2016-02-22T11:26:03Z",
+      "side": 1,
+      "message": "Done",
       "revId": "5b0d40c6ec8c873475829976fab143b2f93b085b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -698,6 +919,23 @@
         "endLine": 59,
         "endChar": 33
       },
+      "revId": "5b0d40c6ec8c873475829976fab143b2f93b085b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_09022e7d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/StreamTypeUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2016-02-22T11:26:03Z",
+      "side": 1,
+      "message": "Done",
       "revId": "5b0d40c6ec8c873475829976fab143b2f93b085b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
