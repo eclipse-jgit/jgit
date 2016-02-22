@@ -42,6 +42,9 @@
 package org.eclipse.jgit.attributes;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
@@ -54,8 +57,8 @@ import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.treewalk.TreeWalk;
-import org.eclipse.jgit.treewalk.WorkingTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk.OperationType;
+import org.eclipse.jgit.treewalk.WorkingTreeIterator;
 
 /**
  * The attributes handler knows how to retrieve, parse and merge attributes from
@@ -81,13 +84,13 @@ public class AttributesHandler {
 			MACRO_PREFIX + BINARY_RULE_KEY, "-diff -merge -text") //$NON-NLS-1$
 					.getAttributes();
 
+	private static final String ROOT_PATH = ""; //$NON-NLS-1$
+
 	private final TreeWalk treeWalk;
 
-	private final AttributesNode globalNode;
+	private final Map<String, CacheEntry> entryPerDir = new HashMap<>();
 
-	private final AttributesNode infoNode;
-
-	private final Map<String, List<Attribute>> expansions = new HashMap<>();
+	private final CacheEntry rootEntry;
 
 	/**
 	 * Create an {@link AttributesHandler} with default rules as well as merged
@@ -98,34 +101,10 @@ public class AttributesHandler {
 	 */
 	public AttributesHandler(TreeWalk treeWalk) throws IOException {
 		this.treeWalk = treeWalk;
-		AttributesNodeProvider attributesNodeProvider =treeWalk.getAttributesNodeProvider();
-		this.globalNode = attributesNodeProvider != null
-				? attributesNodeProvider.getGlobalAttributesNode() : null;
-		this.infoNode = attributesNodeProvider != null
-				? attributesNodeProvider.getInfoAttributesNode() : null;
 
-		AttributesNode rootNode = attributesNode(treeWalk,
-				rootOf(
-						treeWalk.getTree(WorkingTreeIterator.class)),
-				rootOf(
-						treeWalk.getTree(DirCacheIterator.class)),
-				rootOf(treeWalk
-						.getTree(CanonicalTreeParser.class)));
-
-		expansions.put(BINARY_RULE_KEY, BINARY_RULE_ATTRIBUTES);
-		for (AttributesNode node : new AttributesNode[] { globalNode, rootNode,
-				infoNode }) {
-			if (node == null) {
-				continue;
-			}
-			for (AttributesRule rule : node.getRules()) {
-				if (rule.getPattern().startsWith(MACRO_PREFIX)) {
-					expansions.put(rule.getPattern()
-							.substring(MACRO_PREFIX.length()).trim(),
-							rule.getAttributes());
-				}
-			}
-		}
+		// prepare merged rules for ROOT_PATH
+		rootEntry = new CacheEntry(treeWalk);
+		entryPerDir.put(rootEntry.path, rootEntry); // $NON-NLS-1$
 	}
 
 	/**
@@ -137,21 +116,35 @@ public class AttributesHandler {
 	 */
 	public Attributes getAttributes() throws IOException {
 		String entryPath = treeWalk.getPathString();
-		boolean isDirectory = (treeWalk.getFileMode() == FileMode.TREE);
-		Attributes attributes = new Attributes();
 
-		// Gets the info attributes
-		mergeInfoAttributes(entryPath, isDirectory, attributes);
-
-		// Gets the attributes located on the current entry path
-		mergePerDirectoryEntryAttributes(entryPath, isDirectory,
+		if (entryPath.startsWith("/")) //$NON-NLS-1$
+			entryPath = entryPath.substring(1);
+		if (entryPath.endsWith("/")) //$NON-NLS-1$
+			entryPath = entryPath.substring(0, entryPath.length() - 1);
+		int i = entryPath.lastIndexOf('/');
+		String cachePath = (i >= 0 ? entryPath.substring(0, i) : ROOT_PATH);
+		CacheEntry cacheEntry = mergeAndCacheRules(cachePath,
 				treeWalk.getTree(WorkingTreeIterator.class),
 				treeWalk.getTree(DirCacheIterator.class),
-				treeWalk.getTree(CanonicalTreeParser.class),
-				attributes);
+				treeWalk.getTree(CanonicalTreeParser.class));
 
-		// Gets the attributes located in the global attribute file
-		mergeGlobalAttributes(entryPath, isDirectory, attributes);
+		boolean isDirectory = (treeWalk.getFileMode() == FileMode.TREE);
+		Attributes attributes = new Attributes();
+		for (List<TranslatedAttributesRule> rules : Arrays.asList(
+				cacheEntry.infoRules,
+				cacheEntry.dirRules, cacheEntry.globalRules)) {
+			for (TranslatedAttributesRule rule : rules) {
+				if (rule.isMatch(entryPath, isDirectory)) {
+					ListIterator<Attribute> attributeIte = rule.getAttributes()
+							.listIterator(rule.getAttributes().size());
+					// Parses the attributes in the reverse order that they were
+					// read since the last entry should be used
+					while (attributeIte.hasPrevious()) {
+						expandMacro(attributeIte.previous(), attributes);
+					}
+				}
+			}
+		}
 
 		// now after all attributes are collected - in the correct hierarchy
 		// order - remove all unspecified entries (the ! marker)
@@ -164,115 +157,44 @@ public class AttributesHandler {
 	}
 
 	/**
-	 * Merges the matching GLOBAL attributes for an entry path.
+	 * Merges all ancestor rules that are relevant for this entry path and
+	 * caches the result
 	 *
-	 * @param entryPath
+	 * @param cachePath
 	 *            the path to test. The path must be relative to this attribute
 	 *            node's own repository path, and in repository path format
 	 *            (uses '/' and not '\').
-	 * @param isDirectory
-	 *            true if the target item is a directory.
-	 * @param result
-	 *            that will hold the attributes matching this entry path. This
-	 *            method will NOT override any existing entry in attributes.
-	 */
-	private void mergeGlobalAttributes(String entryPath, boolean isDirectory,
-			Attributes result) {
-		mergeAttributes(globalNode, entryPath, isDirectory, result);
-	}
-
-	/**
-	 * Merges the matching INFO attributes for an entry path.
-	 *
-	 * @param entryPath
-	 *            the path to test. The path must be relative to this attribute
-	 *            node's own repository path, and in repository path format
-	 *            (uses '/' and not '\').
-	 * @param isDirectory
-	 *            true if the target item is a directory.
-	 * @param result
-	 *            that will hold the attributes matching this entry path. This
-	 *            method will NOT override any existing entry in attributes.
-	 */
-	private void mergeInfoAttributes(String entryPath, boolean isDirectory,
-			Attributes result) {
-		mergeAttributes(infoNode, entryPath, isDirectory, result);
-	}
-
-	/**
-	 * Merges the matching working directory attributes for an entry path.
-	 *
-	 * @param entryPath
-	 *            the path to test. The path must be relative to this attribute
-	 *            node's own repository path, and in repository path format
-	 *            (uses '/' and not '\').
-	 * @param isDirectory
-	 *            true if the target item is a directory.
 	 * @param workingTreeIterator
 	 * @param dirCacheIterator
 	 * @param otherTree
-	 * @param result
-	 *            that will hold the attributes matching this entry path. This
-	 *            method will NOT override any existing entry in attributes.
+	 * @return the merged rules in forward traversal order (for attribute
+	 *         computation). This is the reverse of the definition order.
 	 * @throws IOException
 	 */
-	private void mergePerDirectoryEntryAttributes(String entryPath,
-			boolean isDirectory,
+	private CacheEntry mergeAndCacheRules(String cachePath,
 			@Nullable WorkingTreeIterator workingTreeIterator,
 			@Nullable DirCacheIterator dirCacheIterator,
-			@Nullable CanonicalTreeParser otherTree, Attributes result)
-					throws IOException {
-		// Prevents infinite recurrence
-		if (workingTreeIterator != null || dirCacheIterator != null
-				|| otherTree != null) {
-			AttributesNode attributesNode = attributesNode(
-					treeWalk, workingTreeIterator, dirCacheIterator, otherTree);
-			if (attributesNode != null) {
-				mergeAttributes(attributesNode, entryPath, isDirectory, result);
-			}
-			mergePerDirectoryEntryAttributes(entryPath, isDirectory,
-					parentOf(workingTreeIterator), parentOf(dirCacheIterator),
-					parentOf(otherTree), result);
+			@Nullable CanonicalTreeParser otherTree) throws IOException {
+		// precondition: the root path "" is guaranteed to exist, it was set in
+		// the constructor
+		CacheEntry entry = entryPerDir.get(cachePath);
+		if (entry != null) {
+			return entry;
 		}
-	}
+		// postcondition: dirPath is not "" and denotes a sub folder
 
-	/**
-	 * Merges the matching node attributes for an entry path.
-	 *
-	 * @param node
-	 *            the node to scan for matches to entryPath
-	 * @param entryPath
-	 *            the path to test. The path must be relative to this attribute
-	 *            node's own repository path, and in repository path format
-	 *            (uses '/' and not '\').
-	 * @param isDirectory
-	 *            true if the target item is a directory.
-	 * @param result
-	 *            that will hold the attributes matching this entry path. This
-	 *            method will NOT override any existing entry in attributes.
-	 */
-	protected void mergeAttributes(@Nullable AttributesNode node,
-			String entryPath,
-			boolean isDirectory, Attributes result) {
-		if (node == null)
-			return;
-		List<AttributesRule> rules = node.getRules();
-		// Parse rules in the reverse order that they were read since the last
-		// entry should be used
-		ListIterator<AttributesRule> ruleIterator = rules
-				.listIterator(rules.size());
-		while (ruleIterator.hasPrevious()) {
-			AttributesRule rule = ruleIterator.previous();
-			if (rule.isMatch(entryPath, isDirectory)) {
-				ListIterator<Attribute> attributeIte = rule.getAttributes()
-						.listIterator(rule.getAttributes().size());
-				// Parses the attributes in the reverse order that they were
-				// read since the last entry should be used
-				while (attributeIte.hasPrevious()) {
-					expandMacro(attributeIte.previous(), result);
-				}
-			}
-		}
+		int i = cachePath.lastIndexOf('/');
+		String parentCachePath = (i >= 0 ? cachePath.substring(0, i)
+				: ROOT_PATH);
+		CacheEntry parentEntry = mergeAndCacheRules(parentCachePath,
+				parentOf(workingTreeIterator), parentOf(dirCacheIterator),
+				parentOf(otherTree));
+
+		entry = new CacheEntry(parentEntry, cachePath, attributesNode(
+				treeWalk, workingTreeIterator, dirCacheIterator, otherTree));
+
+		entryPerDir.put(entry.path, entry);
+		return entry;
 	}
 
 	/**
@@ -289,7 +211,8 @@ public class AttributesHandler {
 		// also add macro to result set, same does native git
 		result.put(attr);
 
-		List<Attribute> expansion = expansions.get(attr.getKey());
+		List<Attribute> expansion = rootEntry.macroExpansions
+				.get(attr.getKey());
 		if (expansion == null) {
 			return;
 		}
@@ -429,6 +352,91 @@ public class AttributesHandler {
 			return type.cast(t);
 		}
 		return null;
+	}
+
+	/**
+	 * @param declarationPath
+	 * @param node
+	 * @return the list of {@link AttributesRule} in reverse order, never null
+	 */
+	private static List<TranslatedAttributesRule> rulesInReverseOrder(
+			String declarationPath,
+			@Nullable AttributesNode node) {
+		if (node == null)
+			return Collections.emptyList();
+		ArrayList<TranslatedAttributesRule> rules = new ArrayList<>();
+		for (AttributesRule rule : node.getRules()) {
+			rules.add(new TranslatedAttributesRule(declarationPath, rule));
+		}
+		Collections.reverse(rules);
+		return rules;
+	}
+
+	private static class CacheEntry {
+		private final String path;
+
+		private final Map<String, List<Attribute>> macroExpansions;
+
+		private final List<TranslatedAttributesRule> infoRules;
+
+		private final List<TranslatedAttributesRule> dirRules;
+
+		private final List<TranslatedAttributesRule> globalRules;
+
+		CacheEntry(TreeWalk treeWalk) throws IOException {
+			path = ROOT_PATH;
+
+			AttributesNodeProvider attributesNodeProvider = treeWalk
+					.getAttributesNodeProvider();
+
+			AttributesNode globalNode = attributesNodeProvider != null
+					? attributesNodeProvider.getGlobalAttributesNode() : null;
+			AttributesNode infoNode = attributesNodeProvider != null
+					? attributesNodeProvider.getInfoAttributesNode() : null;
+			AttributesNode dirNode = attributesNode(treeWalk,
+					rootOf(treeWalk.getTree(WorkingTreeIterator.class)),
+					rootOf(treeWalk.getTree(DirCacheIterator.class)),
+					rootOf(treeWalk.getTree(CanonicalTreeParser.class)));
+
+			macroExpansions = new HashMap<>();
+			macroExpansions.put(BINARY_RULE_KEY, BINARY_RULE_ATTRIBUTES);
+			for (AttributesNode node : new AttributesNode[] { globalNode,
+					dirNode, infoNode }) {
+				if (node == null) {
+					continue;
+				}
+				for (AttributesRule rule : node.getRules()) {
+					if (rule.getPattern().startsWith(MACRO_PREFIX)) {
+						// later macro definition overwrites earlier one
+						macroExpansions.put(rule.getPattern()
+								.substring(MACRO_PREFIX.length()).trim(),
+								rule.getAttributes());
+					}
+				}
+			}
+
+			infoRules = rulesInReverseOrder(path, infoNode);
+			dirRules = rulesInReverseOrder(path, dirNode);
+			globalRules = rulesInReverseOrder(path, globalNode);
+		}
+
+		CacheEntry(CacheEntry parentEntry, String path,
+				AttributesNode subFolderNode) {
+			this.path = path;
+			macroExpansions = parentEntry.macroExpansions;
+			infoRules = parentEntry.infoRules;
+			globalRules = parentEntry.globalRules;
+			// the subfolder attributes are at the beginning of the merged list
+			List<TranslatedAttributesRule> newDirRules = rulesInReverseOrder(
+					path, subFolderNode);
+			if (newDirRules.isEmpty()) {
+				dirRules = parentEntry.dirRules;
+			} else {
+				newDirRules.addAll(parentEntry.dirRules);
+				dirRules = newDirRules;
+			}
+		}
+
 	}
 
 }
