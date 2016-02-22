@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7dfcf21_a29dcf48",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1214,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2016-02-22T21:08:11Z",
+      "side": 1,
+      "message": "This fixes the clean/smudge filter tests that make use of the preScanTwoTrees CheckOut. This seems to be added after this method was introduced. The Checkout.prescanTwoTrees uses two WorkingTreeIterator, but this method here just returns the first found.\r\n\r\nMay it be that this if(tree.matches\u003d\u003dcurrentHead) was missing ever since? \r\n\r\nOnly attributes logic used it so far. And since the attributes logic was not caching it was reading attributes every time again, so it was magically right.\r\n\r\nNow with attribute node and rule caching i run unto this iusse.\r\nThis fix seems to work fine. Is it correct in your opinion?\r\nI assume",
+      "revId": "a865dc6fe11c7018a40f02311eab3d943a59fc64",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
