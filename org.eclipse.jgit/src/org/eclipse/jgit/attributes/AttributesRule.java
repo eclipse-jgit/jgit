@@ -53,6 +53,8 @@ import org.eclipse.jgit.errors.InvalidPatternException;
 import org.eclipse.jgit.ignore.FastIgnoreRule;
 import org.eclipse.jgit.ignore.internal.IMatcher;
 import org.eclipse.jgit.ignore.internal.PathMatcher;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A single attributes rule corresponding to one line in a .gitattributes file.
@@ -62,6 +64,8 @@ import org.eclipse.jgit.ignore.internal.PathMatcher;
  * @since 3.7
  */
 public class AttributesRule {
+	private final static Logger LOG = LoggerFactory
+			.getLogger(AttributesRule.class);
 
 	/**
 	 * regular expression for splitting attributes - space, tab and \r (the C
@@ -155,7 +159,7 @@ public class AttributesRule {
 			candidateMatcher = PathMatcher.createPathMatcher(pattern,
 					Character.valueOf(FastIgnoreRule.PATH_SEPARATOR), dirOnly);
 		} catch (InvalidPatternException e) {
-			// ignore: invalid patterns are silently ignored
+			LOG.error("Invalid attribute pattern{}", pattern, e); //$NON-NLS-1$
 		}
 		this.matcher = candidateMatcher;
 		this.pattern = pattern;

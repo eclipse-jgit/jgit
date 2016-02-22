@@ -63,13 +63,13 @@ public class AttributesNode {
 	/** The rules that have been parsed into this node. */
 	private final List<AttributesRule> rules;
 
-	/** Create an empty ignore node with no rules. */
+	/** Create an empty node with no rules. */
 	public AttributesNode() {
 		rules = new ArrayList<AttributesRule>();
 	}
 
 	/**
-	 * Create an ignore node with given rules.
+	 * Create an node with given rules.
 	 *
 	 * @param rules
 	 *            list of rules.
@@ -82,10 +82,10 @@ public class AttributesNode {
 	 * Parse files according to gitattribute standards.
 	 *
 	 * @param in
-	 *            input stream holding the standard ignore format. The caller is
+	 *            input stream holding the standard format. The caller is
 	 *            responsible for closing the stream.
 	 * @throws IOException
-	 *             Error thrown when reading an ignore file.
+	 *             Error thrown when reading an file.
 	 */
 	public void parse(InputStream in) throws IOException {
 		BufferedReader br = asReader(in);
@@ -116,7 +116,9 @@ public class AttributesNode {
 		return new BufferedReader(new InputStreamReader(in, Constants.CHARSET));
 	}
 
-	/** @return list of all ignore rules held by this node. */
+	/**
+	 * @return list of all rules held by this node.
+	 */
 	public List<AttributesRule> getRules() {
 		return Collections.unmodifiableList(rules);
 	}
