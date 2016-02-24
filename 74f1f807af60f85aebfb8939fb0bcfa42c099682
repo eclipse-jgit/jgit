@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7dfcf21_3385905f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BaseRepositoryBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 5413
+      },
+      "writtenOn": "2016-02-24T14:18:12Z",
+      "side": 1,
+      "message": "API check: only build able with:\n/**\n * Set $GIT_COMMON_DIR.\n *\n * @param gitCommonDir\n *            {@code GIT_DIR}, the repository meta directory.\n * @return {@code this} (for chaining calls).\n * @since 4.3\n */",
+      "revId": "74f1f807af60f85aebfb8939fb0bcfa42c099682",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_538a1c70",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BaseRepositoryBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 5413
+      },
+      "writtenOn": "2016-02-24T14:18:12Z",
+      "side": 1,
+      "message": "API check: only build able with:\n/**\n * @return $GIT_COMMON_DIR; null if not set.\n * @since 4.3\n */",
+      "revId": "74f1f807af60f85aebfb8939fb0bcfa42c099682",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_d37d4cd6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BaseRepositoryBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 759,
+      "author": {
+        "id": 5413
+      },
+      "writtenOn": "2016-02-24T14:18:12Z",
+      "side": 1,
+      "message": "/*\n * Bug 477475 - git 2.5 worktree support\n * \n * Andre Bossert \u003canb0s@anbos.de\u003e\n *\n * https://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d477475\n * based at: https://git.eclipse.org/r/#/c/54404/\n * \n * we are in .git ($GIT_DIR) folder of the worktree\n *       \"...\\.git\\worktrees\\\u003cworktree-name\u003e\"\n * and want to get the worktree path\n * so here we have an opposite link \"gitdir\" showing to\n * the \".git\" file located in the worktree\n * read it and convert it to absolute path if it\u0027s relative\n */\nif (getGitDir() !\u003d null) {\n  File gitDirFile \u003d new File(getGitDir(), \"gitdir\");\n  if (gitDirFile.isFile()) {\n    String workDirPath \u003d new String(IO.readFully(gitDirFile)).trim();\n    File workTreeDotGitFile \u003d new File(workDirPath);\n    if (!workTreeDotGitFile.isAbsolute()) {\n      workTreeDotGitFile \u003d new File(getGitDir(), workDirPath).getCanonicalFile();\n    }\n    if (workTreeDotGitFile !\u003d null) {\n      return workTreeDotGitFile.getParentFile();\n    }\n  }\n}",
+      "revId": "74f1f807af60f85aebfb8939fb0bcfa42c099682",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_339af0c6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 5413
+      },
+      "writtenOn": "2016-02-24T14:18:12Z",
+      "side": 1,
+      "message": "API check: only buildable with:\n/**\n * @param preferCommonDir\n *            should $GIT_COMMON_DIR be prefered instead of $GIT_DIR\n * @return local metadata directory; null if repository isn\u0027t local.\n * @since 4.3\n */",
+      "revId": "74f1f807af60f85aebfb8939fb0bcfa42c099682",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_b3a52001",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 5413
+      },
+      "writtenOn": "2016-02-24T14:18:12Z",
+      "side": 1,
+      "message": "API check: only build able with:\n/**\n * @return $GIT_COMMON_DIR\n * @since 4.3\n */",
+      "revId": "74f1f807af60f85aebfb8939fb0bcfa42c099682",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
