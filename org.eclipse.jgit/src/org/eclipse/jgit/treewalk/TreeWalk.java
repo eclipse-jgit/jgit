@@ -49,6 +49,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.attributes.Attribute;
 import org.eclipse.jgit.attributes.Attributes;
@@ -64,6 +65,7 @@ import org.eclipse.jgit.errors.StopWalkException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.CoreConfig.EolStreamType;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectId;
@@ -74,6 +76,7 @@ import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.eclipse.jgit.util.QuotedString;
 import org.eclipse.jgit.util.RawParseUtils;
+import org.eclipse.jgit.util.io.EolStreamTypeUtil;
 
 /**
  * Walks one or more {@link AbstractTreeIterator}s in parallel.
@@ -161,7 +164,44 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	public static TreeWalk forPath(final ObjectReader reader, final String path,
 			final AnyObjectId... trees) throws MissingObjectException,
 			IncorrectObjectTypeException, CorruptObjectException, IOException {
-		TreeWalk tw = new TreeWalk(reader);
+		return forPath(null, reader, path, trees);
+	}
+
+	/**
+	 * Open a tree walk and filter to exactly one path.
+	 * <p>
+	 * The returned tree walk is already positioned on the requested path, so
+	 * the caller should not need to invoke {@link #next()} unless they are
+	 * looking for a possible directory/file name conflict.
+	 *
+	 * @param repo
+	 *            repository to read config data and
+	 *            {@link AttributesNodeProvider} from.
+	 * @param reader
+	 *            the reader the walker will obtain tree data from.
+	 * @param path
+	 *            single path to advance the tree walk instance into.
+	 * @param trees
+	 *            one or more trees to walk through, all with the same root.
+	 * @return a new tree walk configured for exactly this one path; null if no
+	 *         path was found in any of the trees.
+	 * @throws IOException
+	 *             reading a pack file or loose object failed.
+	 * @throws CorruptObjectException
+	 *             an tree object could not be read as its data stream did not
+	 *             appear to be a tree, or could not be inflated.
+	 * @throws IncorrectObjectTypeException
+	 *             an object we expected to be a tree was not a tree.
+	 * @throws MissingObjectException
+	 *             a tree object was not found.
+	 * @since 4.3
+	 */
+	public static TreeWalk forPath(final @Nullable Repository repo,
+			final ObjectReader reader, final String path,
+			final AnyObjectId... trees)
+					throws MissingObjectException, IncorrectObjectTypeException,
+					CorruptObjectException, IOException {
+		TreeWalk tw = new TreeWalk(repo, reader);
 		PathFilter f = PathFilter.create(path);
 		tw.setFilter(f);
 		tw.reset(trees);
@@ -206,7 +246,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 			final AnyObjectId... trees) throws MissingObjectException,
 			IncorrectObjectTypeException, CorruptObjectException, IOException {
 		try (ObjectReader reader = db.newObjectReader()) {
-			return forPath(reader, path, trees);
+			return forPath(db, reader, path, trees);
 		}
 	}
 
@@ -282,9 +322,23 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 *            when the walker is closed.
 	 */
 	public TreeWalk(final Repository repo) {
-		this(repo.newObjectReader(), true);
-		config = repo.getConfig();
-		attributesNodeProvider = repo.createAttributesNodeProvider();
+		this(repo, repo.newObjectReader(), true);
+	}
+
+	/**
+	 * Create a new tree walker for a given repository.
+	 *
+	 * @param repo
+	 *            the repository the walker will obtain data from. An
+	 *            ObjectReader will be created by the walker, and will be closed
+	 *            when the walker is closed.
+	 * @param or
+	 *            the reader the walker will obtain tree data from. The reader
+	 *            is not closed when the walker is closed.
+	 * @since 4.3
+	 */
+	public TreeWalk(final @Nullable Repository repo, final ObjectReader or) {
+		this(repo, or, false);
 	}
 
 	/**
@@ -295,10 +349,18 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 *            is not closed when the walker is closed.
 	 */
 	public TreeWalk(final ObjectReader or) {
-		this(or, false);
+		this(null, or, false);
 	}
 
-	private TreeWalk(final ObjectReader or, final boolean closeReader) {
+	private TreeWalk(final @Nullable Repository repo, final ObjectReader or,
+			final boolean closeReader) {
+		if (repo != null) {
+			config = repo.getConfig();
+			attributesNodeProvider = repo.createAttributesNodeProvider();
+		} else {
+			config = null;
+			attributesNodeProvider = null;
+		}
 		reader = or;
 		filter = TreeFilter.ALL;
 		trees = NO_TREES;
@@ -515,6 +577,19 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 			throw new JGitInternalException("Error while parsing attributes", //$NON-NLS-1$
 					e);
 		}
+	}
+
+	/**
+	 * @return the EOL stream type of the current entry using the config and
+	 *         {@link #getAttributes()} Note that this method may return null if
+	 *         the {@link TreeWalk} is not based on a working tree
+	 * @since 4.3
+	 */
+	public @Nullable EolStreamType getEolStreamType() {
+			if (attributesNodeProvider == null || config == null)
+				return null;
+			return EolStreamTypeUtil.detectStreamType(operationType,
+					config.get(WorkingTreeOptions.KEY), getAttributes());
 	}
 
 	/** Reset this walker so new tree iterators can be added to it. */
