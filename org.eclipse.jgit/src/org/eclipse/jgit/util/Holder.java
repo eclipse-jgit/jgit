@@ -1,6 +1,5 @@
 /*
- * Copyright (C) 2010, 2013 Marc Strapetz <marc.strapetz@syntevo.com>
- * and other copyright owners as documented in the project's IP log.
+ * Copyright (C) 2015, Ivan Motsch <ivan.motsch@bsiag.com>
  *
  * This program and the accompanying materials are made available
  * under the terms of the Eclipse Distribution License v1.0 which
@@ -40,63 +39,39 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
-package org.eclipse.jgit.util.io;
-
-import java.io.IOException;
-import java.io.InputStream;
+package org.eclipse.jgit.util;
 
 /**
- * An input stream which canonicalizes EOLs bytes on the fly to '\n'.
+ * Holder of an object.
  *
- * Optionally, a binary check on the first 8000 bytes is performed and in case
- * of binary files, canonicalization is turned off (for the complete file).
+ * @param <T>
+ *            the type of value held by this {@link Holder}
  *
- * @deprecated use {@link AutoLFInputStream} instead
+ * @since 4.3
  */
-@Deprecated
-public class EolCanonicalizingInputStream extends AutoLFInputStream {
+public class Holder<T> {
+	private T value;
 
 	/**
-	 * Creates a new InputStream, wrapping the specified stream
-	 *
-	 * @param in
-	 *            raw input stream
-	 * @param detectBinary
-	 *            whether binaries should be detected
+	 * @param value
+	 *            is the initial value that is {@link #set(Object)}
 	 */
-	public EolCanonicalizingInputStream(InputStream in, boolean detectBinary) {
-		super(in, detectBinary);
+	public Holder(T value) {
+		set(value);
 	}
 
 	/**
-	 * Creates a new InputStream, wrapping the specified stream
-	 *
-	 * @param in
-	 *            raw input stream
-	 * @param detectBinary
-	 *            whether binaries should be detected
-	 * @param abortIfBinary
-	 *            throw an IOException if the file is binary
+	 * @return the value held by this {@link Holder}
 	 */
-	public EolCanonicalizingInputStream(InputStream in, boolean detectBinary,
-			boolean abortIfBinary) {
-		super(in, detectBinary, abortIfBinary);
+	public T get() {
+		return value;
 	}
 
 	/**
-	 * A special exception thrown when {@link AutoLFInputStream} is told to
-	 * throw an exception when attempting to read a binary file. The exception
-	 * may be thrown at any stage during reading.
-	 *
-	 * @since 3.3
+	 * @param value
+	 *            to be set as new value held by this {@link Holder}
 	 */
-	public static class IsBinaryException extends IOException {
-		private static final long serialVersionUID = 1L;
-
-		IsBinaryException() {
-			super();
-		}
+	public void set(T value) {
+		this.value = value;
 	}
-
 }
