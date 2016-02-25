@@ -104,6 +104,19 @@ public class NameConflictTreeWalk extends TreeWalk {
 	/**
 	 * Create a new tree walker for a given repository.
 	 *
+	 * @param repo
+	 *            the repository the walker will obtain data from.
+	 * @param or
+	 *            the reader the walker will obtain tree data from.
+	 * @since 4.3
+	 */
+	public NameConflictTreeWalk(Repository repo, final ObjectReader or) {
+		super(repo, or);
+	}
+
+	/**
+	 * Create a new tree walker for a given repository.
+	 *
 	 * @param or
 	 *            the reader the walker will obtain tree data from.
 	 */
