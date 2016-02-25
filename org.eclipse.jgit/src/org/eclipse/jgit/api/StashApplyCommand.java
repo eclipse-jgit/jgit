@@ -54,11 +54,13 @@ import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheCheckout;
+import org.eclipse.jgit.dircache.DirCacheCheckout.CheckoutMetadata;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.errors.CheckoutConflictException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.CoreConfig.EolStreamType;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
@@ -336,6 +338,7 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 					// Not in commit, don't create untracked
 					continue;
 
+				final EolStreamType eolStreamType = walk.getEolStreamType();
 				final DirCacheEntry entry = new DirCacheEntry(walk.getRawPath());
 				entry.setFileMode(cIter.getEntryFileMode());
 				entry.setObjectIdFromRaw(cIter.idBuffer(), cIter.idOffset());
@@ -350,14 +353,17 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 					}
 				}
 
-				checkoutPath(entry, reader);
+				checkoutPath(entry, reader,
+						new CheckoutMetadata(eolStreamType, null));
 			}
 		}
 	}
 
-	private void checkoutPath(DirCacheEntry entry, ObjectReader reader) {
+	private void checkoutPath(DirCacheEntry entry, ObjectReader reader,
+			CheckoutMetadata checkoutMetadata) {
 		try {
-			DirCacheCheckout.checkoutEntry(repo, entry, reader, true);
+			DirCacheCheckout.checkoutEntry(repo, entry, reader, true,
+					checkoutMetadata);
 		} catch (IOException e) {
 			throw new JGitInternalException(MessageFormat.format(
 					JGitText.get().checkoutConflictWithFile,
