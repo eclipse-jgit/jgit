@@ -76,6 +76,46 @@ public class CoreConfig {
 	}
 
 	/**
+	 * Permissible values for {@code core.eol}.
+	 * <p>
+	 * https://git-scm.com/docs/gitattributes
+	 *
+	 * @since 4.3
+	 */
+	public static enum EOL {
+		/** checkin with LF, checkout with CRLF. */
+		CRLF,
+
+		/** checkin with LF, checkout without conversion. */
+		LF,
+
+		/** use the platform's native line ending. */
+		NATIVE;
+	}
+
+	/**
+	 * EOL stream conversion protocol
+	 *
+	 * @since 4.3
+	 */
+	public static enum EolStreamType {
+		/** convert to CRLF without binary detection */
+		TEXT_CRLF,
+
+		/** convert to LF without binary detection */
+		TEXT_LF,
+
+		/** convert to CRLF with binary detection */
+		AUTO_CRLF,
+
+		/** convert to LF with binary detection */
+		AUTO_LF,
+
+		/** do not convert */
+		DIRECT;
+	}
+
+	/**
 	 * Permissible values for {@code core.checkstat}
 	 *
 	 * @since 3.0
