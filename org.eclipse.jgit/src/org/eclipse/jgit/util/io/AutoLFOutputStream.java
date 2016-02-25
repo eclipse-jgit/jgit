@@ -1,6 +1,5 @@
 /*
- * Copyright (C) 2011, 2013 Robin Rosenberg
- * and other copyright owners as documented in the project's IP log.
+ * Copyright (C) 2015, Ivan Motsch <ivan.motsch@bsiag.com>
  *
  * This program and the accompanying materials are made available
  * under the terms of the Eclipse Distribution License v1.0 which
@@ -49,14 +48,16 @@ import java.io.OutputStream;
 import org.eclipse.jgit.diff.RawText;
 
 /**
- * An OutputStream that expands LF to CRLF.
+ * An OutputStream that reduces CRLF to LF.
  *
- * Existing CRLF are not expanded to CRCRLF, but retained as is.
+ * Existing single CR are not changed to LF, but retained as is.
  *
  * A binary check on the first 8000 bytes is performed and in case of binary
  * files, canonicalization is turned off (for the complete file).
+ *
+ * @since 4.3
  */
-public class AutoCRLFOutputStream extends OutputStream {
+public class AutoLFOutputStream extends OutputStream {
 
 	static final int BUFFER_SIZE = 8000;
 
@@ -77,7 +78,7 @@ public class AutoCRLFOutputStream extends OutputStream {
 	/**
 	 * @param out
 	 */
-	public AutoCRLFOutputStream(OutputStream out) {
+	public AutoLFOutputStream(OutputStream out) {
 		this(out, true);
 	}
 
@@ -85,9 +86,8 @@ public class AutoCRLFOutputStream extends OutputStream {
 	 * @param out
 	 * @param detectBinary
 	 *            whether binaries should be detected
-	 * @since 4.3
 	 */
-	public AutoCRLFOutputStream(OutputStream out, boolean detectBinary) {
+	public AutoLFOutputStream(OutputStream out, boolean detectBinary) {
 		this.out = out;
 		this.detectBinary = detectBinary;
 	}
@@ -101,20 +101,23 @@ public class AutoCRLFOutputStream extends OutputStream {
 	@Override
 	public void write(byte[] b) throws IOException {
 		int overflow = buffer(b, 0, b.length);
-		if (overflow > 0)
+		if (overflow > 0) {
 			write(b, b.length - overflow, overflow);
+		}
 	}
 
 	@Override
 	public void write(byte[] b, final int startOff, final int startLen)
 			throws IOException {
 		final int overflow = buffer(b, startOff, startLen);
-		if (overflow < 0)
+		if (overflow < 0) {
 			return;
+		}
 		final int off = startOff + startLen - overflow;
 		final int len = overflow;
-		if (len == 0)
+		if (len == 0) {
 			return;
+		}
 		int lastw = off;
 		if (isBinary) {
 			out.write(b, off, len);
@@ -123,36 +126,47 @@ public class AutoCRLFOutputStream extends OutputStream {
 		for (int i = off; i < off + len; ++i) {
 			final byte c = b[i];
 			if (c == '\r') {
+				// skip write r but backlog r
+				if (lastw < i) {
+					out.write(b, lastw, i - lastw);
+				}
+				lastw = i + 1;
 				buf = '\r';
 			} else if (c == '\n') {
-				if (buf != '\r') {
-					if (lastw < i) {
-						out.write(b, lastw, i - lastw);
+				if (buf == '\r') {
+					out.write('\n');
+					lastw = i + 1;
+					buf = -1;
+				} else {
+					if (lastw < i + 1) {
+						out.write(b, lastw, i + 1 - lastw);
 					}
+					lastw = i + 1;
+				}
+			} else {
+				if (buf == '\r') {
 					out.write('\r');
 					lastw = i;
 				}
-				buf = -1;
-			} else {
 				buf = -1;
 			}
 		}
 		if (lastw < off + len) {
 			out.write(b, lastw, off + len - lastw);
 		}
-		if (b[off + len - 1] == '\r')
-			buf = '\r';
 	}
 
 	private int buffer(byte[] b, int off, int len) throws IOException {
-		if (binbufcnt > binbuf.length)
+		if (binbufcnt > binbuf.length) {
 			return len;
+		}
 		int copy = Math.min(binbuf.length - binbufcnt, len);
 		System.arraycopy(b, off, binbuf, binbufcnt, copy);
 		binbufcnt += copy;
 		int remaining = len - copy;
-		if (remaining > 0)
+		if (remaining > 0) {
 			decideMode();
+		}
 		return remaining;
 	}
 
@@ -168,15 +182,19 @@ public class AutoCRLFOutputStream extends OutputStream {
 
 	@Override
 	public void flush() throws IOException {
-		if (binbufcnt <= binbuf.length)
+		if (binbufcnt <= binbuf.length) {
 			decideMode();
-		buf = -1;
+		}
 		out.flush();
 	}
 
 	@Override
 	public void close() throws IOException {
 		flush();
+		if (buf == '\r') {
+			out.write(buf);
+			buf = -1;
+		}
 		out.close();
 	}
 }
