@@ -376,8 +376,10 @@ public class URIish implements Serializable {
 	public URIish(final URL u) {
 		scheme = u.getProtocol();
 		path = u.getPath();
+		path = cleanLeadingSlashes(path, scheme);
 		try {
 			rawPath = u.toURI().getRawPath();
+			rawPath = cleanLeadingSlashes(rawPath, scheme);
 		} catch (URISyntaxException e) {
 			throw new RuntimeException(e); // Impossible
 		}
