@@ -42,6 +42,149 @@
     },
     {
       "key": {
+        "uuid": "e7dfcf21_fc076c8d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/EndOfLineRepositoryTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-02-28T23:42:08Z",
+      "side": 1,
+      "message": "Are there any tests which use worktree attribute files which are not on root?\nAre there any tests where we there are attributes only added to the index which differ from the attributes in the worktree and HEAD?\nAre there any tests which do a checkout of branch b and where HEAD contains no attributes but b has? And vice versa. HEAD has attributes but b has no attributes?",
+      "revId": "71cd8d75fd06ea845a8f8862287a8928e9465e33",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_5ccf80d5",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/EndOfLineRepositoryTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-02-28T23:42:08Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we add a file with mixed line endings. One line crlf and another lf? Maybe we want to support core.safecrlf soon.",
+      "revId": "71cd8d75fd06ea845a8f8862287a8928e9465e33",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_9cd9089f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/EndOfLineRepositoryTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-02-28T23:42:08Z",
+      "side": 1,
+      "message": "from the name I would expect that this method is the same as writeTrashFile(). I would call it createAndAddFile()",
+      "range": {
+        "startLine": 378,
+        "startChar": 14,
+        "endLine": 378,
+        "endChar": 24
+      },
+      "revId": "71cd8d75fd06ea845a8f8862287a8928e9465e33",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_bcd6c469",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/EndOfLineRepositoryTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-02-28T23:42:08Z",
+      "side": 1,
+      "message": "I would call it checkAllContentsAttributes()",
+      "range": {
+        "startLine": 394,
+        "startChar": 14,
+        "endLine": 394,
+        "endChar": 22
+      },
+      "revId": "71cd8d75fd06ea845a8f8862287a8928e9465e33",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_dc02b07f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/EndOfLineRepositoryTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-02-28T23:42:08Z",
+      "side": 1,
+      "message": "I would call it checkEntryContentAttributes.",
+      "range": {
+        "startLine": 417,
+        "startChar": 14,
+        "endLine": 417,
+        "endChar": 29
+      },
+      "revId": "71cd8d75fd06ea845a8f8862287a8928e9465e33",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_1cfdf8e0",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/EolStreamTypeUtilTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-02-28T23:42:08Z",
+      "side": 1,
+      "message": "could you add some javadoc what this methods checks. Especially the two EolStreamTypes and how they relate to expectedOutput need explanation. Why do both stream types should result in the result? Same for testCheckout.",
+      "range": {
+        "startLine": 218,
+        "startChar": 14,
+        "endLine": 218,
+        "endChar": 25
+      },
+      "revId": "71cd8d75fd06ea845a8f8862287a8928e9465e33",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_3c02b47d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/EolStreamTypeUtilTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-02-28T23:42:08Z",
+      "side": 1,
+      "message": "You are testing streamTypeWithBinaryCheck with binary data. Don\u0027t you want to test streamTypeText also with binary data? Similar question also for testCheckout?",
+      "revId": "71cd8d75fd06ea845a8f8862287a8928e9465e33",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7dfcf21_3c30f46d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/io/AutoLFInputStreamTest.java",
         "patchSetId": 13
@@ -53,6 +196,188 @@
       "writtenOn": "2016-02-28T21:59:37Z",
       "side": 1,
       "message": "You have removed the text \"and other copyright owners as documented in the project\u0027s IP log.\" from the copyright. Intentionally?",
+      "revId": "71cd8d75fd06ea845a8f8862287a8928e9465e33",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_bcede42f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-02-28T23:42:08Z",
+      "side": 1,
+      "message": "is this change needed?",
+      "revId": "71cd8d75fd06ea845a8f8862287a8928e9465e33",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_dcad50f6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-02-28T23:42:08Z",
+      "side": 1,
+      "message": "is this change needed?",
+      "revId": "71cd8d75fd06ea845a8f8862287a8928e9465e33",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_7ccc3ce0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-02-28T23:42:08Z",
+      "side": 1,
+      "message": "The semantics of this new config constants is not explained. Especially I would expect it to be mentioned in the commit message. Why do we need it?",
+      "revId": "71cd8d75fd06ea845a8f8862287a8928e9465e33",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_9ca2e8f4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 729,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-02-28T23:42:08Z",
+      "side": 1,
+      "message": "this method resolves refs into objectIDs. Do we need attribute handling at all?",
+      "revId": "71cd8d75fd06ea845a8f8862287a8928e9465e33",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_7ca51cfe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 1008,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-02-28T23:42:08Z",
+      "side": 1,
+      "message": "If there is no workingTreeIterator in the game why would we need the db here? No workingTree -\u003e no attributes, or?",
+      "revId": "71cd8d75fd06ea845a8f8862287a8928e9465e33",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_fc84cc64",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/StrategySimpleTwoWayInCore.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-02-28T23:42:08Z",
+      "side": 1,
+      "message": "The incore merger works in memory without a working tree. Does he need attribute handling?",
+      "revId": "71cd8d75fd06ea845a8f8862287a8928e9465e33",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_3c8f1480",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/WalkFetchConnection.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-02-28T23:42:08Z",
+      "side": 1,
+      "message": "Attribute handling during git transports? Is this required?",
+      "revId": "71cd8d75fd06ea845a8f8862287a8928e9465e33",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_bc7a44da",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-02-28T23:42:08Z",
+      "side": 1,
+      "message": "I am not so sure about this, but do we need the functionality of \"atomic\" updates on that ref? And if not isn\u0027t the use of \nthis class to expensive just to be able to distinguish between not-yet-set and null?",
+      "range": {
+        "startLine": 149,
+        "startChar": 9,
+        "endLine": 149,
+        "endChar": 24
+      },
+      "revId": "71cd8d75fd06ea845a8f8862287a8928e9465e33",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_1cb8982f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/AutoLFInputStream.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-02-28T23:42:08Z",
+      "side": 1,
+      "message": "That\u0027s the right copyright for a new file?",
+      "revId": "71cd8d75fd06ea845a8f8862287a8928e9465e33",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_fcb20c50",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/EolStreamTypeUtil.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-02-28T23:42:08Z",
+      "side": 1,
+      "message": "Not sure whether we really need these flags. I somebody wants a checkin/checkout without attribute handling then he should be able to do this. When I e.g. write tools which rewrite history (like filter branch) and I want to explicitly just checkout content exactly as it is in the object-store then that\u0027s ok.",
+      "range": {
+        "startLine": 76,
+        "startChar": 23,
+        "endLine": 76,
+        "endChar": 59
+      },
       "revId": "71cd8d75fd06ea845a8f8862287a8928e9465e33",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
