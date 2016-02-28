@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7dfcf21_dc30f073",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/DiffAlgorithms.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-02-28T21:59:37Z",
+      "side": 1,
+      "message": "Is this change needed? This test is running on two commits from the object database. No checkin, no checkout. No EOL handling required. I removed only this change, run all your new tests and they are still green.",
+      "revId": "71cd8d75fd06ea845a8f8862287a8928e9465e33",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_fc35ac61",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/TextHashFunctions.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-02-28T21:59:37Z",
+      "side": 1,
+      "message": "Is this change required?",
+      "range": {
+        "startLine": 304,
+        "startChar": 32,
+        "endLine": 305,
+        "endChar": 43
+      },
+      "revId": "71cd8d75fd06ea845a8f8862287a8928e9465e33",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_3c30f46d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/io/AutoLFInputStreamTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-02-28T21:59:37Z",
+      "side": 1,
+      "message": "You have removed the text \"and other copyright owners as documented in the project\u0027s IP log.\" from the copyright. Intentionally?",
+      "revId": "71cd8d75fd06ea845a8f8862287a8928e9465e33",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
