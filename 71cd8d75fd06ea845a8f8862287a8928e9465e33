@@ -207,6 +207,29 @@
     },
     {
       "key": {
+        "uuid": "e7dfcf21_3679f0e7",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/EndOfLineRepositoryTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-02-29T12:29:24Z",
+      "side": 1,
+      "message": "Very important for me would also to check what content made it into the repo. Currently we are doing the checks only by looking at the filesystem. We could add the index (a DirCcheIterator) to this walk. And the check methods could get parameters for \"expectedIndexContent\" also check for the index content.",
+      "range": {
+        "startLine": 407,
+        "startChar": 18,
+        "endLine": 407,
+        "endChar": 27
+      },
+      "revId": "71cd8d75fd06ea845a8f8862287a8928e9465e33",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7dfcf21_dc02b07f",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/EndOfLineRepositoryTest.java",
         "patchSetId": 13
@@ -315,6 +338,24 @@
       "writtenOn": "2016-02-29T11:53:08Z",
       "side": 1,
       "message": "If for example the gitattributes says \"*.txt text\" then no binary check is done on *.txt files at all.\r\nThey are all assumed to be really text and conversion is done regardless if it may contain binary characters.\r\nThis is uesful and improves performance since no binary check is to be performed before/during conversion.",
+      "revId": "71cd8d75fd06ea845a8f8862287a8928e9465e33",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_39dba3e5",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/EolStreamTypeUtilTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-02-29T12:29:24Z",
+      "side": 1,
+      "message": "I got the idea. But you do have an assumption what should happen when binary data is pumped through streamTypeText. CRLF-\u003eLF conversion should happen, right? Why don\u0027t we test that? And why don\u0027t we test that streamTypeText doesn\u0027t touch other (non-crlf) binary data.",
+      "parentUuid": "e7dfcf21_39cba397",
       "revId": "71cd8d75fd06ea845a8f8862287a8928e9465e33",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
