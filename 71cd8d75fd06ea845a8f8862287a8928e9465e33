@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "e7dfcf21_d6444cd2",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/DiffAlgorithms.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2016-02-29T11:53:08Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "71cd8d75fd06ea845a8f8862287a8928e9465e33",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7dfcf21_fc35ac61",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/TextHashFunctions.java",
         "patchSetId": 13
@@ -42,6 +59,23 @@
     },
     {
       "key": {
+        "uuid": "e7dfcf21_f63f883c",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/TextHashFunctions.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2016-02-29T11:53:08Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "71cd8d75fd06ea845a8f8862287a8928e9465e33",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7dfcf21_fc076c8d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/EndOfLineRepositoryTest.java",
         "patchSetId": 13
@@ -53,6 +87,23 @@
       "writtenOn": "2016-02-28T23:42:08Z",
       "side": 1,
       "message": "Are there any tests which use worktree attribute files which are not on root?\nAre there any tests where we there are attributes only added to the index which differ from the attributes in the worktree and HEAD?\nAre there any tests which do a checkout of branch b and where HEAD contains no attributes but b has? And vice versa. HEAD has attributes but b has no attributes?",
+      "revId": "71cd8d75fd06ea845a8f8862287a8928e9465e33",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_d9639fba",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/EndOfLineRepositoryTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2016-02-29T11:53:08Z",
+      "side": 1,
+      "message": "since eol is mainly working on Attributes and Config constants, the mentioned tests \r\nare already covered in the org.eclipse.jgit.attributes unit testst. But I will add some subdir \r\neol tests and tests that change eol handling.",
       "revId": "71cd8d75fd06ea845a8f8862287a8928e9465e33",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -99,6 +150,23 @@
     },
     {
       "key": {
+        "uuid": "e7dfcf21_b600a075",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/EndOfLineRepositoryTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2016-02-29T11:53:08Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "71cd8d75fd06ea845a8f8862287a8928e9465e33",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7dfcf21_bcd6c469",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/EndOfLineRepositoryTest.java",
         "patchSetId": 13
@@ -116,6 +184,23 @@
         "endLine": 394,
         "endChar": 22
       },
+      "revId": "71cd8d75fd06ea845a8f8862287a8928e9465e33",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_d6f60c02",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/EndOfLineRepositoryTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2016-02-29T11:53:08Z",
+      "side": 1,
+      "message": "Done",
       "revId": "71cd8d75fd06ea845a8f8862287a8928e9465e33",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -145,6 +230,23 @@
     },
     {
       "key": {
+        "uuid": "e7dfcf21_56ae7cf2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/EndOfLineRepositoryTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2016-02-29T11:53:08Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "71cd8d75fd06ea845a8f8862287a8928e9465e33",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7dfcf21_1cfdf8e0",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/EolStreamTypeUtilTest.java",
         "patchSetId": 13
@@ -168,6 +270,23 @@
     },
     {
       "key": {
+        "uuid": "e7dfcf21_19d0a73e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/EolStreamTypeUtilTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2016-02-29T11:53:08Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "71cd8d75fd06ea845a8f8862287a8928e9465e33",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7dfcf21_3c02b47d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/EolStreamTypeUtilTest.java",
         "patchSetId": 13
@@ -179,6 +298,23 @@
       "writtenOn": "2016-02-28T23:42:08Z",
       "side": 1,
       "message": "You are testing streamTypeWithBinaryCheck with binary data. Don\u0027t you want to test streamTypeText also with binary data? Similar question also for testCheckout?",
+      "revId": "71cd8d75fd06ea845a8f8862287a8928e9465e33",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_39cba397",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/EolStreamTypeUtilTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2016-02-29T11:53:08Z",
+      "side": 1,
+      "message": "If for example the gitattributes says \"*.txt text\" then no binary check is done on *.txt files at all.\r\nThey are all assumed to be really text and conversion is done regardless if it may contain binary characters.\r\nThis is uesful and improves performance since no binary check is to be performed before/during conversion.",
       "revId": "71cd8d75fd06ea845a8f8862287a8928e9465e33",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -202,6 +338,23 @@
     },
     {
       "key": {
+        "uuid": "e7dfcf21_79dc4b5a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/io/AutoLFInputStreamTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2016-02-29T11:53:08Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "71cd8d75fd06ea845a8f8862287a8928e9465e33",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7dfcf21_bcede42f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
         "patchSetId": 13
@@ -213,6 +366,23 @@
       "writtenOn": "2016-02-28T23:42:08Z",
       "side": 1,
       "message": "is this change needed?",
+      "revId": "71cd8d75fd06ea845a8f8862287a8928e9465e33",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_b9d6d335",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2016-02-29T11:53:08Z",
+      "side": 1,
+      "message": "Done",
       "revId": "71cd8d75fd06ea845a8f8862287a8928e9465e33",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -236,6 +406,23 @@
     },
     {
       "key": {
+        "uuid": "e7dfcf21_d9ec7f07",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2016-02-29T11:53:08Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "71cd8d75fd06ea845a8f8862287a8928e9465e33",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7dfcf21_7ccc3ce0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
         "patchSetId": 13
@@ -247,6 +434,23 @@
       "writtenOn": "2016-02-28T23:42:08Z",
       "side": 1,
       "message": "The semantics of this new config constants is not explained. Especially I would expect it to be mentioned in the commit message. Why do we need it?",
+      "revId": "71cd8d75fd06ea845a8f8862287a8928e9465e33",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_b963330c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2016-02-29T11:53:08Z",
+      "side": 1,
+      "message": "It is the following rare use case:\r\n- checkin a.txt containing CRLF with attributes *.txt binary\r\n- then removing the gtiattributes and setting core.autoCRLF\u003dinput\r\n- checkout a.txt, now it is a conflict whether to checkout forcing LF (on unix), forcing CRLF (on windows) or using a direct stream not converting at all.\r\n\r\nSince a checkout of a file may assume that text files inside the repo has normalized\r\nline endings, LF may be assumed.\r\nAnd so this property tells if checkout should enforce LF (CRLF on windows) in such a case or \r\nchecking out the file using a transparent stream (direct).\r\n\r\nHowever I assumed jgit was using the later (weak) case but i double checked\r\nand found no evidence about that intention. So I rethought that and removed this \r\nproperty here again. The implementation now makes jgit same as command line git \r\nby not forcing line endings at checkout when there are no explicit properties set to do so.\r\neol\u003dcrlf, eol\u003dlf, core.autoCRLF\u003dtrue are such properties.",
       "revId": "71cd8d75fd06ea845a8f8862287a8928e9465e33",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -270,6 +474,23 @@
     },
     {
       "key": {
+        "uuid": "e7dfcf21_392ac37e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 729,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2016-02-29T11:53:08Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "71cd8d75fd06ea845a8f8862287a8928e9465e33",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7dfcf21_7ca51cfe",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
         "patchSetId": 13
@@ -281,6 +502,23 @@
       "writtenOn": "2016-02-28T23:42:08Z",
       "side": 1,
       "message": "If there is no workingTreeIterator in the game why would we need the db here? No workingTree -\u003e no attributes, or?",
+      "revId": "71cd8d75fd06ea845a8f8862287a8928e9465e33",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_59ccef64",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 1008,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2016-02-29T11:53:08Z",
+      "side": 1,
+      "message": "Done",
       "revId": "71cd8d75fd06ea845a8f8862287a8928e9465e33",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -304,6 +542,23 @@
     },
     {
       "key": {
+        "uuid": "e7dfcf21_79cfeb58",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/StrategySimpleTwoWayInCore.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2016-02-29T11:53:08Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "71cd8d75fd06ea845a8f8862287a8928e9465e33",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7dfcf21_3c8f1480",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/WalkFetchConnection.java",
         "patchSetId": 13
@@ -315,6 +570,23 @@
       "writtenOn": "2016-02-28T23:42:08Z",
       "side": 1,
       "message": "Attribute handling during git transports? Is this required?",
+      "revId": "71cd8d75fd06ea845a8f8862287a8928e9465e33",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_99d677ef",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/WalkFetchConnection.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2016-02-29T11:53:08Z",
+      "side": 1,
+      "message": "Done",
       "revId": "71cd8d75fd06ea845a8f8862287a8928e9465e33",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -344,6 +616,23 @@
     },
     {
       "key": {
+        "uuid": "e7dfcf21_d9b1dfca",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2016-02-29T11:53:08Z",
+      "side": 1,
+      "message": "Right, AtomicRef is too expensive. Added a new class Holder\u003cT\u003e to do so.\r\nIn most of the cases the value will be in fact null,  so i think it is valid to use a Holder\u003cT\u003e.\r\nOtherwise we should skip this cache member at all.",
+      "revId": "71cd8d75fd06ea845a8f8862287a8928e9465e33",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7dfcf21_1cb8982f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/AutoLFInputStream.java",
         "patchSetId": 13
@@ -355,6 +644,23 @@
       "writtenOn": "2016-02-28T23:42:08Z",
       "side": 1,
       "message": "That\u0027s the right copyright for a new file?",
+      "revId": "71cd8d75fd06ea845a8f8862287a8928e9465e33",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_f9acdb75",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/AutoLFInputStream.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2016-02-29T11:53:08Z",
+      "side": 1,
+      "message": "This is the former EolCanonicalizingInputStream with a new name to match the eol naming policy. I just added a javadoc line.",
       "revId": "71cd8d75fd06ea845a8f8862287a8928e9465e33",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -378,6 +684,23 @@
         "endLine": 76,
         "endChar": 59
       },
+      "revId": "71cd8d75fd06ea845a8f8862287a8928e9465e33",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_39b723bd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/EolStreamTypeUtil.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2016-02-29T11:53:08Z",
+      "side": 1,
+      "message": "Done",
       "revId": "71cd8d75fd06ea845a8f8862287a8928e9465e33",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
