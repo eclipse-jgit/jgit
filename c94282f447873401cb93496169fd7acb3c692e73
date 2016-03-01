@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7dfcf21_e51ee896",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/AbstractEolConversionRepositoryTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-03-01T13:51:28Z",
+      "side": 1,
+      "message": "First I liked the way you implemented these tests with one abstract class and two implementing classes which change the test data. But when working with these test classes I found it not so nice that I can\u0027t from eclipse start a single test anymore. You can\u0027t rightClick on test_ConfigEOL_native_xnix and say \"Run as-\u003eJunit test\". I remembered that in other tests where we want to run the same tests with different test-data/flags we used JUnit Theories. I\u0027ll upload a version of these tests using Theories. If you don\u0027t like it just roll back in the next patchset.",
+      "range": {
+        "startLine": 72,
+        "startChar": 22,
+        "endLine": 72,
+        "endChar": 57
+      },
+      "revId": "c94282f447873401cb93496169fd7acb3c692e73",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_2a5b3fce",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/AbstractEolConversionRepositoryTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-03-01T13:51:28Z",
+      "side": 1,
+      "message": "this comment can be removed",
+      "range": {
+        "startLine": 359,
+        "startChar": 2,
+        "endLine": 359,
+        "endChar": 26
+      },
+      "revId": "c94282f447873401cb93496169fd7acb3c692e73",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_85dc445b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/AbstractEolConversionRepositoryTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-03-01T13:51:28Z",
+      "side": 1,
+      "message": "This single line dominates the performance when executing the tests. I know this method quite good and why we need it sometimes. But in this case your tests have to work also without the fstick() and they do. And the execution time for the tests drop on my linux box from 130sec to 8sec when executing all the tests related to this class.",
+      "range": {
+        "startLine": 384,
+        "startChar": 2,
+        "endLine": 384,
+        "endChar": 12
+      },
+      "revId": "c94282f447873401cb93496169fd7acb3c692e73",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_e582680b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/AbstractEolConversionRepositoryTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-03-01T13:51:28Z",
+      "side": 1,
+      "message": "here and in some other places indention is not nice. I\u0027ll upload a auto-indented version",
+      "range": {
+        "startLine": 398,
+        "startChar": 1,
+        "endLine": 398,
+        "endChar": 21
+      },
+      "revId": "c94282f447873401cb93496169fd7acb3c692e73",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
