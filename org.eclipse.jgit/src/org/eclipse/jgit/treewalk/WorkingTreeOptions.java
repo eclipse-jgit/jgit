@@ -73,6 +73,8 @@ public class WorkingTreeOptions {
 
 	private final HideDotFiles hideDotFiles;
 
+	private final boolean dirNoGitLinks;
+
 	private WorkingTreeOptions(final Config rc) {
 		fileMode = rc.getBoolean(ConfigConstants.CONFIG_CORE_SECTION,
 				ConfigConstants.CONFIG_KEY_FILEMODE, true);
@@ -87,6 +89,9 @@ public class WorkingTreeOptions {
 		hideDotFiles = rc.getEnum(ConfigConstants.CONFIG_CORE_SECTION, null,
 				ConfigConstants.CONFIG_KEY_HIDEDOTFILES,
 				HideDotFiles.DOTGITONLY);
+		dirNoGitLinks = rc.getBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+				ConfigConstants.CONFIG_KEY_DIRNOGITLINKS,
+				false);
 	}
 
 	/** @return true if the execute bit on working files should be trusted. */
@@ -131,4 +136,12 @@ public class WorkingTreeOptions {
 	public HideDotFiles getHideDotFiles() {
 		return hideDotFiles;
 	}
+
+	/**
+	 * @return whether or not we treat nested repos as directories.
+	 * 		   If true, folders containing .git entries will not be
+	 * 		   treated as gitlinks.
+	 * @since 4.3
+	 */
+	public boolean isDirNoGitLinks() { return dirNoGitLinks; }
 }
