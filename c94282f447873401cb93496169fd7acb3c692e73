@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e7dfcf21_852444b8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/AbstractEolConversionRepositoryTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-03-01T13:52:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7dfcf21_e51ee896",
+      "range": {
+        "startLine": 72,
+        "startChar": 22,
+        "endLine": 72,
+        "endChar": 57
+      },
+      "revId": "c94282f447873401cb93496169fd7acb3c692e73",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7dfcf21_2a5b3fce",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/AbstractEolConversionRepositoryTest.java",
         "patchSetId": 15
@@ -36,6 +60,30 @@
       "writtenOn": "2016-03-01T13:51:28Z",
       "side": 1,
       "message": "this comment can be removed",
+      "range": {
+        "startLine": 359,
+        "startChar": 2,
+        "endLine": 359,
+        "endChar": 26
+      },
+      "revId": "c94282f447873401cb93496169fd7acb3c692e73",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_a51b0078",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/AbstractEolConversionRepositoryTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-03-01T13:52:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7dfcf21_2a5b3fce",
       "range": {
         "startLine": 359,
         "startChar": 2,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "e7dfcf21_c51e4c68",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/AbstractEolConversionRepositoryTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-03-01T13:52:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7dfcf21_85dc445b",
+      "range": {
+        "startLine": 384,
+        "startChar": 2,
+        "endLine": 384,
+        "endChar": 12
+      },
+      "revId": "c94282f447873401cb93496169fd7acb3c692e73",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7dfcf21_e582680b",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/AbstractEolConversionRepositoryTest.java",
         "patchSetId": 15
@@ -82,6 +154,30 @@
       "writtenOn": "2016-03-01T13:51:28Z",
       "side": 1,
       "message": "here and in some other places indention is not nice. I\u0027ll upload a auto-indented version",
+      "range": {
+        "startLine": 398,
+        "startChar": 1,
+        "endLine": 398,
+        "endChar": 21
+      },
+      "revId": "c94282f447873401cb93496169fd7acb3c692e73",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_e53428e4",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/AbstractEolConversionRepositoryTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-03-01T13:52:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7dfcf21_e582680b",
       "range": {
         "startLine": 398,
         "startChar": 1,
