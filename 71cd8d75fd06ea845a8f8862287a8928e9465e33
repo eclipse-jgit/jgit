@@ -127,6 +127,24 @@
     },
     {
       "key": {
+        "uuid": "e7dfcf21_055f54f3",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/EndOfLineRepositoryTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-03-01T14:23:00Z",
+      "side": 1,
+      "message": "Ivan, have you seen this comment?",
+      "parentUuid": "e7dfcf21_5ccf80d5",
+      "revId": "71cd8d75fd06ea845a8f8862287a8928e9465e33",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7dfcf21_9cd9089f",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/EndOfLineRepositoryTest.java",
         "patchSetId": 13
