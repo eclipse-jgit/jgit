@@ -49,6 +49,23 @@
     },
     {
       "key": {
+        "uuid": "e7dfcf21_e54a682c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/AbstractEolConversionRepositoryTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2016-03-01T14:25:05Z",
+      "side": 1,
+      "message": "I like it, thanks.",
+      "revId": "c94282f447873401cb93496169fd7acb3c692e73",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7dfcf21_2a5b3fce",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/AbstractEolConversionRepositoryTest.java",
         "patchSetId": 15
