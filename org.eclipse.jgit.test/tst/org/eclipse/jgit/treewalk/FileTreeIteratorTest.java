@@ -64,7 +64,12 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.RepositoryTestCase;
-import org.eclipse.jgit.lib.*;
+import org.eclipse.jgit.lib.ConfigConstants;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.treewalk.WorkingTreeIterator.MetadataDiff;
@@ -280,6 +285,37 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testTreewalkEnterSubtree() throws Exception {
+		try (Git git = new Git(db)) {
+			writeTrashFile("b/c", "b/c");
+			writeTrashFile("z/.git", "gitdir: /tmp/somewhere");
+			git.add().addFilepattern(".").call();
+			git.rm().addFilepattern("a,").addFilepattern("a,b")
+					.addFilepattern("a0b").call();
+			assertEquals("[a/b, mode:100644][b/c, mode:100644][z, mode:160000]",
+					indexState(0));
+			FileUtils.delete(new File(db.getWorkTree(), "b"),
+					FileUtils.RECURSIVE);
+
+			TreeWalk tw = new TreeWalk(db);
+			tw.addTree(new DirCacheIterator(db.readDirCache()));
+			tw.addTree(new FileTreeIterator(db));
+			assertTrue(tw.next());
+			assertEquals("a", tw.getPathString());
+			tw.enterSubtree();
+			tw.next();
+			assertEquals("a/b", tw.getPathString());
+			tw.next();
+			assertEquals("b", tw.getPathString());
+			tw.enterSubtree();
+			tw.next();
+			assertEquals("b/c", tw.getPathString());
+			assertNotNull(tw.getTree(0, AbstractTreeIterator.class));
+			assertNotNull(tw.getTree(EmptyTreeIterator.class));
+		}
+	}
+
+	@Test
 	public void testIsModifiedSymlinkAsFile() throws Exception {
 		writeTrashFile("symlink", "content");
 		try (Git git = new Git(db)) {
@@ -345,7 +381,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 			DirCache cache = db.lockDirCache();
 			DirCacheEditor editor = cache.editor();
 			editor.add(new PathEdit(path) {
-	
+
 				public void apply(DirCacheEntry ent) {
 					ent.setFileMode(FileMode.GITLINK);
 					ent.setObjectId(id);
@@ -362,7 +398,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 			walk.addTree(indexIter);
 			walk.addTree(workTreeIter);
 			walk.setFilter(PathFilter.create(path));
-	
+
 			assertTrue(walk.next());
 			assertTrue(indexIter.idEqual(workTreeIter));
 		}
