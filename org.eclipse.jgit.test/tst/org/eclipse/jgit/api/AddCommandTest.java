@@ -53,6 +53,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Set;
 
 import org.eclipse.jgit.api.errors.FilterFailedException;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -60,16 +61,14 @@ import org.eclipse.jgit.api.errors.NoFilepatternException;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEntry;
+import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.RepositoryTestCase;
-import org.eclipse.jgit.lib.ConfigConstants;
-import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.FileMode;
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectInserter;
-import org.eclipse.jgit.lib.StoredConfig;
+import org.eclipse.jgit.lib.*;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.treewalk.WorkingTreeOptions;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.junit.Test;
@@ -1002,6 +1001,59 @@ public class AddCommandTest extends RepositoryTestCase {
 		assertEquals(FileMode.EXECUTABLE_FILE, walk.getFileMode(0));
 	}
 
+    @Test
+    public void testAddGitlink() throws Exception {
+        createNestedRepo("git-link-dir");
+        try (Git git = new Git(db)) {
+            git.add().addFilepattern("git-link-dir").call();
+
+            assertEquals(
+                    "[git-link-dir, mode:160000]",
+                    indexState(0));
+            Set<String> untrackedFiles = git.status().call().getUntracked();
+            assert(untrackedFiles.isEmpty());
+        }
+
+    }
+
+    @Test
+    public void testAddFileInNestedRepo() throws Exception {
+        createNestedRepo("git-link-dir");
+        try (Git git = new Git(db)) {
+            git.add().addFilepattern("git-link-dir/README1.md").call();
+
+            assertEquals(
+                    "[git-link-dir/README1.md, mode:100644]",
+                    indexState(0));
+            Set<String> untrackedFiles = git.status().call().getUntracked();
+            Set<String> addedFiles = git.status().call().getAdded();
+            assert(untrackedFiles.contains("git-link-dir/README2.md"));
+            assert(addedFiles.contains("git-link-dir/README1.md"));
+        }
+    }
+
+    @Test
+    public void testAddSubrepoWithDirNoGitlinks() throws Exception {
+        createNestedRepo("nested-repo");
+
+        // Set DIR_NO_GITLINKS
+        StoredConfig config = db.getConfig();
+        config.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+                ConfigConstants.CONFIG_KEY_DIRNOGITLINKS, true);
+        config.save();
+
+        assert(db.getConfig().get(WorkingTreeOptions.KEY).isDirNoGitLinks());
+
+        try (Git git = new Git(db)) {
+            git.add().addFilepattern("nested-repo").call();
+
+            assertEquals(
+                    "[nested-repo/README1.md, mode:100644]" +
+                    "[nested-repo/README2.md, mode:100644]",
+                    indexState(0));
+        }
+    }
+
 	private static DirCacheEntry addEntryToBuilder(String path, File file,
 			ObjectInserter newObjectInserter, DirCacheBuilder builder, int stage)
 			throws IOException {
@@ -1028,5 +1080,36 @@ public class AddCommandTest extends RepositoryTestCase {
 		if (!dirc.commit())
 			throw new IOException("could not commit");
 	}
+
+    private void createNestedRepo(String path) throws IOException {
+        File gitLinkDir = new File(db.getWorkTree(), path);
+        FileUtils.mkdir(gitLinkDir);
+
+        FileRepositoryBuilder nestedBuilder = new FileRepositoryBuilder();
+        nestedBuilder.setWorkTree(gitLinkDir);
+
+        Repository nestedRepo = nestedBuilder.build();
+        nestedRepo.create();
+
+        File readme1 = new File(gitLinkDir, "README1.md");
+        FileUtils.createNewFile(readme1);
+        PrintWriter writer1 = new PrintWriter(readme1);
+        writer1.print("content");
+        writer1.close();
+
+        File readme2 = new File(gitLinkDir, "README2.md");
+        FileUtils.createNewFile(readme2);
+        PrintWriter writer2 = new PrintWriter(readme2);
+        writer2.print("content");
+        writer2.close();
+
+        // Commit these changes in the subrepo
+        try (Git git = new Git(nestedRepo)) {
+            git.add().addFilepattern(".").call();
+            git.commit().setMessage("subrepo commit").call();
+        } catch (GitAPIException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }

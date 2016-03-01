@@ -228,6 +228,12 @@ public class ConfigConstants {
 	 */
 	public static final String CONFIG_KEY_HIDEDOTFILES = "hidedotfiles";
 
+    /**
+     * The "dirnogitlinks" key
+     * @since 4.1?
+     */
+    public static final String CONFIG_KEY_DIRNOGITLINKS = "dirForceNoGitLinks";
+
 	/** The "precomposeunicode" key */
 	public static final String CONFIG_KEY_PRECOMPOSEUNICODE = "precomposeunicode";
 
