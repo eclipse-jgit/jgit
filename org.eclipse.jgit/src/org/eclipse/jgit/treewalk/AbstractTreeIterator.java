@@ -729,4 +729,14 @@ public abstract class AbstractTreeIterator {
 	public String toString() {
 		return getClass().getSimpleName() + "[" + getEntryPathString() + "]"; //$NON-NLS-1$
 	}
+
+	/**
+	 * Returns whether or not this Iterator is iterating
+	 * through the Work Tree
+	 *
+	 * @since 4.3
+	 */
+	public boolean isWorkTree() {
+		return false;
+	}
 }
