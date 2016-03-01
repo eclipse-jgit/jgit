@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7dfcf21_c57d6c59",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-03-01T14:23:37Z",
+      "side": 1,
+      "message": "Just for info: This block is not tested in our tests. Seems we don\u0027t have a tests for big (\u003e65k) binary (containing \u0027\\0\u0027 in the first 8000 bytes) files. But: even before your change it was not tested and I am sure this block works.",
+      "range": {
+        "startLine": 392,
+        "startChar": 4,
+        "endLine": 393,
+        "endChar": 14
+      },
+      "revId": "bc920a6bae920d41d68138f0bc534d4ce759eb5c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
