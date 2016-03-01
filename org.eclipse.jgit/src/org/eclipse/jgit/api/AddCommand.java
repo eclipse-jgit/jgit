@@ -45,6 +45,7 @@ package org.eclipse.jgit.api;
 
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.eclipse.jgit.lib.FileMode.GITLINK;
+import static org.eclipse.jgit.lib.FileMode.TYPE_GITLINK;
 import static org.eclipse.jgit.lib.FileMode.TYPE_TREE;
 
 import java.io.IOException;
@@ -201,7 +202,10 @@ public class AddCommand extends GitCommand<DirCache> {
 					continue;
 				}
 
-				if (f.getEntryRawMode() == TYPE_TREE) {
+				if ((f.getEntryRawMode() == TYPE_TREE
+						&& f.getIndexFileMode(c) != FileMode.GITLINK) ||
+						(f.getEntryRawMode() == TYPE_GITLINK
+								&& f.getIndexFileMode(c) == FileMode.TREE)) {
 					// Index entry exists and is symlink, gitlink or file,
 					// otherwise the tree would have been entered above.
 					// Replace the index entry by diving into tree of files.

@@ -1187,7 +1187,12 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 		for (int i = 0; i < trees.length; i++) {
 			final AbstractTreeIterator t = trees[i];
 			final AbstractTreeIterator n;
-			if (t.matches == ch && !t.eof() && FileMode.TREE.equals(t.mode))
+			// If we find a GITLINK when attempting to enter a subtree, then the
+			// GITLINK must exist as a TREE in the index, meaning the working tree
+			// entry should be treated as a TREE
+			if (t.matches == ch && !t.eof() &&
+					(FileMode.TREE.equals(t.mode)
+							|| (FileMode.GITLINK.equals(t.mode) && t.isWorkTree())))
 				n = t.createSubtreeIterator(reader, idBuffer);
 			else
 				n = t.createEmptyTreeIterator();
