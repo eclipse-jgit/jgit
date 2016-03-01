@@ -145,6 +145,23 @@
     },
     {
       "key": {
+        "uuid": "e7dfcf21_65e9f877",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/EndOfLineRepositoryTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2016-03-01T14:41:10Z",
+      "side": 1,
+      "message": "ok, will create a test case for this. Just give me some time.",
+      "revId": "71cd8d75fd06ea845a8f8862287a8928e9465e33",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7dfcf21_9cd9089f",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/EndOfLineRepositoryTest.java",
         "patchSetId": 13
