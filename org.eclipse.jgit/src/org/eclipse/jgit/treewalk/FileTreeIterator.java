@@ -52,6 +52,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
@@ -92,7 +93,7 @@ public class FileTreeIterator extends WorkingTreeIterator {
 	 *            the repository whose working tree will be scanned.
 	 */
 	public FileTreeIterator(Repository repo) {
-		this(repo, DefaultFileModeStrategy.INSTANCE);
+    	this(repo, repo.getConfig().get(WorkingTreeOptions.KEY).isDirNoGitLinks() ? NoGitlinksStrategy.INSTANCE : DefaultFileModeStrategy.INSTANCE);
 	}
 
 	/**
@@ -246,6 +247,30 @@ public class FileTreeIterator extends WorkingTreeIterator {
 					return FileMode.GITLINK;
 				else
 					return FileMode.TREE;
+			} else if (attributes.isExecutable())
+				return FileMode.EXECUTABLE_FILE;
+			else
+				return FileMode.REGULAR_FILE;
+		}
+	}
+
+	/**
+	 * A FileModeStrategy that implements native git's DIR_NO_GITLINKS
+	 * behavior
+	 */
+	static public class NoGitlinksStrategy implements FileModeStrategy {
+
+		/**
+		 * a singleton instance of the default FileModeStrategy
+		 */
+		public final static NoGitlinksStrategy INSTANCE = new NoGitlinksStrategy();
+
+		@Override
+		public FileMode getMode(File f, FS.Attributes attributes) {
+			if (attributes.isSymbolicLink())
+				return FileMode.SYMLINK;
+			else if (attributes.isDirectory()) {
+				return FileMode.TREE;
 			} else if (attributes.isExecutable())
 				return FileMode.EXECUTABLE_FILE;
 			else
