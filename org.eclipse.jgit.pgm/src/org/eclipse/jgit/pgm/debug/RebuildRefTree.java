@@ -67,7 +67,7 @@ import org.kohsuke.args4j.Option;
 
 @Command(usage = "usage_RebuildRefTree")
 class RebuildRefTree extends TextBuiltin {
-	@Option(name = "--enable", usage = "set extensions.refsStorage = reftree")
+	@Option(name = "--enable", usage = "usage_RebuildRefTreeEnable")
 	boolean enable;
 
 	private String txnNamespace;
