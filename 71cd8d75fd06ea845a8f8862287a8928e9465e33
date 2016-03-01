@@ -230,6 +230,23 @@
     },
     {
       "key": {
+        "uuid": "e7dfcf21_b98df387",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/EndOfLineRepositoryTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2016-03-01T10:29:09Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "71cd8d75fd06ea845a8f8862287a8928e9465e33",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7dfcf21_dc02b07f",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/EndOfLineRepositoryTest.java",
         "patchSetId": 13
@@ -356,6 +373,23 @@
       "side": 1,
       "message": "I got the idea. But you do have an assumption what should happen when binary data is pumped through streamTypeText. CRLF-\u003eLF conversion should happen, right? Why don\u0027t we test that? And why don\u0027t we test that streamTypeText doesn\u0027t touch other (non-crlf) binary data.",
       "parentUuid": "e7dfcf21_39cba397",
+      "revId": "71cd8d75fd06ea845a8f8862287a8928e9465e33",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_998af76d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/EolStreamTypeUtilTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2016-03-01T10:29:09Z",
+      "side": 1,
+      "message": "Done",
       "revId": "71cd8d75fd06ea845a8f8862287a8928e9465e33",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
