@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7dfcf21_20c19b76",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/EolRepositoryTest.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-03-02T11:39:26Z",
+      "side": 1,
+      "message": "I\u0027ll upload a patchset with only one method to generate tests data. Just to make the patchset smaller.",
+      "range": {
+        "startLine": 88,
+        "startChar": 0,
+        "endLine": 129,
+        "endChar": 2
+      },
+      "revId": "50edc84a0a109d02722ba9143ab98f77e281c2f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_a0dccb5a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/EolRepositoryTest.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-03-02T11:39:26Z",
+      "side": 1,
+      "message": "I\u0027ll upload a version where we have speaking names instead of file1,file2,file3.",
+      "range": {
+        "startLine": 149,
+        "startChar": 0,
+        "endLine": 155,
+        "endChar": 20
+      },
+      "revId": "50edc84a0a109d02722ba9143ab98f77e281c2f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_e0d6d336",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/EolRepositoryTest.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-03-02T11:39:26Z",
+      "side": 1,
+      "message": "I\u0027ll upload a version where we have speaking names instead of entry1,entry2,entry3.",
+      "range": {
+        "startLine": 166,
+        "startChar": 0,
+        "endLine": 170,
+        "endChar": 48
+      },
+      "revId": "50edc84a0a109d02722ba9143ab98f77e281c2f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_00ed7f00",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/EolRepositoryTest.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-03-02T11:39:26Z",
+      "side": 1,
+      "message": "I\u0027ll upload a version with a helper method which decreases the size of this class",
+      "range": {
+        "startLine": 178,
+        "startChar": 0,
+        "endLine": 179,
+        "endChar": 41
+      },
+      "revId": "50edc84a0a109d02722ba9143ab98f77e281c2f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_e011738f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/EolRepositoryTest.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-03-02T11:39:26Z",
+      "side": 1,
+      "message": "By first deleting the working tree files and then do a hard reset causes some problems for tests which I would like to add. The reset will leave us with workingtree files and an index-file which has the same last-modification time. This causes that all index entries are smudged (lenght is set to 0). Maybe that was the reason you had an fstick() in the code (which I removed :-(). But an fstick in createAndGetFile() doesn\u0027t help. The reset --hard in an empty working tree will always end up in smudged index. One solution which I\u0027ll upload is to do an \"git add .\" in the end. This forces JGit to write a new index which has a younger modification timestamp than the files.\n\nI\u0027ll upload such a version.",
+      "range": {
+        "startLine": 599,
+        "startChar": 0,
+        "endLine": 606,
+        "endChar": 45
+      },
+      "revId": "50edc84a0a109d02722ba9143ab98f77e281c2f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_802b4fb8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/EolRepositoryTest.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 662,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-03-02T11:39:26Z",
+      "side": 1,
+      "message": "using walk.getObjectId(1) is ok to find out the objectid stored in the index. But I would like to be very explicit and reading the indexdata by a seperate DirCache instance. I\u0027ll upload such a version",
+      "range": {
+        "startLine": 662,
+        "startChar": 11,
+        "endLine": 662,
+        "endChar": 29
+      },
+      "revId": "50edc84a0a109d02722ba9143ab98f77e281c2f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
