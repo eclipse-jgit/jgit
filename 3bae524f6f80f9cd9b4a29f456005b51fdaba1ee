@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7dfcf21_40b6a771",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/fs/FileLfsServlet.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2016-03-02T14:12:05Z",
+      "side": 1,
+      "message": "Assuming this servlet will be a @Singleton, we will only have one instance of the FileLfsRepository in use.... However, the FileLfsRepository doesn\u0027t seem to be thread safe, because it has:\n\n  private AtomicObjectOutputStream out;\n\nas an instance member. It two thread would be uploading (large) files they would both set the single out instance.",
+      "revId": "3bae524f6f80f9cd9b4a29f456005b51fdaba1ee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
