@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7dfcf21_e7bb42a7",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/EolRepositoryTest.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-03-04T14:09:56Z",
+      "side": 1,
+      "message": "Somehow native git expects something different here. Native git will checkout CONTENT_CRLF and index should be CONTENT_LF. I do not yet know why ... but somehow we behave differently from native git.",
+      "range": {
+        "startLine": 359,
+        "startChar": 31,
+        "endLine": 359,
+        "endChar": 53
+      },
+      "revId": "22998f0c7da0dac3a3810c615dd22364a769b62c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
