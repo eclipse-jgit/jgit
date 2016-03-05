@@ -249,7 +249,7 @@ public class DirCacheTree {
 		return children[i];
 	}
 
-	ObjectId getObjectId() {
+	public ObjectId getObjectId() {
 		return id;
 	}
 
