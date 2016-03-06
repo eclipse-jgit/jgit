@@ -45,6 +45,8 @@
 
 package org.eclipse.jgit.util;
 
+import static org.eclipse.jgit.lib.Constants.COMMONDIR_FILE;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.channels.FileLock;
@@ -764,4 +766,78 @@ public class FileUtils {
 		}
 	}
 
+	/**
+	 * Get GIT_COMMON_DIR
+	 *
+	 * @param dir
+	 *            the GIT_DIR folder
+	 * @return GIT_COMMON_DIR or null
+	 * @throws IOException
+	 *
+	 * @since 4.3
+	 */
+	public static File getCommonDir(File dir) throws IOException {
+		// first the GIT_COMMON_DIR is same as GIT_DIR
+		File commonDir = null;
+		// now check if commondir file exists (e.g. worktree repository)
+		File commonDirFile = new File(dir, COMMONDIR_FILE);
+		if (commonDirFile.isFile()) {
+			String commonDirPath = new String(IO.readFully(commonDirFile))
+					.trim();
+			commonDir = new File(commonDirPath);
+			if (!commonDir.isAbsolute()) {
+				commonDir = new File(dir, commonDirPath).getCanonicalFile();
+			}
+		}
+		return commonDir;
+	}
+
+	private static boolean isSymRef(byte[] ref) {
+		if (ref.length < 9)
+			return false;
+		return /**/ref[0] == 'g' //
+				&& ref[1] == 'i' //
+				&& ref[2] == 't' //
+				&& ref[3] == 'd' //
+				&& ref[4] == 'i' //
+				&& ref[5] == 'r' //
+				&& ref[6] == ':' //
+				&& ref[7] == ' ';
+	}
+
+	/**
+	 * @param workTree
+	 *            the worktree to search
+	 * @param dotGit
+	 *            the .git file
+	 * @param fs
+	 *            FS handle
+	 * @return the GIT_DIR path if available
+	 * @throws IOException
+	 *
+	 * @since 4.3
+	 */
+	public static File getSymRef(File workTree, File dotGit, FS fs)
+			throws IOException {
+		byte[] content = IO.readFully(dotGit);
+		if (!isSymRef(content))
+			throw new IOException(MessageFormat.format(
+					JGitText.get().invalidGitdirRef, dotGit.getAbsolutePath()));
+
+		int pathStart = 8;
+		int lineEnd = RawParseUtils.nextLF(content, pathStart);
+		while (content[lineEnd - 1] == '\n' || (content[lineEnd - 1] == '\r'
+				&& SystemReader.getInstance().isWindows()))
+			lineEnd--;
+		if (lineEnd == pathStart)
+			throw new IOException(MessageFormat.format(
+					JGitText.get().invalidGitdirRef, dotGit.getAbsolutePath()));
+
+		String gitdirPath = RawParseUtils.decode(content, pathStart, lineEnd);
+		File gitdirFile = fs.resolve(workTree, gitdirPath);
+		if (gitdirFile.isAbsolute())
+			return gitdirFile;
+		else
+			return new File(workTree, gitdirPath).getCanonicalFile();
+	}
 }
