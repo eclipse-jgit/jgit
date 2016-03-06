@@ -133,8 +133,11 @@ public abstract class Repository implements AutoCloseable {
 
 	final AtomicLong closedAt = new AtomicLong();
 
-	/** Metadata directory holding the repository's critical files. */
+	/** $GIT_DIR: metadata directory holding the repository's critical files. */
 	private final File gitDir;
+
+	/** $GIT_COMMON_DIR: metadata directory holding the common repository's critical files.  */
+	private final File gitCommonDir;
 
 	/** File abstraction used to resolve paths. */
 	private final FS fs;
@@ -155,6 +158,7 @@ public abstract class Repository implements AutoCloseable {
 	 */
 	protected Repository(final BaseRepositoryBuilder options) {
 		gitDir = options.getGitDir();
+		gitCommonDir = options.getGitCommonDir();
 		fs = options.getFS();
 		workTree = options.getWorkTree();
 		indexFile = options.getIndexFile();
@@ -218,6 +222,23 @@ public abstract class Repository implements AutoCloseable {
 	 */
 	public File getDirectory() {
 		return gitDir;
+	}
+
+	/**
+	 * @return $GIT_COMMON_DIR: local common metadata directory; $GIT_DIR if not
+	 *         set.
+	 * @since 4.3
+	 */
+	public File getCommonDirectory() {
+		return gitCommonDir != null ? gitCommonDir : gitDir;
+	}
+
+	/**
+	 * @return true if $GIT_COMMON_DIR is set; false if not set.
+	 * @since 4.3
+	 */
+	public boolean hasCommonDirectory() {
+		return gitCommonDir != null;
 	}
 
 	/**
@@ -928,9 +949,9 @@ public abstract class Repository implements AutoCloseable {
 	@NonNull
 	public String toString() {
 		String desc;
-		File directory = getDirectory();
-		if (directory != null)
-			desc = directory.getPath();
+		File gitDirLocal = getDirectory();
+		if (gitDirLocal != null)
+			desc = gitDirLocal.getPath();
 		else
 			desc = getClass().getSimpleName() + "-" //$NON-NLS-1$
 					+ System.identityHashCode(this);
@@ -1237,30 +1258,31 @@ public abstract class Repository implements AutoCloseable {
 	 */
 	@NonNull
 	public RepositoryState getRepositoryState() {
-		if (isBare() || getDirectory() == null)
+		final File gitDirLocal = getDirectory();
+		if (isBare() || gitDirLocal == null)
 			return RepositoryState.BARE;
 
 		// Pre Git-1.6 logic
 		if (new File(getWorkTree(), ".dotest").exists()) //$NON-NLS-1$
 			return RepositoryState.REBASING;
-		if (new File(getDirectory(), ".dotest-merge").exists()) //$NON-NLS-1$
+		if (new File(gitDirLocal, ".dotest-merge").exists()) //$NON-NLS-1$
 			return RepositoryState.REBASING_INTERACTIVE;
 
 		// From 1.6 onwards
-		if (new File(getDirectory(),"rebase-apply/rebasing").exists()) //$NON-NLS-1$
+		if (new File(gitDirLocal, "rebase-apply/rebasing").exists()) //$NON-NLS-1$
 			return RepositoryState.REBASING_REBASING;
-		if (new File(getDirectory(),"rebase-apply/applying").exists()) //$NON-NLS-1$
+		if (new File(gitDirLocal, "rebase-apply/applying").exists()) //$NON-NLS-1$
 			return RepositoryState.APPLY;
-		if (new File(getDirectory(),"rebase-apply").exists()) //$NON-NLS-1$
+		if (new File(gitDirLocal, "rebase-apply").exists()) //$NON-NLS-1$
 			return RepositoryState.REBASING;
 
-		if (new File(getDirectory(),"rebase-merge/interactive").exists()) //$NON-NLS-1$
+		if (new File(gitDirLocal, "rebase-merge/interactive").exists()) //$NON-NLS-1$
 			return RepositoryState.REBASING_INTERACTIVE;
-		if (new File(getDirectory(),"rebase-merge").exists()) //$NON-NLS-1$
+		if (new File(gitDirLocal, "rebase-merge").exists()) //$NON-NLS-1$
 			return RepositoryState.REBASING_MERGE;
 
 		// Both versions
-		if (new File(getDirectory(), Constants.MERGE_HEAD).exists()) {
+		if (new File(gitDirLocal, Constants.MERGE_HEAD).exists()) {
 			// we are merging - now check whether we have unmerged paths
 			try {
 				if (!readDirCache().hasUnmergedPaths()) {
@@ -1275,10 +1297,10 @@ public abstract class Repository implements AutoCloseable {
 			return RepositoryState.MERGING;
 		}
 
-		if (new File(getDirectory(), "BISECT_LOG").exists()) //$NON-NLS-1$
+		if (new File(gitDirLocal, "BISECT_LOG").exists()) //$NON-NLS-1$
 			return RepositoryState.BISECTING;
 
-		if (new File(getDirectory(), Constants.CHERRY_PICK_HEAD).exists()) {
+		if (new File(gitDirLocal, Constants.CHERRY_PICK_HEAD).exists()) {
 			try {
 				if (!readDirCache().hasUnmergedPaths()) {
 					// no unmerged paths
@@ -1291,7 +1313,7 @@ public abstract class Repository implements AutoCloseable {
 			return RepositoryState.CHERRY_PICKING;
 		}
 
-		if (new File(getDirectory(), Constants.REVERT_HEAD).exists()) {
+		if (new File(gitDirLocal, Constants.REVERT_HEAD).exists()) {
 			try {
 				if (!readDirCache().hasUnmergedPaths()) {
 					// no unmerged paths

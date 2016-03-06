@@ -235,6 +235,13 @@ public final class Constants {
 	/** Default stash branch name */
 	public static final String STASH = "stash";
 
+	/**
+	 * Name of the folder (inside gitDir) where the refs are stored.
+	 *
+	 * @since 4.3
+	 */
+	public static final String REFS = "refs";
+
 	/** Prefix for branch refs */
 	public static final String R_HEADS = "refs/heads/";
 
@@ -321,6 +328,14 @@ public final class Constants {
 	public static final String GIT_DIR_KEY = "GIT_DIR";
 
 	/**
+	 * The common .git directory which is different from GIT_DIR when multiple
+	 * working trees are attached (git worktree)
+	 *
+	 * @since 4.3
+	 */
+	public static final String GIT_COMMON_DIR_KEY = "GIT_COMMON_DIR";
+
+	/**
 	 * The environment variable that tells us which directory is the working
 	 * directory.
 	 */
@@ -354,7 +369,7 @@ public final class Constants {
 	/** Default remote name used by clone, push and fetch operations */
 	public static final String DEFAULT_REMOTE_NAME = "origin";
 
-	/** Default name for the Git repository directory */
+	/** Default name for the Git repository directory or Git link file */
 	public static final String DOT_GIT = ".git";
 
 	/** Default name for the Git repository configuration */
@@ -422,11 +437,42 @@ public final class Constants {
 	public static final String MODULES = "modules";
 
 	/**
+	 * Name of the folder (inside gitDir) where worktrees are stored:
+	 * .git/worktrees/<worktree-name>
+	 *
+	 * @since 4.3
+	 */
+	public static final String WORKTREES = "worktrees";
+
+	/**
 	 * Name of the folder (inside gitDir) where the hooks are stored.
 	 *
 	 * @since 3.7
 	 */
 	public static final String HOOKS = "hooks";
+
+	/**
+	 * Name of the folder (inside gitDir) where the objects are stored.
+	 *
+	 * @since 4.3
+	 */
+	public static final String OBJECTS = "objects";
+
+	/**
+	 * Name of the file (inside gitDir) that has reference to worktree's .git
+	 * file (opposite link): .git/worktrees/<worktree-name>/gitdir
+	 *
+	 * @since 4.3
+	 */
+	public static final String GITDIR_FILE = "gitdir";
+
+	/**
+	 * Name of the file (inside gitDir) that has reference to GIT_COMMON_DIR
+	 * .git/worktrees/<worktree-name>/commondir
+	 *
+	 * @since 4.3
+	 */
+	public static final String COMMONDIR_FILE = "commondir";
 
 	/**
 	 * Create a new digest function for objects.
