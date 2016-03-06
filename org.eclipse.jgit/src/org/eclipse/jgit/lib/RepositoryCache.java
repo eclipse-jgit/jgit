@@ -59,6 +59,9 @@ import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
 
+import static org.eclipse.jgit.lib.Constants.OBJECTS;
+import static org.eclipse.jgit.lib.Constants.REFS;
+
 /** Cache of active {@link Repository} instances. */
 public class RepositoryCache {
 	private static final RepositoryCache cache = new RepositoryCache();
@@ -383,9 +386,26 @@ public class RepositoryCache {
 		 *         Git directory.
 		 */
 		public static boolean isGitRepository(final File dir, FS fs) {
-			return fs.resolve(dir, "objects").exists() //$NON-NLS-1$
-					&& fs.resolve(dir, "refs").exists() //$NON-NLS-1$
-					&& isValidHead(new File(dir, Constants.HEAD));
+			/*
+			 * This code tries to check for valid repo but has only GIT_DIR path
+			 * for worktree support we need the GIT_COMMON_DIR to and check
+			 * objects and refs there and HEAD should be checked in GIT_DIR of
+			 * worktree --> we need complete FileRepository here with setup()
+			 * called to have the GIT_COMMON_DIR and other parameters.
+			 *
+			 * TODO: implement lightweight method for this checks
+			 *
+			 */
+			try {
+				FileRepository fileRep = new FileRepository(dir);
+				return fs.resolve(fileRep.getCommonDirectory(), OBJECTS).exists() // $NON-NLS-1$
+						&& fs.resolve(fileRep.getCommonDirectory(), REFS).exists() // $NON-NLS-1$
+						&& isValidHead(
+								new File(fileRep.getDirectory(),
+										Constants.HEAD));
+			} catch (IOException e) {
+				return false;
+			}
 		}
 
 		private static boolean isValidHead(final File head) {

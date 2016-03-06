@@ -189,7 +189,7 @@ public class FileRepository extends Repository {
 		userConfig = SystemReader.getInstance().openUserConfig(systemConfig,
 				getFS());
 		repoConfig = new FileBasedConfig(userConfig, getFS().resolve(
-				getDirectory(), Constants.CONFIG),
+				getCommonDirectory(), Constants.CONFIG),
 				getFS());
 
 		loadSystemConfig();
@@ -222,7 +222,7 @@ public class FileRepository extends Repository {
 				options.getObjectDirectory(), //
 				options.getAlternateObjectDirectories(), //
 				getFS(), //
-				new File(getDirectory(), Constants.SHALLOW));
+				new File(getCommonDirectory(), Constants.SHALLOW));
 
 		if (objectDatabase.exists()) {
 			if (repositoryFormatVersion > 1)
