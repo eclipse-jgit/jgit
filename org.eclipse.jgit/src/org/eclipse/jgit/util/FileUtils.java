@@ -45,6 +45,8 @@
 
 package org.eclipse.jgit.util;
 
+import static org.eclipse.jgit.lib.Constants.COMMONDIR_FILE;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.channels.FileLock;
@@ -764,4 +766,29 @@ public class FileUtils {
 		}
 	}
 
+	/**
+	 * Get GIT_COMMON_DIR
+	 *
+	 * @param dir
+	 *            the GIT_DIR folder
+	 * @return GIT_COMMON_DIR or null
+	 * @throws IOException
+	 *
+	 * @since 4.3
+	 */
+	public static File getCommonDir(File dir) throws IOException {
+		// first the GIT_COMMON_DIR is same as GIT_DIR
+		File commonDir = null;
+		// now check if commondir file exists (e.g. worktree repository)
+		File commonDirFile = new File(dir, COMMONDIR_FILE);
+		if (commonDirFile.isFile()) {
+			String commonDirPath = new String(IO.readFully(commonDirFile))
+					.trim();
+			commonDir = new File(commonDirPath);
+			if (!commonDir.isAbsolute()) {
+				commonDir = new File(dir, commonDirPath).getCanonicalFile();
+			}
+		}
+		return commonDir;
+	}
 }

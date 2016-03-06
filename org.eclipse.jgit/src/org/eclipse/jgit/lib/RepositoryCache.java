@@ -56,8 +56,12 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
+
+import static org.eclipse.jgit.lib.Constants.OBJECTS;
+import static org.eclipse.jgit.lib.Constants.REFS;
 
 /** Cache of active {@link Repository} instances. */
 public class RepositoryCache {
@@ -383,9 +387,21 @@ public class RepositoryCache {
 		 *         Git directory.
 		 */
 		public static boolean isGitRepository(final File dir, FS fs) {
-			return fs.resolve(dir, "objects").exists() //$NON-NLS-1$
-					&& fs.resolve(dir, "refs").exists() //$NON-NLS-1$
-					&& isValidHead(new File(dir, Constants.HEAD));
+			try {
+				// check if GIT_COMMON_DIR available and fallback to GIT_DIR if
+				// not
+				File commonDir = FileUtils.getCommonDir(dir);
+				if (commonDir == null) {
+					commonDir = dir;
+				}
+				return fs.resolve(commonDir, OBJECTS).exists()
+						&& fs.resolve(commonDir, REFS).exists()
+						&& isValidHead(
+								new File(dir,
+										Constants.HEAD));
+			} catch (IOException e) {
+				return false;
+			}
 		}
 
 		private static boolean isValidHead(final File head) {
