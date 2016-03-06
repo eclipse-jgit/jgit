@@ -239,23 +239,40 @@ public final class Constants {
 	/** Default stash branch name */
 	public static final String STASH = "stash";
 
+	/**
+	 * Name of the folder (inside gitDir) where the branches are stored.
+	 *
+	 * This directory is ignored if $GIT_COMMON_DIR is set and
+	 * "$GIT_COMMON_DIR/branches" will be used instead.
+	 *
+	 * @since 4.10
+	 */
+	public static final String BRANCHES = "branches";
+
+	/**
+	 * Name of the folder (inside gitDir) where the refs are stored.
+	 *
+	 * @since 4.10
+	 */
+	public static final String REFS = "refs";
+
+	/** Prefix for any ref */
+	public static final String R_REFS = REFS + "/";
+
 	/** Prefix for branch refs */
-	public static final String R_HEADS = "refs/heads/";
+	public static final String R_HEADS = R_REFS + "heads/";
 
 	/** Prefix for remotes refs */
-	public static final String R_REMOTES = "refs/remotes/";
+	public static final String R_REMOTES = R_REFS + "remotes/";
 
 	/** Prefix for tag refs */
-	public static final String R_TAGS = "refs/tags/";
+	public static final String R_TAGS = R_REFS + "tags/";
 
 	/** Prefix for notes refs */
-	public static final String R_NOTES = "refs/notes/";
+	public static final String R_NOTES = R_REFS + "notes/";
 
 	/** Standard notes ref */
 	public static final String R_NOTES_COMMITS = R_NOTES + "commits";
-
-	/** Prefix for any ref */
-	public static final String R_REFS = "refs/";
 
 	/** Standard stash ref */
 	public static final String R_STASH = R_REFS + STASH;
@@ -325,6 +342,14 @@ public final class Constants {
 	public static final String GIT_DIR_KEY = "GIT_DIR";
 
 	/**
+	 * The common .git directory which is different from GIT_DIR when multiple
+	 * working trees are attached (git worktree)
+	 *
+	 * @since 4.10
+	 */
+	public static final String GIT_COMMON_DIR_KEY = "GIT_COMMON_DIR";
+
+	/**
 	 * The environment variable that tells us which directory is the working
 	 * directory.
 	 */
@@ -358,7 +383,7 @@ public final class Constants {
 	/** Default remote name used by clone, push and fetch operations */
 	public static final String DEFAULT_REMOTE_NAME = "origin";
 
-	/** Default name for the Git repository directory */
+	/** Default name for the Git repository directory or Git link file */
 	public static final String DOT_GIT = ".git";
 
 	/** Default name for the Git repository configuration */
@@ -426,6 +451,14 @@ public final class Constants {
 	public static final String MODULES = "modules";
 
 	/**
+	 * Name of the folder (inside gitDir) where worktrees are stored:
+	 * .git/worktrees/<worktree-name>
+	 *
+	 * @since 4.10
+	 */
+	public static final String WORKTREES = "worktrees";
+
+	/**
 	 * Name of the folder (inside gitDir) where the hooks are stored.
 	 *
 	 * @since 3.7
@@ -452,6 +485,29 @@ public final class Constants {
 	 * @since 4.9
 	 */
 	public static final String ATTR_BUILTIN_BINARY_MERGER = "binary"; //$NON-NLS-1$
+
+	/**
+	 * Name of the folder (inside gitDir) where the objects are stored.
+	 *
+	 * @since 4.10
+	 */
+	public static final String OBJECTS = "objects";
+
+	/**
+	 * Name of the file (inside gitDir) that has reference to worktree's .git
+	 * file (opposite link): .git/worktrees/<worktree-name>/gitdir
+	 *
+	 * @since 4.10
+	 */
+	public static final String GITDIR_FILE = "gitdir";
+
+	/**
+	 * Name of the file (inside gitDir) that has reference to GIT_COMMON_DIR
+	 * .git/worktrees/<worktree-name>/commondir
+	 *
+	 * @since 4.10
+	 */
+	public static final String COMMONDIR_FILE = "commondir";
 
 	/**
 	 * Create a new digest function for objects.
