@@ -446,7 +446,11 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 					new String[0]);
 			filterProcessBuilder.directory(repository.getWorkTree());
 			filterProcessBuilder.environment().put(Constants.GIT_DIR_KEY,
-					repository.getDirectory().getAbsolutePath());
+					repository.getGitDir().getAbsolutePath());
+			if (repository.isGitCommonDir()) {
+				filterProcessBuilder.environment().put(Constants.GIT_COMMON_DIR_KEY,
+						repository.getGitCommonDir().getAbsolutePath());
+			}
 			ExecutionResult result;
 			try {
 				result = fs.execute(filterProcessBuilder, in);
