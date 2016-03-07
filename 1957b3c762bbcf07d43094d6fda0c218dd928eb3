@@ -1,0 +1,390 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7dfcf21_1e3dd7ea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-03-07T15:06:19Z",
+      "side": 1,
+      "message": "style nit: trailing whitespace",
+      "revId": "1957b3c762bbcf07d43094d6fda0c218dd928eb3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_3e40d35d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-03-07T15:06:19Z",
+      "side": 1,
+      "message": "why not the latest version ?",
+      "revId": "1957b3c762bbcf07d43094d6fda0c218dd928eb3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_5e375f08",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-03-07T15:06:19Z",
+      "side": 1,
+      "message": "I think we don\u0027t yet have a worktree command",
+      "revId": "1957b3c762bbcf07d43094d6fda0c218dd928eb3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_9e9ba77e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-03-07T15:06:19Z",
+      "side": 1,
+      "message": "I think we should not rename getDirectory() but instead name the new method getCommonDirectory() to avoid unnecessary API changes",
+      "revId": "1957b3c762bbcf07d43094d6fda0c218dd928eb3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_1e8f973a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-03-07T15:06:19Z",
+      "side": 1,
+      "message": "do this in a separate change on top of this one",
+      "revId": "1957b3c762bbcf07d43094d6fda0c218dd928eb3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_3e92935d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-03-07T15:06:19Z",
+      "side": 1,
+      "message": "we need unit tests of all this GIT_COMMON_DIR business to prevent any regression",
+      "revId": "1957b3c762bbcf07d43094d6fda0c218dd928eb3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_1efa3783",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-03-07T15:06:19Z",
+      "side": 1,
+      "message": "performance is key, we should not sacrifice it for a new feature, at least in use cases not using the new feature",
+      "revId": "1957b3c762bbcf07d43094d6fda0c218dd928eb3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_7e07bb25",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-03-07T15:06:19Z",
+      "side": 1,
+      "message": "try to do refactorings in a (small) series of changes and put this one on top of the refactoring changes, this will require a rebase now and then but probably simplifies code review",
+      "revId": "1957b3c762bbcf07d43094d6fda0c218dd928eb3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_bec06373",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BaseRepositoryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-03-07T15:06:19Z",
+      "side": 1,
+      "message": "style nit: missing braces",
+      "revId": "1957b3c762bbcf07d43094d6fda0c218dd928eb3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_fecaeb90",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BaseRepositoryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 697,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-03-07T15:06:19Z",
+      "side": 1,
+      "message": "style nit: missing braces",
+      "revId": "1957b3c762bbcf07d43094d6fda0c218dd928eb3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_3e2e13c9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BaseRepositoryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 785,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-03-07T15:06:19Z",
+      "side": 1,
+      "message": "what is the .git folder of a worktree ? That\u0027s defined in commondir, right ? Do you mean .git/worktrees/\u003cworktree-name\u003e/gitdir ?",
+      "revId": "1957b3c762bbcf07d43094d6fda0c218dd928eb3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_be64e313",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BaseRepositoryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 791,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-03-07T15:06:19Z",
+      "side": 1,
+      "message": "where did you find that ? I couldn\u0027t find a version of https://git-scm.com/docs/gitrepository-layout/ saying path in .git/worktrees/\u003cworktree-name\u003e/gitdir can be relative",
+      "revId": "1957b3c762bbcf07d43094d6fda0c218dd928eb3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_d3b52865",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-03-07T15:06:19Z",
+      "side": 1,
+      "message": "s/The environment variable that tells us which directory is the common \".git\" directory/The common .git directory which is different from GIT_DIR when multiple working trees are attached (git worktree).",
+      "range": {
+        "startLine": 331,
+        "startChar": 4,
+        "endLine": 332,
+        "endChar": 20
+      },
+      "revId": "1957b3c762bbcf07d43094d6fda0c218dd928eb3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_f3b06474",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-03-07T15:06:19Z",
+      "side": 1,
+      "message": "style nit: trailing whitespace",
+      "revId": "1957b3c762bbcf07d43094d6fda0c218dd928eb3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_33a2cc2b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-03-07T15:06:19Z",
+      "side": 1,
+      "message": ".git/worktrees/\u003cworktree-name\u003e\n\nuse forward slash, avoid ... in the beginning, some more occurrences below",
+      "range": {
+        "startLine": 434,
+        "startChar": 4,
+        "endLine": 434,
+        "endChar": 39
+      },
+      "revId": "1957b3c762bbcf07d43094d6fda0c218dd928eb3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_d354484e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-03-07T15:06:19Z",
+      "side": 1,
+      "message": ".git/worktrees/\u003cworktree-name\u003e/gitdir",
+      "revId": "1957b3c762bbcf07d43094d6fda0c218dd928eb3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_f34f84b8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-03-07T15:06:19Z",
+      "side": 1,
+      "message": ".git/worktrees/\u003cworktree-name\u003e/commondir",
+      "revId": "1957b3c762bbcf07d43094d6fda0c218dd928eb3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_1eb23732",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-03-07T15:06:19Z",
+      "side": 1,
+      "message": "I don\u0027t get why we need to change this method\u0027s name, I\u0027d stick to this name and change the new one for GIT_COMMONT_DIR to getCommonDirectory()",
+      "revId": "1957b3c762bbcf07d43094d6fda0c218dd928eb3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_3eb53319",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-03-07T15:06:19Z",
+      "side": 1,
+      "message": "-1",
+      "revId": "1957b3c762bbcf07d43094d6fda0c218dd928eb3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_5ebcbf04",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-03-07T15:06:19Z",
+      "side": 1,
+      "message": "getCommonDirectory()",
+      "revId": "1957b3c762bbcf07d43094d6fda0c218dd928eb3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_9ec56786",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-03-07T15:06:19Z",
+      "side": 1,
+      "message": "hasCommonDirectory()",
+      "revId": "1957b3c762bbcf07d43094d6fda0c218dd928eb3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_538f5887",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-03-07T15:06:19Z",
+      "side": 1,
+      "message": "this is not a getter but creating a new FileRepository instance",
+      "revId": "1957b3c762bbcf07d43094d6fda0c218dd928eb3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
