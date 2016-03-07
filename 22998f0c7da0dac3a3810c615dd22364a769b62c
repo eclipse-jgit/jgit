@@ -39,6 +39,24 @@
       "revId": "22998f0c7da0dac3a3810c615dd22364a769b62c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_1e5797d7",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/EolRepositoryTest.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-03-07T16:07:22Z",
+      "side": 1,
+      "message": "That\u0027s ok for me now. I was a little bit surprised that although you added already a lot of tests I had to add another complex test to see the difference between JGit and native git. All the previously existing tests went through fine and showed that JGit behaves like native git.\n\nAnyhow, from my side looks good now. Let\u0027s bring it in.",
+      "parentUuid": "e7dfcf21_87219e5e",
+      "revId": "22998f0c7da0dac3a3810c615dd22364a769b62c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
