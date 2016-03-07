@@ -57,6 +57,24 @@
       "revId": "22998f0c7da0dac3a3810c615dd22364a769b62c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_7e541bcf",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/EolRepositoryTest.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-03-07T16:11:27Z",
+      "side": 1,
+      "message": "+1 for bringing this in if all tests succeed and you think we cover the important use cases\n\na big thank you to Ivan for fixing the most wanted JGit bug with this work :-)",
+      "parentUuid": "e7dfcf21_1e5797d7",
+      "revId": "22998f0c7da0dac3a3810c615dd22364a769b62c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
