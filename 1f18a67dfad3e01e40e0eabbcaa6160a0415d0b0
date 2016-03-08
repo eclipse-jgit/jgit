@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7dfcf21_d9cb89b5",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/FileTreeIteratorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 543,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-03-08T01:04:03Z",
+      "side": 1,
+      "message": "missing braces",
+      "revId": "1f18a67dfad3e01e40e0eabbcaa6160a0415d0b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_f9c685ac",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/FileTreeIteratorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-03-08T01:04:03Z",
+      "side": 1,
+      "message": "use writeTrashFile to shorten this code",
+      "revId": "1f18a67dfad3e01e40e0eabbcaa6160a0415d0b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_1995f195",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/FileTreeIteratorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 611,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-03-08T01:04:03Z",
+      "side": 1,
+      "message": "too long lines",
+      "revId": "1f18a67dfad3e01e40e0eabbcaa6160a0415d0b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_39070d59",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-03-08T01:04:03Z",
+      "side": 1,
+      "message": "new public API should be marked with @since 4.3 to document the version the API was added",
+      "revId": "1f18a67dfad3e01e40e0eabbcaa6160a0415d0b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_19041153",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-03-08T01:04:03Z",
+      "side": 1,
+      "message": "style nit: missing braces, the style guide was changed a while back since then we use braces around single line blocks",
+      "revId": "1f18a67dfad3e01e40e0eabbcaa6160a0415d0b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
