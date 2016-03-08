@@ -1,0 +1,238 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7dfcf21_99f66101",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/AddCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1051,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-03-08T01:00:57Z",
+      "side": 1,
+      "message": "you can use writeTrashFile to shorten this:\n\n File readme3 \u003d writeTrashFile(\"nested-repo\", \"README3.md\", \"content\");",
+      "range": {
+        "startLine": 1047,
+        "startChar": 0,
+        "endLine": 1051,
+        "endChar": 17
+      },
+      "revId": "8e8f2e992e474eb35f16809da539140cb796502a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_b9f15d0a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/AddCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1134,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-03-08T01:00:57Z",
+      "side": 1,
+      "message": "use writeTrashFile() to shorten this",
+      "range": {
+        "startLine": 1130,
+        "startChar": 0,
+        "endLine": 1134,
+        "endChar": 18
+      },
+      "revId": "8e8f2e992e474eb35f16809da539140cb796502a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_d9f0e905",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/AddCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1140,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-03-08T01:00:57Z",
+      "side": 1,
+      "message": "same here",
+      "range": {
+        "startLine": 1136,
+        "startChar": 0,
+        "endLine": 1140,
+        "endChar": 18
+      },
+      "revId": "8e8f2e992e474eb35f16809da539140cb796502a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_f9ebe517",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/AddCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-03-08T01:00:57Z",
+      "side": 1,
+      "message": "these lines seem too wide, import tools/eclipse-JGit-Format.xml to configure formatter",
+      "revId": "8e8f2e992e474eb35f16809da539140cb796502a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_991e6196",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-03-08T01:00:57Z",
+      "side": 1,
+      "message": "why does the value contain \"Force\" but not the key and javadoc ?\nIs this configuration option also supported by native git ?\nonly found it in the API documentation https://www.kernel.org/pub/software/scm/git/docs/technical/api-directory-listing.html",
+      "range": {
+        "startLine": 235,
+        "startChar": 56,
+        "endLine": 235,
+        "endChar": 74
+      },
+      "revId": "8e8f2e992e474eb35f16809da539140cb796502a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_39b1cd4c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/AbstractTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 734,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-03-08T01:00:57Z",
+      "side": 1,
+      "message": "Return whether or not ...",
+      "range": {
+        "startLine": 734,
+        "startChar": 4,
+        "endLine": 734,
+        "endChar": 34
+      },
+      "revId": "8e8f2e992e474eb35f16809da539140cb796502a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_19aed1f1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/AbstractTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 737,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-03-08T01:00:57Z",
+      "side": 1,
+      "message": "missing @since 4.3 tag for new API",
+      "revId": "8e8f2e992e474eb35f16809da539140cb796502a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_59b85930",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-03-08T01:00:57Z",
+      "side": 1,
+      "message": "line is too wide",
+      "revId": "8e8f2e992e474eb35f16809da539140cb796502a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_79bb552c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-03-08T01:00:57Z",
+      "side": 1,
+      "message": "I\u0027d rather explain explicitly what this strategy means",
+      "revId": "8e8f2e992e474eb35f16809da539140cb796502a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_1956d132",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-03-08T01:00:57Z",
+      "side": 1,
+      "message": "style nit: missing braces",
+      "revId": "8e8f2e992e474eb35f16809da539140cb796502a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_99c1019a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 932,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-03-08T01:00:57Z",
+      "side": 1,
+      "message": "missing braces, more below",
+      "revId": "8e8f2e992e474eb35f16809da539140cb796502a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_3959cd61",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeOptions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-03-08T01:00:57Z",
+      "side": 1,
+      "message": "missing @since 4.3 tag for new API",
+      "revId": "8e8f2e992e474eb35f16809da539140cb796502a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
