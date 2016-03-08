@@ -111,6 +111,30 @@
     },
     {
       "key": {
+        "uuid": "e7dfcf21_c49b997d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 74336
+      },
+      "writtenOn": "2016-03-08T18:56:56Z",
+      "side": 1,
+      "message": "Whoops, sorry about that. There was a previous change with a partial implementation of this feature, but I misunderstood one of the comments, which is why I made the key \"dirForceNoGitLinks\". It should just be \"dirNoGitLinks\", I\u0027ll go ahead and change that.\n\nFrom what I can tell this isn\u0027t a configuration option in native git, and is only  present in the directory listing API. I believe this was deemed the best place to put the option in the previous change that partially implemented this feature, but it may be good to move it somewhere else.",
+      "parentUuid": "e7dfcf21_991e6196",
+      "range": {
+        "startLine": 235,
+        "startChar": 56,
+        "endLine": 235,
+        "endChar": 74
+      },
+      "revId": "8e8f2e992e474eb35f16809da539140cb796502a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7dfcf21_39b1cd4c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/AbstractTreeIterator.java",
         "patchSetId": 1
