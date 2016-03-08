@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "e7dfcf21_64bba55e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/FileTreeIteratorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 74336
+      },
+      "writtenOn": "2016-03-08T22:23:17Z",
+      "side": 1,
+      "message": "From what I can tell (I didn\u0027t actually author this commit, but I had to change the author to myself so I could push it to Gerrit since I\u0027m not a committer) writeTrashFile writes into the repo stored in the db instance variable. However, createNestedRepo creates and returns its own repo to have greater control over what goes into it, and the tests that exercise that function use that repo instead of db, so writeTrashFile will end up writing into the wrong place.",
+      "parentUuid": "e7dfcf21_f9c685ac",
+      "revId": "1f18a67dfad3e01e40e0eabbcaa6160a0415d0b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7dfcf21_1995f195",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/FileTreeIteratorTest.java",
         "patchSetId": 1
