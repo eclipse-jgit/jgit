@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7dfcf21_7a60a001",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/FileTreeIteratorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-03-09T08:49:56Z",
+      "side": 1,
+      "message": "Unneeded import. Please remove",
+      "revId": "00e4b3ed326e8018fc9d2a93d29a53ab157421ef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_5a592460",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-03-09T08:49:56Z",
+      "side": 1,
+      "message": "Missing @since tag",
+      "revId": "00e4b3ed326e8018fc9d2a93d29a53ab157421ef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_fa1830aa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-03-09T08:49:56Z",
+      "side": 1,
+      "message": "Missing @since tag",
+      "revId": "00e4b3ed326e8018fc9d2a93d29a53ab157421ef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_3a561833",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-03-09T08:49:56Z",
+      "side": 1,
+      "message": "Missing @since tag",
+      "revId": "00e4b3ed326e8018fc9d2a93d29a53ab157421ef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_1a14fc71",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-03-09T08:49:56Z",
+      "side": 1,
+      "message": "Missing @since tag",
+      "revId": "00e4b3ed326e8018fc9d2a93d29a53ab157421ef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_ba1ea895",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-03-09T08:49:56Z",
+      "side": 1,
+      "message": "Missing @since tag",
+      "revId": "00e4b3ed326e8018fc9d2a93d29a53ab157421ef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_7a2500e1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-03-09T08:49:56Z",
+      "side": 1,
+      "message": "We need a @since tag here. Have you configured API Baseline checks as described in http://wiki.eclipse.org/EGit/Contributor_Guide#Checking_for_JGit_API_Changes_using_API_Baseline ?",
+      "revId": "00e4b3ed326e8018fc9d2a93d29a53ab157421ef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_9a280cbb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-03-09T08:49:56Z",
+      "side": 1,
+      "message": "Missing @since tag",
+      "revId": "00e4b3ed326e8018fc9d2a93d29a53ab157421ef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
