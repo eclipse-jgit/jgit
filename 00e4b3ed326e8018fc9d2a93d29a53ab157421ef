@@ -121,6 +121,24 @@
     },
     {
       "key": {
+        "uuid": "e7dfcf21_70a8bf62",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 74336
+      },
+      "writtenOn": "2016-03-09T19:19:11Z",
+      "side": 1,
+      "message": "Ah, sorry about that. I am unfortunately not using Eclipse and so wasn\u0027t able to set up the API Baseline. I\u0027ve gone through and added @since tags, i can go through my other commit as well and ensure there\u0027s an @since tag on all relevant additions.",
+      "parentUuid": "e7dfcf21_7a2500e1",
+      "revId": "00e4b3ed326e8018fc9d2a93d29a53ab157421ef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7dfcf21_9a280cbb",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
         "patchSetId": 2
