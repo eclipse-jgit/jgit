@@ -184,7 +184,7 @@ class Log extends RevWalkTextBuiltin {
 	}
 
 	@Override
-	protected void init(final Repository repository, final String gitDir) {
+	public void init(final Repository repository, final String gitDir) {
 		super.init(repository, gitDir);
 		diffFmt = new DiffFormatter(new BufferedOutputStream(outs));
 	}
