@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7dfcf21_800ed63f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-03-10T13:20:19Z",
+      "side": 1,
+      "message": "Eclipse is complaining that this is an API change in a minor release. From now on there is no\n\n  FileTreeIterator(final WorkingTreeIterator p, final File root, FS fs)\n\nanymore. You changed it to\n\n  FileTreeIterator(final FileTreeIterator p, final File root, FS fs)\n\nSubclasses of FileTreeIterator in other projects may be broken now. Maybe you could leave an implementation for FileTreeIterator(final WorkingTreeIterator p, final File root, FS fs) which passes a DefaultFileModeStrategy.INSTANCE",
+      "revId": "815c9f6b9f4b7af73833dbb621551c882bb5f2e8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
