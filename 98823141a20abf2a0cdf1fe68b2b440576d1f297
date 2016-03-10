@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7dfcf21_0004868a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/AddCommandTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-03-10T17:36:58Z",
+      "side": 1,
+      "message": "unneeded import",
+      "revId": "98823141a20abf2a0cdf1fe68b2b440576d1f297",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_40e76e5a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/AbstractTreeIterator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 736,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-03-10T17:36:58Z",
+      "side": 1,
+      "message": "eclipse says: a @return tag is missing",
+      "revId": "98823141a20abf2a0cdf1fe68b2b440576d1f297",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_a0cbd2c6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-03-10T17:36:58Z",
+      "side": 1,
+      "message": "unneeded import",
+      "revId": "98823141a20abf2a0cdf1fe68b2b440576d1f297",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_23dd0c56",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1119,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-03-10T17:36:58Z",
+      "side": 1,
+      "message": "I don\u0027t get this condition. Especially the precedence of the operators make it hard.\n\nBefore your change it was:\n\n  t.matches \u003d\u003d ch \u0026\u0026 !t.eof() \u0026\u0026 FileMode.TREE.equals(t.mode)\n  a)                 b)          c)\n\nMeans: enter the subtree for t if all of the following is true\na) t should point to the path the treewalk is currently looking at\nb) t should be able to provide at least one more element\nc) t should be pointing to a tree\n\nBut you added a \"|| (\u003cyour-condition\u003e)\" to the end. Means we would enter the subtree for\nt always if \u003cyour-condition\u003e is true. Even if t is pointing to \"src/a/\" but the treewalk is currently looking at \"src/b/\". Or even if t has already processed all the entries. That sounds wrong.\n\nI would understand it if your code would have two more paranthesis. Like:\n\n  if (t.matches \u003d\u003d ch \u0026\u0026 !t.eof() \u0026\u0026 (FileMode.TREE.equals(t.mode) ||\n    (FileMode.GITLINK.equals(t.mode) \u0026\u0026 t.isWorkTree())))\n\nI upload a test which shows this",
+      "range": {
+        "startLine": 1118,
+        "startChar": 3,
+        "endLine": 1119,
+        "endChar": 57
+      },
+      "revId": "98823141a20abf2a0cdf1fe68b2b440576d1f297",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
