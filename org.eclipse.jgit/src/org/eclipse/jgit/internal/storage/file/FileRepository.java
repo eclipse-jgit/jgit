@@ -171,23 +171,25 @@ public class FileRepository extends Repository {
 	public FileRepository(final BaseRepositoryBuilder options) throws IOException {
 		super(options);
 
-		if (StringUtils.isEmptyOrNull(SystemReader.getInstance().getenv(
-				Constants.GIT_CONFIG_NOSYSTEM_KEY)))
-			systemConfig = SystemReader.getInstance().openSystemConfig(null,
-					getFS());
-		else
-			systemConfig = new FileBasedConfig(null, FS.DETECTED) {
-				public void load() {
-					// empty, do not load
-				}
+		String noSystemConfigValue = SystemReader.getInstance()
+				.getenv(Constants.GIT_CONFIG_NOSYSTEM_KEY);
+		if (StringUtils.isEmptyOrNull(noSystemConfigValue) ||
+				options.getIgnoreSystemGitConfig()) {
+			systemConfig = SystemReader.getInstance()
+					.openSystemConfig(null, getFS());
+		}
+		else {
+			systemConfig = noopConfig();
+		}
 
-				public boolean isOutdated() {
-					// regular class would bomb here
-					return false;
-				}
-			};
-		userConfig = SystemReader.getInstance().openUserConfig(systemConfig,
-				getFS());
+		if(options.getIgnoreGlobalGitConfig()){
+			userConfig = noopConfig();
+		} else {
+			userConfig = SystemReader.getInstance()
+					.openUserConfig(systemConfig, getFS());
+		}
+
+
 		repoConfig = new FileBasedConfig(userConfig, getFS().resolve(
 				getDirectory(), Constants.CONFIG),
 				getFS());
@@ -552,7 +554,19 @@ public class FileRepository extends Repository {
 				}
 			}
 		}
+	}
 
+	private FileBasedConfig noopConfig(){
+		return new FileBasedConfig(null, FS.DETECTED) {
+			public void load() {
+				// empty, do not load
+			}
+
+			public boolean isOutdated() {
+				// regular class would bomb here
+				return false;
+			}
+		};
 	}
 
 }
