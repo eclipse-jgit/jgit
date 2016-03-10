@@ -145,6 +145,12 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 	/** True if the caller requires the repository to exist. */
 	private boolean mustExist;
 
+	/** True if the system gitconfig should be ignored. Defaults to false */
+	private boolean ignoreSystemConfig;
+
+	/** True if the global gitconfig should be ignored. Defaults to false */
+	private boolean ignoreGlobalConfig;
+
 	/** Configuration file of target repository, lazily loaded if required. */
 	private Config config;
 
@@ -344,6 +350,24 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 	/** @return the index file location, or null if not set. */
 	public File getIndexFile() {
 		return indexFile;
+	}
+
+	public B setIgnoreSystemGitConfig(boolean ignoreSystemConfig){
+		this.ignoreSystemConfig = ignoreSystemConfig;
+		return self();
+	}
+
+	public boolean getIgnoreSystemGitConfig(){
+		return ignoreSystemConfig;
+	}
+
+	public B setIgnoreGlobalGitConfig(boolean ignoreGlobalConfig){
+		this.ignoreGlobalConfig = ignoreGlobalConfig;
+		return self();
+	}
+
+	public boolean getIgnoreGlobalGitConfig(){
+		return ignoreGlobalConfig;
 	}
 
 	/**
