@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e7dfcf21_6f745543",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2016-03-11T22:21:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7dfcf21_6f229562",
+      "range": {
+        "startLine": 478,
+        "startChar": 22,
+        "endLine": 478,
+        "endChar": 30
+      },
+      "revId": "2aa22a3e9edd9d3a25c68c93024edb14267718b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7dfcf21_8f08c1e5",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2016-03-11T22:08:45Z",
       "side": 1,
       "message": "not needed: we have already called \u0027continue\u0027 or thrown an exception in the objectId \u003d\u003d null case.",
+      "range": {
+        "startLine": 490,
+        "startChar": 28,
+        "endLine": 490,
+        "endChar": 49
+      },
+      "revId": "2aa22a3e9edd9d3a25c68c93024edb14267718b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_8f7a812d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2016-03-11T22:21:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7dfcf21_8f08c1e5",
       "range": {
         "startLine": 490,
         "startChar": 28,
