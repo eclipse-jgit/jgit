@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e7dfcf21_149688a2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2016-03-11T20:10:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7dfcf21_34354461",
+      "range": {
+        "startLine": 364,
+        "startChar": 8,
+        "endLine": 364,
+        "endChar": 55
+      },
+      "revId": "0ad99a76ba3773c5d65ecde7f8b421dfb97dc3a5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7dfcf21_1404c88a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
         "patchSetId": 1
@@ -61,6 +85,54 @@
       "message": "Should this \u0027continue;\u0027? That would save later code from having to check for a null objectId.",
       "range": {
         "startLine": 493,
+        "startChar": 0,
+        "endLine": 493,
+        "endChar": 47
+      },
+      "revId": "0ad99a76ba3773c5d65ecde7f8b421dfb97dc3a5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_3499c4d1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2016-03-11T20:10:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7dfcf21_94f7f8fd",
+      "range": {
+        "startLine": 493,
+        "startChar": 0,
+        "endLine": 493,
+        "endChar": 47
+      },
+      "revId": "0ad99a76ba3773c5d65ecde7f8b421dfb97dc3a5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_549010a3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2016-03-11T20:10:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7dfcf21_1404c88a",
+      "range": {
+        "startLine": 492,
         "startChar": 0,
         "endLine": 493,
         "endChar": 47
