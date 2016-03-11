@@ -172,6 +172,7 @@ public class FileTreeIterator extends WorkingTreeIterator {
 	 * @deprecated use {@link #FileTreeIterator(FileTreeIterator, File, FS)}
 	 *             instead.
 	 */
+	@Deprecated
 	protected FileTreeIterator(final WorkingTreeIterator p, final File root,
 			FS fs) {
 		this(p, root, fs, DefaultFileModeStrategy.INSTANCE);
