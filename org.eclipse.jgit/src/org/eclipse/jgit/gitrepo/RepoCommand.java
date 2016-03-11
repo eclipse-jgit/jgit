@@ -139,7 +139,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 		 * @param ref
 		 *            The ref (branch/tag/etc.) to read
 		 * @return the sha1 of the remote repository, or null if the ref does
-		 *		   not exist.
+		 *         not exist.
 		 * @throws GitAPIException
 		 */
 		@Nullable
