@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7dfcf21_afe81df0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-03-11T20:30:31Z",
+      "side": 1,
+      "message": "optional: can add @Nullable",
+      "range": {
+        "startLine": 150,
+        "startChar": 0,
+        "endLine": 150,
+        "endChar": 70
+      },
+      "revId": "1eb7f99c7749044113e1eec7c6dff74f0810eb6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_0f2cb1cf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-03-11T20:30:31Z",
+      "side": 1,
+      "message": "If the revision string is 40-hex, I think we still want to skip that project if that commit doesn\u0027t exist. We can do\n\n  if (ObjectId.isId(proj.getRevision()) \u0026\u0026 !ignoreRemoteFailures) {\n    ...\n  } else {\n    ...",
+      "range": {
+        "startLine": 483,
+        "startChar": 0,
+        "endLine": 483,
+        "endChar": 45
+      },
+      "revId": "1eb7f99c7749044113e1eec7c6dff74f0810eb6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_efe2250c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-03-11T20:30:31Z",
+      "side": 1,
+      "message": "This try/catch shouldn\u0027t be needed any more, since callback.sha1 will return null when the object is unavailable remotely.",
+      "range": {
+        "startLine": 486,
+        "startChar": 0,
+        "endLine": 496,
+        "endChar": 7
+      },
+      "revId": "1eb7f99c7749044113e1eec7c6dff74f0810eb6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_aff3bdd7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-03-11T20:30:31Z",
+      "side": 1,
+      "message": "Can decrease indentation a little by reversing the test:\n\n  if (objectId \u003d\u003d null) {\n    if (ignoreRemoteFailures) {\n      continue;\n    }\n    throw new RemoteUnavailableException(nameUri);\n  }\n\nThis can only happen in the !isId(proj.getRevision()) case, right? That would make:\n\n  ObjectId objectId;\n  if (ObjectId.isId(proj.getRevision()) {\n    objectId \u003d ObjectId.fromString(proj.getRevision());\n  } else {\n    objectId \u003d callback.sha1(nameUri, proj.getRevision());\n    if (objectId \u003d\u003d null) {\n      if (ignoreRemoteFailures) {\n        continue;\n      }\n      throw new RemoteUnavailableException(nameUri);\n    }\n    if (recordRemoteBranch) {\n      ... cfg.setString...\n    }\n  }\n  ... now we can assume objectId !\u003d null ...",
+      "range": {
+        "startLine": 503,
+        "startChar": 0,
+        "endLine": 503,
+        "endChar": 28
+      },
+      "revId": "1eb7f99c7749044113e1eec7c6dff74f0810eb6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
