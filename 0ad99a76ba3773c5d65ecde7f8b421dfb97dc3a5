@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7dfcf21_34354461",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-03-11T20:02:51Z",
+      "side": 1,
+      "message": "maybe something like:\n\n /**\n  * Set whether to skip projects whose commits don\u0027t exist remotely",
+      "range": {
+        "startLine": 364,
+        "startChar": 8,
+        "endLine": 364,
+        "endChar": 55
+      },
+      "revId": "0ad99a76ba3773c5d65ecde7f8b421dfb97dc3a5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_1404c88a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-03-11T20:02:51Z",
+      "side": 1,
+      "message": "Can we distinguish the case of a missing object (or missing repository) from bugs and intermittent I/O failures?\n\nE.g. RefNotFoundException or MissingObjectException vs TransportException or JgitInternalException.\n\nAlternatively, would it make sense to require that the RemoteReader return null when the sha1 doesn\u0027t exist (and it can log its own message) and throw an exception for other failures?",
+      "range": {
+        "startLine": 492,
+        "startChar": 0,
+        "endLine": 493,
+        "endChar": 47
+      },
+      "revId": "0ad99a76ba3773c5d65ecde7f8b421dfb97dc3a5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_94f7f8fd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-03-11T20:02:51Z",
+      "side": 1,
+      "message": "Should this \u0027continue;\u0027? That would save later code from having to check for a null objectId.",
+      "range": {
+        "startLine": 493,
+        "startChar": 0,
+        "endLine": 493,
+        "endChar": 47
+      },
+      "revId": "0ad99a76ba3773c5d65ecde7f8b421dfb97dc3a5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
