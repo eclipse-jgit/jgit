@@ -34,6 +34,7 @@ org.eclipse.jgit.pgm.Show
 org.eclipse.jgit.pgm.ShowRef
 org.eclipse.jgit.pgm.Status
 org.eclipse.jgit.pgm.Tag
+org.eclipse.jgit.pgm.UpdateRef
 org.eclipse.jgit.pgm.UploadPack
 org.eclipse.jgit.pgm.Version
 
