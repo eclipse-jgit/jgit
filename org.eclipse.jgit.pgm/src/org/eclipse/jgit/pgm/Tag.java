@@ -68,6 +68,9 @@ class Tag extends TextBuiltin {
 	@Option(name = "-f", usage = "usage_forceReplacingAnExistingTag")
 	private boolean force;
 
+	@Option(name = "-d", usage = "usage_tagDelete")
+	private boolean delete;
+
 	@Option(name = "-m", metaVar = "metaVar_message", usage = "usage_tagMessage")
 	private String message = ""; //$NON-NLS-1$
 
@@ -81,19 +84,23 @@ class Tag extends TextBuiltin {
 	protected void run() throws Exception {
 		try (Git git = new Git(db)) {
 			if (tagName != null) {
-				TagCommand command = git.tag().setForceUpdate(force)
-						.setMessage(message).setName(tagName);
+				if (delete) {
+					git.tagDelete().setTags(tagName).call();
+				} else {
+					TagCommand command = git.tag().setForceUpdate(force)
+							.setMessage(message).setName(tagName);
 
-				if (object != null) {
-					try (RevWalk walk = new RevWalk(db)) {
-						command.setObjectId(walk.parseAny(object));
+					if (object != null) {
+						try (RevWalk walk = new RevWalk(db)) {
+							command.setObjectId(walk.parseAny(object));
+						}
 					}
-				}
-				try {
-					command.call();
-				} catch (RefAlreadyExistsException e) {
-					throw die(MessageFormat.format(CLIText.get().tagAlreadyExists,
-							tagName));
+					try {
+						command.call();
+					} catch (RefAlreadyExistsException e) {
+						throw die(MessageFormat.format(
+								CLIText.get().tagAlreadyExists, tagName));
+					}
 				}
 			} else {
 				ListTagCommand command = git.tagList();

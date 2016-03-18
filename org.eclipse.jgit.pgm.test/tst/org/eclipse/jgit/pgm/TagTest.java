@@ -46,6 +46,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.CLIRepositoryTestCase;
+import org.eclipse.jgit.lib.Ref;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -69,5 +70,17 @@ public class TagTest extends CLIRepositoryTestCase {
 
 		assertEquals("fatal: tag 'test' already exists",
 				executeUnchecked("git tag test")[0]);
+	}
+
+	@Test
+	public void testTagDelete() throws Exception {
+		git.tag().setName("test").call();
+
+		Ref ref = git.getRepository().getTags().get("test");
+		assertEquals("refs/tags/test", ref.getName());
+
+		assertEquals("", executeUnchecked("git tag -d test")[0]);
+		Ref deletedRef = git.getRepository().getTags().get("test");
+		assertEquals(null, deletedRef);
 	}
 }
