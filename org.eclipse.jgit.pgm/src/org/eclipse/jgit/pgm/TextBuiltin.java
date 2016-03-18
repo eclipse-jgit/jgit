@@ -139,6 +139,28 @@ public abstract class TextBuiltin {
 	}
 
 	/**
+	 * Initializes the command to work with a repository, including setting the
+	 * output and error streams.
+	 *
+	 * @param repository
+	 *            the opened repository that the command should work on.
+	 * @param gitDir
+	 *            value of the {@code --git-dir} command line option, if
+	 *            {@code repository} is null.
+	 * @param output
+	 *            output stream to which output will be written
+	 * @param error
+	 *            error stream to which errors will be written
+	 * @since 4.4
+	 */
+	public void initRaw(final Repository repository, final String gitDir,
+			OutputStream output, OutputStream error) {
+		this.outs = output;
+		this.errs = error;
+		init(repository, gitDir);
+	}
+
+	/**
 	 * Initialize the command to work with a repository.
 	 *
 	 * @param repository
@@ -282,6 +304,14 @@ public abstract class TextBuiltin {
 	 */
 	public ThrowingPrintWriter getErrorWriter() {
 		return errw;
+	}
+
+	/**
+	 * @return output writer, typically this is standard output.
+	 * @since 4.4
+	 */
+	public ThrowingPrintWriter getOutputWriter() {
+		return outw;
 	}
 
 	/**
