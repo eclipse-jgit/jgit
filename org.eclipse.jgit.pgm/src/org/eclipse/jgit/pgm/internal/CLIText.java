@@ -125,6 +125,7 @@ public class CLIText extends TranslationBundle {
 	/***/ public String changesToBeCommitted;
 	/***/ public String checkoutConflict;
 	/***/ public String checkoutConflictPathLine;
+	/***/ public String cleanRequireForce;
 	/***/ public String clonedEmptyRepository;
 	/***/ public String cloningInto;
 	/***/ public String commitLabel;
@@ -246,6 +247,7 @@ public class CLIText extends TranslationBundle {
 	/***/ public String remoteMessage;
 	/***/ public String remoteRefObjectChangedIsNotExpectedOne;
 	/***/ public String remoteSideDoesNotSupportDeletingRefs;
+	/***/ public String removing;
 	/***/ public String repaint;
 	/***/ public String s3InvalidBucket;
 	/***/ public String serviceNotSupported;
