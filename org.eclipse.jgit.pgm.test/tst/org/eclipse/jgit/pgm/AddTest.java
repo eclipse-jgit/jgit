@@ -111,4 +111,17 @@ public class AddTest extends CLIRepositoryTestCase {
 		assertNotNull(cache.getEntry("greeting"));
 		assertEquals(1, cache.getEntryCount());
 	}
+
+	@Test
+	public void testAddAll() throws Exception {
+		writeTrashFile("greeting", "Hello, world!");
+		writeTrashFile("greeting2", "Hello again, world!");
+		assertArrayEquals(new String[] { "" }, //
+				execute("git add --all"));
+
+		DirCache cache = db.readDirCache();
+		assertNotNull(cache.getEntry("greeting"));
+		assertNotNull(cache.getEntry("greeting2"));
+		assertEquals(2, cache.getEntryCount());
+	}
 }
