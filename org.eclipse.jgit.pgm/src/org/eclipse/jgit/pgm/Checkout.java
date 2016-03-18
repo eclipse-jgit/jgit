@@ -92,8 +92,12 @@ class Checkout extends TextBuiltin {
 			CheckoutCommand command = git.checkout();
 			if (paths.size() > 0) {
 				command.setStartPoint(name);
-				for (String path : paths)
-					command.addPath(path);
+				if (paths.size() == 1 && paths.get(0).equals(".")) { //$NON-NLS-1$
+					command.setAllPaths(true);
+				} else {
+					for (String path : paths)
+						command.addPath(path);
+				}
 			} else {
 				command.setCreateBranch(createBranch);
 				command.setName(name);
