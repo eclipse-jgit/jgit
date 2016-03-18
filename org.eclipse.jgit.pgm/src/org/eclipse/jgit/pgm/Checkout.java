@@ -122,17 +122,21 @@ class Checkout extends TextBuiltin {
 							CLIText.get().switchedToBranch,
 							Repository.shortenRefName(ref.getName())));
 			} catch (RefNotFoundException e) {
-				outw.println(MessageFormat.format(
-						CLIText.get().pathspecDidNotMatch,
-						name));
+				throw die(MessageFormat
+						.format(CLIText.get().pathspecDidNotMatch, name), e);
 			} catch (RefAlreadyExistsException e) {
-				throw die(MessageFormat.format(CLIText.get().branchAlreadyExists,
-						name));
+				throw die(MessageFormat
+						.format(CLIText.get().branchAlreadyExists, name));
 			} catch (CheckoutConflictException e) {
-				outw.println(CLIText.get().checkoutConflict);
-				for (String path : e.getConflictingPaths())
-					outw.println(MessageFormat.format(
+				StringBuilder builder = new StringBuilder();
+				builder.append(CLIText.get().checkoutConflict);
+				builder.append(System.lineSeparator());
+				for (String path : e.getConflictingPaths()) {
+					builder.append(MessageFormat.format(
 							CLIText.get().checkoutConflictPathLine, path));
+					builder.append(System.lineSeparator());
+				}
+				throw die(builder.toString(), e);
 			}
 		}
 	}
