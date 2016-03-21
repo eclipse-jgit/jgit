@@ -221,6 +221,26 @@ public class ObjectId extends AnyObjectId implements Serializable {
 	}
 
 	/**
+	 * Convert an ObjectId from hex characters (US-ASCII) and throw checked
+	 * exception in case the characters do not represent a valid ObjectId
+	 *
+	 * @param buf
+	 *            the US-ASCII buffer to read from. At least 40 bytes after
+	 *            offset must be available within this byte array.
+	 * @param offset
+	 *            position to read the first character from.
+	 * @return the converted object id.
+	 */
+	public static final ObjectId fromStringCheck(final byte[] buf, final int offset) throws IOException {
+		try {
+			return fromHexString(buf, offset);
+		}
+		catch (InvalidObjectIdException ex) {
+			throw new IOException(ex);
+		}
+	}
+
+	/**
 	 * Convert an ObjectId from hex characters.
 	 *
 	 * @param str
