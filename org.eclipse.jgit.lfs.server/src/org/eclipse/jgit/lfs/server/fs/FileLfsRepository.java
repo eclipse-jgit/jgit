@@ -45,10 +45,8 @@ package org.eclipse.jgit.lfs.server.fs;
 import static org.eclipse.jgit.util.HttpSupport.HDR_AUTHORIZATION;
 
 import java.io.IOException;
-import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
 import java.nio.channels.ReadableByteChannel;
-import java.nio.channels.WritableByteChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
@@ -70,7 +68,6 @@ public class FileLfsRepository implements LargeFileRepository {
 
 	private final String url;
 	private final Path dir;
-	private AtomicObjectOutputStream out;
 
 	/**
 	 * @param url
@@ -147,21 +144,11 @@ public class FileLfsRepository implements LargeFileRepository {
 		return FileChannel.open(getPath(id), StandardOpenOption.READ);
 	}
 
-	WritableByteChannel getWriteChannel(AnyLongObjectId id)
+	AtomicObjectOutputStream getOutputStream(AnyLongObjectId id)
 			throws IOException {
 		Path path = getPath(id);
 		Files.createDirectories(path.getParent());
-		out = new AtomicObjectOutputStream(path, id);
-		return Channels.newChannel(out);
-	}
-
-	/**
-	 * Abort the output stream
-	 */
-	void abortWrite() {
-		if (out != null) {
-			out.abort();
-		}
+		return new AtomicObjectOutputStream(path, id);
 	}
 
 	private static char[] toHexCharArray(int b) {

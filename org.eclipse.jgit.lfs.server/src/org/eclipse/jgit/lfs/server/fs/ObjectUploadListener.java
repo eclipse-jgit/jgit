@@ -74,13 +74,13 @@ class ObjectUploadListener implements ReadListener {
 
 	private final HttpServletResponse response;
 
-	private FileLfsRepository repository;
-
 	private final ServletInputStream in;
 
 	private final ReadableByteChannel inChannel;
 
-	private WritableByteChannel out;
+	private final AtomicObjectOutputStream out;
+
+	private WritableByteChannel channel;
 
 	private final ByteBuffer buffer = ByteBuffer.allocateDirect(8192);
 
@@ -98,12 +98,12 @@ class ObjectUploadListener implements ReadListener {
 			AsyncContext context, HttpServletRequest request,
 			HttpServletResponse response, AnyLongObjectId id)
 					throws FileNotFoundException, IOException {
-		this.repository = repository;
 		this.context = context;
 		this.response = response;
 		this.in = request.getInputStream();
 		this.inChannel = Channels.newChannel(in);
-		this.out = repository.getWriteChannel(id);
+		this.out = repository.getOutputStream(id);
+		this.channel = Channels.newChannel(out);
 		response.setContentType(Constants.CONTENT_TYPE_GIT_LFS_JSON);
 	}
 
@@ -117,12 +117,12 @@ class ObjectUploadListener implements ReadListener {
 		while (in.isReady()) {
 			if (inChannel.read(buffer) > 0) {
 				buffer.flip();
-				out.write(buffer);
+				channel.write(buffer);
 				buffer.compact();
 			} else {
 				buffer.flip();
 				while (buffer.hasRemaining()) {
-					out.write(buffer);
+					channel.write(buffer);
 				}
 				close();
 				return;
@@ -141,7 +141,7 @@ class ObjectUploadListener implements ReadListener {
 	protected void close() throws IOException {
 		try {
 			inChannel.close();
-			out.close();
+			channel.close();
 			// TODO check if status 200 is ok for PUT request, HTTP foresees 204
 			// for successful PUT without response body
 			response.setStatus(HttpServletResponse.SC_OK);
@@ -157,9 +157,9 @@ class ObjectUploadListener implements ReadListener {
 	@Override
 	public void onError(Throwable e) {
 		try {
-			repository.abortWrite();
+			out.abort();
 			inChannel.close();
-			out.close();
+			channel.close();
 			int status;
 			if (e instanceof CorruptLongObjectException) {
 				status = HttpStatus.SC_BAD_REQUEST;
