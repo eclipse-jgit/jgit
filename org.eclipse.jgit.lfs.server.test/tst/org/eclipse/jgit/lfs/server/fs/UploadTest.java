@@ -51,6 +51,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.lfs.lib.AnyLongObjectId;
 import org.eclipse.jgit.lfs.lib.LongObjectId;
@@ -97,5 +104,37 @@ public class UploadTest extends LfsServerTest {
 				repository.getSize(id) >= 0);
 		assertEquals("expected object length " + Files.size(f), Files.size(f),
 				repository.getSize(id));
+	}
+
+	@Test
+	public void testParallelUploads() throws Exception {
+		int count = 10;
+		List<Path> paths = new ArrayList<>(count);
+
+		for (int i = 0; i < count; i++) {
+			Path f = Paths.get(getTempDirectory().toString(),
+					"largeRandomFile_" + i);
+			createPseudoRandomContentFile(f, 1 * MiB);
+			paths.add(f);
+		}
+
+		final CyclicBarrier barrier = new CyclicBarrier(count);
+
+		ExecutorService e = Executors.newFixedThreadPool(count);
+		try {
+			for (final Path p : paths) {
+				e.submit(new Callable<Void>() {
+					@Override
+					public Void call() throws Exception {
+						barrier.await();
+						putContent(p);
+						return null;
+					}
+				});
+			}
+		} finally {
+			e.shutdown();
+			e.awaitTermination(Long.MAX_VALUE, TimeUnit.SECONDS);
+		}
 	}
 }
