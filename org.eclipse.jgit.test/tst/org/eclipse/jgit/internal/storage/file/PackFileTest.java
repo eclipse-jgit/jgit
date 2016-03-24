@@ -310,6 +310,27 @@ public class PackFileTest extends LocalDiskRepositoryTestCase {
 		}
 	}
 
+	@Test
+	public void testConfigurableStreamFileThreshold() throws Exception {
+		byte[] data = getRng().nextBytes(300);
+		RevBlob id = tr.blob(data);
+		tr.branch("master").commit().add("A", id).create();
+		tr.packAndPrune();
+		assertTrue("has blob", wc.has(id));
+
+		ObjectLoader ol = wc.open(id);
+		ObjectStream in = ol.openStream();
+		assert(in instanceof ObjectStream.SmallStream);
+		assertEquals(300, in.available());
+		in.close();
+
+		wc.setStreamFileThreshold(299);
+		ol = wc.open(id);
+		in = ol.openStream();
+		assert(in instanceof ObjectStream.Filter);
+		assertEquals(1, in.available());
+	}
+
 	private static byte[] clone(int first, byte[] base) {
 		byte[] r = new byte[base.length];
 		System.arraycopy(base, 1, r, 1, r.length - 1);
