@@ -64,6 +64,8 @@ public abstract class ObjectReader implements AutoCloseable {
 	/** Type hint indicating the caller doesn't know the type. */
 	public static final int OBJ_ANY = -1;
 
+	protected int streamFileThreshold;
+
 	/**
 	 * Construct a new reader from the same data.
 	 * <p>
@@ -431,4 +433,27 @@ public abstract class ObjectReader implements AutoCloseable {
 	 */
 	@Override
 	public abstract void close();
+
+	/**
+	 * Sets the threshold at which a file will be streamed rather than
+	 * loaded entirely into memory
+	 * @param threshold the new threshold
+	 *
+	 * @since 4.3
+	 */
+	public void setStreamFileThreshold(int threshold) {
+		streamFileThreshold = threshold;
+	}
+
+	/**
+	 * Returns the threshold at which a file will be streamed rather than
+	 * loaded entirely into memory
+	 *
+	 * @return the threshold in bytes
+	 *
+	 * @since 4.3
+	 */
+	public int getStreamFileThreshold() {
+		return streamFileThreshold;
+	}
 }
