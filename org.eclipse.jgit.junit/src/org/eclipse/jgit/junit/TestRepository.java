@@ -112,23 +112,18 @@ import org.eclipse.jgit.util.io.SafeBufferedOutputStream;
  *            type of Repository the test data is stored on.
  */
 public class TestRepository<R extends Repository> {
-	private static final PersonIdent defaultAuthor;
 
-	private static final PersonIdent defaultCommitter;
+	public static final String AUTHOR = "J. Author";
 
-	static {
-		final MockSystemReader m = new MockSystemReader();
-		final long now = m.getCurrentTime();
-		final int tz = m.getTimezone(now);
+	public static final String AUTHOR_EMAIL = "jauthor@example.com";
 
-		final String an = "J. Author";
-		final String ae = "jauthor@example.com";
-		defaultAuthor = new PersonIdent(an, ae, now, tz);
+	public static final String COMMITTER = "J. Committer";
 
-		final String cn = "J. Committer";
-		final String ce = "jcommitter@example.com";
-		defaultCommitter = new PersonIdent(cn, ce, now, tz);
-	}
+	public static final String COMMITTER_EMAIL = "jcommitter@example.com";
+
+	private final PersonIdent defaultAuthor;
+
+	private final PersonIdent defaultCommitter;
 
 	private final R db;
 
@@ -184,6 +179,10 @@ public class TestRepository<R extends Repository> {
 		this.pool = rw;
 		this.inserter = db.newObjectInserter();
 		this.mockSystemReader = reader;
+		long now = mockSystemReader.getCurrentTime();
+		int tz = mockSystemReader.getTimezone(now);
+		defaultAuthor = new PersonIdent(AUTHOR, AUTHOR_EMAIL, now, tz);
+		defaultCommitter = new PersonIdent(COMMITTER, COMMITTER_EMAIL, now, tz);
 	}
 
 	/** @return the repository this helper class operates against. */
