@@ -59,6 +59,47 @@
     },
     {
       "key": {
+        "uuid": "e7dfcf21_e6b4c4ec",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 922,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-04-01T16:16:22Z",
+      "side": 1,
+      "message": "Hmm, after playing with native git I can understand this change better. Seems also in native git it\u0027s tricky to switch from gitlink to tree and vice versa. And this coding implements same semantics as native git. I think we are lacking a test for line 935-937.",
+      "parentUuid": "e7dfcf21_c3225ad9",
+      "revId": "f2a4e55709e61fcde92c2e31482dda90e9d440f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_862220aa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 937,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-04-01T16:16:22Z",
+      "side": 1,
+      "message": "These lines are explicitly there to handle core.filemode\u003d\u003dfalse situations. Before this change it was guaranteed that this lines are only executed when core.filemode\u003d\u003dfalse. Now you changed the condition and these tests are also executed when core.filemode\u003d\u003dtrue. It\u0027s not harmful because we know non if these if clauses become true. But to clarify this I suggest to make it explicit:\n\n  if (!getOptions().isFileMode()) {\n    ... these two if clauses\n  } \n  ...",
+      "range": {
+        "startLine": 931,
+        "startChar": 0,
+        "endLine": 937,
+        "endChar": 16
+      },
+      "revId": "f2a4e55709e61fcde92c2e31482dda90e9d440f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7dfcf21_c0afb099",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeOptions.java",
         "patchSetId": 8
