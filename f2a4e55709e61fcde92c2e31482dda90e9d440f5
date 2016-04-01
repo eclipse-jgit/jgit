@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7dfcf21_006b58e5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/AddCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-04-01T13:31:10Z",
+      "side": 1,
+      "message": "nit: trailing whitespaces",
+      "revId": "f2a4e55709e61fcde92c2e31482dda90e9d440f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_0020b8cd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-04-01T13:31:10Z",
+      "side": 1,
+      "message": "even a file named \".git\" containing something like \"gitdir: ...\" should not cause jgit to interprete the folder as a subdir. I would write \"directory or file\".\n\n(see first Note in https://git-scm.com/docs/gitrepository-layout)",
+      "range": {
+        "startLine": 301,
+        "startChar": 31,
+        "endLine": 301,
+        "endChar": 40
+      },
+      "revId": "f2a4e55709e61fcde92c2e31482dda90e9d440f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_c3225ad9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 922,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-04-01T13:31:10Z",
+      "side": 1,
+      "message": "I spent some time understanding why we have to change a method which doesn\u0027t depend on our newly introduced DIR_NO_GITLINK? We are changing semantics also in situations where DIR_NO_GITLINKS is not set. Of course I want to prevent that we break previously working scenarios. \n\nI spent long understanding the effects of your change, gave up and wrote down a table which shows the different results in old and new code:\nhttps://docs.google.com/spreadsheets/d/1gKq1xNyuN-vNZKJukEs7paX2NHbe2Fx4oavntwoWNso/edit?usp\u003dsharing\n\nIn three situations new code differs:\n\nIn these case new code returns GITLINK while oldCode returned TREE:\nisFileMode()\u003d\u003dtrue \u0026\u0026 iMode\u003d\u003dGITLINK \u0026\u0026 wtMode\u003d\u003dTREE\nisFileMode()\u003d\u003dfalse \u0026\u0026 iMode\u003d\u003dGITLINK \u0026\u0026 wtMode\u003d\u003dTREE\n\nIn this case new code returns TREE while oldCode returned GITLINK:\nisFileMode()\u003d\u003dfalse \u0026\u0026 iMode\u003d\u003dTREE \u0026\u0026 wtMode\u003d\u003dGITLINK\n\nSeems that in your code index mode has precedence over working-tree mode. Will we be able with your code to e.g. change from a GITLINK in the index to a Tree in the index (even if DIR_NO_GITLINK\u003dfalse)? What is if I had a gitlink in the index, change from submodule to normal files in the working tree and then add that tree?",
+      "revId": "f2a4e55709e61fcde92c2e31482dda90e9d440f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_c0afb099",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeOptions.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-04-01T13:31:10Z",
+      "side": 1,
+      "message": "I always have to think what it means if this method returns \"true\". Maybe one one sentence like \"If true is returned folders containing .git entries will not be treated as gitlinks\" should be added.",
+      "revId": "f2a4e55709e61fcde92c2e31482dda90e9d440f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
