@@ -1,8 +1,8 @@
-target "jgit-4.5" with source configurePhase
+target "jgit-4.6" with source configurePhase
 
 include "projects/jetty-9.2.13.tpd"
-include "orbit/S20151204220443-Neon.tpd"
+include "orbit/S20160501200945-Neon.tpd"
 
-location "http://download.eclipse.org/releases/mars/" {
+location "http://download.eclipse.org/releases/neon/" {
 	org.eclipse.osgi lazy
 }
