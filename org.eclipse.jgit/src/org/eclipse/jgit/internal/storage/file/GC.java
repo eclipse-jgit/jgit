@@ -111,6 +111,8 @@ import org.eclipse.jgit.util.SystemReader;
 public class GC {
 	private static final String PRUNE_EXPIRE_DEFAULT = "2.weeks.ago"; //$NON-NLS-1$
 
+	private static final String PRUNE_PACK_EXPIRE_DEFAULT = "1.hour.ago"; //$NON-NLS-1$
+
 	private final FileRepository repo;
 
 	private ProgressMonitor pm;
@@ -118,6 +120,10 @@ public class GC {
 	private long expireAgeMillis = -1;
 
 	private Date expire;
+
+	private long packExpireAgeMillis = -1;
+
+	private Date packExpire;
 
 	private PackConfig pconfig = null;
 
@@ -186,7 +192,7 @@ public class GC {
 	 */
 	private void deleteOldPacks(Collection<PackFile> oldPacks,
 			Collection<PackFile> newPacks) throws ParseException {
-		long expireDate = getExpireDate();
+		long packExpireDate = getPackExpireDate();
 		oldPackLoop: for (PackFile oldPack : oldPacks) {
 			String oldName = oldPack.getPackName();
 			// check whether an old pack file is also among the list of new
@@ -196,7 +202,7 @@ public class GC {
 					continue oldPackLoop;
 
 			if (!oldPack.shouldBeKept()
-					&& oldPack.getPackFile().lastModified() < expireDate) {
+					&& oldPack.getPackFile().lastModified() < packExpireDate) {
 				oldPack.close();
 				prunePack(oldName);
 			}
@@ -447,6 +453,26 @@ public class GC {
 		if (expireAgeMillis != -1)
 			expireDate = System.currentTimeMillis() - expireAgeMillis;
 		return expireDate;
+	}
+
+	private long getPackExpireDate() throws ParseException {
+		long packExpireDate = Long.MAX_VALUE;
+
+		if (packExpire == null && packExpireAgeMillis == -1) {
+			String prunePackExpireStr = repo.getConfig().getString(
+					ConfigConstants.CONFIG_GC_SECTION, null,
+					ConfigConstants.CONFIG_KEY_PRUNEPACKEXPIRE);
+			if (prunePackExpireStr == null)
+				prunePackExpireStr = PRUNE_PACK_EXPIRE_DEFAULT;
+			packExpire = GitDateParser.parse(prunePackExpireStr, null,
+					SystemReader.getInstance().getLocale());
+			packExpireAgeMillis = -1;
+		}
+		if (packExpire != null)
+			packExpireDate = packExpire.getTime();
+		if (packExpireAgeMillis != -1)
+			packExpireDate = System.currentTimeMillis() - packExpireAgeMillis;
+		return packExpireDate;
 	}
 
 	/**
@@ -983,6 +1009,20 @@ public class GC {
 	}
 
 	/**
+	 * During gc() or prune() packfiles which are created or modified in the
+	 * last <code>packExpireAgeMillis</code> milliseconds will not be deleted.
+	 * Only older packfiles may be deleted. If set to 0 then every packfile is a
+	 * candidate for deletion.
+	 *
+	 * @param packExpireAgeMillis
+	 *            minimal age of packfiles to be deleted in milliseconds.
+	 */
+	public void setPackExpireAgeMillis(long packExpireAgeMillis) {
+		this.packExpireAgeMillis = packExpireAgeMillis;
+		expire = null;
+	}
+
+	/**
 	 * Set the PackConfig used when (re-)writing packfiles. This allows to
 	 * influence how packs are written and to implement something similar to
 	 * "git gc --aggressive"
@@ -1010,5 +1050,19 @@ public class GC {
 	public void setExpire(Date expire) {
 		this.expire = expire;
 		expireAgeMillis = -1;
+	}
+
+	/**
+	 * During gc() or prune() packfiles which are created or modified after or
+	 * at <code>packExpire</code> will not be deleted. Only older packfiles may
+	 * be deleted. If set to null then every packfile is a candidate for
+	 * deletion.
+	 *
+	 * @param packExpire
+	 *            instant in time which defines packfile expiration
+	 */
+	public void setPackExpire(Date packExpire) {
+		this.packExpire = packExpire;
+		packExpireAgeMillis = -1;
 	}
 }
