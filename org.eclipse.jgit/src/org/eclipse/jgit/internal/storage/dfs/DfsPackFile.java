@@ -1189,7 +1189,7 @@ public final class DfsPackFile {
 		}
 	}
 
-	private boolean isCorrupt(long offset) {
+	boolean isCorrupt(long offset) {
 		LongList list = corruptObjects;
 		if (list == null)
 			return false;

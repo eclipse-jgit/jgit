@@ -476,7 +476,7 @@ public final class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 		PackIndex idx = pack.getPackIndex(this);
 		for (ObjectToPack otp : objects) {
 			long p = idx.findOffset(otp);
-			if (0 < p) {
+			if (0 < p && !pack.isCorrupt(p)) {
 				otp.setOffset(p);
 				tmp.add((DfsObjectToPack) otp);
 			}
