@@ -42,12 +42,20 @@
  */
 package org.eclipse.jgit.api;
 
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.io.File;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Properties;
 
 import org.eclipse.jgit.junit.RepositoryTestCase;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.StoredConfig;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.GitDateParser;
 import org.eclipse.jgit.util.SystemReader;
 import org.junit.Before;
@@ -92,4 +100,45 @@ public class GarbageCollectCommandTest extends RepositoryTestCase {
 								.getInstance().getLocale())).call();
 		assertTrue(res.size() == 7);
 	}
+
+	@Test
+	public void testPruneOldOrphanCommit() throws Exception {
+		StoredConfig config = git.getRepository().getConfig();
+		config.setString("gc", null, "prunePackExpire", "1.second.ago");
+		config.setString("gc", null, "pruneExpire", "1.second.ago");
+		config.save();
+		ObjectId initial = git.getRepository().resolve("HEAD");
+		RevCommit orphan = git.commit().setMessage("orphan").call();
+		changeLastModified(orphan, subtractDays(new Date(), 365));
+		RefUpdate refUpdate = git.getRepository()
+				.updateRef("refs/heads/master");
+		refUpdate.setNewObjectId(initial);
+		refUpdate.forceUpdate();
+		FileUtils.delete(new File(git.getRepository().getDirectory(), "logs"),
+				FileUtils.RECURSIVE | FileUtils.RETRY);
+
+		git.gc().setExpire(new Date()).call();
+		Thread.sleep(4000);
+		git.gc().setExpire(new Date()).call();
+
+		assertNull(git.getRepository().resolve(orphan.name()));
+	}
+
+	private static Date subtractDays(Date date, int days) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		calendar.add(Calendar.DAY_OF_MONTH, days * (-1));
+		return calendar.getTime();
+	}
+
+	private void changeLastModified(ObjectId commitId, Date date) {
+		File objectsDirectory = new File(git.getRepository().getDirectory(),
+				"objects");
+		File commitObjectDirectory = new File(objectsDirectory,
+				commitId.name().substring(0, 2));
+		File commitObjectFile = new File(commitObjectDirectory,
+				commitId.name().substring(2));
+		commitObjectFile.setLastModified(date.getTime());
+	}
+
 }
