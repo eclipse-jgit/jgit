@@ -42,12 +42,16 @@
  */
 package org.eclipse.jgit.api;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Date;
 import java.util.Properties;
 
 import org.eclipse.jgit.junit.RepositoryTestCase;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.util.GitDateParser;
 import org.eclipse.jgit.util.SystemReader;
 import org.junit.Before;
@@ -91,5 +95,20 @@ public class GarbageCollectCommandTest extends RepositoryTestCase {
 						GitDateParser.parse("now", null, SystemReader
 								.getInstance().getLocale())).call();
 		assertTrue(res.size() == 7);
+	}
+
+	@Test
+	public void testPruneOldOrphanCommit() throws Exception {
+		ObjectId initial = git.getRepository().resolve("HEAD");
+		RevCommit orphan = git.commit().setMessage("orphan")
+				.setReflogComment(null).call();
+		RefUpdate refUpdate = git.getRepository()
+				.updateRef("refs/heads/master");
+		refUpdate.setNewObjectId(initial);
+		refUpdate.forceUpdate();
+
+		git.gc().setExpire(new Date()).call();
+		assertFalse(
+				git.getRepository().getObjectDatabase().has(orphan.getId()));
 	}
 }
