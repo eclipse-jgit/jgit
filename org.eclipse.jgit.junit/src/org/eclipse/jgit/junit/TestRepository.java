@@ -211,17 +211,6 @@ public class TestRepository<R extends Repository> {
 		return new Date(mockSystemReader.getCurrentTime());
 	}
 
-	/**
-	 * @return current date.
-	 *
-	 * @deprecated Use {@link #getDate()} instead.
-	 */
-	@Deprecated
-	public Date getClock() {
-		// Remove once Gitiles and Gerrit are using the updated JGit.
-		return getDate();
-	}
-
 	/** @return timezone used for default identities. */
 	public TimeZone getTimeZone() {
 		return mockSystemReader.getTimeZone();
