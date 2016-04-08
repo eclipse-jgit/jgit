@@ -124,6 +124,8 @@ public class CommitCommand extends GitCommand<RevCommit> {
 
 	private String reflogComment;
 
+	private boolean useDefaultReflogMessage = true;
+
 	/**
 	 * Setting this option bypasses the pre-commit and commit-msg hooks.
 	 */
@@ -258,7 +260,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 				RevCommit revCommit = rw.parseCommit(commitId);
 				RefUpdate ru = repo.updateRef(Constants.HEAD);
 				ru.setNewObjectId(commitId);
-				if (reflogComment != null) {
+				if (!useDefaultReflogMessage) {
 					ru.setRefLogMessage(reflogComment, false);
 				} else {
 					String prefix = amend ? "commit (amend): " //$NON-NLS-1$
@@ -790,10 +792,13 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	 * Override the message written to the reflog
 	 *
 	 * @param reflogComment
+	 *            the comment to be written into the reflog or <code>null</code>
+	 *            to specify that no reflog should be written
 	 * @return {@code this}
 	 */
 	public CommitCommand setReflogComment(String reflogComment) {
 		this.reflogComment = reflogComment;
+		useDefaultReflogMessage = false;
 		return this;
 	}
 
