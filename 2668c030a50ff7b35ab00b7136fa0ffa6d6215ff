@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7dfcf21_17b4633b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CommitCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-04-09T07:59:40Z",
+      "side": 1,
+      "message": "this method doesn\u0027t need to be public",
+      "revId": "2668c030a50ff7b35ab00b7136fa0ffa6d6215ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_f7b0d74a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-04-09T07:59:40Z",
+      "side": 1,
+      "message": "this is the same as\n\n if (reflogComment !\u003d null || reflogComment \u003d\u003d null)\n\nso it seems you can\u0027t reach the else branch anymore which is breaking the automatic reflog",
+      "revId": "2668c030a50ff7b35ab00b7136fa0ffa6d6215ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
