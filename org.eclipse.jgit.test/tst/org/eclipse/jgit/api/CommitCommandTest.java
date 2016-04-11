@@ -68,6 +68,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefUpdate.Result;
+import org.eclipse.jgit.lib.ReflogEntry;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -434,6 +435,36 @@ public class CommitCommandTest extends RepositoryTestCase {
 			assertEquals("commit: Squashed commit of the following:", db
 					.getReflogReader(db.getBranch()).getLastEntry().getComment());
 		}
+	}
+
+	@Test
+	public void testReflogs() throws Exception {
+		try (Git git = new Git(db)) {
+			writeTrashFile("f", "1");
+			git.add().addFilepattern("f").call();
+			git.commit().setMessage("c1").call();
+			writeTrashFile("f", "2");
+			git.commit().setMessage("c2").setAll(true).setReflogComment(null)
+					.call();
+			writeTrashFile("f", "3");
+			git.commit().setMessage("c3").setAll(true)
+					.setReflogComment("testRl").call();
+
+			db.getReflogReader(Constants.HEAD).getReverseEntries();
+
+			assertEquals("testRl;commit (initial): c1;", reflogComments(
+					db.getReflogReader(Constants.HEAD).getReverseEntries()));
+			assertEquals("testRl;commit (initial): c1;", reflogComments(
+					db.getReflogReader(db.getBranch()).getReverseEntries()));
+		}
+	}
+
+	private static String reflogComments(List<ReflogEntry> entries) {
+		StringBuffer b = new StringBuffer();
+		for (ReflogEntry e : entries) {
+			b.append(e.getComment()).append(";");
+		}
+		return b.toString();
 	}
 
 	@Test(expected = WrongRepositoryStateException.class)
