@@ -53,7 +53,9 @@ import java.util.List;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.junit.Test;
 
 public class LogCommandTest extends RepositoryTestCase {
@@ -210,4 +212,81 @@ public class LogCommandTest extends RepositoryTestCase {
 		assertEquals("commit#2", commit.getShortMessage());
 		assertFalse(log.hasNext());
 	}
+
+	@Test
+	public void logOnlyMergeCommits() throws Exception {
+		setCommitsAndMerge();
+		Git git = Git.wrap(db);
+
+		Iterable<RevCommit> commits = git.log().all().call();
+		Iterator<RevCommit> i = commits.iterator();
+		RevCommit commit = i.next();
+		assertEquals("merge s0 with m1", commit.getFullMessage());
+		commit = i.next();
+		assertEquals("s0", commit.getFullMessage());
+		commit = i.next();
+		assertEquals("m1", commit.getFullMessage());
+		commit = i.next();
+		assertEquals("m0", commit.getFullMessage());
+		assertFalse(i.hasNext());
+
+		commits = git.log().setRevFilter(RevFilter.ONLY_MERGES).call();
+		i = commits.iterator();
+		commit = i.next();
+		assertEquals("merge s0 with m1", commit.getFullMessage());
+		assertFalse(i.hasNext());
+	}
+
+	@Test
+	public void logNoMergeCommits() throws Exception {
+		setCommitsAndMerge();
+		Git git = Git.wrap(db);
+
+		Iterable<RevCommit> commits = git.log().all().call();
+		Iterator<RevCommit> i = commits.iterator();
+		RevCommit commit = i.next();
+		assertEquals("merge s0 with m1", commit.getFullMessage());
+		commit = i.next();
+		assertEquals("s0", commit.getFullMessage());
+		commit = i.next();
+		assertEquals("m1", commit.getFullMessage());
+		commit = i.next();
+		assertEquals("m0", commit.getFullMessage());
+		assertFalse(i.hasNext());
+
+		commits = git.log().setRevFilter(RevFilter.NO_MERGES).call();
+		i = commits.iterator();
+		commit = i.next();
+		assertEquals("m1", commit.getFullMessage());
+		commit = i.next();
+		assertEquals("s0", commit.getFullMessage());
+		commit = i.next();
+		assertEquals("m0", commit.getFullMessage());
+		assertFalse(i.hasNext());
+	}
+
+	private void setCommitsAndMerge() throws Exception {
+		Git git = Git.wrap(db);
+		writeTrashFile("file1", "1\n2\n3\n4\n");
+		git.add().addFilepattern("file1").call();
+		RevCommit masterCommit0 = git.commit().setMessage("m0").call();
+
+		createBranch(masterCommit0, "refs/heads/side");
+		checkoutBranch("refs/heads/side");
+
+		writeTrashFile("file2", "1\n2\n3\n4\n5\n6\n7\n8\n");
+		git.add().addFilepattern("file2").call();
+		RevCommit c = git.commit().setMessage("s0").call();
+
+		checkoutBranch("refs/heads/master");
+
+		writeTrashFile("file3", "1\n2\n");
+		git.add().addFilepattern("file3").call();
+		git.commit().setMessage("m1").call();
+
+		git.merge().include(c.getId())
+				.setStrategy(MergeStrategy.RESOLVE)
+				.setMessage("merge s0 with m1").call();
+	}
+
 }
