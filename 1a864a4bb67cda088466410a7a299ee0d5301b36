@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7dfcf21_118b852a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LogCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-04-12T21:37:46Z",
+      "side": 1,
+      "message": "style nit: remove this unnecessary blank line you added",
+      "revId": "1a864a4bb67cda088466410a7a299ee0d5301b36",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_3185e113",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LogCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-04-12T21:37:46Z",
+      "side": 1,
+      "message": "style nit: missing braces",
+      "revId": "1a864a4bb67cda088466410a7a299ee0d5301b36",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_51326df5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LogCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-04-12T21:37:46Z",
+      "side": 1,
+      "message": "s/Returns only commit/Only log commits/",
+      "range": {
+        "startLine": 360,
+        "startChar": 4,
+        "endLine": 360,
+        "endChar": 23
+      },
+      "revId": "1a864a4bb67cda088466410a7a299ee0d5301b36",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_9176b5ad",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LogCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-04-12T21:37:46Z",
+      "side": 1,
+      "message": "wrong since tag, we are now heading for 4.4\n\n@since 4.4",
+      "revId": "1a864a4bb67cda088466410a7a299ee0d5301b36",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_51bd0dac",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LogCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-04-12T21:37:46Z",
+      "side": 1,
+      "message": "I think we should use a single method for both since setting both filters on the same command instance doesn\u0027t make sense\n\nSo how about adding a single method called setRevFilter(RevFilter) ?",
+      "revId": "1a864a4bb67cda088466410a7a299ee0d5301b36",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_71c8494a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/filter/RevFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-04-12T21:37:46Z",
+      "side": 1,
+      "message": "@since 4.4",
+      "revId": "1a864a4bb67cda088466410a7a299ee0d5301b36",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
