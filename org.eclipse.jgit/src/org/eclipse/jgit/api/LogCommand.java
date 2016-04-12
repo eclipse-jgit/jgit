@@ -65,6 +65,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.revwalk.filter.AndRevFilter;
 import org.eclipse.jgit.revwalk.filter.MaxCountRevFilter;
+import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.revwalk.filter.SkipRevFilter;
 import org.eclipse.jgit.treewalk.filter.AndTreeFilter;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
@@ -104,11 +105,16 @@ public class LogCommand extends GitCommand<Iterable<RevCommit>> {
 
 	private boolean startSpecified = false;
 
+	private boolean onlyMerges = false;
+
+	private boolean noMerges = false;
+
 	private final List<PathFilter> pathFilters = new ArrayList<PathFilter>();
 
 	private int maxCount = -1;
 
 	private int skip = -1;
+
 
 	/**
 	 * @param repo
@@ -156,6 +162,13 @@ public class LogCommand extends GitCommand<Iterable<RevCommit>> {
 						e);
 			}
 		}
+
+		if (onlyMerges)
+			walk.setRevFilter(RevFilter.ONLY_MERGES);
+
+		if (noMerges)
+			walk.setRevFilter(RevFilter.NO_MERGES);
+
 		setCallable(false);
 		return walk;
 	}
@@ -341,5 +354,37 @@ public class LogCommand extends GitCommand<Iterable<RevCommit>> {
 					JGitText.get().exceptionOccurredDuringAddingOfOptionToALogCommand
 					, start), e);
 		}
+	}
+
+	/**
+	 * Returns only commit representing merges (i.e., those commits with more
+	 * than one parent).
+	 *
+	 * @param flag
+	 *            whether this <code>LogCommand</code> should return only merge
+	 *            commits
+	 * @return {@code this}
+	 * @since 4.5
+	 */
+	public LogCommand setMerges(boolean flag) {
+		checkCallable();
+		onlyMerges = flag;
+		return this;
+	}
+
+	/**
+	 * Returns only non-merge commits (i.e., those commits with only one
+	 * parent).
+	 *
+	 * @param flag
+	 *            whether this <code>LogCommand</code> should return only merge
+	 *            commits
+	 * @return {@code this}
+	 * @since 4.5
+	 */
+	public LogCommand setNoMerges(boolean flag) {
+		checkCallable();
+		noMerges = flag;
+		return this;
 	}
 }
