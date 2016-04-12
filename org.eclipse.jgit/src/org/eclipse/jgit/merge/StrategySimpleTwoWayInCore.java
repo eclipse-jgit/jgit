@@ -106,7 +106,7 @@ public class StrategySimpleTwoWayInCore extends ThreeWayMergeStrategy {
 
 		InCoreMerger(final Repository local) {
 			super(local);
-			tw = new NameConflictTreeWalk(reader);
+			tw = new NameConflictTreeWalk(local, reader);
 			cache = DirCache.newInCore();
 		}
 
