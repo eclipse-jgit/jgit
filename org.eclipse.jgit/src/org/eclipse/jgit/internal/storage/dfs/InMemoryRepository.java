@@ -252,11 +252,20 @@ public class InMemoryRepository extends DfsRepository {
 		}
 	}
 
-	private class MemRefDatabase extends DfsRefDatabase {
+	/**
+	 * A ref database storing all refs in-memory.
+	 * <p>
+	 * This class is protected (and not private) to facilitate testing using
+	 * subclasses of InMemoryRepository.
+	 */
+    protected class MemRefDatabase extends DfsRefDatabase {
 		private final ConcurrentMap<String, Ref> refs = new ConcurrentHashMap<String, Ref>();
 		private final ReadWriteLock lock = new ReentrantReadWriteLock(true /* fair */);
 
-		MemRefDatabase() {
+		/**
+		 * Initialize a new in-memory ref database.
+		 */
+		protected MemRefDatabase() {
 			super(InMemoryRepository.this);
 		}
 
