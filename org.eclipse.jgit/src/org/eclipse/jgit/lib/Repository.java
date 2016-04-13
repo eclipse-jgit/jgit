@@ -80,6 +80,7 @@ import org.eclipse.jgit.events.IndexChangedListener;
 import org.eclipse.jgit.events.ListenerList;
 import org.eclipse.jgit.events.RepositoryEvent;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.file.GC;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
@@ -1835,5 +1836,23 @@ public abstract class Repository implements AutoCloseable {
 	public Set<String> getRemoteNames() {
 		return getConfig()
 				.getSubsections(ConfigConstants.CONFIG_REMOTE_SECTION);
+	}
+
+	/**
+	 * Check whether any housekeeping is required; if yes, run garbage
+	 * collection; if not, exit without performing any work. Some JGit commands
+	 * run autoGC after performing operations that could create many loose
+	 * objects.
+	 * <p/>
+	 * Currently this option is supported for repositories of type
+	 * {@code FileRepository} only. See {@link GC#setAuto(boolean)} for
+	 * configuration details.
+	 *
+	 * @param monitor
+	 *            to report progress
+	 * @since 4.6
+	 */
+	public void autoGC(ProgressMonitor monitor) {
+		// default does nothing
 	}
 }

@@ -56,7 +56,9 @@ import java.util.List;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.UnpackException;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.ReceiveCommand.Result;
 import org.eclipse.jgit.transport.RefAdvertiser.PacketLineOutRefAdvertiser;
@@ -307,7 +309,17 @@ public class ReceivePack extends BaseReceivePack {
 				throw new UnpackException(unpackError);
 			}
 			postReceive.onPostReceive(this, filterCommands(Result.OK));
+			autoGc();
 		}
+	}
+
+	private void autoGc() {
+		Repository repo = getRepository();
+		if (!repo.getConfig().getBoolean(ConfigConstants.CONFIG_RECEIVE_SECTION,
+				ConfigConstants.CONFIG_KEY_AUTOGC, true)) {
+			return;
+		}
+		repo.autoGC(NullProgressMonitor.INSTANCE);
 	}
 
 	@Override
