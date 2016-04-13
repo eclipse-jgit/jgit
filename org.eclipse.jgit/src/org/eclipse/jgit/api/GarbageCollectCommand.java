@@ -94,6 +94,8 @@ public class GarbageCollectCommand extends GitCommand<Properties> {
 
 	private Date expire;
 
+	private boolean auto = true;
+
 	private PackConfig pconfig;
 
 	/**
@@ -159,6 +161,35 @@ public class GarbageCollectCommand extends GitCommand<Properties> {
 		return this;
 	}
 
+	/**
+	 * Set the {@code gc --auto} option.
+	 *
+	 * With this option, gc checks whether any housekeeping is required; if not,
+	 * it exits without performing any work. Some JGit commands run gc --auto
+	 * after performing operations that could create many loose objects.
+	 *
+	 * Housekeeping is required if there are too many loose objects or too many
+	 * packs in the repository. If the number of loose objects exceeds the value
+	 * of the gc.auto option JGit GC consolidates all existing packs into a
+	 * single pack (equivalent to -A option), whereas git-core would combine all
+	 * loose objects into a single pack using repack -d -l. Setting the value of
+	 * gc.auto to 0 disables automatic packing of loose objects.
+	 *
+	 * If the number of packs exceeds the value of gc.autoPackLimit, then
+	 * existing packs (except those marked with a .keep file) are consolidated
+	 * into a single pack by using the -A option of repack. Setting
+	 * gc.autoPackLimit to 0 disables automatic consolidation of packs.
+	 *
+	 * @param auto
+	 *            defines whether gc should do automatic housekeeping
+	 * @return this instance
+	 * @since 4.5
+	 */
+	public GarbageCollectCommand setAuto(boolean auto) {
+		this.auto = auto;
+		return this;
+	}
+
 	@Override
 	public Properties call() throws GitAPIException {
 		checkCallable();
@@ -168,8 +199,10 @@ public class GarbageCollectCommand extends GitCommand<Properties> {
 				GC gc = new GC((FileRepository) repo);
 				gc.setPackConfig(pconfig);
 				gc.setProgressMonitor(monitor);
-				if (this.expire != null)
+				if (this.expire != null) {
 					gc.setExpire(expire);
+				}
+				gc.setAuto(auto);
 
 				try {
 					gc.gc();
