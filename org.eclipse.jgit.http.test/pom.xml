@@ -72,7 +72,6 @@
       <groupId>org.eclipse.jgit</groupId>
       <artifactId>org.eclipse.jgit</artifactId>
       <version>${project.version}</version>
-      <scope>test</scope>
     </dependency>
 
     <dependency>
@@ -111,6 +110,7 @@
   </dependencies>
 
   <build>
+    <sourceDirectory>src/</sourceDirectory>
     <testSourceDirectory>tst/</testSourceDirectory>
 
     <testResources>
