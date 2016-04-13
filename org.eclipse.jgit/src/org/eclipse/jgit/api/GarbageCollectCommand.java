@@ -94,6 +94,8 @@ public class GarbageCollectCommand extends GitCommand<Properties> {
 
 	private Date expire;
 
+	private boolean auto;
+
 	private PackConfig pconfig;
 
 	/**
@@ -159,6 +161,27 @@ public class GarbageCollectCommand extends GitCommand<Properties> {
 		return this;
 	}
 
+	/**
+	 * Set the {@code gc --auto} option.
+	 *
+	 * With this option, gc checks whether any housekeeping is required; if not,
+	 * it exits without performing any work. Some JGit commands run gc --auto
+	 * after performing operations that could create many loose objects.
+	 * <p/>
+	 * Currently this option is supported for repositories of type
+	 * {@code FileRepository} only. See {@link GC#setAuto(boolean)} for
+	 * configuration details.
+	 *
+	 * @param auto
+	 *            defines whether gc should do automatic housekeeping
+	 * @return this instance
+	 * @since 4.6
+	 */
+	public GarbageCollectCommand setAuto(boolean auto) {
+		this.auto = auto;
+		return this;
+	}
+
 	@Override
 	public Properties call() throws GitAPIException {
 		checkCallable();
@@ -168,8 +191,10 @@ public class GarbageCollectCommand extends GitCommand<Properties> {
 				GC gc = new GC((FileRepository) repo);
 				gc.setPackConfig(pconfig);
 				gc.setProgressMonitor(monitor);
-				if (this.expire != null)
+				if (this.expire != null) {
 					gc.setExpire(expire);
+				}
+				gc.setAuto(auto);
 
 				try {
 					gc.gc();
@@ -178,6 +203,10 @@ public class GarbageCollectCommand extends GitCommand<Properties> {
 					throw new JGitInternalException(JGitText.get().gcFailed, e);
 				}
 			} else if (repo instanceof DfsRepository) {
+				// DfsGarbageCollector doesn't yet support auto option
+				if (auto) {
+					return new Properties();
+				}
 				DfsGarbageCollector gc =
 					new DfsGarbageCollector((DfsRepository) repo);
 				gc.setPackConfig(pconfig);

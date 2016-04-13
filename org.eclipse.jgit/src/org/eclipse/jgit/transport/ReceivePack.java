@@ -55,16 +55,24 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.jgit.annotations.Nullable;
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.errors.UnpackException;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.ReceiveCommand.Result;
 import org.eclipse.jgit.transport.RefAdvertiser.PacketLineOutRefAdvertiser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Implements the server side of a push connection, receiving objects.
  */
 public class ReceivePack extends BaseReceivePack {
+	private final static Logger LOG = LoggerFactory
+			.getLogger(ReceivePack.class);
+
 	/** Hook to validate the update commands before execution. */
 	private PreReceiveHook preReceive;
 
@@ -307,6 +315,20 @@ public class ReceivePack extends BaseReceivePack {
 				throw new UnpackException(unpackError);
 			}
 			postReceive.onPostReceive(this, filterCommands(Result.OK));
+			autoGc();
+		}
+	}
+
+	private void autoGc() {
+		Repository repo = getRepository();
+		if (!repo.getConfig().getBoolean(ConfigConstants.CONFIG_RECEIVE_SECTION,
+				ConfigConstants.CONFIG_KEY_AUTOGC, true)) {
+			return;
+		}
+		try (Git git = Git.wrap(repo)) {
+			git.gc().setAuto(true).call();
+		} catch (GitAPIException e) {
+			LOG.error(e.getMessage(), e);
 		}
 	}
 
