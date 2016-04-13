@@ -66,6 +66,12 @@ public abstract class ObjectReader implements AutoCloseable {
 	public static final int OBJ_ANY = -1;
 
 	/**
+	 * The threshold at which a file will be streamed rather than
+	 * loaded entirely into memory.
+	 */
+	protected int streamFileThreshold;
+
+	/**
 	 * Construct a new reader from the same data.
 	 * <p>
 	 * Applications can use this method to build a new reader from the same data
@@ -443,6 +449,29 @@ public abstract class ObjectReader implements AutoCloseable {
 	 */
 	@Override
 	public abstract void close();
+
+	/**
+	 * Sets the threshold at which a file will be streamed rather than loaded
+	 * entirely into memory
+	 *
+	 * @param threshold
+	 *            the new threshold
+	 * @since 4.6
+	 */
+	public void setStreamFileThreshold(int threshold) {
+		streamFileThreshold = threshold;
+	}
+
+	/**
+	 * Returns the threshold at which a file will be streamed rather than loaded
+	 * entirely into memory
+	 *
+	 * @return the threshold in bytes
+	 * @since 4.6
+	 */
+	public int getStreamFileThreshold() {
+		return streamFileThreshold;
+	}
 
 	/**
 	 * Wraps a delegate ObjectReader.
