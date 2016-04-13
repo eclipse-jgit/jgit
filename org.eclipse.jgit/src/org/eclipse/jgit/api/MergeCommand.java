@@ -87,6 +87,8 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.revwalk.RevWalkUtils;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.util.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A class used to execute a {@code Merge} command. It has setters for all
@@ -98,6 +100,8 @@ import org.eclipse.jgit.util.StringUtils;
  *      >Git documentation about Merge</a>
  */
 public class MergeCommand extends GitCommand<MergeResult> {
+	private final static Logger LOG = LoggerFactory
+			.getLogger(MergeCommand.class);
 
 	private MergeStrategy mergeStrategy = MergeStrategy.RECURSIVE;
 
@@ -381,6 +385,7 @@ public class MergeCommand extends GitCommand<MergeResult> {
 									.call().getId();
 						}
 						mergeStatus = MergeStatus.MERGED;
+						autoGc();
 					}
 					if (commit && squash) {
 						msg = JGitText.get().squashCommitNotUpdatingHEAD;
@@ -425,6 +430,14 @@ public class MergeCommand extends GitCommand<MergeResult> {
 		} finally {
 			if (revWalk != null)
 				revWalk.close();
+		}
+	}
+
+	private void autoGc() {
+		try (Git git = Git.wrap(repo)) {
+			git.gc().setAuto(true).call();
+		} catch (GitAPIException e) {
+			LOG.error(e.getMessage(), e);
 		}
 	}
 

@@ -106,6 +106,8 @@ import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A class used to execute a {@code Rebase} command. It has setters for all
@@ -119,6 +121,9 @@ import org.eclipse.jgit.util.RawParseUtils;
  *      >Git documentation about Rebase</a>
  */
 public class RebaseCommand extends GitCommand<RebaseResult> {
+	private final static Logger LOG = LoggerFactory
+			.getLogger(RebaseCommand.class);
+
 	/**
 	 * The name of the "rebase-merge" folder for interactive rebases.
 	 */
@@ -693,12 +698,21 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		String headName = rebaseState.readFile(HEAD_NAME);
 		updateHead(headName, finalHead, upstreamCommit);
 		boolean stashConflicts = autoStashApply();
+		autoGc();
 		FileUtils.delete(rebaseState.getDir(), FileUtils.RECURSIVE);
 		if (stashConflicts)
 			return RebaseResult.STASH_APPLY_CONFLICTS_RESULT;
 		if (lastStepIsForward || finalHead == null)
 			return RebaseResult.FAST_FORWARD_RESULT;
 		return RebaseResult.OK_RESULT;
+	}
+
+	private void autoGc() {
+		try (Git git = Git.wrap(getRepository())) {
+			git.gc().setAuto(true).call();
+		} catch (GitAPIException e) {
+			LOG.error(e.getMessage(), e);
+		}
 	}
 
 	private void checkSteps(List<RebaseTodoLine> steps)
