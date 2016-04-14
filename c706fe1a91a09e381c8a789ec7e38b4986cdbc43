@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7dfcf21_b9e1cf8e",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/RefsUnreadableInMemoryRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-04-14T23:18:39Z",
+      "side": 1,
+      "message": "Don\u0027t use AtomicBoolean for this, a volatile boolean is sufficient e.g.:\n\n  private volatile boolean failing;",
+      "revId": "c706fe1a91a09e381c8a789ec7e38b4986cdbc43",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_39de9fd5",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/SmartClientSmartServerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-04-14T23:18:39Z",
+      "side": 1,
+      "message": "Please fix the formatting so the comment spans no more than 2 lines.",
+      "range": {
+        "startLine": 530,
+        "startChar": 0,
+        "endLine": 532,
+        "endChar": 20
+      },
+      "revId": "c706fe1a91a09e381c8a789ec7e38b4986cdbc43",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_79ebc770",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/SmartClientSmartServerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 535,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-04-14T23:18:39Z",
+      "side": 1,
+      "message": "Same",
+      "range": {
+        "startLine": 534,
+        "startChar": 0,
+        "endLine": 535,
+        "endChar": 12
+      },
+      "revId": "c706fe1a91a09e381c8a789ec7e38b4986cdbc43",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_99eed37e",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/SmartClientSmartServerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 737,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-04-14T23:18:39Z",
+      "side": 1,
+      "message": "unnecessary",
+      "range": {
+        "startLine": 737,
+        "startChar": 3,
+        "endLine": 737,
+        "endChar": 8
+      },
+      "revId": "c706fe1a91a09e381c8a789ec7e38b4986cdbc43",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
