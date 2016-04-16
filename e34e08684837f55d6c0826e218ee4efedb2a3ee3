@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7dfcf21_459ff567",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-04-16T22:17:16Z",
+      "side": 1,
+      "message": "style nit: this line is too wide",
+      "revId": "e34e08684837f55d6c0826e218ee4efedb2a3ee3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_25266942",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-04-16T22:17:16Z",
+      "side": 1,
+      "message": "style nit: unnecessary line break",
+      "revId": "e34e08684837f55d6c0826e218ee4efedb2a3ee3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_4521b526",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-04-16T22:17:16Z",
+      "side": 1,
+      "message": "missing braces",
+      "revId": "e34e08684837f55d6c0826e218ee4efedb2a3ee3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
