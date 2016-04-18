@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e7dfcf21_20f57743",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CheckoutCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 743,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-04-18T07:32:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7dfcf21_5bfa8e36",
+      "revId": "238d5c23df0e3437d8d5e84af7f9d9a9a90148ea",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7dfcf21_05f40df7",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CheckoutCommandTest.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-04-16T23:35:25Z",
       "side": 1,
       "message": "on Mac this test fails here with the following error\n\norg.eclipse.jgit.api.errors.FilterFailedException: Execution of filter command \u0027sh /var/folders/ht/9vt7hrpx5n1dm3kz_b9sdq18397g8y/T/AddCommandTest_8252534191697130293\u0027 on file \u0027filterTest.txt\u0027 failed with return code \u00271\u0027, message on stderr: \u0027sed: -: No such file or directory\n\u0027\n\tat org.eclipse.jgit.treewalk.WorkingTreeIterator.filterClean(WorkingTreeIterator.java:464)\n\tat org.eclipse.jgit.treewalk.WorkingTreeIterator.filterClean(WorkingTreeIterator.java:436)\n\tat org.eclipse.jgit.treewalk.WorkingTreeIterator.possiblyFilteredInputStream(WorkingTreeIterator.java:388)\n\tat org.eclipse.jgit.treewalk.WorkingTreeIterator.getEntryContentLength(WorkingTreeIterator.java:559)\n\tat org.eclipse.jgit.api.AddCommand.call(AddCommand.java:226)\n\tat org.eclipse.jgit.api.CheckoutCommandTest.testSmudgeAndClean(CheckoutCommandTest.java:758)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.lang.reflect.Method.invoke(Method.java:606)\n\tat org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)\n\tat org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)\n\tat org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)\n\tat org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)\n\tat org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)\n\tat org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)\n\tat org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)\n\tat org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)\n\tat org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)\n\tat org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)\n\tat org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)\n\tat org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)\n\tat org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)\n\tat org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)\n\tat org.junit.runners.ParentRunner.run(ParentRunner.java:363)\n\tat org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:86)\n\tat org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)\n\tat org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:459)\n\tat org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:670)\n\tat org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:382)\n\tat org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:192)",
+      "revId": "238d5c23df0e3437d8d5e84af7f9d9a9a90148ea",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_00fa3b35",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CheckoutCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 760,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-04-18T07:32:16Z",
+      "side": 1,
+      "message": "Right, Mac\u0027s sed is not gnu sed. Easy to fix. Done.",
+      "parentUuid": "e7dfcf21_05f40df7",
       "revId": "238d5c23df0e3437d8d5e84af7f9d9a9a90148ea",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
