@@ -207,8 +207,25 @@ public abstract class RefDatabase {
 	}
 
 	/**
-	 * @return if the database performs {@code newBatchUpdate()} as an atomic
-	 *         transaction.
+	 * Whether the database is capable of performing batch updates as atomic
+	 * transactions.
+	 * <p>
+	 * If true, by default {@link BatchRefUpdate} instances will perform updates
+	 * atomically, meaning either all updates will succeed, or all updates will
+	 * fail. It is still possible to turn off this behavior on a per-batch basis
+	 * by calling {@code update.setAtomic(false)}.
+	 * <p>
+	 * If false, {@link BatchRefUpdate} instances will never perform updates
+	 * atomically, and calling {@code update.setAtomic(true)} will cause the
+	 * entire batch to fail with {@code REJECTED_OTHER_REASON}.
+	 * <p>
+	 * This definition of atomicity is stronger than what is provided by
+	 * {@link org.eclipse.jgit.transport.ReceivePack}. {@code ReceivePack} will
+	 * attempt to reject all commands if it knows in advance some commands may
+	 * fail, even if the storage layer does not support atomic transactions. Here,
+	 * atomicity applies even in the case of unforeseeable errors.
+	 *
+	 * @return whether transactions are atomic by default.
 	 * @since 3.6
 	 */
 	public boolean performsAtomicTransactions() {
