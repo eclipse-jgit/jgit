@@ -280,7 +280,7 @@ public class InMemoryRepository extends DfsRepository {
 				@Override
 				public void execute(RevWalk walk, ProgressMonitor monitor)
 						throws IOException {
-					if (performsAtomicTransactions()) {
+					if (performsAtomicTransactions() && isAtomic()) {
 						try {
 							lock.writeLock().lock();
 							batch(getCommands());
