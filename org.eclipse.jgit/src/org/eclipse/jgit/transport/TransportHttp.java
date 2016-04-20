@@ -73,6 +73,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
@@ -95,6 +96,7 @@ import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.SymbolicRef;
+import org.eclipse.jgit.transport.HttpAuthMethod.Type;
 import org.eclipse.jgit.transport.http.HttpConnection;
 import org.eclipse.jgit.util.HttpSupport;
 import org.eclipse.jgit.util.IO;
@@ -450,8 +452,29 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 
 		try {
 			int authAttempts = 1;
+			Collection<Type> ignoreTypes = null;
 			for (;;) {
-				final HttpConnection conn = httpOpen(u);
+				final HttpConnection conn;
+				try {
+					conn = httpOpen(u);
+				} catch (IOException e) {
+					if (Type.NONE != authMethod.getType()) {
+						if (ignoreTypes == null)
+							ignoreTypes = new HashSet<Type>();
+
+						ignoreTypes.add(authMethod.getType());
+
+						// reset auth method & attempts for next authentication
+						// type
+						authMethod = HttpAuthMethod.Type.NONE.method(null);
+						authAttempts = 1;
+
+						continue;
+					}
+
+					throw e;
+				}
+
 				if (useSmartHttp) {
 					String exp = "application/x-" + service + "-advertisement"; //$NON-NLS-1$ //$NON-NLS-2$
 					conn.setRequestProperty(HDR_ACCEPT, exp + ", */*"); //$NON-NLS-1$
@@ -467,7 +490,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 					// explicit authentication would be required
 					if (authMethod.getType() == HttpAuthMethod.Type.NONE
 							&& conn.getHeaderField(HDR_WWW_AUTHENTICATE) != null)
-						authMethod = HttpAuthMethod.scanResponse(conn);
+						authMethod = HttpAuthMethod.scanResponse(conn, ignoreTypes);
 					return conn;
 
 				case HttpConnection.HTTP_NOT_FOUND:
@@ -475,7 +498,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 							MessageFormat.format(JGitText.get().uriNotFound, u));
 
 				case HttpConnection.HTTP_UNAUTHORIZED:
-					authMethod = HttpAuthMethod.scanResponse(conn);
+					authMethod = HttpAuthMethod.scanResponse(conn, ignoreTypes);
 					if (authMethod.getType() == HttpAuthMethod.Type.NONE)
 						throw new TransportException(uri, MessageFormat.format(
 								JGitText.get().authenticationNotSupported, uri));
