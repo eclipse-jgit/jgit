@@ -100,7 +100,7 @@ public class HttpAuthTest {
 		} catch (IOException e) {
 			fail("Couldn't instantiate AuthHeadersResponse: " + e.toString());
 		}
-		HttpAuthMethod authMethod = HttpAuthMethod.scanResponse(response);
+		HttpAuthMethod authMethod = HttpAuthMethod.scanResponse(response, null);
 
 		if (!expectedAuthMethod.equals(getAuthMethodName(authMethod))) {
 			fail("Wrong authentication method: expected " + expectedAuthMethod
