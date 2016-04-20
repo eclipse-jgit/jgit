@@ -51,6 +51,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -142,6 +143,7 @@ abstract class HttpAuthMethod {
 	}
 
 	static final String EMPTY_STRING = ""; //$NON-NLS-1$
+
 	static final String SCHEMA_NAME_SEPARATOR = " "; //$NON-NLS-1$
 
 	/**
@@ -149,9 +151,12 @@ abstract class HttpAuthMethod {
 	 *
 	 * @param conn
 	 *            the connection that failed.
+	 * @param ignoreTypes
+	 *            authentication types to be ignored
 	 * @return new authentication method to try.
 	 */
-	static HttpAuthMethod scanResponse(final HttpConnection conn) {
+	static HttpAuthMethod scanResponse(final HttpConnection conn,
+			Collection<Type> ignoreTypes) {
 		final Map<String, List<String>> headers = conn.getHeaderFields();
 		HttpAuthMethod authentication = Type.NONE.method(EMPTY_STRING);
 
@@ -165,6 +170,12 @@ abstract class HttpAuthMethod {
 
 							try {
 								Type methodType = Type.valueOf(valuePart[0].toUpperCase());
+
+								if ((ignoreTypes != null)
+										&& (ignoreTypes.contains(methodType))) {
+									continue;
+								}
+
 								if (authentication.getType().compareTo(methodType) >= 0) {
 									continue;
 								}
@@ -263,6 +274,7 @@ abstract class HttpAuthMethod {
 	/** Performs no user authentication. */
 	private static class None extends HttpAuthMethod {
 		static final None INSTANCE = new None();
+
 		public None() {
 			super(Type.NONE);
 		}
@@ -357,8 +369,8 @@ abstract class HttpAuthMethod {
 			if ("auth".equals(qop)) { //$NON-NLS-1$
 				nc = String.format("%08x", ++requestCount); //$NON-NLS-1$
 				response = KD(H(A1), nonce + ":" + nc + ":" + cnonce + ":" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-						+ qop + ":" //$NON-NLS-1$
-						+ H(A2));
+								+ qop + ":" //$NON-NLS-1$
+								+ H(A2));
 			} else {
 				nc = null;
 				response = KD(H(A1), nonce + ":" + H(A2)); //$NON-NLS-1$
