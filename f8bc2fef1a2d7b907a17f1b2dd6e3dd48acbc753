@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7dfcf21_93d779b9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-04-21T09:02:43Z",
+      "side": 1,
+      "message": "I don\u0027t get this: We are in a block which we enter only when \"authMethod.getType() \u003d\u003d HttpAuthMethod.Type.NONE\". And in this line you are adding \"authMethod.getType()\". Doesn\u0027t this mean the ignoreTypes collection will always only contain HttpAuthMethod.Type.NONE?",
+      "revId": "f8bc2fef1a2d7b907a17f1b2dd6e3dd48acbc753",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
