@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7dfcf21_933699e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-04-21T07:39:31Z",
+      "side": 1,
+      "message": "The commit message should have a single line subject, separated from the message body by a blank line.",
+      "revId": "b5674260a230c7920c1116895e605851d2d4be70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
