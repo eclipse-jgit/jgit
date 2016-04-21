@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7dfcf21_5319717e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-04-21T07:36:50Z",
+      "side": 1,
+      "message": "Not what I really wanted to do, but I had already changed my account\u0027s email address before realising that this Gerrit instance doesn\u0027t support multiple email addresses.\n\nhttps://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d491315",
+      "range": {
+        "startLine": 2,
+        "startChar": 47,
+        "endLine": 2,
+        "endChar": 52
+      },
+      "revId": "29e83d44ff415247da78504afa1bbf23deeacef4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
