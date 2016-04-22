@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7dfcf21_a11c18a0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HttpAuthMethod.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-04-22T07:23:16Z",
+      "side": 1,
+      "message": "nit: missing period at the end of the sentence.",
+      "revId": "dc680cd3c77bcdd330729af6a56aaf97053b3b8d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_c11924af",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HttpAuthMethod.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 925
+      },
+      "writtenOn": "2016-04-22T07:23:16Z",
+      "side": 1,
+      "message": "nit: unrelated formatting changes",
+      "revId": "dc680cd3c77bcdd330729af6a56aaf97053b3b8d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
