@@ -423,6 +423,8 @@ public class MergeResult {
 	 * @param lowLevelResult
 	 */
 	public void addConflict(String path, org.eclipse.jgit.merge.MergeResult<?> lowLevelResult) {
+		System.out.println("Adding org.eclipse.jgit.merge.MergeResult: " + lowLevelResult);
+
 		if (!lowLevelResult.containsConflicts())
 			return;
 		if (conflicts == null)
