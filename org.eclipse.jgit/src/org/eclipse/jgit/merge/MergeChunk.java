@@ -139,4 +139,15 @@ public class MergeChunk {
 	public ConflictState getConflictState() {
 		return conflictState;
 	}
+
+	@SuppressWarnings("nls")
+	@Override
+	public String toString() {
+		StringBuffer b = new StringBuffer();
+		b.append("{state:").append(conflictState.name());
+		b.append(", sequenceIndex:").append(sequenceIndex);
+		b.append(", begin:").append(begin);
+		b.append(", end:").append(end).append("}");
+		return b.toString();
+	}
 }
