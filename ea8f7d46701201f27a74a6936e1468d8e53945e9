@@ -16,6 +16,24 @@
       "revId": "ea8f7d46701201f27a74a6936e1468d8e53945e9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_28f2a45b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2016-04-25T17:37:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7dfcf21_08dec8d5",
+      "revId": "ea8f7d46701201f27a74a6936e1468d8e53945e9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
