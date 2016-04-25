@@ -1264,45 +1264,41 @@ public class DirCacheCheckout {
 		} else {
 			nonNullEolStreamType = EolStreamType.DIRECT;
 		}
-		OutputStream channel = EolStreamTypeUtil.wrapOutputStream(
-				new FileOutputStream(tmpFile), nonNullEolStreamType);
-		if (checkoutMetadata.smudgeFilterCommand != null) {
-			ProcessBuilder filterProcessBuilder = fs.runInShell(
-					checkoutMetadata.smudgeFilterCommand, new String[0]);
-			filterProcessBuilder.directory(repo.getWorkTree());
-			filterProcessBuilder.environment().put(Constants.GIT_DIR_KEY,
-					repo.getDirectory().getAbsolutePath());
-			ExecutionResult result;
-			int rc;
-			try {
-				// TODO: wire correctly with AUTOCRLF
-				result = fs.execute(filterProcessBuilder, ol.openStream());
-				rc = result.getRc();
-				if (rc == 0) {
-					result.getStdout().writeTo(channel,
-							NullProgressMonitor.INSTANCE);
-				}
-			} catch (IOException | InterruptedException e) {
-				throw new IOException(new FilterFailedException(e,
-						checkoutMetadata.smudgeFilterCommand,
-						entry.getPathString()));
+		try (OutputStream channel = EolStreamTypeUtil.wrapOutputStream(
+				new FileOutputStream(tmpFile), nonNullEolStreamType)) {
+			if (checkoutMetadata.smudgeFilterCommand != null) {
+				ProcessBuilder filterProcessBuilder = fs.runInShell(
+						checkoutMetadata.smudgeFilterCommand, new String[0]);
+				filterProcessBuilder.directory(repo.getWorkTree());
+				filterProcessBuilder.environment().put(Constants.GIT_DIR_KEY,
+						repo.getDirectory().getAbsolutePath());
+				ExecutionResult result;
+				int rc;
+				try {
+					// TODO: wire correctly with AUTOCRLF
+					result = fs.execute(filterProcessBuilder, ol.openStream());
+					rc = result.getRc();
+					if (rc == 0) {
+						result.getStdout().writeTo(channel,
+								NullProgressMonitor.INSTANCE);
+					}
+				} catch (IOException | InterruptedException e) {
+					throw new IOException(new FilterFailedException(e,
+							checkoutMetadata.smudgeFilterCommand,
+							entry.getPathString()));
 
-			} finally {
-				channel.close();
-			}
-			if (rc != 0) {
-				throw new IOException(new FilterFailedException(rc,
-						checkoutMetadata.smudgeFilterCommand,
-						entry.getPathString(),
-						result.getStdout().toByteArray(MAX_EXCEPTION_TEXT_SIZE),
-						RawParseUtils.decode(result.getStderr()
-								.toByteArray(MAX_EXCEPTION_TEXT_SIZE))));
-			}
-		} else {
-			try {
+				}
+				if (rc != 0) {
+					throw new IOException(new FilterFailedException(rc,
+							checkoutMetadata.smudgeFilterCommand,
+							entry.getPathString(),
+							result.getStdout()
+									.toByteArray(MAX_EXCEPTION_TEXT_SIZE),
+							RawParseUtils.decode(result.getStderr()
+									.toByteArray(MAX_EXCEPTION_TEXT_SIZE))));
+				}
+			} else {
 				ol.copyTo(channel);
-			} finally {
-				channel.close();
 			}
 		}
 		// The entry needs to correspond to the on-disk filesize. If the content
