@@ -601,6 +601,11 @@ public class DfsInserter extends ObjectInserter {
 		}
 
 		@Override
+		public ObjectInserter getCreatedFromInserter() {
+			return DfsInserter.this;
+		}
+
+		@Override
 		public void close() {
 			ctx.close();
 		}

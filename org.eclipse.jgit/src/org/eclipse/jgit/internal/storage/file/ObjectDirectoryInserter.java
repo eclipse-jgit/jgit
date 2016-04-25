@@ -136,7 +136,7 @@ class ObjectDirectoryInserter extends ObjectInserter {
 
 	@Override
 	public ObjectReader newReader() {
-		return new WindowCursor(db);
+		return new WindowCursor(db, this);
 	}
 
 	@Override

@@ -535,6 +535,11 @@ public abstract class ObjectReader implements AutoCloseable {
 		}
 
 		@Override
+		public ObjectInserter getCreatedFromInserter() {
+			return delegate().getCreatedFromInserter();
+		}
+
+		@Override
 		public void close() {
 			delegate().close();
 		}
