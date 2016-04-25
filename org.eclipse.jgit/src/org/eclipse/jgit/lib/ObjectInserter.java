@@ -143,7 +143,18 @@ public abstract class ObjectInserter implements AutoCloseable {
 		}
 
 		public ObjectReader newReader() {
-			return delegate().newReader();
+			final ObjectReader dr = delegate().newReader();
+			return new ObjectReader.Filter() {
+				@Override
+				protected ObjectReader delegate() {
+					return dr;
+				}
+
+				@Override
+				public ObjectInserter getCreatedFromInserter() {
+					return ObjectInserter.Filter.this;
+				}
+			};
 		}
 
 		public void flush() throws IOException {
@@ -398,6 +409,9 @@ public abstract class ObjectInserter implements AutoCloseable {
 	 * visible to the repository. The returned reader should only be used from
 	 * the same thread as the inserter. Objects written by this inserter may not
 	 * be visible to {@code this.newReader().newReader()}.
+	 * <p>
+	 * The returned reader should return this inserter instance from {@link
+	 * ObjectReader#getCreatedFromInserter()}.
 	 *
 	 * @since 3.5
 	 * @return reader for any object, including an object recently inserted by

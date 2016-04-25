@@ -69,6 +69,7 @@ import org.eclipse.jgit.lib.BitmapIndex.BitmapBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.InflaterCache;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.ProgressMonitor;
@@ -84,10 +85,19 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 
 	private DeltaBaseCache baseCache;
 
+	private final ObjectInserter createdFromInserter;
+
 	final FileObjectDatabase db;
 
 	WindowCursor(FileObjectDatabase db) {
 		this.db = db;
+		this.createdFromInserter = null;
+	}
+
+	WindowCursor(FileObjectDatabase db,
+			ObjectDirectoryInserter createdFromInserter) {
+		this.db = db;
+		this.createdFromInserter = createdFromInserter;
 	}
 
 	DeltaBaseCache getDeltaBaseCache() {
@@ -327,6 +337,11 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 
 	int getStreamFileThreshold() {
 		return WindowCache.getStreamFileThreshold();
+	}
+
+	@Override
+	public ObjectInserter getCreatedFromInserter() {
+		return createdFromInserter;
 	}
 
 	/** Release the current window cursor. */

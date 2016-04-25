@@ -422,6 +422,16 @@ public abstract class ObjectReader implements AutoCloseable {
 	}
 
 	/**
+	 * @return the {@link ObjectInserter} from which this reader was created
+	 *         using {@code inserter.newReader()}, or null if this reader was not
+	 *         created from an inserter.
+	 * @since 4.4
+	 */
+	public ObjectInserter getCreatedFromInserter() {
+		return null;
+	}
+
+	/**
 	 * Release any resources used by this reader.
 	 * <p>
 	 * A reader that has been released can be used again, but may need to be
@@ -522,6 +532,11 @@ public abstract class ObjectReader implements AutoCloseable {
 		@Override
 		public BitmapIndex getBitmapIndex() throws IOException {
 			return delegate().getBitmapIndex();
+		}
+
+		@Override
+		public ObjectInserter getCreatedFromInserter() {
+			return delegate().getCreatedFromInserter();
 		}
 
 		@Override
