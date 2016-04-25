@@ -53,6 +53,7 @@ import java.util.Set;
 import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.StoredObjectRepresentationNotAvailableException;
@@ -69,6 +70,7 @@ import org.eclipse.jgit.lib.BitmapIndex.BitmapBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.InflaterCache;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.ProgressMonitor;
@@ -84,10 +86,20 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 
 	private DeltaBaseCache baseCache;
 
+	@Nullable
+	private final ObjectInserter createdFromInserter;
+
 	final FileObjectDatabase db;
 
 	WindowCursor(FileObjectDatabase db) {
 		this.db = db;
+		this.createdFromInserter = null;
+	}
+
+	WindowCursor(FileObjectDatabase db,
+			@Nullable ObjectDirectoryInserter createdFromInserter) {
+		this.db = db;
+		this.createdFromInserter = createdFromInserter;
 	}
 
 	DeltaBaseCache getDeltaBaseCache() {
@@ -327,6 +339,12 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 
 	int getStreamFileThreshold() {
 		return WindowCache.getStreamFileThreshold();
+	}
+
+	@Override
+	@Nullable
+	public ObjectInserter getCreatedFromInserter() {
+		return createdFromInserter;
 	}
 
 	/** Release the current window cursor. */
