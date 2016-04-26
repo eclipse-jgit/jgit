@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e7dfcf21_ea450c1c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCursor.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2016-04-26T21:22:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7dfcf21_e83fdc3c",
+      "range": {
+        "startLine": 89,
+        "startChar": 0,
+        "endLine": 89,
+        "endChar": 50
+      },
+      "revId": "6c7ab53c97250dfe78f7b1181ddf4cc8a3c1b609",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7dfcf21_8829f810",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCursor.java",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "e7dfcf21_0a431817",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCursor.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2016-04-26T21:22:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7dfcf21_8829f810",
+      "range": {
+        "startLine": 99,
+        "startChar": 27,
+        "endLine": 99,
+        "endChar": 46
+      },
+      "revId": "6c7ab53c97250dfe78f7b1181ddf4cc8a3c1b609",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7dfcf21_48da9098",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectReader.java",
         "patchSetId": 3
@@ -59,6 +107,30 @@
       "writtenOn": "2016-04-25T18:18:55Z",
       "side": 1,
       "message": "@Nullable",
+      "range": {
+        "startLine": 540,
+        "startChar": 0,
+        "endLine": 540,
+        "endChar": 50
+      },
+      "revId": "6c7ab53c97250dfe78f7b1181ddf4cc8a3c1b609",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_2a40d407",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectReader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 540,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2016-04-26T21:22:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7dfcf21_48da9098",
       "range": {
         "startLine": 540,
         "startChar": 0,
