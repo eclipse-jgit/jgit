@@ -1353,8 +1353,14 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 		String filterCommand = filterCommandsByNameDotType.get(key);
 		if (filterCommand != null)
 			return filterCommand;
-		filterCommand = config.getString(Constants.ATTR_FILTER,
+		boolean useBuiltin = config.getBoolean(Constants.ATTR_FILTER,
+				filterDriverName, Constants.ATTR_FILTER_USE_BUILTIN, false);
+		if (useBuiltin) {
+			filterCommand = Constants.BUILTIN_FILTER_PREFIX + filterCommandType;
+		} else {
+			filterCommand = config.getString(Constants.ATTR_FILTER,
 				filterDriverName, filterCommandType);
+		}
 		if (filterCommand != null)
 			filterCommandsByNameDotType.put(key, filterCommand);
 		return filterCommand;

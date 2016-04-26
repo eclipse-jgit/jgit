@@ -391,6 +391,21 @@ public final class Constants {
 	 */
 	public static final String ATTR_FILTER_TYPE_SMUDGE = "smudge";
 
+	/**
+	 * whether to use JGits builtin implementation of filters and hooks
+	 *
+	 * @since 4.4
+	 */
+	public static final String ATTR_FILTER_USE_BUILTIN = "useJGitBuiltin";
+
+	/**
+	 * The command string which determines that a builtin filter/hook should
+	 * be called is starting with this prefix
+	 *
+	 * @since 4.4
+	 */
+	public static final String BUILTIN_FILTER_PREFIX = "jgit://builtin/";
+
 	/** Name of the ignore file */
 	public static final String DOT_GIT_IGNORE = ".gitignore";
 
