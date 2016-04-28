@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7dfcf21_f6e96f2e",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Repo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2016-04-28T23:49:03Z",
+      "side": 1,
+      "message": "This function only works in bare mode, and the command line works in non-bare mode, so there\u0027s no point adding support here.",
+      "range": {
+        "startLine": 74,
+        "startChar": 4,
+        "endLine": 74,
+        "endChar": 28
+      },
+      "revId": "aca08b24795a05b6495fd1dd406c25829ade5f44",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_16433bc9",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 796,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2016-04-28T23:49:03Z",
+      "side": 1,
+      "message": "Does the order within the array matter here? If not then I think convert it to a set and check its members makes more sense here.",
+      "range": {
+        "startLine": 796,
+        "startChar": 4,
+        "endLine": 796,
+        "endChar": 21
+      },
+      "revId": "aca08b24795a05b6495fd1dd406c25829ade5f44",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_763abf4d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoProject.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2016-04-28T23:49:03Z",
+      "side": 1,
+      "message": "This is a new API, so there has to be a @since annotation.",
+      "revId": "aca08b24795a05b6495fd1dd406c25829ade5f44",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_b6dfe785",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoProject.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2016-04-28T23:49:03Z",
+      "side": 1,
+      "message": "Add @since annotation.",
+      "revId": "aca08b24795a05b6495fd1dd406c25829ade5f44",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_d6e47358",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoProject.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2016-04-28T23:49:03Z",
+      "side": 1,
+      "message": "Add @since annotation.",
+      "revId": "aca08b24795a05b6495fd1dd406c25829ade5f44",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
