@@ -61,6 +61,9 @@ class Repo extends TextBuiltin {
 	@Option(name = "--record-remote-branch", usage = "usage_branches")
 	private boolean branches;
 
+	@Option(name = "--record-labels", usage = "usage_Submodule_Labels")
+	private boolean record_submodule_labels;
+
 	@Override
 	protected void run() throws Exception {
 		new RepoCommand(db)
@@ -68,6 +71,7 @@ class Repo extends TextBuiltin {
 			.setPath(path)
 			.setGroups(groups)
 			.setRecordRemoteBranch(branches)
+			.setRecordSubmoduleLabels(record_submodule_labels)
 			.call();
 	}
 }
