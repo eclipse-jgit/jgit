@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e7dfcf21_f6008f76",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Repo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-04-29T00:03:31Z",
+      "side": 1,
+      "message": "Same thing for `setRecordRemoteBranch`?",
+      "parentUuid": "e7dfcf21_f6e96f2e",
+      "range": {
+        "startLine": 74,
+        "startChar": 4,
+        "endLine": 74,
+        "endChar": 28
+      },
+      "revId": "aca08b24795a05b6495fd1dd406c25829ade5f44",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7dfcf21_16433bc9",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2016-04-28T23:49:03Z",
       "side": 1,
       "message": "Does the order within the array matter here? If not then I think convert it to a set and check its members makes more sense here.",
+      "range": {
+        "startLine": 796,
+        "startChar": 4,
+        "endLine": 796,
+        "endChar": 21
+      },
+      "revId": "aca08b24795a05b6495fd1dd406c25829ade5f44",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_56d86398",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 796,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-04-29T00:03:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7dfcf21_16433bc9",
       "range": {
         "startLine": 796,
         "startChar": 4,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "e7dfcf21_76d55f5e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoProject.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-04-29T00:03:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7dfcf21_763abf4d",
+      "revId": "aca08b24795a05b6495fd1dd406c25829ade5f44",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7dfcf21_b6dfe785",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoProject.java",
         "patchSetId": 2
@@ -82,6 +148,24 @@
     },
     {
       "key": {
+        "uuid": "e7dfcf21_96010b7e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoProject.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-04-29T00:03:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7dfcf21_b6dfe785",
+      "revId": "aca08b24795a05b6495fd1dd406c25829ade5f44",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7dfcf21_d6e47358",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoProject.java",
         "patchSetId": 2
@@ -93,6 +177,24 @@
       "writtenOn": "2016-04-28T23:49:03Z",
       "side": 1,
       "message": "Add @since annotation.",
+      "revId": "aca08b24795a05b6495fd1dd406c25829ade5f44",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_b6060792",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoProject.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-04-29T00:03:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7dfcf21_d6e47358",
       "revId": "aca08b24795a05b6495fd1dd406c25829ade5f44",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
