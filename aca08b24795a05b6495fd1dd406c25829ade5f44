@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "e7dfcf21_56ef8327",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Repo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2016-04-29T00:07:26Z",
+      "side": 1,
+      "message": "Ah yes. Sorry I missed that last time.",
+      "parentUuid": "e7dfcf21_f6008f76",
+      "range": {
+        "startLine": 74,
+        "startChar": 4,
+        "endLine": 74,
+        "endChar": 28
+      },
+      "revId": "aca08b24795a05b6495fd1dd406c25829ade5f44",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7dfcf21_16433bc9",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
         "patchSetId": 2
