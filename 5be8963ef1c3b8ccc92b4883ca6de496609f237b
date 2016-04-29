@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7dfcf21_1d8ef6b8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/T0001_PersonIdentTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2016-04-29T15:27:31Z",
+      "side": 1,
+      "message": "Improperly split up my commit, oops.",
+      "range": {
+        "startLine": 96,
+        "startChar": 53,
+        "endLine": 96,
+        "endChar": 60
+      },
+      "revId": "5be8963ef1c3b8ccc92b4883ca6de496609f237b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
