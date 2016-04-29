@@ -217,7 +217,12 @@ public class PersonIdent implements Serializable {
 	}
 
 	/**
-	 * Construct a {@link PersonIdent}
+	 * Construct a {@link PersonIdent}.
+	 * <p>
+	 * Whitespace in the name and email is preserved for the lifetime of this
+	 * object, but are trimmed by {@link #toExternalString()}. This means that
+	 * parsing the result of {@link #toExternalString()} may not return an
+	 * equivalent instance.
 	 *
 	 * @param aName
 	 * @param aEmailAddress
