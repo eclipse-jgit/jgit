@@ -223,8 +223,13 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 					ResolveMerger untrackedMerger = (ResolveMerger) strategy
 							.newMerger(repo, true);
 					untrackedMerger.setCommitNames(new String[] {
-							"stashed HEAD", "HEAD", "untracked files" }); //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
-					untrackedMerger.setBase(stashHeadCommit);
+							"null", "HEAD", "untracked files" }); //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
+					// There is no common base for HEAD & untracked files
+					// because the commit for untracked files has no parent. If
+					// we use stashHeadCommit as common base (as in the other
+					// merges) we potentially report conflicts for files
+					// which are not even member of untracked files commit
+					untrackedMerger.setBase(null);
 					boolean ok = untrackedMerger.merge(headCommit,
 							untrackedCommit);
 					if (ok)

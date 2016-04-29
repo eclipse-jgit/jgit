@@ -185,6 +185,35 @@ public class PullCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testPullWithUntrackedStash() throws Exception {
+		PullResult res = target.pull().call();
+		// nothing to update since we don't have different data yet
+		assertTrue(res.getFetchResult().getTrackingRefUpdates().isEmpty());
+		assertTrue(res.getMergeResult().getMergeStatus()
+				.equals(MergeStatus.ALREADY_UP_TO_DATE));
+
+		// change the source file
+		writeToFile(sourceFile, "Source change");
+		source.add().addFilepattern("SomeFile.txt").call();
+		source.commit().setMessage("Source change in remote").call();
+
+		// write untracked file
+		writeToFile(new File(dbTarget.getWorkTree(), "untracked.txt"),
+				"untracked");
+
+		RevCommit revCommit = target.stashCreate()
+				.setIndexMessage("message here").setIncludeUntracked(true)
+				.call();
+
+		assertNotNull(revCommit);
+		String stashName = revCommit.getName();
+
+		res = target.pull().call();
+
+		target.stashApply().setStashRef(stashName).call();
+	}
+
+	@Test
 	public void testPullLocalConflict() throws Exception {
 		target.branchCreate().setName("basedOnMaster").setStartPoint(
 				"refs/heads/master").setUpstreamMode(SetupUpstreamMode.TRACK)
