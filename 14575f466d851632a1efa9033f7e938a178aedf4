@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "e7dfcf21_7679dfe6",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Repo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2016-04-29T00:19:14Z",
+      "side": 0,
+      "message": "Also delete it from CLIText.properties",
+      "range": {
+        "startLine": 64,
+        "startChar": 44,
+        "endLine": 64,
+        "endChar": 66
+      },
+      "revId": "14575f466d851632a1efa9033f7e938a178aedf4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7dfcf21_b683675a",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Repo.java",
         "patchSetId": 1
