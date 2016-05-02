@@ -52,6 +52,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URISyntaxException;
 import java.text.MessageFormat;
 import java.util.Collection;
@@ -62,6 +64,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -88,6 +91,8 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.util.FilterCommand;
+import org.eclipse.jgit.util.FilterCommandFactory;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.IO;
@@ -133,6 +138,73 @@ public abstract class Repository implements AutoCloseable {
 
 	/** If not bare, the index file caching the working file states. */
 	private final File indexFile;
+
+	private static ConcurrentHashMap<String, FilterCommandFactory> filterCommandRegistry = new ConcurrentHashMap<>();
+
+	/**
+	 * Registers a {@link FilterCommandFactory} responsible for creating
+	 * {@link FilterCommand}s for a certain command name. If the factory f1 is
+	 * registered for the name "jgit://builtin/x" then a call to
+	 * <code>getCommand("jgit://builtin/x", ...)</code> will call
+	 * <code>f1(...)</code> to create a new instance of {@link FilterCommand}
+	 *
+	 * @param filterCommandName
+	 *            the name for which this factory is registered
+	 * @param factory
+	 *            the factory responsible for creating {@link FilterCommand}s
+	 *            for the specified name. <code>null</code> can be specified to
+	 *            unregister a factory
+	 * @return the previous factory associated with <tt>commandName</tt>, or
+	 *         <tt>null</tt> if there was no mapping for <tt>commandName</tt>
+	 * @since 4.5
+	 */
+	public static FilterCommandFactory registerFilterCommand(String filterCommandName,
+			FilterCommandFactory factory) {
+		if (factory == null)
+			return filterCommandRegistry.remove(filterCommandName);
+		else
+			return filterCommandRegistry.put(filterCommandName, factory);
+	}
+
+	/**
+	 * Checks whether any {@link FilterCommandFactory} is registered for a
+	 * certain command name
+	 *
+	 * @param filterCommandName
+	 *            the name for which the registry should be checked
+	 * @return <code>true</code> if any factory was registered for the name
+	 * @since 4.5
+	 */
+	public static boolean isRegistered(String filterCommandName) {
+		return filterCommandRegistry.containsKey(filterCommandName);
+	}
+
+	/**
+	 * Creates a new {@link FilterCommand} for the given name. A factory must be
+	 * registered for the name in advance.
+	 *
+	 * @param filterCommandName
+	 *            The name for which a new {@link FilterCommand} should be
+	 *            created
+	 * @param db
+	 *            the repository this command should work on
+	 * @param in
+	 *            the {@link InputStream} this {@link FilterCommand} should read
+	 *            from
+	 * @param out
+	 *            the {@link OutputStream} this {@link FilterCommand} should
+	 *            write to
+	 * @return the command if a command could be created or <code>null</code> if
+	 *         there was no factory registered for that name
+	 * @throws IOException
+	 * @since 4.5
+	 */
+	public static FilterCommand getFilterCommand(String filterCommandName,
+			Repository db, InputStream in, OutputStream out)
+			throws IOException {
+		FilterCommandFactory cf = filterCommandRegistry.get(filterCommandName);
+		return (cf == null) ? null : cf.create(db, in, out);
+	}
 
 	/**
 	 * Initialize a new repository instance.
