@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7dfcf21_abd5b560",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/PullCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 983
+      },
+      "writtenOn": "2016-05-02T08:46:42Z",
+      "side": 1,
+      "message": "The first line that matters is writeToFile( ... ). If checking that there is nothing to update is really necessary it should be part of setUp().",
+      "revId": "559346b1973e042f199dcf422e54b3670466251e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_cb01217d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/PullCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 983
+      },
+      "writtenOn": "2016-05-02T08:46:42Z",
+      "side": 1,
+      "message": "Isn\u0027t here an assertion missing that the untracked file is actually in the state it should be?",
+      "revId": "559346b1973e042f199dcf422e54b3670466251e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
