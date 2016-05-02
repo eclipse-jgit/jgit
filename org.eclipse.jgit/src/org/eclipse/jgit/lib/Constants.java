@@ -391,6 +391,13 @@ public final class Constants {
 	 */
 	public static final String ATTR_FILTER_TYPE_SMUDGE = "smudge";
 
+	/**
+	 * Builtin filter commands start with this prefix
+	 *
+	 * @since 4.6
+	 */
+	public static final String BUILTIN_FILTER_PREFIX = "jgit://builtin/";
+
 	/** Name of the ignore file */
 	public static final String DOT_GIT_IGNORE = ".gitignore";
 

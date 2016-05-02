@@ -65,6 +65,8 @@ import java.util.Comparator;
 import org.eclipse.jgit.api.errors.FilterFailedException;
 import org.eclipse.jgit.attributes.AttributesNode;
 import org.eclipse.jgit.attributes.AttributesRule;
+import org.eclipse.jgit.attributes.FilterCommand;
+import org.eclipse.jgit.attributes.FilterCommandRegistry;
 import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheEntry;
@@ -93,6 +95,8 @@ import org.eclipse.jgit.util.Holder;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.Paths;
 import org.eclipse.jgit.util.RawParseUtils;
+import org.eclipse.jgit.util.TemporaryBuffer;
+import org.eclipse.jgit.util.TemporaryBuffer.LocalFile;
 import org.eclipse.jgit.util.io.AutoLFInputStream;
 import org.eclipse.jgit.util.io.EolStreamTypeUtil;
 
@@ -461,6 +465,16 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		in = handleAutoCRLF(in, opType);
 		String filterCommand = getCleanFilterCommand();
 		if (filterCommand != null) {
+			if (FilterCommandRegistry.isRegistered(filterCommand)) {
+				LocalFile buffer = new TemporaryBuffer.LocalFile(null);
+				FilterCommand command = FilterCommandRegistry
+						.createFilterCommand(filterCommand, repository, in,
+								buffer);
+				while (command.run() != -1) {
+					// loop as long as command.run() tells there is work to do
+				}
+				return buffer.openInputStream();
+			}
 			FS fs = repository.getFS();
 			ProcessBuilder filterProcessBuilder = fs.runInShell(filterCommand,
 					new String[0]);
