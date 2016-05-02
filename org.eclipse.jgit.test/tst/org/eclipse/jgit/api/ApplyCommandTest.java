@@ -44,6 +44,7 @@ package org.eclipse.jgit.api;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.ByteArrayOutputStream;
@@ -153,6 +154,33 @@ public class ApplyCommandTest extends RepositoryTestCase {
 		assertEquals(new File(db.getWorkTree(), "W"),
 				result.getUpdatedFiles().get(0));
 		checkFile(new File(db.getWorkTree(), "W"),
+				b.getString(0, b.size(), false));
+	}
+
+	@Test
+	public void testAddM1() throws Exception {
+		ApplyResult result = init("M1", false, true);
+		assertEquals(1, result.getUpdatedFiles().size());
+		assertTrue(result.getUpdatedFiles().get(0).canExecute());
+		checkFile(new File(db.getWorkTree(), "M1"),
+				b.getString(0, b.size(), false));
+	}
+
+	@Test
+	public void testModifyM2() throws Exception {
+		ApplyResult result = init("M2", true, true);
+		assertEquals(1, result.getUpdatedFiles().size());
+		assertTrue(result.getUpdatedFiles().get(0).canExecute());
+		checkFile(new File(db.getWorkTree(), "M2"),
+				b.getString(0, b.size(), false));
+	}
+
+	@Test
+	public void testModifyM3() throws Exception {
+		ApplyResult result = init("M3", true, true);
+		assertEquals(1, result.getUpdatedFiles().size());
+		assertFalse(result.getUpdatedFiles().get(0).canExecute());
+		checkFile(new File(db.getWorkTree(), "M3"),
 				b.getString(0, b.size(), false));
 	}
 
