@@ -87,12 +87,15 @@ import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.submodule.SubmoduleWalk;
 import org.eclipse.jgit.treewalk.TreeWalk.OperationType;
+import org.eclipse.jgit.util.BuiltinCommand;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FS.ExecutionResult;
 import org.eclipse.jgit.util.Holder;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.Paths;
 import org.eclipse.jgit.util.RawParseUtils;
+import org.eclipse.jgit.util.TemporaryBuffer;
+import org.eclipse.jgit.util.TemporaryBuffer.LocalFile;
 import org.eclipse.jgit.util.io.AutoLFInputStream;
 import org.eclipse.jgit.util.io.EolStreamTypeUtil;
 
@@ -459,28 +462,37 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		in = handleAutoCRLF(in, opType);
 		String filterCommand = getCleanFilterCommand();
 		if (filterCommand != null) {
-			FS fs = repository.getFS();
-			ProcessBuilder filterProcessBuilder = fs.runInShell(filterCommand,
-					new String[0]);
-			filterProcessBuilder.directory(repository.getWorkTree());
-			filterProcessBuilder.environment().put(Constants.GIT_DIR_KEY,
-					repository.getDirectory().getAbsolutePath());
-			ExecutionResult result;
-			try {
-				result = fs.execute(filterProcessBuilder, in);
-			} catch (IOException | InterruptedException e) {
-				throw new IOException(new FilterFailedException(e,
-						filterCommand, getEntryPathString()));
+			if (repository.isRegistered(filterCommand)) {
+				LocalFile buffer = new TemporaryBuffer.LocalFile(null);
+				BuiltinCommand command = repository.getCommand(filterCommand, repository,
+						in, buffer);
+				while (command.run() != -1)
+					;
+				return buffer.openInputStream();
+			} else {
+				FS fs = repository.getFS();
+				ProcessBuilder filterProcessBuilder = fs.runInShell(filterCommand,
+						new String[0]);
+				filterProcessBuilder.directory(repository.getWorkTree());
+				filterProcessBuilder.environment().put(Constants.GIT_DIR_KEY,
+						repository.getDirectory().getAbsolutePath());
+				ExecutionResult result;
+				try {
+					result = fs.execute(filterProcessBuilder, in);
+				} catch (IOException | InterruptedException e) {
+					throw new IOException(new FilterFailedException(e,
+							filterCommand, getEntryPathString()));
+				}
+				int rc = result.getRc();
+				if (rc != 0) {
+					throw new IOException(new FilterFailedException(rc,
+							filterCommand, getEntryPathString(),
+							result.getStdout().toByteArray(MAX_EXCEPTION_TEXT_SIZE),
+							RawParseUtils.decode(result.getStderr()
+									.toByteArray(MAX_EXCEPTION_TEXT_SIZE))));
+				}
+				return result.getStdout().openInputStream();
 			}
-			int rc = result.getRc();
-			if (rc != 0) {
-				throw new IOException(new FilterFailedException(rc,
-						filterCommand, getEntryPathString(),
-						result.getStdout().toByteArray(MAX_EXCEPTION_TEXT_SIZE),
-						RawParseUtils.decode(result.getStderr()
-								.toByteArray(MAX_EXCEPTION_TEXT_SIZE))));
-			}
-			return result.getStdout().openInputStream();
 		}
 		return in;
 	}
