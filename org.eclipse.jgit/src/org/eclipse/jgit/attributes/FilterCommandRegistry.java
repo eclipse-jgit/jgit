@@ -45,6 +45,7 @@ package org.eclipse.jgit.attributes;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.eclipse.jgit.lib.Repository;
@@ -100,6 +101,14 @@ public class FilterCommandRegistry {
 	 */
 	public static boolean isRegistered(String filterCommandName) {
 		return filterCommandRegistry.containsKey(filterCommandName);
+	}
+
+	/**
+	 * @return Set of commandNames for which a {@link FilterCommandFactory} is
+	 *         registered
+	 */
+	public static Set<String> getRegisteredFilterCommands() {
+		return filterCommandRegistry.keySet();
 	}
 
 	/**
