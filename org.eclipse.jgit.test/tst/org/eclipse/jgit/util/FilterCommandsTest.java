@@ -154,4 +154,98 @@ public class FilterCommandsTest extends RepositoryTestCase {
 		config.setString("filter", "test", "clean", null);
 		config.save();
 	}
+
+	@Test
+	public void testBuiltinSmudgeFilter() throws IOException, GitAPIException {
+		String builtinCommandName = "jgit://builtin/test/smudge";
+		FilterCommandRegistry.register(builtinCommandName,
+				new TestCommandFactory('s'));
+		StoredConfig config = git.getRepository().getConfig();
+		config.setString("filter", "test", "smudge", builtinCommandName);
+		config.save();
+
+		writeTrashFile(".gitattributes", "*.txt filter=test");
+		git.add().addFilepattern(".gitattributes").call();
+		git.commit().setMessage("add filter").call();
+
+		writeTrashFile("Test.txt", "Hello again");
+		git.add().addFilepattern("Test.txt").call();
+		assertEquals(
+				"[.gitattributes, mode:100644, content:*.txt filter=test][Test.txt, mode:100644, content:Hello again]",
+				indexState(CONTENT));
+		assertEquals("Hello again", read("Test.txt"));
+		deleteTrashFile("Test.txt");
+		git.checkout().addPath("Test.txt").call();
+		assertEquals("sHseslslsos sasgsasisn", read("Test.txt"));
+
+		writeTrashFile("Test.bin", "Hello again");
+		git.add().addFilepattern("Test.bin").call();
+		assertEquals(
+				"[.gitattributes, mode:100644, content:*.txt filter=test][Test.bin, mode:100644, content:Hello again][Test.txt, mode:100644, content:Hello again]",
+				indexState(CONTENT));
+		deleteTrashFile("Test.bin");
+		git.checkout().addPath("Test.bin").call();
+		assertEquals("Hello again", read("Test.bin"));
+
+		config.setString("filter", "test", "clean", null);
+		config.save();
+
+		git.add().addFilepattern("Test.txt").call();
+		assertEquals(
+				"[.gitattributes, mode:100644, content:*.txt filter=test][Test.bin, mode:100644, content:Hello again][Test.txt, mode:100644, content:sHseslslsos sasgsasisn]",
+				indexState(CONTENT));
+
+		config.setString("filter", "test", "clean", null);
+		config.save();
+	}
+
+	@Test
+	public void testBuiltinCleanAndSmudgeFilter() throws IOException, GitAPIException {
+		String builtinCommandPrefix = "jgit://builtin/test/";
+		FilterCommandRegistry.register(builtinCommandPrefix + "smudge",
+				new TestCommandFactory('s'));
+		FilterCommandRegistry.register(builtinCommandPrefix + "clean",
+				new TestCommandFactory('c'));
+		StoredConfig config = git.getRepository().getConfig();
+		config.setString("filter", "test", "smudge", builtinCommandPrefix+"smudge");
+		config.setString("filter", "test", "clean",
+				builtinCommandPrefix + "clean");
+		config.save();
+
+		writeTrashFile(".gitattributes", "*.txt filter=test");
+		git.add().addFilepattern(".gitattributes").call();
+		git.commit().setMessage("add filter").call();
+
+		writeTrashFile("Test.txt", "Hello again");
+		git.add().addFilepattern("Test.txt").call();
+		assertEquals(
+				"[.gitattributes, mode:100644, content:*.txt filter=test][Test.txt, mode:100644, content:cHceclclcoc cacgcacicn]",
+				indexState(CONTENT));
+		assertEquals("Hello again", read("Test.txt"));
+		deleteTrashFile("Test.txt");
+		git.checkout().addPath("Test.txt").call();
+		assertEquals("scsHscsescslscslscsoscs scsascsgscsascsiscsn",
+				read("Test.txt"));
+
+		writeTrashFile("Test.bin", "Hello again");
+		git.add().addFilepattern("Test.bin").call();
+		assertEquals(
+				"[.gitattributes, mode:100644, content:*.txt filter=test][Test.bin, mode:100644, content:Hello again][Test.txt, mode:100644, content:cHceclclcoc cacgcacicn]",
+				indexState(CONTENT));
+		deleteTrashFile("Test.bin");
+		git.checkout().addPath("Test.bin").call();
+		assertEquals("Hello again", read("Test.bin"));
+
+		config.setString("filter", "test", "clean", null);
+		config.save();
+
+		git.add().addFilepattern("Test.txt").call();
+		assertEquals(
+				"[.gitattributes, mode:100644, content:*.txt filter=test][Test.bin, mode:100644, content:Hello again][Test.txt, mode:100644, content:scsHscsescslscslscsoscs scsascsgscsascsiscsn]",
+				indexState(CONTENT));
+
+		config.setString("filter", "test", "clean", null);
+		config.save();
+	}
+
 }
