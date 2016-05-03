@@ -54,7 +54,7 @@ import java.io.OutputStream;
  * OutputStream and a repository as constructor parameters. They offer a method
  * {@link #run()} which triggers the execution of the command().
  *
- * @since 4.4
+ * @since 4.5
  */
 public abstract class BuiltinCommand {
 	/**
