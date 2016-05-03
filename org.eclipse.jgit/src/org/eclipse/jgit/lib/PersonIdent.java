@@ -122,8 +122,9 @@ public class PersonIdent implements Serializable {
 	 *            string builder to append to.
 	 * @param str
 	 *            input string.
+	 * @since 4.4
 	 */
-	private static void appendSanitized(StringBuilder r, String str) {
+	public static void appendSanitized(StringBuilder r, String str) {
 		// Trim any whitespace less than \u0020 as in String#trim().
 		int i = 0;
 		while (i < str.length() && str.charAt(i) <= ' ') {
@@ -318,6 +319,9 @@ public class PersonIdent implements Serializable {
 		return tzOffset;
 	}
 
+	/**
+	 * Hashcode is based only on the email address and timestamp.
+	 */
 	public int hashCode() {
 		int hc = getEmailAddress().hashCode();
 		hc *= 31;
@@ -370,3 +374,4 @@ public class PersonIdent implements Serializable {
 		return r.toString();
 	}
 }
+

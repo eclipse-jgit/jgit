@@ -132,4 +132,11 @@ public class T0001_PersonIdentTest {
 		assertTrue(externalString.startsWith(" <>"));
 	}
 
+	@Test
+	public void testAppendSanitized() {
+		StringBuilder r = new StringBuilder();
+		PersonIdent.appendSanitized(r, " Baz>\n\u1234<Quux ");
+		assertEquals("Baz\u1234Quux", r.toString());
+	}
 }
+
