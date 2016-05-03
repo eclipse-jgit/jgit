@@ -112,8 +112,8 @@ public class AddCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testCleanFilter() throws IOException,
-			GitAPIException {
-		writeTrashFile(".gitattributes", "*.txt filter=tstFilter");
+			GitAPIException, InterruptedException {
+		writeTrashFile(".gitattributes", "*.txt filter=lfs");
 		writeTrashFile("src/a.tmp", "foo");
 		// Caution: we need a trailing '\n' since sed on mac always appends
 		// linefeeds if missing
@@ -121,17 +121,40 @@ public class AddCommandTest extends RepositoryTestCase {
 		File script = writeTempFile("sed s/o/e/g");
 
 		try (Git git = new Git(db)) {
+			fsTick(null);
+			git.add().addFilepattern(".gitattributes").call();
+			git.commit().setMessage("attr").call();
 			StoredConfig config = git.getRepository().getConfig();
-			config.setString("filter", "tstFilter", "clean",
+			config.setString("filter", "lfs", "clean",
 					"sh " + slashify(script.getPath()));
+			config.setString("filter", "lfs", "smudge",
+					"sh " + slashify(script.getPath()));
+			config.setBoolean("filter", "lfs", "useJGitBuiltin", true);
 			config.save();
 
 			git.add().addFilepattern("src/a.txt").addFilepattern("src/a.tmp")
-					.call();
+					.addFilepattern(".gitattributes").call();
 
 			assertEquals(
-					"[src/a.tmp, mode:100644, content:foo][src/a.txt, mode:100644, content:fee\n]",
+					"[.gitattributes, mode:100644, content:*.txt filter=lfs][src/a.tmp, mode:100644, content:foo][src/a.txt, mode:100644, content:version https://git-lfs.github.com/spec/v1\noid b5bb9d8014a0f9b1d61e21e796d78dccdf1352f23cd32812f4850b878ae4944c\nsize 4\n]",
 					indexState(CONTENT));
+
+			RevCommit c1 = git.commit().setMessage("c1").call();
+			assertTrue(git.status().call().isClean());
+			writeTrashFile("src/a.txt", "foobar\n");
+			fsTick(null);
+			git.add().addFilepattern("src/a.txt").call();
+			git.commit().setMessage("c2").call();
+			assertTrue(git.status().call().isClean());
+			assertEquals(
+					"[.gitattributes, mode:100644, content:*.txt filter=lfs][src/a.tmp, mode:100644, content:foo][src/a.txt, mode:100644, content:version https://git-lfs.github.com/spec/v1\noid aec070645fe53ee3b3763059376134f058cc337247c978add178b6ccdfb0019f\nsize 7\n]",
+					indexState(CONTENT));
+			assertEquals("foobar\n", read("src/a.txt"));
+			git.checkout().setName(c1.getName()).call();
+			assertEquals(
+					"[.gitattributes, mode:100644, content:*.txt filter=lfs][src/a.tmp, mode:100644, content:foo][src/a.txt, mode:100644, content:version https://git-lfs.github.com/spec/v1\noid b5bb9d8014a0f9b1d61e21e796d78dccdf1352f23cd32812f4850b878ae4944c\nsize 4\n]",
+					indexState(CONTENT));
+			assertEquals("foo\n", read("src/a.txt"));
 		}
 	}
 
