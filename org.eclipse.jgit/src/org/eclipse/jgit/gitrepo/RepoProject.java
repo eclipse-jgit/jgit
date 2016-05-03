@@ -134,10 +134,11 @@ public class RepoProject implements Comparable<RepoProject> {
 	 * @param remote
 	 *            name of the remote definition
 	 * @param groups
-	 *            comma separated group list
+	 *            set of groups
+	 * @since 4.4
 	 */
 	public RepoProject(String name, String path, String revision,
-			String remote, String groups) {
+			String remote, Set<String> groups) {
 		if (name == null) {
 			throw new NullPointerException();
 		}
@@ -148,10 +149,27 @@ public class RepoProject implements Comparable<RepoProject> {
 			this.path = name;
 		this.revision = revision;
 		this.remote = remote;
-		this.groups = new HashSet<String>();
-		if (groups != null && groups.length() > 0)
-			this.groups.addAll(Arrays.asList(groups.split(","))); //$NON-NLS-1$
+		this.groups = groups;
 		copyfiles = new ArrayList<CopyFile>();
+	}
+
+	/**
+	 * @param name
+	 *            the relative path to the {@code remote}
+	 * @param path
+	 *            the relative path to the super project
+	 * @param revision
+	 *            a SHA-1 or branch name or tag name
+	 * @param remote
+	 *            name of the remote definition
+	 * @param groups
+	 *            comma separated group list
+	 */
+	public RepoProject(String name, String path, String revision,
+			String remote, String groups) {
+		this(name, path, revision, remote, new HashSet<String>());
+		if (groups != null && groups.length() > 0)
+			this.setGroups(groups);
 	}
 
 	/**
@@ -162,6 +180,19 @@ public class RepoProject implements Comparable<RepoProject> {
 	 */
 	public RepoProject setUrl(String url) {
 		this.url = url;
+		return this;
+	}
+
+	/**
+	 * Set the url of the sub repo.
+	 *
+	 * @param url
+	 * @return this for chaining.
+	 * @since 4.4
+	 */
+	public RepoProject setGroups(String groups) {
+		this.groups.clear();
+		this.groups.addAll(Arrays.asList(groups.split(","))); //$NON-NLS-1$
 		return this;
 	}
 
@@ -238,6 +269,16 @@ public class RepoProject implements Comparable<RepoProject> {
 	 */
 	public boolean inGroup(String group) {
 		return groups.contains(group);
+	}
+
+	/**
+	 * Return the set of groups.
+	 *
+	 * @return a Set of groups.
+	 * @since 4.4
+	 */
+	public Set<String> getGroups() {
+		return groups;
 	}
 
 	/**

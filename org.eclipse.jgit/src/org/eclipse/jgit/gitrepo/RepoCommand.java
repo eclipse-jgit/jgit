@@ -50,9 +50,11 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.MessageFormat;
+import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.Git;
@@ -110,6 +112,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	private String branch;
 	private String targetBranch = Constants.HEAD;
 	private boolean recordRemoteBranch = false;
+	private boolean recordSubmoduleLabels = false;
 	private PersonIdent author;
 	private RemoteReader callback;
 	private InputStream inputStream;
@@ -345,6 +348,26 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	}
 
 	/**
+	 * Set whether the labels field should be recorded in .gitmodules.
+	 * <p>
+	 * Submodule entries in .gitmodules can include a "label" field
+	 * to make operating on subsets of submodules easy.
+	 * <p>
+	 * That field is used by any Git submodule operation to decide
+	 * whether to operate on a given submodule.
+	 * <p>
+	 * Not implemented for non-bare repositories.
+	 *
+	 * @param enable Whether to record the labels in the .gitmodules
+	 * @return this command
+	 * @since 4.4
+	 */
+	public RepoCommand setRecordSubmoduleLabels(boolean enable) {
+		this.recordSubmoduleLabels = enable;
+		return this;
+	}
+
+	/**
 	 * The progress monitor associated with the clone operation. By default,
 	 * this is set to <code>NullProgressMonitor</code>
 	 *
@@ -452,7 +475,8 @@ public class RepoCommand extends GitCommand<RevCommit> {
 					addSubmodule(proj.getUrl(),
 							proj.getPath(),
 							proj.getRevision(),
-							proj.getCopyFiles());
+							proj.getCopyFiles(),
+							proj.getGroups());
 				}
 			} catch (GitAPIException | IOException e) {
 				throw new ManifestErrorException(e);
@@ -492,6 +516,11 @@ public class RepoCommand extends GitCommand<RevCommit> {
 							cfg.setString("submodule", name, "branch", //$NON-NLS-1$ //$NON-NLS-2$
 									proj.getRevision());
 						}
+					}
+					if (recordSubmoduleLabels) {
+						List<String> l = new ArrayList<>();
+						l.addAll(proj.getGroups());
+						cfg.setStringList("submodule", name, "label", l); //$NON-NLS-1$ //$NON-NLS-2$
 					}
 					cfg.setString("submodule", name, "path", name); //$NON-NLS-1$ //$NON-NLS-2$
 					cfg.setString("submodule", name, "url", nameUri); //$NON-NLS-1$ //$NON-NLS-2$
@@ -575,9 +604,10 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	}
 
 	private void addSubmodule(String url, String name, String revision,
-			List<CopyFile> copyfiles) throws GitAPIException, IOException {
+			List<CopyFile> copyfiles, Set<String> groups)
+			throws GitAPIException, IOException {
 		if (repo.isBare()) {
-			RepoProject proj = new RepoProject(url, name, revision, null, null);
+			RepoProject proj = new RepoProject(url, name, revision, null, groups);
 			proj.addCopyFiles(copyfiles);
 			bareProjects.add(proj);
 		} else {
