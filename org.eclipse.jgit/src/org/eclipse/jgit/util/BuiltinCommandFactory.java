@@ -8,7 +8,7 @@ import org.eclipse.jgit.lib.Repository;
 /**
  * The factory responsible for creating instances of {@link BuiltinCommand}.
  *
- * @since 4.4
+ * @since 4.5
  */
 public interface BuiltinCommandFactory {
 	/**

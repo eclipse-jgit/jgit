@@ -463,7 +463,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		String filterCommand = getCleanFilterCommand();
 		if (filterCommand != null) {
 			if (repository.isRegistered(filterCommand)) {
-				LocalFile buffer = new TemporaryBuffer.LocalFile(null);
+				LocalFile buffer = new TemporaryBuffer.LocalFile(null); // TODO: Check on smudge that we don't write twice to FS
 				BuiltinCommand command = repository.getCommand(filterCommand, repository,
 						in, buffer);
 				while (command.run() != -1)

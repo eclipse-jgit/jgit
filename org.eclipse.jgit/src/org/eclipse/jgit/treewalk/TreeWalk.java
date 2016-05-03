@@ -554,7 +554,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 * @since 4.2
 	 */
 	public Attributes getAttributes() {
-		if (attrs != null)
+		if (attrs != null) // TODO: this was set !=null
 			return attrs;
 
 		if (attributesNodeProvider == null) {

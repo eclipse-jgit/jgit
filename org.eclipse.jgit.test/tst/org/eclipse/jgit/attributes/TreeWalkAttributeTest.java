@@ -68,6 +68,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.TreeWalk.OperationType;
+import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -319,6 +320,35 @@ public class TreeWalkAttributeTest extends RepositoryTestCase {
 
 		assertEntry(F, "windows.file", asSet(EOL_CRLF));
 		assertEntry(F, "windows.txt", asSet(EOL_CRLF));
+
+		endWalk();
+	}
+
+	/**
+	 * Basic test for git attributes.
+	 * <p>
+	 * In this use case files are present in both the working tree and the index
+	 * </p>
+	 *
+	 * @throws IOException
+	 * @throws NoFilepatternException
+	 * @throws GitAPIException
+	 */
+	@Test
+	public void testFilter()
+			throws IOException, NoFilepatternException, GitAPIException {
+		writeAttributesFile(".gitattributes", "*.txt eol=lf");
+		writeTrashFile("windows.file", "");
+		writeTrashFile("windows.txt", "");
+		writeTrashFile("readme.txt", "");
+		git.add().addFilepattern(".").call();
+
+		beginWalk();
+		walk.setFilter(PathFilter.create("windows.txt"));
+		ci_walk.setFilter(PathFilter.create("windows.txt"));
+
+
+		assertEntry(F, "windows.txt", asSet(EOL_LF));
 
 		endWalk();
 	}
