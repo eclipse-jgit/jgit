@@ -180,6 +180,16 @@ public abstract class Repository implements AutoCloseable {
 	}
 
 	/**
+	 * @return Set of commandNames for which a {@link FilterCommandFactory} is
+	 *         registered
+	 *
+	 * @since 4.5
+	 */
+	public static Set<String> getRegisteredCommands() {
+		return commandRegistry.keySet();
+	}
+
+	/**
 	 * Creates a new {@link FilterCommand} for the given name. A factory has to
 	 * be registered for the name in advance.
 	 *
@@ -189,8 +199,8 @@ public abstract class Repository implements AutoCloseable {
 	 * @param db
 	 *            the repository this command should work on
 	 * @param in
-	 *            the {@link InputStream} this {@link FilterCommand} should
-	 *            read from
+	 *            the {@link InputStream} this {@link FilterCommand} should read
+	 *            from
 	 * @param out
 	 *            the {@link OutputStream} this {@link FilterCommand} should
 	 *            write to
