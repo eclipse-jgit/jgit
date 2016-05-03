@@ -22,6 +22,30 @@
       "revId": "5c0f77c1ad37a24bf30a74125eac1e273c648223",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_c2349b67",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 802,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-05-03T18:28:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7dfcf21_c292db5c",
+      "range": {
+        "startLine": 802,
+        "startChar": 35,
+        "endLine": 802,
+        "endChar": 40
+      },
+      "revId": "5c0f77c1ad37a24bf30a74125eac1e273c648223",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
