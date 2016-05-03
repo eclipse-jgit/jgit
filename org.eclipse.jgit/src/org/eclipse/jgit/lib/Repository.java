@@ -180,8 +180,23 @@ public abstract class Repository implements AutoCloseable {
 	}
 
 	/**
+<<<<<<< Upstream, based on origin/master
 	 * Creates a new {@link FilterCommand} for the given name. A factory must be
 	 * registered for the name in advance.
+=======
+	 * @return Set of commandNames for which a {@link FilterCommandFactory} is
+	 *         registered
+	 *
+	 * @since 4.5
+	 */
+	public static Set<String> getRegisteredCommands() {
+		return commandRegistry.keySet();
+	}
+
+	/**
+	 * Creates a new {@link FilterCommand} for the given name. A factory has to
+	 * be registered for the name in advance.
+>>>>>>> ba1a1b3 Add configuration parameter to enable builtin hooks/filters
 	 *
 	 * @param commandName
 	 *            The name for which a new {@link FilterCommand} should be
