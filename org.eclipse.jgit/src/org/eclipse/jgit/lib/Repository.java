@@ -173,6 +173,16 @@ public abstract class Repository implements AutoCloseable {
 	}
 
 	/**
+	 * @return Set of commandNames for which a {@link BuiltinCommandFactory} is
+	 *         registered
+	 *
+	 * @since 4.5
+	 */
+	public static Set<String> listRegisteredCommands() {
+		return commandRegistry.keySet();
+	}
+
+	/**
 	 * Creates a new {@link BuiltinCommand} for the given name. A factory has to
 	 * be registered for the name in advance.
 	 *
