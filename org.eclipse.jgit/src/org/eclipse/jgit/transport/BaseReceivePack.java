@@ -628,7 +628,7 @@ public abstract class BaseReceivePack {
 	 *            transaction.
 	 * @since 4.4
 	 */
-	protected void setAtomic(boolean atomic) {
+	public void setAtomic(boolean atomic) {
 		this.atomic = atomic;
 	}
 
