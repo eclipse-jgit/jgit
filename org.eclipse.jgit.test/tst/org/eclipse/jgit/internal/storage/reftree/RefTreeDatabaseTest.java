@@ -499,6 +499,7 @@ public class RefTreeDatabaseTest {
 				command(A, B, "refs/heads/master"),
 				command(B, A, "refs/heads/masters"));
 		BatchRefUpdate batchUpdate = refdb.newBatchUpdate();
+		batchUpdate.setAtomic(true);
 		batchUpdate.addCommand(commands);
 		batchUpdate.execute(new RevWalk(repo), NullProgressMonitor.INSTANCE);
 		assertEquals(txnId, getTxnCommitted());
@@ -521,6 +522,7 @@ public class RefTreeDatabaseTest {
 				command(A, B, "refs/heads/master"),
 				command(B, A, "refs/heads/masters"));
 		BatchRefUpdate batchUpdate = refdb.newBatchUpdate();
+		batchUpdate.setAtomic(true);
 		batchUpdate.setAllowNonFastForwards(true);
 		batchUpdate.addCommand(commands);
 		batchUpdate.execute(new RevWalk(repo), NullProgressMonitor.INSTANCE);
@@ -545,6 +547,7 @@ public class RefTreeDatabaseTest {
 		List<ReceiveCommand> commands = Arrays.asList(
 				command(B, A, "refs/heads/master"));
 		BatchRefUpdate batchUpdate = refdb.newBatchUpdate();
+		batchUpdate.setAtomic(true);
 		batchUpdate.setAllowNonFastForwards(true);
 		batchUpdate.addCommand(commands);
 		batchUpdate.execute(new RevWalk(repo) {
@@ -572,6 +575,7 @@ public class RefTreeDatabaseTest {
 				command(null, A, "refs/heads/master/x"),
 				command(null, A, "refs/heads"));
 		BatchRefUpdate batchUpdate = refdb.newBatchUpdate();
+		batchUpdate.setAtomic(true);
 		batchUpdate.setAllowNonFastForwards(true);
 		batchUpdate.addCommand(commands);
 		batchUpdate.execute(new RevWalk(repo), NullProgressMonitor.INSTANCE);
@@ -599,6 +603,7 @@ public class RefTreeDatabaseTest {
 				command(null, A, "refs/heads/masters/x"),
 				command(B, null, "refs/heads/masters"));
 		BatchRefUpdate batchUpdate = refdb.newBatchUpdate();
+		batchUpdate.setAtomic(true);
 		batchUpdate.setAllowNonFastForwards(true);
 		batchUpdate.addCommand(commands);
 		batchUpdate.execute(new RevWalk(repo), NullProgressMonitor.INSTANCE);

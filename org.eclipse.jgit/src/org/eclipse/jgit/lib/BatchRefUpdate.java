@@ -101,7 +101,6 @@ public class BatchRefUpdate {
 	protected BatchRefUpdate(RefDatabase refdb) {
 		this.refdb = refdb;
 		this.commands = new ArrayList<ReceiveCommand>();
-		this.atomic = refdb.performsAtomicTransactions();
 	}
 
 	/**
