@@ -176,6 +176,12 @@ public abstract class BaseReceivePack {
 	/** Should an incoming transfer permit non-fast-forward requests? */
 	private boolean allowNonFastForwards;
 
+	/**
+	 * Should the requested ref updates be performed as a single atomic
+	 * transaction?
+	 */
+	private boolean atomic;
+
 	private boolean allowOfsDelta;
 	private boolean allowQuiet = true;
 
@@ -605,6 +611,25 @@ public abstract class BaseReceivePack {
 	 */
 	public void setAllowNonFastForwards(final boolean canRewind) {
 		allowNonFastForwards = canRewind;
+	}
+
+	/**
+	 * @return true if the client's commands should be performed as a single
+	 *         atomic transaction.
+	 * @since 4.4
+	 */
+	public boolean isAtomic() {
+		return atomic;
+	}
+
+	/**
+	 * @param atomic
+	 *            true to perform the client's commands as a single atomic
+	 *            transaction.
+	 * @since 4.4
+	 */
+	protected void setAtomic(boolean atomic) {
+		this.atomic = atomic;
 	}
 
 	/** @return identity of the user making the changes in the reflog. */
@@ -1483,6 +1508,7 @@ public abstract class BaseReceivePack {
 
 		BatchRefUpdate batch = db.getRefDatabase().newBatchUpdate();
 		batch.setAllowNonFastForwards(isAllowNonFastForwards());
+		batch.setAtomic(isAtomic());
 		batch.setRefLogIdent(getRefLogIdent());
 		batch.setRefLogMessage("push", true); //$NON-NLS-1$
 		batch.addCommand(toApply);

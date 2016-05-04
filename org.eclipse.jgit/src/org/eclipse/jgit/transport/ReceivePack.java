@@ -201,6 +201,8 @@ public class ReceivePack extends BaseReceivePack {
 
 			if (unpackError == null) {
 				boolean atomic = isCapabilityEnabled(CAPABILITY_ATOMIC);
+				setAtomic(atomic);
+
 				validateCommands();
 				if (atomic && anyRejects())
 					failPendingCommands();
