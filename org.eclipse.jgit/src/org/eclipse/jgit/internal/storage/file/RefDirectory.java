@@ -312,11 +312,10 @@ public class RefDirectory extends RefDatabase {
 
 	@Override
 	public Map<String, Ref> getRefs(String prefix) throws IOException {
-		final RefList<Ref> packed = getPackedRefs();
 		final RefList<LooseRef> oldLoose = looseRefs.get();
-
 		LooseScanner scan = new LooseScanner(oldLoose);
 		scan.scan(prefix);
+		final RefList<Ref> packed = getPackedRefs();
 
 		RefList<LooseRef> loose;
 		if (scan.newLoose != null) {
