@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7dfcf21_ea7fa51a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 6590
+      },
+      "writtenOn": "2016-05-05T16:48:22Z",
+      "side": 1,
+      "message": "If you merge stable-4.3 into master directly (instead of stable-4.4), does this mean you will merge master into stable-4.4 prior to release 4.4?",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 24
+      },
+      "revId": "89db7e01fa9f1bfe93e3097a8c272eac3032723c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
