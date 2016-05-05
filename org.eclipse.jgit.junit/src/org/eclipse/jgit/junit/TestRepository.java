@@ -591,7 +591,7 @@ public class TestRepository<R extends Repository> {
 	 *
 	 * @param ref
 	 *	      the name of the reference to delete. This is normalized
-	 *	      in the same way as {@link #update(String, T)}.
+	 *	      in the same way as {@link #update(String, AnyObjectId)}.
 	 * @throws Exception
 	 * @since 4.4
 	 */
