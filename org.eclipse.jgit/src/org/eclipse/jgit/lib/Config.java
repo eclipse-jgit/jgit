@@ -634,7 +634,7 @@ public class Config {
 			final String name) {
 		String[] lst = getRawStringList(section, subsection, name);
 		if (lst != null)
-			return lst[0];
+			return lst[lst.length - 1];
 		else if (baseConfig != null)
 			return baseConfig.getRawString(section, subsection, name);
 		else
