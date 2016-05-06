@@ -51,6 +51,8 @@
 
 package org.eclipse.jgit.lib;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -64,6 +66,8 @@ import org.eclipse.jgit.events.ConfigChangedListener;
 import org.eclipse.jgit.events.ListenerHandle;
 import org.eclipse.jgit.events.ListenerList;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.util.IO;
+import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.StringUtils;
 
 
@@ -75,6 +79,7 @@ public class Config {
 	private static final long KiB = 1024;
 	private static final long MiB = 1024 * KiB;
 	private static final long GiB = 1024 * MiB;
+	private static final int MAX_DEPTH = 999;
 
 	/** the change listeners */
 	private final ListenerList listeners = new ListenerList();
@@ -1027,6 +1032,15 @@ public class Config {
 	 *             made to {@code this}.
 	 */
 	public void fromText(final String text) throws ConfigInvalidException {
+		state.set(newState(fromTextRecurse(text, 1)));
+	}
+
+	private List<ConfigLine> fromTextRecurse(final String text, int depth)
+			throws ConfigInvalidException {
+		if (depth > MAX_DEPTH) {
+			throw new ConfigInvalidException(
+					JGitText.get().tooManyIncludeRecursions);
+		}
 		final List<ConfigLine> newEntries = new ArrayList<ConfigLine>();
 		final StringReader in = new StringReader(text);
 		ConfigLine last = null;
@@ -1085,11 +1099,38 @@ public class Config {
 				} else
 					e.value = readValue(in, false, -1);
 
+				if (e.section.equals("include")) { //$NON-NLS-1$
+					addIncludedConfig(newEntries, e, depth);
+				}
 			} else
 				throw new ConfigInvalidException(JGitText.get().invalidLineInConfigFile);
 		}
 
-		state.set(newState(newEntries));
+		return newEntries;
+	}
+
+	private void addIncludedConfig(final List<ConfigLine> newEntries,
+			ConfigLine line, int depth) throws ConfigInvalidException {
+		if (!line.name.equals("path") || //$NON-NLS-1$
+				line.value == null || line.value.equals(MAGIC_EMPTY_VALUE)) {
+			throw new ConfigInvalidException(
+					JGitText.get().invalidLineInConfigFile);
+		}
+		File path = new File(line.value);
+		try {
+			byte[] bytes = IO.readFully(path);
+			String decoded;
+			if (isUtf8(bytes)) {
+				decoded = RawParseUtils.decode(RawParseUtils.UTF8_CHARSET,
+						bytes, 3, bytes.length);
+			} else {
+				decoded = RawParseUtils.decode(bytes);
+			}
+			newEntries.addAll(fromTextRecurse(decoded, depth + 1));
+		} catch (IOException ioe) {
+			throw new ConfigInvalidException(MessageFormat.format(
+					JGitText.get().invalidIncludedPathInConfigFile, path));
+		}
 	}
 
 	private ConfigSnapshot newState() {
