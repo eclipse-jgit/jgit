@@ -633,12 +633,13 @@ public class Config {
 	private String getRawString(final String section, final String subsection,
 			final String name) {
 		String[] lst = getRawStringList(section, subsection, name);
-		if (lst != null)
-			return lst[0];
-		else if (baseConfig != null)
+		if (lst != null) {
+			return lst[lst.length - 1];
+		} else if (baseConfig != null) {
 			return baseConfig.getRawString(section, subsection, name);
-		else
+		} else {
 			return null;
+		}
 	}
 
 	private String[] getRawStringList(String section, String subsection,

@@ -739,6 +739,12 @@ public class ConfigTest {
 				c.getStringList("a", null, "x"));
 	}
 
+	@Test
+	public void testReadMultipleValuesForName() throws ConfigInvalidException {
+		Config c = parse("[foo]\nbar=false\nbar=true\n");
+		assertTrue(c.getBoolean("foo", "bar", false));
+	}
+
 	private static void assertReadLong(long exp) throws ConfigInvalidException {
 		assertReadLong(exp, String.valueOf(exp));
 	}
