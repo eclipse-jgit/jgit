@@ -1108,6 +1108,19 @@ public class Config {
 		state.set(newState());
 	}
 
+	/**
+	 * Check if bytes should be treated as UTF-8 or not.
+	 *
+	 * @param bytes
+	 *            the bytes to check encoding for.
+	 * @return true if bytes should be treated as UTF-8, false otherwise.
+	 * @since 4.4
+	 */
+	protected boolean isUtf8(final byte[] bytes) {
+		return bytes.length >= 3 && bytes[0] == (byte) 0xEF
+				&& bytes[1] == (byte) 0xBB && bytes[2] == (byte) 0xBF;
+	}
+
 	private static String readSectionName(final StringReader in)
 			throws ConfigInvalidException {
 		final StringBuilder name = new StringBuilder();
