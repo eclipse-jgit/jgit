@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7dfcf21_163f893f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 637,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-05-11T22:26:30Z",
+      "side": 1,
+      "message": "style nit: since quite a while we use curly braces around single line blocks so missing braces should be added when touching old code not following this rule",
+      "revId": "7d0c480419f8f0ea657a10c3b9f17048e44e63d7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
