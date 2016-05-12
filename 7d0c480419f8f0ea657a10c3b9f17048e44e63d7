@@ -34,6 +34,24 @@
       "revId": "7d0c480419f8f0ea657a10c3b9f17048e44e63d7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_c2a71791",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 637,
+      "author": {
+        "id": 78063
+      },
+      "writtenOn": "2016-05-12T15:02:48Z",
+      "side": 1,
+      "message": "Didn\u0027t want to change previous code style, but ok, will do so next time; thx.",
+      "parentUuid": "e7dfcf21_36d9e59c",
+      "revId": "7d0c480419f8f0ea657a10c3b9f17048e44e63d7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
