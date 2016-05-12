@@ -34,6 +34,24 @@
       "revId": "fc912e543309a50856534a1dc1e7b3d2e4028ad6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dfcf21_42178750",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1117,
+      "author": {
+        "id": 78063
+      },
+      "writtenOn": "2016-05-12T14:50:30Z",
+      "side": 1,
+      "message": "Thx; will do next time.",
+      "parentUuid": "e7dfcf21_168dc9bb",
+      "revId": "fc912e543309a50856534a1dc1e7b3d2e4028ad6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
