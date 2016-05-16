@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87e453f8_be56f553",
+        "filename": "org.eclipse.jgit.test/tst-rsrc/org/eclipse/jgit/diff/M1.patch",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-05-16T09:17:14Z",
+      "side": 1,
+      "message": "git-apply complains here: \"fatal: corrupt patch at line 9\"\n\nadding a line feed at the end of line 9 fixes this\n\nwhy does ApplyCommand behave differently and accepts this patch which git-apply considers to be corrupt ?",
+      "revId": "70d377b1f648dd5f8208b8c47f58a3c6e2445500",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_1e660949",
+        "filename": "org.eclipse.jgit.test/tst-rsrc/org/eclipse/jgit/diff/M2.patch",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-05-16T09:17:14Z",
+      "side": 1,
+      "message": "git-apply complains here: \"fatal: corrupt patch at line 10\"\n\nadding a line feed at the end of line 10 fixes this",
+      "revId": "70d377b1f648dd5f8208b8c47f58a3c6e2445500",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_de53c162",
+        "filename": "org.eclipse.jgit.test/tst-rsrc/org/eclipse/jgit/diff/M3.patch",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-05-16T09:17:14Z",
+      "side": 1,
+      "message": "git-apply complains here: \"fatal: corrupt patch at line 10\"\n\nadding a line feed at the end of line 10 fixes this",
+      "revId": "70d377b1f648dd5f8208b8c47f58a3c6e2445500",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
