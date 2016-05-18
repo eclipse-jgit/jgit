@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87e453f8_69fe6c78",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-05-18T20:47:14Z",
+      "side": 1,
+      "message": "missing braces",
+      "revId": "fc2d5b6d912fb8c3aa7e1e2c60176e0c067c55cc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_49f9b08d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 677,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-05-18T20:47:14Z",
+      "side": 1,
+      "message": "missing braces",
+      "revId": "fc2d5b6d912fb8c3aa7e1e2c60176e0c067c55cc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
