@@ -122,7 +122,7 @@ public class FS_POSIX extends FS {
 							.defaultCharset().name()))) {
 				if (p.waitFor() == 0) {
 					String s = lineRead.readLine();
-					if (s.matches("0?\\d{3}")) { //$NON-NLS-1$
+					if (s != null && s.matches("0?\\d{3}")) { //$NON-NLS-1$
 						return Integer.parseInt(s, 8);
 					}
 				}
