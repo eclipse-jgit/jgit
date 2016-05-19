@@ -229,12 +229,12 @@ class SignerV4 {
 
 	private static void addHostHeader(URL url,
 			Map<String, String> headers) {
-		String hostHeader = url.getHost();
+		StringBuilder hostHeader = new StringBuilder(url.getHost());
 		int port = url.getPort();
 		if (port > -1) {
-			hostHeader.concat(":" + Integer.toString(port)); //$NON-NLS-1$
+			hostHeader.append(":").append(port); //$NON-NLS-1$
 		}
-		headers.put("Host", hostHeader); //$NON-NLS-1$
+		headers.put("Host", hostHeader.toString()); //$NON-NLS-1$
 	}
 
 	private static String canonicalizeHeaderNames(
