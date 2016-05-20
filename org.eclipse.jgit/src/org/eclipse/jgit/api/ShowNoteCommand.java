@@ -79,7 +79,7 @@ public class ShowNoteCommand extends GitCommand<Note> {
 		NoteMap map = NoteMap.newEmptyMap();
 		RevCommit notesCommit = null;
 		try (RevWalk walk = new RevWalk(repo)) {
-			Ref ref = repo.getRef(notesRef);
+			Ref ref = repo.findRef(notesRef);
 			// if we have a notes ref, use it
 			if (ref != null) {
 				notesCommit = walk.parseCommit(ref.getObjectId());

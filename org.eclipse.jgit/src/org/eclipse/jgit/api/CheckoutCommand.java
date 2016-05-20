@@ -223,7 +223,7 @@ public class CheckoutCommand extends GitCommand<Ref> {
 				}
 			}
 
-			Ref headRef = repo.getRef(Constants.HEAD);
+			Ref headRef = repo.exactRef(Constants.HEAD);
 			if (headRef == null) {
 				// TODO Git CLI supports checkout from unborn branch, we should
 				// also allow this
@@ -242,7 +242,7 @@ public class CheckoutCommand extends GitCommand<Ref> {
 								JGitText.get().checkoutUnexpectedResult,
 								r.name()));
 					this.status = CheckoutResult.NOT_TRIED_RESULT;
-					return repo.getRef(Constants.HEAD);
+					return repo.exactRef(Constants.HEAD);
 				}
 				branch = getStartPointObjectId();
 			} else {
@@ -277,7 +277,7 @@ public class CheckoutCommand extends GitCommand<Ref> {
 			} finally {
 				dc.unlock();
 			}
-			Ref ref = repo.getRef(name);
+			Ref ref = repo.findRef(name);
 			if (ref != null && !ref.getName().startsWith(Constants.R_HEADS))
 				ref = null;
 			String toName = Repository.shortenRefName(name);
@@ -289,7 +289,7 @@ public class CheckoutCommand extends GitCommand<Ref> {
 				updateResult = refUpdate.link(ref.getName());
 			else if (orphan) {
 				updateResult = refUpdate.link(getBranchName());
-				ref = repo.getRef(Constants.HEAD);
+				ref = repo.exactRef(Constants.HEAD);
 			} else {
 				refUpdate.setNewObjectId(newCommit);
 				updateResult = refUpdate.forceUpdate();
@@ -519,7 +519,7 @@ public class CheckoutCommand extends GitCommand<Ref> {
 					.get().branchNameInvalid, name == null ? "<null>" : name)); //$NON-NLS-1$
 
 		if (orphan) {
-			Ref refToCheck = repo.getRef(getBranchName());
+			Ref refToCheck = repo.exactRef(getBranchName());
 			if (refToCheck != null)
 				throw new RefAlreadyExistsException(MessageFormat.format(
 						JGitText.get().refAlreadyExists, name));

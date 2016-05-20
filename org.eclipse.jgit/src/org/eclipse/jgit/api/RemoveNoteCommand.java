@@ -85,7 +85,7 @@ public class RemoveNoteCommand extends GitCommand<Note> {
 				ObjectInserter inserter = repo.newObjectInserter()) {
 			NoteMap map = NoteMap.newEmptyMap();
 			RevCommit notesCommit = null;
-			Ref ref = repo.getRef(notesRef);
+			Ref ref = repo.findRef(notesRef);
 			// if we have a notes ref, use it
 			if (ref != null) {
 				notesCommit = walk.parseCommit(ref.getObjectId());

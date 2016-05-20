@@ -231,7 +231,7 @@ public class MergeCommand extends GitCommand<MergeResult> {
 		RevWalk revWalk = null;
 		DirCacheCheckout dco = null;
 		try {
-			Ref head = repo.getRef(Constants.HEAD);
+			Ref head = repo.exactRef(Constants.HEAD);
 			if (head == null)
 				throw new NoHeadException(
 						JGitText.get().commitOnRepoWithoutHEADCurrentlyNotSupported);

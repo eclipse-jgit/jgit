@@ -206,7 +206,7 @@ public class StashCreateCommand extends GitCommand<RevCommit> {
 			String refLogMessage) throws IOException {
 		if (ref == null)
 			return;
-		Ref currentRef = repo.getRef(ref);
+		Ref currentRef = repo.findRef(ref);
 		RefUpdate refUpdate = repo.updateRef(ref);
 		refUpdate.setNewObjectId(commitId);
 		refUpdate.setRefLogIdent(refLogIdent);
@@ -220,7 +220,7 @@ public class StashCreateCommand extends GitCommand<RevCommit> {
 
 	private Ref getHead() throws GitAPIException {
 		try {
-			Ref head = repo.getRef(Constants.HEAD);
+			Ref head = repo.exactRef(Constants.HEAD);
 			if (head == null || head.getObjectId() == null)
 				throw new NoHeadException(JGitText.get().headRequiredToStash);
 			return head;

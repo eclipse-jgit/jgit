@@ -195,7 +195,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 				}
 			}
 
-			Ref head = repo.getRef(Constants.HEAD);
+			Ref head = repo.exactRef(Constants.HEAD);
 			if (head == null)
 				throw new NoHeadException(
 						JGitText.get().commitOnRepoWithoutHEADCurrentlyNotSupported);
