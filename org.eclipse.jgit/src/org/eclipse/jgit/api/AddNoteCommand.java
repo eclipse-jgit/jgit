@@ -87,7 +87,7 @@ public class AddNoteCommand extends GitCommand<Note> {
 		RevCommit notesCommit = null;
 		try (RevWalk walk = new RevWalk(repo);
 				ObjectInserter inserter = repo.newObjectInserter()) {
-			Ref ref = repo.getRef(notesRef);
+			Ref ref = repo.findRef(notesRef);
 			// if we have a notes ref, use it
 			if (ref != null) {
 				notesCommit = walk.parseCommit(ref.getObjectId());
