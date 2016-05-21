@@ -1,9 +1,4 @@
 /*
- * Copyright (C) 2009, Constantine Plotnikov <constantine.plotnikov@gmail.com>
- * Copyright (C) 2008, Google Inc.
- * Copyright (C) 2010, Robin Rosenberg <robin.rosenberg@dewire.com>
- * Copyright (C) 2010, Sasa Zivkov <sasa.zivkov@sap.com>
- * Copyright (C) 2010, Chris Aniszczyk <caniszczyk@gmail.com>
  * Copyright (C) 2016, Rüdiger Herrmann <ruediger.herrmann@gmx.de>
  * and other copyright owners as documented in the project's IP log.
  *
@@ -48,42 +43,48 @@
 
 package org.eclipse.jgit.pgm;
 
+import static org.junit.Assert.assertArrayEquals;
+
 import java.io.File;
-import java.text.MessageFormat;
 
-import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.api.InitCommand;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.pgm.internal.CLIText;
-import org.kohsuke.args4j.Argument;
-import org.kohsuke.args4j.Option;
+import org.eclipse.jgit.lib.CLIRepositoryTestCase;
+import org.eclipse.jgit.lib.Constants;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 
-@Command(common = true, usage = "usage_CreateAnEmptyGitRepository")
-class Init extends TextBuiltin {
-	@Option(name = "--bare", usage = "usage_CreateABareRepository")
-	private boolean bare;
+public class InitTest extends CLIRepositoryTestCase {
 
-	@Argument(index = 0, metaVar = "metaVar_directory")
-	private String directory;
+	@Rule
+	public final TemporaryFolder tempFolder = new TemporaryFolder();
 
-	@Override
-	protected final boolean requiresRepository() {
-		return false;
+	@Test
+	public void testInitBare() throws Exception {
+		File directory = tempFolder.getRoot();
+
+		String[] result = execute(
+				"git init '" + directory.getCanonicalPath() + "' --bare");
+
+		String[] expecteds = new String[] {
+				"Initialized empty Git repository in "
+						+ directory.getCanonicalPath(),
+				"" };
+		assertArrayEquals(expecteds, result);
 	}
 
-	@Override
-	protected void run() throws Exception {
-		InitCommand command = Git.init();
-		command.setBare(bare);
-		if (gitdir != null) {
-			command.setDirectory(new File(gitdir));
-		}
-		if (directory != null) {
-			command.setDirectory(new File(directory));
-		}
-		Repository repository = command.call().getRepository();
-		outw.println(MessageFormat.format(
-				CLIText.get().initializedEmptyGitRepositoryIn, repository
-						.getDirectory().getAbsolutePath()));
+	@Test
+	public void testInitDirectory() throws Exception {
+		File workDirectory = tempFolder.getRoot();
+		File gitDirectory = new File(workDirectory, Constants.DOT_GIT);
+
+		String[] result = execute(
+				"git init '" + workDirectory.getCanonicalPath() + "'");
+
+		String[] expecteds = new String[] {
+				"Initialized empty Git repository in "
+						+ gitDirectory.getCanonicalPath(),
+				"" };
+		assertArrayEquals(expecteds, result);
 	}
+
 }
