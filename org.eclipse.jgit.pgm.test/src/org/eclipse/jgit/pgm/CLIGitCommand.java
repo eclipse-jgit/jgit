@@ -218,7 +218,7 @@ public class CLIGitCommand extends Main {
 					inquote = !inquote;
 				continue;
 			case '\\':
-				if (inquote || ip == commandLine.length())
+				if (inDblQuote || inquote || ip == commandLine.length())
 					r.append(b); // literal within a quote
 				else
 					r.append(commandLine.charAt(ip++));
