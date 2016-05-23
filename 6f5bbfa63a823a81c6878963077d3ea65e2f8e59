@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87e453f8_ea642017",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 603,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2016-05-23T07:24:37Z",
+      "side": 1,
+      "message": "I am just thinking about deleting this method and making operationType required. Reasoning in my comment on WorkingTreeIterator\nbtw: why wrapping brackets around the call, it simply a delegated call.",
+      "range": {
+        "startLine": 603,
+        "startChar": 18,
+        "endLine": 603,
+        "endChar": 31
+      },
+      "revId": "6f5bbfa63a823a81c6878963077d3ea65e2f8e59",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_8a555c28",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2016-05-23T07:24:37Z",
+      "side": 1,
+      "message": "minor: why keeping the old method? make the OperationType a not null required argument",
+      "range": {
+        "startLine": 383,
+        "startChar": 21,
+        "endLine": 383,
+        "endChar": 48
+      },
+      "revId": "6f5bbfa63a823a81c6878963077d3ea65e2f8e59",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_aa5a1854",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2016-05-23T07:24:37Z",
+      "side": 1,
+      "message": "minor: why keeping the old method? make the OperationType a not null required argument",
+      "range": {
+        "startLine": 453,
+        "startChar": 21,
+        "endLine": 453,
+        "endChar": 32
+      },
+      "revId": "6f5bbfa63a823a81c6878963077d3ea65e2f8e59",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_ca5f6444",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1351,
+      "author": {
+        "id": 1394
+      },
+      "writtenOn": "2016-05-23T07:24:37Z",
+      "side": 1,
+      "message": "same here: i understand that there would be an api change when removing this method, however making OperationType a not null required argument has the advantage that the decision what to pass has to be done on the original call and is therefore most specific.",
+      "range": {
+        "startLine": 1351,
+        "startChar": 22,
+        "endLine": 1351,
+        "endChar": 38
+      },
+      "revId": "6f5bbfa63a823a81c6878963077d3ea65e2f8e59",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
