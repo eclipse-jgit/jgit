@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "87e453f8_a5996bd3",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/EolRepositoryTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-05-23T15:15:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87e453f8_aa9938d3",
+      "revId": "6f5bbfa63a823a81c6878963077d3ea65e2f8e59",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87e453f8_ea642017",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
         "patchSetId": 1
