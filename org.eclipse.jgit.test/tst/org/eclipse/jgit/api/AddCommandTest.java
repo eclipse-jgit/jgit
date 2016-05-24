@@ -62,17 +62,29 @@ import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.junit.JGitTestUtil;
+import org.eclipse.jgit.junit.Repeat;
+import org.eclipse.jgit.junit.RepeatRule;
 import org.eclipse.jgit.junit.RepositoryTestCase;
-import org.eclipse.jgit.lib.*;
+import org.eclipse.jgit.lib.ConfigConstants;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.WorkingTreeOptions;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
+import org.junit.Rule;
 import org.junit.Test;
 
 public class AddCommandTest extends RepositoryTestCase {
+
+	@Rule
+	public RepeatRule repeatRule = new RepeatRule();
 
 	@Test
 	public void testAddNothing() throws GitAPIException {
@@ -216,6 +228,7 @@ public class AddCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
+	@Repeat(n = 500)
 	public void testBadCleanFilter() throws IOException, GitAPIException {
 		writeTrashFile("a.txt", "foo");
 		File script = writeTempFile("sedfoo s/o/e/g");
@@ -237,6 +250,7 @@ public class AddCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
+	@Repeat(n = 500)
 	public void testBadCleanFilter2() throws IOException, GitAPIException {
 		writeTrashFile("a.txt", "foo");
 		File script = writeTempFile("sed s/o/e/g");
@@ -258,6 +272,7 @@ public class AddCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
+	@Repeat(n = 500)
 	public void testCleanFilterReturning12() throws IOException,
 			GitAPIException {
 		writeTrashFile("a.txt", "foo");
