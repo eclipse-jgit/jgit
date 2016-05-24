@@ -43,10 +43,10 @@
 package org.eclipse.jgit.api;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.fail;
 
 import java.io.File;
@@ -271,6 +271,7 @@ public class CommitCommandTest extends RepositoryTestCase {
 			update.setNewObjectId(commit);
 			assertEquals(Result.FORCED, update.forceUpdate());
 
+			RepositoryTestCase.fsTick(null);
 			RevCommit submoduleEditCommit = git.commit()
 					.setMessage("submodule add").setOnly(path).call();
 			assertNotNull(submoduleEditCommit);
