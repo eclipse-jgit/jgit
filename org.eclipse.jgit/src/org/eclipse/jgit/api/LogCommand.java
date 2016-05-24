@@ -65,6 +65,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.revwalk.filter.AndRevFilter;
 import org.eclipse.jgit.revwalk.filter.MaxCountRevFilter;
+import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.revwalk.filter.SkipRevFilter;
 import org.eclipse.jgit.treewalk.filter.AndTreeFilter;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
@@ -103,6 +104,8 @@ public class LogCommand extends GitCommand<Iterable<RevCommit>> {
 	private RevWalk walk;
 
 	private boolean startSpecified = false;
+
+	private RevFilter revFilter;
 
 	private final List<PathFilter> pathFilters = new ArrayList<PathFilter>();
 
@@ -156,6 +159,11 @@ public class LogCommand extends GitCommand<Iterable<RevCommit>> {
 						e);
 			}
 		}
+
+		if (this.revFilter != null) {
+			walk.setRevFilter(this.revFilter);
+		}
+
 		setCallable(false);
 		return walk;
 	}
@@ -341,5 +349,22 @@ public class LogCommand extends GitCommand<Iterable<RevCommit>> {
 					JGitText.get().exceptionOccurredDuringAddingOfOptionToALogCommand
 					, start), e);
 		}
+	}
+
+
+	/**
+	 * Sets a filter for the <code>LogCommand</code>.
+	 *
+	 *
+	 * @param aFilter
+	 *            the filter that this instance of <code>LogCommand</code>
+	 *            should use
+	 * @return {@code this}
+	 * @since 4.4
+	 */
+	public LogCommand setRevFilter(RevFilter aFilter) {
+		checkCallable();
+		this.revFilter = aFilter;
+		return this;
 	}
 }

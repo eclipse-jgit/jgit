@@ -655,8 +655,12 @@ public class GC {
 	}
 
 	/**
-	 * Returns a collection of all refs and additional refs (e.g. FETCH_HEAD,
-	 * MERGE_HEAD, ...)
+	 * Returns a collection of all refs and additional refs.
+	 *
+	 * Additional refs which don't start with "refs/" are not returned because
+	 * they should not save objects from being garbage collected. Examples for
+	 * such references are ORIG_HEAD, MERGE_HEAD, FETCH_HEAD and
+	 * CHERRY_PICK_HEAD.
 	 *
 	 * @return a collection of refs pointing to live objects.
 	 * @throws IOException
@@ -668,7 +672,12 @@ public class GC {
 		if (!addl.isEmpty()) {
 			List<Ref> all = new ArrayList<>(refs.size() + addl.size());
 			all.addAll(refs);
-			all.addAll(addl);
+			// add additional refs which start with refs/
+			for (Ref r : addl) {
+				if (r.getName().startsWith(Constants.R_REFS)) {
+					all.add(r);
+				}
+			}
 			return all;
 		}
 		return refs;

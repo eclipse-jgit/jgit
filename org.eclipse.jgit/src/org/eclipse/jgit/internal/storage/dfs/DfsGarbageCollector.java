@@ -241,7 +241,12 @@ public class DfsGarbageCollector {
 		if (!addl.isEmpty()) {
 			List<Ref> all = new ArrayList<>(refs.size() + addl.size());
 			all.addAll(refs);
-			all.addAll(addl);
+			// add additional refs which start with refs/
+			for (Ref r : addl) {
+				if (r.getName().startsWith(Constants.R_REFS)) {
+					all.add(r);
+				}
+			}
 			return all;
 		}
 		return refs;

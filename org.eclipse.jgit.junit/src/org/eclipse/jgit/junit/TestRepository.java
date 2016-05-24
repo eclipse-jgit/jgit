@@ -586,6 +586,31 @@ public class TestRepository<R extends Repository> {
 		}
 	}
 
+	/**
+	 * Delete a reference.
+	 *
+	 * @param ref
+	 *	      the name of the reference to delete. This is normalized
+	 *	      in the same way as {@link #update(String, AnyObjectId)}.
+	 * @throws Exception
+	 * @since 4.4
+	 */
+	public void delete(String ref) throws Exception {
+		ref = normalizeRef(ref);
+		RefUpdate u = db.updateRef(ref);
+		switch (u.delete()) {
+		case FAST_FORWARD:
+		case FORCED:
+		case NEW:
+		case NO_CHANGE:
+			updateServerInfo();
+			return;
+
+		default:
+			throw new IOException("Cannot delete " + ref + " " + u.getResult());
+		}
+	}
+
 	private static String normalizeRef(String ref) {
 		if (Constants.HEAD.equals(ref)) {
 			// nothing
@@ -958,6 +983,15 @@ public class TestRepository<R extends Repository> {
 		 */
 		public RevCommit update(RevCommit to) throws Exception {
 			return TestRepository.this.update(ref, to);
+		}
+
+		/**
+		 * Delete this branch.
+		 * @throws Exception
+		 * @since 4.4
+		 */
+		public void delete() throws Exception {
+			TestRepository.this.delete(ref);
 		}
 	}
 

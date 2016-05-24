@@ -1,0 +1,10 @@
+diff --git a/M3 b/M3
+old mode 100755
+new mode 100644
+index 0000000..de98044
+--- a/M3
++++ b/M3
+@@ -1,1 +1,3 @@
+ a
++b
++c

@@ -82,6 +82,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
  * <b>Merge filters:</b>
  * <ul>
  * <li>Skip all merges: {@link #NO_MERGES}.</li>
+ * <li>Skip all non-merges: {@link #ONLY_MERGES}</li>
  * </ul>
  *
  * <p>
@@ -140,6 +141,37 @@ public abstract class RevFilter {
 		@Override
 		public String toString() {
 			return "NONE"; //$NON-NLS-1$
+		}
+	}
+
+	/**
+	 * Filter including only merge commits, excluding all commits with less than
+	 * two parents (thread safe).
+	 *
+	 * @since 4.4
+	 */
+	public static final RevFilter ONLY_MERGES = new OnlyMergesFilter();
+
+	private static final class OnlyMergesFilter extends RevFilter {
+
+		@Override
+		public boolean include(RevWalk walker, RevCommit c) {
+			return c.getParentCount() >= 2;
+		}
+
+		@Override
+		public RevFilter clone() {
+			return this;
+		}
+
+		@Override
+		public boolean requiresCommitBody() {
+			return false;
+		}
+
+		@Override
+		public String toString() {
+			return "ONLY_MERGES"; //$NON-NLS-1$
 		}
 	}
 

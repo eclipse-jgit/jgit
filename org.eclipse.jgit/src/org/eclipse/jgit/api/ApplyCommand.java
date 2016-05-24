@@ -58,6 +58,7 @@ import org.eclipse.jgit.api.errors.PatchFormatException;
 import org.eclipse.jgit.diff.DiffEntry.ChangeType;
 import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.patch.FileHeader;
 import org.eclipse.jgit.patch.HunkHeader;
@@ -260,6 +261,8 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 		FileWriter fw = new FileWriter(f);
 		fw.write(sb.toString());
 		fw.close();
+
+		getRepository().getFS().setExecute(f, fh.getNewMode() == FileMode.EXECUTABLE_FILE);
 	}
 
 	private static boolean isChanged(List<String> ol, List<String> nl) {

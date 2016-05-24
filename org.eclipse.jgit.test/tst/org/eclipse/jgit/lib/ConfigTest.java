@@ -56,6 +56,9 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -64,17 +67,28 @@ import java.util.Set;
 
 import org.eclipse.jgit.api.MergeCommand.FastForwardMode;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.junit.MockSystemReader;
 import org.eclipse.jgit.merge.MergeConfig;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.SystemReader;
 import org.junit.After;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import org.junit.rules.TemporaryFolder;
 
 /**
  * Test reading of git config
  */
 public class ConfigTest {
+
+	@Rule
+	public ExpectedException expectedEx = ExpectedException.none();
+
+	@Rule
+	public TemporaryFolder tmp = new TemporaryFolder();
 
 	@After
 	public void tearDown() {
@@ -737,6 +751,81 @@ public class ConfigTest {
 		assertNull(c.getString("a", null, "x"));
 		assertArrayEquals(new String[]{null},
 				c.getStringList("a", null, "x"));
+	}
+
+	@Test
+	public void testReadMultipleValuesForName() throws ConfigInvalidException {
+		Config c = parse("[foo]\nbar=false\nbar=true\n");
+		assertTrue(c.getBoolean("foo", "bar", false));
+	}
+
+	@Test
+	public void testIncludeInvalidName() throws ConfigInvalidException {
+		expectedEx.expect(ConfigInvalidException.class);
+		expectedEx.expectMessage(JGitText.get().invalidLineInConfigFile);
+		parse("[include]\nbar\n");
+	}
+
+	@Test
+	public void testIncludeNoValue() throws ConfigInvalidException {
+		expectedEx.expect(ConfigInvalidException.class);
+		expectedEx.expectMessage(JGitText.get().invalidLineInConfigFile);
+		parse("[include]\npath\n");
+	}
+
+	@Test
+	public void testIncludeEmptyValue() throws ConfigInvalidException {
+		expectedEx.expect(ConfigInvalidException.class);
+		expectedEx.expectMessage(JGitText.get().invalidLineInConfigFile);
+		parse("[include]\npath=\n");
+	}
+
+	@Test
+	public void testIncludeValuePathNotFound() throws ConfigInvalidException {
+		String notFound = "/not/found";
+		expectedEx.expect(ConfigInvalidException.class);
+		expectedEx.expectMessage(notFound);
+		parse("[include]\npath=" + notFound + "\n");
+	}
+
+	@Test
+	public void testIncludeTooManyRecursions() throws IOException {
+		File config = tmp.newFile("config");
+		String include = "[include]\npath=" + config.toPath() + "\n";
+		Files.write(config.toPath(), include.getBytes());
+		FileBasedConfig fbConfig = new FileBasedConfig(null, config,
+				FS.DETECTED);
+		try {
+			fbConfig.load();
+			fail();
+		} catch (ConfigInvalidException cie) {
+			assertEquals(JGitText.get().tooManyIncludeRecursions,
+					cie.getCause().getMessage());
+		}
+	}
+
+	@Test
+	public void testInclude() throws IOException, ConfigInvalidException {
+		File config = tmp.newFile("config");
+		File more = tmp.newFile("config.more");
+		File other = tmp.newFile("config.other");
+
+		String fooBar = "[foo]\nbar=true\n";
+		String includeMore = "[include]\npath=" + more.toPath() + "\n";
+		String includeOther = "path=" + other.toPath() + "\n";
+		String fooPlus = fooBar + includeMore + includeOther;
+		Files.write(config.toPath(), fooPlus.getBytes());
+
+		String fooMore = "[foo]\nmore=bar\n";
+		Files.write(more.toPath(), fooMore.getBytes());
+
+		String otherMore = "[other]\nmore=bar\n";
+		Files.write(other.toPath(), otherMore.getBytes());
+
+		Config parsed = parse("[include]\npath=" + config.toPath() + "\n");
+		assertTrue(parsed.getBoolean("foo", "bar", false));
+		assertEquals("bar", parsed.getString("foo", null, "more"));
+		assertEquals("bar", parsed.getString("other", null, "more"));
 	}
 
 	private static void assertReadLong(long exp) throws ConfigInvalidException {
