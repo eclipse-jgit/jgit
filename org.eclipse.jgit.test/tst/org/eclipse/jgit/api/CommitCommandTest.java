@@ -60,6 +60,8 @@ import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEntry;
+import org.eclipse.jgit.junit.Repeat;
+import org.eclipse.jgit.junit.RepeatRule;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
@@ -76,12 +78,16 @@ import org.eclipse.jgit.submodule.SubmoduleWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.eclipse.jgit.util.FS;
+import org.junit.Rule;
 import org.junit.Test;
 
 /**
  * Unit tests of {@link CommitCommand}.
  */
 public class CommitCommandTest extends RepositoryTestCase {
+
+	@Rule
+	public RepeatRule repeatRule = new RepeatRule();
 
 	@Test
 	public void testExecutableRetention() throws Exception {
@@ -233,6 +239,7 @@ public class CommitCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
+	@Repeat(n = 500)
 	public void commitSubmoduleUpdate() throws Exception {
 		try (Git git = new Git(db)) {
 			writeTrashFile("file.txt", "content");
