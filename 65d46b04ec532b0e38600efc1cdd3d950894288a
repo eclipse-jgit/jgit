@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87e453f8_717f1251",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2016-05-27T18:47:48Z",
+      "side": 1,
+      "message": "Missing $NON_NLS_1$ here, and the following \" \" and \"\\n\".",
+      "range": {
+        "startLine": 518,
+        "startChar": 17,
+        "endLine": 518,
+        "endChar": 20
+      },
+      "revId": "65d46b04ec532b0e38600efc1cdd3d950894288a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
