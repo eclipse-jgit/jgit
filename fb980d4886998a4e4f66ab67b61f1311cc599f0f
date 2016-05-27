@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "87e453f8_f151625b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/ManifestParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-05-27T21:23:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87e453f8_318aeaf8",
+      "range": {
+        "startLine": 196,
+        "startChar": 25,
+        "endLine": 196,
+        "endChar": 36
+      },
+      "revId": "fb980d4886998a4e4f66ab67b61f1311cc599f0f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87e453f8_91981e4c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
         "patchSetId": 3
@@ -36,6 +60,24 @@
       "writtenOn": "2016-05-27T18:43:37Z",
       "side": 1,
       "message": "So you are converting string into boolean, some information is lost during this conversion. Please add comments to explain it.",
+      "revId": "fb980d4886998a4e4f66ab67b61f1311cc599f0f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_34de5853",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-05-27T21:23:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87e453f8_91981e4c",
       "revId": "fb980d4886998a4e4f66ab67b61f1311cc599f0f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
