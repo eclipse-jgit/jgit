@@ -52,16 +52,25 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
+import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** Cache of active {@link Repository} instances. */
 public class RepositoryCache {
 	private static final RepositoryCache cache = new RepositoryCache();
+
+	private final static Logger LOG = LoggerFactory
+			.getLogger(RepositoryCache.class);
 
 	/**
 	 * Open an existing repository, reusing a cached instance if possible.
@@ -138,10 +147,10 @@ public class RepositoryCache {
 	 * @param db
 	 *            repository to unregister.
 	 */
-	public static void close(final Repository db) {
+	public static void close(@NonNull final Repository db) {
 		if (db.getDirectory() != null) {
 			FileKey key = FileKey.exact(db.getDirectory(), db.getFS());
-			cache.unregisterAndCloseRepository(key);
+			cache.unregisterAndCloseRepository(key, db);
 		}
 	}
 
@@ -187,20 +196,69 @@ public class RepositoryCache {
 		return cache.getKeys();
 	}
 
+	static boolean isCached(@NonNull Repository repo) {
+		File gitDir = repo.getDirectory();
+		if (gitDir == null) {
+			return false;
+		}
+		FileKey key = new FileKey(gitDir, repo.getFS());
+		Reference<Repository> repoRef = cache.cacheMap.get(key);
+		return repoRef != null && repoRef.get() == repo;
+	}
+
 	/** Unregister all repositories from the cache. */
 	public static void clear() {
 		cache.clearAll();
+	}
+
+	static void clearExpired() {
+		cache.clearAllExpired();
+	}
+
+	static void reconfigure(RepositoryCacheConfig repositoryCacheConfig) {
+		cache.configureEviction(repositoryCacheConfig);
 	}
 
 	private final ConcurrentHashMap<Key, Reference<Repository>> cacheMap;
 
 	private final Lock[] openLocks;
 
+	private ScheduledFuture<?> cleanupTask;
+
+	private volatile long expireAfter;
+
 	private RepositoryCache() {
 		cacheMap = new ConcurrentHashMap<Key, Reference<Repository>>();
 		openLocks = new Lock[4];
-		for (int i = 0; i < openLocks.length; i++)
+		for (int i = 0; i < openLocks.length; i++) {
 			openLocks[i] = new Lock();
+		}
+		configureEviction(new RepositoryCacheConfig());
+	}
+
+	private void configureEviction(
+			RepositoryCacheConfig repositoryCacheConfig) {
+		expireAfter = repositoryCacheConfig.getExpireAfter();
+		ScheduledThreadPoolExecutor scheduler = WorkQueue.getExecutor();
+		synchronized (scheduler) {
+			if (cleanupTask != null) {
+				cleanupTask.cancel(false);
+			}
+			long delay = repositoryCacheConfig.getCleanupDelay();
+			if (delay == RepositoryCacheConfig.NO_CLEANUP) {
+				return;
+			}
+			cleanupTask = scheduler.scheduleWithFixedDelay(new Runnable() {
+				@Override
+				public void run() {
+					try {
+						cache.clearAllExpired();
+					} catch (Throwable e) {
+						LOG.error(e.getMessage(), e);
+					}
+				}
+			}, delay, delay, TimeUnit.MILLISECONDS);
+		}
 	}
 
 	@SuppressWarnings("resource")
@@ -239,15 +297,34 @@ public class RepositoryCache {
 		return oldRef != null ? oldRef.get() : null;
 	}
 
-	private void unregisterAndCloseRepository(final Key location) {
-		Repository oldDb = unregisterRepository(location);
-		if (oldDb != null) {
-			oldDb.close();
+	private boolean isExpired(Repository db) {
+		return db != null && db.useCnt.get() == 0
+			&& (System.currentTimeMillis() - db.closedAt.get() > expireAfter);
+	}
+
+	private void unregisterAndCloseRepository(final Key location,
+			Repository db) {
+		synchronized (lockFor(location)) {
+			if (isExpired(db)) {
+				Repository oldDb = unregisterRepository(location);
+				if (oldDb != null) {
+					oldDb.close();
+				}
+			}
 		}
 	}
 
 	private Collection<Key> getKeys() {
 		return new ArrayList<Key>(cacheMap.keySet());
+	}
+
+	private void clearAllExpired() {
+		for (Reference<Repository> ref : cacheMap.values()) {
+			Repository db = ref.get();
+			if (isExpired(db)) {
+				RepositoryCache.close(db);
+			}
+		}
 	}
 
 	private void clearAll() {
