@@ -19,6 +19,29 @@
     },
     {
       "key": {
+        "uuid": "87e453f8_ebdc0bde",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 876,
+      "author": {
+        "id": 6590
+      },
+      "writtenOn": "2016-05-30T18:02:08Z",
+      "side": 1,
+      "message": "A Repository can be opened through the RepositoryCache or in a standalone way. We cannot change the close method to not close otherwise we will affect the standalone use case. The repository will never be closed because evict will not be called in standalone.\n\nI see 2 options here:\n\nRepository opened through the repository cache could be wrapped in a class holding the usage counters (useCnt and lastUsed) and overwrite the close method to do the logic done in evict method. The problem with that approach is that wrapping repository in not possible when repository is added to the cache using the register method. For this solution to work, we would need to remove the register method (and break backward compatibility).\n\nAnother option is when repository are opened through the RepositoryCache, we leak one usage counter(as it was originally implemented) so useCnt\u003d1 would mean that repo is not used but still in cache. In the therminator thread we do:\n\nRunnable terminator \u003d new Runnable() {\n  @Override\n  public void run() {\n    try {\n      for (Reference\u003cRepository\u003e ref : cacheMap.values()) {\n        Repository repository \u003d ref.get();\n        if (repository.useCnt.get() \u003d\u003d 1 \u0026\u0026 (System.currentTimeMillis() - repository.lastUsed.get() \u003e 20000)) {\n          RepositoryCache.unregister(repository);\n          repository.close();\n        }\n      }\n    } catch (Throwable e) {\n      LOG.error(e.getMessage(), e);\n    }\n  }\n};",
+      "range": {
+        "startLine": 873,
+        "startChar": 1,
+        "endLine": 876,
+        "endChar": 2
+      },
+      "revId": "aec0018f5e02d651d39276dddb85a99813780227",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87e453f8_60f2da90",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 1
