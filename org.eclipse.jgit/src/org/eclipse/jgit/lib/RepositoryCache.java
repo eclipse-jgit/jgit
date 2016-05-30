@@ -52,16 +52,23 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
+import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** Cache of active {@link Repository} instances. */
 public class RepositoryCache {
 	private static final RepositoryCache cache = new RepositoryCache();
+
+	private final static Logger LOG = LoggerFactory
+			.getLogger(RepositoryCache.class);
 
 	/**
 	 * Open an existing repository, reusing a cached instance if possible.
@@ -138,10 +145,10 @@ public class RepositoryCache {
 	 * @param db
 	 *            repository to unregister.
 	 */
-	public static void close(final Repository db) {
+	public static void close(@NonNull final Repository db) {
 		if (db.getDirectory() != null) {
 			FileKey key = FileKey.exact(db.getDirectory(), db.getFS());
-			cache.unregisterAndCloseRepository(key);
+			cache.unregisterAndCloseRepository(key, db);
 		}
 	}
 
@@ -199,8 +206,35 @@ public class RepositoryCache {
 	private RepositoryCache() {
 		cacheMap = new ConcurrentHashMap<Key, Reference<Repository>>();
 		openLocks = new Lock[4];
-		for (int i = 0; i < openLocks.length; i++)
+		for (int i = 0; i < openLocks.length; i++) {
 			openLocks[i] = new Lock();
+		}
+
+		Runnable terminator = new Runnable() {
+
+			@Override
+			public void run() {
+				try {
+					for (Reference<Repository> ref : cache.cacheMap
+							.values()) {
+						Repository db = ref.get();
+						if (db != null && isExpired(db)) {
+							RepositoryCache.close(db);
+						}
+					}
+				} catch (Throwable e) {
+					LOG.error(e.getMessage(), e);
+				}
+			}
+
+			private boolean isExpired(Repository db) {
+				return db.useCnt.get() == 0 && (System.currentTimeMillis()
+						- db.closedAt.get() > 20000);
+			}
+		};
+
+		WorkQueue.getExecutor().scheduleWithFixedDelay(terminator, 10, 10,
+				TimeUnit.SECONDS);
 	}
 
 	@SuppressWarnings("resource")
@@ -239,15 +273,30 @@ public class RepositoryCache {
 		return oldRef != null ? oldRef.get() : null;
 	}
 
-	private void unregisterAndCloseRepository(final Key location) {
-		Repository oldDb = unregisterRepository(location);
-		if (oldDb != null) {
-			oldDb.close();
+	private void unregisterAndCloseRepository(final Key location,
+			Repository db) {
+		synchronized (lockFor(location)) {
+			if (db.useCnt.get() == 0) {
+				Repository oldDb = unregisterRepository(location);
+				if (oldDb != null) {
+					oldDb.close();
+				}
+			}
 		}
 	}
 
 	private Collection<Key> getKeys() {
 		return new ArrayList<Key>(cacheMap.keySet());
+	}
+
+	static boolean isCached(@NonNull Repository repo) {
+		File gitDir = repo.getDirectory();
+		if (gitDir == null) {
+			return false;
+		}
+		FileKey key = new FileKey(gitDir, repo.getFS());
+		Reference<Repository> repoRef = cache.cacheMap.get(key);
+		return repoRef != null && repoRef.get() == repo;
 	}
 
 	private void clearAll() {
