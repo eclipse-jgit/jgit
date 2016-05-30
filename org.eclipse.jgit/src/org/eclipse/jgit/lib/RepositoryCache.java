@@ -52,16 +52,26 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.TimeUnit;
 
+import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** Cache of active {@link Repository} instances. */
 public class RepositoryCache {
 	private static final RepositoryCache cache = new RepositoryCache();
+
+	private final static Logger LOG = LoggerFactory
+			.getLogger(RepositoryCache.class);
 
 	/**
 	 * Open an existing repository, reusing a cached instance if possible.
@@ -179,6 +189,17 @@ public class RepositoryCache {
 		cache.unregisterRepository(location);
 	}
 
+	private void evict(Repository repo) {
+		LOG.debug("Called evict() for {}, ttl: {}", repo.getDirectory(),
+				20000 - (System.currentTimeMillis() - repo.closedAt.get()));
+		if (repo.useCnt.get() == 0
+				&& (System.currentTimeMillis() - repo.closedAt.get() > 20000)) {
+			LOG.debug("evict()!");
+			repo.doClose();
+			unregister(repo);
+		}
+	}
+
 	/**
 	 * @return the locations of all repositories registered in the cache.
 	 * @since 4.1
@@ -196,11 +217,59 @@ public class RepositoryCache {
 
 	private final Lock[] openLocks;
 
+	final Object schedulerKiller;
+
+	private final ScheduledThreadPoolExecutor scheduler;
+
 	private RepositoryCache() {
 		cacheMap = new ConcurrentHashMap<Key, Reference<Repository>>();
 		openLocks = new Lock[4];
 		for (int i = 0; i < openLocks.length; i++)
 			openLocks[i] = new Lock();
+
+		Runnable terminator = new Runnable() {
+			@Override
+			public void run() {
+				try {
+					for (Reference<Repository> ref : cache.cacheMap.values()) {
+						Repository repository = ref.get();
+						if (repository != null) {
+							cache.evict(repository);
+						}
+					}
+				} catch (Throwable e) {
+					LOG.error(e.getMessage(), e);
+				}
+			}
+		};
+		scheduler = new ScheduledThreadPoolExecutor(1, new ThreadFactory() {
+			private final ThreadFactory baseFactory = Executors
+					.defaultThreadFactory();
+
+			public Thread newThread(Runnable taskBody) {
+				Thread thr = baseFactory.newThread(taskBody);
+				thr.setName("JGit-RepositoryCacheTerminator"); //$NON-NLS-1$
+				thr.setDaemon(true);
+				return thr;
+			}
+		});
+		schedulerKiller = new Object() {
+			@Override
+			protected void finalize() throws Throwable {
+				scheduler.shutdownNow();
+			}
+		};
+
+		scheduler.scheduleWithFixedDelay(terminator, 10, 10, TimeUnit.SECONDS);
+		scheduler.setContinueExistingPeriodicTasksAfterShutdownPolicy(false);
+		scheduler.setExecuteExistingDelayedTasksAfterShutdownPolicy(false);
+		scheduler.prestartAllCoreThreads();
+
+		// Now that the threads are running, its critical to swap out
+		// our own thread factory for one that isn't in the ClassLoader.
+		// This allows the class to GC.
+		//
+		scheduler.setThreadFactory(Executors.defaultThreadFactory());
 	}
 
 	@SuppressWarnings("resource")
@@ -248,6 +317,16 @@ public class RepositoryCache {
 
 	private Collection<Key> getKeys() {
 		return new ArrayList<Key>(cacheMap.keySet());
+	}
+
+	static boolean isCached(@NonNull Repository repo) {
+		File gitDir = repo.getDirectory();
+		if (gitDir == null) {
+			return false;
+		}
+		FileKey key = new FileKey(gitDir, repo.getFS());
+		Reference<Repository> repoRef = cache.cacheMap.get(key);
+		return repoRef != null && repoRef.get() == repo;
 	}
 
 	private void clearAll() {
