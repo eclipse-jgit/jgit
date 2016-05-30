@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "87e453f8_4b1edf22",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 876,
+      "author": {
+        "id": 6590
+      },
+      "writtenOn": "2016-05-30T18:09:41Z",
+      "side": 1,
+      "message": "and Repository close method would look like this:\n\npublic void close() {\n  lastUsed.set(System.currentTimeMillis());\n  if (useCnt.decrementAndGet() \u003d\u003d 0) {\n    doClose();\n  }\n}",
+      "parentUuid": "87e453f8_ebdc0bde",
+      "range": {
+        "startLine": 873,
+        "startChar": 1,
+        "endLine": 876,
+        "endChar": 2
+      },
+      "revId": "aec0018f5e02d651d39276dddb85a99813780227",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87e453f8_60f2da90",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 1
