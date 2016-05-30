@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87e453f8_c0c9ee4f",
+        "filename": "org.eclipse.jgit.pgm/resources/log4j.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-05-30T14:22:51Z",
+      "side": 1,
+      "message": "just for testing to see debug output",
+      "revId": "aec0018f5e02d651d39276dddb85a99813780227",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_60f2da90",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 880,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-05-30T14:22:51Z",
+      "side": 1,
+      "message": "just for testing",
+      "revId": "aec0018f5e02d651d39276dddb85a99813780227",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_80b1a6cb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-05-30T14:22:51Z",
+      "side": 1,
+      "message": "of course we need configuration parameters for time to live.",
+      "range": {
+        "startLine": 219,
+        "startChar": 24,
+        "endLine": 219,
+        "endChar": 29
+      },
+      "revId": "aec0018f5e02d651d39276dddb85a99813780227",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_60ad7a71",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-05-30T14:22:51Z",
+      "side": 1,
+      "message": "also needs to be configurable",
+      "range": {
+        "startLine": 230,
+        "startChar": 47,
+        "endLine": 230,
+        "endChar": 71
+      },
+      "revId": "aec0018f5e02d651d39276dddb85a99813780227",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
