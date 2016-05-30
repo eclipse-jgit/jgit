@@ -52,16 +52,23 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** Cache of active {@link Repository} instances. */
 public class RepositoryCache {
 	private static final RepositoryCache cache = new RepositoryCache();
+
+	private final static Logger LOG = LoggerFactory
+			.getLogger(RepositoryCache.class);
 
 	/**
 	 * Open an existing repository, reusing a cached instance if possible.
@@ -201,6 +208,26 @@ public class RepositoryCache {
 		openLocks = new Lock[4];
 		for (int i = 0; i < openLocks.length; i++)
 			openLocks[i] = new Lock();
+
+		Runnable terminator = new Runnable() {
+			@Override
+			public void run() {
+				try {
+					for (Reference<Repository> ref : cacheMap.values()) {
+						Repository repository = ref.get();
+						if (repository != null) {
+							repository.evict(20000);
+						}
+					}
+				} catch (Throwable e) {
+					LOG.error(e.getMessage(), e);
+				}
+			}
+		};
+		ScheduledThreadPoolExecutor scheduler = new ScheduledThreadPoolExecutor(
+				1);
+		// TODO: name the threads
+		scheduler.scheduleWithFixedDelay(terminator, 10, 10, TimeUnit.SECONDS);
 	}
 
 	@SuppressWarnings("resource")
