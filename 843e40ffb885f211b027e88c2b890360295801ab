@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87e453f8_13f88970",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryCache.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2016-05-31T16:58:29Z",
+      "side": 1,
+      "message": "static?",
+      "revId": "843e40ffb885f211b027e88c2b890360295801ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_b3e0b5b6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryCache.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2016-05-31T16:58:29Z",
+      "side": 1,
+      "message": "When this condition is true, the current thread will call repo.doClose() at the line 198.\n\nHowever, if another thread calls RepositoryCache.open(...) for the same repo name before this thread reaches the line 198, it will get the same repo instance which we will doClose at the line 198.",
+      "range": {
+        "startLine": 195,
+        "startChar": 0,
+        "endLine": 196,
+        "endChar": 68
+      },
+      "revId": "843e40ffb885f211b027e88c2b890360295801ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
