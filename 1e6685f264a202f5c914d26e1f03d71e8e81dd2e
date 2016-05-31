@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "87e453f8_096bfa68",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 846,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-05-31T22:19:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87e453f8_2e2b5c08",
+      "range": {
+        "startLine": 846,
+        "startChar": 26,
+        "endLine": 846,
+        "endChar": 33
+      },
+      "revId": "1e6685f264a202f5c914d26e1f03d71e8e81dd2e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87e453f8_0975ba70",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
         "patchSetId": 6
@@ -36,6 +60,30 @@
       "writtenOn": "2016-05-31T22:07:08Z",
       "side": 1,
       "message": "s/loosing/losing/",
+      "range": {
+        "startLine": 534,
+        "startChar": 40,
+        "endLine": 534,
+        "endChar": 47
+      },
+      "revId": "1e6685f264a202f5c914d26e1f03d71e8e81dd2e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_2970b64e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 534,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-05-31T22:19:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87e453f8_0975ba70",
       "range": {
         "startLine": 534,
         "startChar": 40,
