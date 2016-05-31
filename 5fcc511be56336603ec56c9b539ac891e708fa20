@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "87e453f8_c980329b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 5338
+      },
+      "writtenOn": "2016-05-31T22:20:33Z",
+      "side": 1,
+      "message": "I think the whole gitrepo directory are only to be used in the transition from repo to submodule. Once we are in the whole new submodule world we won\u0027t need any code under gitrepo directory any more :)",
+      "parentUuid": "87e453f8_e9132e18",
+      "range": {
+        "startLine": 516,
+        "startChar": 0,
+        "endLine": 516,
+        "endChar": 33
+      },
+      "revId": "5fcc511be56336603ec56c9b539ac891e708fa20",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87e453f8_8ea55001",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
         "patchSetId": 11
