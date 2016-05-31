@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87e453f8_9d04a8d0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 879,
+      "author": {
+        "id": 6590
+      },
+      "writtenOn": "2016-05-31T12:40:20Z",
+      "side": 1,
+      "message": "If the repository is not open through the cache, it will never be closed.\n\nThat\u0027s why I think we should leave the close almost as it was:\n\npublic void close() {\n  lastUsed.set(System.currentTimeMillis());\n  if (useCnt.decrementAndGet() \u003d\u003d 0) {\n    doClose();\n  }\n}\n\nand move the eviction code in the terminator thread. IMHO, the notion of eviction belongs to the RepositoryCache object and should not exist in Repository.",
+      "range": {
+        "startLine": 873,
+        "startChar": 1,
+        "endLine": 879,
+        "endChar": 2
+      },
+      "revId": "f6ea0e0465950ff49bc96cbe7eac66ca9762a800",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
