@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "87e453f8_e680c29a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RemoveNoteCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-05-31T06:39:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87e453f8_a57a46da",
+      "range": {
+        "startLine": 88,
+        "startChar": 18,
+        "endLine": 88,
+        "endChar": 25
+      },
+      "revId": "943bab4c2640067e6b64cc586872648242954525",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87e453f8_c5667248",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ShowNoteCommand.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2016-05-24T18:10:06Z",
       "side": 1,
       "message": "exactRef",
+      "range": {
+        "startLine": 82,
+        "startChar": 18,
+        "endLine": 82,
+        "endChar": 25
+      },
+      "revId": "943bab4c2640067e6b64cc586872648242954525",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_064dae18",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ShowNoteCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-05-31T06:39:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87e453f8_c5667248",
       "range": {
         "startLine": 82,
         "startChar": 18,
