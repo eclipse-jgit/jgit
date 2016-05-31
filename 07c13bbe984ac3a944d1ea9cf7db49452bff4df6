@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87e453f8_1a6c1e27",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2016-05-31T11:40:15Z",
+      "side": 1,
+      "message": "More precisely these are all window cache entries for each pack file of that repository that gets removed from the WindowCache.",
+      "range": {
+        "startLine": 10,
+        "startChar": 33,
+        "endLine": 10,
+        "endChar": 49
+      },
+      "revId": "07c13bbe984ac3a944d1ea9cf7db49452bff4df6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_9dc2e879",
+        "filename": "org.eclipse.jgit.pgm/resources/log4j.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2016-05-31T11:40:15Z",
+      "side": 1,
+      "message": "Looks unrelated to this change as, in the end, we likely don\u0027t want to submit this?\n\nBtw, it would be enough to set only the \"org.eclipse.jgit.lib.Repository\" to DEBUG level.",
+      "revId": "07c13bbe984ac3a944d1ea9cf7db49452bff4df6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_bd7c0492",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2016-05-31T11:40:15Z",
+      "side": 1,
+      "message": "private final",
+      "revId": "07c13bbe984ac3a944d1ea9cf7db49452bff4df6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_fdcbec4a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 875,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2016-05-31T11:40:15Z",
+      "side": 1,
+      "message": "This line and the check in the line 885 are not atomic any more.\n\nIn the worst case this code may skip calling the doClose() from the line 888. For example, if useCnt \u003d\u003d 1, two threads call close() at about the same time and both decrementAndGet here before any of them reaches line 885 then the useCnt will be -1 and doClose will be skipped.",
+      "revId": "07c13bbe984ac3a944d1ea9cf7db49452bff4df6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_1dd178f8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 876,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2016-05-31T11:40:15Z",
+      "side": 1,
+      "message": "This should only be checked if useCnt reached zero?",
+      "range": {
+        "startLine": 876,
+        "startChar": 0,
+        "endLine": 876,
+        "endChar": 39
+      },
+      "revId": "07c13bbe984ac3a944d1ea9cf7db49452bff4df6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_da51d65b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2016-05-31T11:40:15Z",
+      "side": 1,
+      "message": "This can fit into the previous line.",
+      "revId": "07c13bbe984ac3a944d1ea9cf7db49452bff4df6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
