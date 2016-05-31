@@ -51,8 +51,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.Git;
@@ -110,6 +112,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	private String branch;
 	private String targetBranch = Constants.HEAD;
 	private boolean recordRemoteBranch = false;
+	private boolean recordSubmoduleLabels = false;
 	private PersonIdent author;
 	private RemoteReader callback;
 	private InputStream inputStream;
@@ -345,6 +348,21 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	}
 
 	/**
+	 * Set whether the labels field should be recorded as a label in
+	 * .gitattributes.
+	 * <p>
+	 * Not implemented for non-bare repositories.
+	 *
+	 * @param enable Whether to record the labels in the .gitattributes
+	 * @return this command
+	 * @since 4.4
+	 */
+	public RepoCommand setRecordSubmoduleLabels(boolean enable) {
+		this.recordSubmoduleLabels = enable;
+		return this;
+	}
+
+	/**
 	 * The progress monitor associated with the clone operation. By default,
 	 * this is set to <code>NullProgressMonitor</code>
 	 *
@@ -452,7 +470,8 @@ public class RepoCommand extends GitCommand<RevCommit> {
 					addSubmodule(proj.getUrl(),
 							proj.getPath(),
 							proj.getRevision(),
-							proj.getCopyFiles());
+							proj.getCopyFiles(),
+							proj.getGroups());
 				}
 			} catch (GitAPIException | IOException e) {
 				throw new ManifestErrorException(e);
@@ -472,6 +491,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 			ObjectInserter inserter = repo.newObjectInserter();
 			try (RevWalk rw = new RevWalk(repo)) {
 				Config cfg = new Config();
+				StringBuilder attributes = new StringBuilder();
 				for (RepoProject proj : bareProjects) {
 					String name = proj.getPath();
 					String nameUri = proj.getName();
@@ -492,6 +512,17 @@ public class RepoCommand extends GitCommand<RevCommit> {
 							cfg.setString("submodule", name, "branch", //$NON-NLS-1$ //$NON-NLS-2$
 									proj.getRevision());
 						}
+					}
+					if (recordSubmoduleLabels) {
+						StringBuilder rec = new StringBuilder();
+						rec.append("/"); //$NON-NLS-1$
+						rec.append(name);
+						for (String group : proj.getGroups()) {
+							rec.append(" "); //$NON-NLS-1$
+							rec.append(group);
+						}
+						rec.append("\n"); //$NON-NLS-1$
+						attributes.append(rec.toString());
 					}
 					cfg.setString("submodule", name, "path", name); //$NON-NLS-1$ //$NON-NLS-2$
 					cfg.setString("submodule", name, "url", nameUri); //$NON-NLS-1$ //$NON-NLS-2$
@@ -521,6 +552,16 @@ public class RepoCommand extends GitCommand<RevCommit> {
 				dcEntry.setObjectId(objectId);
 				dcEntry.setFileMode(FileMode.REGULAR_FILE);
 				builder.add(dcEntry);
+
+				if (recordSubmoduleLabels) {
+					// create a new DirCacheEntry for .gitattributes file.
+					final DirCacheEntry dcEntryAttr = new DirCacheEntry(Constants.DOT_GIT_ATTRIBUTES);
+					ObjectId attrId = inserter.insert(Constants.OBJ_BLOB,
+							attributes.toString().getBytes(Constants.CHARACTER_ENCODING));
+					dcEntryAttr.setObjectId(attrId);
+					dcEntryAttr.setFileMode(FileMode.REGULAR_FILE);
+					builder.add(dcEntryAttr);
+				}
 
 				builder.finish();
 				ObjectId treeId = index.writeTree(inserter);
@@ -575,9 +616,10 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	}
 
 	private void addSubmodule(String url, String name, String revision,
-			List<CopyFile> copyfiles) throws GitAPIException, IOException {
+			List<CopyFile> copyfiles, Set<String> groups)
+			throws GitAPIException, IOException {
 		if (repo.isBare()) {
-			RepoProject proj = new RepoProject(url, name, revision, null, null);
+			RepoProject proj = new RepoProject(url, name, revision, null, groups);
 			proj.addCopyFiles(copyfiles);
 			bareProjects.add(proj);
 		} else {
