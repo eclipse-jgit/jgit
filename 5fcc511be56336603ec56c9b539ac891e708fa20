@@ -167,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "87e453f8_c957529e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-05-31T22:38:51Z",
+      "side": 1,
+      "message": "So during migration, repo\u0027s groups are the source of truth and continually overwrite the .gitattributes file, and then post-migration .gitattributes is the source of truth. \n\nWhat is the migration plan that guarantees that the repo tool doesn\u0027t get invoked post-migration? Is it just the caller\u0027s responsibility to make sure RepoCommand.setRecordSubmoduleLabels() does not get set?",
+      "parentUuid": "87e453f8_c980329b",
+      "range": {
+        "startLine": 516,
+        "startChar": 0,
+        "endLine": 516,
+        "endChar": 33
+      },
+      "revId": "5fcc511be56336603ec56c9b539ac891e708fa20",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87e453f8_8ea55001",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
         "patchSetId": 11
