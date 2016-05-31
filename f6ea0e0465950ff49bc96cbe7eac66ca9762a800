@@ -46,6 +46,30 @@
       "revId": "f6ea0e0465950ff49bc96cbe7eac66ca9762a800",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_d06a978d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 879,
+      "author": {
+        "id": 6590
+      },
+      "writtenOn": "2016-05-31T14:35:12Z",
+      "side": 1,
+      "message": "I am working on this. I have something but I cannot upload a PS on this change so I will upload it as a new change. You can then get my change and upload it as a PS on this change if you like it or abandon it if you don\u0027t like it.",
+      "parentUuid": "87e453f8_d08ff700",
+      "range": {
+        "startLine": 873,
+        "startChar": 1,
+        "endLine": 879,
+        "endChar": 2
+      },
+      "revId": "f6ea0e0465950ff49bc96cbe7eac66ca9762a800",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
