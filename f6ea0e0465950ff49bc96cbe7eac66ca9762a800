@@ -22,6 +22,30 @@
       "revId": "f6ea0e0465950ff49bc96cbe7eac66ca9762a800",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_d08ff700",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 879,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-05-31T14:29:45Z",
+      "side": 1,
+      "message": "yes, we should move the eviction code to the cache. will look into that next",
+      "parentUuid": "87e453f8_9d04a8d0",
+      "range": {
+        "startLine": 873,
+        "startChar": 1,
+        "endLine": 879,
+        "endChar": 2
+      },
+      "revId": "f6ea0e0465950ff49bc96cbe7eac66ca9762a800",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
