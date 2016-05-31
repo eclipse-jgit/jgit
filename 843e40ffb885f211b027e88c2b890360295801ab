@@ -39,6 +39,30 @@
       "revId": "843e40ffb885f211b027e88c2b890360295801ab",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_e9db2e99",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryCache.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-05-31T23:38:15Z",
+      "side": 1,
+      "message": "this race condition also exists and already existed earlier in Repository.close()",
+      "parentUuid": "87e453f8_b3e0b5b6",
+      "range": {
+        "startLine": 195,
+        "startChar": 0,
+        "endLine": 196,
+        "endChar": 68
+      },
+      "revId": "843e40ffb885f211b027e88c2b890360295801ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
