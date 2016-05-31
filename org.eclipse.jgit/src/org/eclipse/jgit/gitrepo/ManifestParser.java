@@ -192,6 +192,8 @@ public class ManifestParser extends DefaultHandler {
 					attributes.getValue("revision"), //$NON-NLS-1$
 					attributes.getValue("remote"), //$NON-NLS-1$
 					attributes.getValue("groups")); //$NON-NLS-1$
+			currentProject.setRecommendShallow(
+				attributes.getValue("clone-depth")); //$NON-NLS-1$
 		} else if ("remote".equals(qName)) { //$NON-NLS-1$
 			String alias = attributes.getValue("alias"); //$NON-NLS-1$
 			String fetch = attributes.getValue("fetch"); //$NON-NLS-1$

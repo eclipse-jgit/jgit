@@ -113,6 +113,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	private String targetBranch = Constants.HEAD;
 	private boolean recordRemoteBranch = false;
 	private boolean recordSubmoduleLabels = false;
+	private boolean recordShallowSubmodules = false;
 	private PersonIdent author;
 	private RemoteReader callback;
 	private InputStream inputStream;
@@ -363,6 +364,21 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	}
 
 	/**
+	 * Set whether the clone-depth field should be recorded as a shallow
+	 * recommendation in .gitmodules.
+	 * <p>
+	 * Not implemented for non-bare repositories.
+	 *
+	 * @param enable Whether to record the shallow recommendation.
+	 * @return this command
+	 * @since 4.4
+	 */
+	public RepoCommand setRecommendShallow(boolean enable) {
+		this.recordShallowSubmodules = enable;
+		return this;
+	}
+
+	/**
 	 * The progress monitor associated with the clone operation. By default,
 	 * this is set to <code>NullProgressMonitor</code>
 	 *
@@ -471,7 +487,8 @@ public class RepoCommand extends GitCommand<RevCommit> {
 							proj.getPath(),
 							proj.getRevision(),
 							proj.getCopyFiles(),
-							proj.getGroups());
+							proj.getGroups(),
+							proj.getRecommendShallow());
 				}
 			} catch (GitAPIException | IOException e) {
 				throw new ManifestErrorException(e);
@@ -511,6 +528,16 @@ public class RepoCommand extends GitCommand<RevCommit> {
 							// can be branch or tag
 							cfg.setString("submodule", name, "branch", //$NON-NLS-1$ //$NON-NLS-2$
 									proj.getRevision());
+						}
+
+						if (recordShallowSubmodules && proj.getRecommendShallow() != null) {
+							// The shallow recommendation is losing information.
+							// As the repo manifests stores the recommended
+							// depth in the 'clone-depth' field, while
+							// git core only uses a binary 'shallow = true/false'
+							// hint, we'll map any depth to 'shallow = true'
+							cfg.setBoolean("submodule", name, "shallow", //$NON-NLS-1$ //$NON-NLS-2$
+									true);
 						}
 					}
 					if (recordSubmoduleLabels) {
@@ -616,10 +643,10 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	}
 
 	private void addSubmodule(String url, String name, String revision,
-			List<CopyFile> copyfiles, Set<String> groups)
+			List<CopyFile> copyfiles, Set<String> groups, String recommendShallow)
 			throws GitAPIException, IOException {
 		if (repo.isBare()) {
-			RepoProject proj = new RepoProject(url, name, revision, null, groups);
+			RepoProject proj = new RepoProject(url, name, revision, null, groups, recommendShallow);
 			proj.addCopyFiles(copyfiles);
 			bareProjects.add(proj);
 		} else {

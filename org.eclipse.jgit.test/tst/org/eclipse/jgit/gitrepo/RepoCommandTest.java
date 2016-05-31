@@ -44,6 +44,7 @@ package org.eclipse.jgit.gitrepo;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedReader;
@@ -796,6 +797,53 @@ public class RepoCommandTest extends RepositoryTestCase {
 					assertEquals(".gitattributes content should be as expected",
 						"/test a1 a2", content);
 				}
+			}
+		}
+	}
+
+	@Test
+	public void testRecordShallowRecommendation() throws Exception {
+		try (
+				Repository remoteDb = createBareRepository();
+				Repository tempDb = createWorkRepository()) {
+			StringBuilder xmlContent = new StringBuilder();
+			xmlContent
+				.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+				.append("<manifest>")
+				.append("<remote name=\"remote1\" fetch=\".\" />")
+				.append("<default revision=\"master\" remote=\"remote1\" />")
+				.append("<project path=\"shallow-please\" ")
+					.append("name=\"").append(defaultUri).append("\" ")
+					.append("clone-depth=\"1\" />")
+				.append("<project path=\"non-shallow\" ")
+					.append("name=\"").append(defaultUri).append("\" />")
+				.append("</manifest>");
+			JGitTestUtil.writeTrashFile(tempDb, "manifest.xml",
+				xmlContent.toString());
+
+			RepoCommand command = new RepoCommand(remoteDb);
+			command.setPath(tempDb.getWorkTree().getAbsolutePath() + "/manifest.xml")
+				.setURI(rootUri)
+				.setRecommendShallow(true)
+				.call();
+			// Clone it
+			File directory = createTempDirectory("testBareRepo");
+			try (Repository localDb = Git.cloneRepository()
+					.setDirectory(directory)
+					.setURI(remoteDb.getDirectory().toURI().toString()).call()
+					.getRepository();) {
+				// The .gitmodules file should exist
+				File gitmodules = new File(localDb.getWorkTree(),
+						".gitmodules");
+				assertTrue("The .gitmodules file should exist",
+						gitmodules.exists());
+				FileBasedConfig c = new FileBasedConfig(gitmodules,
+						FS.DETECTED);
+				c.load();
+				assertEquals("Recording shallow configuration should work", "true",
+						c.getString("submodule", "shallow-please", "shallow"));
+				assertNull("Recording non shallow configuration should work",
+						c.getString("submodule", "non-shallow", "shallow"));
 			}
 		}
 	}
