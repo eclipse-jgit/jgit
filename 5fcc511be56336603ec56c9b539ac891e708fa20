@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "87e453f8_49234265",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 788,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-05-31T22:18:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87e453f8_c9b832ae",
+      "range": {
+        "startLine": 788,
+        "startChar": 12,
+        "endLine": 788,
+        "endChar": 22
+      },
+      "revId": "5fcc511be56336603ec56c9b539ac891e708fa20",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87e453f8_0eb30056",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
         "patchSetId": 11
@@ -36,6 +60,30 @@
       "writtenOn": "2016-05-31T22:03:07Z",
       "side": 1,
       "message": "Use try-with-resources for BufferedReader too.",
+      "range": {
+        "startLine": 794,
+        "startChar": 0,
+        "endLine": 794,
+        "endChar": 47
+      },
+      "revId": "5fcc511be56336603ec56c9b539ac891e708fa20",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_892b8a33",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 794,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-05-31T22:18:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87e453f8_0eb30056",
       "range": {
         "startLine": 794,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "87e453f8_e9132e18",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-05-31T22:18:30Z",
+      "side": 1,
+      "message": "This is the same as recordRemoteBranch above, we will run it multiple times for now and once the migration is done completely we don\u0027t use all of this code any more.",
+      "parentUuid": "87e453f8_89ae2a6b",
+      "range": {
+        "startLine": 516,
+        "startChar": 0,
+        "endLine": 516,
+        "endChar": 33
+      },
+      "revId": "5fcc511be56336603ec56c9b539ac891e708fa20",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87e453f8_8ea55001",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
         "patchSetId": 11
@@ -82,6 +154,30 @@
       "writtenOn": "2016-05-31T22:03:07Z",
       "side": 1,
       "message": "\"l\" is unused.",
+      "range": {
+        "startLine": 520,
+        "startChar": 6,
+        "endLine": 520,
+        "endChar": 41
+      },
+      "revId": "5fcc511be56336603ec56c9b539ac891e708fa20",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_291ef621",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoCommand.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-05-31T22:18:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87e453f8_8ea55001",
       "range": {
         "startLine": 520,
         "startChar": 6,
