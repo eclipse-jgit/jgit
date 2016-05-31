@@ -59,6 +59,24 @@
     },
     {
       "key": {
+        "uuid": "87e453f8_1deed880",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-05-31T14:28:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87e453f8_bd7c0492",
+      "revId": "07c13bbe984ac3a944d1ea9cf7db49452bff4df6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87e453f8_fdcbec4a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 2
@@ -70,6 +88,24 @@
       "writtenOn": "2016-05-31T11:40:15Z",
       "side": 1,
       "message": "This line and the check in the line 885 are not atomic any more.\n\nIn the worst case this code may skip calling the doClose() from the line 888. For example, if useCnt \u003d\u003d 1, two threads call close() at about the same time and both decrementAndGet here before any of them reaches line 885 then the useCnt will be -1 and doClose will be skipped.",
+      "revId": "07c13bbe984ac3a944d1ea9cf7db49452bff4df6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_90ae4f6b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 875,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-05-31T14:28:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87e453f8_fdcbec4a",
       "revId": "07c13bbe984ac3a944d1ea9cf7db49452bff4df6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -99,6 +135,30 @@
     },
     {
       "key": {
+        "uuid": "87e453f8_50ada770",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 876,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-05-31T14:28:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87e453f8_1dd178f8",
+      "range": {
+        "startLine": 876,
+        "startChar": 0,
+        "endLine": 876,
+        "endChar": 39
+      },
+      "revId": "07c13bbe984ac3a944d1ea9cf7db49452bff4df6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87e453f8_da51d65b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryCache.java",
         "patchSetId": 2
@@ -110,6 +170,24 @@
       "writtenOn": "2016-05-31T11:40:15Z",
       "side": 1,
       "message": "This can fit into the previous line.",
+      "revId": "07c13bbe984ac3a944d1ea9cf7db49452bff4df6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_5084c7e8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-05-31T14:28:29Z",
+      "side": 1,
+      "message": "we use line width of 80 characters so this is too wide for a single line",
+      "parentUuid": "87e453f8_da51d65b",
       "revId": "07c13bbe984ac3a944d1ea9cf7db49452bff4df6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
