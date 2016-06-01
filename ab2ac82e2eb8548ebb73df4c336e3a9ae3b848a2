@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "87e453f8_e73432e4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 78063
+      },
+      "writtenOn": "2016-06-01T21:39:16Z",
+      "side": 1,
+      "message": "Your expectation is right. This is exactly what I mean, yes, also as per the other sentence below this one. Let me know if you think that both sentences together are not clear enough. I still amended this to clarify the depth of such removals.",
+      "parentUuid": "87e453f8_baf96f43",
+      "revId": "ab2ac82e2eb8548ebb73df4c336e3a9ae3b848a2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87e453f8_3a6b9f69",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "87e453f8_a7d6aaee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 78063
+      },
+      "writtenOn": "2016-06-01T21:39:16Z",
+      "side": 1,
+      "message": "Done; good point, speech amended.",
+      "parentUuid": "87e453f8_3a6b9f69",
+      "revId": "ab2ac82e2eb8548ebb73df4c336e3a9ae3b848a2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87e453f8_dadf1bd0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2016-05-30T09:16:43Z",
       "side": 1,
       "message": "Why do we need \"depth \u003e 0\". Do we really want to handle refs located directly underneath \"refs/\" differently from those which are one directly below? I can understand that we don\u0027t want to delete the \"refs/\" folder itself and that therefore we behave differently on level 0 than on levels\u003e0. But unlocking refs should be done the same on all levels, or?",
+      "revId": "ab2ac82e2eb8548ebb73df4c336e3a9ae3b848a2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_678f423a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1075,
+      "author": {
+        "id": 78063
+      },
+      "writtenOn": "2016-06-01T21:39:16Z",
+      "side": 1,
+      "message": "A depth of 1 means that we are looking at deleting folder \u0027dir\u0027 in (e.g.) refs/heads/dir. I don\u0027t think we want to also remove \u0027heads\u0027 in the latter example; so we stop there -at depth 1. That is how the existing code below used to do it (and so failed as per this fix); cf. current line 1079. Another example is refs/tags (or, refs/any): I don\u0027t think we\u0027d want to delete \u0027tags\u0027, even if empty.\n\nNow, the unlocking of the ref is still always performed no matter what, depth unrelated, thanks to that .unlock call in the calling block\u0027s finally clause.",
+      "parentUuid": "87e453f8_dadf1bd0",
       "revId": "ab2ac82e2eb8548ebb73df4c336e3a9ae3b848a2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
