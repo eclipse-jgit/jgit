@@ -241,4 +241,34 @@ public class RepositoryCacheTest extends RepositoryTestCase {
 		assertTrue(RepositoryCache.isCached(repoB));
 		assertTrue(RepositoryCache.isCached(repoC));
 	}
+
+	@Test
+	public void testReconfigure() throws InterruptedException {
+		RepositoryCache.register(db);
+		assertTrue(RepositoryCache.isCached(db));
+		db.close();
+		assertTrue(RepositoryCache.isCached(db));
+
+		// Actually, we would only need to validate that
+		// WorkQueue.getExecutor().scheduleWithFixedDelay is called with proper
+		// values but since we do not have a mock library, we test
+		// reconfiguration from a black box perspective. I.e. reconfigure
+		// expireAfter and cleanupDelay to 1 ms and wait until the Repository
+		// is evicted to prove that reconfiguration worked.
+		RepositoryCacheConfig config = new RepositoryCacheConfig();
+		config.setExpireAfter(1);
+		config.setCleanupDelay(1);
+		config.install();
+
+		// Instead of using a fixed waiting time, start with small and increase:
+		// sleep 1, sleep 2,...sleep 100
+		// This wait will time out after 5050ms
+		for (int i = 1; i <= 100; i++) {
+			if (!RepositoryCache.isCached(db)) {
+				return;
+			}
+			Thread.sleep(i);
+		}
+		fail("Repository should have been evicted from cache");
+	}
 }
