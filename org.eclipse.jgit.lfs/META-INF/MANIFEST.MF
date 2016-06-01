@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %plugin_name
 Bundle-SymbolicName: org.eclipse.jgit.lfs
-Bundle-Version: 4.4.0.201606011500-rc2
+Bundle-Version: 4.4.0.qualifier
 Bundle-Localization: plugin
 Bundle-Vendor: %provider_name
 Export-Package: org.eclipse.jgit.lfs.errors;version="4.4.0",
