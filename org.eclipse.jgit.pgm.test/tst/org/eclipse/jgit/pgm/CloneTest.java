@@ -135,6 +135,7 @@ public class CloneTest extends CLIRepositoryTestCase {
 		assertEquals("expected 1 branch", 1, branches.size());
 	}
 
+	@Test
 	public void testCloneBare() throws Exception {
 		createInitialCommit();
 
