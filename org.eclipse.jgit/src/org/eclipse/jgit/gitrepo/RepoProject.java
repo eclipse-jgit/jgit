@@ -136,6 +136,8 @@ public class RepoProject implements Comparable<RepoProject> {
 	 *            name of the remote definition
 	 * @param groups
 	 *            set of groups
+	 * @param recommendShallow
+	 *            recommendation for shallowness
 	 * @since 4.4
 	 */
 	public RepoProject(String name, String path, String revision,
@@ -189,7 +191,8 @@ public class RepoProject implements Comparable<RepoProject> {
 	/**
 	 * Set the url of the sub repo.
 	 *
-	 * @param url
+	 * @param groups
+	 *            comma separated group list
 	 * @return this for chaining.
 	 * @since 4.4
 	 */
@@ -297,6 +300,8 @@ public class RepoProject implements Comparable<RepoProject> {
 	/**
 	 * Sets the recommendation for shallowness.
 	 *
+	 * @param recommendShallow
+	 *            recommendation for shallowness
 	 * @since 4.4
 	 */
 	public void setRecommendShallow(String recommendShallow) {
