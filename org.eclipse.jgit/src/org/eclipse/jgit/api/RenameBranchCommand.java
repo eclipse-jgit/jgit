@@ -107,11 +107,11 @@ public class RenameBranchCommand extends GitCommand<Ref> {
 		try {
 			String fullOldName;
 			String fullNewName;
-			if (repo.getRef(newName) != null)
+			if (repo.findRef(newName) != null)
 				throw new RefAlreadyExistsException(MessageFormat.format(
 						JGitText.get().refAlreadyExists1, newName));
 			if (oldName != null) {
-				Ref ref = repo.getRef(oldName);
+				Ref ref = repo.findRef(oldName);
 				if (ref == null)
 					throw new RefNotFoundException(MessageFormat.format(
 							JGitText.get().refNotResolved, oldName));
@@ -186,7 +186,7 @@ public class RenameBranchCommand extends GitCommand<Ref> {
 				repoConfig.save();
 			}
 
-			Ref resultRef = repo.getRef(newName);
+			Ref resultRef = repo.findRef(newName);
 			if (resultRef == null)
 				throw new JGitInternalException(
 						JGitText.get().renameBranchFailedUnknownReason);

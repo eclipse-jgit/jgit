@@ -419,7 +419,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 
 	private void updateStashRef(ObjectId commitId, PersonIdent refLogIdent,
 			String refLogMessage) throws IOException {
-		Ref currentRef = repo.getRef(Constants.R_STASH);
+		Ref currentRef = repo.exactRef(Constants.R_STASH);
 		RefUpdate refUpdate = repo.updateRef(Constants.R_STASH);
 		refUpdate.setNewObjectId(commitId);
 		refUpdate.setRefLogIdent(refLogIdent);
@@ -750,7 +750,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 
 	private void resetSoftToParent() throws IOException,
 			GitAPIException, CheckoutConflictException {
-		Ref ref = repo.getRef(Constants.ORIG_HEAD);
+		Ref ref = repo.exactRef(Constants.ORIG_HEAD);
 		ObjectId orig_head = ref == null ? null : ref.getObjectId();
 		try {
 			// we have already commited the cherry-picked commit.
@@ -1207,7 +1207,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	}
 
 	private Ref getHead() throws IOException, RefNotFoundException {
-		Ref head = repo.getRef(Constants.HEAD);
+		Ref head = repo.exactRef(Constants.HEAD);
 		if (head == null || head.getObjectId() == null)
 			throw new RefNotFoundException(MessageFormat.format(
 					JGitText.get().refNotResolved, Constants.HEAD));

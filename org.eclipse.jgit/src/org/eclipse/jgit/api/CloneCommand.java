@@ -155,6 +155,7 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 		command.setBare(bare);
 		if (directory == null && gitDir == null)
 			directory = new File(u.getHumanishName(), Constants.DOT_GIT);
+		validateDirs(directory, gitDir, bare);
 		if (directory != null && directory.exists()
 				&& directory.listFiles().length != 0)
 			throw new JGitInternalException(MessageFormat.format(
@@ -511,6 +512,15 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 	private static void validateDirs(File directory, File gitDir, boolean bare)
 			throws IllegalStateException {
 		if (directory != null) {
+			if (directory.exists() && !directory.isDirectory()) {
+				throw new IllegalStateException(MessageFormat.format(
+						JGitText.get().initFailedDirIsNoDirectory, directory));
+			}
+			if (gitDir != null && gitDir.exists() && !gitDir.isDirectory()) {
+				throw new IllegalStateException(MessageFormat.format(
+						JGitText.get().initFailedGitDirIsNoDirectory,
+						gitDir));
+			}
 			if (bare) {
 				if (gitDir != null && !gitDir.equals(directory))
 					throw new IllegalStateException(MessageFormat.format(

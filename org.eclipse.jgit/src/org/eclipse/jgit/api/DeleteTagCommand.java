@@ -90,7 +90,7 @@ public class DeleteTagCommand extends GitCommand<List<String>> {
 			for (String tagName : tags) {
 				if (tagName == null)
 					continue;
-				Ref currentRef = repo.getRef(tagName);
+				Ref currentRef = repo.findRef(tagName);
 				if (currentRef == null)
 					continue;
 				String fullName = currentRef.getName();

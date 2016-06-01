@@ -406,7 +406,7 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 			String originalBranch = repo.getFullBranch();
 			boolean empty = repo.resolve(Constants.HEAD) == null;
 			if (!empty) {
-				if (repo.getRef(branch) == null)
+				if (repo.findRef(branch) == null)
 					git.branchCreate().setName(branch).call();
 				git.checkout().setName(branch).call();
 			}

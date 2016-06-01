@@ -264,7 +264,7 @@ public class SubmoduleWalk implements AutoCloseable {
 
 		String remoteName = null;
 		// Look up remote URL associated wit HEAD ref
-		Ref ref = parent.getRef(Constants.HEAD);
+		Ref ref = parent.exactRef(Constants.HEAD);
 		if (ref != null) {
 			if (ref.isSymbolic())
 				ref = ref.getLeaf();
@@ -704,7 +704,7 @@ public class SubmoduleWalk implements AutoCloseable {
 		if (subRepo == null)
 			return null;
 		try {
-			Ref head = subRepo.getRef(Constants.HEAD);
+			Ref head = subRepo.exactRef(Constants.HEAD);
 			return head != null ? head.getLeaf().getName() : null;
 		} finally {
 			subRepo.close();
