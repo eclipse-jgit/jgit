@@ -219,6 +219,37 @@ public class DfsInserterTest {
 		assertTrue(pack_sources.contains(PackSource.INSERT));
 	}
 
+	@Test
+	public void testNoCheckExisting() throws IOException {
+		byte[] contents = Constants.encode("foo");
+		ObjectId fooId;
+		try (ObjectInserter ins = db.newObjectInserter()) {
+			fooId = ins.insert(Constants.OBJ_BLOB, contents);
+			ins.flush();
+		}
+		assertEquals(1, db.getObjectDatabase().listPacks().size());
+
+		try (ObjectInserter ins = db.newObjectInserter()) {
+			((DfsInserter) ins).checkExisting(false);
+			assertEquals(fooId, ins.insert(Constants.OBJ_BLOB, contents));
+			ins.flush();
+		}
+		assertEquals(2, db.getObjectDatabase().listPacks().size());
+
+		// Verify that we have a foo in both INSERT packs.
+		DfsReader reader = new DfsReader(db.getObjectDatabase());
+		DfsPackFile packs[] = db.getObjectDatabase().getPacks();
+
+		assertEquals(2, packs.length);
+		DfsPackFile p1 = packs[0];
+		assertEquals(PackSource.INSERT, p1.getPackDescription().getPackSource());
+		assertTrue(p1.hasObject(reader, fooId));
+
+		DfsPackFile p2 = packs[1];
+		assertEquals(PackSource.INSERT, p2.getPackDescription().getPackSource());
+		assertTrue(p2.hasObject(reader, fooId));
+	}
+
 	private static String readString(ObjectLoader loader) throws IOException {
 		return RawParseUtils.decode(readStream(loader));
 	}
