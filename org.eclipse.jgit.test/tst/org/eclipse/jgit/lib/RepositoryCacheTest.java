@@ -208,4 +208,19 @@ public class RepositoryCacheTest extends RepositoryTestCase {
 		// TODO: adapt test to check that the repo gets evicted
 		assertEquals(1, RepositoryCache.getRegisteredKeys().size());
 	}
+
+	@Test
+	public void testRepositoryReconfigure() throws InterruptedException {
+		RepositoryCache.register(db);
+		assertEquals(1, RepositoryCache.getRegisteredKeys().size());
+		db.close();
+		assertEquals(0, ((Repository) db).useCnt.get());
+		assertEquals(1, RepositoryCache.getRegisteredKeys().size());
+		RepositoryCacheConfig config = new RepositoryCacheConfig();
+		config.setExpireAfter(1);
+		config.setCleanupDelay(1);
+		RepositoryCache.reconfigure(config);
+		Thread.sleep(50);
+		assertEquals(0, RepositoryCache.getRegisteredKeys().size());
+	}
 }
