@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87e453f8_9cb82132",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/notes/NoteMapTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6590
+      },
+      "writtenOn": "2016-06-01T20:04:41Z",
+      "side": 1,
+      "message": "These changes are done in https://git.eclipse.org/r/#/c/53103/",
+      "revId": "3c07096623e034a3561b9a87021637b540f2f5ca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
