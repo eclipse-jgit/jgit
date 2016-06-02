@@ -71,6 +71,30 @@
     },
     {
       "key": {
+        "uuid": "87e453f8_c89ca3f2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-06-02T16:13:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87e453f8_ade3e994",
+      "range": {
+        "startLine": 192,
+        "startChar": 1,
+        "endLine": 192,
+        "endChar": 38
+      },
+      "revId": "f38878b7c0a15c7c05ac20111a3e42d88fa0dcdd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87e453f8_4ddb45e4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryCache.java",
         "patchSetId": 6
@@ -82,6 +106,30 @@
       "writtenOn": "2016-06-02T13:11:53Z",
       "side": 1,
       "message": "replace those 2 lines by (see comments on PS5):\n\nclose(repo);",
+      "range": {
+        "startLine": 198,
+        "startChar": 3,
+        "endLine": 199,
+        "endChar": 20
+      },
+      "revId": "f38878b7c0a15c7c05ac20111a3e42d88fa0dcdd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_e8923fd9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-06-02T16:13:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87e453f8_4ddb45e4",
       "range": {
         "startLine": 198,
         "startChar": 3,
