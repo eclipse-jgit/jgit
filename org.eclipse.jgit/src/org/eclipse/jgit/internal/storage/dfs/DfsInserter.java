@@ -484,7 +484,8 @@ public class DfsInserter extends ObjectInserter {
 			}
 		}
 
-		private int setInput(long pos, Inflater inf) throws IOException {
+		private int setInput(long pos, Inflater inf)
+				throws IOException, DataFormatException {
 			if (pos < currPos)
 				return getOrLoadBlock(pos).setInput(pos, inf);
 			if (pos < currPos + currPtr) {
