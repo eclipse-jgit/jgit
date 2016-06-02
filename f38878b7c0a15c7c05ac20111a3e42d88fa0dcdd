@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87e453f8_ada84963",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 6590
+      },
+      "writtenOn": "2016-06-02T12:46:32Z",
+      "side": 1,
+      "message": "done in https://git.eclipse.org/r/#/c/74287/",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 61
+      },
+      "revId": "f38878b7c0a15c7c05ac20111a3e42d88fa0dcdd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_2dbc39a0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 6590
+      },
+      "writtenOn": "2016-06-02T12:46:32Z",
+      "side": 1,
+      "message": "one test case done in https://git.eclipse.org/r/#/c/74287/",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 15
+      },
+      "revId": "f38878b7c0a15c7c05ac20111a3e42d88fa0dcdd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
