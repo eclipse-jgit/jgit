@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "87e453f8_28550748",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryCache.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-06-02T16:15:00Z",
+      "side": 1,
+      "message": "the method was removed",
+      "parentUuid": "87e453f8_13f88970",
+      "revId": "843e40ffb885f211b027e88c2b890360295801ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87e453f8_b3e0b5b6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryCache.java",
         "patchSetId": 5
@@ -78,6 +96,30 @@
       "side": 1,
       "message": "This race condition also exists in Repository.close() but it\u0027s handled better.\n\nIn Repository.close(), the repo is unregistered form the cache first and then Repository.close method is called. There is still a possibility that another thread get the repo that is getting unregistered and closed but since it uses Repository.close instead of Repository.doClose, the useCnt will be check and repo will not be closed until the second thread close it.",
       "parentUuid": "87e453f8_e9db2e99",
+      "range": {
+        "startLine": 195,
+        "startChar": 0,
+        "endLine": 196,
+        "endChar": 68
+      },
+      "revId": "843e40ffb885f211b027e88c2b890360295801ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_a8991702",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryCache.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-06-02T16:15:00Z",
+      "side": 1,
+      "message": "Now we are using the same lock as in openRepository(). The race condition should be fixed now.",
+      "parentUuid": "87e453f8_cdcf5525",
       "range": {
         "startLine": 195,
         "startChar": 0,
