@@ -43,55 +43,11 @@
 
 package org.eclipse.jgit.lib;
 
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
 /** ProgressMonitor that batches update events. */
 public abstract class BatchingProgressMonitor implements ProgressMonitor {
-	private static final ScheduledThreadPoolExecutor alarmQueue;
-
-	static final Object alarmQueueKiller;
-
-	static {
-		// To support garbage collection, start our thread but
-		// swap out the thread factory. When our class is GC'd
-		// the alarmQueueKiller will finalize and ask the executor
-		// to shutdown, ending the worker.
-		//
-		int threads = 1;
-		alarmQueue = new ScheduledThreadPoolExecutor(threads,
-				new ThreadFactory() {
-					private final ThreadFactory baseFactory = Executors
-							.defaultThreadFactory();
-
-					public Thread newThread(Runnable taskBody) {
-						Thread thr = baseFactory.newThread(taskBody);
-						thr.setName("JGit-AlarmQueue"); //$NON-NLS-1$
-						thr.setDaemon(true);
-						return thr;
-					}
-				});
-		alarmQueue.setContinueExistingPeriodicTasksAfterShutdownPolicy(false);
-		alarmQueue.setExecuteExistingDelayedTasksAfterShutdownPolicy(false);
-		alarmQueue.prestartAllCoreThreads();
-
-		// Now that the threads are running, its critical to swap out
-		// our own thread factory for one that isn't in the ClassLoader.
-		// This allows the class to GC.
-		//
-		alarmQueue.setThreadFactory(Executors.defaultThreadFactory());
-
-		alarmQueueKiller = new Object() {
-			@Override
-			protected void finalize() {
-				alarmQueue.shutdownNow();
-			}
-		};
-	}
-
 	private long delayStartTime;
 
 	private TimeUnit delayStartUnit = TimeUnit.MILLISECONDS;
@@ -219,7 +175,7 @@ public abstract class BatchingProgressMonitor implements ProgressMonitor {
 
 		void delay(long time, TimeUnit unit) {
 			display = false;
-			timerFuture = alarmQueue.schedule(this, time, unit);
+			timerFuture = WorkQueue.getExecutor().schedule(this, time, unit);
 		}
 
 		public void run() {
@@ -254,7 +210,8 @@ public abstract class BatchingProgressMonitor implements ProgressMonitor {
 
 		private void restartTimer() {
 			display = false;
-			timerFuture = alarmQueue.schedule(this, 1, TimeUnit.SECONDS);
+			timerFuture = WorkQueue.getExecutor().schedule(this, 1,
+					TimeUnit.SECONDS);
 		}
 
 		void end(BatchingProgressMonitor pm) {
