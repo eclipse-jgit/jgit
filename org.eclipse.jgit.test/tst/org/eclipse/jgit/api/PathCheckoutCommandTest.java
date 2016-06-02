@@ -271,6 +271,7 @@ public class PathCheckoutCommandTest extends RepositoryTestCase {
 		}
 	}
 
+	@Test
 	public void testCheckoutMixedNewlines() throws Exception {
 		// "git config core.autocrlf true"
 		StoredConfig config = git.getRepository().getConfig();
