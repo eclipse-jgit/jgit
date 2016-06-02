@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87e453f8_9c881c01",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RepositoryCacheTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 6590
+      },
+      "writtenOn": "2016-06-02T16:53:56Z",
+      "side": 1,
+      "message": "I remove this TODO in follow up change because I added a test case for this: testRepositoryUnregisteringWhenExpired",
+      "range": {
+        "startLine": 208,
+        "startChar": 2,
+        "endLine": 208,
+        "endChar": 57
+      },
+      "revId": "145426193695f8fb786ca9b5208dc54cedad133a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
