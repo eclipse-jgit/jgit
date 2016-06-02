@@ -88,9 +88,16 @@ final class DfsBlock {
 		return n;
 	}
 
-	int setInput(long pos, Inflater inf) {
+	int setInput(long pos, Inflater inf) throws DataFormatException {
 		int ptr = (int) (pos - start);
 		int cnt = block.length - ptr;
+		if (cnt <= 0) {
+			throw new DataFormatException(cnt + " bytes to inflate:" //$NON-NLS-1$
+					+ " at pos=" + pos //$NON-NLS-1$
+					+ "; block.start=" + start //$NON-NLS-1$
+					+ "; ptr=" + ptr //$NON-NLS-1$
+					+ "; block.length=" + block.length); //$NON-NLS-1$
+		}
 		inf.setInput(block, ptr, cnt);
 		return cnt;
 	}
