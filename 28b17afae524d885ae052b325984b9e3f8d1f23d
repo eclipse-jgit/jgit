@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87e453f8_2893472d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlock.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2016-06-02T15:17:47Z",
+      "side": 1,
+      "message": "Include the pack key too?",
+      "revId": "28b17afae524d885ae052b325984b9e3f8d1f23d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
