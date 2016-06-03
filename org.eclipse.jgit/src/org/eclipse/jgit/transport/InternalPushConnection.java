@@ -83,6 +83,7 @@ class InternalPushConnection<C> extends BasePackPushConnection {
 				try {
 					final ReceivePack rp = receivePackFactory.create(req, remote);
 					rp.receive(out_r, in_w, System.err);
+					pushOptions = rp.getPushOptions();
 				} catch (ServiceNotEnabledException e) {
 					// Ignored. Client cannot use this repository.
 				} catch (ServiceNotAuthorizedException e) {
