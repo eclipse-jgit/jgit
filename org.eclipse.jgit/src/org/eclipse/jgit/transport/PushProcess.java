@@ -49,6 +49,7 @@ import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -87,6 +88,9 @@ class PushProcess {
 	/** an outputstream to write messages to */
 	private final OutputStream out;
 
+	/** A list of option strings associated with this push */
+	private List<String> pushOptions;
+
 	/**
 	 * Create process for specified transport and refs updates specification.
 	 *
@@ -122,6 +126,7 @@ class PushProcess {
 		this.transport = transport;
 		this.toPush = new HashMap<String, RemoteRefUpdate>();
 		this.out = out;
+		this.pushOptions = transport.getPushOptions();
 		for (final RemoteRefUpdate rru : toPush) {
 			if (this.toPush.put(rru.getRemoteName(), rru) != null)
 				throw new TransportException(MessageFormat.format(
@@ -153,6 +158,14 @@ class PushProcess {
 
 			final PushResult res = new PushResult();
 			connection = transport.openPush();
+
+			if (connection instanceof BasePackPushConnection) {
+				BasePackPushConnection basePackPushConnection = (BasePackPushConnection) connection;
+				System.out.println(
+						"PushProcess: basePackPushConnection.getPushOptions() = "
+								+ basePackPushConnection.getPushOptions());
+			}
+
 			try {
 				res.setAdvertisedRefs(transport.getURI(), connection
 						.getRefsMap());
@@ -178,6 +191,7 @@ class PushProcess {
 			}
 			return res;
 		} finally {
+			System.out.println("PushProcess: pushOptions = " + pushOptions);
 			walker.close();
 		}
 	}
@@ -293,5 +307,14 @@ class PushProcess {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Gets the list of option strings associated with this push.
+	 *
+	 * @return pushOptions
+	 */
+	public List<String> getPushOptions() {
+		return pushOptions;
 	}
 }
