@@ -49,6 +49,54 @@
     },
     {
       "key": {
+        "uuid": "87e453f8_0b5be07f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/AlarmQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-06-03T23:45:04Z",
+      "side": 1,
+      "message": "We want to ship this with 4.4.1, time is too short and risk too high to squeeze it into 4.4.0. In service release we shouldn\u0027t add new API. If needed we can make it public later.",
+      "parentUuid": "87e453f8_10514d2d",
+      "range": {
+        "startLine": 53,
+        "startChar": 6,
+        "endLine": 53,
+        "endChar": 16
+      },
+      "revId": "22b9774af4464be3a0c65027e1aa2dd74e8bfaa2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_6b79c4e6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/AlarmQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-06-03T23:45:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87e453f8_35a39bfb",
+      "range": {
+        "startLine": 53,
+        "startChar": 6,
+        "endLine": 53,
+        "endChar": 16
+      },
+      "revId": "22b9774af4464be3a0c65027e1aa2dd74e8bfaa2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87e453f8_b0889900",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/AlarmQueue.java",
         "patchSetId": 1
@@ -60,6 +108,24 @@
       "writtenOn": "2016-06-03T14:34:42Z",
       "side": 1,
       "message": "public",
+      "revId": "22b9774af4464be3a0c65027e1aa2dd74e8bfaa2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_2b56dc55",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/AlarmQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-06-03T23:45:04Z",
+      "side": 1,
+      "message": "maybe in a later release",
+      "parentUuid": "87e453f8_b0889900",
       "revId": "22b9774af4464be3a0c65027e1aa2dd74e8bfaa2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
