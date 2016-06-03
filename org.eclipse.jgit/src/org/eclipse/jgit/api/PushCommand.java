@@ -96,6 +96,8 @@ public class PushCommand extends
 
 	private OutputStream out;
 
+	private List<String> pushOptions;
+
 	/**
 	 * @param repo
 	 */
@@ -149,10 +151,14 @@ public class PushCommand extends
 				if (receivePack != null)
 					transport.setOptionReceivePack(receivePack);
 				transport.setDryRun(dryRun);
+				transport.setPushOptions(pushOptions);
 				configure(transport);
 
 				final Collection<RemoteRefUpdate> toPush = transport
 						.findRemoteRefUpdatesFor(refSpecs);
+
+				System.out.println("PushCommand: transports.size() = "
+						+ transports.size());
 
 				try {
 					PushResult result = transport.push(monitor, toPush, out);
@@ -165,6 +171,7 @@ public class PushCommand extends
 					throw new org.eclipse.jgit.api.errors.TooLargeObjectInPackException(
 							e.getMessage(), e);
 				} catch (TransportException e) {
+					e.printStackTrace();
 					throw new org.eclipse.jgit.api.errors.TransportException(
 							e.getMessage(), e);
 				} finally {
@@ -451,6 +458,26 @@ public class PushCommand extends
 	 */
 	public PushCommand setOutputStream(OutputStream out) {
 		this.out = out;
+		return this;
+	}
+
+	/**
+	 * @return the option strings associated with the push operation
+	 * @since 4.5
+	 */
+	public List<String> getPushOptions() {
+		return pushOptions;
+	}
+
+	/**
+	 * Sets the option strings associated with the push operation.
+	 *
+	 * @param pushOptions
+	 * @return {@code this}
+	 * @since 4.5
+	 */
+	public PushCommand setPushOptions(List<String> pushOptions) {
+		this.pushOptions = pushOptions;
 		return this;
 	}
 }
