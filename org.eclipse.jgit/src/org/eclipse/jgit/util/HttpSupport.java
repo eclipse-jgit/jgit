@@ -190,7 +190,7 @@ public class HttpSupport {
 			return c.getResponseCode();
 		} catch (ConnectException ce) {
 			final URL url = c.getURL();
-			final String host = (url == null) ? "<null>" : url.getHost();
+			final String host = (url == null) ? "<null>" : url.getHost(); //$NON-NLS-1$
 			// The standard J2SE error message is not very useful.
 			//
 			if ("Connection timed out: connect".equals(ce.getMessage())) //$NON-NLS-1$
@@ -218,7 +218,7 @@ public class HttpSupport {
 			return c.getResponseCode();
 		} catch (ConnectException ce) {
 			final URL url = c.getURL();
-			final String host = (url == null) ? "<null>" : url.getHost();
+			final String host = (url == null) ? "<null>" : url.getHost(); //$NON-NLS-1$
 			// The standard J2SE error message is not very useful.
 			//
 			if ("Connection timed out: connect".equals(ce.getMessage())) //$NON-NLS-1$
