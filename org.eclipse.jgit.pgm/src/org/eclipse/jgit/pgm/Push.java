@@ -108,6 +108,9 @@ class Push extends TextBuiltin {
 	@Option(name = "--dry-run")
 	private boolean dryRun;
 
+	@Option(name = "--option-strings", aliases = { "-t" })
+	private List<String> optionStrings;
+
 	private boolean shownURI;
 
 	@Override
@@ -127,6 +130,7 @@ class Push extends TextBuiltin {
 			push.setThin(thin);
 			push.setAtomic(atomic);
 			push.setTimeout(timeout);
+			push.setOptionStrings(optionStrings);
 			Iterable<PushResult> results = push.call();
 			for (PushResult result : results) {
 				try (ObjectReader reader = db.newObjectReader()) {
