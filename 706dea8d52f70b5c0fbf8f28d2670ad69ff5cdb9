@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87e453f8_1035cddd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryCache.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2016-06-03T14:15:49Z",
+      "side": 1,
+      "message": "There is still a window of vulnerability between the useCnt \u003d\u003d 0 check and acquiring the lock in the line 273. So you may detect useCnt to be zero here and another thread could just open the same repo and increase the useCnt. After that the unregisterAndCloseRepository will unconditionally close the repo.\n\nProposal: the check for useCnt \u003d\u003d 0 need to be repeated again after the lock is acquired (between the lines 273-274)",
+      "range": {
+        "startLine": 220,
+        "startChar": 0,
+        "endLine": 222,
+        "endChar": 42
+      },
+      "revId": "706dea8d52f70b5c0fbf8f28d2670ad69ff5cdb9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
