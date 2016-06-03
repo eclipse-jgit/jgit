@@ -22,6 +22,30 @@
       "revId": "22b9774af4464be3a0c65027e1aa2dd74e8bfaa2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_10514d2d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/AlarmQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2016-06-03T13:49:54Z",
+      "side": 1,
+      "message": "public?\n\nIf this is intended to be reused then it should be possible to use it from other packages too.",
+      "parentUuid": "87e453f8_35a39bfb",
+      "range": {
+        "startLine": 53,
+        "startChar": 6,
+        "endLine": 53,
+        "endChar": 16
+      },
+      "revId": "22b9774af4464be3a0c65027e1aa2dd74e8bfaa2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
