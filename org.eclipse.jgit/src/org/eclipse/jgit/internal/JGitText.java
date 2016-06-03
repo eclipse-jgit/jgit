@@ -508,6 +508,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String openFilesMustBeAtLeast1;
 	/***/ public String openingConnection;
 	/***/ public String operationCanceled;
+	/***/ public String optionStringsNotSupported;
 	/***/ public String outputHasAlreadyBeenStarted;
 	/***/ public String packChecksumMismatch;
 	/***/ public String packCorruptedWhileWritingToFilesystem;

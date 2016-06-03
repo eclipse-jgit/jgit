@@ -59,6 +59,7 @@ import java.util.List;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.OptionStringWrapper;
 import org.eclipse.jgit.transport.PushCertificate;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
@@ -91,6 +92,9 @@ public class BatchRefUpdate {
 
 	/** Whether updates should be atomic. */
 	private boolean atomic;
+
+	/** Option strings associated with this update. */
+	private List<String> optionStrings;
 
 	/**
 	 * Initialize a new batch update.
@@ -301,14 +305,16 @@ public class BatchRefUpdate {
 	}
 
 	/**
-	 * Execute this batch update.
-	 * <p>
-	 * The default implementation of this method performs a sequential reference
-	 * update over each reference.
-	 * <p>
-	 * Implementations must respect the atomicity requirements of the underlying
-	 * database as described in {@link #setAtomic(boolean)} and {@link
-	 * RefDatabase#performsAtomicTransactions()}.
+	 * Gets the list of option strings associated with this update.
+	 *
+	 * @return optionStrings
+	 */
+	public List<String> getOptionStrings() {
+		return optionStrings;
+	}
+
+	/**
+	 * Execute this batch update without option strings.
 	 *
 	 * @param walk
 	 *            a RevWalk to parse tags in case the storage system wants to
@@ -322,6 +328,33 @@ public class BatchRefUpdate {
 	 */
 	public void execute(RevWalk walk, ProgressMonitor monitor)
 			throws IOException {
+		execute(walk, monitor, null);
+	}
+
+	/**
+	 * Execute this batch update.
+	 * <p>
+	 * The default implementation of this method performs a sequential reference
+	 * update over each reference.
+	 * <p>
+	 * Implementations must respect the atomicity requirements of the underlying
+	 * database as described in {@link #setAtomic(boolean)} and
+	 * {@link RefDatabase#performsAtomicTransactions()}.
+	 *
+	 * @param walk
+	 *            a RevWalk to parse tags in case the storage system wants to
+	 *            store them pre-peeled, a common performance optimization.
+	 * @param monitor
+	 *            progress monitor to receive update status on.
+	 * @param wrapper
+	 *            holds a list of option strings; set null to execute without
+	 * @throws IOException
+	 *             the database is unable to accept the update. Individual
+	 *             command status must be tested to determine if there is a
+	 *             partial failure, or a total failure.
+	 */
+	public void execute(RevWalk walk, ProgressMonitor monitor,
+			OptionStringWrapper wrapper) throws IOException {
 
 		if (atomic && !refdb.performsAtomicTransactions()) {
 			for (ReceiveCommand c : commands) {
@@ -333,6 +366,7 @@ public class BatchRefUpdate {
 			return;
 		}
 
+		optionStrings = wrapper.getOptionStrings();
 		monitor.beginTask(JGitText.get().updatingReferences, commands.size());
 		List<ReceiveCommand> commands2 = new ArrayList<ReceiveCommand>(
 				commands.size());

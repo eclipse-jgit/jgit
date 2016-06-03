@@ -208,6 +208,20 @@ public class GitProtocolConstants {
 	 */
 	public static final String OPTION_AGENT = "agent"; //$NON-NLS-1$
 
+	/**
+	 * The client will send option strings.
+	 *
+	 * @since 4.5
+	 */
+	public static final String OPTION_STRINGS = "option-strings"; //$NON-NLS-1$
+
+	/**
+	 * The server supports the receiving of option strings.
+	 *
+	 * @since 4.5
+	 */
+	public static final String CAPABILITY_OPTION_STRINGS = "capability-option-strings"; //$NON-NLS-1$
+
 	static enum MultiAck {
 		OFF, CONTINUE, DETAILED;
 	}

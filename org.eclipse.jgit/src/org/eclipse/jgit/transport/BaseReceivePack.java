@@ -49,6 +49,7 @@ import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_OFS_DEL
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_QUIET;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_REPORT_STATUS;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_SIDE_BAND_64K;
+import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_OPTION_STRINGS;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_AGENT;
 import static org.eclipse.jgit.transport.SideBandOutputStream.CH_DATA;
 import static org.eclipse.jgit.transport.SideBandOutputStream.CH_PROGRESS;
@@ -175,6 +176,9 @@ public abstract class BaseReceivePack {
 
 	/** Should an incoming transfer permit non-fast-forward requests? */
 	private boolean allowNonFastForwards;
+
+	/** Should an incoming transfer permit option strings? **/
+	private boolean allowOptionStrings;
 
 	/**
 	 * Should the requested ref updates be performed as a single atomic
@@ -308,6 +312,7 @@ public abstract class BaseReceivePack {
 		allowBranchDeletes = rc.allowDeletes;
 		allowNonFastForwards = rc.allowNonFastForwards;
 		allowOfsDelta = rc.allowOfsDelta;
+		allowOptionStrings = rc.allowOptionStrings;
 		advertiseRefsHook = AdvertiseRefsHook.DEFAULT;
 		refFilter = RefFilter.DEFAULT;
 		advertisedHaves = new HashSet<ObjectId>();
@@ -327,6 +332,7 @@ public abstract class BaseReceivePack {
 		final boolean allowDeletes;
 		final boolean allowNonFastForwards;
 		final boolean allowOfsDelta;
+		final boolean allowOptionStrings;
 		final SignedPushConfig signedPush;
 
 		ReceiveConfig(final Config config) {
@@ -336,6 +342,8 @@ public abstract class BaseReceivePack {
 					"denynonfastforwards", false); //$NON-NLS-1$
 			allowOfsDelta = config.getBoolean("repack", "usedeltabaseoffset", //$NON-NLS-1$ //$NON-NLS-2$
 					true);
+			allowOptionStrings = config.getBoolean("receive", "optionstrings", //$NON-NLS-1$ //$NON-NLS-2$
+					false);
 			signedPush = SignedPushConfig.KEY.parse(config);
 		}
 	}
@@ -785,6 +793,25 @@ public abstract class BaseReceivePack {
 	}
 
 	/**
+	 * @return true if the server supports the receiving of option strings.
+	 * @since 4.5
+	 */
+	public boolean isAllowOptionStrings() {
+		return allowOptionStrings;
+	}
+
+	/**
+	 * Configure if the server supports the receiving of option strings.
+	 *
+	 * @param allow
+	 *            true to permit option strings.
+	 * @since 4.5
+	 */
+	public void setAllowOptionStrings(boolean allow) {
+		allowOptionStrings = allow;
+	}
+
+	/**
 	 * True if the client wants less verbose output.
 	 *
 	 * @return true if the client has requested the server to be less verbose.
@@ -1060,6 +1087,8 @@ public abstract class BaseReceivePack {
 			adv.advertiseCapability(CAPABILITY_ATOMIC);
 		if (allowOfsDelta)
 			adv.advertiseCapability(CAPABILITY_OFS_DELTA);
+		if (allowOptionStrings)
+			adv.advertiseCapability(CAPABILITY_OPTION_STRINGS);
 		adv.advertiseCapability(OPTION_AGENT, UserAgent.get());
 		adv.send(getAdvertisedOrDefaultRefs());
 		for (ObjectId obj : advertisedHaves)
@@ -1514,7 +1543,8 @@ public abstract class BaseReceivePack {
 		batch.addCommand(toApply);
 		try {
 			batch.setPushCertificate(getPushCertificate());
-			batch.execute(walk, updating);
+			batch.execute(walk, updating, new MockOptionStringWrapper()
+					.setOptionStrings(new ArrayList<String>()));
 		} catch (IOException err) {
 			for (ReceiveCommand cmd : toApply) {
 				if (cmd.getResult() == Result.NOT_ATTEMPTED)
