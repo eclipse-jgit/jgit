@@ -773,6 +773,12 @@ public abstract class Transport implements AutoCloseable {
 	/** Assists with authentication the connection. */
 	private CredentialsProvider credentialsProvider;
 
+	/** The option strings associated with the push operation. */
+	private List<String> pushOptions;
+
+	/** Whether push options are supported. */
+	private boolean capablePushOptions;
+
 	private PrintStream hookOutRedirect;
 
 	private PrePushHook prePush;
@@ -1118,6 +1124,40 @@ public abstract class Transport implements AutoCloseable {
 	 */
 	public CredentialsProvider getCredentialsProvider() {
 		return credentialsProvider;
+	}
+
+	/**
+	 * @return the option strings associated with the push operation
+	 */
+	public List<String> getPushOptions() {
+		return pushOptions;
+	}
+
+	/**
+	 * Sets the option strings associated with the push operation.
+	 *
+	 * @param pushOptions
+	 *            null if push options are unsupported
+	 */
+	public void setPushOptions(final List<String> pushOptions) {
+		this.pushOptions = pushOptions;
+	}
+
+	/**
+	 * @return whether push options are supported
+	 */
+	public boolean isCapablePushOptions() {
+		return capablePushOptions;
+	}
+
+	/**
+	 * Sets the push option capability.
+	 *
+	 * @param capablePushOptions
+	 *            whether push options are supported
+	 */
+	public void setCapablePushOptions(boolean capablePushOptions) {
+		this.capablePushOptions = capablePushOptions;
 	}
 
 	/**
