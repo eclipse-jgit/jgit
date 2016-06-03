@@ -84,6 +84,11 @@ public class PushCommandTest extends RepositoryTestCase {
 
 		// setup the first repository
 		final StoredConfig config = db.getConfig();
+		System.out.println("db.toString: " + db.toString());
+		System.out.println("db.getBranch(): " + db.getBranch());
+		System.out.println("db.getFullBranch(): " + db.getFullBranch());
+		System.out.println("db.readCommitEditMsg(): " + db.readCommitEditMsg());
+		System.out.println("db.getObjectDatabase(): " + db.getObjectDatabase());
 		RemoteConfig remoteConfig = new RemoteConfig(config, "test");
 		URIish uri = new URIish(db2.getDirectory().toURI().toURL());
 		remoteConfig.addURI(uri);
@@ -338,7 +343,12 @@ public class PushCommandTest extends RepositoryTestCase {
 			git1.commit().setMessage("initial commit").call();
 
 			RefSpec spec = new RefSpec("refs/heads/*:refs/heads/*");
-			git1.push().setRemote("test").setRefSpecs(spec).call();
+			git1.push().setRemote("test").setRefSpecs(spec).call(); // why does
+																	// it set
+																	// the
+																	// remote to
+																	// its own
+																	// repository?
 
 			// create an unrelated ref and a commit on our remote
 			git2.branchCreate().setName("refs/heads/other").call();

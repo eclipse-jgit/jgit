@@ -51,6 +51,7 @@ import java.io.OutputStream;
 import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -112,14 +113,24 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 	 */
 	public static final String CAPABILITY_SIDE_BAND_64K = GitProtocolConstants.CAPABILITY_SIDE_BAND_64K;
 
+	/**
+	 * The server supports the receiving of push options.
+	 * @since 4.5
+	 */
+	public static final String CAPABILITY_PUSH_OPTIONS = GitProtocolConstants.CAPABILITY_PUSH_OPTIONS;
+
 	private final boolean thinPack;
 	private final boolean atomic;
+
+	/** A list of option strings associated with this push. */
+	protected List<String> pushOptions;
 
 	private boolean capableAtomic;
 	private boolean capableDeleteRefs;
 	private boolean capableReport;
 	private boolean capableSideBand;
 	private boolean capableOfsDelta;
+	private boolean capablePushOptions;
 
 	private boolean sentCommand;
 	private boolean writePack;
@@ -137,6 +148,7 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 		super(packTransport);
 		thinPack = transport.isPushThin();
 		atomic = transport.isPushAtomic();
+		pushOptions = transport.getPushOptions();
 	}
 
 	public void push(final ProgressMonitor monitor,
@@ -196,6 +208,8 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 			OutputStream outputStream) throws TransportException {
 		try {
 			writeCommands(refUpdates.values(), monitor, outputStream);
+			if (pushOptions != null && capablePushOptions)
+				transmitOptions();
 			if (writePack)
 				writePack(refUpdates, monitor);
 			if (sentCommand) {
@@ -217,6 +231,15 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 		} catch (TransportException e) {
 			throw e;
 		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println(
+					"BasePackPushConnection: this = " + this.toString());
+			System.out.println("BasePackPushConnection: pushOptions = "
+					+ pushOptions.toString());
+			System.out.println("BasePackPushConnection: refUpdates = "
+					+ refUpdates.toString());
+			System.out.println("BasePackPushConnection: monitor = "
+					+ monitor.toString());
 			throw new TransportException(uri, e.getMessage(), e);
 		} finally {
 			close();
@@ -229,6 +252,16 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 		if (atomic && !capableAtomic) {
 			throw new TransportException(uri,
 					JGitText.get().atomicPushNotSupported);
+		}
+
+		System.out.println(
+				"BasePackPushConnection: pushOptions = " + pushOptions);
+		System.out.println("BasePackPushConnection: capablePushOptions = "
+				+ capablePushOptions);
+		if (pushOptions != null && !capablePushOptions) {
+			throw new TransportException(uri,
+					MessageFormat.format(JGitText.get().pushOptionsNotSupported,
+							pushOptions.toString()));
 		}
 
 		for (final RemoteRefUpdate rru : refUpdates) {
@@ -268,6 +301,15 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 		outNeedsEnd = false;
 	}
 
+	private void transmitOptions() throws IOException {
+		for (final String pushOption : pushOptions) {
+			pckOut.writeString(pushOption);
+			// pckOut.end();
+		}
+
+		pckOut.end();
+	}
+
 	private String enableCapabilities(final ProgressMonitor monitor,
 			OutputStream outputStream) {
 		final StringBuilder line = new StringBuilder();
@@ -277,6 +319,11 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 		capableDeleteRefs = wantCapability(line, CAPABILITY_DELETE_REFS);
 		capableOfsDelta = wantCapability(line, CAPABILITY_OFS_DELTA);
 
+		if (pushOptions != null)
+			capablePushOptions = wantCapability(line, CAPABILITY_PUSH_OPTIONS);
+
+		System.out.println("BasePackPushConnection: capablePushOptions = "
+				+ capablePushOptions);
 		capableSideBand = wantCapability(line, CAPABILITY_SIDE_BAND_64K);
 		if (capableSideBand) {
 			in = new SideBandInputStream(in, monitor, getMessageWriter(),
@@ -396,5 +443,14 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 		} finally {
 			timeoutIn.setTimeout(oldTimeout);
 		}
+	}
+
+	/**
+	 * Gets the list of option strings associated with this push.
+	 *
+	 * @return pushOptions
+	 */
+	public List<String> getPushOptions() {
+		return pushOptions;
 	}
 }
