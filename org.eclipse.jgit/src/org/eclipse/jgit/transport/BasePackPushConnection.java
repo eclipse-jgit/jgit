@@ -51,6 +51,7 @@ import java.io.OutputStream;
 import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -111,14 +112,23 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 	 */
 	public static final String CAPABILITY_SIDE_BAND_64K = GitProtocolConstants.CAPABILITY_SIDE_BAND_64K;
 
+	/**
+	 * The server supports the receiving of option strings.
+	 *
+	 * @since 4.5
+	 */
+	public static final String CAPABILITY_OPTION_STRINGS = GitProtocolConstants.CAPABILITY_OPTION_STRINGS;
+
 	private final boolean thinPack;
 	private final boolean atomic;
+	private final List<String> optionStrings;
 
 	private boolean capableAtomic;
 	private boolean capableDeleteRefs;
 	private boolean capableReport;
 	private boolean capableSideBand;
 	private boolean capableOfsDelta;
+	private boolean capableOptionStrings;
 
 	private boolean sentCommand;
 	private boolean writePack;
@@ -136,6 +146,7 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 		super(packTransport);
 		thinPack = transport.isPushThin();
 		atomic = transport.isPushAtomic();
+		optionStrings = transport.getOptionStrings();
 	}
 
 	public void push(final ProgressMonitor monitor,
@@ -195,6 +206,7 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 			OutputStream outputStream) throws TransportException {
 		try {
 			writeCommands(refUpdates.values(), monitor, outputStream);
+			transmitOptions();
 			if (writePack)
 				writePack(refUpdates, monitor);
 			if (sentCommand) {
@@ -267,6 +279,23 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 		outNeedsEnd = false;
 	}
 
+	private void transmitOptions() throws IOException {
+		if (optionStrings != null) {
+			if (!capableOptionStrings && !optionStrings.isEmpty()) {
+				throw new TransportException(uri,
+						MessageFormat.format(
+								JGitText.get().optionStringsNotSupported,
+								optionStrings.toString()));
+			}
+
+			for (final String optionString : optionStrings) {
+				pckOut.writeString(optionString);
+			}
+		}
+
+		pckOut.end();
+	}
+
 	private String enableCapabilities(final ProgressMonitor monitor,
 			OutputStream outputStream) {
 		final StringBuilder line = new StringBuilder();
@@ -275,6 +304,7 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 		capableReport = wantCapability(line, CAPABILITY_REPORT_STATUS);
 		capableDeleteRefs = wantCapability(line, CAPABILITY_DELETE_REFS);
 		capableOfsDelta = wantCapability(line, CAPABILITY_OFS_DELTA);
+		capableOptionStrings = wantCapability(line, CAPABILITY_OPTION_STRINGS);
 
 		capableSideBand = wantCapability(line, CAPABILITY_SIDE_BAND_64K);
 		if (capableSideBand) {
