@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87e453f8_06c03722",
+        "filename": "org.eclipse.jgit.pgm/META-INF/MANIFEST.MF",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-06-03T23:59:05Z",
+      "side": 1,
+      "message": "looks like you don\u0027t use ant, so this dependency seems unncessary",
+      "revId": "39861dbeaf6f68c73b5a33f1b9ea1d7aaa2159e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_462f9f8f",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties~",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-06-03T23:59:05Z",
+      "side": 1,
+      "message": "what is this ? seems you added some backup file",
+      "revId": "39861dbeaf6f68c73b5a33f1b9ea1d7aaa2159e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_662adb7f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PushCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 458,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-06-03T23:59:05Z",
+      "side": 1,
+      "message": "new API needs to be marked with @since 4.5 in javadoc",
+      "revId": "39861dbeaf6f68c73b5a33f1b9ea1d7aaa2159e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_c6d64ff0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/MockOptionStringWrapper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-06-03T23:59:05Z",
+      "side": 1,
+      "message": "missing license header\n\nit seems this class should be located in bundle org.eclipse.jgit.test",
+      "revId": "39861dbeaf6f68c73b5a33f1b9ea1d7aaa2159e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_e6d98b20",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/OptionStringWrapper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-06-03T23:59:05Z",
+      "side": 1,
+      "message": "missing license header",
+      "revId": "39861dbeaf6f68c73b5a33f1b9ea1d7aaa2159e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
