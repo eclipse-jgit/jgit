@@ -92,6 +92,9 @@ public class BatchRefUpdate {
 	/** Whether updates should be atomic. */
 	private boolean atomic;
 
+	/** Push options associated with this update. */
+	private List<String> pushOptions;
+
 	/**
 	 * Initialize a new batch update.
 	 *
@@ -301,27 +304,40 @@ public class BatchRefUpdate {
 	}
 
 	/**
+	 * Gets the list of option strings associated with this update.
+	 *
+	 * @return pushOptions
+	 * @since 4.5
+	 */
+	public List<String> getPushOptions() {
+		return pushOptions;
+	}
+
+	/**
 	 * Execute this batch update.
 	 * <p>
 	 * The default implementation of this method performs a sequential reference
 	 * update over each reference.
 	 * <p>
 	 * Implementations must respect the atomicity requirements of the underlying
-	 * database as described in {@link #setAtomic(boolean)} and {@link
-	 * RefDatabase#performsAtomicTransactions()}.
+	 * database as described in {@link #setAtomic(boolean)} and
+	 * {@link RefDatabase#performsAtomicTransactions()}.
 	 *
 	 * @param walk
 	 *            a RevWalk to parse tags in case the storage system wants to
 	 *            store them pre-peeled, a common performance optimization.
 	 * @param monitor
 	 *            progress monitor to receive update status on.
+	 * @param options
+	 *            a list of option strings; set null to execute without
 	 * @throws IOException
 	 *             the database is unable to accept the update. Individual
 	 *             command status must be tested to determine if there is a
 	 *             partial failure, or a total failure.
+	 * @since 4.5
 	 */
-	public void execute(RevWalk walk, ProgressMonitor monitor)
-			throws IOException {
+	public void execute(RevWalk walk, ProgressMonitor monitor,
+			List<String> options) throws IOException {
 
 		if (atomic && !refdb.performsAtomicTransactions()) {
 			for (ReceiveCommand c : commands) {
@@ -331,6 +347,10 @@ public class BatchRefUpdate {
 				}
 			}
 			return;
+		}
+
+		if (options != null) {
+			pushOptions = options;
 		}
 
 		monitor.beginTask(JGitText.get().updatingReferences, commands.size());
@@ -410,6 +430,24 @@ public class BatchRefUpdate {
 			}
 		}
 		monitor.endTask();
+	}
+
+	/**
+	 * Execute this batch update without option strings.
+	 *
+	 * @param walk
+	 *            a RevWalk to parse tags in case the storage system wants to
+	 *            store them pre-peeled, a common performance optimization.
+	 * @param monitor
+	 *            progress monitor to receive update status on.
+	 * @throws IOException
+	 *             the database is unable to accept the update. Individual
+	 *             command status must be tested to determine if there is a
+	 *             partial failure, or a total failure.
+	 */
+	public void execute(RevWalk walk, ProgressMonitor monitor)
+			throws IOException {
+		execute(walk, monitor, null);
 	}
 
 	private static Collection<String> getTakenPrefixes(
