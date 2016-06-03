@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87e453f8_35a39bfb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/AlarmQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 6590
+      },
+      "writtenOn": "2016-06-03T12:56:13Z",
+      "side": 1,
+      "message": "For me, AlarmQueue doesn\u0027t match the description of the class and its purpose.\n\nIt\u0027s sounds like a queue you must use to raise an alarm, not a queue to run task in background.\n\nBackgroundQueue, DefaultQueue, PeriodicQueue, WorkQueue...?",
+      "range": {
+        "startLine": 53,
+        "startChar": 6,
+        "endLine": 53,
+        "endChar": 16
+      },
+      "revId": "22b9774af4464be3a0c65027e1aa2dd74e8bfaa2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
