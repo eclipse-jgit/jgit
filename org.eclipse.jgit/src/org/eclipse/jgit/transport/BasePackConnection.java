@@ -218,6 +218,9 @@ abstract class BasePackConnection extends BaseConnection {
 					// capability values after a NUL byte.
 					for (String c : line.substring(nul + 1).split(" ")) //$NON-NLS-1$
 						remoteCapablities.add(c);
+					System.out
+							.println("BasePackConnection: remoteCapabilities = "
+									+ remoteCapablities);
 					line = line.substring(0, nul);
 				}
 			}
@@ -272,6 +275,9 @@ abstract class BasePackConnection extends BaseConnection {
 	}
 
 	protected boolean wantCapability(final StringBuilder b, final String option) {
+		System.out.println(
+				"BasePackConnection: wantCapability(" + option + ") = "
+						+ !isCapableOf(option));
 		if (!isCapableOf(option))
 			return false;
 		b.append(' ');

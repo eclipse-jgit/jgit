@@ -208,6 +208,13 @@ public class GitProtocolConstants {
 	 */
 	public static final String OPTION_AGENT = "agent"; //$NON-NLS-1$
 
+	/**
+	 * The server supports the receiving of push options.
+	 *
+	 * @since 4.5
+	 */
+	public static final String CAPABILITY_PUSH_OPTIONS = "push-options"; //$NON-NLS-1$
+
 	static enum MultiAck {
 		OFF, CONTINUE, DETAILED;
 	}
