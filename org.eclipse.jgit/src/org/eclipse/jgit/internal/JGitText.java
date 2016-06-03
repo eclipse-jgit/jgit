@@ -419,6 +419,8 @@ public class JGitText extends TranslationBundle {
 	/***/ public String invalidStageForPath;
 	/***/ public String invalidTagOption;
 	/***/ public String invalidTimeout;
+	/***/ public String invalidTimeUnitValue2;
+	/***/ public String invalidTimeUnitValue3;
 	/***/ public String invalidURL;
 	/***/ public String invalidWildcards;
 	/***/ public String invalidRefSpec;
