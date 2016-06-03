@@ -127,6 +127,9 @@ public abstract class Repository implements AutoCloseable {
 	/** If not bare, the index file caching the working file states. */
 	private final File indexFile;
 
+	/** Lists of option strings mapped by time of push operation. */
+	private final Map<Long, List<String>> timedPushOptions = new HashMap<>();
+
 	/**
 	 * Initialize a new repository instance.
 	 *
@@ -1821,5 +1824,26 @@ public abstract class Repository implements AutoCloseable {
 	public Set<String> getRemoteNames() {
 		return getConfig()
 				.getSubsections(ConfigConstants.CONFIG_REMOTE_SECTION);
+	}
+
+	/**
+	 * Inserts push options at the current system time.
+	 *
+	 * @param pushOptions
+	 *            A list of push options
+	 * @since 4.5
+	 */
+	public void addPushOptions(List<String> pushOptions) {
+		timedPushOptions.put(new Long(System.currentTimeMillis()),
+				pushOptions);
+	}
+
+	/**
+	 * @return Lists of option strings mapped by time of push operation.
+	 * @since 4.5
+	 */
+	@NonNull
+	public Map<Long, List<String>> getTimedPushOptions() {
+		return timedPushOptions;
 	}
 }

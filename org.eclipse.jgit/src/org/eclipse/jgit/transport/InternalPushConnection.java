@@ -81,8 +81,16 @@ class InternalPushConnection<C> extends BasePackPushConnection {
 		worker = new Thread("JGit-Receive-Pack") { //$NON-NLS-1$
 			public void run() {
 				try {
+					System.out.println(
+							"InternalPushConnection: pushOptions FIRST = "
+									+ pushOptions);
 					final ReceivePack rp = receivePackFactory.create(req, remote);
+					// System.out.println(1 / 0);
 					rp.receive(out_r, in_w, System.err);
+					pushOptions = rp.getPushOptions();
+					System.out.println(
+							"InternalPushConnection: rp.getPushOptions() = "
+									+ rp.getPushOptions());
 				} catch (ServiceNotEnabledException e) {
 					// Ignored. Client cannot use this repository.
 				} catch (ServiceNotAuthorizedException e) {
