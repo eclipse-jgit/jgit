@@ -174,6 +174,14 @@ public class ReceivePack extends BaseReceivePack {
 		super.enableCapabilities();
 	}
 
+	private void readPushOptions() throws IOException {
+		String pushOption = pckIn.readString();
+
+		while (pushOption != null) {
+			pushOptions.add(pushOption);
+		}
+	}
+
 	private void service() throws IOException {
 		if (isBiDirectionalPipe()) {
 			sendAdvertisedRefs(new PacketLineOutRefAdvertiser(pckOut));
@@ -185,6 +193,10 @@ public class ReceivePack extends BaseReceivePack {
 		recvCommands();
 		if (hasCommands()) {
 			enableCapabilities();
+
+			if (usePushOptions) {
+				readPushOptions();
+			}
 
 			Throwable unpackError = null;
 			if (needPack()) {
