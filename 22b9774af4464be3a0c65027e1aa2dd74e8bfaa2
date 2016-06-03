@@ -46,6 +46,23 @@
       "revId": "22b9774af4464be3a0c65027e1aa2dd74e8bfaa2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_b0889900",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/AlarmQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2016-06-03T14:34:42Z",
+      "side": 1,
+      "message": "public",
+      "revId": "22b9774af4464be3a0c65027e1aa2dd74e8bfaa2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
