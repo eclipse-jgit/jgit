@@ -96,6 +96,8 @@ public class PushCommand extends
 
 	private OutputStream out;
 
+	private List<String> pushOptions;
+
 	/**
 	 * @param repo
 	 */
@@ -451,6 +453,26 @@ public class PushCommand extends
 	 */
 	public PushCommand setOutputStream(OutputStream out) {
 		this.out = out;
+		return this;
+	}
+
+	/**
+	 * @return the option strings associated with the push operation
+	 * @since 4.5
+	 */
+	public List<String> getPushOptions() {
+		return pushOptions;
+	}
+
+	/**
+	 * Sets the option strings associated with the push operation.
+	 *
+	 * @param pushOptions
+	 * @return {@code this}
+	 * @since 4.5
+	 */
+	public PushCommand setPushOptions(List<String> pushOptions) {
+		this.pushOptions = pushOptions;
 		return this;
 	}
 }
