@@ -52,6 +52,7 @@ import java.io.OutputStream;
 import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -113,14 +114,24 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 	 */
 	public static final String CAPABILITY_SIDE_BAND_64K = GitProtocolConstants.CAPABILITY_SIDE_BAND_64K;
 
+	/**
+	 * The server supports the receiving of push options.
+	 * @since 4.5
+	 */
+	public static final String CAPABILITY_PUSH_OPTIONS = GitProtocolConstants.CAPABILITY_PUSH_OPTIONS;
+
 	private final boolean thinPack;
 	private final boolean atomic;
+
+	/** A list of option strings associated with this push. */
+	private List<String> pushOptions;
 
 	private boolean capableAtomic;
 	private boolean capableDeleteRefs;
 	private boolean capableReport;
 	private boolean capableSideBand;
 	private boolean capableOfsDelta;
+	private boolean capablePushOptions;
 
 	private boolean sentCommand;
 	private boolean writePack;
@@ -138,6 +149,7 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 		super(packTransport);
 		thinPack = transport.isPushThin();
 		atomic = transport.isPushAtomic();
+		pushOptions = transport.getPushOptions();
 	}
 
 	public void push(final ProgressMonitor monitor,
@@ -197,6 +209,9 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 			OutputStream outputStream) throws TransportException {
 		try {
 			writeCommands(refUpdates.values(), monitor, outputStream);
+
+			if (pushOptions != null && capablePushOptions)
+				transmitOptions();
 			if (writePack)
 				writePack(refUpdates, monitor);
 			if (sentCommand) {
@@ -230,6 +245,12 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 		if (atomic && !capableAtomic) {
 			throw new TransportException(uri,
 					JGitText.get().atomicPushNotSupported);
+		}
+
+		if (pushOptions != null && !capablePushOptions) {
+			throw new TransportException(uri,
+					MessageFormat.format(JGitText.get().pushOptionsNotSupported,
+							pushOptions.toString()));
 		}
 
 		for (final RemoteRefUpdate rru : refUpdates) {
@@ -269,6 +290,14 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 		outNeedsEnd = false;
 	}
 
+	private void transmitOptions() throws IOException {
+		for (final String pushOption : pushOptions) {
+			pckOut.writeString(pushOption);
+		}
+
+		pckOut.end();
+	}
+
 	private String enableCapabilities(final ProgressMonitor monitor,
 			OutputStream outputStream) {
 		final StringBuilder line = new StringBuilder();
@@ -277,6 +306,10 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 		capableReport = wantCapability(line, CAPABILITY_REPORT_STATUS);
 		capableDeleteRefs = wantCapability(line, CAPABILITY_DELETE_REFS);
 		capableOfsDelta = wantCapability(line, CAPABILITY_OFS_DELTA);
+
+		if (pushOptions != null) {
+			capablePushOptions = wantCapability(line, CAPABILITY_PUSH_OPTIONS);
+		}
 
 		capableSideBand = wantCapability(line, CAPABILITY_SIDE_BAND_64K);
 		if (capableSideBand) {
@@ -333,7 +366,8 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 			throws IOException {
 		final String unpackLine = readStringLongTimeout();
 		if (!unpackLine.startsWith("unpack ")) //$NON-NLS-1$
-			throw new PackProtocolException(uri, MessageFormat.format(JGitText.get().unexpectedReportLine, unpackLine));
+			throw new PackProtocolException(uri, MessageFormat
+					.format(JGitText.get().unexpectedReportLine, unpackLine));
 		final String unpackStatus = unpackLine.substring("unpack ".length()); //$NON-NLS-1$
 		if (unpackStatus.startsWith("error Pack exceeds the limit of")) {//$NON-NLS-1$
 			throw new TooLargePackException(uri,
@@ -402,6 +436,16 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 		} finally {
 			timeoutIn.setTimeout(oldTimeout);
 		}
+	}
+
+	/**
+	 * Gets the list of option strings associated with this push.
+	 *
+	 * @return pushOptions
+	 * @since 4.5
+	 */
+	public List<String> getPushOptions() {
+		return pushOptions;
 	}
 
 	private static class CheckingSideBandOutputStream extends OutputStream {
