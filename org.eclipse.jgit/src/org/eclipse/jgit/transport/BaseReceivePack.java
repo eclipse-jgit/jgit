@@ -48,6 +48,7 @@ import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_DELETE_
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_OFS_DELTA;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_QUIET;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_REPORT_STATUS;
+import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_PUSH_OPTIONS;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_SIDE_BAND_64K;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_AGENT;
 import static org.eclipse.jgit.transport.SideBandOutputStream.CH_DATA;
@@ -176,6 +177,9 @@ public abstract class BaseReceivePack {
 	/** Should an incoming transfer permit non-fast-forward requests? */
 	private boolean allowNonFastForwards;
 
+	/** Should an incoming transfer permit push options? **/
+	private boolean allowPushOptions;
+
 	/**
 	 * Should the requested ref updates be performed as a single atomic
 	 * transaction?
@@ -244,6 +248,12 @@ public abstract class BaseReceivePack {
 
 	private boolean quiet;
 
+	/** A list of option strings associated with a push. */
+	protected List<String> pushOptions;
+
+	/** Whether the client intends to use push options. */
+	protected boolean usePushOptions;
+
 	/** Lock around the received pack file, while updating refs. */
 	private PackLock packLock;
 
@@ -308,6 +318,7 @@ public abstract class BaseReceivePack {
 		allowBranchDeletes = rc.allowDeletes;
 		allowNonFastForwards = rc.allowNonFastForwards;
 		allowOfsDelta = rc.allowOfsDelta;
+		allowPushOptions = rc.allowPushOptions;
 		advertiseRefsHook = AdvertiseRefsHook.DEFAULT;
 		refFilter = RefFilter.DEFAULT;
 		advertisedHaves = new HashSet<ObjectId>();
@@ -327,6 +338,8 @@ public abstract class BaseReceivePack {
 		final boolean allowDeletes;
 		final boolean allowNonFastForwards;
 		final boolean allowOfsDelta;
+		final boolean allowPushOptions;
+
 		final SignedPushConfig signedPush;
 
 		ReceiveConfig(final Config config) {
@@ -336,6 +349,8 @@ public abstract class BaseReceivePack {
 					"denynonfastforwards", false); //$NON-NLS-1$
 			allowOfsDelta = config.getBoolean("repack", "usedeltabaseoffset", //$NON-NLS-1$ //$NON-NLS-2$
 					true);
+			allowPushOptions = config.getBoolean("receive", "pushoptions", //$NON-NLS-1$ //$NON-NLS-2$
+					false);
 			signedPush = SignedPushConfig.KEY.parse(config);
 		}
 	}
@@ -785,12 +800,31 @@ public abstract class BaseReceivePack {
 	}
 
 	/**
+	 * @return true if the server supports the receiving of push options.
+	 * @since 4.5
+	 */
+	public boolean isAllowPushOptions() {
+		return allowPushOptions;
+	}
+
+	/**
+	 * Configure if the server supports the receiving of push options.
+	 *
+	 * @param allow
+	 *            true to permit option strings.
+	 * @since 4.5
+	 */
+	public void setAllowPushOptions(boolean allow) {
+		allowPushOptions = allow;
+	}
+
+	/**
 	 * True if the client wants less verbose output.
 	 *
 	 * @return true if the client has requested the server to be less verbose.
 	 * @throws RequestNotYetReadException
 	 *             if the client's request has not yet been read from the wire,
-	 *             so we do not know if they expect side-band. Note that the
+	 *             so we do not know if they expect quiet. Note that the
 	 *             client may have already written the request, it just has not
 	 *             been read.
 	 * @since 4.0
@@ -799,6 +833,22 @@ public abstract class BaseReceivePack {
 		if (enabledCapabilities == null)
 			throw new RequestNotYetReadException();
 		return quiet;
+	}
+
+	/**
+	 * Gets the list of string options associated with this push.
+	 *
+	 * @return pushOptions
+	 * @throws RequestNotYetReadException
+	 *             if the client's request has not yet been read from the wire,
+	 *             so we do not know if they expect push options. Note that the
+	 *             client may have already written the request, it just has not
+	 *             been read.
+	 */
+	public List<String> getPushOptions() throws RequestNotYetReadException {
+		if (enabledCapabilities == null)
+			throw new RequestNotYetReadException();
+		return Collections.unmodifiableList(pushOptions);
 	}
 
 	/**
@@ -1060,6 +1110,13 @@ public abstract class BaseReceivePack {
 			adv.advertiseCapability(CAPABILITY_ATOMIC);
 		if (allowOfsDelta)
 			adv.advertiseCapability(CAPABILITY_OFS_DELTA);
+		if (allowPushOptions) {
+			adv.advertiseCapability(CAPABILITY_PUSH_OPTIONS);
+
+			if (pushOptions == null) {
+				pushOptions = new ArrayList<>();
+			}
+		}
 		adv.advertiseCapability(OPTION_AGENT, UserAgent.get());
 		adv.send(getAdvertisedOrDefaultRefs());
 		for (ObjectId obj : advertisedHaves)
@@ -1163,6 +1220,8 @@ public abstract class BaseReceivePack {
 	protected void enableCapabilities() {
 		sideBand = isCapabilityEnabled(CAPABILITY_SIDE_BAND_64K);
 		quiet = allowQuiet && isCapabilityEnabled(CAPABILITY_QUIET);
+		usePushOptions = allowPushOptions
+				&& isCapabilityEnabled(CAPABILITY_PUSH_OPTIONS);
 		if (sideBand) {
 			OutputStream out = rawOut;
 
@@ -1172,6 +1231,16 @@ public abstract class BaseReceivePack {
 			pckOut = new PacketLineOut(rawOut);
 			pckOut.setFlushOnEnd(false);
 		}
+	}
+
+	/**
+	 * Sets the client's intention regarding push options.
+	 *
+	 * @param usePushOptions
+	 *            whether the client intends to use push options
+	 */
+	public void setUsePushOptions(boolean usePushOptions) {
+		this.usePushOptions = usePushOptions;
 	}
 
 	/**
