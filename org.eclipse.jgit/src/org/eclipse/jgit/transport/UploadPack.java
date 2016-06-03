@@ -682,7 +682,7 @@ public class UploadPack {
 	 * Get the PackWriter's statistics if a pack was sent to the client.
 	 *
 	 * @return statistics about pack output, if a pack was sent. Null if no pack
-	 *         was sent, such as during the negotation phase of a smart HTTP
+	 *         was sent, such as during the negotiation phase of a smart HTTP
 	 *         connection, or if the client was already up-to-date.
 	 * @since 3.0
 	 * @deprecated Use {@link #getStatistics()}.
@@ -697,7 +697,7 @@ public class UploadPack {
 	 * Get the PackWriter's statistics if a pack was sent to the client.
 	 *
 	 * @return statistics about pack output, if a pack was sent. Null if no pack
-	 *         was sent, such as during the negotation phase of a smart HTTP
+	 *         was sent, such as during the negotiation phase of a smart HTTP
 	 *         connection, or if the client was already up-to-date.
 	 * @since 4.1
 	 */
@@ -777,8 +777,14 @@ public class UploadPack {
 	private static Set<ObjectId> refIdSet(Collection<Ref> refs) {
 		Set<ObjectId> ids = new HashSet<ObjectId>(refs.size());
 		for (Ref ref : refs) {
-			if (ref.getObjectId() != null)
-				ids.add(ref.getObjectId());
+			ObjectId id = ref.getObjectId();
+			if (id != null) {
+				ids.add(id);
+			}
+			id = ref.getPeeledObjectId();
+			if (id != null) {
+				ids.add(id);
+			}
 		}
 		return ids;
 	}
@@ -1142,7 +1148,6 @@ public class UploadPack {
 
 		if (multiAck == MultiAck.DETAILED && !didOkToGiveUp && okToGiveUp()) {
 			ObjectId id = peerHas.get(peerHas.size() - 1);
-			sentReady = true;
 			pckOut.writeString("ACK " + id.name() + " ready\n"); //$NON-NLS-1$ //$NON-NLS-2$
 			sentReady = true;
 		}

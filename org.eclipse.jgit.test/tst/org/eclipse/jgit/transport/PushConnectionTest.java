@@ -125,16 +125,9 @@ public class PushConnectionTest {
 		Map<String, RemoteRefUpdate> updates = new HashMap<>();
 		updates.put(rru.getRemoteName(), rru);
 
-		Transport tn = testProtocol.open(uri, client, "server");
-		try {
-			PushConnection connection = tn.openPush();
-			try {
-				connection.push(NullProgressMonitor.INSTANCE, updates);
-			} finally {
-				connection.close();
-			}
-		} finally {
-			tn.close();
+		try (Transport tn = testProtocol.open(uri, client, "server");
+				PushConnection connection = tn.openPush()) {
+			connection.push(NullProgressMonitor.INSTANCE, updates);
 		}
 
 		assertEquals(REJECTED_OTHER_REASON, rru.getStatus());
