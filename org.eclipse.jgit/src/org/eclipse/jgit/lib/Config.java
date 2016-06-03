@@ -58,7 +58,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.events.ConfigChangedEvent;
@@ -487,6 +490,123 @@ public class Config {
 		System.arraycopy(base, 0, res, 0, n);
 		System.arraycopy(self, 0, res, n, self.length);
 		return res;
+	}
+
+	/**
+	 * Parse a numerical time unit, such as "1 minute", from the configuration.
+	 *
+	 * @param section
+	 *            section the key is in.
+	 * @param subsection
+	 *            subsection the key is in, or null if not in a subsection.
+	 * @param name
+	 *            the key name.
+	 * @param defaultValue
+	 *            default value to return if no value was present.
+	 * @param wantUnit
+	 *            the units of {@code defaultValue} and the return value, as
+	 *            well as the units to assume if the value does not contain an
+	 *            indication of the units.
+	 * @return the value, or {@code defaultValue} if not set, expressed in
+	 *         {@code units}.
+	 * @since 4.5
+	 */
+	public long getTimeUnit(String section, String subsection, String name,
+			long defaultValue, TimeUnit wantUnit) {
+		String valueString = getString(section, subsection, name);
+
+		if (valueString == null) {
+			return defaultValue;
+		}
+
+		String s = valueString.trim();
+		if (s.length() == 0) {
+			return defaultValue;
+		}
+
+		if (s.startsWith("-")/* negative */) { //$NON-NLS-1$
+			throw notTimeUnit(section, subsection, name, valueString);
+		}
+
+		Matcher m = Pattern.compile("^(0|[1-9][0-9]*)\\s*(.*)$") //$NON-NLS-1$
+				.matcher(valueString);
+		if (!m.matches()) {
+			return defaultValue;
+		}
+
+		String digits = m.group(1);
+		String unitName = m.group(2).trim();
+
+		TimeUnit inputUnit;
+		int inputMul;
+
+		if (unitName.isEmpty()) {
+			inputUnit = wantUnit;
+			inputMul = 1;
+
+		} else if (match(unitName, "ms", "milliseconds")) { //$NON-NLS-1$ //$NON-NLS-2$
+			inputUnit = TimeUnit.MILLISECONDS;
+			inputMul = 1;
+
+		} else if (match(unitName, "s", "sec", "second", "seconds")) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+			inputUnit = TimeUnit.SECONDS;
+			inputMul = 1;
+
+		} else if (match(unitName, "m", "min", "minute", "minutes")) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+			inputUnit = TimeUnit.MINUTES;
+			inputMul = 1;
+
+		} else if (match(unitName, "h", "hr", "hour", "hours")) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+			inputUnit = TimeUnit.HOURS;
+			inputMul = 1;
+
+		} else if (match(unitName, "d", "day", "days")) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			inputUnit = TimeUnit.DAYS;
+			inputMul = 1;
+
+		} else if (match(unitName, "w", "week", "weeks")) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			inputUnit = TimeUnit.DAYS;
+			inputMul = 7;
+
+		} else if (match(unitName, "mon", "month", "months")) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			inputUnit = TimeUnit.DAYS;
+			inputMul = 30;
+
+		} else if (match(unitName, "y", "year", "years")) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			inputUnit = TimeUnit.DAYS;
+			inputMul = 365;
+
+		} else {
+			throw notTimeUnit(section, subsection, name, valueString);
+		}
+
+		try {
+			return wantUnit.convert(Long.parseLong(digits) * inputMul,
+					inputUnit);
+		} catch (NumberFormatException nfe) {
+			throw notTimeUnit(section, subsection, unitName, valueString);
+		}
+	}
+
+	private static boolean match(final String a, final String... cases) {
+		for (final String b : cases) {
+			if (b != null && b.equalsIgnoreCase(a)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private IllegalArgumentException notTimeUnit(String section,
+			String subsection, String name, String valueString) {
+		if (subsection != null) {
+			return new IllegalArgumentException(
+					MessageFormat.format(JGitText.get().invalidTimeUnitValue3,
+							section, subsection, name, valueString));
+		}
+		return new IllegalArgumentException(
+				MessageFormat.format(JGitText.get().invalidTimeUnitValue2,
+						section, name, valueString));
 	}
 
 	/**
