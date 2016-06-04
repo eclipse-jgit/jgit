@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "87e453f8_c6a80f65",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-06-04T00:20:47Z",
+      "side": 1,
+      "message": "Here we should put a motivating example to convince the project why this is an awesome thing. Just as you asked how to push this change and add a reviewer for it, maybe we could motive this change with `./jgit push --push-option \"Reviewer\u003djon.doe@example.org\" --push-option \"\u003carbitrary string\u003e\" origin HEAD:refs/for/master`",
+      "revId": "39861dbeaf6f68c73b5a33f1b9ea1d7aaa2159e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87e453f8_06c03722",
         "filename": "org.eclipse.jgit.pgm/META-INF/MANIFEST.MF",
         "patchSetId": 1
@@ -36,6 +53,23 @@
     },
     {
       "key": {
+        "uuid": "87e453f8_e61eeb67",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PushCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-06-04T00:20:47Z",
+      "side": 1,
+      "message": "Nowadays we add @since 4.5 to new functions; (There are some methods in this class not annotated, but they are very old I would assume), so here and below we can annotate.",
+      "revId": "39861dbeaf6f68c73b5a33f1b9ea1d7aaa2159e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87e453f8_662adb7f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PushCommand.java",
         "patchSetId": 1
@@ -53,6 +87,75 @@
     },
     {
       "key": {
+        "uuid": "87e453f8_a6f6a383",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackPushConnection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-06-04T00:20:47Z",
+      "side": 1,
+      "message": "So this is for the case when we have optionStrings but the negotiation did not turn out we use them (either the remote did not advertise it or we did not selected the option in enableCapabilities)",
+      "range": {
+        "startLine": 285,
+        "startChar": 4,
+        "endLine": 288,
+        "endChar": 35
+      },
+      "revId": "39861dbeaf6f68c73b5a33f1b9ea1d7aaa2159e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_c6ed6fb4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackPushConnection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-06-04T00:20:47Z",
+      "side": 1,
+      "message": "This part (both writing out the option strings as well as the additional flush packet) should be dependent on whether we asked the remote to actually make use of the new option, i.e. only if the remote advertised the new capability as well as we selected/enabled it.\n\nAs we die when !capableOptionStrings is set, the loop with the options is all good, but the flush packet needs to be moved in there, too as the remote may not expect the additional flush.",
+      "range": {
+        "startLine": 291,
+        "startChar": 0,
+        "endLine": 296,
+        "endChar": 15
+      },
+      "revId": "39861dbeaf6f68c73b5a33f1b9ea1d7aaa2159e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_869e0742",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/GitProtocolConstants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-06-04T00:20:47Z",
+      "side": 1,
+      "message": "as this is transmitted over the wire (and due to a bug in earlier git clients, which do not permit more than ~ 1024 characters for the capabilities), we want to keep it short.\n\nNot cryptic short, but readable short. Maybe we should drop \"-strings\" as it both saves space, as well as it allows us to transmit binaries in the far future. (Send a smiley image with the push).\n\nAlso we know it is a capability, so no need to repeat that. Though \"options\" sounds a bit too generic. \"option-phase\" maybe to indicate there will be another logical phase during the protocol?",
+      "range": {
+        "startLine": 223,
+        "startChar": 57,
+        "endLine": 223,
+        "endChar": 82
+      },
+      "revId": "39861dbeaf6f68c73b5a33f1b9ea1d7aaa2159e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87e453f8_c6d64ff0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/MockOptionStringWrapper.java",
         "patchSetId": 1
@@ -64,6 +167,23 @@
       "writtenOn": "2016-06-03T23:59:05Z",
       "side": 1,
       "message": "missing license header\n\nit seems this class should be located in bundle org.eclipse.jgit.test",
+      "revId": "39861dbeaf6f68c73b5a33f1b9ea1d7aaa2159e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_a6a14380",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/MockOptionStringWrapper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-06-04T00:20:47Z",
+      "side": 1,
+      "message": "@since",
       "revId": "39861dbeaf6f68c73b5a33f1b9ea1d7aaa2159e5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
