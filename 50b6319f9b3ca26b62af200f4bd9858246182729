@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87e453f8_25ae08f2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/WorkQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 6590
+      },
+      "writtenOn": "2016-06-06T12:34:24Z",
+      "side": 1,
+      "message": "WorkQueue",
+      "range": {
+        "startLine": 72,
+        "startChar": 24,
+        "endLine": 72,
+        "endChar": 34
+      },
+      "revId": "50b6319f9b3ca26b62af200f4bd9858246182729",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
