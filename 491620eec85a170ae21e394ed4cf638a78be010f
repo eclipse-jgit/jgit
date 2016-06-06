@@ -16,6 +16,24 @@
       "revId": "491620eec85a170ae21e394ed4cf638a78be010f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_cb5e53f6",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RepositoryCacheTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 6590
+      },
+      "writtenOn": "2016-06-06T17:06:08Z",
+      "side": 1,
+      "message": "2 options:\n-Sleep a bit longer, 100ms?\n-Rework WorkQueue so I can set(for testing only) the executor and I would use a DirectExecutor.\n\nWhich one would you prefer(or maybe you have another suggestion)?",
+      "parentUuid": "87e453f8_30e2c9bf",
+      "revId": "491620eec85a170ae21e394ed4cf638a78be010f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
