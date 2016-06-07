@@ -141,6 +141,8 @@ public class DirCacheCheckout {
 
 	private boolean failOnConflict = true;
 
+	private boolean skipConflicts;
+
 	private ArrayList<String> toBeDeleted = new ArrayList<String>();
 
 	private boolean emptyDirCache;
@@ -459,7 +461,7 @@ public class DirCacheCheckout {
 			if (!conflicts.isEmpty()) {
 				if (failOnConflict)
 					throw new CheckoutConflictException(conflicts.toArray(new String[conflicts.size()]));
-				else
+				else if (!skipConflicts)
 					cleanUpConflicts();
 			}
 
@@ -1067,6 +1069,20 @@ public class DirCacheCheckout {
 	 */
 	public void setFailOnConflict(boolean failOnConflict) {
 		this.failOnConflict = failOnConflict;
+	}
+
+	/**
+	 * If <code>true</code>, conflicts will be skipped and the file in the work
+	 * directory will remain unchanged. Otherwise the it will silently deal with
+	 * the problem. The default value is <code>false</code>.
+	 * <p>
+	 * Note that {@link #setFailOnConflict(boolean) failOnConflict} must be set
+	 * to <code>false</code> for this setting to take effect.
+	 *
+	 * @param skipConflicts
+	 */
+	public void setSkipConflicts(boolean skipConflicts) {
+		this.skipConflicts = skipConflicts;
 	}
 
 	/**
