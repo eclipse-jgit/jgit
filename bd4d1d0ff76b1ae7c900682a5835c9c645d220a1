@@ -56,6 +56,29 @@
       "revId": "bd4d1d0ff76b1ae7c900682a5835c9c645d220a1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_ff3f458a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryCache.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 6590
+      },
+      "writtenOn": "2016-06-07T13:12:14Z",
+      "side": 1,
+      "message": "move with other static methods, above line 200?",
+      "range": {
+        "startLine": 292,
+        "startChar": 1,
+        "endLine": 300,
+        "endChar": 2
+      },
+      "revId": "bd4d1d0ff76b1ae7c900682a5835c9c645d220a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
