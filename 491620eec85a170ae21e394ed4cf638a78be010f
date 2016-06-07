@@ -70,6 +70,24 @@
       "revId": "491620eec85a170ae21e394ed4cf638a78be010f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_dfcb69b5",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RepositoryCacheTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 6590
+      },
+      "writtenOn": "2016-06-07T14:26:44Z",
+      "side": 1,
+      "message": "In change (https://git.eclipse.org/r/#/c/74775/), I added unit test for eviction that is testing the eviction code that used to be in the runnable (I moved it into a method as suggested).\n\nIn this change, I still need to test configure/reconfiguration.",
+      "parentUuid": "87e453f8_5f04b921",
+      "revId": "491620eec85a170ae21e394ed4cf638a78be010f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
