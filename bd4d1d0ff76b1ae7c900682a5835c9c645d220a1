@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "87e453f8_ffb02574",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryCache.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 6590
+      },
+      "writtenOn": "2016-06-07T14:12:25Z",
+      "side": 1,
+      "message": "Done in follow up change",
+      "parentUuid": "87e453f8_df01a93e",
+      "revId": "bd4d1d0ff76b1ae7c900682a5835c9c645d220a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87e453f8_1f2b11ba",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryCache.java",
         "patchSetId": 9
@@ -30,6 +48,30 @@
       "writtenOn": "2016-06-07T11:42:45Z",
       "side": 1,
       "message": "nit: can this code be (re)formatted so that this expression fits into one line:\n\n\t\t\t\treturn db.useCnt.get() \u003d\u003d 0 \u0026\u0026 (\n\t\t\t\t\t\tSystem.currentTimeMillis() - db.closedAt.get() \u003e 20000);",
+      "range": {
+        "startLine": 231,
+        "startChar": 35,
+        "endLine": 232,
+        "endChar": 34
+      },
+      "revId": "bd4d1d0ff76b1ae7c900682a5835c9c645d220a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_bf8dbdbd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryCache.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 6590
+      },
+      "writtenOn": "2016-06-07T14:12:25Z",
+      "side": 1,
+      "message": "When I try to do line wrap you suggest, every time I save the file in eclipse, the line wrapping goes back to the way it was.",
+      "parentUuid": "87e453f8_1f2b11ba",
       "range": {
         "startLine": 231,
         "startChar": 35,
@@ -70,6 +112,30 @@
       "writtenOn": "2016-06-07T13:12:14Z",
       "side": 1,
       "message": "move with other static methods, above line 200?",
+      "range": {
+        "startLine": 292,
+        "startChar": 1,
+        "endLine": 300,
+        "endChar": 2
+      },
+      "revId": "bd4d1d0ff76b1ae7c900682a5835c9c645d220a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_9f1d61f5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryCache.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 6590
+      },
+      "writtenOn": "2016-06-07T14:12:25Z",
+      "side": 1,
+      "message": "Done in follow up change",
+      "parentUuid": "87e453f8_ff3f458a",
       "range": {
         "startLine": 292,
         "startChar": 1,
