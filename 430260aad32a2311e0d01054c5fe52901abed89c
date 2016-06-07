@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "87e453f8_ce5adc7a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PushCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-06-07T19:42:54Z",
+      "side": 1,
+      "message": "oh, right.",
+      "parentUuid": "87e453f8_7938b587",
+      "range": {
+        "startLine": 98,
+        "startChar": 33,
+        "endLine": 98,
+        "endChar": 34
+      },
+      "revId": "430260aad32a2311e0d01054c5fe52901abed89c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87e453f8_19c25100",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackPushConnection.java",
         "patchSetId": 4
