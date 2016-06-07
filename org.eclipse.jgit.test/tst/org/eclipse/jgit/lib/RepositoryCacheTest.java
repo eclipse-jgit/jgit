@@ -205,7 +205,40 @@ public class RepositoryCacheTest extends RepositoryTestCase {
 		assertEquals(1, RepositoryCache.getRegisteredKeys().size());
 		d2.close();
 		assertEquals(0, d2.useCnt.get());
-		// TODO: adapt test to check that the repo gets evicted
 		assertEquals(1, RepositoryCache.getRegisteredKeys().size());
+		assertTrue(RepositoryCache.isCached(d2));
+	}
+
+	@Test
+	public void testRepositoryUnregisteringWhenExpired() throws Exception {
+		Repository repoA = createBareRepository();
+		Repository repoB = createBareRepository();
+		Repository repoC = createBareRepository();
+		RepositoryCache.register(repoA);
+		RepositoryCache.register(repoB);
+		RepositoryCache.register(repoC);
+
+		assertEquals(3, RepositoryCache.getRegisteredKeys().size());
+		assertTrue(RepositoryCache.isCached(repoA));
+		assertTrue(RepositoryCache.isCached(repoB));
+		assertTrue(RepositoryCache.isCached(repoC));
+
+		// fake that repoA was close more than 20000ms ago
+		repoA.close();
+		repoA.closedAt.set(System.currentTimeMillis() - 25000);
+		// close repoB but this one will not be expired
+		repoB.close();
+
+		assertEquals(3, RepositoryCache.getRegisteredKeys().size());
+		assertTrue(RepositoryCache.isCached(repoA));
+		assertTrue(RepositoryCache.isCached(repoB));
+		assertTrue(RepositoryCache.isCached(repoC));
+
+		RepositoryCache.clearExpired();
+
+		assertEquals(2, RepositoryCache.getRegisteredKeys().size());
+		assertFalse(RepositoryCache.isCached(repoA));
+		assertTrue(RepositoryCache.isCached(repoB));
+		assertTrue(RepositoryCache.isCached(repoC));
 	}
 }

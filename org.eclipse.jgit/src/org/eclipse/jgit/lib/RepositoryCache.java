@@ -194,9 +194,23 @@ public class RepositoryCache {
 		return cache.getKeys();
 	}
 
+	static boolean isCached(@NonNull Repository repo) {
+		File gitDir = repo.getDirectory();
+		if (gitDir == null) {
+			return false;
+		}
+		FileKey key = new FileKey(gitDir, repo.getFS());
+		Reference<Repository> repoRef = cache.cacheMap.get(key);
+		return repoRef != null && repoRef.get() == repo;
+	}
+
 	/** Unregister all repositories from the cache. */
 	public static void clear() {
 		cache.clearAll();
+	}
+
+	static void clearExpired() {
+		cache.clearAllExpired();
 	}
 
 	private final ConcurrentHashMap<Key, Reference<Repository>> cacheMap;
@@ -211,25 +225,13 @@ public class RepositoryCache {
 		}
 
 		Runnable terminator = new Runnable() {
-
 			@Override
 			public void run() {
 				try {
-					for (Reference<Repository> ref : cache.cacheMap
-							.values()) {
-						Repository db = ref.get();
-						if (db != null && isExpired(db)) {
-							RepositoryCache.close(db);
-						}
-					}
+					cache.clearAllExpired();
 				} catch (Throwable e) {
 					LOG.error(e.getMessage(), e);
 				}
-			}
-
-			private boolean isExpired(Repository db) {
-				return db.useCnt.get() == 0 && (System.currentTimeMillis()
-						- db.closedAt.get() > 20000);
 			}
 		};
 
@@ -289,14 +291,15 @@ public class RepositoryCache {
 		return new ArrayList<Key>(cacheMap.keySet());
 	}
 
-	static boolean isCached(@NonNull Repository repo) {
-		File gitDir = repo.getDirectory();
-		if (gitDir == null) {
-			return false;
+	private void clearAllExpired() {
+		for (Reference<Repository> ref : cacheMap.values()) {
+			Repository db = ref.get();
+			if (db != null && db.useCnt.get() == 0
+					&& (System.currentTimeMillis()
+							- db.closedAt.get() > 20000)) {
+				RepositoryCache.close(db);
+			}
 		}
-		FileKey key = new FileKey(gitDir, repo.getFS());
-		Reference<Repository> repoRef = cache.cacheMap.get(key);
-		return repoRef != null && repoRef.get() == repo;
 	}
 
 	private void clearAll() {
