@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87e453f8_b9f79d4c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PushCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-06-07T01:06:20Z",
+      "side": 1,
+      "message": "\u003d null; // by default?",
+      "range": {
+        "startLine": 98,
+        "startChar": 33,
+        "endLine": 98,
+        "endChar": 34
+      },
+      "revId": "430260aad32a2311e0d01054c5fe52901abed89c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_19c25100",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackPushConnection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-06-07T01:06:20Z",
+      "side": 1,
+      "message": "I used server in our office discussions, although it is a bit colloquial in the sense that the remote may not be a server.\nYou can also push to another lab computer for example. So I would suggest to replace it with remote, as that is more exact.",
+      "range": {
+        "startLine": 116,
+        "startChar": 8,
+        "endLine": 116,
+        "endChar": 14
+      },
+      "revId": "430260aad32a2311e0d01054c5fe52901abed89c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_19e97178",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackPushConnection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-06-07T01:06:20Z",
+      "side": 1,
+      "message": "In writeCommands, you use `(pushOptions !\u003d null \u0026\u0026 !capablePushOptions)` as a condition for the error message.\n\nSo we have capablePushOptions as the binary flag if the remote side supports the push option and we use `pushOptions !\u003d null` as the condition if we want to enable it.\n\nSo if both sides are in agreement to use the push options, (i.e. `(pushOptions !\u003d null \u0026\u0026 capablePushOptions)` we actually make use of it.\n\nFor clarity I would use that exact condition here and the transmitOptions only deals with actually transmitting them.",
+      "revId": "430260aad32a2311e0d01054c5fe52901abed89c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_99fca134",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackPushConnection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-06-07T01:06:20Z",
+      "side": 1,
+      "message": "When going with the suggestion in line 209, you can drop this condition.",
+      "range": {
+        "startLine": 290,
+        "startChar": 2,
+        "endLine": 290,
+        "endChar": 28
+      },
+      "revId": "430260aad32a2311e0d01054c5fe52901abed89c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_79e6f5a6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackPushConnection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-06-07T01:06:20Z",
+      "side": 1,
+      "message": "wantCapability(line, ...); does 2 things, First it checks if the remote side supports it and the second step is adding the \noption to the line, which we then transmit back to the server as the selection of options that we want to use.\n\nIf the remote advertises it is capable of doing a push options phase, we may not necessarily want to use it. (We could have `pushOptions \u003d\u003d null` because no command line argument was given), so I would make this line conditional\non `pushOptions \u003d\u003d null`",
+      "range": {
+        "startLine": 307,
+        "startChar": 2,
+        "endLine": 307,
+        "endChar": 58
+      },
+      "revId": "430260aad32a2311e0d01054c5fe52901abed89c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_d9446920",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/GitProtocolConstants.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-06-07T01:06:20Z",
+      "side": 1,
+      "message": "If this is the constant to describe what the server advertises, I\u0027d name it CAPABILITY_PUSH_OPTIONS to be consistent with other server capabilities.",
+      "range": {
+        "startLine": 216,
+        "startChar": 28,
+        "endLine": 216,
+        "endChar": 33
+      },
+      "revId": "430260aad32a2311e0d01054c5fe52901abed89c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
