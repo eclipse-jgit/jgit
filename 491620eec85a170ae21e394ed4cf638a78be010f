@@ -88,6 +88,24 @@
       "revId": "491620eec85a170ae21e394ed4cf638a78be010f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_4ec24c01",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RepositoryCacheTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 6590
+      },
+      "writtenOn": "2016-06-07T18:11:47Z",
+      "side": 1,
+      "message": "I know you do not like having a test that depends on time (I do not either) but without having a mocking library and dependencies injection, it\u0027s harder to keep code cohesive and easy to test.\n\nTo test the aspect of configuring and reconfiguring the executor, I would first need to mock the executor and to make use of the mock, I would need either to inject it to WorkQueue or to use something like powermock to mock static call. Personally, I try to never use powermock, I think you have a design issue to fix instead of using powermock.\n\nI know there was some discussion to put this change series into 4.4.x so will adding a dependency to JGit block us to put this change in a minor release?\n\nIn latest PS, I added a test that still depends on time but is more robust and do not simply wait an arbitrary amount of time. If you still prefer that I add a mocking library, I will work on it.",
+      "parentUuid": "87e453f8_dfcb69b5",
+      "revId": "491620eec85a170ae21e394ed4cf638a78be010f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
