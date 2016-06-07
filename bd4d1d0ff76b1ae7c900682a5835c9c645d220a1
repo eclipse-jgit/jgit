@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87e453f8_df01a93e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryCache.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2016-06-07T11:42:45Z",
+      "side": 1,
+      "message": "nit: looks like this could fit into the previous line?",
+      "revId": "bd4d1d0ff76b1ae7c900682a5835c9c645d220a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_1f2b11ba",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryCache.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2016-06-07T11:42:45Z",
+      "side": 1,
+      "message": "nit: can this code be (re)formatted so that this expression fits into one line:\n\n\t\t\t\treturn db.useCnt.get() \u003d\u003d 0 \u0026\u0026 (\n\t\t\t\t\t\tSystem.currentTimeMillis() - db.closedAt.get() \u003e 20000);",
+      "range": {
+        "startLine": 231,
+        "startChar": 35,
+        "endLine": 232,
+        "endChar": 34
+      },
+      "revId": "bd4d1d0ff76b1ae7c900682a5835c9c645d220a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_7f2895b9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryCache.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2016-06-07T11:42:45Z",
+      "side": 1,
+      "message": "hmm... actually why not repeat the whole isExpired check here?\n\nIf there was a quick open/close just before this lock is acquired the useCnt would be zero but the repository was touched and its expiration time moved into the future. In that case it should still stay in the cache.",
+      "revId": "bd4d1d0ff76b1ae7c900682a5835c9c645d220a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
