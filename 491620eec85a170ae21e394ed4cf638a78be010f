@@ -34,6 +34,24 @@
       "revId": "491620eec85a170ae21e394ed4cf638a78be010f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_df7369d6",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RepositoryCacheTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2016-06-07T12:17:53Z",
+      "side": 1,
+      "message": "\u003e Sleep a bit longer, 100ms?\n\nNo. This again doesn\u0027t guarantee anything... just makes the probability of the test failing a bit lower. However, the test is also getting slower.\n\n\u003e Rework WorkQueue so I can set(for testing only) the executor and I would use a DirectExecutor\n\u003e Which one would you prefer(or maybe you have another suggestion)?\n\nI am not sure what is a really good solution. I think that what we really want to test here is that when repository is expired it gets removed from RepositoryCache. So we could just call RepositoryCache.close(expiredRepo) and then verify that it is removed from the RepositoryCache?\n\nWe may also want to test that an expired repository *eventually* gets removed from the RepositoryCache i.e. that the Repository.close() is called. So we could just wrap or mock a Repository and expect/wait a call from another thread in its close method. There should be a timeout on how long to wait. However, most of the time the call will come within the configured time and the test will not wait longer than than necessary.\n\nAnother aspect we may want to test is that the RepositoryCacheConfig properly (re)configures the executor. This would likely require a rework of WorkQueue where we can set a custom executor and then setting up a mock which expects a call to scheduleWithFixedDelay with the values configured in the RepositoryCacheConfig.\n\nWhat we *probably don\u0027t want* to test is that the java.util.concurrent.ScheduledThreadPoolExecutor works properly i.e. that it runs tasks at the scheduled rate. This is tested in the JDK code.",
+      "parentUuid": "87e453f8_cb5e53f6",
+      "revId": "491620eec85a170ae21e394ed4cf638a78be010f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
