@@ -52,6 +52,24 @@
       "revId": "491620eec85a170ae21e394ed4cf638a78be010f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_5f04b921",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RepositoryCacheTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2016-06-07T12:27:13Z",
+      "side": 1,
+      "message": "\u003e So we could just call RepositoryCache.close(expiredRepo) and then verify that it is removed from the RepositoryCache?\n\nThis doesn\u0027t make sense as the expiration check is not a part of the RepositoryCache.close method... this code is a part of the scheduled Runnable. To make this testable we could move this check into a new method RepositoryCache.closeIfExpired and then call just this method from the scheduled Runnable?",
+      "parentUuid": "87e453f8_df7369d6",
+      "revId": "491620eec85a170ae21e394ed4cf638a78be010f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
