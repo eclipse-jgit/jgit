@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "87e453f8_7938b587",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PushCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 81548
+      },
+      "writtenOn": "2016-06-07T18:30:43Z",
+      "side": 1,
+      "message": "Aren\u0027t all Java objects null by default unless otherwise initialised?",
+      "parentUuid": "87e453f8_b9f79d4c",
+      "range": {
+        "startLine": 98,
+        "startChar": 33,
+        "endLine": 98,
+        "endChar": 34
+      },
+      "revId": "430260aad32a2311e0d01054c5fe52901abed89c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87e453f8_19c25100",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackPushConnection.java",
         "patchSetId": 4
@@ -122,6 +146,30 @@
       "writtenOn": "2016-06-07T01:06:20Z",
       "side": 1,
       "message": "If this is the constant to describe what the server advertises, I\u0027d name it CAPABILITY_PUSH_OPTIONS to be consistent with other server capabilities.",
+      "range": {
+        "startLine": 216,
+        "startChar": 28,
+        "endLine": 216,
+        "endChar": 33
+      },
+      "revId": "430260aad32a2311e0d01054c5fe52901abed89c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_f90cc5f7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/GitProtocolConstants.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 81548
+      },
+      "writtenOn": "2016-06-07T18:30:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87e453f8_d9446920",
       "range": {
         "startLine": 216,
         "startChar": 28,
