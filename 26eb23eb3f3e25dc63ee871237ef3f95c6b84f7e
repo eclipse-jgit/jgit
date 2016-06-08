@@ -34,6 +34,24 @@
       "revId": "26eb23eb3f3e25dc63ee871237ef3f95c6b84f7e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_02457519",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RepositoryCacheTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2016-06-08T15:06:24Z",
+      "side": 1,
+      "message": "I have been squashing the changes and will push soon.\n\nWe could also enhance the configuration of the RepositoryCache.reconfigure so that it doesn\u0027t schedule the cleanup task when the RepositoryCacheConfig.delay \u003d\u003d 0. This feature would also provide a compatibility with the old behavior, repository GC-ed when JVM decides to do it.",
+      "parentUuid": "87e453f8_67ec8b88",
+      "revId": "26eb23eb3f3e25dc63ee871237ef3f95c6b84f7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
