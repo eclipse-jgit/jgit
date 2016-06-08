@@ -2,6 +2,103 @@
   "comments": [
     {
       "key": {
+        "uuid": "87e453f8_a4abf15c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-06-08T07:33:49Z",
+      "side": 1,
+      "message": "Add option to DirCacheCheckout to allow skipping",
+      "range": {
+        "startLine": 7,
+        "startChar": 8,
+        "endLine": 7,
+        "endChar": 39
+      },
+      "revId": "8b428e1a2c10798eb23f6f7381c07358a4f10555",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_c4b1ddca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-06-08T07:33:49Z",
+      "side": 1,
+      "message": "the files which were skipped during checkout due to to conflicts",
+      "range": {
+        "startLine": 11,
+        "startChar": 21,
+        "endLine": 11,
+        "endChar": 36
+      },
+      "revId": "8b428e1a2c10798eb23f6f7381c07358a4f10555",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_04bca59f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-06-08T07:33:49Z",
+      "side": 1,
+      "message": "could you give an example when this option is useful ?",
+      "revId": "8b428e1a2c10798eb23f6f7381c07358a4f10555",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_44578dd6",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/dircache/DirCacheCheckoutTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-06-08T07:33:49Z",
+      "side": 1,
+      "message": "I guess we need more tests for this new option, e.g. what happens if the conflict is a file / folder conflict (file in repository, in working tree replaced by a folder containing other files or vice versa)",
+      "revId": "8b428e1a2c10798eb23f6f7381c07358a4f10555",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_e4ac1976",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/dircache/DirCacheCheckoutTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-06-08T07:33:49Z",
+      "side": 1,
+      "message": "missing license header\n\ndid you notice that there is already a class DirCacheCheckoutTest in org.eclipse.jgit.lib ? I guess we could move that to org.eclipse.jgit.dircache",
+      "revId": "8b428e1a2c10798eb23f6f7381c07358a4f10555",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87e453f8_0493c52c",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/dircache/DirCacheCheckoutTest.java",
         "patchSetId": 1
@@ -13,6 +110,63 @@
       "writtenOn": "2016-06-08T07:18:29Z",
       "side": 1,
       "message": "We already have a class of that name with a lot of DirCacheCheckout tests. Please move this test into org.eclipse.jgit.lib.DirCacheCheckoutTest",
+      "revId": "8b428e1a2c10798eb23f6f7381c07358a4f10555",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_645ac9ff",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/dircache/DirCacheCheckoutTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-06-08T07:33:49Z",
+      "side": 1,
+      "message": "also assert that file content is correct",
+      "revId": "8b428e1a2c10798eb23f6f7381c07358a4f10555",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_449ead44",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1076,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-06-08T07:33:49Z",
+      "side": 1,
+      "message": "broken sentence",
+      "range": {
+        "startLine": 1076,
+        "startChar": 37,
+        "endLine": 1076,
+        "endChar": 58
+      },
+      "revId": "8b428e1a2c10798eb23f6f7381c07358a4f10555",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_64a1e97d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1084,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-06-08T07:33:49Z",
+      "side": 1,
+      "message": "missing @since 4.5 for new API method",
       "revId": "8b428e1a2c10798eb23f6f7381c07358a4f10555",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
