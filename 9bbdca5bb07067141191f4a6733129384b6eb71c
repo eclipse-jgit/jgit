@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87e453f8_38853ee8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RepositoryCacheTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2016-06-08T20:19:45Z",
+      "side": 1,
+      "message": "The last sleep, for the last loop iteration when t\u003d2^10, doesn\u0027t make sense\nas the loop will exit immediately after that that the fail(..) will be invoked.\n\nWe should swap the order: first sleep then check.",
+      "revId": "9bbdca5bb07067141191f4a6733129384b6eb71c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
