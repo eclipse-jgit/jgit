@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87e453f8_e7e17bbb",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RepositoryCacheTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2016-06-08T11:50:28Z",
+      "side": 1,
+      "message": "The test code looks mostly OK. For my understanding: could it happen that cache.clearAllExpired() gets called from the WorkQueue just before this assert? It seems unlikely that this will happen as the initial delay is set to 10 seconds and this test will very likely finish much faster.\n\nHowever, if the RepositoryCache class gets loaded before this test runs (from another test), it will initialize its static members including the RepositoryCache.cache and the constructor will schedule the cleanup task at 10/10 seconds rate. If this happens 10 seconds before this test is executed the cleanup task could interfere with this test. Right?",
+      "revId": "26eb23eb3f3e25dc63ee871237ef3f95c6b84f7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
