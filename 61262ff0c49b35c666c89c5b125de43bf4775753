@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "87e453f8_62b1d94b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RepositoryCacheTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2016-06-08T16:01:48Z",
+      "side": 1,
+      "message": "Looks good. Just I would propose to always double the waiting time from the previous loop iteration i..e 1, 2, 4, 8, 16, ..., 1024\nThe total sum is 2^11-1 \u003d\u003d 2048-1 \u003d~ 2 seconds\n\nThis means the the next loop iteration waits as long as all previous iterations waited (plus one ms). That means: if the repo wasn\u0027t removed in N milliseconds then wait another N milliseconds. \n\nAnd the loop is less busy.",
+      "range": {
+        "startLine": 264,
+        "startChar": 0,
+        "endLine": 271,
+        "endChar": 3
+      },
+      "revId": "61262ff0c49b35c666c89c5b125de43bf4775753",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87e453f8_a221215e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryCache.java",
         "patchSetId": 1
