@@ -16,6 +16,24 @@
       "revId": "26eb23eb3f3e25dc63ee871237ef3f95c6b84f7e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_67ec8b88",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RepositoryCacheTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 6590
+      },
+      "writtenOn": "2016-06-08T12:09:05Z",
+      "side": 1,
+      "message": "Good point! The only way I can think to avoid the issue you mention would be to reconfigure RepositoryCache at the beginning of the test. Reconfiguring it with a clean up delay that is long enough to make sure clearAllExpired() doesn\u0027t get called by the clean up task.\n\nIn order to do so, we need to squash this change and the follow up one into Christian\u0027s change.",
+      "parentUuid": "87e453f8_e7e17bbb",
+      "revId": "26eb23eb3f3e25dc63ee871237ef3f95c6b84f7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
