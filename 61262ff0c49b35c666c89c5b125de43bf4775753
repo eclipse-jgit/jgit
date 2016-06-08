@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87e453f8_a221215e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2016-06-08T15:16:13Z",
+      "side": 1,
+      "message": "Do we really need explicit configuration of the delay?\nIf it is undefined we could derive a reasonable default from the expiration time. For example:\n\n  delay \u003d min(expireAfter / 10, 10 minutes)\n\nWhen the delay is explicitly given then we honor it.\nWe could also validate it as it should be shorter than the expireAfter.",
+      "revId": "61262ff0c49b35c666c89c5b125de43bf4775753",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
