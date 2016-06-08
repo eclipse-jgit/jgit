@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87e453f8_0493c52c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/dircache/DirCacheCheckoutTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-06-08T07:18:29Z",
+      "side": 1,
+      "message": "We already have a class of that name with a lot of DirCacheCheckout tests. Please move this test into org.eclipse.jgit.lib.DirCacheCheckoutTest",
+      "revId": "8b428e1a2c10798eb23f6f7381c07358a4f10555",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
