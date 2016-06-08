@@ -62,6 +62,30 @@
       "revId": "61262ff0c49b35c666c89c5b125de43bf4775753",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_c2c1cd98",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryCacheConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2016-06-08T16:02:55Z",
+      "side": 1,
+      "message": "Correct, this has to be 4.4 or 4.4.1, I am not exactly sure.\n\nMatthias said it would be OK to add this new API.",
+      "parentUuid": "87e453f8_62bb995e",
+      "range": {
+        "startLine": 50,
+        "startChar": 10,
+        "endLine": 50,
+        "endChar": 13
+      },
+      "revId": "61262ff0c49b35c666c89c5b125de43bf4775753",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
