@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "87e453f8_dd18cc03",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RepositoryCacheTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 6590
+      },
+      "writtenOn": "2016-06-08T18:32:17Z",
+      "side": 1,
+      "message": "Done, can you upload a new PS with:\n\n// Instead of using a fixed waiting time, start with small and increase:\n// sleep 2, 4, 8, 16, ..., 1024\n// This wait will time out after 2048ms\nfor (int i \u003d 1; i \u003c\u003d 10; i++) {\n  if (!RepositoryCache.isCached(db)) {\n    return;\n  }\n  Thread.sleep(Math.round(Math.pow(2, i)));\n}",
+      "parentUuid": "87e453f8_62b1d94b",
+      "range": {
+        "startLine": 264,
+        "startChar": 0,
+        "endLine": 271,
+        "endChar": 3
+      },
+      "revId": "61262ff0c49b35c666c89c5b125de43bf4775753",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87e453f8_a221215e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryCache.java",
         "patchSetId": 1
