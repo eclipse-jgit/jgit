@@ -16,6 +16,29 @@
       "revId": "61262ff0c49b35c666c89c5b125de43bf4775753",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_62bb995e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryCacheConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 6590
+      },
+      "writtenOn": "2016-06-08T15:29:00Z",
+      "side": 1,
+      "message": "4.4.1\n\nWill this be a problem, adding a new api in a minor release?",
+      "range": {
+        "startLine": 50,
+        "startChar": 10,
+        "endLine": 50,
+        "endChar": 13
+      },
+      "revId": "61262ff0c49b35c666c89c5b125de43bf4775753",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
