@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "87e453f8_338561e8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RepositoryCacheTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2016-06-09T09:26:36Z",
+      "side": 1,
+      "message": "+1, this eliminates one variable",
+      "parentUuid": "87e453f8_f3e059b7",
+      "range": {
+        "startLine": 266,
+        "startChar": 0,
+        "endLine": 273,
+        "endChar": 3
+      },
+      "revId": "bd891a8b500be3c2f2fa5b3074ad1791bc459f3a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87e453f8_13dce502",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryCacheConfig.java",
         "patchSetId": 3
