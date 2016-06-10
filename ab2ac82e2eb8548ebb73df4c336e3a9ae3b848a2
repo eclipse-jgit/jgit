@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "87e453f8_dd50c758",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-06-10T08:56:50Z",
+      "side": 1,
+      "message": "Hmm. Does this mean if you have a repo with refs/heads/master, refs/heads/test/f, refs/heads/test/march/g and you call pack() then you expect that has effects only on the only leaf directory refs/heads/test/march. No, with the help of your fix we\u0027ll delete the folders refs/heads/test/march and refs/heads/test.",
+      "parentUuid": "87e453f8_e73432e4",
+      "revId": "ab2ac82e2eb8548ebb73df4c336e3a9ae3b848a2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87e453f8_3a6b9f69",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -101,6 +119,24 @@
       "side": 1,
       "message": "A depth of 1 means that we are looking at deleting folder \u0027dir\u0027 in (e.g.) refs/heads/dir. I don\u0027t think we want to also remove \u0027heads\u0027 in the latter example; so we stop there -at depth 1. That is how the existing code below used to do it (and so failed as per this fix); cf. current line 1079. Another example is refs/tags (or, refs/any): I don\u0027t think we\u0027d want to delete \u0027tags\u0027, even if empty.\n\nNow, the unlocking of the ref is still always performed no matter what, depth unrelated, thanks to that .unlock call in the calling block\u0027s finally clause.",
       "parentUuid": "87e453f8_dadf1bd0",
+      "revId": "ab2ac82e2eb8548ebb73df4c336e3a9ae3b848a2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_7dac1325",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1075,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-06-10T08:56:50Z",
+      "side": 1,
+      "message": "I agree that we don\u0027t want to delete the folders \u0027refs/heads\u0027 and \u0027refs/tags\u0027. But we shouldn\u0027t misuse lock files just to prevent our code from folder deletion. \n\nI debugged it and I don\u0027t see that we ever try to delete \"refs/heads\" (independent from how we lock/unlock refs). When we are called for ref \"refs/heads/dir/r\" then depth\u003d\u003d1. Means we are entering the loop in line 1079 only once deleting \"refs/heads/dir\". We never try to delete \"refs/heads\".\n\nI would still vote for removing \"depth\u003e0 \u0026\u0026\" in line 1075. Your tests are green even without that condition and top level ref folders are not even tried to be deleted.",
+      "parentUuid": "87e453f8_678f423a",
       "revId": "ab2ac82e2eb8548ebb73df4c336e3a9ae3b848a2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
