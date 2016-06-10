@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "87e453f8_31b63426",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-06-10T23:20:22Z",
+      "side": 1,
+      "message": "And for reading I think we need to be a bit more elaborate similar to BaseReceivePack#recvCommands:\n\n\tString line;\n\tline \u003d pckIn.readString();\n\tif (line \u003d\u003d PacketLineIn.END) {\n\t\tbreak;\n\t}\n\nWe don\u0027t need to catch the EOFException like we do in BaseReceivePack#recvCommands, as we can just propagate that as an IOException.",
+      "parentUuid": "87e453f8_865b507e",
+      "revId": "45d2a5468580b602828514fd3abd77aa67e254b8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87e453f8_a6568c53",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
         "patchSetId": 9
