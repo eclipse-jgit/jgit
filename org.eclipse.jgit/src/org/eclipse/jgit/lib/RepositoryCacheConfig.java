@@ -97,12 +97,11 @@ public class RepositoryCacheConfig {
 	 *         and 10 minutes</b>
 	 */
 	public long getCleanupDelay() {
-		if (cleanupDelayMillis > 0) {
-			return cleanupDelayMillis;
-		} else {
+		if (cleanupDelayMillis < 0) {
 			return Math.min(expireAfterMillis / 10,
 					TimeUnit.MINUTES.toMillis(10));
 		}
+		return cleanupDelayMillis;
 	}
 
 	/**
