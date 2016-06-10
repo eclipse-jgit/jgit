@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87e453f8_66656438",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1133,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-06-10T23:17:29Z",
+      "side": 1,
+      "message": "Oh! I thought this was here before. Let\u0027s just keep what there was before, no need to add a commented //white",
+      "range": {
+        "startLine": 1133,
+        "startChar": 14,
+        "endLine": 1133,
+        "endChar": 29
+      },
+      "revId": "45d2a5468580b602828514fd3abd77aa67e254b8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_865b507e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-06-10T23:17:29Z",
+      "side": 1,
+      "message": "and read the next line with\n\n    pushOption \u003d pckIn.readString();\n\nso we\u0027re not stuck in an infinite loop.",
+      "revId": "45d2a5468580b602828514fd3abd77aa67e254b8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_a6568c53",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-06-10T23:17:29Z",
+      "side": 1,
+      "message": "style: In JGit (as well as in Git core,) we omit the braces in case there is only one statement after if/while etc.",
+      "range": {
+        "startLine": 197,
+        "startChar": 22,
+        "endLine": 197,
+        "endChar": 24
+      },
+      "revId": "45d2a5468580b602828514fd3abd77aa67e254b8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
