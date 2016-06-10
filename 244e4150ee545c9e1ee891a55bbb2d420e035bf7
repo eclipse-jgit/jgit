@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87e453f8_80c2589a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryCacheConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 6590
+      },
+      "writtenOn": "2016-06-10T12:44:42Z",
+      "side": 1,
+      "message": "This is wrong, it should be cleanupDelayMillis \u003e\u003d 0 otherwise it\u0027s impossible to disable clean up. Currently, if we set it to 0(NO_CLEANUP), getCleanupDelay returns 1/10 of expireAfterMillis instead of 0.\n\nFollow up change(https://git.eclipse.org/r/#/c/75060) is adding test cases and fix the problem. Please squash it into this change.",
+      "range": {
+        "startLine": 100,
+        "startChar": 2,
+        "endLine": 100,
+        "endChar": 31
+      },
+      "revId": "244e4150ee545c9e1ee891a55bbb2d420e035bf7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
