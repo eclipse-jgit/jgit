@@ -1,7 +1,7 @@
-target "S20160518051658-Neon" with source configurePhase
+target "R20160520211859-Neon" with source configurePhase
 // see http://download.eclipse.org/tools/orbit/downloads/
 
-location "http://download.eclipse.org/tools/orbit/downloads/drops/S20160518051658/repository/" {
+location "http://download.eclipse.org/tools/orbit/downloads/drops/R20160520211859/repository/" {
 	org.apache.ant [1.9.6.v201510161327,1.9.6.v201510161327]
 	org.apache.ant.source [1.9.6.v201510161327,1.9.6.v201510161327]
 	org.apache.commons.compress [1.6.0.v201310281400,1.6.0.v201310281400]
