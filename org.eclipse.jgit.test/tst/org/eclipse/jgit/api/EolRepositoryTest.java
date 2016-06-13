@@ -51,6 +51,7 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.NoFilepatternException;
 import org.eclipse.jgit.attributes.Attribute;
 import org.eclipse.jgit.dircache.DirCache;
+import org.eclipse.jgit.dircache.DirCacheEditor;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.errors.RevisionSyntaxException;
@@ -61,9 +62,11 @@ import org.eclipse.jgit.lib.CoreConfig.AutoCRLF;
 import org.eclipse.jgit.lib.CoreConfig.EOL;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.IO;
 import org.junit.Assert;
 import org.junit.Test;
@@ -81,6 +84,14 @@ public class EolRepositoryTest extends RepositoryTestCase {
 	private static final FileMode D = FileMode.TREE;
 
 	private static final FileMode F = FileMode.REGULAR_FILE;
+
+	@DataPoint
+	public static boolean doSmudgeEntries = true;
+
+	@DataPoint
+	public static boolean dontSmudgeEntries = false;
+
+	private boolean smudge;
 
 	@DataPoint
 	public static String smallContents[] = {
@@ -117,10 +128,11 @@ public class EolRepositoryTest extends RepositoryTestCase {
 		return sb.toString();
 	}
 
-	public EolRepositoryTest(String[] testContent) {
+	public EolRepositoryTest(String[] testContent, boolean smudgeEntries) {
 		CONTENT_CRLF = testContent[0];
 		CONTENT_LF = testContent[1];
 		CONTENT_MIXED = testContent[2];
+		this.smudge = smudgeEntries;
 	}
 
 	protected String CONTENT_CRLF;
@@ -160,7 +172,7 @@ public class EolRepositoryTest extends RepositoryTestCase {
 
 	private ActualEntry entryMixed = new ActualEntry();
 
-	private DirCache dc;
+	private DirCache dirCache;
 
 	@Test
 	public void testDefaultSetup() throws Exception {
@@ -177,7 +189,9 @@ public class EolRepositoryTest extends RepositoryTestCase {
 			String indexContent) {
 		assertEquals(fileContent, entry.file);
 		assertEquals(indexContent, entry.index);
-		assertEquals(fileContent.length(), entry.indexContentLength);
+		if (entry.indexContentLength != 0) {
+			assertEquals(fileContent.length(), entry.indexContentLength);
+		}
 	}
 
 	@Test
@@ -584,6 +598,14 @@ public class EolRepositoryTest extends RepositoryTestCase {
 			dotGitattributes = null;
 		}
 
+		fileCRLF = createAndAddFile(git, "file1.txt", "a");
+
+		fileLF = createAndAddFile(git, "file2.txt", "a");
+
+		fileMixed = createAndAddFile(git, "file3.txt", "a");
+
+		RevCommit c = gitCommit(git, "create files");
+
 		fileCRLF = createAndAddFile(git, "file1.txt", CONTENT_CRLF);
 
 		fileLF = createAndAddFile(git, "file2.txt", CONTENT_LF);
@@ -593,6 +615,26 @@ public class EolRepositoryTest extends RepositoryTestCase {
 		gitCommit(git, "addFiles");
 
 		recreateWorktree(git);
+
+		if (smudge) {
+			DirCache dc = DirCache.lock(git.getRepository().getIndexFile(),
+					FS.detect());
+			DirCacheEditor editor = dc.editor();
+			for (int i = 0; i < dc.getEntryCount(); i++) {
+				editor.add(new DirCacheEditor.PathEdit(
+						dc.getEntry(i).getPathString()) {
+					public void apply(DirCacheEntry ent) {
+						ent.smudgeRacilyClean();
+					}
+				});
+			}
+			editor.commit();
+		}
+
+		// @TODO: find out why the following assertion would break the tests
+		// assertTrue(git.status().call().isClean());
+		git.checkout().setName(c.getName()).call();
+		git.checkout().setName("master").call();
 	}
 
 	private void recreateWorktree(Git git)
@@ -610,8 +652,8 @@ public class EolRepositoryTest extends RepositoryTestCase {
 		gitAdd(git, ".");
 	}
 
-	protected void gitCommit(Git git, String msg) throws GitAPIException {
-		git.commit().setMessage(msg).call();
+	protected RevCommit gitCommit(Git git, String msg) throws GitAPIException {
+		return git.commit().setMessage(msg).call();
 	}
 
 	protected void gitAdd(Git git, String path) throws GitAPIException {
@@ -644,7 +686,7 @@ public class EolRepositoryTest extends RepositoryTestCase {
 	}
 
 	private void collectRepositoryState() throws Exception {
-		dc = db.readDirCache();
+		dirCache = db.readDirCache();
 		walk = beginWalk();
 		if (dotGitattributes != null)
 			collectEntryContentAndAttributes(F, ".gitattributes", null);
@@ -680,7 +722,7 @@ public class EolRepositoryTest extends RepositoryTestCase {
 			e.attrs = e.attrs.trim();
 			e.file = new String(
 					IO.readFully(new File(db.getWorkTree(), pathName)));
-			DirCacheEntry dce = dc.getEntry(pathName);
+			DirCacheEntry dce = dirCache.getEntry(pathName);
 			ObjectLoader open = walk.getObjectReader().open(dce.getObjectId());
 			e.index = new String(open.getBytes());
 			e.indexContentLength = dce.getLength();

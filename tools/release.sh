@@ -47,6 +47,5 @@ git commit -a -s -m "$MSG"
 git tag -sf -m "$MSG" $1
 
 # run the build
-mvn clean install
+mvn clean install -T 1C
 mvn clean install -f org.eclipse.jgit.packaging/pom.xml
-
