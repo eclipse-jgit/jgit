@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87e453f8_f6abdd8d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PushOptionsTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-06-13T22:35:08Z",
+      "side": 1,
+      "message": "I don\u0027t quite understand how we need to keep that test for backward compatibility as this is tested in PushConnectionTest already? (So I would understand if we do another test with no push options transmitted, but this seems a bit random to me?)",
+      "range": {
+        "startLine": 133,
+        "startChar": 1,
+        "endLine": 133,
+        "endChar": 48
+      },
+      "revId": "782fa386f4de023a2a5095e5a58df4998af58cfc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
