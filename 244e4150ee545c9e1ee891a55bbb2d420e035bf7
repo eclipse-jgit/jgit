@@ -22,6 +22,30 @@
       "revId": "244e4150ee545c9e1ee891a55bbb2d420e035bf7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_cccc97d1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryCacheConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2016-06-13T09:06:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87e453f8_80c2589a",
+      "range": {
+        "startLine": 100,
+        "startChar": 2,
+        "endLine": 100,
+        "endChar": 31
+      },
+      "revId": "244e4150ee545c9e1ee891a55bbb2d420e035bf7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
