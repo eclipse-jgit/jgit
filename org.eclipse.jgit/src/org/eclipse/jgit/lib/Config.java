@@ -80,7 +80,7 @@ public class Config {
 	private static final long KiB = 1024;
 	private static final long MiB = 1024 * KiB;
 	private static final long GiB = 1024 * MiB;
-	private static final int MAX_DEPTH = 999;
+	private static final int MAX_DEPTH = 10;
 
 	/** the change listeners */
 	private final ListenerList listeners = new ListenerList();
