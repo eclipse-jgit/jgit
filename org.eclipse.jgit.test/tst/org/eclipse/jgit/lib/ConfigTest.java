@@ -782,10 +782,31 @@ public class ConfigTest {
 
 	@Test
 	public void testIncludeValuePathNotFound() throws ConfigInvalidException {
+		// we do not expect an exception, included path not found are ignored
 		String notFound = "/not/found";
-		expectedEx.expect(ConfigInvalidException.class);
-		expectedEx.expectMessage(notFound);
-		parse("[include]\npath=" + notFound + "\n");
+		Config parsed = parse("[include]\npath=" + notFound + "\n");
+		assertEquals(1, parsed.getSections().size());
+		assertEquals(notFound, parsed.getString("include", null, "path"));
+	}
+
+	@Test
+	public void testIncludeValuePathWithTilde() throws ConfigInvalidException {
+		// we do not expect an exception, included path not supported are
+		// ignored
+		String notSupported = "~/someFile";
+		Config parsed = parse("[include]\npath=" + notSupported + "\n");
+		assertEquals(1, parsed.getSections().size());
+		assertEquals(notSupported, parsed.getString("include", null, "path"));
+	}
+
+	@Test
+	public void testIncludeValuePathRelative() throws ConfigInvalidException {
+		// we do not expect an exception, included path not supported are
+		// ignored
+		String notSupported = "someRelativeFile";
+		Config parsed = parse("[include]\npath=" + notSupported + "\n");
+		assertEquals(1, parsed.getSections().size());
+		assertEquals(notSupported, parsed.getString("include", null, "path"));
 	}
 
 	@Test

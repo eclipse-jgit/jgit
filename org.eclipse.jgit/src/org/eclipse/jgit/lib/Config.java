@@ -52,6 +52,7 @@
 package org.eclipse.jgit.lib;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -1127,9 +1128,15 @@ public class Config {
 				decoded = RawParseUtils.decode(bytes);
 			}
 			newEntries.addAll(fromTextRecurse(decoded, depth + 1));
+		} catch (FileNotFoundException fnfe) {
+			if (path.exists()) {
+				throw new ConfigInvalidException(MessageFormat
+						.format(JGitText.get().cannotReadFile, path), fnfe);
+			}
 		} catch (IOException ioe) {
-			throw new ConfigInvalidException(MessageFormat.format(
-					JGitText.get().invalidIncludedPathInConfigFile, path));
+			throw new ConfigInvalidException(
+					MessageFormat.format(JGitText.get().cannotReadFile, path),
+					ioe);
 		}
 	}
 
