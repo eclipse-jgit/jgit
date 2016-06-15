@@ -790,13 +790,20 @@ public class ConfigTest {
 	}
 
 	@Test
-	public void testIncludeValuePathWithTilde() throws ConfigInvalidException {
-		// we do not expect an exception, included path not supported are
-		// ignored
-		String notSupported = "~/someFile";
-		Config parsed = parse("[include]\npath=" + notSupported + "\n");
-		assertEquals(1, parsed.getSections().size());
-		assertEquals(notSupported, parsed.getString("include", null, "path"));
+	public void testIncludeValuePathWithTilde()
+			throws ConfigInvalidException, IOException {
+
+		FS.DETECTED.setUserHome(tmp.getRoot());
+
+		File config = tmp.newFile("config");
+		Files.write(config.toPath(), "[foo]\nbar=true\n".getBytes());
+
+		Config parsed = parse("[include]\npath=~/config\n");
+		assertTrue(parsed.getBoolean("foo", "bar", false));
+
+		FS.DETECTED.setUserHome(null);
+		parsed = parse("[include]\npath=~/config\n");
+		assertFalse(parsed.getBoolean("foo", "bar", false));
 	}
 
 	@Test
