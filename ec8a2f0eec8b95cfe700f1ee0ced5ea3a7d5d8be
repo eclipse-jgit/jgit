@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87e453f8_b803f782",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1129,
+      "author": {
+        "id": 78063
+      },
+      "writtenOn": "2016-06-16T18:05:15Z",
+      "side": 1,
+      "message": "Would extract the above if block into a helper method focusing on returning a proper File object based on tilde presence (or absence). Doing so would simplify this addIncludedConfig method as well, preserving its focus.",
+      "revId": "ec8a2f0eec8b95cfe700f1ee0ced5ea3a7d5d8be",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
