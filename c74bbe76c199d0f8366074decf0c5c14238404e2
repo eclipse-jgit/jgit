@@ -22,6 +22,30 @@
       "revId": "c74bbe76c199d0f8366074decf0c5c14238404e2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_d8344367",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 6590
+      },
+      "writtenOn": "2016-06-16T17:53:36Z",
+      "side": 1,
+      "message": "We can keep the exception, native Git does not silently ignore exceeded max depth.",
+      "parentUuid": "87e453f8_381e07f0",
+      "range": {
+        "startLine": 83,
+        "startChar": 38,
+        "endLine": 83,
+        "endChar": 40
+      },
+      "revId": "c74bbe76c199d0f8366074decf0c5c14238404e2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
