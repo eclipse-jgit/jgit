@@ -16,6 +16,24 @@
       "revId": "ca92d6c61c84ba46f47475e94cf7487223623539",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_23225c61",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1143,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-06-16T22:12:42Z",
+      "side": 1,
+      "message": "I think Config should not depend on java.io.File, only FileBasedConfig should depend on filesystem.",
+      "parentUuid": "87e453f8_e3887401",
+      "revId": "ca92d6c61c84ba46f47475e94cf7487223623539",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
