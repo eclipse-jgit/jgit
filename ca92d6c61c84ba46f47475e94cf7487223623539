@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87e453f8_e3887401",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1143,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2016-06-16T21:13:25Z",
+      "side": 1,
+      "message": "If you make this protected, you can override it in the file based config to do the relative path resolution. Relative paths only make sense for file based configs, don\u0027t they?",
+      "revId": "ca92d6c61c84ba46f47475e94cf7487223623539",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
