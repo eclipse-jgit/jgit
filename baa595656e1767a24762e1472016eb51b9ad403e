@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "87e453f8_182f8b13",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 6590
+      },
+      "writtenOn": "2016-06-16T18:00:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87e453f8_f8701f51",
+      "range": {
+        "startLine": 11,
+        "startChar": 20,
+        "endLine": 11,
+        "endChar": 31
+      },
+      "revId": "baa595656e1767a24762e1472016eb51b9ad403e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87e453f8_588e73b9",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2016-06-16T17:31:15Z",
       "side": 1,
       "message": "I understand that there is no effective possibility to output a warning in some log when !path.exists, from this class or area; right?",
+      "revId": "baa595656e1767a24762e1472016eb51b9ad403e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_384527cc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1135,
+      "author": {
+        "id": 6590
+      },
+      "writtenOn": "2016-06-16T18:00:51Z",
+      "side": 1,
+      "message": "We could always log it. Let\u0027s see what others think, if we should log it or not.",
+      "parentUuid": "87e453f8_588e73b9",
       "revId": "baa595656e1767a24762e1472016eb51b9ad403e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
