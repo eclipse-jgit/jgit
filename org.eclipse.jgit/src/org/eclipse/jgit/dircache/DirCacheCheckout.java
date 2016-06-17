@@ -718,10 +718,23 @@ public class DirCacheCheckout {
 			return;
 		}
 
-		// if we have no file at all then there is nothing to do
-		if ((ffMask & 0x222) == 0
-				&& (f == null || FileMode.TREE.equals(f.getEntryFileMode())))
-			return;
+		if ((ffMask & 0x222) == 0) {
+			// HEAD, MERGE and index don't contain a file (e.g. all contain a
+			// folder)
+			if (f == null || FileMode.TREE.equals(f.getEntryFileMode())) {
+				// the workingtree entry doesn't exist or also contains a folder
+				// -> no problem
+				return;
+			} else {
+				// the workingtree entry exists and is not a folder
+				if (!idEqual(h, m)) {
+					// Because HEAD and MERGE differ we will try to update the
+					// workingtree with a folder -> return a conflict
+					conflict(name, null, null, null);
+				}
+				return;
+			}
+		}
 
 		if ((ffMask == 0x00F) && f != null && FileMode.TREE.equals(f.getEntryFileMode())) {
 			// File/Directory conflict case #20
@@ -1002,6 +1015,17 @@ public class DirCacheCheckout {
 				}
 			}
 		}
+	}
+
+	private static boolean idEqual(AbstractTreeIterator a,
+			AbstractTreeIterator b) {
+		if (a == b) {
+			return true;
+		}
+		if (a == null || b == null) {
+			return false;
+		}
+		return a.getEntryObjectId().equals(b.getEntryObjectId());
 	}
 
 	/**
