@@ -99,6 +99,24 @@
       "revId": "baa595656e1767a24762e1472016eb51b9ad403e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_c30a98b0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1135,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2016-06-17T00:01:53Z",
+      "side": 1,
+      "message": "CGit doesn\u0027t. Logging may also lead to frequent warnings unless JGit was smart enough to load the system/user config only once (or when changed) and not repeatedly on each FileRepository creation.",
+      "parentUuid": "87e453f8_03e4809c",
+      "revId": "baa595656e1767a24762e1472016eb51b9ad403e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
