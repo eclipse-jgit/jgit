@@ -1650,6 +1650,7 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 		RevCommit checkoutCommit = commitFile("f/a", "side content", "side");
 		FileUtils.delete(new File(db.getWorkTree(), "f"), FileUtils.RECURSIVE);
 		writeTrashFile("f", "file instead of a folder");
+
 		writeTrashFile("b", "changed content");
 
 		try {
