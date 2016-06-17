@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87e453f8_15d75134",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/PushCommandTest.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-06-17T17:02:33Z",
+      "side": 1,
+      "message": "\u003e Why does it set the remote to its own repository?\n\n(was cut off in the web UI)\n\nIt is not its own. the remote \"test\" is an alias for `db2` as seen by `db`.\n\nSee the lines before the try, (paragraph with \"//setup the first repository\"), we configure `db`, but the URI is from `db2`.",
+      "range": {
+        "startLine": 346,
+        "startChar": 59,
+        "endLine": 346,
+        "endChar": 70
+      },
+      "revId": "c392a8330f65872cd5cfb328f9921e712d3b8410",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_1512f192",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PushOptionsTest.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-06-17T17:02:33Z",
+      "side": 1,
+      "message": "I think moving all variables to the top, would be more readable.",
+      "range": {
+        "startLine": 171,
+        "startChar": 0,
+        "endLine": 183,
+        "endChar": 22
+      },
+      "revId": "c392a8330f65872cd5cfb328f9921e712d3b8410",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_35f8cdb5",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PushOptionsTest.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-06-17T17:02:33Z",
+      "side": 1,
+      "message": "So are we going to use db and db2 or the client/server class variables. I\u0027d just go with one pair.",
+      "range": {
+        "startLine": 188,
+        "startChar": 2,
+        "endLine": 189,
+        "endChar": 42
+      },
+      "revId": "c392a8330f65872cd5cfb328f9921e712d3b8410",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_351fed94",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PushOptionsTest.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-06-17T17:02:33Z",
+      "side": 1,
+      "message": "So db is configured to receive things, so we push from db2 to db? (Or when testing only one side and crafting the packets ourselfs, we need to pretend to be the receiver when interacting with db2 and pretend to be the pusher when interacting with db)",
+      "range": {
+        "startLine": 194,
+        "startChar": 0,
+        "endLine": 199,
+        "endChar": 16
+      },
+      "revId": "c392a8330f65872cd5cfb328f9921e712d3b8410",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_95144174",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PushOptionsTest.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-06-17T17:02:33Z",
+      "side": 1,
+      "message": "so now both db and db2 are configured to allow receiving push options? we only need one side for the receiver.",
+      "range": {
+        "startLine": 225,
+        "startChar": 3,
+        "endLine": 225,
+        "endChar": 60
+      },
+      "revId": "c392a8330f65872cd5cfb328f9921e712d3b8410",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_b5569d30",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PushOptionsTest.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-06-17T17:02:33Z",
+      "side": 1,
+      "message": "I think here we need to add the push options, i.e.\n\ninPckLine.writeString(\"Hello\");\ninPckLine.writeString(\"World\");\ninPckLine.end();",
+      "revId": "c392a8330f65872cd5cfb328f9921e712d3b8410",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
