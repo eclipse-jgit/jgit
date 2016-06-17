@@ -34,6 +34,24 @@
       "revId": "ca92d6c61c84ba46f47475e94cf7487223623539",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_72742bc0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1143,
+      "author": {
+        "id": 6590
+      },
+      "writtenOn": "2016-06-17T13:26:56Z",
+      "side": 1,
+      "message": "The dependency on java.io.File was introduced in I700bd7b7e and not in this change, I was following the same path.\n\nI will rework include file to be done only in FileBaseConfig to remove dependency on java.io.File and hopefully support relative path as suggested.",
+      "parentUuid": "87e453f8_23225c61",
+      "revId": "ca92d6c61c84ba46f47475e94cf7487223623539",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
