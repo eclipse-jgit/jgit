@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87e453f8_7e55d746",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1618,
+      "author": {
+        "id": 983
+      },
+      "writtenOn": "2016-06-17T13:06:47Z",
+      "side": 1,
+      "message": "The name is misleading. How about testFolderFileConflict or testFailWithFolderFileConflict?\n\nBesides, there is no test case for failOnConflict \u003d\u003d false.",
+      "revId": "7b7079754309d1f5850d6a1d6591d585b9abbbf6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_f20e7b72",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1256,
+      "author": {
+        "id": 983
+      },
+      "writtenOn": "2016-06-17T13:06:47Z",
+      "side": 1,
+      "message": "I think this is the wrong place. This check should happen earlier, probably in the prescan methods. Throwing an exception here may lead to a partial checked out work dir. In addition, the CheckoutCOnflictException is supposed to list all conflicts, which isn\u0027t the case here either.",
+      "revId": "7b7079754309d1f5850d6a1d6591d585b9abbbf6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
