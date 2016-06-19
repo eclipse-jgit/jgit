@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "87e453f8_a85724d5",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1618,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-06-19T21:42:51Z",
+      "side": 1,
+      "message": "agree, I name it like you suggested.\n\nI concentrated in this change on the main use case failOnConflict\u003d\u003dtrue. failOnConflict\u003d\u003dfalse handling will follow.",
+      "parentUuid": "87e453f8_7e55d746",
+      "revId": "7b7079754309d1f5850d6a1d6591d585b9abbbf6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87e453f8_f20e7b72",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-06-17T13:06:47Z",
       "side": 1,
       "message": "I think this is the wrong place. This check should happen earlier, probably in the prescan methods. Throwing an exception here may lead to a partial checked out work dir. In addition, the CheckoutCOnflictException is supposed to list all conflicts, which isn\u0027t the case here either.",
+      "revId": "7b7079754309d1f5850d6a1d6591d585b9abbbf6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_4846a028",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1256,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-06-19T21:42:51Z",
+      "side": 1,
+      "message": "you are right. We will not completely get rid of the risk of hallways workingtrees. But implementing this in preScanTwoTrees would lower the risk and be much more in-line with the other detection of dirty workingtrees. I\u0027ll upload a pathset",
+      "parentUuid": "87e453f8_f20e7b72",
       "revId": "7b7079754309d1f5850d6a1d6591d585b9abbbf6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
