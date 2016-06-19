@@ -188,9 +188,10 @@
 
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
     <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
     <bundle-manifest>${project.build.directory}/META-INF/MANIFEST.MF</bundle-manifest>
+    <!-- set JDK_HOME to JAVA_HOME path of JDK7 installation in order to compile against JDK 7 class library -->
+    <JDK_HOME>${JAVA_HOME}</JDK_HOME>
 
     <jgit-last-release-version>4.2.0.201601211800-r</jgit-last-release-version>
     <jsch-version>0.1.53</jsch-version>
@@ -264,6 +265,7 @@
             <encoding>UTF-8</encoding>
             <source>1.7</source>
             <target>1.7</target>
+            <bootclasspath>${JDK_HOME}${file.separator}jre${file.separator}lib${file.separator}rt.jar${path.separator}${JDK_HOME}${file.separator}jre${file.separator}lib${file.separator}jsse.jar${path.separator}${JDK_HOME}${file.separator}jre${file.separator}lib${file.separator}jce.jar</bootclasspath>
           </configuration>
         </plugin>
 
