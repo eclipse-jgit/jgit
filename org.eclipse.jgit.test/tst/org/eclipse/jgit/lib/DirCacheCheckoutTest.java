@@ -1614,6 +1614,41 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 		assertNotNull(git.checkout().setName(Constants.MASTER).call());
 	}
 
+	@Test(expected = CheckoutConflictException.class)
+	public void testSkipConflictsWithFolderFileConflict() throws Exception {
+		RevCommit headCommit = commitFile("f/a", "initial content", "master");
+		RevCommit checkoutCommit = commitFile("f/a", "side content", "side");
+		FileUtils.delete(new File(db.getWorkTree(), "f"), FileUtils.RECURSIVE);
+		writeTrashFile("f", "file instead of folder");
+		new DirCacheCheckout(db, headCommit.getTree(), db.lockDirCache(),
+				checkoutCommit.getTree()).checkout();
+	}
+
+	@Test
+	public void testFolderFileAndContentConflicts() throws Exception {
+		RevCommit headCommit = commitFile("f/a", "initial content", "master");
+		commitFile("b", "side content", "side");
+		RevCommit checkoutCommit = commitFile("f/a", "side content", "side");
+		FileUtils.delete(new File(db.getWorkTree(), "f"), FileUtils.RECURSIVE);
+		writeTrashFile("f", "file instead of a folder");
+
+		writeTrashFile("b", "changed content");
+
+		try {
+			new DirCacheCheckout(db, headCommit.getTree(), db.lockDirCache(),
+					checkoutCommit.getTree()).checkout();
+			fail();
+		} catch (CheckoutConflictException expected) {
+			assertEquals(2, expected.getConflictingFiles().length);
+			assertTrue(Arrays.asList(expected.getConflictingFiles())
+					.contains("b"));
+			assertTrue(Arrays.asList(expected.getConflictingFiles())
+					.contains("f"));
+			assertEquals("file instead of folder", read("f"));
+			assertEquals("changed content", read("b"));
+		}
+	}
+
 	public void assertWorkDir(Map<String, String> i)
 			throws CorruptObjectException,
 			IOException {
