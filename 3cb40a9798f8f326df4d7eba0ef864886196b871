@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87e453f8_bc884200",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-06-21T09:35:56Z",
+      "side": 1,
+      "message": "I would mention that this option is only relevant when failOnConflict is false. That\u0027s important because the defalt for failOnConflict is true and commands like git.checkout()... will use \"true\". You mentioned this in the javadoc\u0027s ... but I would repeat that in the commit message.",
+      "revId": "3cb40a9798f8f326df4d7eba0ef864886196b871",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
