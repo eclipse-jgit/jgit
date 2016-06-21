@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87e453f8_fc4acafc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschConfigSessionFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 6590
+      },
+      "writtenOn": "2016-06-21T12:23:06Z",
+      "side": 1,
+      "message": "wrong indentation, this project uses tabulation.",
+      "revId": "f9c026ba55f846088fddde086e7612b5c88e0898",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_7c56baa4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschConfigSessionFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 6590
+      },
+      "writtenOn": "2016-06-21T12:23:06Z",
+      "side": 1,
+      "message": "This empty method is causing a warning in eclipse: Empty block should be documented.\n\nYou need to add a inline comment documenting why it\u0027s empty.",
+      "revId": "f9c026ba55f846088fddde086e7612b5c88e0898",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_3c5c32c5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschConfigSessionFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 6590
+      },
+      "writtenOn": "2016-06-21T12:23:06Z",
+      "side": 1,
+      "message": "same here, wrong indentation.",
+      "revId": "f9c026ba55f846088fddde086e7612b5c88e0898",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_5c5bbecc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschConfigSessionFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 6590
+      },
+      "writtenOn": "2016-06-21T12:23:06Z",
+      "side": 1,
+      "message": "same here, wrong indentation.",
+      "revId": "f9c026ba55f846088fddde086e7612b5c88e0898",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
