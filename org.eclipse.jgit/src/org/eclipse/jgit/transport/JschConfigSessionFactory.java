@@ -1,4 +1,5 @@
 /*
+ * Copyright (C) 2016, Mark Ingram <markdingram@gmail.com>
  * Copyright (C) 2009, Constantine Plotnikov <constantine.plotnikov@gmail.com>
  * Copyright (C) 2008-2009, Google Inc.
  * Copyright (C) 2009, Google, Inc.
@@ -220,6 +221,19 @@ public abstract class JschConfigSessionFactory extends SshSessionFactory {
 	}
 
 	/**
+	 * Provide additional configuration for the JSch instance. This method could
+	 * be overridden to supply a preferred
+	 * {@link com.jcraft.jsch.IdentityRepository}.
+	 *
+	 * @param jsch
+	 *            jsch instance
+	 * @since 4.5
+	 */
+	protected void configureJSch(JSch jsch) {
+		// No additional configuration required.
+	}
+
+	/**
 	 * Provide additional configuration for the session based on the host
 	 * information. This method could be used to supply {@link UserInfo}.
 	 *
@@ -257,6 +271,7 @@ public abstract class JschConfigSessionFactory extends SshSessionFactory {
 		JSch jsch = byIdentityFile.get(identityKey);
 		if (jsch == null) {
 			jsch = new JSch();
+			configureJSch(jsch);
 			jsch.setHostKeyRepository(defaultJSch.getHostKeyRepository());
 			jsch.addIdentity(identityKey);
 			byIdentityFile.put(identityKey, jsch);
@@ -274,6 +289,7 @@ public abstract class JschConfigSessionFactory extends SshSessionFactory {
 	 */
 	protected JSch createDefaultJSch(FS fs) throws JSchException {
 		final JSch jsch = new JSch();
+		configureJSch(jsch);
 		knownHosts(jsch, fs);
 		identities(jsch, fs);
 		return jsch;
