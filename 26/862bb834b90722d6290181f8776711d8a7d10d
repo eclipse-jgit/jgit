@@ -1,0 +1,8 @@
+Code-Review+2: Sasa Zivkov <zivkov@gmail.com>
+Code-Review+1: Hugo Arès <hugo.ares@ericsson.com>
+Verified+1: Hudson CI
+Submitted-by: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-at: Tue, 21 Jun 2016 11:59:15 -0400
+Reviewed-on: https://git.eclipse.org/r/74903
+Project: jgit/jgit
+Branch: refs/heads/stable-4.4
