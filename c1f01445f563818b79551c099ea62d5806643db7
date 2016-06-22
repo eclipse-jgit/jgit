@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87e453f8_0563960d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 1123,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-06-22T20:20:22Z",
+      "side": 1,
+      "message": "This makes sense!",
+      "range": {
+        "startLine": 1121,
+        "startChar": 3,
+        "endLine": 1123,
+        "endChar": 4
+      },
+      "revId": "c1f01445f563818b79551c099ea62d5806643db7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
