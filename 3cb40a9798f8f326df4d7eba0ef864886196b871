@@ -16,6 +16,24 @@
       "revId": "3cb40a9798f8f326df4d7eba0ef864886196b871",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_f13910fc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 983
+      },
+      "writtenOn": "2016-06-22T08:54:19Z",
+      "side": 1,
+      "message": "Will do. I am waiting for https://git.eclipse.org/r/#/c/75443/ to get approved. After that, I need to rebase this change onto it anyway and thereby will amend the commit message.",
+      "parentUuid": "87e453f8_bc884200",
+      "revId": "3cb40a9798f8f326df4d7eba0ef864886196b871",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
