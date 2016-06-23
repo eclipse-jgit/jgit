@@ -4,6 +4,7 @@
  * Copyright (C) 2008, Roger C. Soares <rogersoares@intelinet.com.br>
  * Copyright (C) 2006, Shawn O. Pearce <spearce@spearce.org>
  * Copyright (C) 2010, Chrisian Halstrick <christian.halstrick@sap.com> and
+ * Copyright (C) 2016, Rüdiger Herrmann <ruediger.herrmann@gmx.de> and
  * other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available under the
@@ -140,6 +141,8 @@ public class DirCacheCheckout {
 	private WorkingTreeIterator workingTree;
 
 	private boolean failOnConflict = true;
+
+	private boolean skipConflicts;
 
 	private ArrayList<String> toBeDeleted = new ArrayList<String>();
 
@@ -459,7 +462,7 @@ public class DirCacheCheckout {
 			if (!conflicts.isEmpty()) {
 				if (failOnConflict)
 					throw new CheckoutConflictException(conflicts.toArray(new String[conflicts.size()]));
-				else
+				else if (!skipConflicts)
 					cleanUpConflicts();
 			}
 
@@ -996,7 +999,15 @@ public class DirCacheCheckout {
 						// -> Standard case when switching between branches:
 						// Nothing new in index but something different in
 						// Merge. Update index and file
-						update(name, mId, mMode);
+						boolean update = true;
+						for (String conflict : conflicts) {
+							if (name.startsWith(conflict + "/")) { //$NON-NLS-1$
+								update = false;
+							}
+						}
+						if (update) {
+							update(name, mId, mMode);
+						}
 					}
 				} else {
 					// Head differs from index or merge is same as index
@@ -1091,6 +1102,21 @@ public class DirCacheCheckout {
 	 */
 	public void setFailOnConflict(boolean failOnConflict) {
 		this.failOnConflict = failOnConflict;
+	}
+
+	/**
+	 * If <code>true</code>, conflicts will be skipped and the file in the work
+	 * directory will remain unchanged. Otherwise it will silently deal with the
+	 * problem. The default value is <code>false</code>.
+	 * <p>
+	 * Note that {@link #setFailOnConflict(boolean) failOnConflict} must be set
+	 * to <code>false</code> for this setting to take effect.
+	 *
+	 * @param skipConflicts
+	 * @since 4.5
+	 */
+	public void setSkipConflicts(boolean skipConflicts) {
+		this.skipConflicts = skipConflicts;
 	}
 
 	/**
