@@ -795,7 +795,6 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	public boolean next() throws MissingObjectException,
 			IncorrectObjectTypeException, CorruptObjectException, IOException {
 		try {
-			attrs = null;
 			if (advance) {
 				advance = false;
 				postChildren = false;
@@ -803,6 +802,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 			}
 
 			for (;;) {
+				attrs = null;
 				final AbstractTreeIterator t = min();
 				if (t.eof()) {
 					if (depth > 0) {
