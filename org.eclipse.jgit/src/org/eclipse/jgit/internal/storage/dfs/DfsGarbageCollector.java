@@ -44,6 +44,7 @@
 package org.eclipse.jgit.internal.storage.dfs;
 
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.GC;
+import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.GC_REST;
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.GC_TXN;
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.UNREACHABLE_GARBAGE;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.BITMAP_INDEX;
@@ -299,6 +300,7 @@ public class DfsGarbageCollector {
 				writePack(GC, pw, pm);
 		}
 	}
+
 	private void packRest(ProgressMonitor pm) throws IOException {
 		if (nonHeads.isEmpty())
 			return;
@@ -308,7 +310,7 @@ public class DfsGarbageCollector {
 				pw.excludeObjects(packedObjs);
 			pw.preparePack(pm, nonHeads, allHeads);
 			if (0 < pw.getObjectCount())
-				writePack(GC, pw, pm);
+				writePack(GC_REST, pw, pm);
 		}
 	}
 
