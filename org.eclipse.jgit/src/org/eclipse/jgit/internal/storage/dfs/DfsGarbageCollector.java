@@ -95,8 +95,8 @@ public class DfsGarbageCollector {
 
 	private long coalesceGarbageLimit = 50 << 20;
 
+	private long startTimeMillis;
 	private List<DfsPackFile> packsBefore;
-
 	private Set<ObjectId> allHeads;
 	private Set<ObjectId> nonHeads;
 	private Set<ObjectId> txnHeads;
@@ -190,6 +190,7 @@ public class DfsGarbageCollector {
 			throw new IllegalStateException(
 					JGitText.get().supportOnlyPackIndexVersion2);
 
+		startTimeMillis = System.currentTimeMillis();
 		ctx = (DfsReader) objdb.newReader();
 		try {
 			refdb.refresh();
@@ -422,6 +423,7 @@ public class DfsGarbageCollector {
 
 		PackStatistics stats = pw.getStatistics();
 		pack.setPackStats(stats);
+		pack.setLastModified(startTimeMillis);
 		newPackStats.add(stats);
 		newPackObj.add(pw.getObjectSet());
 
