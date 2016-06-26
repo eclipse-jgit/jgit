@@ -386,38 +386,28 @@ public class DfsGarbageCollector {
 
 	private DfsPackDescription writePack(PackSource source, PackWriter pw,
 			ProgressMonitor pm) throws IOException {
-		DfsOutputStream out;
 		DfsPackDescription pack = repo.getObjectDatabase().newPack(source);
 		newPackDesc.add(pack);
 
-		out = objdb.writeFile(pack, PACK);
-		try {
+		try (DfsOutputStream out = objdb.writeFile(pack, PACK)) {
 			pw.writePack(pm, pm, out);
 			pack.addFileExt(PACK);
-		} finally {
-			out.close();
 		}
 
-		out = objdb.writeFile(pack, INDEX);
-		try {
-			CountingOutputStream cnt = new CountingOutputStream(out);
+		try (DfsOutputStream out = objdb.writeFile(pack, INDEX);
+				CountingOutputStream cnt = new CountingOutputStream(out)) {
 			pw.writeIndex(cnt);
 			pack.addFileExt(INDEX);
 			pack.setFileSize(INDEX, cnt.getCount());
 			pack.setIndexVersion(pw.getIndexVersion());
-		} finally {
-			out.close();
 		}
 
 		if (pw.prepareBitmapIndex(pm)) {
-			out = objdb.writeFile(pack, BITMAP_INDEX);
-			try {
-				CountingOutputStream cnt = new CountingOutputStream(out);
+			try (DfsOutputStream out = objdb.writeFile(pack, BITMAP_INDEX);
+					CountingOutputStream cnt = new CountingOutputStream(out)) {
 				pw.writeBitmapIndex(cnt);
 				pack.addFileExt(BITMAP_INDEX);
 				pack.setFileSize(BITMAP_INDEX, cnt.getCount());
-			} finally {
-				out.close();
 			}
 		}
 
