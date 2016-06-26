@@ -80,24 +80,6 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		RECEIVE(0),
 
 		/**
-		 * Pack was created by Git garbage collection by this implementation.
-		 * <p>
-		 * This source is only used by the {@link DfsGarbageCollector} when it
-		 * builds a pack file by traversing the object graph and copying all
-		 * reachable objects into a new pack stream.
-		 *
-		 * @see DfsGarbageCollector
-		 */
-		GC(1),
-
-		/**
-		 * RefTreeGraph pack was created by Git garbage collection.
-		 *
-		 * @see DfsGarbageCollector
-		 */
-		GC_TXN(1),
-
-		/**
 		 * The pack was created by compacting multiple packs together.
 		 * <p>
 		 * Packs created by compacting multiple packs together aren't nearly as
@@ -109,13 +91,34 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		COMPACT(1),
 
 		/**
+		 * Pack was created by Git garbage collection by this implementation.
+		 * <p>
+		 * This source is only used by the {@link DfsGarbageCollector} when it
+		 * builds a pack file by traversing the object graph and copying all
+		 * reachable objects into a new pack stream.
+		 *
+		 * @see DfsGarbageCollector
+		 */
+		GC(2),
+
+		/** Created from non-heads by {@link DfsGarbageCollector}. */
+		GC_REST(3),
+
+		/**
+		 * RefTreeGraph pack was created by Git garbage collection.
+		 *
+		 * @see DfsGarbageCollector
+		 */
+		GC_TXN(4),
+
+		/**
 		 * Pack was created by Git garbage collection.
 		 * <p>
 		 * This pack contains only unreachable garbage that was found during the
 		 * last GC pass. It is retained in a new pack until it is safe to prune
 		 * these objects from the repository.
 		 */
-		UNREACHABLE_GARBAGE(2);
+		UNREACHABLE_GARBAGE(5);
 
 		final int category;
 
