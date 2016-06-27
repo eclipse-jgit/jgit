@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Matthias Sohn <matthias.sohn@sap.com>
+ * Copyright (C) 2016, Christian Halstrick <christian.halstrick@sap.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -40,30 +40,82 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.eclipse.jgit.lfs.internal;
+package org.eclipse.jgit.lfs;
 
-import org.eclipse.jgit.nls.NLS;
-import org.eclipse.jgit.nls.TranslationBundle;
+import java.io.OutputStream;
+import java.io.PrintStream;
+
+import org.eclipse.jgit.lfs.lib.Constants;
+import org.eclipse.jgit.lfs.lib.LongObjectId;
 
 /**
- * Translation bundle for JGit LFS server
+ * Represents an LFS pointer file
+ *
+ * @since 4.6
  */
-public class LfsText extends TranslationBundle {
+public class LfsPointer {
+	/**
+	 * The version of the LfsPointer file format
+	 */
+	public static final String VERSION = "https://git-lfs.github.com/spec/v1"; //$NON-NLS-1$
 
 	/**
-	 * @return an instance of this translation bundle
+	 * The name of the hash function as used in the pointer files. This will
+	 * evaluate to "sha256"
 	 */
-	public static LfsText get() {
-		return NLS.getBundleFor(LfsText.class);
+	public static final String HASH_FUNCTION_NAME = Constants.LONG_HASH_FUNCTION
+			.toLowerCase().replace("-", ""); //$NON-NLS-1$ //$NON-NLS-2$
+
+	private LongObjectId oid;
+
+	private long size;
+
+	/**
+	 * @param oid
+	 *            the id of the content
+	 * @param size
+	 *            the size of the content
+	 */
+	public LfsPointer(LongObjectId oid, long size) {
+		this.oid = oid;
+		this.size = size;
 	}
 
-	// @formatter:off
-	/***/ public String inconsistentMediafileLength;
-	/***/ public String incorrectLONG_OBJECT_ID_LENGTH;
-	/***/ public String invalidLongId;
-	/***/ public String invalidLongIdLength;
-	/***/ public String requiredHashFunctionNotAvailable;
-	/***/ public String repositoryNotFound;
-	/***/ public String repositoryReadOnly;
-	/***/ public String lfsUnavailable;
+	/**
+	 * @return the id of the content
+	 */
+	public LongObjectId getOid() {
+		return oid;
+	}
+
+	/**
+	 * @return the size of the content
+	 */
+	public long getSize() {
+		return size;
+	}
+
+	/**
+	 * Encode this object into the LFS format defined by {@link #VERSION}
+	 *
+	 * @param out
+	 *            the {@link OutputStream} into which the encoded data should be
+	 *            written
+	 */
+	public void encode(OutputStream out) {
+		try (PrintStream ps = new PrintStream(out)) {
+			ps.print("version "); //$NON-NLS-1$
+			ps.println(VERSION);
+			ps.print("oid " + HASH_FUNCTION_NAME + ":"); //$NON-NLS-1$ //$NON-NLS-2$
+			ps.println(LongObjectId.toString(oid));
+			ps.print("size "); //$NON-NLS-1$
+			ps.println(size);
+		}
+	}
+
+	@Override
+	public String toString() {
+		return "LfsPointer: oid=" + LongObjectId.toString(oid) + ", size=" //$NON-NLS-1$ //$NON-NLS-2$
+				+ size;
+	}
 }

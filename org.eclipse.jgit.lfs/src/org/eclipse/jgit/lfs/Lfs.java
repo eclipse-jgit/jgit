@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Matthias Sohn <matthias.sohn@sap.com>
+ * Copyright (C) 2016, Christian Halstrick <christian.halstrick@sap.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -40,30 +40,85 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.eclipse.jgit.lfs.internal;
+package org.eclipse.jgit.lfs;
 
-import org.eclipse.jgit.nls.NLS;
-import org.eclipse.jgit.nls.TranslationBundle;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+import org.eclipse.jgit.lfs.lib.LongObjectId;
 
 /**
- * Translation bundle for JGit LFS server
+ * Class which represents the lfs folder hierarchy inside a .git folder
+ *
+ * @since 4.6
  */
-public class LfsText extends TranslationBundle {
+public class Lfs {
+	private Path root;
+
+	private Path objDir;
+
+	private Path tmpDir;
 
 	/**
-	 * @return an instance of this translation bundle
+	 * @param root
+	 *            the path to the LFS media directory. Will be "<repo>/.git/lfs"
 	 */
-	public static LfsText get() {
-		return NLS.getBundleFor(LfsText.class);
+	public Lfs(Path root) {
+		this.root = root;
 	}
 
-	// @formatter:off
-	/***/ public String inconsistentMediafileLength;
-	/***/ public String incorrectLONG_OBJECT_ID_LENGTH;
-	/***/ public String invalidLongId;
-	/***/ public String invalidLongIdLength;
-	/***/ public String requiredHashFunctionNotAvailable;
-	/***/ public String repositoryNotFound;
-	/***/ public String repositoryReadOnly;
-	/***/ public String lfsUnavailable;
+	/**
+	 * @return the path to the LFS directory
+	 */
+	public Path getLfsRoot() {
+		return root;
+	}
+
+	/**
+	 * @return the path to the temp directory used by LFS. Will be
+	 *         "<repo>/.git/lfs/tmp"
+	 */
+	public Path getLfsTmpDir() {
+		if (tmpDir == null) {
+			tmpDir = root.resolve("tmp"); //$NON-NLS-1$
+		}
+		return tmpDir;
+	}
+
+	/**
+	 * @return the path to the object directory used by LFS. Will be
+	 *         "<repo>/.git/lfs/objects"
+	 */
+	public Path getLfsObjDir() {
+		if (objDir == null) {
+			objDir = root.resolve("objects"); //$NON-NLS-1$
+		}
+		return objDir;
+	}
+
+	/**
+	 * @param id
+	 *            the id of the mediafile
+	 * @return the file which stores the original content. This will be files
+	 *         underneath
+	 *         "<repo>/.git/lfs/objects/<firstTwoLettersOfID>/<remainingLettersOfID>"
+	 */
+	public Path getMediaFile(LongObjectId id) {
+		String idStr = LongObjectId.toString(id);
+		return getLfsObjDir().resolve(idStr.substring(0, 2))
+				.resolve(idStr.substring(2));
+	}
+
+	/**
+	 * Create a new temp file in the LFS directory
+	 *
+	 * @return a new temporary file in the LFS directory
+	 * @throws IOException
+	 *             when the temp file could not be created
+	 */
+	public Path createTmpFile() throws IOException {
+		return Files.createTempFile(getLfsTmpDir(), null, null);
+	}
+
 }

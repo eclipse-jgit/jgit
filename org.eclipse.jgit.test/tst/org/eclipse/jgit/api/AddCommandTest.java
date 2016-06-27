@@ -62,6 +62,7 @@ import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.RepositoryTestCase;
+import org.eclipse.jgit.lfs.CleanFilter;
 import org.eclipse.jgit.lib.*;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
@@ -70,8 +71,22 @@ import org.eclipse.jgit.treewalk.WorkingTreeOptions;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.junit.Test;
+import org.junit.experimental.theories.DataPoints;
+import org.junit.experimental.theories.Theories;
+import org.junit.experimental.theories.Theory;
+import org.junit.runner.RunWith;
 
+@RunWith(Theories.class)
 public class AddCommandTest extends RepositoryTestCase {
+	@DataPoints
+	public static boolean[] smudge = { true, false };
+
+
+	@Override
+	public void setUp() throws Exception {
+		CleanFilter.register();
+		super.setUp();
+	}
 
 	@Test
 	public void testAddNothing() throws GitAPIException {
@@ -110,8 +125,7 @@ public class AddCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCleanFilter() throws IOException,
-			GitAPIException {
+	public void testCleanFilter() throws IOException, GitAPIException {
 		writeTrashFile(".gitattributes", "*.txt filter=tstFilter");
 		writeTrashFile("src/a.tmp", "foo");
 		// Caution: we need a trailing '\n' since sed on mac always appends
@@ -131,6 +145,68 @@ public class AddCommandTest extends RepositoryTestCase {
 			assertEquals(
 					"[src/a.tmp, mode:100644, content:foo][src/a.txt, mode:100644, content:fee\n]",
 					indexState(CONTENT));
+		}
+	}
+
+	@Theory
+	public void testBuiltinFilter(boolean doSmudge)
+			throws IOException,
+			GitAPIException, InterruptedException {
+		writeTrashFile(".gitattributes", "*.txt filter=lfs");
+		writeTrashFile("src/a.tmp", "foo");
+		// Caution: we need a trailing '\n' since sed on mac always appends
+		// linefeeds if missing
+		File script = writeTempFile("sed s/o/e/g");
+		File f = writeTrashFile("src/a.txt", "foo\n");
+
+		try (Git git = new Git(db)) {
+			if (!doSmudge) {
+				fsTick(f);
+			}
+			git.add().addFilepattern(".gitattributes").call();
+			StoredConfig config = git.getRepository().getConfig();
+			config.setString("filter", "lfs", "clean",
+					"sh " + slashify(script.getPath()));
+			config.setString("filter", "lfs", "smudge",
+					"sh " + slashify(script.getPath()));
+			config.setBoolean("filter", "lfs", "useJGitBuiltin", true);
+			config.save();
+
+			if (!doSmudge) {
+				fsTick(f);
+			}
+			git.add().addFilepattern("src/a.txt").addFilepattern("src/a.tmp")
+					.addFilepattern(".gitattributes").call();
+
+			assertEquals(
+					"[.gitattributes, mode:100644, content:*.txt filter=lfs][src/a.tmp, mode:100644, content:foo][src/a.txt, mode:100644, content:version https://git-lfs.github.com/spec/v1\noid sha256:b5bb9d8014a0f9b1d61e21e796d78dccdf1352f23cd32812f4850b878ae4944c\nsize 4\n]",
+					indexState(CONTENT));
+
+			RevCommit c1 = git.commit().setMessage("c1").call();
+			assertTrue(git.status().call().isClean());
+			f = writeTrashFile("src/a.txt", "foobar\n");
+			if (!doSmudge) {
+				fsTick(f);
+			}
+			git.add().addFilepattern("src/a.txt").call();
+			git.commit().setMessage("c2").call();
+			assertTrue(git.status().call().isClean());
+			assertEquals(
+					"[.gitattributes, mode:100644, content:*.txt filter=lfs][src/a.tmp, mode:100644, content:foo][src/a.txt, mode:100644, content:version https://git-lfs.github.com/spec/v1\noid sha256:aec070645fe53ee3b3763059376134f058cc337247c978add178b6ccdfb0019f\nsize 7\n]",
+					indexState(CONTENT));
+			assertEquals("foobar\n", read("src/a.txt"));
+			git.checkout().setName(c1.getName()).call();
+			assertEquals(
+					"[.gitattributes, mode:100644, content:*.txt filter=lfs][src/a.tmp, mode:100644, content:foo][src/a.txt, mode:100644, content:version https://git-lfs.github.com/spec/v1\noid sha256:b5bb9d8014a0f9b1d61e21e796d78dccdf1352f23cd32812f4850b878ae4944c\nsize 4\n]",
+					indexState(CONTENT));
+			// due to lfs clean filter but dummy smudge filter we expect strange
+			// content. The smudge filter converts from real content to pointer
+			// file content (starting with "version ") but the smudge filter
+			// replaces 'o' by 'e' which results in a text starting with
+			// "versien "
+			assertEquals(
+					"versien https://git-lfs.github.cem/spec/v1\neid sha256:b5bb9d8014a0f9b1d61e21e796d78dccdf1352f23cd32812f4850b878ae4944c\nsize 4\n",
+					read("src/a.txt"));
 		}
 	}
 

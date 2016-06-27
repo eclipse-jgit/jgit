@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Matthias Sohn <matthias.sohn@sap.com>
+ * Copyright (C) 2016, Christian Halstrick <christian.halstrick@sap.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -40,30 +40,61 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.eclipse.jgit.lfs.internal;
+package org.eclipse.jgit.lfs.errors;
 
-import org.eclipse.jgit.nls.NLS;
-import org.eclipse.jgit.nls.TranslationBundle;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.text.MessageFormat;
+
+import org.eclipse.jgit.lfs.internal.LfsText;
 
 /**
- * Translation bundle for JGit LFS server
+ * Thrown when a LFS mediafile is found which doesn't have the expected size
+ *
+ * @since 4.6
  */
-public class LfsText extends TranslationBundle {
+public class CorruptMediaFile extends IOException {
+	private static final long serialVersionUID = 1L;
+
+	private Path mediaFile;
+
+	private long expectedSize;
+
+	private long size;
 
 	/**
-	 * @return an instance of this translation bundle
+	 * @param mediaFile
+	 * @param expectedSize
+	 * @param size
 	 */
-	public static LfsText get() {
-		return NLS.getBundleFor(LfsText.class);
+	@SuppressWarnings("boxing")
+	public CorruptMediaFile(Path mediaFile, long expectedSize,
+			long size) {
+		super(MessageFormat.format(LfsText.get().inconsistentMediafileLength,
+				mediaFile, expectedSize, size));
+		this.mediaFile = mediaFile;
+		this.expectedSize = expectedSize;
+		this.size = size;
 	}
 
-	// @formatter:off
-	/***/ public String inconsistentMediafileLength;
-	/***/ public String incorrectLONG_OBJECT_ID_LENGTH;
-	/***/ public String invalidLongId;
-	/***/ public String invalidLongIdLength;
-	/***/ public String requiredHashFunctionNotAvailable;
-	/***/ public String repositoryNotFound;
-	/***/ public String repositoryReadOnly;
-	/***/ public String lfsUnavailable;
+	/**
+	 * @return the media file which seems to be corrupt
+	 */
+	public Path getMediaFile() {
+		return mediaFile;
+	}
+
+	/**
+	 * @return the expected size of the media file
+	 */
+	public long getExpectedSize() {
+		return expectedSize;
+	}
+
+	/**
+	 * @return the actual size of the media file in the file system
+	 */
+	public long getSize() {
+		return size;
+	}
 }
