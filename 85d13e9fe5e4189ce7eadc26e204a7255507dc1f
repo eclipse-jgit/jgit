@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67b59fd9_e08296a1",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1690,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-06-27T11:10:39Z",
+      "side": 1,
+      "message": "A checkout does not only update the workingtree but also populates the index. Even the other way round: we first decide on what should go in the index and afterwards update also the working tree. Like in \"git read-tree -u ...\". I suggest to enhance the tests to have assertions on the index (see assertions on indexState() in other tests in class). And we should have assertions on git.status().call().isclean()",
+      "revId": "85d13e9fe5e4189ce7eadc26e204a7255507dc1f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67b59fd9_c05cb2c8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1003,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-06-27T11:10:39Z",
+      "side": 1,
+      "message": "I am also not sure whether this implementation efficient. This is the standard case during a checkout and maybe that\u0027s too expensive.\nMaybe you could make use of the guaranteed order in which we go through the index entries. If postOrderTraversal is false then we know that after f/ we will visit f/a, f/b....\nWhen we enter the subtree f/ we could set a flag \u0027insideConflictingFolder\u0027 and we know that all pathes are underneath a folder which has conflicts.",
+      "revId": "85d13e9fe5e4189ce7eadc26e204a7255507dc1f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67b59fd9_20656e94",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1010,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-06-27T11:10:39Z",
+      "side": 1,
+      "message": "I am missing an else branch here. This method has to decide for every path how index and the workingtree for this path should look like. It calls conflict(),keep(),update(),remove() for each path. But if we reach this block and update\u003d\u003dfalse then we simply don\u0027t take a decision. If index contained f/a and during checkout we detect a file/folder conflict on f then what should be stored in the index after the checkout? I propose to keep f/a in the index least to the resulting index. We would have to call keep() in the else branch to achieve this.",
+      "revId": "85d13e9fe5e4189ce7eadc26e204a7255507dc1f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
