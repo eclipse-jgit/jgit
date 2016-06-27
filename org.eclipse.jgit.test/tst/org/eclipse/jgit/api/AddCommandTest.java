@@ -63,6 +63,7 @@ import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lfs.CleanFilter;
+import org.eclipse.jgit.lfs.SmudgeFilter;
 import org.eclipse.jgit.lib.*;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
@@ -85,6 +86,7 @@ public class AddCommandTest extends RepositoryTestCase {
 	@Override
 	public void setUp() throws Exception {
 		CleanFilter.register();
+		SmudgeFilter.register();
 		super.setUp();
 	}
 
@@ -175,11 +177,7 @@ public class AddCommandTest extends RepositoryTestCase {
 			assertEquals(
 					"[.gitattributes, mode:100644, content:*.txt filter=lfs][src/a.tmp, mode:100644, content:foo][src/a.txt, mode:100644, content:version https://git-lfs.github.com/spec/v1\noid b5bb9d8014a0f9b1d61e21e796d78dccdf1352f23cd32812f4850b878ae4944c\nsize 4\n]",
 					indexState(CONTENT));
-			// due to lfs clean filter but dummy smudge filter we expect strange
-			// content
-			assertEquals(
-					"versien https://git-lfs.github.cem/spec/v1\neid b5bb9d8014a0f9b1d61e21e796d78dccdf1352f23cd32812f4850b878ae4944c\nsize 4\n",
-					read("src/a.txt"));
+			assertEquals("foo\n", read("src/a.txt"));
 		}
 	}
 
