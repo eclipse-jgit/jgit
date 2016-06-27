@@ -57,13 +57,21 @@ import java.util.Set;
 import org.eclipse.jgit.api.errors.FilterFailedException;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.NoFilepatternException;
+import org.eclipse.jgit.attributes.FilterCommandRegistry;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lfs.CleanFilter;
-import org.eclipse.jgit.lib.*;
+import org.eclipse.jgit.lfs.SmudgeFilter;
+import org.eclipse.jgit.lib.ConfigConstants;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.treewalk.TreeWalk;
@@ -79,12 +87,13 @@ import org.junit.runner.RunWith;
 @RunWith(Theories.class)
 public class AddCommandTest extends RepositoryTestCase {
 	@DataPoints
-	public static boolean[] smudge = { true, false };
+	public static boolean[] sleepBeforeAddOptions = { true, false };
 
 
 	@Override
 	public void setUp() throws Exception {
 		CleanFilter.register();
+		SmudgeFilter.register();
 		super.setUp();
 	}
 
@@ -149,7 +158,7 @@ public class AddCommandTest extends RepositoryTestCase {
 	}
 
 	@Theory
-	public void testBuiltinFilter(boolean doSmudge)
+	public void testBuiltinFilters(boolean sleepBeforeAdd)
 			throws IOException,
 			GitAPIException, InterruptedException {
 		writeTrashFile(".gitattributes", "*.txt filter=lfs");
@@ -160,7 +169,7 @@ public class AddCommandTest extends RepositoryTestCase {
 		File f = writeTrashFile("src/a.txt", "foo\n");
 
 		try (Git git = new Git(db)) {
-			if (!doSmudge) {
+			if (!sleepBeforeAdd) {
 				fsTick(f);
 			}
 			git.add().addFilepattern(".gitattributes").call();
@@ -172,7 +181,7 @@ public class AddCommandTest extends RepositoryTestCase {
 			config.setBoolean("filter", "lfs", "useJGitBuiltin", true);
 			config.save();
 
-			if (!doSmudge) {
+			if (!sleepBeforeAdd) {
 				fsTick(f);
 			}
 			git.add().addFilepattern("src/a.txt").addFilepattern("src/a.tmp")
@@ -185,7 +194,67 @@ public class AddCommandTest extends RepositoryTestCase {
 			RevCommit c1 = git.commit().setMessage("c1").call();
 			assertTrue(git.status().call().isClean());
 			f = writeTrashFile("src/a.txt", "foobar\n");
-			if (!doSmudge) {
+			if (!sleepBeforeAdd) {
+				fsTick(f);
+			}
+			git.add().addFilepattern("src/a.txt").call();
+			git.commit().setMessage("c2").call();
+			assertTrue(git.status().call().isClean());
+			assertEquals(
+					"[.gitattributes, mode:100644, content:*.txt filter=lfs][src/a.tmp, mode:100644, content:foo][src/a.txt, mode:100644, content:version https://git-lfs.github.com/spec/v1\noid sha256:aec070645fe53ee3b3763059376134f058cc337247c978add178b6ccdfb0019f\nsize 7\n]",
+					indexState(CONTENT));
+			assertEquals("foobar\n", read("src/a.txt"));
+			git.checkout().setName(c1.getName()).call();
+			assertEquals(
+					"[.gitattributes, mode:100644, content:*.txt filter=lfs][src/a.tmp, mode:100644, content:foo][src/a.txt, mode:100644, content:version https://git-lfs.github.com/spec/v1\noid sha256:b5bb9d8014a0f9b1d61e21e796d78dccdf1352f23cd32812f4850b878ae4944c\nsize 4\n]",
+					indexState(CONTENT));
+			assertEquals(
+					"foo\n", read("src/a.txt"));
+		}
+	}
+
+	@Theory
+	public void testBuiltinCleanFilter(boolean sleepBeforeAdd)
+			throws IOException, GitAPIException, InterruptedException {
+		writeTrashFile(".gitattributes", "*.txt filter=lfs");
+		writeTrashFile("src/a.tmp", "foo");
+		// Caution: we need a trailing '\n' since sed on mac always appends
+		// linefeeds if missing
+		File script = writeTempFile("sed s/o/e/g");
+		File f = writeTrashFile("src/a.txt", "foo\n");
+
+		// unregister the smudge filter. Only clean filter should be builtin
+		FilterCommandRegistry.unregister(
+				org.eclipse.jgit.lib.Constants.BUILTIN_FILTER_PREFIX
+						+ "lfs/smudge");
+
+		try (Git git = new Git(db)) {
+			if (!sleepBeforeAdd) {
+				fsTick(f);
+			}
+			git.add().addFilepattern(".gitattributes").call();
+			StoredConfig config = git.getRepository().getConfig();
+			config.setString("filter", "lfs", "clean",
+					"sh " + slashify(script.getPath()));
+			config.setString("filter", "lfs", "smudge",
+					"sh " + slashify(script.getPath()));
+			config.setBoolean("filter", "lfs", "useJGitBuiltin", true);
+			config.save();
+
+			if (!sleepBeforeAdd) {
+				fsTick(f);
+			}
+			git.add().addFilepattern("src/a.txt").addFilepattern("src/a.tmp")
+					.addFilepattern(".gitattributes").call();
+
+			assertEquals(
+					"[.gitattributes, mode:100644, content:*.txt filter=lfs][src/a.tmp, mode:100644, content:foo][src/a.txt, mode:100644, content:version https://git-lfs.github.com/spec/v1\noid sha256:b5bb9d8014a0f9b1d61e21e796d78dccdf1352f23cd32812f4850b878ae4944c\nsize 4\n]",
+					indexState(CONTENT));
+
+			RevCommit c1 = git.commit().setMessage("c1").call();
+			assertTrue(git.status().call().isClean());
+			f = writeTrashFile("src/a.txt", "foobar\n");
+			if (!sleepBeforeAdd) {
 				fsTick(f);
 			}
 			git.add().addFilepattern("src/a.txt").call();
