@@ -54,6 +54,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Field;
 import java.net.URISyntaxException;
 import java.text.MessageFormat;
 import java.util.Collection;
@@ -211,6 +212,9 @@ public abstract class Repository implements AutoCloseable {
 	/**
 	 * Initialize a new repository instance.
 	 *
+	 * TODO: Ideally the lfs bundle would trigger registration of itself. Core
+	 * should not know about any specific commands.
+	 *
 	 * @param options
 	 *            options to configure the repository.
 	 */
@@ -219,6 +223,27 @@ public abstract class Repository implements AutoCloseable {
 		fs = options.getFS();
 		workTree = options.getWorkTree();
 		indexFile = options.getIndexFile();
+
+		registerComand("jgit://builtin/lfs/clean",
+				(BuiltinCommandFactory) getStaticField(
+						"org.eclipse.jgit.lfs.CleanFilter", "FACTORY"));
+	}
+
+	private Object getStaticField(String className, String fieldName) {
+		Class cl;
+		try {
+			cl = Class.forName(className);
+		if (cl == null)
+			return null;
+		Field f=cl.getField(fieldName);
+		if (f == null)
+			return null;
+		return (f.get(null));
+		} catch (IllegalArgumentException | IllegalAccessException
+				| ClassNotFoundException | NoSuchFieldException
+				| SecurityException e) {
+			return null;
+		}
 	}
 
 	/** @return listeners observing only events on this repository. */
