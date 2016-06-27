@@ -42,9 +42,14 @@
  */
 package org.eclipse.jgit.lfs;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.lfs.lib.LongObjectId;
 
 /**
@@ -108,5 +113,45 @@ public class LfsPointer {
 			ps.print("size "); //$NON-NLS-1$
 			ps.println(size);
 		}
+	}
+
+	/**
+	 * Try to parse the data stored in a buffer according to the format defined
+	 * by {@link #VERSION}
+	 *
+	 * @param in
+	 *            the {@link InputStream} where to read the data the data
+	 * @return a {@link LfsPointer} or <code>null</code> if the stream was not
+	 *         parseable as LFSPointer
+	 * @throws IOException
+	 */
+	@Nullable
+	public static LfsPointer parseLfsPointer(InputStream in)
+			throws IOException {
+		boolean v = false;
+		LongObjectId id = null;
+		long si = -1;
+
+		try (BufferedReader br = new BufferedReader(
+				new InputStreamReader(in))) {
+			for (String s = br.readLine(); s != null; s = br.readLine()) {
+				if (s.startsWith("#") || s.length() == 0) //$NON-NLS-1$
+					continue;
+				if (s.startsWith("version") && s.length() > 8 //$NON-NLS-1$
+						&& s.substring(8).trim().equals(VERSION)) {
+					v = true;
+				} else if (s.startsWith("oid") && s.length() > 4) { //$NON-NLS-1$
+					id = LongObjectId.fromString(s.substring(4).trim());
+				} else if (s.startsWith("size") && s.length() > 5) { //$NON-NLS-1$
+					si = Long.parseLong(s.substring(5).trim());
+				} else {
+					return null;
+				}
+			}
+			if (v && id != null && si > -1) {
+				return new LfsPointer(id, si);
+			}
+		}
+		return null;
 	}
 }

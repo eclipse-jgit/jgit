@@ -396,7 +396,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 			ByteBuffer rawbuf = IO.readWholeStream(is, (int) len);
 			byte[] raw = rawbuf.array();
 			int n = rawbuf.limit();
-			if (!isBinary(raw, n)) {
+			if (!isBinary(raw, n)) { // TODO: why filter only binary
 				rawbuf = filterClean(raw, n, opType);
 				raw = rawbuf.array();
 				n = rawbuf.limit();
@@ -463,7 +463,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		String filterCommand = getCleanFilterCommand();
 		if (filterCommand != null) {
 			if (repository.isRegistered(filterCommand)) {
-				LocalFile buffer = new TemporaryBuffer.LocalFile(null);
+				LocalFile buffer = new TemporaryBuffer.LocalFile(null); // TODO: Check on smudge that we don't write twice to FS
 				BuiltinCommand command = repository.getCommand(filterCommand, repository,
 						in, buffer);
 				while (command.run() != -1)

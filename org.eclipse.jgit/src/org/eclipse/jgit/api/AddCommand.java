@@ -224,7 +224,7 @@ public class AddCommand extends GitCommand<DirCache> {
 					entry.setLength(f.getEntryLength());
 					entry.setLastModified(f.getEntryLastModified());
 					long len = f.getEntryContentLength();
-					try (InputStream in = f.openEntryStream()) {
+					try (InputStream in = f.openEntryStream()) { // TODO: check that we don't read/filter twice
 						ObjectId id = inserter.insert(OBJ_BLOB, len, in);
 						entry.setObjectId(id);
 					}

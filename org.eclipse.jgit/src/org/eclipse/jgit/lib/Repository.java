@@ -227,6 +227,9 @@ public abstract class Repository implements AutoCloseable {
 		registerComand("jgit://builtin/lfs/clean",
 				(BuiltinCommandFactory) getStaticField(
 						"org.eclipse.jgit.lfs.CleanFilter", "FACTORY"));
+		registerComand("jgit://builtin/lfs/smudge",
+				(BuiltinCommandFactory) getStaticField(
+						"org.eclipse.jgit.lfs.SmudgeFilter", "FACTORY"));
 	}
 
 	private Object getStaticField(String className, String fieldName) {
