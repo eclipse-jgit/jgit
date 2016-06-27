@@ -56,8 +56,15 @@ import org.eclipse.jgit.lfs.internal.LfsText;
 @SuppressWarnings("nls")
 public final class Constants {
 	/**
-	 * Hash function used natively by Git LFS extension for large objects.
+	 * lfs folder
 	 * 
+	 * @since 4.5
+	 */
+	public static final String LFS = "lfs";
+
+	/**
+	 * Hash function used natively by Git LFS extension for large objects.
+	 *
 	 * @since 4.5
 	 */
 	public static final String LONG_HASH_FUNCTION = "SHA-256";
