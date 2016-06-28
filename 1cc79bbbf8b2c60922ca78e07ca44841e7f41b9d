@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "47b89bd4_42c6e814",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PushOptionsTest.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-06-28T18:37:24Z",
+      "side": 1,
+      "message": "no need to comment these, just delete them?",
+      "range": {
+        "startLine": 75,
+        "startChar": 0,
+        "endLine": 75,
+        "endChar": 42
+      },
+      "revId": "1cc79bbbf8b2c60922ca78e07ca44841e7f41b9d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47b89bd4_62cbec1b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PushOptionsTest.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-06-28T18:37:24Z",
+      "side": 1,
+      "message": "Name it to fit what it does?",
+      "range": {
+        "startLine": 429,
+        "startChar": 13,
+        "endLine": 429,
+        "endChar": 41
+      },
+      "revId": "1cc79bbbf8b2c60922ca78e07ca44841e7f41b9d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
