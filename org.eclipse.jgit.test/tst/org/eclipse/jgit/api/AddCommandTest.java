@@ -136,6 +136,29 @@ public class AddCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testAttributesWithTreeWalkFilter()
+			throws IOException, GitAPIException {
+		writeTrashFile(".gitattributes", "*.txt filter=lfs");
+		writeTrashFile("src/a.tmp", "foo");
+		writeTrashFile("src/a.txt", "foo\n");
+		File script = writeTempFile("sed s/o/e/g");
+
+		try (Git git = new Git(db)) {
+			StoredConfig config = git.getRepository().getConfig();
+			config.setString("filter", "lfs", "clean",
+					"sh " + slashify(script.getPath()));
+			config.save();
+
+			git.add().addFilepattern(".gitattributes").call();
+			git.commit().setMessage("attr").call();
+			git.add().addFilepattern("src/a.txt").addFilepattern("src/a.tmp")
+					.addFilepattern(".gitattributes").call();
+			git.commit().setMessage("c1").call();
+			assertTrue(git.status().call().isClean());
+		}
+	}
+
+	@Test
 	public void testCleanFilterEnvironment()
 			throws IOException, GitAPIException {
 		writeTrashFile(".gitattributes", "*.txt filter=tstFilter");

@@ -1228,7 +1228,7 @@ public abstract class BaseReceivePack {
 	protected void enableCapabilities() {
 		sideBand = isCapabilityEnabled(CAPABILITY_SIDE_BAND_64K);
 		quiet = allowQuiet && isCapabilityEnabled(CAPABILITY_QUIET);
-		usePushOptions = allowPushOptions
+		usePushOptions = usePushOptions || allowPushOptions
 				&& isCapabilityEnabled(CAPABILITY_PUSH_OPTIONS);
 		if (sideBand) {
 			OutputStream out = rawOut;
@@ -1239,6 +1239,16 @@ public abstract class BaseReceivePack {
 			pckOut = new PacketLineOut(rawOut);
 			pckOut.setFlushOnEnd(false);
 		}
+	}
+
+	/**
+	 * Sets the client's intention regarding push options.
+	 *
+	 * @param usePushOptions
+	 *            whether the client intends to use push options
+	 */
+	public void setUsePushOptions(boolean usePushOptions) {
+		this.usePushOptions = usePushOptions;
 	}
 
 	/**

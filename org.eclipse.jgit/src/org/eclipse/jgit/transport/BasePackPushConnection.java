@@ -209,6 +209,10 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 			OutputStream outputStream) throws TransportException {
 		try {
 			writeCommands(refUpdates.values(), monitor, outputStream);
+			System.out.println(
+					"BasePackPushConnection: pushOptions = " + pushOptions);
+			System.out.println("BasePackPushConnection: capablePushOptions = "
+					+ capablePushOptions);
 			if (pushOptions != null && capablePushOptions)
 				transmitOptions();
 			if (writePack)

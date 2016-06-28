@@ -113,10 +113,28 @@ public class PacketLineOut {
 	 *             the packet could not be written, the stream is corrupted as
 	 *             the packet may have been only partially written.
 	 */
-	public void writePacket(final byte[] packet) throws IOException {
-		formatLength(packet.length + 4);
+	public void writePacket(byte[] packet) throws IOException {
+		writePacket(packet, 0, packet.length);
+	}
+
+	/**
+	 * Write a binary packet to the stream.
+	 *
+	 * @param buf
+	 *            the packet to write
+	 * @param pos
+	 *            first index within {@code buf}.
+	 * @param len
+	 *            number of bytes to write.
+	 * @throws IOException
+	 *             the packet could not be written, the stream is corrupted as
+	 *             the packet may have been only partially written.
+	 * @since 4.5
+	 */
+	public void writePacket(byte[] buf, int pos, int len) throws IOException {
+		formatLength(len + 4);
 		out.write(lenbuffer, 0, 4);
-		out.write(packet);
+		out.write(buf, pos, len);
 	}
 
 	/**

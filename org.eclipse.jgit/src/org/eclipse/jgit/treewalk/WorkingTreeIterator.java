@@ -86,6 +86,7 @@ import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.submodule.SubmoduleWalk;
+import org.eclipse.jgit.treewalk.TreeWalk.OperationType;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FS.ExecutionResult;
 import org.eclipse.jgit.util.Holder;
@@ -361,7 +362,8 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 				state.initializeDigestAndReadBuffer();
 
 				final long len = e.getLength();
-				InputStream filteredIs = possiblyFilteredInputStream(e, is, len);
+				InputStream filteredIs = possiblyFilteredInputStream(e, is, len,
+						OperationType.CHECKIN_OP);
 				return computeHash(filteredIs, canonLen);
 			} finally {
 				safeClose(is);
@@ -374,8 +376,15 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 
 	private InputStream possiblyFilteredInputStream(final Entry e,
 			final InputStream is, final long len) throws IOException {
+		return possiblyFilteredInputStream(e, is, len, null);
+
+	}
+
+	private InputStream possiblyFilteredInputStream(final Entry e,
+			final InputStream is, final long len, OperationType opType)
+			throws IOException {
 		if (getCleanFilterCommand() == null
-				&& getEolStreamType() == EolStreamType.DIRECT) {
+				&& getEolStreamType(opType) == EolStreamType.DIRECT) {
 			canonLen = len;
 			return is;
 		}
@@ -385,7 +394,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 			byte[] raw = rawbuf.array();
 			int n = rawbuf.limit();
 			if (!isBinary(raw, n)) {
-				rawbuf = filterClean(raw, n);
+				rawbuf = filterClean(raw, n, opType);
 				raw = rawbuf.array();
 				n = rawbuf.limit();
 			}
@@ -398,13 +407,14 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 				return is;
 			}
 
-		final InputStream lenIs = filterClean(e.openInputStream());
+		final InputStream lenIs = filterClean(e.openInputStream(),
+				opType);
 		try {
 			canonLen = computeLength(lenIs);
 		} finally {
 			safeClose(lenIs);
 		}
-		return filterClean(is);
+		return filterClean(is, opType);
 	}
 
 	private static void safeClose(final InputStream in) {
@@ -430,17 +440,23 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		}
 	}
 
-	private ByteBuffer filterClean(byte[] src, int n) throws IOException {
+	private ByteBuffer filterClean(byte[] src, int n, OperationType opType)
+			throws IOException {
 		InputStream in = new ByteArrayInputStream(src);
 		try {
-			return IO.readWholeStream(filterClean(in), n);
+			return IO.readWholeStream(filterClean(in, opType), n);
 		} finally {
 			safeClose(in);
 		}
 	}
 
 	private InputStream filterClean(InputStream in) throws IOException {
-		in = handleAutoCRLF(in);
+		return filterClean(in, null);
+	}
+
+	private InputStream filterClean(InputStream in, OperationType opType)
+			throws IOException {
+		in = handleAutoCRLF(in, opType);
 		String filterCommand = getCleanFilterCommand();
 		if (filterCommand != null) {
 			FS fs = repository.getFS();
@@ -469,8 +485,9 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		return in;
 	}
 
-	private InputStream handleAutoCRLF(InputStream in) throws IOException {
-		return EolStreamTypeUtil.wrapInputStream(in, getEolStreamType());
+	private InputStream handleAutoCRLF(InputStream in, OperationType opType)
+			throws IOException {
+		return EolStreamTypeUtil.wrapInputStream(in, getEolStreamType(opType));
 	}
 
 	/**
@@ -1332,10 +1349,28 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	 * @since 4.3
 	 */
 	public EolStreamType getEolStreamType() throws IOException {
+		return getEolStreamType(null);
+	}
+
+	/**
+	 * @param opType
+	 *            The operationtype (checkin/checkout) which should be used
+	 * @return the eol stream type for the current entry or <code>null</code> if
+	 *         it cannot be determined. When state or state.walk is null or the
+	 *         {@link TreeWalk} is not based on a {@link Repository} then null
+	 *         is returned.
+	 * @throws IOException
+	 */
+	private EolStreamType getEolStreamType(OperationType opType)
+			throws IOException {
 		if (eolStreamTypeHolder == null) {
 			EolStreamType type=null;
 			if (state.walk != null) {
-				type=state.walk.getEolStreamType();
+				if (opType != null) {
+					type = state.walk.getEolStreamType(opType);
+				} else {
+					type=state.walk.getEolStreamType();
+				}
 			} else {
 				switch (getOptions().getAutoCRLF()) {
 				case FALSE:
