@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67b59fd9_0edc1bdb",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/MockPushOptionWrapper.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-06-28T18:37:29Z",
+      "side": 1,
+      "message": "We don\u0027t use this class in the tests now, so we could drop it?",
+      "range": {
+        "startLine": 51,
+        "startChar": 13,
+        "endLine": 51,
+        "endChar": 34
+      },
+      "revId": "bf9d65a73a6adbee722ef93629bb26547cf6870e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67b59fd9_4eed3383",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PushOptionsTest.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-06-28T18:37:29Z",
+      "side": 1,
+      "message": "unneeded comment",
+      "range": {
+        "startLine": 83,
+        "startChar": 58,
+        "endLine": 83,
+        "endChar": 95
+      },
+      "revId": "bf9d65a73a6adbee722ef93629bb26547cf6870e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67b59fd9_6ee2f793",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PushOptionsTest.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-06-28T18:37:29Z",
+      "side": 1,
+      "message": "so we\u0027re not using this code? We can drop it then.",
+      "range": {
+        "startLine": 108,
+        "startChar": 1,
+        "endLine": 108,
+        "endChar": 11
+      },
+      "revId": "bf9d65a73a6adbee722ef93629bb26547cf6870e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67b59fd9_8ee74ba1",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PushOptionsTest.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-06-28T18:37:29Z",
+      "side": 1,
+      "message": "not testing this test?",
+      "range": {
+        "startLine": 177,
+        "startChar": 1,
+        "endLine": 177,
+        "endChar": 9
+      },
+      "revId": "bf9d65a73a6adbee722ef93629bb26547cf6870e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
