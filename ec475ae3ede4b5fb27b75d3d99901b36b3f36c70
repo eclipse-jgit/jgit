@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "47b89bd4_f146e326",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 27
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-06-30T18:53:20Z",
+      "side": 1,
+      "message": "This is not preliminary any more?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 11
+      },
+      "revId": "ec475ae3ede4b5fb27b75d3d99901b36b3f36c70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47b89bd4_31413b0d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 27
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-06-30T18:53:20Z",
+      "side": 1,
+      "message": "Maybe mention a bit more on how it is implemented, why we want to implement it in JGit (so we can use it in Gerrit) ?\n\nc.f. http://thread.gmane.org/gmane.comp.version-control.git/298632",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 14
+      },
+      "revId": "ec475ae3ede4b5fb27b75d3d99901b36b3f36c70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47b89bd4_f130a3ee",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Push.java",
         "patchSetId": 27
