@@ -108,6 +108,12 @@ public class ConfigConstants {
 	public static final String CONFIG_PULL_SECTION = "pull";
 
 	/**
+	 * The "merge" section
+	 * @since 4.9
+	 */
+	public static final String CONFIG_MERGE_SECTION = "merge";
+
+	/**
 	 * The "filter" section
 	 * @since 4.6
 	 */
