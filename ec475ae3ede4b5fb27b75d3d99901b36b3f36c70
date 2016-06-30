@@ -1,0 +1,211 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "47b89bd4_f130a3ee",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Push.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-06-30T18:46:28Z",
+      "side": 1,
+      "message": "bikeshedding: We\u0027d want to use the same option in JGit as well as C Git?\n\nSo for the long option I\u0027d go with singular as we\u0027d expect users/servers to want one option per given `--push-option`\nFor the short form Jonathan proposed \u0027o\u0027 for option.",
+      "range": {
+        "startLine": 111,
+        "startChar": 1,
+        "endLine": 111,
+        "endChar": 53
+      },
+      "revId": "ec475ae3ede4b5fb27b75d3d99901b36b3f36c70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47b89bd4_9179276f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PushOptionsTest.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-06-30T18:46:28Z",
+      "side": 1,
+      "message": "How is the atomic expected to interfere with the push options? If we test with non atomic, would we also want to test with atomic set to true?\n\nThis is the only test that asserts the received push options to be equal as the sent options as the other tests all cover corner cases which either don\u0027t transmit push options or have an empty list? (We could check for the empty list below?)",
+      "range": {
+        "startLine": 135,
+        "startChar": 13,
+        "endLine": 135,
+        "endChar": 41
+      },
+      "revId": "ec475ae3ede4b5fb27b75d3d99901b36b3f36c70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47b89bd4_318f7b04",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PushOptionsTest.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-06-30T18:46:28Z",
+      "side": 1,
+      "message": "This is testing the server advertising, but the client not using its capability?\n\nMaybe testAdvertisedButUnusedPushOptions ?",
+      "range": {
+        "startLine": 239,
+        "startChar": 13,
+        "endLine": 239,
+        "endChar": 36
+      },
+      "revId": "ec475ae3ede4b5fb27b75d3d99901b36b3f36c70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47b89bd4_71749375",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PushOptionsTest.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-06-30T18:46:28Z",
+      "side": 1,
+      "message": "Do we want to be explicit about the configuration by not relying on the default and turn off the push options?",
+      "range": {
+        "startLine": 291,
+        "startChar": 0,
+        "endLine": 291,
+        "endChar": 17
+      },
+      "revId": "ec475ae3ede4b5fb27b75d3d99901b36b3f36c70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47b89bd4_516f8fa5",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PushOptionsTest.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-06-30T18:46:28Z",
+      "side": 1,
+      "message": "omit this white space and put it in the same line as the assertNull ?",
+      "range": {
+        "startLine": 300,
+        "startChar": 14,
+        "endLine": 301,
+        "endChar": 5
+      },
+      "revId": "ec475ae3ede4b5fb27b75d3d99901b36b3f36c70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47b89bd4_b1ac6b77",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackPushConnection.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-06-30T18:46:28Z",
+      "side": 1,
+      "message": "leftover commented code?",
+      "range": {
+        "startLine": 295,
+        "startChar": 3,
+        "endLine": 295,
+        "endChar": 19
+      },
+      "revId": "ec475ae3ede4b5fb27b75d3d99901b36b3f36c70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47b89bd4_917e875c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-06-30T18:46:28Z",
+      "side": 1,
+      "message": "bike shedding: I\u0027d suggest this to be receive.advertisePushOptions to be in sync with the C version (well technically there is no name for it yet, but there is receive.advertiseAtomic for example, so I\u0027d keep a similar structure?)",
+      "range": {
+        "startLine": 352,
+        "startChar": 51,
+        "endLine": 352,
+        "endChar": 64
+      },
+      "revId": "ec475ae3ede4b5fb27b75d3d99901b36b3f36c70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47b89bd4_b1838be0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 1116,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-06-30T18:46:28Z",
+      "side": 1,
+      "message": "Isn\u0027t this always true at this point?",
+      "range": {
+        "startLine": 1116,
+        "startChar": 3,
+        "endLine": 1116,
+        "endChar": 29
+      },
+      "revId": "ec475ae3ede4b5fb27b75d3d99901b36b3f36c70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47b89bd4_71a2d384",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushProcess.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-06-30T18:46:28Z",
+      "side": 1,
+      "message": "stray new line",
+      "range": {
+        "startLine": 160,
+        "startChar": 0,
+        "endLine": 161,
+        "endChar": 0
+      },
+      "revId": "ec475ae3ede4b5fb27b75d3d99901b36b3f36c70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
