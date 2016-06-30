@@ -47,6 +47,8 @@ package org.eclipse.jgit.api;
 import java.io.IOException;
 import java.text.MessageFormat;
 
+import org.eclipse.jgit.api.MergeCommand.FastForwardMode;
+import org.eclipse.jgit.api.MergeCommand.FastForwardMode.Merge;
 import org.eclipse.jgit.api.RebaseCommand.Operation;
 import org.eclipse.jgit.api.errors.CanceledException;
 import org.eclipse.jgit.api.errors.DetachedHeadException;
@@ -328,6 +330,7 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 			merge.include(upstreamName, commitToMerge);
 			merge.setStrategy(strategy);
 			merge.setProgressMonitor(monitor);
+			merge.setFastForward(getFastForwardMode(repoConfig));
 			MergeResult mergeRes = merge.call();
 			monitor.update(1);
 			result = new PullResult(fetchRes, remote, mergeRes);
@@ -405,5 +408,12 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 				ConfigConstants.CONFIG_BRANCH_SECTION,
 				branchName, ConfigConstants.CONFIG_KEY_REBASE, mode);
 		return mode;
+	}
+
+	private static FastForwardMode getFastForwardMode(Config config) {
+		Merge ffMode = config.getEnum(Merge.values(),
+				ConfigConstants.CONFIG_PULL_SECTION, null,
+				ConfigConstants.CONFIG_KEY_FF, null);
+		return ffMode != null ? FastForwardMode.valueOf(ffMode) : null;
 	}
 }
