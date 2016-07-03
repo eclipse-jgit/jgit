@@ -610,7 +610,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 		fsck(remoteRepository, Q);
 
 		final ReflogReader log = remoteRepository.getReflogReader(dstName);
-		assertNotNull("has log for " + dstName);
+		assertNotNull("has log for " + dstName, log);
 
 		final ReflogEntry last = log.getLastEntry();
 		assertNotNull("has last entry", last);
