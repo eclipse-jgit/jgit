@@ -24,9 +24,6 @@
    <feature url="features/org.eclipse.jgit.lfs_0.0.0.qualifier.jar" id="org.eclipse.jgit.lfs" version="0.0.0">
       <category name="JGit"/>
    </feature>
-   <feature url="features/org.eclipse.jgit.lfs_0.0.0.qualifier.jar" id="org.eclipse.jgit.lfs" version="0.0.0">
-      <category name="JGit"/>
-   </feature>
    <category-def name="JGit" label="JGit">
       <description>
          JGit
