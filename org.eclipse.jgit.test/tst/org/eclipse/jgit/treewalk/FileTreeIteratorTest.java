@@ -286,7 +286,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 
 	@Test
 	public void testTreewalkEnterSubtree() throws Exception {
-		try (Git git = new Git(db)) {
+		try (Git git = new Git(db); TreeWalk tw = new TreeWalk(db)) {
 			writeTrashFile("b/c", "b/c");
 			writeTrashFile("z/.git", "gitdir: /tmp/somewhere");
 			git.add().addFilepattern(".").call();
@@ -297,7 +297,6 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 			FileUtils.delete(new File(db.getWorkTree(), "b"),
 					FileUtils.RECURSIVE);
 
-			TreeWalk tw = new TreeWalk(db);
 			tw.addTree(new DirCacheIterator(db.readDirCache()));
 			tw.addTree(new FileTreeIterator(db));
 			assertTrue(tw.next());
@@ -617,39 +616,41 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 	public void testCustomFileModeStrategy() throws Exception {
 		Repository nestedRepo = createNestedRepo();
 
-		Git git = new Git(nestedRepo);
-		// validate that our custom strategy is honored
-		WorkingTreeIterator customIterator =
-				new FileTreeIterator(nestedRepo, NO_GITLINKS_STRATEGY);
-		git.add().setWorkingTreeIterator(customIterator)
-				.addFilepattern(".").call();
-		assertEquals(
-				"[sub/a.txt, mode:100644, content:content]" +
-				"[sub/nested/b.txt, mode:100644, content:content b]",
-				indexState(nestedRepo, CONTENT));
-
+		try (Git git = new Git(nestedRepo)) {
+			// validate that our custom strategy is honored
+			WorkingTreeIterator customIterator = new FileTreeIterator(
+					nestedRepo, NO_GITLINKS_STRATEGY);
+			git.add().setWorkingTreeIterator(customIterator).addFilepattern(".")
+					.call();
+			assertEquals(
+					"[sub/a.txt, mode:100644, content:content]"
+							+ "[sub/nested/b.txt, mode:100644, content:content b]",
+					indexState(nestedRepo, CONTENT));
+		}
 	}
 
 	@Test
 	public void testCustomFileModeStrategyFromParentIterator() throws Exception {
 		Repository nestedRepo = createNestedRepo();
 
-		Git git = new Git(nestedRepo);
+		try (Git git = new Git(nestedRepo)) {
+			FileTreeIterator customIterator = new FileTreeIterator(nestedRepo,
+					NO_GITLINKS_STRATEGY);
+			File r = new File(nestedRepo.getWorkTree(), "sub");
 
-		FileTreeIterator customIterator =
-				new FileTreeIterator(nestedRepo, NO_GITLINKS_STRATEGY);
-		File r = new File(nestedRepo.getWorkTree(), "sub");
-
-		// here we want to validate that if we create a new iterator using the
-		// constructor that accepts a parent iterator, that the child iterator
-		// correctly inherits the FileModeStrategy from the parent iterator.
-		FileTreeIterator childIterator =
-				new FileTreeIterator(customIterator, r, nestedRepo.getFS());
-		git.add().setWorkingTreeIterator(childIterator).addFilepattern(".").call();
-		assertEquals(
-				"[sub/a.txt, mode:100644, content:content]" +
-				"[sub/nested/b.txt, mode:100644, content:content b]",
-				indexState(nestedRepo, CONTENT));
+			// here we want to validate that if we create a new iterator using
+			// the constructor that accepts a parent iterator, that the child
+			// iterator correctly inherits the FileModeStrategy from the parent
+			// iterator.
+			FileTreeIterator childIterator = new FileTreeIterator(
+					customIterator, r, nestedRepo.getFS());
+			git.add().setWorkingTreeIterator(childIterator).addFilepattern(".")
+					.call();
+			assertEquals(
+					"[sub/a.txt, mode:100644, content:content]"
+							+ "[sub/nested/b.txt, mode:100644, content:content b]",
+					indexState(nestedRepo, CONTENT));
+		}
 	}
 
 
