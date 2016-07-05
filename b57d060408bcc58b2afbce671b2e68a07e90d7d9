@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "47b89bd4_d060ef2b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackPushConnection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-07-05T17:47:00Z",
+      "side": 1,
+      "message": "This doesn\u0027t throw an exception if there is at least one byte of data buffered already.\n\nShould this examine the return value from read() to make sure it\u0027s -1? Is it possible for the return value not to be -1?",
+      "revId": "b57d060408bcc58b2afbce671b2e68a07e90d7d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
