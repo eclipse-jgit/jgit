@@ -777,8 +777,12 @@ public class UploadPack {
 	private static Set<ObjectId> refIdSet(Collection<Ref> refs) {
 		Set<ObjectId> ids = new HashSet<ObjectId>(refs.size());
 		for (Ref ref : refs) {
-			if (ref.getObjectId() != null)
+			if (ref.getObjectId() != null) {
 				ids.add(ref.getObjectId());
+			}
+			if (ref.getPeeledObjectId() != null) {
+				ids.add(ref.getPeeledObjectId());
+			}
 		}
 		return ids;
 	}
