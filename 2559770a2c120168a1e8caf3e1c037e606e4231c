@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "47b89bd4_21e64023",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 784,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-07-05T06:28:05Z",
+      "side": 1,
+      "message": "One implementation of Ref.getPeeledObjectId() (the one in SymbolicRef) seems to be so expensive that it would make sense to cache the result of ref.getPeeledObjectId() in a local variable. Or do you know we will never deal with symbolic refs here?",
+      "revId": "2559770a2c120168a1e8caf3e1c037e606e4231c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
