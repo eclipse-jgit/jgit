@@ -1077,7 +1077,7 @@ public abstract class BaseReceivePack {
 	 */
 	protected void recvCommands() throws IOException {
 		PushCertificateParser certParser = getPushCertificateParser();
-		FirstLine firstLine = null;
+		boolean firstPkt = true;
 		try {
 			for (;;) {
 				String line;
@@ -1097,10 +1097,12 @@ public abstract class BaseReceivePack {
 					continue;
 				}
 
-				if (firstLine == null) {
-					firstLine = new FirstLine(line);
+				if (firstPkt) {
+					firstPkt = false;
+					FirstLine firstLine = new FirstLine(line);
 					enabledCapabilities = firstLine.getCapabilities();
 					line = firstLine.getLine();
+					enableCapabilities();
 
 					if (line.equals(GitProtocolConstants.OPTION_PUSH_CERT)) {
 						certParser.receiveHeader(pckIn, !isBiDirectionalPipe());

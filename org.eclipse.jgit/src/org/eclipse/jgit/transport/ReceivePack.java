@@ -184,8 +184,6 @@ public class ReceivePack extends BaseReceivePack {
 			return;
 		recvCommands();
 		if (hasCommands()) {
-			enableCapabilities();
-
 			Throwable unpackError = null;
 			if (needPack()) {
 				try {
