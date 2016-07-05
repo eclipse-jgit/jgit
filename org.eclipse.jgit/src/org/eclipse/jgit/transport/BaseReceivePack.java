@@ -1115,13 +1115,7 @@ public abstract class BaseReceivePack {
 					continue;
 				}
 
-				ReceiveCommand cmd;
-				try {
-					cmd = parseCommand(line);
-				} catch (PackProtocolException e) {
-					sendError(e.getMessage());
-					throw e;
-				}
+				ReceiveCommand cmd = parseCommand(line);
 				if (cmd.getRefName().equals(Constants.HEAD)) {
 					cmd.setResult(Result.REJECTED_CURRENT_BRANCH);
 				} else {
