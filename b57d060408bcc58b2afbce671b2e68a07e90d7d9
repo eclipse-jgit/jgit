@@ -16,6 +16,24 @@
       "revId": "b57d060408bcc58b2afbce671b2e68a07e90d7d9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47b89bd4_d3a71991",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackPushConnection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-07-05T19:24:29Z",
+      "side": 1,
+      "message": "True, but that would likely be a violation of the wire protocol.\n\nWe got here because a portion of the pack couldn\u0027t be written to the server. So the server has not received the complete pack yet.\n\nHere in.read() is returning data for the data (aka report-status) channel (1). Server failures are going to be reported on channel 2 or channel 3, which in.read() consumes.\n\nSo *most* of the time we get here there is no data in the data channel, but there may be a message in channel 2 or channel 3, which in.read() will consume and make available to us.\n\nIf there is a byte in the data channel, we don\u0027t really care. We didn\u0027t finish writing the pack out. The network failure writing the pack (e1) may be more relevant than anything the server was trying to say on the report-status channel without first having told us something on channel 2 or channel 3.",
+      "parentUuid": "47b89bd4_d060ef2b",
+      "revId": "b57d060408bcc58b2afbce671b2e68a07e90d7d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
