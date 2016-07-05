@@ -182,6 +182,20 @@ public class PacketLineIn {
 		return RawParseUtils.decode(Constants.CHARSET, raw, 0, len);
 	}
 
+	void discardUntilEnd() {
+		try {
+			for (;;) {
+				int n = readLength();
+				if (n == 0) {
+					break;
+				}
+				IO.skipFully(in, n - 4);
+			}
+		} catch (IOException e) {
+			// ignore failure during discard
+		}
+	}
+
 	int readLength() throws IOException {
 		IO.readFully(in, lineBuffer, 0, 4);
 		try {
