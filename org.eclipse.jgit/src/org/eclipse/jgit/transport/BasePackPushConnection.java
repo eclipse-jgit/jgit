@@ -47,6 +47,7 @@ package org.eclipse.jgit.transport;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_ATOMIC;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.MessageFormat;
 import java.util.Collection;
@@ -317,7 +318,12 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 			writer.setReuseValidatingObjects(false);
 			writer.setDeltaBaseAsOffset(capableOfsDelta);
 			writer.preparePack(monitor, newObjects, remoteObjects);
-			writer.writePack(monitor, monitor, out);
+
+			OutputStream packOut = out;
+			if (capableSideBand) {
+				packOut = new CheckingSideBandOutputStream(in, out);
+			}
+			writer.writePack(monitor, monitor, packOut);
 
 			packTransferTime = writer.getStatistics().getTimeWriting();
 		}
@@ -395,6 +401,50 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 			return pckIn.readString();
 		} finally {
 			timeoutIn.setTimeout(oldTimeout);
+		}
+	}
+
+	private static class CheckingSideBandOutputStream extends OutputStream {
+		private final InputStream in;
+		private final OutputStream out;
+
+		CheckingSideBandOutputStream(InputStream in, OutputStream out) {
+			this.in = in;
+			this.out = out;
+		}
+
+		@Override
+		public void write(int b) throws IOException {
+			write(new byte[] { (byte) b });
+		}
+
+		@Override
+		public void write(byte[] buf, int ptr, int cnt) throws IOException {
+			try {
+				out.write(buf, ptr, cnt);
+			} catch (IOException e) {
+				throw checkError(e);
+			}
+		}
+
+		@Override
+		public void flush() throws IOException {
+			try {
+				out.flush();
+			} catch (IOException e) {
+				throw checkError(e);
+			}
+		}
+
+		private IOException checkError(IOException e1) {
+			try {
+				in.read();
+			} catch (TransportException e2) {
+				return e2;
+			} catch (IOException e2) {
+				return e1;
+			}
+			return e1;
 		}
 	}
 }
