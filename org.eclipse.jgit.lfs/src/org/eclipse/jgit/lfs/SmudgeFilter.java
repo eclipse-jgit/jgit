@@ -45,14 +45,26 @@ package org.eclipse.jgit.lfs;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.Proxy;
+import java.net.ProxySelector;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
 import org.eclipse.jgit.attributes.FilterCommand;
 import org.eclipse.jgit.attributes.FilterCommandFactory;
 import org.eclipse.jgit.attributes.FilterCommandRegistry;
+import org.eclipse.jgit.lfs.errors.LfsTransportException;
+import org.eclipse.jgit.lfs.internal.AtomicObjectOutputStream;
 import org.eclipse.jgit.lfs.lib.Constants;
+import org.eclipse.jgit.lfs.lib.LongObjectId;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.transport.HttpTransport;
+import org.eclipse.jgit.transport.http.HttpConnection;
+import org.eclipse.jgit.transport.http.HttpConnectionFactory;
+import org.eclipse.jgit.util.HttpSupport;
 
 /**
  * Built-in LFS smudge filter
@@ -104,10 +116,57 @@ public class SmudgeFilter extends FilterCommand {
 		LfsPointer res = LfsPointer.parseLfsPointer(in);
 		if (res != null) {
 			Path mediaFile = lfs.getMediaFile(res.getOid());
+			if (!Files.exists(mediaFile)) {
+				downloadLfsObject(db, res.getOid());
+			}
 			if (Files.exists(mediaFile)) {
 				this.in = Files.newInputStream(mediaFile);
 			}
+			this.in = Files.newInputStream(mediaFile);
 		}
+	}
+
+	private void downloadLfsObject(Repository db, LongObjectId longObjectId)
+			throws LfsTransportException {
+		HttpConnection connection;
+		try {
+			connection = getLfsServerConnection(db, longObjectId);
+			connection.setRequestMethod(HttpSupport.METHOD_GET);
+			int rc = connection.getResponseCode();
+			if (rc != HttpURLConnection.HTTP_OK) {
+				throw new LfsTransportException("LFS server returned rc=" + rc); //$NON-NLS-1$
+			}
+			InputStream inputStream = connection.getInputStream();
+
+			try (AtomicObjectOutputStream aoos = new AtomicObjectOutputStream(
+					lfs.getMediaFile(longObjectId), longObjectId)) {
+				// TODO: use Channels
+				byte buffer[] = new byte[4096];
+				int bytesRead;
+				while ((bytesRead = inputStream.read(buffer)) != -1) {
+					aoos.write(buffer, 0, bytesRead);
+				}
+			}
+		} catch (IOException e) {
+			throw new LfsTransportException(e.getMessage(), e);
+		}
+	}
+
+	private HttpConnection getLfsServerConnection(Repository db,
+			LongObjectId loid)
+			throws IOException {
+		Config config = db.getConfig();
+		String lfsUrl = config.getString("lfs", null, "url"); //$NON-NLS-1$ //$NON-NLS-2$
+		if (lfsUrl == null) {
+			// TODO: compute from <remote>.lfsUrl, or compute from cloneUrl
+			return null;
+		}
+		HttpConnectionFactory cf = HttpTransport.getConnectionFactory();
+		URL url = new URL(lfsUrl + "/lfs/objects/" + loid.getName()); //$NON-NLS-1$
+		final Proxy proxy = HttpSupport.proxyFor(ProxySelector.getDefault(), url);// TODO: better proxy support
+		// TODO: authentication
+
+		return cf.create(url, proxy);
 	}
 
 	@Override
