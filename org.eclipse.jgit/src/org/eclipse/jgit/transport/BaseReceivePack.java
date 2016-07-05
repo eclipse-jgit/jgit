@@ -1093,7 +1093,7 @@ public abstract class BaseReceivePack {
 				}
 
 				if (line.length() >= 48 && line.startsWith("shallow ")) { //$NON-NLS-1$
-					clientShallowCommits.add(ObjectId.fromString(line.substring(8, 48)));
+					parseShallow(line.substring(8, 48));
 					continue;
 				}
 
@@ -1131,6 +1131,16 @@ public abstract class BaseReceivePack {
 			sendError(e.getMessage());
 			throw e;
 		}
+	}
+
+	private void parseShallow(String idStr) throws PackProtocolException {
+		ObjectId id;
+		try {
+			id = ObjectId.fromString(idStr);
+		} catch (InvalidObjectIdException e) {
+			throw new PackProtocolException(e.getMessage(), e);
+		}
+		clientShallowCommits.add(id);
 	}
 
 	static ReceiveCommand parseCommand(String line) throws PackProtocolException {
