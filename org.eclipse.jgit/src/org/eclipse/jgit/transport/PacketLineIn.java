@@ -87,19 +87,32 @@ public class PacketLineIn {
 		ACK_READY;
 	}
 
+	private final byte[] lineBuffer = new byte[SideBandOutputStream.SMALL_BUF];
 	private final InputStream in;
-
-	private final byte[] lineBuffer;
+	private long limit;
 
 	/**
 	 * Create a new packet line reader.
 	 *
-	 * @param i
+	 * @param in
 	 *            the input stream to consume.
 	 */
-	public PacketLineIn(final InputStream i) {
-		in = i;
-		lineBuffer = new byte[SideBandOutputStream.SMALL_BUF];
+	public PacketLineIn(InputStream in) {
+		this(in, 0);
+	}
+
+	/**
+	 * Create a new packet line reader.
+	 *
+	 * @param in
+	 *            the input stream to consume.
+	 * @param limit
+	 *            bytes to read from the input; unlimited if set to 0.
+	 * @since 4.5
+	 */
+	public PacketLineIn(InputStream in, long limit) {
+		this.in = in;
+		this.limit = limit;
 	}
 
 	AckNackResult readACK(final MutableObjectId returnedId) throws IOException {
@@ -210,15 +223,48 @@ public class PacketLineIn {
 
 	int readLength() throws IOException {
 		IO.readFully(in, lineBuffer, 0, 4);
+		int len;
 		try {
-			final int len = RawParseUtils.parseHexInt16(lineBuffer, 0);
-			if (len != 0 && len < 4)
-				throw new ArrayIndexOutOfBoundsException();
-			return len;
+			len = RawParseUtils.parseHexInt16(lineBuffer, 0);
 		} catch (ArrayIndexOutOfBoundsException err) {
-			throw new IOException(MessageFormat.format(JGitText.get().invalidPacketLineHeader,
-					"" + (char) lineBuffer[0] + (char) lineBuffer[1] //$NON-NLS-1$
-					+ (char) lineBuffer[2] + (char) lineBuffer[3]));
+			throw invalidHeader();
 		}
+
+		if (len == 0) {
+			return 0;
+		} else if (len < 4) {
+			throw invalidHeader();
+		}
+
+		if (limit != 0) {
+			int n = len - 4;
+			if (limit < n) {
+				limit = -1;
+				try {
+					IO.skipFully(in, n);
+				} catch (IOException e) {
+					// Ignore failure discarding packet over limit.
+				}
+				throw new InputOverLimitIOException();
+			}
+			// if set limit must not be 0 (means unlimited).
+			limit = n < limit ? limit - n : -1;
+		}
+		return len;
+	}
+
+	private IOException invalidHeader() {
+		return new IOException(MessageFormat.format(JGitText.get().invalidPacketLineHeader,
+				"" + (char) lineBuffer[0] + (char) lineBuffer[1] //$NON-NLS-1$
+				+ (char) lineBuffer[2] + (char) lineBuffer[3]));
+	}
+
+	/**
+	 * IOException thrown by read when the configured input limit is exceeded.
+	 *
+	 * @since 4.5
+	 */
+	public static class InputOverLimitIOException extends IOException {
+		private static final long serialVersionUID = 1L;
 	}
 }

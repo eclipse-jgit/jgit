@@ -173,4 +173,27 @@ public class PushConnectionTest {
 			}
 		}
 	}
+
+	@Test
+	public void limitCommandBytes() throws IOException {
+		Map<String, RemoteRefUpdate> updates = new HashMap<>();
+		for (int i = 0; i < 4; i++) {
+			RemoteRefUpdate rru = new RemoteRefUpdate(
+					null, null, obj2, "refs/test/T" + i,
+					false, null, ObjectId.zeroId());
+			updates.put(rru.getRemoteName(), rru);
+		}
+
+		server.getConfig().setInt("receive", null, "maxCommandBytes", 170);
+		try (Transport tn = testProtocol.open(uri, client, "server");
+				PushConnection connection = tn.openPush()) {
+			try {
+				connection.push(NullProgressMonitor.INSTANCE, updates);
+				fail("server did not abort");
+			} catch (TransportException e) {
+				String msg = e.getMessage();
+				assertEquals("remote: too many commands", msg);
+			}
+		}
+	}
 }

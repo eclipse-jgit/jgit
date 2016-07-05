@@ -663,6 +663,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String transactionAborted;
 	/***/ public String theFactoryMustNotBeNull;
 	/***/ public String timerAlreadyTerminated;
+	/***/ public String tooManyCommands;
 	/***/ public String tooManyIncludeRecursions;
 	/***/ public String topologicalSortRequired;
 	/***/ public String transportExceptionBadRef;
