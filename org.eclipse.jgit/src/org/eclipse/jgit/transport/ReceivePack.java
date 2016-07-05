@@ -190,11 +190,7 @@ public class ReceivePack extends BaseReceivePack {
 			if (needPack()) {
 				try {
 					receivePackAndCheckConnectivity();
-				} catch (IOException err) {
-					unpackError = err;
-				} catch (RuntimeException err) {
-					unpackError = err;
-				} catch (Error err) {
+				} catch (IOException | RuntimeException | Error err) {
 					unpackError = err;
 				}
 			}
