@@ -53,6 +53,8 @@ import java.nio.file.StandardOpenOption;
 import java.util.Collections;
 
 import org.eclipse.jgit.annotations.Nullable;
+// TODO remove warning
+import org.eclipse.jgit.lfs.internal.AtomicObjectOutputStream;
 import org.eclipse.jgit.lfs.lib.AnyLongObjectId;
 import org.eclipse.jgit.lfs.lib.Constants;
 import org.eclipse.jgit.lfs.server.LargeFileRepository;
