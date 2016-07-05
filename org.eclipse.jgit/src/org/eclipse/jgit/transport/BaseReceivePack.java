@@ -51,6 +51,7 @@ import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_REPORT_
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_SIDE_BAND_64K;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_AGENT;
 import static org.eclipse.jgit.transport.SideBandOutputStream.CH_DATA;
+import static org.eclipse.jgit.transport.SideBandOutputStream.CH_ERROR;
 import static org.eclipse.jgit.transport.SideBandOutputStream.CH_PROGRESS;
 import static org.eclipse.jgit.transport.SideBandOutputStream.MAX_BUF;
 
@@ -215,6 +216,7 @@ public abstract class BaseReceivePack {
 
 	/** Optional message output stream. */
 	protected OutputStream msgOut;
+	private SideBandOutputStream errOut;
 
 	/** Packet line input stream around {@link #rawIn}. */
 	protected PacketLineIn pckIn;
@@ -879,6 +881,19 @@ public abstract class BaseReceivePack {
 		}
 	}
 
+	private void fatalError(String msg) {
+		if (errOut != null) {
+			try {
+				errOut.write(Constants.encode(msg));
+				errOut.flush();
+			} catch (IOException e) {
+				// Ignore write failures
+			}
+		} else {
+			sendError(msg);
+		}
+	}
+
 	/**
 	 * Send a message to the client, if it supports receiving them.
 	 * <p>
@@ -1128,7 +1143,14 @@ public abstract class BaseReceivePack {
 			}
 			pushCert = certParser.build();
 		} catch (PackProtocolException e) {
-			sendError(e.getMessage());
+			if (sideBand) {
+				try {
+					pckIn.discardUntilEnd();
+				} catch (IOException e2) {
+					// Ignore read failures attempting to discard.
+				}
+			}
+			fatalError(e.getMessage());
 			throw e;
 		}
 	}
@@ -1175,6 +1197,7 @@ public abstract class BaseReceivePack {
 
 			rawOut = new SideBandOutputStream(CH_DATA, MAX_BUF, out);
 			msgOut = new SideBandOutputStream(CH_PROGRESS, MAX_BUF, out);
+			errOut = new SideBandOutputStream(CH_ERROR, MAX_BUF, out);
 
 			pckOut = new PacketLineOut(rawOut);
 			pckOut.setFlushOnEnd(false);
