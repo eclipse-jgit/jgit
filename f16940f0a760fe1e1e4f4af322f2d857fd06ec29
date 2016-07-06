@@ -1,0 +1,314 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "47b89bd4_b51365e7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-07-06T21:18:54Z",
+      "side": 1,
+      "message": "has to start an",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 11
+      },
+      "revId": "f16940f0a760fe1e1e4f4af322f2d857fd06ec29",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47b89bd4_d518d905",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-07-06T21:18:54Z",
+      "side": 1,
+      "message": "Java",
+      "range": {
+        "startLine": 16,
+        "startChar": 3,
+        "endLine": 16,
+        "endChar": 7
+      },
+      "revId": "f16940f0a760fe1e1e4f4af322f2d857fd06ec29",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47b89bd4_7530ed71",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-07-06T21:18:54Z",
+      "side": 1,
+      "message": "lfs filters",
+      "range": {
+        "startLine": 26,
+        "startChar": 28,
+        "endLine": 26,
+        "endChar": 45
+      },
+      "revId": "f16940f0a760fe1e1e4f4af322f2d857fd06ec29",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47b89bd4_950e61c3",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/BuiltinCommandsTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-07-06T21:18:54Z",
+      "side": 1,
+      "message": "missing license header",
+      "revId": "f16940f0a760fe1e1e4f4af322f2d857fd06ec29",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47b89bd4_95358163",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/BuiltinCommandsTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-07-06T21:18:54Z",
+      "side": 1,
+      "message": "missing braces",
+      "revId": "f16940f0a760fe1e1e4f4af322f2d857fd06ec29",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47b89bd4_d52ff910",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-07-06T21:18:54Z",
+      "side": 1,
+      "message": "Builtin filter commands",
+      "range": {
+        "startLine": 395,
+        "startChar": 4,
+        "endLine": 395,
+        "endChar": 20
+      },
+      "revId": "f16940f0a760fe1e1e4f4af322f2d857fd06ec29",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47b89bd4_95b2e14f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-07-06T21:18:54Z",
+      "side": 1,
+      "message": "maybe FilterCommandFactory ? to make clear the difference to the commands in the org.eclipse.jgit.api package",
+      "range": {
+        "startLine": 154,
+        "startChar": 15,
+        "endLine": 154,
+        "endChar": 36
+      },
+      "revId": "f16940f0a760fe1e1e4f4af322f2d857fd06ec29",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47b89bd4_d501b979",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/BuiltinCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-07-06T21:18:54Z",
+      "side": 1,
+      "message": "They",
+      "range": {
+        "startLine": 52,
+        "startChar": 65,
+        "endLine": 52,
+        "endChar": 68
+      },
+      "revId": "f16940f0a760fe1e1e4f4af322f2d857fd06ec29",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47b89bd4_15bed11a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/BuiltinCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-07-06T21:18:54Z",
+      "side": 1,
+      "message": "I think this is obvious",
+      "range": {
+        "startLine": 53,
+        "startChar": 48,
+        "endLine": 55,
+        "endChar": 63
+      },
+      "revId": "f16940f0a760fe1e1e4f4af322f2d857fd06ec29",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47b89bd4_35cbd5b8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/BuiltinCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-07-06T21:18:54Z",
+      "side": 1,
+      "message": "FilterCommand",
+      "range": {
+        "startLine": 59,
+        "startChar": 22,
+        "endLine": 59,
+        "endChar": 36
+      },
+      "revId": "f16940f0a760fe1e1e4f4af322f2d857fd06ec29",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47b89bd4_55c849b9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/BuiltinCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-07-06T21:18:54Z",
+      "side": 1,
+      "message": "Execute",
+      "range": {
+        "startLine": 80,
+        "startChar": 4,
+        "endLine": 80,
+        "endChar": 12
+      },
+      "revId": "f16940f0a760fe1e1e4f4af322f2d857fd06ec29",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47b89bd4_959901d4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/BuiltinCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-07-06T21:18:54Z",
+      "side": 1,
+      "message": "which data ?",
+      "range": {
+        "startLine": 80,
+        "startChar": 53,
+        "endLine": 80,
+        "endChar": 62
+      },
+      "revId": "f16940f0a760fe1e1e4f4af322f2d857fd06ec29",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47b89bd4_15a5f1fe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/BuiltinCommandFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-07-06T21:18:54Z",
+      "side": 1,
+      "message": "FilterCommandFactory",
+      "range": {
+        "startLine": 56,
+        "startChar": 17,
+        "endLine": 56,
+        "endChar": 38
+      },
+      "revId": "f16940f0a760fe1e1e4f4af322f2d857fd06ec29",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47b89bd4_35a2f5f6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/BuiltinCommandFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-07-06T21:18:54Z",
+      "side": 1,
+      "message": "Create",
+      "range": {
+        "startLine": 58,
+        "startChar": 4,
+        "endLine": 58,
+        "endChar": 11
+      },
+      "revId": "f16940f0a760fe1e1e4f4af322f2d857fd06ec29",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
