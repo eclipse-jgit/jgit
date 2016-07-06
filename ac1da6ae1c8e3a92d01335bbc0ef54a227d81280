@@ -1,0 +1,215 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "47b89bd4_754aac7c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-07-06T21:57:15Z",
+      "side": 1,
+      "message": "from an LFS server",
+      "range": {
+        "startLine": 12,
+        "startChar": 64,
+        "endLine": 13,
+        "endChar": 7
+      },
+      "revId": "ac1da6ae1c8e3a92d01335bbc0ef54a227d81280",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47b89bd4_d5ac58aa",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPointer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-07-06T21:57:15Z",
+      "side": 1,
+      "message": "this method accepts an InputStream, not a buffer ?",
+      "range": {
+        "startLine": 119,
+        "startChar": 26,
+        "endLine": 119,
+        "endChar": 44
+      },
+      "revId": "ac1da6ae1c8e3a92d01335bbc0ef54a227d81280",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47b89bd4_b5a7e4c3",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPointer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-07-06T21:57:15Z",
+      "side": 1,
+      "message": "?",
+      "range": {
+        "startLine": 123,
+        "startChar": 61,
+        "endLine": 123,
+        "endChar": 70
+      },
+      "revId": "ac1da6ae1c8e3a92d01335bbc0ef54a227d81280",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47b89bd4_15b7b0f0",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPointer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-07-06T21:57:15Z",
+      "side": 1,
+      "message": "what is v ?",
+      "range": {
+        "startLine": 131,
+        "startChar": 10,
+        "endLine": 131,
+        "endChar": 11
+      },
+      "revId": "ac1da6ae1c8e3a92d01335bbc0ef54a227d81280",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47b89bd4_359bd480",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPointer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-07-06T21:57:15Z",
+      "side": 1,
+      "message": "missing braces",
+      "revId": "ac1da6ae1c8e3a92d01335bbc0ef54a227d81280",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47b89bd4_b58e043c",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-07-06T21:57:15Z",
+      "side": 1,
+      "message": "missing javadoc",
+      "revId": "ac1da6ae1c8e3a92d01335bbc0ef54a227d81280",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47b89bd4_75a54cb5",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-07-06T21:57:15Z",
+      "side": 1,
+      "message": "?",
+      "revId": "ac1da6ae1c8e3a92d01335bbc0ef54a227d81280",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47b89bd4_d593785f",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-07-06T21:57:15Z",
+      "side": 1,
+      "message": "why prefix m ?",
+      "revId": "ac1da6ae1c8e3a92d01335bbc0ef54a227d81280",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47b89bd4_f5887c30",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/AddCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-07-06T21:57:15Z",
+      "side": 1,
+      "message": "fix TODO",
+      "revId": "ac1da6ae1c8e3a92d01335bbc0ef54a227d81280",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47b89bd4_158ed03a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-07-06T21:57:15Z",
+      "side": 1,
+      "message": "fix TODO",
+      "revId": "ac1da6ae1c8e3a92d01335bbc0ef54a227d81280",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47b89bd4_f5031c18",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-07-06T21:57:15Z",
+      "side": 1,
+      "message": "fix TODO",
+      "revId": "ac1da6ae1c8e3a92d01335bbc0ef54a227d81280",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
