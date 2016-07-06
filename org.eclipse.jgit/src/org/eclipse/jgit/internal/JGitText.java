@@ -743,6 +743,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String writingNotPermitted;
 	/***/ public String writingNotSupported;
 	/***/ public String writingObjects;
+	/***/ public String wrongAmazonSignatureVersion;
 	/***/ public String wrongDecompressedLength;
 	/***/ public String wrongRepositoryState;
 	/***/ public String year;

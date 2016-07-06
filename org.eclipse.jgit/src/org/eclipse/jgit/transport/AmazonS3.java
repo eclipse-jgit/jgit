@@ -50,6 +50,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.Proxy;
 import java.net.ProxySelector;
@@ -62,6 +63,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -75,6 +77,9 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.TimeZone;
 import java.util.TreeMap;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Collection;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -186,6 +191,8 @@ public class AmazonS3 {
 	/** S3 Bucket Domain. */
 	private final String domain;
 
+	private final AmazonV4Signer amazonV4Signer;
+
 	/** Property names used in amazon connection configuration file. */
 	interface Keys {
 		String ACCESS_KEY = "accesskey"; //$NON-NLS-1$
@@ -197,6 +204,8 @@ public class AmazonS3 {
 		String DOMAIN = "domain"; //$NON-NLS-1$
 		String HTTP_RETRY = "httpclient.retry-max"; //$NON-NLS-1$
 		String TMP_DIR = "tmpdir"; //$NON-NLS-1$
+		String REGION = "region"; //$NON-NLS-1$
+		String SIGNATURE_VERSION = "signature-version"; //$NON-NLS-1$
 	}
 
 	/**
@@ -267,6 +276,18 @@ public class AmazonS3 {
 
 		String tmp = props.getProperty(Keys.TMP_DIR);
 		tmpDir = tmp != null && tmp.length() > 0 ? new File(tmp) : null;
+
+		String signatureVersion = props.getProperty(Keys.SIGNATURE_VERSION, "2"); //$NON-NLS-1$
+		if("4".equals(signatureVersion)) { //$NON-NLS-1$
+			String region = props.getProperty(Keys.REGION, "us-east-1"); //$NON-NLS-1$
+			amazonV4Signer = new AmazonV4Signer(publicKey, secret, region, "s3"); //$NON-NLS-1$
+		} else if("2".equals(signatureVersion)) { //$NON-NLS-1$
+			amazonV4Signer = null;
+		} else {
+			throw new IllegalArgumentException(MessageFormat.format(
+					JGitText.get().wrongAmazonSignatureVersion, signatureVersion));
+		}
+
 	}
 
 	/**
@@ -286,7 +307,7 @@ public class AmazonS3 {
 			throws IOException {
 		for (int curAttempt = 0; curAttempt < maxAttempts; curAttempt++) {
 			final HttpURLConnection c = open("GET", bucket, key); //$NON-NLS-1$
-			authorize(c);
+			signRequest(c, new byte[]{});
 			switch (HttpSupport.response(c)) {
 			case HttpURLConnection.HTTP_OK:
 				encryption.validate(c, X_AMZ_META);
@@ -362,7 +383,7 @@ public class AmazonS3 {
 			throws IOException {
 		for (int curAttempt = 0; curAttempt < maxAttempts; curAttempt++) {
 			final HttpURLConnection c = open("DELETE", bucket, key); //$NON-NLS-1$
-			authorize(c);
+			signRequest(c, new byte[]{});
 			switch (HttpSupport.response(c)) {
 			case HttpURLConnection.HTTP_NO_CONTENT:
 				return;
@@ -414,7 +435,7 @@ public class AmazonS3 {
 			c.setRequestProperty("Content-Length", lenstr); //$NON-NLS-1$
 			c.setRequestProperty("Content-MD5", md5str); //$NON-NLS-1$
 			c.setRequestProperty(X_AMZ_ACL, acl);
-			authorize(c);
+			signRequest(c, data);
 			c.setDoOutput(true);
 			c.setFixedLengthStreamingMode(data.length);
 			final OutputStream os = c.getOutputStream();
@@ -499,7 +520,7 @@ public class AmazonS3 {
 			c.setRequestProperty("Content-MD5", md5str); //$NON-NLS-1$
 			c.setRequestProperty(X_AMZ_ACL, acl);
 			encryption.request(c, X_AMZ_META);
-			authorize(c);
+			signRequest(c, buf.toByteArray());
 			c.setDoOutput(true);
 			monitor.beginTask(monitorTask, (int) (len / 1024));
 			final OutputStream os = c.getOutputStream();
@@ -596,6 +617,14 @@ public class AmazonS3 {
 		return c;
 	}
 
+	void signRequest(final HttpURLConnection c, byte[] payload) throws IOException {
+		if(amazonV4Signer != null) {
+			amazonV4Signer.sign(c, payload);
+		} else {
+			authorize(c);
+		}
+	}
+
 	void authorize(final HttpURLConnection c) throws IOException {
 		final Map<String, List<String>> reqHdr = c.getRequestProperties();
 		final SortedMap<String, String> sigHdr = new TreeMap<String, String>();
@@ -680,7 +709,7 @@ public class AmazonS3 {
 
 			for (int curAttempt = 0; curAttempt < maxAttempts; curAttempt++) {
 				final HttpURLConnection c = open("GET", bucket, "", args); //$NON-NLS-1$ //$NON-NLS-2$
-				authorize(c);
+				signRequest(c, new byte[]{});
 				switch (HttpSupport.response(c)) {
 				case HttpURLConnection.HTTP_OK:
 					truncated = false;
@@ -748,4 +777,210 @@ public class AmazonS3 {
 			data = null;
 		}
 	}
+
+
+	/*
+	 * http://docs.aws.amazon.com/AmazonS3/latest/API/sig-v4-header-based-auth.html
+	 */
+	private static class AmazonV4Signer {
+
+		private byte[] signingKey;
+		private String signingKeyDate;
+		private String scopeString;
+		private String credentialString;
+
+		AmazonV4Signer(String accessKey, String secretKey, String region, String service) {
+			signingKeyDate = timestampString("yyyyMMdd"); //$NON-NLS-1$
+			signingKey = createSigningKey(secretKey, signingKeyDate, region, service);
+			scopeString = createScopeString(signingKeyDate, region, service);
+			credentialString = accessKey + '/' + scopeString;
+		}
+
+		/*
+         * Create signing key for current day, which will be valid for 7 days.
+         */
+		private static byte[] createSigningKey(String secretKey, String dateString, String region, String service) {
+			byte[] dateKey = hmacSha256("AWS4" + secretKey, dateString); //$NON-NLS-1$
+			byte[] dateRegionKey = hmacSha256(dateKey, region);
+			byte[] dateRegionServiceKey = hmacSha256(dateRegionKey, service);
+			return hmacSha256(dateRegionServiceKey, "aws4_request"); //$NON-NLS-1$
+		}
+
+		private static String createScopeString(String dateString, String region, String service) {
+			// <date>/<aws-region>/<aws-service>/aws4_request
+			return String.format("%s/%s/%s/aws4_request", dateString, region, service); //$NON-NLS-1$
+		}
+
+		private String buildAuthorizationHeader(List<String> signedHeaders, String signature) {
+			Map<String, String> authTokens = new LinkedHashMap<>();
+			authTokens.put("Credential", credentialString); //$NON-NLS-1$
+			authTokens.put("SignedHeaders", joinStringCollection(signedHeaders, ';').toLowerCase()); //$NON-NLS-1$
+			authTokens.put("Signature", signature.toLowerCase()); //$NON-NLS-1$
+			return "AWS4-HMAC-SHA256 " + joinStringMap(authTokens, '=', ','); //$NON-NLS-1$
+		}
+
+		private String calculateSignatureString(String stringToSign) {
+			byte[] signature = hmacSha256(signingKey, stringToSign);
+			return bytesToHexString(signature);
+		}
+
+		private String createStringToSign(String canonicalRequest, String timestamp) {
+			List<String> items = new ArrayList<>();
+			items.add("AWS4-HMAC-SHA256"); //$NON-NLS-1$
+			items.add(timestamp);
+			items.add(scopeString);
+			items.add(bytesToHexString(sha256(utf8Encode(canonicalRequest))));
+			return joinStringCollection(items, '\n');
+		}
+
+		private Map<String, String> getHeadersToSign(HttpURLConnection conn) {
+			Map<String, String> headers = new HashMap<>();
+			for(final Map.Entry<String, List<String>> entry : conn.getRequestProperties().entrySet()) {
+				final String hdr = entry.getKey();
+				if (isSignedHeader(hdr) || hdr.toLowerCase().equals("host")) { //$NON-NLS-1$
+					headers.put(StringUtils.toLowerCase(hdr), toCleanString(entry.getValue()));
+				}
+			}
+
+			if(! headers.containsKey("host")) { //$NON-NLS-1$
+				headers.put("host", conn.getURL().getHost()); //$NON-NLS-1$
+			}
+			return headers;
+		}
+
+		private String createCanonicalRequest(HttpURLConnection conn, String payloadHash) {
+
+			String httpMethod = conn.getRequestMethod();
+			String canonicalUri = conn.getURL().getPath().replace("%2F", "/"); //$NON-NLS-1$ //$NON-NLS-2$
+
+			Map<String, String> params = parseUrlQueryParameters(conn.getURL());
+			String canonicalQueryString = joinStringMap(sortMapByKey(params), '=', '&');
+
+			Map<String, String> headers = sortMapByKey(getHeadersToSign(conn));
+
+			String canonicalHeaders = joinStringMap(headers, ':', '\n') + '\n';
+			String signedHeaders = joinStringCollection(new ArrayList<>(headers.keySet()), ';');
+
+			List<String> items = new ArrayList<>();
+			items.add(httpMethod);
+			items.add(canonicalUri);
+			items.add(canonicalQueryString);
+			items.add(canonicalHeaders);
+			items.add(signedHeaders);
+			items.add(payloadHash);
+			return joinStringCollection(items, '\n');
+		}
+
+		private static <K, V> Map<K, V> sortMapByKey(Map<K, V> map) {
+			return new TreeMap<>(map);
+		}
+
+		private static Map<String, String> parseUrlQueryParameters(URL url) {
+			String query = url.getQuery();
+			if(query == null) {
+				return Collections.emptyMap();
+			}
+
+			Map<String, String> queryPairs = new LinkedHashMap<>();
+			String[] pairs = query.split("&"); //$NON-NLS-1$
+			for(String pair: pairs) {
+				int idx = pair.indexOf('=');
+				queryPairs.put(pair.substring(0, idx), pair.substring(idx + 1));
+			}
+			return queryPairs;
+		}
+
+		private void sign(HttpURLConnection conn, byte[] payload) {
+			String payloadHash = bytesToHexString(sha256(payload));
+			conn.addRequestProperty("x-amz-content-sha256", payloadHash); //$NON-NLS-1$
+
+			String timestamp = timestampString("yyyyMMdd'T'HHmmss'Z'"); //$NON-NLS-1$
+			conn.addRequestProperty("x-amz-date", timestamp); //$NON-NLS-1$
+
+			String canonicalRequest = createCanonicalRequest(conn, payloadHash);
+			String stringToSign = createStringToSign(canonicalRequest, timestamp);
+			String signature = calculateSignatureString(stringToSign);
+
+			List<String> signedHeaders = new ArrayList<>(sortMapByKey(getHeadersToSign(conn)).keySet());
+			String authorization = buildAuthorizationHeader(signedHeaders, signature);
+			conn.addRequestProperty("Authorization", authorization); //$NON-NLS-1$
+		}
+
+		private static String joinStringCollection(Collection<String> collection, char delimiter) {
+			StringBuilder sb = new StringBuilder();
+			for(String s: collection) {
+				sb.append(s).append(delimiter);
+			}
+			sb.setLength(sb.length() - 1); // get rid of last delimiter
+			return sb.toString();
+		}
+
+		private static String joinStringMap(Map<String, String> map, char keyValueDelimiter, char pairDelimiter) {
+			StringBuilder sb = new StringBuilder();
+			for(Map.Entry<String, String> e: map.entrySet()) {
+				sb.append(e.getKey());
+				sb.append(keyValueDelimiter);
+				sb.append(e.getValue());
+				sb.append(pairDelimiter);
+			}
+			if(sb.length() > 0){ sb.setLength(sb.length() - 1); } // get rid of last delimiter
+			return sb.toString();
+		}
+
+		private static String timestampString(String format) {
+			DateFormat dfm = new SimpleDateFormat(format);
+			dfm.setTimeZone(TimeZone.getTimeZone("UTC")); //$NON-NLS-1$
+			return dfm.format(new Date());
+		}
+
+		private static byte[] hmacSha256(String key, String data) {
+			return hmacSha256(utf8Encode(key), utf8Encode(data));
+		}
+
+		private static byte[] hmacSha256(byte[] key, String data) {
+			return hmacSha256(key, utf8Encode(data));
+		}
+
+		private static byte[] hmacSha256(byte[] key, byte[] data) {
+			try {
+				Mac mac = Mac.getInstance("HmacSHA256"); //$NON-NLS-1$
+				mac.init(new SecretKeySpec(key, "HmacSHA256")); //$NON-NLS-1$
+				return mac.doFinal(data);
+			} catch(NoSuchAlgorithmException e) {
+				throw new IllegalStateException("Hashing algorithm is not available", e); //$NON-NLS-1$
+			} catch(InvalidKeyException e) {
+				throw new IllegalArgumentException(e);
+			}
+		}
+
+		private static byte[] sha256(byte[] data) {
+			try {
+				MessageDigest md = MessageDigest.getInstance("SHA-256"); //$NON-NLS-1$
+				md.update(data);
+				return md.digest();
+			} catch (NoSuchAlgorithmException e) {
+				throw new IllegalStateException("Hashing algorithm is not available", e); //$NON-NLS-1$
+			}
+		}
+
+		private static byte[] utf8Encode(String s) {
+			try {
+				return s.getBytes("UTF-8"); //$NON-NLS-1$
+			} catch(UnsupportedEncodingException e) {
+				throw new AssertionError("UTF-8 is a standard charset " + //$NON-NLS-1$
+						"(see http://docs.oracle.com/javase/6/docs/api/java/nio/charset/Charset.html) " + //$NON-NLS-1$
+						"and must be supported", e); //$NON-NLS-1$
+			}
+		}
+
+		private static String bytesToHexString(byte[] data) {
+			StringBuilder sb = new StringBuilder();
+			for (byte b : data) {
+				sb.append(String.format("%02x", b)); //$NON-NLS-1$
+			}
+			return sb.toString();
+		}
+
+	}
+
 }
