@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "47b89bd4_b589a57c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-07-06T21:24:11Z",
+      "side": 1,
+      "message": "has to start an",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 11
+      },
+      "revId": "28d326e6ec1d64ef61c8391a8c6d1ec7b8b7b02c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47b89bd4_d58e1982",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-07-06T21:24:11Z",
+      "side": 1,
+      "message": "Java",
+      "range": {
+        "startLine": 17,
+        "startChar": 15,
+        "endLine": 17,
+        "endChar": 19
+      },
+      "revId": "28d326e6ec1d64ef61c8391a8c6d1ec7b8b7b02c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47b89bd4_b560c52a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1310,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-07-06T21:24:11Z",
+      "side": 1,
+      "message": "maybe extract some more methods to improve readability ?",
+      "revId": "28d326e6ec1d64ef61c8391a8c6d1ec7b8b7b02c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47b89bd4_157091fb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1318,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-07-06T21:24:11Z",
+      "side": 1,
+      "message": "maybe add a comment // checkout LFS pointer",
+      "revId": "28d326e6ec1d64ef61c8391a8c6d1ec7b8b7b02c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
