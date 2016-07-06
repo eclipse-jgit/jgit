@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "47b89bd4_75170c51",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/fs/FileLfsRepository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-07-06T21:58:59Z",
+      "side": 1,
+      "message": "fix TODO",
+      "revId": "1b201c4250e997d1cbd387df71ef0f55c7f32798",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47b89bd4_d52538b4",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/internal/AtomicObjectOutputStream.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-07-06T21:58:59Z",
+      "side": 1,
+      "message": "missing javadoc",
+      "revId": "1b201c4250e997d1cbd387df71ef0f55c7f32798",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
