@@ -195,6 +195,24 @@
     },
     {
       "key": {
+        "uuid": "27af2791_3eb2f151",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackPushConnection.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-07-07T20:22:19Z",
+      "side": 1,
+      "message": "the coding style was changed Jan 2015 [1], so all changed or new code should use braces also around single line blocks\n\n[1] https://dev.eclipse.org/mhonarc/lists/jgit-dev/msg02809.html",
+      "parentUuid": "27af2791_be09a139",
+      "revId": "7df0380ad28b5f1f5549313555edb41928074f80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47b89bd4_f81dd125",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackPushConnection.java",
         "patchSetId": 32
