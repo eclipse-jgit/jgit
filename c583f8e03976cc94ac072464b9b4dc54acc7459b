@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_78180104",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 869,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-07-07T15:06:26Z",
+      "side": 1,
+      "message": "looks like we need Java 8\u0027s AtomicInteger.updateAndGet(IntUnaryOperator updateFunction) [1] to  prevent that useCnt can drop below 0 without introducing a lock\n\n[1] https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/atomic/AtomicInteger.html#updateAndGet-java.util.function.IntUnaryOperator-",
+      "revId": "c583f8e03976cc94ac072464b9b4dc54acc7459b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
