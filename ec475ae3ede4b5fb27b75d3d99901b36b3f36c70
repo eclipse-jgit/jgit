@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "47b89bd4_75d9cc9b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 27
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-07-07T01:20:15Z",
+      "side": 1,
+      "message": "Well you can certainly do that, as it helps when digging through history (i.e. git blame and then git log to find out why a thing was solved in a specific way).\n\nJGit commit messages seems to vary a lot, see `git log --grep\u003datomic` for some examples (sometimes a novel is written and sometimes only a bug number is referenced, so I guess a reference to maybe http://thread.gmane.org/gmane.comp.version-control.git/299001 or ideally when Junio picks it up and then reference a commit in git core would do.)",
+      "parentUuid": "47b89bd4_ac224e5f",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 14
+      },
+      "revId": "ec475ae3ede4b5fb27b75d3d99901b36b3f36c70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47b89bd4_f130a3ee",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Push.java",
         "patchSetId": 27
