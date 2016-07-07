@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "47b89bd4_4c13721a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 27
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 81548
+      },
+      "writtenOn": "2016-07-07T00:52:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47b89bd4_f146e326",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 11
+      },
+      "revId": "ec475ae3ede4b5fb27b75d3d99901b36b3f36c70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47b89bd4_31413b0d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 27
@@ -36,6 +60,30 @@
       "writtenOn": "2016-06-30T18:53:20Z",
       "side": 1,
       "message": "Maybe mention a bit more on how it is implemented, why we want to implement it in JGit (so we can use it in Gerrit) ?\n\nc.f. http://thread.gmane.org/gmane.comp.version-control.git/298632",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 14
+      },
+      "revId": "ec475ae3ede4b5fb27b75d3d99901b36b3f36c70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47b89bd4_ac224e5f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 27
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 81548
+      },
+      "writtenOn": "2016-07-07T00:52:36Z",
+      "side": 1,
+      "message": "Besides implementation-specific details, should I reiterate your statements?",
+      "parentUuid": "47b89bd4_31413b0d",
       "range": {
         "startLine": 9,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "47b89bd4_9134c795",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Push.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 81548
+      },
+      "writtenOn": "2016-07-07T00:52:36Z",
+      "side": 1,
+      "message": "Agree with respect to the long form and will change accordingly, but isn\u0027t -o already in use as an alias for the --only flag?",
+      "parentUuid": "47b89bd4_f130a3ee",
+      "range": {
+        "startLine": 111,
+        "startChar": 1,
+        "endLine": 111,
+        "endChar": 53
+      },
+      "revId": "ec475ae3ede4b5fb27b75d3d99901b36b3f36c70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47b89bd4_9179276f",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PushOptionsTest.java",
         "patchSetId": 27
@@ -82,6 +154,30 @@
       "writtenOn": "2016-06-30T18:46:28Z",
       "side": 1,
       "message": "How is the atomic expected to interfere with the push options? If we test with non atomic, would we also want to test with atomic set to true?\n\nThis is the only test that asserts the received push options to be equal as the sent options as the other tests all cover corner cases which either don\u0027t transmit push options or have an empty list? (We could check for the empty list below?)",
+      "range": {
+        "startLine": 135,
+        "startChar": 13,
+        "endLine": 135,
+        "endChar": 41
+      },
+      "revId": "ec475ae3ede4b5fb27b75d3d99901b36b3f36c70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47b89bd4_ccfb023a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PushOptionsTest.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 81548
+      },
+      "writtenOn": "2016-07-07T00:52:36Z",
+      "side": 1,
+      "message": "Added another case for the behaviour of atomic pushes with options. I also had the @Before setUp() and @After tearDown() methods increment a counter (i++) and found that, indeed, they are run before and after every test case.",
+      "parentUuid": "47b89bd4_9179276f",
       "range": {
         "startLine": 135,
         "startChar": 13,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "47b89bd4_4cf9b28d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PushOptionsTest.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 81548
+      },
+      "writtenOn": "2016-07-07T00:52:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47b89bd4_318f7b04",
+      "range": {
+        "startLine": 239,
+        "startChar": 13,
+        "endLine": 239,
+        "endChar": 36
+      },
+      "revId": "ec475ae3ede4b5fb27b75d3d99901b36b3f36c70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47b89bd4_71749375",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PushOptionsTest.java",
         "patchSetId": 27
@@ -128,6 +248,30 @@
       "writtenOn": "2016-06-30T18:46:28Z",
       "side": 1,
       "message": "Do we want to be explicit about the configuration by not relying on the default and turn off the push options?",
+      "range": {
+        "startLine": 291,
+        "startChar": 0,
+        "endLine": 291,
+        "endChar": 17
+      },
+      "revId": "ec475ae3ede4b5fb27b75d3d99901b36b3f36c70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47b89bd4_ecf8c63f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PushOptionsTest.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 81548
+      },
+      "writtenOn": "2016-07-07T00:52:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47b89bd4_71749375",
       "range": {
         "startLine": 291,
         "startChar": 0,
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "47b89bd4_cc0ce24b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PushOptionsTest.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 81548
+      },
+      "writtenOn": "2016-07-07T00:52:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47b89bd4_516f8fa5",
+      "range": {
+        "startLine": 300,
+        "startChar": 14,
+        "endLine": 301,
+        "endChar": 5
+      },
+      "revId": "ec475ae3ede4b5fb27b75d3d99901b36b3f36c70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47b89bd4_b1ac6b77",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackPushConnection.java",
         "patchSetId": 27
@@ -174,6 +342,30 @@
       "writtenOn": "2016-06-30T18:46:28Z",
       "side": 1,
       "message": "leftover commented code?",
+      "range": {
+        "startLine": 295,
+        "startChar": 3,
+        "endLine": 295,
+        "endChar": 19
+      },
+      "revId": "ec475ae3ede4b5fb27b75d3d99901b36b3f36c70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47b89bd4_b139cb8d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackPushConnection.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 81548
+      },
+      "writtenOn": "2016-07-07T00:52:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47b89bd4_b1ac6b77",
       "range": {
         "startLine": 295,
         "startChar": 3,
@@ -209,6 +401,30 @@
     },
     {
       "key": {
+        "uuid": "47b89bd4_0c7c1a90",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 81548
+      },
+      "writtenOn": "2016-07-07T00:52:36Z",
+      "side": 1,
+      "message": "So the line would read as follows?\n\nallowPushOptions \u003d config.getBoolean(\"receive\", \"advertisePushOptions\", false);\n\nI don\u0027t feel strongly about it either way, but wouldn\u0027t camelCase break the existing convention (e.g. \"usedeltabaseoffset\")?",
+      "parentUuid": "47b89bd4_917e875c",
+      "range": {
+        "startLine": 352,
+        "startChar": 51,
+        "endLine": 352,
+        "endChar": 64
+      },
+      "revId": "ec475ae3ede4b5fb27b75d3d99901b36b3f36c70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47b89bd4_b1838be0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
         "patchSetId": 27
@@ -232,6 +448,30 @@
     },
     {
       "key": {
+        "uuid": "47b89bd4_1128b735",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 1116,
+      "author": {
+        "id": 81548
+      },
+      "writtenOn": "2016-07-07T00:52:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47b89bd4_b1838be0",
+      "range": {
+        "startLine": 1116,
+        "startChar": 3,
+        "endLine": 1116,
+        "endChar": 29
+      },
+      "revId": "ec475ae3ede4b5fb27b75d3d99901b36b3f36c70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47b89bd4_71a2d384",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushProcess.java",
         "patchSetId": 27
@@ -243,6 +483,30 @@
       "writtenOn": "2016-06-30T18:46:28Z",
       "side": 1,
       "message": "stray new line",
+      "range": {
+        "startLine": 160,
+        "startChar": 0,
+        "endLine": 161,
+        "endChar": 0
+      },
+      "revId": "ec475ae3ede4b5fb27b75d3d99901b36b3f36c70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47b89bd4_915047dd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushProcess.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 81548
+      },
+      "writtenOn": "2016-07-07T00:52:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47b89bd4_71a2d384",
       "range": {
         "startLine": 160,
         "startChar": 0,
