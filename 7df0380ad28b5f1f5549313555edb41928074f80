@@ -177,6 +177,24 @@
     },
     {
       "key": {
+        "uuid": "27af2791_be09a139",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackPushConnection.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-07-07T18:35:06Z",
+      "side": 1,
+      "message": "Did the recommended coding style change? I thought the style in JGit was similar to git core, where a single statement is encouraged to go without braces.\n\nSo maybe did you mean to nit at line 294 with the for loop having braces, but they should not?",
+      "parentUuid": "47b89bd4_189e05e9",
+      "revId": "7df0380ad28b5f1f5549313555edb41928074f80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47b89bd4_f81dd125",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackPushConnection.java",
         "patchSetId": 32
