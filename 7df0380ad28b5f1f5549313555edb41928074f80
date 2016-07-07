@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "27af2791_9e9a1d7a",
+        "filename": "org.eclipse.jgit.test/META-INF/MANIFEST.MF",
+        "patchSetId": 32
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 81548
+      },
+      "writtenOn": "2016-07-07T18:29:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47b89bd4_b89ef9e9",
+      "revId": "7df0380ad28b5f1f5549313555edb41928074f80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47b89bd4_98f3f55e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
         "patchSetId": 32
@@ -30,6 +48,24 @@
       "writtenOn": "2016-07-07T08:49:33Z",
       "side": 1,
       "message": "missing @since 4.5 for new API method",
+      "revId": "7df0380ad28b5f1f5549313555edb41928074f80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_fbc7aba7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 81548
+      },
+      "writtenOn": "2016-07-07T18:29:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47b89bd4_98f3f55e",
       "revId": "7df0380ad28b5f1f5549313555edb41928074f80",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "27af2791_1b945f99",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 81548
+      },
+      "writtenOn": "2016-07-07T18:29:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47b89bd4_b8135919",
+      "revId": "7df0380ad28b5f1f5549313555edb41928074f80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47b89bd4_d8180d38",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
         "patchSetId": 32
@@ -64,6 +118,24 @@
       "writtenOn": "2016-07-07T08:49:33Z",
       "side": 1,
       "message": "style nit: missing braces",
+      "revId": "7df0380ad28b5f1f5549313555edb41928074f80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_3b9923d2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 81548
+      },
+      "writtenOn": "2016-07-07T18:29:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47b89bd4_d8180d38",
       "revId": "7df0380ad28b5f1f5549313555edb41928074f80",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "27af2791_dba107f3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackPushConnection.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 81548
+      },
+      "writtenOn": "2016-07-07T18:29:35Z",
+      "side": 1,
+      "message": "I personally also prefer being explicit with braces, but shouldn\u0027t I be following the existing convention within this file (e.g. line 283)?",
+      "parentUuid": "47b89bd4_189e05e9",
+      "revId": "7df0380ad28b5f1f5549313555edb41928074f80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47b89bd4_f81dd125",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackPushConnection.java",
         "patchSetId": 32
@@ -98,6 +188,24 @@
       "writtenOn": "2016-07-07T08:49:33Z",
       "side": 1,
       "message": "missing @since 4.5 for new API method",
+      "revId": "7df0380ad28b5f1f5549313555edb41928074f80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_fb9ecbb3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackPushConnection.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 81548
+      },
+      "writtenOn": "2016-07-07T18:29:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47b89bd4_f81dd125",
       "revId": "7df0380ad28b5f1f5549313555edb41928074f80",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "27af2791_9e685dea",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 81548
+      },
+      "writtenOn": "2016-07-07T18:29:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47b89bd4_b8b7d971",
+      "revId": "7df0380ad28b5f1f5549313555edb41928074f80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47b89bd4_d8bc8d58",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
         "patchSetId": 32
@@ -132,6 +258,24 @@
       "writtenOn": "2016-07-07T08:49:33Z",
       "side": 1,
       "message": "missing @since 4.5 tag",
+      "revId": "7df0380ad28b5f1f5549313555edb41928074f80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_be652111",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 81548
+      },
+      "writtenOn": "2016-07-07T18:29:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47b89bd4_d8bc8d58",
       "revId": "7df0380ad28b5f1f5549313555edb41928074f80",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "27af2791_de72d5d3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 851,
+      "author": {
+        "id": 81548
+      },
+      "writtenOn": "2016-07-07T18:29:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47b89bd4_5804fdce",
+      "revId": "7df0380ad28b5f1f5549313555edb41928074f80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47b89bd4_980e95ed",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
         "patchSetId": 32
@@ -166,6 +328,24 @@
       "writtenOn": "2016-07-07T08:49:33Z",
       "side": 1,
       "message": "style nit: missing braces",
+      "revId": "7df0380ad28b5f1f5549313555edb41928074f80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_fe6f99ec",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 852,
+      "author": {
+        "id": 81548
+      },
+      "writtenOn": "2016-07-07T18:29:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47b89bd4_980e95ed",
       "revId": "7df0380ad28b5f1f5549313555edb41928074f80",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "27af2791_1e3c4dee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 1269,
+      "author": {
+        "id": 81548
+      },
+      "writtenOn": "2016-07-07T18:29:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47b89bd4_7811c10a",
+      "revId": "7df0380ad28b5f1f5549313555edb41928074f80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47b89bd4_b83a7981",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushProcess.java",
         "patchSetId": 32
@@ -200,6 +398,24 @@
       "writtenOn": "2016-07-07T08:49:33Z",
       "side": 1,
       "message": "this removal of whitespace seems unrelated to this change",
+      "revId": "7df0380ad28b5f1f5549313555edb41928074f80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_3e411163",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushProcess.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 81548
+      },
+      "writtenOn": "2016-07-07T18:29:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47b89bd4_b83a7981",
       "revId": "7df0380ad28b5f1f5549313555edb41928074f80",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -223,6 +439,24 @@
     },
     {
       "key": {
+        "uuid": "27af2791_5e36c50d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushProcess.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 81548
+      },
+      "writtenOn": "2016-07-07T18:29:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47b89bd4_d83f2d71",
+      "revId": "7df0380ad28b5f1f5549313555edb41928074f80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47b89bd4_f834f195",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
         "patchSetId": 32
@@ -234,6 +468,24 @@
       "writtenOn": "2016-07-07T08:49:33Z",
       "side": 1,
       "message": "style nit: missing braces",
+      "revId": "7df0380ad28b5f1f5549313555edb41928074f80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_9e4f7d8d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 81548
+      },
+      "writtenOn": "2016-07-07T18:29:35Z",
+      "side": 1,
+      "message": "(c.f. BasePackPushConnection, ln. 311)",
+      "parentUuid": "47b89bd4_f834f195",
       "revId": "7df0380ad28b5f1f5549313555edb41928074f80",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -257,6 +509,24 @@
     },
     {
       "key": {
+        "uuid": "27af2791_fe46b974",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 1129,
+      "author": {
+        "id": 81548
+      },
+      "writtenOn": "2016-07-07T18:29:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47b89bd4_183a8580",
+      "revId": "7df0380ad28b5f1f5549313555edb41928074f80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47b89bd4_382e6946",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
         "patchSetId": 32
@@ -268,6 +538,24 @@
       "writtenOn": "2016-07-07T08:49:33Z",
       "side": 1,
       "message": "missing @since 4.5 for new API method",
+      "revId": "7df0380ad28b5f1f5549313555edb41928074f80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_1ea7edc5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 1139,
+      "author": {
+        "id": 81548
+      },
+      "writtenOn": "2016-07-07T18:29:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47b89bd4_382e6946",
       "revId": "7df0380ad28b5f1f5549313555edb41928074f80",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
