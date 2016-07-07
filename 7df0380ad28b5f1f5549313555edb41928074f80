@@ -1,0 +1,276 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "47b89bd4_b89ef9e9",
+        "filename": "org.eclipse.jgit.test/META-INF/MANIFEST.MF",
+        "patchSetId": 32
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-07-07T08:49:33Z",
+      "side": 1,
+      "message": "we tend to limit version range to next major version [4.12.0,5.0.0) until we are sure it works with the next major version",
+      "revId": "7df0380ad28b5f1f5549313555edb41928074f80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47b89bd4_98f3f55e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-07-07T08:49:33Z",
+      "side": 1,
+      "message": "missing @since 4.5 for new API method",
+      "revId": "7df0380ad28b5f1f5549313555edb41928074f80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47b89bd4_b8135919",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-07-07T08:49:33Z",
+      "side": 1,
+      "message": "missing @since 4.5 for new API method",
+      "revId": "7df0380ad28b5f1f5549313555edb41928074f80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47b89bd4_d8180d38",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-07-07T08:49:33Z",
+      "side": 1,
+      "message": "style nit: missing braces",
+      "revId": "7df0380ad28b5f1f5549313555edb41928074f80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47b89bd4_189e05e9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackPushConnection.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-07-07T08:49:33Z",
+      "side": 1,
+      "message": "style nit: missing braces",
+      "revId": "7df0380ad28b5f1f5549313555edb41928074f80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47b89bd4_f81dd125",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackPushConnection.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-07-07T08:49:33Z",
+      "side": 1,
+      "message": "missing @since 4.5 for new API method",
+      "revId": "7df0380ad28b5f1f5549313555edb41928074f80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47b89bd4_b8b7d971",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-07-07T08:49:33Z",
+      "side": 1,
+      "message": "missing @since 4.5 tag",
+      "revId": "7df0380ad28b5f1f5549313555edb41928074f80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47b89bd4_d8bc8d58",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-07-07T08:49:33Z",
+      "side": 1,
+      "message": "missing @since 4.5 tag",
+      "revId": "7df0380ad28b5f1f5549313555edb41928074f80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47b89bd4_5804fdce",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 851,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-07-07T08:49:33Z",
+      "side": 1,
+      "message": "missing @since 4.5 for new API method",
+      "revId": "7df0380ad28b5f1f5549313555edb41928074f80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47b89bd4_980e95ed",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 852,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-07-07T08:49:33Z",
+      "side": 1,
+      "message": "style nit: missing braces",
+      "revId": "7df0380ad28b5f1f5549313555edb41928074f80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47b89bd4_7811c10a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 1269,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-07-07T08:49:33Z",
+      "side": 1,
+      "message": "missing @since 4.5 for new API method",
+      "revId": "7df0380ad28b5f1f5549313555edb41928074f80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47b89bd4_b83a7981",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushProcess.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-07-07T08:49:33Z",
+      "side": 1,
+      "message": "this removal of whitespace seems unrelated to this change",
+      "revId": "7df0380ad28b5f1f5549313555edb41928074f80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47b89bd4_d83f2d71",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushProcess.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-07-07T08:49:33Z",
+      "side": 1,
+      "message": "missing @since 4.5 for new API method",
+      "revId": "7df0380ad28b5f1f5549313555edb41928074f80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47b89bd4_f834f195",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-07-07T08:49:33Z",
+      "side": 1,
+      "message": "style nit: missing braces",
+      "revId": "7df0380ad28b5f1f5549313555edb41928074f80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47b89bd4_183a8580",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 1129,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-07-07T08:49:33Z",
+      "side": 1,
+      "message": "missing @since 4.5 for new API method",
+      "revId": "7df0380ad28b5f1f5549313555edb41928074f80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47b89bd4_382e6946",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 1139,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-07-07T08:49:33Z",
+      "side": 1,
+      "message": "missing @since 4.5 for new API method",
+      "revId": "7df0380ad28b5f1f5549313555edb41928074f80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
