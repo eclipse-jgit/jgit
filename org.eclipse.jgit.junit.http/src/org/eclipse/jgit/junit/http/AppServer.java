@@ -181,6 +181,14 @@ public class AppServer {
 			protected void loadUsers() throws IOException {
 				putUser(username, new Password(password), new String[] { role });
 			}
+
+			protected String[] loadRoleInfo(KnownUser user) {
+				return null;
+			}
+
+			protected KnownUser loadUserInfo(String usrname) {
+				return null;
+			}
 		};
 
 		ConstraintMapping cm = new ConstraintMapping();
