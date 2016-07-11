@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "27af2791_f5008f3b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-07-11T13:52:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47b89bd4_754aac7c",
+      "range": {
+        "startLine": 12,
+        "startChar": 64,
+        "endLine": 13,
+        "endChar": 7
+      },
+      "revId": "ac1da6ae1c8e3a92d01335bbc0ef54a227d81280",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47b89bd4_d5ac58aa",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPointer.java",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2016-07-06T21:57:15Z",
       "side": 1,
       "message": "this method accepts an InputStream, not a buffer ?",
+      "range": {
+        "startLine": 119,
+        "startChar": 26,
+        "endLine": 119,
+        "endChar": 44
+      },
+      "revId": "ac1da6ae1c8e3a92d01335bbc0ef54a227d81280",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_15fee3a0",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPointer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-07-11T13:52:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47b89bd4_d5ac58aa",
       "range": {
         "startLine": 119,
         "startChar": 26,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "27af2791_352a07b6",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPointer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-07-11T13:52:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47b89bd4_b5a7e4c3",
+      "range": {
+        "startLine": 123,
+        "startChar": 61,
+        "endLine": 123,
+        "endChar": 70
+      },
+      "revId": "ac1da6ae1c8e3a92d01335bbc0ef54a227d81280",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47b89bd4_15b7b0f0",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPointer.java",
         "patchSetId": 3
@@ -82,6 +154,30 @@
       "writtenOn": "2016-07-06T21:57:15Z",
       "side": 1,
       "message": "what is v ?",
+      "range": {
+        "startLine": 131,
+        "startChar": 10,
+        "endLine": 131,
+        "endChar": 11
+      },
+      "revId": "ac1da6ae1c8e3a92d01335bbc0ef54a227d81280",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_552f7bc4",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPointer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-07-11T13:52:59Z",
+      "side": 1,
+      "message": "It\u0027s a flag telling that we found the \"version ...\" line. I renamed the variable to clarify this. Done",
+      "parentUuid": "47b89bd4_15b7b0f0",
       "range": {
         "startLine": 131,
         "startChar": 10,
@@ -111,6 +207,24 @@
     },
     {
       "key": {
+        "uuid": "27af2791_b51d379d",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPointer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-07-11T13:52:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47b89bd4_359bd480",
+      "revId": "ac1da6ae1c8e3a92d01335bbc0ef54a227d81280",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47b89bd4_b58e043c",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
         "patchSetId": 3
@@ -122,6 +236,24 @@
       "writtenOn": "2016-07-06T21:57:15Z",
       "side": 1,
       "message": "missing javadoc",
+      "revId": "ac1da6ae1c8e3a92d01335bbc0ef54a227d81280",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_755f1f46",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-07-11T13:52:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47b89bd4_b58e043c",
       "revId": "ac1da6ae1c8e3a92d01335bbc0ef54a227d81280",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -145,6 +277,24 @@
     },
     {
       "key": {
+        "uuid": "27af2791_9564b316",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-07-11T13:52:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47b89bd4_75a54cb5",
+      "revId": "ac1da6ae1c8e3a92d01335bbc0ef54a227d81280",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47b89bd4_d593785f",
         "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
         "patchSetId": 3
@@ -156,6 +306,24 @@
       "writtenOn": "2016-07-06T21:57:15Z",
       "side": 1,
       "message": "why prefix m ?",
+      "revId": "ac1da6ae1c8e3a92d01335bbc0ef54a227d81280",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_1570a3c9",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/SmudgeFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-07-11T13:52:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47b89bd4_d593785f",
       "revId": "ac1da6ae1c8e3a92d01335bbc0ef54a227d81280",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -179,6 +347,24 @@
     },
     {
       "key": {
+        "uuid": "27af2791_f57b2f97",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/AddCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-07-11T13:52:59Z",
+      "side": 1,
+      "message": "Found out that we indeed read the data two times (at least). Changed the comment to clarify that. But the solution has to go into a different commit.",
+      "parentUuid": "47b89bd4_f5887c30",
+      "revId": "ac1da6ae1c8e3a92d01335bbc0ef54a227d81280",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47b89bd4_158ed03a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
         "patchSetId": 3
@@ -196,6 +382,24 @@
     },
     {
       "key": {
+        "uuid": "27af2791_55d05bf4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-07-11T13:52:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47b89bd4_158ed03a",
+      "revId": "ac1da6ae1c8e3a92d01335bbc0ef54a227d81280",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47b89bd4_f5031c18",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
         "patchSetId": 3
@@ -207,6 +411,24 @@
       "writtenOn": "2016-07-06T21:57:15Z",
       "side": 1,
       "message": "fix TODO",
+      "revId": "ac1da6ae1c8e3a92d01335bbc0ef54a227d81280",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_757e3f5f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-07-11T13:52:59Z",
+      "side": 1,
+      "message": "I removed the todo. I don\u0027t think we write twice. Since this is the cleanFilter then at least for the lfs use case we will always have cleant content which is so small that it will be kept in memory.",
+      "parentUuid": "47b89bd4_f5031c18",
       "revId": "ac1da6ae1c8e3a92d01335bbc0ef54a227d81280",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
