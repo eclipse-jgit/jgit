@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "27af2791_38d049f4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-07-11T13:52:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47b89bd4_b51365e7",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 11
+      },
+      "revId": "f16940f0a760fe1e1e4f4af322f2d857fd06ec29",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47b89bd4_d518d905",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -36,6 +60,30 @@
       "writtenOn": "2016-07-06T21:18:54Z",
       "side": 1,
       "message": "Java",
+      "range": {
+        "startLine": 16,
+        "startChar": 3,
+        "endLine": 16,
+        "endChar": 7
+      },
+      "revId": "f16940f0a760fe1e1e4f4af322f2d857fd06ec29",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_98beb5aa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-07-11T13:52:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47b89bd4_d518d905",
       "range": {
         "startLine": 16,
         "startChar": 3,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "27af2791_d8c82d4d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-07-11T13:52:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47b89bd4_7530ed71",
+      "range": {
+        "startLine": 26,
+        "startChar": 28,
+        "endLine": 26,
+        "endChar": 45
+      },
+      "revId": "f16940f0a760fe1e1e4f4af322f2d857fd06ec29",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47b89bd4_950e61c3",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/BuiltinCommandsTest.java",
         "patchSetId": 5
@@ -82,6 +154,24 @@
       "writtenOn": "2016-07-06T21:18:54Z",
       "side": 1,
       "message": "missing license header",
+      "revId": "f16940f0a760fe1e1e4f4af322f2d857fd06ec29",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_98b075c7",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/BuiltinCommandsTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-07-11T13:52:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47b89bd4_950e61c3",
       "revId": "f16940f0a760fe1e1e4f4af322f2d857fd06ec29",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -105,6 +195,24 @@
     },
     {
       "key": {
+        "uuid": "27af2791_f8b7b1b9",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/BuiltinCommandsTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-07-11T13:52:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47b89bd4_95358163",
+      "revId": "f16940f0a760fe1e1e4f4af322f2d857fd06ec29",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47b89bd4_d52ff910",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
         "patchSetId": 5
@@ -116,6 +224,30 @@
       "writtenOn": "2016-07-06T21:18:54Z",
       "side": 1,
       "message": "Builtin filter commands",
+      "range": {
+        "startLine": 395,
+        "startChar": 4,
+        "endLine": 395,
+        "endChar": 20
+      },
+      "revId": "f16940f0a760fe1e1e4f4af322f2d857fd06ec29",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_b8945916",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-07-11T13:52:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47b89bd4_d52ff910",
       "range": {
         "startLine": 395,
         "startChar": 4,
@@ -151,6 +283,30 @@
     },
     {
       "key": {
+        "uuid": "27af2791_3874c974",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-07-11T13:52:14Z",
+      "side": 1,
+      "message": "renamed everything from BuiltinCommand... to FilterCommand. Done.",
+      "parentUuid": "47b89bd4_95b2e14f",
+      "range": {
+        "startLine": 154,
+        "startChar": 15,
+        "endLine": 154,
+        "endChar": 36
+      },
+      "revId": "f16940f0a760fe1e1e4f4af322f2d857fd06ec29",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47b89bd4_d501b979",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/BuiltinCommand.java",
         "patchSetId": 5
@@ -162,6 +318,30 @@
       "writtenOn": "2016-07-06T21:18:54Z",
       "side": 1,
       "message": "They",
+      "range": {
+        "startLine": 52,
+        "startChar": 65,
+        "endLine": 52,
+        "endChar": 68
+      },
+      "revId": "f16940f0a760fe1e1e4f4af322f2d857fd06ec29",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_58797d6b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/BuiltinCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-07-11T13:52:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47b89bd4_d501b979",
       "range": {
         "startLine": 52,
         "startChar": 65,
@@ -197,6 +377,30 @@
     },
     {
       "key": {
+        "uuid": "27af2791_d86cadad",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/BuiltinCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-07-11T13:52:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47b89bd4_15bed11a",
+      "range": {
+        "startLine": 53,
+        "startChar": 48,
+        "endLine": 55,
+        "endChar": 63
+      },
+      "revId": "f16940f0a760fe1e1e4f4af322f2d857fd06ec29",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47b89bd4_35cbd5b8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/BuiltinCommand.java",
         "patchSetId": 5
@@ -208,6 +412,30 @@
       "writtenOn": "2016-07-06T21:18:54Z",
       "side": 1,
       "message": "FilterCommand",
+      "range": {
+        "startLine": 59,
+        "startChar": 22,
+        "endLine": 59,
+        "endChar": 36
+      },
+      "revId": "f16940f0a760fe1e1e4f4af322f2d857fd06ec29",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_f869719a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/BuiltinCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-07-11T13:52:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47b89bd4_35cbd5b8",
       "range": {
         "startLine": 59,
         "startChar": 22,
@@ -266,6 +494,54 @@
     },
     {
       "key": {
+        "uuid": "27af2791_185625db",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/BuiltinCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-07-11T13:52:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47b89bd4_55c849b9",
+      "range": {
+        "startLine": 80,
+        "startChar": 4,
+        "endLine": 80,
+        "endChar": 12
+      },
+      "revId": "f16940f0a760fe1e1e4f4af322f2d857fd06ec29",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_58509ddb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/BuiltinCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-07-11T13:52:14Z",
+      "side": 1,
+      "message": "Which data is not specified. In case of filter implementions they read either original content (clean filter) or filtered content (smudge filter). In case of hooks I think it\u0027s specific to each hook",
+      "parentUuid": "47b89bd4_959901d4",
+      "range": {
+        "startLine": 80,
+        "startChar": 53,
+        "endLine": 80,
+        "endChar": 62
+      },
+      "revId": "f16940f0a760fe1e1e4f4af322f2d857fd06ec29",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47b89bd4_15a5f1fe",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/BuiltinCommandFactory.java",
         "patchSetId": 5
@@ -289,6 +565,30 @@
     },
     {
       "key": {
+        "uuid": "27af2791_d843cd14",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/BuiltinCommandFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-07-11T13:52:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47b89bd4_15a5f1fe",
+      "range": {
+        "startLine": 56,
+        "startChar": 17,
+        "endLine": 56,
+        "endChar": 38
+      },
+      "revId": "f16940f0a760fe1e1e4f4af322f2d857fd06ec29",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47b89bd4_35a2f5f6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/BuiltinCommandFactory.java",
         "patchSetId": 5
@@ -300,6 +600,30 @@
       "writtenOn": "2016-07-06T21:18:54Z",
       "side": 1,
       "message": "Create",
+      "range": {
+        "startLine": 58,
+        "startChar": 4,
+        "endLine": 58,
+        "endChar": 11
+      },
+      "revId": "f16940f0a760fe1e1e4f4af322f2d857fd06ec29",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_f840910a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/BuiltinCommandFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2016-07-11T13:52:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47b89bd4_35a2f5f6",
       "range": {
         "startLine": 58,
         "startChar": 4,
