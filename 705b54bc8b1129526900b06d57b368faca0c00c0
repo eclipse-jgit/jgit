@@ -16,6 +16,24 @@
       "revId": "705b54bc8b1129526900b06d57b368faca0c00c0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_49cb664d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 886,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2016-07-12T09:19:18Z",
+      "side": 1,
+      "message": "Yes, this seems to be the simplest way to write the current stack trace in the log.",
+      "parentUuid": "27af2791_ec261342",
+      "revId": "705b54bc8b1129526900b06d57b368faca0c00c0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
