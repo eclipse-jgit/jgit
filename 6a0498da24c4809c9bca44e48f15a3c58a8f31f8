@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_89d2de42",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-07-12T05:06:01Z",
+      "side": 1,
+      "message": "space after if before (",
+      "range": {
+        "startLine": 281,
+        "startChar": 2,
+        "endLine": 281,
+        "endChar": 5
+      },
+      "revId": "6a0498da24c4809c9bca44e48f15a3c58a8f31f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_a9d7a232",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 523,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-07-12T05:06:01Z",
+      "side": 1,
+      "message": "This is problematic for a large pack file; e.g. pushing a 1.2 GiB repository to S3 will try to allocate all 1.2 GiB in a single byte array right here. This method tried otherwise to avoid that by using a TemporaryBuffer that holds the data on disk and streams it to the network.\n\nSince it is on local disk you should be able to read the data back using TemporaryBuffer\u0027s input stream.",
+      "range": {
+        "startLine": 523,
+        "startChar": 0,
+        "endLine": 523,
+        "endChar": 37
+      },
+      "revId": "6a0498da24c4809c9bca44e48f15a3c58a8f31f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_29e39212",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 845,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-07-12T05:06:01Z",
+      "side": 1,
+      "message": "if (!headers",
+      "range": {
+        "startLine": 845,
+        "startChar": 3,
+        "endLine": 845,
+        "endChar": 15
+      },
+      "revId": "6a0498da24c4809c9bca44e48f15a3c58a8f31f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_09e6ce22",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 926,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-07-12T05:06:01Z",
+      "side": 1,
+      "message": "This should be 3 lines:\n\n  if (sb.length() \u003e 0) {\n    sb.setLength(sb.length() - 1);\n  }",
+      "range": {
+        "startLine": 926,
+        "startChar": 0,
+        "endLine": 926,
+        "endChar": 85
+      },
+      "revId": "6a0498da24c4809c9bca44e48f15a3c58a8f31f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_c9ebf6eb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 949,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-07-12T05:06:01Z",
+      "side": 1,
+      "message": "space after catch before (",
+      "range": {
+        "startLine": 949,
+        "startChar": 5,
+        "endLine": 949,
+        "endChar": 11
+      },
+      "revId": "6a0498da24c4809c9bca44e48f15a3c58a8f31f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_e9e8baf1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 973,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-07-12T05:06:01Z",
+      "side": 1,
+      "message": "We use Java 7 now so:\n\n  return s.getByte(java.nio.charset.StandardCharsets.UTF_8);\n\nwhich won\u0027t throw.",
+      "range": {
+        "startLine": 967,
+        "startChar": 3,
+        "endLine": 973,
+        "endChar": 4
+      },
+      "revId": "6a0498da24c4809c9bca44e48f15a3c58a8f31f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
