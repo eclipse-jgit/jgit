@@ -48,6 +48,23 @@
     },
     {
       "key": {
+        "uuid": "27af2791_c472fb05",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 783,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2016-07-12T15:45:30Z",
+      "side": 1,
+      "message": "we already have org.eclipse.jgit.lfs.server.s3.SignerV4 implementing Amazon V4 signing. We could move this implementation  from bundle org.eclipse.jgit.lfs.server to bundle org.eclipse.jgit in order to allow to reuse it here",
+      "revId": "6a0498da24c4809c9bca44e48f15a3c58a8f31f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_29e39212",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
         "patchSetId": 1
