@@ -551,7 +551,9 @@ public abstract class RefUpdate {
 	 * @throws IOException
 	 */
 	public Result delete(final RevWalk walk) throws IOException {
-		final String myName = getRef().getLeaf().getName();
+		final String myName = detachingSymbolicRef
+				? getRef().getName()
+				: getRef().getLeaf().getName();
 		if (myName.startsWith(Constants.R_HEADS) && !getRepository().isBare()) {
 			// Don't allow the currently checked out branch to be deleted.
 			Ref head = getRefDatabase().getRef(Constants.HEAD);
@@ -628,7 +630,10 @@ public abstract class RefUpdate {
 		if (oldValue == null && checkConflicting && getRefDatabase().isNameConflicting(getName()))
 			return Result.LOCK_FAILURE;
 		try {
-			if (!tryLock(true))
+			// If we're detaching a symbolic reference, we should update the reference
+			// itself. Otherwise, we will update the leaf reference, which should be
+			// an ObjectIdRef.
+			if (!tryLock(!detachingSymbolicRef))
 				return Result.LOCK_FAILURE;
 			if (expValue != null) {
 				final ObjectId o;
