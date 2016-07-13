@@ -267,7 +267,7 @@ public class CommitCommandTest extends RepositoryTestCase {
 					.setOnly(path).call();
 			assertNotNull(submoduleAddCommit);
 
-			RefUpdate update = repo.updateRef(Constants.HEAD);
+			RefUpdate update = repo.updateRef(Constants.HEAD, true);
 			update.setNewObjectId(commit);
 			assertEquals(Result.FORCED, update.forceUpdate());
 
