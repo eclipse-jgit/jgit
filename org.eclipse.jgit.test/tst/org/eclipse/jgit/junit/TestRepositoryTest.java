@@ -62,6 +62,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
@@ -372,6 +373,44 @@ public class TestRepositoryTest {
 		assertNotEquals(head, toPick);
 		assertNull(tr.cherryPick(toPick));
 		assertEquals(head, repo.exactRef("HEAD").getObjectId());
+	}
+
+	@Test
+	public void reattachToMaster_Race() throws Exception {
+		RevCommit commit = tr.branch("master").commit().create();
+		tr.branch("master").update(commit);
+		tr.branch("other").update(commit);
+		repo.updateRef("HEAD").link("refs/heads/master");
+
+		// Create a detached HEAD that is not an .
+		tr.reset(commit);
+		Ref head = repo.exactRef("HEAD");
+		assertEquals(commit, head.getObjectId());
+		assertFalse(head.isSymbolic());
+
+		// Try to reattach to master.
+		RefUpdate refUpdate = repo.updateRef("HEAD");
+
+		// Make a change during reattachment.
+		repo.updateRef("HEAD").link("refs/heads/other");
+
+		assertEquals(
+				RefUpdate.Result.LOCK_FAILURE, refUpdate.link("refs/heads/master"));
+	}
+
+	@Test
+	public void nonRacingChange() throws Exception {
+		tr.branch("master").update(tr.branch("master").commit().create());
+		tr.branch("other").update(tr.branch("other").commit().create());
+		repo.updateRef("HEAD").link("refs/heads/master");
+
+		// Try to update HEAD.
+		RefUpdate refUpdate = repo.updateRef("HEAD");
+
+		// Proceed a master. This should not affect changing HEAD.
+		tr.branch("master").update(tr.branch("master").commit().create());
+
+		assertEquals(RefUpdate.Result.FORCED, refUpdate.link("refs/heads/other"));
 	}
 
 	private String blobAsString(AnyObjectId treeish, String path)
