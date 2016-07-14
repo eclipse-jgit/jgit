@@ -313,8 +313,6 @@ public class UploadPack {
 
 	private PackStatistics statistics;
 
-	private UploadPackLogger logger = UploadPackLogger.NULL;
-
 	/**
 	 * Create a new pack upload for an open repository.
 	 *
@@ -584,28 +582,6 @@ public class UploadPack {
 			setRequestPolicy(transferConfig.isAllowReachableSha1InWant()
 				? RequestPolicy.REACHABLE_COMMIT : RequestPolicy.ADVERTISED);
 		}
-	}
-
-	/**
-	 * @return the configured logger.
-	 *
-	 * @deprecated Use {@link #getPreUploadHook()}.
-	 */
-	@Deprecated
-	public UploadPackLogger getLogger() {
-		return logger;
-	}
-
-	/**
-	 * Set the logger.
-	 *
-	 * @param logger
-	 *            the logger instance. If null, no logging occurs.
-	 * @deprecated Use {@link #setPreUploadHook(PreUploadHook)}.
-	 */
-	@Deprecated
-	public void setLogger(UploadPackLogger logger) {
-		this.logger = logger;
 	}
 
 	/**
@@ -1537,7 +1513,6 @@ public class UploadPack {
 			statistics = pw.getStatistics();
 			if (statistics != null) {
 				postUploadHook.onPostUpload(statistics);
-				logger.onPackStatistics(new PackWriter.Statistics(statistics));
 			}
 			pw.close();
 		}
