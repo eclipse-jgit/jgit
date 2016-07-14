@@ -67,7 +67,7 @@ import com.google.gson.GsonBuilder;
 /**
  * LFS protocol handler implementing the LFS batch API [1]
  *
- * [1] https://github.com/github/git-lfs/blob/master/docs/api/http-v1-batch.md
+ * [1] https://github.com/github/git-lfs/blob/master/docs/api/v1/http-v1-batch.md
  *
  * @since 4.3
  */
