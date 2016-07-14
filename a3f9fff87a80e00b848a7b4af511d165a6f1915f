@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_14c5f783",
+        "filename": "org.eclipse.jgit.test/META-INF/MANIFEST.MF",
+        "patchSetId": 35
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-07-14T22:31:36Z",
+      "side": 1,
+      "message": "No need to include this into the change?",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 50
+      },
+      "revId": "a3f9fff87a80e00b848a7b4af511d165a6f1915f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
