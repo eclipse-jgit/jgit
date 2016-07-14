@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "27af2791_1f28b535",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2016-07-14T17:47:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_9fd5a5e6",
+      "range": {
+        "startLine": 171,
+        "startChar": 6,
+        "endLine": 171,
+        "endChar": 42
+      },
+      "revId": "9ee13be91dd80507c28cbdaad8e7a67f7743140a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_1fe0b5b4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
         "patchSetId": 2
@@ -42,6 +66,47 @@
         "endLine": 181,
         "endChar": 3
       },
+      "revId": "9ee13be91dd80507c28cbdaad8e7a67f7743140a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_3f25795d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2016-07-14T17:47:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_1fe0b5b4",
+      "range": {
+        "startLine": 179,
+        "startChar": 2,
+        "endLine": 181,
+        "endChar": 3
+      },
+      "revId": "9ee13be91dd80507c28cbdaad8e7a67f7743140a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_9f9845fe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2016-07-14T17:47:32Z",
+      "side": 1,
+      "message": "I used a set here to avoid quadratic removal behavior, but I realized this is actually a behavior change. Previously we would happily emit results for an object multiple times if you listed it multiple times in the input; here we deduplicate.\n\nI guess a LinkedList is the way to go here then. Or a BlockList; I have no idea what the distribution of input sizes is.",
       "revId": "9ee13be91dd80507c28cbdaad8e7a67f7743140a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -83,6 +148,24 @@
     },
     {
       "key": {
+        "uuid": "27af2791_ff8ea1b7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2016-07-14T17:47:32Z",
+      "side": 1,
+      "message": "Done. Pretty straightforward.\n\n* findAll with the first list, removing from pending only found items\n* findAll with the second list if applicable\n* add missing FoundObjects for all remaining pending\n* sort",
+      "parentUuid": "27af2791_3ff3b960",
+      "revId": "9ee13be91dd80507c28cbdaad8e7a67f7743140a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_3f41f90c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
         "patchSetId": 2
@@ -100,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "27af2791_bf9d09ee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2016-07-14T17:47:32Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "27af2791_3f41f90c",
+      "revId": "9ee13be91dd80507c28cbdaad8e7a67f7743140a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_5fc14dfa",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
         "patchSetId": 2
@@ -111,6 +212,24 @@
       "writtenOn": "2016-07-14T16:49:57Z",
       "side": 1,
       "message": "The sorts may have to be deferred until after the packList.dirty second pass",
+      "revId": "9ee13be91dd80507c28cbdaad8e7a67f7743140a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_df91ddd6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2016-07-14T17:47:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_5fc14dfa",
       "revId": "9ee13be91dd80507c28cbdaad8e7a67f7743140a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -187,6 +306,30 @@
     },
     {
       "key": {
+        "uuid": "27af2791_9f6f6573",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/InMemoryRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2016-07-14T17:47:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_fff8613f",
+      "range": {
+        "startLine": 286,
+        "startChar": 0,
+        "endLine": 293,
+        "endChar": 8
+      },
+      "revId": "9ee13be91dd80507c28cbdaad8e7a67f7743140a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_5fcb0d4d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/InMemoryRepository.java",
         "patchSetId": 2
@@ -245,6 +388,30 @@
     },
     {
       "key": {
+        "uuid": "27af2791_bf742944",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/InMemoryRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2016-07-14T17:47:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_df339df8",
+      "range": {
+        "startLine": 396,
+        "startChar": 0,
+        "endLine": 399,
+        "endChar": 4
+      },
+      "revId": "9ee13be91dd80507c28cbdaad8e7a67f7743140a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_9f1a0574",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/InMemoryRepository.java",
         "patchSetId": 2
@@ -256,6 +423,30 @@
       "writtenOn": "2016-07-14T16:49:57Z",
       "side": 1,
       "message": "Why are we marking ourselves dirty after deleting a ref? No new objects were introduced.",
+      "range": {
+        "startLine": 455,
+        "startChar": 0,
+        "endLine": 459,
+        "endChar": 14
+      },
+      "revId": "9ee13be91dd80507c28cbdaad8e7a67f7743140a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_df78fd38",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/InMemoryRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2016-07-14T17:47:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_9f1a0574",
       "range": {
         "startLine": 455,
         "startChar": 0,
