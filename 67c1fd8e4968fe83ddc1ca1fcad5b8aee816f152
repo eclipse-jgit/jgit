@@ -66,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "27af2791_d1fc71e7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-07-14T22:07:28Z",
+      "side": 1,
+      "message": "Yea I agree that is premature optimization. Lets avoid something that ugly unless data shows this is a horrible source of garbage that has to be fixed.",
+      "parentUuid": "27af2791_7114854b",
+      "revId": "67c1fd8e4968fe83ddc1ca1fcad5b8aee816f152",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_f1c09576",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
         "patchSetId": 3
