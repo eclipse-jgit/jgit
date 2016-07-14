@@ -102,7 +102,7 @@ public final class Constants {
 
 	/**
 	 * Content type used by LFS REST API as defined in
-	 * {@link "https://github.com/github/git-lfs/blob/master/docs/api/http-v1-batch.md"}
+	 * {@link "https://github.com/github/git-lfs/blob/master/docs/api/v1/http-v1-batch.md"}
 	 */
 	public static String CONTENT_TYPE_GIT_LFS_JSON = "application/vnd.git-lfs+json";
 
