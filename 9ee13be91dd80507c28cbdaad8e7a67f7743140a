@@ -1,0 +1,210 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_9fd5a5e6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-07-14T16:49:57Z",
+      "side": 1,
+      "message": "matches.size() \u003c\u003d MAX_RESOLVE_MATCHES\n\nThe reverse ordering is harder to read now.",
+      "range": {
+        "startLine": 171,
+        "startChar": 6,
+        "endLine": 171,
+        "endChar": 42
+      },
+      "revId": "9ee13be91dd80507c28cbdaad8e7a67f7743140a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_1fe0b5b4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-07-14T16:49:57Z",
+      "side": 1,
+      "message": "This seems unnecessary. The caller invokes us once on an empty set, and then again only if matches.size() \u003c MAX_RESOLVE_MATCHES so we shouldn\u0027t need this redundant check.",
+      "range": {
+        "startLine": 179,
+        "startChar": 2,
+        "endLine": 181,
+        "endChar": 3
+      },
+      "revId": "9ee13be91dd80507c28cbdaad8e7a67f7743140a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_5f56addb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-07-14T16:49:57Z",
+      "side": 1,
+      "message": "Don\u0027t remove? We are just converting pending to FoundObject and returning to the caller where it shouldn\u0027t touch pending again?\n\nBut I\u0027m skeptical about that change because what if we have no packs, we findAllImpl() through this path, and then packList.dirty() is true and we rescan. pending is now empty but we maybe we could find what we wanted.\n\nIf we left pending non-empty we\u0027d produce duplicate results in r, one set of FoundObject saying its missing, and another set saying it exists. That wouldn\u0027t be good either.",
+      "revId": "9ee13be91dd80507c28cbdaad8e7a67f7743140a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_3f41f90c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-07-14T16:49:57Z",
+      "side": 1,
+      "message": "Maybe somehow defer this line until after the packList.dirty second pass?",
+      "revId": "9ee13be91dd80507c28cbdaad8e7a67f7743140a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_5fc14dfa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-07-14T16:49:57Z",
+      "side": 1,
+      "message": "The sorts may have to be deferred until after the packList.dirty second pass",
+      "revId": "9ee13be91dd80507c28cbdaad8e7a67f7743140a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_7fc61115",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 539,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-07-14T16:49:57Z",
+      "side": 1,
+      "message": "FWIW yes I agree this is safe.",
+      "range": {
+        "startLine": 538,
+        "startChar": 0,
+        "endLine": 539,
+        "endChar": 18
+      },
+      "revId": "9ee13be91dd80507c28cbdaad8e7a67f7743140a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_3f2bb983",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/InMemoryRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-07-14T16:49:57Z",
+      "side": 1,
+      "message": "Like below with the compareAndPut I don\u0027t see why we need to mark ourselves dirty if we successfully wrote a ref. We should have had the object in order to do the command.",
+      "range": {
+        "startLine": 286,
+        "startChar": 0,
+        "endLine": 293,
+        "endChar": 8
+      },
+      "revId": "9ee13be91dd80507c28cbdaad8e7a67f7743140a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_5fcb0d4d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/InMemoryRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-07-14T16:49:57Z",
+      "side": 1,
+      "message": "Unlike the other places in this class, this one makes sense.\n\nBut I wonder if we shouldn\u0027t just do this in the base DfsRefDatabase as part of the caller of scanAllRefs. IIRC the only caller of scanAllRefs is DfsRefDatabase.",
+      "revId": "9ee13be91dd80507c28cbdaad8e7a67f7743140a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_df339df8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/InMemoryRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-07-14T16:49:57Z",
+      "side": 1,
+      "message": "I don\u0027t think we need to mark our object database as dirty after we store a ref. We should have the object(s) already visible for newRef.",
+      "range": {
+        "startLine": 396,
+        "startChar": 0,
+        "endLine": 399,
+        "endChar": 4
+      },
+      "revId": "9ee13be91dd80507c28cbdaad8e7a67f7743140a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_9f1a0574",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/InMemoryRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-07-14T16:49:57Z",
+      "side": 1,
+      "message": "Why are we marking ourselves dirty after deleting a ref? No new objects were introduced.",
+      "range": {
+        "startLine": 455,
+        "startChar": 0,
+        "endLine": 459,
+        "endChar": 14
+      },
+      "revId": "9ee13be91dd80507c28cbdaad8e7a67f7743140a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
