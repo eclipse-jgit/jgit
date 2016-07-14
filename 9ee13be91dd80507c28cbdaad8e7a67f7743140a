@@ -365,6 +365,24 @@
     },
     {
       "key": {
+        "uuid": "27af2791_1f54354b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/InMemoryRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-07-14T22:07:21Z",
+      "side": 1,
+      "message": "Right, good point. Ok lets go with this approach of markDirty in the scanAllRefs implementation.",
+      "parentUuid": "27af2791_dffb9d39",
+      "revId": "9ee13be91dd80507c28cbdaad8e7a67f7743140a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_df339df8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/InMemoryRepository.java",
         "patchSetId": 2
