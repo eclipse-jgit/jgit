@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_91b11930",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-07-14T18:52:33Z",
+      "side": 1,
+      "message": "\u003c",
+      "range": {
+        "startLine": 172,
+        "startChar": 21,
+        "endLine": 172,
+        "endChar": 23
+      },
+      "revId": "67c1fd8e4968fe83ddc1ca1fcad5b8aee816f152",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_f1c09576",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-07-14T18:52:33Z",
+      "side": 1,
+      "message": "I think you need something more like:\n\n  if (!pending.isEmpty() \u0026\u0026 packList.dirty())\n\nBecause as written right now you might as well just check packList.dirty() up front and rescan before running findAllImpl once.",
+      "range": {
+        "startLine": 307,
+        "startChar": 0,
+        "endLine": 310,
+        "endChar": 3
+      },
+      "revId": "67c1fd8e4968fe83ddc1ca1fcad5b8aee816f152",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_51cf81a3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2016-07-14T18:52:33Z",
+      "side": 1,
+      "message": "You need a check for packs.length \u003d\u003d 0 here to just return early. Its a protection against an empty repository throwing ArrayIndexOutOfBoundsException when it was given a list of objects to find.",
+      "revId": "67c1fd8e4968fe83ddc1ca1fcad5b8aee816f152",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
