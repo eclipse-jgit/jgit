@@ -471,6 +471,14 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		packList.get().markDirty();
 	}
 
+	/**
+	 * @return latest modified timestamp of all currently scanned packs, in
+	 *         milliseconds since epoch.
+	 */
+	protected long lastModified() {
+		return packList.get().lastModified;
+	}
+
 	@Override
 	public void close() {
 		// PackList packs = packList.get();
@@ -485,8 +493,15 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		/** All known packs, sorted. */
 		final DfsPackFile[] packs;
 
+		final long lastModified;
+
 		PackList(final DfsPackFile[] packs) {
 			this.packs = packs;
+			long max = Long.MIN_VALUE;
+			for (DfsPackFile pack : packs) {
+				max = Math.max(max, pack.getPackDescription().getLastModified());
+			}
+			this.lastModified = max;
 		}
 
 		abstract boolean dirty();
