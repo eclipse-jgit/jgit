@@ -25,6 +25,47 @@
     },
     {
       "key": {
+        "uuid": "27af2791_f1089537",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2016-07-14T19:58:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_91b11930",
+      "range": {
+        "startLine": 172,
+        "startChar": 21,
+        "endLine": 172,
+        "endChar": 23
+      },
+      "revId": "67c1fd8e4968fe83ddc1ca1fcad5b8aee816f152",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_7114854b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2016-07-14T19:58:19Z",
+      "side": 1,
+      "message": "If it turns out a LinkedList is too messy on the heap, we could replace this with an ArrayList\u003cT\u003e and ArrayList\u003cBoolean\u003e indicating whether the object has been removed from the list. About the same memory usage and requires 3 iterations over N objects, but less garbage created.\n\nThat\u0027s premature optimization though.",
+      "revId": "67c1fd8e4968fe83ddc1ca1fcad5b8aee816f152",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_f1c09576",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
         "patchSetId": 3
@@ -48,6 +89,30 @@
     },
     {
       "key": {
+        "uuid": "27af2791_912039a5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2016-07-14T19:58:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_f1c09576",
+      "range": {
+        "startLine": 307,
+        "startChar": 0,
+        "endLine": 310,
+        "endChar": 3
+      },
+      "revId": "67c1fd8e4968fe83ddc1ca1fcad5b8aee816f152",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_51cf81a3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
         "patchSetId": 3
@@ -59,6 +124,24 @@
       "writtenOn": "2016-07-14T18:52:33Z",
       "side": 1,
       "message": "You need a check for packs.length \u003d\u003d 0 here to just return early. Its a protection against an empty repository throwing ArrayIndexOutOfBoundsException when it was given a list of objects to find.",
+      "revId": "67c1fd8e4968fe83ddc1ca1fcad5b8aee816f152",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_d11ab174",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2016-07-14T19:58:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_51cf81a3",
       "revId": "67c1fd8e4968fe83ddc1ca1fcad5b8aee816f152",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
