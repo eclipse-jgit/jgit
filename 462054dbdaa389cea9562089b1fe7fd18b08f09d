@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_7f937161",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2016-07-14T16:03:29Z",
+      "side": 1,
+      "message": "This is a separate but related change; our DfsRepository implementation will use this for finer grained invalidation based on comparing ref timestamps to pack timestamps. (It\u0027s not used by the core implementation because core JGit Refs don\u0027t have timestamps.)\n\nI\u0027ll split this out.",
+      "revId": "462054dbdaa389cea9562089b1fe7fd18b08f09d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
