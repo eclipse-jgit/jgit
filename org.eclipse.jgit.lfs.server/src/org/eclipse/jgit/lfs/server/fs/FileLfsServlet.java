@@ -161,7 +161,7 @@ public class FileLfsServlet extends HttpServlet {
 			throws IOException {
 		rsp.setStatus(status);
 		// TODO return message in response body in json format as specified in
-		// https://github.com/github/git-lfs/blob/master/docs/api/http-v1-batch.md
+		// https://github.com/github/git-lfs/blob/master/docs/api/v1/http-v1-batch.md
 		rsp.flushBuffer();
 	}
 }
