@@ -22,6 +22,30 @@
       "revId": "bf83eda77786a84971fc57d0039b0536118b46f5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_5473efd7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-07-14T23:09:04Z",
+      "side": 1,
+      "message": "Yes, but in a separate commit.",
+      "parentUuid": "27af2791_f42963be",
+      "range": {
+        "startLine": 359,
+        "startChar": 15,
+        "endLine": 359,
+        "endChar": 27
+      },
+      "revId": "bf83eda77786a84971fc57d0039b0536118b46f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
