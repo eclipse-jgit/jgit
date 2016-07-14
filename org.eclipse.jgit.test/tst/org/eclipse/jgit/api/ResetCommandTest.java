@@ -157,6 +157,28 @@ public class ResetCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testHardResetReflogDisabled() throws Exception {
+		setupRepository();
+		ObjectId prevHead = db.resolve(Constants.HEAD);
+		ResetCommand reset = git.reset();
+		assertSameAsHead(reset.setMode(ResetType.HARD)
+				.setRef(initialCommit.getName()).disableRefLog(true).call());
+		assertTrue("reflog should be disabled", reset.isReflogDisabled());
+		// check if HEAD points to initial commit now
+		ObjectId head = db.resolve(Constants.HEAD);
+		assertEquals(initialCommit, head);
+		// check if files were removed
+		assertFalse(indexFile.exists());
+		assertTrue(untrackedFile.exists());
+		// fileInIndex must no longer be in HEAD and in the index
+		String fileInIndexPath = indexFile.getAbsolutePath();
+		assertFalse(inHead(fileInIndexPath));
+		assertFalse(inIndex(indexFile.getName()));
+		assertReflogDisabled(head);
+		assertEquals(prevHead, db.readOrigHead());
+	}
+
+	@Test
 	public void testHardResetWithConflicts_DoOverWriteUntrackedFile()
 			throws JGitInternalException,
 			AmbiguousObjectException, IOException, GitAPIException {
@@ -562,6 +584,24 @@ public class ResetCommandTest extends RepositoryTestCase {
 				.getName());
 	}
 
+	private void assertReflogDisabled(ObjectId head)
+			throws IOException {
+		// Check the reflog for HEAD
+		String actualHeadMessage = db.getReflogReader(Constants.HEAD)
+				.getLastEntry().getComment();
+		String expectedHeadMessage = "commit: adding a.txt and dir/b.txt";
+		assertEquals(expectedHeadMessage, actualHeadMessage);
+		assertEquals(head.getName(), db.getReflogReader(Constants.HEAD)
+				.getLastEntry().getOldId().getName());
+
+		// The reflog for master contains the same as the one for HEAD
+		String actualMasterMessage = db.getReflogReader("refs/heads/master")
+				.getLastEntry().getComment();
+		String expectedMasterMessage = "commit: adding a.txt and dir/b.txt";
+		assertEquals(expectedMasterMessage, actualMasterMessage);
+		assertEquals(head.getName(), db.getReflogReader(Constants.HEAD)
+				.getLastEntry().getOldId().getName());
+	}
 	/**
 	 * Checks if a file with the given path exists in the HEAD tree
 	 *
