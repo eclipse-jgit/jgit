@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_7fa29184",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 34
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-07-14T16:35:16Z",
+      "side": 1,
+      "message": "As there is only one option per argument, should we rename that to singular?",
+      "range": {
+        "startLine": 10,
+        "startChar": 15,
+        "endLine": 10,
+        "endChar": 28
+      },
+      "revId": "3e4a2fa5f76332c1704fc40136aa4d349a1901aa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_7fd0d1f4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-07-14T16:35:16Z",
+      "side": 1,
+      "message": "I think this is a leftover from resolving a rebase conflict, see https://git.eclipse.org/r/#/c/76650/ which removes it from this place.",
+      "range": {
+        "startLine": 196,
+        "startChar": 3,
+        "endLine": 196,
+        "endChar": 21
+      },
+      "revId": "3e4a2fa5f76332c1704fc40136aa4d349a1901aa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
