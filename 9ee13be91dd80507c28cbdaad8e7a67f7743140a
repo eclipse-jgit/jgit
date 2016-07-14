@@ -65,6 +65,24 @@
     },
     {
       "key": {
+        "uuid": "27af2791_3ff3b960",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2016-07-14T17:00:27Z",
+      "side": 1,
+      "message": "Yeah, I think this needs a further rewrite.",
+      "parentUuid": "27af2791_5f56addb",
+      "revId": "9ee13be91dd80507c28cbdaad8e7a67f7743140a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_3f41f90c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
         "patchSetId": 2
@@ -145,6 +163,30 @@
     },
     {
       "key": {
+        "uuid": "27af2791_fff8613f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/InMemoryRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2016-07-14T17:00:27Z",
+      "side": 1,
+      "message": "Duh, I was not thinking here.",
+      "parentUuid": "27af2791_3f2bb983",
+      "range": {
+        "startLine": 286,
+        "startChar": 0,
+        "endLine": 293,
+        "endChar": 8
+      },
+      "revId": "9ee13be91dd80507c28cbdaad8e7a67f7743140a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_5fcb0d4d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/InMemoryRepository.java",
         "patchSetId": 2
@@ -156,6 +198,24 @@
       "writtenOn": "2016-07-14T16:49:57Z",
       "side": 1,
       "message": "Unlike the other places in this class, this one makes sense.\n\nBut I wonder if we shouldn\u0027t just do this in the base DfsRefDatabase as part of the caller of scanAllRefs. IIRC the only caller of scanAllRefs is DfsRefDatabase.",
+      "revId": "9ee13be91dd80507c28cbdaad8e7a67f7743140a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_dffb9d39",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/InMemoryRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2016-07-14T17:00:27Z",
+      "side": 1,
+      "message": "In our DfsRepository implementation we are able to tell that a particular call to scanAllRefs should *not* mark the objdb dirty, in the case where all scanned refs have timestamps older than the newest packfile. If we unconditionally mark dirty in the caller of scanAllRefs, we can\u0027t apply that optimization. It would certainly simplify the implementation though, I agree.",
+      "parentUuid": "27af2791_5fcb0d4d",
       "revId": "9ee13be91dd80507c28cbdaad8e7a67f7743140a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
