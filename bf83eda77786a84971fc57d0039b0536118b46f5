@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_f42963be",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 81548
+      },
+      "writtenOn": "2016-07-14T22:57:24Z",
+      "side": 1,
+      "message": "Hudson\u0027s FindBugs warns that this is a \"USELESS_OBJECT\", which, from the looks of things, is indeed the case (the only other reference to namesToCheck is a .add in line 368). Should I remove it?",
+      "range": {
+        "startLine": 359,
+        "startChar": 15,
+        "endLine": 359,
+        "endChar": 27
+      },
+      "revId": "bf83eda77786a84971fc57d0039b0536118b46f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
