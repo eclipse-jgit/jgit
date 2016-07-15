@@ -45,6 +45,23 @@
       "revId": "22a73f0398f8c1ad267d0826fde8e631cabd1885",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_ca13dae6",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CommitCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-07-15T19:52:02Z",
+      "side": 1,
+      "message": "This looks like an API change (but a good one). Will it need to go in release notes? Could the javadoc mention it so people know to be careful when targeting old and new jgit at the same time?",
+      "revId": "22a73f0398f8c1ad267d0826fde8e631cabd1885",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
