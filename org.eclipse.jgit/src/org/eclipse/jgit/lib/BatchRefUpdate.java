@@ -336,7 +336,6 @@ public class BatchRefUpdate {
 		monitor.beginTask(JGitText.get().updatingReferences, commands.size());
 		List<ReceiveCommand> commands2 = new ArrayList<ReceiveCommand>(
 				commands.size());
-		List<String> namesToCheck = new ArrayList<String>(commands.size());
 		// First delete refs. This may free the name space for some of the
 		// updates.
 		for (ReceiveCommand cmd : commands) {
@@ -345,7 +344,6 @@ public class BatchRefUpdate {
 					cmd.updateType(walk);
 					switch (cmd.getType()) {
 					case CREATE:
-						namesToCheck.add(cmd.getRefName());
 						commands2.add(cmd);
 						break;
 					case UPDATE:
