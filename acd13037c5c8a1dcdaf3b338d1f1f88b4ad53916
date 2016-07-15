@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_0a987249",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-07-15T18:36:59Z",
+      "side": 1,
+      "message": "JGit commit messages have a short one-line description, followed by a blank line and then more explanation.\n\nIn this example, we can focus on the intended effect instead of how it was detected:\n\n BatchRefUpdate: Remove unused namesToCheck variable\n\n This variable has been populated and never used since it was\n introduced in commit 5cf53fdacf28d5cabe7ad1ed154fe7f4971225a9\n (Speed up clone/fetch with large number of refs, 2013-02-18).\n\n Noted by FindBugs:\n\n  [message here]",
+      "revId": "acd13037c5c8a1dcdaf3b338d1f1f88b4ad53916",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_4a926a29",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-07-15T18:36:59Z",
+      "side": 1,
+      "message": "Please wrap long lines.\n\nJGit prefers using commit names instead of gerrit links. That way, anyone with access to the code can understand the commit message, even if git.eclipse.org has moved or is down. (See above for an example.)",
+      "revId": "acd13037c5c8a1dcdaf3b338d1f1f88b4ad53916",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
