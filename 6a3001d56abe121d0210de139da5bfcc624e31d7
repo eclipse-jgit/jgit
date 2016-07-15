@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_aabce656",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 37
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 13485
+      },
+      "writtenOn": "2016-07-15T19:42:39Z",
+      "side": 1,
+      "message": "The \u0027\u003e\u0027 is part of the shell, so you would not type that,\nI\u0027d leave out the prefix from your shell as it may greatly differ, e.g.: \n\n    $ ./jgit push \\\n      --push-option \"Reviewer\u003dj.doe@example.org\" \\\n      --push-option \"\u003carbitrary string\u003e\" \\\n      origin HEAD:refs/for/master",
+      "range": {
+        "startLine": 11,
+        "startChar": 2,
+        "endLine": 11,
+        "endChar": 4
+      },
+      "revId": "6a3001d56abe121d0210de139da5bfcc624e31d7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
