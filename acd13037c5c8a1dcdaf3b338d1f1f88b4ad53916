@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "27af2791_ca791a6e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2016-07-15T18:37:59Z",
+      "side": 1,
+      "message": "For more details about the one-line description, blank line, body format see https://wiki.eclipse.org/EGit/Contributor_Guide#Commit_message_guidelines.",
+      "parentUuid": "27af2791_0a987249",
+      "revId": "acd13037c5c8a1dcdaf3b338d1f1f88b4ad53916",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27af2791_4a926a29",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
