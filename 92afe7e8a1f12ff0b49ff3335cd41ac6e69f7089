@@ -22,6 +22,30 @@
       "revId": "92afe7e8a1f12ff0b49ff3335cd41ac6e69f7089",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_7609d3bb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabase.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2016-07-18T19:57:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27af2791_96a3c72e",
+      "range": {
+        "startLine": 504,
+        "startChar": 0,
+        "endLine": 511,
+        "endChar": 9
+      },
+      "revId": "92afe7e8a1f12ff0b49ff3335cd41ac6e69f7089",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
