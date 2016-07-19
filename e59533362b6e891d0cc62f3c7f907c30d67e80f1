@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_3a981d4a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-07-19T17:15:59Z",
+      "side": 1,
+      "message": "No need to initialize, set in ctor. Make final?",
+      "range": {
+        "startLine": 498,
+        "startChar": 0,
+        "endLine": 498,
+        "endChar": 33
+      },
+      "revId": "e59533362b6e891d0cc62f3c7f907c30d67e80f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_1a8439e8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 1628
+      },
+      "writtenOn": "2016-07-19T17:15:59Z",
+      "side": 1,
+      "message": "There is only a single ctor that always initializes lastModified, so what is the need for this?",
+      "range": {
+        "startLine": 511,
+        "startChar": 0,
+        "endLine": 511,
+        "endChar": 26
+      },
+      "revId": "e59533362b6e891d0cc62f3c7f907c30d67e80f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
