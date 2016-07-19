@@ -45,6 +45,30 @@
       "revId": "e59533362b6e891d0cc62f3c7f907c30d67e80f1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27af2791_9a8f6902",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2016-07-19T17:17:36Z",
+      "side": 1,
+      "message": "Avoid an O(N) scan for callers (most) that don\u0027t need this.",
+      "parentUuid": "27af2791_1a8439e8",
+      "range": {
+        "startLine": 511,
+        "startChar": 0,
+        "endLine": 511,
+        "endChar": 26
+      },
+      "revId": "e59533362b6e891d0cc62f3c7f907c30d67e80f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
