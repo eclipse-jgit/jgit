@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27af2791_b4f9a490",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PacketLineIn.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 81548
+      },
+      "writtenOn": "2016-07-19T01:01:09Z",
+      "side": 1,
+      "message": "A very minor point that could just be reflective of poor reading comprehension on my part, but it took me a non-negligible amount of time to understand that this comment means \"if the limit is set, the limit must not be 0.\" Perhaps this sentiment could be equivalently but much more clearly expressed with the simple addition of a comma after \"set\":\n\n// if set, limit must not be 0 (means unlimited).",
+      "revId": "1979af5124691499dd43ce1a3463190865266137",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
