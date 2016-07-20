@@ -504,8 +504,8 @@ public class BitmapIndexImpl implements BitmapIndex {
 	static final EWAHCompressedBitmap ones(int sizeInBits) {
 		EWAHCompressedBitmap mask = new EWAHCompressedBitmap();
 		mask.addStreamOfEmptyWords(
-				true, sizeInBits / EWAHCompressedBitmap.wordinbits);
-		int remaining = sizeInBits % EWAHCompressedBitmap.wordinbits;
+				true, sizeInBits / EWAHCompressedBitmap.WORD_IN_BITS);
+		int remaining = sizeInBits % EWAHCompressedBitmap.WORD_IN_BITS;
 		if (remaining > 0)
 			mask.add((1L << remaining) - 1, remaining);
 		return mask;
